@@ -12,6 +12,9 @@
       location = "group:circle.yml">
    </FileRef>
    <FileRef
+      location = "group:Gemfile">
+   </FileRef>
+   <FileRef
       location = "group:PubnativeLite/PubnativeLite.xcodeproj">
    </FileRef>
 </Workspace>
