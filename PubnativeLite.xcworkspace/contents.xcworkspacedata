@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "container:scripts"
-      name = "scripts">
-      <FileRef
-         location = "group:publish.sh">
-      </FileRef>
-   </Group>
    <FileRef
       location = "group:circle.yml">
-   </FileRef>
-   <FileRef
-      location = "group:Gemfile">
    </FileRef>
    <FileRef
       location = "group:PubnativeLite/PubnativeLite.xcodeproj">
