@@ -2,7 +2,7 @@ machine:
     timezone:
         Europe/Berlin
     xcode:
-        version: 8.3.3
+        version: 9.2.0
 test:
     override:
         - xcodebuild
