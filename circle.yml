@@ -3,17 +3,22 @@ machine:
         Europe/Berlin
     xcode:
         version: 9.2
+
 test:
     override:
         - xcodebuild
-            -workspace PubnativeLite.xcworkspace
-            -scheme PubnativeLite
+            -workspace PubNativeLite.xcworkspace
+            -scheme PubNativeLite
             -destination 'platform=iOS Simulator,OS=10.1,name=iPhone 7'
-            clean build
+            clean test
             | tee $CIRCLE_ARTIFACTS/test_xcodebuild.log
-            | xcpretty -c
+            | xcpretty
+                -c
+                -r junit --output $CIRCLE_TEST_REPORTS/junit.xml
+                -r html --output $CIRCLE_TEST_REPORTS/report.html
+                -r json-compilation-database --output $CIRCLE_ARTIFACTS/test_compilation_database.json
 deployment:
-    staging:
-        branch: /.*/
+    deployable:
+        branch: /(development|beta|master)/
         commands:
             - ./scripts/publish.sh
