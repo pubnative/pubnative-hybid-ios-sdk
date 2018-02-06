@@ -7,16 +7,66 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CEBC2029F79B0003B450 /* AppDelegate.m */; };
+		5A32CEC02029F79B0003B450 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CEBF2029F79B0003B450 /* ViewController.m */; };
+		5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
+		5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC42029F79B0003B450 /* Assets.xcassets */; };
+		5A32CEC82029F79B0003B450 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */; };
+		5A32CECB2029F79B0003B450 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CECA2029F79B0003B450 /* main.m */; };
+		5A32CECF2029F8530003B450 /* PubnativeLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; };
+		5A32CED02029F8530003B450 /* PubnativeLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5A6CD0252029CD060022E206 /* PubnativeLite.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* PubnativeLite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5A32CED12029F8530003B450 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
+			remoteInfo = PubnativeLite;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5A32CED32029F8530003B450 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5A32CED02029F8530003B450 /* PubnativeLite.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PubnativeLiteDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A32CEBB2029F79B0003B450 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		5A32CEBC2029F79B0003B450 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5A32CEBE2029F79B0003B450 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		5A32CEBF2029F79B0003B450 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		5A32CEC22029F79B0003B450 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5A32CEC42029F79B0003B450 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5A32CEC72029F79B0003B450 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5A32CEC92029F79B0003B450 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A32CECA2029F79B0003B450 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* PubnativeLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PubnativeLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* PubnativeLite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubnativeLite.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5A32CEB62029F79B0003B450 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A32CECF2029F8530003B450 /* PubnativeLite.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5A6CD01C2029CD060022E206 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -27,10 +77,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */ = {
+			isa = PBXGroup;
+			children = (
+				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
+				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
+				5A32CEBE2029F79B0003B450 /* ViewController.h */,
+				5A32CEBF2029F79B0003B450 /* ViewController.m */,
+				5A32CEC12029F79B0003B450 /* Main.storyboard */,
+				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
+				5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */,
+				5A32CEC92029F79B0003B450 /* Info.plist */,
+				5A32CECA2029F79B0003B450 /* main.m */,
+			);
+			path = PubnativeLiteDemo;
+			sourceTree = "<group>";
+		};
 		5A6CD0162029CD060022E206 = {
 			isa = PBXGroup;
 			children = (
 				5A6CD0222029CD060022E206 /* PubnativeLite */,
+				5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */,
 				5A6CD0212029CD060022E206 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				5A6CD0202029CD060022E206 /* PubnativeLite.framework */,
+				5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,6 +134,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		5A32CEB82029F79B0003B450 /* PubnativeLiteDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A32CECE2029F79B0003B450 /* Build configuration list for PBXNativeTarget "PubnativeLiteDemo" */;
+			buildPhases = (
+				5A32CEB52029F79B0003B450 /* Sources */,
+				5A32CEB62029F79B0003B450 /* Frameworks */,
+				5A32CEB72029F79B0003B450 /* Resources */,
+				5A32CED32029F8530003B450 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5A32CED22029F8530003B450 /* PBXTargetDependency */,
+			);
+			name = PubnativeLiteDemo;
+			productName = PubnativeLiteDemo;
+			productReference = 5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 		5A6CD01F2029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "PubnativeLite" */;
@@ -93,6 +180,10 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Can Soykarafakili";
 				TargetAttributes = {
+					5A32CEB82029F79B0003B450 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Manual;
+					};
 					5A6CD01F2029CD060022E206 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
@@ -105,6 +196,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 5A6CD0162029CD060022E206;
 			productRefGroup = 5A6CD0212029CD060022E206 /* Products */;
@@ -112,11 +204,22 @@
 			projectRoot = "";
 			targets = (
 				5A6CD01F2029CD060022E206 /* PubnativeLite */,
+				5A32CEB82029F79B0003B450 /* PubnativeLiteDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5A32CEB72029F79B0003B450 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A32CEC82029F79B0003B450 /* LaunchScreen.storyboard in Resources */,
+				5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */,
+				5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5A6CD01E2029CD060022E206 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -127,6 +230,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5A32CEB52029F79B0003B450 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A32CEC02029F79B0003B450 /* ViewController.m in Sources */,
+				5A32CECB2029F79B0003B450 /* main.m in Sources */,
+				5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5A6CD01B2029CD060022E206 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -136,7 +249,70 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5A32CED22029F8530003B450 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A6CD01F2029CD060022E206 /* PubnativeLite */;
+			targetProxy = 5A32CED12029F8530003B450 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5A32CEC12029F79B0003B450 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A32CEC22029F79B0003B450 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A32CEC72029F79B0003B450 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		5A32CECC2029F79B0003B450 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = J6V7N93E53;
+				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f0beaf8f-0e86-41ea-b59f-884b34a260c1";
+				PROVISIONING_PROFILE_SPECIFIER = "PubNative Lite Demo";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5A32CECD2029F79B0003B450 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = J6V7N93E53;
+				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f0beaf8f-0e86-41ea-b59f-884b34a260c1";
+				PROVISIONING_PROFILE_SPECIFIER = "PubNative Lite Demo";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		5A6CD0262029CD060022E206 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -296,6 +472,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5A32CECE2029F79B0003B450 /* Build configuration list for PBXNativeTarget "PubnativeLiteDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A32CECC2029F79B0003B450 /* Debug */,
+				5A32CECD2029F79B0003B450 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "PubnativeLite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
