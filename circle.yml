@@ -17,8 +17,3 @@ test:
                 -r junit --output $CIRCLE_TEST_REPORTS/junit.xml
                 -r html --output $CIRCLE_TEST_REPORTS/report.html
                 -r json-compilation-database --output $CIRCLE_ARTIFACTS/test_compilation_database.json
-deployment:
-    deployable:
-        branch: /(development|beta|master)/
-        commands:
-            - ./scripts/publish.sh
