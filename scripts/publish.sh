@@ -1,7 +1,7 @@
-OPTIONS_PLIST=$CIRCLE_ARTIFACTS/options.plist
-ARCHIVE_PATH=$CIRCLE_ARTIFACTS/archive.xcarchive
-OUTPUT_FOLDER=$CIRCLE_ARTIFACTS/archive
-IPA_PATH=$OUTPUT_FOLDER/PubnativeLiteDemo.ipa
+BASE_FOLDER=$CIRCLE_ARTIFACTS
+OPTIONS_PLIST=$BASE_FOLDER/options.plist
+ARCHIVE_PATH=$BASE_FOLDER/archive.xcarchive
+OUTPUT_FOLDER=$BASE_FOLDER/ipa
 # CLEAN
 rm $OPTIONS_PLIST
 rm -rf $ARCHIVE_PATH
@@ -10,7 +10,7 @@ rm -rf $OUTPUT_FOLDER
 PLIST='{"compileBitcode":false,"method":"enterprise"}'
 echo $PLIST | plutil -convert xml1 -o $OPTIONS_PLIST -
 
-cd PubnativeLiteDemo
+cd PubnativeLite
 agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-${CIRCLE_BRANCH}.${CIRCLE_BUILD_NUM}"
 agvtool new-version -all $CIRCLE_BUILD_NUM
 cd ..
