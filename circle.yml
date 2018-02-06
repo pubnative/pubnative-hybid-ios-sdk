@@ -1,0 +1,19 @@
+machine:
+    timezone:
+        Europe/Berlin
+    xcode:
+        version: 8.3.3
+test:
+    override:
+        - xcodebuild
+            -workspace PubnativeLite.xcworkspace
+            -scheme PubnativeLite
+            -destination 'platform=iOS Simulator,OS=10.1,name=iPhone 7'
+            clean build
+            | tee $CIRCLE_ARTIFACTS/test_xcodebuild.log
+            | xcpretty -c
+deployment:
+    staging:
+        branch: /.*/
+        commands:
+            - ./scripts/publish.sh
