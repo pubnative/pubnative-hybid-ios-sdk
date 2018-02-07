@@ -20,24 +20,20 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+extern NSString* const kPNLiteTargetingModelGenderFemale;
+extern NSString* const kPNLiteTargetingModelGenderMale;
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+@interface PNLiteTargetingModel : NSObject
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
+@property (nonatomic, strong) NSNumber              *age;
+@property (nonatomic, strong) NSString              *education;
+@property (nonatomic, strong) NSArray<NSString*>    *interests;
+@property (nonatomic, assign) NSString              *gender;
+@property (nonatomic, strong) NSNumber              *iap; // In app purchase enabled, Just open it for the user to fill
+@property (nonatomic, strong) NSNumber              *iap_total; // In app purchase total spent, just open for the user to fill
 
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
+- (NSDictionary *)toDictionary;
 
 @end

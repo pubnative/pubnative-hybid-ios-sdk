@@ -21,23 +21,29 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AdSupport/AdSupport.h>
+#import <CoreLocation/CoreLocation.h>
+#import "PNLiteTargetingModel.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@interface PNLiteSettings : NSObject
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+// CONFIGURABLE PARAMETERS
+@property (nonatomic, assign) BOOL test;
+@property (nonatomic, assign) BOOL coppa;
+@property (nonatomic, strong) PNLiteTargetingModel *targeting;
+@property (nonatomic, strong) NSString *appToken;
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
+// COMMON PARAMETERS
+@property (readonly) NSString *advertisingId;
+@property (readonly) NSString *os;
+@property (readonly) NSString *osVersion;
+@property (readonly) NSString *deviceName;
+@property (readonly) NSString *locale;
+@property (readonly) NSString *sdkVersion;
+@property (readonly) NSString *appBundleID;
+@property (readonly) NSString *appVersion;
+@property (readonly) CLLocation *location;
 
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (PNLiteSettings *)sharedInstance;
 
 @end

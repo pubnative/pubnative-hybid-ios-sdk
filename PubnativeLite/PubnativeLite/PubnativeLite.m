@@ -20,24 +20,33 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "PubnativeLite.h"
+#import "PNLiteSettings.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@implementation PubnativeLite
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
++ (void)setCoppa:(BOOL)enabled
+{
+    [PNLiteSettings sharedInstance].coppa = enabled;
+}
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
++ (void)setTargeting:(PNLiteTargetingModel *)targeting
+{
+    [PNLiteSettings sharedInstance].targeting = targeting;
+}
 
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
++ (void)setTestMode:(BOOL)enabled
+{
+    [PNLiteSettings sharedInstance].test = enabled;
+}
 
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (void)initWithAppToken:(NSString *)appToken
+{
+    if (appToken == nil || appToken.length == 0) {
+        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
+    } else {
+        [PNLiteSettings sharedInstance].appToken = appToken;
+    }
+}
 
 @end

@@ -20,24 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "PNLiteMeta.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@implementation PNLiteMeta
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (NSString *)points { return @"points"; }
++ (NSString *)revenueModel { return @"revenuemodel"; }
++ (NSString *)campaignId { return @"campaignid"; }
++ (NSString *)creativeId { return @"creativeid"; }
++ (NSString *)bundleId { return @"bundleid"; }
++ (NSString *)contentInfo { return @"contentinfo"; }
 
 @end
