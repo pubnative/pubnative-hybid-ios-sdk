@@ -20,24 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@interface PNLiteRequestParameter : NSObject
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (NSString *)appToken;
++ (NSString *)os;
++ (NSString *)osVersion;
++ (NSString *)deviceModel;
++ (NSString *)dnt;
++ (NSString *)locale;
++ (NSString *)adCount;
++ (NSString *)zoneId;
++ (NSString *)lat;
++ (NSString *)lon;
++ (NSString *)gender;
++ (NSString *)age;
++ (NSString *)keywords;
++ (NSString *)appVersion;
++ (NSString *)test;
++ (NSString *)video;
++ (NSString *)metaField;
++ (NSString *)assetsField;
++ (NSString *)idfa;
++ (NSString *)idfamd5;
++ (NSString *)idfasha1;
++ (NSString *)coppa;
++ (NSString *)assetLayout;
 
 @end

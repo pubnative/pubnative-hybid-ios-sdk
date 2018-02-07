@@ -15,6 +15,19 @@
 		5A32CECB2029F79B0003B450 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CECA2029F79B0003B450 /* main.m */; };
 		5A32CECF2029F8530003B450 /* PubnativeLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; };
 		5A32CED02029F8530003B450 /* PubnativeLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A540248202B058A005D80E6 /* PNLiteCryptoUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A54024B202B058A005D80E6 /* PNLiteCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A540249202B058A005D80E6 /* PNLiteCryptoUtils.m */; };
+		5A54024E202B07C4005D80E6 /* PNLiteRequestParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54024C202B07C3005D80E6 /* PNLiteRequestParameter.m */; };
+		5A54024F202B07C4005D80E6 /* PNLiteRequestParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54024D202B07C4005D80E6 /* PNLiteRequestParameter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A540252202B0C04005D80E6 /* PNLiteTargetingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A540250202B0C04005D80E6 /* PNLiteTargetingModel.m */; };
+		5A540253202B0C04005D80E6 /* PNLiteTargetingModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A540251202B0C04005D80E6 /* PNLiteTargetingModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A540256202B1085005D80E6 /* PNLiteSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A540254202B1085005D80E6 /* PNLiteSettings.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A540257202B1085005D80E6 /* PNLiteSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A540255202B1085005D80E6 /* PNLiteSettings.m */; };
+		5A540259202B129E005D80E6 /* PubnativeLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A540258202B129E005D80E6 /* PubnativeLite.m */; };
+		5A54025C202B192C005D80E6 /* PNLiteLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */; };
+		5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */; };
+		5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */; };
+		5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A6CD0252029CD060022E206 /* PubnativeLite.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* PubnativeLite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -53,6 +66,19 @@
 		5A32CEC72029F79B0003B450 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A32CEC92029F79B0003B450 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A32CECA2029F79B0003B450 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5A540248202B058A005D80E6 /* PNLiteCryptoUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteCryptoUtils.h; sourceTree = "<group>"; };
+		5A540249202B058A005D80E6 /* PNLiteCryptoUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteCryptoUtils.m; sourceTree = "<group>"; };
+		5A54024C202B07C3005D80E6 /* PNLiteRequestParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteRequestParameter.m; sourceTree = "<group>"; };
+		5A54024D202B07C4005D80E6 /* PNLiteRequestParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteRequestParameter.h; sourceTree = "<group>"; };
+		5A540250202B0C04005D80E6 /* PNLiteTargetingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteTargetingModel.m; sourceTree = "<group>"; };
+		5A540251202B0C04005D80E6 /* PNLiteTargetingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteTargetingModel.h; sourceTree = "<group>"; };
+		5A540254202B1085005D80E6 /* PNLiteSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteSettings.h; sourceTree = "<group>"; };
+		5A540255202B1085005D80E6 /* PNLiteSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteSettings.m; sourceTree = "<group>"; };
+		5A540258202B129E005D80E6 /* PubnativeLite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PubnativeLite.m; sourceTree = "<group>"; };
+		5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteLocationManager.h; sourceTree = "<group>"; };
+		5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteLocationManager.m; sourceTree = "<group>"; };
+		5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMeta.m; sourceTree = "<group>"; };
+		5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMeta.h; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* PubnativeLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PubnativeLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* PubnativeLite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubnativeLite.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -115,6 +141,19 @@
 			isa = PBXGroup;
 			children = (
 				5A6CD0232029CD060022E206 /* PubnativeLite.h */,
+				5A540258202B129E005D80E6 /* PubnativeLite.m */,
+				5A540248202B058A005D80E6 /* PNLiteCryptoUtils.h */,
+				5A540249202B058A005D80E6 /* PNLiteCryptoUtils.m */,
+				5A54024D202B07C4005D80E6 /* PNLiteRequestParameter.h */,
+				5A54024C202B07C3005D80E6 /* PNLiteRequestParameter.m */,
+				5A540251202B0C04005D80E6 /* PNLiteTargetingModel.h */,
+				5A540250202B0C04005D80E6 /* PNLiteTargetingModel.m */,
+				5A540254202B1085005D80E6 /* PNLiteSettings.h */,
+				5A540255202B1085005D80E6 /* PNLiteSettings.m */,
+				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
+				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
+				5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */,
+				5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
 			);
 			path = PubnativeLite;
@@ -127,7 +166,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A540256202B1085005D80E6 /* PNLiteSettings.h in Headers */,
+				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
+				5A54024F202B07C4005D80E6 /* PNLiteRequestParameter.h in Headers */,
 				5A6CD0252029CD060022E206 /* PubnativeLite.h in Headers */,
+				5A540253202B0C04005D80E6 /* PNLiteTargetingModel.h in Headers */,
+				5A54025C202B192C005D80E6 /* PNLiteLocationManager.h in Headers */,
+				5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +289,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A540252202B0C04005D80E6 /* PNLiteTargetingModel.m in Sources */,
+				5A54024B202B058A005D80E6 /* PNLiteCryptoUtils.m in Sources */,
+				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
+				5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */,
+				5A540257202B1085005D80E6 /* PNLiteSettings.m in Sources */,
+				5A540259202B129E005D80E6 /* PubnativeLite.m in Sources */,
+				5A54024E202B07C4005D80E6 /* PNLiteRequestParameter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

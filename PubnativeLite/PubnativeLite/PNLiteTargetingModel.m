@@ -20,24 +20,43 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "PNLiteTargetingModel.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+NSString* const kPNLiteTargetingModelGenderFemale = @"f";
+NSString* const kPNLiteTargetingModelGenderMale = @"m";
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+@implementation PNLiteTargetingModel
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
+- (void)dealloc
+{
+    self.age = nil;
+    self.education = nil;
+    self.interests = nil;
+    self.gender = nil;
+    self.iap = nil;
+    self.iap_total = nil;
+}
 
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
+- (NSDictionary *)toDictionary
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    
+    result[@"age"] = [self.age stringValue];
+    result[@"education"] = self.education;
+    result[@"interests"] = [self.interests componentsJoinedByString:@","];
+    result[@"gender"] = self.gender;
+    
+    return result;
+}
 
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
+- (NSDictionary *)toDictionaryWithIAP
+{
+    NSMutableDictionary *result = [[self toDictionary] mutableCopy];
+    
+    result[@"iap"] = [self.iap stringValue];
+    result[@"iap_total"] = [self.iap_total stringValue];
+    
+    return result;
+}
 
 @end
