@@ -70,7 +70,7 @@
             if (@available(iOS 9.0, *)) {
                 [[PNLiteLocationManager sharedInstance].manager requestLocation];
             } else {
-                NSLog(@"Location tracking is not supported in this OS version. Dropping call.");
+                NSLog(@"PNLiteLocationManager - Location tracking is not supported in this OS version. Dropping call.");
             }
         }
     }
