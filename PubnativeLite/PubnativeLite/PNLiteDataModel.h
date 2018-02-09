@@ -25,11 +25,9 @@
 
 @interface PNLiteDataModel : PNLiteBaseModel
 
-// base data
 @property (nonatomic, strong)NSString *type;
 @property (nonatomic, strong)NSDictionary *data;
 
-// Helpers
 @property (nonatomic, readonly)NSString *text;
 @property (nonatomic, readonly)NSString *vast;
 @property (nonatomic, readonly)NSNumber *number;
@@ -38,7 +36,6 @@
 @property (nonatomic, readonly)NSNumber *eCPM;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
-
 - (NSString *)stringFieldWithKey:(NSString *)key;
 - (NSNumber *)numberFieldWithKey:(NSString *)key;
 @end

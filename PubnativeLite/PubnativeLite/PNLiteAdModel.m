@@ -30,6 +30,7 @@
     self.assets = nil;
     self.meta = nil;
     self.beacons = nil;
+    self.assetgroupid = nil;
 }
 
 #pragma mark PNLiteBaseModel
@@ -63,15 +64,15 @@
     return result;
 }
 
-- (NSArray*)beaconsWithType:(NSString*)type;
+- (NSArray *)beaconsWithType:(NSString *)type;
 {
     NSArray *result = nil;
     result = [self allWithType:type fromList:self.beacons];
     return result;
 }
 
-- (PNLiteDataModel *)dataWithType:(NSString*)type
-                         fromList:(NSArray*)list
+- (PNLiteDataModel *)dataWithType:(NSString *)type
+                         fromList:(NSArray *)list
 {
     PNLiteDataModel *result = nil;
     if (list != nil) {
@@ -86,7 +87,7 @@
 }
 
 - (NSArray*)allWithType:(NSString *)type
-               fromList:(NSArray*)list
+               fromList:(NSArray *)list
 {
     NSMutableArray *result = nil;
     if (list != nil) {
