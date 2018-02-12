@@ -17,6 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [PubnativeLite initWithAppToken:@"543027b8e954474cbcd9a98481622a3b"];
     return YES;
 }
 

@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import <PubnativeLite/PubnativeLite.h>
 
-@interface ViewController ()
+@interface ViewController ()<PNLiteAdRequestDelegate>
 
 @end
 
@@ -16,14 +17,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    PNLiteAdRequest *adRequest = [[PNLiteAdRequest alloc] init];
+    [adRequest requestAdWithDelegate:self withZoneID:@"2"];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)requestDidStart:(PNLiteAdRequest *)request
+{
+    NSLog(@"Request %@ started:",request);
 }
 
+- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAdModel *)ad
+{
+    NSLog(@"Request loaded with ad: %@",ad);
+}
+
+- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
+{
+    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+
+}
 
 @end
