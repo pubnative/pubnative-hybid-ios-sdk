@@ -21,19 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteBaseModel.h"
-#import "PNLiteDataModel.h"
+#import "PNLiteAdRequestModel.h"
 
-@interface PNLiteAdModel : PNLiteBaseModel
+@interface PNLiteAdFactory : NSObject
 
-@property (nonatomic, strong) NSString *link;
-@property (nonatomic, strong) NSNumber *assetgroupid;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *assets;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *beacons;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *meta;
-
-- (PNLiteDataModel *)assetWithType:(NSString *)type;
-- (PNLiteDataModel *)metaWithType:(NSString *)type;
-- (NSArray *)beaconsWithType:(NSString *)type;
+- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID andWithAdSize:(NSString *)adSize;
 
 @end
