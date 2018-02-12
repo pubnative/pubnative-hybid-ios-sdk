@@ -29,4 +29,13 @@
     self.requestParameters = nil;
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.requestParameters = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
 @end

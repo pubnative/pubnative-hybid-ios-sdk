@@ -21,9 +21,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface PNLiteAdRequestModel : NSObject
+@class PNLiteHttpRequest;
 
-@property (nonatomic, strong) NSMutableDictionary *requestParameters;
+@protocol PNLiteHttpRequestDelegate <NSObject>
+
+- (void)request:(PNLiteHttpRequest*)request didFinishWithData:(NSData*)data statusCode:(NSInteger)statusCode;
+- (void)request:(PNLiteHttpRequest*)request didFailWithError:(NSError*)error;
+
+@end
+
+@interface PNLiteHttpRequest : NSObject
+
+- (void)startWithUrlString:(NSString*)urlString delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
 
 @end

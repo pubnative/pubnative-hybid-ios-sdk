@@ -21,9 +21,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PNLiteAdModel.h"
 
-@interface PNLiteAdRequestModel : NSObject
+@class PNLiteAdRequest;
 
-@property (nonatomic, strong) NSMutableDictionary *requestParameters;
+@protocol PNLiteAdRequestDelegate <NSObject>
+
+- (void)requestDidStart:(PNLiteAdRequest *)request;
+- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAdModel *)ad;
+- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error;
+
+@end
+
+@interface PNLiteAdRequest : NSObject
+
+@property (nonatomic, readonly) NSString *adSize;
+
+- (void)requestAdWithDelegate:(NSObject<PNLiteAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
 
 @end

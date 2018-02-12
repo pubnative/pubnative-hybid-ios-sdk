@@ -42,7 +42,6 @@
     adRequestModel.requestParameters[PNLiteRequestParameter.age] = [[PNLiteSettings sharedInstance].targeting.age stringValue];
     adRequestModel.requestParameters[PNLiteRequestParameter.age] = [PNLiteSettings sharedInstance].targeting.gender;
     adRequestModel.requestParameters[PNLiteRequestParameter.keywords] = [[PNLiteSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
-    adRequestModel.requestParameters[PNLiteRequestParameter.bundleId] = [PNLiteSettings sharedInstance].appBundleID;
     adRequestModel.requestParameters[PNLiteRequestParameter.test] =[PNLiteSettings sharedInstance].test ? @"1" : @"0";
     adRequestModel.requestParameters[PNLiteRequestParameter.assetLayout] = adSize;
     [self setDefaultMetaFields:adRequestModel];
@@ -73,6 +72,9 @@
     }
     if (![newMetaFields containsObject:PNLiteMeta.contentInfo]) {
         [newMetaFields addObject:PNLiteMeta.contentInfo];
+    }
+    if (![newMetaFields containsObject:PNLiteMeta.points]) {
+        [newMetaFields addObject:PNLiteMeta.points];
     }
     adRequestModel.requestParameters[PNLiteRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
 }
