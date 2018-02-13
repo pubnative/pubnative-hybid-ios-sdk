@@ -28,9 +28,9 @@
 #import "PNLiteAdModel.h"
 #import "PNLiteAdCache.h"
 
-NSString * const kPNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
-NSString * const kPNLiteResponseOK = @"ok";
-NSString * const kPNLiteResponseError = @"error";
+NSString *const kPNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
+NSString *const kPNLiteResponseOK = @"ok";
+NSString *const kPNLiteResponseError = @"error";
 NSInteger const kPNLiteResponseStatusOK = 200;
 NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 
@@ -61,7 +61,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     } else if(delegate == nil){
         NSLog(@"PNLiteAdRequest - Given delegate is nil and required, droping this call");
     } else if(zoneID == nil || zoneID.length == 0){
-        NSLog(@"PNLiteAdRequest - Zone ID nil or empty");
+        NSLog(@"PNLiteAdRequest - Zone ID nil or empty, droping this call");
     }
     else {
         self.delegate = delegate;
@@ -69,8 +69,10 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
         self.isRunning = YES;
         [self invokeDidStart];
         PNLiteAdFactory *adFactory = [[PNLiteAdFactory alloc] init];
-        NSLog(@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID andWithAdSize:@"s"]].absoluteString);
-        [[PNLiteHttpRequest alloc] startWithUrlString:[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID andWithAdSize:@"s"]].absoluteString
+        NSLog(@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
+                                                                               andWithAdSize:@"s"]].absoluteString);
+        [[PNLiteHttpRequest alloc] startWithUrlString:[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
+                                                                                                                 andWithAdSize:@"s"]].absoluteString
                                              delegate:self];
     }
 }
@@ -80,9 +82,9 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     NSURLComponents *components = [NSURLComponents componentsWithString:kPNLiteRequestBaseUrl];
     if (adRequestModel.requestParameters) {
         NSMutableArray *query = [NSMutableArray array];
-        NSDictionary *dict = adRequestModel.requestParameters;
-        for (id key in dict) {
-            [query addObject:[NSURLQueryItem queryItemWithName:key value:dict[key]]];
+        NSDictionary *parametersDictionary = adRequestModel.requestParameters;
+        for (id key in parametersDictionary) {
+            [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
         }
         components.queryItems = query;
     }
@@ -151,7 +153,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
                 [self invokeDidFail:error];
             }
         } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"request - %@", response.errorMessage];
+            NSString *errorMessage = [NSString stringWithFormat:@"PNLiteAdRequest - %@", response.errorMessage];
             NSError *responseError = [NSError errorWithDomain:errorMessage
                                                          code:0
                                                      userInfo:nil];

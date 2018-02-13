@@ -31,7 +31,7 @@
 
 + (instancetype)sharedInstance
 {
-    static PNLiteAdCache* _sharedInstance;
+    static PNLiteAdCache *_sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedInstance = [[PNLiteAdCache alloc] init];

@@ -33,7 +33,7 @@
 
 + (PNLiteSettings *)sharedInstance
 {
-    static PNLiteSettings* _instance;
+    static PNLiteSettings *_instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _instance = [[PNLiteSettings alloc] init];
@@ -41,7 +41,7 @@
     return _instance;
 }
 
-- (NSString*)advertisingId
+- (NSString *)advertisingId
 {
     NSString *result = nil;
     if(!self.coppa && NSClassFromString(@"ASIdentifierManager")){

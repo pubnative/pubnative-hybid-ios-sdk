@@ -22,8 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString* const kPNLiteTargetingModelGenderFemale;
-extern NSString* const kPNLiteTargetingModelGenderMale;
+extern NSString *const kPNLiteTargetingModelGenderFemale;
+extern NSString *const kPNLiteTargetingModelGenderMale;
 
 @interface PNLiteTargetingModel : NSObject
 

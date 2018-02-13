@@ -43,7 +43,7 @@
     NSMutableArray *result;
     if(array) {
         result = [NSMutableArray array];
-        for (NSDictionary* valueDictionary in array) {
+        for (NSDictionary *valueDictionary in array) {
             NSObject *value = [[self alloc] initWithDictionary:valueDictionary];
             [result addObject:value];
         }

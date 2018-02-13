@@ -27,13 +27,13 @@
 
 @protocol PNLiteHttpRequestDelegate <NSObject>
 
-- (void)request:(PNLiteHttpRequest*)request didFinishWithData:(NSData*)data statusCode:(NSInteger)statusCode;
-- (void)request:(PNLiteHttpRequest*)request didFailWithError:(NSError*)error;
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode;
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error;
 
 @end
 
 @interface PNLiteHttpRequest : NSObject
 
-- (void)startWithUrlString:(NSString*)urlString delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
+- (void)startWithUrlString:(NSString *)urlString delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
 
 @end

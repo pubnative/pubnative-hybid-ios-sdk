@@ -86,7 +86,7 @@
     return result;
 }
 
-- (NSArray*)allWithType:(NSString *)type
+- (NSArray *)allWithType:(NSString *)type
                fromList:(NSArray *)list
 {
     NSMutableArray *result = nil;

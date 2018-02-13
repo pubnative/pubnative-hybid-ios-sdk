@@ -24,7 +24,7 @@
 
 @interface PNLiteLocationManager () <CLLocationManagerDelegate>
 
-@property (nonatomic, strong) CLLocation* lastKnownLocation;
+@property (nonatomic, strong) CLLocation *lastKnownLocation;
 @property (nonatomic, strong) CLLocationManager *manager;
 
 @end

@@ -62,7 +62,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
             [reachability stopNotifier];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(self.userAgent == nil){
-                    UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+                    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
                     self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
                 }
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -100,7 +100,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     }
 }
 
-- (void)invokeFinishWithData:(NSData*)data statusCode:(NSInteger)statusCode
+- (void)invokeFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(request:didFinishWithData:statusCode:)]) {
         [self.delegate request:self didFinishWithData:data statusCode:statusCode];
@@ -108,13 +108,13 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     self.delegate = nil;
 }
 
-- (void)invokeFailWithMessage:(NSString*)message
+- (void)invokeFailWithMessage:(NSString *)message
 {
     NSError *error = [NSError errorWithDomain:message code:0 userInfo:nil];
     [self invokeFailWithError:error];
 }
 
-- (void)invokeFailWithError:(NSError*)error
+- (void)invokeFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
         [self.delegate request:self didFailWithError:error];
