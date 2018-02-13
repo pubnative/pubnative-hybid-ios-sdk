@@ -80,7 +80,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
         NSString *message = [NSString stringWithFormat:@"URL cannot be parsed: %@", self.urlString];
         [self invokeFailWithMessage:message];
     } else {
-        NSURLSession * session = [NSURLSession sharedSession];
+        NSURLSession *session = [NSURLSession sharedSession];
         session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:kPNLiteHttpRequestDefaultCachePolicy
