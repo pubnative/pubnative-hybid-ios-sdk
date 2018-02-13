@@ -31,22 +31,23 @@
 
 + (instancetype)sharedInstance
 {
-    static PNLiteAdCache* _sharedInstance;
+    static PNLiteAdCache *_sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedInstance = [[PNLiteAdCache alloc] init];
+        _sharedInstance.adCache = [[NSMutableDictionary alloc] init];
     });
     return _sharedInstance;
 }
 
-+ (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
+- (void)putAdToCache:(PNLiteAdModel *)ad withZoneID:(NSString *)zoneID
 {
     [[PNLiteAdCache sharedInstance].adCache setObject:ad forKey:zoneID];
 }
 
-+ (PNLiteAd *)retrieveAdFromCache:(NSString *)zoneID
+- (PNLiteAdModel *)retrieveAdFromCache:(NSString *)zoneID
 {
-    PNLiteAd *cachedAd = [[PNLiteAdCache sharedInstance].adCache objectForKey:zoneID];
+    PNLiteAdModel *cachedAd = [[PNLiteAdCache sharedInstance].adCache objectForKey:zoneID];
     [[PNLiteAdCache sharedInstance].adCache removeObjectForKey:zoneID];
     return cachedAd;
 }

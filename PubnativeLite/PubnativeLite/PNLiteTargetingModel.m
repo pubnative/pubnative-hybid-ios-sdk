@@ -22,8 +22,8 @@
 
 #import "PNLiteTargetingModel.h"
 
-NSString* const kPNLiteTargetingModelGenderFemale = @"f";
-NSString* const kPNLiteTargetingModelGenderMale = @"m";
+NSString *const kPNLiteTargetingModelGenderFemale = @"f";
+NSString *const kPNLiteTargetingModelGenderMale = @"m";
 
 @implementation PNLiteTargetingModel
 

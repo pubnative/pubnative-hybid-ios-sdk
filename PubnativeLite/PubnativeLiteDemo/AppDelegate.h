@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PubnativeLite/PubnativeLite.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

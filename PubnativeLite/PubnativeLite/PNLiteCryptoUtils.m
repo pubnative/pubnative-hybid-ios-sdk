@@ -25,7 +25,7 @@
 
 @implementation PNLiteCryptoUtils
 
-+ (NSString*)md5WithString:(NSString *)text
++ (NSString *)md5WithString:(NSString *)text
 {
     if (text.length <= 0) { return nil; }
     
@@ -41,13 +41,13 @@
     return result;
 }
 
-+ (NSString*)sha1WithString:(NSString *)text
++ (NSString *)sha1WithString:(NSString *)text
 {
     const char *cstr = [text cStringUsingEncoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:cstr length:text.length];
     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
     CC_SHA1(data.bytes, (unsigned int)data.length, digest);
-    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
     {
         [output appendFormat:@"%02x", digest[i]];

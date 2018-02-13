@@ -26,11 +26,11 @@
 
 @interface PNLiteAdModel : PNLiteBaseModel
 
-@property (nonatomic, strong)NSString *link;
-@property (nonatomic, strong)NSNumber *assetgroupid;
-@property (nonatomic, strong)NSArray<PNLiteDataModel*> *assets;
-@property (nonatomic, strong)NSArray<PNLiteDataModel*> *beacons;
-@property (nonatomic, strong)NSArray<PNLiteDataModel*> *meta;
+@property (nonatomic, strong) NSString *link;
+@property (nonatomic, strong) NSNumber *assetgroupid;
+@property (nonatomic, strong) NSArray<PNLiteDataModel*> *assets;
+@property (nonatomic, strong) NSArray<PNLiteDataModel*> *beacons;
+@property (nonatomic, strong) NSArray<PNLiteDataModel*> *meta;
 
 - (PNLiteDataModel *)assetWithType:(NSString *)type;
 - (PNLiteDataModel *)metaWithType:(NSString *)type;

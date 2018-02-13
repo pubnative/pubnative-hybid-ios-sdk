@@ -25,6 +25,6 @@
 
 @interface PNLiteLocationManager : NSObject
 
-+ (CLLocation*)getLocation;
++ (CLLocation *)getLocation;
 
 @end

@@ -47,5 +47,6 @@
 + (NSString *)idfasha1       { return @"idfasha1"; }
 + (NSString *)coppa          { return @"coppa"; }
 + (NSString *)assetLayout    { return @"al"; }
++ (NSString *)bundleId       { return @"bundleid"; }
 
 @end

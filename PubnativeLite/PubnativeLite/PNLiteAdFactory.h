@@ -21,19 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PNLiteAdRequestModel.h"
 
-extern NSString *const kPNLiteTargetingModelGenderFemale;
-extern NSString *const kPNLiteTargetingModelGenderMale;
+@interface PNLiteAdFactory : NSObject
 
-@interface PNLiteTargetingModel : NSObject
-
-@property (nonatomic, strong) NSNumber *age;
-@property (nonatomic, strong) NSString *education;
-@property (nonatomic, strong) NSArray<NSString*> *interests;
-@property (nonatomic, assign) NSString *gender;
-@property (nonatomic, strong) NSNumber *iap; // In app purchase enabled, Just open it for the user to fill
-@property (nonatomic, strong) NSNumber *iap_total; // In app purchase total spent, just open for the user to fill
-
-- (NSDictionary *)toDictionary;
+- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID andWithAdSize:(NSString *)adSize;
 
 @end

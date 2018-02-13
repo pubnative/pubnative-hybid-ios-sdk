@@ -26,8 +26,8 @@
 
 @interface PNLiteResponseModel : PNLiteBaseModel
 
-@property (nonatomic, strong)NSString *status;
-@property (nonatomic, strong)NSString *errorMessage;
-@property (nonatomic, strong)NSArray *ads;
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *errorMessage;
+@property (nonatomic, strong) NSArray *ads;
 
 @end
