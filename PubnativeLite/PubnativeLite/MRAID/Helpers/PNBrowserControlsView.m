@@ -60,14 +60,14 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
                                                       length:__BackButton_png_len
                                                 freeWhenDone:NO];
         UIImage *backButtonImage = [UIImage imageWithData:backButtonData];
-        _backButton = [[UIBarButtonItem alloc] initWithImage:backButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
+        _backButton = [[UIBarButtonItem alloc] initWithImage:backButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
         _backButton.enabled = NO;
         flexBack = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         NSData* forwardButtonData = [NSData dataWithBytesNoCopy:__ForwardButton_png
                                                          length:__ForwardButton_png_len
                                                    freeWhenDone:NO];
         UIImage *forwardButtonImage = [UIImage imageWithData:forwardButtonData];
-        _forwardButton = [[UIBarButtonItem alloc] initWithImage:forwardButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(forward:)];
+        _forwardButton = [[UIBarButtonItem alloc] initWithImage:forwardButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(forward:)];
         _forwardButton.enabled = NO;
         flexForward = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         UIView *placeHolder = [[UIView alloc] initWithFrame:CGRectMake(0,0,kControlsLoadingIndicatorWidthHeight,kControlsLoadingIndicatorWidthHeight)];
