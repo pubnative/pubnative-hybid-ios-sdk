@@ -20,28 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@interface PNMRAIDServiceProvider : NSObject
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
+- (void)openBrowser:(NSString *)urlString;
+- (void)playVideo:(NSString *)urlString;
+- (void)storePicture:(NSString *)urlString;
+- (void)createEvent:(NSString *)eventJSON;
+- (void)sendSMS:(NSString *)urlString;
+- (void)callNumber:(NSString *)urlString;
 
 @end
