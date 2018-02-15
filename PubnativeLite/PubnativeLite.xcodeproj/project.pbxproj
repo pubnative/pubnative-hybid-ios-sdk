@@ -55,6 +55,20 @@
 		5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */; };
 		5AA8E58E202DB35900C9EABC /* PNLiteAdCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AA8E58F202DB35900C9EABC /* PNLiteAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */; };
+		5ACC74E5203595250001CDC3 /* PNMRAIDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74D7203595220001CDC3 /* PNMRAIDParser.m */; };
+		5ACC74E6203595250001CDC3 /* PNMRAIDModalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74D8203595230001CDC3 /* PNMRAIDModalViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5ACC74E7203595250001CDC3 /* mraidjs.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74D9203595230001CDC3 /* mraidjs.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5ACC74E8203595250001CDC3 /* MRAIDSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74DA203595230001CDC3 /* MRAIDSettings.m */; };
+		5ACC74E9203595250001CDC3 /* PNMRAIDUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DB203595240001CDC3 /* PNMRAIDUtil.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5ACC74EA203595250001CDC3 /* PNMRAIDServiceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DC203595240001CDC3 /* PNMRAIDServiceDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5ACC74EB203595250001CDC3 /* MRAIDSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DD203595240001CDC3 /* MRAIDSettings.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5ACC74EC203595250001CDC3 /* PNMRAIDParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DE203595240001CDC3 /* PNMRAIDParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5ACC74ED203595250001CDC3 /* PNMRAIDView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DF203595240001CDC3 /* PNMRAIDView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5ACC74EE203595250001CDC3 /* CloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACC74E0203595240001CDC3 /* CloseButton.png */; };
+		5ACC74EF203595250001CDC3 /* PNMRAIDModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E1203595240001CDC3 /* PNMRAIDModalViewController.m */; };
+		5ACC74F0203595250001CDC3 /* CloseButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74E2203595240001CDC3 /* CloseButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5ACC74F1203595250001CDC3 /* PNMRAIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E3203595250001CDC3 /* PNMRAIDUtil.m */; };
+		5ACC74F2203595250001CDC3 /* PNMRAIDView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E4203595250001CDC3 /* PNMRAIDView.m */; };
 		5ADACD03202C5AB800617734 /* PNLiteBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ADACD04202C5AB800617734 /* PNLiteBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD02202C5AB700617734 /* PNLiteBaseModel.m */; };
 		5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD05202C617A00617734 /* PNLiteResponseModel.m */; };
@@ -148,6 +162,20 @@
 		5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequest.m; sourceTree = "<group>"; };
 		5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdCache.h; sourceTree = "<group>"; };
 		5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdCache.m; sourceTree = "<group>"; };
+		5ACC74D7203595220001CDC3 /* PNMRAIDParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMRAIDParser.m; sourceTree = "<group>"; };
+		5ACC74D8203595230001CDC3 /* PNMRAIDModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDModalViewController.h; sourceTree = "<group>"; };
+		5ACC74D9203595230001CDC3 /* mraidjs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mraidjs.h; sourceTree = "<group>"; };
+		5ACC74DA203595230001CDC3 /* MRAIDSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRAIDSettings.m; sourceTree = "<group>"; };
+		5ACC74DB203595240001CDC3 /* PNMRAIDUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDUtil.h; sourceTree = "<group>"; };
+		5ACC74DC203595240001CDC3 /* PNMRAIDServiceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDServiceDelegate.h; sourceTree = "<group>"; };
+		5ACC74DD203595240001CDC3 /* MRAIDSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRAIDSettings.h; sourceTree = "<group>"; };
+		5ACC74DE203595240001CDC3 /* PNMRAIDParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDParser.h; sourceTree = "<group>"; };
+		5ACC74DF203595240001CDC3 /* PNMRAIDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDView.h; sourceTree = "<group>"; };
+		5ACC74E0203595240001CDC3 /* CloseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseButton.png; sourceTree = "<group>"; };
+		5ACC74E1203595240001CDC3 /* PNMRAIDModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMRAIDModalViewController.m; sourceTree = "<group>"; };
+		5ACC74E2203595240001CDC3 /* CloseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloseButton.h; sourceTree = "<group>"; };
+		5ACC74E3203595250001CDC3 /* PNMRAIDUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMRAIDUtil.m; sourceTree = "<group>"; };
+		5ACC74E4203595250001CDC3 /* PNMRAIDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMRAIDView.m; sourceTree = "<group>"; };
 		5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteBaseModel.h; sourceTree = "<group>"; };
 		5ADACD02202C5AB700617734 /* PNLiteBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteBaseModel.m; sourceTree = "<group>"; };
 		5ADACD05202C617A00617734 /* PNLiteResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteResponseModel.m; sourceTree = "<group>"; };
@@ -199,6 +227,20 @@
 			children = (
 				5A52BFED20346B1A00C4B7C5 /* Helpers */,
 				5A2633582034AB960005EA39 /* Properties */,
+				5ACC74E2203595240001CDC3 /* CloseButton.h */,
+				5ACC74E0203595240001CDC3 /* CloseButton.png */,
+				5ACC74D9203595230001CDC3 /* mraidjs.h */,
+				5ACC74DD203595240001CDC3 /* MRAIDSettings.h */,
+				5ACC74DA203595230001CDC3 /* MRAIDSettings.m */,
+				5ACC74D8203595230001CDC3 /* PNMRAIDModalViewController.h */,
+				5ACC74E1203595240001CDC3 /* PNMRAIDModalViewController.m */,
+				5ACC74DE203595240001CDC3 /* PNMRAIDParser.h */,
+				5ACC74D7203595220001CDC3 /* PNMRAIDParser.m */,
+				5ACC74DC203595240001CDC3 /* PNMRAIDServiceDelegate.h */,
+				5ACC74DB203595240001CDC3 /* PNMRAIDUtil.h */,
+				5ACC74E3203595250001CDC3 /* PNMRAIDUtil.m */,
+				5ACC74DF203595240001CDC3 /* PNMRAIDView.h */,
+				5ACC74E4203595250001CDC3 /* PNMRAIDView.m */,
 			);
 			path = MRAID;
 			sourceTree = "<group>";
@@ -311,13 +353,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */,
+				5ACC74EC203595250001CDC3 /* PNMRAIDParser.h in Headers */,
+				5ACC74EB203595250001CDC3 /* MRAIDSettings.h in Headers */,
 				5ADACD08202C617A00617734 /* PNLiteResponseModel.h in Headers */,
 				5A540256202B1085005D80E6 /* PNLiteSettings.h in Headers */,
+				5ACC74ED203595250001CDC3 /* PNMRAIDView.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
 				5A54024F202B07C4005D80E6 /* PNLiteRequestParameter.h in Headers */,
+				5ACC74EA203595250001CDC3 /* PNMRAIDServiceDelegate.h in Headers */,
 				5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */,
+				5ACC74E9203595250001CDC3 /* PNMRAIDUtil.h in Headers */,
 				5ADACD0F202C848000617734 /* PNLiteAdModel.h in Headers */,
 				5AA3D5F12031CA96002BFDA3 /* PNLiteReachability.h in Headers */,
+				5ACC74F0203595250001CDC3 /* CloseButton.h in Headers */,
 				5ADACD1F202CBA9800617734 /* PNLiteAsset.h in Headers */,
 				5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */,
 				5A6CD0252029CD060022E206 /* PubnativeLite.h in Headers */,
@@ -333,7 +381,9 @@
 				5A52BFE9203458D000C4B7C5 /* PNMRAIDServiceProvider.h in Headers */,
 				5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */,
 				5A52BFE8203458D000C4B7C5 /* PNBrowser.h in Headers */,
+				5ACC74E7203595250001CDC3 /* mraidjs.h in Headers */,
 				5ADACD1B202CB88A00617734 /* PNLiteData.h in Headers */,
+				5ACC74E6203595250001CDC3 /* PNMRAIDModalViewController.h in Headers */,
 				5A2633542034AB480005EA39 /* PNMRAIDOrientationProperties.h in Headers */,
 				5AA3D5ED2031B903002BFDA3 /* PNLiteAdRequest.h in Headers */,
 				5A52BFDF2034580A00C4B7C5 /* PNLogger.h in Headers */,
@@ -434,6 +484,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ACC74EE203595250001CDC3 /* CloseButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,11 +510,13 @@
 				5A52BFE02034580A00C4B7C5 /* PNLogger.m in Sources */,
 				5AA3D5EE2031B903002BFDA3 /* PNLiteAdRequest.m in Sources */,
 				5A54024B202B058A005D80E6 /* PNLiteCryptoUtils.m in Sources */,
+				5ACC74EF203595250001CDC3 /* PNMRAIDModalViewController.m in Sources */,
 				5ADACD04202C5AB800617734 /* PNLiteBaseModel.m in Sources */,
 				5A2633552034AB480005EA39 /* PNMRAIDResizeProperties.m in Sources */,
 				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
 				5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */,
 				5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */,
+				5ACC74E5203595250001CDC3 /* PNMRAIDParser.m in Sources */,
 				5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */,
 				5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */,
 				5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */,
@@ -473,11 +526,14 @@
 				5A540257202B1085005D80E6 /* PNLiteSettings.m in Sources */,
 				5A540259202B129E005D80E6 /* PubnativeLite.m in Sources */,
 				5A52BFEC203458D000C4B7C5 /* PNBrowser.m in Sources */,
+				5ACC74F2203595250001CDC3 /* PNMRAIDView.m in Sources */,
 				5ADACD1C202CB88A00617734 /* PNLiteData.m in Sources */,
 				5A54024E202B07C4005D80E6 /* PNLiteRequestParameter.m in Sources */,
 				5AA8E58F202DB35900C9EABC /* PNLiteAdCache.m in Sources */,
 				5A52BFEB203458D000C4B7C5 /* PNMRAIDServiceProvider.m in Sources */,
+				5ACC74E8203595250001CDC3 /* MRAIDSettings.m in Sources */,
 				5ADACD10202C848000617734 /* PNLiteAdModel.m in Sources */,
+				5ACC74F1203595250001CDC3 /* PNMRAIDUtil.m in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 			);

@@ -20,31 +20,26 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+static NSString* MRAIDSupportsSMS = @"sms";
+static NSString* MRAIDSupportsTel = @"tel";
+static NSString* MRAIDSupportsCalendar = @"calendar";
+static NSString* MRAIDSupportsStorePicture = @"storePicture";
+static NSString* MRAIDSupportsInlineVideo = @"inlineVideo";
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+// A delegate for MRAIDView/MRAIDInterstitial to listen for notifications when the following events
+// are triggered from a creative: SMS, Telephone call, Calendar entry, Play Video (external) and
+// saving pictures. If you don't implement this protocol, the default for
+// supporting these features for creative will be FALSE.
+@protocol PNMRAIDServiceDelegate <NSObject>
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+@optional
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-#import <PubnativeLite/PNMRAIDView.h>
-#import <PubnativeLite/PNMRAIDServiceDelegate.h>
-
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
+// These callbacks are to request other services.
+- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON;
+- (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString;
+- (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString;
+- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString;
+- (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString;
+- (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString;
 
 @end

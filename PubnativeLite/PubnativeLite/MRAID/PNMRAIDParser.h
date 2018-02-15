@@ -20,31 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@class PNMRAIDView;
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+// A parser class which validates MRAID commands passed from the creative to the native methods.
+// This takes a commandUrl of type "mraid://command?param1=val1&param2=val2&..." and return a
+// dictionary of key/value pairs which include command name and all the parameters. It checks
+// if the command itself is a valid MRAID command and also a simpler parameters validation.
+@interface PNMRAIDParser : NSObject
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-#import <PubnativeLite/PNMRAIDView.h>
-#import <PubnativeLite/PNMRAIDServiceDelegate.h>
-
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
+- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl;
 
 @end
