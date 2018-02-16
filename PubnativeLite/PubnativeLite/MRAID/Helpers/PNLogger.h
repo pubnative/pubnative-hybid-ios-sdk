@@ -20,31 +20,27 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+typedef enum {
+    PubnativeLogLevelNone,
+    PubnativeLogLevelError,
+    PubnativeLogLevelWarning,
+    PubnativeLogLevelInfo,
+    PubnativeLogLevelDebug,
+} PubnativeLogLevel;
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+// A simple logger enable you to see different levels of logging.
+// Use logLevel as a filter to see the messages for the specific level.
+//
+@interface PNLogger : NSObject
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
+// Method to filter logging with the level passed as the paramter
++ (void)setLogLevel:(PubnativeLogLevel)logLevel;
 
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-#import <PubnativeLite/PNMRAIDView.h>
-#import <PubnativeLite/PNMRAIDServiceDelegate.h>
-
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (void)error:(NSString *)tag withMessage:(NSString *)message;
++ (void)warning:(NSString *)tag withMessage:(NSString *)message;
++ (void)info:(NSString *)tag withMessage:(NSString *)message;
++ (void)debug:(NSString *)tag withMessage:(NSString *)message;
 
 @end

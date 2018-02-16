@@ -20,31 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "PNMRAIDOrientationProperties.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@implementation PNMRAIDOrientationProperties
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _allowOrientationChange = YES;
+        _forceOrientation = MRAIDForceOrientationNone;
+    }
+    return self;
+}
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-#import <PubnativeLite/PNMRAIDView.h>
-#import <PubnativeLite/PNMRAIDServiceDelegate.h>
-
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (PNMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s
+{
+    NSArray *names = @[ @"portrait", @"landscape", @"none" ];
+    NSUInteger i = [names indexOfObject:s];
+    if (i != NSNotFound) {
+        return (PNMRAIDForceOrientation)i;
+    }
+    // Use none for the default value
+    return MRAIDForceOrientationNone;
+}
 
 @end

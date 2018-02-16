@@ -20,31 +20,41 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "PNMRAIDResizeProperties.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@implementation PNMRAIDResizeProperties
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _width = 0;
+        _height = 0;
+        _offsetX = 0;
+        _offsetY = 0;
+        _customClosePosition = MRAIDCustomClosePositionTopRight;
+        _allowOffscreen = YES;
+    }
+    return self;
+}
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-#import <PubnativeLite/PNMRAIDView.h>
-#import <PubnativeLite/PNMRAIDServiceDelegate.h>
-
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (PNMRAIDCustomClosePosition)MRAIDCustomClosePositionFromString:(NSString *)s
+{
+    NSArray *names = @[
+                       @"top-left",
+                       @"top-center",
+                       @"top-right",
+                       @"center",
+                       @"bottom-left",
+                       @"bottom-center",
+                       @"bottom-right"
+                       ];
+    NSUInteger i = [names indexOfObject:s];
+    if (i != NSNotFound) {
+        return (PNMRAIDCustomClosePosition)i;
+    }
+    // Use top-right for the default value
+    return MRAIDCustomClosePositionTopRight;;
+}
 
 @end
