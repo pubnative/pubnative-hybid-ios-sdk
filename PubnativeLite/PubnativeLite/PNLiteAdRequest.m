@@ -72,7 +72,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
         NSLog(@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
                                                                                andWithAdSize:@"s"]].absoluteString);
         [[PNLiteHttpRequest alloc] startWithUrlString:[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
-                                                                                                                 andWithAdSize:@"s"]].absoluteString
+                                                                                                                 andWithAdSize:[self adSize]]].absoluteString
                                              delegate:self];
     }
 }

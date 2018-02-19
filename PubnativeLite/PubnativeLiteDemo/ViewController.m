@@ -17,8 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    PNLiteAdRequest *adRequest = [[PNLiteAdRequest alloc] init];
-    [adRequest requestAdWithDelegate:self withZoneID:@"2"];
+    PNLiteBannerAdRequest *bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
+    [bannerAdRequest requestAdWithDelegate:self withZoneID:@"2"];
 }
 
 - (void)requestDidStart:(PNLiteAdRequest *)request
@@ -34,7 +34,6 @@
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-
 }
 
 @end
