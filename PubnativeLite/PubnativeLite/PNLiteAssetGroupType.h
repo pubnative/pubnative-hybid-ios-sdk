@@ -22,8 +22,10 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSInteger const MRAID_BANNER_1;
-extern NSInteger const MRAID_BANNER_2;
-extern NSInteger const MRAID_MRECT;
-extern NSInteger const MRAID_INTERSTITIAL;
+typedef NS_ENUM(int, AssetGroupType) {
+    MRAID_BANNER_1 = 10,
+    MRAID_BANNER_2 = 12,
+    MRAID_MRECT = 8,
+    MRAID_INTERSTITIAL = 21,
+};
 

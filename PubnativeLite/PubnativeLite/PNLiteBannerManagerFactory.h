@@ -20,4 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAssetGroupType.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteBannerManager.h"
+#import "PNLiteAdModel.h"
+
+@interface PNLiteBannerManagerFactory : NSObject
+
+- (PNLiteBannerManager *)createBannerManagerWithAd:(PNLiteAdModel *)ad withDelegate:(NSObject<PNLiteBannerManagerDelegate> *)delegate;
+
+@end

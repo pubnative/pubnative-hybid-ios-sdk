@@ -20,4 +20,37 @@
 //  THE SOFTWARE.
 //
 
+#import "PNLiteBannerManagerFactory.h"
 #import "PNLiteAssetGroupType.h"
+
+@implementation PNLiteBannerManagerFactory
+
+- (PNLiteBannerManager *)createBannerManagerWithAd:(PNLiteAdModel *)ad withDelegate:(NSObject<PNLiteBannerManagerDelegate> *)delegate
+{
+    PNLiteBannerManager *bannerManager = [self createBannerManagerFromAd:ad];
+    // Create the decorator down below and return that object.
+    if (bannerManager) {
+        return bannerManager;
+    } else {
+        return nil;
+    }
+}
+
+- (PNLiteBannerManager *)createBannerManagerFromAd:(PNLiteAdModel *)ad
+{
+    switch (ad.assetgroupid.integerValue) {
+        case MRAID_BANNER_1:
+        case MRAID_BANNER_2:
+            {
+                // Create and return MRAIDBannerManager
+                return nil;
+            }
+            break;
+        default:
+            NSLog(@"PNLiteBannerManagerFactory - Asset Group %@ is an incompatible Asset Group ID for banner ad format", ad.assetgroupid);
+            return nil;
+            break;
+    }
+}
+
+@end
