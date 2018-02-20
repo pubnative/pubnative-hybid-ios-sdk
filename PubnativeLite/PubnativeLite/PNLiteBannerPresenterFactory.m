@@ -22,18 +22,20 @@
 
 #import "PNLiteBannerPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
+#import "PNLiteBannerPresenterDecorator.h"
 
 @implementation PNLiteBannerPresenterFactory
 
-- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAdModel *)ad withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
+- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAdModel *)ad
+                                          withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
 {
     PNLiteBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
-    // Create the decorator down below and return that object.
-    if (bannerPresenter) {
-        return bannerPresenter;
-    } else {
+    if (!bannerPresenter) {
         return nil;
     }
+    PNLiteBannerPresenterDecorator *bannerPresenterDecorator = [[PNLiteBannerPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter withDelegate:delegate];
+    bannerPresenter.delegate = bannerPresenterDecorator;
+    return bannerPresenterDecorator;
 }
 
 - (PNLiteBannerPresenter *)createBannerPresenterFromAd:(PNLiteAdModel *)ad
@@ -42,7 +44,7 @@
         case MRAID_BANNER_1:
         case MRAID_BANNER_2:
             {
-                // Create and return MRAIDBannerPresenter
+                // TO-DO: Create and return MRAIDBannerPresenter
                 return nil;
             }
             break;

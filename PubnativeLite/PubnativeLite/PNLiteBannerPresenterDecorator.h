@@ -20,13 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 #import "PNLiteBannerPresenter.h"
-#import "PNLiteAdModel.h"
 
-@interface PNLiteBannerPresenterFactory : NSObject
+@interface PNLiteBannerPresenterDecorator : PNLiteBannerPresenter <PNLiteBannerPresenterDelegate>
 
-- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAdModel *)ad
-                                          withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate;
+// TO-DO: Add Tracker to the initializer method
+- (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+                           withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate;
 
 @end
