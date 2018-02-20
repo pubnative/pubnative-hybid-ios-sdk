@@ -20,18 +20,25 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBannerManager.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "PNLiteAdModel.h"
 
-@implementation PNLiteBannerManager
+@class PNLiteBannerPresenter;
 
-- (void)load
-{
-    // Do nothing, this method should be overriden
-}
+@protocol PNLiteBannerPresenterDelegate<NSObject>
 
-- (PNLiteAdModel *)ad
-{
-    return nil;
-}
+- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner;
+- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter;
+- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error;
+
+@end
+
+@interface PNLiteBannerPresenter : NSObject
+
+@property (nonatomic, readonly) PNLiteAdModel *ad;
+@property (nonatomic, weak) NSObject <PNLiteBannerPresenterDelegate> *delegate;
+
+- (void)load;
 
 @end

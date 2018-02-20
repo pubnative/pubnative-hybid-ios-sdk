@@ -20,12 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteBannerManager.h"
-#import "PNLiteAdModel.h"
+#import "PNLiteBannerPresenter.h"
 
-@interface PNLiteBannerManagerFactory : NSObject
+@implementation PNLiteBannerPresenter
 
-- (PNLiteBannerManager *)createBannerManagerWithAd:(PNLiteAdModel *)ad withDelegate:(NSObject<PNLiteBannerManagerDelegate> *)delegate;
+- (void)load
+{
+    // Do nothing, this method should be overriden
+}
+
+- (PNLiteAdModel *)ad
+{
+    return nil;
+}
 
 @end

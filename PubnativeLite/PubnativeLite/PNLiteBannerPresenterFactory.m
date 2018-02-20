@@ -20,25 +20,37 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
+#import "PNLiteBannerPresenterFactory.h"
+#import "PNLiteAssetGroupType.h"
 
-@class PNLiteBannerManager;
+@implementation PNLiteBannerPresenterFactory
 
-@protocol PNLiteBannerManagerDelegate<NSObject>
+- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAdModel *)ad withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
+{
+    PNLiteBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
+    // Create the decorator down below and return that object.
+    if (bannerPresenter) {
+        return bannerPresenter;
+    } else {
+        return nil;
+    }
+}
 
-- (void)bannerManager:(PNLiteBannerManager *)bannerManager didLoadWithBanner:(UIView *)banner;
-- (void)bannerManagerDidClick:(PNLiteBannerManager *)bannerManager;
-- (void)bannerManager:(PNLiteBannerManager *)bannerManager didFailWithError:(NSError *)error;
-
-@end
-
-@interface PNLiteBannerManager : NSObject
-
-@property (nonatomic, readonly) PNLiteAdModel *ad;
-@property (nonatomic, weak) NSObject <PNLiteBannerManagerDelegate> *delegate;
-
-- (void)load;
+- (PNLiteBannerPresenter *)createBannerPresenterFromAd:(PNLiteAdModel *)ad
+{
+    switch (ad.assetgroupid.integerValue) {
+        case MRAID_BANNER_1:
+        case MRAID_BANNER_2:
+            {
+                // Create and return MRAIDBannerPresenter
+                return nil;
+            }
+            break;
+        default:
+            NSLog(@"PNLiteBannerPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for banner ad format", ad.assetgroupid);
+            return nil;
+            break;
+    }
+}
 
 @end
