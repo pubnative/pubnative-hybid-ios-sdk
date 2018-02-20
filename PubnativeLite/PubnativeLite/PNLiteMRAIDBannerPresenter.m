@@ -39,13 +39,13 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 @implementation PNLiteMRAIDBannerPresenter
 
--(void)dealloc
+- (void)dealloc
 {
     self.serviceProvider = nil;
     self.adModel = nil;
 }
 
--(instancetype)initWithAd:(PNLiteAd *)ad
+- (instancetype)initWithAd:(PNLiteAd *)ad
 {
     self = [super init];
     if (self) {
