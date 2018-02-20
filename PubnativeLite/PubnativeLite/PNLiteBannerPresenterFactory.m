@@ -23,10 +23,11 @@
 #import "PNLiteBannerPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteBannerPresenterDecorator.h"
+#import "PNLiteMRAIDBannerPresenter.h"
 
 @implementation PNLiteBannerPresenterFactory
 
-- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAdModel *)ad
+- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAd *)ad
                                           withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
 {
     PNLiteBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
@@ -38,18 +39,17 @@
     return bannerPresenterDecorator;
 }
 
-- (PNLiteBannerPresenter *)createBannerPresenterFromAd:(PNLiteAdModel *)ad
+- (PNLiteBannerPresenter *)createBannerPresenterFromAd:(PNLiteAd *)ad
 {
-    switch (ad.assetgroupid.integerValue) {
+    switch (ad.assetGroupID.integerValue) {
         case MRAID_BANNER_1:
-        case MRAID_BANNER_2:
-            {
-                // TO-DO: Create and return MRAIDBannerPresenter
-                return nil;
-            }
+        case MRAID_BANNER_2: {
+            PNLiteMRAIDBannerPresenter * mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
+            return mraidBannerPresenter;
             break;
+        }
         default:
-            NSLog(@"PNLiteBannerPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for banner ad format", ad.assetgroupid);
+            NSLog(@"PNLiteBannerPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for banner ad format", ad.assetGroupID);
             return nil;
             break;
     }

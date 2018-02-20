@@ -22,22 +22,24 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
+#import "PNLiteAd.h"
 
 @class PNLiteBannerPresenter;
 
 @protocol PNLiteBannerPresenterDelegate<NSObject>
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner;
+- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+      didLoadWithBanner:(UIView *)banner;
 - (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter;
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error;
+- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+       didFailWithError:(NSError *)error;
 
 @end
 
 @interface PNLiteBannerPresenter : NSObject
 
-@property (nonatomic, readonly) PNLiteAdModel *ad;
-@property (nonatomic, weak) NSObject <PNLiteBannerPresenterDelegate> *delegate;
+@property (nonatomic, readonly) PNLiteAd *ad;
+@property (nonatomic, strong) NSObject <PNLiteBannerPresenterDelegate> *delegate;
 
 - (void)load;
 

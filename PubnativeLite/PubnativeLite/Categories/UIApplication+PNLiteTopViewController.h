@@ -20,11 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-typedef NS_ENUM(int, AssetGroupType) {
-    MRAID_BANNER_1 = 10,
-    MRAID_BANNER_2 = 12,
-    MRAID_MRECT = 8,
-    MRAID_INTERSTITIAL = 21,
-};
+@interface UIApplication (PNLiteTopViewController)
+
+@property (nonatomic, readonly) UIViewController *topViewController;
+
+@end

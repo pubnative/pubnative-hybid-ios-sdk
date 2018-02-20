@@ -24,7 +24,7 @@
 
 @interface PNLiteBannerPresenterDecorator : PNLiteBannerPresenter <PNLiteBannerPresenterDelegate>
 
-// TO-DO: Add Tracker to the initializer method
+// TO-DO: Add Tracker Delegate to the initializer
 - (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
                            withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate;
 

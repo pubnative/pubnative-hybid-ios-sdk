@@ -24,12 +24,17 @@
 
 @implementation PNLiteBannerPresenter
 
+- (void)dealloc
+{
+    self.delegate = nil;
+}
+
 - (void)load
 {
     // Do nothing, this method should be overriden
 }
 
-- (PNLiteAdModel *)ad
+- (PNLiteAd *)ad
 {
     return nil;
 }
