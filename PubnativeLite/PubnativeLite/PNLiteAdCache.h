@@ -21,14 +21,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAdModel.h"
+#import "PNLiteAd.h"
 
 @interface PNLiteAdCache : NSObject
 
 @property(nonatomic, strong) NSMutableDictionary *adCache;
 
 + (instancetype)sharedInstance;
-- (void)putAdToCache:(PNLiteAdModel *)ad withZoneID:(NSString *)zoneID;
-- (PNLiteAdModel *)retrieveAdFromCache:(NSString *)zoneID;
+- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
+- (PNLiteAd *)retrieveAdFromCache:(NSString *)zoneID;
 
 @end

@@ -24,8 +24,8 @@
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
 
-NSString *const kPNAPIAdModelBeaconImpression = @"impression";
-NSString *const kPNAPIAdModelBeaconClick = @"click";
+NSString *const kPNLiteAdModelBeaconImpression = @"impression";
+NSString *const kPNLiteAdModelBeaconClick = @"click";
 
 @interface PNLiteAd ()
 

@@ -22,9 +22,9 @@
 
 #import "PNLitePrebidUtils.h"
 
-NSString * const kPNLiteKeyPN = @"m_pn";
-NSString * const kPNLiteKeyPN_ZONE_ID = @"pn_zone_id";
-NSString * const kPNLiteKeyPN_BID = @"pn_bid";
+NSString *const kPNLiteKeyPN = @"m_pn";
+NSString *const kPNLiteKeyPN_ZONE_ID = @"pn_zone_id";
+NSString *const kPNLiteKeyPN_BID = @"pn_bid";
 double const kECPMPointsDivider = 1000.0;
 
 @implementation PNLitePrebidUtils
