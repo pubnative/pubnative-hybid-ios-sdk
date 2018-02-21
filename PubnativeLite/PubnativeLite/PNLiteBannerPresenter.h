@@ -20,31 +20,27 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PNLiteAd.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@class PNLiteBannerPresenter;
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+@protocol PNLiteBannerPresenterDelegate<NSObject>
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
+- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+      didLoadWithBanner:(UIView *)banner;
+- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter;
+- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+       didFailWithError:(NSError *)error;
 
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-#import <PubnativeLite/PNMRAIDView.h>
-#import <PubnativeLite/PNMRAIDServiceDelegate.h>
-#import <PubnativeLite/PNLiteBannerAdRequest.h>
+@end
 
-@interface PubnativeLite : NSObject
+@interface PNLiteBannerPresenter : NSObject
 
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
+@property (nonatomic, readonly) PNLiteAd *ad;
+@property (nonatomic, strong) NSObject <PNLiteBannerPresenterDelegate> *delegate;
+
+- (void)load;
 
 @end

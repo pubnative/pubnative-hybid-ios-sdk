@@ -20,31 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "PNLiteBannerPresenter.h"
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+@interface PNLiteBannerPresenterDecorator : PNLiteBannerPresenter <PNLiteBannerPresenterDelegate>
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
-
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNBrowser.h>
-#import <PubnativeLite/PNBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
-#import <PubnativeLite/PNMRAIDView.h>
-#import <PubnativeLite/PNMRAIDServiceDelegate.h>
-#import <PubnativeLite/PNLiteBannerAdRequest.h>
-
-@interface PubnativeLite : NSObject
-
-+ (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
-+ (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
+// TO-DO: Add Tracker Delegate to the initializer
+- (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+                           withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate;
 
 @end
