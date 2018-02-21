@@ -37,6 +37,8 @@
 		5A449B48203D778B00CEB630 /* PNLiteMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B46203D778B00CEB630 /* PNLiteMRectPresenter.m */; };
 		5A449B4B203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A449B4C203D7BC000CEB630 /* PNLiteMRectPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B4A203D7BC000CEB630 /* PNLiteMRectPresenterFactory.m */; };
+		5A449B4F203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B4D203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */; };
 		5A52BFDB2034576D00C4B7C5 /* ForwardButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFD92034576D00C4B7C5 /* ForwardButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A52BFDC2034576D00C4B7C5 /* BackButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDA2034576D00C4B7C5 /* BackButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A52BFDF2034580A00C4B7C5 /* PNLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDD2034580900C4B7C5 /* PNLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -160,6 +162,8 @@
 		5A449B46203D778B00CEB630 /* PNLiteMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectPresenter.m; sourceTree = "<group>"; };
 		5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRectPresenterFactory.h; sourceTree = "<group>"; };
 		5A449B4A203D7BC000CEB630 /* PNLiteMRectPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectPresenterFactory.m; sourceTree = "<group>"; };
+		5A449B4D203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRectPresenterDecorator.h; sourceTree = "<group>"; };
+		5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectPresenterDecorator.m; sourceTree = "<group>"; };
 		5A52BFD92034576D00C4B7C5 /* ForwardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForwardButton.h; sourceTree = "<group>"; };
 		5A52BFDA2034576D00C4B7C5 /* BackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackButton.h; sourceTree = "<group>"; };
 		5A52BFDD2034580900C4B7C5 /* PNLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLogger.h; sourceTree = "<group>"; };
@@ -400,6 +404,8 @@
 				5A449B46203D778B00CEB630 /* PNLiteMRectPresenter.m */,
 				5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */,
 				5A449B4A203D7BC000CEB630 /* PNLiteMRectPresenterFactory.m */,
+				5A449B4D203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h */,
+				5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */,
 				5A3657D7203C538A004B4347 /* Categories */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
@@ -421,6 +427,7 @@
 				5ADACD08202C617A00617734 /* PNLiteResponseModel.h in Headers */,
 				5A540256202B1085005D80E6 /* PNLiteSettings.h in Headers */,
 				5A3657CD203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h in Headers */,
+				5A449B4F203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h in Headers */,
 				5ACC74ED203595250001CDC3 /* PNMRAIDView.h in Headers */,
 				5A3657C9203C23D1004B4347 /* PNLiteBannerPresenterFactory.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
@@ -616,6 +623,7 @@
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 				5A20DBE4203B131100EF2B3C /* PNLiteBannerPresenter.m in Sources */,
+				5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

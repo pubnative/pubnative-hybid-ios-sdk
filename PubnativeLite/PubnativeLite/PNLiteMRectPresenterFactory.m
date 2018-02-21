@@ -22,6 +22,7 @@
 
 #import "PNLiteMRectPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
+#import "PNLiteMRectPresenterDecorator.h"
 
 @implementation PNLiteMRectPresenterFactory
 
@@ -32,8 +33,9 @@
     if (!mRectPresenter) {
         return nil;
     }
-    // Add MRect Presenter Decorator
-    return nil;
+    PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter withDelegate:delegate];
+    mRectPresenter.delegate = mRectPresenterDecorator;
+    return mRectPresenterDecorator;
 }
 
 - (PNLiteMRectPresenter *)createMRectPresenterFromAd:(PNLiteAd *)ad

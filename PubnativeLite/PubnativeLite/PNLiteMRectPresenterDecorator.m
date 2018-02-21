@@ -20,52 +20,52 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBannerPresenterDecorator.h"
+#import "PNLiteMRectPresenterDecorator.h"
 
-@interface PNLiteBannerPresenterDecorator ()
+@interface PNLiteMRectPresenterDecorator ()
 
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
-@property (nonatomic, weak) NSObject<PNLiteBannerPresenterDelegate> *bannerPresenterDelegate;
+@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
+@property (nonatomic, weak) NSObject<PNLiteMRectPresenterDelegate> *mRectPresenterDelegate;
 // TO-DO: Add Ad Tracker Delegate property
 
 @end
 
-@implementation PNLiteBannerPresenterDecorator
+@implementation PNLiteMRectPresenterDecorator
 
 - (void)dealloc
 {
-    self.bannerPresenter = nil;
+    self.mRectPresenter = nil;
 }
 
-- (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
-                           withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
+- (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
+                          withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
-        self.bannerPresenter = bannerPresenter;
-        self.bannerPresenterDelegate = delegate;
+        self.mRectPresenter = mRectPresenter;
+        self.mRectPresenterDelegate = delegate;
         // TO-DO: Add Tracker initialization
     }
     return self;
 }
 
-#pragma mark PNLiteBannerPresenterDelegate
+#pragma mark PNLiteMRectPresenterDelegate
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
-    // TO-DO: Call delegate method when banner is tracked
-    [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didLoadWithBanner:banner];
+    // TO-DO: Call delegate method when MRect is tracked
+    [self.mRectPresenterDelegate mRectPresenter:mRectPresenter didLoadWithMRect:mRect];
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
 {
-    // TO-DO: Call delegate method when banner is clicked
-    [self.bannerPresenterDelegate bannerPresenterDidClick:bannerPresenter];
+    // TO-DO: Call delegate method when MRect is clicked
+    [self.mRectPresenterDelegate mRectPresenterDidClick:mRectPresenter];
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
-    [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didFailWithError:error];
+    [self.mRectPresenterDelegate mRectPresenter:mRectPresenter didFailWithError:error];
 }
 
 @end
