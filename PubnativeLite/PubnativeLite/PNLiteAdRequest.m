@@ -100,7 +100,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     });
 }
 
-- (void)invokeDidLoad:(PNLiteAdModel *)ad
+- (void)invokeDidLoad:(PNLiteAd *)ad
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isRunning = NO;
@@ -140,7 +140,8 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
             [self invokeDidFail:error];
         } else if ([kPNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
-            for (PNLiteAdModel *ad in response.ads) {
+            for (PNLiteAdModel *adModel in response.ads) {
+                PNLiteAd *ad = [[PNLiteAd alloc] initWithData:adModel];
                 [[PNLiteAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
             }

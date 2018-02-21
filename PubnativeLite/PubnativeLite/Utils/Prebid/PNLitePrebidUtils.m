@@ -20,36 +20,33 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAdCache.h"
+#import "PNLitePrebidUtils.h"
 
-@implementation PNLiteAdCache
+NSString *const kPNLiteKeyPN = @"m_pn";
+NSString *const kPNLiteKeyPN_ZONE_ID = @"pn_zone_id";
+NSString *const kPNLiteKeyPN_BID = @"pn_bid";
+double const kECPMPointsDivider = 1000.0;
 
-- (void)dealloc
+@implementation PNLitePrebidUtils
+
++ (NSString *)createPrebidKeywordsWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
 {
-    self.adCache = nil;
-}
+    NSMutableString *prebid = [[NSMutableString alloc] init];
+    [prebid appendString:kPNLiteKeyPN];
+    [prebid appendString:@":"];
+    [prebid appendString:@"true"];
+    [prebid appendString:@","];
 
-+ (instancetype)sharedInstance
-{
-    static PNLiteAdCache *_sharedInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedInstance = [[PNLiteAdCache alloc] init];
-        _sharedInstance.adCache = [[NSMutableDictionary alloc] init];
-    });
-    return _sharedInstance;
-}
-
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
-{
-    [[PNLiteAdCache sharedInstance].adCache setObject:ad forKey:zoneID];
-}
-
-- (PNLiteAd *)retrieveAdFromCache:(NSString *)zoneID
-{
-    PNLiteAd *cachedAd = [[PNLiteAdCache sharedInstance].adCache objectForKey:zoneID];
-    [[PNLiteAdCache sharedInstance].adCache removeObjectForKey:zoneID];
-    return cachedAd;
+    [prebid appendString:kPNLiteKeyPN_ZONE_ID];
+    [prebid appendString:@":"];
+    [prebid appendString:zoneID];
+    [prebid appendString:@","];
+    
+    [prebid appendString:kPNLiteKeyPN_BID];
+    [prebid appendString:@":"];
+    [prebid appendString:[NSString stringWithFormat:@"%.3f", [ad.eCPM doubleValue]/kECPMPointsDivider]];
+    
+    return [NSString stringWithString:prebid];
 }
 
 @end

@@ -20,36 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAdCache.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteAd.h"
 
-@implementation PNLiteAdCache
+@interface PNLitePrebidUtils : NSObject
 
-- (void)dealloc
-{
-    self.adCache = nil;
-}
-
-+ (instancetype)sharedInstance
-{
-    static PNLiteAdCache *_sharedInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedInstance = [[PNLiteAdCache alloc] init];
-        _sharedInstance.adCache = [[NSMutableDictionary alloc] init];
-    });
-    return _sharedInstance;
-}
-
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
-{
-    [[PNLiteAdCache sharedInstance].adCache setObject:ad forKey:zoneID];
-}
-
-- (PNLiteAd *)retrieveAdFromCache:(NSString *)zoneID
-{
-    PNLiteAd *cachedAd = [[PNLiteAdCache sharedInstance].adCache objectForKey:zoneID];
-    [[PNLiteAdCache sharedInstance].adCache removeObjectForKey:zoneID];
-    return cachedAd;
-}
++ (NSString *)createPrebidKeywordsWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
 
 @end

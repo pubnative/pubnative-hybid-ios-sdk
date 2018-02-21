@@ -26,7 +26,7 @@
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAdModel *)ad
+- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
 }

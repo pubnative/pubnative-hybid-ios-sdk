@@ -21,14 +21,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAdModel.h"
+#import "PNLiteAd.h"
 
 @class PNLiteAdRequest;
 
 @protocol PNLiteAdRequestDelegate <NSObject>
 
 - (void)requestDidStart:(PNLiteAdRequest *)request;
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAdModel *)ad;
+- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad;
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error;
 
 @end
