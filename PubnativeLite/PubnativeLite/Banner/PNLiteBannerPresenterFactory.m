@@ -44,7 +44,7 @@
     switch (ad.assetGroupID.integerValue) {
         case MRAID_BANNER_1:
         case MRAID_BANNER_2: {
-            PNLiteMRAIDBannerPresenter * mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
+            PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
             return mraidBannerPresenter;
             break;
         }

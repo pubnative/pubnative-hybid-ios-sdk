@@ -49,6 +49,8 @@
     return self;
 }
 
+#pragma mark PNLiteBannerPresenterDelegate
+
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     // TO-DO: Call delegate method when banner is tracked
