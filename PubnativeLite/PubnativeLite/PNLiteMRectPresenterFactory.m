@@ -23,6 +23,7 @@
 #import "PNLiteMRectPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteMRectPresenterDecorator.h"
+#import "PNLiteMRAIDMRectPresenter.h"
 
 @implementation PNLiteMRectPresenterFactory
 
@@ -42,8 +43,8 @@
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_MRECT: {
-            // Add MRAID MRect Presenter
-            return nil;
+            PNLiteMRAIDMRectPresenter *mraidMRectPresenter = [[PNLiteMRAIDMRectPresenter alloc] initWithAd:ad];
+            return mraidMRectPresenter;
             break;
         }
         default:

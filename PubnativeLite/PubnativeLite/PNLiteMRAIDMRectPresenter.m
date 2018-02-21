@@ -20,16 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRAIDBannerPresenter.h"
+#import "PNLiteMRAIDMRectPresenter.h"
 #import "PNMRAIDView.h"
 #import "PNMRAIDServiceDelegate.h"
 #import "PNMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-CGFloat const kPNLiteMRAIDBannerWidth = 320.0f;
-CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
+CGFloat const kPNLiteMRAIDMRectWidth = 300.0f;
+CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 
-@interface PNLiteMRAIDBannerPresenter () <PNMRAIDViewDelegate, PNMRAIDServiceDelegate>
+@interface PNLiteMRAIDMRectPresenter () <PNMRAIDViewDelegate, PNMRAIDServiceDelegate>
 
 @property (nonatomic, strong) PNMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNMRAIDView *mraidView;
@@ -37,7 +37,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 @end
 
-@implementation PNLiteMRAIDBannerPresenter
+@implementation PNLiteMRAIDMRectPresenter
 
 - (void)dealloc
 {
@@ -62,7 +62,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 - (void)load
 {
     self.serviceProvider = [[PNMRAIDServiceProvider alloc] init];
-    self.mraidView = [[PNMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDBannerWidth, kPNLiteMRAIDBannerHeight)
+    self.mraidView = [[PNMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDMRectWidth, kPNLiteMRAIDMRectHeight)
                                            withHtmlData:self.adModel.htmlData
                                             withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                       supportedFeatures:@[MRAIDSupportsSMS, MRAIDSupportsTel, MRAIDSupportsCalendar, MRAIDSupportsStorePicture, MRAIDSupportsInlineVideo]
@@ -76,19 +76,19 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 - (void)mraidViewAdReady:(PNMRAIDView *)mraidView
 {
-    [self.delegate bannerPresenter:self didLoadWithBanner:mraidView];
+    [self.delegate mRectPresenter:self didLoadWithMRect:mraidView];
 }
 
 - (void)mraidViewAdFailed:(PNMRAIDView *)mraidView
 {
-    NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDBannerPresenter - MRAID View  Failed" code:0 userInfo:nil];
-    [self.delegate bannerPresenter:self didFailWithError:error];
+    NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDMRectPresenter - MRAID View  Failed" code:0 userInfo:nil];
+    [self.delegate mRectPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(PNMRAIDView *)mraidView
 {
     NSLog(@"PNMRAIDViewDelegate - MRAID will expand!");
-    [self.delegate bannerPresenterDidClick:self];
+    [self.delegate mRectPresenterDidClick:self];
 }
 
 - (void)mraidViewDidClose:(PNMRAIDView *)mraidView
