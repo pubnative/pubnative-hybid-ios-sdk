@@ -314,6 +314,36 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		5A449B55203D93C300CEB630 /* MRect */ = {
+			isa = PBXGroup;
+			children = (
+				5A449B45203D778B00CEB630 /* PNLiteMRectPresenter.h */,
+				5A449B46203D778B00CEB630 /* PNLiteMRectPresenter.m */,
+				5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */,
+				5A449B4A203D7BC000CEB630 /* PNLiteMRectPresenterFactory.m */,
+				5A449B4D203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h */,
+				5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */,
+				5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */,
+				5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */,
+			);
+			path = MRect;
+			sourceTree = "<group>";
+		};
+		5A449B56203D93D900CEB630 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				5A20DBE1203B131100EF2B3C /* PNLiteBannerPresenter.h */,
+				5A20DBE2203B131100EF2B3C /* PNLiteBannerPresenter.m */,
+				5A3657C7203C23D1004B4347 /* PNLiteBannerPresenterFactory.h */,
+				5A3657C8203C23D1004B4347 /* PNLiteBannerPresenterFactory.m */,
+				5A3657CB203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h */,
+				5A3657CC203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m */,
+				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
+				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
 		5A52BFED20346B1A00C4B7C5 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -396,22 +426,8 @@
 				5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */,
 				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
 				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
-				5A20DBE1203B131100EF2B3C /* PNLiteBannerPresenter.h */,
-				5A20DBE2203B131100EF2B3C /* PNLiteBannerPresenter.m */,
-				5A3657C7203C23D1004B4347 /* PNLiteBannerPresenterFactory.h */,
-				5A3657C8203C23D1004B4347 /* PNLiteBannerPresenterFactory.m */,
-				5A3657CB203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h */,
-				5A3657CC203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m */,
-				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
-				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
-				5A449B45203D778B00CEB630 /* PNLiteMRectPresenter.h */,
-				5A449B46203D778B00CEB630 /* PNLiteMRectPresenter.m */,
-				5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */,
-				5A449B4A203D7BC000CEB630 /* PNLiteMRectPresenterFactory.m */,
-				5A449B4D203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h */,
-				5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */,
-				5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */,
-				5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */,
+				5A449B56203D93D900CEB630 /* Banner */,
+				5A449B55203D93C300CEB630 /* MRect */,
 				5A3657D7203C538A004B4347 /* Categories */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
