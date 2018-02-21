@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A064990203DB75C00CDF925 /* PNLitePrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */; };
+		5A064990203DB75C00CDF925 /* PNLitePrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */; };
 		5A20DBDB203B081400EF2B3C /* PNLiteBannerAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A20DBDC203B081400EF2B3C /* PNLiteBannerAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */; };
@@ -259,6 +259,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A064992203DBECC00CDF925 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5A540248202B058A005D80E6 /* PNLiteCryptoUtils.h */,
+				5A540249202B058A005D80E6 /* PNLiteCryptoUtils.m */,
+				5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */,
+				5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		5A2633582034AB960005EA39 /* Properties */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,8 +399,7 @@
 			children = (
 				5A6CD0232029CD060022E206 /* PubnativeLite.h */,
 				5A540258202B129E005D80E6 /* PubnativeLite.m */,
-				5A540248202B058A005D80E6 /* PNLiteCryptoUtils.h */,
-				5A540249202B058A005D80E6 /* PNLiteCryptoUtils.m */,
+				5A064992203DBECC00CDF925 /* Utils */,
 				5A54024D202B07C4005D80E6 /* PNLiteRequestParameter.h */,
 				5A54024C202B07C3005D80E6 /* PNLiteRequestParameter.m */,
 				5A540251202B0C04005D80E6 /* PNLiteTargetingModel.h */,
@@ -430,8 +440,6 @@
 				5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */,
 				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
 				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
-				5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */,
-				5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */,
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
 				5A3657D7203C538A004B4347 /* Categories */,
