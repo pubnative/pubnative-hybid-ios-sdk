@@ -262,12 +262,28 @@
 		5A064992203DBECC00CDF925 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				5A064993203DC55D00CDF925 /* Crypto */,
+				5A064994203DC56800CDF925 /* Prebid */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5A064993203DC55D00CDF925 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
 				5A540248202B058A005D80E6 /* PNLiteCryptoUtils.h */,
 				5A540249202B058A005D80E6 /* PNLiteCryptoUtils.m */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
+		5A064994203DC56800CDF925 /* Prebid */ = {
+			isa = PBXGroup;
+			children = (
 				5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */,
 				5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */,
 			);
-			path = Utils;
+			path = Prebid;
 			sourceTree = "<group>";
 		};
 		5A2633582034AB960005EA39 /* Properties */ = {
