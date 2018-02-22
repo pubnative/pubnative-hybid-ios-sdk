@@ -24,6 +24,9 @@
 #import <PubnativeLite/PubnativeLite.h>
 #import "MPAdView.h"
 
+NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
+NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
+
 @interface PNLiteDemoMoPubBannerViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
@@ -55,14 +58,14 @@
     [self.bannerLoaderIndicator stopAnimating];
     [self.mRectLoaderIndicator stopAnimating];
     
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:@"a4eac931d95444f0a95adc77093a22ab"
+    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:kPNLiteDemoMoPubBannerAdUnitID
                                                      size:MOPUB_BANNER_SIZE];
     self.moPubBanner.delegate = self;
     [self.moPubBanner stopAutomaticallyRefreshingContents];
     [self.bannerContainer addSubview:self.moPubBanner];
     
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:@"7f797ff5c287480cbf15e9f1735fb8d7"
-                                                      size:MOPUB_MEDIUM_RECT_SIZE];
+    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:kPNLiteDemoMoPubMRectAdUnitID
+                                                    size:MOPUB_MEDIUM_RECT_SIZE];
     self.moPubMrect.delegate = self;
     [self.moPubMrect stopAutomaticallyRefreshingContents];
     [self.mRectContainer addSubview:self.moPubMrect];
@@ -114,17 +117,17 @@
 
 - (void)willPresentModalViewForAd:(MPAdView *)view
 {
-    
+    NSLog(@"willPresentModalViewForAd");
 }
 
 - (void)didDismissModalViewForAd:(MPAdView *)view
 {
-    
+    NSLog(@"didDismissModalViewForAd");
 }
 
 - (void)willLeaveApplicationFromAd:(MPAdView *)view
 {
-    
+    NSLog(@"willLeaveApplicationFromAd");
 }
 
 #pragma mark - PNLiteAdRequestDelegate
@@ -137,7 +140,7 @@
 - (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
-
+    
     if (request == self.bannerAdRequest) {
         [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"2"]];
         [self.moPubBanner loadAd];
