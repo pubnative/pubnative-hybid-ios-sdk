@@ -20,27 +20,27 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubBannerCustomEvent.h"
+#import "PNLiteMoPubMRectCustomEvent.h"
 #import "PNLiteMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface PNLiteMoPubBannerCustomEvent () <PNLiteBannerPresenterDelegate>
+@interface PNLiteMoPubMRectCustomEvent () <PNLiteMRectPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
-@property (nonatomic, strong) PNLiteBannerPresenterFactory *bannerPresenterFactory;
+@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) PNLiteMRectPresenterFactory *mRectPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
 @end
 
-@implementation PNLiteMoPubBannerCustomEvent
+@implementation PNLiteMoPubMRectCustomEvent
 
 - (void)dealloc
 {
-    self.bannerPresenter = nil;
-    self.bannerPresenterFactory = nil;
+    self.mRectPresenter = nil;
+    self.mRectPresenterFactory = nil;
     self.ad = nil;
 }
 
@@ -48,26 +48,26 @@
 {
     if ([PNLiteMoPubUtils areExtrasValid:info]) {
         self.size = size;
-        if (CGSizeEqualToSize(MOPUB_BANNER_SIZE, size)) {
+        if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
             self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteMoPubUtils zoneID:info]];
             if (self.ad == nil) {
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteMoPubUtils zoneID:info]]];
                 return;
             }
-            self.bannerPresenterFactory = [[PNLiteBannerPresenterFactory alloc] init];
-            self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
-            if (self.bannerPresenter == nil) {
-                [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid banner presenter"];
+            self.mRectPresenterFactory = [[PNLiteMRectPresenterFactory alloc] init];
+            self.mRectPresenter = [self.mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
+            if (self.mRectPresenter == nil) {
+                [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid mRect presenter"];
                 return;
             } else {
-                [self.bannerPresenter load];
-            } 
+                [self.mRectPresenter load];
+            }
         } else {
             [self invokeFailWithMessage:@"PubNativeLite - Error: Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed banner ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed mRect ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -88,18 +88,18 @@
 
 #pragma mark - PNLiteBannerPresenterDelegate
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
     [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:banner];
+    [self.delegate bannerCustomEvent:self didLoadAd:mRect];
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];

@@ -317,6 +317,7 @@
 		5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD1E202CBA9800617734 /* PNLiteAsset.m */; };
 		5AE31C98203EC6AF005F140A /* PNLiteMoPubUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */; };
 		5AE31C9F203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */; };
+		5AE31CA2203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -866,6 +867,8 @@
 		5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubUtils.m; sourceTree = "<group>"; };
 		5AE31C9D203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubBannerCustomEvent.h; sourceTree = "<group>"; };
 		5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubBannerCustomEvent.m; sourceTree = "<group>"; };
+		5AE31CA0203EE122005F140A /* PNLiteMoPubMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMRectCustomEvent.h; sourceTree = "<group>"; };
+		5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMRectCustomEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1723,6 +1726,8 @@
 				5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */,
 				5AE31C9D203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.h */,
 				5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */,
+				5AE31CA0203EE122005F140A /* PNLiteMoPubMRectCustomEvent.h */,
+				5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */,
 			);
 			path = MoPubAdapter;
 			sourceTree = "<group>";
@@ -2070,6 +2075,7 @@
 				5A890396203DE19600D86051 /* MPStreamAdPlacementData.m in Sources */,
 				5A890381203DE19600D86051 /* MPVASTModel.m in Sources */,
 				5A8903C0203DE19600D86051 /* MPRewardedVideo.m in Sources */,
+				5AE31CA2203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m in Sources */,
 				5A89037B203DE19600D86051 /* UIWebView+MPAdditions.m in Sources */,
 				5A890332203DE19600D86051 /* MPInterstitialViewController.m in Sources */,
 				5A89037E203DE19600D86051 /* MPVASTMediaFile.m in Sources */,
