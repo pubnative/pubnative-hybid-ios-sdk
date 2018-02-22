@@ -22,21 +22,17 @@
 
 #import "PNLiteMoPubUtils.h"
 
-NSString *const kAppToken = @"app_token";
-NSString *const kPlacement = @"placement";
+NSString *const kPNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
 
 @implementation PNLiteMoPubUtils
 
 + (BOOL)areExtrasValid:(NSDictionary *)extras {
-    return [PNLiteMoPubUtils appToken:extras] && [PNLiteMoPubUtils placement:extras];
+    return [PNLiteMoPubUtils zoneID:extras];
 }
 
-+ (NSString *)placement:(NSDictionary *)extras {
-    return [PNLiteMoPubUtils valueWithKey:kPlacement fromExtras:extras];
-}
-
-+ (NSString *)appToken:(NSDictionary *)extras {
-    return [PNLiteMoPubUtils valueWithKey:kAppToken fromExtras:extras];
++ (NSString *)zoneID:(NSDictionary *)extras
+{
+    return [PNLiteMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyZoneID fromExtras:extras];
 }
 
 + (NSString *)valueWithKey:(NSString *)key

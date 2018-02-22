@@ -29,6 +29,6 @@
 
 + (instancetype)sharedInstance;
 - (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-- (PNLiteAd *)retrieveAdFromCache:(NSString *)zoneID;
+- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID;
 
 @end

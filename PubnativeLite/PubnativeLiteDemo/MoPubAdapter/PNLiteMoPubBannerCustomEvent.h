@@ -20,12 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPBannerCustomEvent.h"
+#endif
+
 #import <PubnativeLite/PubnativeLite.h>
 
-@interface PNLiteMoPubUtils : NSObject
-
-+ (BOOL)areExtrasValid:(NSDictionary *)extras;
-+ (NSString *)zoneID:(NSDictionary *)extras;
+@interface PNLiteMoPubBannerCustomEvent : MPBannerCustomEvent
 
 @end
