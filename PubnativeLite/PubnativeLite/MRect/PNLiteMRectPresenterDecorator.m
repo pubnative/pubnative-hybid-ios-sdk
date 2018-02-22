@@ -25,7 +25,7 @@
 @interface PNLiteMRectPresenterDecorator ()
 
 @property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
-@property (nonatomic, weak) NSObject<PNLiteMRectPresenterDelegate> *mRectPresenterDelegate;
+@property (nonatomic, strong) NSObject<PNLiteMRectPresenterDelegate> *mRectPresenterDelegate;
 // TO-DO: Add Ad Tracker Delegate property
 
 @end
@@ -35,6 +35,12 @@
 - (void)dealloc
 {
     self.mRectPresenter = nil;
+    self.mRectPresenterDelegate = nil;
+}
+
+- (void)load
+{
+    [self.mRectPresenter load];
 }
 
 - (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
