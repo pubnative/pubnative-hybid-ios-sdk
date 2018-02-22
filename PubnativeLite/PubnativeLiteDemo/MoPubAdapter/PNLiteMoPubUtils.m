@@ -20,15 +20,31 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "PNLiteMoPubUtils.h"
 
-@interface PNLiteAdCache : NSObject
+NSString *const kPNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
 
-@property(nonatomic, strong) NSMutableDictionary *adCache;
+@implementation PNLiteMoPubUtils
 
-+ (instancetype)sharedInstance;
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID;
++ (BOOL)areExtrasValid:(NSDictionary *)extras {
+    return [PNLiteMoPubUtils zoneID:extras];
+}
+
++ (NSString *)zoneID:(NSDictionary *)extras
+{
+    return [PNLiteMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyZoneID fromExtras:extras];
+}
+
++ (NSString *)valueWithKey:(NSString *)key
+                fromExtras:(NSDictionary *)extras {
+    NSString* result = nil;
+    if (extras && [extras objectForKey:key]) {
+        NSString* param = [extras objectForKey:key];
+        if ([param length] != 0) {
+            result = param;
+        }
+    }
+    return result;
+}
 
 @end

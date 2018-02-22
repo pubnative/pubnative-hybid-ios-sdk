@@ -45,7 +45,7 @@
     [[PNLiteAdCache sharedInstance].adCache setObject:ad forKey:zoneID];
 }
 
-- (PNLiteAd *)retrieveAdFromCache:(NSString *)zoneID
+- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID
 {
     PNLiteAd *cachedAd = [[PNLiteAdCache sharedInstance].adCache objectForKey:zoneID];
     [[PNLiteAdCache sharedInstance].adCache removeObjectForKey:zoneID];

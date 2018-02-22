@@ -20,15 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPBannerCustomEvent.h"
+#endif
 
-@interface PNLiteAdCache : NSObject
+#import <PubnativeLite/PubnativeLite.h>
 
-@property(nonatomic, strong) NSMutableDictionary *adCache;
-
-+ (instancetype)sharedInstance;
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID;
+@interface PNLiteMoPubBannerCustomEvent : MPBannerCustomEvent
 
 @end

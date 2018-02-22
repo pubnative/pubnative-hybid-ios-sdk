@@ -21,14 +21,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import <PubnativeLite/PubnativeLite.h>
 
-@interface PNLiteAdCache : NSObject
+@interface PNLiteMoPubUtils : NSObject
 
-@property(nonatomic, strong) NSMutableDictionary *adCache;
-
-+ (instancetype)sharedInstance;
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID;
++ (BOOL)areExtrasValid:(NSDictionary *)extras;
++ (NSString *)zoneID:(NSDictionary *)extras;
 
 @end
