@@ -96,6 +96,7 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
 
 - (void)adViewDidLoadAd:(MPAdView *)view
 {
+    NSLog(@"adViewDidLoadAd");
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];

@@ -21,7 +21,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <PubnativeLite/PubnativeLite.h>
 
 @interface PNLiteMoPubUtils : NSObject
 

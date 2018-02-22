@@ -975,11 +975,11 @@
 			isa = PBXGroup;
 			children = (
 				5A890166203DE19500D86051 /* MoPubSDK */,
+				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
 				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
 				5A32CEBE2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.h */,
 				5A32CEBF2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m */,
-				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */,
@@ -1069,53 +1069,22 @@
 			children = (
 				5A6CD0232029CD060022E206 /* PubnativeLite.h */,
 				5A540258202B129E005D80E6 /* PubnativeLite.m */,
-				5A064992203DBECC00CDF925 /* Utils */,
-				5A54024D202B07C4005D80E6 /* PNLiteRequestParameter.h */,
-				5A54024C202B07C3005D80E6 /* PNLiteRequestParameter.m */,
 				5A540251202B0C04005D80E6 /* PNLiteTargetingModel.h */,
 				5A540250202B0C04005D80E6 /* PNLiteTargetingModel.m */,
 				5A540254202B1085005D80E6 /* PNLiteSettings.h */,
 				5A540255202B1085005D80E6 /* PNLiteSettings.m */,
-				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
-				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
-				5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */,
-				5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */,
-				5ADACD19202CB88A00617734 /* PNLiteData.h */,
-				5ADACD1A202CB88A00617734 /* PNLiteData.m */,
-				5ADACD1D202CBA9800617734 /* PNLiteAsset.h */,
-				5ADACD1E202CBA9800617734 /* PNLiteAsset.m */,
-				5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */,
-				5ADACD02202C5AB700617734 /* PNLiteBaseModel.m */,
-				5ADACD0A202C6AC400617734 /* PNLiteDataModel.h */,
-				5ADACD09202C6AC400617734 /* PNLiteDataModel.m */,
-				5ADACD0D202C847F00617734 /* PNLiteAdModel.h */,
-				5ADACD0E202C848000617734 /* PNLiteAdModel.m */,
-				5ADACD06202C617A00617734 /* PNLiteResponseModel.h */,
-				5ADACD05202C617A00617734 /* PNLiteResponseModel.m */,
-				5ADACD12202C919700617734 /* PNLiteAd.h */,
-				5ADACD11202C919600617734 /* PNLiteAd.m */,
-				5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */,
-				5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */,
-				5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */,
-				5AA3D5E820319D82002BFDA3 /* PNLiteAdRequestModel.m */,
-				5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */,
-				5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */,
-				5AA3D5EF2031CA96002BFDA3 /* PNLiteReachability.h */,
-				5AA3D5F02031CA96002BFDA3 /* PNLiteReachability.m */,
-				5AA3D5F32031CEC1002BFDA3 /* PNLiteHttpRequest.h */,
-				5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */,
-				5AA3D5EB2031B903002BFDA3 /* PNLiteAdRequest.h */,
-				5AA3D5EC2031B903002BFDA3 /* PNLiteAdRequest.m */,
-				5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */,
-				5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */,
-				5ABE0135203F027400E6A14E /* PNLiteMRectAdRequest.h */,
-				5ABE0136203F027400E6A14E /* PNLiteMRectAdRequest.m */,
+				5ABE013D203F344A00E6A14E /* Location */,
+				5ABE013C203F33AD00E6A14E /* Network */,
+				5ABE013B203F332100E6A14E /* Ad Model */,
+				5ABE0139203F2F4600E6A14E /* Ad Request */,
+				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
 				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
 				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
-				5A3657D7203C538A004B4347 /* Categories */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
+				5A3657D7203C538A004B4347 /* Categories */,
+				5A064992203DBECC00CDF925 /* Utils */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
 			);
 			path = PubnativeLite;
@@ -1723,6 +1692,77 @@
 				5A8903D0203DE1D400D86051 /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5ABE0139203F2F4600E6A14E /* Ad Request */ = {
+			isa = PBXGroup;
+			children = (
+				5A54024D202B07C4005D80E6 /* PNLiteRequestParameter.h */,
+				5A54024C202B07C3005D80E6 /* PNLiteRequestParameter.m */,
+				5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */,
+				5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */,
+				5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */,
+				5AA3D5E820319D82002BFDA3 /* PNLiteAdRequestModel.m */,
+				5AA3D5EB2031B903002BFDA3 /* PNLiteAdRequest.h */,
+				5AA3D5EC2031B903002BFDA3 /* PNLiteAdRequest.m */,
+				5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */,
+				5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */,
+				5ABE0135203F027400E6A14E /* PNLiteMRectAdRequest.h */,
+				5ABE0136203F027400E6A14E /* PNLiteMRectAdRequest.m */,
+			);
+			path = "Ad Request";
+			sourceTree = "<group>";
+		};
+		5ABE013A203F2F5F00E6A14E /* Ad Cache */ = {
+			isa = PBXGroup;
+			children = (
+				5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */,
+				5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */,
+			);
+			path = "Ad Cache";
+			sourceTree = "<group>";
+		};
+		5ABE013B203F332100E6A14E /* Ad Model */ = {
+			isa = PBXGroup;
+			children = (
+				5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */,
+				5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */,
+				5ADACD19202CB88A00617734 /* PNLiteData.h */,
+				5ADACD1A202CB88A00617734 /* PNLiteData.m */,
+				5ADACD1D202CBA9800617734 /* PNLiteAsset.h */,
+				5ADACD1E202CBA9800617734 /* PNLiteAsset.m */,
+				5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */,
+				5ADACD02202C5AB700617734 /* PNLiteBaseModel.m */,
+				5ADACD0A202C6AC400617734 /* PNLiteDataModel.h */,
+				5ADACD09202C6AC400617734 /* PNLiteDataModel.m */,
+				5ADACD0D202C847F00617734 /* PNLiteAdModel.h */,
+				5ADACD0E202C848000617734 /* PNLiteAdModel.m */,
+				5ADACD06202C617A00617734 /* PNLiteResponseModel.h */,
+				5ADACD05202C617A00617734 /* PNLiteResponseModel.m */,
+				5ADACD12202C919700617734 /* PNLiteAd.h */,
+				5ADACD11202C919600617734 /* PNLiteAd.m */,
+			);
+			path = "Ad Model";
+			sourceTree = "<group>";
+		};
+		5ABE013C203F33AD00E6A14E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				5AA3D5EF2031CA96002BFDA3 /* PNLiteReachability.h */,
+				5AA3D5F02031CA96002BFDA3 /* PNLiteReachability.m */,
+				5AA3D5F32031CEC1002BFDA3 /* PNLiteHttpRequest.h */,
+				5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		5ABE013D203F344A00E6A14E /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
+				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		5AE31C99203EC7E5005F140A /* MoPubAdapter */ = {
