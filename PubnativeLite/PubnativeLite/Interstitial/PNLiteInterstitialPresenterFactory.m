@@ -20,28 +20,34 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "PNLiteInterstitialPresenterFactory.h"
+#import "PNLiteAssetGroupType.h"
 
-@class PNLiteInterstitialPresenter;
+@implementation PNLiteInterstitialPresenterFactory
 
-@protocol PNLiteInterstitialPresenterDelegate<NSObject>
+- (PNLiteInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
+{
+    PNLiteInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad];
+    if (!interstitialPresenter) {
+        return nil;
+    }
+    // Add Interstitial Presenter Decorator.
+    return nil;
+}
 
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
-             didFailWithError:(NSError *)error;
-
-@end
-
-@interface PNLiteInterstitialPresenter : NSObject
-
-@property (nonatomic, readonly) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteInterstitialPresenterDelegate> *delegate;
-
-- (void)load;
-- (void)show;
+- (PNLiteInterstitialPresenter *)createInterstitalPresenterFromAd:(PNLiteAd *)ad
+{
+    switch (ad.assetGroupID.integerValue) {
+        case MRAID_INTERSTITIAL: {
+            // Add MRAID Interstital Presenter here.
+            return nil;
+            break;
+        }
+        default:
+            NSLog(@"PNLiteInterstitialPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format", ad.assetGroupID);
+            return nil;
+            break;
+    }
+}
 
 @end

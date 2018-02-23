@@ -324,6 +324,8 @@
 		5AECD5A1204033240023ABBC /* PNLiteInterstitialAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD59F204033240023ABBC /* PNLiteInterstitialAdRequest.m */; };
 		5AECD5A4204034DE0023ABBC /* PNLiteInterstitialPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD5A2204034DE0023ABBC /* PNLiteInterstitialPresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AECD5A5204034DE0023ABBC /* PNLiteInterstitialPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5A3204034DE0023ABBC /* PNLiteInterstitialPresenter.m */; };
+		5AECD5A9204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD5A7204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -881,6 +883,8 @@
 		5AECD59F204033240023ABBC /* PNLiteInterstitialAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialAdRequest.m; sourceTree = "<group>"; };
 		5AECD5A2204034DE0023ABBC /* PNLiteInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialPresenter.h; sourceTree = "<group>"; };
 		5AECD5A3204034DE0023ABBC /* PNLiteInterstitialPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialPresenter.m; sourceTree = "<group>"; };
+		5AECD5A7204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialPresenterFactory.h; sourceTree = "<group>"; };
+		5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialPresenterFactory.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1794,6 +1798,8 @@
 			children = (
 				5AECD5A2204034DE0023ABBC /* PNLiteInterstitialPresenter.h */,
 				5AECD5A3204034DE0023ABBC /* PNLiteInterstitialPresenter.m */,
+				5AECD5A7204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h */,
+				5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */,
 			);
 			path = Interstitial;
 			sourceTree = "<group>";
@@ -1807,6 +1813,7 @@
 			files = (
 				5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */,
 				5ACC74EC203595250001CDC3 /* PNMRAIDParser.h in Headers */,
+				5AECD5A9204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h in Headers */,
 				5ACC74EB203595250001CDC3 /* MRAIDSettings.h in Headers */,
 				5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */,
 				5ADACD08202C617A00617734 /* PNLiteResponseModel.h in Headers */,
@@ -2211,6 +2218,7 @@
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 				5A20DBE4203B131100EF2B3C /* PNLiteBannerPresenter.m in Sources */,
+				5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */,
 				5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */,
 				5AECD5A1204033240023ABBC /* PNLiteInterstitialAdRequest.m in Sources */,
 				5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */,

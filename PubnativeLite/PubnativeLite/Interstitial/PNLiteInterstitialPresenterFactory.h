@@ -21,27 +21,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PNLiteInterstitialPresenter.h"
 #import "PNLiteAd.h"
 
-@class PNLiteInterstitialPresenter;
+@interface PNLiteInterstitialPresenterFactory : NSObject
 
-@protocol PNLiteInterstitialPresenterDelegate<NSObject>
-
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
-             didFailWithError:(NSError *)error;
-
-@end
-
-@interface PNLiteInterstitialPresenter : NSObject
-
-@property (nonatomic, readonly) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteInterstitialPresenterDelegate> *delegate;
-
-- (void)load;
-- (void)show;
+- (PNLiteInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad
+                                                     withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate;
 
 @end
