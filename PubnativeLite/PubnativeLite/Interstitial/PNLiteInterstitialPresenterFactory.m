@@ -22,6 +22,7 @@
 
 #import "PNLiteInterstitialPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
+#import "PNLiteInterstitialPresenterDecorator.h"
 
 @implementation PNLiteInterstitialPresenterFactory
 
@@ -31,8 +32,9 @@
     if (!interstitialPresenter) {
         return nil;
     }
-    // Add Interstitial Presenter Decorator.
-    return nil;
+    PNLiteInterstitialPresenterDecorator *interstitialPresenterDecorator = [[PNLiteInterstitialPresenterDecorator alloc] initWithInterstitialPresenter:interstitialPresenter withDelegate:delegate];
+    interstitialPresenter.delegate = interstitialPresenterDecorator;
+    return interstitialPresenterDecorator;
 }
 
 - (PNLiteInterstitialPresenter *)createInterstitalPresenterFromAd:(PNLiteAd *)ad
