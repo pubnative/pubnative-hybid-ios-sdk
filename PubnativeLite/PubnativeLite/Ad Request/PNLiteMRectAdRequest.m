@@ -20,11 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "PNLiteMRectAdRequest.h"
 
-@interface PNLiteMoPubUtils : NSObject
+@implementation PNLiteMRectAdRequest
 
-+ (BOOL)areExtrasValid:(NSDictionary *)extras;
-+ (NSString *)zoneID:(NSDictionary *)extras;
+- (NSString *)adSize
+{
+    return @"m";
+}
 
 @end

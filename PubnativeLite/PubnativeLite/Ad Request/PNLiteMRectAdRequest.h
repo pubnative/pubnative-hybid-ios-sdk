@@ -20,11 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "PNLiteAdRequest.h"
 
-@interface PNLiteMoPubUtils : NSObject
-
-+ (BOOL)areExtrasValid:(NSDictionary *)extras;
-+ (NSString *)zoneID:(NSDictionary *)extras;
+@interface PNLiteMRectAdRequest : PNLiteAdRequest
 
 @end

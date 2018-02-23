@@ -25,7 +25,7 @@
 @interface PNLiteBannerPresenterDecorator ()
 
 @property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
-@property (nonatomic, weak) NSObject<PNLiteBannerPresenterDelegate> *bannerPresenterDelegate;
+@property (nonatomic, strong) NSObject<PNLiteBannerPresenterDelegate> *bannerPresenterDelegate;
 // TO-DO: Add Ad Tracker Delegate property
 
 @end
@@ -35,6 +35,12 @@
 - (void)dealloc
 {
     self.bannerPresenter = nil;
+    self.bannerPresenterDelegate = nil;
+}
+
+- (void)load
+{
+    [self.bannerPresenter load];
 }
 
 - (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
