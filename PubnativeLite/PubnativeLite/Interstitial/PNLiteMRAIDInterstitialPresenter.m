@@ -20,16 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRAIDMRectPresenter.h"
+#import "PNLiteMRAIDInterstitialPresenter.h"
 #import "PNMRAIDView.h"
 #import "PNMRAIDServiceDelegate.h"
 #import "PNMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-CGFloat const kPNLiteMRAIDMRectWidth = 300.0f;
-CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
-
-@interface PNLiteMRAIDMRectPresenter () <PNMRAIDViewDelegate, PNMRAIDServiceDelegate>
+@interface PNLiteMRAIDInterstitialPresenter() <PNMRAIDViewDelegate, PNMRAIDServiceDelegate>
 
 @property (nonatomic, strong) PNMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNMRAIDView *mraidView;
@@ -37,7 +34,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 
 @end
 
-@implementation PNLiteMRAIDMRectPresenter
+@implementation PNLiteMRAIDInterstitialPresenter
 
 - (void)dealloc
 {
@@ -62,44 +59,49 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 - (void)load
 {
     self.serviceProvider = [[PNMRAIDServiceProvider alloc] init];
-    self.mraidView = [[PNMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDMRectWidth, kPNLiteMRAIDMRectHeight)
+    self.mraidView = [[PNMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
                                            withHtmlData:self.adModel.htmlData
                                             withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                       supportedFeatures:@[MRAIDSupportsSMS, MRAIDSupportsTel, MRAIDSupportsCalendar, MRAIDSupportsStorePicture, MRAIDSupportsInlineVideo]
-                                          isInterstital:NO
+                                          isInterstital:YES
                                                delegate:self
                                         serviceDelegate:self
                                      rootViewController:[UIApplication sharedApplication].topViewController];
+
 }
 
+- (void)show
+{
+    [self.mraidView showAsInterstitial];
+}
 #pragma mark PNMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(PNMRAIDView *)mraidView
 {
-    [self.delegate mRectPresenter:self didLoadWithMRect:mraidView];
+    [self.delegate interstitialPresenterDidLoad:self];
 }
 
 - (void)mraidViewAdFailed:(PNMRAIDView *)mraidView
 {
-    NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDMRectPresenter - MRAID View  Failed" code:0 userInfo:nil];
-    [self.delegate mRectPresenter:self didFailWithError:error];
+    NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDInterstitialPresenter - MRAID View  Failed" code:0 userInfo:nil];
+    [self.delegate interstitialPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(PNMRAIDView *)mraidView
 {
     NSLog(@"PNMRAIDViewDelegate - MRAID will expand!");
-    [self.delegate mRectPresenterDidClick:self];
+    [self.delegate interstitialPresenterDidShow:self];
 }
 
 - (void)mraidViewDidClose:(PNMRAIDView *)mraidView
 {
     NSLog(@"PNMRAIDViewDelegate - MRAID did close!");
+    [self.delegate interstitialPresenterDidDismiss:self];
 }
 
 - (void)mraidViewNavigate:(PNMRAIDView *)mraidView withURL:(NSURL *)url
 {
     NSLog(@"PNMRAIDViewDelegate - MRAID navigate with URL:%@",url);
-    [self.serviceProvider openBrowser:url.absoluteString];
 }
 
 - (BOOL)mraidViewShouldResize:(PNMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
@@ -126,7 +128,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
 {
-    [self.delegate mRectPresenterDidClick:self];
+    [self.delegate interstitialPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 
@@ -139,5 +141,4 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 {
     [self.serviceProvider storePicture:urlString];
 }
-
 @end

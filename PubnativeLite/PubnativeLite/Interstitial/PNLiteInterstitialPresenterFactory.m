@@ -23,10 +23,12 @@
 #import "PNLiteInterstitialPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteInterstitialPresenterDecorator.h"
+#import "PNLiteMRAIDInterstitialPresenter.h"
 
 @implementation PNLiteInterstitialPresenterFactory
 
-- (PNLiteInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
+- (PNLiteInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad
+                                                     withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
 {
     PNLiteInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad];
     if (!interstitialPresenter) {
@@ -41,8 +43,8 @@
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_INTERSTITIAL: {
-            // Add MRAID Interstital Presenter here.
-            return nil;
+            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad];
+            return mraidInterstitalPresenter;
             break;
         }
         default:

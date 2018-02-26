@@ -85,9 +85,6 @@ typedef enum {
     BOOL bonafideTapObserved;
 }
 
-// "hidden" method for interstitial support
-- (void)showAsInterstitial;
-
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 
 - (void)addCloseEventRegion;

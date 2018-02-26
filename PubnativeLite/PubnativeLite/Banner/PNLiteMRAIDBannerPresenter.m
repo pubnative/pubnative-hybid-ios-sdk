@@ -126,6 +126,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
 {
+    [self.delegate bannerPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 
