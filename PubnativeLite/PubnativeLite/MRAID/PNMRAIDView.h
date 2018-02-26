@@ -60,5 +60,6 @@
  rootViewController:(UIViewController *)rootViewController;
 
 - (void)cancel;
+- (void)showAsInterstitial;
 
 @end
