@@ -289,6 +289,7 @@
 		5AA8E58F202DB35900C9EABC /* PNLiteAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */; };
 		5ABE0137203F027400E6A14E /* PNLiteMRectAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ABE0135203F027400E6A14E /* PNLiteMRectAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ABE0138203F027400E6A14E /* PNLiteMRectAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE0136203F027400E6A14E /* PNLiteMRectAdRequest.m */; };
+		5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */; };
 		5ACC74E5203595250001CDC3 /* PNMRAIDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74D7203595220001CDC3 /* PNMRAIDParser.m */; };
 		5ACC74E6203595250001CDC3 /* PNMRAIDModalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74D8203595230001CDC3 /* PNMRAIDModalViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ACC74E7203595250001CDC3 /* mraidjs.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74D9203595230001CDC3 /* mraidjs.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -849,6 +850,8 @@
 		5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdCache.m; sourceTree = "<group>"; };
 		5ABE0135203F027400E6A14E /* PNLiteMRectAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRectAdRequest.h; sourceTree = "<group>"; };
 		5ABE0136203F027400E6A14E /* PNLiteMRectAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectAdRequest.m; sourceTree = "<group>"; };
+		5AC523F520456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5ACC74D7203595220001CDC3 /* PNMRAIDParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMRAIDParser.m; sourceTree = "<group>"; };
 		5ACC74D8203595230001CDC3 /* PNMRAIDModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDModalViewController.h; sourceTree = "<group>"; };
 		5ACC74D9203595230001CDC3 /* mraidjs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mraidjs.h; sourceTree = "<group>"; };
@@ -1797,6 +1800,8 @@
 				5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */,
 				5AE31CA0203EE122005F140A /* PNLiteMoPubMRectCustomEvent.h */,
 				5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */,
+				5AC523F520456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.h */,
+				5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */,
 			);
 			path = MoPubAdapter;
 			sourceTree = "<group>";
@@ -2169,6 +2174,7 @@
 				5A89037B203DE19600D86051 /* UIWebView+MPAdditions.m in Sources */,
 				5A890332203DE19600D86051 /* MPInterstitialViewController.m in Sources */,
 				5A89037E203DE19600D86051 /* MPVASTMediaFile.m in Sources */,
+				5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */,
 				5A89034F203DE19600D86051 /* MPRealTimeTimer.m in Sources */,
 				5A890311203DE19600D86051 /* MPViewabilityAdapterMoat.m in Sources */,
 				5A8903AC203DE19600D86051 /* MPNativeAdRendererConfiguration.m in Sources */,
