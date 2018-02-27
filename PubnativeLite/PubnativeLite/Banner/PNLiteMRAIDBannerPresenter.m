@@ -100,6 +100,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 {
     NSLog(@"PNMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
+    [self.delegate bannerPresenterDidClick:self];
 }
 
 - (BOOL)mraidViewShouldResize:(PNMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
@@ -126,6 +127,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
 {
+    [self.delegate bannerPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 

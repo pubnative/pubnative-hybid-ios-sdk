@@ -320,6 +320,16 @@
 		5AE31C98203EC6AF005F140A /* PNLiteMoPubUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */; };
 		5AE31C9F203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */; };
 		5AE31CA2203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */; };
+		5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5AE7395620441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE7395420441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m */; };
+		5AECD5A0204033240023ABBC /* PNLiteInterstitialAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD59E204033240023ABBC /* PNLiteInterstitialAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5AECD5A1204033240023ABBC /* PNLiteInterstitialAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD59F204033240023ABBC /* PNLiteInterstitialAdRequest.m */; };
+		5AECD5A4204034DE0023ABBC /* PNLiteInterstitialPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD5A2204034DE0023ABBC /* PNLiteInterstitialPresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5AECD5A5204034DE0023ABBC /* PNLiteInterstitialPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5A3204034DE0023ABBC /* PNLiteInterstitialPresenter.m */; };
+		5AECD5A9204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD5A7204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */; };
+		5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD5AB20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5AECD5AE20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5AC20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -873,6 +883,16 @@
 		5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubBannerCustomEvent.m; sourceTree = "<group>"; };
 		5AE31CA0203EE122005F140A /* PNLiteMoPubMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMRectCustomEvent.h; sourceTree = "<group>"; };
 		5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMRectCustomEvent.m; sourceTree = "<group>"; };
+		5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDInterstitialPresenter.h; sourceTree = "<group>"; };
+		5AE7395420441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDInterstitialPresenter.m; sourceTree = "<group>"; };
+		5AECD59E204033240023ABBC /* PNLiteInterstitialAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialAdRequest.h; sourceTree = "<group>"; };
+		5AECD59F204033240023ABBC /* PNLiteInterstitialAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialAdRequest.m; sourceTree = "<group>"; };
+		5AECD5A2204034DE0023ABBC /* PNLiteInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialPresenter.h; sourceTree = "<group>"; };
+		5AECD5A3204034DE0023ABBC /* PNLiteInterstitialPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialPresenter.m; sourceTree = "<group>"; };
+		5AECD5A7204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialPresenterFactory.h; sourceTree = "<group>"; };
+		5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialPresenterFactory.m; sourceTree = "<group>"; };
+		5AECD5AB20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialPresenterDecorator.h; sourceTree = "<group>"; };
+		5AECD5AC20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialPresenterDecorator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1082,6 +1102,7 @@
 				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
+				5AECD5A6204034F20023ABBC /* Interstitial */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
 				5A3657D7203C538A004B4347 /* Categories */,
 				5A064992203DBECC00CDF925 /* Utils */,
@@ -1709,6 +1730,8 @@
 				5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */,
 				5ABE0135203F027400E6A14E /* PNLiteMRectAdRequest.h */,
 				5ABE0136203F027400E6A14E /* PNLiteMRectAdRequest.m */,
+				5AECD59E204033240023ABBC /* PNLiteInterstitialAdRequest.h */,
+				5AECD59F204033240023ABBC /* PNLiteInterstitialAdRequest.m */,
 			);
 			path = "Ad Request";
 			sourceTree = "<group>";
@@ -1778,6 +1801,21 @@
 			path = MoPubAdapter;
 			sourceTree = "<group>";
 		};
+		5AECD5A6204034F20023ABBC /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				5AECD5A2204034DE0023ABBC /* PNLiteInterstitialPresenter.h */,
+				5AECD5A3204034DE0023ABBC /* PNLiteInterstitialPresenter.m */,
+				5AECD5A7204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h */,
+				5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */,
+				5AECD5AB20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h */,
+				5AECD5AC20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m */,
+				5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */,
+				5AE7395420441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1787,6 +1825,7 @@
 			files = (
 				5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */,
 				5ACC74EC203595250001CDC3 /* PNMRAIDParser.h in Headers */,
+				5AECD5A9204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h in Headers */,
 				5ACC74EB203595250001CDC3 /* MRAIDSettings.h in Headers */,
 				5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */,
 				5ADACD08202C617A00617734 /* PNLiteResponseModel.h in Headers */,
@@ -1799,6 +1838,7 @@
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
 				5A54024F202B07C4005D80E6 /* PNLiteRequestParameter.h in Headers */,
 				5ACC74EA203595250001CDC3 /* PNMRAIDServiceDelegate.h in Headers */,
+				5AECD5A4204034DE0023ABBC /* PNLiteInterstitialPresenter.h in Headers */,
 				5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */,
 				5ACC74E9203595250001CDC3 /* PNMRAIDUtil.h in Headers */,
 				5ADACD0F202C848000617734 /* PNLiteAdModel.h in Headers */,
@@ -1818,14 +1858,17 @@
 				5A52BFDB2034576D00C4B7C5 /* ForwardButton.h in Headers */,
 				5A52BFEA203458D000C4B7C5 /* PNBrowserControlsView.h in Headers */,
 				5ADACD14202C919700617734 /* PNLiteAd.h in Headers */,
+				5AECD5A0204033240023ABBC /* PNLiteInterstitialAdRequest.h in Headers */,
 				5A449B4B203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h in Headers */,
 				5AA8E58E202DB35900C9EABC /* PNLiteAdCache.h in Headers */,
 				5A449B47203D778B00CEB630 /* PNLiteMRectPresenter.h in Headers */,
+				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
 				5A52BFE9203458D000C4B7C5 /* PNMRAIDServiceProvider.h in Headers */,
 				5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */,
 				5A52BFE8203458D000C4B7C5 /* PNBrowser.h in Headers */,
 				5ACC74E7203595250001CDC3 /* mraidjs.h in Headers */,
 				5ABE0137203F027400E6A14E /* PNLiteMRectAdRequest.h in Headers */,
+				5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */,
 				5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */,
 				5ADACD1B202CB88A00617734 /* PNLiteData.h in Headers */,
 				5ACC74E6203595250001CDC3 /* PNMRAIDModalViewController.h in Headers */,
@@ -2182,13 +2225,18 @@
 				5AA8E58F202DB35900C9EABC /* PNLiteAdCache.m in Sources */,
 				5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */,
 				5A52BFEB203458D000C4B7C5 /* PNMRAIDServiceProvider.m in Sources */,
+				5AE7395620441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m in Sources */,
+				5AECD5AE20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m in Sources */,
 				5ACC74E8203595250001CDC3 /* MRAIDSettings.m in Sources */,
 				5ADACD10202C848000617734 /* PNLiteAdModel.m in Sources */,
+				5AECD5A5204034DE0023ABBC /* PNLiteInterstitialPresenter.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNMRAIDUtil.m in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 				5A20DBE4203B131100EF2B3C /* PNLiteBannerPresenter.m in Sources */,
+				5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */,
 				5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */,
+				5AECD5A1204033240023ABBC /* PNLiteInterstitialAdRequest.m in Sources */,
 				5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
