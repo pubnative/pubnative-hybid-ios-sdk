@@ -761,8 +761,8 @@ typedef enum {
     
     if (!useCustomClose) {
         // get button image from header file
-        NSData* buttonData = [NSData dataWithBytesNoCopy:__MRAID_CloseButton_png
-                                                  length:__MRAID_CloseButton_png_len
+        NSData* buttonData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_CloseButton_png
+                                                  length:__PNLite_MRAID_CloseButton_png_len
                                             freeWhenDone:NO];
         UIImage *closeButtonImage = [UIImage imageWithData:buttonData];
         [closeEventRegion setBackgroundImage:closeButtonImage forState:UIControlStateNormal];

@@ -300,7 +300,7 @@
 		5ACC74EB203595250001CDC3 /* MRAIDSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DD203595240001CDC3 /* MRAIDSettings.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ACC74EC203595250001CDC3 /* PNMRAIDParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DE203595240001CDC3 /* PNMRAIDParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ACC74ED203595250001CDC3 /* PNMRAIDView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74DF203595240001CDC3 /* PNMRAIDView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5ACC74EE203595250001CDC3 /* CloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACC74E0203595240001CDC3 /* CloseButton.png */; };
+		5ACC74EE203595250001CDC3 /* PNLiteCloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACC74E0203595240001CDC3 /* PNLiteCloseButton.png */; };
 		5ACC74EF203595250001CDC3 /* PNMRAIDModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E1203595240001CDC3 /* PNMRAIDModalViewController.m */; };
 		5ACC74F0203595250001CDC3 /* CloseButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74E2203595240001CDC3 /* CloseButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ACC74F1203595250001CDC3 /* PNMRAIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E3203595250001CDC3 /* PNMRAIDUtil.m */; };
@@ -864,7 +864,7 @@
 		5ACC74DD203595240001CDC3 /* MRAIDSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRAIDSettings.h; sourceTree = "<group>"; };
 		5ACC74DE203595240001CDC3 /* PNMRAIDParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDParser.h; sourceTree = "<group>"; };
 		5ACC74DF203595240001CDC3 /* PNMRAIDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDView.h; sourceTree = "<group>"; };
-		5ACC74E0203595240001CDC3 /* CloseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseButton.png; sourceTree = "<group>"; };
+		5ACC74E0203595240001CDC3 /* PNLiteCloseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PNLiteCloseButton.png; sourceTree = "<group>"; };
 		5ACC74E1203595240001CDC3 /* PNMRAIDModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMRAIDModalViewController.m; sourceTree = "<group>"; };
 		5ACC74E2203595240001CDC3 /* CloseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloseButton.h; sourceTree = "<group>"; };
 		5ACC74E3203595250001CDC3 /* PNMRAIDUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMRAIDUtil.m; sourceTree = "<group>"; };
@@ -980,7 +980,7 @@
 				5A52BFED20346B1A00C4B7C5 /* Helpers */,
 				5A2633582034AB960005EA39 /* Properties */,
 				5ACC74E2203595240001CDC3 /* CloseButton.h */,
-				5ACC74E0203595240001CDC3 /* CloseButton.png */,
+				5ACC74E0203595240001CDC3 /* PNLiteCloseButton.png */,
 				5ACC74D9203595230001CDC3 /* mraidjs.h */,
 				5ACC74DD203595240001CDC3 /* MRAIDSettings.h */,
 				5ACC74DA203595230001CDC3 /* MRAIDSettings.m */,
@@ -2005,7 +2005,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5ACC74EE203595250001CDC3 /* CloseButton.png in Resources */,
+				5ACC74EE203595250001CDC3 /* PNLiteCloseButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
