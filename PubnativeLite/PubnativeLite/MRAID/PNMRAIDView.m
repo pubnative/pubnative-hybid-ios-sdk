@@ -25,7 +25,7 @@
 #import "PNLiteMRAIDResizeProperties.h"
 #import "PNMRAIDParser.h"
 #import "PNMRAIDModalViewController.h"
-#import "PNMRAIDServiceDelegate.h"
+#import "PNLiteMRAIDServiceDelegate.h"
 #import "PNMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
 
@@ -145,7 +145,7 @@ typedef enum {
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
            delegate:(id<PNMRAIDViewDelegate>)delegate
-    serviceDelegate:(id<PNMRAIDServiceDelegate>)serviceDelegate
+    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
 {
     return [self initWithFrame:frame
@@ -165,7 +165,7 @@ typedef enum {
      asInterstitial:(BOOL)isInter
   supportedFeatures:(NSArray *)currentFeatures
            delegate:(id<PNMRAIDViewDelegate>)delegate
-   serviceDelegate:(id<PNMRAIDServiceDelegate>)serviceDelegate
+   serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
 {
     self = [super initWithFrame:frame];
@@ -186,11 +186,11 @@ typedef enum {
         mraidParser = [[PNMRAIDParser alloc] init];
         
         mraidFeatures = @[
-                          MRAIDSupportsSMS,
-                          MRAIDSupportsTel,
-                          MRAIDSupportsCalendar,
-                          MRAIDSupportsStorePicture,
-                          MRAIDSupportsInlineVideo,
+                          PNLiteMRAIDSupportsSMS,
+                          PNLiteMRAIDSupportsTel,
+                          PNLiteMRAIDSupportsCalendar,
+                          PNLiteMRAIDSupportsStorePicture,
+                          PNLiteMRAIDSupportsInlineVideo,
                           ];
         
         if([self isValidFeatureSet:currentFeatures] && serviceDelegate){
@@ -304,11 +304,11 @@ typedef enum {
 - (BOOL)isValidFeatureSet:(NSArray *)features
 {
     NSArray *kFeatures = @[
-                           MRAIDSupportsSMS,
-                           MRAIDSupportsTel,
-                           MRAIDSupportsCalendar,
-                           MRAIDSupportsStorePicture,
-                           MRAIDSupportsInlineVideo,
+                           PNLiteMRAIDSupportsSMS,
+                           PNLiteMRAIDSupportsTel,
+                           PNLiteMRAIDSupportsCalendar,
+                           PNLiteMRAIDSupportsStorePicture,
+                           PNLiteMRAIDSupportsInlineVideo,
                            ];
     
     // Validate the features set by the user
@@ -493,7 +493,7 @@ typedef enum {
     eventJSON=[eventJSON stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), eventJSON]];
     
-    if ([supportedFeatures containsObject:MRAIDSupportsCalendar]) {
+    if ([supportedFeatures containsObject:PNLiteMRAIDSupportsCalendar]) {
         if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceCreateCalendarEventWithEventJSON:)]) {
             [self.serviceDelegate mraidServiceCreateCalendarEventWithEventJSON:eventJSON];
         }
@@ -733,12 +733,12 @@ typedef enum {
     urlString=[urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
-    if ([supportedFeatures containsObject:MRAIDSupportsStorePicture]) {
+    if ([supportedFeatures containsObject:PNLiteMRAIDSupportsStorePicture]) {
         if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceStorePictureWithUrlString:)]) {
             [self.serviceDelegate mraidServiceStorePictureWithUrlString:urlString];
         }
     } else {
-        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"No MRAIDSupportsStorePicture feature has been included"]];
+        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"No PNLiteMRAIDSupportsStorePicture feature has been included"]];
     }
 }
 
@@ -1108,7 +1108,7 @@ typedef enum {
     UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     wv.autoresizesSubviews = YES;
     
-    if ([supportedFeatures containsObject:MRAIDSupportsInlineVideo]) {
+    if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
         wv.allowsInlineMediaPlayback = YES;
         wv.mediaPlaybackRequiresUserAction = NO;
     } else {

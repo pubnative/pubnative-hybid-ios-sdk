@@ -20,17 +20,17 @@
 //  THE SOFTWARE.
 //
 
-static NSString* MRAIDSupportsSMS = @"sms";
-static NSString* MRAIDSupportsTel = @"tel";
-static NSString* MRAIDSupportsCalendar = @"calendar";
-static NSString* MRAIDSupportsStorePicture = @"storePicture";
-static NSString* MRAIDSupportsInlineVideo = @"inlineVideo";
+static NSString* PNLiteMRAIDSupportsSMS = @"sms";
+static NSString* PNLiteMRAIDSupportsTel = @"tel";
+static NSString* PNLiteMRAIDSupportsCalendar = @"calendar";
+static NSString* PNLiteMRAIDSupportsStorePicture = @"storePicture";
+static NSString* PNLiteMRAIDSupportsInlineVideo = @"inlineVideo";
 
 // A delegate for MRAIDView/MRAIDInterstitial to listen for notifications when the following events
 // are triggered from a creative: SMS, Telephone call, Calendar entry, Play Video (external) and
 // saving pictures. If you don't implement this protocol, the default for
 // supporting these features for creative will be FALSE.
-@protocol PNMRAIDServiceDelegate <NSObject>
+@protocol PNLiteMRAIDServiceDelegate <NSObject>
 
 @optional
 

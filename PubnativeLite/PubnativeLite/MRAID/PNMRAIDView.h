@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 
 @class PNMRAIDView;
-@protocol PNMRAIDServiceDelegate;
+@protocol PNLiteMRAIDServiceDelegate;
 
 // A delegate for MRAIDView to listen for notification on ad ready or expand related events.
 @protocol PNMRAIDViewDelegate <NSObject>
@@ -45,7 +45,7 @@
 @interface PNMRAIDView : UIView
 
 @property (nonatomic, strong) id<PNMRAIDViewDelegate> delegate;
-@property (nonatomic, strong) id<PNMRAIDServiceDelegate> serviceDelegate;
+@property (nonatomic, strong) id<PNLiteMRAIDServiceDelegate> serviceDelegate;
 @property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
 @property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
 
@@ -56,7 +56,7 @@
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
            delegate:(id<PNMRAIDViewDelegate>)delegate
-   serviceDelegate:(id<PNMRAIDServiceDelegate>)serviceDelegate
+   serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController;
 
 - (void)cancel;

@@ -22,11 +22,11 @@
 
 #import "PNLiteMRAIDInterstitialPresenter.h"
 #import "PNMRAIDView.h"
-#import "PNMRAIDServiceDelegate.h"
+#import "PNLiteMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-@interface PNLiteMRAIDInterstitialPresenter() <PNMRAIDViewDelegate, PNMRAIDServiceDelegate>
+@interface PNLiteMRAIDInterstitialPresenter() <PNMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
 
 @property (nonatomic, strong) PNLiteMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNMRAIDView *mraidView;
@@ -62,7 +62,7 @@
     self.mraidView = [[PNMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
                                            withHtmlData:self.adModel.htmlData
                                             withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                      supportedFeatures:@[MRAIDSupportsSMS, MRAIDSupportsTel, MRAIDSupportsCalendar, MRAIDSupportsStorePicture, MRAIDSupportsInlineVideo]
+                                      supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
                                           isInterstital:YES
                                                delegate:self
                                         serviceDelegate:self

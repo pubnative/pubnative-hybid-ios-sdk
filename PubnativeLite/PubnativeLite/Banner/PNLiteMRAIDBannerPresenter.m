@@ -22,14 +22,14 @@
 
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "PNMRAIDView.h"
-#import "PNMRAIDServiceDelegate.h"
+#import "PNLiteMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
 CGFloat const kPNLiteMRAIDBannerWidth = 320.0f;
 CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
-@interface PNLiteMRAIDBannerPresenter () <PNMRAIDViewDelegate, PNMRAIDServiceDelegate>
+@interface PNLiteMRAIDBannerPresenter () <PNMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
 
 @property (nonatomic, strong) PNLiteMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNMRAIDView *mraidView;
@@ -65,7 +65,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
     self.mraidView = [[PNMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDBannerWidth, kPNLiteMRAIDBannerHeight)
                                            withHtmlData:self.adModel.htmlData
                                             withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                      supportedFeatures:@[MRAIDSupportsSMS, MRAIDSupportsTel, MRAIDSupportsCalendar, MRAIDSupportsStorePicture, MRAIDSupportsInlineVideo]
+                                      supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
                                           isInterstital:NO
                                                delegate:self
                                         serviceDelegate:self
