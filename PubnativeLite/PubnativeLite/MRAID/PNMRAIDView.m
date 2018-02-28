@@ -31,8 +31,8 @@
 
 #import "PNLiteLogger.h"
 
-#import "mraidjs.h"
-#import "CloseButton.h"
+#import "PNLitemraidjs.h"
+#import "PNLiteCloseButton.h"
 
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -208,8 +208,8 @@ typedef enum {
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
  
         // Get mraid.js as binary data
-        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__MRAID_mraid_js
-                                                   length:__MRAID_mraid_js_len
+        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
+                                                   length:__PNLite_MRAID_mraid_js_len
                                              freeWhenDone:NO];
         mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
         mraidJSData = nil;
