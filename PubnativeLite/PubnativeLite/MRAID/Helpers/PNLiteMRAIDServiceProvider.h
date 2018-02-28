@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PNMRAIDServiceProvider : NSObject
+@interface PNLiteMRAIDServiceProvider : NSObject
 
 - (void)openBrowser:(NSString *)urlString;
 - (void)playVideo:(NSString *)urlString;

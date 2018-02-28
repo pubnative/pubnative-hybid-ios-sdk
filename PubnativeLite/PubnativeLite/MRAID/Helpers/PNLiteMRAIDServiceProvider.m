@@ -20,11 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDServiceProvider.h"
+#import "PNLiteMRAIDServiceProvider.h"
 #import "PNLiteBrowser.h"
 #import <EventKit/EventKit.h>
 
-@implementation PNMRAIDServiceProvider
+@implementation PNLiteMRAIDServiceProvider
 
 - (void)openBrowser:(NSString *)urlString
 {

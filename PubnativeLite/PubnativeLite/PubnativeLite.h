@@ -35,7 +35,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteAdRequest.h>
 #import <PubnativeLite/PNLiteBrowser.h>
 #import <PubnativeLite/PNLiteBrowserControlsView.h>
-#import <PubnativeLite/PNMRAIDServiceProvider.h>
+#import <PubnativeLite/PNLiteMRAIDServiceProvider.h>
 #import <PubnativeLite/PNMRAIDView.h>
 #import <PubnativeLite/PNMRAIDServiceDelegate.h>
 #import <PubnativeLite/PNLiteBannerAdRequest.h>

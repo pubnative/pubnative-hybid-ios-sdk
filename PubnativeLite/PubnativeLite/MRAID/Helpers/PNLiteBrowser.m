@@ -30,7 +30,7 @@
 NSString * const kPNLiteBrowserFeatureDisableStatusBar = @"disableStatusBar";
 NSString * const kPNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
 NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
-NSString * const kPubnativeBrowserTelPrefix = @"tel://";
+NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
 @interface PNLiteBrowser () <UIWebViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
@@ -230,7 +230,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         [self.delegate pubnativeTelPopupOpen:self];
     }
     
-    telString = [telString stringByReplacingOccurrencesOfString:kPubnativeBrowserTelPrefix withString:@""];
+    telString = [telString stringByReplacingOccurrencesOfString:kPNLiteBrowserTelPrefix withString:@""];
     
     UIAlertView *telPermissionAlert = [[UIAlertView alloc] initWithTitle:telString
                                                       message:nil
@@ -259,7 +259,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         }
         
         // Parse phone number and dial
-        NSString *toCall = [kPubnativeBrowserTelPrefix stringByAppendingString:alertView.title];
+        NSString *toCall = [kPNLiteBrowserTelPrefix stringByAppendingString:alertView.title];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:toCall]];
     }
 }
