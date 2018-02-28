@@ -20,19 +20,19 @@
 //  THE SOFTWARE.
 //
 
-#import "PNBrowser.h"
+#import "PNLiteBrowser.h"
 #import "PNLogger.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 // Features
-NSString * const kPubnativeBrowserFeatureDisableStatusBar = @"disableStatusBar";
-NSString * const kPubnativeBrowserFeatureScalePagesToFit = @"scalePagesToFit";
-NSString * const kPubnativeBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
+NSString * const kPNLiteBrowserFeatureDisableStatusBar = @"disableStatusBar";
+NSString * const kPNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
+NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
 NSString * const kPubnativeBrowserTelPrefix = @"tel://";
 
-@interface PNBrowser () <UIWebViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface PNLiteBrowser () <UIWebViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
     PNBrowserControlsView *browserControlsView;
     NSURLRequest *currrentRequest;
@@ -48,12 +48,12 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
 
 @end
 
-@implementation PNBrowser
+@implementation PNLiteBrowser
 
 #pragma mark - Init & dealloc
 
 // designated initializer
-- (id)initWithDelegate:(id<PNBrowserDelegate>)delegate withFeatures:(NSArray *)p_pubnativeBrowserFeatures
+- (id)initWithDelegate:(id<PNLiteBrowserDelegate>)delegate withFeatures:(NSArray *)p_pubnativeBrowserFeatures
 {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
@@ -64,13 +64,13 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         {
             for (NSString *feature in p_pubnativeBrowserFeatures)
             {
-                if ([feature isEqualToString:kPubnativeBrowserFeatureDisableStatusBar]) {
+                if ([feature isEqualToString:kPNLiteBrowserFeatureDisableStatusBar]) {
                     disableStatusBar = YES;
                 }
-                else if ([feature isEqualToString:kPubnativeBrowserFeatureSupportInlineMediaPlayback]) {
+                else if ([feature isEqualToString:kPNLiteBrowserFeatureSupportInlineMediaPlayback]) {
                     supportInlineMediaPlayback = YES;
                 }
-                else if ([feature isEqualToString:kPubnativeBrowserFeatureScalePagesToFit]) {
+                else if ([feature isEqualToString:kPNLiteBrowserFeatureScalePagesToFit]) {
                     scalePagesToFit = YES;
                 }
                 
