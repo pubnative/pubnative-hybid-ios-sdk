@@ -72,7 +72,7 @@
     }
 }
 
-- (void)invokeFailWithMessage:(NSString*)message
+- (void)invokeFailWithMessage:(NSString *)message
 {
     MPLogError(message);
     [self.delegate bannerCustomEvent:self

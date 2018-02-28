@@ -22,7 +22,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PNLiteDemoMoPubBannerViewController : UIViewController
+@interface PNLiteDemoMoPubInterstitialViewController : UIViewController
 
 @end
-
