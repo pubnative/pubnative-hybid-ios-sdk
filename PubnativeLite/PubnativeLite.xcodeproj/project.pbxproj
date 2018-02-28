@@ -45,8 +45,8 @@
 		5A449B54203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */; };
 		5A52BFDB2034576D00C4B7C5 /* PNLiteForwardButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFD92034576D00C4B7C5 /* PNLiteForwardButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A52BFDC2034576D00C4B7C5 /* PNLiteBackButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDA2034576D00C4B7C5 /* PNLiteBackButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5A52BFDF2034580A00C4B7C5 /* PNLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDD2034580900C4B7C5 /* PNLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5A52BFE02034580A00C4B7C5 /* PNLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A52BFDE2034580A00C4B7C5 /* PNLogger.m */; };
+		5A52BFDF2034580A00C4B7C5 /* PNLiteLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDD2034580900C4B7C5 /* PNLiteLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A52BFE02034580A00C4B7C5 /* PNLiteLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A52BFDE2034580A00C4B7C5 /* PNLiteLogger.m */; };
 		5A52BFE7203458D000C4B7C5 /* PNLiteBrowserControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A52BFE1203458CF00C4B7C5 /* PNLiteBrowserControlsView.m */; };
 		5A52BFE8203458D000C4B7C5 /* PNLiteBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFE2203458CF00C4B7C5 /* PNLiteBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A52BFE9203458D000C4B7C5 /* PNMRAIDServiceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFE3203458CF00C4B7C5 /* PNMRAIDServiceProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -399,8 +399,8 @@
 		5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDMRectPresenter.m; sourceTree = "<group>"; };
 		5A52BFD92034576D00C4B7C5 /* PNLiteForwardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteForwardButton.h; sourceTree = "<group>"; };
 		5A52BFDA2034576D00C4B7C5 /* PNLiteBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteBackButton.h; sourceTree = "<group>"; };
-		5A52BFDD2034580900C4B7C5 /* PNLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLogger.h; sourceTree = "<group>"; };
-		5A52BFDE2034580A00C4B7C5 /* PNLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLogger.m; sourceTree = "<group>"; };
+		5A52BFDD2034580900C4B7C5 /* PNLiteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteLogger.h; sourceTree = "<group>"; };
+		5A52BFDE2034580A00C4B7C5 /* PNLiteLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteLogger.m; sourceTree = "<group>"; };
 		5A52BFE1203458CF00C4B7C5 /* PNLiteBrowserControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteBrowserControlsView.m; sourceTree = "<group>"; };
 		5A52BFE2203458CF00C4B7C5 /* PNLiteBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteBrowser.h; sourceTree = "<group>"; };
 		5A52BFE3203458CF00C4B7C5 /* PNMRAIDServiceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMRAIDServiceProvider.h; sourceTree = "<group>"; };
@@ -1065,8 +1065,8 @@
 				5A52BFE6203458D000C4B7C5 /* PNLiteBrowser.m */,
 				5A52BFE4203458CF00C4B7C5 /* PNLiteBrowserControlsView.h */,
 				5A52BFE1203458CF00C4B7C5 /* PNLiteBrowserControlsView.m */,
-				5A52BFDD2034580900C4B7C5 /* PNLogger.h */,
-				5A52BFDE2034580A00C4B7C5 /* PNLogger.m */,
+				5A52BFDD2034580900C4B7C5 /* PNLiteLogger.h */,
+				5A52BFDE2034580A00C4B7C5 /* PNLiteLogger.m */,
 				5A52BFE3203458CF00C4B7C5 /* PNMRAIDServiceProvider.h */,
 				5A52BFE5203458D000C4B7C5 /* PNMRAIDServiceProvider.m */,
 			);
@@ -1884,7 +1884,7 @@
 				5ACC74E6203595250001CDC3 /* PNMRAIDModalViewController.h in Headers */,
 				5A2633542034AB480005EA39 /* PNMRAIDOrientationProperties.h in Headers */,
 				5AA3D5ED2031B903002BFDA3 /* PNLiteAdRequest.h in Headers */,
-				5A52BFDF2034580A00C4B7C5 /* PNLogger.h in Headers */,
+				5A52BFDF2034580A00C4B7C5 /* PNLiteLogger.h in Headers */,
 				5A20DBDB203B081400EF2B3C /* PNLiteBannerAdRequest.h in Headers */,
 				5A52BFDC2034576D00C4B7C5 /* PNLiteBackButton.h in Headers */,
 			);
@@ -2204,7 +2204,7 @@
 				5A540252202B0C04005D80E6 /* PNLiteTargetingModel.m in Sources */,
 				5ADACD0B202C6AC400617734 /* PNLiteDataModel.m in Sources */,
 				5A20DBDC203B081400EF2B3C /* PNLiteBannerAdRequest.m in Sources */,
-				5A52BFE02034580A00C4B7C5 /* PNLogger.m in Sources */,
+				5A52BFE02034580A00C4B7C5 /* PNLiteLogger.m in Sources */,
 				5AA3D5EE2031B903002BFDA3 /* PNLiteAdRequest.m in Sources */,
 				5A54024B202B058A005D80E6 /* PNLiteCryptoUtils.m in Sources */,
 				5ACC74EF203595250001CDC3 /* PNMRAIDModalViewController.m in Sources */,

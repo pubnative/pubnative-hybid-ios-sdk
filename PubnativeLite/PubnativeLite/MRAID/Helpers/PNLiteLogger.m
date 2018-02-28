@@ -20,14 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLogger.h"
+#import "PNLiteLogger.h"
 
-// Default setting is PubnativeLogLevelNone.
-static PubnativeLogLevel logLevel;
+// Default setting is PNLiteLogLevelNone.
+static PNLiteLogLevel logLevel;
 
-@implementation PNLogger
+@implementation PNLiteLogger
 
-+ (void)setLogLevel:(PubnativeLogLevel)level
++ (void)setLogLevel:(PNLiteLogLevel)level
 {
     NSArray *levelNames = @[
                             @"none",
@@ -44,28 +44,28 @@ static PubnativeLogLevel logLevel;
 
 + (void)error:(NSString *)tag withMessage:(NSString *)message
 {
-    if (logLevel >= PubnativeLogLevelError) {
+    if (logLevel >= PNLiteLogLevelError) {
         NSLog(@"%@: (E) %@", tag, message);
     }
 }
 
 + (void)warning:(NSString *)tag withMessage:(NSString *)message
 {
-    if (logLevel >= PubnativeLogLevelWarning) {
+    if (logLevel >= PNLiteLogLevelWarning) {
         NSLog(@"%@: (W) %@", tag, message);
     }
 }
 
 + (void)info:(NSString *)tag withMessage:(NSString *)message
 {
-    if (logLevel >= PubnativeLogLevelInfo) {
+    if (logLevel >= PNLiteLogLevelInfo) {
         NSLog(@"%@: (I) %@", tag, message);
     }
 }
 
 + (void)debug:(NSString *)tag withMessage:(NSString *)message
 {
-    if (logLevel >= PubnativeLogLevelDebug) {
+    if (logLevel >= PNLiteLogLevelDebug) {
         NSLog(@"%@: (D) %@", tag, message);
     }
 }

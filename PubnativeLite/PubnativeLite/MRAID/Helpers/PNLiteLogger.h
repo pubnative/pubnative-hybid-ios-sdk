@@ -23,20 +23,20 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    PubnativeLogLevelNone,
-    PubnativeLogLevelError,
-    PubnativeLogLevelWarning,
-    PubnativeLogLevelInfo,
-    PubnativeLogLevelDebug,
-} PubnativeLogLevel;
+    PNLiteLogLevelNone,
+    PNLiteLogLevelError,
+    PNLiteLogLevelWarning,
+    PNLiteLogLevelInfo,
+    PNLiteLogLevelDebug,
+} PNLiteLogLevel;
 
 // A simple logger enable you to see different levels of logging.
 // Use logLevel as a filter to see the messages for the specific level.
 //
-@interface PNLogger : NSObject
+@interface PNLiteLogger : NSObject
 
 // Method to filter logging with the level passed as the paramter
-+ (void)setLogLevel:(PubnativeLogLevel)logLevel;
++ (void)setLogLevel:(PNLiteLogLevel)logLevel;
 
 + (void)error:(NSString *)tag withMessage:(NSString *)message;
 + (void)warning:(NSString *)tag withMessage:(NSString *)message;

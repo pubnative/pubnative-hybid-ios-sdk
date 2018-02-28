@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteBrowser.h"
-#import "PNLogger.h"
+#import "PNLiteLogger.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -74,7 +74,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
                     scalePagesToFit = YES;
                 }
                 
-                [PNLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"Requesting PubnativeBrowser feature: %@", feature]];
+                [PNLiteLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"Requesting PubnativeBrowser feature: %@", feature]];
             }
         }
     }
@@ -209,7 +209,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         }
     } else {
         currrentRequest = request;
-        [PNLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"presenting browser from viewController: %@", currentViewController]];
+        [PNLiteLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"presenting browser from viewController: %@", currentViewController]];
         
         if ([currentViewController respondsToSelector:@selector(presentViewController:animated:completion:)]) {
             // used if running >= iOS 6
@@ -332,7 +332,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
 
 - (void)dismiss
 {
-    [PNLogger debug:@"PNBrowser" withMessage:@"Dismissing PubnativeBrowser"];
+    [PNLiteLogger debug:@"PNBrowser" withMessage:@"Dismissing PubnativeBrowser"];
     if ([self.delegate respondsToSelector:@selector(pubnativeBrowserClosed:)]) {
         [self.delegate pubnativeBrowserClosed:self];
     }

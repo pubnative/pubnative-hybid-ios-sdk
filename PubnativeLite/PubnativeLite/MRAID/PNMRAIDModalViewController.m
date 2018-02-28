@@ -23,7 +23,7 @@
 #import "PNMRAIDModalViewController.h"
 
 #import "PNMRAIDUtil.h"
-#import "PNLogger.h"
+#import "PNLiteLogger.h"
 #import "PNMRAIDOrientationProperties.h"
 
 @interface PNMRAIDModalViewController ()
@@ -98,7 +98,7 @@
 {
     [super viewWillAppear:animated];
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
 
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
@@ -110,7 +110,7 @@
 {
     [super viewDidAppear:animated];
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     hasViewAppeared = YES;
     
     if (hasRotated) {
@@ -167,13 +167,13 @@
         }
     }
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
     return retval;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
                             [self.class description],
                             NSStringFromSelector(_cmd),
                             [self stringfromUIInterfaceOrientation:preferredOrientation]]];
@@ -182,7 +182,7 @@
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
     }
@@ -224,7 +224,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     UIInterfaceOrientation toInterfaceOrientation = self.interfaceOrientation;
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
                       [self.class description],
                       NSStringFromSelector(_cmd),
                       [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
@@ -254,7 +254,7 @@
             break;
     }
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
                       [self.class description],
                       NSStringFromSelector(_cmd),
                       (orientationProperties.allowOrientationChange ? @"YES" : @"NO"),
@@ -326,7 +326,7 @@
         }
     }
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
                             [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
                             [self stringfromUIInterfaceOrientation:preferredOrientation]]];
     
