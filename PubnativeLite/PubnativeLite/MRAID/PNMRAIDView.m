@@ -27,7 +27,7 @@
 #import "PNMRAIDModalViewController.h"
 #import "PNMRAIDServiceDelegate.h"
 #import "PNMRAIDUtil.h"
-#import "MRAIDSettings.h"
+#import "PNLiteMRAIDSettings.h"
 
 #import "PNLiteLogger.h"
 
@@ -485,7 +485,7 @@ typedef enum {
 
 - (void)createCalendarEvent:(NSString *)eventJSON
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.createCalendarEvent() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
@@ -505,7 +505,7 @@ typedef enum {
 // Note: This method is also used to present an interstitial ad.
 - (void)expand:(NSString *)urlString
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.expand() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
@@ -599,7 +599,7 @@ typedef enum {
 
 - (void)open:(NSString *)urlString
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.open() when no UI touch event exists."];
        return;  // ignore programmatic touches (taps)
     }
@@ -615,7 +615,7 @@ typedef enum {
 
 - (void)playVideo:(NSString *)urlString
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.playVideo() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
@@ -629,7 +629,7 @@ typedef enum {
 
 - (void)sendSMS:(NSString *)urlString
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.sendSMS() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
@@ -643,7 +643,7 @@ typedef enum {
 
 - (void)callNumber:(NSString *)urlString
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.callNumber() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
@@ -657,7 +657,7 @@ typedef enum {
 
 - (void)resize
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.resize when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
@@ -725,7 +725,7 @@ typedef enum {
 
 -(void)storePicture:(NSString *)urlString
 {
-    if(!bonafideTapObserved && PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.storePicture when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
@@ -1019,11 +1019,11 @@ typedef enum {
         // In this case, state should already be MRAIDStateExpanded and should not be changed.
         // if (wv != webViewPart2) {
         
-        if (PN_ENABLE_JS_LOG) {
+        if (PNLite_ENABLE_JS_LOG) {
             [wv stringByEvaluatingJavaScriptFromString:@"var enableLog = true"];
         }
         
-        if (PN_SUPPRESS_JS_ALERT) {
+        if (PNLite_SUPPRESS_JS_ALERT) {
             [wv stringByEvaluatingJavaScriptFromString:@"function alert(){}; function prompt(){}; function confirm(){}"];
         }
         
@@ -1138,7 +1138,7 @@ typedef enum {
     [wv stringByEvaluatingJavaScriptFromString:js];
     
     // Alert suppression
-    if (PN_SUPPRESS_JS_ALERT)
+    if (PNLite_SUPPRESS_JS_ALERT)
         [wv stringByEvaluatingJavaScriptFromString:@"function alert(){}; function prompt(){}; function confirm(){}"];
 }
 
@@ -1168,7 +1168,7 @@ typedef enum {
 
 -(void)setUpTapGestureRecognizer
 {
-    if(!PN_SUPPRESS_BANNER_AUTO_REDIRECT){
+    if(!PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
         return;  // return without adding the GestureRecognizer if the feature is not enabled
     }
     // One finger, one tap

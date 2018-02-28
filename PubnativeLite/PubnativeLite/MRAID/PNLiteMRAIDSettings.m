@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "MRAIDSettings.h"
+#import "PNLiteMRAIDSettings.h"
 
-BOOL PN_ENABLE_JS_LOG                  = NO;
-BOOL PN_SUPPRESS_JS_ALERT              = YES;
-BOOL PN_SUPPRESS_BANNER_AUTO_REDIRECT  = YES;
+BOOL PNLite_ENABLE_JS_LOG                  = NO;
+BOOL PNLite_SUPPRESS_JS_ALERT              = YES;
+BOOL PNLite_SUPPRESS_BANNER_AUTO_REDIRECT  = YES;
