@@ -26,7 +26,7 @@
 #import "PNMRAIDParser.h"
 #import "PNMRAIDModalViewController.h"
 #import "PNLiteMRAIDServiceDelegate.h"
-#import "PNMRAIDUtil.h"
+#import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
 
 #import "PNLiteLogger.h"
@@ -224,11 +224,11 @@ typedef enum {
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
-                htmlData = [PNMRAIDUtil processRawHtml:html];
+                htmlData = [PNLiteMRAIDUtil processRawHtml:html];
                 [self loadHTMLData:htmlData];
             }];
         } else {
-            htmlData = [PNMRAIDUtil processRawHtml:htmlData];
+            htmlData = [PNLiteMRAIDUtil processRawHtml:htmlData];
             [self loadHTMLData:htmlData];
         }
         

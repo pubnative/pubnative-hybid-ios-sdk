@@ -22,7 +22,7 @@
 
 #import "PNMRAIDModalViewController.h"
 
-#import "PNMRAIDUtil.h"
+#import "PNLiteMRAIDUtil.h"
 #import "PNLiteLogger.h"
 #import "PNLiteMRAIDOrientationProperties.h"
 
