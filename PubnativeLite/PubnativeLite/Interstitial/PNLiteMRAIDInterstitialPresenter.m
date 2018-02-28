@@ -102,6 +102,7 @@
 - (void)mraidViewNavigate:(PNMRAIDView *)mraidView withURL:(NSURL *)url
 {
     NSLog(@"PNMRAIDViewDelegate - MRAID navigate with URL:%@",url);
+    [self.serviceProvider openBrowser:url.absoluteString];
 }
 
 - (BOOL)mraidViewShouldResize:(PNMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
