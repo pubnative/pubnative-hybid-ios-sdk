@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "PNBrowserControlsView.h"
+#import "PNLiteBrowserControlsView.h"
 #import "PNLiteBrowser.h"
 #import "PNLiteBackButton.h"
 #import "PNLiteForwardButton.h"
@@ -28,7 +28,7 @@
 static const float kControlsToobarHeight = 44.0;
 static const float kControlsLoadingIndicatorWidthHeight = 30.0;
 
-@interface PNBrowserControlsView ()
+@interface PNLiteBrowserControlsView ()
 {
     // backButton is a property
     UIBarButtonItem *flexBack;
@@ -46,7 +46,7 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
 
 @end
 
-@implementation PNBrowserControlsView
+@implementation PNLiteBrowserControlsView
 
 - (id)initWithPubnativeBrowser:(PNLiteBrowser *)p_pnBrowser
 {

@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 
 @class PNLiteBrowser;
-@protocol PubnativeBrowserControlsViewDelegate <NSObject>
+@protocol PNLiteBrowserControlsViewDelegate <NSObject>
 
 @required
 
@@ -35,7 +35,7 @@
 
 @end
 
-@interface PNBrowserControlsView : UIView
+@interface PNLiteBrowserControlsView : UIView
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *backButton;
 @property (nonatomic, retain) IBOutlet UIToolbar *controlsToolbar;
