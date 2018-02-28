@@ -20,29 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDOrientationProperties.h"
+#import "PNLiteMRAIDOrientationProperties.h"
 
-@implementation PNMRAIDOrientationProperties
+@implementation PNLiteMRAIDOrientationProperties
 
 - (id)init
 {
     self = [super init];
     if (self) {
         _allowOrientationChange = YES;
-        _forceOrientation = MRAIDForceOrientationNone;
+        _forceOrientation = PNLiteMRAIDForceOrientationNone;
     }
     return self;
 }
 
-+ (PNMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s
++ (PNLiteMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s
 {
     NSArray *names = @[ @"portrait", @"landscape", @"none" ];
     NSUInteger i = [names indexOfObject:s];
     if (i != NSNotFound) {
-        return (PNMRAIDForceOrientation)i;
+        return (PNLiteMRAIDForceOrientation)i;
     }
     // Use none for the default value
-    return MRAIDForceOrientationNone;
+    return PNLiteMRAIDForceOrientationNone;
 }
 
 @end

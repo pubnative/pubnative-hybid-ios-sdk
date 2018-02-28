@@ -21,7 +21,7 @@
 //
 
 #import "PNMRAIDView.h"
-#import "PNMRAIDOrientationProperties.h"
+#import "PNLiteMRAIDOrientationProperties.h"
 #import "PNMRAIDResizeProperties.h"
 #import "PNMRAIDParser.h"
 #import "PNMRAIDModalViewController.h"
@@ -56,7 +56,7 @@ typedef enum {
     // The width, height, and isModal properties are not used in MRAID v2.0.
     BOOL useCustomClose;
     
-    PNMRAIDOrientationProperties *orientationProperties;
+    PNLiteMRAIDOrientationProperties *orientationProperties;
     PNMRAIDResizeProperties *resizeProperties;
     
     PNMRAIDParser *mraidParser;
@@ -180,7 +180,7 @@ typedef enum {
         _isViewable = NO;
         useCustomClose = NO;
         
-        orientationProperties = [[PNMRAIDOrientationProperties alloc] init];
+        orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNMRAIDResizeProperties alloc] init];
         
         mraidParser = [[PNMRAIDParser alloc] init];
@@ -702,7 +702,7 @@ typedef enum {
     NSString *forceOrientation = [properties valueForKey:@"forceOrientation"];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@ %@", NSStringFromSelector(_cmd), (allowOrientationChange ? @"YES" : @"NO"), forceOrientation]];
     orientationProperties.allowOrientationChange = allowOrientationChange;
-    orientationProperties.forceOrientation = [PNMRAIDOrientationProperties MRAIDForceOrientationFromString:forceOrientation];
+    orientationProperties.forceOrientation = [PNLiteMRAIDOrientationProperties MRAIDForceOrientationFromString:forceOrientation];
     [modalVC forceToOrientation:orientationProperties];
 }
 

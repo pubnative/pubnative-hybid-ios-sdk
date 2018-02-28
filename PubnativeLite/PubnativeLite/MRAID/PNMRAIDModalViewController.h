@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 
 @class PNMRAIDModalViewController;
-@class PNMRAIDOrientationProperties;
+@class PNLiteMRAIDOrientationProperties;
 
 @protocol PNMRAIDModalViewControllerDelegate <NSObject>
 
@@ -35,7 +35,7 @@
 
 @property (nonatomic, unsafe_unretained) id<PNMRAIDModalViewControllerDelegate> delegate;
 
-- (id)initWithOrientationProperties:(PNMRAIDOrientationProperties *)orientationProperties;
-- (void)forceToOrientation:(PNMRAIDOrientationProperties *)orientationProperties;
+- (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProperties;
+- (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProperties;
 
 @end

@@ -23,16 +23,16 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    MRAIDForceOrientationPortrait,
-    MRAIDForceOrientationLandscape,
-    MRAIDForceOrientationNone
-} PNMRAIDForceOrientation;
+    PNLiteMRAIDForceOrientationPortrait,
+    PNLiteMRAIDForceOrientationLandscape,
+    PNLiteMRAIDForceOrientationNone
+} PNLiteMRAIDForceOrientation;
 
-@interface PNMRAIDOrientationProperties : NSObject
+@interface PNLiteMRAIDOrientationProperties : NSObject
 
 @property (nonatomic, assign) BOOL allowOrientationChange;
-@property (nonatomic, assign) PNMRAIDForceOrientation forceOrientation;
+@property (nonatomic, assign) PNLiteMRAIDForceOrientation forceOrientation;
 
-+ (PNMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s;
++ (PNLiteMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s;
 
 @end

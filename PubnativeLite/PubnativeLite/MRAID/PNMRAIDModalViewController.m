@@ -24,7 +24,7 @@
 
 #import "PNMRAIDUtil.h"
 #import "PNLiteLogger.h"
-#import "PNMRAIDOrientationProperties.h"
+#import "PNLiteMRAIDOrientationProperties.h"
 
 @interface PNMRAIDModalViewController ()
 {
@@ -32,7 +32,7 @@
     BOOL hasViewAppeared;
     BOOL hasRotated;
     
-    PNMRAIDOrientationProperties *orientationProperties;
+    PNLiteMRAIDOrientationProperties *orientationProperties;
     UIInterfaceOrientation preferredOrientation;
 }
 
@@ -47,7 +47,7 @@
     return [self initWithOrientationProperties:nil];
 }
 
-- (id)initWithOrientationProperties:(PNMRAIDOrientationProperties *)orientationProps
+- (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProps
 {
     self = [super init];
     if (self) {
@@ -56,23 +56,23 @@
         if (orientationProps) {
             orientationProperties = orientationProps;
         } else {
-            orientationProperties = [[PNMRAIDOrientationProperties alloc] init];
+            orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         }
         
         UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 
         // If the orientation is forced, accomodate it.
         // If it's not fored, then match the current orientation.
-        if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+        if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
             preferredOrientation = UIInterfaceOrientationPortrait;
-        } else  if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+        } else  if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
             if (UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) {
                 preferredOrientation = currentInterfaceOrientation;
             } else {
                 preferredOrientation = UIInterfaceOrientationLandscapeLeft;
             }
         } else {
-            // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+            // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
             preferredOrientation = currentInterfaceOrientation;
         }
     }
@@ -149,12 +149,12 @@
 
     BOOL retval = NO;
 
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         retval = (isPortraitSupported && isPortraitUpsideDownSupported);
-    } else if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+    } else if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
         retval = (isLandscapeLeftSupported && isLandscapeRightSupported);
     } else {
-        // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+        // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
         if (orientationProperties.allowOrientationChange) {
             retval = YES;
         } else {
@@ -183,15 +183,15 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
     }
     
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
         return UIInterfaceOrientationMaskLandscape;
     }
     
-    // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+    // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
     
     if (!orientationProperties.allowOrientationChange) {
         if (UIInterfaceOrientationIsPortrait(preferredOrientation)) {
@@ -236,17 +236,17 @@
     }
 }
 
-- (void)forceToOrientation:(PNMRAIDOrientationProperties *)orientationProps;
+- (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProps;
 {
     NSString *orientationString;
     switch (orientationProps.forceOrientation) {
-        case MRAIDForceOrientationPortrait:
+        case PNLiteMRAIDForceOrientationPortrait:
             orientationString = @"portrait";
             break;
-        case MRAIDForceOrientationLandscape:
+        case PNLiteMRAIDForceOrientationLandscape:
             orientationString = @"landscape";
             break;
-        case MRAIDForceOrientationNone:
+        case PNLiteMRAIDForceOrientationNone:
             orientationString = @"none";
             break;
         default:
@@ -263,14 +263,14 @@
     orientationProperties = orientationProps;
     UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         if (UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) {
             // this will accomodate both portrait and portrait upside down
             preferredOrientation = currentInterfaceOrientation;
         } else {
             preferredOrientation = UIInterfaceOrientationPortrait;
         }
-    } else if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+    } else if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
         if (UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) {
             // this will accomodate both landscape left and landscape right
             preferredOrientation = currentInterfaceOrientation;
@@ -278,7 +278,7 @@
             preferredOrientation = UIInterfaceOrientationLandscapeLeft;
         }
     } else {
-        // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+        // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
         if (orientationProperties.allowOrientationChange) {
             UIDeviceOrientation currentDeviceOrientation = [[UIDevice currentDevice] orientation];
             // NB: UIInterfaceOrientationLandscapeLeft = UIDeviceOrientationLandscapeRight
@@ -330,9 +330,9 @@
                             [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
                             [self stringfromUIInterfaceOrientation:preferredOrientation]]];
     
-    if ((orientationProperties.forceOrientation == MRAIDForceOrientationPortrait && UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) ||
-        (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape && UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) ||
-        (orientationProperties.forceOrientation == MRAIDForceOrientationNone && (preferredOrientation == currentInterfaceOrientation)))
+    if ((orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait && UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) ||
+        (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape && UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) ||
+        (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone && (preferredOrientation == currentInterfaceOrientation)))
     {
         return;
     }
