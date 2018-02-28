@@ -22,7 +22,7 @@
 
 #import "PNMRAIDView.h"
 #import "PNLiteMRAIDOrientationProperties.h"
-#import "PNMRAIDResizeProperties.h"
+#import "PNLiteMRAIDResizeProperties.h"
 #import "PNMRAIDParser.h"
 #import "PNMRAIDModalViewController.h"
 #import "PNMRAIDServiceDelegate.h"
@@ -57,7 +57,7 @@ typedef enum {
     BOOL useCustomClose;
     
     PNLiteMRAIDOrientationProperties *orientationProperties;
-    PNMRAIDResizeProperties *resizeProperties;
+    PNLiteMRAIDResizeProperties *resizeProperties;
     
     PNMRAIDParser *mraidParser;
     PNMRAIDModalViewController *modalVC;
@@ -181,7 +181,7 @@ typedef enum {
         useCustomClose = NO;
         
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
-        resizeProperties = [[PNMRAIDResizeProperties alloc] init];
+        resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
         
         mraidParser = [[PNMRAIDParser alloc] init];
         
@@ -719,7 +719,7 @@ typedef enum {
     resizeProperties.height = height;
     resizeProperties.offsetX = offsetX;
     resizeProperties.offsetY = offsetY;
-    resizeProperties.customClosePosition = [PNMRAIDResizeProperties MRAIDCustomClosePositionFromString:customClosePosition];
+    resizeProperties.customClosePosition = [PNLiteMRAIDResizeProperties MRAIDCustomClosePositionFromString:customClosePosition];
     resizeProperties.allowOffscreen = allowOffscreen;
 }
 
@@ -797,36 +797,36 @@ typedef enum {
     UIViewAutoresizing autoresizingMask = UIViewAutoresizingNone;
     
     switch (resizeProperties.customClosePosition) {
-        case MRAIDCustomClosePositionTopLeft:
-        case MRAIDCustomClosePositionBottomLeft:
+        case PNLiteMRAIDCustomClosePositionTopLeft:
+        case PNLiteMRAIDCustomClosePositionBottomLeft:
             x = 0;
             break;
-        case MRAIDCustomClosePositionTopCenter:
-        case MRAIDCustomClosePositionCenter:
-        case MRAIDCustomClosePositionBottomCenter:
+        case PNLiteMRAIDCustomClosePositionTopCenter:
+        case PNLiteMRAIDCustomClosePositionCenter:
+        case PNLiteMRAIDCustomClosePositionBottomCenter:
             x = (CGRectGetWidth(resizeView.frame) - CGRectGetWidth(resizeCloseRegion.frame)) / 2;
             autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
             break;
-        case MRAIDCustomClosePositionTopRight:
-        case MRAIDCustomClosePositionBottomRight:
+        case PNLiteMRAIDCustomClosePositionTopRight:
+        case PNLiteMRAIDCustomClosePositionBottomRight:
             x = CGRectGetWidth(resizeView.frame) - CGRectGetWidth(resizeCloseRegion.frame);
             autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
             break;
     }
     
     switch (resizeProperties.customClosePosition) {
-        case MRAIDCustomClosePositionTopLeft:
-        case MRAIDCustomClosePositionTopCenter:
-        case MRAIDCustomClosePositionTopRight:
+        case PNLiteMRAIDCustomClosePositionTopLeft:
+        case PNLiteMRAIDCustomClosePositionTopCenter:
+        case PNLiteMRAIDCustomClosePositionTopRight:
             y = 0;
             break;
-        case MRAIDCustomClosePositionCenter:
+        case PNLiteMRAIDCustomClosePositionCenter:
             y = (CGRectGetHeight(resizeView.frame) - CGRectGetHeight(resizeCloseRegion.frame)) / 2;
             autoresizingMask |= UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
             break;
-        case MRAIDCustomClosePositionBottomLeft:
-        case MRAIDCustomClosePositionBottomCenter:
-        case MRAIDCustomClosePositionBottomRight:
+        case PNLiteMRAIDCustomClosePositionBottomLeft:
+        case PNLiteMRAIDCustomClosePositionBottomCenter:
+        case PNLiteMRAIDCustomClosePositionBottomRight:
             y = CGRectGetHeight(resizeView.frame) - CGRectGetHeight(resizeCloseRegion.frame);
             autoresizingMask |= UIViewAutoresizingFlexibleTopMargin;
             break;
