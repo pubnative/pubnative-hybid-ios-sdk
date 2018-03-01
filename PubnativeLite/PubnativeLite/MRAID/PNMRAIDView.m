@@ -24,7 +24,7 @@
 #import "PNLiteMRAIDOrientationProperties.h"
 #import "PNLiteMRAIDResizeProperties.h"
 #import "PNLiteMRAIDParser.h"
-#import "PNMRAIDModalViewController.h"
+#import "PNLiteMRAIDModalViewController.h"
 #import "PNLiteMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
@@ -45,7 +45,7 @@ typedef enum {
     MRAIDStateHidden
 } MRAIDState;
 
-@interface PNMRAIDView () <UIWebViewDelegate, PNMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface PNMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate>
 {
     MRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -60,7 +60,7 @@ typedef enum {
     PNLiteMRAIDResizeProperties *resizeProperties;
     
     PNLiteMRAIDParser *mraidParser;
-    PNMRAIDModalViewController *modalVC;
+    PNLiteMRAIDModalViewController *modalVC;
     
     NSString *mraidjs;
     
@@ -518,7 +518,7 @@ typedef enum {
         return;
     }
     
-    modalVC = [[PNMRAIDModalViewController alloc] initWithOrientationProperties:orientationProperties];
+    modalVC = [[PNLiteMRAIDModalViewController alloc] initWithOrientationProperties:orientationProperties];
     CGRect frame = [[UIScreen mainScreen] bounds];
     modalVC.view.frame = frame;
     modalVC.delegate = self;
@@ -1090,7 +1090,7 @@ typedef enum {
 
 #pragma mark - MRAIDModalViewControllerDelegate
 
-- (void)mraidModalViewControllerDidRotate:(PNMRAIDModalViewController *)modalViewController
+- (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController
 {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     [self setScreenSize];

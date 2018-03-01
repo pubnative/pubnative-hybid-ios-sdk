@@ -22,18 +22,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class PNMRAIDModalViewController;
+@class PNLiteMRAIDModalViewController;
 @class PNLiteMRAIDOrientationProperties;
 
-@protocol PNMRAIDModalViewControllerDelegate <NSObject>
+@protocol PNLiteMRAIDModalViewControllerDelegate <NSObject>
 
-- (void)mraidModalViewControllerDidRotate:(PNMRAIDModalViewController *)modalViewController;
+- (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController;
 
 @end
 
-@interface PNMRAIDModalViewController : UIViewController
+@interface PNLiteMRAIDModalViewController : UIViewController
 
-@property (nonatomic, unsafe_unretained) id<PNMRAIDModalViewControllerDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<PNLiteMRAIDModalViewControllerDelegate> delegate;
 
 - (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProperties;
 - (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProperties;

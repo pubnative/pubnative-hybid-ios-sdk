@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDModalViewController.h"
+#import "PNLiteMRAIDModalViewController.h"
 
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteLogger.h"
 #import "PNLiteMRAIDOrientationProperties.h"
 
-@interface PNMRAIDModalViewController ()
+@interface PNLiteMRAIDModalViewController ()
 {
     BOOL isStatusBarHidden;
     BOOL hasViewAppeared;
@@ -40,7 +40,7 @@
 
 @end
 
-@implementation PNMRAIDModalViewController
+@implementation PNLiteMRAIDModalViewController
 
 - (id)init
 {
