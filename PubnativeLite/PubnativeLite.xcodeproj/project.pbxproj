@@ -1106,8 +1106,6 @@
 				5ABE013B203F332100E6A14E /* Ad Model */,
 				5ABE0139203F2F4600E6A14E /* Ad Request */,
 				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
-				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
-				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
 				5AECD5A6204034F20023ABBC /* Interstitial */,
@@ -1772,6 +1770,8 @@
 				5ADACD05202C617A00617734 /* PNLiteResponseModel.m */,
 				5ADACD12202C919700617734 /* PNLiteAd.h */,
 				5ADACD11202C919600617734 /* PNLiteAd.m */,
+				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
+				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
 			);
 			path = "Ad Model";
 			sourceTree = "<group>";
