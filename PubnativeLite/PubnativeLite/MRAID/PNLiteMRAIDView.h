@@ -22,29 +22,29 @@
 
 #import <UIKit/UIKit.h>
 
-@class PNMRAIDView;
+@class PNLiteMRAIDView;
 @protocol PNLiteMRAIDServiceDelegate;
 
 // A delegate for MRAIDView to listen for notification on ad ready or expand related events.
-@protocol PNMRAIDViewDelegate <NSObject>
+@protocol PNLiteMRAIDViewDelegate <NSObject>
 
 @optional
 
 // These callbacks are for basic banner ad functionality.
-- (void)mraidViewAdReady:(PNMRAIDView *)mraidView;
-- (void)mraidViewAdFailed:(PNMRAIDView *)mraidView;
-- (void)mraidViewWillExpand:(PNMRAIDView *)mraidView;
-- (void)mraidViewDidClose:(PNMRAIDView *)mraidView;
-- (void)mraidViewNavigate:(PNMRAIDView *)mraidView withURL:(NSURL *)url;
+- (void)mraidViewAdReady:(PNLiteMRAIDView *)mraidView;
+- (void)mraidViewAdFailed:(PNLiteMRAIDView *)mraidView;
+- (void)mraidViewWillExpand:(PNLiteMRAIDView *)mraidView;
+- (void)mraidViewDidClose:(PNLiteMRAIDView *)mraidView;
+- (void)mraidViewNavigate:(PNLiteMRAIDView *)mraidView withURL:(NSURL *)url;
 
 // This callback is to ask permission to resize an ad.
-- (BOOL)mraidViewShouldResize:(PNMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen;
+- (BOOL)mraidViewShouldResize:(PNLiteMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen;
 
 @end
 
-@interface PNMRAIDView : UIView
+@interface PNLiteMRAIDView : UIView
 
-@property (nonatomic, strong) id<PNMRAIDViewDelegate> delegate;
+@property (nonatomic, strong) id<PNLiteMRAIDViewDelegate> delegate;
 @property (nonatomic, strong) id<PNLiteMRAIDServiceDelegate> serviceDelegate;
 @property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
 @property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
@@ -55,7 +55,7 @@
         withBaseURL:(NSURL*)bsURL
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
-           delegate:(id<PNMRAIDViewDelegate>)delegate
+           delegate:(id<PNLiteMRAIDViewDelegate>)delegate
    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController;
 

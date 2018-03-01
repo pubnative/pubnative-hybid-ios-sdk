@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDView.h"
+#import "PNLiteMRAIDView.h"
 #import "PNLiteMRAIDOrientationProperties.h"
 #import "PNLiteMRAIDResizeProperties.h"
 #import "PNLiteMRAIDParser.h"
@@ -38,16 +38,16 @@
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 typedef enum {
-    MRAIDStateLoading,
-    MRAIDStateDefault,
-    MRAIDStateExpanded,
-    MRAIDStateResized,
-    MRAIDStateHidden
-} MRAIDState;
+    PNLiteMRAIDStateLoading,
+    PNLiteMRAIDStateDefault,
+    PNLiteMRAIDStateExpanded,
+    PNLiteMRAIDStateResized,
+    PNLiteMRAIDStateHidden
+} PNLiteMRAIDState;
 
-@interface PNMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface PNLiteMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate>
 {
-    MRAIDState state;
+    PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
     BOOL isInterstitial;
     
@@ -111,7 +111,7 @@ typedef enum {
 
 @end
 
-@implementation PNMRAIDView
+@implementation PNLiteMRAIDView
 
 @synthesize isViewable=_isViewable;
 @synthesize rootViewController = _rootViewController;
@@ -144,7 +144,7 @@ typedef enum {
         withBaseURL:(NSURL *)bsURL
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
-           delegate:(id<PNMRAIDViewDelegate>)delegate
+           delegate:(id<PNLiteMRAIDViewDelegate>)delegate
     serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
 {
@@ -164,7 +164,7 @@ typedef enum {
         withBaseURL:(NSURL*)bsURL
      asInterstitial:(BOOL)isInter
   supportedFeatures:(NSArray *)currentFeatures
-           delegate:(id<PNMRAIDViewDelegate>)delegate
+           delegate:(id<PNLiteMRAIDViewDelegate>)delegate
    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
 {
@@ -176,7 +176,7 @@ typedef enum {
         _serviceDelegate = serviceDelegate;
         _rootViewController = rootViewController;
         
-        state = MRAIDStateLoading;
+        state = PNLiteMRAIDStateLoading;
         _isViewable = NO;
         useCustomClose = NO;
         
@@ -215,7 +215,7 @@ typedef enum {
         mraidJSData = nil;
         
         baseURL = bsURL;
-        state = MRAIDStateLoading;
+        state = PNLiteMRAIDStateLoading;
         
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
@@ -373,7 +373,7 @@ typedef enum {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"old %@", NSStringFromCGRect(oldFrame)]];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"new %@", NSStringFromCGRect(newFrame)]];
     
-    if (state == MRAIDStateResized) {
+    if (state == PNLiteMRAIDStateResized) {
         [self setResizeViewPosition];
     }
     [self setDefaultPosition];
@@ -404,14 +404,14 @@ typedef enum {
 {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
     
-    if (state == MRAIDStateLoading ||
-        (state == MRAIDStateDefault && !isInterstitial) ||
-        state == MRAIDStateHidden) {
+    if (state == PNLiteMRAIDStateLoading ||
+        (state == PNLiteMRAIDStateDefault && !isInterstitial) ||
+        state == PNLiteMRAIDStateHidden) {
         // do nothing
         return;
     }
     
-    if (state == MRAIDStateResized) {
+    if (state == PNLiteMRAIDStateResized) {
         [self closeFromResize];
         return;
     }
@@ -453,10 +453,10 @@ typedef enum {
         [self fireViewableChangeEvent];
     }
     
-    if (state == MRAIDStateDefault && isInterstitial) {
-        state = MRAIDStateHidden;
-    } else if (state == MRAIDStateExpanded || state == MRAIDStateResized) {
-        state = MRAIDStateDefault;
+    if (state == PNLiteMRAIDStateDefault && isInterstitial) {
+        state = PNLiteMRAIDStateHidden;
+    } else if (state == PNLiteMRAIDStateExpanded || state == PNLiteMRAIDStateResized) {
+        state = PNLiteMRAIDStateDefault;
     }
     [self fireStateChangeEvent];
     
@@ -470,7 +470,7 @@ typedef enum {
 {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback helper %@", NSStringFromSelector(_cmd)]];
     [self removeResizeCloseRegion];
-    state = MRAIDStateDefault;
+    state = PNLiteMRAIDStateDefault;
     [self fireStateChangeEvent];
     [webView removeFromSuperview];
     webView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
@@ -513,7 +513,7 @@ typedef enum {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (urlString ? urlString : @"1-part")]];
     
     // The only time it is valid to call expand is when the ad is currently in either default or resized state.
-    if (state != MRAIDStateDefault && state != MRAIDStateResized) {
+    if (state != PNLiteMRAIDStateDefault && state != PNLiteMRAIDStateResized) {
         // do nothing
         return;
     }
@@ -590,7 +590,7 @@ typedef enum {
     }
     
     if (!isInterstitial) {
-        state = MRAIDStateExpanded;
+        state = PNLiteMRAIDStateExpanded;
         [self fireStateChangeEvent];
     }
     [self fireSizeChangeEvent];
@@ -680,7 +680,7 @@ typedef enum {
     }
     
     // resize here
-    state = MRAIDStateResized;
+    state = PNLiteMRAIDStateResized;
     [self fireStateChangeEvent];
     
     if (!resizeView) {
@@ -885,12 +885,12 @@ typedef enum {
         int y;
         int width;
         int height;
-        if (state == MRAIDStateExpanded || isInterstitial) {
+        if (state == PNLiteMRAIDStateExpanded || isInterstitial) {
             x = (int)currentWebView.frame.origin.x;
             y = (int)currentWebView.frame.origin.y;
             width = (int)currentWebView.frame.size.width;
             height = (int)currentWebView.frame.size.height;
-        } else if (state == MRAIDStateResized) {
+        } else if (state == PNLiteMRAIDStateResized) {
             x = (int)resizeView.frame.origin.x;
             y = (int)resizeView.frame.origin.y;
             width = (int)resizeView.frame.size.width;
@@ -1016,7 +1016,7 @@ typedef enum {
         [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
         
         // If wv is webViewPart2, that means the part 2 expanded web view has just loaded.
-        // In this case, state should already be MRAIDStateExpanded and should not be changed.
+        // In this case, state should already be PNLiteMRAIDStateExpanded and should not be changed.
         // if (wv != webViewPart2) {
         
         if (PNLite_ENABLE_JS_LOG) {
@@ -1027,8 +1027,8 @@ typedef enum {
             [wv stringByEvaluatingJavaScriptFromString:@"function alert(){}; function prompt(){}; function confirm(){}"];
         }
         
-        if (state == MRAIDStateLoading) {
-            state = MRAIDStateDefault;
+        if (state == PNLiteMRAIDStateLoading) {
+            state = PNLiteMRAIDStateDefault;
             [self injectJavaScript:[NSString stringWithFormat:@"mraid.setPlacementType('%@');", (isInterstitial ? @"interstitial" : @"inline")]];
             [self setSupports:supportedFeatures];
             [self setDefaultPosition];

@@ -21,15 +21,15 @@
 //
 
 #import "PNLiteMRAIDInterstitialPresenter.h"
-#import "PNMRAIDView.h"
+#import "PNLiteMRAIDView.h"
 #import "PNLiteMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-@interface PNLiteMRAIDInterstitialPresenter() <PNMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
+@interface PNLiteMRAIDInterstitialPresenter() <PNLiteMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
 
 @property (nonatomic, strong) PNLiteMRAIDServiceProvider *serviceProvider;
-@property (nonatomic, retain) PNMRAIDView *mraidView;
+@property (nonatomic, retain) PNLiteMRAIDView *mraidView;
 @property (nonatomic, strong) PNLiteAd *adModel;
 
 @end
@@ -59,7 +59,7 @@
 - (void)load
 {
     self.serviceProvider = [[PNLiteMRAIDServiceProvider alloc] init];
-    self.mraidView = [[PNMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
+    self.mraidView = [[PNLiteMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
                                            withHtmlData:self.adModel.htmlData
                                             withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                       supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
@@ -74,38 +74,38 @@
 {
     [self.mraidView showAsInterstitial];
 }
-#pragma mark PNMRAIDViewDelegate
+#pragma mark PNLiteMRAIDViewDelegate
 
-- (void)mraidViewAdReady:(PNMRAIDView *)mraidView
+- (void)mraidViewAdReady:(PNLiteMRAIDView *)mraidView
 {
     [self.delegate interstitialPresenterDidLoad:self];
 }
 
-- (void)mraidViewAdFailed:(PNMRAIDView *)mraidView
+- (void)mraidViewAdFailed:(PNLiteMRAIDView *)mraidView
 {
     NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDInterstitialPresenter - MRAID View  Failed" code:0 userInfo:nil];
     [self.delegate interstitialPresenter:self didFailWithError:error];
 }
 
-- (void)mraidViewWillExpand:(PNMRAIDView *)mraidView
+- (void)mraidViewWillExpand:(PNLiteMRAIDView *)mraidView
 {
-    NSLog(@"PNMRAIDViewDelegate - MRAID will expand!");
+    NSLog(@"PNLiteMRAIDViewDelegate - MRAID will expand!");
     [self.delegate interstitialPresenterDidShow:self];
 }
 
-- (void)mraidViewDidClose:(PNMRAIDView *)mraidView
+- (void)mraidViewDidClose:(PNLiteMRAIDView *)mraidView
 {
-    NSLog(@"PNMRAIDViewDelegate - MRAID did close!");
+    NSLog(@"PNLiteMRAIDViewDelegate - MRAID did close!");
     [self.delegate interstitialPresenterDidDismiss:self];
 }
 
-- (void)mraidViewNavigate:(PNMRAIDView *)mraidView withURL:(NSURL *)url
+- (void)mraidViewNavigate:(PNLiteMRAIDView *)mraidView withURL:(NSURL *)url
 {
-    NSLog(@"PNMRAIDViewDelegate - MRAID navigate with URL:%@",url);
+    NSLog(@"PNLiteMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
 }
 
-- (BOOL)mraidViewShouldResize:(PNMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
+- (BOOL)mraidViewShouldResize:(PNLiteMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
 {
     return NO;
 }

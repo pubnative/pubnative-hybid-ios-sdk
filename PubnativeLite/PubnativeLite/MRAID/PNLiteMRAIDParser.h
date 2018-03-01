@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class PNMRAIDView;
+@class PNLiteMRAIDView;
 
 // A parser class which validates MRAID commands passed from the creative to the native methods.
 // This takes a commandUrl of type "mraid://command?param1=val1&param2=val2&..." and return a
