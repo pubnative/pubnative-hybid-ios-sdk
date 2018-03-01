@@ -20,18 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDParser.h"
+#import "PNLiteMRAIDParser.h"
 
 #import "PNLiteLogger.h"
 
-@interface PNMRAIDParser ()
+@interface PNLiteMRAIDParser ()
 
 - (BOOL)isValidCommand:(NSString *)command;
 - (BOOL)checkParamsForCommand:(NSString *)command params:(NSDictionary *)params;
 
 @end
 
-@implementation PNMRAIDParser
+@implementation PNLiteMRAIDParser
 
 - (NSDictionary *)parseCommandUrl:(NSString *)commandUrl;
 {

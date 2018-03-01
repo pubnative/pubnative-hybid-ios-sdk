@@ -23,7 +23,7 @@
 #import "PNMRAIDView.h"
 #import "PNLiteMRAIDOrientationProperties.h"
 #import "PNLiteMRAIDResizeProperties.h"
-#import "PNMRAIDParser.h"
+#import "PNLiteMRAIDParser.h"
 #import "PNMRAIDModalViewController.h"
 #import "PNLiteMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
@@ -59,7 +59,7 @@ typedef enum {
     PNLiteMRAIDOrientationProperties *orientationProperties;
     PNLiteMRAIDResizeProperties *resizeProperties;
     
-    PNMRAIDParser *mraidParser;
+    PNLiteMRAIDParser *mraidParser;
     PNMRAIDModalViewController *modalVC;
     
     NSString *mraidjs;
@@ -183,7 +183,7 @@ typedef enum {
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
         
-        mraidParser = [[PNMRAIDParser alloc] init];
+        mraidParser = [[PNLiteMRAIDParser alloc] init];
         
         mraidFeatures = @[
                           PNLiteMRAIDSupportsSMS,
