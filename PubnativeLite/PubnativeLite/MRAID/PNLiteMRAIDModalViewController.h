@@ -20,27 +20,22 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-typedef enum {
-    MRAIDCustomClosePositionTopLeft,
-    MRAIDCustomClosePositionTopCenter,
-    MRAIDCustomClosePositionTopRight,
-    MRAIDCustomClosePositionCenter,
-    MRAIDCustomClosePositionBottomLeft,
-    MRAIDCustomClosePositionBottomCenter,
-    MRAIDCustomClosePositionBottomRight
-} PNMRAIDCustomClosePosition;
+@class PNLiteMRAIDModalViewController;
+@class PNLiteMRAIDOrientationProperties;
 
-@interface PNMRAIDResizeProperties : NSObject
+@protocol PNLiteMRAIDModalViewControllerDelegate <NSObject>
 
-@property (nonatomic, assign) int width;
-@property (nonatomic, assign) int height;
-@property (nonatomic, assign) int offsetX;
-@property (nonatomic, assign) int offsetY;
-@property (nonatomic, assign) PNMRAIDCustomClosePosition customClosePosition;
-@property (nonatomic, assign) BOOL allowOffscreen;
+- (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController;
 
-+ (PNMRAIDCustomClosePosition)MRAIDCustomClosePositionFromString:(NSString *)s;
+@end
+
+@interface PNLiteMRAIDModalViewController : UIViewController
+
+@property (nonatomic, unsafe_unretained) id<PNLiteMRAIDModalViewControllerDelegate> delegate;
+
+- (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProperties;
+- (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProperties;
 
 @end

@@ -20,15 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "PNLiteMRAIDSettings.h"
 
-@interface PNMRAIDServiceProvider : NSObject
-
-- (void)openBrowser:(NSString *)urlString;
-- (void)playVideo:(NSString *)urlString;
-- (void)storePicture:(NSString *)urlString;
-- (void)createEvent:(NSString *)eventJSON;
-- (void)sendSMS:(NSString *)urlString;
-- (void)callNumber:(NSString *)urlString;
-
-@end
+BOOL PNLite_ENABLE_JS_LOG                  = NO;
+BOOL PNLite_SUPPRESS_JS_ALERT              = YES;
+BOOL PNLite_SUPPRESS_BANNER_AUTO_REDIRECT  = YES;

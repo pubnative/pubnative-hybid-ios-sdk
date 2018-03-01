@@ -20,15 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "PNBrowserControlsView.h"
-#import "PNBrowser.h"
-#import "BackButton.h"
-#import "ForwardButton.h"
+#import "PNLiteBrowserControlsView.h"
+#import "PNLiteBrowser.h"
+#import "PNLiteBackButton.h"
+#import "PNLiteForwardButton.h"
 
 static const float kControlsToobarHeight = 44.0;
 static const float kControlsLoadingIndicatorWidthHeight = 30.0;
 
-@interface PNBrowserControlsView ()
+@interface PNLiteBrowserControlsView ()
 {
     // backButton is a property
     UIBarButtonItem *flexBack;
@@ -41,14 +41,14 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
     UIBarButtonItem *launchSafariButton;
     UIBarButtonItem *flexLaunch;
     UIBarButtonItem *stopButton;
-    __unsafe_unretained PNBrowser *pnBrowser;
+    __unsafe_unretained PNLiteBrowser *pnBrowser;
 }
 
 @end
 
-@implementation PNBrowserControlsView
+@implementation PNLiteBrowserControlsView
 
-- (id)initWithPubnativeBrowser:(PNBrowser *)p_pnBrowser
+- (id)initWithPubnativeBrowser:(PNLiteBrowser *)p_pnBrowser
 {
     self = [super initWithFrame:CGRectMake(0, 0, p_pnBrowser.view.bounds.size.width, kControlsToobarHeight)];
     
@@ -56,15 +56,15 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
         _controlsToolbar = [[ UIToolbar alloc] initWithFrame:CGRectMake(0, 0, p_pnBrowser.view.bounds.size.width, kControlsToobarHeight)];
         pnBrowser = p_pnBrowser;
         // In left to right order, to make layout on screen more clear
-        NSData* backButtonData = [NSData dataWithBytesNoCopy:__BackButton_png
-                                                      length:__BackButton_png_len
+        NSData* backButtonData = [NSData dataWithBytesNoCopy:__PNLiteBackButton_png
+                                                      length:__PNLiteBackButton_png_len
                                                 freeWhenDone:NO];
         UIImage *backButtonImage = [UIImage imageWithData:backButtonData];
         _backButton = [[UIBarButtonItem alloc] initWithImage:backButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
         _backButton.enabled = NO;
         flexBack = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        NSData* forwardButtonData = [NSData dataWithBytesNoCopy:__ForwardButton_png
-                                                         length:__ForwardButton_png_len
+        NSData* forwardButtonData = [NSData dataWithBytesNoCopy:__PNLiteForwardButton_png
+                                                         length:__PNLiteForwardButton_png_len
                                                    freeWhenDone:NO];
         UIImage *forwardButtonImage = [UIImage imageWithData:forwardButtonData];
         _forwardButton = [[UIBarButtonItem alloc] initWithImage:forwardButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(forward:)];

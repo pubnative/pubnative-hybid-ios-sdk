@@ -20,21 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "PNBrowser.h"
-#import "PNLogger.h"
+#import "PNLiteBrowser.h"
+#import "PNLiteLogger.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 // Features
-NSString * const kPubnativeBrowserFeatureDisableStatusBar = @"disableStatusBar";
-NSString * const kPubnativeBrowserFeatureScalePagesToFit = @"scalePagesToFit";
-NSString * const kPubnativeBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
-NSString * const kPubnativeBrowserTelPrefix = @"tel://";
+NSString * const kPNLiteBrowserFeatureDisableStatusBar = @"disableStatusBar";
+NSString * const kPNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
+NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
+NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
-@interface PNBrowser () <UIWebViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface PNLiteBrowser () <UIWebViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
-    PNBrowserControlsView *browserControlsView;
+    PNLiteBrowserControlsView *browserControlsView;
     NSURLRequest *currrentRequest;
     UIViewController *currentViewController;
     NSArray *pubnativeBrowserFeatures;
@@ -48,12 +48,12 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
 
 @end
 
-@implementation PNBrowser
+@implementation PNLiteBrowser
 
 #pragma mark - Init & dealloc
 
 // designated initializer
-- (id)initWithDelegate:(id<PNBrowserDelegate>)delegate withFeatures:(NSArray *)p_pubnativeBrowserFeatures
+- (id)initWithDelegate:(id<PNLiteBrowserDelegate>)delegate withFeatures:(NSArray *)p_pubnativeBrowserFeatures
 {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
@@ -64,17 +64,17 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         {
             for (NSString *feature in p_pubnativeBrowserFeatures)
             {
-                if ([feature isEqualToString:kPubnativeBrowserFeatureDisableStatusBar]) {
+                if ([feature isEqualToString:kPNLiteBrowserFeatureDisableStatusBar]) {
                     disableStatusBar = YES;
                 }
-                else if ([feature isEqualToString:kPubnativeBrowserFeatureSupportInlineMediaPlayback]) {
+                else if ([feature isEqualToString:kPNLiteBrowserFeatureSupportInlineMediaPlayback]) {
                     supportInlineMediaPlayback = YES;
                 }
-                else if ([feature isEqualToString:kPubnativeBrowserFeatureScalePagesToFit]) {
+                else if ([feature isEqualToString:kPNLiteBrowserFeatureScalePagesToFit]) {
                     scalePagesToFit = YES;
                 }
                 
-                [PNLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"Requesting PubnativeBrowser feature: %@", feature]];
+                [PNLiteLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"Requesting PubnativeBrowser feature: %@", feature]];
             }
         }
     }
@@ -112,7 +112,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
         UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self.view addSubview:browserWebView];
-        browserControlsView = [[PNBrowserControlsView  alloc] initWithPubnativeBrowser:self];
+        browserControlsView = [[PNLiteBrowserControlsView  alloc] initWithPubnativeBrowser:self];
         browserControlsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin;
         
         // screenSize is ALWAYS for portrait orientation, so we need to figure out the
@@ -209,7 +209,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         }
     } else {
         currrentRequest = request;
-        [PNLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"presenting browser from viewController: %@", currentViewController]];
+        [PNLiteLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"presenting browser from viewController: %@", currentViewController]];
         
         if ([currentViewController respondsToSelector:@selector(presentViewController:animated:completion:)]) {
             // used if running >= iOS 6
@@ -230,7 +230,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         [self.delegate pubnativeTelPopupOpen:self];
     }
     
-    telString = [telString stringByReplacingOccurrencesOfString:kPubnativeBrowserTelPrefix withString:@""];
+    telString = [telString stringByReplacingOccurrencesOfString:kPNLiteBrowserTelPrefix withString:@""];
     
     UIAlertView *telPermissionAlert = [[UIAlertView alloc] initWithTitle:telString
                                                       message:nil
@@ -259,7 +259,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
         }
         
         // Parse phone number and dial
-        NSString *toCall = [kPubnativeBrowserTelPrefix stringByAppendingString:alertView.title];
+        NSString *toCall = [kPNLiteBrowserTelPrefix stringByAppendingString:alertView.title];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:toCall]];
     }
 }
@@ -332,7 +332,7 @@ NSString * const kPubnativeBrowserTelPrefix = @"tel://";
 
 - (void)dismiss
 {
-    [PNLogger debug:@"PNBrowser" withMessage:@"Dismissing PubnativeBrowser"];
+    [PNLiteLogger debug:@"PNBrowser" withMessage:@"Dismissing PubnativeBrowser"];
     if ([self.delegate respondsToSelector:@selector(pubnativeBrowserClosed:)]) {
         [self.delegate pubnativeBrowserClosed:self];
     }

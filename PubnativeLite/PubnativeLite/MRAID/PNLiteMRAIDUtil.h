@@ -20,22 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class PNMRAIDModalViewController;
-@class PNMRAIDOrientationProperties;
+//  System Versioning Preprocessor Macros
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
-@protocol PNMRAIDModalViewControllerDelegate <NSObject>
+@interface PNLiteMRAIDUtil : NSObject
 
-- (void)mraidModalViewControllerDidRotate:(PNMRAIDModalViewController *)modalViewController;
-
-@end
-
-@interface PNMRAIDModalViewController : UIViewController
-
-@property (nonatomic, unsafe_unretained) id<PNMRAIDModalViewControllerDelegate> delegate;
-
-- (id)initWithOrientationProperties:(PNMRAIDOrientationProperties *)orientationProperties;
-- (void)forceToOrientation:(PNMRAIDOrientationProperties *)orientationProperties;
++ (NSString *)processRawHtml:(NSString *)rawHtml;
 
 @end

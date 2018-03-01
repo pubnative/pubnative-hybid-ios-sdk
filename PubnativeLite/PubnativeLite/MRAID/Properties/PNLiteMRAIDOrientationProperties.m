@@ -20,8 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "PNLiteMRAIDOrientationProperties.h"
 
-extern BOOL PN_ENABLE_JS_LOG;
-extern BOOL PN_SUPPRESS_JS_ALERT;
-extern BOOL PN_SUPPRESS_BANNER_AUTO_REDIRECT;
+@implementation PNLiteMRAIDOrientationProperties
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _allowOrientationChange = YES;
+        _forceOrientation = PNLiteMRAIDForceOrientationNone;
+    }
+    return self;
+}
+
++ (PNLiteMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s
+{
+    NSArray *names = @[ @"portrait", @"landscape", @"none" ];
+    NSUInteger i = [names indexOfObject:s];
+    if (i != NSNotFound) {
+        return (PNLiteMRAIDForceOrientation)i;
+    }
+    // Use none for the default value
+    return PNLiteMRAIDForceOrientationNone;
+}
+
+@end

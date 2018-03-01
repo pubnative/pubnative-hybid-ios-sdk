@@ -23,24 +23,24 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    PubnativeLogLevelNone,
-    PubnativeLogLevelError,
-    PubnativeLogLevelWarning,
-    PubnativeLogLevelInfo,
-    PubnativeLogLevelDebug,
-} PubnativeLogLevel;
+    PNLiteMRAIDCustomClosePositionTopLeft,
+    PNLiteMRAIDCustomClosePositionTopCenter,
+    PNLiteMRAIDCustomClosePositionTopRight,
+    PNLiteMRAIDCustomClosePositionCenter,
+    PNLiteMRAIDCustomClosePositionBottomLeft,
+    PNLiteMRAIDCustomClosePositionBottomCenter,
+    PNLiteMRAIDCustomClosePositionBottomRight
+} PNLiteMRAIDCustomClosePosition;
 
-// A simple logger enable you to see different levels of logging.
-// Use logLevel as a filter to see the messages for the specific level.
-//
-@interface PNLogger : NSObject
+@interface PNLiteMRAIDResizeProperties : NSObject
 
-// Method to filter logging with the level passed as the paramter
-+ (void)setLogLevel:(PubnativeLogLevel)logLevel;
+@property (nonatomic, assign) int width;
+@property (nonatomic, assign) int height;
+@property (nonatomic, assign) int offsetX;
+@property (nonatomic, assign) int offsetY;
+@property (nonatomic, assign) PNLiteMRAIDCustomClosePosition customClosePosition;
+@property (nonatomic, assign) BOOL allowOffscreen;
 
-+ (void)error:(NSString *)tag withMessage:(NSString *)message;
-+ (void)warning:(NSString *)tag withMessage:(NSString *)message;
-+ (void)info:(NSString *)tag withMessage:(NSString *)message;
-+ (void)debug:(NSString *)tag withMessage:(NSString *)message;
++ (PNLiteMRAIDCustomClosePosition)MRAIDCustomClosePositionFromString:(NSString *)s;
 
 @end

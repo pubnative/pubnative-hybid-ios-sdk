@@ -20,17 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDServiceProvider.h"
-#import "PNBrowser.h"
+#import "PNLiteMRAIDServiceProvider.h"
+#import "PNLiteBrowser.h"
 #import <EventKit/EventKit.h>
 
-@implementation PNMRAIDServiceProvider
+@implementation PNLiteMRAIDServiceProvider
 
 - (void)openBrowser:(NSString *)urlString
 {
-    PNBrowser *browser = [[PNBrowser alloc] initWithDelegate:nil withFeatures:@[kPubnativeBrowserFeatureSupportInlineMediaPlayback
-                                                                                , kPubnativeBrowserFeatureDisableStatusBar
-                                                                                , kPubnativeBrowserFeatureScalePagesToFit]];
+    PNLiteBrowser *browser = [[PNLiteBrowser alloc] initWithDelegate:nil withFeatures:@[kPNLiteBrowserFeatureSupportInlineMediaPlayback
+                                                                                , kPNLiteBrowserFeatureDisableStatusBar
+                                                                                , kPNLiteBrowserFeatureScalePagesToFit]];
     [browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 }
 

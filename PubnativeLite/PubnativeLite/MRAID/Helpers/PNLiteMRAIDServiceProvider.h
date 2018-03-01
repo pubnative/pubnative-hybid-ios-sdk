@@ -20,41 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDResizeProperties.h"
+#import <Foundation/Foundation.h>
 
-@implementation PNMRAIDResizeProperties
+@interface PNLiteMRAIDServiceProvider : NSObject
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _width = 0;
-        _height = 0;
-        _offsetX = 0;
-        _offsetY = 0;
-        _customClosePosition = MRAIDCustomClosePositionTopRight;
-        _allowOffscreen = YES;
-    }
-    return self;
-}
-
-+ (PNMRAIDCustomClosePosition)MRAIDCustomClosePositionFromString:(NSString *)s
-{
-    NSArray *names = @[
-                       @"top-left",
-                       @"top-center",
-                       @"top-right",
-                       @"center",
-                       @"bottom-left",
-                       @"bottom-center",
-                       @"bottom-right"
-                       ];
-    NSUInteger i = [names indexOfObject:s];
-    if (i != NSNotFound) {
-        return (PNMRAIDCustomClosePosition)i;
-    }
-    // Use top-right for the default value
-    return MRAIDCustomClosePositionTopRight;;
-}
+- (void)openBrowser:(NSString *)urlString;
+- (void)playVideo:(NSString *)urlString;
+- (void)storePicture:(NSString *)urlString;
+- (void)createEvent:(NSString *)eventJSON;
+- (void)sendSMS:(NSString *)urlString;
+- (void)callNumber:(NSString *)urlString;
 
 @end

@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDUtil.h"
+#import "PNLiteMRAIDUtil.h"
 
-@implementation PNMRAIDUtil
+@implementation PNLiteMRAIDUtil
 
 + (NSString *)processRawHtml:(NSString *)rawHtml
 {

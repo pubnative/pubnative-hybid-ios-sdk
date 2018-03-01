@@ -23,16 +23,24 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    MRAIDForceOrientationPortrait,
-    MRAIDForceOrientationLandscape,
-    MRAIDForceOrientationNone
-} PNMRAIDForceOrientation;
+    PNLiteLogLevelNone,
+    PNLiteLogLevelError,
+    PNLiteLogLevelWarning,
+    PNLiteLogLevelInfo,
+    PNLiteLogLevelDebug,
+} PNLiteLogLevel;
 
-@interface PNMRAIDOrientationProperties : NSObject
+// A simple logger enable you to see different levels of logging.
+// Use logLevel as a filter to see the messages for the specific level.
+//
+@interface PNLiteLogger : NSObject
 
-@property (nonatomic, assign) BOOL allowOrientationChange;
-@property (nonatomic, assign) PNMRAIDForceOrientation forceOrientation;
+// Method to filter logging with the level passed as the paramter
++ (void)setLogLevel:(PNLiteLogLevel)logLevel;
 
-+ (PNMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s;
++ (void)error:(NSString *)tag withMessage:(NSString *)message;
++ (void)warning:(NSString *)tag withMessage:(NSString *)message;
++ (void)info:(NSString *)tag withMessage:(NSString *)message;
++ (void)debug:(NSString *)tag withMessage:(NSString *)message;
 
 @end

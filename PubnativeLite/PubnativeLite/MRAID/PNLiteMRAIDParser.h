@@ -20,28 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class PNBrowser;
-@protocol PubnativeBrowserControlsViewDelegate <NSObject>
+@class PNLiteMRAIDView;
 
-@required
+// A parser class which validates MRAID commands passed from the creative to the native methods.
+// This takes a commandUrl of type "mraid://command?param1=val1&param2=val2&..." and return a
+// dictionary of key/value pairs which include command name and all the parameters. It checks
+// if the command itself is a valid MRAID command and also a simpler parameters validation.
+@interface PNLiteMRAIDParser : NSObject
 
-- (void)back;
-- (void)forward;
-- (void)refresh;
-- (void)launchSafari;
-- (void)dismiss;
-
-@end
-
-@interface PNBrowserControlsView : UIView
-
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *backButton;
-@property (nonatomic, retain) IBOutlet UIToolbar *controlsToolbar;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *forwardButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *loadingIndicator;
-
-- (id)initWithPubnativeBrowser:(PNBrowser *)p_pnBrowser;
+- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl;
 
 @end

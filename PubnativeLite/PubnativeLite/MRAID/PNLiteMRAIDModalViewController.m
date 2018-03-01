@@ -20,19 +20,19 @@
 //  THE SOFTWARE.
 //
 
-#import "PNMRAIDModalViewController.h"
+#import "PNLiteMRAIDModalViewController.h"
 
-#import "PNMRAIDUtil.h"
-#import "PNLogger.h"
-#import "PNMRAIDOrientationProperties.h"
+#import "PNLiteMRAIDUtil.h"
+#import "PNLiteLogger.h"
+#import "PNLiteMRAIDOrientationProperties.h"
 
-@interface PNMRAIDModalViewController ()
+@interface PNLiteMRAIDModalViewController ()
 {
     BOOL isStatusBarHidden;
     BOOL hasViewAppeared;
     BOOL hasRotated;
     
-    PNMRAIDOrientationProperties *orientationProperties;
+    PNLiteMRAIDOrientationProperties *orientationProperties;
     UIInterfaceOrientation preferredOrientation;
 }
 
@@ -40,14 +40,14 @@
 
 @end
 
-@implementation PNMRAIDModalViewController
+@implementation PNLiteMRAIDModalViewController
 
 - (id)init
 {
     return [self initWithOrientationProperties:nil];
 }
 
-- (id)initWithOrientationProperties:(PNMRAIDOrientationProperties *)orientationProps
+- (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProps
 {
     self = [super init];
     if (self) {
@@ -56,23 +56,23 @@
         if (orientationProps) {
             orientationProperties = orientationProps;
         } else {
-            orientationProperties = [[PNMRAIDOrientationProperties alloc] init];
+            orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         }
         
         UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 
         // If the orientation is forced, accomodate it.
         // If it's not fored, then match the current orientation.
-        if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+        if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
             preferredOrientation = UIInterfaceOrientationPortrait;
-        } else  if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+        } else  if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
             if (UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) {
                 preferredOrientation = currentInterfaceOrientation;
             } else {
                 preferredOrientation = UIInterfaceOrientationLandscapeLeft;
             }
         } else {
-            // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+            // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
             preferredOrientation = currentInterfaceOrientation;
         }
     }
@@ -98,7 +98,7 @@
 {
     [super viewWillAppear:animated];
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
 
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
@@ -110,7 +110,7 @@
 {
     [super viewDidAppear:animated];
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     hasViewAppeared = YES;
     
     if (hasRotated) {
@@ -149,12 +149,12 @@
 
     BOOL retval = NO;
 
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         retval = (isPortraitSupported && isPortraitUpsideDownSupported);
-    } else if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+    } else if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
         retval = (isLandscapeLeftSupported && isLandscapeRightSupported);
     } else {
-        // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+        // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
         if (orientationProperties.allowOrientationChange) {
             retval = YES;
         } else {
@@ -167,13 +167,13 @@
         }
     }
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
     return retval;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
                             [self.class description],
                             NSStringFromSelector(_cmd),
                             [self stringfromUIInterfaceOrientation:preferredOrientation]]];
@@ -182,16 +182,16 @@
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
     }
     
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
         return UIInterfaceOrientationMaskLandscape;
     }
     
-    // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+    // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
     
     if (!orientationProperties.allowOrientationChange) {
         if (UIInterfaceOrientationIsPortrait(preferredOrientation)) {
@@ -224,7 +224,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     UIInterfaceOrientation toInterfaceOrientation = self.interfaceOrientation;
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
                       [self.class description],
                       NSStringFromSelector(_cmd),
                       [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
@@ -236,17 +236,17 @@
     }
 }
 
-- (void)forceToOrientation:(PNMRAIDOrientationProperties *)orientationProps;
+- (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProps;
 {
     NSString *orientationString;
     switch (orientationProps.forceOrientation) {
-        case MRAIDForceOrientationPortrait:
+        case PNLiteMRAIDForceOrientationPortrait:
             orientationString = @"portrait";
             break;
-        case MRAIDForceOrientationLandscape:
+        case PNLiteMRAIDForceOrientationLandscape:
             orientationString = @"landscape";
             break;
-        case MRAIDForceOrientationNone:
+        case PNLiteMRAIDForceOrientationNone:
             orientationString = @"none";
             break;
         default:
@@ -254,7 +254,7 @@
             break;
     }
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
                       [self.class description],
                       NSStringFromSelector(_cmd),
                       (orientationProperties.allowOrientationChange ? @"YES" : @"NO"),
@@ -263,14 +263,14 @@
     orientationProperties = orientationProps;
     UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
-    if (orientationProperties.forceOrientation == MRAIDForceOrientationPortrait) {
+    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         if (UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) {
             // this will accomodate both portrait and portrait upside down
             preferredOrientation = currentInterfaceOrientation;
         } else {
             preferredOrientation = UIInterfaceOrientationPortrait;
         }
-    } else if (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape) {
+    } else if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
         if (UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) {
             // this will accomodate both landscape left and landscape right
             preferredOrientation = currentInterfaceOrientation;
@@ -278,7 +278,7 @@
             preferredOrientation = UIInterfaceOrientationLandscapeLeft;
         }
     } else {
-        // orientationProperties.forceOrientation == MRAIDForceOrientationNone
+        // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
         if (orientationProperties.allowOrientationChange) {
             UIDeviceOrientation currentDeviceOrientation = [[UIDevice currentDevice] orientation];
             // NB: UIInterfaceOrientationLandscapeLeft = UIDeviceOrientationLandscapeRight
@@ -326,13 +326,13 @@
         }
     }
     
-    [PNLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
+    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
                             [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
                             [self stringfromUIInterfaceOrientation:preferredOrientation]]];
     
-    if ((orientationProperties.forceOrientation == MRAIDForceOrientationPortrait && UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) ||
-        (orientationProperties.forceOrientation == MRAIDForceOrientationLandscape && UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) ||
-        (orientationProperties.forceOrientation == MRAIDForceOrientationNone && (preferredOrientation == currentInterfaceOrientation)))
+    if ((orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait && UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) ||
+        (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape && UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) ||
+        (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone && (preferredOrientation == currentInterfaceOrientation)))
     {
         return;
     }
