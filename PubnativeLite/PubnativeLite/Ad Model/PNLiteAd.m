@@ -119,4 +119,13 @@ NSString *const kPNLiteAdModelBeaconClick = @"click";
     return result;
 }
 
+- (NSArray *)beaconsDataWithType:(NSString *)type
+{
+    NSArray *result = nil;
+    if (self.data) {
+        result = [self.data beaconsWithType:type];
+    }
+    return result;
+}
+
 @end

@@ -35,5 +35,6 @@
 - (instancetype)initWithData:(PNLiteAdModel *)data;
 - (PNLiteDataModel *)assetDataWithType:(NSString *)type;
 - (PNLiteDataModel *)metaDataWithType:(NSString *)type;
+- (NSArray *)beaconsDataWithType:(NSString *)type;
 
 @end
