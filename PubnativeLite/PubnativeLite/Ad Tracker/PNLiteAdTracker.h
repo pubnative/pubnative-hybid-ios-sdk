@@ -23,6 +23,9 @@
 #import <Foundation/Foundation.h>
 #import "PNLiteAdTrackerRequest.h"
 
+extern NSString *const kPNLiteAdTrackerClick;
+extern NSString *const kPNLiteAdTrackerImpression;
+
 @interface PNLiteAdTracker : NSObject
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
                          withClickURLs:(NSArray *)clickURLs;

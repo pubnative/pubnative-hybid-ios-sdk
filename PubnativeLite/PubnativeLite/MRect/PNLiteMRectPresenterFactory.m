@@ -36,7 +36,7 @@
         return nil;
     }
     PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter
-                                                                                                             withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:@"impression"] withClickURLs:[ad beaconsDataWithType:@"click"]]
+                                                                                                             withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
                                                                                                               withDelegate:delegate];
     mRectPresenter.delegate = mRectPresenterDecorator;
     return mRectPresenterDecorator;

@@ -36,7 +36,7 @@
         return nil;
     }
     PNLiteBannerPresenterDecorator *bannerPresenterDecorator = [[PNLiteBannerPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter
-                                                                                                                 withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:@"impression"] withClickURLs:[ad beaconsDataWithType:@"click"]]
+                                                                                                                 withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
                                                                                                                   withDelegate:delegate];
     bannerPresenter.delegate = bannerPresenterDecorator;
     return bannerPresenterDecorator;

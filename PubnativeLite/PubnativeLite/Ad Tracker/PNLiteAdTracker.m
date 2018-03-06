@@ -22,6 +22,10 @@
 
 #import "PNLiteAdTracker.h"
 #import "PNLiteDataModel.h"
+
+NSString *const kPNLiteAdTrackerClick = @"click";
+NSString *const kPNLiteAdTrackerImpression = @"impression";
+
 @interface PNLiteAdTracker() <PNLiteAdTrackerRequestDelegate>
 
 @property (nonatomic, strong) PNLiteAdTrackerRequest *adTrackerRequest;
@@ -67,7 +71,7 @@
         return;
     }
     
-    [self trackURLs:self.clickURLs withTrackType:@"click"];
+    [self trackURLs:self.clickURLs withTrackType:kPNLiteAdTrackerClick];
     self.clickTracked = YES;
 }
 
@@ -77,7 +81,7 @@
         return;
     }
     
-    [self trackURLs:self.impressionURLs withTrackType:@"impression"];
+    [self trackURLs:self.impressionURLs withTrackType:kPNLiteAdTrackerImpression];
     self.impressionTracked = YES;
 }
 
