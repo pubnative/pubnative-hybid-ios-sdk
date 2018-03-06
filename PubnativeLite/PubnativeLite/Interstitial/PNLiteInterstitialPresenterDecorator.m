@@ -25,8 +25,8 @@
 @interface PNLiteInterstitialPresenterDecorator()
 
 @property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
+@property (nonatomic, strong) PNLiteAdTracker *adTracker;
 @property (nonatomic, strong) NSObject<PNLiteInterstitialPresenterDelegate> *interstitialPresenterDelegate;
-// TO-DO: Add Ad Tracker Delegate property
 
 @end
 
@@ -35,6 +35,7 @@
 - (void)dealloc
 {
     self.interstitialPresenter = nil;
+    self.adTracker = nil:
     self.interstitialPresenterDelegate = nil;
 }
 
@@ -48,13 +49,15 @@
     [self.interstitialPresenter show];
 }
 
-- (instancetype)initWithInterstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
+- (instancetype)initWithInterstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
+                                withAdTracker:(PNLiteAdTracker *)adTracker
+                                 withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
         self.interstitialPresenter = interstitialPresenter;
+        self.adTracker = adTracker;
         self.interstitialPresenterDelegate = delegate;
-        // TO-DO: Add Tracker initialization
     }
     return self;
 }
@@ -68,13 +71,13 @@
 
 - (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
 {
-    // TO-DO: Call delegate method when Interstitial is tracked
+    [self.adTracker trackImpression];
     [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
 }
 
 - (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
 {
-    // TO-DO: Call delegate method when Interstitial is clicked
+    [self.adTracker trackClick];
     [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
 }
 

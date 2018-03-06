@@ -25,8 +25,8 @@
 @interface PNLiteMRectPresenterDecorator ()
 
 @property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) PNLiteAdTracker *adTracker;
 @property (nonatomic, strong) NSObject<PNLiteMRectPresenterDelegate> *mRectPresenterDelegate;
-// TO-DO: Add Ad Tracker Delegate property
 
 @end
 
@@ -35,6 +35,7 @@
 - (void)dealloc
 {
     self.mRectPresenter = nil;
+    self.adTracker = nil;
     self.mRectPresenterDelegate = nil;
 }
 
@@ -44,13 +45,14 @@
 }
 
 - (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
+                         withAdTracker:(PNLiteAdTracker *)adTracker
                           withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
         self.mRectPresenter = mRectPresenter;
+        self.adTracker = adTracker;
         self.mRectPresenterDelegate = delegate;
-        // TO-DO: Add Tracker initialization
     }
     return self;
 }
@@ -59,13 +61,13 @@
 
 - (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
-    // TO-DO: Call delegate method when MRect is tracked
+    [self.adTracker trackImpression];
     [self.mRectPresenterDelegate mRectPresenter:mRectPresenter didLoadWithMRect:mRect];
 }
 
 - (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
 {
-    // TO-DO: Call delegate method when MRect is clicked
+    [self.adTracker trackClick];
     [self.mRectPresenterDelegate mRectPresenterDidClick:mRectPresenter];
 }
 

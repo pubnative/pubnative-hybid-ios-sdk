@@ -21,11 +21,12 @@
 //
 
 #import "PNLiteInterstitialPresenter.h"
+#import "PNLiteAdTracker.h"
 
 @interface PNLiteInterstitialPresenterDecorator : PNLiteInterstitialPresenter <PNLiteInterstitialPresenterDelegate>
 
-// TO-DO: Add Tracker Delegate to the initializer
 - (instancetype)initWithInterstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
+                                withAdTracker:(PNLiteAdTracker *)adTracker
                                  withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate;
 
 @end

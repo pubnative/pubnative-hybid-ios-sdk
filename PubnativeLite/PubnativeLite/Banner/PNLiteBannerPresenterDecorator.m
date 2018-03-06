@@ -25,8 +25,8 @@
 @interface PNLiteBannerPresenterDecorator ()
 
 @property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) PNLiteAdTracker *adTracker;
 @property (nonatomic, strong) NSObject<PNLiteBannerPresenterDelegate> *bannerPresenterDelegate;
-// TO-DO: Add Ad Tracker Delegate property
 
 @end
 
@@ -35,6 +35,7 @@
 - (void)dealloc
 {
     self.bannerPresenter = nil;
+    self.adTracker = nil;
     self.bannerPresenterDelegate = nil;
 }
 
@@ -44,13 +45,14 @@
 }
 
 - (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+                          withAdTracker:(PNLiteAdTracker *)adTracker
                            withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
         self.bannerPresenter = bannerPresenter;
+        self.adTracker = adTracker;
         self.bannerPresenterDelegate = delegate;
-        // TO-DO: Add Tracker initialization
     }
     return self;
 }
@@ -59,13 +61,13 @@
 
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
-    // TO-DO: Call delegate method when banner is tracked
+    [self.adTracker trackImpression];
     [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didLoadWithBanner:banner];
 }
 
 - (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
 {
-    // TO-DO: Call delegate method when banner is clicked
+    [self.adTracker trackClick];
     [self.bannerPresenterDelegate bannerPresenterDidClick:bannerPresenter];
 }
 
