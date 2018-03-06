@@ -22,23 +22,60 @@
 
 #import "PNLiteAdTracker.h"
 
+@interface PNLiteAdTracker()
+
+@property (nonatomic, strong) PNLiteAdTrackerRequest *adTrackerRequest;
+@property (nonatomic, strong) NSArray *impressionURLs;
+@property (nonatomic, strong) NSArray *clickURLs;
+@property (nonatomic, assign) BOOL impressionTracked;
+@property (nonatomic, assign) BOOL clickTracked;
+
+@end
+
 @implementation PNLiteAdTracker
 
-- (PNLiteAdTracker *)createAdTrackerWithAdTrackerRequest:(PNLiteAdTrackerRequest *)adTrackerRequest
-                                      withImpressionURLS:(NSArray *)impressionURLs
-                                           withClickURLS:(NSArray *)clickURLS
+- (void)dealloc
 {
-    return nil;
+    self.adTrackerRequest = nil;
+    self.impressionURLs = nil;
+    self.clickURLs = nil;
+}
+
+- (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
+                         withClickURLs:(NSArray *)clickURLs
+{
+    return [self initWithAdTrackerRequest:nil withImpressionURLs:impressionURLs withClickURLs:clickURLs];
+}
+
+- (instancetype)initWithAdTrackerRequest:(PNLiteAdTrackerRequest *)adTrackerRequest
+                      withImpressionURLs:(NSArray *)impressionURLs
+                           withClickURLs:(NSArray *)clickURLs
+{
+    self = [super init];
+    if (self) {
+        self.adTrackerRequest = adTrackerRequest;
+        self.impressionURLs = impressionURLs;
+        self.clickURLs = clickURLs;
+    }
+    return self;
 }
 
 - (void)trackClick
 {
+    if (self.clickTracked) {
+        return;
+    }
     
+    self.clickTracked = YES;
 }
 
 - (void)trackImpression
 {
+    if (self.impressionTracked) {
+        return;
+    }
     
+    self.impressionTracked = YES;
 }
 
 @end

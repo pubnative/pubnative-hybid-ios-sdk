@@ -24,9 +24,8 @@
 #import "PNLiteAdTrackerRequest.h"
 
 @interface PNLiteAdTracker : NSObject
-- (PNLiteAdTracker *)createAdTrackerWithAdTrackerRequest:(PNLiteAdTrackerRequest *)adTrackerRequest
-                                      withImpressionURLS:(NSArray *)impressionURLs
-                                           withClickURLS:(NSArray *)clickURLS;
+- (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
+                         withClickURLs:(NSArray *)clickURLs;
 - (void)trackClick;
 - (void)trackImpression;
 @end

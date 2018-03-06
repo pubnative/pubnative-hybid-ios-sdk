@@ -24,6 +24,7 @@
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteMRectPresenterDecorator.h"
 #import "PNLiteMRAIDMRectPresenter.h"
+#import "PNLiteAdTracker.h"
 
 @implementation PNLiteMRectPresenterFactory
 
@@ -34,7 +35,9 @@
     if (!mRectPresenter) {
         return nil;
     }
-    PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter withDelegate:delegate];
+    PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter
+                                                                                                             withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:@"impression"] withClickURLs:[ad beaconsDataWithType:@"click"]]
+                                                                                                              withDelegate:delegate];
     mRectPresenter.delegate = mRectPresenterDecorator;
     return mRectPresenterDecorator;
 }

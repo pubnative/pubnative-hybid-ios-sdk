@@ -35,7 +35,7 @@
 - (void)dealloc
 {
     self.interstitialPresenter = nil;
-    self.adTracker = nil:
+    self.adTracker = nil;
     self.interstitialPresenterDelegate = nil;
 }
 
