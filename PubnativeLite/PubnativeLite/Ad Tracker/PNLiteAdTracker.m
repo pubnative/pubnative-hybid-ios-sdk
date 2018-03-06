@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteAdTracker.h"
-
+#import "PNLiteDataModel.h"
 @interface PNLiteAdTracker() <PNLiteAdTrackerRequestDelegate>
 
 @property (nonatomic, strong) PNLiteAdTrackerRequest *adTrackerRequest;
@@ -44,7 +44,8 @@
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
                          withClickURLs:(NSArray *)clickURLs
 {
-    return [self initWithAdTrackerRequest:nil withImpressionURLs:impressionURLs withClickURLs:clickURLs];
+    PNLiteAdTrackerRequest *adTrackerRequest = [[PNLiteAdTrackerRequest alloc] init];
+    return [self initWithAdTrackerRequest:adTrackerRequest withImpressionURLs:impressionURLs withClickURLs:clickURLs];
 }
 
 - (instancetype)initWithAdTrackerRequest:(PNLiteAdTrackerRequest *)adTrackerRequest
@@ -66,6 +67,7 @@
         return;
     }
     
+    [self trackURLs:self.clickURLs withTrackType:@"click"];
     self.clickTracked = YES;
 }
 
@@ -75,7 +77,16 @@
         return;
     }
     
+    [self trackURLs:self.impressionURLs withTrackType:@"impression"];
     self.impressionTracked = YES;
+}
+
+- (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType
+{
+    for (PNLiteDataModel *dataModel in URLs) {
+        NSLog(@"%@", [NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]);
+        [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
+    }
 }
 
 #pragma mark PNLiteAdTrackerRequestDelegate
