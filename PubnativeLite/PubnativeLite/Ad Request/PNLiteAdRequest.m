@@ -29,10 +29,10 @@
 #import "PNLiteAdCache.h"
 
 NSString *const kPNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
-NSString *const kPNLiteResponseOK = @"ok";
-NSString *const kPNLiteResponseError = @"error";
-NSInteger const kPNLiteResponseStatusOK = 200;
-NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
+NSString *const kPNLiteAdRequestResponseOK = @"ok";
+NSString *const kPNLiteAdRequestResponseError = @"error";
+NSInteger const kPNLiteAdRequestResponseStatusOK = 200;
+NSInteger const kPNLiteAdRequestResponseStatusRequestMalformed = 422;
 
 @interface PNLiteAdRequest () <PNLiteHttpRequestDelegate>
 
@@ -138,7 +138,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
-        } else if ([kPNLiteResponseOK isEqualToString:response.status]) {
+        } else if ([kPNLiteAdRequestResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (PNLiteAdModel *adModel in response.ads) {
                 PNLiteAd *ad = [[PNLiteAd alloc] initWithData:adModel];
@@ -167,8 +167,8 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
 {
-    if(kPNLiteResponseStatusOK == statusCode ||
-       kPNLiteResponseStatusRequestMalformed == statusCode) {
+    if(kPNLiteAdRequestResponseStatusOK == statusCode ||
+       kPNLiteAdRequestResponseStatusRequestMalformed == statusCode) {
         [self processResponseWithData:data];
     } else {
         NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];

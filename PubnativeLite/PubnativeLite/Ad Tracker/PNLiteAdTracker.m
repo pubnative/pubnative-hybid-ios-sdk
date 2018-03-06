@@ -22,7 +22,7 @@
 
 #import "PNLiteAdTracker.h"
 
-@interface PNLiteAdTracker()
+@interface PNLiteAdTracker() <PNLiteAdTrackerRequestDelegate>
 
 @property (nonatomic, strong) PNLiteAdTrackerRequest *adTrackerRequest;
 @property (nonatomic, strong) NSArray *impressionURLs;
@@ -77,5 +77,23 @@
     
     self.impressionTracked = YES;
 }
+
+#pragma mark PNLiteAdTrackerRequestDelegate
+
+- (void)requestDidStart:(PNLiteAdTrackerRequest *)request
+{
+    NSLog(@"Request %@ started:",request);
+}
+
+- (void)requestDidFinish:(PNLiteAdTrackerRequest *)request
+{
+    NSLog(@"Request %@ finished:",request);
+}
+
+- (void)request:(PNLiteAdTrackerRequest *)request didFailWithError:(NSError *)error
+{
+    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+}
+
 
 @end

@@ -22,6 +22,18 @@
 
 #import <Foundation/Foundation.h>
 
+@class PNLiteAdTrackerRequest;
+
+@protocol PNLiteAdTrackerRequestDelegate <NSObject>
+
+- (void)requestDidStart:(PNLiteAdTrackerRequest *)request;
+- (void)requestDidFinish:(PNLiteAdTrackerRequest *)request;
+- (void)request:(PNLiteAdTrackerRequest *)request didFailWithError:(NSError *)error;
+
+@end
+
 @interface PNLiteAdTrackerRequest : NSObject
+
+- (void)trackAdWithDelegate:(NSObject<PNLiteAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url;
 
 @end
