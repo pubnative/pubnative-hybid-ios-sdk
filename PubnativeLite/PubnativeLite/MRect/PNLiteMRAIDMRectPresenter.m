@@ -100,6 +100,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 {
     NSLog(@"PNLiteMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
+    [self.delegate mRectPresenterDidClick:self];
 }
 
 - (BOOL)mraidViewShouldResize:(PNLiteMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
