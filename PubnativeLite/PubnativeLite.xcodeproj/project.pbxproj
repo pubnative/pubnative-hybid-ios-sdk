@@ -37,7 +37,7 @@
 		5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
 		5A404B45204E969400BEE041 /* PNLiteAdTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B43204E969400BEE041 /* PNLiteAdTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A404B46204E969400BEE041 /* PNLiteAdTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B44204E969400BEE041 /* PNLiteAdTracker.m */; };
-		5A404B4A204E991200BEE041 /* PNLiteAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* PNLiteAdTrackerRequest.h */; };
+		5A404B4A204E991200BEE041 /* PNLiteAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* PNLiteAdTrackerRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A404B4B204E991200BEE041 /* PNLiteAdTrackerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B49204E991200BEE041 /* PNLiteAdTrackerRequest.m */; };
 		5A449B47203D778B00CEB630 /* PNLiteMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B45203D778B00CEB630 /* PNLiteMRectPresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A449B48203D778B00CEB630 /* PNLiteMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B46203D778B00CEB630 /* PNLiteMRectPresenter.m */; };
