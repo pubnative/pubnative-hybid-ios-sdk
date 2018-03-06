@@ -23,11 +23,6 @@
 #import "PNLiteAdTrackerRequest.h"
 #import "PNLiteHttpRequest.h"
 
-NSString *const kPNLiteAdTrackerRequestResponseOK = @"ok";
-NSString *const kPNLiteAdTrackerRequestResponseError = @"error";
-NSInteger const kPNLiteAdTrackerRequestResponseStatusOK = 200;
-NSInteger const kPNLiteAdTrackerRequestResponseStatusRequestMalformed = 422;
-
 @interface PNLiteAdTrackerRequest() <PNLiteHttpRequestDelegate>
 
 @property (nonatomic, weak) NSObject <PNLiteAdTrackerRequestDelegate> *delegate;
@@ -80,13 +75,7 @@ NSInteger const kPNLiteAdTrackerRequestResponseStatusRequestMalformed = 422;
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
 {
-    if(kPNLiteAdTrackerRequestResponseStatusOK == statusCode ||
-       kPNLiteAdTrackerRequestResponseStatusRequestMalformed == statusCode) {
-        [self invokeDidLoad];
-    } else {
-        NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
-        [self invokeDidFail:statusError];
-    }
+    [self invokeDidLoad];
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
