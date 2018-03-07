@@ -21,11 +21,12 @@
 //
 
 #import "PNLiteBannerPresenter.h"
+#import "PNLiteAdTracker.h"
 
 @interface PNLiteBannerPresenterDecorator : PNLiteBannerPresenter <PNLiteBannerPresenterDelegate>
 
-// TO-DO: Add Tracker Delegate to the initializer
 - (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+                          withAdTracker:(PNLiteAdTracker *)adTracker
                            withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate;
 
 @end

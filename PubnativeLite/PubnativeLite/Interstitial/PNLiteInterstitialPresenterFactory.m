@@ -24,6 +24,7 @@
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteInterstitialPresenterDecorator.h"
 #import "PNLiteMRAIDInterstitialPresenter.h"
+#import "PNLiteAdTracker.h"
 
 @implementation PNLiteInterstitialPresenterFactory
 
@@ -34,7 +35,9 @@
     if (!interstitialPresenter) {
         return nil;
     }
-    PNLiteInterstitialPresenterDecorator *interstitialPresenterDecorator = [[PNLiteInterstitialPresenterDecorator alloc] initWithInterstitialPresenter:interstitialPresenter withDelegate:delegate];
+    PNLiteInterstitialPresenterDecorator *interstitialPresenterDecorator = [[PNLiteInterstitialPresenterDecorator alloc] initWithInterstitialPresenter:interstitialPresenter
+                                                                                                                                         withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
+                                                                                                                                          withDelegate:delegate];
     interstitialPresenter.delegate = interstitialPresenterDecorator;
     return interstitialPresenterDecorator;
 }

@@ -21,20 +21,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
 
-@interface PNLiteAd : NSObject
+@class PNLiteAdTrackerRequest;
 
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSString *htmlUrl;
-@property (nonatomic, readonly) NSString *htmlData;
-@property (nonatomic, readonly) NSNumber *assetGroupID;
-@property (nonatomic, readonly) NSNumber *eCPM;
+@protocol PNLiteAdTrackerRequestDelegate <NSObject>
 
-- (instancetype)initWithData:(PNLiteAdModel *)data;
-- (PNLiteDataModel *)assetDataWithType:(NSString *)type;
-- (PNLiteDataModel *)metaDataWithType:(NSString *)type;
-- (NSArray *)beaconsDataWithType:(NSString *)type;
+- (void)requestDidStart:(PNLiteAdTrackerRequest *)request;
+- (void)requestDidFinish:(PNLiteAdTrackerRequest *)request;
+- (void)request:(PNLiteAdTrackerRequest *)request didFailWithError:(NSError *)error;
+
+@end
+
+@interface PNLiteAdTrackerRequest : NSObject
+
+- (void)trackAdWithDelegate:(NSObject<PNLiteAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url;
 
 @end

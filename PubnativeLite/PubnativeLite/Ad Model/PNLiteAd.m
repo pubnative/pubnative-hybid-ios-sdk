@@ -24,9 +24,6 @@
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
 
-NSString *const kPNLiteAdModelBeaconImpression = @"impression";
-NSString *const kPNLiteAdModelBeaconClick = @"click";
-
 @interface PNLiteAd ()
 
 @property (nonatomic, strong)PNLiteAdModel *data;
@@ -115,6 +112,15 @@ NSString *const kPNLiteAdModelBeaconClick = @"click";
     PNLiteDataModel *result = nil;
     if (self.data) {
         result = [self.data metaWithType:type];
+    }
+    return result;
+}
+
+- (NSArray *)beaconsDataWithType:(NSString *)type
+{
+    NSArray *result = nil;
+    if (self.data) {
+        result = [self.data beaconsWithType:type];
     }
     return result;
 }

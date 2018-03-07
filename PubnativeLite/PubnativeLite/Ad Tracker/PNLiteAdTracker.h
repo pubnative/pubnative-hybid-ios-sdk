@@ -21,20 +21,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
+#import "PNLiteAdTrackerRequest.h"
 
-@interface PNLiteAd : NSObject
+extern NSString *const kPNLiteAdTrackerClick;
+extern NSString *const kPNLiteAdTrackerImpression;
 
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSString *htmlUrl;
-@property (nonatomic, readonly) NSString *htmlData;
-@property (nonatomic, readonly) NSNumber *assetGroupID;
-@property (nonatomic, readonly) NSNumber *eCPM;
-
-- (instancetype)initWithData:(PNLiteAdModel *)data;
-- (PNLiteDataModel *)assetDataWithType:(NSString *)type;
-- (PNLiteDataModel *)metaDataWithType:(NSString *)type;
-- (NSArray *)beaconsDataWithType:(NSString *)type;
-
+@interface PNLiteAdTracker : NSObject
+- (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
+                         withClickURLs:(NSArray *)clickURLs;
+- (void)trackClick;
+- (void)trackImpression;
 @end
