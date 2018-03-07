@@ -23,6 +23,8 @@
 #import "PNLiteAdTrackerRequest.h"
 #import "PNLiteHttpRequest.h"
 
+NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
+
 @interface PNLiteAdTrackerRequest() <PNLiteHttpRequestDelegate>
 
 @property (nonatomic, weak) NSObject <PNLiteAdTrackerRequestDelegate> *delegate;
@@ -75,7 +77,12 @@
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
 {
-    [self invokeDidLoad];
+    if(kPNLiteResponseStatusRequestNotFound == statusCode) {
+        NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
+        [self invokeDidFail:statusError];
+    } else {
+        [self invokeDidLoad];
+    }
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
