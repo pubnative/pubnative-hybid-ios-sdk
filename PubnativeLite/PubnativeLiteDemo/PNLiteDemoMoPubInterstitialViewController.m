@@ -121,6 +121,10 @@
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PNLite Demo" message:error.localizedDescription delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+    [alert show];
+    
     [self.interstitialLoaderIndicator stopAnimating];
 }
 @end

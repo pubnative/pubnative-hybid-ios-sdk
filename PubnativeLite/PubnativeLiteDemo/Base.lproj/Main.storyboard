@@ -74,7 +74,7 @@
             </objects>
             <point key="canvasLocation" x="2003" y="-57"/>
         </scene>
-        <!--PubNative Lite Demo-->
+        <!--PNLite Demo-->
         <scene sceneID="La3-Pw-El7">
             <objects>
                 <viewController id="dIX-wM-j9j" customClass="PNLiteDemoMainViewController" sceneMemberID="viewController">
@@ -285,7 +285,7 @@
                             <constraint firstItem="76S-IN-LYP" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="xW7-ZC-4hd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="PubNative Lite Demo" id="0pE-n5-Vvz"/>
+                    <navigationItem key="navigationItem" title="PNLite Demo" id="0pE-n5-Vvz"/>
                     <connections>
                         <outlet property="bannerButton" destination="62G-RC-7fB" id="uLD-8V-Vaj"/>
                         <outlet property="interstitialButton" destination="Hcb-bJ-YfG" id="fvd-rH-Nrd"/>

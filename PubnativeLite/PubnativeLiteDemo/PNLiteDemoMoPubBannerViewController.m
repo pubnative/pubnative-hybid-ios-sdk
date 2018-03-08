@@ -124,6 +124,9 @@
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PNLite Demo" message:error.localizedDescription delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+    [alert show];
+    
     if (request == self.bannerAdRequest) {
         [self.bannerLoaderIndicator stopAnimating];
     } 
