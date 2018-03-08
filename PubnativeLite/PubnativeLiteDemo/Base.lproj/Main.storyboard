@@ -680,26 +680,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVR-F8-IEV">
-                                <rect key="frame" x="0.0" y="64" width="320" height="35"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="bL7-Dt-CPf"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OIA-vZ-wVw">
-                                <rect key="frame" x="16" y="107" width="288" height="30"/>
+                                <rect key="frame" x="16" y="72" width="288" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Zsc-l5-H4f"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="request"/>
+                                <state key="normal" title="Request"/>
                                 <connections>
                                     <action selector="requestInterstitialTouchUpInside:" destination="ab4-nx-N9R" eventType="touchUpInside" id="2Hk-Mc-Zib"/>
                                 </connections>
@@ -713,12 +702,9 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="OIA-vZ-wVw" secondAttribute="trailing" id="71T-8O-GoZ"/>
                             <constraint firstItem="Zb0-Jv-sGI" firstAttribute="centerX" secondItem="tws-ni-91S" secondAttribute="centerX" id="IZu-cW-qCd"/>
-                            <constraint firstItem="OIA-vZ-wVw" firstAttribute="top" secondItem="uVR-F8-IEV" secondAttribute="bottom" constant="8" id="UcS-aN-XHX"/>
                             <constraint firstItem="OIA-vZ-wVw" firstAttribute="leading" secondItem="tws-ni-91S" secondAttribute="leadingMargin" id="YD4-kV-eWM"/>
-                            <constraint firstAttribute="trailing" secondItem="uVR-F8-IEV" secondAttribute="trailing" id="lKa-mg-8r1"/>
                             <constraint firstItem="Zb0-Jv-sGI" firstAttribute="centerY" secondItem="tws-ni-91S" secondAttribute="centerY" id="ncf-Ff-r5u"/>
-                            <constraint firstItem="uVR-F8-IEV" firstAttribute="top" secondItem="yUM-ES-JIN" secondAttribute="bottom" id="tqQ-ms-u51"/>
-                            <constraint firstItem="uVR-F8-IEV" firstAttribute="leading" secondItem="tws-ni-91S" secondAttribute="leading" id="vHb-Uk-UDq"/>
+                            <constraint firstItem="OIA-vZ-wVw" firstAttribute="top" secondItem="yUM-ES-JIN" secondAttribute="bottom" constant="8" id="uTF-bS-Pa7"/>
                         </constraints>
                     </view>
                     <connections>
