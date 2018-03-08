@@ -323,6 +323,7 @@
 		5ADACD1C202CB88A00617734 /* PNLiteData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD1A202CB88A00617734 /* PNLiteData.m */; };
 		5ADACD1F202CBA9800617734 /* PNLiteAsset.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADACD1D202CBA9800617734 /* PNLiteAsset.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD1E202CBA9800617734 /* PNLiteAsset.m */; };
+		5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */; };
 		5AE31C98203EC6AF005F140A /* PNLiteMoPubUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */; };
 		5AE31C9F203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */; };
 		5AE31CA2203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */; };
@@ -891,6 +892,8 @@
 		5ADACD1A202CB88A00617734 /* PNLiteData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteData.m; sourceTree = "<group>"; };
 		5ADACD1D202CBA9800617734 /* PNLiteAsset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAsset.h; sourceTree = "<group>"; };
 		5ADACD1E202CBA9800617734 /* PNLiteAsset.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAsset.m; sourceTree = "<group>"; };
+		5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubSettingsViewController.h; sourceTree = "<group>"; };
+		5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubSettingsViewController.m; sourceTree = "<group>"; };
 		5AE31C96203EC6AF005F140A /* PNLiteMoPubUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubUtils.h; sourceTree = "<group>"; };
 		5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubUtils.m; sourceTree = "<group>"; };
 		5AE31C9D203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubBannerCustomEvent.h; sourceTree = "<group>"; };
@@ -1016,6 +1019,8 @@
 				5A32CEBF2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m */,
 				5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */,
 				5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */,
+				5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */,
+				5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */,
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */,
@@ -2038,6 +2043,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */,
 				5A8903AD203DE19600D86051 /* MPNativeAdRenderingImageLoader.m in Sources */,
 				5A890373203DE19600D86051 /* MPStoreKitProvider.m in Sources */,
 				5A89036A203DE19600D86051 /* MPLogging.m in Sources */,
