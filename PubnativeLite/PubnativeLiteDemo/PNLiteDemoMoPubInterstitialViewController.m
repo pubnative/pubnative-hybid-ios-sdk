@@ -56,7 +56,7 @@
 {
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:@"4"];
+    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
@@ -114,7 +114,7 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
 
-    [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"4"]];
+    [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
     [self.moPubInterstitial loadAd];
 }
 

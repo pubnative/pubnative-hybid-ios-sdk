@@ -61,7 +61,7 @@
     self.mRectContainer.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:@"3"];
+    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -115,7 +115,7 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
-        [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"3"]];
+        [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubMrect loadAd];
     }
 }
