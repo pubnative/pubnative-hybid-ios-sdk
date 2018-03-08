@@ -84,11 +84,6 @@
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Interstitial"/>
-                                <connections>
-                                    <segue destination="ab4-nx-N9R" kind="show" id="ufU-rH-ZRq">
-                                        <nil key="action"/>
-                                    </segue>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -114,7 +109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o4j-Gu-Rka" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3242.4000000000001" y="-48.125937031484263"/>
+            <point key="canvasLocation" x="3932" y="-39"/>
         </scene>
         <!--MoPub Native View Controller-->
         <scene sceneID="jRJ-hF-13g">
@@ -184,7 +179,180 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7qZ-rg-hZ4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3692" y="-761"/>
+            <point key="canvasLocation" x="4779" y="-750"/>
+        </scene>
+        <!--PubNative Lite Demo-->
+        <scene sceneID="La3-Pw-El7">
+            <objects>
+                <viewController id="dIX-wM-j9j" customClass="PNLiteDemoMainViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="10S-oZ-WAa"/>
+                        <viewControllerLayoutGuide type="bottom" id="Emv-ng-H1T"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Rak-bh-dB1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwu-Kj-qga" userLabel="PNLite Settings Button">
+                                <rect key="frame" x="16" y="72" width="136" height="33"/>
+                                <color key="backgroundColor" red="0.52279043199999997" green="0.0002650673268" blue="0.54572534559999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="1UQ-K6-1c9"/>
+                                    <constraint firstAttribute="height" constant="33" id="lGr-OR-TRu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="PNLite Settings">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="1UQ-K6-1c9"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="1UQ-K6-1c9"/>
+                                        <exclude reference="lGr-OR-TRu"/>
+                                    </mask>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qiX-Yw-4F7" userLabel="MoPub Settings Button">
+                                <rect key="frame" x="168" y="72" width="136" height="33"/>
+                                <color key="backgroundColor" red="0.52279043199999997" green="0.0002650673268" blue="0.54572534559999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="kBb-NV-d1i"/>
+                                    <constraint firstAttribute="height" constant="33" id="kQ5-Tb-ewp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="MoPub Settings">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="kQ5-Tb-ewp"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="kQ5-Tb-ewp"/>
+                                        <exclude reference="kBb-NV-d1i"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="XEX-kd-kio" kind="show" id="BJ5-UU-I9N"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62G-RC-7fB" userLabel="Banner Button">
+                                <rect key="frame" x="16" y="445" width="288" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="AJ8-WH-qdB"/>
+                                    <constraint firstAttribute="height" constant="33" id="Aao-Yb-Z1j"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Banner">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Aao-Yb-Z1j"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="Aao-Yb-Z1j"/>
+                                        <exclude reference="AJ8-WH-qdB"/>
+                                    </mask>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76S-IN-LYP" userLabel="MRect Button">
+                                <rect key="frame" x="16" y="486" width="288" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="EbS-yZ-sYg"/>
+                                    <constraint firstAttribute="height" constant="33" id="UOl-Gk-h4H"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="MRect">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="EbS-yZ-sYg"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="EbS-yZ-sYg"/>
+                                        <exclude reference="UOl-Gk-h4H"/>
+                                    </mask>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hcb-bJ-YfG" userLabel="Interstitial Button">
+                                <rect key="frame" x="16" y="527" width="288" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="4YI-jt-bNU"/>
+                                    <constraint firstAttribute="height" constant="33" id="uAi-sE-qLt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Interstitial">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="uAi-sE-qLt"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="uAi-sE-qLt"/>
+                                        <exclude reference="4YI-jt-bNU"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="ab4-nx-N9R" kind="show" id="yab-xB-GuR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="qiX-Yw-4F7" secondAttribute="trailing" constant="16" id="2tJ-xS-fdc"/>
+                            <constraint firstItem="Hcb-bJ-YfG" firstAttribute="top" secondItem="76S-IN-LYP" secondAttribute="bottom" constant="8" id="3K0-hn-koY"/>
+                            <constraint firstAttribute="trailing" secondItem="76S-IN-LYP" secondAttribute="trailing" constant="16" id="7sm-Tm-zgf"/>
+                            <constraint firstItem="kwu-Kj-qga" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="8vC-2y-c5q"/>
+                            <constraint firstItem="76S-IN-LYP" firstAttribute="top" secondItem="62G-RC-7fB" secondAttribute="bottom" constant="8" id="DmY-CV-2Ht"/>
+                            <constraint firstItem="kwu-Kj-qga" firstAttribute="top" secondItem="10S-oZ-WAa" secondAttribute="bottom" constant="8" id="I6v-KL-B78"/>
+                            <constraint firstItem="Emv-ng-H1T" firstAttribute="top" secondItem="Hcb-bJ-YfG" secondAttribute="bottom" constant="8" id="RB8-LR-C92"/>
+                            <constraint firstItem="62G-RC-7fB" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="S83-dx-DGV"/>
+                            <constraint firstItem="qiX-Yw-4F7" firstAttribute="leading" secondItem="kwu-Kj-qga" secondAttribute="trailing" constant="16" id="TJ8-Bq-G8k"/>
+                            <constraint firstItem="Hcb-bJ-YfG" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="bpT-2E-9AP"/>
+                            <constraint firstAttribute="trailing" secondItem="Hcb-bJ-YfG" secondAttribute="trailing" constant="16" id="ees-8Z-OdF"/>
+                            <constraint firstItem="kwu-Kj-qga" firstAttribute="width" secondItem="qiX-Yw-4F7" secondAttribute="width" id="pyo-3k-RpC"/>
+                            <constraint firstAttribute="trailing" secondItem="62G-RC-7fB" secondAttribute="trailing" constant="16" id="qNZ-BR-kyY"/>
+                            <constraint firstItem="qiX-Yw-4F7" firstAttribute="top" secondItem="10S-oZ-WAa" secondAttribute="bottom" constant="8" id="rZV-ck-zI9"/>
+                            <constraint firstItem="76S-IN-LYP" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="xW7-ZC-4hd"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="PubNative Lite Demo" id="0pE-n5-Vvz"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yT3-gd-Jb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1134.375" y="-55.985915492957744"/>
         </scene>
         <!--MoPub Settings-->
         <scene sceneID="Jfp-6b-UMB">
@@ -378,7 +546,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rDE-XN-fJa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2015.625" y="-48.591549295774648"/>
+            <point key="canvasLocation" x="1134" y="1008"/>
         </scene>
         <!--MoPub Banner View Controller-->
         <scene sceneID="Sbi-ll-cUE">
@@ -498,7 +666,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbK-wK-2Hn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3353" y="725"/>
+            <point key="canvasLocation" x="4410" y="753"/>
         </scene>
         <!--MoPub Interstitial View Controller-->
         <scene sceneID="lvW-PO-n18">
@@ -513,7 +681,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVR-F8-IEV">
-                                <rect key="frame" x="0.0" y="20" width="320" height="35"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="35"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -524,7 +692,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OIA-vZ-wVw">
-                                <rect key="frame" x="16" y="63" width="288" height="30"/>
+                                <rect key="frame" x="16" y="107" width="288" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Zsc-l5-H4f"/>
@@ -559,7 +727,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="33u-vp-zHW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4031.1999999999998" y="-48.125937031484263"/>
+            <point key="canvasLocation" x="1959" y="539"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="73D-iB-nYb">
@@ -576,12 +744,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="XEX-kd-kio" kind="relationship" relationship="rootViewController" id="E6Y-i1-Rin"/>
+                        <segue destination="dIX-wM-j9j" kind="relationship" relationship="rootViewController" id="5Ut-QJ-H4J"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fxm-h8-zrK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1242" y="-49"/>
+            <point key="canvasLocation" x="358" y="-54"/>
         </scene>
     </scenes>
     <resources>
