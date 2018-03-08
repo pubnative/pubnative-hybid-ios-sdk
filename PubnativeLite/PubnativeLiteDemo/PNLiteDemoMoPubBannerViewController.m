@@ -53,6 +53,8 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"Banner";
+
     [self.bannerLoaderIndicator stopAnimating];
     [self.mRectLoaderIndicator stopAnimating];
     
