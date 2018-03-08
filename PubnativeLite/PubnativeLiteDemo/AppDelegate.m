@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "PNLiteDemoSettings.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [PubnativeLite initWithAppToken:@"543027b8e954474cbcd9a98481622a3b"];
+    [PubnativeLite initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken];
     return YES;
 }
 

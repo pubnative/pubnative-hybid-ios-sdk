@@ -23,8 +23,7 @@
 #import "PNLiteDemoMoPubInterstitialViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
 #import "MPInterstitialAdController.h"
-
-NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
+#import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubInterstitialViewController () <PNLiteAdRequestDelegate, MPInterstitialAdControllerDelegate>
 
@@ -47,7 +46,7 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
     [self.interstitialLoaderIndicator stopAnimating];
     
     if(self.moPubInterstitial == nil) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:kPNLiteDemoMoPubInterstitialAdUnitID];
+        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
         self.moPubInterstitial.delegate = self;
     }
 }

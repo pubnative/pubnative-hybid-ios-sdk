@@ -23,9 +23,7 @@
 #import "PNLiteDemoMoPubBannerViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
 #import "MPAdView.h"
-
-NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
-NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
+#import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubBannerViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
 
@@ -58,13 +56,13 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
     [self.bannerLoaderIndicator stopAnimating];
     [self.mRectLoaderIndicator stopAnimating];
     
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:kPNLiteDemoMoPubBannerAdUnitID
+    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID
                                                      size:MOPUB_BANNER_SIZE];
     self.moPubBanner.delegate = self;
     [self.moPubBanner stopAutomaticallyRefreshingContents];
     [self.bannerContainer addSubview:self.moPubBanner];
     
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:kPNLiteDemoMoPubMRectAdUnitID
+    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID
                                                     size:MOPUB_MEDIUM_RECT_SIZE];
     self.moPubMrect.delegate = self;
     [self.moPubMrect stopAutomaticallyRefreshingContents];
