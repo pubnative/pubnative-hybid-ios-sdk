@@ -20,48 +20,48 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubBannerViewController.h"
+#import "PNLiteDemoMoPubMRectViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
 #import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubBannerViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
+@interface PNLiteDemoMoPubMRectViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *bannerContainer;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (nonatomic, strong) MPAdView *moPubBanner;
-@property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
+@property (weak, nonatomic) IBOutlet UIView *mRectContainer;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
+@property (nonatomic, strong) MPAdView *moPubMrect;
+@property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
 @end
 
-@implementation PNLiteDemoMoPubBannerViewController
+@implementation PNLiteDemoMoPubMRectViewController
 
 - (void)dealloc
 {
-    self.moPubBanner = nil;
-    self.bannerAdRequest = nil;
+    self.moPubMrect = nil;
+    self.mRectAdRequest = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"Banner";
-
-    [self.bannerLoaderIndicator stopAnimating];
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID
-                                                     size:MOPUB_BANNER_SIZE];
-    self.moPubBanner.delegate = self;
-    [self.moPubBanner stopAutomaticallyRefreshingContents];
-    [self.bannerContainer addSubview:self.moPubBanner];
+    self.navigationItem.title = @"MRect";
+    
+    [self.mRectLoaderIndicator stopAnimating];
+    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID
+                                                    size:MOPUB_MEDIUM_RECT_SIZE];
+    self.moPubMrect.delegate = self;
+    [self.moPubMrect stopAutomaticallyRefreshingContents];
+    [self.mRectContainer addSubview:self.moPubMrect];
 }
 
-- (IBAction)requestBannerTouchUpInside:(id)sender
+- (IBAction)requestMRectTouchUpInside:(id)sender
 {
-    self.bannerContainer.hidden = YES;
-    [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:@"2"];
+    self.mRectContainer.hidden = YES;
+    [self.mRectLoaderIndicator startAnimating];
+    self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
+    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:@"3"];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -74,17 +74,17 @@
 - (void)adViewDidLoadAd:(MPAdView *)view
 {
     NSLog(@"adViewDidLoadAd");
-    if (self.moPubBanner == view) {
-        self.bannerContainer.hidden = NO;
-        [self.bannerLoaderIndicator stopAnimating];
+    if (self.moPubMrect == view) {
+        self.mRectContainer.hidden = NO;
+        [self.mRectLoaderIndicator stopAnimating];
     }
 }
 
 - (void)adViewDidFailToLoadAd:(MPAdView *)view
 {
     NSLog(@"adViewDidFailToLoadAd");
-    if (self.moPubBanner == view) {
-        [self.bannerLoaderIndicator stopAnimating];
+    if (self.moPubMrect == view) {
+        [self.mRectLoaderIndicator stopAnimating];
     }
 }
 
@@ -114,9 +114,9 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
     
-    if (request == self.bannerAdRequest) {
-        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"2"]];
-        [self.moPubBanner loadAd];
+    if (request == self.mRectAdRequest) {
+        [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"3"]];
+        [self.moPubMrect loadAd];
     }
 }
 
@@ -124,9 +124,9 @@
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
-    if (request == self.bannerAdRequest) {
-        [self.bannerLoaderIndicator stopAnimating];
-    } 
+     if (request == self.mRectAdRequest) {
+        [self.mRectLoaderIndicator stopAnimating];
+    }
 }
 
 @end
