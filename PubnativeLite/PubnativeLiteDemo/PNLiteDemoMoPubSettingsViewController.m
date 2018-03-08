@@ -21,6 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubSettingsViewController.h"
+#import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubSettingsViewController () <UITextFieldDelegate>
 
@@ -35,11 +36,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID;
+    self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID;
+    self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID;
 }
 
 - (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender
 {
-    
+    [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID = self.bannerAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID = self.mRectAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
 }
 
 #pragma mark UITextFieldDelegate
