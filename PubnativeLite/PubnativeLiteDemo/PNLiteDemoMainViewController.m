@@ -21,8 +21,14 @@
 //
 
 #import "PNLiteDemoMainViewController.h"
+#import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMainViewController ()
+@interface PNLiteDemoMainViewController () <UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *zoneIDTextField;
+@property (weak, nonatomic) IBOutlet UIButton *bannerButton;
+@property (weak, nonatomic) IBOutlet UIButton *mRectButton;
+@property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
 
 @end
 
@@ -31,6 +37,38 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (IBAction)chooseAdFormatTouchUpInside:(UIButton *)sender
+{
+    [PNLiteDemoSettings sharedInstance].zoneID = self.zoneIDTextField.text;
+}
+
+#pragma mark UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [textField becomeFirstResponder];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    if (textField.text.length) {
+        self.bannerButton.hidden = NO;
+        self.mRectButton.hidden = NO;
+        self.interstitialButton.hidden = NO;
+    } else {
+        self.bannerButton.hidden = YES;
+        self.mRectButton.hidden = YES;
+        self.interstitialButton.hidden = YES;
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField endEditing:YES];
+    return YES;
 }
 
 @end

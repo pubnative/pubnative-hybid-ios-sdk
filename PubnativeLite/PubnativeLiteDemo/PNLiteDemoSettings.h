@@ -25,6 +25,7 @@
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *appToken;
+@property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSString *moPubBannerAdUnitID;
 @property (nonatomic, strong) NSString *moPubMRectAdUnitID;
 @property (nonatomic, strong) NSString *moPubInterstitialAdUnitID;

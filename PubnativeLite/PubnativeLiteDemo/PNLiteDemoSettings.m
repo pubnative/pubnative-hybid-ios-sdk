@@ -23,6 +23,7 @@
 #import "PNLiteDemoSettings.h"
 
 NSString *const kPNLiteDemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
+NSString *const kPNLiteDemoZoneID;
 NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
 NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
 NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
@@ -32,6 +33,7 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
 - (void)dealloc
 {
     self.appToken = nil;
+    self.zoneID = nil;
     self.moPubBannerAdUnitID = nil;
     self.moPubMRectAdUnitID = nil;
     self.moPubInterstitialAdUnitID = nil;
@@ -52,6 +54,7 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
     self = [super init];
     if (self) {
         self.appToken = kPNLiteDemoAppToken;
+        self.zoneID = kPNLiteDemoZoneID;
         self.moPubBannerAdUnitID = kPNLiteDemoMoPubBannerAdUnitID;
         self.moPubMRectAdUnitID = kPNLiteDemoMoPubMRectAdUnitID;
         self.moPubInterstitialAdUnitID = kPNLiteDemoMoPubInterstitialAdUnitID;
