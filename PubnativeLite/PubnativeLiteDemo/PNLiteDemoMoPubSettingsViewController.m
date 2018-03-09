@@ -46,6 +46,7 @@
     [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID = self.bannerAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID = self.mRectAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark UITextFieldDelegate
