@@ -39,7 +39,6 @@
                                 <state key="normal" title="Load Ad"/>
                                 <connections>
                                     <action selector="requestMRectTouchUpInside:" destination="jn1-kH-C7E" eventType="touchUpInside" id="SrL-Kl-Fv8"/>
-                                    <action selector="requestMRectTouchUpInside:" destination="bat-t2-3KT" eventType="touchUpInside" id="eMm-X6-0qK"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2SX-r8-dld">
@@ -770,7 +769,6 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="saveMoPubSettingsTouchUpInside:" destination="XEX-kd-kio" eventType="touchUpInside" id="jJp-G2-M27"/>
                                     <action selector="savePNLiteSettingsTouchUpInside:" destination="xAG-v4-sOX" eventType="touchUpInside" id="KSv-o9-ie9"/>
                                 </connections>
                             </button>
