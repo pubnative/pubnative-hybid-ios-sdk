@@ -71,6 +71,7 @@
 		5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */; };
 		5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */; };
+		5A59DBBF2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */; };
 		5A6CD0252029CD060022E206 /* PubnativeLite.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* PubnativeLite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A89030D203DE19600D86051 /* MPAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A890169203DE19500D86051 /* MPAdView.m */; };
 		5A89030E203DE19600D86051 /* MPViewabilityAdapterAvid.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A890173203DE19500D86051 /* MPViewabilityAdapterAvid.m */; };
@@ -435,6 +436,8 @@
 		5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMeta.h; sourceTree = "<group>"; };
 		5A59DBBA2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteSettingsViewController.h; sourceTree = "<group>"; };
 		5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteSettingsViewController.m; sourceTree = "<group>"; };
+		5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoKeywordsViewController.h; sourceTree = "<group>"; };
+		5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoKeywordsViewController.m; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* PubnativeLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PubnativeLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* PubnativeLite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubnativeLite.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1039,6 +1042,8 @@
 				5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */,
 				5A59DBBA2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.h */,
 				5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */,
+				5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */,
+				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
 				5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */,
 				5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */,
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
@@ -2144,6 +2149,7 @@
 				5A89030E203DE19600D86051 /* MPViewabilityAdapterAvid.m in Sources */,
 				5A890350203DE19600D86051 /* MPAdAlertManager.m in Sources */,
 				5A8903A1203DE19600D86051 /* MPNativeAdConfigValues+Internal.m in Sources */,
+				5A59DBBF2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m in Sources */,
 				5A89036E203DE19600D86051 /* MPUserInteractionGestureRecognizer.m in Sources */,
 				5A89032A203DE19600D86051 /* MPNetworkManager.m in Sources */,
 				5A8903A6203DE19600D86051 /* MPTableViewCellImpressionTracker.m in Sources */,
