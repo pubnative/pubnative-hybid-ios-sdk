@@ -108,6 +108,14 @@
     }
 }
 
+- (IBAction)handleTap:(UIGestureRecognizer *)recognizer
+{
+    if (!([self.ageTextField.text length] > 0)) {
+        self.ageTextField.text = nil;
+        [self.ageTextField resignFirstResponder];
+    }
+}
+
 - (IBAction)savePNLiteSettingsTouchUpInside:(UIButton *)sender
 {
     [PNLiteDemoSettings sharedInstance].appToken = self.appTokenTextField.text;

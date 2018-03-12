@@ -45,6 +45,14 @@
     self.allKeywordsTextView.text = [PNLiteDemoSettings sharedInstance].keywords;
 }
 
+- (IBAction)handleTap:(UIGestureRecognizer *)recognizer
+{
+    if (!([self.keywordTextField.text length] > 0)) {
+        self.keywordTextField.text = nil;
+        [self.keywordTextField resignFirstResponder];
+    }
+}
+
 - (IBAction)addKeywordTouchUpInside:(UIButton *)sender
 {
     [self.keywordTextField resignFirstResponder];

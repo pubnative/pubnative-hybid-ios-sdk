@@ -432,6 +432,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="3H1-zT-7Df" firstAttribute="top" secondItem="Jtw-lT-wAh" secondAttribute="bottom" constant="8" id="2Ca-YZ-XBr"/>
                             <constraint firstAttribute="trailing" secondItem="k8i-G7-PVZ" secondAttribute="trailing" constant="16" id="82U-96-Mep"/>
@@ -452,6 +453,9 @@
                             <constraint firstAttribute="trailing" secondItem="5Wk-9g-dod" secondAttribute="trailing" constant="16" id="vUu-Wn-zJY"/>
                             <constraint firstItem="3H1-zT-7Df" firstAttribute="leading" secondItem="gBr-5S-jKA" secondAttribute="trailing" constant="16" id="yoq-zB-evo"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="BFj-P6-sRg" appends="YES" id="fRR-An-Jlh"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="allKeywordsTextView" destination="k8i-G7-PVZ" id="PTR-nz-hmP"/>
@@ -459,6 +463,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hK0-uI-ti9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="BFj-P6-sRg">
+                    <connections>
+                        <action selector="handleTap:" destination="4S2-1n-IKD" id="cVg-UJ-l3Q"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-482.39999999999998" y="848.72563718140941"/>
         </scene>
@@ -973,7 +982,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yg-iO-Z8b" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="2p5-lb-ejJ"/>
+                <tapGestureRecognizer id="2p5-lb-ejJ">
+                    <connections>
+                        <action selector="handleTap:" destination="xAG-v4-sOX" id="bW0-4f-lER"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1253" y="849"/>
         </scene>
