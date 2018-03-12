@@ -495,7 +495,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PlJ-fe-Cjd" userLabel="Banner Ad Unit ID Text Field">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PlJ-fe-Cjd" userLabel="Banner Ad Unit ID Text Field">
                                 <rect key="frame" x="16" y="101" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618268966675" green="0.85097014904022217" blue="0.85098105669021606" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
@@ -529,7 +529,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub MRect Ad Unit ID" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xVA-8C-HDa" userLabel="MRect Ad Unit ID Text Field">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub MRect Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xVA-8C-HDa" userLabel="MRect Ad Unit ID Text Field">
                                 <rect key="frame" x="16" y="178" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618268966675" green="0.85097014904022217" blue="0.85098105669021606" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
@@ -563,7 +563,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fzK-cm-FqR" userLabel="Interstitial Ad Unit ID Text Field">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fzK-cm-FqR" userLabel="Interstitial Ad Unit ID Text Field">
                                 <rect key="frame" x="16" y="255" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618268966675" green="0.85097014904022217" blue="0.85098105669021606" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
@@ -922,6 +922,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="CIM-Ad-VIj" firstAttribute="top" secondItem="v3Y-4e-fQF" secondAttribute="bottom" constant="8" id="41k-5a-xAd"/>
                             <constraint firstItem="bPl-PH-Wv8" firstAttribute="leading" secondItem="WEH-18-K5U" secondAttribute="leading" constant="16" id="62V-ja-6rF"/>
@@ -957,6 +958,9 @@
                             <constraint firstItem="EZQ-wm-jhA" firstAttribute="top" secondItem="gHZ-0G-uh7" secondAttribute="bottom" constant="8" id="ptU-Wb-eu9"/>
                             <constraint firstItem="sxk-e0-C7m" firstAttribute="top" secondItem="AQy-yg-x3E" secondAttribute="bottom" constant="8" id="uRk-tJ-YCo"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="2p5-lb-ejJ" appends="YES" id="HWD-jd-cwV"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="ageTextField" destination="euw-2O-sjN" id="Lml-0E-bde"/>
@@ -969,6 +973,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yg-iO-Z8b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="2p5-lb-ejJ"/>
             </objects>
             <point key="canvasLocation" x="-1253" y="849"/>
         </scene>

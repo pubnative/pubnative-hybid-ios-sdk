@@ -65,7 +65,11 @@
 
 - (IBAction)saveKeywordsTouchUpInside:(UIButton *)sender
 {
-    [PNLiteDemoSettings sharedInstance].keywords = self.allKeywordsTextView.text;
+    if ([self.allKeywordsTextView.text length] > 0) {
+        [PNLiteDemoSettings sharedInstance].keywords = self.allKeywordsTextView.text;
+    } else {
+        [PNLiteDemoSettings sharedInstance].keywords = nil;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
