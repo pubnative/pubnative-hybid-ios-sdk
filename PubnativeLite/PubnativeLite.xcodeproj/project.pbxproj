@@ -19,6 +19,8 @@
 		5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */; };
 		5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A2633572034AB480005EA39 /* PNLiteMRAIDOrientationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */; };
+		5A2A2E542056CCB00051E856 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E522056CCB00051E856 /* Crashlytics.framework */; };
+		5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E532056CCB00051E856 /* Fabric.framework */; };
 		5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CEBC2029F79B0003B450 /* AppDelegate.m */; };
 		5A32CEC02029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CEBF2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m */; };
 		5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
@@ -381,6 +383,8 @@
 		5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDResizeProperties.m; sourceTree = "<group>"; };
 		5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDResizeProperties.h; sourceTree = "<group>"; };
 		5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDOrientationProperties.m; sourceTree = "<group>"; };
+		5A2A2E522056CCB00051E856 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		5A2A2E532056CCB00051E856 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PubnativeLiteDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A32CEBB2029F79B0003B450 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5A32CEBC2029F79B0003B450 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -935,6 +939,7 @@
 				5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */,
 				5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */,
 				5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */,
+				5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */,
 				5A8903E5203DE22A00D86051 /* CoreMedia.framework in Frameworks */,
 				5A8903E3203DE22300D86051 /* CoreTelephony.framework in Frameworks */,
 				5A8903E1203DE21D00D86051 /* Foundation.framework in Frameworks */,
@@ -942,6 +947,7 @@
 				5A8903DD203DE20800D86051 /* MessageUI.framework in Frameworks */,
 				5A8903DB203DE1FC00D86051 /* QuartzCore.framework in Frameworks */,
 				5A8903D9203DE1F500D86051 /* SafariServices.framework in Frameworks */,
+				5A2A2E542056CCB00051E856 /* Crashlytics.framework in Frameworks */,
 				5A8903D7203DE1EC00D86051 /* StoreKit.framework in Frameworks */,
 				5A8903D5203DE1E100D86051 /* SystemConfiguration.framework in Frameworks */,
 				5A8903D3203DE1DA00D86051 /* UIKit.framework in Frameworks */,
@@ -1026,6 +1032,8 @@
 		5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */ = {
 			isa = PBXGroup;
 			children = (
+				5A2A2E522056CCB00051E856 /* Crashlytics.framework */,
+				5A2A2E532056CCB00051E856 /* Fabric.framework */,
 				5A890166203DE19500D86051 /* MoPubSDK */,
 				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
@@ -1953,6 +1961,7 @@
 				5A32CEB62029F79B0003B450 /* Frameworks */,
 				5A32CEB72029F79B0003B450 /* Resources */,
 				5A32CED32029F8530003B450 /* Embed Frameworks */,
+				5A2A2E512056CC760051E856 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2062,6 +2071,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5A2A2E512056CC760051E856 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run f61a9f30a8156746aae4b1cc84856189a3bf8575 537c5f9f76b46d7a1d200e942627095296d712b141ae62d982d273c1ef1bd9ee";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5A32CEB52029F79B0003B450 /* Sources */ = {
@@ -2353,6 +2378,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK/Viewability/MOAT",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2379,6 +2405,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK/Viewability/MOAT",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
