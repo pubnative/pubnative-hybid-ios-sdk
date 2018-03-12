@@ -134,6 +134,7 @@
 {
     self.targetingModel.age = [NSNumber numberWithInt:[self.ageTextField.text intValue]];
     self.targetingModel.gender = self.gender;
+    self.targetingModel.interests = [[PNLiteDemoSettings sharedInstance].keywords componentsSeparatedByString:@","];
     return self.targetingModel;
 }
 

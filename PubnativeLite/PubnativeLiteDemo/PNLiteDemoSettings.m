@@ -37,6 +37,7 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
     self.moPubBannerAdUnitID = nil;
     self.moPubMRectAdUnitID = nil;
     self.moPubInterstitialAdUnitID = nil;
+    self.keywords = nil;
     self.targetingModel = nil;
 }
 

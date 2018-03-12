@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString *moPubBannerAdUnitID;
 @property (nonatomic, strong) NSString *moPubMRectAdUnitID;
 @property (nonatomic, strong) NSString *moPubInterstitialAdUnitID;
+@property (nonatomic, strong) NSString *keywords;
 @property (nonatomic, strong) PNLiteTargetingModel *targetingModel;
 @property (nonatomic, assign) BOOL testMode;
 @property (nonatomic, assign) BOOL coppaMode;
