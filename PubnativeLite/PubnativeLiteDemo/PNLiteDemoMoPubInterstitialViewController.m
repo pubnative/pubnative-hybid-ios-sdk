@@ -23,8 +23,7 @@
 #import "PNLiteDemoMoPubInterstitialViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
 #import "MPInterstitialAdController.h"
-
-NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
+#import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubInterstitialViewController () <PNLiteAdRequestDelegate, MPInterstitialAdControllerDelegate>
 
@@ -44,10 +43,11 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
     
     if(self.moPubInterstitial == nil) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:kPNLiteDemoMoPubInterstitialAdUnitID];
+        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
         self.moPubInterstitial.delegate = self;
     }
 }
@@ -56,7 +56,7 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
 {
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:@"4"];
+    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
@@ -114,13 +114,17 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
 {
     NSLog(@"Request loaded with ad: %@",ad);
 
-    [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"4"]];
+    [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
     [self.moPubInterstitial loadAd];
 }
 
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PNLite Demo" message:error.localizedDescription delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+    [alert show];
+    
     [self.interstitialLoaderIndicator stopAnimating];
 }
 @end

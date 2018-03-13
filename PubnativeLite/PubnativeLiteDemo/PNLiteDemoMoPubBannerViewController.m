@@ -23,21 +23,14 @@
 #import "PNLiteDemoMoPubBannerViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
 #import "MPAdView.h"
-
-NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
-NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
+#import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubBannerViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIView *mRectContainer;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-
 @property (nonatomic, strong) MPAdView *moPubBanner;
-@property (nonatomic, strong) MPAdView *moPubMrect;
 @property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
-@property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
 @end
 
@@ -46,29 +39,21 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
 - (void)dealloc
 {
     self.moPubBanner = nil;
-    self.moPubMrect = nil;
     self.bannerAdRequest = nil;
-    self.mRectAdRequest = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"Banner";
+
     [self.bannerLoaderIndicator stopAnimating];
-    [self.mRectLoaderIndicator stopAnimating];
-    
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:kPNLiteDemoMoPubBannerAdUnitID
+    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID
                                                      size:MOPUB_BANNER_SIZE];
     self.moPubBanner.delegate = self;
     [self.moPubBanner stopAutomaticallyRefreshingContents];
     [self.bannerContainer addSubview:self.moPubBanner];
-    
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:kPNLiteDemoMoPubMRectAdUnitID
-                                                    size:MOPUB_MEDIUM_RECT_SIZE];
-    self.moPubMrect.delegate = self;
-    [self.moPubMrect stopAutomaticallyRefreshingContents];
-    [self.mRectContainer addSubview:self.moPubMrect];
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender
@@ -76,15 +61,7 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
     self.bannerContainer.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:@"2"];
-}
-
-- (IBAction)requestMRectTouchUpInside:(id)sender
-{
-    self.mRectContainer.hidden = YES;
-    [self.mRectLoaderIndicator startAnimating];
-    self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:@"3"];
+    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -100,9 +77,6 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
-    } else if (self.moPubMrect == view) {
-        self.mRectContainer.hidden = NO;
-        [self.mRectLoaderIndicator stopAnimating];
     }
 }
 
@@ -111,8 +85,6 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
         [self.bannerLoaderIndicator stopAnimating];
-    } else if (self.moPubMrect == view) {
-        [self.mRectLoaderIndicator stopAnimating];
     }
 }
 
@@ -143,11 +115,8 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.bannerAdRequest) {
-        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"2"]];
+        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubBanner loadAd];
-    } else if (request == self.mRectAdRequest) {
-        [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:@"3"]];
-        [self.moPubMrect loadAd];
     }
 }
 
@@ -155,11 +124,12 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PNLite Demo" message:error.localizedDescription delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+    [alert show];
+    
     if (request == self.bannerAdRequest) {
         [self.bannerLoaderIndicator stopAnimating];
-    } else if (request == self.mRectAdRequest) {
-        [self.mRectLoaderIndicator stopAnimating];
-    }
+    } 
 }
 
 @end
