@@ -140,7 +140,9 @@
 
 - (PNLiteTargetingModel *)configureTargetingModel
 {
-    self.targetingModel.age = [NSNumber numberWithInt:[self.ageTextField.text intValue]];
+    if (([self.ageTextField.text length] > 0) && (self.ageTextField.text.integerValue > 0)) {
+        self.targetingModel.age = [NSNumber numberWithInt:[self.ageTextField.text intValue]];
+    }
     self.targetingModel.gender = self.gender;
     self.targetingModel.interests = [[PNLiteDemoSettings sharedInstance].keywords componentsSeparatedByString:@","];
     return self.targetingModel;

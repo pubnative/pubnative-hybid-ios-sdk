@@ -41,7 +41,7 @@
     adRequestModel.requestParameters[PNLiteRequestParameter.locale] = [PNLiteSettings sharedInstance].locale;
     if (![PNLiteSettings sharedInstance].coppa) {
         adRequestModel.requestParameters[PNLiteRequestParameter.age] = [[PNLiteSettings sharedInstance].targeting.age stringValue];
-        adRequestModel.requestParameters[PNLiteRequestParameter.age] = [PNLiteSettings sharedInstance].targeting.gender;
+        adRequestModel.requestParameters[PNLiteRequestParameter.gender] = [PNLiteSettings sharedInstance].targeting.gender;
         adRequestModel.requestParameters[PNLiteRequestParameter.keywords] = [[PNLiteSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
     }
     adRequestModel.requestParameters[PNLiteRequestParameter.test] =[PNLiteSettings sharedInstance].test ? @"1" : @"0";
