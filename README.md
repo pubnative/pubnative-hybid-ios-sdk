@@ -1,4 +1,4 @@
-![ScreenShot](PNLogo.png)
+![](https://github.com/pubnative/pubnative-lite-ios-sdk/blob/development/wiki-images/PNLogo.png)
 
 ![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
 
