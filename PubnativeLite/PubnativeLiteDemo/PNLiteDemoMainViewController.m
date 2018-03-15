@@ -44,6 +44,14 @@
     [PNLiteDemoSettings sharedInstance].zoneID = self.zoneIDTextField.text;
 }
 
+- (IBAction)handleTap:(UIGestureRecognizer *)recognizer
+{
+    if (!([self.zoneIDTextField.text length] > 0)) {
+        self.zoneIDTextField.text = nil;
+        [self.zoneIDTextField resignFirstResponder];
+    }
+}
+
 #pragma mark UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

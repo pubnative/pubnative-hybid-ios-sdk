@@ -261,6 +261,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="gfZ-6R-g6D" firstAttribute="top" secondItem="kwu-Kj-qga" secondAttribute="bottom" constant="8" id="2fP-Dj-YRd"/>
                             <constraint firstAttribute="trailing" secondItem="qiX-Yw-4F7" secondAttribute="trailing" constant="16" id="2tJ-xS-fdc"/>
@@ -283,6 +284,9 @@
                             <constraint firstItem="qiX-Yw-4F7" firstAttribute="top" secondItem="10S-oZ-WAa" secondAttribute="bottom" constant="8" id="rZV-ck-zI9"/>
                             <constraint firstItem="76S-IN-LYP" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="xW7-ZC-4hd"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="S6C-z2-jku" appends="YES" id="dY7-eG-4gv"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="PNLite Demo" id="0pE-n5-Vvz"/>
                     <connections>
@@ -293,6 +297,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yT3-gd-Jb0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="S6C-z2-jku">
+                    <connections>
+                        <action selector="handleTap:" destination="dIX-wM-j9j" id="cTr-Cr-4oa"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-92" y="-57"/>
         </scene>
