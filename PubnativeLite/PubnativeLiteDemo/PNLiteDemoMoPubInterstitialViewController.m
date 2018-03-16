@@ -67,6 +67,7 @@
     [self.interstitialLoaderIndicator stopAnimating];
     [self.moPubInterstitial showFromViewController:self];
 }
+
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidFailToLoadAd");
