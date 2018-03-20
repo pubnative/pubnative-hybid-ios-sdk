@@ -19,7 +19,7 @@ test:
                 -r json-compilation-database --output $CIRCLE_ARTIFACTS/test_compilation_database.json
 deployment:
     deployable:
-        branch: /.*/
+        branch: /(development|beta|master)/
         commands:
             - ./scripts/generate.sh
             - ./scripts/publish.sh
