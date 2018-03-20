@@ -10,6 +10,12 @@
       <FileRef
          location = "group:generate.sh">
       </FileRef>
+      <FileRef
+         location = "group:publish.sh">
+      </FileRef>
+      <FileRef
+         location = "group:submit">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:PubnativeLite/PubnativeLite.xcodeproj">
