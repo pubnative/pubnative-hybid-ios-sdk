@@ -442,6 +442,7 @@
 		5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteSettingsViewController.m; sourceTree = "<group>"; };
 		5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoKeywordsViewController.h; sourceTree = "<group>"; };
 		5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoKeywordsViewController.m; sourceTree = "<group>"; };
+		5A6BBE7A206263BB0079F8A5 /* PNLite-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PNLite-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* PubnativeLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PubnativeLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* PubnativeLite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubnativeLite.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1035,7 +1036,7 @@
 				5A2A2E522056CCB00051E856 /* Crashlytics.framework */,
 				5A2A2E532056CCB00051E856 /* Fabric.framework */,
 				5A890166203DE19500D86051 /* MoPubSDK */,
-				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
+				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
 				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
 				5ADC023620514F120071DA20 /* PNLiteDemoSettings.h */,
@@ -1128,6 +1129,15 @@
 				5A52BFE5203458D000C4B7C5 /* PNLiteMRAIDServiceProvider.m */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5A6BBE79206262320079F8A5 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				5A6BBE7A206263BB0079F8A5 /* PNLite-Bridging-Header.h */,
+				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
+			);
+			path = Adapters;
 			sourceTree = "<group>";
 		};
 		5A6CD0162029CD060022E206 = {
@@ -2535,6 +2545,7 @@
 		5A6CD0292029CD060022E206 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = marker;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -2558,6 +2569,7 @@
 		5A6CD02A2029CD060022E206 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
