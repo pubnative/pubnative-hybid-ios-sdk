@@ -1061,7 +1061,7 @@
 			children = (
 				5A2A2E522056CCB00051E856 /* Crashlytics.framework */,
 				5A2A2E532056CCB00051E856 /* Fabric.framework */,
-				5A890166203DE19500D86051 /* MoPubSDK */,
+				5A890166203DE19500D86051 /* MoPubSDK-4.20.0 */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
 				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
@@ -1213,7 +1213,7 @@
 			path = PubnativeLite;
 			sourceTree = "<group>";
 		};
-		5A890166203DE19500D86051 /* MoPubSDK */ = {
+		5A890166203DE19500D86051 /* MoPubSDK-4.20.0 */ = {
 			isa = PBXGroup;
 			children = (
 				5A890167203DE19500D86051 /* MPBannerCustomEventDelegate.h */,
@@ -1242,7 +1242,7 @@
 				5A89030B203DE19600D86051 /* MoPub-Bridging-Header.h */,
 				5A89030C203DE19600D86051 /* MPInterstitialAdController.h */,
 			);
-			path = MoPubSDK;
+			path = "MoPubSDK-4.20.0";
 			sourceTree = "<group>";
 		};
 		5A89016D203DE19500D86051 /* Viewability */ = {
@@ -2493,7 +2493,7 @@
 				DEVELOPMENT_TEAM = J6V7N93E53;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK/Viewability/MOAT",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-4.20.0/Viewability/MOAT",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
@@ -2501,7 +2501,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK/Viewability/Avid",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-4.20.0/Viewability/Avid",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2520,7 +2520,7 @@
 				DEVELOPMENT_TEAM = J6V7N93E53;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK/Viewability/MOAT",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-4.20.0/Viewability/MOAT",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
@@ -2528,7 +2528,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK/Viewability/Avid",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-4.20.0/Viewability/Avid",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
