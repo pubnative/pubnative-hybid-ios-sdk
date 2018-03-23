@@ -283,6 +283,8 @@
 		5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903E6203DE23200D86051 /* CoreGraphics.framework */; };
 		5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903E8203DE23A00D86051 /* AVFoundation.framework */; };
 		5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903EA203DE24500D86051 /* AdSupport.framework */; };
+		5A969A40206523F800C3B74A /* PubnativeLiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A969A3F206523F800C3B74A /* PubnativeLiteTests.m */; };
+		5A969A42206523F800C3B74A /* PubnativeLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; };
 		5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */; };
 		5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */; };
 		5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */; };
@@ -313,6 +315,8 @@
 		5ACC74F0203595250001CDC3 /* PNLiteCloseButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74E2203595240001CDC3 /* PNLiteCloseButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E3203595250001CDC3 /* PNLiteMRAIDUtil.m */; };
 		5ACC74F2203595250001CDC3 /* PNLiteMRAIDView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E4203595250001CDC3 /* PNLiteMRAIDView.m */; };
+		5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD140482065292A0018845E /* OCMockitoIOS.framework */; };
+		5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */; };
 		5ADACD03202C5AB800617734 /* PNLiteBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ADACD04202C5AB800617734 /* PNLiteBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD02202C5AB700617734 /* PNLiteBaseModel.m */; };
 		5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD05202C617A00617734 /* PNLiteResponseModel.m */; };
@@ -348,6 +352,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		5A32CED12029F8530003B450 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
+			remoteInfo = PubnativeLite;
+		};
+		5A969A43206523F800C3B74A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
 			proxyType = 1;
@@ -860,6 +871,9 @@
 		5A8903E6203DE23200D86051 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5A8903E8203DE23A00D86051 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5A8903EA203DE24500D86051 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		5A969A3D206523F800C3B74A /* PubnativeLiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PubnativeLiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A969A3F206523F800C3B74A /* PubnativeLiteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PubnativeLiteTests.m; sourceTree = "<group>"; };
+		5A969A41206523F800C3B74A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdFactory.h; sourceTree = "<group>"; };
 		5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdFactory.m; sourceTree = "<group>"; };
 		5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdRequestModel.h; sourceTree = "<group>"; };
@@ -892,6 +906,8 @@
 		5ACC74E2203595240001CDC3 /* PNLiteCloseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteCloseButton.h; sourceTree = "<group>"; };
 		5ACC74E3203595250001CDC3 /* PNLiteMRAIDUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDUtil.m; sourceTree = "<group>"; };
 		5ACC74E4203595250001CDC3 /* PNLiteMRAIDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDView.m; sourceTree = "<group>"; };
+		5AD140482065292A0018845E /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockitoIOS.framework; sourceTree = "<group>"; };
+		5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteBaseModel.h; sourceTree = "<group>"; };
 		5ADACD02202C5AB700617734 /* PNLiteBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteBaseModel.m; sourceTree = "<group>"; };
 		5ADACD05202C617A00617734 /* PNLiteResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteResponseModel.m; sourceTree = "<group>"; };
@@ -963,6 +979,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A969A3A206523F800C3B74A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */,
+				5A969A42206523F800C3B74A /* PubnativeLite.framework in Frameworks */,
+				5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1145,6 +1171,7 @@
 			children = (
 				5A6CD0222029CD060022E206 /* PubnativeLite */,
 				5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */,
+				5A969A3E206523F800C3B74A /* PubnativeLiteTests */,
 				5A6CD0212029CD060022E206 /* Products */,
 				5A8903CF203DE1D400D86051 /* Frameworks */,
 			);
@@ -1155,6 +1182,7 @@
 			children = (
 				5A6CD0202029CD060022E206 /* PubnativeLite.framework */,
 				5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */,
+				5A969A3D206523F800C3B74A /* PubnativeLiteTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1789,6 +1817,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5A969A3E206523F800C3B74A /* PubnativeLiteTests */ = {
+			isa = PBXGroup;
+			children = (
+				5AD1404C20652A770018845E /* Dependencies */,
+				5A969A3F206523F800C3B74A /* PubnativeLiteTests.m */,
+				5A969A41206523F800C3B74A /* Info.plist */,
+			);
+			path = PubnativeLiteTests;
+			sourceTree = "<group>";
+		};
 		5ABE0139203F2F4600E6A14E /* Ad Request */ = {
 			isa = PBXGroup;
 			children = (
@@ -1862,6 +1900,31 @@
 				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		5AD14046206528E90018845E /* OCMockito-5.0.1 */ = {
+			isa = PBXGroup;
+			children = (
+				5AD140482065292A0018845E /* OCMockitoIOS.framework */,
+			);
+			path = "OCMockito-5.0.1";
+			sourceTree = "<group>";
+		};
+		5AD14047206529050018845E /* OCHamcrest-7.0.2 */ = {
+			isa = PBXGroup;
+			children = (
+				5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */,
+			);
+			path = "OCHamcrest-7.0.2";
+			sourceTree = "<group>";
+		};
+		5AD1404C20652A770018845E /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				5AD14047206529050018845E /* OCHamcrest-7.0.2 */,
+				5AD14046206528E90018845E /* OCMockito-5.0.1 */,
+			);
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
 		5AE31C99203EC7E5005F140A /* MoPubAdapter */ = {
@@ -2001,6 +2064,24 @@
 			productReference = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		5A969A3C206523F800C3B74A /* PubnativeLiteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A969A47206523F800C3B74A /* Build configuration list for PBXNativeTarget "PubnativeLiteTests" */;
+			buildPhases = (
+				5A969A39206523F800C3B74A /* Sources */,
+				5A969A3A206523F800C3B74A /* Frameworks */,
+				5A969A3B206523F800C3B74A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5A969A44206523F800C3B74A /* PBXTargetDependency */,
+			);
+			name = PubnativeLiteTests;
+			productName = PubnativeLiteTests;
+			productReference = 5A969A3D206523F800C3B74A /* PubnativeLiteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2015,6 +2096,10 @@
 						ProvisioningStyle = Manual;
 					};
 					5A6CD01F2029CD060022E206 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Manual;
+					};
+					5A969A3C206523F800C3B74A = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
 					};
@@ -2035,6 +2120,7 @@
 			targets = (
 				5A6CD01F2029CD060022E206 /* PubnativeLite */,
 				5A32CEB82029F79B0003B450 /* PubnativeLiteDemo */,
+				5A969A3C206523F800C3B74A /* PubnativeLiteTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2077,6 +2163,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ACC74EE203595250001CDC3 /* PNLiteCloseButton.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A969A3B206523F800C3B74A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2348,6 +2441,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5A969A39206523F800C3B74A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A969A40206523F800C3B74A /* PubnativeLiteTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2355,6 +2456,11 @@
 			isa = PBXTargetDependency;
 			target = 5A6CD01F2029CD060022E206 /* PubnativeLite */;
 			targetProxy = 5A32CED12029F8530003B450 /* PBXContainerItemProxy */;
+		};
+		5A969A44206523F800C3B74A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A6CD01F2029CD060022E206 /* PubnativeLite */;
+			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2590,6 +2696,48 @@
 			};
 			name = Release;
 		};
+		5A969A45206523F800C3B74A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = J6V7N93E53;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCMockito-5.0.1",
+					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCHamcrest-7.0.2",
+				);
+				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLiteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5A969A46206523F800C3B74A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = J6V7N93E53;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCMockito-5.0.1",
+					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCHamcrest-7.0.2",
+				);
+				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLiteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2616,6 +2764,15 @@
 			buildConfigurations = (
 				5A6CD0292029CD060022E206 /* Debug */,
 				5A6CD02A2029CD060022E206 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5A969A47206523F800C3B74A /* Build configuration list for PBXNativeTarget "PubnativeLiteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A969A45206523F800C3B74A /* Debug */,
+				5A969A46206523F800C3B74A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
