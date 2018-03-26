@@ -77,6 +77,7 @@
 		5A6CD0252029CD060022E206 /* PubnativeLite.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* PubnativeLite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
 		5A71309E20690463000B83D9 /* PNLiteAdTrackerRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309D20690463000B83D9 /* PNLiteAdTrackerRequestTest.m */; };
+		5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */; };
 		5A89030D203DE19600D86051 /* MPAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A890169203DE19500D86051 /* MPAdView.m */; };
 		5A89030E203DE19600D86051 /* MPViewabilityAdapterAvid.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A890173203DE19500D86051 /* MPViewabilityAdapterAvid.m */; };
 		5A89030F203DE19600D86051 /* libAvid-mopub-3.6.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A890178203DE19500D86051 /* libAvid-mopub-3.6.1.a */; };
@@ -460,6 +461,7 @@
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequestTest.m; sourceTree = "<group>"; };
 		5A71309D20690463000B83D9 /* PNLiteAdTrackerRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdTrackerRequestTest.m; sourceTree = "<group>"; };
+		5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdRequestTest.m; sourceTree = "<group>"; };
 		5A890167203DE19500D86051 /* MPBannerCustomEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPBannerCustomEventDelegate.h; sourceTree = "<group>"; };
 		5A890168203DE19500D86051 /* MPLogLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPLogLevel.h; sourceTree = "<group>"; };
 		5A890169203DE19500D86051 /* MPAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPAdView.m; sourceTree = "<group>"; };
@@ -1231,6 +1233,14 @@
 			path = "Ad Tracker";
 			sourceTree = "<group>";
 		};
+		5A7130A220693ED4000B83D9 /* Ad Request */ = {
+			isa = PBXGroup;
+			children = (
+				5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */,
+			);
+			path = "Ad Request";
+			sourceTree = "<group>";
+		};
 		5A890166203DE19500D86051 /* MoPubSDK-4.20.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1840,8 +1850,9 @@
 			children = (
 				5AD1404C20652A770018845E /* Dependencies */,
 				5A71309C2068F3A4000B83D9 /* Network */,
-				5A969A41206523F800C3B74A /* Info.plist */,
+				5A7130A220693ED4000B83D9 /* Ad Request */,
 				5A71309F20690480000B83D9 /* Ad Tracker */,
+				5A969A41206523F800C3B74A /* Info.plist */,
 			);
 			path = PubnativeLiteTests;
 			sourceTree = "<group>";
@@ -2465,6 +2476,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */,
+				5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */,
 				5A71309E20690463000B83D9 /* PNLiteAdTrackerRequestTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
