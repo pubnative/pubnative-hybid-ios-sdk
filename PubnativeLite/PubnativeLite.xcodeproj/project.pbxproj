@@ -25,6 +25,7 @@
 		5A2A7701206A4D1A00B5643C /* PNLiteTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7700206A4D1A00B5643C /* PNLiteTestUtil.m */; };
 		5A2A7704206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7703206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m */; };
 		5A2A7706206A7F7B00B5643C /* PNLiteMRectAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7705206A7F7B00B5643C /* PNLiteMRectAdRequestTest.m */; };
+		5A2A7708206A819100B5643C /* PNLiteInterstitialAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7707206A819100B5643C /* PNLiteInterstitialAdRequestTest.m */; };
 		5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CEBC2029F79B0003B450 /* AppDelegate.m */; };
 		5A32CEC02029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CEBF2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m */; };
 		5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
@@ -407,6 +408,7 @@
 		5A2A7700206A4D1A00B5643C /* PNLiteTestUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteTestUtil.m; sourceTree = "<group>"; };
 		5A2A7703206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerAdRequestTest.m; sourceTree = "<group>"; };
 		5A2A7705206A7F7B00B5643C /* PNLiteMRectAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectAdRequestTest.m; sourceTree = "<group>"; };
+		5A2A7707206A819100B5643C /* PNLiteInterstitialAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialAdRequestTest.m; sourceTree = "<group>"; };
 		5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PubnativeLiteDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A32CEBB2029F79B0003B450 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5A32CEBC2029F79B0003B450 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1258,6 +1260,7 @@
 				5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */,
 				5A2A7703206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m */,
 				5A2A7705206A7F7B00B5643C /* PNLiteMRectAdRequestTest.m */,
+				5A2A7707206A819100B5643C /* PNLiteInterstitialAdRequestTest.m */,
 			);
 			path = "Ad Request";
 			sourceTree = "<group>";
@@ -2503,6 +2506,7 @@
 				5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */,
 				5A2A76FE206A44F100B5643C /* PNLiteAdTrackerTest.m in Sources */,
 				5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */,
+				5A2A7708206A819100B5643C /* PNLiteInterstitialAdRequestTest.m in Sources */,
 				5A71309E20690463000B83D9 /* PNLiteAdTrackerRequestTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
