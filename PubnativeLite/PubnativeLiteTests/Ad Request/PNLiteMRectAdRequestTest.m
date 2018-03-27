@@ -23,13 +23,13 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
-#import "PNLiteBannerAdRequest.h"
+#import "PNLiteMRectAdRequest.h"
 
-@interface PNLiteBannerAdRequestTest : XCTestCase
+@interface PNLiteMRectAdRequestTest : XCTestCase
 
 @end
 
-@implementation PNLiteBannerAdRequestTest
+@implementation PNLiteMRectAdRequestTest
 
 - (void)setUp
 {
@@ -43,8 +43,8 @@
 
 - (void)test_adSize
 {
-    PNLiteBannerAdRequest *bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
-    assertThat(bannerAdRequest.adSize, is(@"s"));
+    PNLiteMRectAdRequest *mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
+    assertThat(mRectAdRequest.adSize, is(@"m"));
 }
 
 @end
