@@ -9,7 +9,7 @@ test:
         - xcodebuild
             -workspace PubnativeLite.xcworkspace
             -scheme PubnativeLite
-            -destination 'platform=iOS Simulator,OS=10.1,name=iPhone 7'
+            -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
             clean test
             | tee $CIRCLE_ARTIFACTS/test_xcodebuild.log
             | xcpretty
