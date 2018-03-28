@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-gem install slather
+gem 'slather'
