@@ -9,3 +9,4 @@ ignore:
     - "PubnativeLite/PubnativeLiteDemo/*"
     - "PubnativeLite/PubnativeLiteTests/*"
     - "../*"
+    
