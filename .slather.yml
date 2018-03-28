@@ -7,4 +7,5 @@ ignore:
     - "dependencies/**"
     - "circleci/*"
     - "PubnativeLite/PubnativeLiteDemo/*"
+    - "PubnativeLite/PubnativeLiteTests/*"
     - "../*"
