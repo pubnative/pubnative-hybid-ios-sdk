@@ -17,6 +17,8 @@ test:
                 -r junit --output $CIRCLE_TEST_REPORTS/junit.xml
                 -r html --output $CIRCLE_TEST_REPORTS/report.html
                 -r json-compilation-database --output $CIRCLE_ARTIFACTS/test_compilation_database.json
+    post:
+        - bundle exec slather
 deployment:
     deployable:
         branch: /.*/
