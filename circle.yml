@@ -7,8 +7,8 @@ machine:
 test:
     override:
         - xcodebuild
-            -workspace PubnativeLite.xcworkspace
-            -scheme PubnativeLite
+            -workspace PubNativeLite.xcworkspace
+            -scheme PubNativeLite
             -destination 'platform=iOS Simulator,OS=10.1,name=iPhone 7'
             clean test
             | tee $CIRCLE_ARTIFACTS/test_xcodebuild.log
