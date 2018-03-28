@@ -7,9 +7,9 @@ machine:
 test:
     override:
         - xcodebuild
-            -workspace PubNativeLite.xcworkspace
-            -scheme PubNativeLite
-            -destination 'platform=iOS Simulator,OS=10.1,name=iPhone 7'
+            -workspace PubnativeLite.xcworkspace
+            -scheme PubnativeLite
+            -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
             clean test
             | tee $CIRCLE_ARTIFACTS/test_xcodebuild.log
             | xcpretty
@@ -17,6 +17,8 @@ test:
                 -r junit --output $CIRCLE_TEST_REPORTS/junit.xml
                 -r html --output $CIRCLE_TEST_REPORTS/report.html
                 -r json-compilation-database --output $CIRCLE_ARTIFACTS/test_compilation_database.json
+    post:
+        - bundle exec slather
 deployment:
     deployable:
         branch: /(development|beta|master)/
