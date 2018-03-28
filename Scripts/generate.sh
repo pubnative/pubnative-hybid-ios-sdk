@@ -13,7 +13,6 @@ IPHONESIMULATOR_PATH=$BASE_DIR/iphonesimulator
 IPHONESIMULATOR_FRAMEWORK=$IPHONESIMULATOR_PATH/$FRAMEWORK_NAME
 IPHONESIMULATOR_PRODUCT=$IPHONESIMULATOR_FRAMEWORK/$PRODUCT_NAME
 IPHONESIMULATOR_ZIP_PATH=$BASE_DIR/PubnativeLite.iphonesimulator.framework.zip
-
 # GENERATE
 xcodebuild -workspace PubnativeLite.xcworkspace -scheme PubnativeLite -sdk iphoneos -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
 xcodebuild -workspace PubnativeLite.xcworkspace -scheme PubnativeLite -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
