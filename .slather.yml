@@ -4,8 +4,8 @@ xcodeproj: PubnativeLite/PubnativeLite.xcodeproj
 scheme: PubnativeLite
 workspace: PubnativeLite.xcworkspace
 ignore:
-    - "dependencies/**"
-    - "circleci/*"
-    - "PubnativeLite/PubnativeLiteDemo/*"
-    - "PubnativeLite/PubnativeLiteTests/*"
-    - "../*"
+    - dependencies/**
+    - circleci/*
+    - PubnativeLite/PubnativeLiteDemo/*
+    - PubnativeLite/PubnativeLiteTests/*
+    - ../*
