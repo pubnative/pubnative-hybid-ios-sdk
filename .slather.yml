@@ -1,11 +1,11 @@
 coverage_service: coveralls
 ci_service: circleci
-xcodeproj: PubNativeLite/PubNativeLite.xcodeproj
-scheme: PubNativeLite
-workspace: PubNativeLite.xcworkspace
+xcodeproj: PubnativeLite/PubnativeLite.xcodeproj
+scheme: PubnativeLite
+workspace: PubnativeLite.xcworkspace
 ignore:
     - "dependencies/**"
     - "circleci/*"
-    - "PubNativeLite/PubNativeLiteDemo/*"
-    - "PubNativeLite/PubNativeLiteTests/*"
+    - "PubnativeLite/PubnativeLiteDemo/*"
+    - "PubnativeLite/PubnativeLiteTests/*"
     - "../*"
