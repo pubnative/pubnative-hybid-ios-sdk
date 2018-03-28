@@ -6,6 +6,6 @@ workspace: PubNativeLite.xcworkspace
 ignore:
     - "dependencies/**"
     - "circleci/*"
-    - "PubnativeLite/PubnativeLiteDemo/*"
-    - "PubnativeLite/PubnativeLiteTests/*"
+    - "PubNativeLite/PubNativeLiteDemo/*"
+    - "PubNativeLite/PubNativeLiteTests/*"
     - "../*"
