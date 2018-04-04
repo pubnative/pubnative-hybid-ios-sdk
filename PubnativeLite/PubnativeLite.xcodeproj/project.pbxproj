@@ -345,6 +345,7 @@
 		5AE31C98203EC6AF005F140A /* PNLiteMoPubUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */; };
 		5AE31C9F203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */; };
 		5AE31CA2203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */; };
+		5AE4C6D92074D5DF00A2A8C5 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4C6D82074D5DF00A2A8C5 /* GoogleMobileAds.framework */; };
 		5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AE7395620441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE7395420441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m */; };
 		5AECD5A0204033240023ABBC /* PNLiteInterstitialAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD59E204033240023ABBC /* PNLiteInterstitialAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -951,6 +952,7 @@
 		5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubBannerCustomEvent.m; sourceTree = "<group>"; };
 		5AE31CA0203EE122005F140A /* PNLiteMoPubMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMRectCustomEvent.h; sourceTree = "<group>"; };
 		5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMRectCustomEvent.m; sourceTree = "<group>"; };
+		5AE4C6D82074D5DF00A2A8C5 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDInterstitialPresenter.h; sourceTree = "<group>"; };
 		5AE7395420441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDInterstitialPresenter.m; sourceTree = "<group>"; };
 		5AECD59E204033240023ABBC /* PNLiteInterstitialAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialAdRequest.h; sourceTree = "<group>"; };
@@ -970,6 +972,7 @@
 			files = (
 				5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */,
 				5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */,
+				5AE4C6D92074D5DF00A2A8C5 /* GoogleMobileAds.framework in Frameworks */,
 				5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */,
 				5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */,
 				5A8903E5203DE22A00D86051 /* CoreMedia.framework in Frameworks */,
@@ -1086,6 +1089,7 @@
 				5A2A2E522056CCB00051E856 /* Crashlytics.framework */,
 				5A2A2E532056CCB00051E856 /* Fabric.framework */,
 				5A890166203DE19500D86051 /* MoPubSDK-4.20.0 */,
+				5AE4C6D72074D5DF00A2A8C5 /* GoogleMobileAdsSDK-7.30.0 */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
 				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
@@ -1997,6 +2001,14 @@
 			path = MoPubAdapter;
 			sourceTree = "<group>";
 		};
+		5AE4C6D72074D5DF00A2A8C5 /* GoogleMobileAdsSDK-7.30.0 */ = {
+			isa = PBXGroup;
+			children = (
+				5AE4C6D82074D5DF00A2A8C5 /* GoogleMobileAds.framework */,
+			);
+			path = "GoogleMobileAdsSDK-7.30.0";
+			sourceTree = "<group>";
+		};
 		5AECD5A6204034F20023ABBC /* Interstitial */ = {
 			isa = PBXGroup;
 			children = (
@@ -2557,6 +2569,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-4.20.0/Viewability/MOAT",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.30.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2584,6 +2597,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-4.20.0/Viewability/MOAT",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.30.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
