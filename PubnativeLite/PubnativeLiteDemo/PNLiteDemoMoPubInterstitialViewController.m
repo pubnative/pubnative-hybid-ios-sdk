@@ -115,7 +115,7 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
 
-    [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
+    [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
     [self.moPubInterstitial loadAd];
 }
 
