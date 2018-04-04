@@ -115,7 +115,7 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.bannerAdRequest) {
-        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
+        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubBanner loadAd];
     }
 }

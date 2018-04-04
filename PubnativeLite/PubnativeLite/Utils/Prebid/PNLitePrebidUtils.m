@@ -29,24 +29,38 @@ double const kECPMPointsDivider = 1000.0;
 
 @implementation PNLitePrebidUtils
 
-+ (NSString *)createPrebidKeywordsWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
++ (NSString *)createPrebidKeywordsStringWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
 {
-    NSMutableString *prebid = [[NSMutableString alloc] init];
-    [prebid appendString:kPNLiteKeyPN];
-    [prebid appendString:@":"];
-    [prebid appendString:@"true"];
-    [prebid appendString:@","];
+    NSMutableString *prebidString = [[NSMutableString alloc] init];
+    [prebidString appendString:kPNLiteKeyPN];
+    [prebidString appendString:@":"];
+    [prebidString appendString:@"true"];
+    [prebidString appendString:@","];
 
-    [prebid appendString:kPNLiteKeyPN_ZONE_ID];
-    [prebid appendString:@":"];
-    [prebid appendString:zoneID];
-    [prebid appendString:@","];
+    [prebidString appendString:kPNLiteKeyPN_ZONE_ID];
+    [prebidString appendString:@":"];
+    [prebidString appendString:zoneID];
+    [prebidString appendString:@","];
     
-    [prebid appendString:kPNLiteKeyPN_BID];
-    [prebid appendString:@":"];
-    [prebid appendString:[NSString stringWithFormat:@"%.3f", [ad.eCPM doubleValue]/kECPMPointsDivider]];
+    [prebidString appendString:kPNLiteKeyPN_BID];
+    [prebidString appendString:@":"];
+    [prebidString appendString:[self eCPMfromAd:ad]];
     
-    return [NSString stringWithString:prebid];
+    return [NSString stringWithString:prebidString];
+}
+
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
+{
+    NSMutableDictionary *prebidDictionary = [NSMutableDictionary dictionary];
+    [prebidDictionary setValue:@"true" forKey:kPNLiteKeyPN];
+    [prebidDictionary setValue:zoneID forKey:kPNLiteKeyPN_ZONE_ID];
+    [prebidDictionary setValue:[self eCPMfromAd:ad] forKey:kPNLiteKeyPN_BID];
+    return prebidDictionary;
+}
+
++ (NSString *)eCPMfromAd:(PNLiteAd *)ad
+{
+    return [NSString stringWithFormat:@"%.3f", [ad.eCPM doubleValue]/kECPMPointsDivider];
 }
 
 @end

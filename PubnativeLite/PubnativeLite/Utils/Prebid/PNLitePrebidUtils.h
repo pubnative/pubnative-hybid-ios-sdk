@@ -25,6 +25,7 @@
 
 @interface PNLitePrebidUtils : NSObject
 
-+ (NSString *)createPrebidKeywordsWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
++ (NSString *)createPrebidKeywordsStringWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
 
 @end
