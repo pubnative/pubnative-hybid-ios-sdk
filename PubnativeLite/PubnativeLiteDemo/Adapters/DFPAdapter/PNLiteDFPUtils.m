@@ -20,30 +20,35 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubUtils.h"
+#import "PNLiteDFPUtils.h"
 
-NSString *const kPNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
+NSString *const kPNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
 
-@implementation PNLiteMoPubUtils
+@implementation PNLiteDFPUtils
 
-+ (BOOL)areExtrasValid:(NSDictionary *)extras {
-    return [PNLiteMoPubUtils zoneID:extras];
++ (BOOL)areExtrasValid:(NSString *)extras
+{
+    return [PNLiteDFPUtils zoneID:extras];
 }
 
-+ (NSString *)zoneID:(NSDictionary *)extras
++ (NSString *)zoneID:(NSString *)extras
 {
-    return [PNLiteMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyZoneID fromExtras:extras];
+    return [PNLiteDFPUtils valueWithKey:kPNLiteDFPAdapterKeyZoneID fromExtras:extras];
 }
 
 + (NSString *)valueWithKey:(NSString *)key
-                fromExtras:(NSDictionary *)extras {
+                fromExtras:(NSString *)extras
+{
     NSString *result = nil;
-    if (extras && [extras objectForKey:key]) {
-        NSString *param = [extras objectForKey:key];
-        if ([param length] != 0) {
-            result = param;
-        }
+    NSData *jsonData = [extras dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                      options:0
+                                                                        error:&error];
+    if (!error) {
+        result = (NSString *)dictionary[key];
     }
+    
     return result;
 }
 

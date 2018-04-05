@@ -44,7 +44,7 @@ double const kECPMPointsDivider = 1000.0;
     
     [prebidString appendString:kPNLiteKeyPN_BID];
     [prebidString appendString:@":"];
-    [prebidString appendString:[self eCPMFromAd:ad]];
+    [prebidString appendString:[PNLitePrebidUtils eCPMFromAd:ad]];
     
     return [NSString stringWithString:prebidString];
 }
@@ -54,7 +54,7 @@ double const kECPMPointsDivider = 1000.0;
     NSMutableDictionary *prebidDictionary = [NSMutableDictionary dictionary];
     [prebidDictionary setValue:@"true" forKey:kPNLiteKeyPN];
     [prebidDictionary setValue:zoneID forKey:kPNLiteKeyPN_ZONE_ID];
-    [prebidDictionary setValue:[self eCPMFromAd:ad] forKey:kPNLiteKeyPN_BID];
+    [prebidDictionary setValue:[PNLitePrebidUtils eCPMFromAd:ad] forKey:kPNLiteKeyPN_BID];
     return prebidDictionary;
 }
 

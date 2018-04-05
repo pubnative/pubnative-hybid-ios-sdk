@@ -20,31 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubUtils.h"
+#import <Foundation/Foundation.h>
 
-NSString *const kPNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
+@interface PNLiteDFPUtils : NSObject
 
-@implementation PNLiteMoPubUtils
-
-+ (BOOL)areExtrasValid:(NSDictionary *)extras {
-    return [PNLiteMoPubUtils zoneID:extras];
-}
-
-+ (NSString *)zoneID:(NSDictionary *)extras
-{
-    return [PNLiteMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyZoneID fromExtras:extras];
-}
-
-+ (NSString *)valueWithKey:(NSString *)key
-                fromExtras:(NSDictionary *)extras {
-    NSString *result = nil;
-    if (extras && [extras objectForKey:key]) {
-        NSString *param = [extras objectForKey:key];
-        if ([param length] != 0) {
-            result = param;
-        }
-    }
-    return result;
-}
++ (BOOL)areExtrasValid:(NSString *)extras;
++ (NSString *)zoneID:(NSString *)extras;
 
 @end
