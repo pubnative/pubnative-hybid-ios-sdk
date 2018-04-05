@@ -1103,18 +1103,11 @@
 				5ADC023720514F120071DA20 /* PNLiteDemoSettings.m */,
 				5ADC02392051700F0071DA20 /* PNLiteDemoMainViewController.h */,
 				5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */,
-				5A32CEBE2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.h */,
-				5A32CEBF2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m */,
-				5ADC023C205181310071DA20 /* PNLiteDemoMoPubMRectViewController.h */,
-				5ADC023D205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m */,
-				5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */,
-				5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */,
 				5A59DBBA2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.h */,
 				5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */,
 				5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */,
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
-				5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */,
-				5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */,
+				5A6354D52076506B00D47E1B /* MoPub */,
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */,
@@ -1189,6 +1182,21 @@
 				5A52BFE5203458D000C4B7C5 /* PNLiteMRAIDServiceProvider.m */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5A6354D52076506B00D47E1B /* MoPub */ = {
+			isa = PBXGroup;
+			children = (
+				5A32CEBE2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.h */,
+				5A32CEBF2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m */,
+				5ADC023C205181310071DA20 /* PNLiteDemoMoPubMRectViewController.h */,
+				5ADC023D205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m */,
+				5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */,
+				5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */,
+				5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */,
+				5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */,
+			);
+			path = MoPub;
 			sourceTree = "<group>";
 		};
 		5A6BBE79206262320079F8A5 /* Adapters */ = {
