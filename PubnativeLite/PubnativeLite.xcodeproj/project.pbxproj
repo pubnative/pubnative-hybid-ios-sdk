@@ -84,6 +84,7 @@
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
 		5A71309E20690463000B83D9 /* PNLiteAdTrackerRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309D20690463000B83D9 /* PNLiteAdTrackerRequestTest.m */; };
 		5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */; };
+		5A7FEC9A2076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7FEC992076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m */; };
 		5A89030D203DE19600D86051 /* MPAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A890169203DE19500D86051 /* MPAdView.m */; };
 		5A89030E203DE19600D86051 /* MPViewabilityAdapterAvid.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A890173203DE19500D86051 /* MPViewabilityAdapterAvid.m */; };
 		5A89030F203DE19600D86051 /* libAvid-mopub-3.6.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A890178203DE19500D86051 /* libAvid-mopub-3.6.1.a */; };
@@ -478,6 +479,8 @@
 		5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequestTest.m; sourceTree = "<group>"; };
 		5A71309D20690463000B83D9 /* PNLiteAdTrackerRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdTrackerRequestTest.m; sourceTree = "<group>"; };
 		5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdRequestTest.m; sourceTree = "<group>"; };
+		5A7FEC982076751A00FAED48 /* PNLiteDFPMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPMRectCustomEvent.h; sourceTree = "<group>"; };
+		5A7FEC992076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPMRectCustomEvent.m; sourceTree = "<group>"; };
 		5A890167203DE19500D86051 /* MPBannerCustomEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPBannerCustomEventDelegate.h; sourceTree = "<group>"; };
 		5A890168203DE19500D86051 /* MPLogLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPLogLevel.h; sourceTree = "<group>"; };
 		5A890169203DE19500D86051 /* MPAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPAdView.m; sourceTree = "<group>"; };
@@ -2031,6 +2034,8 @@
 				5AE4C6DB207529AA00A2A8C5 /* PNLiteDFPUtils.m */,
 				5A6354D22076191100D47E1B /* PNLiteDFPBannerCustomEvent.h */,
 				5A6354D32076191100D47E1B /* PNLiteDFPBannerCustomEvent.m */,
+				5A7FEC982076751A00FAED48 /* PNLiteDFPMRectCustomEvent.h */,
+				5A7FEC992076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m */,
 			);
 			path = DFPAdapter;
 			sourceTree = "<group>";
@@ -2298,6 +2303,7 @@
 				5A890387203DE19600D86051 /* MPVASTIndustryIcon.m in Sources */,
 				5A890366203DE19600D86051 /* MPSessionTracker.m in Sources */,
 				5A890391203DE19600D86051 /* MPCollectionViewAdPlacer.m in Sources */,
+				5A7FEC9A2076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m in Sources */,
 				5A890376203DE19600D86051 /* UIButton+MPAdditions.m in Sources */,
 				5A890377203DE19600D86051 /* NSBundle+MPAdditions.m in Sources */,
 				5A89035A203DE19600D86051 /* MRBridge.m in Sources */,
