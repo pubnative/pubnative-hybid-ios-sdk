@@ -20,13 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubMRectCustomEvent.h"
-#import "PNLiteMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPConstants.h"
-#import "MPError.h"
+#import "PNLiteDFPMRectCustomEvent.h"
+#import "PNLiteDFPUtils.h"
 
-@interface PNLiteMoPubMRectCustomEvent () <PNLiteMRectPresenterDelegate>
+@interface PNLiteDFPMRectCustomEvent () <PNLiteMRectPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
@@ -35,7 +32,9 @@
 
 @end
 
-@implementation PNLiteMoPubMRectCustomEvent
+@implementation PNLiteDFPMRectCustomEvent
+
+@synthesize delegate;
 
 - (void)dealloc
 {
@@ -44,14 +43,16 @@
     self.ad = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
+- (void)requestBannerAd:(GADAdSize)adSize
+              parameter:(NSString * _Nullable)serverParameter
+                  label:(NSString * _Nullable)serverLabel
+                request:(nonnull GADCustomEventRequest *)request
 {
-    if ([PNLiteMoPubUtils areExtrasValid:info]) {
-        self.size = size;
-        if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
-            self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteMoPubUtils zoneID:info]];
+    if ([PNLiteDFPUtils areExtrasValid:serverParameter]) {
+        if (CGSizeEqualToSize(kGADAdSizeMediumRectangle.size, adSize.size)) {
+            self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteDFPUtils zoneID:serverParameter]];
             if (self.ad == nil) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteMoPubUtils zoneID:info]]];
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteDFPUtils zoneID:serverParameter]]];
                 return;
             }
             self.mRectPresenterFactory = [[PNLiteMRectPresenterFactory alloc] init];
@@ -74,24 +75,14 @@
 
 - (void)invokeFailWithMessage:(NSString *)message
 {
-    MPLogError(message);
-    [self.delegate bannerCustomEvent:self
-            didFailToLoadAdWithError:[NSError errorWithDomain:message
-                                                         code:0
-                                                     userInfo:nil]];
-}
-
-- (BOOL)enableAutomaticImpressionAndClickTracking
-{
-    return NO;
+    [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - PNLiteMRectPresenterDelegate
 
 - (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
-    [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:mRect];
+    [self.delegate customEventBanner:self didReceiveAd:mRect];
 }
 
 - (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
@@ -101,8 +92,8 @@
 
 - (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
 {
-    [self.delegate trackClick];
-    [self.delegate bannerCustomEventWillLeaveApplication:self];
+    [self.delegate customEventBannerWasClicked:self];
+    [self.delegate customEventBannerWillLeaveApplication:self];
 }
 
 @end

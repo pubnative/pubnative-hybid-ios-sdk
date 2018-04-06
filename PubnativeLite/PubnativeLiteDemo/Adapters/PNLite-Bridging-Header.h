@@ -8,3 +8,4 @@
 #import "PNLiteMoPubInterstitialCustomEvent.h"
 #import "PNLiteDFPUtils.h"
 #import "PNLiteDFPBannerCustomEvent.h"
+#import "PNLiteDFPMRectCustomEvent.h"
