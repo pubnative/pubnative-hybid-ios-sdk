@@ -46,19 +46,42 @@
                                      label:(NSString * _Nullable)serverLabel
                                    request:(nonnull GADCustomEventRequest *)request
 {
-    
+    if ([PNLiteDFPUtils areExtrasValid:serverParameter]) {
+        self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteDFPUtils zoneID:serverParameter]];
+        if (self.ad == nil) {
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteDFPUtils zoneID:serverParameter]]];
+            return;
+        }
+        self.interstitalPresenterFactory = [[PNLiteInterstitialPresenterFactory alloc] init];
+        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
+        if (self.interstitialPresenter == nil) {
+            [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid interstitial presenter"];
+            return;
+        } else {
+            [self.interstitialPresenter load];
+        }
+    } else {
+        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed interstitial ad fetch. Missing required server extras."];
+        return;
+    }
 }
 
 - (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController
 {
-    
+    [self.delegate customEventInterstitialWillPresent:self];
+    [self.interstitialPresenter show];
+}
+
+- (void)invokeFailWithMessage:(NSString *)message
+{
+    [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - PNLiteInterstitialPresenterDelegate
 
 - (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter
 {
-    
+    [self.delegate customEventInterstitialDidReceiveAd:self];
 }
 
 - (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
@@ -68,18 +91,19 @@
 
 - (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
 {
-    
+    [self.delegate customEventInterstitialWasClicked:self];
+    [self.delegate customEventInterstitialWillLeaveApplication:self];
 }
 
 - (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter
 {
-    
+    [self.delegate customEventInterstitialWillDismiss:self];
+    [self.delegate customEventInterstitialDidDismiss:self];
 }
 
 - (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
 {
-    
+    [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
-
 
 @end
