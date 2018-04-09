@@ -27,6 +27,9 @@ NSString *const kPNLiteDemoZoneID;
 NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
 NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
 NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
+NSString *const kPNLiteDemoDFPBannerAdUnitID = @"";
+NSString *const kPNLiteDemoDFPMRectAdUnitID = @"";
+NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"";
 
 @implementation PNLiteDemoSettings
 
@@ -37,6 +40,9 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
     self.moPubBannerAdUnitID = nil;
     self.moPubMRectAdUnitID = nil;
     self.moPubInterstitialAdUnitID = nil;
+    self.dfpBannerAdUnitID = nil;
+    self.dfpMRectAdUnitID = nil;
+    self.dfpInterstitialAdUnitID = nil;
     self.keywords = nil;
     self.targetingModel = nil;
 }
@@ -60,6 +66,9 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
         self.moPubBannerAdUnitID = kPNLiteDemoMoPubBannerAdUnitID;
         self.moPubMRectAdUnitID = kPNLiteDemoMoPubMRectAdUnitID;
         self.moPubInterstitialAdUnitID = kPNLiteDemoMoPubInterstitialAdUnitID;
+        self.dfpBannerAdUnitID = kPNLiteDemoDFPBannerAdUnitID;
+        self.dfpMRectAdUnitID = kPNLiteDemoDFPMRectAdUnitID;
+        self.dfpInterstitialAdUnitID = kPNLiteDemoDFPInterstitialAdUnitID;
         self.targetingModel = [[PNLiteTargetingModel alloc] init];
     }
     return self;

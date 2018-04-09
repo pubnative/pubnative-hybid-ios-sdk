@@ -20,10 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubSettingsViewController.h"
+#import "PNLiteDemoDFPSettingsViewController.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubSettingsViewController () <UITextFieldDelegate>
+@interface PNLiteDemoDFPSettingsViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *bannerAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mRectAdUnitIDTextField;
@@ -31,22 +31,23 @@
 
 @end
 
-@implementation PNLiteDemoMoPubSettingsViewController
+@implementation PNLiteDemoDFPSettingsViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"MoPub Settings";
-    self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID;
-    self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID;
-    self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID;
+    self.navigationItem.title = @"DFP Settings";
+    self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
+    self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
+    self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID;
+    
 }
 
-- (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender
+- (IBAction)saveDFPSettingsTouchUpInside:(UIButton *)sender
 {
-    [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID = self.bannerAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID = self.mRectAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID = self.bannerAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID = self.mRectAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
