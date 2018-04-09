@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5A064990203DB75C00CDF925 /* PNLitePrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */; };
+		5A066D2D20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A066D2C20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m */; };
 		5A20DBDB203B081400EF2B3C /* PNLiteBannerAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A20DBDC203B081400EF2B3C /* PNLiteBannerAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */; };
 		5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -395,6 +396,8 @@
 /* Begin PBXFileReference section */
 		5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLitePrebidUtils.h; sourceTree = "<group>"; };
 		5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLitePrebidUtils.m; sourceTree = "<group>"; };
+		5A066D2B20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		5A066D2C20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteBannerAdRequest.h; sourceTree = "<group>"; };
 		5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerAdRequest.m; sourceTree = "<group>"; };
 		5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAssetGroupType.h; sourceTree = "<group>"; };
@@ -2036,6 +2039,8 @@
 				5A6354D32076191100D47E1B /* PNLiteDFPBannerCustomEvent.m */,
 				5A7FEC982076751A00FAED48 /* PNLiteDFPMRectCustomEvent.h */,
 				5A7FEC992076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m */,
+				5A066D2B20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.h */,
+				5A066D2C20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m */,
 			);
 			path = DFPAdapter;
 			sourceTree = "<group>";
@@ -2446,6 +2451,7 @@
 				5A8903AA203DE19600D86051 /* MPNativeAdConstants.m in Sources */,
 				5A89038A203DE19600D86051 /* MPVASTStringUtilities.m in Sources */,
 				5A890360203DE19600D86051 /* MPMRAIDInterstitialCustomEvent.m in Sources */,
+				5A066D2D20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m in Sources */,
 				5A890386203DE19600D86051 /* MPVASTDurationOffset.m in Sources */,
 				5A890335203DE19600D86051 /* MPVASTTracking.m in Sources */,
 				5A890394203DE19600D86051 /* MPNativeAdSource.m in Sources */,
