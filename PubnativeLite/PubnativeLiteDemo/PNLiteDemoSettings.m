@@ -27,8 +27,8 @@ NSString *const kPNLiteDemoZoneID;
 NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
 NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
 NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
-NSString *const kPNLiteDemoDFPBannerAdUnitID = @"";
-NSString *const kPNLiteDemoDFPMRectAdUnitID = @"";
+NSString *const kPNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
+NSString *const kPNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
 NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"";
 
 @implementation PNLiteDemoSettings

@@ -1011,8 +1011,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="F9n-4v-E7A"/>
                                         <include reference="65H-EE-lmt"/>
+                                        <exclude reference="F9n-4v-E7A"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -1045,6 +1045,9 @@
                                         <exclude reference="fkJ-Eo-9V3"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <segue destination="zSC-dH-nXr" kind="show" id="elN-z9-xQC"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1062,7 +1065,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Izn-ct-Asm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="698" y="-736"/>
+            <point key="canvasLocation" x="697" y="-1433"/>
         </scene>
         <!--MoPub Banner View Controller-->
         <scene sceneID="Sbi-ll-cUE">
@@ -1119,7 +1122,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbK-wK-2Hn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1482" y="-1143"/>
+            <point key="canvasLocation" x="1481" y="-1841"/>
         </scene>
         <!--MoPub Interstitial View Controller-->
         <scene sceneID="lvW-PO-n18">
@@ -1238,8 +1241,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="y6c-Cr-9V2"/>
                                         <include reference="ZnJ-Zg-EDl"/>
+                                        <exclude reference="y6c-Cr-9V2"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -1268,8 +1271,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="bL2-u6-f5w"/>
                                         <exclude reference="5An-Fb-dOp"/>
+                                        <include reference="bL2-u6-f5w"/>
                                     </mask>
                                 </variation>
                             </button>
@@ -1339,8 +1342,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="nCd-xP-w2D"/>
                                         <include reference="Tta-YF-BqC"/>
+                                        <exclude reference="nCd-xP-w2D"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -1369,8 +1372,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="gq8-OU-Jj4"/>
                                         <exclude reference="NCy-ud-pUN"/>
+                                        <include reference="gq8-OU-Jj4"/>
                                     </mask>
                                 </variation>
                             </button>
@@ -1591,8 +1594,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="dwx-18-Owb"/>
                                         <exclude reference="bNd-x9-M7A"/>
+                                        <include reference="dwx-18-Owb"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -1625,8 +1628,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="iDb-5Z-zZy"/>
                                         <exclude reference="etq-rE-upM"/>
+                                        <include reference="iDb-5Z-zZy"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -1697,6 +1700,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YHD-3b-xdY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-58" y="1486"/>
+        </scene>
+        <!--DFP Banner View Controller-->
+        <scene sceneID="p25-gj-uc6">
+            <objects>
+                <viewController title="DFP Banner" id="zSC-dH-nXr" userLabel="DFP Banner View Controller" customClass="PNLiteDemoDFPBannerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IXb-Av-JUK"/>
+                        <viewControllerLayoutGuide type="bottom" id="s50-Rp-w9T"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="k68-Vb-yBn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nq5-v5-Aoh">
+                                <rect key="frame" x="16" y="72" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="BkV-zp-05l"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="zSC-dH-nXr" eventType="touchUpInside" id="IWp-kS-4zT"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3cI-ZH-Ihm">
+                                <rect key="frame" x="27.5" y="110" width="320" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0Jt-kY-oOo"/>
+                                    <constraint firstAttribute="width" constant="320" id="r4h-JP-1f6"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="56g-IH-XiX">
+                                <rect key="frame" x="169" y="118" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3cI-ZH-Ihm" firstAttribute="centerX" secondItem="k68-Vb-yBn" secondAttribute="centerX" id="0Q1-B9-T2f"/>
+                            <constraint firstItem="nq5-v5-Aoh" firstAttribute="leading" secondItem="k68-Vb-yBn" secondAttribute="leadingMargin" id="1qm-yL-MX0"/>
+                            <constraint firstItem="3cI-ZH-Ihm" firstAttribute="top" secondItem="nq5-v5-Aoh" secondAttribute="bottom" constant="8" id="70Y-xY-kzc"/>
+                            <constraint firstItem="56g-IH-XiX" firstAttribute="centerX" secondItem="k68-Vb-yBn" secondAttribute="centerX" id="FtK-lf-ACd"/>
+                            <constraint firstItem="nq5-v5-Aoh" firstAttribute="top" secondItem="IXb-Av-JUK" secondAttribute="bottom" constant="8" id="UnB-Bo-MnU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nq5-v5-Aoh" secondAttribute="trailing" id="f8C-1F-BDM"/>
+                            <constraint firstItem="56g-IH-XiX" firstAttribute="top" secondItem="nq5-v5-Aoh" secondAttribute="bottom" constant="16" id="yIK-6J-3P0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bannerContainer" destination="3cI-ZH-Ihm" id="XqK-3A-YFZ"/>
+                        <outlet property="bannerLoaderIndicator" destination="56g-IH-XiX" id="lpf-Y1-0r8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vfc-3J-j7J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1481" y="-1093"/>
         </scene>
     </scenes>
 </document>

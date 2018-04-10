@@ -43,7 +43,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"Interstitial";
+    self.navigationItem.title = @"MoPub Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
     
     if(self.moPubInterstitial == nil) {

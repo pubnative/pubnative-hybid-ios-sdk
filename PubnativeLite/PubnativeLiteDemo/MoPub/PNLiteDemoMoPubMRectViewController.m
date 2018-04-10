@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MRect";
+    self.navigationItem.title = @"MoPub MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
     self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID

@@ -10,6 +10,7 @@
 		5A064990203DB75C00CDF925 /* PNLitePrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */; };
 		5A066D2D20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A066D2C20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m */; };
+		5A0E770D207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */; };
 		5A20DBDB203B081400EF2B3C /* PNLiteBannerAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A20DBDC203B081400EF2B3C /* PNLiteBannerAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */; };
 		5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -399,6 +400,8 @@
 		5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLitePrebidUtils.m; sourceTree = "<group>"; };
 		5A066D2B20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5A066D2C20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		5A0E770B207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPBannerViewController.h; sourceTree = "<group>"; };
+		5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPBannerViewController.m; sourceTree = "<group>"; };
 		5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteBannerAdRequest.h; sourceTree = "<group>"; };
 		5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerAdRequest.m; sourceTree = "<group>"; };
 		5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAssetGroupType.h; sourceTree = "<group>"; };
@@ -1299,6 +1302,8 @@
 			children = (
 				5A87F458207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.h */,
 				5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */,
+				5A0E770B207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.h */,
+				5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */,
 			);
 			path = DFP;
 			sourceTree = "<group>";
@@ -2334,6 +2339,7 @@
 				5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */,
 				5A89034D203DE19600D86051 /* MPClosableView.m in Sources */,
 				5A890330203DE19600D86051 /* MPLogEventRecorder.m in Sources */,
+				5A0E770D207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m in Sources */,
 				5A89035B203DE19600D86051 /* MRNativeCommandHandler.m in Sources */,
 				5A890352203DE19600D86051 /* MPURLResolver.m in Sources */,
 				5A8903B5203DE19600D86051 /* MOPUBNativeVideoCustomEvent.m in Sources */,

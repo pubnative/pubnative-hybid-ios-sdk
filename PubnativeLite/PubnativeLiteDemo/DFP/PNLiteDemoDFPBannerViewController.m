@@ -20,25 +20,26 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubBannerViewController.h"
+#import "PNLiteDemoDFPBannerViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
-#import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubBannerViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
+@import GoogleMobileAds;
+
+@interface PNLiteDemoDFPBannerViewController () <PNLiteAdRequestDelegate, GADBannerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (nonatomic, strong) MPAdView *moPubBanner;
+@property (nonatomic, strong) DFPBannerView *bannerView;
 @property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
 
 @end
 
-@implementation PNLiteDemoMoPubBannerViewController
+@implementation PNLiteDemoDFPBannerViewController
 
 - (void)dealloc
 {
-    self.moPubBanner = nil;
+    self.bannerView = nil;
     self.bannerAdRequest = nil;
 }
 
@@ -46,14 +47,15 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub Banner";
-
+    self.navigationItem.title = @"DFP Banner";
+    
     [self.bannerLoaderIndicator stopAnimating];
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID
-                                                     size:MOPUB_BANNER_SIZE];
-    self.moPubBanner.delegate = self;
-    [self.moPubBanner stopAutomaticallyRefreshingContents];
-    [self.bannerContainer addSubview:self.moPubBanner];
+    self.bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    self.bannerView.delegate = self;
+    self.bannerView.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
+    self.bannerView.rootViewController = self;
+    [self.bannerContainer addSubview:self.bannerView];
+
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender
@@ -64,43 +66,43 @@
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-#pragma mark - MPAdViewDelegate
+#pragma mark - GADBannerViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
+- (void)adViewDidReceiveAd:(GADBannerView *)adView
 {
-    return self;
-}
-
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
-    NSLog(@"adViewDidLoadAd");
-    if (self.moPubBanner == view) {
+    NSLog(@"adViewDidReceiveAd");
+    if (self.bannerView == adView) {
         self.bannerContainer.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
+- (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    NSLog(@"adViewDidFailToLoadAd");
-    if (self.moPubBanner == view) {
+    NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    if (self.bannerView == adView) {
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
+- (void)adViewWillPresentScreen:(GADBannerView *)adView
 {
-    NSLog(@"willPresentModalViewForAd");
+    NSLog(@"adViewWillPresentScreen");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
+- (void)adViewWillDismissScreen:(GADBannerView *)adView
 {
-    NSLog(@"didDismissModalViewForAd");
+    NSLog(@"adViewWillDismissScreen");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
+- (void)adViewDidDismissScreen:(GADBannerView *)adView
 {
-    NSLog(@"willLeaveApplicationFromAd");
+    NSLog(@"adViewDidDismissScreen");
+}
+
+- (void)adViewWillLeaveApplication:(GADBannerView *)adView
+{
+    NSLog(@"adViewWillLeaveApplication");
 }
 
 #pragma mark - PNLiteAdRequestDelegate
@@ -115,8 +117,9 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.bannerAdRequest) {
-        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
-        [self.moPubBanner loadAd];
+        DFPRequest *request = [DFPRequest request];
+        request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+        [self.bannerView loadRequest:request];
     }
 }
 
@@ -129,7 +132,7 @@
     
     if (request == self.bannerAdRequest) {
         [self.bannerLoaderIndicator stopAnimating];
-    } 
+    }
 }
 
 @end
