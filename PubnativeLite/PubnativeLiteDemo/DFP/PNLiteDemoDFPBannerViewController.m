@@ -55,7 +55,6 @@
     self.bannerView.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
     self.bannerView.rootViewController = self;
     [self.bannerContainer addSubview:self.bannerView];
-
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender
