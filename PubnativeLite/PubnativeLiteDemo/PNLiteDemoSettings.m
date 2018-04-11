@@ -29,7 +29,7 @@ NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8
 NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
 NSString *const kPNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
 NSString *const kPNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
-NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"";
+NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitial";
 
 @implementation PNLiteDemoSettings
 

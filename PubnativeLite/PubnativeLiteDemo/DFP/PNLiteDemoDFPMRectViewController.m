@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (nonatomic, strong) DFPBannerView *mRectView;
+@property (nonatomic, strong) DFPBannerView *dfpMrect;
 @property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
 @end
@@ -39,7 +39,7 @@
 
 - (void)dealloc
 {
-    self.mRectView = nil;
+    self.dfpMrect = nil;
     self.mRectAdRequest = nil;
 }
 
@@ -50,11 +50,11 @@
     self.navigationItem.title = @"DFP MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.mRectView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
-    self.mRectView.delegate = self;
-    self.mRectView.adUnitID = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
-    self.mRectView.rootViewController = self;
-    [self.mRectContainer addSubview:self.mRectView];
+    self.dfpMrect = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+    self.dfpMrect.delegate = self;
+    self.dfpMrect.adUnitID = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
+    self.dfpMrect.rootViewController = self;
+    [self.mRectContainer addSubview:self.dfpMrect];
 }
 
 - (IBAction)requestMRectTouchUpInside:(id)sender
@@ -70,7 +70,7 @@
 - (void)adViewDidReceiveAd:(GADBannerView *)adView
 {
     NSLog(@"adViewDidReceiveAd");
-    if (self.mRectView == adView) {
+    if (self.dfpMrect == adView) {
         self.mRectContainer.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
@@ -79,7 +79,7 @@
 - (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error
 {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
-    if (self.mRectView == adView) {
+    if (self.dfpMrect == adView) {
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -119,7 +119,7 @@
     if (request == self.mRectAdRequest) {
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
-        [self.mRectView loadRequest:request];
+        [self.dfpMrect loadRequest:request];
     }
 }
 

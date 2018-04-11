@@ -20,36 +20,34 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubInterstitialViewController.h"
+#import "PNLiteDemoDFPInterstitialViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
-#import "MPInterstitialAdController.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubInterstitialViewController () <PNLiteAdRequestDelegate, MPInterstitialAdControllerDelegate>
+@import GoogleMobileAds;
+
+@interface PNLiteDemoDFPInterstitialViewController () <PNLiteAdRequestDelegate, GADInterstitialDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
+@property (nonatomic, strong) DFPInterstitial *dfpInterstitial;
 @property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
+
 @end
 
-@implementation PNLiteDemoMoPubInterstitialViewController
+@implementation PNLiteDemoDFPInterstitialViewController
 
 - (void)dealloc
 {
-    self.moPubInterstitial = nil;
+    self.dfpInterstitial = nil;
     self.interstitialAdRequest = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"MoPub Interstitial";
+    self.navigationItem.title = @"DFP Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
-    
-    if(self.moPubInterstitial == nil) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
-        self.moPubInterstitial.delegate = self;
-    }
+    self.dfpInterstitial = [self createAndLoadInterstitial];
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
@@ -59,49 +57,50 @@
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-#pragma mark - MPInterstitialAdControllerDelegate
-
-- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
+- (DFPInterstitial *)createAndLoadInterstitial
 {
-    NSLog(@"interstitialDidLoadAd");
+    DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID];
+    interstitial.delegate = self;
+    return interstitial;
+}
+
+#pragma mark GADInterstitialDelegate
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+{
+    NSLog(@"interstitialDidReceiveAd");
     [self.interstitialLoaderIndicator stopAnimating];
-    [self.moPubInterstitial showFromViewController:self];
+    if (self.dfpInterstitial.isReady) {
+        [self.dfpInterstitial presentFromRootViewController:self];
+    } else {
+        NSLog(@"Ad wasn't ready");
+    }
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    NSLog(@"interstitialDidFailToLoadAd");
+    NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
-- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial
+- (void)interstitialWillPresentScreen:(GADInterstitial *)ad
 {
-    NSLog(@"interstitialWillAppear");
+    NSLog(@"interstitialWillPresentScreen");
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial
+- (void)interstitialWillDismissScreen:(GADInterstitial *)ad
 {
-    NSLog(@"interstitialDidAppear");
+    NSLog(@"interstitialWillDismissScreen");
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad
 {
-    NSLog(@"interstitialWillDisappear");
+    NSLog(@"interstitialDidDismissScreen");
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial
+- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad
 {
-    NSLog(@"interstitialDidDisappear");
-}
-
-- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial
-{
-    NSLog(@"interstitialDidExpire");
-}
-
-- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial
-{
-    NSLog(@"interstitialDidReceiveTapEvent");
+    NSLog(@"interstitialWillLeaveApplication");
 }
 
 #pragma mark - PNLiteAdRequestDelegate
@@ -115,8 +114,9 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
-        [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
-        [self.moPubInterstitial loadAd];
+        DFPRequest *request = [DFPRequest request];
+        request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+        [self.dfpInterstitial loadRequest:request];
     }
 }
 

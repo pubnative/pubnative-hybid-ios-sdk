@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (nonatomic, strong) DFPBannerView *bannerView;
+@property (nonatomic, strong) DFPBannerView *dfpBannerView;
 @property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
 
 @end
@@ -39,7 +39,7 @@
 
 - (void)dealloc
 {
-    self.bannerView = nil;
+    self.dfpBannerView = nil;
     self.bannerAdRequest = nil;
 }
 
@@ -50,11 +50,11 @@
     self.navigationItem.title = @"DFP Banner";
     
     [self.bannerLoaderIndicator stopAnimating];
-    self.bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    self.bannerView.delegate = self;
-    self.bannerView.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
-    self.bannerView.rootViewController = self;
-    [self.bannerContainer addSubview:self.bannerView];
+    self.dfpBannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    self.dfpBannerView.delegate = self;
+    self.dfpBannerView.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
+    self.dfpBannerView.rootViewController = self;
+    [self.bannerContainer addSubview:self.dfpBannerView];
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender
@@ -70,7 +70,7 @@
 - (void)adViewDidReceiveAd:(GADBannerView *)adView
 {
     NSLog(@"adViewDidReceiveAd");
-    if (self.bannerView == adView) {
+    if (self.dfpBannerView == adView) {
         self.bannerContainer.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
@@ -79,7 +79,7 @@
 - (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error
 {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
-    if (self.bannerView == adView) {
+    if (self.dfpBannerView == adView) {
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
@@ -118,7 +118,7 @@
     if (request == self.bannerAdRequest) {
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
-        [self.bannerView loadRequest:request];
+        [self.dfpBannerView loadRequest:request];
     }
 }
 
