@@ -20,25 +20,26 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubMRectViewController.h"
+#import "PNLiteDemoDFPMRectViewController.h"
 #import <PubnativeLite/PubnativeLite.h>
-#import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubMRectViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
+@import GoogleMobileAds;
+
+@interface PNLiteDemoDFPMRectViewController () <PNLiteAdRequestDelegate, GADBannerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (nonatomic, strong) MPAdView *moPubMrect;
+@property (nonatomic, strong) DFPBannerView *dfpMrect;
 @property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
 @end
 
-@implementation PNLiteDemoMoPubMRectViewController
+@implementation PNLiteDemoDFPMRectViewController
 
 - (void)dealloc
 {
-    self.moPubMrect = nil;
+    self.dfpMrect = nil;
     self.mRectAdRequest = nil;
 }
 
@@ -46,14 +47,14 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub MRect";
+    self.navigationItem.title = @"DFP MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID
-                                                    size:MOPUB_MEDIUM_RECT_SIZE];
-    self.moPubMrect.delegate = self;
-    [self.moPubMrect stopAutomaticallyRefreshingContents];
-    [self.mRectContainer addSubview:self.moPubMrect];
+    self.dfpMrect = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+    self.dfpMrect.delegate = self;
+    self.dfpMrect.adUnitID = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
+    self.dfpMrect.rootViewController = self;
+    [self.mRectContainer addSubview:self.dfpMrect];
 }
 
 - (IBAction)requestMRectTouchUpInside:(id)sender
@@ -64,44 +65,45 @@
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-#pragma mark - MPAdViewDelegate
+#pragma mark - GADBannerViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
+- (void)adViewDidReceiveAd:(GADBannerView *)adView
 {
-    return self;
-}
-
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
-    NSLog(@"adViewDidLoadAd");
-    if (self.moPubMrect == view) {
+    NSLog(@"adViewDidReceiveAd");
+    if (self.dfpMrect == adView) {
         self.mRectContainer.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
+- (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    NSLog(@"adViewDidFailToLoadAd");
-    if (self.moPubMrect == view) {
+    NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    if (self.dfpMrect == adView) {
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
+- (void)adViewWillPresentScreen:(GADBannerView *)adView
 {
-    NSLog(@"willPresentModalViewForAd");
+    NSLog(@"adViewWillPresentScreen");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
+- (void)adViewWillDismissScreen:(GADBannerView *)adView
 {
-    NSLog(@"didDismissModalViewForAd");
+    NSLog(@"adViewWillDismissScreen");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
+- (void)adViewDidDismissScreen:(GADBannerView *)adView
 {
-    NSLog(@"willLeaveApplicationFromAd");
+    NSLog(@"adViewDidDismissScreen");
 }
+
+- (void)adViewWillLeaveApplication:(GADBannerView *)adView
+{
+    NSLog(@"adViewWillLeaveApplication");
+}
+
 
 #pragma mark - PNLiteAdRequestDelegate
 
@@ -115,8 +117,9 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
-        [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
-        [self.moPubMrect loadAd];
+        DFPRequest *request = [DFPRequest request];
+        request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+        [self.dfpMrect loadRequest:request];
     }
 }
 
@@ -127,7 +130,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PNLite Demo" message:error.localizedDescription delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
     [alert show];
     
-     if (request == self.mRectAdRequest) {
+    if (request == self.mRectAdRequest) {
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
