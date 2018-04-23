@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BSG_KSCrashReportWriter.h"
+#import "PNLite_KSCrashReportWriter.h"
 #import "PNLiteConfiguration.h"
 #import "PNLiteErrorReportApiClient.h"
 
@@ -30,7 +30,7 @@
 
 - (void)install:(PNLiteConfiguration *)config
       apiClient:(PNLiteErrorReportApiClient *)apiClient
-        onCrash:(BSG_KSReportWriteCallback)onCrash;
+        onCrash:(PNLite_KSReportWriteCallback)onCrash;
 
 - (void)reportUserException:(NSString *)reportName
                      reason:(NSString *)reportMessage;

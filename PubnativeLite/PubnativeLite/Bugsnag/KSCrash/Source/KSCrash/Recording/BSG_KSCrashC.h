@@ -166,7 +166,7 @@ void bsg_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
  * Default: NULL
  */
 void bsg_kscrash_setCrashNotifyCallback(
-    const BSG_KSReportWriteCallback onCrashNotify);
+    const PNLite_KSReportWriteCallback onCrashNotify);
 
 /** Report a custom, user defined exception.
  * This can be useful when dealing with scripting languages.

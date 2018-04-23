@@ -33,7 +33,7 @@ NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
 
 - (void)install:(PNLiteConfiguration *)config
       apiClient:(PNLiteErrorReportApiClient *)apiClient
-        onCrash:(BSG_KSReportWriteCallback)onCrash {
+        onCrash:(PNLite_KSReportWriteCallback)onCrash {
 
     PNLiteSink *sink = [[PNLiteSink alloc] initWithApiClient:apiClient];
     [BSG_KSCrash sharedInstance].sink = sink;

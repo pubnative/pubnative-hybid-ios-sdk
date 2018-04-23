@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BSG_KSCrashReportWriter.h"
+#import "PNLite_KSCrashReportWriter.h"
 #import "PNLiteBreadcrumb.h"
 #import "PNLiteCrashReport.h"
 #import "PNLiteMetaData.h"
@@ -127,7 +127,7 @@ PNLiteBreadcrumbs *breadcrumbs;
  *  Optional handler invoked when a crash or fatal signal occurs
  */
 @property void (*_Nullable onCrashHandler)
-    (const BSG_KSCrashReportWriter *_Nonnull writer);
+    (const PNLite_KSCrashReportWriter *_Nonnull writer);
 /**
  *  YES if uncaught exceptions should be reported automatically
  */

@@ -1,35 +1,31 @@
 //
-//  BSG_KSCrashReportWriter.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-01-28.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 /* Pointers to functions for writing to a crash report. All JSON types are
  * supported.
  */
 
-#ifndef HDR_BSG_KSCrashReportWriter_h
-#define HDR_BSG_KSCrashReportWriter_h
+#ifndef HDR_PNLite_KSCrashReportWriter_h
+#define HDR_PNLite_KSCrashReportWriter_h
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,7 +37,7 @@ extern "C" {
 /**
  * Encapsulates report writing functionality.
  */
-typedef struct BSG_KSCrashReportWriter {
+typedef struct PNLite_KSCrashReportWriter {
     /** Add a boolean element to the report.
      *
      * @param writer This writer.
@@ -50,7 +46,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param value The value to add.
      */
-    void (*addBooleanElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addBooleanElement)(const struct PNLite_KSCrashReportWriter *writer,
                               const char *name, bool value);
 
     /** Add a floating point element to the report.
@@ -62,7 +58,7 @@ typedef struct BSG_KSCrashReportWriter {
      * @param value The value to add.
      */
     void (*addFloatingPointElement)(
-        const struct BSG_KSCrashReportWriter *writer, const char *name,
+        const struct PNLite_KSCrashReportWriter *writer, const char *name,
         double value);
 
     /** Add an integer element to the report.
@@ -73,7 +69,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param value The value to add.
      */
-    void (*addIntegerElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addIntegerElement)(const struct PNLite_KSCrashReportWriter *writer,
                               const char *name, long long value);
 
     /** Add an unsigned integer element to the report.
@@ -84,7 +80,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param value The value to add.
      */
-    void (*addUIntegerElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addUIntegerElement)(const struct PNLite_KSCrashReportWriter *writer,
                                const char *name, unsigned long long value);
 
     /** Add a string element to the report.
@@ -95,7 +91,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param value The value to add.
      */
-    void (*addStringElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addStringElement)(const struct PNLite_KSCrashReportWriter *writer,
                              const char *name, const char *value);
 
     /** Add a string element from a text file to the report.
@@ -106,7 +102,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param filePath The path to the file containing the value to add.
      */
-    void (*addTextFileElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addTextFileElement)(const struct PNLite_KSCrashReportWriter *writer,
                                const char *name, const char *filePath);
 
     /** Add a JSON element from a text file to the report.
@@ -117,7 +113,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param filePath The path to the file containing the value to add.
      */
-    void (*addJSONFileElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addJSONFileElement)(const struct PNLite_KSCrashReportWriter *writer,
                                const char *name, const char *filePath);
 
     /** Add a hex encoded data element to the report.
@@ -130,7 +126,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @paramn length The length of the data.
      */
-    void (*addDataElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addDataElement)(const struct PNLite_KSCrashReportWriter *writer,
                            const char *name, const char *value,
                            const size_t length);
 
@@ -140,7 +136,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param name The name to give this element.
      */
-    void (*beginDataElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*beginDataElement)(const struct PNLite_KSCrashReportWriter *writer,
                              const char *name);
 
     /** Append hex encoded data to the current data element in the report.
@@ -151,14 +147,14 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @paramn length The length of the data.
      */
-    void (*appendDataElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*appendDataElement)(const struct PNLite_KSCrashReportWriter *writer,
                               const char *value, const size_t length);
 
     /** Complete writing a hex encoded data element to the report.
      *
      * @param writer This writer.
      */
-    void (*endDataElement)(const struct BSG_KSCrashReportWriter *writer);
+    void (*endDataElement)(const struct PNLite_KSCrashReportWriter *writer);
 
     /** Add a UUID element to the report.
      *
@@ -168,7 +164,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param value A pointer to the binary UUID data.
      */
-    void (*addUUIDElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addUUIDElement)(const struct PNLite_KSCrashReportWriter *writer,
                            const char *name, const unsigned char *value);
 
     /** Add a preformatted JSON element to the report.
@@ -179,7 +175,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param value A pointer to the JSON data.
      */
-    void (*addJSONElement)(const struct BSG_KSCrashReportWriter *writer,
+    void (*addJSONElement)(const struct PNLite_KSCrashReportWriter *writer,
                            const char *name, const char *jsonElement);
 
     /** Begin a new object container.
@@ -188,7 +184,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param name The name to give this element.
      */
-    void (*beginObject)(const struct BSG_KSCrashReportWriter *writer,
+    void (*beginObject)(const struct PNLite_KSCrashReportWriter *writer,
                         const char *name);
 
     /** Begin a new array container.
@@ -197,7 +193,7 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param name The name to give this element.
      */
-    void (*beginArray)(const struct BSG_KSCrashReportWriter *writer,
+    void (*beginArray)(const struct PNLite_KSCrashReportWriter *writer,
                        const char *name);
 
     /** Leave the current container, returning to the next higher level
@@ -205,15 +201,15 @@ typedef struct BSG_KSCrashReportWriter {
      *
      * @param writer This writer.
      */
-    void (*endContainer)(const struct BSG_KSCrashReportWriter *writer);
+    void (*endContainer)(const struct PNLite_KSCrashReportWriter *writer);
 
     /** Internal contextual data for the writer */
     void *context;
 
-} BSG_KSCrashReportWriter;
+} PNLite_KSCrashReportWriter;
 
-typedef void (*BSG_KSReportWriteCallback)(
-    const BSG_KSCrashReportWriter *writer);
+typedef void (*PNLite_KSReportWriteCallback)(
+    const PNLite_KSCrashReportWriter *writer);
 
 #ifdef __cplusplus
 }

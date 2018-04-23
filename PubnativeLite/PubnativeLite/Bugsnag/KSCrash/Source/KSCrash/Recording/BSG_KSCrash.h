@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 
 #import "BSG_KSCrashReportFilterCompletion.h"
-#import "BSG_KSCrashReportWriter.h"
+#import "PNLite_KSCrashReportWriter.h"
 #import "BSG_KSCrashType.h"
 
 typedef enum {

@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashReportWriter.h"
+#include "PNLite_KSCrashReportWriter.h"
 #include "BSG_KSCrashSentry.h"
 #include "BSG_KSCrashState.h"
 
@@ -88,7 +88,7 @@ typedef struct {
     /** Callback allowing the application the opportunity to add extra data to
      * the report file. Application MUST NOT call async-unsafe methods!
      */
-    BSG_KSReportWriteCallback onCrashNotify;
+    PNLite_KSReportWriteCallback onCrashNotify;
 } BSG_KSCrash_Configuration;
 
 /** Contextual data used by the crash report writer.

@@ -59,7 +59,7 @@ struct pnlite_data_t {
     // it was sent
     char *userOverridesJSON;
     // User onCrash handler
-    void (*onCrash)(const BSG_KSCrashReportWriter *writer);
+    void (*onCrash)(const PNLite_KSCrashReportWriter *writer);
 };
 
 static struct pnlite_data_t bsg_g_pnlite_data;
@@ -77,7 +77,7 @@ static bool pnLiteHasRecordedSessions;
  *
  *  @param writer report writer which will receive updated metadata
  */
-void BSSerializeDataCrashHandler(const BSG_KSCrashReportWriter *writer) {
+void BSSerializeDataCrashHandler(const PNLite_KSCrashReportWriter *writer) {
     if (bsg_g_pnlite_data.configJSON) {
         writer->addJSONElement(writer, "config", bsg_g_pnlite_data.configJSON);
     }
@@ -217,7 +217,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         [self metaDataChanged:self.configuration.config];
         [self metaDataChanged:self.state];
         bsg_g_pnlite_data.onCrash = (void (*)(
-            const BSG_KSCrashReportWriter *))self.configuration.onCrashHandler;
+            const PNLite_KSCrashReportWriter *))self.configuration.onCrashHandler;
 
         static dispatch_once_t once_t;
         dispatch_once(&once_t, ^{
