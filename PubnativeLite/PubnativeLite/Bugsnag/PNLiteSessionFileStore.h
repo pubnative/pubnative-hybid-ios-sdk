@@ -22,10 +22,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BugsnagFileStore.h"
+#import "PNLiteFileStore.h"
 #import "PNLiteSession.h"
 
-@interface PNLiteSessionFileStore : BugsnagFileStore
+@interface PNLiteSessionFileStore : PNLiteFileStore
 + (PNLiteSessionFileStore *)storeWithPath:(NSString *)path;
 
 - (void)write:(PNLiteSession *)session;

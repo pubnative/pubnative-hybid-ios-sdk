@@ -44,7 +44,7 @@
         _callback = callback;
 
         NSString *bundleName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
-        NSString *storePath = [BugsnagFileStore findReportStorePath:@"Sessions"
+        NSString *storePath = [PNLiteFileStore findReportStorePath:@"Sessions"
                                                          bundleName:bundleName];
         if (!storePath) {
             BSG_KSLOG_ERROR(@"Failed to initialize session store.");

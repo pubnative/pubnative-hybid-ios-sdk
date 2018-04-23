@@ -141,7 +141,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
     if ((self = [super init])) {
         self.bundleName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
 
-        NSString *storePath = [BugsnagFileStore findReportStorePath:reportFilesDirectory
+        NSString *storePath = [PNLiteFileStore findReportStorePath:reportFilesDirectory
                                                          bundleName:self.bundleName];
 
         if (!storePath) {

@@ -26,12 +26,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BugsnagFileStore.h"
+#import "PNLiteFileStore.h"
 
 /**
  * Manages a store of crash reports.
  */
-@interface BSG_KSCrashReportStore : BugsnagFileStore
+@interface BSG_KSCrashReportStore : PNLiteFileStore
 
 /** If true, demangle any C++ symbols found in stack traces. */
 @property(nonatomic, readwrite, assign) BOOL demangleCPP;
