@@ -23,15 +23,15 @@
 #import <Foundation/Foundation.h>
 
 #import "PNLiteConfiguration.h"
-#import "BugsnagMetaData.h"
+#import "PNLiteMetaData.h"
 
 @class PNLiteConnectivity;
 
-@interface PNLiteNotifier : NSObject <BugsnagMetaDataDelegate>
+@interface PNLiteNotifier : NSObject <PNLiteMetaDataDelegate>
 
 @property(nonatomic, readwrite, retain)
     PNLiteConfiguration *_Nullable configuration;
-@property(nonatomic, readwrite, retain) BugsnagMetaData *_Nonnull state;
+@property(nonatomic, readwrite, retain) PNLiteMetaData *_Nonnull state;
 @property(nonatomic, readwrite, retain) NSDictionary *_Nonnull details;
 @property(nonatomic, readwrite, retain) NSLock *_Nonnull metaDataLock;
 

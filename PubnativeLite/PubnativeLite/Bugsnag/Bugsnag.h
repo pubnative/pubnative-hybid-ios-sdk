@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 
 #import "PNLiteConfiguration.h"
-#import "BugsnagMetaData.h"
+#import "PNLiteMetaData.h"
 
 static NSString *_Nonnull const BugsnagSeverityError = @"error";
 static NSString *_Nonnull const BugsnagSeverityWarning = @"warning";

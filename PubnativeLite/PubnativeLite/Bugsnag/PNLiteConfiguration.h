@@ -25,7 +25,7 @@
 #import "BSG_KSCrashReportWriter.h"
 #import "BugsnagBreadcrumb.h"
 #import "BugsnagCrashReport.h"
-#import "BugsnagMetaData.h"
+#import "PNLiteMetaData.h"
 
 @class BugsnagBreadcrumbs;
 @class PNLiteUser;
@@ -102,11 +102,11 @@ typedef NSDictionary *_Nullable (^PNLiteBeforeNotifyHook)(
  *  Additional information about the state of the app or environment at the
  *  time the report was generated
  */
-@property(readwrite, retain, nullable) BugsnagMetaData *metaData;
+@property(readwrite, retain, nullable) PNLiteMetaData *metaData;
 /**
  *  Meta-information about the state of Bugsnag
  */
-@property(readwrite, retain, nullable) BugsnagMetaData *config;
+@property(readwrite, retain, nullable) PNLiteMetaData *config;
 /**
  *  Rolling snapshots of user actions leading up to a crash report
  */

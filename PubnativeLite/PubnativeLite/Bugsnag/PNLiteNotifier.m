@@ -173,7 +173,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 - (id)initWithConfiguration:(PNLiteConfiguration *)initConfiguration {
     if ((self = [super init])) {
         self.configuration = initConfiguration;
-        self.state = [[BugsnagMetaData alloc] init];
+        self.state = [[PNLiteMetaData alloc] init];
         self.details = [@{
             PNLiteKeyName : @"Bugsnag Objective-C",
             PNLiteKeyVersion : PNLITE_NOTIFIER_VERSION,
@@ -596,7 +596,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
                toTabWithName:PNLITE_BSTabCrash];
 }
 
-- (void)metaDataChanged:(BugsnagMetaData *)metaData {
+- (void)metaDataChanged:(PNLiteMetaData *)metaData {
     @synchronized(metaData) {
         if (metaData == self.configuration.metaData) {
             if ([self.metaDataLock tryLock]) {

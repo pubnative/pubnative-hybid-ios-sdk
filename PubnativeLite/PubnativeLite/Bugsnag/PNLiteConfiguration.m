@@ -49,8 +49,8 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
 
 - (id)init {
     if (self = [super init]) {
-        _metaData = [[BugsnagMetaData alloc] init];
-        _config = [[BugsnagMetaData alloc] init];
+        _metaData = [[PNLiteMetaData alloc] init];
+        _config = [[PNLiteMetaData alloc] init];
         _apiKey = @"";
         _sessionURL = [NSURL URLWithString:@"https://sessions.bugsnag.com"];
         _autoNotify = YES;
