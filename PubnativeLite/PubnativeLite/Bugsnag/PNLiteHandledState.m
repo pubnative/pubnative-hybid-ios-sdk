@@ -43,7 +43,7 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
 + (instancetype)handledStateWithSeverityReason:
     (PNLiteSeverityReasonType)severityReason {
     return [self handledStateWithSeverityReason:severityReason
-                                       severity:BSGSeverityWarning
+                                       severity:PNLiteSeverityWarning
                                       attrValue:nil];
 }
 
@@ -54,26 +54,26 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
     BOOL unhandled = NO;
 
     switch (severityReason) {
-    case PromiseRejection:
-        severity = BSGSeverityError;
+    case PNLite_PromiseRejection:
+        severity = PNLiteSeverityError;
         unhandled = YES;
         break;
-    case Signal:
-        severity = BSGSeverityError;
+    case PNLite_Signal:
+        severity = PNLiteSeverityError;
         unhandled = YES;
         break;
-    case HandledError:
-        severity = BSGSeverityWarning;
+    case PNLite_HandledError:
+        severity = PNLiteSeverityWarning;
         break;
-    case HandledException:
-        severity = BSGSeverityWarning;
+    case PNLite_HandledException:
+        severity = PNLiteSeverityWarning;
         break;
-    case LogMessage:
-    case UserSpecifiedSeverity:
-    case UserCallbackSetSeverity:
+    case PNLite_LogMessage:
+    case PNLite_UserSpecifiedSeverity:
+    case PNLite_UserCallbackSetSeverity:
         break;
-    case UnhandledException:
-        severity = BSGSeverityError;
+    case PNLite_UnhandledException:
+        severity = PNLiteSeverityError;
         unhandled = YES;
         break;
     }
@@ -94,10 +94,10 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
         _originalSeverity = severity;
         _unhandled = unhandled;
 
-        if (severityReason == Signal) {
+        if (severityReason == PNLite_Signal) {
             _attrValue = attrValue;
             _attrKey = @"signalType";
-        } else if (severityReason == LogMessage) {
+        } else if (severityReason == PNLite_LogMessage) {
             _attrValue = attrValue;
             _attrKey = @"level";
         }
@@ -120,49 +120,49 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
 
 - (PNLiteSeverityReasonType)calculateSeverityReasonType {
     return _originalSeverity == _currentSeverity ? _severityReasonType
-                                                 : UserCallbackSetSeverity;
+                                                 : PNLite_UserCallbackSetSeverity;
 }
 
 + (NSString *)stringFromSeverityReason:(PNLiteSeverityReasonType)severityReason {
     switch (severityReason) {
-    case Signal:
+    case PNLite_Signal:
         return kPNLiteSignal;
-    case HandledError:
+    case PNLite_HandledError:
         return kPNLiteHandledError;
-    case HandledException:
+    case PNLite_HandledException:
         return kPNLiteHandledException;
-    case UserCallbackSetSeverity:
+    case PNLite_UserCallbackSetSeverity:
         return kPNLiteUserCallbackSetSeverity;
-    case PromiseRejection:
+    case PNLite_PromiseRejection:
         return kPNLitePromiseRejection;
-    case UserSpecifiedSeverity:
+    case PNLite_UserSpecifiedSeverity:
         return kPNLiteUserSpecifiedSeverity;
-    case LogMessage:
+    case PNLite_LogMessage:
         return kPNLiteLogGenerated;
-    case UnhandledException:
+    case PNLite_UnhandledException:
         return kPNLiteUnhandledException;
     }
 }
 
 + (PNLiteSeverityReasonType)severityReasonFromString:(NSString *)string {
     if ([kPNLiteUnhandledException isEqualToString:string]) {
-        return UnhandledException;
+        return PNLite_UnhandledException;
     } else if ([kPNLiteSignal isEqualToString:string]) {
-        return Signal;
+        return PNLite_Signal;
     } else if ([kPNLiteLogGenerated isEqualToString:string]) {
-        return LogMessage;
+        return PNLite_LogMessage;
     } else if ([kPNLiteHandledError isEqualToString:string]) {
-        return HandledError;
+        return PNLite_HandledError;
     } else if ([kPNLiteHandledException isEqualToString:string]) {
-        return HandledException;
+        return PNLite_HandledException;
     } else if ([kPNLiteUserSpecifiedSeverity isEqualToString:string]) {
-        return UserSpecifiedSeverity;
+        return PNLite_UserSpecifiedSeverity;
     } else if ([kPNLiteUserCallbackSetSeverity isEqualToString:string]) {
-        return UserCallbackSetSeverity;
+        return PNLite_UserCallbackSetSeverity;
     } else if ([kPNLitePromiseRejection isEqualToString:string]) {
-        return PromiseRejection;
+        return PNLite_PromiseRejection;
     } else {
-        return UnhandledException;
+        return PNLite_UnhandledException;
     }
 }
 

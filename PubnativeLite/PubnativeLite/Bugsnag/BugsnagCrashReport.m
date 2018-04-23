@@ -137,19 +137,19 @@ NSString *BSGParseReleaseStage(NSDictionary *report) {
 
 BSGSeverity BSGParseSeverity(NSString *severity) {
     if ([severity isEqualToString:PNLiteKeyInfo])
-        return BSGSeverityInfo;
+        return PNLiteSeverityInfo;
     else if ([severity isEqualToString:PNLiteKeyWarning])
-        return BSGSeverityWarning;
-    return BSGSeverityError;
+        return PNLiteSeverityWarning;
+    return PNLiteSeverityError;
 }
 
 NSString *BSGFormatSeverity(BSGSeverity severity) {
     switch (severity) {
-    case BSGSeverityInfo:
+    case PNLiteSeverityInfo:
         return PNLiteKeyInfo;
-    case BSGSeverityError:
+    case PNLiteSeverityError:
         return PNLiteKeyError;
-    case BSGSeverityWarning:
+    case PNLiteSeverityWarning:
         return PNLiteKeyWarning;
     }
 }
@@ -262,10 +262,10 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
         } else { // the event was unhandled.
             BOOL isSignal = [PNLiteKeySignal isEqualToString:_errorType];
             PNLiteSeverityReasonType severityReason =
-                isSignal ? Signal : UnhandledException;
+                isSignal ? PNLite_Signal : PNLite_UnhandledException;
             _handledState = [PNLiteHandledState
                 handledStateWithSeverityReason:severityReason
-                                      severity:BSGSeverityError
+                                      severity:PNLiteSeverityError
                                      attrValue:_errorClass];
         }
         _severity = _handledState.currentSeverity;

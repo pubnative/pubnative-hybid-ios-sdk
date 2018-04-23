@@ -433,8 +433,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 - (void)notifyError:(NSError *)error
               block:(void (^)(BugsnagCrashReport *))block {
     PNLiteHandledState *state =
-        [PNLiteHandledState handledStateWithSeverityReason:HandledError
-                                                   severity:BSGSeverityWarning
+        [PNLiteHandledState handledStateWithSeverityReason:PNLite_HandledError
+                                                   severity:PNLiteSeverityWarning
                                                   attrValue:error.domain];
     [self notify:NSStringFromClass([error class])
              message:error.localizedDescription
@@ -462,7 +462,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
                   block:(void (^)(BugsnagCrashReport *))block {
 
     PNLiteHandledState *state = [PNLiteHandledState
-        handledStateWithSeverityReason:UserSpecifiedSeverity
+        handledStateWithSeverityReason:PNLite_UserSpecifiedSeverity
                               severity:severity
                              attrValue:nil];
     [self notify:exception.name ?: NSStringFromClass([exception class])
@@ -474,7 +474,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 - (void)notifyException:(NSException *)exception
                   block:(void (^)(BugsnagCrashReport *))block {
     PNLiteHandledState *state =
-        [PNLiteHandledState handledStateWithSeverityReason:HandledException];
+        [PNLiteHandledState handledStateWithSeverityReason:PNLite_HandledException];
     [self notify:exception.name ?: NSStringFromClass([exception class])
              message:exception.reason
         handledState:state

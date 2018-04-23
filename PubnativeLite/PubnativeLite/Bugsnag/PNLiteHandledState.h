@@ -24,14 +24,14 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, PNLiteSeverityReasonType) {
-    UnhandledException,
-    Signal,
-    HandledError,
-    HandledException,
-    UserSpecifiedSeverity,
-    UserCallbackSetSeverity,
-    PromiseRejection,
-    LogMessage
+    PNLite_UnhandledException,
+    PNLite_Signal,
+    PNLite_HandledError,
+    PNLite_HandledException,
+    PNLite_UserSpecifiedSeverity,
+    PNLite_UserCallbackSetSeverity,
+    PNLite_PromiseRejection,
+    PNLite_LogMessage
 };
 
 @interface PNLiteHandledState : NSObject

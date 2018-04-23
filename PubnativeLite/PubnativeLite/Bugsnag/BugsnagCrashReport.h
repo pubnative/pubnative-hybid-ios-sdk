@@ -13,9 +13,9 @@
 @class PNLiteSession;
 
 typedef NS_ENUM(NSUInteger, BSGSeverity) {
-    BSGSeverityError,
-    BSGSeverityWarning,
-    BSGSeverityInfo,
+    PNLiteSeverityError,
+    PNLiteSeverityWarning,
+    PNLiteSeverityInfo,
 };
 
 /**
