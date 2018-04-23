@@ -1,9 +1,23 @@
 //
-//  BugsnagCrashReport.m
-//  Bugsnag
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Simon Maynard on 11/26/14.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #if TARGET_OS_MAC || TARGET_OS_TV
@@ -171,13 +185,13 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
     return nil;
 }
 
-static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
+static NSString *const PNLITE_DEFAULT_EXCEPTION_TYPE = @"cocoa";
 
 @interface NSDictionary (PNLiteKSMerge)
 - (NSDictionary *)BSG_mergedInto:(NSDictionary *)dest;
 @end
 
-@interface RegisterErrorData : NSObject
+@interface PNLiteRegisterErrorData : NSObject
 @property (nonatomic, strong) NSString *errorClass;
 @property (nonatomic, strong) NSString *errorMessage;
 + (instancetype)errorDataFromThreads:(NSArray *)threads;
@@ -225,7 +239,7 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
         _error = [report valueForKeyPath:@"crash.error"];
         _errorType = _error[PNLiteKeyType];
         _threads = [report valueForKeyPath:@"crash.threads"];
-        RegisterErrorData *data = [RegisterErrorData errorDataFromThreads:_threads];
+        PNLiteRegisterErrorData *data = [PNLiteRegisterErrorData errorDataFromThreads:_threads];
         if (data) {
             _errorClass = data.errorClass;
             _errorMessage = data.errorMessage;
@@ -467,7 +481,7 @@ initWithErrorName:(NSString *_Nonnull)name
         NSMutableDictionary *exception = [NSMutableDictionary dictionary];
         BSGDictSetSafeObject(exception, [self errorClass], PNLiteKeyErrorClass);
         BSGDictInsertIfNotNil(exception, [self errorMessage], PNLiteKeyMessage);
-        BSGDictInsertIfNotNil(exception, DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
+        BSGDictInsertIfNotNil(exception, PNLITE_DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
         BSGDictSetSafeObject(event, @[ exception ], PNLiteKeyExceptions);
 
         BSGDictSetSafeObject(
@@ -591,7 +605,7 @@ initWithErrorName:(NSString *_Nonnull)name
             NSMutableDictionary *threadDict = [NSMutableDictionary dictionary];
             BSGDictSetSafeObject(threadDict, thread[@"index"], PNLiteKeyId);
             BSGDictSetSafeObject(threadDict, threadStack, PNLiteKeyStacktrace);
-            BSGDictSetSafeObject(threadDict, DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
+            BSGDictSetSafeObject(threadDict, PNLITE_DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
             // only if this is enabled in BSG_KSCrash.
             if (thread[PNLiteKeyName]) {
                 BSGDictSetSafeObject(threadDict, thread[PNLiteKeyName], PNLiteKeyName);
@@ -609,7 +623,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
 @end
 
-@implementation RegisterErrorData
+@implementation PNLiteRegisterErrorData
 + (instancetype)errorDataFromThreads:(NSArray *)threads {
     for (NSDictionary *thread in threads) {
         if (![thread[@"crashed"] boolValue]) {
@@ -640,7 +654,7 @@ initWithErrorName:(NSString *_Nonnull)name
         [interestingValues sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 
         NSString *message = [interestingValues componentsJoinedByString:@" | "];
-        return [[RegisterErrorData alloc] initWithClass:reservedWord
+        return [[PNLiteRegisterErrorData alloc] initWithClass:reservedWord
                                                 message:message];
     }
     return nil;

@@ -431,7 +431,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 }
 
 - (void)notifyError:(NSError *)error
-              block:(void (^)(BugsnagCrashReport *))block {
+              block:(void (^)(PNLiteCrashReport *))block {
     PNLiteHandledState *state =
         [PNLiteHandledState handledStateWithSeverityReason:PNLite_HandledError
                                                    severity:PNLiteSeverityWarning
@@ -439,7 +439,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     [self notify:NSStringFromClass([error class])
              message:error.localizedDescription
         handledState:state
-               block:^(BugsnagCrashReport *_Nonnull report) {
+               block:^(PNLiteCrashReport *_Nonnull report) {
                  NSMutableDictionary *metadata = [report.metaData mutableCopy];
                  metadata[@"nserror"] = @{
                      @"code" : @(error.code),
@@ -458,8 +458,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 }
 
 - (void)notifyException:(NSException *)exception
-             atSeverity:(BSGSeverity)severity
-                  block:(void (^)(BugsnagCrashReport *))block {
+             atSeverity:(PNLiteSeverity)severity
+                  block:(void (^)(PNLiteCrashReport *))block {
 
     PNLiteHandledState *state = [PNLiteHandledState
         handledStateWithSeverityReason:PNLite_UserSpecifiedSeverity
@@ -472,7 +472,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 }
 
 - (void)notifyException:(NSException *)exception
-                  block:(void (^)(BugsnagCrashReport *))block {
+                  block:(void (^)(PNLiteCrashReport *))block {
     PNLiteHandledState *state =
         [PNLiteHandledState handledStateWithSeverityReason:PNLite_HandledException];
     [self notify:exception.name ?: NSStringFromClass([exception class])
@@ -496,13 +496,13 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
     PNLiteHandledState *state = [PNLiteHandledState
         handledStateWithSeverityReason:severityReasonType
-                              severity:BSGParseSeverity(severity)
+                              severity:PNLiteParseSeverity(severity)
                              attrValue:logLevel];
 
     [self notify:exception.name ?: NSStringFromClass([exception class])
              message:exception.reason
         handledState:state
-               block:^(BugsnagCrashReport *_Nonnull report) {
+               block:^(PNLiteCrashReport *_Nonnull report) {
                  if (block) {
                      block(report);
                  }
@@ -512,11 +512,11 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 - (void)notify:(NSString *)exceptionName
          message:(NSString *)message
     handledState:(PNLiteHandledState *_Nonnull)handledState
-           block:(void (^)(BugsnagCrashReport *))block {
+           block:(void (^)(PNLiteCrashReport *))block {
 
     [self.sessionTracker incrementHandledError];
 
-    BugsnagCrashReport *report = [[BugsnagCrashReport alloc]
+    PNLiteCrashReport *report = [[PNLiteCrashReport alloc]
         initWithErrorName:exceptionName
              errorMessage:message
             configuration:self.configuration
@@ -536,7 +536,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
                               &bsg_g_pnlite_data.userOverridesJSON);
 
     [self.state addAttribute:PNLiteKeySeverity
-                   withValue:BSGFormatSeverity(report.severity)
+                   withValue:PNLiteFormatSeverity(report.severity)
                toTabWithName:PNLITE_BSTabCrash];
 
     //    We discard 5 stack frames (including this one) by default,
@@ -567,11 +567,11 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     [self metaDataChanged:self.configuration.metaData];
     [[self state] clearTab:PNLITE_BSTabCrash];
     [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull crumb) {
-      crumb.type = BSGBreadcrumbTypeError;
+        crumb.type = PNLiteBreadcrumbTypeError;
       crumb.name = reportName;
       crumb.metadata = @{
           PNLiteKeyMessage : reportMessage,
-          PNLiteKeySeverity : BSGFormatSeverity(report.severity)
+          PNLiteKeySeverity : PNLiteFormatSeverity(report.severity)
       };
     }];
     [self flushPendingReports];

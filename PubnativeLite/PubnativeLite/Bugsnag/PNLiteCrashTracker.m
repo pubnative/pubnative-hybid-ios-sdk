@@ -70,14 +70,14 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
 + (void)notify:(NSException *)exception {
     [self.notifier notifyException:exception
-                             block:^(BugsnagCrashReport *_Nonnull report) {
+                             block:^(PNLiteCrashReport *_Nonnull report) {
                                report.depth += 2;
                              }];
 }
 
 + (void)notify:(NSException *)exception block:(PNLiteNotifyBlock)block {
     [[self notifier] notifyException:exception
-                               block:^(BugsnagCrashReport *_Nonnull report) {
+                               block:^(PNLiteCrashReport *_Nonnull report) {
                                  report.depth += 2;
 
                                  if (block) {
@@ -88,14 +88,14 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
 + (void)notifyError:(NSError *)error {
     [self.notifier notifyError:error
-                         block:^(BugsnagCrashReport *_Nonnull report) {
+                         block:^(PNLiteCrashReport *_Nonnull report) {
                            report.depth += 2;
                          }];
 }
 
 + (void)notifyError:(NSError *)error block:(PNLiteNotifyBlock)block {
     [[self notifier] notifyError:error
-                           block:^(BugsnagCrashReport *_Nonnull report) {
+                           block:^(PNLiteCrashReport *_Nonnull report) {
                              report.depth += 2;
 
                              if (block) {
@@ -108,7 +108,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
     [[self notifier]
         notifyException:exception
-                  block:^(BugsnagCrashReport *_Nonnull report) {
+                  block:^(PNLiteCrashReport *_Nonnull report) {
                     report.depth += 2;
                     report.metaData = [metaData
                         BSG_mergedInto:[self.notifier.configuration
@@ -122,13 +122,13 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
     [[self notifier]
         notifyException:exception
-             atSeverity:BSGParseSeverity(severity)
-                  block:^(BugsnagCrashReport *_Nonnull report) {
+             atSeverity:PNLiteParseSeverity(severity)
+                  block:^(PNLiteCrashReport *_Nonnull report) {
                     report.depth += 2;
                     report.metaData = [metaData
                         BSG_mergedInto:[self.notifier.configuration
                                                .metaData toDictionary]];
-                    report.severity = BSGParseSeverity(severity);
+                    report.severity = PNLiteParseSeverity(severity);
                   }];
 }
 

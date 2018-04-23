@@ -62,7 +62,7 @@
  * information
  */
 - (void)notifyException:(NSException *_Nonnull)exception
-             atSeverity:(BSGSeverity)severity
+             atSeverity:(PNLiteSeverity)severity
                   block:(PNLiteNotifyBlock _Nullable)block;
 
 /**

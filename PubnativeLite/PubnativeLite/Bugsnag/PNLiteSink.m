@@ -58,7 +58,7 @@
     PNLiteConfiguration *configuration = [PNLiteCrashTracker configuration];
     
     for (NSDictionary *report in reports) {
-        BugsnagCrashReport *bugsnagReport = [[BugsnagCrashReport alloc] initWithKSReport:report];
+        PNLiteCrashReport *bugsnagReport = [[PNLiteCrashReport alloc] initWithKSReport:report];
         BOOL incompleteReport = (![@"standard" isEqualToString:[report valueForKeyPath:@"report.type"]] ||
                                  [[report objectForKey:@"incomplete"] boolValue]);
         
@@ -148,7 +148,7 @@
     NSMutableArray *formatted =
             [[NSMutableArray alloc] initWithCapacity:[reports count]];
 
-    for (BugsnagCrashReport *report in reports) {
+    for (PNLiteCrashReport *report in reports) {
         BSGArrayAddSafeObject(formatted, [report toJson]);
     }
 

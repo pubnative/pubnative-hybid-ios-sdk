@@ -24,7 +24,7 @@
 
 #import "BSG_KSCrashReportWriter.h"
 #import "PNLiteBreadcrumb.h"
-#import "BugsnagCrashReport.h"
+#import "PNLiteCrashReport.h"
 #import "PNLiteMetaData.h"
 
 @class PNLiteBreadcrumbs;
@@ -35,7 +35,7 @@
  *
  *  @param report The default report
  */
-typedef void (^PNLiteNotifyBlock)(BugsnagCrashReport *_Nonnull report);
+typedef void (^PNLiteNotifyBlock)(PNLiteCrashReport *_Nonnull report);
 
 /**
  *  A handler for modifying data before sending it to Bugsnag
@@ -47,7 +47,7 @@ typedef void (^PNLiteNotifyBlock)(BugsnagCrashReport *_Nonnull report);
  *  @return YES if the report should be sent
  */
 typedef bool (^PNLiteBeforeSendBlock)(NSDictionary *_Nonnull rawEventData,
-                                       BugsnagCrashReport *_Nonnull reports);
+                                       PNLiteCrashReport *_Nonnull reports);
 
 /**
  *  A handler for modifying data before sending it to Bugsnag

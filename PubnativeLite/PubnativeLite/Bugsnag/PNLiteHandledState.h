@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "BugsnagCrashReport.h"
+#import "PNLiteCrashReport.h"
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, PNLiteSeverityReasonType) {
@@ -38,8 +38,8 @@ typedef NS_ENUM(NSUInteger, PNLiteSeverityReasonType) {
 
 @property(nonatomic, readonly) BOOL unhandled;
 @property(nonatomic, readonly) PNLiteSeverityReasonType severityReasonType;
-@property(nonatomic, readonly) BSGSeverity originalSeverity;
-@property(nonatomic) BSGSeverity currentSeverity;
+@property(nonatomic, readonly) PNLiteSeverity originalSeverity;
+@property(nonatomic) PNLiteSeverity currentSeverity;
 @property(nonatomic, readonly) PNLiteSeverityReasonType calculateSeverityReasonType;
 @property(nonatomic, readonly) NSString *attrValue;
 @property(nonatomic, readonly) NSString *attrKey;
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, PNLiteSeverityReasonType) {
 
 + (instancetype)handledStateWithSeverityReason:
                     (PNLiteSeverityReasonType)severityReason
-                                      severity:(BSGSeverity)severity
+                                      severity:(PNLiteSeverity)severity
                                      attrValue:(NSString *)attrValue;
 
 - (NSDictionary *)toJson;

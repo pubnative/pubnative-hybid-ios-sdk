@@ -49,7 +49,7 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
 
 + (instancetype)handledStateWithSeverityReason:
                     (PNLiteSeverityReasonType)severityReason
-                                      severity:(BSGSeverity)severity
+                                      severity:(PNLiteSeverity)severity
                                      attrValue:(NSString *)attrValue {
     BOOL unhandled = NO;
 
@@ -85,7 +85,7 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
 }
 
 - (instancetype)initWithSeverityReason:(PNLiteSeverityReasonType)severityReason
-                              severity:(BSGSeverity)severity
+                              severity:(PNLiteSeverity)severity
                              unhandled:(BOOL)unhandled
                              attrValue:(NSString *)attrValue {
     if (self = [super init]) {
@@ -110,8 +110,8 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
         _unhandled = [dict[kPNLiteUnhandled] boolValue];
         _severityReasonType = [PNLiteHandledState
             severityReasonFromString:dict[kPNLiteSeverityReasonType]];
-        _originalSeverity = BSGParseSeverity(dict[kPNLiteOriginalSeverity]);
-        _currentSeverity = BSGParseSeverity(dict[kPNLiteCurrentSeverity]);
+        _originalSeverity = PNLiteParseSeverity(dict[kPNLiteOriginalSeverity]);
+        _currentSeverity = PNLiteParseSeverity(dict[kPNLiteCurrentSeverity]);
         _attrKey = dict[kPNLiteAttrKey];
         _attrValue = dict[kPNLiteAttrValue];
     }
@@ -171,8 +171,8 @@ static NSString *const kPNLiteUserCallbackSetSeverity = @"userCallbackSetSeverit
     dict[kPNLiteUnhandled] = @(self.unhandled);
     dict[kPNLiteSeverityReasonType] =
         [PNLiteHandledState stringFromSeverityReason:self.severityReasonType];
-    dict[kPNLiteOriginalSeverity] = BSGFormatSeverity(self.originalSeverity);
-    dict[kPNLiteCurrentSeverity] = BSGFormatSeverity(self.currentSeverity);
+    dict[kPNLiteOriginalSeverity] = PNLiteFormatSeverity(self.originalSeverity);
+    dict[kPNLiteCurrentSeverity] = PNLiteFormatSeverity(self.currentSeverity);
     dict[kPNLiteAttrKey] = self.attrKey;
     dict[kPNLiteAttrValue] = self.attrValue;
     return dict;

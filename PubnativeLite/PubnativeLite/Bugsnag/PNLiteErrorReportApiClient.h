@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 
 #import "BSG_KSCrashReportFilterCompletion.h"
-#import "BugsnagCrashReport.h"
+#import "PNLiteCrashReport.h"
 #import "PNLiteConfiguration.h"
 #import "PNLiteApiClient.h"
 
