@@ -15,7 +15,7 @@
 #import "BSGSerialization.h"
 #import "Bugsnag.h"
 #import "PNLiteCollections.h"
-#import "BugsnagHandledState.h"
+#import "PNLiteHandledState.h"
 #import "BugsnagLogger.h"
 #import "PNLiteKeys.h"
 #import "NSDictionary+BSG_Merge.h"
@@ -258,12 +258,12 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
 
         if (recordedState) {
             _handledState =
-                [[BugsnagHandledState alloc] initWithDictionary:recordedState];
+                [[PNLiteHandledState alloc] initWithDictionary:recordedState];
         } else { // the event was unhandled.
             BOOL isSignal = [PNLiteKeySignal isEqualToString:_errorType];
-            SeverityReasonType severityReason =
+            PNLiteSeverityReasonType severityReason =
                 isSignal ? Signal : UnhandledException;
-            _handledState = [BugsnagHandledState
+            _handledState = [PNLiteHandledState
                 handledStateWithSeverityReason:severityReason
                                       severity:BSGSeverityError
                                      attrValue:_errorClass];
@@ -282,7 +282,7 @@ initWithErrorName:(NSString *_Nonnull)name
      errorMessage:(NSString *_Nonnull)message
     configuration:(PNLiteConfiguration *_Nonnull)config
          metaData:(NSDictionary *_Nonnull)metaData
-     handledState:(BugsnagHandledState *_Nonnull)handledState
+     handledState:(PNLiteHandledState *_Nonnull)handledState
           session:(PNLiteSession *_Nullable)session {
     if (self = [super init]) {
         _errorClass = name;
@@ -502,7 +502,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
     // serialize handled/unhandled into payload
     NSMutableDictionary *severityReason = [NSMutableDictionary new];
-    NSString *reasonType = [BugsnagHandledState
+    NSString *reasonType = [PNLiteHandledState
         stringFromSeverityReason:self.handledState.calculateSeverityReasonType];
     severityReason[PNLiteKeyType] = reasonType;
 

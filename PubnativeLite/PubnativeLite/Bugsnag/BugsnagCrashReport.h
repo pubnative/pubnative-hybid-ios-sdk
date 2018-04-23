@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class PNLiteConfiguration;
-@class BugsnagHandledState;
+@class PNLiteHandledState;
 @class PNLiteSession;
 
 typedef NS_ENUM(NSUInteger, BSGSeverity) {
@@ -67,7 +67,7 @@ initWithErrorName:(NSString *_Nonnull)name
      errorMessage:(NSString *_Nonnull)message
     configuration:(PNLiteConfiguration *_Nonnull)config
          metaData:(NSDictionary *_Nonnull)metaData
-     handledState:(BugsnagHandledState *_Nonnull)handledState
+     handledState:(PNLiteHandledState *_Nonnull)handledState
           session:(PNLiteSession *_Nullable)session;
 
 /**
@@ -162,7 +162,7 @@ __deprecated_msg("Use toJson: instead.");
 /**
  *  The event state (whether the error is handled/unhandled)
  */
-@property(readonly, nonnull) BugsnagHandledState *handledState;
+@property(readonly, nonnull) PNLiteHandledState *handledState;
 
 /**
  *  Property overrides

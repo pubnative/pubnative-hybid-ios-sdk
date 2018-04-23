@@ -24,7 +24,7 @@
 #import "PNLiteConnectivity.h"
 #import "Bugsnag.h"
 #import "PNLiteCrashSentry.h"
-#import "BugsnagHandledState.h"
+#import "PNLiteHandledState.h"
 #import "BugsnagLogger.h"
 #import "PNLiteKeys.h"
 #import "PNLiteSessionTracker.h"
@@ -432,8 +432,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
 - (void)notifyError:(NSError *)error
               block:(void (^)(BugsnagCrashReport *))block {
-    BugsnagHandledState *state =
-        [BugsnagHandledState handledStateWithSeverityReason:HandledError
+    PNLiteHandledState *state =
+        [PNLiteHandledState handledStateWithSeverityReason:HandledError
                                                    severity:BSGSeverityWarning
                                                   attrValue:error.domain];
     [self notify:NSStringFromClass([error class])
@@ -461,7 +461,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
              atSeverity:(BSGSeverity)severity
                   block:(void (^)(BugsnagCrashReport *))block {
 
-    BugsnagHandledState *state = [BugsnagHandledState
+    PNLiteHandledState *state = [PNLiteHandledState
         handledStateWithSeverityReason:UserSpecifiedSeverity
                               severity:severity
                              attrValue:nil];
@@ -473,8 +473,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
 - (void)notifyException:(NSException *)exception
                   block:(void (^)(BugsnagCrashReport *))block {
-    BugsnagHandledState *state =
-        [BugsnagHandledState handledStateWithSeverityReason:HandledException];
+    PNLiteHandledState *state =
+        [PNLiteHandledState handledStateWithSeverityReason:HandledException];
     [self notify:exception.name ?: NSStringFromClass([exception class])
              message:exception.reason
         handledState:state
@@ -491,10 +491,10 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     NSParameterAssert(severity.length > 0);
     NSParameterAssert(severityReason.length > 0);
 
-    SeverityReasonType severityReasonType =
-        [BugsnagHandledState severityReasonFromString:severityReason];
+    PNLiteSeverityReasonType severityReasonType =
+        [PNLiteHandledState severityReasonFromString:severityReason];
 
-    BugsnagHandledState *state = [BugsnagHandledState
+    PNLiteHandledState *state = [PNLiteHandledState
         handledStateWithSeverityReason:severityReasonType
                               severity:BSGParseSeverity(severity)
                              attrValue:logLevel];
@@ -511,7 +511,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
 - (void)notify:(NSString *)exceptionName
          message:(NSString *)message
-    handledState:(BugsnagHandledState *_Nonnull)handledState
+    handledState:(PNLiteHandledState *_Nonnull)handledState
            block:(void (^)(BugsnagCrashReport *))block {
 
     [self.sessionTracker incrementHandledError];
