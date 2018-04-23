@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteNotifier.h"
-#import "BSGConnectivity.h"
+#import "PNLiteConnectivity.h"
 #import "Bugsnag.h"
 #import "PNLiteCrashSentry.h"
 #import "BugsnagHandledState.h"
@@ -417,8 +417,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
     __weak id weakSelf = self;
     self.networkReachable =
-        [[BSGConnectivity alloc] initWithURL:url
-                                 changeBlock:^(BSGConnectivity *connectivity) {
+        [[PNLiteConnectivity alloc] initWithURL:url
+                                 changeBlock:^(PNLiteConnectivity *connectivity) {
                                    [weakSelf flushPendingReports];
                                  }];
     [self.networkReachable startWatchingConnectivity];

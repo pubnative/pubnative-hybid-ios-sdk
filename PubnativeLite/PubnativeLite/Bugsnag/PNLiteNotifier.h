@@ -25,7 +25,7 @@
 #import "PNLiteConfiguration.h"
 #import "BugsnagMetaData.h"
 
-@class BSGConnectivity;
+@class PNLiteConnectivity;
 
 @interface PNLiteNotifier : NSObject <BugsnagMetaDataDelegate>
 
@@ -35,7 +35,7 @@
 @property(nonatomic, readwrite, retain) NSDictionary *_Nonnull details;
 @property(nonatomic, readwrite, retain) NSLock *_Nonnull metaDataLock;
 
-@property(nonatomic) BSGConnectivity *_Nonnull networkReachable;
+@property(nonatomic) PNLiteConnectivity *_Nonnull networkReachable;
 
 - (instancetype _Nonnull)initWithConfiguration:
     (PNLiteConfiguration *_Nonnull)configuration;
