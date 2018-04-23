@@ -25,7 +25,7 @@
 
 #import "BugsnagCrashSentry.h"
 #import "BugsnagLogger.h"
-#import "BugsnagSink.h"
+#import "PNLiteSink.h"
 
 NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
 
@@ -35,7 +35,7 @@ NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
       apiClient:(PNLiteErrorReportApiClient *)apiClient
         onCrash:(BSG_KSReportWriteCallback)onCrash {
 
-    BugsnagSink *sink = [[BugsnagSink alloc] initWithApiClient:apiClient];
+    PNLiteSink *sink = [[PNLiteSink alloc] initWithApiClient:apiClient];
     [BSG_KSCrash sharedInstance].sink = sink;
     [BSG_KSCrash sharedInstance].introspectMemory = YES;
     [BSG_KSCrash sharedInstance].deleteBehaviorAfterSendAll =

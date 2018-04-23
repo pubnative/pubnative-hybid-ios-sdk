@@ -20,18 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteSessionTrackingApiClient.h"
-#import "BugsnagConfiguration.h"
-#import "BugsnagSessionTrackingPayload.h"
-#import "BugsnagLogger.h"
-#import "Bugsnag.h"
-#import "BugsnagKeys.h"
-#import "PNLiteSession.h"
+#import <Foundation/Foundation.h>
+#import "BugsnagApiClient.h"
 
-@implementation PNLiteSessionTrackingApiClient
+@class BugsnagConfiguration;
+@class BugsnagSessionTrackingPayload;
+@class PNLiteSession;
+@class PNLiteSession;
 
-- (NSOperation *)deliveryOperation {
-    return [NSOperation new];
-}
+
+@interface PNLiteSessionTrackingApiClient : BugsnagApiClient
 
 @end

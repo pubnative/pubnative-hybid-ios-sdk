@@ -24,7 +24,7 @@
 #import "Bugsnag.h"
 #import "BugsnagLogger.h"
 #import "BugsnagNotifier.h"
-#import "BugsnagSink.h"
+#import "PNLiteSink.h"
 #import "BugsnagKeys.h"
 
 @interface PNLiteDeliveryOperation : NSOperation

@@ -11,14 +11,14 @@
 #import "PNLiteSession.h"
 #import "BugsnagConfiguration.h"
 
-@class BugsnagSessionTrackingApiClient;
+@class PNLiteSessionTrackingApiClient;
 
 typedef void (^SessionTrackerCallback)(PNLiteSession *newSession);
 
 @interface BugsnagSessionTracker : NSObject
 
 - (instancetype)initWithConfig:(BugsnagConfiguration *)config
-                     apiClient:(BugsnagSessionTrackingApiClient *)apiClient
+                     apiClient:(PNLiteSessionTrackingApiClient *)apiClient
                       callback:(void(^)(PNLiteSession *))callback;
 
 - (void)startNewSession:(NSDate *)date

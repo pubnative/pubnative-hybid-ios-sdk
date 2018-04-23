@@ -32,7 +32,7 @@
 #import "BugsnagLogger.h"
 #import "BugsnagKeys.h"
 #import "BugsnagSessionTracker.h"
-#import "BugsnagSessionTrackingApiClient.h"
+#import "PNLiteSessionTrackingApiClient.h"
 #import "BSG_RFC3339DateTool.h"
 
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
@@ -165,7 +165,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 @interface BugsnagNotifier ()
 @property(nonatomic) PNLiteCrashSentry *crashSentry;
 @property(nonatomic) PNLiteErrorReportApiClient *errorReportApiClient;
-@property(nonatomic) BugsnagSessionTrackingApiClient *sessionTrackingApiClient;
+@property(nonatomic) PNLiteSessionTrackingApiClient *sessionTrackingApiClient;
 @property(nonatomic) BugsnagSessionTracker *sessionTracker;
 @property(nonatomic) NSTimer *sessionTimer;
 @end
@@ -191,7 +191,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         self.crashSentry = [PNLiteCrashSentry new];
         self.errorReportApiClient = [[PNLiteErrorReportApiClient alloc] initWithConfig:configuration
                                                                               queueName:@"Error API queue"];
-        self.sessionTrackingApiClient = [[BugsnagSessionTrackingApiClient alloc] initWithConfig:configuration
+        self.sessionTrackingApiClient = [[PNLiteSessionTrackingApiClient alloc] initWithConfig:configuration
                                                                                       queueName:@"Session API queue"];
 
         self.sessionTracker = [[BugsnagSessionTracker alloc] initWithConfig:initConfiguration

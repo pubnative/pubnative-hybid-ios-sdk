@@ -10,19 +10,19 @@
 #import "BugsnagSessionFileStore.h"
 #import "BSG_KSLogger.h"
 #import "BugsnagSessionTrackingPayload.h"
-#import "BugsnagSessionTrackingApiClient.h"
+#import "PNLiteSessionTrackingApiClient.h"
 
 @interface BugsnagSessionTracker ()
 @property BugsnagConfiguration *config;
 @property BugsnagSessionFileStore *sessionStore;
-@property BugsnagSessionTrackingApiClient *apiClient;
+@property PNLiteSessionTrackingApiClient *apiClient;
 @property BOOL trackedFirstSession;
 @end
 
 @implementation BugsnagSessionTracker
 
 - (instancetype)initWithConfig:(BugsnagConfiguration *)config
-                     apiClient:(BugsnagSessionTrackingApiClient *)apiClient
+                     apiClient:(PNLiteSessionTrackingApiClient *)apiClient
                       callback:(void(^)(PNLiteSession *))callback {
     if (self = [super init]) {
         _config = config;

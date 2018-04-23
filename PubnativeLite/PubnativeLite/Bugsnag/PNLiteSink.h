@@ -20,18 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteSessionTrackingApiClient.h"
-#import "BugsnagConfiguration.h"
-#import "BugsnagSessionTrackingPayload.h"
-#import "BugsnagLogger.h"
-#import "Bugsnag.h"
-#import "BugsnagKeys.h"
-#import "PNLiteSession.h"
+#import "BSG_KSCrash.h"
+#import "BSG_KSCrashReportFilter.h"
+#import <Foundation/Foundation.h>
 
-@implementation PNLiteSessionTrackingApiClient
+#import "PNLiteErrorReportApiClient.h"
 
-- (NSOperation *)deliveryOperation {
-    return [NSOperation new];
-}
+@interface PNLiteSink : NSObject <BSG_KSCrashReportFilter>
+
+- (instancetype)initWithApiClient:(PNLiteErrorReportApiClient *)apiClient;
+@property(nonatomic) PNLiteErrorReportApiClient *apiClient;
 
 @end
