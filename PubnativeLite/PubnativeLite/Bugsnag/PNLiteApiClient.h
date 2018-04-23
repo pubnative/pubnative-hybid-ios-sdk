@@ -22,11 +22,30 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BSG_KSCrashReportFilterCompletion.h"
-#import "BugsnagCrashReport.h"
-#import "PNLiteConfiguration.h"
-#import "PNLiteApiClient.h"
+@class PNLiteConfiguration;
 
-@interface PNLiteErrorReportApiClient : PNLiteApiClient
+typedef void (^PNLiteRequestCompletion)(id data, BOOL success, NSError *error);
+
+@interface PNLiteApiClient : NSObject
+
+- (instancetype)initWithConfig:(PNLiteConfiguration *)configuration
+                     queueName:(NSString *)queueName;
+
+/**
+ * Send outstanding reports
+ */
+- (void)flushPendingData;
+
+- (NSOperation *)deliveryOperation;
+
+- (void)sendData:(id)data
+     withPayload:(NSDictionary *)payload
+           toURL:(NSURL *)url
+         headers:(NSDictionary *)headers
+    onCompletion:(PNLiteRequestCompletion)onCompletion;
+
+@property(readonly) NSOperationQueue *sendQueue;
+@property(readonly) PNLiteConfiguration *config;
+
 
 @end

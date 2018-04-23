@@ -21,7 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BugsnagApiClient.h"
+#import "PNLiteApiClient.h"
 
 @class PNLiteConfiguration;
 @class PNLiteSessionTrackingPayload;
@@ -29,6 +29,6 @@
 @class PNLiteSession;
 
 
-@interface PNLiteSessionTrackingApiClient : BugsnagApiClient
+@interface PNLiteSessionTrackingApiClient : PNLiteApiClient
 
 @end

@@ -1,22 +1,39 @@
 //
-// Created by Jamie Lynch on 04/12/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#import "BugsnagApiClient.h"
+#import "PNLiteApiClient.h"
 #import "PNLiteConfiguration.h"
 #import "Bugsnag.h"
 #import "PNLiteKeys.h"
 #import "BugsnagLogger.h"
 
-@interface BSGDelayOperation : NSOperation
+@interface PNLiteDelayOperation : NSOperation
 @end
 
-@interface BugsnagApiClient()
+@interface PNLiteApiClient()
 @property (nonatomic) NSURLSession *generatedSession;
 @end
 
-@implementation BugsnagApiClient
+@implementation PNLiteApiClient
 
 - (instancetype)initWithConfig:(PNLiteConfiguration *)configuration
                      queueName:(NSString *)queueName {
@@ -35,7 +52,7 @@
 
 - (void)flushPendingData {
     [self.sendQueue cancelAllOperations];
-    BSGDelayOperation *delay = [BSGDelayOperation new];
+    PNLiteDelayOperation *delay = [PNLiteDelayOperation new];
     NSOperation *deliver = [self deliveryOperation];
     [deliver addDependency:delay];
     [self.sendQueue addOperations:@[delay, deliver] waitUntilFinished:NO];
@@ -53,7 +70,7 @@
      withPayload:(NSDictionary *)payload
            toURL:(NSURL *)url
          headers:(NSDictionary *)headers
-    onCompletion:(RequestCompletion)onCompletion {
+    onCompletion:(PNLiteRequestCompletion)onCompletion {
 
     @try {
         NSError *error = nil;
@@ -137,11 +154,11 @@
 
 @end
 
-@implementation BSGDelayOperation
-const NSTimeInterval BSG_SEND_DELAY_SECS = 1;
+@implementation PNLiteDelayOperation
+const NSTimeInterval PNLITE_SEND_DELAY_SECS = 1;
 
 - (void)main {
-    [NSThread sleepForTimeInterval:BSG_SEND_DELAY_SECS];
+    [NSThread sleepForTimeInterval:PNLITE_SEND_DELAY_SECS];
 }
 
 @end
