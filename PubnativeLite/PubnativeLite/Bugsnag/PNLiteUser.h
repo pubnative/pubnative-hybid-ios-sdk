@@ -22,25 +22,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PNLiteUser.h"
+@interface PNLiteUser : NSObject
 
-@interface PNLiteSession : NSObject
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress;
 
-- (_Nonnull instancetype)initWithId:(NSString *_Nonnull)sessionId
-                 startDate:(NSDate *_Nonnull)startDate
-                      user:(PNLiteUser *_Nullable)user
-              autoCaptured:(BOOL)autoCaptured;
+- (NSDictionary *)toJson;
 
-- (_Nonnull instancetype)initWithDictionary:(NSDictionary *_Nonnull)dict;
-
-- (NSDictionary *_Nonnull)toJson;
-
-@property(readonly) NSString *_Nonnull sessionId;
-@property(readonly) NSDate *_Nonnull startedAt;
-@property(readonly) PNLiteUser *_Nullable user;
-@property(readonly) BOOL autoCaptured;
-
-@property NSUInteger unhandledCount;
-@property NSUInteger handledCount;
+@property NSString *userId;
+@property NSString *name;
+@property NSString *emailAddress;
 
 @end

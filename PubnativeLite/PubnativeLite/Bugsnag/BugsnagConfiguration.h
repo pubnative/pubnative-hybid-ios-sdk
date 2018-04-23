@@ -32,7 +32,7 @@
 #import "BugsnagMetaData.h"
 
 @class BugsnagBreadcrumbs;
-@class BugsnagUser;
+@class PNLiteUser;
 
 /**
  *  A configuration block for modifying an error report
@@ -100,7 +100,7 @@ typedef NSDictionary *_Nullable (^BugsnagBeforeNotifyHook)(
 /**
  * The current user
  */
-@property(nullable) BugsnagUser *currentUser;
+@property(nullable) PNLiteUser *currentUser;
 
 /**
  *  Additional information about the state of the app or environment at the

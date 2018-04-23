@@ -34,7 +34,7 @@ static NSString *const kPNLiteUser = @"user";
 
 - (instancetype)initWithId:(NSString *_Nonnull)sessionId
                  startDate:(NSDate *_Nonnull)startDate
-                      user:(BugsnagUser *_Nullable)user
+                      user:(PNLiteUser *_Nullable)user
               autoCaptured:(BOOL)autoCaptured {
 
     if (self = [super init]) {
@@ -56,7 +56,7 @@ static NSString *const kPNLiteUser = @"user";
         NSDictionary *userDict = dict[kPNLiteUser];
 
         if (userDict) {
-            _user = [[BugsnagUser alloc] initWithDictionary:userDict];
+            _user = [[PNLiteUser alloc] initWithDictionary:userDict];
         }
     }
     return self;

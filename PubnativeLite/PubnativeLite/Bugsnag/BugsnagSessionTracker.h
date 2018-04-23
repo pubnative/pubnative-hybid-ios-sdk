@@ -22,7 +22,7 @@ typedef void (^SessionTrackerCallback)(PNLiteSession *newSession);
                       callback:(void(^)(PNLiteSession *))callback;
 
 - (void)startNewSession:(NSDate *)date
-               withUser:(BugsnagUser *)user
+               withUser:(PNLiteUser *)user
            autoCaptured:(BOOL)autoCaptured;
 
 - (void)suspendCurrentSession:(NSDate *)date;

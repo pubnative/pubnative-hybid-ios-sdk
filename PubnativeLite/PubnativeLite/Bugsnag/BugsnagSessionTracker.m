@@ -41,7 +41,7 @@
 }
 
 - (void)startNewSession:(NSDate *)date
-               withUser:(BugsnagUser *)user
+               withUser:(PNLiteUser *)user
            autoCaptured:(BOOL)autoCaptured {
 
     _currentSession = [[PNLiteSession alloc] initWithId:[[NSUUID UUID] UUIDString]
