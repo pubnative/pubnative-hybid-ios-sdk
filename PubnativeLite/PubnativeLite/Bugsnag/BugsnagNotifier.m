@@ -27,7 +27,7 @@
 #import "BugsnagNotifier.h"
 #import "BSGConnectivity.h"
 #import "Bugsnag.h"
-#import "BugsnagCrashSentry.h"
+#import "PNLiteCrashSentry.h"
 #import "BugsnagHandledState.h"
 #import "BugsnagLogger.h"
 #import "BugsnagKeys.h"
@@ -163,7 +163,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 }
 
 @interface BugsnagNotifier ()
-@property(nonatomic) BugsnagCrashSentry *crashSentry;
+@property(nonatomic) PNLiteCrashSentry *crashSentry;
 @property(nonatomic) PNLiteErrorReportApiClient *errorReportApiClient;
 @property(nonatomic) BugsnagSessionTrackingApiClient *sessionTrackingApiClient;
 @property(nonatomic) BugsnagSessionTracker *sessionTracker;
@@ -188,7 +188,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         self.configuration.metaData.delegate = self;
         self.configuration.config.delegate = self;
         self.state.delegate = self;
-        self.crashSentry = [BugsnagCrashSentry new];
+        self.crashSentry = [PNLiteCrashSentry new];
         self.errorReportApiClient = [[PNLiteErrorReportApiClient alloc] initWithConfig:configuration
                                                                               queueName:@"Error API queue"];
         self.sessionTrackingApiClient = [[BugsnagSessionTrackingApiClient alloc] initWithConfig:configuration

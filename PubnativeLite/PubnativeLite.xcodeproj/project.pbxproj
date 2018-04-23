@@ -299,7 +299,7 @@
 		5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903E8203DE23A00D86051 /* AVFoundation.framework */; };
 		5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903EA203DE24500D86051 /* AdSupport.framework */; };
 		5A8F10AC2089E4D20098E337 /* PNLiteErrorReportApiClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10212089E4D20098E337 /* PNLiteErrorReportApiClient.h */; };
-		5A8F10AD2089E4D20098E337 /* BugsnagCrashSentry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10222089E4D20098E337 /* BugsnagCrashSentry.h */; };
+		5A8F10AD2089E4D20098E337 /* PNLiteCrashSentry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10222089E4D20098E337 /* PNLiteCrashSentry.h */; };
 		5A8F10AE2089E4D20098E337 /* BugsnagSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10232089E4D20098E337 /* BugsnagSession.h */; };
 		5A8F10AF2089E4D20098E337 /* BugsnagUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10242089E4D20098E337 /* BugsnagUser.m */; };
 		5A8F10B02089E4D20098E337 /* BugsnagKSCrashSysInfoParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10252089E4D20098E337 /* BugsnagKSCrashSysInfoParser.m */; };
@@ -411,7 +411,7 @@
 		5A8F111A2089E4D20098E337 /* BugsnagKSCrashSysInfoParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10972089E4D20098E337 /* BugsnagKSCrashSysInfoParser.h */; };
 		5A8F111B2089E4D20098E337 /* BugsnagSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10982089E4D20098E337 /* BugsnagSession.m */; };
 		5A8F111C2089E4D20098E337 /* BugsnagUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10992089E4D20098E337 /* BugsnagUser.h */; };
-		5A8F111D2089E4D20098E337 /* BugsnagCrashSentry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F109A2089E4D20098E337 /* BugsnagCrashSentry.m */; };
+		5A8F111D2089E4D20098E337 /* PNLiteCrashSentry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F109A2089E4D20098E337 /* PNLiteCrashSentry.m */; };
 		5A8F111E2089E4D20098E337 /* PNLiteErrorReportApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F109B2089E4D20098E337 /* PNLiteErrorReportApiClient.m */; };
 		5A8F111F2089E4D20098E337 /* BugsnagSessionFileStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F109C2089E4D20098E337 /* BugsnagSessionFileStore.m */; };
 		5A8F11202089E4D20098E337 /* Bugsnag.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F109D2089E4D20098E337 /* Bugsnag.h */; };
@@ -1042,7 +1042,7 @@
 		5A8903E8203DE23A00D86051 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5A8903EA203DE24500D86051 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		5A8F10212089E4D20098E337 /* PNLiteErrorReportApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteErrorReportApiClient.h; sourceTree = "<group>"; };
-		5A8F10222089E4D20098E337 /* BugsnagCrashSentry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugsnagCrashSentry.h; sourceTree = "<group>"; };
+		5A8F10222089E4D20098E337 /* PNLiteCrashSentry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteCrashSentry.h; sourceTree = "<group>"; };
 		5A8F10232089E4D20098E337 /* BugsnagSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugsnagSession.h; sourceTree = "<group>"; };
 		5A8F10242089E4D20098E337 /* BugsnagUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugsnagUser.m; sourceTree = "<group>"; };
 		5A8F10252089E4D20098E337 /* BugsnagKSCrashSysInfoParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugsnagKSCrashSysInfoParser.m; sourceTree = "<group>"; };
@@ -1154,7 +1154,7 @@
 		5A8F10972089E4D20098E337 /* BugsnagKSCrashSysInfoParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugsnagKSCrashSysInfoParser.h; sourceTree = "<group>"; };
 		5A8F10982089E4D20098E337 /* BugsnagSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugsnagSession.m; sourceTree = "<group>"; };
 		5A8F10992089E4D20098E337 /* BugsnagUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugsnagUser.h; sourceTree = "<group>"; };
-		5A8F109A2089E4D20098E337 /* BugsnagCrashSentry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugsnagCrashSentry.m; sourceTree = "<group>"; };
+		5A8F109A2089E4D20098E337 /* PNLiteCrashSentry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteCrashSentry.m; sourceTree = "<group>"; };
 		5A8F109B2089E4D20098E337 /* PNLiteErrorReportApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteErrorReportApiClient.m; sourceTree = "<group>"; };
 		5A8F109C2089E4D20098E337 /* BugsnagSessionFileStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugsnagSessionFileStore.m; sourceTree = "<group>"; };
 		5A8F109D2089E4D20098E337 /* Bugsnag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bugsnag.h; sourceTree = "<group>"; };
@@ -2190,8 +2190,8 @@
 			children = (
 				5A8F10212089E4D20098E337 /* PNLiteErrorReportApiClient.h */,
 				5A8F109B2089E4D20098E337 /* PNLiteErrorReportApiClient.m */,
-				5A8F10222089E4D20098E337 /* BugsnagCrashSentry.h */,
-				5A8F109A2089E4D20098E337 /* BugsnagCrashSentry.m */,
+				5A8F10222089E4D20098E337 /* PNLiteCrashSentry.h */,
+				5A8F109A2089E4D20098E337 /* PNLiteCrashSentry.m */,
 				5A8F10232089E4D20098E337 /* BugsnagSession.h */,
 				5A8F10982089E4D20098E337 /* BugsnagSession.m */,
 				5A8F10992089E4D20098E337 /* BugsnagUser.h */,
@@ -2611,7 +2611,7 @@
 				5A8F111A2089E4D20098E337 /* BugsnagKSCrashSysInfoParser.h in Headers */,
 				5A8F111C2089E4D20098E337 /* BugsnagUser.h in Headers */,
 				5AA3D5F12031CA96002BFDA3 /* PNLiteReachability.h in Headers */,
-				5A8F10AD2089E4D20098E337 /* BugsnagCrashSentry.h in Headers */,
+				5A8F10AD2089E4D20098E337 /* PNLiteCrashSentry.h in Headers */,
 				5A8F10F32089E4D20098E337 /* BSG_RFC3339DateTool.h in Headers */,
 				5A8F11152089E4D20098E337 /* BSG_KSCrashType.h in Headers */,
 				5A20DBE3203B131100EF2B3C /* PNLiteBannerPresenter.h in Headers */,
@@ -3139,7 +3139,7 @@
 				5A8F11022089E4D20098E337 /* BSG_KSCrash.m in Sources */,
 				5A8F10B22089E4D20098E337 /* BugsnagSink.m in Sources */,
 				5ACC74E8203595250001CDC3 /* PNLiteMRAIDSettings.m in Sources */,
-				5A8F111D2089E4D20098E337 /* BugsnagCrashSentry.m in Sources */,
+				5A8F111D2089E4D20098E337 /* PNLiteCrashSentry.m in Sources */,
 				5A8F111F2089E4D20098E337 /* BugsnagSessionFileStore.m in Sources */,
 				5A8F10B62089E4D20098E337 /* BugsnagConfiguration.m in Sources */,
 				5A8F10EF2089E4D20098E337 /* BSG_KSString.c in Sources */,
