@@ -23,7 +23,7 @@
 #import "PNLiteSessionTracker.h"
 #import "PNLiteSessionFileStore.h"
 #import "BSG_KSLogger.h"
-#import "BugsnagSessionTrackingPayload.h"
+#import "PNLiteSessionTrackingPayload.h"
 #import "PNLiteSessionTrackingApiClient.h"
 
 @interface PNLiteSessionTracker ()
@@ -108,7 +108,7 @@
         for (NSDictionary *dict in [self.sessionStore allFiles]) {
             [sessions addObject:[[PNLiteSession alloc] initWithDictionary:dict]];
         }
-        BugsnagSessionTrackingPayload *payload = [[BugsnagSessionTrackingPayload alloc] initWithSessions:sessions];
+        PNLiteSessionTrackingPayload *payload = [[PNLiteSessionTrackingPayload alloc] initWithSessions:sessions];
 
         if (payload.sessions.count > 0) {
             [self.apiClient sendData:payload

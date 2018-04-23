@@ -21,14 +21,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BugsnagApiClient.h"
 
-@class PNLiteConfiguration;
-@class PNLiteSessionTrackingPayload;
-@class PNLiteSession;
-@class PNLiteSession;
+#import "PNLiteSession.h"
 
+@interface PNLiteSessionTrackingPayload : NSObject
 
-@interface PNLiteSessionTrackingApiClient : BugsnagApiClient
+- (instancetype)initWithSessions:(NSArray<PNLiteSession *> *)sessions;
+
+- (NSDictionary *)toJson;
+
+@property NSArray<PNLiteSession *> *sessions;
 
 @end

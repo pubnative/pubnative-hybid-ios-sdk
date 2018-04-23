@@ -20,15 +20,43 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "BugsnagApiClient.h"
+#import "PNLiteSessionTrackingPayload.h"
+#import "PNLiteCollections.h"
+#import "PNLiteNotifier.h"
+#import "Bugsnag.h"
+#import "PNLiteKeys.h"
+#import "BSG_KSSystemInfo.h"
+#import "PNLiteKSCrashSysInfoParser.h"
 
-@class PNLiteConfiguration;
-@class PNLiteSessionTrackingPayload;
-@class PNLiteSession;
-@class PNLiteSession;
+@interface Bugsnag ()
++ (PNLiteNotifier *)notifier;
+@end
+
+@implementation PNLiteSessionTrackingPayload
+
+- (instancetype)initWithSessions:(NSArray<PNLiteSession *> *)sessions {
+    if (self = [super init]) {
+        _sessions = sessions;
+    }
+    return self;
+}
 
 
-@interface PNLiteSessionTrackingApiClient : BugsnagApiClient
+- (NSDictionary *)toJson {
+    
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    NSMutableArray *sessionData = [NSMutableArray new];
+    
+    for (PNLiteSession *session in self.sessions) {
+        [sessionData addObject:[session toJson]];
+    }
+    BSGDictInsertIfNotNil(dict, sessionData, @"sessions");
+    BSGDictSetSafeObject(dict, [Bugsnag notifier].details, PNLiteKeyNotifier);
+    
+    NSDictionary *systemInfo = [BSG_KSSystemInfo systemInfo];
+    BSGDictSetSafeObject(dict, BSGParseAppState(systemInfo), @"app");
+    BSGDictSetSafeObject(dict, BSGParseDeviceState(systemInfo), @"device");
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
 
 @end
