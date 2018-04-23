@@ -19,7 +19,7 @@
 #import "BugsnagLogger.h"
 #import "BugsnagKeys.h"
 #import "NSDictionary+BSG_Merge.h"
-#import "BugsnagKSCrashSysInfoParser.h"
+#import "PNLiteKSCrashSysInfoParser.h"
 #import "PNLiteSession.h"
 #import "BSG_RFC3339DateTool.h"
 
