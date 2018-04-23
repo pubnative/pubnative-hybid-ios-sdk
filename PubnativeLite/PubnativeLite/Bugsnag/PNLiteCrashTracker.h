@@ -1,38 +1,35 @@
 //
-//  Bugsnag.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Conrad Irwin on 2014-10-01.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
+
 #import <Foundation/Foundation.h>
 
 #import "PNLiteConfiguration.h"
 #import "PNLiteMetaData.h"
 
-static NSString *_Nonnull const BugsnagSeverityError = @"error";
-static NSString *_Nonnull const BugsnagSeverityWarning = @"warning";
-static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
+static NSString *_Nonnull const PNLite_SeverityError = @"error";
+static NSString *_Nonnull const PNLite_SeverityWarning = @"warning";
+static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
 
-@interface Bugsnag : NSObject
+@interface PNLiteCrashTracker : NSObject
 
 /** Get the current Bugsnag configuration.
  *
@@ -126,7 +123,7 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
  * @param metaData   Any additional information you want to send with the
  * report.
  *
- * @param severity   The severity level (default: BugsnagSeverityWarning)
+ * @param severity   The severity level (default: PNLite_SeverityWarning)
  */
 + (void)notify:(NSException *_Nonnull)exception
       withData:(NSDictionary *_Nullable)metaData

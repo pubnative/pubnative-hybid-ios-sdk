@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteConfiguration.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
 #import "BSG_RFC3339DateTool.h"
@@ -32,7 +32,7 @@ static NSString *const kPNLiteHeaderApiPayloadVersion = @"Bugsnag-Payload-Versio
 static NSString *const kPNLiteHeaderApiKey = @"Bugsnag-Api-Key";
 static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
 
-@interface Bugsnag ()
+@interface PNLiteCrashTracker ()
 + (PNLiteNotifier *)notifier;
 @end
 
@@ -157,7 +157,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
             return;
 
         _automaticallyCollectBreadcrumbs = automaticallyCollectBreadcrumbs;
-        [[Bugsnag notifier] updateAutomaticBreadcrumbDetectionSettings];
+        [[PNLiteCrashTracker notifier] updateAutomaticBreadcrumbDetectionSettings];
     }
 }
 
@@ -206,7 +206,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
         _shouldAutoCaptureSessions = shouldAutoCaptureSessions;
         
         if (shouldAutoCaptureSessions) { // track any existing sessions
-            PNLiteSessionTracker *sessionTracker = [Bugsnag notifier].sessionTracker;
+            PNLiteSessionTracker *sessionTracker = [PNLiteCrashTracker notifier].sessionTracker;
             [sessionTracker onAutoCaptureEnabled];
         }
     }

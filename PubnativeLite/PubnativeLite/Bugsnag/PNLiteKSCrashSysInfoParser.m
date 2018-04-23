@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteKSCrashSysInfoParser.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "PNLiteCollections.h"
 #import "PNLiteKeys.h"
 #import "PNLiteConfiguration.h"
@@ -100,11 +100,11 @@ NSDictionary *BSGParseAppState(NSDictionary *report) {
     NSMutableDictionary *app = [NSMutableDictionary dictionary];
 
     BSGDictSetSafeObject(app, report[@"CFBundleVersion"], @"bundleVersion");
-    BSGDictSetSafeObject(app, [Bugsnag configuration].releaseStage,
+    BSGDictSetSafeObject(app, [PNLiteCrashTracker configuration].releaseStage,
                          PNLiteKeyReleaseStage);
     BSGDictSetSafeObject(app, report[@"CFBundleShortVersionString"], PNLiteKeyVersion);
     
-    BSGDictSetSafeObject(app, [Bugsnag configuration].codeBundleId, @"codeBundleId");
+    BSGDictSetSafeObject(app, [PNLiteCrashTracker configuration].codeBundleId, @"codeBundleId");
     
     NSString *notifierType;
 #if TARGET_OS_TV
@@ -115,8 +115,8 @@ NSDictionary *BSGParseAppState(NSDictionary *report) {
     notifierType = @"macOS";
 #endif
     
-    if ([Bugsnag configuration].notifierType) {
-        notifierType = [Bugsnag configuration].notifierType;
+    if ([PNLiteCrashTracker configuration].notifierType) {
+        notifierType = [PNLiteCrashTracker configuration].notifierType;
     }
     BSGDictSetSafeObject(app, notifierType, @"type");
     return app;

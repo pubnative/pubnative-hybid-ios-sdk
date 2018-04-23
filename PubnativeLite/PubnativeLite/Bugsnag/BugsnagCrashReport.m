@@ -13,7 +13,7 @@
 #endif
 
 #import "BSGSerialization.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "PNLiteCollections.h"
 #import "PNLiteHandledState.h"
 #import "BugsnagLogger.h"
@@ -173,7 +173,7 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 
 static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
 
-@interface NSDictionary (BSGKSMerge)
+@interface NSDictionary (PNLiteKSMerge)
 - (NSDictionary *)BSG_mergedInto:(NSDictionary *)dest;
 @end
 
@@ -354,7 +354,7 @@ initWithErrorName:(NSString *_Nonnull)name
 - (BOOL)shouldBeSent {
     return [self.notifyReleaseStages containsObject:self.releaseStage] ||
            (self.notifyReleaseStages.count == 0 &&
-            [[Bugsnag configuration] shouldSendReports]);
+            [[PNLiteCrashTracker configuration] shouldSendReports]);
 }
 
 @synthesize context = _context;

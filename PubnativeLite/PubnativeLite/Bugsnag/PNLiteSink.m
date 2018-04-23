@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteSink.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "PNLiteCollections.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
@@ -29,7 +29,7 @@
 
 // This is private in Bugsnag, but really we want package private so define
 // it here.
-@interface Bugsnag ()
+@interface PNLiteCrashTracker ()
 + (PNLiteNotifier *)notifier;
 @end
 
@@ -55,7 +55,7 @@
 - (void)filterReports:(NSArray *)reports
          onCompletion:(BSG_KSCrashReportFilterCompletion)onCompletion {
     NSMutableArray *bugsnagReports = [NSMutableArray new];
-    PNLiteConfiguration *configuration = [Bugsnag configuration];
+    PNLiteConfiguration *configuration = [PNLiteCrashTracker configuration];
     
     for (NSDictionary *report in reports) {
         BugsnagCrashReport *bugsnagReport = [[BugsnagCrashReport alloc] initWithKSReport:report];
@@ -141,8 +141,8 @@
 // Generates the payload for notifying Bugsnag
 - (NSDictionary *)getBodyFromReports:(NSArray *)reports {
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    BSGDictSetSafeObject(data, [Bugsnag notifier].details, PNLiteKeyNotifier);
-    BSGDictSetSafeObject(data, [Bugsnag notifier].configuration.apiKey, PNLiteKeyApiKey);
+    BSGDictSetSafeObject(data, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);
+    BSGDictSetSafeObject(data, [PNLiteCrashTracker notifier].configuration.apiKey, PNLiteKeyApiKey);
     BSGDictSetSafeObject(data, @"4.0", @"payloadVersion");
 
     NSMutableArray *formatted =

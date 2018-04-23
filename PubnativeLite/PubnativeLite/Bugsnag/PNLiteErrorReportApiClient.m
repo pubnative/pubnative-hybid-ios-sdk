@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteErrorReportApiClient.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "BugsnagLogger.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteSink.h"

@@ -24,7 +24,7 @@
 #import "PNLiteConfiguration.h"
 #import "PNLiteSessionTrackingPayload.h"
 #import "BugsnagLogger.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "PNLiteKeys.h"
 #import "PNLiteSession.h"
 

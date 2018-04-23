@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 //
 #import "BugsnagBreadcrumb.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "BugsnagLogger.h"
 #import "PNLiteKeys.h"
 
@@ -82,7 +82,7 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
 - (NSDictionary *)objectValue {
     @synchronized (self) {
         NSString *timestamp =
-        [[Bugsnag payloadDateFormatter] stringFromDate:_timestamp];
+        [[PNLiteCrashTracker payloadDateFormatter] stringFromDate:_timestamp];
         if (timestamp && _name.length > 0) {
             NSMutableDictionary *metadata = [NSMutableDictionary new];
             for (NSString *key in _metadata) {

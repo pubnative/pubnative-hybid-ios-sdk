@@ -22,7 +22,7 @@
 
 #import "PNLiteNotifier.h"
 #import "PNLiteConnectivity.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "PNLiteCrashSentry.h"
 #import "PNLiteHandledState.h"
 #import "BugsnagLogger.h"
@@ -689,7 +689,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
 - (void)lowMemoryWarning:(NSNotification *)notif {
     [[self state] addAttribute:PNLITE_BSEventLowMemoryWarning
-                     withValue:[[Bugsnag payloadDateFormatter]
+                     withValue:[[PNLiteCrashTracker payloadDateFormatter]
                                    stringFromDate:[NSDate date]]
                  toTabWithName:PNLiteKeyDeviceState];
     if ([self.configuration automaticallyCollectBreadcrumbs]) {

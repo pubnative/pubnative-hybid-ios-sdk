@@ -22,7 +22,7 @@
 
 #import "PubnativeLite.h"
 #import "PNLiteSettings.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 
 @implementation PubnativeLite
 
@@ -47,7 +47,7 @@
         NSLog(@"PubNative Lite - App Token is nil or empty and required.");
     } else {
         [PNLiteSettings sharedInstance].appToken = appToken;
-        [Bugsnag startBugsnagWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+        [PNLiteCrashTracker startBugsnagWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
     }
 }
 

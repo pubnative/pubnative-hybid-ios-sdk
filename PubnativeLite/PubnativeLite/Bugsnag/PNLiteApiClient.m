@@ -22,7 +22,7 @@
 
 #import "PNLiteApiClient.h"
 #import "PNLiteConfiguration.h"
-#import "Bugsnag.h"
+#import "PNLiteCrashTracker.h"
 #import "PNLiteKeys.h"
 #import "BugsnagLogger.h"
 
@@ -124,7 +124,7 @@
 }
 
 - (NSURLSession *)prepareSession {
-    NSURLSession *session = [Bugsnag configuration].session;
+    NSURLSession *session = [PNLiteCrashTracker configuration].session;
     if (session) {
         return session;
     } else {
