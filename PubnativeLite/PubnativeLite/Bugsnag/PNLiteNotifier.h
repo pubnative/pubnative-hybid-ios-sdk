@@ -92,7 +92,7 @@
  *  @param block configuration block
  */
 - (void)addBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block;
+    (void (^_Nonnull)(PNLiteBreadcrumb *_Nonnull))block;
 
 /**
  * Clear all stored breadcrumbs.

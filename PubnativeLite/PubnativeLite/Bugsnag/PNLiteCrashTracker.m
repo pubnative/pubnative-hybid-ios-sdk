@@ -167,13 +167,13 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 }
 
 + (void)leaveBreadcrumbWithMessage:(NSString *)message {
-    [self leaveBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull crumbs) {
+    [self leaveBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull crumbs) {
       crumbs.metadata = @{PNLiteKeyMessage : message};
     }];
 }
 
 + (void)leaveBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block {
+    (void (^_Nonnull)(PNLiteBreadcrumb *_Nonnull))block {
     [self.notifier addBreadcrumbWithBlock:block];
 }
 

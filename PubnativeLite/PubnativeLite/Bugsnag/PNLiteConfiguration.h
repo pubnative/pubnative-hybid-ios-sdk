@@ -23,11 +23,11 @@
 #import <Foundation/Foundation.h>
 
 #import "BSG_KSCrashReportWriter.h"
-#import "BugsnagBreadcrumb.h"
+#import "PNLiteBreadcrumb.h"
 #import "BugsnagCrashReport.h"
 #import "PNLiteMetaData.h"
 
-@class BugsnagBreadcrumbs;
+@class PNLiteBreadcrumbs;
 @class PNLiteUser;
 
 /**
@@ -111,7 +111,7 @@ typedef NSDictionary *_Nullable (^PNLiteBeforeNotifyHook)(
  *  Rolling snapshots of user actions leading up to a crash report
  */
 @property(readonly, strong, nullable)
-BugsnagBreadcrumbs *breadcrumbs;
+PNLiteBreadcrumbs *breadcrumbs;
 
 /**
  *  Whether to allow collection of automatic breadcrumbs for notable events

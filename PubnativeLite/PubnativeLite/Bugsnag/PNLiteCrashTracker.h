@@ -175,7 +175,7 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
  *  @param block configuration block
  */
 + (void)leaveBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block;
+    (void (^_Nonnull)(PNLiteBreadcrumb *_Nonnull))block;
 
 /**
  *  Leave a "breadcrumb" log message each time a notification with a provided

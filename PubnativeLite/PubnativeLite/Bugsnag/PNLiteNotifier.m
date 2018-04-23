@@ -566,7 +566,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     [self.metaDataLock unlock];
     [self metaDataChanged:self.configuration.metaData];
     [[self state] clearTab:PNLITE_BSTabCrash];
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull crumb) {
+    [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull crumb) {
       crumb.type = BSGBreadcrumbTypeError;
       crumb.name = reportName;
       crumb.metadata = @{
@@ -578,7 +578,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 }
 
 - (void)addBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block {
+    (void (^_Nonnull)(PNLiteBreadcrumb *_Nonnull))block {
     [self.configuration.breadcrumbs addBreadcrumbWithBlock:block];
     [self serializeBreadcrumbs];
 }
@@ -589,7 +589,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 }
 
 - (void)serializeBreadcrumbs {
-    BugsnagBreadcrumbs *crumbs = self.configuration.breadcrumbs;
+    PNLiteBreadcrumbs *crumbs = self.configuration.breadcrumbs;
     NSArray *arrayValue = crumbs.count == 0 ? nil : [crumbs arrayValue];
     [self.state addAttribute:PNLiteKeyBreadcrumbs
                    withValue:arrayValue
@@ -679,8 +679,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
                      withValue:orientation
                  toTabWithName:PNLiteKeyDeviceState];
     if ([self.configuration automaticallyCollectBreadcrumbs]) {
-        [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
-          breadcrumb.type = BSGBreadcrumbTypeState;
+        [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
+          breadcrumb.type = PNLiteBreadcrumbTypeState;
           breadcrumb.name = orientationNotifName;
           breadcrumb.metadata = @{PNLiteKeyOrientation : orientation};
         }];
@@ -836,8 +836,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 }
 
 - (void)sendBreadcrumbForNotification:(NSNotification *)note {
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
-      breadcrumb.type = BSGBreadcrumbTypeState;
+    [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
+      breadcrumb.type = PNLiteBreadcrumbTypeState;
       breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
     }];
 }
@@ -846,8 +846,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE || TARGET_OS_TV
     UITableView *tableView = [note object];
     NSIndexPath *indexPath = [tableView indexPathForSelectedRow];
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
-      breadcrumb.type = BSGBreadcrumbTypeNavigation;
+    [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
+      breadcrumb.type = PNLiteBreadcrumbTypeNavigation;
       breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
       if (indexPath) {
           breadcrumb.metadata =
@@ -890,8 +890,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 #if TARGET_OS_TV
 #elif TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
     UIControl *control = note.object;
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
-      breadcrumb.type = BSGBreadcrumbTypeUser;
+    [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
+      breadcrumb.type = PNLiteBreadcrumbTypeUser;
       breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
       NSString *label = control.accessibilityLabel;
       if (label.length > 0) {

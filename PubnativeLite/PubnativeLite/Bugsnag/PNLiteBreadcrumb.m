@@ -1,58 +1,55 @@
 //
-//  BugsnagBreadcrumb.m
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Delisa Mason on 9/16/15.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2015 Bugsnag, Inc. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
+
 #import "PNLiteBreadcrumb.h"
 #import "PNLiteCrashTracker.h"
 #import "BugsnagLogger.h"
 #import "PNLiteKeys.h"
 
-static NSString *const BSGBreadcrumbDefaultName = @"manual";
-static NSUInteger const BSGBreadcrumbMaxByteSize = 4096;
+static NSString *const PNLiteBreadcrumbDefaultName = @"manual";
+static NSUInteger const PNLiteBreadcrumbMaxByteSize = 4096;
 
-NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
+NSString *PNLiteBreadcrumbTypeValue(PNLiteBreadcrumbType type) {
     switch (type) {
-    case BSGBreadcrumbTypeLog:
+    case PNLiteBreadcrumbTypeLog:
         return @"log";
-    case BSGBreadcrumbTypeUser:
+    case PNLiteBreadcrumbTypeUser:
         return @"user";
-    case BSGBreadcrumbTypeError:
+    case PNLiteBreadcrumbTypeError:
         return PNLiteKeyError;
-    case BSGBreadcrumbTypeState:
+    case PNLiteBreadcrumbTypeState:
         return @"state";
-    case BSGBreadcrumbTypeManual:
+    case PNLiteBreadcrumbTypeManual:
         return @"manual";
-    case BSGBreadcrumbTypeProcess:
+    case PNLiteBreadcrumbTypeProcess:
         return @"process";
-    case BSGBreadcrumbTypeRequest:
+    case PNLiteBreadcrumbTypeRequest:
         return @"request";
-    case BSGBreadcrumbTypeNavigation:
+    case PNLiteBreadcrumbTypeNavigation:
         return @"navigation";
     }
 }
 
-@interface BugsnagBreadcrumbs ()
+@interface PNLiteBreadcrumbs ()
 
 @property(nonatomic, readwrite, strong) NSMutableArray *breadcrumbs;
 @property(nonatomic, readonly, strong) dispatch_queue_t readWriteQueue;
@@ -68,8 +65,8 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
 - (instancetype)init {
     if (self = [super init]) {
         _timestamp = [NSDate date];
-        _name = BSGBreadcrumbDefaultName;
-        _type = BSGBreadcrumbTypeManual;
+        _name = PNLiteBreadcrumbDefaultName;
+        _type = PNLiteBreadcrumbTypeManual;
         _metadata = @{};
     }
     return self;
@@ -91,7 +88,7 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
             return @{
                  PNLiteKeyName : [_name copy],
                  PNLiteKeyTimestamp : timestamp,
-                 PNLiteKeyType : BSGBreadcrumbTypeValue(_type),
+                 PNLiteKeyType : PNLiteBreadcrumbTypeValue(_type),
                  PNLiteKeyMetaData : metadata
             };
         }
@@ -125,13 +122,13 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
 
 @synthesize type = _type;
 
-- (BSGBreadcrumbType)type {
+- (PNLiteBreadcrumbType)type {
     @synchronized (self) {
         return _type;
     }
 }
 
-- (void)setType:(BSGBreadcrumbType)type {
+- (void)setType:(PNLiteBreadcrumbType)type {
     @synchronized (self) {
         [self willChangeValueForKey:NSStringFromSelector(@selector(type))];
         _type = type;
@@ -163,7 +160,7 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
     }
 }
 
-+ (instancetype)breadcrumbWithBlock:(BSGBreadcrumbConfiguration)block {
++ (instancetype)breadcrumbWithBlock:(PNLiteBreadcrumbConfiguration)block {
     PNLiteBreadcrumb *crumb = [self new];
     if (block) {
         block(crumb);
@@ -176,14 +173,14 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
 
 @end
 
-@implementation BugsnagBreadcrumbs
+@implementation PNLiteBreadcrumbs
 
-NSUInteger BreadcrumbsDefaultCapacity = 20;
+NSUInteger PNLiteBreadcrumbsDefaultCapacity = 20;
 
 - (instancetype)init {
     if (self = [super init]) {
         _breadcrumbs = [NSMutableArray new];
-        _capacity = BreadcrumbsDefaultCapacity;
+        _capacity = PNLiteBreadcrumbsDefaultCapacity;
         _readWriteQueue = dispatch_queue_create("com.bugsnag.BreadcrumbRead",
                                                 DISPATCH_QUEUE_SERIAL);
     }
@@ -269,12 +266,12 @@ NSUInteger BreadcrumbsDefaultCapacity = 20;
               NSData *data = [NSJSONSerialization dataWithJSONObject:objectValue
                                                              options:0
                                                                error:&error];
-              if (data.length <= BSGBreadcrumbMaxByteSize)
+              if (data.length <= PNLiteBreadcrumbMaxByteSize)
                   [contents addObject:objectValue];
               else
                   bsg_log_warn(
                       @"Dropping breadcrumb (%@) exceeding %lu byte size limit",
-                      crumb.name, (unsigned long)BSGBreadcrumbMaxByteSize);
+                      crumb.name, (unsigned long)PNLiteBreadcrumbMaxByteSize);
           } @catch (NSException *exception) {
               bsg_log_err(@"Unable to serialize breadcrumb: %@", error);
           }

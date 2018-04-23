@@ -58,7 +58,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
         _beforeNotifyHooks = [NSMutableArray new];
         _beforeSendBlocks = [NSMutableArray new];
         _notifyReleaseStages = nil;
-        _breadcrumbs = [BugsnagBreadcrumbs new];
+        _breadcrumbs = [PNLiteBreadcrumbs new];
         _automaticallyCollectBreadcrumbs = YES;
         if ([NSURLSession class]) {
             _session = [NSURLSession
