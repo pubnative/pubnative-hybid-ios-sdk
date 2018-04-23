@@ -23,7 +23,7 @@
 #import "PNLiteKSCrashSysInfoParser.h"
 #import "Bugsnag.h"
 #import "PNLiteCollections.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "BugsnagConfiguration.h"
 #import "BugsnagLogger.h"
 
@@ -86,13 +86,13 @@ NSDictionary *BSGParseApp(NSDictionary *report) {
     BSGDictSetSafeObject(appState, @(activeTimeSinceLaunch),
                          @"durationInForeground");
 
-    BSGDictSetSafeObject(appState, report[BSGKeyExecutableName], BSGKeyName);
+    BSGDictSetSafeObject(appState, report[PNLiteKeyExecutableName], PNLiteKeyName);
     BSGDictSetSafeObject(appState,
                          @(activeTimeSinceLaunch + backgroundTimeSinceLaunch),
                          @"duration");
     BSGDictSetSafeObject(appState, stats[@"application_in_foreground"],
                          @"inForeground");
-    BSGDictSetSafeObject(appState, report[@"CFBundleIdentifier"], BSGKeyId);
+    BSGDictSetSafeObject(appState, report[@"CFBundleIdentifier"], PNLiteKeyId);
     return appState;
 }
 
@@ -101,8 +101,8 @@ NSDictionary *BSGParseAppState(NSDictionary *report) {
 
     BSGDictSetSafeObject(app, report[@"CFBundleVersion"], @"bundleVersion");
     BSGDictSetSafeObject(app, [Bugsnag configuration].releaseStage,
-                         BSGKeyReleaseStage);
-    BSGDictSetSafeObject(app, report[@"CFBundleShortVersionString"], BSGKeyVersion);
+                         PNLiteKeyReleaseStage);
+    BSGDictSetSafeObject(app, report[@"CFBundleShortVersionString"], PNLiteKeyVersion);
     
     BSGDictSetSafeObject(app, [Bugsnag configuration].codeBundleId, @"codeBundleId");
     

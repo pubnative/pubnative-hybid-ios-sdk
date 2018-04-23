@@ -25,7 +25,7 @@
 #import "BugsnagSessionTrackingPayload.h"
 #import "BugsnagLogger.h"
 #import "Bugsnag.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "PNLiteSession.h"
 
 @implementation PNLiteSessionTrackingApiClient

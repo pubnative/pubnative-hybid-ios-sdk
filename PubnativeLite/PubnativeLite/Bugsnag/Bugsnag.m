@@ -28,7 +28,7 @@
 #import "BSG_KSCrash.h"
 #import "BugsnagLogger.h"
 #import "PNLiteNotifier.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 
 static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
 
@@ -172,7 +172,7 @@ static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
 
 + (void)leaveBreadcrumbWithMessage:(NSString *)message {
     [self leaveBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull crumbs) {
-      crumbs.metadata = @{BSGKeyMessage : message};
+      crumbs.metadata = @{PNLiteKeyMessage : message};
     }];
 }
 

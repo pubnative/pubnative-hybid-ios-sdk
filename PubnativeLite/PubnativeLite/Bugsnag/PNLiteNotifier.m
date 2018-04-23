@@ -26,7 +26,7 @@
 #import "PNLiteCrashSentry.h"
 #import "BugsnagHandledState.h"
 #import "BugsnagLogger.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "BugsnagSessionTracker.h"
 #import "PNLiteSessionTrackingApiClient.h"
 #import "BSG_RFC3339DateTool.h"
@@ -175,9 +175,9 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         self.configuration = initConfiguration;
         self.state = [[BugsnagMetaData alloc] init];
         self.details = [@{
-            BSGKeyName : @"Bugsnag Objective-C",
-            BSGKeyVersion : PNLITE_NOTIFIER_VERSION,
-            BSGKeyUrl : PNLITE_NOTIFIER_URL
+            PNLiteKeyName : @"Bugsnag Objective-C",
+            PNLiteKeyVersion : PNLITE_NOTIFIER_VERSION,
+            PNLiteKeyUrl : PNLITE_NOTIFIER_URL
         } mutableCopy];
 
         self.metaDataLock = [[NSLock alloc] init];
@@ -309,7 +309,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     [self.details setValue:@"tvOS Bugsnag Notifier" forKey:BSGKeyName];
 
 #elif TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
-    [self.details setValue:@"iOS Bugsnag Notifier" forKey:BSGKeyName];
+    [self.details setValue:@"iOS Bugsnag Notifier" forKey:PNLiteKeyName];
 
     [center addObserver:self
                selector:@selector(batteryChanged:)
@@ -444,7 +444,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
                  metadata[@"nserror"] = @{
                      @"code" : @(error.code),
                      @"domain" : error.domain,
-                     BSGKeyReason : error.localizedFailureReason ?: @""
+                     PNLiteKeyReason : error.localizedFailureReason ?: @""
                  };
                    if (report.context == nil) { // set context as error domain
                        report.context = [NSString stringWithFormat:@"%@ (%ld)", error.domain, (long)error.code];
@@ -485,9 +485,9 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
                     withData:(NSDictionary *_Nullable)metaData
                        block:(BugsnagNotifyBlock _Nullable)block {
 
-    NSString *severity = metaData[BSGKeySeverity];
-    NSString *severityReason = metaData[BSGKeySeverityReason];
-    NSString *logLevel = metaData[BSGKeyLogLevel];
+    NSString *severity = metaData[PNLiteKeySeverity];
+    NSString *severityReason = metaData[PNLiteKeySeverityReason];
+    NSString *logLevel = metaData[PNLiteKeyLogLevel];
     NSParameterAssert(severity.length > 0);
     NSParameterAssert(severityReason.length > 0);
 
@@ -535,7 +535,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     BSSerializeJSONDictionary(report.overrides,
                               &bsg_g_pnlite_data.userOverridesJSON);
 
-    [self.state addAttribute:BSGKeySeverity
+    [self.state addAttribute:PNLiteKeySeverity
                    withValue:BSGFormatSeverity(report.severity)
                toTabWithName:PNLITE_BSTabCrash];
 
@@ -570,8 +570,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
       crumb.type = BSGBreadcrumbTypeError;
       crumb.name = reportName;
       crumb.metadata = @{
-          BSGKeyMessage : reportMessage,
-          BSGKeySeverity : BSGFormatSeverity(report.severity)
+          PNLiteKeyMessage : reportMessage,
+          PNLiteKeySeverity : BSGFormatSeverity(report.severity)
       };
     }];
     [self flushPendingReports];
@@ -591,7 +591,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 - (void)serializeBreadcrumbs {
     BugsnagBreadcrumbs *crumbs = self.configuration.breadcrumbs;
     NSArray *arrayValue = crumbs.count == 0 ? nil : [crumbs arrayValue];
-    [self.state addAttribute:BSGKeyBreadcrumbs
+    [self.state addAttribute:PNLiteKeyBreadcrumbs
                    withValue:arrayValue
                toTabWithName:PNLITE_BSTabCrash];
 }
@@ -605,7 +605,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
                 [self.metaDataLock unlock];
             }
         } else if (metaData == self.configuration.config) {
-            BSSerializeJSONDictionary([metaData getTab:BSGKeyConfig],
+            BSSerializeJSONDictionary([metaData getTab:PNLiteKeyConfig],
                                       &bsg_g_pnlite_data.configJSON);
         } else if (metaData == self.state) {
             BSSerializeJSONDictionary([metaData toDictionary],
@@ -625,12 +625,12 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
             @([UIDevice currentDevice].batteryState ==
                     UIDeviceBatteryStateCharging);
 
-    [[self state] addAttribute:BSGKeyBatteryLevel
+    [[self state] addAttribute:PNLiteKeyBatteryLevel
                      withValue:batteryLevel
-                 toTabWithName:BSGKeyDeviceState];
-    [[self state] addAttribute:BSGKeyCharging
+                 toTabWithName:PNLiteKeyDeviceState];
+    [[self state] addAttribute:PNLiteKeyCharging
                      withValue:charging
-                 toTabWithName:BSGKeyDeviceState];
+                 toTabWithName:PNLiteKeyDeviceState];
 }
 
 - (void)orientationChanged:(NSNotification *)notif {
@@ -667,22 +667,22 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
         BSGBreadcrumbNameForNotificationName(notif.name);
 
     if (lastBreadcrumb &&
-        [orientationNotifName isEqualToString:lastBreadcrumb[BSGKeyName]]) {
-        NSDictionary *metaData = lastBreadcrumb[BSGKeyMetaData];
+        [orientationNotifName isEqualToString:lastBreadcrumb[PNLiteKeyName]]) {
+        NSDictionary *metaData = lastBreadcrumb[PNLiteKeyMetaData];
 
-        if ([orientation isEqualToString:metaData[BSGKeyOrientation]]) {
+        if ([orientation isEqualToString:metaData[PNLiteKeyOrientation]]) {
             return; // ignore duplicate orientation event
         }
     }
 
-    [[self state] addAttribute:BSGKeyOrientation
+    [[self state] addAttribute:PNLiteKeyOrientation
                      withValue:orientation
-                 toTabWithName:BSGKeyDeviceState];
+                 toTabWithName:PNLiteKeyDeviceState];
     if ([self.configuration automaticallyCollectBreadcrumbs]) {
         [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
           breadcrumb.type = BSGBreadcrumbTypeState;
           breadcrumb.name = orientationNotifName;
-          breadcrumb.metadata = @{BSGKeyOrientation : orientation};
+          breadcrumb.metadata = @{PNLiteKeyOrientation : orientation};
         }];
     }
 }
@@ -691,7 +691,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     [[self state] addAttribute:PNLITE_BSEventLowMemoryWarning
                      withValue:[[Bugsnag payloadDateFormatter]
                                    stringFromDate:[NSDate date]]
-                 toTabWithName:BSGKeyDeviceState];
+                 toTabWithName:PNLiteKeyDeviceState];
     if ([self.configuration automaticallyCollectBreadcrumbs]) {
         [self sendBreadcrumbForNotification:notif];
     }
@@ -895,7 +895,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
       breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
       NSString *label = control.accessibilityLabel;
       if (label.length > 0) {
-          breadcrumb.metadata = @{BSGKeyLabel : label};
+          breadcrumb.metadata = @{PNLiteKeyLabel : label};
       }
     }];
 #elif TARGET_OS_MAC

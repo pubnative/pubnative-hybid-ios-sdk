@@ -6,7 +6,7 @@
 #import "BugsnagApiClient.h"
 #import "BugsnagConfiguration.h"
 #import "Bugsnag.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "BugsnagLogger.h"
 
 @interface BSGDelayOperation : NSOperation
@@ -101,7 +101,7 @@
             onCompletion(data, NO,
                     [NSError            errorWithDomain:exception.reason
                                         code:420
-                                    userInfo:@{BSGKeyException: exception}]);
+                                    userInfo:@{PNLiteKeyException: exception}]);
         }
     }
 }

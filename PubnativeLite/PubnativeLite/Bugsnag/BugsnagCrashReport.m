@@ -17,7 +17,7 @@
 #import "PNLiteCollections.h"
 #import "BugsnagHandledState.h"
 #import "BugsnagLogger.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "NSDictionary+BSG_Merge.h"
 #import "PNLiteKSCrashSysInfoParser.h"
 #import "PNLiteSession.h"
@@ -33,21 +33,21 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
     unsigned long imageAddress = [frame[@"object_addr"] unsignedLongValue];
 
     BSGDictSetSafeObject(
-        formatted, [NSString stringWithFormat:BSGKeyFrameAddrFormat, instructionAddress],
+        formatted, [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, instructionAddress],
         @"frameAddress");
     BSGDictSetSafeObject(formatted,
-                         [NSString stringWithFormat:BSGKeyFrameAddrFormat, symbolAddress],
-                         BSGKeySymbolAddr);
+                         [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, symbolAddress],
+                         PNLiteKeySymbolAddr);
     BSGDictSetSafeObject(formatted,
-                         [NSString stringWithFormat:BSGKeyFrameAddrFormat, imageAddress],
-                         BSGKeyMachoLoadAddr);
-    BSGDictInsertIfNotNil(formatted, frame[BSGKeyIsPC], BSGKeyIsPC);
-    BSGDictInsertIfNotNil(formatted, frame[BSGKeyIsLR], BSGKeyIsLR);
+                         [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, imageAddress],
+                         PNLiteKeyMachoLoadAddr);
+    BSGDictInsertIfNotNil(formatted, frame[PNLiteKeyIsPC], PNLiteKeyIsPC);
+    BSGDictInsertIfNotNil(formatted, frame[PNLiteKeyIsLR], PNLiteKeyIsLR);
 
     NSString *file = frame[@"object_name"];
     NSString *method = frame[@"symbol_name"];
 
-    BSGDictInsertIfNotNil(formatted, file, BSGKeyMachoFile);
+    BSGDictInsertIfNotNil(formatted, file, PNLiteKeyMachoFile);
     BSGDictInsertIfNotNil(formatted, method, @"method");
 
     for (NSDictionary *image in binaryImages) {
@@ -56,11 +56,11 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
             unsigned long imageSlide =
                 [image[@"image_vmaddr"] unsignedLongValue];
 
-            BSGDictInsertIfNotNil(formatted, image[@"uuid"], BSGKeyMachoUUID);
-            BSGDictInsertIfNotNil(formatted, image[BSGKeyName], BSGKeyMachoFile);
+            BSGDictInsertIfNotNil(formatted, image[@"uuid"], PNLiteKeyMachoUUID);
+            BSGDictInsertIfNotNil(formatted, image[PNLiteKeyName], PNLiteKeyMachoFile);
             BSGDictSetSafeObject(
-                formatted, [NSString stringWithFormat:BSGKeyFrameAddrFormat, imageSlide],
-                BSGKeyMachoVMAddress);
+                formatted, [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, imageSlide],
+                PNLiteKeyMachoVMAddress);
 
             return formatted;
         }
@@ -73,16 +73,16 @@ NSString *_Nonnull BSGParseErrorClass(NSDictionary *error,
                                       NSString *errorType) {
     NSString *errorClass;
 
-    if ([errorType isEqualToString:BSGKeyCppException]) {
-        errorClass = error[BSGKeyCppException][BSGKeyName];
-    } else if ([errorType isEqualToString:BSGKeyMach]) {
-        errorClass = error[BSGKeyMach][BSGKeyExceptionName];
-    } else if ([errorType isEqualToString:BSGKeySignal]) {
-        errorClass = error[BSGKeySignal][BSGKeyName];
+    if ([errorType isEqualToString:PNLiteKeyCppException]) {
+        errorClass = error[PNLiteKeyCppException][PNLiteKeyName];
+    } else if ([errorType isEqualToString:PNLiteKeyMach]) {
+        errorClass = error[PNLiteKeyMach][PNLiteKeyExceptionName];
+    } else if ([errorType isEqualToString:PNLiteKeySignal]) {
+        errorClass = error[PNLiteKeySignal][PNLiteKeyName];
     } else if ([errorType isEqualToString:@"nsexception"]) {
-        errorClass = error[@"nsexception"][BSGKeyName];
-    } else if ([errorType isEqualToString:BSGKeyUser]) {
-        errorClass = error[@"user_reported"][BSGKeyName];
+        errorClass = error[@"nsexception"][PNLiteKeyName];
+    } else if ([errorType isEqualToString:PNLiteKeyUser]) {
+        errorClass = error[@"user_reported"][PNLiteKeyName];
     }
 
     if (!errorClass) { // use a default value
@@ -93,20 +93,20 @@ NSString *_Nonnull BSGParseErrorClass(NSDictionary *error,
 
 NSString *BSGParseErrorMessage(NSDictionary *report, NSDictionary *error,
                                NSString *errorType) {
-    if ([errorType isEqualToString:BSGKeyMach] || error[BSGKeyReason] == nil) {
+    if ([errorType isEqualToString:PNLiteKeyMach] || error[PNLiteKeyReason] == nil) {
         NSString *diagnosis = [report valueForKeyPath:@"crash.diagnosis"];
         if (diagnosis && ![diagnosis hasPrefix:@"No diagnosis"]) {
             return [[diagnosis componentsSeparatedByString:@"\n"] firstObject];
         }
     }
-    return error[BSGKeyReason] ?: @"";
+    return error[PNLiteKeyReason] ?: @"";
 }
 
 NSString *BSGParseContext(NSDictionary *report, NSDictionary *metaData) {
     id context = [report valueForKeyPath:@"user.overrides.context"];
     if ([context isKindOfClass:[NSString class]])
         return context;
-    context = metaData[BSGKeyContext];
+    context = metaData[PNLiteKeyContext];
     if ([context isKindOfClass:[NSString class]])
         return context;
     context = [report valueForKeyPath:@"user.config.context"];
@@ -119,7 +119,7 @@ NSString *BSGParseGroupingHash(NSDictionary *report, NSDictionary *metaData) {
     id groupingHash = [report valueForKeyPath:@"user.overrides.groupingHash"];
     if (groupingHash)
         return groupingHash;
-    groupingHash = metaData[BSGKeyGroupingHash];
+    groupingHash = metaData[PNLiteKeyGroupingHash];
     if ([groupingHash isKindOfClass:[NSString class]])
         return groupingHash;
     return nil;
@@ -136,9 +136,9 @@ NSString *BSGParseReleaseStage(NSDictionary *report) {
 }
 
 BSGSeverity BSGParseSeverity(NSString *severity) {
-    if ([severity isEqualToString:BSGKeyInfo])
+    if ([severity isEqualToString:PNLiteKeyInfo])
         return BSGSeverityInfo;
-    else if ([severity isEqualToString:BSGKeyWarning])
+    else if ([severity isEqualToString:PNLiteKeyWarning])
         return BSGSeverityWarning;
     return BSGSeverityError;
 }
@@ -146,11 +146,11 @@ BSGSeverity BSGParseSeverity(NSString *severity) {
 NSString *BSGFormatSeverity(BSGSeverity severity) {
     switch (severity) {
     case BSGSeverityInfo:
-        return BSGKeyInfo;
+        return PNLiteKeyInfo;
     case BSGSeverityError:
-        return BSGKeyError;
+        return PNLiteKeyError;
     case BSGSeverityWarning:
-        return BSGKeyWarning;
+        return PNLiteKeyWarning;
     }
 }
 
@@ -161,10 +161,10 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
     id type = [report valueForKeyPath:@"user.overrides.customStacktraceType"];
     if (type && frames) {
         return @{
-            BSGKeyStacktrace : frames,
-            BSGKeyType : type,
-            BSGKeyErrorClass : errorClass,
-            BSGKeyMessage : message
+            PNLiteKeyStacktrace : frames,
+            PNLiteKeyType : type,
+            PNLiteKeyErrorClass : errorClass,
+            PNLiteKeyMessage : message
         };
     }
 
@@ -223,7 +223,7 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
         _releaseStage = BSGParseReleaseStage(report);
 
         _error = [report valueForKeyPath:@"crash.error"];
-        _errorType = _error[BSGKeyType];
+        _errorType = _error[PNLiteKeyType];
         _threads = [report valueForKeyPath:@"crash.threads"];
         RegisterErrorData *data = [RegisterErrorData errorDataFromThreads:_threads];
         if (data) {
@@ -246,8 +246,8 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
         _context = BSGParseContext(report, _metaData);
         _deviceState = BSGParseDeviceState(report);
         _device = BSGParseDevice(report);
-        _app = BSGParseApp(report[BSGKeySystem]);
-        _appState = BSGParseAppState(report[BSGKeySystem]);
+        _app = BSGParseApp(report[PNLiteKeySystem]);
+        _appState = BSGParseAppState(report[PNLiteKeySystem]);
         _groupingHash = BSGParseGroupingHash(report, _metaData);
         _overrides = [report valueForKeyPath:@"user.overrides"];
         _customException = BSGParseCustomException(report, [_errorClass copy],
@@ -260,7 +260,7 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
             _handledState =
                 [[BugsnagHandledState alloc] initWithDictionary:recordedState];
         } else { // the event was unhandled.
-            BOOL isSignal = [BSGKeySignal isEqualToString:_errorType];
+            BOOL isSignal = [PNLiteKeySignal isEqualToString:_errorType];
             SeverityReasonType severityReason =
                 isSignal ? Signal : UnhandledException;
             _handledState = [BugsnagHandledState
@@ -366,7 +366,7 @@ initWithErrorName:(NSString *_Nonnull)name
 }
 
 - (void)setContext:(NSString *)context {
-    [self setOverrideProperty:BSGKeyContext value:context];
+    [self setOverrideProperty:PNLiteKeyContext value:context];
     @synchronized (self) {
         _context = context;
     }
@@ -381,7 +381,7 @@ initWithErrorName:(NSString *_Nonnull)name
 }
 
 - (void)setGroupingHash:(NSString *)groupingHash {
-    [self setOverrideProperty:BSGKeyGroupingHash value:groupingHash];
+    [self setOverrideProperty:PNLiteKeyGroupingHash value:groupingHash];
     @synchronized (self) {
         _groupingHash = groupingHash;
     }
@@ -396,7 +396,7 @@ initWithErrorName:(NSString *_Nonnull)name
 }
 
 - (void)setBreadcrumbs:(NSArray *)breadcrumbs {
-    [self setOverrideProperty:BSGKeyBreadcrumbs value:breadcrumbs];
+    [self setOverrideProperty:PNLiteKeyBreadcrumbs value:breadcrumbs];
     @synchronized (self) {
         _breadcrumbs = breadcrumbs;
     }
@@ -411,7 +411,7 @@ initWithErrorName:(NSString *_Nonnull)name
 }
 
 - (void)setReleaseStage:(NSString *)releaseStage {
-    [self setOverrideProperty:BSGKeyReleaseStage value:releaseStage];
+    [self setOverrideProperty:PNLiteKeyReleaseStage value:releaseStage];
     @synchronized (self) {
         _releaseStage = releaseStage;
     }
@@ -460,26 +460,26 @@ initWithErrorName:(NSString *_Nonnull)name
     NSMutableDictionary *metaData = [[self metaData] mutableCopy];
 
     if (self.customException) {
-        BSGDictSetSafeObject(event, @[ self.customException ], BSGKeyExceptions);
+        BSGDictSetSafeObject(event, @[ self.customException ], PNLiteKeyExceptions);
         BSGDictSetSafeObject(event, [self serializeThreadsWithException:nil],
-                             BSGKeyThreads);
+                             PNLiteKeyThreads);
     } else {
         NSMutableDictionary *exception = [NSMutableDictionary dictionary];
-        BSGDictSetSafeObject(exception, [self errorClass], BSGKeyErrorClass);
-        BSGDictInsertIfNotNil(exception, [self errorMessage], BSGKeyMessage);
-        BSGDictInsertIfNotNil(exception, DEFAULT_EXCEPTION_TYPE, BSGKeyType);
-        BSGDictSetSafeObject(event, @[ exception ], BSGKeyExceptions);
+        BSGDictSetSafeObject(exception, [self errorClass], PNLiteKeyErrorClass);
+        BSGDictInsertIfNotNil(exception, [self errorMessage], PNLiteKeyMessage);
+        BSGDictInsertIfNotNil(exception, DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
+        BSGDictSetSafeObject(event, @[ exception ], PNLiteKeyExceptions);
 
         BSGDictSetSafeObject(
-            event, [self serializeThreadsWithException:exception], BSGKeyThreads);
+            event, [self serializeThreadsWithException:exception], PNLiteKeyThreads);
     }
     // Build Event
-    BSGDictSetSafeObject(event, BSGFormatSeverity(self.severity), BSGKeySeverity);
-    BSGDictSetSafeObject(event, [self breadcrumbs], BSGKeyBreadcrumbs);
-    BSGDictSetSafeObject(event, metaData, BSGKeyMetaData);
+    BSGDictSetSafeObject(event, BSGFormatSeverity(self.severity), PNLiteKeySeverity);
+    BSGDictSetSafeObject(event, [self breadcrumbs], PNLiteKeyBreadcrumbs);
+    BSGDictSetSafeObject(event, metaData, PNLiteKeyMetaData);
     
     NSDictionary *device = [self.device bsg_mergedInto:self.deviceState];
-    BSGDictSetSafeObject(event, device, BSGKeyDevice);
+    BSGDictSetSafeObject(event, device, PNLiteKeyDevice);
     
     NSMutableDictionary *appObj = [NSMutableDictionary new];
     [appObj addEntriesFromDictionary:self.app];
@@ -492,45 +492,45 @@ initWithErrorName:(NSString *_Nonnull)name
         BSGDictInsertIfNotNil(appObj, @[self.dsymUUID], @"dsymUUIDs");
     }
     
-    BSGDictSetSafeObject(event, appObj, BSGKeyApp);
+    BSGDictSetSafeObject(event, appObj, PNLiteKeyApp);
     
-    BSGDictSetSafeObject(event, [self context], BSGKeyContext);
-    BSGDictInsertIfNotNil(event, self.groupingHash, BSGKeyGroupingHash);
+    BSGDictSetSafeObject(event, [self context], PNLiteKeyContext);
+    BSGDictInsertIfNotNil(event, self.groupingHash, PNLiteKeyGroupingHash);
     
 
-    BSGDictSetSafeObject(event, @(self.handledState.unhandled), BSGKeyUnhandled);
+    BSGDictSetSafeObject(event, @(self.handledState.unhandled), PNLiteKeyUnhandled);
 
     // serialize handled/unhandled into payload
     NSMutableDictionary *severityReason = [NSMutableDictionary new];
     NSString *reasonType = [BugsnagHandledState
         stringFromSeverityReason:self.handledState.calculateSeverityReasonType];
-    severityReason[BSGKeyType] = reasonType;
+    severityReason[PNLiteKeyType] = reasonType;
 
     if (self.handledState.attrKey && self.handledState.attrValue) {
-        severityReason[BSGKeyAttributes] =
+        severityReason[PNLiteKeyAttributes] =
             @{self.handledState.attrKey : self.handledState.attrValue};
     }
 
-    BSGDictSetSafeObject(event, severityReason, BSGKeySeverityReason);
+    BSGDictSetSafeObject(event, severityReason, PNLiteKeySeverityReason);
 
     //  Inserted into `context` property
-    [metaData removeObjectForKey:BSGKeyContext];
+    [metaData removeObjectForKey:PNLiteKeyContext];
     // Build metadata
-    BSGDictSetSafeObject(metaData, [self error], BSGKeyError);
+    BSGDictSetSafeObject(metaData, [self error], PNLiteKeyError);
 
     // Make user mutable and set the id if the user hasn't already
-    NSMutableDictionary *user = [metaData[BSGKeyUser] mutableCopy];
+    NSMutableDictionary *user = [metaData[PNLiteKeyUser] mutableCopy];
     if (user == nil) {
         user = [NSMutableDictionary dictionary];
     }
-    BSGDictInsertIfNotNil(event, user, BSGKeyUser);
+    BSGDictInsertIfNotNil(event, user, PNLiteKeyUser);
 
-    if (!user[BSGKeyId] && self.device[BSGKeyId]) { // if device id is null, don't set user id to default
-        BSGDictSetSafeObject(user, [self deviceAppHash], BSGKeyId);
+    if (!user[PNLiteKeyId] && self.device[PNLiteKeyId]) { // if device id is null, don't set user id to default
+        BSGDictSetSafeObject(user, [self deviceAppHash], PNLiteKeyId);
     }
 
     if (self.session) {
-        BSGDictSetSafeObject(event, [self generateSessionDict], BSGKeySession);
+        BSGDictSetSafeObject(event, [self generateSessionDict], PNLiteKeySession);
     }
     return event;
 }
@@ -542,7 +542,7 @@ initWithErrorName:(NSString *_Nonnull)name
     };
 
     NSDictionary *sessionJson = @{
-            BSGKeyId: self.session.sessionId,
+            PNLiteKeyId: self.session.sessionId,
             @"startedAt": [BSG_RFC3339DateTool stringFromDate:self.session.startedAt],
             @"events": events
     };
@@ -566,12 +566,12 @@ initWithErrorName:(NSString *_Nonnull)name
                 if (seen++ >= [self depth]) {
                     // Mark the frame so we know where it came from
                     if (seen == 1 && !stackOverflow) {
-                        BSGDictSetSafeObject(mutableFrame, @YES, BSGKeyIsPC);
+                        BSGDictSetSafeObject(mutableFrame, @YES, PNLiteKeyIsPC);
                     }
                     if (seen == 2 && !stackOverflow &&
-                        [@[ BSGKeySignal, @"deadlock", BSGKeyMach ]
+                        [@[ PNLiteKeySignal, @"deadlock", PNLiteKeyMach ]
                             containsObject:[self errorType]]) {
-                        BSGDictSetSafeObject(mutableFrame, @YES, BSGKeyIsLR);
+                        BSGDictSetSafeObject(mutableFrame, @YES, PNLiteKeyIsLR);
                     }
                     BSGArrayInsertIfNotNil(
                         stacktrace,
@@ -579,7 +579,7 @@ initWithErrorName:(NSString *_Nonnull)name
                 }
             }
 
-            BSGDictSetSafeObject(exception, stacktrace, BSGKeyStacktrace);
+            BSGDictSetSafeObject(exception, stacktrace, PNLiteKeyStacktrace);
         } else {
             NSMutableArray *threadStack = [NSMutableArray array];
 
@@ -589,12 +589,12 @@ initWithErrorName:(NSString *_Nonnull)name
             }
 
             NSMutableDictionary *threadDict = [NSMutableDictionary dictionary];
-            BSGDictSetSafeObject(threadDict, thread[@"index"], BSGKeyId);
-            BSGDictSetSafeObject(threadDict, threadStack, BSGKeyStacktrace);
-            BSGDictSetSafeObject(threadDict, DEFAULT_EXCEPTION_TYPE, BSGKeyType);
+            BSGDictSetSafeObject(threadDict, thread[@"index"], PNLiteKeyId);
+            BSGDictSetSafeObject(threadDict, threadStack, PNLiteKeyStacktrace);
+            BSGDictSetSafeObject(threadDict, DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
             // only if this is enabled in BSG_KSCrash.
-            if (thread[BSGKeyName]) {
-                BSGDictSetSafeObject(threadDict, thread[BSGKeyName], BSGKeyName);
+            if (thread[PNLiteKeyName]) {
+                BSGDictSetSafeObject(threadDict, thread[PNLiteKeyName], PNLiteKeyName);
             }
 
             BSGArrayAddSafeObject(bugsnagThreads, threadDict);
@@ -624,7 +624,7 @@ initWithErrorName:(NSString *_Nonnull)name
                 continue;
             }
             NSDictionary *data = notableAddresses[key];
-            if (![@"string" isEqualToString:data[BSGKeyType]]) {
+            if (![@"string" isEqualToString:data[PNLiteKeyType]]) {
                 continue;
             }
             NSString *contentValue = data[@"value"];

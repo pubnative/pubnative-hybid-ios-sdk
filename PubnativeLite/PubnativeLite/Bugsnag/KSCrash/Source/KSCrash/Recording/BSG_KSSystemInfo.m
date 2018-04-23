@@ -32,7 +32,7 @@
 #import "BSG_KSSafeCollections.h"
 #import "BSG_KSSysCtl.h"
 #import "BSG_KSSystemCapabilities.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "BSG_KSLogger.h"
 
 #import <CommonCrypto/CommonDigest.h>
@@ -138,7 +138,7 @@
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSDictionary *infoDict = [mainBundle infoDictionary];
     NSString *bundlePath = [mainBundle bundlePath];
-    NSString *executableName = infoDict[BSGKeyExecutableName];
+    NSString *executableName = infoDict[PNLiteKeyExecutableName];
     return [bundlePath stringByAppendingPathComponent:executableName];
 }
 
@@ -186,13 +186,13 @@
 #endif
     {
         data = [NSMutableData dataWithLength:6];
-        bsg_kssysctl_getMacAddress(BSGKeyDefaultMacName, [data mutableBytes]);
+        bsg_kssysctl_getMacAddress(PNLiteKeyDefaultMacName, [data mutableBytes]);
     }
 
     // Append some device-specific data.
-    [data appendData:(NSData * _Nonnull)[[self stringSysctl:BSGKeyHwMachine]
+    [data appendData:(NSData * _Nonnull)[[self stringSysctl:PNLiteKeyHwMachine]
                          dataUsingEncoding:NSUTF8StringEncoding]];
-    [data appendData:(NSData * _Nonnull)[[self stringSysctl:BSGKeyHwModel]
+    [data appendData:(NSData * _Nonnull)[[self stringSysctl:PNLiteKeyHwModel]
                          dataUsingEncoding:NSUTF8StringEncoding]];
     [data appendData:(NSData * _Nonnull)[[self currentCPUArch]
                          dataUsingEncoding:NSUTF8StringEncoding]];
@@ -251,8 +251,8 @@
 
 + (NSString *)currentCPUArch {
     NSString *result =
-        [self CPUArchForCPUType:bsg_kssysctl_int32ForName(BSGKeyHwCputype)
-                        subType:bsg_kssysctl_int32ForName(BSGKeyHwCpusubtype)];
+        [self CPUArchForCPUType:bsg_kssysctl_int32ForName(PNLiteKeyHwCputype)
+                        subType:bsg_kssysctl_int32ForName(PNLiteKeyHwCpusubtype)];
 
     return result ?: [NSString stringWithUTF8String:bsg_ksmachcurrentCPUArch()];
 }
@@ -388,7 +388,7 @@
 #endif
     if ([self isSimulatorBuild]) {
         NSString *model = [NSProcessInfo processInfo]
-                              .environment[BSGKeySimulatorModelId];
+                              .environment[PNLiteKeySimulatorModelId];
         [sysInfo bsg_ksc_safeSetObject:model forKey:@BSG_KSSystemField_Machine];
         [sysInfo bsg_ksc_safeSetObject:@"simulator"
                                 forKey:@BSG_KSSystemField_Model];
@@ -398,9 +398,9 @@
         [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:BSGKeyHwModel]
                                 forKey:@BSG_KSSystemField_Machine];
 #else
-        [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:BSGKeyHwMachine]
+        [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:PNLiteKeyHwMachine]
                                 forKey:@BSG_KSSystemField_Machine];
-        [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:BSGKeyHwModel]
+        [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:PNLiteKeyHwModel]
                                 forKey:@BSG_KSSystemField_Model];
 #endif
     }
@@ -416,7 +416,7 @@
                             forKey:@BSG_KSSystemField_AppStartTime];
     [sysInfo bsg_ksc_safeSetObject:[self executablePath]
                             forKey:@BSG_KSSystemField_ExecutablePath];
-    [sysInfo bsg_ksc_safeSetObject:infoDict[BSGKeyExecutableName]
+    [sysInfo bsg_ksc_safeSetObject:infoDict[PNLiteKeyExecutableName]
                             forKey:@BSG_KSSystemField_Executable];
     [sysInfo bsg_ksc_safeSetObject:infoDict[@"CFBundleIdentifier"]
                             forKey:@BSG_KSSystemField_BundleID];
@@ -431,9 +431,9 @@
                             forKey:@BSG_KSSystemField_AppUUID];
     [sysInfo bsg_ksc_safeSetObject:[self currentCPUArch]
                             forKey:@BSG_KSSystemField_CPUArch];
-    [sysInfo bsg_ksc_safeSetObject:[self int32Sysctl:@BSGKeyHwCputype]
+    [sysInfo bsg_ksc_safeSetObject:[self int32Sysctl:@PNLiteKeyHwCputype]
                             forKey:@BSG_KSSystemField_CPUType];
-    [sysInfo bsg_ksc_safeSetObject:[self int32Sysctl:@BSGKeyHwCpusubtype]
+    [sysInfo bsg_ksc_safeSetObject:[self int32Sysctl:@PNLiteKeyHwCpusubtype]
                             forKey:@BSG_KSSystemField_CPUSubType];
     [sysInfo bsg_ksc_safeSetObject:@(header->cputype)
                             forKey:@BSG_KSSystemField_BinaryCPUType];

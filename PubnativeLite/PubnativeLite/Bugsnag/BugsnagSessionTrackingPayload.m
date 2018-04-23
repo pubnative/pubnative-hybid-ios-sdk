@@ -10,7 +10,7 @@
 #import "PNLiteCollections.h"
 #import "PNLiteNotifier.h"
 #import "Bugsnag.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "BSG_KSSystemInfo.h"
 #import "PNLiteKSCrashSysInfoParser.h"
 
@@ -37,7 +37,7 @@
         [sessionData addObject:[session toJson]];
     }
     BSGDictInsertIfNotNil(dict, sessionData, @"sessions");
-    BSGDictSetSafeObject(dict, [Bugsnag notifier].details, BSGKeyNotifier);
+    BSGDictSetSafeObject(dict, [Bugsnag notifier].details, PNLiteKeyNotifier);
     
     NSDictionary *systemInfo = [BSG_KSSystemInfo systemInfo];
     BSGDictSetSafeObject(dict, BSGParseAppState(systemInfo), @"app");

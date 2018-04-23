@@ -307,7 +307,7 @@
 		5A8F10B22089E4D20098E337 /* PNLiteSink.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10272089E4D20098E337 /* PNLiteSink.m */; };
 		5A8F10B32089E4D20098E337 /* PNLiteCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10282089E4D20098E337 /* PNLiteCollections.h */; };
 		5A8F10B42089E4D20098E337 /* PNLiteNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10292089E4D20098E337 /* PNLiteNotifier.m */; };
-		5A8F10B52089E4D20098E337 /* BugsnagKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F102A2089E4D20098E337 /* BugsnagKeys.h */; };
+		5A8F10B52089E4D20098E337 /* PNLiteKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F102A2089E4D20098E337 /* PNLiteKeys.h */; };
 		5A8F10B62089E4D20098E337 /* BugsnagConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F102B2089E4D20098E337 /* BugsnagConfiguration.m */; };
 		5A8F10B72089E4D20098E337 /* Bugsnag.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F102C2089E4D20098E337 /* Bugsnag.m */; };
 		5A8F10B82089E4D20098E337 /* BugsnagSessionFileStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F102D2089E4D20098E337 /* BugsnagSessionFileStore.h */; };
@@ -1050,7 +1050,7 @@
 		5A8F10272089E4D20098E337 /* PNLiteSink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteSink.m; sourceTree = "<group>"; };
 		5A8F10282089E4D20098E337 /* PNLiteCollections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteCollections.h; sourceTree = "<group>"; };
 		5A8F10292089E4D20098E337 /* PNLiteNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteNotifier.m; sourceTree = "<group>"; };
-		5A8F102A2089E4D20098E337 /* BugsnagKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugsnagKeys.h; sourceTree = "<group>"; };
+		5A8F102A2089E4D20098E337 /* PNLiteKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteKeys.h; sourceTree = "<group>"; };
 		5A8F102B2089E4D20098E337 /* BugsnagConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugsnagConfiguration.m; sourceTree = "<group>"; };
 		5A8F102C2089E4D20098E337 /* Bugsnag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bugsnag.m; sourceTree = "<group>"; };
 		5A8F102D2089E4D20098E337 /* BugsnagSessionFileStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugsnagSessionFileStore.h; sourceTree = "<group>"; };
@@ -2206,7 +2206,7 @@
 				5A8F10A02089E4D20098E337 /* PNLiteCollections.m */,
 				5A8F109F2089E4D20098E337 /* PNLiteNotifier.h */,
 				5A8F10292089E4D20098E337 /* PNLiteNotifier.m */,
-				5A8F102A2089E4D20098E337 /* BugsnagKeys.h */,
+				5A8F102A2089E4D20098E337 /* PNLiteKeys.h */,
 				5A8F109E2089E4D20098E337 /* BugsnagConfiguration.h */,
 				5A8F102B2089E4D20098E337 /* BugsnagConfiguration.m */,
 				5A8F109D2089E4D20098E337 /* Bugsnag.h */,
@@ -2589,7 +2589,7 @@
 				5A8F10C12089E4D20098E337 /* BugsnagBreadcrumb.h in Headers */,
 				5A8F10D22089E4D20098E337 /* BSG_KSFileUtils.h in Headers */,
 				5A3657CD203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h in Headers */,
-				5A8F10B52089E4D20098E337 /* BugsnagKeys.h in Headers */,
+				5A8F10B52089E4D20098E337 /* PNLiteKeys.h in Headers */,
 				5A449B4F203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h in Headers */,
 				5A8F10B32089E4D20098E337 /* PNLiteCollections.h in Headers */,
 				5A8F11202089E4D20098E337 /* Bugsnag.h in Headers */,

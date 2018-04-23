@@ -27,7 +27,7 @@
 #import "BugsnagConfiguration.h"
 #import "Bugsnag.h"
 #import "PNLiteNotifier.h"
-#import "BugsnagKeys.h"
+#import "PNLiteKeys.h"
 #import "BSG_RFC3339DateTool.h"
 #import "PNLiteUser.h"
 #import "BugsnagSessionTracker.h"
@@ -58,7 +58,7 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
         _apiKey = @"";
         _sessionURL = [NSURL URLWithString:@"https://sessions.bugsnag.com"];
         _autoNotify = YES;
-        _notifyURL = [NSURL URLWithString:BSGDefaultNotifyUrl];
+        _notifyURL = [NSURL URLWithString:PNLiteDefaultNotifyUrl];
         _beforeNotifyHooks = [NSMutableArray new];
         _beforeSendBlocks = [NSMutableArray new];
         _notifyReleaseStages = nil;
@@ -70,7 +70,7 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
                                              defaultSessionConfiguration]];
         }
 #if DEBUG
-        _releaseStage = BSGKeyDevelopment;
+        _releaseStage = PNLiteKeyDevelopment;
 #else
         _releaseStage = BSGKeyProduction;
 #endif
@@ -89,13 +89,13 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
     
     self.currentUser = [[PNLiteUser alloc] initWithUserId:userId name:userName emailAddress:userEmail];
 
-    [self.metaData addAttribute:BSGKeyId withValue:userId toTabWithName:BSGKeyUser];
-    [self.metaData addAttribute:BSGKeyName
+    [self.metaData addAttribute:PNLiteKeyId withValue:userId toTabWithName:PNLiteKeyUser];
+    [self.metaData addAttribute:PNLiteKeyName
                       withValue:userName
-                  toTabWithName:BSGKeyUser];
-    [self.metaData addAttribute:BSGKeyEmail
+                  toTabWithName:PNLiteKeyUser];
+    [self.metaData addAttribute:PNLiteKeyEmail
                       withValue:userEmail
-                  toTabWithName:BSGKeyUser];
+                  toTabWithName:PNLiteKeyUser];
 }
 
 - (void)addBeforeSendBlock:(BugsnagBeforeSendBlock)block {
@@ -121,9 +121,9 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
 - (void)setReleaseStage:(NSString *)newReleaseStage {
     @synchronized (self) {
         _releaseStage = newReleaseStage;
-        [self.config addAttribute:BSGKeyReleaseStage
+        [self.config addAttribute:PNLiteKeyReleaseStage
                         withValue:newReleaseStage
-                    toTabWithName:BSGKeyConfig];
+                    toTabWithName:PNLiteKeyConfig];
     }
 }
 
@@ -140,9 +140,9 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
     @synchronized (self) {
         NSArray *notifyReleaseStagesCopy = [newNotifyReleaseStages copy];
         _notifyReleaseStages = notifyReleaseStagesCopy;
-        [self.config addAttribute:BSGKeyNotifyReleaseStages
+        [self.config addAttribute:PNLiteKeyNotifyReleaseStages
                         withValue:notifyReleaseStagesCopy
-                    toTabWithName:BSGKeyConfig];
+                    toTabWithName:PNLiteKeyConfig];
     }
 }
 
@@ -176,9 +176,9 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
 - (void)setContext:(NSString *)newContext {
     @synchronized (self) {
         _context = newContext;
-        [self.config addAttribute:BSGKeyContext
+        [self.config addAttribute:PNLiteKeyContext
                         withValue:newContext
-                    toTabWithName:BSGKeyConfig];
+                    toTabWithName:PNLiteKeyConfig];
     }
 }
 
@@ -193,9 +193,9 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
 - (void)setAppVersion:(NSString *)newVersion {
     @synchronized (self) {
         _appVersion = newVersion;
-        [self.config addAttribute:BSGKeyAppVersion
+        [self.config addAttribute:PNLiteKeyAppVersion
                         withValue:newVersion
-                    toTabWithName:BSGKeyConfig];
+                    toTabWithName:PNLiteKeyConfig];
     }
 }
 
