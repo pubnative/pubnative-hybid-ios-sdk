@@ -26,7 +26,7 @@
 #import "PNLiteKeys.h"
 #import "BSG_RFC3339DateTool.h"
 #import "PNLiteUser.h"
-#import "BugsnagSessionTracker.h"
+#import "PNLiteSessionTracker.h"
 
 static NSString *const kPNLiteHeaderApiPayloadVersion = @"Bugsnag-Payload-Version";
 static NSString *const kPNLiteHeaderApiKey = @"Bugsnag-Api-Key";
@@ -37,7 +37,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
 @end
 
 @interface PNLiteNotifier ()
-@property BugsnagSessionTracker *sessionTracker;
+@property PNLiteSessionTracker *sessionTracker;
 @end
 
 @interface PNLiteConfiguration ()
@@ -206,7 +206,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
         _shouldAutoCaptureSessions = shouldAutoCaptureSessions;
         
         if (shouldAutoCaptureSessions) { // track any existing sessions
-            BugsnagSessionTracker *sessionTracker = [Bugsnag notifier].sessionTracker;
+            PNLiteSessionTracker *sessionTracker = [Bugsnag notifier].sessionTracker;
             [sessionTracker onAutoCaptureEnabled];
         }
     }

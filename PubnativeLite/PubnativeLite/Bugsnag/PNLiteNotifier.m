@@ -27,7 +27,7 @@
 #import "BugsnagHandledState.h"
 #import "BugsnagLogger.h"
 #import "PNLiteKeys.h"
-#import "BugsnagSessionTracker.h"
+#import "PNLiteSessionTracker.h"
 #import "PNLiteSessionTrackingApiClient.h"
 #import "BSG_RFC3339DateTool.h"
 
@@ -162,7 +162,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 @property(nonatomic) PNLiteCrashSentry *crashSentry;
 @property(nonatomic) PNLiteErrorReportApiClient *errorReportApiClient;
 @property(nonatomic) PNLiteSessionTrackingApiClient *sessionTrackingApiClient;
-@property(nonatomic) BugsnagSessionTracker *sessionTracker;
+@property(nonatomic) PNLiteSessionTracker *sessionTracker;
 @property(nonatomic) NSTimer *sessionTimer;
 @end
 
@@ -190,7 +190,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         self.sessionTrackingApiClient = [[PNLiteSessionTrackingApiClient alloc] initWithConfig:configuration
                                                                                       queueName:@"Session API queue"];
 
-        self.sessionTracker = [[BugsnagSessionTracker alloc] initWithConfig:initConfiguration
+        self.sessionTracker = [[PNLiteSessionTracker alloc] initWithConfig:initConfiguration
                                                                   apiClient:self.sessionTrackingApiClient
                                                                    callback:^(PNLiteSession *session) {
 
