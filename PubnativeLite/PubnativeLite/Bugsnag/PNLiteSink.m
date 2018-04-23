@@ -55,7 +55,7 @@
 - (void)filterReports:(NSArray *)reports
          onCompletion:(BSG_KSCrashReportFilterCompletion)onCompletion {
     NSMutableArray *bugsnagReports = [NSMutableArray new];
-    BugsnagConfiguration *configuration = [Bugsnag configuration];
+    PNLiteConfiguration *configuration = [Bugsnag configuration];
     
     for (NSDictionary *report in reports) {
         BugsnagCrashReport *bugsnagReport = [[BugsnagCrashReport alloc] initWithKSReport:report];

@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "BugsnagMetaData.h"
 
 @class BSGConnectivity;
@@ -30,7 +30,7 @@
 @interface PNLiteNotifier : NSObject <BugsnagMetaDataDelegate>
 
 @property(nonatomic, readwrite, retain)
-    BugsnagConfiguration *_Nullable configuration;
+    PNLiteConfiguration *_Nullable configuration;
 @property(nonatomic, readwrite, retain) BugsnagMetaData *_Nonnull state;
 @property(nonatomic, readwrite, retain) NSDictionary *_Nonnull details;
 @property(nonatomic, readwrite, retain) NSLock *_Nonnull metaDataLock;
@@ -38,7 +38,7 @@
 @property(nonatomic) BSGConnectivity *_Nonnull networkReachable;
 
 - (instancetype _Nonnull)initWithConfiguration:
-    (BugsnagConfiguration *_Nonnull)configuration;
+    (PNLiteConfiguration *_Nonnull)configuration;
 - (void)start;
 
 - (void)startSession;

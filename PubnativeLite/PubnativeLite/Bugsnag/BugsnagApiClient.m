@@ -4,7 +4,7 @@
 //
 
 #import "BugsnagApiClient.h"
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "Bugsnag.h"
 #import "PNLiteKeys.h"
 #import "BugsnagLogger.h"
@@ -18,7 +18,7 @@
 
 @implementation BugsnagApiClient
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)configuration
+- (instancetype)initWithConfig:(PNLiteConfiguration *)configuration
                      queueName:(NSString *)queueName {
     if (self = [super init]) {
         _sendQueue = [NSOperationQueue new];

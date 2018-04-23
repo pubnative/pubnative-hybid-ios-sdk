@@ -280,7 +280,7 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
 - (instancetype _Nonnull)
 initWithErrorName:(NSString *_Nonnull)name
      errorMessage:(NSString *_Nonnull)message
-    configuration:(BugsnagConfiguration *_Nonnull)config
+    configuration:(PNLiteConfiguration *_Nonnull)config
          metaData:(NSDictionary *_Nonnull)metaData
      handledState:(BugsnagHandledState *_Nonnull)handledState
           session:(PNLiteSession *_Nullable)session {

@@ -13,7 +13,7 @@
 #import "PNLiteSessionTrackingApiClient.h"
 
 @interface BugsnagSessionTracker ()
-@property BugsnagConfiguration *config;
+@property PNLiteConfiguration *config;
 @property BugsnagSessionFileStore *sessionStore;
 @property PNLiteSessionTrackingApiClient *apiClient;
 @property BOOL trackedFirstSession;
@@ -21,7 +21,7 @@
 
 @implementation BugsnagSessionTracker
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)config
+- (instancetype)initWithConfig:(PNLiteConfiguration *)config
                      apiClient:(PNLiteSessionTrackingApiClient *)apiClient
                       callback:(void(^)(PNLiteSession *))callback {
     if (self = [super init]) {

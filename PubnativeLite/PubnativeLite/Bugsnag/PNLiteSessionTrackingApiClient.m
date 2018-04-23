@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteSessionTrackingApiClient.h"
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "BugsnagSessionTrackingPayload.h"
 #import "BugsnagLogger.h"
 #import "Bugsnag.h"

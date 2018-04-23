@@ -31,7 +31,7 @@ NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
 
 @implementation PNLiteCrashSentry
 
-- (void)install:(BugsnagConfiguration *)config
+- (void)install:(PNLiteConfiguration *)config
       apiClient:(PNLiteErrorReportApiClient *)apiClient
         onCrash:(BSG_KSReportWriteCallback)onCrash {
 

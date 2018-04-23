@@ -5,13 +5,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class BugsnagConfiguration;
+@class PNLiteConfiguration;
 
 typedef void (^RequestCompletion)(id data, BOOL success, NSError *error);
 
 @interface BugsnagApiClient : NSObject
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)configuration
+- (instancetype)initWithConfig:(PNLiteConfiguration *)configuration
                      queueName:(NSString *)queueName;
 
 /**
@@ -28,7 +28,7 @@ typedef void (^RequestCompletion)(id data, BOOL success, NSError *error);
     onCompletion:(RequestCompletion)onCompletion;
 
 @property(readonly) NSOperationQueue *sendQueue;
-@property(readonly) BugsnagConfiguration *config;
+@property(readonly) PNLiteConfiguration *config;
 
 
 @end

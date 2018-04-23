@@ -23,12 +23,12 @@
 #import <Foundation/Foundation.h>
 
 #import "BSG_KSCrashReportWriter.h"
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "PNLiteErrorReportApiClient.h"
 
 @interface PNLiteCrashSentry : NSObject
 
-- (void)install:(BugsnagConfiguration *)config
+- (void)install:(PNLiteConfiguration *)config
       apiClient:(PNLiteErrorReportApiClient *)apiClient
         onCrash:(BSG_KSReportWriteCallback)onCrash;
 

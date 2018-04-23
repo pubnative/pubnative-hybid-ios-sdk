@@ -24,7 +24,7 @@
 #import "Bugsnag.h"
 #import "PNLiteCollections.h"
 #import "PNLiteKeys.h"
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "BugsnagLogger.h"
 
 #define PLATFORM_WORD_SIZE sizeof(void*)*8

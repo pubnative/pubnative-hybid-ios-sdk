@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "BugsnagApiClient.h"
 
-@class BugsnagConfiguration;
+@class PNLiteConfiguration;
 @class BugsnagSessionTrackingPayload;
 @class PNLiteSession;
 @class PNLiteSession;

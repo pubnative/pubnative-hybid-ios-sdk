@@ -44,12 +44,12 @@ static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
 @implementation Bugsnag
 
 + (void)startBugsnagWithApiKey:(NSString *)apiKey {
-    BugsnagConfiguration *configuration = [BugsnagConfiguration new];
+    PNLiteConfiguration *configuration = [PNLiteConfiguration new];
     configuration.apiKey = apiKey;
     [self startBugsnagWithConfiguration:configuration];
 }
 
-+ (void)startBugsnagWithConfiguration:(BugsnagConfiguration *)configuration {
++ (void)startBugsnagWithConfiguration:(PNLiteConfiguration *)configuration {
     @synchronized(self) {
         bsg_g_bugsnag_notifier =
         [[PNLiteNotifier alloc] initWithConfiguration:configuration];
@@ -57,14 +57,14 @@ static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
     }
 }
 
-+ (BugsnagConfiguration *)configuration {
++ (PNLiteConfiguration *)configuration {
     if ([self bugsnagStarted]) {
         return self.notifier.configuration;
     }
     return nil;
 }
 
-+ (BugsnagConfiguration *)instance {
++ (PNLiteConfiguration *)instance {
     return [self configuration];
 }
 

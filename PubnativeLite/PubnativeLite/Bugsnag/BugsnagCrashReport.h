@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class BugsnagConfiguration;
+@class PNLiteConfiguration;
 @class BugsnagHandledState;
 @class PNLiteSession;
 
@@ -65,7 +65,7 @@ NSString *_Nonnull BSGFormatSeverity(BSGSeverity severity);
 - (instancetype _Nonnull)
 initWithErrorName:(NSString *_Nonnull)name
      errorMessage:(NSString *_Nonnull)message
-    configuration:(BugsnagConfiguration *_Nonnull)config
+    configuration:(PNLiteConfiguration *_Nonnull)config
          metaData:(NSDictionary *_Nonnull)metaData
      handledState:(BugsnagHandledState *_Nonnull)handledState
           session:(PNLiteSession *_Nullable)session;

@@ -170,7 +170,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 
 @synthesize configuration;
 
-- (id)initWithConfiguration:(BugsnagConfiguration *)initConfiguration {
+- (id)initWithConfiguration:(PNLiteConfiguration *)initConfiguration {
     if ((self = [super init])) {
         self.configuration = initConfiguration;
         self.state = [[BugsnagMetaData alloc] init];

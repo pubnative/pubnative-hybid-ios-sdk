@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "PNLiteSession.h"
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 
 @class PNLiteSessionTrackingApiClient;
 
@@ -17,7 +17,7 @@ typedef void (^SessionTrackerCallback)(PNLiteSession *newSession);
 
 @interface BugsnagSessionTracker : NSObject
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)config
+- (instancetype)initWithConfig:(PNLiteConfiguration *)config
                      apiClient:(PNLiteSessionTrackingApiClient *)apiClient
                       callback:(void(^)(PNLiteSession *))callback;
 

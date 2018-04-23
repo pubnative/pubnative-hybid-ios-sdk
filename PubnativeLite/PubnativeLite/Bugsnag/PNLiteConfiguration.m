@@ -1,30 +1,26 @@
 //
-//  BugsnagConfiguration.m
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Conrad Irwin on 2014-10-01.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "Bugsnag.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
@@ -32,9 +28,9 @@
 #import "PNLiteUser.h"
 #import "BugsnagSessionTracker.h"
 
-static NSString *const kHeaderApiPayloadVersion = @"Bugsnag-Payload-Version";
-static NSString *const kHeaderApiKey = @"Bugsnag-Api-Key";
-static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
+static NSString *const kPNLiteHeaderApiPayloadVersion = @"Bugsnag-Payload-Version";
+static NSString *const kPNLiteHeaderApiKey = @"Bugsnag-Api-Key";
+static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
 
 @interface Bugsnag ()
 + (PNLiteNotifier *)notifier;
@@ -44,12 +40,12 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
 @property BugsnagSessionTracker *sessionTracker;
 @end
 
-@interface BugsnagConfiguration ()
+@interface PNLiteConfiguration ()
 @property(nonatomic, readwrite, strong) NSMutableArray *beforeNotifyHooks;
 @property(nonatomic, readwrite, strong) NSMutableArray *beforeSendBlocks;
 @end
 
-@implementation BugsnagConfiguration
+@implementation PNLiteConfiguration
 
 - (id)init {
     if (self = [super init]) {
@@ -218,17 +214,17 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
 
 - (NSDictionary *)errorApiHeaders {
     return @{
-             kHeaderApiPayloadVersion: @"4.0",
-             kHeaderApiKey: self.apiKey,
-             kHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
+             kPNLiteHeaderApiPayloadVersion: @"4.0",
+             kPNLiteHeaderApiKey: self.apiKey,
+             kPNLiteHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
     };
 }
 
 - (NSDictionary *)sessionApiHeaders {
     return @{
-             kHeaderApiPayloadVersion: @"1.0",
-             kHeaderApiKey: self.apiKey,
-             kHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
+             kPNLiteHeaderApiPayloadVersion: @"1.0",
+             kPNLiteHeaderApiKey: self.apiKey,
+             kPNLiteHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
              };
 }
 @end

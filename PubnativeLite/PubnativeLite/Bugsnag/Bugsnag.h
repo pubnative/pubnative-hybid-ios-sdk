@@ -25,7 +25,7 @@
 //
 #import <Foundation/Foundation.h>
 
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "BugsnagMetaData.h"
 
 static NSString *_Nonnull const BugsnagSeverityError = @"error";
@@ -42,7 +42,7 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
  *
  * @return The configuration, or nil.
  */
-+ (BugsnagConfiguration *_Nullable)configuration;
++ (PNLiteConfiguration *_Nullable)configuration;
 
 /** Start listening for crashes.
  *
@@ -65,7 +65,7 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
  * @param configuration  The configuration to use.
  */
 + (void)startBugsnagWithConfiguration:
-    (BugsnagConfiguration *_Nonnull)configuration;
+    (PNLiteConfiguration *_Nonnull)configuration;
 
 /** Send a custom or caught exception to Bugsnag.
  *

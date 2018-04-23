@@ -24,7 +24,7 @@
 
 #import "BSG_KSCrashReportFilterCompletion.h"
 #import "BugsnagCrashReport.h"
-#import "BugsnagConfiguration.h"
+#import "PNLiteConfiguration.h"
 #import "BugsnagApiClient.h"
 
 @interface PNLiteErrorReportApiClient : BugsnagApiClient
