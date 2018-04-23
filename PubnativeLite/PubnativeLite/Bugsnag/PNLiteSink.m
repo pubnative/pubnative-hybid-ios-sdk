@@ -93,7 +93,7 @@
         if (![bugsnagReport shouldBeSent])
             continue;
         BOOL shouldSend = YES;
-        for (BugsnagBeforeSendBlock block in configuration.beforeSendBlocks) {
+        for (PNLiteBeforeSendBlock block in configuration.beforeSendBlocks) {
             shouldSend = block(report, bugsnagReport);
             if (!shouldSend)
                 break;
@@ -114,7 +114,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    for (BugsnagBeforeNotifyHook hook in configuration.beforeNotifyHooks) {
+    for (PNLiteBeforeNotifyHook hook in configuration.beforeNotifyHooks) {
         if (reportData) {
             reportData = hook(reports, reportData);
         } else {

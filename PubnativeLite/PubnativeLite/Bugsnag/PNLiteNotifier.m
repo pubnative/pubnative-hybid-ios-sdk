@@ -483,7 +483,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
 - (void)internalClientNotify:(NSException *_Nonnull)exception
                     withData:(NSDictionary *_Nullable)metaData
-                       block:(BugsnagNotifyBlock _Nullable)block {
+                       block:(PNLiteNotifyBlock _Nullable)block {
 
     NSString *severity = metaData[PNLiteKeySeverity];
     NSString *severityReason = metaData[PNLiteKeySeverityReason];

@@ -94,7 +94,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
                   toTabWithName:PNLiteKeyUser];
 }
 
-- (void)addBeforeSendBlock:(BugsnagBeforeSendBlock)block {
+- (void)addBeforeSendBlock:(PNLiteBeforeSendBlock)block {
     [(NSMutableArray *)self.beforeSendBlocks addObject:[block copy]];
 }
 
@@ -102,7 +102,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
     [(NSMutableArray *)self.beforeSendBlocks removeAllObjects];
 }
 
-- (void)addBeforeNotifyHook:(BugsnagBeforeNotifyHook)hook {
+- (void)addBeforeNotifyHook:(PNLiteBeforeNotifyHook)hook {
     [(NSMutableArray *)self.beforeNotifyHooks addObject:[hook copy]];
 }
 

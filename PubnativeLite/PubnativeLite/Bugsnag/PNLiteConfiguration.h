@@ -35,7 +35,7 @@
  *
  *  @param report The default report
  */
-typedef void (^BugsnagNotifyBlock)(BugsnagCrashReport *_Nonnull report);
+typedef void (^PNLiteNotifyBlock)(BugsnagCrashReport *_Nonnull report);
 
 /**
  *  A handler for modifying data before sending it to Bugsnag
@@ -46,7 +46,7 @@ typedef void (^BugsnagNotifyBlock)(BugsnagCrashReport *_Nonnull report);
  *
  *  @return YES if the report should be sent
  */
-typedef bool (^BugsnagBeforeSendBlock)(NSDictionary *_Nonnull rawEventData,
+typedef bool (^PNLiteBeforeSendBlock)(NSDictionary *_Nonnull rawEventData,
                                        BugsnagCrashReport *_Nonnull reports);
 
 /**
@@ -58,7 +58,7 @@ typedef bool (^BugsnagBeforeSendBlock)(NSDictionary *_Nonnull rawEventData,
  *
  *  @return the report payload intended to be sent or nil to cancel sending
  */
-typedef NSDictionary *_Nullable (^BugsnagBeforeNotifyHook)(
+typedef NSDictionary *_Nullable (^PNLiteBeforeNotifyHook)(
     NSArray *_Nonnull rawEventReports, NSDictionary *_Nonnull report);
 
 @interface PNLiteConfiguration : NSObject
@@ -122,7 +122,7 @@ BugsnagBreadcrumbs *breadcrumbs;
  *  Hooks for modifying crash reports before it is sent to Bugsnag
  */
 @property(readonly, strong, nullable)
-    NSArray<BugsnagBeforeSendBlock> *beforeSendBlocks;
+    NSArray<PNLiteBeforeSendBlock> *beforeSendBlocks;
 /**
  *  Optional handler invoked when a crash or fatal signal occurs
  */
@@ -161,7 +161,7 @@ BugsnagBreadcrumbs *breadcrumbs;
  *
  *  @param block A block which returns YES if the report should be sent
  */
-- (void)addBeforeSendBlock:(BugsnagBeforeSendBlock _Nonnull)block;
+- (void)addBeforeSendBlock:(PNLiteBeforeSendBlock _Nonnull)block;
 
 /**
  * Clear all callbacks
@@ -175,7 +175,7 @@ BugsnagBreadcrumbs *breadcrumbs;
  */
 - (BOOL)shouldSendReports;
 
-- (void)addBeforeNotifyHook:(BugsnagBeforeNotifyHook _Nonnull)hook
+- (void)addBeforeNotifyHook:(PNLiteBeforeNotifyHook _Nonnull)hook
     __deprecated_msg("Use addBeforeSendBlock: instead.");
 /**
  *  Hooks for processing raw report data before it is sent to Bugsnag

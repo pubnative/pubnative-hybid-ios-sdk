@@ -79,7 +79,7 @@ static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
                              }];
 }
 
-+ (void)notify:(NSException *)exception block:(BugsnagNotifyBlock)block {
++ (void)notify:(NSException *)exception block:(PNLiteNotifyBlock)block {
     [[self notifier] notifyException:exception
                                block:^(BugsnagCrashReport *_Nonnull report) {
                                  report.depth += 2;
@@ -97,7 +97,7 @@ static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
                          }];
 }
 
-+ (void)notifyError:(NSError *)error block:(BugsnagNotifyBlock)block {
++ (void)notifyError:(NSError *)error block:(PNLiteNotifyBlock)block {
     [[self notifier] notifyError:error
                            block:^(BugsnagCrashReport *_Nonnull report) {
                              report.depth += 2;
@@ -138,7 +138,7 @@ static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
 
 + (void)internalClientNotify:(NSException *_Nonnull)exception
                     withData:(NSDictionary *_Nullable)metaData
-                       block:(BugsnagNotifyBlock _Nullable)block {
+                       block:(PNLiteNotifyBlock _Nullable)block {
     [self.notifier internalClientNotify:exception
                                withData:metaData
                                   block:block];
