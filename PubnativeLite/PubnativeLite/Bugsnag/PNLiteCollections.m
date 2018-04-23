@@ -20,40 +20,26 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteUser.h"
 #import "PNLiteCollections.h"
 
-@implementation PNLiteUser
+void BSGDictSetSafeObject(NSMutableDictionary *dict, id object,
+                          id<NSCopying> key) {
+    dict[key] = object ?: [NSNull null];
+}
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict {
-    if (self = [super init]) {
-        _userId = dict[@"id"];
-        _emailAddress = dict[@"emailAddress"];
-        _name = dict[@"name"];
+void BSGArrayAddSafeObject(NSMutableArray *array, id object) {
+    [array addObject:object ?: [NSNull null]];
+}
+
+void BSGDictInsertIfNotNil(NSMutableDictionary *dict, id object,
+                           id<NSCopying> key) {
+    if (object && key) {
+        dict[key] = object;
     }
-    return self;
 }
 
-- (instancetype)initWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
-    self = [super init];
-    if (self) {
-        self.userId = userId;
-        self.name = name;
-        self.emailAddress = emailAddress;
+void BSGArrayInsertIfNotNil(NSMutableArray *array, id object) {
+    if (object) {
+        [array addObject:object];
     }
-    return self;
 }
-
-+ (instancetype)userWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
-    return [[self alloc] initWithUserId:userId name:name emailAddress:emailAddress];
-}
-
-
-- (NSDictionary *)toJson {
-    NSMutableDictionary *dict = [NSMutableDictionary new];
-    BSGDictInsertIfNotNil(dict, self.userId, @"id");
-    BSGDictInsertIfNotNil(dict, self.emailAddress, @"emailAddress");
-    BSGDictInsertIfNotNil(dict, self.name, @"name");
-    return [NSDictionary dictionaryWithDictionary:dict];
-}
-@end

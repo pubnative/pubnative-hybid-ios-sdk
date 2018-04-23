@@ -22,7 +22,7 @@
 
 #import "PNLiteKSCrashSysInfoParser.h"
 #import "Bugsnag.h"
-#import "BugsnagCollections.h"
+#import "PNLiteCollections.h"
 #import "BugsnagKeys.h"
 #import "BugsnagConfiguration.h"
 #import "BugsnagLogger.h"

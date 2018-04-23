@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteSession.h"
-#import "BugsnagCollections.h"
+#import "PNLiteCollections.h"
 #import "BSG_RFC3339DateTool.h"
 
 static NSString *const kPNLiteSessionId = @"id";

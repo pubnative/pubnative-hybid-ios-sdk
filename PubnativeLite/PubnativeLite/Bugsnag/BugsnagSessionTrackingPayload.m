@@ -7,7 +7,7 @@
 //
 
 #import "BugsnagSessionTrackingPayload.h"
-#import "BugsnagCollections.h"
+#import "PNLiteCollections.h"
 #import "BugsnagNotifier.h"
 #import "Bugsnag.h"
 #import "BugsnagKeys.h"

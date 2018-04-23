@@ -20,40 +20,39 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteUser.h"
-#import "PNLiteCollections.h"
+#import <Foundation/Foundation.h>
 
-@implementation PNLiteUser
+/**
+ *  Insert an object or NSNull into a collection
+ *
+ *  @param dict   a mutable dictionary
+ *  @param object an object or nil
+ */
+void BSGDictSetSafeObject(NSMutableDictionary *dict, id object,
+                          id<NSCopying> key);
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict {
-    if (self = [super init]) {
-        _userId = dict[@"id"];
-        _emailAddress = dict[@"emailAddress"];
-        _name = dict[@"name"];
-    }
-    return self;
-}
+/**
+ *  Insert an object or NSNull into a collection
+ *
+ *  @param array  a mutable array
+ *  @param object an object or nil
+ */
+void BSGArrayAddSafeObject(NSMutableArray *array, id object);
 
-- (instancetype)initWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
-    self = [super init];
-    if (self) {
-        self.userId = userId;
-        self.name = name;
-        self.emailAddress = emailAddress;
-    }
-    return self;
-}
+/**
+ *  Insert an object into a collection only if not nil
+ *
+ *  @param dict   a mutable dictionary
+ *  @param object an object or nil
+ *  @param key    the key of the object
+ */
+void BSGDictInsertIfNotNil(NSMutableDictionary *dict, id object,
+                           id<NSCopying> key);
 
-+ (instancetype)userWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
-    return [[self alloc] initWithUserId:userId name:name emailAddress:emailAddress];
-}
-
-
-- (NSDictionary *)toJson {
-    NSMutableDictionary *dict = [NSMutableDictionary new];
-    BSGDictInsertIfNotNil(dict, self.userId, @"id");
-    BSGDictInsertIfNotNil(dict, self.emailAddress, @"emailAddress");
-    BSGDictInsertIfNotNil(dict, self.name, @"name");
-    return [NSDictionary dictionaryWithDictionary:dict];
-}
-@end
+/**
+ *  Insert an object into a collection only if not nil
+ *
+ *  @param array  a mutable array
+ *  @param object an object or nil
+ */
+void BSGArrayInsertIfNotNil(NSMutableArray *array, id object);

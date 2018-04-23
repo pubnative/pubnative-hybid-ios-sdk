@@ -14,7 +14,7 @@
 
 #import "BSGSerialization.h"
 #import "Bugsnag.h"
-#import "BugsnagCollections.h"
+#import "PNLiteCollections.h"
 #import "BugsnagHandledState.h"
 #import "BugsnagLogger.h"
 #import "BugsnagKeys.h"

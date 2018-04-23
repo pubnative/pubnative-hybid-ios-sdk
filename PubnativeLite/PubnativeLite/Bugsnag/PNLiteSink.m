@@ -22,7 +22,7 @@
 
 #import "PNLiteSink.h"
 #import "Bugsnag.h"
-#import "BugsnagCollections.h"
+#import "PNLiteCollections.h"
 #import "BugsnagNotifier.h"
 #import "BugsnagKeys.h"
 #import "BSG_KSSystemInfo.h"
