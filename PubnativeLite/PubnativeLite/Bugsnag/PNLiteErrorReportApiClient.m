@@ -22,7 +22,7 @@
 
 #import "PNLiteErrorReportApiClient.h"
 #import "PNLiteCrashTracker.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteSink.h"
 #import "PNLiteKeys.h"
@@ -47,13 +47,13 @@
                     sendAllReportsWithCompletion:^(NSArray *filteredReports,
                             BOOL completed, NSError *error) {
                         if (error) {
-                            bsg_log_warn(@"Failed to send reports: %@", error);
+                            pnlite_log_warn(@"Failed to send reports: %@", error);
                         } else if (filteredReports.count > 0) {
-                            bsg_log_info(@"Reports sent.");
+                            pnlite_log_info(@"Reports sent.");
                         }
                     }];
         } @catch (NSException *e) {
-            bsg_log_err(@"Could not send report: %@", e);
+            pnlite_log_err(@"Could not send report: %@", e);
         }
     }
 }

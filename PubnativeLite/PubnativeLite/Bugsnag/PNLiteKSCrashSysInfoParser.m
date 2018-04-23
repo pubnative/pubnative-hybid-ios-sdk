@@ -25,7 +25,7 @@
 #import "PNLiteCollections.h"
 #import "PNLiteKeys.h"
 #import "PNLiteConfiguration.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 
 #define PLATFORM_WORD_SIZE sizeof(void*)*8
 
@@ -57,7 +57,7 @@ NSDictionary *BSGParseDevice(NSDictionary *report) {
     [fileManager attributesOfFileSystemForPath:path error:&error];
     
     if (error) {
-        bsg_log_warn(@"Failed to read free disk space: %@", error);
+        pnlite_log_warn(@"Failed to read free disk space: %@", error);
     }
     
     NSNumber *freeBytes = [fileSystemAttrs objectForKey:NSFileSystemFreeSize];

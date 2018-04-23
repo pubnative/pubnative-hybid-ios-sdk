@@ -25,7 +25,7 @@
 #import "PNLiteCrashTracker.h"
 #import "PNLiteCrashSentry.h"
 #import "PNLiteHandledState.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 #import "PNLiteKeys.h"
 #import "PNLiteSessionTracker.h"
 #import "PNLiteSessionTrackingApiClient.h"
@@ -135,7 +135,7 @@ NSString *BSGBreadcrumbNameForNotificationName(NSString *name) {
  */
 void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
     if (![NSJSONSerialization isValidJSONObject:dictionary]) {
-        bsg_log_err(@"could not serialize metadata: is not valid JSON object");
+        pnlite_log_err(@"could not serialize metadata: is not valid JSON object");
         return;
     }
     @try {
@@ -145,7 +145,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
                                                          error:&error];
 
         if (!json) {
-            bsg_log_err(@"could not serialize metaData: %@", error);
+            pnlite_log_err(@"could not serialize metaData: %@", error);
             return;
         }
         *destination = reallocf(*destination, [json length] + 1);
@@ -154,7 +154,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
             (*destination)[[json length]] = '\0';
         }
     } @catch (NSException *exception) {
-        bsg_log_err(@"could not serialize metaData: %@", exception);
+        pnlite_log_err(@"could not serialize metaData: %@", exception);
     }
 }
 
@@ -611,7 +611,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
             BSSerializeJSONDictionary([metaData toDictionary],
                                       &bsg_g_pnlite_data.stateJSON);
         } else {
-            bsg_log_debug(@"Unknown metadata dictionary changed");
+            pnlite_log_debug(@"Unknown metadata dictionary changed");
         }
     }
 }

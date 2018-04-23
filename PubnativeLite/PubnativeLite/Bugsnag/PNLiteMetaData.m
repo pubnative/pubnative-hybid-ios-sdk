@@ -22,7 +22,7 @@
 
 #import "PNLiteMetaData.h"
 #import "BSGSerialization.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 
 @interface PNLiteMetaData ()
 @property(atomic, strong) NSMutableDictionary *dictionary;
@@ -85,7 +85,7 @@
                 [self getTab:tabName][attributeName] = cleanedValue;
             } else {
                 Class klass = [value class];
-                bsg_log_err(@"Failed to add metadata: Value of class %@ is not "
+                pnlite_log_err(@"Failed to add metadata: Value of class %@ is not "
                             @"JSON serializable",
                             klass);
             }

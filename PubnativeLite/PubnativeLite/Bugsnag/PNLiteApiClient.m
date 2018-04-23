@@ -24,7 +24,7 @@
 #import "PNLiteConfiguration.h"
 #import "PNLiteCrashTracker.h"
 #import "PNLiteKeys.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 
 @interface PNLiteDelayOperation : NSOperation
 @end
@@ -59,7 +59,7 @@
 }
 
 - (NSOperation *)deliveryOperation {
-    bsg_log_err(@"Should override deliveryOperation in super class");
+    pnlite_log_err(@"Should override deliveryOperation in super class");
     return [NSOperation new];
 }
 

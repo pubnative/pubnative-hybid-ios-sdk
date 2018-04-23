@@ -22,7 +22,7 @@
 
 #import "PNLiteBreadcrumb.h"
 #import "PNLiteCrashTracker.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 #import "PNLiteKeys.h"
 
 static NSString *const PNLiteBreadcrumbDefaultName = @"manual";
@@ -259,7 +259,7 @@ NSUInteger PNLiteBreadcrumbsDefaultCapacity = 20;
           NSError *error = nil;
           @try {
               if (![NSJSONSerialization isValidJSONObject:objectValue]) {
-                  bsg_log_err(@"Unable to serialize breadcrumb: Not a valid "
+                  pnlite_log_err(@"Unable to serialize breadcrumb: Not a valid "
                               @"JSON object");
                   continue;
               }
@@ -269,11 +269,11 @@ NSUInteger PNLiteBreadcrumbsDefaultCapacity = 20;
               if (data.length <= PNLiteBreadcrumbMaxByteSize)
                   [contents addObject:objectValue];
               else
-                  bsg_log_warn(
+                  pnlite_log_warn(
                       @"Dropping breadcrumb (%@) exceeding %lu byte size limit",
                       crumb.name, (unsigned long)PNLiteBreadcrumbMaxByteSize);
           } @catch (NSException *exception) {
-              bsg_log_err(@"Unable to serialize breadcrumb: %@", error);
+              pnlite_log_err(@"Unable to serialize breadcrumb: %@", error);
           }
       }
     });

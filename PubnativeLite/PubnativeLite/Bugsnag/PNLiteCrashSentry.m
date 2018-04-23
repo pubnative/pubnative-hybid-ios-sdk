@@ -24,7 +24,7 @@
 #import "BSG_KSCrashC.h"
 
 #import "BugsnagCrashSentry.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 #import "PNLiteSink.h"
 
 NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
@@ -48,7 +48,7 @@ NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
         bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashTypeUserReported);
     }
     if (![[BSG_KSCrash sharedInstance] install]) {
-        bsg_log_err(@"Failed to install crash handler. No exceptions will be "
+        pnlite_log_err(@"Failed to install crash handler. No exceptions will be "
                     @"reported!");
     }
 

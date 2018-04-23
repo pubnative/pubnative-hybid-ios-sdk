@@ -1,6 +1,6 @@
 
-#ifndef BugsnagLogger_h
-#define BugsnagLogger_h
+#ifndef PNLiteCrashLogger_h
+#define PNLiteCrashLogger_h
 
 #define BSG_LOGLEVEL_DEBUG 40
 #define BSG_LOGLEVEL_INFO 30
@@ -36,4 +36,4 @@
 #define bsg_log_debug(format, ...)
 #endif
 
-#endif /* BugsnagLogger_h */
+#endif /* PNLiteCrashLogger_h */

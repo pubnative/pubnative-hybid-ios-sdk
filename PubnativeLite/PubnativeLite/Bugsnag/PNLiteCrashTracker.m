@@ -22,7 +22,7 @@
 
 #import "PNLiteCrashTracker.h"
 #import "BSG_KSCrash.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
 
@@ -158,7 +158,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
 + (BOOL)bugsnagStarted {
     if (self.notifier == nil) {
-        bsg_log_err(@"Ensure you have started Bugsnag with startWithApiKey: "
+        pnlite_log_err(@"Ensure you have started Bugsnag with startWithApiKey: "
                     @"before calling any other Bugsnag functions.");
 
         return NO;

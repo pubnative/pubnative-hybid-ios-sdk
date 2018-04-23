@@ -30,7 +30,7 @@
 #import "PNLiteCrashTracker.h"
 #import "PNLiteCollections.h"
 #import "PNLiteHandledState.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 #import "PNLiteKeys.h"
 #import "NSDictionary+BSG_Merge.h"
 #import "PNLiteKSCrashSysInfoParser.h"
@@ -333,7 +333,7 @@ initWithErrorName:(NSString *_Nonnull)name
       toTabWithName:(NSString *_Nonnull)tabName {
     NSDictionary *cleanedData = BSGSanitizeDict(tabData);
     if ([cleanedData count] == 0) {
-        bsg_log_err(@"Failed to add metadata: Values not convertible to JSON");
+        pnlite_log_err(@"Failed to add metadata: Values not convertible to JSON");
         return;
     }
     NSMutableDictionary *allMetadata = [self.metaData mutableCopy];
@@ -352,7 +352,7 @@ initWithErrorName:(NSString *_Nonnull)name
     if (value) {
         id cleanedValue = BSGSanitizeObject(value);
         if (!cleanedValue) {
-            bsg_log_err(@"Failed to add metadata: Value of type %@ is not "
+            pnlite_log_err(@"Failed to add metadata: Value of type %@ is not "
                         @"convertible to JSON",
                         [value class]);
             return;

@@ -23,7 +23,7 @@
 #import "PNLiteSessionTrackingApiClient.h"
 #import "PNLiteConfiguration.h"
 #import "PNLiteSessionTrackingPayload.h"
-#import "BugsnagLogger.h"
+#import "PNLiteCrashLogger.h"
 #import "PNLiteCrashTracker.h"
 #import "PNLiteKeys.h"
 #import "PNLiteSession.h"
