@@ -20,14 +20,31 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "PNLiteSessionFileStore.h"
+#import "BSG_KSLogger.h"
 
-#import "BugsnagFileStore.h"
-#import "PNLiteSession.h"
+static NSString *const kPNLiteSessionStoreSuffix = @"-Session-";
 
-@interface PNLiteSessionFileStore : BugsnagFileStore
-+ (PNLiteSessionFileStore *)storeWithPath:(NSString *)path;
+@implementation PNLiteSessionFileStore
 
-- (void)write:(PNLiteSession *)session;
++ (PNLiteSessionFileStore *)storeWithPath:(NSString *)path {
+    return [[self alloc] initWithPath:path
+                       filenameSuffix:kPNLiteSessionStoreSuffix];
+}
+
+- (void)write:(PNLiteSession *)session {
+    // serialise session
+    NSString *filepath = [self pathToFileWithId:session.sessionId];
+    NSDictionary *dict = [session toJson];
+
+    NSError *error;
+    NSData *json = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+
+    if (error != nil || ![json writeToFile:filepath atomically:YES]) {
+        BSG_KSLOG_ERROR(@"Failed to write session %@", error);
+        return;
+    }
+}
+
 
 @end

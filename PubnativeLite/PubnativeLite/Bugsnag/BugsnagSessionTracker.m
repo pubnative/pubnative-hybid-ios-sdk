@@ -7,14 +7,14 @@
 //
 
 #import "BugsnagSessionTracker.h"
-#import "BugsnagSessionFileStore.h"
+#import "PNLiteSessionFileStore.h"
 #import "BSG_KSLogger.h"
 #import "BugsnagSessionTrackingPayload.h"
 #import "PNLiteSessionTrackingApiClient.h"
 
 @interface BugsnagSessionTracker ()
 @property PNLiteConfiguration *config;
-@property BugsnagSessionFileStore *sessionStore;
+@property PNLiteSessionFileStore *sessionStore;
 @property PNLiteSessionTrackingApiClient *apiClient;
 @property BOOL trackedFirstSession;
 @end
@@ -35,7 +35,7 @@
         if (!storePath) {
             BSG_KSLOG_ERROR(@"Failed to initialize session store.");
         }
-        _sessionStore = [BugsnagSessionFileStore storeWithPath:storePath];
+        _sessionStore = [PNLiteSessionFileStore storeWithPath:storePath];
     }
     return self;
 }
