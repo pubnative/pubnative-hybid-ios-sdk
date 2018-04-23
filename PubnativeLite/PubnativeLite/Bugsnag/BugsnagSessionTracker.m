@@ -23,7 +23,7 @@
 
 - (instancetype)initWithConfig:(BugsnagConfiguration *)config
                      apiClient:(BugsnagSessionTrackingApiClient *)apiClient
-                      callback:(void(^)(BugsnagSession *))callback {
+                      callback:(void(^)(PNLiteSession *))callback {
     if (self = [super init]) {
         _config = config;
         _apiClient = apiClient;
@@ -44,7 +44,7 @@
                withUser:(BugsnagUser *)user
            autoCaptured:(BOOL)autoCaptured {
 
-    _currentSession = [[BugsnagSession alloc] initWithId:[[NSUUID UUID] UUIDString]
+    _currentSession = [[PNLiteSession alloc] initWithId:[[NSUUID UUID] UUIDString]
                                                 startDate:date
                                                      user:user
                                              autoCaptured:autoCaptured];
@@ -92,7 +92,7 @@
         NSArray *fileIds = [self.sessionStore fileIds];
 
         for (NSDictionary *dict in [self.sessionStore allFiles]) {
-            [sessions addObject:[[BugsnagSession alloc] initWithDictionary:dict]];
+            [sessions addObject:[[PNLiteSession alloc] initWithDictionary:dict]];
         }
         BugsnagSessionTrackingPayload *payload = [[BugsnagSessionTrackingPayload alloc] initWithSessions:sessions];
 

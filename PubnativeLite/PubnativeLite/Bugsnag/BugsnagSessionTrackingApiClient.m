@@ -9,7 +9,7 @@
 #import "BugsnagLogger.h"
 #import "Bugsnag.h"
 #import "BugsnagKeys.h"
-#import "BugsnagSession.h"
+#import "PNLiteSession.h"
 
 @implementation BugsnagSessionTrackingApiClient
 

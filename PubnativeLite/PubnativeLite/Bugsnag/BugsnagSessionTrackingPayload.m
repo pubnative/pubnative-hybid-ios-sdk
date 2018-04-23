@@ -20,7 +20,7 @@
 
 @implementation BugsnagSessionTrackingPayload
 
-- (instancetype)initWithSessions:(NSArray<BugsnagSession *> *)sessions {
+- (instancetype)initWithSessions:(NSArray<PNLiteSession *> *)sessions {
     if (self = [super init]) {
         _sessions = sessions;
     }
@@ -33,7 +33,7 @@
     NSMutableDictionary *dict = [NSMutableDictionary new];
     NSMutableArray *sessionData = [NSMutableArray new];
     
-    for (BugsnagSession *session in self.sessions) {
+    for (PNLiteSession *session in self.sessions) {
         [sessionData addObject:[session toJson]];
     }
     BSGDictInsertIfNotNil(dict, sessionData, @"sessions");

@@ -20,7 +20,7 @@
 #import "BugsnagKeys.h"
 #import "NSDictionary+BSG_Merge.h"
 #import "BugsnagKSCrashSysInfoParser.h"
-#import "BugsnagSession.h"
+#import "PNLiteSession.h"
 #import "BSG_RFC3339DateTool.h"
 
 NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
@@ -210,7 +210,7 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
  *  User-provided exception metadata
  */
 @property(nonatomic, readwrite, copy, nullable) NSDictionary *customException;
-@property(nonatomic) BugsnagSession *session;
+@property(nonatomic) PNLiteSession *session;
 
 @end
 
@@ -271,7 +271,7 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
         _severity = _handledState.currentSeverity;
 
         if (report[@"user"][@"id"]) {
-            _session = [[BugsnagSession alloc] initWithDictionary:report[@"user"]];
+            _session = [[PNLiteSession alloc] initWithDictionary:report[@"user"]];
         }
     }
     return self;
@@ -283,7 +283,7 @@ initWithErrorName:(NSString *_Nonnull)name
     configuration:(BugsnagConfiguration *_Nonnull)config
          metaData:(NSDictionary *_Nonnull)metaData
      handledState:(BugsnagHandledState *_Nonnull)handledState
-          session:(BugsnagSession *_Nullable)session {
+          session:(PNLiteSession *_Nullable)session {
     if (self = [super init]) {
         _errorClass = name;
         _errorMessage = message;

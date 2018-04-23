@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BugsnagSession.h"
+#import "PNLiteSession.h"
 #import "BugsnagConfiguration.h"
 
 @class BugsnagSessionTrackingApiClient;
 
-typedef void (^SessionTrackerCallback)(BugsnagSession *newSession);
+typedef void (^SessionTrackerCallback)(PNLiteSession *newSession);
 
 @interface BugsnagSessionTracker : NSObject
 
 - (instancetype)initWithConfig:(BugsnagConfiguration *)config
                      apiClient:(BugsnagSessionTrackingApiClient *)apiClient
-                      callback:(void(^)(BugsnagSession *))callback;
+                      callback:(void(^)(PNLiteSession *))callback;
 
 - (void)startNewSession:(NSDate *)date
                withUser:(BugsnagUser *)user
@@ -30,7 +30,7 @@ typedef void (^SessionTrackerCallback)(BugsnagSession *newSession);
 - (void)send;
 - (void)onAutoCaptureEnabled;
 
-@property (readonly) BugsnagSession *currentSession;
+@property (readonly) PNLiteSession *currentSession;
 @property (readonly) BOOL isInForeground;
 
 /**

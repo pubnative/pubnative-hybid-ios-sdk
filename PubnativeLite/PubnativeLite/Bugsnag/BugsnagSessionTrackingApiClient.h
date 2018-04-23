@@ -8,8 +8,8 @@
 
 @class BugsnagConfiguration;
 @class BugsnagSessionTrackingPayload;
-@class BugsnagSession;
-@class BugsnagSession;
+@class PNLiteSession;
+@class PNLiteSession;
 
 
 @interface BugsnagSessionTrackingApiClient : BugsnagApiClient

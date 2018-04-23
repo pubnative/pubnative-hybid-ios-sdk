@@ -196,7 +196,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 
         self.sessionTracker = [[BugsnagSessionTracker alloc] initWithConfig:initConfiguration
                                                                   apiClient:self.sessionTrackingApiClient
-                                                                   callback:^(BugsnagSession *session) {
+                                                                   callback:^(PNLiteSession *session) {
 
                                                                        // copy session id
                                                                        const char *newSessionId = [session.sessionId UTF8String];

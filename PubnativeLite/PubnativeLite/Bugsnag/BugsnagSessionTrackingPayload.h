@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BugsnagSession.h"
+#import "PNLiteSession.h"
 
 @interface BugsnagSessionTrackingPayload : NSObject
 
-- (instancetype)initWithSessions:(NSArray<BugsnagSession *> *)sessions;
+- (instancetype)initWithSessions:(NSArray<PNLiteSession *> *)sessions;
 
 - (NSDictionary *)toJson;
 
-@property NSArray<BugsnagSession *> *sessions;
+@property NSArray<PNLiteSession *> *sessions;
 
 @end

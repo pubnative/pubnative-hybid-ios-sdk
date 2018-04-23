@@ -15,7 +15,7 @@ static NSString *const kSessionStoreSuffix = @"-Session-";
                        filenameSuffix:kSessionStoreSuffix];
 }
 
-- (void)write:(BugsnagSession *)session {
+- (void)write:(PNLiteSession *)session {
     // serialise session
     NSString *filepath = [self pathToFileWithId:session.sessionId];
     NSDictionary *dict = [session toJson];

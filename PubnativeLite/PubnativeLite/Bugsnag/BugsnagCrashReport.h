@@ -10,7 +10,7 @@
 
 @class BugsnagConfiguration;
 @class BugsnagHandledState;
-@class BugsnagSession;
+@class PNLiteSession;
 
 typedef NS_ENUM(NSUInteger, BSGSeverity) {
     BSGSeverityError,
@@ -68,7 +68,7 @@ initWithErrorName:(NSString *_Nonnull)name
     configuration:(BugsnagConfiguration *_Nonnull)config
          metaData:(NSDictionary *_Nonnull)metaData
      handledState:(BugsnagHandledState *_Nonnull)handledState
-          session:(BugsnagSession *_Nullable)session;
+          session:(PNLiteSession *_Nullable)session;
 
 /**
  *  Serialize a crash report as a JSON payload
