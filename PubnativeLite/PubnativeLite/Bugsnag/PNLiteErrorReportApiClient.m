@@ -27,18 +27,18 @@
 #import "BugsnagSink.h"
 #import "BugsnagKeys.h"
 
-@interface BSGDeliveryOperation : NSOperation
+@interface PNLiteDeliveryOperation : NSOperation
 @end
 
 @implementation PNLiteErrorReportApiClient
 
 - (NSOperation *)deliveryOperation {
-    return [BSGDeliveryOperation new];
+    return [PNLiteDeliveryOperation new];
 }
 
 @end
 
-@implementation BSGDeliveryOperation
+@implementation PNLiteDeliveryOperation
 
 - (void)main {
     @autoreleasepool {

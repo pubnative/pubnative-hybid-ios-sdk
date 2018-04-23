@@ -28,11 +28,11 @@
 #import "BSG_KSCrashReportFilter.h"
 #import <Foundation/Foundation.h>
 
-#import "BugsnagErrorReportApiClient.h"
+#import "PNLiteErrorReportApiClient.h"
 
 @interface BugsnagSink : NSObject <BSG_KSCrashReportFilter>
 
-- (instancetype)initWithApiClient:(BugsnagErrorReportApiClient *)apiClient;
-@property(nonatomic) BugsnagErrorReportApiClient *apiClient;
+- (instancetype)initWithApiClient:(PNLiteErrorReportApiClient *)apiClient;
+@property(nonatomic) PNLiteErrorReportApiClient *apiClient;
 
 @end

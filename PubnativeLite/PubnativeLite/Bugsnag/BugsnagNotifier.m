@@ -164,7 +164,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 
 @interface BugsnagNotifier ()
 @property(nonatomic) BugsnagCrashSentry *crashSentry;
-@property(nonatomic) BugsnagErrorReportApiClient *errorReportApiClient;
+@property(nonatomic) PNLiteErrorReportApiClient *errorReportApiClient;
 @property(nonatomic) BugsnagSessionTrackingApiClient *sessionTrackingApiClient;
 @property(nonatomic) BugsnagSessionTracker *sessionTracker;
 @property(nonatomic) NSTimer *sessionTimer;
@@ -189,7 +189,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         self.configuration.config.delegate = self;
         self.state.delegate = self;
         self.crashSentry = [BugsnagCrashSentry new];
-        self.errorReportApiClient = [[BugsnagErrorReportApiClient alloc] initWithConfig:configuration
+        self.errorReportApiClient = [[PNLiteErrorReportApiClient alloc] initWithConfig:configuration
                                                                               queueName:@"Error API queue"];
         self.sessionTrackingApiClient = [[BugsnagSessionTrackingApiClient alloc] initWithConfig:configuration
                                                                                       queueName:@"Session API queue"];

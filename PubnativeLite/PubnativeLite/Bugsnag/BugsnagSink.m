@@ -39,7 +39,7 @@
 
 @implementation BugsnagSink
 
-- (instancetype)initWithApiClient:(BugsnagErrorReportApiClient *)apiClient {
+- (instancetype)initWithApiClient:(PNLiteErrorReportApiClient *)apiClient {
     if (self = [super init]) {
         self.apiClient = apiClient;
     }

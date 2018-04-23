@@ -10,12 +10,12 @@
 
 #import "BSG_KSCrashReportWriter.h"
 #import "BugsnagConfiguration.h"
-#import "BugsnagErrorReportApiClient.h"
+#import "PNLiteErrorReportApiClient.h"
 
 @interface BugsnagCrashSentry : NSObject
 
 - (void)install:(BugsnagConfiguration *)config
-      apiClient:(BugsnagErrorReportApiClient *)apiClient
+      apiClient:(PNLiteErrorReportApiClient *)apiClient
         onCrash:(BSG_KSReportWriteCallback)onCrash;
 
 - (void)reportUserException:(NSString *)reportName

@@ -20,41 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteErrorReportApiClient.h"
-#import "Bugsnag.h"
-#import "BugsnagLogger.h"
-#import "BugsnagNotifier.h"
-#import "BugsnagSink.h"
-#import "BugsnagKeys.h"
+#import <Foundation/Foundation.h>
 
-@interface BSGDeliveryOperation : NSOperation
-@end
+#import "BSG_KSCrashReportFilterCompletion.h"
+#import "BugsnagCrashReport.h"
+#import "BugsnagConfiguration.h"
+#import "BugsnagApiClient.h"
 
-@implementation PNLiteErrorReportApiClient
+@interface PNLiteErrorReportApiClient : BugsnagApiClient
 
-- (NSOperation *)deliveryOperation {
-    return [BSGDeliveryOperation new];
-}
-
-@end
-
-@implementation BSGDeliveryOperation
-
-- (void)main {
-    @autoreleasepool {
-        @try {
-            [[BSG_KSCrash sharedInstance]
-                    sendAllReportsWithCompletion:^(NSArray *filteredReports,
-                            BOOL completed, NSError *error) {
-                        if (error) {
-                            bsg_log_warn(@"Failed to send reports: %@", error);
-                        } else if (filteredReports.count > 0) {
-                            bsg_log_info(@"Reports sent.");
-                        }
-                    }];
-        } @catch (NSException *e) {
-            bsg_log_err(@"Could not send report: %@", e);
-        }
-    }
-}
 @end

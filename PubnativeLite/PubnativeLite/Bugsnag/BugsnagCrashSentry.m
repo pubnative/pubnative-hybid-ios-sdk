@@ -18,7 +18,7 @@ NSUInteger const BSG_MAX_STORED_REPORTS = 12;
 @implementation BugsnagCrashSentry
 
 - (void)install:(BugsnagConfiguration *)config
-      apiClient:(BugsnagErrorReportApiClient *)apiClient
+      apiClient:(PNLiteErrorReportApiClient *)apiClient
         onCrash:(BSG_KSReportWriteCallback)onCrash {
 
     BugsnagSink *sink = [[BugsnagSink alloc] initWithApiClient:apiClient];
