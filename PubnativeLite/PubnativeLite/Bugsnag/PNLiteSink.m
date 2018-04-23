@@ -23,14 +23,14 @@
 #import "PNLiteSink.h"
 #import "Bugsnag.h"
 #import "PNLiteCollections.h"
-#import "BugsnagNotifier.h"
+#import "PNLiteNotifier.h"
 #import "BugsnagKeys.h"
 #import "BSG_KSSystemInfo.h"
 
 // This is private in Bugsnag, but really we want package private so define
 // it here.
 @interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
++ (PNLiteNotifier *)notifier;
 @end
 
 @implementation PNLiteSink

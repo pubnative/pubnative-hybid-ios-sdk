@@ -26,7 +26,7 @@
 
 #import "BugsnagConfiguration.h"
 #import "Bugsnag.h"
-#import "BugsnagNotifier.h"
+#import "PNLiteNotifier.h"
 #import "BugsnagKeys.h"
 #import "BSG_RFC3339DateTool.h"
 #import "PNLiteUser.h"
@@ -37,10 +37,10 @@ static NSString *const kHeaderApiKey = @"Bugsnag-Api-Key";
 static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
 
 @interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
++ (PNLiteNotifier *)notifier;
 @end
 
-@interface BugsnagNotifier ()
+@interface PNLiteNotifier ()
 @property BugsnagSessionTracker *sessionTracker;
 @end
 

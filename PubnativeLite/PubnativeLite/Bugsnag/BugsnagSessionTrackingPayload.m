@@ -8,14 +8,14 @@
 
 #import "BugsnagSessionTrackingPayload.h"
 #import "PNLiteCollections.h"
-#import "BugsnagNotifier.h"
+#import "PNLiteNotifier.h"
 #import "Bugsnag.h"
 #import "BugsnagKeys.h"
 #import "BSG_KSSystemInfo.h"
 #import "PNLiteKSCrashSysInfoParser.h"
 
 @interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
++ (PNLiteNotifier *)notifier;
 @end
 
 @implementation BugsnagSessionTrackingPayload

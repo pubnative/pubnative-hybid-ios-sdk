@@ -23,7 +23,7 @@
 #import "PNLiteErrorReportApiClient.h"
 #import "Bugsnag.h"
 #import "BugsnagLogger.h"
-#import "BugsnagNotifier.h"
+#import "PNLiteNotifier.h"
 #import "PNLiteSink.h"
 #import "BugsnagKeys.h"
 

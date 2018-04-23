@@ -27,13 +27,13 @@
 #import "Bugsnag.h"
 #import "BSG_KSCrash.h"
 #import "BugsnagLogger.h"
-#import "BugsnagNotifier.h"
+#import "PNLiteNotifier.h"
 #import "BugsnagKeys.h"
 
-static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
+static PNLiteNotifier *bsg_g_bugsnag_notifier = NULL;
 
 @interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
++ (PNLiteNotifier *)notifier;
 + (BOOL)bugsnagStarted;
 @end
 
@@ -52,7 +52,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 + (void)startBugsnagWithConfiguration:(BugsnagConfiguration *)configuration {
     @synchronized(self) {
         bsg_g_bugsnag_notifier =
-        [[BugsnagNotifier alloc] initWithConfiguration:configuration];
+        [[PNLiteNotifier alloc] initWithConfiguration:configuration];
         [bsg_g_bugsnag_notifier start];
     }
 }
@@ -68,7 +68,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
     return [self configuration];
 }
 
-+ (BugsnagNotifier *)notifier {
++ (PNLiteNotifier *)notifier {
     return bsg_g_bugsnag_notifier;
 }
 

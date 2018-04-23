@@ -1,30 +1,26 @@
 //
-//  BugsnagNotifier.m
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Conrad Irwin on 2014-10-01.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#import "BugsnagNotifier.h"
+#import "PNLiteNotifier.h"
 #import "BSGConnectivity.h"
 #import "Bugsnag.h"
 #import "PNLiteCrashSentry.h"
@@ -41,15 +37,15 @@
 #import <AppKit/AppKit.h>
 #endif
 
-NSString *const NOTIFIER_VERSION = @"5.15.4";
-NSString *const NOTIFIER_URL = @"https://github.com/bugsnag/bugsnag-cocoa";
-NSString *const BSTabCrash = @"crash";
-NSString *const BSAttributeDepth = @"depth";
-NSString *const BSEventLowMemoryWarning = @"lowMemoryWarning";
+NSString *const PNLITE_NOTIFIER_VERSION = @"5.15.4";
+NSString *const PNLITE_NOTIFIER_URL = @"https://github.com/bugsnag/bugsnag-cocoa";
+NSString *const PNLITE_BSTabCrash = @"crash";
+NSString *const PNLITE_BSAttributeDepth = @"depth";
+NSString *const PNLITE_BSEventLowMemoryWarning = @"lowMemoryWarning";
 
-static NSInteger const BSGNotifierStackFrameCount = 5;
+static NSInteger const PNLITE_BSGNotifierStackFrameCount = 5;
 
-struct bugsnag_data_t {
+struct pnlite_data_t {
     // Contains the state of the event (handled/unhandled)
     char *handledState;
     // Contains the user-specified metaData, including the user tab from config.
@@ -66,14 +62,14 @@ struct bugsnag_data_t {
     void (*onCrash)(const BSG_KSCrashReportWriter *writer);
 };
 
-static struct bugsnag_data_t bsg_g_bugsnag_data;
+static struct pnlite_data_t bsg_g_pnlite_data;
 
 static NSDictionary *notificationNameMap;
 
-static char *sessionId[128];
-static char *sessionStartDate[128];
-static NSUInteger handledCount;
-static bool hasRecordedSessions;
+static char *pnLiteSessionId[128];
+static char *pnLiteSessionStartDate[128];
+static NSUInteger pnLiteHandledCount;
+static bool pnLiteHasRecordedSessions;
 
 /**
  *  Handler executed when the application crashes. Writes information about the
@@ -82,41 +78,41 @@ static bool hasRecordedSessions;
  *  @param writer report writer which will receive updated metadata
  */
 void BSSerializeDataCrashHandler(const BSG_KSCrashReportWriter *writer) {
-    if (bsg_g_bugsnag_data.configJSON) {
-        writer->addJSONElement(writer, "config", bsg_g_bugsnag_data.configJSON);
+    if (bsg_g_pnlite_data.configJSON) {
+        writer->addJSONElement(writer, "config", bsg_g_pnlite_data.configJSON);
     }
-    if (bsg_g_bugsnag_data.metaDataJSON) {
+    if (bsg_g_pnlite_data.metaDataJSON) {
         writer->addJSONElement(writer, "metaData",
-                               bsg_g_bugsnag_data.metaDataJSON);
+                               bsg_g_pnlite_data.metaDataJSON);
     }
 
-    if (hasRecordedSessions) { // a session is available
+    if (pnLiteHasRecordedSessions) { // a session is available
         // persist session info
-        writer->addStringElement(writer, "id", (const char *) sessionId);
-        writer->addStringElement(writer, "startedAt", (const char *) sessionStartDate);
-        writer->addUIntegerElement(writer, "handledCount", handledCount);
+        writer->addStringElement(writer, "id", (const char *) pnLiteSessionId);
+        writer->addStringElement(writer, "startedAt", (const char *) pnLiteSessionStartDate);
+        writer->addUIntegerElement(writer, "handledCount", pnLiteHandledCount);
 
-        if (!bsg_g_bugsnag_data.handledState) {
+        if (!bsg_g_pnlite_data.handledState) {
             writer->addUIntegerElement(writer, "unhandledCount", 1);
         } else {
             writer->addUIntegerElement(writer, "unhandledCount", 0);
         }
     }
 
-    if (bsg_g_bugsnag_data.handledState) {
+    if (bsg_g_pnlite_data.handledState) {
         writer->addJSONElement(writer, "handledState",
-                               bsg_g_bugsnag_data.handledState);
+                               bsg_g_pnlite_data.handledState);
     }
 
-    if (bsg_g_bugsnag_data.stateJSON) {
-        writer->addJSONElement(writer, "state", bsg_g_bugsnag_data.stateJSON);
+    if (bsg_g_pnlite_data.stateJSON) {
+        writer->addJSONElement(writer, "state", bsg_g_pnlite_data.stateJSON);
     }
-    if (bsg_g_bugsnag_data.userOverridesJSON) {
+    if (bsg_g_pnlite_data.userOverridesJSON) {
         writer->addJSONElement(writer, "overrides",
-                               bsg_g_bugsnag_data.userOverridesJSON);
+                               bsg_g_pnlite_data.userOverridesJSON);
     }
-    if (bsg_g_bugsnag_data.onCrash) {
-        bsg_g_bugsnag_data.onCrash(writer);
+    if (bsg_g_pnlite_data.onCrash) {
+        bsg_g_pnlite_data.onCrash(writer);
     }
 }
 
@@ -162,7 +158,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
     }
 }
 
-@interface BugsnagNotifier ()
+@interface PNLiteNotifier ()
 @property(nonatomic) PNLiteCrashSentry *crashSentry;
 @property(nonatomic) PNLiteErrorReportApiClient *errorReportApiClient;
 @property(nonatomic) PNLiteSessionTrackingApiClient *sessionTrackingApiClient;
@@ -170,7 +166,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
 @property(nonatomic) NSTimer *sessionTimer;
 @end
 
-@implementation BugsnagNotifier
+@implementation PNLiteNotifier
 
 @synthesize configuration;
 
@@ -180,8 +176,8 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         self.state = [[BugsnagMetaData alloc] init];
         self.details = [@{
             BSGKeyName : @"Bugsnag Objective-C",
-            BSGKeyVersion : NOTIFIER_VERSION,
-            BSGKeyUrl : NOTIFIER_URL
+            BSGKeyVersion : PNLITE_NOTIFIER_VERSION,
+            BSGKeyUrl : PNLITE_NOTIFIER_URL
         } mutableCopy];
 
         self.metaDataLock = [[NSLock alloc] init];
@@ -201,17 +197,17 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
                                                                        // copy session id
                                                                        const char *newSessionId = [session.sessionId UTF8String];
                                                                        size_t idSize = strlen(newSessionId);
-                                                                       strncpy((char *)sessionId, newSessionId, idSize);
-                                                                       sessionId[idSize - 1] = NULL;
+                                                                       strncpy((char *)pnLiteSessionId, newSessionId, idSize);
+                                                                       pnLiteSessionId[idSize - 1] = NULL;
 
                                                                        const char *newSessionDate = [[BSG_RFC3339DateTool stringFromDate:session.startedAt] UTF8String];
                                                                        size_t dateSize = strlen(newSessionDate);
-                                                                       strncpy((char *)sessionStartDate, newSessionDate, dateSize);
-                                                                       sessionStartDate[dateSize - 1] = NULL;
+                                                                       strncpy((char *)pnLiteSessionStartDate, newSessionDate, dateSize);
+                                                                       pnLiteSessionStartDate[dateSize - 1] = NULL;
 
                                                                        // record info for C JSON serialiser
-                                                                       handledCount = session.handledCount;
-                                                                       hasRecordedSessions = true;
+                                                                       pnLiteHandledCount = session.handledCount;
+                                                                       pnLiteHasRecordedSessions = true;
                                                                    }];
 
         
@@ -220,7 +216,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         [self metaDataChanged:self.configuration.metaData];
         [self metaDataChanged:self.configuration.config];
         [self metaDataChanged:self.state];
-        bsg_g_bugsnag_data.onCrash = (void (*)(
+        bsg_g_pnlite_data.onCrash = (void (*)(
             const BSG_KSCrashReportWriter *))self.configuration.onCrashHandler;
 
         static dispatch_once_t once_t;
@@ -231,14 +227,14 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
     return self;
 }
 
-NSString *const kWindowVisible = @"Window Became Visible";
-NSString *const kWindowHidden = @"Window Became Hidden";
-NSString *const kBeganTextEdit = @"Began Editing Text";
-NSString *const kStoppedTextEdit = @"Stopped Editing Text";
-NSString *const kUndoOperation = @"Undo Operation";
-NSString *const kRedoOperation = @"Redo Operation";
-NSString *const kTableViewSelectionChange = @"TableView Select Change";
-NSString *const kAppWillTerminate = @"App Will Terminate";
+NSString *const kPNLiteWindowVisible = @"Window Became Visible";
+NSString *const kPNLiteWindowHidden = @"Window Became Hidden";
+NSString *const kPNLiteBeganTextEdit = @"Began Editing Text";
+NSString *const kPNLiteStoppedTextEdit = @"Stopped Editing Text";
+NSString *const kPNLiteUndoOperation = @"Undo Operation";
+NSString *const kPNLiteRedoOperation = @"Redo Operation";
+NSString *const kPNLiteTableViewSelectionChange = @"TableView Select Change";
+NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
 - (void)initializeNotificationNameMap {
     notificationNameMap = @{
@@ -253,9 +249,9 @@ NSString *const kAppWillTerminate = @"App Will Terminate";
         UITableViewSelectionDidChangeNotification : kTableViewSelectionChange,
 
 #elif TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
-        UIWindowDidBecomeVisibleNotification : kWindowVisible,
-        UIWindowDidBecomeHiddenNotification : kWindowHidden,
-        UIApplicationWillTerminateNotification : kAppWillTerminate,
+        UIWindowDidBecomeVisibleNotification : kPNLiteWindowVisible,
+        UIWindowDidBecomeHiddenNotification : kPNLiteWindowHidden,
+        UIApplicationWillTerminateNotification : kPNLiteAppWillTerminate,
         UIApplicationWillEnterForegroundNotification :
             @"App Will Enter Foreground",
         UIApplicationDidEnterBackgroundNotification :
@@ -264,14 +260,14 @@ NSString *const kAppWillTerminate = @"App Will Terminate";
         UIKeyboardDidHideNotification : @"Keyboard Became Hidden",
         UIMenuControllerDidShowMenuNotification : @"Did Show Menu",
         UIMenuControllerDidHideMenuNotification : @"Did Hide Menu",
-        NSUndoManagerDidUndoChangeNotification : kUndoOperation,
-        NSUndoManagerDidRedoChangeNotification : kRedoOperation,
+        NSUndoManagerDidUndoChangeNotification : kPNLiteUndoOperation,
+        NSUndoManagerDidRedoChangeNotification : kPNLiteRedoOperation,
         UIApplicationUserDidTakeScreenshotNotification : @"Took Screenshot",
-        UITextFieldTextDidBeginEditingNotification : kBeganTextEdit,
-        UITextViewTextDidBeginEditingNotification : kBeganTextEdit,
-        UITextFieldTextDidEndEditingNotification : kStoppedTextEdit,
-        UITextViewTextDidEndEditingNotification : kStoppedTextEdit,
-        UITableViewSelectionDidChangeNotification : kTableViewSelectionChange,
+        UITextFieldTextDidBeginEditingNotification : kPNLiteBeganTextEdit,
+        UITextViewTextDidBeginEditingNotification : kPNLiteBeganTextEdit,
+        UITextFieldTextDidEndEditingNotification : kPNLiteStoppedTextEdit,
+        UITextViewTextDidEndEditingNotification : kPNLiteStoppedTextEdit,
+        UITableViewSelectionDidChangeNotification : kPNLiteTableViewSelectionChange,
         UIDeviceBatteryStateDidChangeNotification : @"Battery State Changed",
         UIDeviceBatteryLevelDidChangeNotification : @"Battery Level Changed",
         UIDeviceOrientationDidChangeNotification : @"Orientation Changed",
@@ -533,15 +529,15 @@ NSString *const kAppWillTerminate = @"App Will Terminate";
 
     [self.metaDataLock lock];
     BSSerializeJSONDictionary([report.handledState toJson],
-                              &bsg_g_bugsnag_data.handledState);
+                              &bsg_g_pnlite_data.handledState);
     BSSerializeJSONDictionary(report.metaData,
-                              &bsg_g_bugsnag_data.metaDataJSON);
+                              &bsg_g_pnlite_data.metaDataJSON);
     BSSerializeJSONDictionary(report.overrides,
-                              &bsg_g_bugsnag_data.userOverridesJSON);
+                              &bsg_g_pnlite_data.userOverridesJSON);
 
     [self.state addAttribute:BSGKeySeverity
                    withValue:BSGFormatSeverity(report.severity)
-               toTabWithName:BSTabCrash];
+               toTabWithName:PNLITE_BSTabCrash];
 
     //    We discard 5 stack frames (including this one) by default,
     //    and sum that with the number specified by report.depth:
@@ -551,25 +547,25 @@ NSString *const kAppWillTerminate = @"App Will Terminate";
     //    2 -[BSG_KSCrash
     //    reportUserException:reason:language:lineOfCode:stackTrace:terminateProgram:]
     //    3 -[BugsnagCrashSentry reportUserException:reason:]
-    //    4 -[BugsnagNotifier notify:message:block:]
+    //    4 -[PNLiteNotifier notify:message:block:]
 
-    NSNumber *depth = @(BSGNotifierStackFrameCount + report.depth);
-    [self.state addAttribute:BSAttributeDepth
+    NSNumber *depth = @(PNLITE_BSGNotifierStackFrameCount + report.depth);
+    [self.state addAttribute:PNLITE_BSAttributeDepth
                    withValue:depth
-               toTabWithName:BSTabCrash];
+               toTabWithName:PNLITE_BSTabCrash];
 
     NSString *reportName =
         report.errorClass ?: NSStringFromClass([NSException class]);
     NSString *reportMessage = report.errorMessage ?: @"";
 
     [self.crashSentry reportUserException:reportName reason:reportMessage];
-    bsg_g_bugsnag_data.userOverridesJSON = NULL;
-    bsg_g_bugsnag_data.handledState = NULL;
+    bsg_g_pnlite_data.userOverridesJSON = NULL;
+    bsg_g_pnlite_data.handledState = NULL;
 
     // Restore metaData to pre-crash state.
     [self.metaDataLock unlock];
     [self metaDataChanged:self.configuration.metaData];
-    [[self state] clearTab:BSTabCrash];
+    [[self state] clearTab:PNLITE_BSTabCrash];
     [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull crumb) {
       crumb.type = BSGBreadcrumbTypeError;
       crumb.name = reportName;
@@ -597,7 +593,7 @@ NSString *const kAppWillTerminate = @"App Will Terminate";
     NSArray *arrayValue = crumbs.count == 0 ? nil : [crumbs arrayValue];
     [self.state addAttribute:BSGKeyBreadcrumbs
                    withValue:arrayValue
-               toTabWithName:BSTabCrash];
+               toTabWithName:PNLITE_BSTabCrash];
 }
 
 - (void)metaDataChanged:(BugsnagMetaData *)metaData {
@@ -605,15 +601,15 @@ NSString *const kAppWillTerminate = @"App Will Terminate";
         if (metaData == self.configuration.metaData) {
             if ([self.metaDataLock tryLock]) {
                 BSSerializeJSONDictionary([metaData toDictionary],
-                                          &bsg_g_bugsnag_data.metaDataJSON);
+                                          &bsg_g_pnlite_data.metaDataJSON);
                 [self.metaDataLock unlock];
             }
         } else if (metaData == self.configuration.config) {
             BSSerializeJSONDictionary([metaData getTab:BSGKeyConfig],
-                                      &bsg_g_bugsnag_data.configJSON);
+                                      &bsg_g_pnlite_data.configJSON);
         } else if (metaData == self.state) {
             BSSerializeJSONDictionary([metaData toDictionary],
-                                      &bsg_g_bugsnag_data.stateJSON);
+                                      &bsg_g_pnlite_data.stateJSON);
         } else {
             bsg_log_debug(@"Unknown metadata dictionary changed");
         }
@@ -692,7 +688,7 @@ NSString *const kAppWillTerminate = @"App Will Terminate";
 }
 
 - (void)lowMemoryWarning:(NSNotification *)notif {
-    [[self state] addAttribute:BSEventLowMemoryWarning
+    [[self state] addAttribute:PNLITE_BSEventLowMemoryWarning
                      withValue:[[Bugsnag payloadDateFormatter]
                                    stringFromDate:[NSDate date]]
                  toTabWithName:BSGKeyDeviceState];
