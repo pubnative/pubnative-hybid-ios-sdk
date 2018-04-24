@@ -36,18 +36,18 @@ NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
         onCrash:(PNLite_KSReportWriteCallback)onCrash {
 
     PNLiteSink *sink = [[PNLiteSink alloc] initWithApiClient:apiClient];
-    [BSG_KSCrash sharedInstance].sink = sink;
-    [BSG_KSCrash sharedInstance].introspectMemory = YES;
-    [BSG_KSCrash sharedInstance].deleteBehaviorAfterSendAll =
-        BSG_KSCDeleteOnSucess;
-    [BSG_KSCrash sharedInstance].onCrash = onCrash;
-    [BSG_KSCrash sharedInstance].maxStoredReports = PNLITE_MAX_STORED_REPORTS;
-    [BSG_KSCrash sharedInstance].demangleLanguages = 0;
+    [PNLite_KSCrash sharedInstance].sink = sink;
+    [PNLite_KSCrash sharedInstance].introspectMemory = YES;
+    [PNLite_KSCrash sharedInstance].deleteBehaviorAfterSendAll =
+        PNLite_KSCDeleteOnSucess;
+    [PNLite_KSCrash sharedInstance].onCrash = onCrash;
+    [PNLite_KSCrash sharedInstance].maxStoredReports = PNLITE_MAX_STORED_REPORTS;
+    [PNLite_KSCrash sharedInstance].demangleLanguages = 0;
 
     if (!config.autoNotify) {
         bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashTypeUserReported);
     }
-    if (![[BSG_KSCrash sharedInstance] install]) {
+    if (![[PNLite_KSCrash sharedInstance] install]) {
         pnlite_log_err(@"Failed to install crash handler. No exceptions will be "
                     @"reported!");
     }
@@ -58,7 +58,7 @@ NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
 - (void)reportUserException:(NSString *)reportName
                      reason:(NSString *)reportMessage {
 
-    [[BSG_KSCrash sharedInstance] reportUserException:reportName
+    [[PNLite_KSCrash sharedInstance] reportUserException:reportName
                                                reason:reportMessage
                                              language:NULL
                                            lineOfCode:@""

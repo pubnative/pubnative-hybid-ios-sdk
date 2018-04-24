@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "BSG_KSCrash.h"
+#import "PNLite_KSCrash.h"
 #import "PNLite_KSCrashReportFilter.h"
 #import <Foundation/Foundation.h>
 

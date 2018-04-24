@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 //
 
-#import "BSG_KSCrash.h"
+#import "PNLite_KSCrash.h"
 #import "PNLite_KSCrashReportFilter.h"
 #import "PNLite_KSCrashReportStore.h"
 
@@ -37,7 +37,7 @@ typedef enum {
 /**
  * Advanced interface to the BSG_KSCrash system.
  */
-@interface BSG_KSCrash (Advanced)
+@interface PNLite_KSCrash (Advanced)
 
 #pragma mark - Information -
 

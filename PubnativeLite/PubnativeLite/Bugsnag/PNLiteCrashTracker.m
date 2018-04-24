@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteCrashTracker.h"
-#import "BSG_KSCrash.h"
+#import "PNLite_KSCrash.h"
 #import "PNLiteCrashLogger.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
@@ -205,22 +205,22 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 }
 
 + (void)setSuspendThreadsForUserReported:(BOOL)suspendThreadsForUserReported {
-    [[BSG_KSCrash sharedInstance]
+    [[PNLite_KSCrash sharedInstance]
         setSuspendThreadsForUserReported:suspendThreadsForUserReported];
 }
 
 + (void)setReportWhenDebuggerIsAttached:(BOOL)reportWhenDebuggerIsAttached {
-    [[BSG_KSCrash sharedInstance]
+    [[PNLite_KSCrash sharedInstance]
         setReportWhenDebuggerIsAttached:reportWhenDebuggerIsAttached];
 }
 
 + (void)setThreadTracingEnabled:(BOOL)threadTracingEnabled {
-    [[BSG_KSCrash sharedInstance] setThreadTracingEnabled:threadTracingEnabled];
+    [[PNLite_KSCrash sharedInstance] setThreadTracingEnabled:threadTracingEnabled];
 }
 
 + (void)setWriteBinaryImagesForUserReported:
     (BOOL)writeBinaryImagesForUserReported {
-    [[BSG_KSCrash sharedInstance]
+    [[PNLite_KSCrash sharedInstance]
         setWriteBinaryImagesForUserReported:writeBinaryImagesForUserReported];
 }
 

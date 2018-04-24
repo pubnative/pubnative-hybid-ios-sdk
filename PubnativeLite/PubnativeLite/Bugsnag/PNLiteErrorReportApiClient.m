@@ -43,7 +43,7 @@
 - (void)main {
     @autoreleasepool {
         @try {
-            [[BSG_KSCrash sharedInstance]
+            [[PNLite_KSCrash sharedInstance]
                     sendAllReportsWithCompletion:^(NSArray *filteredReports,
                             BOOL completed, NSError *error) {
                         if (error) {

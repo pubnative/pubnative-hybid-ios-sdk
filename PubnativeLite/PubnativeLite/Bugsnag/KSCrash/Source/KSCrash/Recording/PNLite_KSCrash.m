@@ -41,16 +41,16 @@
 // ============================================================================
 
 /** The directory under "Caches" to store the crash reports. */
-#ifndef BSG_KSCRASH_DefaultReportFilesDirectory
-#define BSG_KSCRASH_DefaultReportFilesDirectory @"KSCrashReports"
+#ifndef PNLite_KSCRASH_DefaultReportFilesDirectory
+#define PNLite_KSCRASH_DefaultReportFilesDirectory @"KSCrashReports"
 #endif
 
 // ============================================================================
 #pragma mark - Constants -
 // ============================================================================
 
-#define BSG_kCrashLogFilenameSuffix "-CrashLog.txt"
-#define BSG_kCrashStateFilenameSuffix "-CrashState.json"
+#define PNLite_kCrashLogFilenameSuffix "-CrashLog.txt"
+#define PNLite_kCrashStateFilenameSuffix "-CrashState.json"
 
 // ============================================================================
 #pragma mark - Globals -
@@ -130,7 +130,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
 
 - (id)init {
     return [self
-        initWithReportFilesDirectory:BSG_KSCRASH_DefaultReportFilesDirectory];
+        initWithReportFilesDirectory:PNLite_KSCRASH_DefaultReportFilesDirectory];
 }
 
 - (id)initWithReportFilesDirectory:(NSString *)reportFilesDirectory {
@@ -273,7 +273,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
 
 - (NSString *)stateFilePath {
     NSString *stateFilename = [NSString
-        stringWithFormat:@"%@" BSG_kCrashStateFilenameSuffix, self.bundleName];
+        stringWithFormat:@"%@" PNLite_kCrashStateFilenameSuffix, self.bundleName];
     return [self.crashReportStore.path
         stringByAppendingPathComponent:stateFilename];
 }
@@ -328,7 +328,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
            if (error != nil) {
                BSG_KSLOG_ERROR(@"Failed to send reports: %@", error);
            }
-           if ((self.deleteBehaviorAfterSendAll == BSG_KSCDeleteOnSucess &&
+           if ((self.deleteBehaviorAfterSendAll == PNLite_KSCDeleteOnSucess &&
                 completed) ||
                self.deleteBehaviorAfterSendAll == PNLite_KSCDeleteAlways) {
                [self deleteAllReports];
@@ -383,22 +383,22 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
 #pragma mark - Advanced API -
 // ============================================================================
 
-#define BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(TYPE, NAME)                        \
+#define PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(TYPE, NAME)                        \
     -(TYPE)NAME {                                                              \
         return bsg_kscrashstate_currentState()->NAME;                          \
     }
 
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval,
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval,
                                     activeDurationSinceLastCrash)
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval,
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval,
                                     backgroundDurationSinceLastCrash)
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(int, launchesSinceLastCrash)
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(int, sessionsSinceLastCrash)
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval, activeDurationSinceLaunch)
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval,
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(int, launchesSinceLastCrash)
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(int, sessionsSinceLastCrash)
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval, activeDurationSinceLaunch)
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval,
                                     backgroundDurationSinceLaunch)
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(int, sessionsSinceLaunch)
-BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(int, sessionsSinceLaunch)
+PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 
 - (NSUInteger)reportCount {
     return [self.crashReportStore fileCount];
@@ -447,7 +447,7 @@ BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 
 - (BOOL)redirectConsoleLogsToDefaultFile {
     NSString *logFilename = [NSString
-        stringWithFormat:@"%@" BSG_kCrashLogFilenameSuffix, self.bundleName];
+        stringWithFormat:@"%@" PNLite_kCrashLogFilenameSuffix, self.bundleName];
     NSString *logFilePath =
         [self.crashReportStore.path stringByAppendingPathComponent:logFilename];
     if (![self redirectConsoleLogsToFile:logFilePath overwrite:YES]) {
