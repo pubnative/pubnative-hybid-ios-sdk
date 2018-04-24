@@ -48,7 +48,7 @@
 static volatile sig_atomic_t bsg_g_installed = 0;
 
 /** Single, global crash context. */
-static BSG_KSCrash_Context bsg_g_crashReportContext = {
+static PNLite_KSCrash_Context bsg_g_crashReportContext = {
     .config = {.handlingCrashTypes = BSG_KSCrashTypeProductionSafe}};
 
 /** Path to store the next crash report. */
@@ -64,7 +64,7 @@ static char *bsg_g_stateFilePath;
 #pragma mark - Utility -
 // ============================================================================
 
-static inline BSG_KSCrash_Context *crashContext(void) {
+static inline PNLite_KSCrash_Context *crashContext(void) {
     return &bsg_g_crashReportContext;
 }
 
@@ -82,7 +82,7 @@ void bsg_kscrash_i_onCrash(void) {
     BSG_KSLOG_DEBUG("Updating application state to note crash.");
     bsg_kscrashstate_notifyAppCrash();
 
-    BSG_KSCrash_Context *context = crashContext();
+    PNLite_KSCrash_Context *context = crashContext();
 
     if (context->config.printTraceToStdout) {
         bsg_kscrashreport_logCrash(context);
@@ -107,7 +107,7 @@ BSG_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
                                     const char *crashID) {
     BSG_KSLOG_DEBUG("Installing crash reporter.");
 
-    BSG_KSCrash_Context *context = crashContext();
+    PNLite_KSCrash_Context *context = crashContext();
 
     if (bsg_g_installed) {
         BSG_KSLOG_DEBUG("Crash reporter already installed.");
@@ -148,7 +148,7 @@ void bsg_kscrash_reinstall(const char *const crashReportFilePath,
                          crashReportFilePath);
     bsg_ksstring_replace((const char **)&bsg_g_recrashReportFilePath,
                          recrashReportFilePath);
-    BSG_KSCrash_Context *context = crashContext();
+    PNLite_KSCrash_Context *context = crashContext();
     bsg_ksstring_replace(&context->config.crashID, crashID);
 
     if (!bsg_kscrashstate_init(bsg_g_stateFilePath, &context->state)) {
@@ -158,7 +158,7 @@ void bsg_kscrash_reinstall(const char *const crashReportFilePath,
 }
 
 BSG_KSCrashType bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashType crashTypes) {
-    BSG_KSCrash_Context *context = crashContext();
+    PNLite_KSCrash_Context *context = crashContext();
     context->config.handlingCrashTypes = crashTypes;
 
     if (bsg_g_installed) {
@@ -172,7 +172,7 @@ BSG_KSCrashType bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashType crashTypes) {
 
 void bsg_kscrash_setUserInfoJSON(const char *const userInfoJSON) {
     BSG_KSLOG_TRACE("set userInfoJSON to %p", userInfoJSON);
-    BSG_KSCrash_Context *context = crashContext();
+    PNLite_KSCrash_Context *context = crashContext();
     bsg_ksstring_replace(&context->config.userInfoJSON, userInfoJSON);
 }
 

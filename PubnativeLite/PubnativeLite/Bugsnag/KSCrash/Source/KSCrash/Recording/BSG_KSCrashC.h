@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashContext.h"
+#include "PNLite_KSCrashContext.h"
 
 #include <stdbool.h>
 

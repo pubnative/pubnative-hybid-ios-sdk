@@ -115,7 +115,7 @@ static const char bsg_g_hexNybbles[] = {'0', '1', '2', '3', '4', '5', '6', '7',
 #pragma mark - Runtime Config -
 // ============================================================================
 
-static BSG_KSCrash_IntrospectionRules *bsg_g_introspectionRules;
+static PNLite_KSCrash_IntrospectionRules *bsg_g_introspectionRules;
 
 #pragma mark Callbacks
 
@@ -1952,7 +1952,7 @@ int bsg_kscrw_i_openCrashReportFile(const char *const path) {
  * @param crashContext the context.
  */
 void bsg_kscrw_i_updateStackOverflowStatus(
-    BSG_KSCrash_Context *const crashContext) {
+    PNLite_KSCrash_Context *const crashContext) {
     // TODO: This feels weird. Shouldn't be mutating the context.
     if (bsg_kscrw_i_isStackOverflow(&crashContext->crash,
                                     crashContext->crash.offendingThread)) {
@@ -1961,7 +1961,7 @@ void bsg_kscrw_i_updateStackOverflowStatus(
     }
 }
 
-void bsg_kscrw_i_callUserCrashHandler(BSG_KSCrash_Context *const crashContext,
+void bsg_kscrw_i_callUserCrashHandler(PNLite_KSCrash_Context *const crashContext,
                                       PNLite_KSCrashReportWriter *writer) {
     crashContext->config.onCrashNotify(writer);
 }
@@ -1971,7 +1971,7 @@ void bsg_kscrw_i_callUserCrashHandler(BSG_KSCrash_Context *const crashContext,
 // ============================================================================
 
 void bsg_kscrashreport_writeMinimalReport(
-    BSG_KSCrash_Context *const crashContext, const char *const path) {
+    PNLite_KSCrash_Context *const crashContext, const char *const path) {
     BSG_KSLOG_INFO("Writing minimal crash report to %s", path);
 
     int fd = bsg_kscrw_i_openCrashReportFile(path);
@@ -2018,7 +2018,7 @@ void bsg_kscrashreport_writeMinimalReport(
 }
 
 void bsg_kscrashreport_writeStandardReport(
-    BSG_KSCrash_Context *const crashContext, const char *const path) {
+    PNLite_KSCrash_Context *const crashContext, const char *const path) {
     BSG_KSLOG_INFO("Writing crash report to %s", path);
 
     int fd = bsg_kscrw_i_openCrashReportFile(path);
@@ -2106,7 +2106,7 @@ void bsg_kscrashreport_writeStandardReport(
     close(fd);
 }
 
-void bsg_kscrashreport_logCrash(const BSG_KSCrash_Context *const crashContext) {
+void bsg_kscrashreport_logCrash(const PNLite_KSCrash_Context *const crashContext) {
     const BSG_KSCrash_SentryContext *crash = &crashContext->crash;
     bsg_kscrw_i_logCrashType(crash);
     bsg_kscrw_i_logCrashThreadBacktrace(&crashContext->crash);

@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashContext.h"
+#include "PNLite_KSCrashContext.h"
 
 /** Write a standard crash report to a file.
  *
@@ -43,7 +43,7 @@ extern "C" {
  *
  * @param path The file to write to.
  */
-void bsg_kscrashreport_writeStandardReport(BSG_KSCrash_Context *crashContext,
+void bsg_kscrashreport_writeStandardReport(PNLite_KSCrash_Context *crashContext,
                                            const char *path);
 
 /** Write a minimal crash report to a file.
@@ -54,14 +54,14 @@ void bsg_kscrashreport_writeStandardReport(BSG_KSCrash_Context *crashContext,
  * @param path The file to write to.
  */
 void bsg_kscrashreport_writeMinimalReport(
-    BSG_KSCrash_Context *const crashContext, const char *path);
+    PNLite_KSCrash_Context *const crashContext, const char *path);
 
 /** Write minimal information about the crash to the log.
  *
  * @param crashContext Contextual information about the crash and environment.
  *                     The caller must fill this out before passing it in.
  */
-void bsg_kscrashreport_logCrash(const BSG_KSCrash_Context *const crashContext);
+void bsg_kscrashreport_logCrash(const PNLite_KSCrash_Context *const crashContext);
 
 #ifdef __cplusplus
 }
