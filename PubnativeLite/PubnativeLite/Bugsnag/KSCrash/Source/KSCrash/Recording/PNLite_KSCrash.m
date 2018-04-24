@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "BSG_KSCrashAdvanced.h"
+#import "PNLite_KSCrashAdvanced.h"
 
 #import "BSG_KSCrashC.h"
 #import "BSG_KSCrashCallCompletion.h"
@@ -64,7 +64,7 @@
 @property(nonatomic, readonly, retain) NSString *recrashReportPath;
 @property(nonatomic, readonly, retain) NSString *stateFilePath;
 
-// Mirrored from BSG_KSCrashAdvanced.h to provide ivars
+// Mirrored from PNLite_KSCrashAdvanced.h to provide ivars
 @property(nonatomic, readwrite, retain) id<PNLite_KSCrashReportFilter> sink;
 @property(nonatomic, readwrite, retain) NSString *logFilePath;
 @property(nonatomic, readwrite, retain)
@@ -108,20 +108,20 @@
 #pragma mark - Lifecycle -
 // ============================================================================
 
-- (void)setDemangleLanguages:(BSG_KSCrashDemangleLanguage)demangleLanguages {
+- (void)setDemangleLanguages:(PNLite_KSCrashDemangleLanguage)demangleLanguages {
     self.crashReportStore.demangleCPP =
-        (demangleLanguages & BSG_KSCrashDemangleLanguageCPlusPlus) != 0;
+        (demangleLanguages & PNLite_KSCrashDemangleLanguageCPlusPlus) != 0;
     self.crashReportStore.demangleSwift =
-        (demangleLanguages & BSG_KSCrashDemangleLanguageSwift) != 0;
+        (demangleLanguages & PNLite_KSCrashDemangleLanguageSwift) != 0;
 }
 
-- (BSG_KSCrashDemangleLanguage)demangleLanguages {
-    BSG_KSCrashDemangleLanguage languages = 0;
+- (PNLite_KSCrashDemangleLanguage)demangleLanguages {
+    PNLite_KSCrashDemangleLanguage languages = 0;
     if (self.crashReportStore.demangleCPP) {
-        languages |= BSG_KSCrashDemangleLanguageCPlusPlus;
+        languages |= PNLite_KSCrashDemangleLanguageCPlusPlus;
     }
     if (self.crashReportStore.demangleSwift) {
-        languages |= BSG_KSCrashDemangleLanguageSwift;
+        languages |= PNLite_KSCrashDemangleLanguageSwift;
     }
     return languages;
 }

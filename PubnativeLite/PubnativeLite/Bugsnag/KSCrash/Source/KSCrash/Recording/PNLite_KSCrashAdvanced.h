@@ -1,27 +1,23 @@
 //
-//  BSG_KSCrashAdvanced.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-05-06.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #import "PNLite_KSCrash.h"
@@ -29,13 +25,13 @@
 #import "PNLite_KSCrashReportStore.h"
 
 typedef enum {
-    BSG_KSCrashDemangleLanguageCPlusPlus = 1,
-    BSG_KSCrashDemangleLanguageSwift = 2,
-    BSG_KSCrashDemangleLanguageAll = ~1
-} BSG_KSCrashDemangleLanguage;
+    PNLite_KSCrashDemangleLanguageCPlusPlus = 1,
+    PNLite_KSCrashDemangleLanguageSwift = 2,
+    PNLite_KSCrashDemangleLanguageAll = ~1
+} PNLite_KSCrashDemangleLanguage;
 
 /**
- * Advanced interface to the BSG_KSCrash system.
+ * Advanced interface to the PNLite_KSCrash system.
  */
 @interface PNLite_KSCrash (Advanced)
 
@@ -75,7 +71,7 @@ typedef enum {
 /** Which languages to demangle when getting stack traces (default
  * BSG_KSCrashDemangleLanguageAll) */
 @property(nonatomic, readwrite, assign)
-    BSG_KSCrashDemangleLanguage demangleLanguages;
+    PNLite_KSCrashDemangleLanguage demangleLanguages;
 
 /** The total number of unsent reports. Note: This is an expensive operation.
  */

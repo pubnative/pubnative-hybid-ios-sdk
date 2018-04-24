@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "BSG_KSCrashAdvanced.h"
+#import "PNLite_KSCrashAdvanced.h"
 #import "BSG_KSCrashC.h"
 
 #import "BugsnagCrashSentry.h"
