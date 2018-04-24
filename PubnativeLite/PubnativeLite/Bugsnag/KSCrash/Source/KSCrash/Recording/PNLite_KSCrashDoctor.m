@@ -1,26 +1,40 @@
 //
-//  BSG_KSCrashDoctor.m
-//  BSG_KSCrash
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-11-10.
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #import "PNLite_KSCrashDoctor.h"
 #import "BSG_KSCrashReportFields.h"
 #import "BSG_KSSystemInfo.h"
 
-#define BSG_kUserCrashHandler "kscrw_i_callUserCrashHandler"
+#define PNLite_kUserCrashHandler "kscrw_i_callUserCrashHandler"
 
 typedef enum {
-    BSG_CPUFamilyUnknown,
-    BSG_CPUFamilyArm,
-    BSG_CPUFamilyArm64,
-    BSG_CPUFamilyX86,
-    BSG_CPUFamilyX86_64
-} BSG_CPUFamily;
+    PNLite_CPUFamilyUnknown,
+    PNLite_CPUFamilyArm,
+    PNLite_CPUFamilyArm64,
+    PNLite_CPUFamilyX86,
+    PNLite_CPUFamilyX86_64
+} PNLite_CPUFamily;
 
-@interface BSG_KSCrashDoctorParam : NSObject
+@interface PNLite_KSCrashDoctorParam : NSObject
 
 @property(nonatomic, readwrite, retain) NSString *className;
 @property(nonatomic, readwrite, retain) NSString *previousClassName;
@@ -31,7 +45,7 @@ typedef enum {
 
 @end
 
-@implementation BSG_KSCrashDoctorParam
+@implementation PNLite_KSCrashDoctorParam
 
 @synthesize className = _className;
 @synthesize previousClassName = _previousClassName;
@@ -42,14 +56,14 @@ typedef enum {
 
 @end
 
-@interface BSG_KSCrashDoctorFunctionCall : NSObject
+@interface PNLite_KSCrashDoctorFunctionCall : NSObject
 
 @property(nonatomic, readwrite, retain) NSString *name;
 @property(nonatomic, readwrite, retain) NSArray *params;
 
 @end
 
-@implementation BSG_KSCrashDoctorFunctionCall
+@implementation PNLite_KSCrashDoctorFunctionCall
 
 @synthesize name = _name;
 @synthesize params = _params;
@@ -58,7 +72,7 @@ typedef enum {
     if (![self.name isEqualToString:@"objc_msgSend"]) {
         return nil;
     }
-    BSG_KSCrashDoctorParam *receiverParam = self.params[0];
+    PNLite_KSCrashDoctorParam *receiverParam = self.params[0];
     NSString *receiver = receiverParam.previousClassName;
     if (receiver == nil) {
         receiver = receiverParam.className;
@@ -67,7 +81,7 @@ typedef enum {
         }
     }
 
-    BSG_KSCrashDoctorParam *selectorParam = self.params[1];
+    PNLite_KSCrashDoctorParam *selectorParam = self.params[1];
     if (![selectorParam.type isEqualToString:@BSG_KSCrashMemType_String]) {
         return nil;
     }
@@ -80,7 +94,7 @@ typedef enum {
     for (int paramNum = 0; paramNum < paramCount; paramNum++) {
         [string appendString:@":"];
         if (paramNum < 2) {
-            BSG_KSCrashDoctorParam *param =
+            PNLite_KSCrashDoctorParam *param =
                     self.params[(NSUInteger) paramNum + 2];
             if (param.value != nil) {
                 if ([param.type isEqualToString:@BSG_KSCrashMemType_String]) {
@@ -120,7 +134,7 @@ typedef enum {
     NSMutableString *str = [NSMutableString string];
     [str appendFormat:@"Function: %@\n", self.name];
     for (int i = 0; i < paramCount; i++) {
-        BSG_KSCrashDoctorParam *param =
+        PNLite_KSCrashDoctorParam *param =
                 self.params[(NSUInteger) i];
         [str appendFormat:@"Param %d:  ", i + 1];
         if (param.className != nil) {
@@ -168,29 +182,29 @@ typedef enum {
     return [self crashReport:report][@BSG_KSCrashField_Error];
 }
 
-- (BSG_CPUFamily)cpuFamily:(NSDictionary *)report {
+- (PNLite_CPUFamily)cpuFamily:(NSDictionary *)report {
     NSDictionary *system = [self systemReport:report];
     NSString *cpuArch = system[@BSG_KSSystemField_CPUArch];
     if ([cpuArch isEqualToString:@"arm64"]) {
-        return BSG_CPUFamilyArm64;
+        return PNLite_CPUFamilyArm64;
     }
     if ([cpuArch rangeOfString:@"arm"].location == 0) {
-        return BSG_CPUFamilyArm;
+        return PNLite_CPUFamilyArm;
     }
     if ([cpuArch rangeOfString:@"i"].location == 0 &&
         [cpuArch rangeOfString:@"86"].location == 2) {
-        return BSG_CPUFamilyX86;
+        return PNLite_CPUFamilyX86;
     }
     if ([@[@"x86_64", @"x86"] containsObject:cpuArch]) {
-        return BSG_CPUFamilyX86_64;
+        return PNLite_CPUFamilyX86_64;
     }
-    return BSG_CPUFamilyUnknown;
+    return PNLite_CPUFamilyUnknown;
 }
 
-- (NSString *)registerNameForFamily:(BSG_CPUFamily)family
+- (NSString *)registerNameForFamily:(PNLite_CPUFamily)family
                          paramIndex:(int)index {
     switch (family) {
-    case BSG_CPUFamilyArm: {
+    case PNLite_CPUFamilyArm: {
         switch (index) {
         case 0:
             return @"r0";
@@ -202,7 +216,7 @@ typedef enum {
             return @"r3";
         }
     }
-    case BSG_CPUFamilyArm64: {
+    case PNLite_CPUFamilyArm64: {
         switch (index) {
             case 0:
                 return @"x0";
@@ -214,7 +228,7 @@ typedef enum {
                 return @"x3";
         }
     }
-    case BSG_CPUFamilyX86: {
+    case PNLite_CPUFamilyX86: {
         switch (index) {
         case 0:
             return @"edi";
@@ -226,7 +240,7 @@ typedef enum {
             return @"ecx";
         }
     }
-    case BSG_CPUFamilyX86_64: {
+    case PNLite_CPUFamilyX86_64: {
         switch (index) {
         case 0:
             return @"rdi";
@@ -238,7 +252,7 @@ typedef enum {
             return @"rcx";
         }
     }
-    case BSG_CPUFamilyUnknown:
+    case PNLite_CPUFamilyUnknown:
         return nil;
     }
     return nil;
@@ -370,16 +384,16 @@ typedef enum {
     return NO;
 }
 
-- (BSG_KSCrashDoctorFunctionCall *)lastFunctionCall:(NSDictionary *)report {
-    BSG_KSCrashDoctorFunctionCall *function =
-        [[BSG_KSCrashDoctorFunctionCall alloc] init];
+- (PNLite_KSCrashDoctorFunctionCall *)lastFunctionCall:(NSDictionary *)report {
+    PNLite_KSCrashDoctorFunctionCall *function =
+        [[PNLite_KSCrashDoctorFunctionCall alloc] init];
     NSDictionary *lastStackEntry = [self lastStackEntry:report];
     function.name = lastStackEntry[@BSG_KSCrashField_SymbolName];
 
     NSDictionary *crashedThread = [self crashedThreadReport:report];
     NSDictionary *notableAddresses =
             crashedThread[@BSG_KSCrashField_NotableAddresses];
-    BSG_CPUFamily family = [self cpuFamily:report];
+    PNLite_CPUFamily family = [self cpuFamily:report];
     NSDictionary *registers =
         [self basicRegistersFromThreadReport:crashedThread];
     NSMutableArray *regNames = [NSMutableArray arrayWithCapacity:4];
@@ -391,7 +405,7 @@ typedef enum {
     }
     NSMutableArray *params = [NSMutableArray arrayWithCapacity:4];
     for (NSString *regName in regNames) {
-        BSG_KSCrashDoctorParam *param = [[BSG_KSCrashDoctorParam alloc] init];
+        PNLite_KSCrashDoctorParam *param = [[PNLite_KSCrashDoctorParam alloc] init];
         param.address =
             (uintptr_t)[registers[regName] unsignedLongLongValue];
         NSDictionary *notableAddress = notableAddresses[regName];
@@ -426,7 +440,7 @@ typedef enum {
     return function;
 }
 
-- (NSString *)zombieCall:(BSG_KSCrashDoctorFunctionCall *)functionCall {
+- (NSString *)zombieCall:(PNLite_KSCrashDoctorFunctionCall *)functionCall {
     if ([functionCall.name isEqualToString:@"objc_msgSend"] &&
         functionCall.params.count > 0 &&
         [functionCall.params[0] previousClassName] != nil) {
@@ -506,7 +520,7 @@ typedef enum {
                              callName:lastFunctionName];
         }
 
-        BSG_KSCrashDoctorFunctionCall *functionCall =
+        PNLite_KSCrashDoctorFunctionCall *functionCall =
             [self lastFunctionCall:report];
         NSString *zombieCall = [self zombieCall:functionCall];
         if (zombieCall != nil) {

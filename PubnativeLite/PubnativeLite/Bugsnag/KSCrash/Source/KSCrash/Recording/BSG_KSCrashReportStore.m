@@ -26,7 +26,7 @@
 
 #import "BSG_KSCrashReportStore.h"
 
-#import "BSG_KSCrashDoctor.h"
+#import "PNLite_KSCrashDoctor.h"
 #import "BSG_KSCrashReportFields.h"
 #import "BSG_KSSafeCollections.h"
 #import "BSG_RFC3339DateTool.h"
@@ -134,7 +134,7 @@ static NSString *const kCrashReportSuffix = @"-CrashReport-";
             [report[@BSG_KSCrashField_Crash] mutableCopy];
     [mutableReport bsg_ksc_setObjectIfNotNil:crashReport
                                       forKey:@BSG_KSCrashField_Crash];
-    BSG_KSCrashDoctor *doctor = [BSG_KSCrashDoctor doctor];
+    PNLite_KSCrashDoctor *doctor = [PNLite_KSCrashDoctor doctor];
     [crashReport bsg_ksc_setObjectIfNotNil:[doctor diagnoseCrash:report]
                                     forKey:@BSG_KSCrashField_Diagnosis];
 
