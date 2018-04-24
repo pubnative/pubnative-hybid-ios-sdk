@@ -31,12 +31,12 @@
 #import "BSG_KSMach.h"
 #import "BSG_KSSafeCollections.h"
 #import "BSG_KSSysCtl.h"
-#import "BSG_KSSystemCapabilities.h"
+#import "PNLite_KSSystemCapabilities.h"
 #import "PNLiteKeys.h"
 #import "BSG_KSLogger.h"
 
 #import <CommonCrypto/CommonDigest.h>
-#if BSG_KSCRASH_HAS_UIKIT
+#if PNLITE_KSCRASH_HAS_UIKIT
 #import <UIKit/UIKit.h>
 #endif
 
@@ -176,7 +176,7 @@
 + (NSString *)deviceAndAppHash {
     NSMutableData *data = nil;
 
-#if BSG_KSCRASH_HAS_UIDEVICE
+#if PNLITE_KSCRASH_HAS_UIDEVICE
     if ([[UIDevice currentDevice]
             respondsToSelector:@selector(identifierForVendor)]) {
         data = [NSMutableData dataWithLength:16];
@@ -295,14 +295,14 @@
  */
 + (NSString *)receiptUrlPath {
     NSString *path = nil;
-#if BSG_KSCRASH_HOST_IOS
+#if PNLITE_KSCRASH_HOST_IOS
     // For iOS 6 compatibility
     if ([[UIDevice currentDevice].systemVersion
             compare:@"7"
             options:NSNumericSearch] != NSOrderedAscending) {
 #endif
         path = [NSBundle mainBundle].appStoreReceiptURL.path;
-#if BSG_KSCRASH_HOST_IOS
+#if PNLITE_KSCRASH_HOST_IOS
     }
 #endif
     return path;
@@ -363,7 +363,7 @@
     NSDictionary *infoDict = [mainBundle infoDictionary];
     const struct mach_header *header = _dyld_get_image_header(0);
 
-#if BSG_KSCRASH_HAS_UIDEVICE
+#if PNLITE_KSCRASH_HAS_UIDEVICE
     [sysInfo bsg_ksc_safeSetObject:[UIDevice currentDevice].systemName
                             forKey:@BSG_KSSystemField_SystemName];
     [sysInfo bsg_ksc_safeSetObject:[UIDevice currentDevice].systemVersion
@@ -393,7 +393,7 @@
         [sysInfo bsg_ksc_safeSetObject:@"simulator"
                                 forKey:@BSG_KSSystemField_Model];
     } else {
-#if BSG_KSCRASH_HOST_OSX
+#if PNLITE_KSCRASH_HOST_OSX
         // MacOS has the machine in the model field, and no model
         [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:BSGKeyHwModel]
                                 forKey:@BSG_KSSystemField_Machine];
