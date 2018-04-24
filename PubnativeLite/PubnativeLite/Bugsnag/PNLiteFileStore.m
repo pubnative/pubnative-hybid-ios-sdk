@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteFileStore.h"
-#import "BSG_KSCrashReportFields.h"
+#import "PNLite_KSCrashReportFields.h"
 #import "BSG_KSJSONCodecObjC.h"
 #import "NSError+BSG_SimpleConstructor.h"
 #import "BSG_KSLogger.h"
@@ -327,7 +327,7 @@
     if (error != nil && *error != nil) {
 
         BSG_KSLOG_ERROR(@"Error decoding JSON data from %@: %@", path, *error);
-        fileContents[@BSG_KSCrashField_Incomplete] = @YES;
+        fileContents[@PNLite_KSCrashField_Incomplete] = @YES;
     }
     return fileContents;
 }

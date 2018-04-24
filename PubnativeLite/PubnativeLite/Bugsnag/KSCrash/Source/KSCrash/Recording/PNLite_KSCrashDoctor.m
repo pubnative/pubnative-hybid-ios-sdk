@@ -21,7 +21,7 @@
 //
 
 #import "PNLite_KSCrashDoctor.h"
-#import "BSG_KSCrashReportFields.h"
+#import "PNLite_KSCrashReportFields.h"
 #import "BSG_KSSystemInfo.h"
 
 #define PNLite_kUserCrashHandler "kscrw_i_callUserCrashHandler"
@@ -82,7 +82,7 @@ typedef enum {
     }
 
     PNLite_KSCrashDoctorParam *selectorParam = self.params[1];
-    if (![selectorParam.type isEqualToString:@BSG_KSCrashMemType_String]) {
+    if (![selectorParam.type isEqualToString:@PNLite_KSCrashMemType_String]) {
         return nil;
     }
     NSArray *splitSelector =
@@ -97,7 +97,7 @@ typedef enum {
             PNLite_KSCrashDoctorParam *param =
                     self.params[(NSUInteger) paramNum + 2];
             if (param.value != nil) {
-                if ([param.type isEqualToString:@BSG_KSCrashMemType_String]) {
+                if ([param.type isEqualToString:@PNLite_KSCrashMemType_String]) {
                     [string appendFormat:@"\"%@\"", param.value];
                 } else {
                     [string appendString:param.value];
@@ -163,23 +163,23 @@ typedef enum {
 }
 
 - (NSDictionary *)recrashReport:(NSDictionary *)report {
-    return report[@BSG_KSCrashField_RecrashReport];
+    return report[@PNLite_KSCrashField_RecrashReport];
 }
 
 - (NSDictionary *)systemReport:(NSDictionary *)report {
-    return report[@BSG_KSCrashField_System];
+    return report[@PNLite_KSCrashField_System];
 }
 
 - (NSDictionary *)crashReport:(NSDictionary *)report {
-    return report[@BSG_KSCrashField_Crash];
+    return report[@PNLite_KSCrashField_Crash];
 }
 
 - (NSDictionary *)infoReport:(NSDictionary *)report {
-    return report[@BSG_KSCrashField_Report];
+    return report[@PNLite_KSCrashField_Report];
 }
 
 - (NSDictionary *)errorReport:(NSDictionary *)report {
-    return [self crashReport:report][@BSG_KSCrashField_Error];
+    return [self crashReport:report][@PNLite_KSCrashField_Error];
 }
 
 - (PNLite_CPUFamily)cpuFamily:(NSDictionary *)report {
@@ -260,20 +260,20 @@ typedef enum {
 
 - (NSString *)mainExecutableNameForReport:(NSDictionary *)report {
     NSDictionary *info = [self infoReport:report];
-    return info[@BSG_KSCrashField_ProcessName];
+    return info[@PNLite_KSCrashField_ProcessName];
 }
 
 - (NSDictionary *)crashedThreadReport:(NSDictionary *)report {
     NSDictionary *crashReport = [self crashReport:report];
     NSDictionary *crashedThread =
-            crashReport[@BSG_KSCrashField_CrashedThread];
+            crashReport[@PNLite_KSCrashField_CrashedThread];
     if (crashedThread != nil) {
         return crashedThread;
     }
 
     for (NSDictionary *thread in
-            crashReport[@BSG_KSCrashField_Threads]) {
-        if ([thread[@BSG_KSCrashField_Crashed] boolValue]) {
+            crashReport[@PNLite_KSCrashField_Threads]) {
+        if ([thread[@PNLite_KSCrashField_Crashed] boolValue]) {
             return thread;
         }
     }
@@ -282,14 +282,14 @@ typedef enum {
 
 - (NSArray *)backtraceFromThreadReport:(NSDictionary *)threadReport {
     NSDictionary *backtrace =
-            threadReport[@BSG_KSCrashField_Backtrace];
-    return backtrace[@BSG_KSCrashField_Contents];
+            threadReport[@PNLite_KSCrashField_Backtrace];
+    return backtrace[@PNLite_KSCrashField_Contents];
 }
 
 - (NSDictionary *)basicRegistersFromThreadReport:(NSDictionary *)threadReport {
     NSDictionary *registers =
-            threadReport[@BSG_KSCrashField_Registers];
-    NSDictionary *basic = registers[@BSG_KSCrashField_Basic];
+            threadReport[@PNLite_KSCrashField_Registers];
+    NSDictionary *basic = registers[@PNLite_KSCrashField_Basic];
     return basic;
 }
 
@@ -299,7 +299,7 @@ typedef enum {
     NSArray *backtrace = [self backtraceFromThreadReport:crashedThread];
     for (NSDictionary *entry in backtrace) {
         NSString *objectName =
-                entry[@BSG_KSCrashField_ObjectName];
+                entry[@PNLite_KSCrashField_ObjectName];
         if ([objectName isEqualToString:executableName]) {
             return entry;
         }
@@ -317,37 +317,37 @@ typedef enum {
 }
 
 - (BOOL)isInvalidAddress:(NSDictionary *)errorReport {
-    NSDictionary *machError = errorReport[@BSG_KSCrashField_Mach];
+    NSDictionary *machError = errorReport[@PNLite_KSCrashField_Mach];
     if (machError != nil) {
         NSString *exceptionName =
-                machError[@BSG_KSCrashField_ExceptionName];
+                machError[@PNLite_KSCrashField_ExceptionName];
         return [exceptionName isEqualToString:@"EXC_BAD_ACCESS"];
     }
-    NSDictionary *signal = errorReport[@BSG_KSCrashField_Signal];
-    NSString *sigName = signal[@BSG_KSCrashField_Name];
+    NSDictionary *signal = errorReport[@PNLite_KSCrashField_Signal];
+    NSString *sigName = signal[@PNLite_KSCrashField_Name];
     return [sigName isEqualToString:@"SIGSEGV"];
 }
 
 - (BOOL)isMathError:(NSDictionary *)errorReport {
-    NSDictionary *machError = errorReport[@BSG_KSCrashField_Mach];
+    NSDictionary *machError = errorReport[@PNLite_KSCrashField_Mach];
     if (machError != nil) {
         NSString *exceptionName =
-                machError[@BSG_KSCrashField_ExceptionName];
+                machError[@PNLite_KSCrashField_ExceptionName];
         return [exceptionName isEqualToString:@"EXC_ARITHMETIC"];
     }
-    NSDictionary *signal = errorReport[@BSG_KSCrashField_Signal];
-    NSString *sigName = signal[@BSG_KSCrashField_Name];
+    NSDictionary *signal = errorReport[@PNLite_KSCrashField_Signal];
+    NSString *sigName = signal[@PNLite_KSCrashField_Name];
     return [sigName isEqualToString:@"SIGFPE"];
 }
 
 - (BOOL)isMemoryCorruption:(NSDictionary *)report {
     NSDictionary *crashedThread = [self crashedThreadReport:report];
     NSArray *notableAddresses =
-            crashedThread[@BSG_KSCrashField_NotableAddresses];
+            crashedThread[@PNLite_KSCrashField_NotableAddresses];
     for (NSDictionary *address in [notableAddresses objectEnumerator]) {
-        NSString *type = address[@BSG_KSCrashField_Type];
+        NSString *type = address[@PNLite_KSCrashField_Type];
         if ([type isEqualToString:@"string"]) {
-            NSString *value = address[@BSG_KSCrashField_Value];
+            NSString *value = address[@PNLite_KSCrashField_Value];
             if ([value rangeOfString:@"autorelease pool page"].location !=
                     NSNotFound &&
                 [value rangeOfString:@"corrupted"].location != NSNotFound) {
@@ -363,9 +363,9 @@ typedef enum {
     NSArray *backtrace = [self backtraceFromThreadReport:crashedThread];
     for (NSDictionary *entry in backtrace) {
         NSString *objectName =
-                entry[@BSG_KSCrashField_ObjectName];
+                entry[@PNLite_KSCrashField_ObjectName];
         NSString *symbolName =
-                entry[@BSG_KSCrashField_SymbolName];
+                entry[@PNLite_KSCrashField_SymbolName];
         if ([symbolName isEqualToString:@"objc_autoreleasePoolPush"]) {
             return YES;
         }
@@ -388,11 +388,11 @@ typedef enum {
     PNLite_KSCrashDoctorFunctionCall *function =
         [[PNLite_KSCrashDoctorFunctionCall alloc] init];
     NSDictionary *lastStackEntry = [self lastStackEntry:report];
-    function.name = lastStackEntry[@BSG_KSCrashField_SymbolName];
+    function.name = lastStackEntry[@PNLite_KSCrashField_SymbolName];
 
     NSDictionary *crashedThread = [self crashedThreadReport:report];
     NSDictionary *notableAddresses =
-            crashedThread[@BSG_KSCrashField_NotableAddresses];
+            crashedThread[@PNLite_KSCrashField_NotableAddresses];
     PNLite_CPUFamily family = [self cpuFamily:report];
     NSDictionary *registers =
         [self basicRegistersFromThreadReport:crashedThread];
@@ -413,20 +413,20 @@ typedef enum {
             param.value =
                 [NSString stringWithFormat:@"%p", (void *)param.address];
         } else {
-            param.type = notableAddress[@BSG_KSCrashField_Type];
+            param.type = notableAddress[@PNLite_KSCrashField_Type];
             NSString *className =
-                    notableAddress[@BSG_KSCrashField_Class];
-            NSString *previousClass = notableAddress[@BSG_KSCrashField_LastDeallocObject];
+                    notableAddress[@PNLite_KSCrashField_Class];
+            NSString *previousClass = notableAddress[@PNLite_KSCrashField_LastDeallocObject];
             NSString *value =
-                    notableAddress[@BSG_KSCrashField_Value];
+                    notableAddress[@PNLite_KSCrashField_Value];
 
-            if ([param.type isEqualToString:@BSG_KSCrashMemType_String]) {
+            if ([param.type isEqualToString:@PNLite_KSCrashMemType_String]) {
                 param.value = value;
             } else if ([param.type
-                           isEqualToString:@BSG_KSCrashMemType_Object]) {
+                           isEqualToString:@PNLite_KSCrashMemType_Object]) {
                 param.className = className;
                 param.isInstance = YES;
-            } else if ([param.type isEqualToString:@BSG_KSCrashMemType_Class]) {
+            } else if ([param.type isEqualToString:@PNLite_KSCrashMemType_Class]) {
                 param.className = className;
                 param.isInstance = NO;
             }
@@ -456,14 +456,14 @@ typedef enum {
 
 - (BOOL)isStackOverflow:(NSDictionary *)crashedThreadReport {
     NSDictionary *stack =
-            crashedThreadReport[@BSG_KSCrashField_Stack];
-    return [stack[@BSG_KSCrashField_Overflow] boolValue];
+            crashedThreadReport[@PNLite_KSCrashField_Stack];
+    return [stack[@PNLite_KSCrashField_Overflow] boolValue];
 }
 
 - (BOOL)isDeadlock:(NSDictionary *)report {
     NSDictionary *errorReport = [self errorReport:report];
-    NSString *crashType = errorReport[@BSG_KSCrashField_Type];
-    return [@BSG_KSCrashExcType_Deadlock isEqualToString:crashType];
+    NSString *crashType = errorReport[@PNLite_KSCrashField_Type];
+    return [@PNLite_KSCrashExcType_Deadlock isEqualToString:crashType];
 }
 
 - (NSString *)appendOriginatingCall:(NSString *)string
@@ -478,7 +478,7 @@ typedef enum {
 
 - (NSString *)diagnoseCrash:(NSDictionary *)report {
     @try {
-        NSString *lastFunctionName = [self lastInAppStackEntry:report][@BSG_KSCrashField_SymbolName];
+        NSString *lastFunctionName = [self lastInAppStackEntry:report][@PNLite_KSCrashField_SymbolName];
         NSDictionary *crashedThreadReport = [self crashedThreadReport:report];
         NSDictionary *errorReport = [self errorReport:report];
 
@@ -492,13 +492,13 @@ typedef enum {
                 stringWithFormat:@"Stack overflow in %@", lastFunctionName];
         }
 
-        NSString *crashType = errorReport[@BSG_KSCrashField_Type];
-        if ([crashType isEqualToString:@BSG_KSCrashExcType_NSException]) {
+        NSString *crashType = errorReport[@PNLite_KSCrashField_Type];
+        if ([crashType isEqualToString:@PNLite_KSCrashExcType_NSException]) {
             NSDictionary *exception =
-                    errorReport[@BSG_KSCrashField_NSException];
-            NSString *name = exception[@BSG_KSCrashField_Name];
+                    errorReport[@PNLite_KSCrashField_NSException];
+            NSString *name = exception[@PNLite_KSCrashField_Name];
             NSString *reason =
-                    exception[@BSG_KSCrashField_Reason];
+                    exception[@PNLite_KSCrashField_Reason];
             return [self
                 appendOriginatingCall:
                     [NSString
@@ -532,7 +532,7 @@ typedef enum {
         }
 
         if ([self isInvalidAddress:errorReport]) {
-            uintptr_t address = (uintptr_t)[errorReport[@BSG_KSCrashField_Address] unsignedLongLongValue];
+            uintptr_t address = (uintptr_t)[errorReport[@PNLite_KSCrashField_Address] unsignedLongLongValue];
             if (address == 0) {
                 return [self appendOriginatingCall:
                                  @"Attempted to dereference null pointer."

@@ -23,7 +23,7 @@
 #import "PNLite_KSCrashReportStore.h"
 
 #import "PNLite_KSCrashDoctor.h"
-#import "BSG_KSCrashReportFields.h"
+#import "PNLite_KSCrashReportFields.h"
 #import "BSG_KSSafeCollections.h"
 #import "BSG_RFC3339DateTool.h"
 #import "NSDictionary+BSG_Merge.h"
@@ -66,9 +66,9 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
 }
 
 - (NSString *)getReportType:(NSDictionary *)report {
-    NSDictionary *reportSection = report[@BSG_KSCrashField_Report];
+    NSDictionary *reportSection = report[@PNLite_KSCrashField_Report];
     if (reportSection) {
-        return reportSection[@BSG_KSCrashField_Type];
+        return reportSection[@PNLite_KSCrashField_Type];
     }
     BSG_KSLOG_ERROR(@"Expected a report section in the report.");
     return nil;
@@ -96,7 +96,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
         NSMutableDictionary *recrashReport =
                 [self readFile:[self pathToRecrashReportWithID:fileId] error:nil];
         [fileContents bsg_ksc_setObjectIfNotNil:recrashReport
-                                         forKey:@BSG_KSCrashField_RecrashReport];
+                                         forKey:@PNLite_KSCrashField_RecrashReport];
         return fileContents;
     }
 }
@@ -111,28 +111,28 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
 
     NSMutableDictionary *mutableReport = [report mutableCopy];
     NSMutableDictionary *mutableInfo =
-            [report[@BSG_KSCrashField_Report] mutableCopy];
+            [report[@PNLite_KSCrashField_Report] mutableCopy];
     [mutableReport bsg_ksc_setObjectIfNotNil:mutableInfo
-                                      forKey:@BSG_KSCrashField_Report];
+                                      forKey:@PNLite_KSCrashField_Report];
 
     // Timestamp gets stored as a unix timestamp. Convert it to rfc3339.
-    [self convertTimestamp:@BSG_KSCrashField_Timestamp inReport:mutableInfo];
+    [self convertTimestamp:@PNLite_KSCrashField_Timestamp inReport:mutableInfo];
 
-    [self mergeDictWithKey:@BSG_KSCrashField_SystemAtCrash
-           intoDictWithKey:@BSG_KSCrashField_System
+    [self mergeDictWithKey:@PNLite_KSCrashField_SystemAtCrash
+           intoDictWithKey:@PNLite_KSCrashField_System
                   inReport:mutableReport];
 
-    [self mergeDictWithKey:@BSG_KSCrashField_UserAtCrash
-           intoDictWithKey:@BSG_KSCrashField_User
+    [self mergeDictWithKey:@PNLite_KSCrashField_UserAtCrash
+           intoDictWithKey:@PNLite_KSCrashField_User
                   inReport:mutableReport];
 
     NSMutableDictionary *crashReport =
-            [report[@BSG_KSCrashField_Crash] mutableCopy];
+            [report[@PNLite_KSCrashField_Crash] mutableCopy];
     [mutableReport bsg_ksc_setObjectIfNotNil:crashReport
-                                      forKey:@BSG_KSCrashField_Crash];
+                                      forKey:@PNLite_KSCrashField_Crash];
     PNLite_KSCrashDoctor *doctor = [PNLite_KSCrashDoctor doctor];
     [crashReport bsg_ksc_setObjectIfNotNil:[doctor diagnoseCrash:report]
-                                    forKey:@BSG_KSCrashField_Diagnosis];
+                                    forKey:@PNLite_KSCrashField_Diagnosis];
 
     return mutableReport;
 }
@@ -179,8 +179,8 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
     NSMutableDictionary *report = [super readFile:path error:error];
 
     NSString *reportType = [self getReportType:report];
-    if ([reportType isEqualToString:@BSG_KSCrashReportType_Standard] ||
-            [reportType isEqualToString:@BSG_KSCrashReportType_Minimal]) {
+    if ([reportType isEqualToString:@PNLite_KSCrashReportType_Standard] ||
+            [reportType isEqualToString:@PNLite_KSCrashReportType_Minimal]) {
         report = [self fixupCrashReport:report];
     }
 

@@ -27,7 +27,7 @@
 #include "BSG_KSCrashReport.h"
 
 #include "BSG_KSBacktrace_Private.h"
-#include "BSG_KSCrashReportFields.h"
+#include "PNLite_KSCrashReportFields.h"
 #include "BSG_KSCrashReportVersion.h"
 #include "BSG_KSDynamicLinker.h"
 #include "BSG_KSFileUtils.h"
@@ -253,10 +253,10 @@ void bsg_kscrw_i_addJSONElement(const PNLite_KSCrashReportWriter *const writer,
                  bsg_ksjsonstringForError(jsonResult));
         bsg_ksjsonbeginObject(bsg_getJsonContext(writer), key);
         bsg_ksjsonaddStringElement(bsg_getJsonContext(writer),
-                                   BSG_KSCrashField_Error, errorBuff,
+                                   PNLite_KSCrashField_Error, errorBuff,
                                    BSG_KSJSON_SIZE_AUTOMATIC);
         bsg_ksjsonaddStringElement(bsg_getJsonContext(writer),
-                                   BSG_KSCrashField_JSONData, jsonElement,
+                                   PNLite_KSCrashField_JSONData, jsonElement,
                                    BSG_KSJSON_SIZE_AUTOMATIC);
         bsg_ksjsonendContainer(bsg_getJsonContext(writer));
     }
@@ -882,75 +882,75 @@ void bsg_kscrw_i_writeMemoryContents(
     const void *object = (const void *)address;
     writer->beginObject(writer, key);
     {
-        writer->addUIntegerElement(writer, BSG_KSCrashField_Address, address);
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_Address, address);
         const char *zombieClassName = bsg_kszombie_className(object);
         if (zombieClassName != NULL) {
-            writer->addStringElement(writer, BSG_KSCrashField_LastDeallocObject,
+            writer->addStringElement(writer, PNLite_KSCrashField_LastDeallocObject,
                                      zombieClassName);
         }
         switch (bsg_ksobjc_objectType(object)) {
         case BSG_KSObjCTypeUnknown:
             if (object == NULL) {
-                writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                         BSG_KSCrashMemType_NullPointer);
+                writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                         PNLite_KSCrashMemType_NullPointer);
             } else if (bsg_kscrw_i_isValidString(object)) {
-                writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                         BSG_KSCrashMemType_String);
-                writer->addStringElement(writer, BSG_KSCrashField_Value,
+                writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                         PNLite_KSCrashMemType_String);
+                writer->addStringElement(writer, PNLite_KSCrashField_Value,
                                          (const char *)object);
             } else {
-                writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                         BSG_KSCrashMemType_Unknown);
+                writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                         PNLite_KSCrashMemType_Unknown);
             }
             break;
         case BSG_KSObjCTypeClass:
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashMemType_Class);
-            writer->addStringElement(writer, BSG_KSCrashField_Class,
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashMemType_Class);
+            writer->addStringElement(writer, PNLite_KSCrashField_Class,
                                      bsg_ksobjc_className(object));
             break;
         case BSG_KSObjCTypeObject: {
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashMemType_Object);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashMemType_Object);
             const char *className = bsg_ksobjc_objectClassName(object);
-            writer->addStringElement(writer, BSG_KSCrashField_Class, className);
+            writer->addStringElement(writer, PNLite_KSCrashField_Class, className);
             if (!bsg_kscrw_i_isRestrictedClass(className)) {
                 switch (bsg_ksobjc_objectClassType(object)) {
                 case BSG_KSObjCClassTypeString:
                     bsg_kscrw_i_writeNSStringContents(
-                        writer, BSG_KSCrashField_Value, address, limit);
+                        writer, PNLite_KSCrashField_Value, address, limit);
                     break;
                 case BSG_KSObjCClassTypeURL:
-                    bsg_kscrw_i_writeURLContents(writer, BSG_KSCrashField_Value,
+                    bsg_kscrw_i_writeURLContents(writer, PNLite_KSCrashField_Value,
                                                  address, limit);
                     break;
                 case BSG_KSObjCClassTypeDate:
                     bsg_kscrw_i_writeDateContents(
-                        writer, BSG_KSCrashField_Value, address, limit);
+                        writer, PNLite_KSCrashField_Value, address, limit);
                     break;
                 case BSG_KSObjCClassTypeArray:
                     if (*limit > 0) {
                         bsg_kscrw_i_writeArrayContents(
-                            writer, BSG_KSCrashField_FirstObject, address,
+                            writer, PNLite_KSCrashField_FirstObject, address,
                             limit);
                     }
                     break;
                 case BSG_KSObjCClassTypeNumber:
                     bsg_kscrw_i_writeNumberContents(
-                        writer, BSG_KSCrashField_Value, address, limit);
+                        writer, PNLite_KSCrashField_Value, address, limit);
                     break;
                 case BSG_KSObjCClassTypeDictionary:
                 case BSG_KSObjCClassTypeException:
                     // TODO: Implement these.
                     if (*limit > 0) {
                         bsg_kscrw_i_writeUnknownObjectContents(
-                            writer, BSG_KSCrashField_Ivars, address, limit);
+                            writer, PNLite_KSCrashField_Ivars, address, limit);
                     }
                     break;
                 case BSG_KSObjCClassTypeUnknown:
                     if (*limit > 0) {
                         bsg_kscrw_i_writeUnknownObjectContents(
-                            writer, BSG_KSCrashField_Ivars, address, limit);
+                            writer, PNLite_KSCrashField_Ivars, address, limit);
                     }
                     break;
                 }
@@ -958,10 +958,10 @@ void bsg_kscrw_i_writeMemoryContents(
             break;
         }
         case BSG_KSObjCTypeBlock:
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashMemType_Block);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashMemType_Block);
             const char *className = bsg_ksobjc_objectClassName(object);
-            writer->addStringElement(writer, BSG_KSCrashField_Class, className);
+            writer->addStringElement(writer, PNLite_KSCrashField_Class, className);
             break;
         }
     }
@@ -1050,19 +1050,19 @@ void bsg_kscrw_i_writeBacktraceEntry(
     writer->beginObject(writer, key);
     {
         if (info->dli_fname != NULL) {
-            writer->addStringElement(writer, BSG_KSCrashField_ObjectName,
+            writer->addStringElement(writer, PNLite_KSCrashField_ObjectName,
                                      bsg_ksfulastPathEntry(info->dli_fname));
         }
-        writer->addUIntegerElement(writer, BSG_KSCrashField_ObjectAddr,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_ObjectAddr,
                                    (uintptr_t)info->dli_fbase);
         if (info->dli_sname != NULL) {
             const char *sname = info->dli_sname;
-            writer->addStringElement(writer, BSG_KSCrashField_SymbolName,
+            writer->addStringElement(writer, PNLite_KSCrashField_SymbolName,
                                      sname);
         }
-        writer->addUIntegerElement(writer, BSG_KSCrashField_SymbolAddr,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_SymbolAddr,
                                    (uintptr_t)info->dli_saddr);
-        writer->addUIntegerElement(writer, BSG_KSCrashField_InstructionAddr,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_InstructionAddr,
                                    address);
     }
     writer->endContainer(writer);
@@ -1088,7 +1088,7 @@ void bsg_kscrw_i_writeBacktrace(const PNLite_KSCrashReportWriter *const writer,
                                 const int skippedEntries) {
     writer->beginObject(writer, key);
     {
-        writer->beginArray(writer, BSG_KSCrashField_Contents);
+        writer->beginArray(writer, PNLite_KSCrashField_Contents);
         {
             if (backtraceLength > 0) {
                 Dl_info symbolicated[backtraceLength];
@@ -1102,7 +1102,7 @@ void bsg_kscrw_i_writeBacktrace(const PNLite_KSCrashReportWriter *const writer,
             }
         }
         writer->endContainer(writer);
-        writer->addIntegerElement(writer, BSG_KSCrashField_Skipped,
+        writer->addIntegerElement(writer, PNLite_KSCrashField_Skipped,
                                   skippedEntries);
     }
     writer->endContainer(writer);
@@ -1142,24 +1142,24 @@ void bsg_kscrw_i_writeStackContents(
     }
     writer->beginObject(writer, key);
     {
-        writer->addStringElement(writer, BSG_KSCrashField_GrowDirection,
+        writer->addStringElement(writer, PNLite_KSCrashField_GrowDirection,
                                  bsg_ksmachstackGrowDirection() > 0 ? "+"
                                                                     : "-");
-        writer->addUIntegerElement(writer, BSG_KSCrashField_DumpStart,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_DumpStart,
                                    lowAddress);
-        writer->addUIntegerElement(writer, BSG_KSCrashField_DumpEnd,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_DumpEnd,
                                    highAddress);
-        writer->addUIntegerElement(writer, BSG_KSCrashField_StackPtr, sp);
-        writer->addBooleanElement(writer, BSG_KSCrashField_Overflow,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_StackPtr, sp);
+        writer->addBooleanElement(writer, PNLite_KSCrashField_Overflow,
                                   isStackOverflow);
         uint8_t stackBuffer[BSG_kStackContentsTotalDistance * sizeof(sp)];
         size_t copyLength = highAddress - lowAddress;
         if (bsg_ksmachcopyMem((void *)lowAddress, stackBuffer, copyLength) ==
             KERN_SUCCESS) {
-            writer->addDataElement(writer, BSG_KSCrashField_Contents,
+            writer->addDataElement(writer, PNLite_KSCrashField_Contents,
                                    (void *)stackBuffer, copyLength);
         } else {
-            writer->addStringElement(writer, BSG_KSCrashField_Error,
+            writer->addStringElement(writer, PNLite_KSCrashField_Error,
                                      "Stack contents not accessible");
         }
     }
@@ -1288,11 +1288,11 @@ void bsg_kscrw_i_writeRegisters(
     const bool isCrashedContext) {
     writer->beginObject(writer, key);
     {
-        bsg_kscrw_i_writeBasicRegisters(writer, BSG_KSCrashField_Basic,
+        bsg_kscrw_i_writeBasicRegisters(writer, PNLite_KSCrashField_Basic,
                                         machineContext);
         if (isCrashedContext) {
             bsg_kscrw_i_writeExceptionRegisters(
-                writer, BSG_KSCrashField_Exception, machineContext);
+                writer, PNLite_KSCrashField_Exception, machineContext);
         }
     }
     writer->endContainer(writer);
@@ -1383,20 +1383,20 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
     writer->beginObject(writer, key);
     {
         if (backtrace != NULL) {
-            bsg_kscrw_i_writeBacktrace(writer, BSG_KSCrashField_Backtrace,
+            bsg_kscrw_i_writeBacktrace(writer, PNLite_KSCrashField_Backtrace,
                                        backtrace, backtraceLength,
                                        skippedEntries);
         }
         if (machineContext != NULL) {
-            bsg_kscrw_i_writeRegisters(writer, BSG_KSCrashField_Registers,
+            bsg_kscrw_i_writeRegisters(writer, PNLite_KSCrashField_Registers,
                                        machineContext, isCrashedThread);
         }
-        writer->addIntegerElement(writer, BSG_KSCrashField_Index, index);
+        writer->addIntegerElement(writer, PNLite_KSCrashField_Index, index);
         if (searchThreadNames) {
             if (bsg_ksmachgetThreadName(thread, nameBuffer,
                                         sizeof(nameBuffer)) &&
                 nameBuffer[0] != 0) {
-                writer->addStringElement(writer, BSG_KSCrashField_Name,
+                writer->addStringElement(writer, PNLite_KSCrashField_Name,
                                          nameBuffer);
             }
         }
@@ -1404,20 +1404,20 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
             if (bsg_ksmachgetThreadQueueName(thread, nameBuffer,
                                              sizeof(nameBuffer)) &&
                 nameBuffer[0] != 0) {
-                writer->addStringElement(writer, BSG_KSCrashField_DispatchQueue,
+                writer->addStringElement(writer, PNLite_KSCrashField_DispatchQueue,
                                          nameBuffer);
             }
         }
-        writer->addBooleanElement(writer, BSG_KSCrashField_Crashed,
+        writer->addBooleanElement(writer, PNLite_KSCrashField_Crashed,
                                   isCrashedThread);
-        writer->addBooleanElement(writer, BSG_KSCrashField_CurrentThread,
+        writer->addBooleanElement(writer, PNLite_KSCrashField_CurrentThread,
                                   thread == bsg_ksmachthread_self());
         if (isCrashedThread && machineContext != NULL) {
-            bsg_kscrw_i_writeStackContents(writer, BSG_KSCrashField_Stack,
+            bsg_kscrw_i_writeStackContents(writer, PNLite_KSCrashField_Stack,
                                            machineContext, skippedEntries > 0);
             if (writeNotableAddresses) {
                 bsg_kscrw_i_writeNotableAddresses(
-                    writer, BSG_KSCrashField_NotableAddresses, machineContext);
+                    writer, PNLite_KSCrashField_NotableAddresses, machineContext);
             }
         }
     }
@@ -1561,18 +1561,18 @@ void bsg_kscrw_i_writeBinaryImage(const PNLite_KSCrashReportWriter *const writer
 
     writer->beginObject(writer, key);
     {
-        writer->addUIntegerElement(writer, BSG_KSCrashField_ImageAddress,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_ImageAddress,
                                    (uintptr_t)header);
-        writer->addUIntegerElement(writer, BSG_KSCrashField_ImageVmAddress,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_ImageVmAddress,
                                    imageVmAddr);
-        writer->addUIntegerElement(writer, BSG_KSCrashField_ImageSize,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_ImageSize,
                                    imageSize);
-        writer->addStringElement(writer, BSG_KSCrashField_Name,
+        writer->addStringElement(writer, PNLite_KSCrashField_Name,
                                  _dyld_get_image_name(index));
-        writer->addUUIDElement(writer, BSG_KSCrashField_UUID, uuid);
-        writer->addIntegerElement(writer, BSG_KSCrashField_CPUType,
+        writer->addUUIDElement(writer, PNLite_KSCrashField_UUID, uuid);
+        writer->addIntegerElement(writer, PNLite_KSCrashField_CPUType,
                                   header->cputype);
-        writer->addIntegerElement(writer, BSG_KSCrashField_CPUSubType,
+        writer->addIntegerElement(writer, PNLite_KSCrashField_CPUSubType,
                                   header->cpusubtype);
     }
     writer->endContainer(writer);
@@ -1607,9 +1607,9 @@ void bsg_kscrw_i_writeMemoryInfo(const PNLite_KSCrashReportWriter *const writer,
                                  const char *const key) {
     writer->beginObject(writer, key);
     {
-        writer->addUIntegerElement(writer, BSG_KSCrashField_Usable,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_Usable,
                                    bsg_ksmachusableMemory());
-        writer->addUIntegerElement(writer, BSG_KSCrashField_Free,
+        writer->addUIntegerElement(writer, PNLite_KSCrashField_Free,
                                    bsg_ksmachfreeMemory());
     }
     writer->endContainer(writer);
@@ -1686,12 +1686,12 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
     {
 
         if (PNLite_KSCrashTypeUserReported != crash->crashType) {
-            writer->addUIntegerElement(writer, BSG_KSCrashField_Address,
+            writer->addUIntegerElement(writer, PNLite_KSCrashField_Address,
                                        crash->faultAddress);
         }
 
         if (crashReason != NULL) {
-            writer->addStringElement(writer, BSG_KSCrashField_Reason,
+            writer->addStringElement(writer, PNLite_KSCrashField_Reason,
                                      crashReason);
         }
 
@@ -1699,97 +1699,97 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
         // Gather specific info.
         switch (crash->crashType) {
         case PNLite_KSCrashTypeMainThreadDeadlock:
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashExcType_Deadlock);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashExcType_Deadlock);
             break;
 
         case PNLite_KSCrashTypeMachException:
-            writer->beginObject(writer, BSG_KSCrashField_Mach);
+            writer->beginObject(writer, PNLite_KSCrashField_Mach);
             {
-                writer->addUIntegerElement(writer, BSG_KSCrashField_Exception,
+                writer->addUIntegerElement(writer, PNLite_KSCrashField_Exception,
                                            (unsigned)machExceptionType);
                 if (machExceptionName != NULL) {
-                    writer->addStringElement(writer, BSG_KSCrashField_ExceptionName,
+                    writer->addStringElement(writer, PNLite_KSCrashField_ExceptionName,
                                              machExceptionName);
                 }
-                writer->addUIntegerElement(writer, BSG_KSCrashField_Code,
+                writer->addUIntegerElement(writer, PNLite_KSCrashField_Code,
                                            (unsigned)machCode);
                 if (machCodeName != NULL) {
-                    writer->addStringElement(writer, BSG_KSCrashField_CodeName,
+                    writer->addStringElement(writer, PNLite_KSCrashField_CodeName,
                                              machCodeName);
                 }
-                writer->addUIntegerElement(writer, BSG_KSCrashField_Subcode,
+                writer->addUIntegerElement(writer, PNLite_KSCrashField_Subcode,
                                            (unsigned)machSubCode);
             }
             writer->endContainer(writer);
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashExcType_Mach);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashExcType_Mach);
             break;
 
         case PNLite_KSCrashTypeCPPException: {
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashExcType_CPPException);
-            writer->beginObject(writer, BSG_KSCrashField_CPPException);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashExcType_CPPException);
+            writer->beginObject(writer, PNLite_KSCrashField_CPPException);
             {
-                writer->addStringElement(writer, BSG_KSCrashField_Name,
+                writer->addStringElement(writer, PNLite_KSCrashField_Name,
                                          exceptionName);
             }
             writer->endContainer(writer);
             break;
         }
         case PNLite_KSCrashTypeNSException: {
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashExcType_NSException);
-            writer->beginObject(writer, BSG_KSCrashField_NSException);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashExcType_NSException);
+            writer->beginObject(writer, PNLite_KSCrashField_NSException);
             {
-                writer->addStringElement(writer, BSG_KSCrashField_Name,
+                writer->addStringElement(writer, PNLite_KSCrashField_Name,
                                          exceptionName);
                 bsg_kscrw_i_writeAddressReferencedByString(
-                    writer, BSG_KSCrashField_ReferencedObject, crashReason);
+                    writer, PNLite_KSCrashField_ReferencedObject, crashReason);
             }
             writer->endContainer(writer);
             break;
         }
         case PNLite_KSCrashTypeSignal:
-            writer->beginObject(writer, BSG_KSCrashField_Signal);
+            writer->beginObject(writer, PNLite_KSCrashField_Signal);
             {
-                writer->addUIntegerElement(writer, BSG_KSCrashField_Signal,
+                writer->addUIntegerElement(writer, PNLite_KSCrashField_Signal,
                                            (unsigned)sigNum);
                 if (sigName != NULL) {
-                    writer->addStringElement(writer, BSG_KSCrashField_Name,
+                    writer->addStringElement(writer, PNLite_KSCrashField_Name,
                                              sigName);
                 }
-                writer->addUIntegerElement(writer, BSG_KSCrashField_Code,
+                writer->addUIntegerElement(writer, PNLite_KSCrashField_Code,
                                            (unsigned)sigCode);
                 if (sigCodeName != NULL) {
-                    writer->addStringElement(writer, BSG_KSCrashField_CodeName,
+                    writer->addStringElement(writer, PNLite_KSCrashField_CodeName,
                                              sigCodeName);
                 }
             }
             writer->endContainer(writer);
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashExcType_Signal);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashExcType_Signal);
             break;
 
         case PNLite_KSCrashTypeUserReported: {
-            writer->addStringElement(writer, BSG_KSCrashField_Type,
-                                     BSG_KSCrashExcType_User);
-            writer->beginObject(writer, BSG_KSCrashField_UserReported);
+            writer->addStringElement(writer, PNLite_KSCrashField_Type,
+                                     PNLite_KSCrashExcType_User);
+            writer->beginObject(writer, PNLite_KSCrashField_UserReported);
             {
-                writer->addStringElement(writer, BSG_KSCrashField_Name,
+                writer->addStringElement(writer, PNLite_KSCrashField_Name,
                                          crash->userException.name);
                 if (crash->userException.language != NULL) {
-                    writer->addStringElement(writer, BSG_KSCrashField_Language,
+                    writer->addStringElement(writer, PNLite_KSCrashField_Language,
                                              crash->userException.language);
                 }
                 if (crash->userException.lineOfCode != NULL) {
                     writer->addStringElement(writer,
-                                             BSG_KSCrashField_LineOfCode,
+                                             PNLite_KSCrashField_LineOfCode,
                                              crash->userException.lineOfCode);
                 }
                 if (crash->userException.customStackTrace != NULL) {
                     writer->addJSONElement(
-                        writer, BSG_KSCrashField_Backtrace,
+                        writer, PNLite_KSCrashField_Backtrace,
                         crash->userException.customStackTrace);
                 }
             }
@@ -1814,29 +1814,29 @@ void bsg_kscrw_i_writeAppStats(const PNLite_KSCrashReportWriter *const writer,
                                PNLite_KSCrash_State *state) {
     writer->beginObject(writer, key);
     {
-        writer->addBooleanElement(writer, BSG_KSCrashField_AppActive,
+        writer->addBooleanElement(writer, PNLite_KSCrashField_AppActive,
                                   state->applicationIsActive);
-        writer->addBooleanElement(writer, BSG_KSCrashField_AppInFG,
+        writer->addBooleanElement(writer, PNLite_KSCrashField_AppInFG,
                                   state->applicationIsInForeground);
 
-        writer->addIntegerElement(writer, BSG_KSCrashField_LaunchesSinceCrash,
+        writer->addIntegerElement(writer, PNLite_KSCrashField_LaunchesSinceCrash,
                                   state->launchesSinceLastCrash);
-        writer->addIntegerElement(writer, BSG_KSCrashField_SessionsSinceCrash,
+        writer->addIntegerElement(writer, PNLite_KSCrashField_SessionsSinceCrash,
                                   state->sessionsSinceLastCrash);
         writer->addFloatingPointElement(writer,
-                                        BSG_KSCrashField_ActiveTimeSinceCrash,
+                                        PNLite_KSCrashField_ActiveTimeSinceCrash,
                                         state->activeDurationSinceLastCrash);
         writer->addFloatingPointElement(
-            writer, BSG_KSCrashField_BGTimeSinceCrash,
+            writer, PNLite_KSCrashField_BGTimeSinceCrash,
             state->backgroundDurationSinceLastCrash);
 
-        writer->addIntegerElement(writer, BSG_KSCrashField_SessionsSinceLaunch,
+        writer->addIntegerElement(writer, PNLite_KSCrashField_SessionsSinceLaunch,
                                   state->sessionsSinceLaunch);
         writer->addFloatingPointElement(writer,
-                                        BSG_KSCrashField_ActiveTimeSinceLaunch,
+                                        PNLite_KSCrashField_ActiveTimeSinceLaunch,
                                         state->activeDurationSinceLaunch);
         writer->addFloatingPointElement(writer,
-                                        BSG_KSCrashField_BGTimeSinceLaunch,
+                                        PNLite_KSCrashField_BGTimeSinceLaunch,
                                         state->backgroundDurationSinceLaunch);
     }
     writer->endContainer(writer);
@@ -1855,18 +1855,18 @@ void bsg_kscrw_i_writeProcessState(const PNLite_KSCrashReportWriter *const write
         const void *excAddress = bsg_kszombie_lastDeallocedNSExceptionAddress();
         if (excAddress != NULL) {
             writer->beginObject(writer,
-                                BSG_KSCrashField_LastDeallocedNSException);
+                                PNLite_KSCrashField_LastDeallocedNSException);
             {
-                writer->addUIntegerElement(writer, BSG_KSCrashField_Address,
+                writer->addUIntegerElement(writer, PNLite_KSCrashField_Address,
                                            (uintptr_t)excAddress);
                 writer->addStringElement(
-                    writer, BSG_KSCrashField_Name,
+                    writer, PNLite_KSCrashField_Name,
                     bsg_kszombie_lastDeallocedNSExceptionName());
                 writer->addStringElement(
-                    writer, BSG_KSCrashField_Reason,
+                    writer, PNLite_KSCrashField_Reason,
                     bsg_kszombie_lastDeallocedNSExceptionReason());
                 bsg_kscrw_i_writeAddressReferencedByString(
-                    writer, BSG_KSCrashField_ReferencedObject,
+                    writer, PNLite_KSCrashField_ReferencedObject,
                     bsg_kszombie_lastDeallocedNSExceptionReason());
             }
             writer->endContainer(writer);
@@ -1891,14 +1891,14 @@ void bsg_kscrw_i_writeReportInfo(const PNLite_KSCrashReportWriter *const writer,
                                  const char *const processName) {
     writer->beginObject(writer, key);
     {
-        writer->addStringElement(writer, BSG_KSCrashField_Version,
+        writer->addStringElement(writer, PNLite_KSCrashField_Version,
                                  BSG_KSCRASH_REPORT_VERSION);
-        writer->addStringElement(writer, BSG_KSCrashField_ID, reportID);
-        writer->addStringElement(writer, BSG_KSCrashField_ProcessName,
+        writer->addStringElement(writer, PNLite_KSCrashField_ID, reportID);
+        writer->addStringElement(writer, PNLite_KSCrashField_ProcessName,
                                  processName);
-        writer->addIntegerElement(writer, BSG_KSCrashField_Timestamp,
+        writer->addIntegerElement(writer, PNLite_KSCrashField_Timestamp,
                                   time(NULL));
-        writer->addStringElement(writer, BSG_KSCrashField_Type, type);
+        writer->addStringElement(writer, PNLite_KSCrashField_Type, type);
     }
     writer->endContainer(writer);
 }
@@ -1992,20 +1992,20 @@ void bsg_kscrashreport_writeMinimalReport(
     bsg_ksjsonbeginEncode(bsg_getJsonContext(writer), true,
                           bsg_kscrw_i_addJSONData, &fd);
 
-    writer->beginObject(writer, BSG_KSCrashField_Report);
+    writer->beginObject(writer, PNLite_KSCrashField_Report);
     {
         bsg_kscrw_i_writeReportInfo(
-            writer, BSG_KSCrashField_Report, BSG_KSCrashReportType_Minimal,
+            writer, PNLite_KSCrashField_Report, PNLite_KSCrashReportType_Minimal,
             crashContext->config.crashID, crashContext->config.processName);
 
-        writer->beginObject(writer, BSG_KSCrashField_Crash);
+        writer->beginObject(writer, PNLite_KSCrashField_Crash);
         {
             bsg_kscrw_i_writeThread(
-                writer, BSG_KSCrashField_CrashedThread, &crashContext->crash,
+                writer, PNLite_KSCrashField_CrashedThread, &crashContext->crash,
                 crashContext->crash.offendingThread,
                 bsg_kscrw_i_threadIndex(crashContext->crash.offendingThread),
                 false, false, false);
-            bsg_kscrw_i_writeError(writer, BSG_KSCrashField_Error,
+            bsg_kscrw_i_writeError(writer, PNLite_KSCrashField_Error,
                                    &crashContext->crash);
         }
         writer->endContainer(writer);
@@ -2039,10 +2039,10 @@ void bsg_kscrashreport_writeStandardReport(
     bsg_ksjsonbeginEncode(bsg_getJsonContext(writer), true,
                           bsg_kscrw_i_addJSONData, &fd);
 
-    writer->beginObject(writer, BSG_KSCrashField_Report);
+    writer->beginObject(writer, PNLite_KSCrashField_Report);
     {
         bsg_kscrw_i_writeReportInfo(
-            writer, BSG_KSCrashField_Report, BSG_KSCrashReportType_Standard,
+            writer, PNLite_KSCrashField_Report, PNLite_KSCrashReportType_Standard,
             crashContext->config.crashID, crashContext->config.processName);
 
         // Don't write the binary images for user reported crashes to improve
@@ -2050,48 +2050,48 @@ void bsg_kscrashreport_writeStandardReport(
         if (crashContext->crash.writeBinaryImagesForUserReported == true ||
             crashContext->crash.crashType != PNLite_KSCrashTypeUserReported) {
             bsg_kscrw_i_writeBinaryImages(writer,
-                                          BSG_KSCrashField_BinaryImages);
+                                          PNLite_KSCrashField_BinaryImages);
         }
 
-        bsg_kscrw_i_writeProcessState(writer, BSG_KSCrashField_ProcessState);
+        bsg_kscrw_i_writeProcessState(writer, PNLite_KSCrashField_ProcessState);
 
         if (crashContext->config.systemInfoJSON != NULL) {
-            bsg_kscrw_i_addJSONElement(writer, BSG_KSCrashField_System,
+            bsg_kscrw_i_addJSONElement(writer, PNLite_KSCrashField_System,
                                        crashContext->config.systemInfoJSON);
         }
 
-        writer->beginObject(writer, BSG_KSCrashField_SystemAtCrash);
+        writer->beginObject(writer, PNLite_KSCrashField_SystemAtCrash);
         {
-            bsg_kscrw_i_writeMemoryInfo(writer, BSG_KSCrashField_Memory);
-            bsg_kscrw_i_writeAppStats(writer, BSG_KSCrashField_AppStats,
+            bsg_kscrw_i_writeMemoryInfo(writer, PNLite_KSCrashField_Memory);
+            bsg_kscrw_i_writeAppStats(writer, PNLite_KSCrashField_AppStats,
                                       &crashContext->state);
         }
         writer->endContainer(writer);
 
         if (crashContext->config.userInfoJSON != NULL) {
-            bsg_kscrw_i_addJSONElement(writer, BSG_KSCrashField_User,
+            bsg_kscrw_i_addJSONElement(writer, PNLite_KSCrashField_User,
                                        crashContext->config.userInfoJSON);
         }
 
-        writer->beginObject(writer, BSG_KSCrashField_Crash);
+        writer->beginObject(writer, PNLite_KSCrashField_Crash);
         {
             // Don't write the threads for user reported crashes to improve
             // performance
             if (crashContext->crash.threadTracingEnabled == true ||
                 crashContext->crash.crashType != PNLite_KSCrashTypeUserReported) {
                 bsg_kscrw_i_writeAllThreads(
-                    writer, BSG_KSCrashField_Threads, &crashContext->crash,
+                    writer, PNLite_KSCrashField_Threads, &crashContext->crash,
                     crashContext->config.introspectionRules.enabled,
                     crashContext->config.searchThreadNames,
                     crashContext->config.searchQueueNames);
             }
-            bsg_kscrw_i_writeError(writer, BSG_KSCrashField_Error,
+            bsg_kscrw_i_writeError(writer, PNLite_KSCrashField_Error,
                     &crashContext->crash);
         }
         writer->endContainer(writer);
 
         if (crashContext->config.onCrashNotify != NULL) {
-            writer->beginObject(writer, BSG_KSCrashField_UserAtCrash);
+            writer->beginObject(writer, PNLite_KSCrashField_UserAtCrash);
             { bsg_kscrw_i_callUserCrashHandler(crashContext, writer); }
             writer->endContainer(writer);
         }
