@@ -26,7 +26,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BSG_KSCrashReportFilterCompletion.h"
+#import "PNLite_KSCrashReportFilterCompletion.h"
 #import "PNLite_KSCrashReportWriter.h"
 #import "BSG_KSCrashType.h"
 
@@ -158,7 +158,7 @@ typedef enum {
  * @param onCompletion Called when sending is complete (nil = ignore).
  */
 - (void)sendAllReportsWithCompletion:
-    (BSG_KSCrashReportFilterCompletion)onCompletion;
+    (PNLite_KSCrashReportFilterCompletion)onCompletion;
 
 /** Delete all unsent reports.
  */

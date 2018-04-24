@@ -318,7 +318,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
 }
 
 - (void)sendAllReportsWithCompletion:
-    (BSG_KSCrashReportFilterCompletion)onCompletion {
+    (PNLite_KSCrashReportFilterCompletion)onCompletion {
     [self.crashReportStore pruneFilesLeaving:self.maxStoredReports];
 
     NSArray *reports = [self allReports];
@@ -413,7 +413,7 @@ BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 }
 
 - (void)sendReports:(NSArray *)reports
-       onCompletion:(BSG_KSCrashReportFilterCompletion)onCompletion {
+       onCompletion:(PNLite_KSCrashReportFilterCompletion)onCompletion {
     if ([reports count] == 0) {
         bsg_kscrash_i_callCompletion(onCompletion, reports, YES, nil);
         return;

@@ -157,6 +157,6 @@ typedef enum {
  * @param onCompletion Called when sending is complete (nil = ignore).
  */
 - (void)sendReports:(NSArray *)reports
-       onCompletion:(BSG_KSCrashReportFilterCompletion)onCompletion;
+       onCompletion:(PNLite_KSCrashReportFilterCompletion)onCompletion;
 
 @end

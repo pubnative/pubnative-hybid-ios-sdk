@@ -22,11 +22,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PNLite_KSCrashReportFilterCompletion.h"
-#import "PNLiteCrashReport.h"
-#import "PNLiteConfiguration.h"
-#import "PNLiteApiClient.h"
-
-@interface PNLiteErrorReportApiClient : PNLiteApiClient
-
-@end
+/** Callback for filter operations.
+ *
+ * @param filteredReports The filtered reports (may be incomplete if "completed"
+ *                        is false).
+ * @param completed True if filtering completed.
+ *                  Can be false due to a non-erroneous condition (such as a
+ *                  user cancelling the operation).
+ * @param error Non-nil if an error occurred.
+ */
+typedef void (^PNLite_KSCrashReportFilterCompletion)(NSArray *filteredReports,
+                                                  BOOL completed,
+                                                  NSError *error);

@@ -27,7 +27,7 @@
 #import "BSG_KSCrashCallCompletion.h"
 
 void bsg_kscrash_i_callCompletion(
-    BSG_KSCrashReportFilterCompletion onCompletion, NSArray *filteredReports,
+    PNLite_KSCrashReportFilterCompletion onCompletion, NSArray *filteredReports,
     BOOL completed, NSError *error) {
     if (onCompletion) {
         onCompletion(filteredReports, completed, error);

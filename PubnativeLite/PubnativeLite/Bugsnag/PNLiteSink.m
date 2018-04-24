@@ -53,7 +53,7 @@
 // `notifyReleaseStages` property
 //   and it contains the current stage
 - (void)filterReports:(NSArray *)reports
-         onCompletion:(BSG_KSCrashReportFilterCompletion)onCompletion {
+         onCompletion:(PNLite_KSCrashReportFilterCompletion)onCompletion {
     NSMutableArray *bugsnagReports = [NSMutableArray new];
     PNLiteConfiguration *configuration = [PNLiteCrashTracker configuration];
     

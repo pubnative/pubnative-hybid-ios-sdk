@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 //
 
-#import "BSG_KSCrashReportFilterCompletion.h"
+#import "PNLite_KSCrashReportFilterCompletion.h"
 
 /**
  * A filter receives a set of reports, possibly transforms them, and then
@@ -38,7 +38,7 @@
  * @param onCompletion Block to call when processing is complete.
  */
 - (void)filterReports:(NSArray *)reports
-         onCompletion:(BSG_KSCrashReportFilterCompletion)onCompletion;
+         onCompletion:(PNLite_KSCrashReportFilterCompletion)onCompletion;
 
 @end
 

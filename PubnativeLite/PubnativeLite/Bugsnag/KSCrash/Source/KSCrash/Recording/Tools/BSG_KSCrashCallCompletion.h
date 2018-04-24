@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 //
 
-#import "BSG_KSCrashReportFilterCompletion.h"
+#import "PNLite_KSCrashReportFilterCompletion.h"
 
 /** Conditionally call a completion method if it's not nil.
  *
@@ -34,5 +34,5 @@
  * @param error The parameter to send as "error".
  */
 void bsg_kscrash_i_callCompletion(
-    BSG_KSCrashReportFilterCompletion onCompletion, NSArray *filteredReports,
+    PNLite_KSCrashReportFilterCompletion onCompletion, NSArray *filteredReports,
     BOOL completed, NSError *error);
