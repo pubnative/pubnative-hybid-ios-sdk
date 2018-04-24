@@ -387,7 +387,7 @@
 		5A8F11032089E4D20098E337 /* PNLite_KSCrashReportVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F107F2089E4D20098E337 /* PNLite_KSCrashReportVersion.h */; };
 		5A8F11042089E4D20098E337 /* PNLite_KSCrashAdvanced.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10802089E4D20098E337 /* PNLite_KSCrashAdvanced.h */; };
 		5A8F11052089E4D20098E337 /* PNLite_KSCrashReportStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10812089E4D20098E337 /* PNLite_KSCrashReportStore.h */; };
-		5A8F11062089E4D20098E337 /* BSG_KSCrashSentry_NSException.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10832089E4D20098E337 /* BSG_KSCrashSentry_NSException.m */; };
+		5A8F11062089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10832089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m */; };
 		5A8F11072089E4D20098E337 /* BSG_KSCrashSentry_MachException.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10842089E4D20098E337 /* BSG_KSCrashSentry_MachException.h */; };
 		5A8F11082089E4D20098E337 /* BSG_KSCrashSentry_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10852089E4D20098E337 /* BSG_KSCrashSentry_Private.h */; };
 		5A8F11092089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10862089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.h */; };
@@ -398,7 +398,7 @@
 		5A8F110E2089E4D20098E337 /* BSG_KSCrashSentry_CPPException.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F108B2089E4D20098E337 /* BSG_KSCrashSentry_CPPException.mm */; };
 		5A8F110F2089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F108C2089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.m */; };
 		5A8F11102089E4D20098E337 /* BSG_KSCrashSentry_MachException.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F108D2089E4D20098E337 /* BSG_KSCrashSentry_MachException.c */; };
-		5A8F11112089E4D20098E337 /* BSG_KSCrashSentry_NSException.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F108E2089E4D20098E337 /* BSG_KSCrashSentry_NSException.h */; };
+		5A8F11112089E4D20098E337 /* PNLite_KSCrashSentry_NSException.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F108E2089E4D20098E337 /* PNLite_KSCrashSentry_NSException.h */; };
 		5A8F11122089E4D20098E337 /* BSG_KSCrashSentry.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F108F2089E4D20098E337 /* BSG_KSCrashSentry.c */; };
 		5A8F11132089E4D20098E337 /* BSG_KSCrashSentry_User.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10902089E4D20098E337 /* BSG_KSCrashSentry_User.h */; };
 		5A8F11142089E4D20098E337 /* BSG_KSCrashSentry_Signal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10912089E4D20098E337 /* BSG_KSCrashSentry_Signal.h */; };
@@ -1128,7 +1128,7 @@
 		5A8F107F2089E4D20098E337 /* PNLite_KSCrashReportVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSCrashReportVersion.h; sourceTree = "<group>"; };
 		5A8F10802089E4D20098E337 /* PNLite_KSCrashAdvanced.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSCrashAdvanced.h; sourceTree = "<group>"; };
 		5A8F10812089E4D20098E337 /* PNLite_KSCrashReportStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSCrashReportStore.h; sourceTree = "<group>"; };
-		5A8F10832089E4D20098E337 /* BSG_KSCrashSentry_NSException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSG_KSCrashSentry_NSException.m; sourceTree = "<group>"; };
+		5A8F10832089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLite_KSCrashSentry_NSException.m; sourceTree = "<group>"; };
 		5A8F10842089E4D20098E337 /* BSG_KSCrashSentry_MachException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_MachException.h; sourceTree = "<group>"; };
 		5A8F10852089E4D20098E337 /* BSG_KSCrashSentry_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_Private.h; sourceTree = "<group>"; };
 		5A8F10862089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_Deadlock.h; sourceTree = "<group>"; };
@@ -1139,7 +1139,7 @@
 		5A8F108B2089E4D20098E337 /* BSG_KSCrashSentry_CPPException.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BSG_KSCrashSentry_CPPException.mm; sourceTree = "<group>"; };
 		5A8F108C2089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSG_KSCrashSentry_Deadlock.m; sourceTree = "<group>"; };
 		5A8F108D2089E4D20098E337 /* BSG_KSCrashSentry_MachException.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSCrashSentry_MachException.c; sourceTree = "<group>"; };
-		5A8F108E2089E4D20098E337 /* BSG_KSCrashSentry_NSException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_NSException.h; sourceTree = "<group>"; };
+		5A8F108E2089E4D20098E337 /* PNLite_KSCrashSentry_NSException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSCrashSentry_NSException.h; sourceTree = "<group>"; };
 		5A8F108F2089E4D20098E337 /* BSG_KSCrashSentry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSCrashSentry.c; sourceTree = "<group>"; };
 		5A8F10902089E4D20098E337 /* BSG_KSCrashSentry_User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_User.h; sourceTree = "<group>"; };
 		5A8F10912089E4D20098E337 /* BSG_KSCrashSentry_Signal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_Signal.h; sourceTree = "<group>"; };
@@ -2362,8 +2362,8 @@
 		5A8F10822089E4D20098E337 /* Sentry */ = {
 			isa = PBXGroup;
 			children = (
-				5A8F108E2089E4D20098E337 /* BSG_KSCrashSentry_NSException.h */,
-				5A8F10832089E4D20098E337 /* BSG_KSCrashSentry_NSException.m */,
+				5A8F108E2089E4D20098E337 /* PNLite_KSCrashSentry_NSException.h */,
+				5A8F10832089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m */,
 				5A8F10842089E4D20098E337 /* BSG_KSCrashSentry_MachException.h */,
 				5A8F108D2089E4D20098E337 /* BSG_KSCrashSentry_MachException.c */,
 				5A8F10852089E4D20098E337 /* BSG_KSCrashSentry_Private.h */,
@@ -2566,7 +2566,7 @@
 				5A8F11142089E4D20098E337 /* BSG_KSCrashSentry_Signal.h in Headers */,
 				5A8F110B2089E4D20098E337 /* BSG_KSCrashSentry.h in Headers */,
 				5A8F11222089E4D20098E337 /* PNLiteNotifier.h in Headers */,
-				5A8F11112089E4D20098E337 /* BSG_KSCrashSentry_NSException.h in Headers */,
+				5A8F11112089E4D20098E337 /* PNLite_KSCrashSentry_NSException.h in Headers */,
 				5A8F10AE2089E4D20098E337 /* PNLiteSession.h in Headers */,
 				5A404B4A204E991200BEE041 /* PNLiteAdTrackerRequest.h in Headers */,
 				5A8F10EE2089E4D20098E337 /* BSG_KSJSONCodec.h in Headers */,
@@ -3151,7 +3151,7 @@
 				5A20DBE4203B131100EF2B3C /* PNLiteBannerPresenter.m in Sources */,
 				5A8F10D12089E4D20098E337 /* NSDictionary+BSG_Merge.m in Sources */,
 				5A8F10E62089E4D20098E337 /* BSG_KSBacktrace.c in Sources */,
-				5A8F11062089E4D20098E337 /* BSG_KSCrashSentry_NSException.m in Sources */,
+				5A8F11062089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m in Sources */,
 				5A404B4B204E991200BEE041 /* PNLiteAdTrackerRequest.m in Sources */,
 				5A8F112E2089E4D20098E337 /* PNLiteBreadcrumb.m in Sources */,
 				5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */,
