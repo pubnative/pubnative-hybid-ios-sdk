@@ -25,7 +25,7 @@
 //
 
 #include "BSG_KSCrashSentry.h"
-#include "BSG_KSCrashSentry_Private.h"
+#include "PNLite_KSCrashSentry_Private.h"
 
 #include "BSG_KSCrashSentry_CPPException.h"
 #include "BSG_KSCrashSentry_Deadlock.h"

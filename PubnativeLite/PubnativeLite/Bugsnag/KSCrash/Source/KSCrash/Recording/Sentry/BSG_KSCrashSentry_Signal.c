@@ -26,7 +26,7 @@
 
 #include <TargetConditionals.h>
 
-#include "BSG_KSCrashSentry_Private.h"
+#include "PNLite_KSCrashSentry_Private.h"
 #include "BSG_KSCrashSentry_Signal.h"
 
 #include "BSG_KSMach.h"

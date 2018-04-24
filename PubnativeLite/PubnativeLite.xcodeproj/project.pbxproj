@@ -389,7 +389,7 @@
 		5A8F11052089E4D20098E337 /* PNLite_KSCrashReportStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10812089E4D20098E337 /* PNLite_KSCrashReportStore.h */; };
 		5A8F11062089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10832089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m */; };
 		5A8F11072089E4D20098E337 /* BSG_KSCrashSentry_MachException.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10842089E4D20098E337 /* BSG_KSCrashSentry_MachException.h */; };
-		5A8F11082089E4D20098E337 /* BSG_KSCrashSentry_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10852089E4D20098E337 /* BSG_KSCrashSentry_Private.h */; };
+		5A8F11082089E4D20098E337 /* PNLite_KSCrashSentry_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10852089E4D20098E337 /* PNLite_KSCrashSentry_Private.h */; };
 		5A8F11092089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10862089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.h */; };
 		5A8F110A2089E4D20098E337 /* BSG_KSCrashSentry_User.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10872089E4D20098E337 /* BSG_KSCrashSentry_User.c */; };
 		5A8F110B2089E4D20098E337 /* BSG_KSCrashSentry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10882089E4D20098E337 /* BSG_KSCrashSentry.h */; };
@@ -1130,7 +1130,7 @@
 		5A8F10812089E4D20098E337 /* PNLite_KSCrashReportStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSCrashReportStore.h; sourceTree = "<group>"; };
 		5A8F10832089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLite_KSCrashSentry_NSException.m; sourceTree = "<group>"; };
 		5A8F10842089E4D20098E337 /* BSG_KSCrashSentry_MachException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_MachException.h; sourceTree = "<group>"; };
-		5A8F10852089E4D20098E337 /* BSG_KSCrashSentry_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_Private.h; sourceTree = "<group>"; };
+		5A8F10852089E4D20098E337 /* PNLite_KSCrashSentry_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSCrashSentry_Private.h; sourceTree = "<group>"; };
 		5A8F10862089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry_Deadlock.h; sourceTree = "<group>"; };
 		5A8F10872089E4D20098E337 /* BSG_KSCrashSentry_User.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSCrashSentry_User.c; sourceTree = "<group>"; };
 		5A8F10882089E4D20098E337 /* BSG_KSCrashSentry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSCrashSentry.h; sourceTree = "<group>"; };
@@ -2366,7 +2366,7 @@
 				5A8F10832089E4D20098E337 /* PNLite_KSCrashSentry_NSException.m */,
 				5A8F10842089E4D20098E337 /* BSG_KSCrashSentry_MachException.h */,
 				5A8F108D2089E4D20098E337 /* BSG_KSCrashSentry_MachException.c */,
-				5A8F10852089E4D20098E337 /* BSG_KSCrashSentry_Private.h */,
+				5A8F10852089E4D20098E337 /* PNLite_KSCrashSentry_Private.h */,
 				5A8F10862089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.h */,
 				5A8F108C2089E4D20098E337 /* BSG_KSCrashSentry_Deadlock.m */,
 				5A8F10902089E4D20098E337 /* BSG_KSCrashSentry_User.h */,
@@ -2598,7 +2598,7 @@
 				5ACC74EA203595250001CDC3 /* PNLiteMRAIDServiceDelegate.h in Headers */,
 				5AECD5A4204034DE0023ABBC /* PNLiteInterstitialPresenter.h in Headers */,
 				5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */,
-				5A8F11082089E4D20098E337 /* BSG_KSCrashSentry_Private.h in Headers */,
+				5A8F11082089E4D20098E337 /* PNLite_KSCrashSentry_Private.h in Headers */,
 				5ACC74E9203595250001CDC3 /* PNLiteMRAIDUtil.h in Headers */,
 				5ADACD0F202C848000617734 /* PNLiteAdModel.h in Headers */,
 				5A8F10C02089E4D20098E337 /* BSGSerialization.h in Headers */,

@@ -23,7 +23,7 @@
 //
 
 #include "BSG_KSCrashSentry_User.h"
-#include "BSG_KSCrashSentry_Private.h"
+#include "PNLite_KSCrashSentry_Private.h"
 #include "BSG_KSMach.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
