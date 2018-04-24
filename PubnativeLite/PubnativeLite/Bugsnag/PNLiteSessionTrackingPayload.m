@@ -25,7 +25,7 @@
 #import "PNLiteNotifier.h"
 #import "PNLiteCrashTracker.h"
 #import "PNLiteKeys.h"
-#import "BSG_KSSystemInfo.h"
+#import "PNLite_KSSystemInfo.h"
 #import "PNLiteKSCrashSysInfoParser.h"
 
 @interface PNLiteCrashTracker ()
@@ -53,7 +53,7 @@
     BSGDictInsertIfNotNil(dict, sessionData, @"sessions");
     BSGDictSetSafeObject(dict, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);
     
-    NSDictionary *systemInfo = [BSG_KSSystemInfo systemInfo];
+    NSDictionary *systemInfo = [PNLite_KSSystemInfo systemInfo];
     BSGDictSetSafeObject(dict, BSGParseAppState(systemInfo), @"app");
     BSGDictSetSafeObject(dict, BSGParseDeviceState(systemInfo), @"device");
     return [NSDictionary dictionaryWithDictionary:dict];

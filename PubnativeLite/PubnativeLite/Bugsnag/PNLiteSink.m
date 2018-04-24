@@ -25,7 +25,7 @@
 #import "PNLiteCollections.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
-#import "BSG_KSSystemInfo.h"
+#import "PNLite_KSSystemInfo.h"
 
 // This is private in Bugsnag, but really we want package private so define
 // it here.
@@ -63,7 +63,7 @@
                                  [[report objectForKey:@"incomplete"] boolValue]);
         
         if (incompleteReport) { // append app/device data as this is unlikely to change between sessions
-            NSDictionary *sysInfo = [BSG_KSSystemInfo systemInfo];
+            NSDictionary *sysInfo = [PNLite_KSSystemInfo systemInfo];
             
             // reset any existing data as it will be corrupted/nil
             bugsnagReport.appState = @{};
@@ -71,20 +71,20 @@
 
 
             NSMutableDictionary *appDict = [NSMutableDictionary new];
-            BSGDictInsertIfNotNil(appDict, sysInfo[@BSG_KSSystemField_BundleVersion], @"bundleVersion");
-            BSGDictInsertIfNotNil(appDict, sysInfo[@BSG_KSSystemField_BundleID], @"id");
+            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleVersion], @"bundleVersion");
+            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleID], @"id");
             BSGDictInsertIfNotNil(appDict, configuration.releaseStage, @"releaseStage");
-            BSGDictInsertIfNotNil(appDict, sysInfo[@BSG_KSSystemField_SystemName], @"type");
-            BSGDictInsertIfNotNil(appDict, sysInfo[@BSG_KSSystemField_BundleShortVersion], @"version");
+            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_SystemName], @"type");
+            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleShortVersion], @"version");
 
             NSMutableDictionary *deviceDict = [NSMutableDictionary new];
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@BSG_KSSystemField_Jailbroken], @"jailbroken");
+            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Jailbroken], @"jailbroken");
             BSGDictInsertIfNotNil(deviceDict, [[NSLocale currentLocale] localeIdentifier], @"locale");
             BSGDictInsertIfNotNil(deviceDict, sysInfo[@"Apple"], @"manufacturer");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@BSG_KSSystemField_Machine], @"model");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@BSG_KSSystemField_Model], @"modelNumber");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@BSG_KSSystemField_SystemName], @"osName");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@BSG_KSSystemField_SystemVersion], @"osVersion");
+            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Machine], @"model");
+            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Model], @"modelNumber");
+            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemName], @"osName");
+            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemVersion], @"osVersion");
 
             bugsnagReport.app = appDict;
             bugsnagReport.device = deviceDict;

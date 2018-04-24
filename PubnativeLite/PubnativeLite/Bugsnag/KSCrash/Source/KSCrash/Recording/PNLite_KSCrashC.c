@@ -29,7 +29,7 @@
 #include "BSG_KSMach.h"
 #include "BSG_KSObjC.h"
 #include "BSG_KSString.h"
-#include "BSG_KSSystemInfoC.h"
+#include "PNLite_KSSystemInfoC.h"
 #include "BSG_KSZombie.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
@@ -124,8 +124,8 @@ PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
     PNLite_KSCrashType crashTypes =
         bsg_kscrash_setHandlingCrashTypes(context->config.handlingCrashTypes);
 
-    context->config.systemInfoJSON = bsg_kssysteminfo_toJSON();
-    context->config.processName = bsg_kssysteminfo_copyProcessName();
+    context->config.systemInfoJSON = pnlite_kssysteminfo_toJSON();
+    context->config.processName = pnlite_kssysteminfo_copyProcessName();
 
     BSG_KSLOG_DEBUG("Installation complete.");
     return crashTypes;

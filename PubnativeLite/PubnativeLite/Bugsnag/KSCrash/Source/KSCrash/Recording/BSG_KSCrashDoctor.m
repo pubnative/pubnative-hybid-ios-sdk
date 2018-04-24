@@ -8,7 +8,7 @@
 
 #import "PNLite_KSCrashDoctor.h"
 #import "BSG_KSCrashReportFields.h"
-#import "BSG_KSSystemInfo.h"
+#import "PNLite_KSSystemInfo.h"
 
 #define BSG_kUserCrashHandler "kscrw_i_callUserCrashHandler"
 

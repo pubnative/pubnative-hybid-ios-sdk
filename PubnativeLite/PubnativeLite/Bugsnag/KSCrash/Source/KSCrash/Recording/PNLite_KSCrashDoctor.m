@@ -22,7 +22,7 @@
 
 #import "PNLite_KSCrashDoctor.h"
 #import "PNLite_KSCrashReportFields.h"
-#import "BSG_KSSystemInfo.h"
+#import "PNLite_KSSystemInfo.h"
 
 #define PNLite_kUserCrashHandler "kscrw_i_callUserCrashHandler"
 
@@ -184,7 +184,7 @@ typedef enum {
 
 - (PNLite_CPUFamily)cpuFamily:(NSDictionary *)report {
     NSDictionary *system = [self systemReport:report];
-    NSString *cpuArch = system[@BSG_KSSystemField_CPUArch];
+    NSString *cpuArch = system[@PNLite_KSSystemField_CPUArch];
     if ([cpuArch isEqualToString:@"arm64"]) {
         return PNLite_CPUFamilyArm64;
     }
