@@ -1,27 +1,23 @@
 //
-//  BSG_KSCrashReportFilter.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-02-18.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #import "PNLite_KSCrashReportFilterCompletion.h"
@@ -30,7 +26,7 @@
  * A filter receives a set of reports, possibly transforms them, and then
  * calls a completion method.
  */
-@protocol BSG_KSCrashReportFilter <NSObject>
+@protocol PNLite_KSCrashReportFilter <NSObject>
 
 /** Filter the specified reports.
  *
@@ -48,10 +44,10 @@
  * Input: Anything.
  * Output: Same as input (passthrough).
  */
-@interface BSG_KSCrashReportFilterPassthrough
-    : NSObject <BSG_KSCrashReportFilter>
+@interface PNLite_KSCrashReportFilterPassthrough
+    : NSObject <PNLite_KSCrashReportFilter>
 
-+ (BSG_KSCrashReportFilterPassthrough *)filter;
++ (PNLite_KSCrashReportFilterPassthrough *)filter;
 
 @end
 
@@ -62,21 +58,21 @@
  * Input: Anything
  * Output: NSDictionary
  */
-@interface BSG_KSCrashReportFilterCombine : NSObject <BSG_KSCrashReportFilter>
+@interface PNLite_KSCrashReportFilterCombine : NSObject <PNLite_KSCrashReportFilter>
 
 /** Constructor.
  *
  * @param firstFilter The first filter, followed by key, filter, key, ...
- *                    Each "filter" can be id<BSG_KSCrashReportFilter> or an
+ *                    Each "filter" can be id<PNLite_KSCrashReportFilter> or an
  * NSArray of filters (which gets wrapped in a pipeline filter).
  */
-+ (BSG_KSCrashReportFilterCombine *)filterWithFiltersAndKeys:
++ (PNLite_KSCrashReportFilterCombine *)filterWithFiltersAndKeys:
     (id)firstFilter, ... NS_REQUIRES_NIL_TERMINATION;
 
 /** Initializer.
  *
  * @param firstFilter The first filter, followed by key, filter, key, ...
- *                    Each "filter" can be id<BSG_KSCrashReportFilter> or an
+ *                    Each "filter" can be id<PNLite_KSCrashReportFilter> or an
  * NSArray of filters (which gets wrapped in a pipeline filter).
  */
 - (id)initWithFiltersAndKeys:(id)firstFilter, ... NS_REQUIRES_NIL_TERMINATION;
@@ -89,7 +85,7 @@
  * Input: Depends on what's in the pipeline.
  * Output: Depends on what's in the pipeline.
  */
-@interface BSG_KSCrashReportFilterPipeline : NSObject <BSG_KSCrashReportFilter>
+@interface PNLite_KSCrashReportFilterPipeline : NSObject <PNLite_KSCrashReportFilter>
 
 /** The filters in this pipeline. */
 @property(nonatomic, readonly, retain) NSArray *filters;
@@ -98,7 +94,7 @@
  *
  * @param firstFilter The first filter, followed by filter, filter, ...
  */
-+ (BSG_KSCrashReportFilterPipeline *)filterWithFilters:
++ (PNLite_KSCrashReportFilterPipeline *)filterWithFilters:
     (id)firstFilter, ... NS_REQUIRES_NIL_TERMINATION;
 
 /** Initializer.
@@ -107,15 +103,15 @@
  */
 - (id)initWithFilters:(id)firstFilter, ... NS_REQUIRES_NIL_TERMINATION;
 
-- (void)addFilter:(id<BSG_KSCrashReportFilter>)filter;
+- (void)addFilter:(id<PNLite_KSCrashReportFilter>)filter;
 
 @end
 
 /**
  * Extracts data associated with a key from each report.
  */
-@interface BSG_KSCrashReportFilterObjectForKey
-    : NSObject <BSG_KSCrashReportFilter>
+@interface PNLite_KSCrashReportFilterObjectForKey
+    : NSObject <PNLite_KSCrashReportFilter>
 
 /** Constructor.
  *
@@ -124,7 +120,7 @@
  * @param allowNotFound If NO, filtering will stop with an error if the key
  *                      was not found in a report.
  */
-+ (BSG_KSCrashReportFilterObjectForKey *)filterWithKey:(id)key
++ (PNLite_KSCrashReportFilterObjectForKey *)filterWithKey:(id)key
                                          allowNotFound:(BOOL)allowNotFound;
 
 /** Initializer.
@@ -145,8 +141,8 @@
  * Input: NSDictionary
  * Output: NSString
  */
-@interface BSG_KSCrashReportFilterConcatenate
-    : NSObject <BSG_KSCrashReportFilter>
+@interface PNLite_KSCrashReportFilterConcatenate
+    : NSObject <PNLite_KSCrashReportFilter>
 
 /** Constructor.
  *
@@ -156,7 +152,7 @@
  * well.
  * @param firstKey Series of keys to extract from the source report.
  */
-+ (BSG_KSCrashReportFilterConcatenate *)
++ (PNLite_KSCrashReportFilterConcatenate *)
 filterWithSeparatorFmt:(NSString *)separatorFmt
                   keys:(id)firstKey, ... NS_REQUIRES_NIL_TERMINATION;
 
@@ -179,13 +175,13 @@ filterWithSeparatorFmt:(NSString *)separatorFmt
  * Input: NSDictionary
  * Output: NSDictionary
  */
-@interface BSG_KSCrashReportFilterSubset : NSObject <BSG_KSCrashReportFilter>
+@interface PNLite_KSCrashReportFilterSubset : NSObject <PNLite_KSCrashReportFilter>
 
 /** Constructor.
  *
  * @param firstKeyPath Series of key paths to search in the source reports.
  */
-+ (BSG_KSCrashReportFilterSubset *)filterWithKeys:
++ (PNLite_KSCrashReportFilterSubset *)filterWithKeys:
     (id)firstKeyPath, ... NS_REQUIRES_NIL_TERMINATION;
 
 /** Initializer.

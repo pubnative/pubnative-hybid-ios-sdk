@@ -69,7 +69,7 @@
 @property(nonatomic, readonly, retain) NSString *stateFilePath;
 
 // Mirrored from BSG_KSCrashAdvanced.h to provide ivars
-@property(nonatomic, readwrite, retain) id<BSG_KSCrashReportFilter> sink;
+@property(nonatomic, readwrite, retain) id<PNLite_KSCrashReportFilter> sink;
 @property(nonatomic, readwrite, retain) NSString *logFilePath;
 @property(nonatomic, readwrite, retain)
     BSG_KSCrashReportStore *crashReportStore;

@@ -25,7 +25,7 @@
 //
 
 #import "BSG_KSCrash.h"
-#import "BSG_KSCrashReportFilter.h"
+#import "PNLite_KSCrashReportFilter.h"
 #import "BSG_KSCrashReportStore.h"
 
 typedef enum {
@@ -101,7 +101,7 @@ typedef enum {
  * Note: If you use an installation, it will automatically set this property.
  *       Do not modify it in such a case.
  */
-@property(nonatomic, readwrite, retain) id<BSG_KSCrashReportFilter> sink;
+@property(nonatomic, readwrite, retain) id<PNLite_KSCrashReportFilter> sink;
 
 /** C Function to call during a crash report to give the callee an opportunity
  * to add to the report. NULL = ignore.

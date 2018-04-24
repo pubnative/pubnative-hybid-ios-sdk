@@ -21,12 +21,12 @@
 //
 
 #import "BSG_KSCrash.h"
-#import "BSG_KSCrashReportFilter.h"
+#import "PNLite_KSCrashReportFilter.h"
 #import <Foundation/Foundation.h>
 
 #import "PNLiteErrorReportApiClient.h"
 
-@interface PNLiteSink : NSObject <BSG_KSCrashReportFilter>
+@interface PNLiteSink : NSObject <PNLite_KSCrashReportFilter>
 
 - (instancetype)initWithApiClient:(PNLiteErrorReportApiClient *)apiClient;
 @property(nonatomic) PNLiteErrorReportApiClient *apiClient;
