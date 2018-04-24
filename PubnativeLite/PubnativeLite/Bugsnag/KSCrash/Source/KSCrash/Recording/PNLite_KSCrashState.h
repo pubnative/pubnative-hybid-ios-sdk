@@ -1,35 +1,31 @@
 //
-//  BSG_KSCrashState.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-02-05.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 /* Manages persistent state information useful for crash reporting such as
  * number of sessions, session length, etc.
  */
 
-#ifndef HDR_BSG_KSCrashState_h
-#define HDR_BSG_KSCrashState_h
+#ifndef HDR_PNLite_KSCrashState_h
+#define HDR_PNLite_KSCrashState_h
 
 #ifdef __cplusplus
 extern "C" {
@@ -83,7 +79,7 @@ typedef struct {
     /** If true, the application is currently in the foreground. */
     bool applicationIsInForeground;
 
-} BSG_KSCrash_State;
+} PNLite_KSCrash_State;
 
 /** Initialize the state monitor.
  *
@@ -93,7 +89,7 @@ typedef struct {
  *
  * @return true if initialization was successful.
  */
-bool bsg_kscrashstate_init(const char *stateFilePath, BSG_KSCrash_State *state);
+bool bsg_kscrashstate_init(const char *stateFilePath, PNLite_KSCrash_State *state);
 
 /** Notify the crash reporter of the application active state.
  *
@@ -118,7 +114,7 @@ void bsg_kscrashstate_notifyAppCrash(void);
 
 /** Read-only access into the current state.
  */
-const BSG_KSCrash_State *const bsg_kscrashstate_currentState(void);
+const PNLite_KSCrash_State *const bsg_kscrashstate_currentState(void);
 
 #ifdef __cplusplus
 }

@@ -1,30 +1,26 @@
 //
-//  BSG_KSCrashState.c
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-02-05.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#include "BSG_KSCrashState.h"
+#include "PNLite_KSCrashState.h"
 
 #include "BSG_KSFileUtils.h"
 #include "BSG_KSJSONCodec.h"
@@ -43,26 +39,26 @@
 #pragma mark - Constants -
 // ============================================================================
 
-#define BSG_kFormatVersion 1
+#define PNLite_kFormatVersion 1
 
-#define BSG_kKeyFormatVersion "version"
-#define BSG_kKeyCrashedLastLaunch "crashedLastLaunch"
-#define BSG_kKeyActiveDurationSinceLastCrash "activeDurationSinceLastCrash"
-#define BSG_kKeyBackgroundDurationSinceLastCrash                               \
+#define PNLite_kKeyFormatVersion "version"
+#define PNLite_kKeyCrashedLastLaunch "crashedLastLaunch"
+#define PNLite_kKeyActiveDurationSinceLastCrash "activeDurationSinceLastCrash"
+#define PNLite_kKeyBackgroundDurationSinceLastCrash                               \
     "backgroundDurationSinceLastCrash"
-#define BSG_kKeyLaunchesSinceLastCrash "launchesSinceLastCrash"
-#define BSG_kKeySessionsSinceLastCrash "sessionsSinceLastCrash"
-#define BSG_kKeySessionsSinceLaunch "sessionsSinceLaunch"
+#define PNLite_kKeyLaunchesSinceLastCrash "launchesSinceLastCrash"
+#define PNLite_kKeySessionsSinceLastCrash "sessionsSinceLastCrash"
+#define PNLite_kKeySessionsSinceLaunch "sessionsSinceLaunch"
 
 // ============================================================================
 #pragma mark - Globals -
 // ============================================================================
 
 /** Location where stat file is stored. */
-static const char *bsg_g_stateFilePath;
+static const char *pnlite_g_stateFilePath;
 
 /** Current state. */
-static BSG_KSCrash_State *bsg_g_state;
+static PNLite_KSCrash_State *bsg_g_state;
 
 // Avoiding static functions due to linker issues.
 
@@ -73,9 +69,9 @@ static BSG_KSCrash_State *bsg_g_state;
 int bsg_kscrashstate_i_onBooleanElement(const char *const name,
                                         const bool value,
                                         void *const userData) {
-    BSG_KSCrash_State *state = userData;
+    PNLite_KSCrash_State *state = userData;
 
-    if (strcmp(name, BSG_kKeyCrashedLastLaunch) == 0) {
+    if (strcmp(name, PNLite_kKeyCrashedLastLaunch) == 0) {
         state->crashedLastLaunch = value;
     }
 
@@ -85,12 +81,12 @@ int bsg_kscrashstate_i_onBooleanElement(const char *const name,
 int bsg_kscrashstate_i_onFloatingPointElement(const char *const name,
                                               const double value,
                                               void *const userData) {
-    BSG_KSCrash_State *state = userData;
+    PNLite_KSCrash_State *state = userData;
 
-    if (strcmp(name, BSG_kKeyActiveDurationSinceLastCrash) == 0) {
+    if (strcmp(name, PNLite_kKeyActiveDurationSinceLastCrash) == 0) {
         state->activeDurationSinceLastCrash = value;
     }
-    if (strcmp(name, BSG_kKeyBackgroundDurationSinceLastCrash) == 0) {
+    if (strcmp(name, PNLite_kKeyBackgroundDurationSinceLastCrash) == 0) {
         state->backgroundDurationSinceLastCrash = value;
     }
 
@@ -100,16 +96,16 @@ int bsg_kscrashstate_i_onFloatingPointElement(const char *const name,
 int bsg_kscrashstate_i_onIntegerElement(const char *const name,
                                         const long long value,
                                         void *const userData) {
-    BSG_KSCrash_State *state = userData;
+    PNLite_KSCrash_State *state = userData;
 
-    if (strcmp(name, BSG_kKeyFormatVersion) == 0) {
-        if (value != BSG_kFormatVersion) {
+    if (strcmp(name, PNLite_kKeyFormatVersion) == 0) {
+        if (value != PNLite_kFormatVersion) {
             BSG_KSLOG_ERROR("Expected version 1 but got %lld", value);
             return BSG_KSJSON_ERROR_INVALID_DATA;
         }
-    } else if (strcmp(name, BSG_kKeyLaunchesSinceLastCrash) == 0) {
+    } else if (strcmp(name, PNLite_kKeyLaunchesSinceLastCrash) == 0) {
         state->launchesSinceLastCrash = (int)value;
-    } else if (strcmp(name, BSG_kKeySessionsSinceLastCrash) == 0) {
+    } else if (strcmp(name, PNLite_kKeySessionsSinceLastCrash) == 0) {
         state->sessionsSinceLastCrash = (int)value;
     }
 
@@ -167,7 +163,7 @@ int bsg_kscrashstate_i_addJSONData(const char *const data, const size_t length,
  *
  * @return true if the operation was successful.
  */
-bool bsg_kscrashstate_i_loadState(BSG_KSCrash_State *const context,
+bool bsg_kscrashstate_i_loadState(PNLite_KSCrash_State *const context,
                                   const char *const path) {
     // Stop if the file doesn't exist.
     // This is expected on the first run of the app.
@@ -217,7 +213,7 @@ bool bsg_kscrashstate_i_loadState(BSG_KSCrash_State *const context,
  *
  * @return true if the operation was successful.
  */
-bool bsg_kscrashstate_i_saveState(const BSG_KSCrash_State *const state,
+bool bsg_kscrashstate_i_saveState(const PNLite_KSCrash_State *const state,
                                   const char *const path) {
     int fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) {
@@ -235,33 +231,33 @@ bool bsg_kscrashstate_i_saveState(const BSG_KSCrash_State *const state,
         goto done;
     }
     if ((result = bsg_ksjsonaddIntegerElement(
-             &JSONContext, BSG_kKeyFormatVersion, BSG_kFormatVersion)) !=
+             &JSONContext, PNLite_kKeyFormatVersion, PNLite_kFormatVersion)) !=
         BSG_KSJSON_OK) {
         goto done;
     }
     // Record this launch crashed state into "crashed last launch" field.
     if ((result = bsg_ksjsonaddBooleanElement(
-             &JSONContext, BSG_kKeyCrashedLastLaunch,
+             &JSONContext, PNLite_kKeyCrashedLastLaunch,
              state->crashedThisLaunch)) != BSG_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddFloatingPointElement(
-             &JSONContext, BSG_kKeyActiveDurationSinceLastCrash,
+             &JSONContext, PNLite_kKeyActiveDurationSinceLastCrash,
              state->activeDurationSinceLastCrash)) != BSG_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddFloatingPointElement(
-             &JSONContext, BSG_kKeyBackgroundDurationSinceLastCrash,
+             &JSONContext, PNLite_kKeyBackgroundDurationSinceLastCrash,
              state->backgroundDurationSinceLastCrash)) != BSG_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddIntegerElement(
-             &JSONContext, BSG_kKeyLaunchesSinceLastCrash,
+             &JSONContext, PNLite_kKeyLaunchesSinceLastCrash,
              state->launchesSinceLastCrash)) != BSG_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddIntegerElement(
-             &JSONContext, BSG_kKeySessionsSinceLastCrash,
+             &JSONContext, PNLite_kKeySessionsSinceLastCrash,
              state->sessionsSinceLastCrash)) != BSG_KSJSON_OK) {
         goto done;
     }
@@ -285,8 +281,8 @@ done:
 // ============================================================================
 
 bool bsg_kscrashstate_init(const char *const stateFilePath,
-                           BSG_KSCrash_State *const state) {
-    bsg_g_stateFilePath = stateFilePath;
+                           PNLite_KSCrash_State *const state) {
+    pnlite_g_stateFilePath = stateFilePath;
     bsg_g_state = state;
 
     bsg_kscrashstate_i_loadState(state, stateFilePath);
@@ -311,7 +307,7 @@ bool bsg_kscrashstate_init(const char *const stateFilePath,
 }
 
 void bsg_kscrashstate_notifyAppActive(const bool isActive) {
-    BSG_KSCrash_State *const state = bsg_g_state;
+    PNLite_KSCrash_State *const state = bsg_g_state;
 
     state->applicationIsActive = isActive;
     if (isActive) {
@@ -325,8 +321,8 @@ void bsg_kscrashstate_notifyAppActive(const bool isActive) {
 }
 
 void bsg_kscrashstate_notifyAppInForeground(const bool isInForeground) {
-    BSG_KSCrash_State *const state = bsg_g_state;
-    const char *const stateFilePath = bsg_g_stateFilePath;
+    PNLite_KSCrash_State *const state = bsg_g_state;
+    const char *const stateFilePath = pnlite_g_stateFilePath;
 
     state->applicationIsInForeground = isInForeground;
     if (isInForeground) {
@@ -343,8 +339,8 @@ void bsg_kscrashstate_notifyAppInForeground(const bool isInForeground) {
 }
 
 void bsg_kscrashstate_notifyAppTerminate(void) {
-    BSG_KSCrash_State *const state = bsg_g_state;
-    const char *const stateFilePath = bsg_g_stateFilePath;
+    PNLite_KSCrash_State *const state = bsg_g_state;
+    const char *const stateFilePath = pnlite_g_stateFilePath;
 
     const double duration = bsg_ksmachtimeDifferenceInSeconds(
         mach_absolute_time(), state->appStateTransitionTime);
@@ -353,8 +349,8 @@ void bsg_kscrashstate_notifyAppTerminate(void) {
 }
 
 void bsg_kscrashstate_notifyAppCrash(void) {
-    BSG_KSCrash_State *const state = bsg_g_state;
-    const char *const stateFilePath = bsg_g_stateFilePath;
+    PNLite_KSCrash_State *const state = bsg_g_state;
+    const char *const stateFilePath = pnlite_g_stateFilePath;
 
     const double duration = bsg_ksmachtimeDifferenceInSeconds(
         mach_absolute_time(), state->appStateTransitionTime);
@@ -369,6 +365,6 @@ void bsg_kscrashstate_notifyAppCrash(void) {
     bsg_kscrashstate_i_saveState(state, stateFilePath);
 }
 
-const BSG_KSCrash_State *const bsg_kscrashstate_currentState(void) {
+const PNLite_KSCrash_State *const bsg_kscrashstate_currentState(void) {
     return bsg_g_state;
 }

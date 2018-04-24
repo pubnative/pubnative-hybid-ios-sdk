@@ -1811,7 +1811,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
  */
 void bsg_kscrw_i_writeAppStats(const PNLite_KSCrashReportWriter *const writer,
                                const char *const key,
-                               BSG_KSCrash_State *state) {
+                               PNLite_KSCrash_State *state) {
     writer->beginObject(writer, key);
     {
         writer->addBooleanElement(writer, BSG_KSCrashField_AppActive,
