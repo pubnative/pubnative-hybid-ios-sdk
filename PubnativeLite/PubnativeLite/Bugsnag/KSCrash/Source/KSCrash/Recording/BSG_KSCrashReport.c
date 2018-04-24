@@ -28,7 +28,7 @@
 
 #include "BSG_KSBacktrace_Private.h"
 #include "PNLite_KSCrashReportFields.h"
-#include "BSG_KSCrashReportVersion.h"
+#include "PNLite_KSCrashReportVersion.h"
 #include "BSG_KSDynamicLinker.h"
 #include "BSG_KSFileUtils.h"
 #include "BSG_KSJSONCodec.h"
@@ -1892,7 +1892,7 @@ void bsg_kscrw_i_writeReportInfo(const PNLite_KSCrashReportWriter *const writer,
     writer->beginObject(writer, key);
     {
         writer->addStringElement(writer, PNLite_KSCrashField_Version,
-                                 BSG_KSCRASH_REPORT_VERSION);
+                                 PNLite_KSCRASH_REPORT_VERSION);
         writer->addStringElement(writer, PNLite_KSCrashField_ID, reportID);
         writer->addStringElement(writer, PNLite_KSCrashField_ProcessName,
                                  processName);
