@@ -52,7 +52,7 @@ extern "C" {
  *
  * @return The crash types that are being handled.
  */
-BSG_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
+PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
                                     const char *const recrashReportFilePath,
                                     const char *stateFilePath,
                                     const char *crashID);
@@ -68,7 +68,7 @@ BSG_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
  *         successfully installed. Otherwise it represents which sentries it
  *         will attempt to activate when BSG_KSCrash installs.
  */
-BSG_KSCrashType bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashType crashTypes);
+PNLite_KSCrashType bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTypes);
 
 /** Reinstall the crash reporter. Useful for resetting the crash reporter
  * after a "soft" crash.

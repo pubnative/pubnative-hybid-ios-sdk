@@ -40,7 +40,7 @@
 // ============================================================================
 
 typedef struct {
-    BSG_KSCrashType crashType;
+    PNLite_KSCrashType crashType;
     bool (*install)(BSG_KSCrash_SentryContext *context);
     void (*uninstall)(void);
 } BSG_CrashSentry;
@@ -48,30 +48,30 @@ typedef struct {
 static BSG_CrashSentry bsg_g_sentries[] = {
 #if BSG_KSCRASH_HAS_MACH
     {
-        BSG_KSCrashTypeMachException, bsg_kscrashsentry_installMachHandler,
+        PNLite_KSCrashTypeMachException, bsg_kscrashsentry_installMachHandler,
         bsg_kscrashsentry_uninstallMachHandler,
     },
 #endif
     {
-        BSG_KSCrashTypeSignal, bsg_kscrashsentry_installSignalHandler,
+        PNLite_KSCrashTypeSignal, bsg_kscrashsentry_installSignalHandler,
         bsg_kscrashsentry_uninstallSignalHandler,
     },
     {
-        BSG_KSCrashTypeCPPException,
+        PNLite_KSCrashTypeCPPException,
         bsg_kscrashsentry_installCPPExceptionHandler,
         bsg_kscrashsentry_uninstallCPPExceptionHandler,
     },
     {
-        BSG_KSCrashTypeNSException, bsg_kscrashsentry_installNSExceptionHandler,
+        PNLite_KSCrashTypeNSException, bsg_kscrashsentry_installNSExceptionHandler,
         bsg_kscrashsentry_uninstallNSExceptionHandler,
     },
     {
-        BSG_KSCrashTypeMainThreadDeadlock,
+        PNLite_KSCrashTypeMainThreadDeadlock,
         bsg_kscrashsentry_installDeadlockHandler,
         bsg_kscrashsentry_uninstallDeadlockHandler,
     },
     {
-        BSG_KSCrashTypeUserReported,
+        PNLite_KSCrashTypeUserReported,
         bsg_kscrashsentry_installUserExceptionHandler,
         bsg_kscrashsentry_uninstallUserExceptionHandler,
     },
@@ -91,9 +91,9 @@ static bool bsg_g_threads_are_running = true;
 #pragma mark - API -
 // ============================================================================
 
-BSG_KSCrashType
+PNLite_KSCrashType
 bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
-                                     BSG_KSCrashType crashTypes,
+                                     PNLite_KSCrashType crashTypes,
                                      void (*onCrash)(void)) {
     if (bsg_ksmachisBeingTraced()) {
         if (context->reportWhenDebuggerIsAttached) {
@@ -105,7 +105,7 @@ bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
         } else {
             BSG_KSLOG_WARN("KSCrash: App is running in a debugger. Only user "
                            "reported events will be handled.");
-            crashTypes = BSG_KSCrashTypeUserReported;
+            crashTypes = PNLite_KSCrashTypeUserReported;
         }
     } else {
         BSG_KSLOG_DEBUG(
@@ -117,7 +117,7 @@ bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
     bsg_kscrashsentry_clearContext(bsg_g_context);
     bsg_g_context->onCrash = onCrash;
 
-    BSG_KSCrashType installed = 0;
+    PNLite_KSCrashType installed = 0;
     for (size_t i = 0; i < bsg_g_sentriesCount; i++) {
         BSG_CrashSentry *sentry = &bsg_g_sentries[i];
         if (sentry->crashType & crashTypes) {
@@ -131,7 +131,7 @@ bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
     return installed;
 }
 
-void bsg_kscrashsentry_uninstall(BSG_KSCrashType crashTypes) {
+void bsg_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes) {
     BSG_KSLOG_DEBUG("Uninstalling handlers with crash types 0x%x.", crashTypes);
     for (size_t i = 0; i < bsg_g_sentriesCount; i++) {
         BSG_CrashSentry *sentry = &bsg_g_sentries[i];

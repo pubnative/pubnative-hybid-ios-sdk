@@ -189,7 +189,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
     bsg_kscrash_setUserInfoJSON([userInfoJSON bytes]);
 }
 
-- (void)setHandlingCrashTypes:(BSG_KSCrashType)handlingCrashTypes {
+- (void)setHandlingCrashTypes:(PNLite_KSCrashType)handlingCrashTypes {
     _handlingCrashTypes = bsg_kscrash_setHandlingCrashTypes(handlingCrashTypes);
 }
 

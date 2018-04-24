@@ -28,7 +28,7 @@
 
 #import "PNLite_KSCrashReportFilterCompletion.h"
 #import "PNLite_KSCrashReportWriter.h"
-#import "BSG_KSCrashType.h"
+#import "PNLite_KSCrashType.h"
 
 typedef enum {
     BSG_KSCDeleteNever,
@@ -67,7 +67,7 @@ typedef enum {
  * Note: This value may change once BSG_KSCrash is installed if some handlers
  *       fail to install.
  */
-@property(nonatomic, readwrite, assign) BSG_KSCrashType handlingCrashTypes;
+@property(nonatomic, readwrite, assign) PNLite_KSCrashType handlingCrashTypes;
 
 /** Maximum time to allow the main thread to run without returning.
  * If a task occupies the main thread for longer than this interval, the

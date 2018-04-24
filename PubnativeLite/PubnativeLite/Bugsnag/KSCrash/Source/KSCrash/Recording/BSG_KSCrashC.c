@@ -49,7 +49,7 @@ static volatile sig_atomic_t bsg_g_installed = 0;
 
 /** Single, global crash context. */
 static PNLite_KSCrash_Context bsg_g_crashReportContext = {
-    .config = {.handlingCrashTypes = BSG_KSCrashTypeProductionSafe}};
+    .config = {.handlingCrashTypes = PNLite_KSCrashTypeProductionSafe}};
 
 /** Path to store the next crash report. */
 static char *bsg_g_crashReportFilePath;
@@ -101,7 +101,7 @@ void bsg_kscrash_i_onCrash(void) {
 #pragma mark - API -
 // ============================================================================
 
-BSG_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
+PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
                                     const char *const recrashReportFilePath,
                                     const char *stateFilePath,
                                     const char *crashID) {
@@ -124,7 +124,7 @@ BSG_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
     bsg_kscrash_reinstall(crashReportFilePath, recrashReportFilePath,
                           stateFilePath, crashID);
 
-    BSG_KSCrashType crashTypes =
+    PNLite_KSCrashType crashTypes =
         bsg_kscrash_setHandlingCrashTypes(context->config.handlingCrashTypes);
 
     context->config.systemInfoJSON = bsg_kssysteminfo_toJSON();
@@ -157,7 +157,7 @@ void bsg_kscrash_reinstall(const char *const crashReportFilePath,
     context->state.appLaunchTime = mach_absolute_time();
 }
 
-BSG_KSCrashType bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashType crashTypes) {
+PNLite_KSCrashType bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTypes) {
     PNLite_KSCrash_Context *context = crashContext();
     context->config.handlingCrashTypes = crashTypes;
 

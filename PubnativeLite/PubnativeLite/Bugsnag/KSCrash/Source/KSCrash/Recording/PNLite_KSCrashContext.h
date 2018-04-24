@@ -76,7 +76,7 @@ typedef struct {
     bool searchQueueNames;
 
     /** The types of crashes that will be handled. */
-    BSG_KSCrashType handlingCrashTypes;
+    PNLite_KSCrashType handlingCrashTypes;
 
     /** Rules for introspecting Objective-C objects. */
     PNLite_KSCrash_IntrospectionRules introspectionRules;

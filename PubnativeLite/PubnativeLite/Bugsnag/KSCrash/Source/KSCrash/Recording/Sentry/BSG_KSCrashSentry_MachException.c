@@ -255,7 +255,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
             // The crash reporter itself crashed. Make a note of this and
             // uninstall all handlers so that we don't get stuck in a loop.
             bsg_g_context->crashedDuringCrashHandling = true;
-            bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAsyncSafe);
+            bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         }
 
         // Fill out crash information
@@ -273,7 +273,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
         }
 
         BSG_KSLOG_DEBUG("Filling out context.");
-        bsg_g_context->crashType = BSG_KSCrashTypeMachException;
+        bsg_g_context->crashType = PNLite_KSCrashTypeMachException;
         bsg_g_context->offendingThread = exceptionMessage.thread.name;
         bsg_g_context->registersAreValid = true;
         bsg_g_context->mach.type = exceptionMessage.exception;
@@ -285,7 +285,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 
         BSG_KSLOG_DEBUG(
             "Crash handling complete. Restoring original handlers.");
-        bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAsyncSafe);
+        bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         bsg_kscrashsentry_resumeThreads();
     }
 

@@ -152,13 +152,13 @@ static void CPPExceptionTerminate(void) {
             BSG_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
                            @"original handlers.");
             bsg_g_context->crashedDuringCrashHandling = true;
-            bsg_kscrashsentry_uninstall((BSG_KSCrashType)BSG_KSCrashTypeAll);
+            bsg_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
         }
 
         BSG_KSLOG_DEBUG(@"Suspending all threads.");
         bsg_kscrashsentry_suspendThreads();
 
-        bsg_g_context->crashType = BSG_KSCrashTypeCPPException;
+        bsg_g_context->crashType = PNLite_KSCrashTypeCPPException;
         bsg_g_context->offendingThread = bsg_ksmachthread_self();
         bsg_g_context->registersAreValid = false;
         bsg_g_context->stackTrace =
@@ -172,7 +172,7 @@ static void CPPExceptionTerminate(void) {
 
         BSG_KSLOG_DEBUG(
             @"Crash handling complete. Restoring original handlers.");
-        bsg_kscrashsentry_uninstall((BSG_KSCrashType)BSG_KSCrashTypeAll);
+        bsg_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
         bsg_kscrashsentry_resumeThreads();
     }
 

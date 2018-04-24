@@ -71,7 +71,7 @@ void bsg_ksnsexc_i_handleException(NSException *exception) {
             BSG_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
                            @"original handlers.");
             bsg_g_context->crashedDuringCrashHandling = true;
-            bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAll);
+            bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
         }
 
         BSG_KSLOG_DEBUG(@"Suspending all threads.");
@@ -85,7 +85,7 @@ void bsg_ksnsexc_i_handleException(NSException *exception) {
             callstack[i] = [addresses[i] unsignedLongValue];
         }
 
-        bsg_g_context->crashType = BSG_KSCrashTypeNSException;
+        bsg_g_context->crashType = PNLite_KSCrashTypeNSException;
         bsg_g_context->offendingThread = bsg_ksmachthread_self();
         bsg_g_context->registersAreValid = false;
         bsg_g_context->NSException.name = strdup([[exception name] UTF8String]);
@@ -98,7 +98,7 @@ void bsg_ksnsexc_i_handleException(NSException *exception) {
 
         BSG_KSLOG_DEBUG(
             @"Crash handling complete. Restoring original handlers.");
-        bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAll);
+        bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
 
         if (bsg_g_previousUncaughtExceptionHandler != NULL) {
             BSG_KSLOG_DEBUG(@"Calling original exception handler.");

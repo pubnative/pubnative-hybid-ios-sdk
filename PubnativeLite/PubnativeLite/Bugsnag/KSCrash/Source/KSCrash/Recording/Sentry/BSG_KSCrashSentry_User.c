@@ -74,7 +74,7 @@ void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
         }
 
         BSG_KSLOG_DEBUG("Filling out context.");
-        bsg_g_context->crashType = BSG_KSCrashTypeUserReported;
+        bsg_g_context->crashType = PNLite_KSCrashTypeUserReported;
         bsg_g_context->offendingThread = bsg_ksmachthread_self();
         bsg_g_context->registersAreValid = false;
         bsg_g_context->crashReason = reason;
@@ -89,7 +89,7 @@ void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
         bsg_g_context->onCrash();
 
         if (terminateProgram) {
-            bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAll);
+            bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
             bsg_kscrashsentry_resumeThreads();
             abort();
         } else {

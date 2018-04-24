@@ -109,7 +109,7 @@ static NSTimeInterval bsg_g_watchdogInterval = 0;
     bsg_kscrashsentry_beginHandlingCrash(bsg_g_context);
 
     BSG_KSLOG_DEBUG(@"Filling out context.");
-    bsg_g_context->crashType = BSG_KSCrashTypeMainThreadDeadlock;
+    bsg_g_context->crashType = PNLite_KSCrashTypeMainThreadDeadlock;
     bsg_g_context->offendingThread = self.mainThread;
     bsg_g_context->registersAreValid = false;
 
@@ -117,7 +117,7 @@ static NSTimeInterval bsg_g_watchdogInterval = 0;
     bsg_g_context->onCrash();
 
     BSG_KSLOG_DEBUG(@"Crash handling complete. Restoring original handlers.");
-    bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAll);
+    bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
 
     BSG_KSLOG_DEBUG(@"Calling abort()");
     abort();

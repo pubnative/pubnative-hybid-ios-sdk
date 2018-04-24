@@ -380,7 +380,7 @@ BSG_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
     const BSG_KSCrash_SentryContext *const crash, const thread_t thread,
     BSG_STRUCT_MCONTEXT_L *const machineContextBuffer) {
     if (thread == crash->offendingThread) {
-        if (crash->crashType == BSG_KSCrashTypeSignal) {
+        if (crash->crashType == PNLite_KSCrashTypeSignal) {
             return ((SignalUserContext *)crash->signal.userContext)
                 ->BSG_UC_MCONTEXT;
         }
@@ -429,8 +429,8 @@ uintptr_t *bsg_kscrw_i_getBacktrace(
     if (thread == crash->offendingThread) {
         if (crash->stackTrace != NULL && crash->stackTraceLength > 0 &&
             (crash->crashType &
-             (BSG_KSCrashTypeCPPException | BSG_KSCrashTypeNSException |
-              BSG_KSCrashTypeUserReported))) {
+             (PNLite_KSCrashTypeCPPException | PNLite_KSCrashTypeNSException |
+              PNLite_KSCrashTypeUserReported))) {
             *backtraceLength = crash->stackTraceLength;
             return crash->stackTrace;
         }
@@ -487,7 +487,7 @@ bool bsg_kscrw_i_isStackOverflow(const BSG_KSCrash_SentryContext *const crash,
 void bsg_kscrw_i_logCrashType(
     const BSG_KSCrash_SentryContext *const sentryContext) {
     switch (sentryContext->crashType) {
-    case BSG_KSCrashTypeMachException: {
+    case PNLite_KSCrashTypeMachException: {
         int machExceptionType = sentryContext->mach.type;
         kern_return_t machCode = (kern_return_t)sentryContext->mach.code;
         const char *machExceptionName =
@@ -499,19 +499,19 @@ void bsg_kscrw_i_logCrashType(
                             sentryContext->faultAddress);
         break;
     }
-    case BSG_KSCrashTypeCPPException: {
+    case PNLite_KSCrashTypeCPPException: {
         BSG_KSLOG_INFO("App crashed due to C++ exception: %s: %s",
                        sentryContext->CPPException.name,
                        sentryContext->crashReason);
         break;
     }
-    case BSG_KSCrashTypeNSException: {
+    case PNLite_KSCrashTypeNSException: {
         BSG_KSLOGBASIC_INFO("App crashed due to NSException: %s: %s",
                             sentryContext->NSException.name,
                             sentryContext->crashReason);
         break;
     }
-    case BSG_KSCrashTypeSignal: {
+    case PNLite_KSCrashTypeSignal: {
         int sigNum = sentryContext->signal.signalInfo->si_signo;
         int sigCode = sentryContext->signal.signalInfo->si_code;
         const char *sigName = bsg_kssignal_signalName(sigNum);
@@ -520,11 +520,11 @@ void bsg_kscrw_i_logCrashType(
                             sigName, sigCodeName, sentryContext->faultAddress);
         break;
     }
-    case BSG_KSCrashTypeMainThreadDeadlock: {
+    case PNLite_KSCrashTypeMainThreadDeadlock: {
         BSG_KSLOGBASIC_INFO("Main thread deadlocked");
         break;
     }
-    case BSG_KSCrashTypeUserReported: {
+    case PNLite_KSCrashTypeUserReported: {
         BSG_KSLOG_INFO("App crashed due to user specified exception: %s",
                        sentryContext->crashReason);
         break;
@@ -1636,9 +1636,9 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
 
     // Gather common info.
     switch (crash->crashType) {
-    case BSG_KSCrashTypeMainThreadDeadlock:
+    case PNLite_KSCrashTypeMainThreadDeadlock:
         break;
-    case BSG_KSCrashTypeMachException:
+    case PNLite_KSCrashTypeMachException:
         machExceptionType = crash->mach.type;
         machCode = (kern_return_t)crash->mach.code;
         if (machCode == KERN_PROTECTION_FAILURE && crash->isStackOverflow) {
@@ -1652,24 +1652,24 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
         sigNum =
             bsg_kssignal_signalForMachException(machExceptionType, machCode);
         break;
-    case BSG_KSCrashTypeCPPException:
+    case PNLite_KSCrashTypeCPPException:
         machExceptionType = EXC_CRASH;
         sigNum = SIGABRT;
         crashReason = crash->crashReason;
         exceptionName = crash->CPPException.name;
         break;
-    case BSG_KSCrashTypeNSException:
+    case PNLite_KSCrashTypeNSException:
         machExceptionType = EXC_CRASH;
         sigNum = SIGABRT;
         exceptionName = crash->NSException.name;
         crashReason = crash->crashReason;
         break;
-    case BSG_KSCrashTypeSignal:
+    case PNLite_KSCrashTypeSignal:
         sigNum = crash->signal.signalInfo->si_signo;
         sigCode = crash->signal.signalInfo->si_code;
         machExceptionType = bsg_kssignal_machExceptionForSignal(sigNum);
         break;
-    case BSG_KSCrashTypeUserReported:
+    case PNLite_KSCrashTypeUserReported:
         machExceptionType = EXC_CRASH;
         sigNum = SIGABRT;
         crashReason = crash->crashReason;
@@ -1685,7 +1685,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
     writer->beginObject(writer, key);
     {
 
-        if (BSG_KSCrashTypeUserReported != crash->crashType) {
+        if (PNLite_KSCrashTypeUserReported != crash->crashType) {
             writer->addUIntegerElement(writer, BSG_KSCrashField_Address,
                                        crash->faultAddress);
         }
@@ -1698,12 +1698,12 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
 
         // Gather specific info.
         switch (crash->crashType) {
-        case BSG_KSCrashTypeMainThreadDeadlock:
+        case PNLite_KSCrashTypeMainThreadDeadlock:
             writer->addStringElement(writer, BSG_KSCrashField_Type,
                                      BSG_KSCrashExcType_Deadlock);
             break;
 
-        case BSG_KSCrashTypeMachException:
+        case PNLite_KSCrashTypeMachException:
             writer->beginObject(writer, BSG_KSCrashField_Mach);
             {
                 writer->addUIntegerElement(writer, BSG_KSCrashField_Exception,
@@ -1726,7 +1726,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
                                      BSG_KSCrashExcType_Mach);
             break;
 
-        case BSG_KSCrashTypeCPPException: {
+        case PNLite_KSCrashTypeCPPException: {
             writer->addStringElement(writer, BSG_KSCrashField_Type,
                                      BSG_KSCrashExcType_CPPException);
             writer->beginObject(writer, BSG_KSCrashField_CPPException);
@@ -1737,7 +1737,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
             writer->endContainer(writer);
             break;
         }
-        case BSG_KSCrashTypeNSException: {
+        case PNLite_KSCrashTypeNSException: {
             writer->addStringElement(writer, BSG_KSCrashField_Type,
                                      BSG_KSCrashExcType_NSException);
             writer->beginObject(writer, BSG_KSCrashField_NSException);
@@ -1750,7 +1750,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
             writer->endContainer(writer);
             break;
         }
-        case BSG_KSCrashTypeSignal:
+        case PNLite_KSCrashTypeSignal:
             writer->beginObject(writer, BSG_KSCrashField_Signal);
             {
                 writer->addUIntegerElement(writer, BSG_KSCrashField_Signal,
@@ -1771,7 +1771,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
                                      BSG_KSCrashExcType_Signal);
             break;
 
-        case BSG_KSCrashTypeUserReported: {
+        case PNLite_KSCrashTypeUserReported: {
             writer->addStringElement(writer, BSG_KSCrashField_Type,
                                      BSG_KSCrashExcType_User);
             writer->beginObject(writer, BSG_KSCrashField_UserReported);
@@ -2048,7 +2048,7 @@ void bsg_kscrashreport_writeStandardReport(
         // Don't write the binary images for user reported crashes to improve
         // performance
         if (crashContext->crash.writeBinaryImagesForUserReported == true ||
-            crashContext->crash.crashType != BSG_KSCrashTypeUserReported) {
+            crashContext->crash.crashType != PNLite_KSCrashTypeUserReported) {
             bsg_kscrw_i_writeBinaryImages(writer,
                                           BSG_KSCrashField_BinaryImages);
         }
@@ -2078,7 +2078,7 @@ void bsg_kscrashreport_writeStandardReport(
             // Don't write the threads for user reported crashes to improve
             // performance
             if (crashContext->crash.threadTracingEnabled == true ||
-                crashContext->crash.crashType != BSG_KSCrashTypeUserReported) {
+                crashContext->crash.crashType != PNLite_KSCrashTypeUserReported) {
                 bsg_kscrw_i_writeAllThreads(
                     writer, BSG_KSCrashField_Threads, &crashContext->crash,
                     crashContext->config.introspectionRules.enabled,

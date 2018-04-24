@@ -22,27 +22,27 @@
 // THE SOFTWARE.
 //
 
-#include "BSG_KSCrashType.h"
+#include "PNLite_KSCrashType.h"
 
 #include <stdlib.h>
 
 static const struct {
-    const BSG_KSCrashType type;
+    const PNLite_KSCrashType type;
     const char *const name;
 } bsg_g_crashTypes[] = {
 #define BSG_CRASHTYPE(NAME)                                                    \
     { NAME, #NAME }
-    BSG_CRASHTYPE(BSG_KSCrashTypeMachException),
-    BSG_CRASHTYPE(BSG_KSCrashTypeSignal),
-    BSG_CRASHTYPE(BSG_KSCrashTypeCPPException),
-    BSG_CRASHTYPE(BSG_KSCrashTypeNSException),
-    BSG_CRASHTYPE(BSG_KSCrashTypeMainThreadDeadlock),
-    BSG_CRASHTYPE(BSG_KSCrashTypeUserReported),
+    BSG_CRASHTYPE(PNLite_KSCrashTypeMachException),
+    BSG_CRASHTYPE(PNLite_KSCrashTypeSignal),
+    BSG_CRASHTYPE(PNLite_KSCrashTypeCPPException),
+    BSG_CRASHTYPE(PNLite_KSCrashTypeNSException),
+    BSG_CRASHTYPE(PNLite_KSCrashTypeMainThreadDeadlock),
+    BSG_CRASHTYPE(PNLite_KSCrashTypeUserReported),
 };
 static const int bsg_g_crashTypesCount =
     sizeof(bsg_g_crashTypes) / sizeof(*bsg_g_crashTypes);
 
-const char *bsg_kscrashtype_name(const BSG_KSCrashType crashType) {
+const char *bsg_kscrashtype_name(const PNLite_KSCrashType crashType) {
     for (int i = 0; i < bsg_g_crashTypesCount; i++) {
         if (bsg_g_crashTypes[i].type == crashType) {
             return bsg_g_crashTypes[i].name;

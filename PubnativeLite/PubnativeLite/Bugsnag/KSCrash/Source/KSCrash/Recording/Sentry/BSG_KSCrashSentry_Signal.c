@@ -95,11 +95,11 @@ void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
             BSG_KSLOG_INFO("Detected crash in the crash reporter. Restoring "
                            "original handlers.");
             bsg_g_context->crashedDuringCrashHandling = true;
-            bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAsyncSafe);
+            bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         }
 
         BSG_KSLOG_DEBUG("Filling out context.");
-        bsg_g_context->crashType = BSG_KSCrashTypeSignal;
+        bsg_g_context->crashType = PNLite_KSCrashTypeSignal;
         bsg_g_context->offendingThread = bsg_ksmachthread_self();
         bsg_g_context->registersAreValid = true;
         bsg_g_context->faultAddress = (uintptr_t)signalInfo->si_addr;
@@ -111,7 +111,7 @@ void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
 
         BSG_KSLOG_DEBUG(
             "Crash handling complete. Restoring original handlers.");
-        bsg_kscrashsentry_uninstall(BSG_KSCrashTypeAsyncSafe);
+        bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         bsg_kscrashsentry_resumeThreads();
     }
 

@@ -35,7 +35,7 @@ extern "C" {
 #endif
 
 #include "BSG_KSArchSpecific.h"
-#include "BSG_KSCrashType.h"
+#include "PNLite_KSCrashType.h"
 
 #include <mach/mach_types.h>
 #include <signal.h>
@@ -92,7 +92,7 @@ typedef struct BSG_KSCrash_SentryContext {
 
     /** The type of crash that occurred.
      * This determines which other fields are valid. */
-    BSG_KSCrashType crashType;
+    PNLite_KSCrashType crashType;
 
     /** Short description of why the crash occurred. */
     const char *crashReason;
@@ -160,16 +160,16 @@ typedef struct BSG_KSCrash_SentryContext {
  *
  * @return which crash handlers were installed successfully.
  */
-BSG_KSCrashType
+PNLite_KSCrashType
 bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
-                                     BSG_KSCrashType crashTypes,
+                                     PNLite_KSCrashType crashTypes,
                                      void (*onCrash)(void));
 
 /** Uninstall crash sentry.
  *
  * @param crashTypes The crash types to install handlers for.
  */
-void bsg_kscrashsentry_uninstall(BSG_KSCrashType crashTypes);
+void bsg_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes);
 
 #ifdef __cplusplus
 }
