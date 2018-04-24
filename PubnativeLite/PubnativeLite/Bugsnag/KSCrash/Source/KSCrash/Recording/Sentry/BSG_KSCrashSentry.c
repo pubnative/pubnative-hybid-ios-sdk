@@ -31,7 +31,7 @@
 #include "PNLite_KSCrashSentry_Deadlock.h"
 #include "PNLite_KSCrashSentry_NSException.h"
 #include "BSG_KSCrashSentry_Signal.h"
-#include "BSG_KSCrashSentry_User.h"
+#include "PNLite_KSCrashSentry_User.h"
 #include "BSG_KSLogger.h"
 #include "BSG_KSMach.h"
 
