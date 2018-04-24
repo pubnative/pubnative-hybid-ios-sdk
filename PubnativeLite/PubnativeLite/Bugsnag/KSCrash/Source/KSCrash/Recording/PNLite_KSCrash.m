@@ -22,7 +22,7 @@
 
 #import "PNLite_KSCrashAdvanced.h"
 
-#import "BSG_KSCrashC.h"
+#import "PNLite_KSCrashC.h"
 #import "BSG_KSCrashCallCompletion.h"
 #import "BSG_KSJSONCodecObjC.h"
 #import "BSG_KSSingleton.h"

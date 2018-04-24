@@ -21,7 +21,7 @@
 //
 
 #import "PNLite_KSCrashAdvanced.h"
-#import "BSG_KSCrashC.h"
+#import "PNLite_KSCrashC.h"
 
 #import "BugsnagCrashSentry.h"
 #import "PNLiteCrashLogger.h"
