@@ -26,7 +26,7 @@
 
 #import "BSG_KSCrash.h"
 #import "PNLite_KSCrashReportFilter.h"
-#import "BSG_KSCrashReportStore.h"
+#import "PNLite_KSCrashReportStore.h"
 
 typedef enum {
     BSG_KSCrashDemangleLanguageCPlusPlus = 1,
@@ -92,7 +92,7 @@ typedef enum {
 
 /** Store containing all crash reports. */
 @property(nonatomic, readwrite, retain)
-    BSG_KSCrashReportStore *crashReportStore;
+    PNLite_KSCrashReportStore *crashReportStore;
 
 /** The report sink where reports get sent.
  * This MUST be set or else the reporter will not send reports (although it will

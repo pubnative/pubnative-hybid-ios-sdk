@@ -29,8 +29,8 @@
 #import "NSDictionary+BSG_Merge.h"
 #import "BSG_KSLogger.h"
 
-static NSString *const kCrashReportSuffix = @"-CrashReport-";
-#define BSG_kRecrashReportSuffix @"-RecrashReport-"
+static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
+#define PNLite_kRecrashReportSuffix @"-RecrashReport-"
 
 @implementation PNLite_KSCrashReportStore
 
@@ -41,7 +41,7 @@ static NSString *const kCrashReportSuffix = @"-CrashReport-";
 
 + (PNLite_KSCrashReportStore *)storeWithPath:(NSString *)path {
     return [[self alloc] initWithPath:path
-                       filenameSuffix:kCrashReportSuffix];
+                       filenameSuffix:kPNLiteCrashReportSuffix];
 }
 
 - (instancetype)initWithPath:(NSString *)path
@@ -55,7 +55,7 @@ static NSString *const kCrashReportSuffix = @"-CrashReport-";
 
 - (NSString *)recrashReportFilenameWithID:(NSString *)reportID {
     return [NSString stringWithFormat:@"%@"
-                                              BSG_kRecrashReportSuffix
+                                              PNLite_kRecrashReportSuffix
                                               "%@.json",
                                       self.bundleName, reportID];
 }

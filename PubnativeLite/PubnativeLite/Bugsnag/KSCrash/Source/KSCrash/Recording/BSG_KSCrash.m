@@ -72,7 +72,7 @@
 @property(nonatomic, readwrite, retain) id<PNLite_KSCrashReportFilter> sink;
 @property(nonatomic, readwrite, retain) NSString *logFilePath;
 @property(nonatomic, readwrite, retain)
-    BSG_KSCrashReportStore *crashReportStore;
+    PNLite_KSCrashReportStore *crashReportStore;
 @property(nonatomic, readwrite, assign) PNLite_KSReportWriteCallback onCrash;
 @property(nonatomic, readwrite, assign) bool printTraceToStdout;
 @property(nonatomic, readwrite, assign) int maxStoredReports;
@@ -151,7 +151,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
         }
 
         self.nextCrashID = [NSUUID UUID].UUIDString;
-        self.crashReportStore = [BSG_KSCrashReportStore storeWithPath:storePath];
+        self.crashReportStore = [PNLite_KSCrashReportStore storeWithPath:storePath];
         self.deleteBehaviorAfterSendAll = BSG_KSCDeleteAlways;
         self.searchThreadNames = NO;
         self.searchQueueNames = NO;
