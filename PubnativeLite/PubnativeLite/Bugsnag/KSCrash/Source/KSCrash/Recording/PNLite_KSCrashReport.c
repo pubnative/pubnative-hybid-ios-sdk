@@ -1,30 +1,26 @@
 //
-//  BSG_KSCrashReport.m
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-01-28.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#include "BSG_KSCrashReport.h"
+#include "PNLite_KSCrashReport.h"
 
 #include "BSG_KSBacktrace_Private.h"
 #include "PNLite_KSCrashReportFields.h"
@@ -43,10 +39,10 @@
 
 #ifdef __arm64__
 #include <sys/_types/_ucontext64.h>
-#define BSG_UC_MCONTEXT uc_mcontext64
+#define PNLITE_UC_MCONTEXT uc_mcontext64
 typedef ucontext64_t SignalUserContext;
 #else
-#define BSG_UC_MCONTEXT uc_mcontext
+#define PNLITE_UC_MCONTEXT uc_mcontext
 typedef ucontext_t SignalUserContext;
 #endif
 
@@ -57,96 +53,96 @@ typedef ucontext_t SignalUserContext;
 // ============================================================================
 
 /** Maximum depth allowed for a backtrace. */
-#define BSG_kMaxBacktraceDepth 150
+#define PNLite_kMaxBacktraceDepth 150
 
 /** Default number of objects, subobjects, and ivars to record from a memory loc
  */
-#define BSG_kDefaultMemorySearchDepth 15
+#define PNLite_kDefaultMemorySearchDepth 15
 
 /** Length at which we consider a backtrace to represent a stack overflow.
  * If it reaches this point, we start cutting off from the top of the stack
  * rather than the bottom.
  */
-#define BSG_kStackOverflowThreshold 200
+#define PNLite_kStackOverflowThreshold 200
 
 /** Maximum number of lines to print when printing a stack trace to the console.
  */
-#define BSG_kMaxStackTracePrintLines 40
+#define PNLite_kMaxStackTracePrintLines 40
 
 /** How far to search the stack (in pointer sized jumps) for notable data. */
-#define BSG_kStackNotableSearchBackDistance 20
-#define BSG_kStackNotableSearchForwardDistance 10
+#define PNLite_kStackNotableSearchBackDistance 20
+#define PNLite_kStackNotableSearchForwardDistance 10
 
 /** How much of the stack to dump (in pointer sized jumps). */
-#define BSG_kStackContentsPushedDistance 20
-#define BSG_kStackContentsPoppedDistance 10
-#define BSG_kStackContentsTotalDistance                                        \
-    (BSG_kStackContentsPushedDistance + BSG_kStackContentsPoppedDistance)
+#define PNLite_kStackContentsPushedDistance 20
+#define PNLite_kStackContentsPoppedDistance 10
+#define PNLite_kStackContentsTotalDistance                                        \
+    (PNLite_kStackContentsPushedDistance + PNLite_kStackContentsPoppedDistance)
 
 /** The minimum length for a valid string. */
-#define BSG_kMinStringLength 4
+#define PNLite_kMinStringLength 4
 
 // ============================================================================
 #pragma mark - Formatting -
 // ============================================================================
 
 #if defined(__LP64__)
-#define BSG_TRACE_FMT "%-4d%-31s 0x%016lx %s + %lu"
-#define BSG_POINTER_FMT "0x%016lx"
-#define BSG_POINTER_SHORT_FMT "0x%lx"
+#define PNLITE_TRACE_FMT "%-4d%-31s 0x%016lx %s + %lu"
+#define PNLITE_POINTER_FMT "0x%016lx"
+#define PNLITE_POINTER_SHORT_FMT "0x%lx"
 #else
-#define BSG_TRACE_FMT "%-4d%-31s 0x%08lx %s + %lu"
-#define BSG_POINTER_FMT "0x%08lx"
-#define BSG_POINTER_SHORT_FMT "0x%lx"
+#define PNLITE_TRACE_FMT "%-4d%-31s 0x%08lx %s + %lu"
+#define PNLITE_POINTER_FMT "0x%08lx"
+#define PNLITE_POINTER_SHORT_FMT "0x%lx"
 #endif
 
 // ============================================================================
 #pragma mark - JSON Encoding -
 // ============================================================================
 
-#define bsg_getJsonContext(REPORT_WRITER)                                      \
+#define pnlite_getJsonContext(REPORT_WRITER)                                      \
     ((BSG_KSJSONEncodeContext *)((REPORT_WRITER)->context))
 
 /** Used for writing hex string values. */
-static const char bsg_g_hexNybbles[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+static const char pnlite_g_hexNybbles[] = {'0', '1', '2', '3', '4', '5', '6', '7',
                                         '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
 // ============================================================================
 #pragma mark - Runtime Config -
 // ============================================================================
 
-static PNLite_KSCrash_IntrospectionRules *bsg_g_introspectionRules;
+static PNLite_KSCrash_IntrospectionRules *pnlite_g_introspectionRules;
 
 #pragma mark Callbacks
 
 void bsg_kscrw_i_addBooleanElement(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const key, const bool value) {
-    bsg_ksjsonaddBooleanElement(bsg_getJsonContext(writer), key, value);
+    bsg_ksjsonaddBooleanElement(pnlite_getJsonContext(writer), key, value);
 }
 
 void bsg_kscrw_i_addFloatingPointElement(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const double value) {
-    bsg_ksjsonaddFloatingPointElement(bsg_getJsonContext(writer), key, value);
+    bsg_ksjsonaddFloatingPointElement(pnlite_getJsonContext(writer), key, value);
 }
 
 void bsg_kscrw_i_addIntegerElement(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const key,
                                    const long long value) {
-    bsg_ksjsonaddIntegerElement(bsg_getJsonContext(writer), key, value);
+    bsg_ksjsonaddIntegerElement(pnlite_getJsonContext(writer), key, value);
 }
 
 void bsg_kscrw_i_addUIntegerElement(const PNLite_KSCrashReportWriter *const writer,
                                     const char *const key,
                                     const unsigned long long value) {
-    bsg_ksjsonaddIntegerElement(bsg_getJsonContext(writer), key,
+    bsg_ksjsonaddIntegerElement(pnlite_getJsonContext(writer), key,
                                 (long long)value);
 }
 
 void bsg_kscrw_i_addStringElement(const PNLite_KSCrashReportWriter *const writer,
                                   const char *const key,
                                   const char *const value) {
-    bsg_ksjsonaddStringElement(bsg_getJsonContext(writer), key, value,
+    bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer), key, value,
                                BSG_KSJSON_SIZE_AUTOMATIC);
 }
 
@@ -160,7 +156,7 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
         return;
     }
 
-    if (bsg_ksjsonbeginStringElement(bsg_getJsonContext(writer), key) !=
+    if (bsg_ksjsonbeginStringElement(pnlite_getJsonContext(writer), key) !=
         BSG_KSJSON_OK) {
         BSG_KSLOG_ERROR("Could not start string element");
         goto done;
@@ -170,7 +166,7 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
     ssize_t bytesRead;
     for (bytesRead = read(fd, buffer, sizeof(buffer)); bytesRead > 0;
          bytesRead = read(fd, buffer, sizeof(buffer))) {
-        if (bsg_ksjsonappendStringElement(bsg_getJsonContext(writer), buffer,
+        if (bsg_ksjsonappendStringElement(pnlite_getJsonContext(writer), buffer,
                                           (size_t)bytesRead) != BSG_KSJSON_OK) {
             BSG_KSLOG_ERROR("Could not append string element");
             goto done;
@@ -178,66 +174,66 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
     }
 
 done:
-    bsg_ksjsonendStringElement(bsg_getJsonContext(writer));
+    bsg_ksjsonendStringElement(pnlite_getJsonContext(writer));
     close(fd);
 }
 
 void bsg_kscrw_i_addDataElement(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const key, const char *const value,
                                 const size_t length) {
-    bsg_ksjsonaddDataElement(bsg_getJsonContext(writer), key, value, length);
+    bsg_ksjsonaddDataElement(pnlite_getJsonContext(writer), key, value, length);
 }
 
 void bsg_kscrw_i_beginDataElement(const PNLite_KSCrashReportWriter *const writer,
                                   const char *const key) {
-    bsg_ksjsonbeginDataElement(bsg_getJsonContext(writer), key);
+    bsg_ksjsonbeginDataElement(pnlite_getJsonContext(writer), key);
 }
 
 void bsg_kscrw_i_appendDataElement(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const value,
                                    const size_t length) {
-    bsg_ksjsonappendDataElement(bsg_getJsonContext(writer), value, length);
+    bsg_ksjsonappendDataElement(pnlite_getJsonContext(writer), value, length);
 }
 
 void bsg_kscrw_i_endDataElement(const PNLite_KSCrashReportWriter *const writer) {
-    bsg_ksjsonendDataElement(bsg_getJsonContext(writer));
+    bsg_ksjsonendDataElement(pnlite_getJsonContext(writer));
 }
 
 void bsg_kscrw_i_addUUIDElement(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const key,
                                 const unsigned char *const value) {
     if (value == NULL) {
-        bsg_ksjsonaddNullElement(bsg_getJsonContext(writer), key);
+        bsg_ksjsonaddNullElement(pnlite_getJsonContext(writer), key);
     } else {
         char uuidBuffer[37];
         const unsigned char *src = value;
         char *dst = uuidBuffer;
         for (int i = 0; i < 4; i++) {
-            *dst++ = bsg_g_hexNybbles[(*src >> 4) & 15];
-            *dst++ = bsg_g_hexNybbles[(*src++) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src >> 4) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src++) & 15];
         }
         *dst++ = '-';
         for (int i = 0; i < 2; i++) {
-            *dst++ = bsg_g_hexNybbles[(*src >> 4) & 15];
-            *dst++ = bsg_g_hexNybbles[(*src++) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src >> 4) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src++) & 15];
         }
         *dst++ = '-';
         for (int i = 0; i < 2; i++) {
-            *dst++ = bsg_g_hexNybbles[(*src >> 4) & 15];
-            *dst++ = bsg_g_hexNybbles[(*src++) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src >> 4) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src++) & 15];
         }
         *dst++ = '-';
         for (int i = 0; i < 2; i++) {
-            *dst++ = bsg_g_hexNybbles[(*src >> 4) & 15];
-            *dst++ = bsg_g_hexNybbles[(*src++) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src >> 4) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src++) & 15];
         }
         *dst++ = '-';
         for (int i = 0; i < 6; i++) {
-            *dst++ = bsg_g_hexNybbles[(*src >> 4) & 15];
-            *dst++ = bsg_g_hexNybbles[(*src++) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src >> 4) & 15];
+            *dst++ = pnlite_g_hexNybbles[(*src++) & 15];
         }
 
-        bsg_ksjsonaddStringElement(bsg_getJsonContext(writer), key, uuidBuffer,
+        bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer), key, uuidBuffer,
                                    (size_t)(dst - uuidBuffer));
     }
 }
@@ -245,20 +241,20 @@ void bsg_kscrw_i_addUUIDElement(const PNLite_KSCrashReportWriter *const writer,
 void bsg_kscrw_i_addJSONElement(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const key,
                                 const char *const jsonElement) {
-    int jsonResult = bsg_ksjsonaddJSONElement(bsg_getJsonContext(writer), key,
+    int jsonResult = bsg_ksjsonaddJSONElement(pnlite_getJsonContext(writer), key,
                                               jsonElement, strlen(jsonElement));
     if (jsonResult != BSG_KSJSON_OK) {
         char errorBuff[100];
         snprintf(errorBuff, sizeof(errorBuff), "Invalid JSON data: %s",
                  bsg_ksjsonstringForError(jsonResult));
-        bsg_ksjsonbeginObject(bsg_getJsonContext(writer), key);
-        bsg_ksjsonaddStringElement(bsg_getJsonContext(writer),
+        bsg_ksjsonbeginObject(pnlite_getJsonContext(writer), key);
+        bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer),
                                    PNLite_KSCrashField_Error, errorBuff,
                                    BSG_KSJSON_SIZE_AUTOMATIC);
-        bsg_ksjsonaddStringElement(bsg_getJsonContext(writer),
+        bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer),
                                    PNLite_KSCrashField_JSONData, jsonElement,
                                    BSG_KSJSON_SIZE_AUTOMATIC);
-        bsg_ksjsonendContainer(bsg_getJsonContext(writer));
+        bsg_ksjsonendContainer(pnlite_getJsonContext(writer));
     }
 }
 
@@ -272,7 +268,7 @@ void bsg_kscrw_i_addJSONElementFromFile(
         return;
     }
 
-    if (bsg_ksjsonbeginElement(bsg_getJsonContext(writer), key) !=
+    if (bsg_ksjsonbeginElement(pnlite_getJsonContext(writer), key) !=
         BSG_KSJSON_OK) {
         BSG_KSLOG_ERROR("Could not start JSON element");
         goto done;
@@ -281,7 +277,7 @@ void bsg_kscrw_i_addJSONElementFromFile(
     char buffer[512];
     ssize_t bytesRead;
     while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
-        if (bsg_ksjsonaddRawJSONData(bsg_getJsonContext(writer), buffer,
+        if (bsg_ksjsonaddRawJSONData(pnlite_getJsonContext(writer), buffer,
                                      (size_t)bytesRead) != BSG_KSJSON_OK) {
             BSG_KSLOG_ERROR("Could not append JSON data");
             goto done;
@@ -294,16 +290,16 @@ done:
 
 void bsg_kscrw_i_beginObject(const PNLite_KSCrashReportWriter *const writer,
                              const char *const key) {
-    bsg_ksjsonbeginObject(bsg_getJsonContext(writer), key);
+    bsg_ksjsonbeginObject(pnlite_getJsonContext(writer), key);
 }
 
 void bsg_kscrw_i_beginArray(const PNLite_KSCrashReportWriter *const writer,
                             const char *const key) {
-    bsg_ksjsonbeginArray(bsg_getJsonContext(writer), key);
+    bsg_ksjsonbeginArray(pnlite_getJsonContext(writer), key);
 }
 
 void bsg_kscrw_i_endContainer(const PNLite_KSCrashReportWriter *const writer) {
-    bsg_ksjsonendContainer(bsg_getJsonContext(writer));
+    bsg_ksjsonendContainer(pnlite_getJsonContext(writer));
 }
 
 int bsg_kscrw_i_addJSONData(const char *const data, const size_t length,
@@ -336,7 +332,7 @@ bool bsg_kscrw_i_isValidString(const void *const address) {
     if (bsg_ksmachcopyMem(address, buffer, sizeof(buffer)) != KERN_SUCCESS) {
         return false;
     }
-    return bsg_ksstring_isNullTerminatedUTF8String(buffer, BSG_kMinStringLength,
+    return bsg_ksstring_isNullTerminatedUTF8String(buffer, PNLite_kMinStringLength,
                                                    sizeof(buffer));
 }
 
@@ -382,7 +378,7 @@ BSG_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
     if (thread == crash->offendingThread) {
         if (crash->crashType == PNLite_KSCrashTypeSignal) {
             return ((SignalUserContext *)crash->signal.userContext)
-                ->BSG_UC_MCONTEXT;
+                ->PNLITE_UC_MCONTEXT;
         }
     }
 
@@ -442,7 +438,7 @@ uintptr_t *bsg_kscrw_i_getBacktrace(
 
     int actualSkippedEntries = 0;
     int actualLength = bsg_ksbt_backtraceLength(machineContext);
-    if (actualLength >= BSG_kStackOverflowThreshold) {
+    if (actualLength >= PNLite_kStackOverflowThreshold) {
         actualSkippedEntries = actualLength - *backtraceLength;
     }
 
@@ -473,7 +469,7 @@ bool bsg_kscrw_i_isStackOverflow(const BSG_KSCrash_SentryContext *const crash,
     }
 
     return bsg_ksbt_isBacktraceTooLong(machineContext,
-                                       BSG_kStackOverflowThreshold);
+                                       PNLite_kStackOverflowThreshold);
 }
 
 // ============================================================================
@@ -547,19 +543,19 @@ void bsg_kscrw_i_logBacktraceEntry(const int entryNum, const uintptr_t address,
 
     const char *fname = bsg_ksfulastPathEntry(dlInfo->dli_fname);
     if (fname == NULL) {
-        sprintf(faddrBuff, BSG_POINTER_FMT, (uintptr_t)dlInfo->dli_fbase);
+        sprintf(faddrBuff, PNLITE_POINTER_FMT, (uintptr_t)dlInfo->dli_fbase);
         fname = faddrBuff;
     }
 
     uintptr_t offset = address - (uintptr_t)dlInfo->dli_saddr;
     const char *sname = dlInfo->dli_sname;
     if (sname == NULL) {
-        sprintf(saddrBuff, BSG_POINTER_SHORT_FMT, (uintptr_t)dlInfo->dli_fbase);
+        sprintf(saddrBuff, PNLITE_POINTER_SHORT_FMT, (uintptr_t)dlInfo->dli_fbase);
         sname = saddrBuff;
         offset = address - (uintptr_t)dlInfo->dli_fbase;
     }
 
-    BSG_KSLOGBASIC_ALWAYS(BSG_TRACE_FMT, entryNum, fname, address, sname,
+    BSG_KSLOGBASIC_ALWAYS(PNLITE_TRACE_FMT, entryNum, fname, address, sname,
                           offset);
 }
 
@@ -591,7 +587,7 @@ void bsg_kscrw_i_logCrashThreadBacktrace(
     const BSG_KSCrash_SentryContext *const crash) {
     thread_t thread = crash->offendingThread;
     BSG_STRUCT_MCONTEXT_L concreteMachineContext;
-    uintptr_t concreteBacktrace[BSG_kMaxStackTracePrintLines];
+    uintptr_t concreteBacktrace[PNLite_kMaxStackTracePrintLines];
     int backtraceLength =
         sizeof(concreteBacktrace) / sizeof(*concreteBacktrace);
 
@@ -852,10 +848,10 @@ void bsg_kscrw_i_writeUnknownObjectContents(
 }
 
 bool bsg_kscrw_i_isRestrictedClass(const char *name) {
-    if (bsg_g_introspectionRules->restrictedClasses != NULL) {
-        for (size_t i = 0; i < bsg_g_introspectionRules->restrictedClassesCount;
+    if (pnlite_g_introspectionRules->restrictedClasses != NULL) {
+        for (size_t i = 0; i < pnlite_g_introspectionRules->restrictedClassesCount;
              i++) {
-            if (strcmp(name, bsg_g_introspectionRules->restrictedClasses[i]) ==
+            if (strcmp(name, pnlite_g_introspectionRules->restrictedClasses[i]) ==
                 0) {
                 return true;
             }
@@ -1007,7 +1003,7 @@ void bsg_kscrw_i_writeMemoryContentsIfNotable(
         return;
     }
 
-    int limit = BSG_kDefaultMemorySearchDepth;
+    int limit = PNLite_kDefaultMemorySearchDepth;
     bsg_kscrw_i_writeMemoryContents(writer, key, address, &limit);
 }
 
@@ -1028,7 +1024,7 @@ void bsg_kscrw_i_writeAddressReferencedByString(
         return;
     }
 
-    int limit = BSG_kDefaultMemorySearchDepth;
+    int limit = PNLite_kDefaultMemorySearchDepth;
     bsg_kscrw_i_writeMemoryContents(writer, key, (uintptr_t)address, &limit);
 }
 
@@ -1130,10 +1126,10 @@ void bsg_kscrw_i_writeStackContents(
     }
 
     uintptr_t lowAddress =
-        sp + (uintptr_t)(BSG_kStackContentsPushedDistance * (int)sizeof(sp) *
+        sp + (uintptr_t)(PNLite_kStackContentsPushedDistance * (int)sizeof(sp) *
                          bsg_ksmachstackGrowDirection() * -1);
     uintptr_t highAddress =
-        sp + (uintptr_t)(BSG_kStackContentsPoppedDistance * (int)sizeof(sp) *
+        sp + (uintptr_t)(PNLite_kStackContentsPoppedDistance * (int)sizeof(sp) *
                          bsg_ksmachstackGrowDirection());
     if (highAddress < lowAddress) {
         uintptr_t tmp = lowAddress;
@@ -1152,7 +1148,7 @@ void bsg_kscrw_i_writeStackContents(
         writer->addUIntegerElement(writer, PNLite_KSCrashField_StackPtr, sp);
         writer->addBooleanElement(writer, PNLite_KSCrashField_Overflow,
                                   isStackOverflow);
-        uint8_t stackBuffer[BSG_kStackContentsTotalDistance * sizeof(sp)];
+        uint8_t stackBuffer[PNLite_kStackContentsTotalDistance * sizeof(sp)];
         size_t copyLength = highAddress - lowAddress;
         if (bsg_ksmachcopyMem((void *)lowAddress, stackBuffer, copyLength) ==
             KERN_SUCCESS) {
@@ -1339,8 +1335,8 @@ void bsg_kscrw_i_writeNotableAddresses(
     {
         bsg_kscrw_i_writeNotableRegisters(writer, machineContext);
         bsg_kscrw_i_writeNotableStackContents(
-            writer, machineContext, BSG_kStackNotableSearchBackDistance,
-            BSG_kStackNotableSearchForwardDistance);
+            writer, machineContext, PNLite_kStackNotableSearchBackDistance,
+            PNLite_kStackNotableSearchForwardDistance);
     }
     writer->endContainer(writer);
 }
@@ -1369,7 +1365,7 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
     bool isCrashedThread = thread == crash->offendingThread;
     char nameBuffer[128];
     BSG_STRUCT_MCONTEXT_L machineContextBuffer;
-    uintptr_t backtraceBuffer[BSG_kMaxBacktraceDepth];
+    uintptr_t backtraceBuffer[PNLite_kMaxBacktraceDepth];
     int backtraceLength = sizeof(backtraceBuffer) / sizeof(*backtraceBuffer);
     int skippedEntries = 0;
 
@@ -1979,7 +1975,7 @@ void bsg_kscrashreport_writeMinimalReport(
         return;
     }
 
-    bsg_g_introspectionRules = &crashContext->config.introspectionRules;
+    pnlite_g_introspectionRules = &crashContext->config.introspectionRules;
 
     bsg_kscrw_i_updateStackOverflowStatus(crashContext);
 
@@ -1989,7 +1985,7 @@ void bsg_kscrashreport_writeMinimalReport(
     PNLite_KSCrashReportWriter *writer = &concreteWriter;
     bsg_kscrw_i_prepareReportWriter(writer, &jsonContext);
 
-    bsg_ksjsonbeginEncode(bsg_getJsonContext(writer), true,
+    bsg_ksjsonbeginEncode(pnlite_getJsonContext(writer), true,
                           bsg_kscrw_i_addJSONData, &fd);
 
     writer->beginObject(writer, PNLite_KSCrashField_Report);
@@ -2012,7 +2008,7 @@ void bsg_kscrashreport_writeMinimalReport(
     }
     writer->endContainer(writer);
 
-    bsg_ksjsonendEncode(bsg_getJsonContext(writer));
+    bsg_ksjsonendEncode(pnlite_getJsonContext(writer));
 
     close(fd);
 }
@@ -2026,7 +2022,7 @@ void bsg_kscrashreport_writeStandardReport(
         return;
     }
 
-    bsg_g_introspectionRules = &crashContext->config.introspectionRules;
+    pnlite_g_introspectionRules = &crashContext->config.introspectionRules;
 
     bsg_kscrw_i_updateStackOverflowStatus(crashContext);
 
@@ -2036,7 +2032,7 @@ void bsg_kscrashreport_writeStandardReport(
     PNLite_KSCrashReportWriter *writer = &concreteWriter;
     bsg_kscrw_i_prepareReportWriter(writer, &jsonContext);
 
-    bsg_ksjsonbeginEncode(bsg_getJsonContext(writer), true,
+    bsg_ksjsonbeginEncode(pnlite_getJsonContext(writer), true,
                           bsg_kscrw_i_addJSONData, &fd);
 
     writer->beginObject(writer, PNLite_KSCrashField_Report);
@@ -2098,7 +2094,7 @@ void bsg_kscrashreport_writeStandardReport(
     }
     writer->endContainer(writer);
 
-    bsg_ksjsonendEncode(bsg_getJsonContext(writer));
+    bsg_ksjsonendEncode(pnlite_getJsonContext(writer));
 
     if (!bsg_ksfuflushWriteBuffer(fd)) {
         BSG_KSLOG_ERROR("Failed to flush write buffer");

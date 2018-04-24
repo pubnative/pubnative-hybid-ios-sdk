@@ -23,7 +23,7 @@
 
 #include "PNLite_KSCrashC.h"
 
-#include "BSG_KSCrashReport.h"
+#include "PNLite_KSCrashReport.h"
 #include "BSG_KSCrashSentry_Deadlock.h"
 #include "BSG_KSCrashSentry_User.h"
 #include "BSG_KSMach.h"
