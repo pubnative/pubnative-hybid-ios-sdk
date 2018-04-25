@@ -1,30 +1,28 @@
 //
-//  BSG_KSCrashSentry_CPPException.c
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #import <Foundation/Foundation.h>
 
-#include "BSG_KSCrashSentry_CPPException.h"
+#include "PNLite_KSCrashSentry_CPPException.h"
 #include "PNLite_KSCrashSentry_Private.h"
 #include "BSG_KSMach.h"
 
@@ -37,8 +35,8 @@
 #include <execinfo.h>
 #include <typeinfo>
 
-#define STACKTRACE_BUFFER_LENGTH 30
-#define DESCRIPTION_BUFFER_LENGTH 1000
+#define PNLITE_STACKTRACE_BUFFER_LENGTH 30
+#define PNLITE_DESCRIPTION_BUFFER_LENGTH 1000
 
 // Compiler hints for "if" statements
 #define likely_if(x) if (__builtin_expect(x, 1))
@@ -49,21 +47,21 @@
 // ============================================================================
 
 /** True if this handler has been installed. */
-static volatile sig_atomic_t bsg_g_installed = 0;
+static volatile sig_atomic_t pnlite_g_installed = 0;
 
 /** True if the handler should capture the next stack trace. */
-static bool bsg_g_captureNextStackTrace = false;
+static bool pnlite_g_captureNextStackTrace = false;
 
-static std::terminate_handler bsg_g_originalTerminateHandler;
+static std::terminate_handler pnlite_g_originalTerminateHandler;
 
 /** Buffer for the backtrace of the most recent exception. */
-static uintptr_t bsg_g_stackTrace[STACKTRACE_BUFFER_LENGTH];
+static uintptr_t pnlite_g_stackTrace[PNLITE_STACKTRACE_BUFFER_LENGTH];
 
 /** Number of backtrace entries in the most recent exception. */
-static int bsg_g_stackTraceCount = 0;
+static int pnlite_g_stackTraceCount = 0;
 
 /** Context to fill with crash information. */
-static PNLite_KSCrash_SentryContext *bsg_g_context;
+static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
 // ============================================================================
 #pragma mark - Callbacks -
@@ -77,10 +75,10 @@ void __cxa_throw(void *thrown_exception, std::type_info *tinfo,
 
 void __cxa_throw(void *thrown_exception, std::type_info *tinfo,
                  void (*dest)(void *)) {
-    if (bsg_g_captureNextStackTrace) {
-        bsg_g_stackTraceCount =
-            backtrace((void **)bsg_g_stackTrace,
-                      sizeof(bsg_g_stackTrace) / sizeof(*bsg_g_stackTrace));
+    if (pnlite_g_captureNextStackTrace) {
+        pnlite_g_stackTraceCount =
+            backtrace((void **)pnlite_g_stackTrace,
+                      sizeof(pnlite_g_stackTrace) / sizeof(*pnlite_g_stackTrace));
     }
 
     static cxa_throw_type orig_cxa_throw = NULL;
@@ -96,7 +94,7 @@ static void CPPExceptionTerminate(void) {
     BSG_KSLOG_DEBUG(@"Trapped c++ exception");
 
     bool isNSException = false;
-    char descriptionBuff[DESCRIPTION_BUFFER_LENGTH];
+    char descriptionBuff[PNLITE_DESCRIPTION_BUFFER_LENGTH];
     const char *name = NULL;
     const char *description = NULL;
 
@@ -110,7 +108,7 @@ static void CPPExceptionTerminate(void) {
     descriptionBuff[0] = 0;
 
     BSG_KSLOG_DEBUG(@"Discovering what kind of exception was thrown.");
-    bsg_g_captureNextStackTrace = false;
+    pnlite_g_captureNextStackTrace = false;
     try {
         throw;
     } catch (NSException *exception) {
@@ -142,33 +140,33 @@ static void CPPExceptionTerminate(void) {
     catch (...) {
         description = NULL;
     }
-    bsg_g_captureNextStackTrace = (bsg_g_installed != 0);
+    pnlite_g_captureNextStackTrace = (pnlite_g_installed != 0);
 
     if (!isNSException) {
-        bool wasHandlingCrash = bsg_g_context->handlingCrash;
-        bsg_kscrashsentry_beginHandlingCrash(bsg_g_context);
+        bool wasHandlingCrash = pnlite_g_context->handlingCrash;
+        bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         if (wasHandlingCrash) {
             BSG_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
                            @"original handlers.");
-            bsg_g_context->crashedDuringCrashHandling = true;
+            pnlite_g_context->crashedDuringCrashHandling = true;
             bsg_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
         }
 
         BSG_KSLOG_DEBUG(@"Suspending all threads.");
         bsg_kscrashsentry_suspendThreads();
 
-        bsg_g_context->crashType = PNLite_KSCrashTypeCPPException;
-        bsg_g_context->offendingThread = bsg_ksmachthread_self();
-        bsg_g_context->registersAreValid = false;
-        bsg_g_context->stackTrace =
-            bsg_g_stackTrace + 1; // Don't record __cxa_throw stack entry
-        bsg_g_context->stackTraceLength = bsg_g_stackTraceCount - 1;
-        bsg_g_context->CPPException.name = name;
-        bsg_g_context->crashReason = description;
+        pnlite_g_context->crashType = PNLite_KSCrashTypeCPPException;
+        pnlite_g_context->offendingThread = bsg_ksmachthread_self();
+        pnlite_g_context->registersAreValid = false;
+        pnlite_g_context->stackTrace =
+            pnlite_g_stackTrace + 1; // Don't record __cxa_throw stack entry
+        pnlite_g_context->stackTraceLength = pnlite_g_stackTraceCount - 1;
+        pnlite_g_context->CPPException.name = name;
+        pnlite_g_context->crashReason = description;
 
         BSG_KSLOG_DEBUG(@"Calling main crash handler.");
-        bsg_g_context->onCrash();
+        pnlite_g_context->onCrash();
 
         BSG_KSLOG_DEBUG(
             @"Crash handling complete. Restoring original handlers.");
@@ -176,7 +174,7 @@ static void CPPExceptionTerminate(void) {
         bsg_kscrashsentry_resumeThreads();
     }
 
-    bsg_g_originalTerminateHandler();
+    pnlite_g_originalTerminateHandler();
 }
 
 // ============================================================================
@@ -187,27 +185,27 @@ extern "C" bool bsg_kscrashsentry_installCPPExceptionHandler(
     PNLite_KSCrash_SentryContext *context) {
     BSG_KSLOG_DEBUG(@"Installing C++ exception handler.");
 
-    if (bsg_g_installed) {
+    if (pnlite_g_installed) {
         BSG_KSLOG_DEBUG(@"C++ exception handler already installed.");
         return true;
     }
-    bsg_g_installed = 1;
+    pnlite_g_installed = 1;
 
-    bsg_g_context = context;
+    pnlite_g_context = context;
 
-    bsg_g_originalTerminateHandler = std::set_terminate(CPPExceptionTerminate);
-    bsg_g_captureNextStackTrace = true;
+    pnlite_g_originalTerminateHandler = std::set_terminate(CPPExceptionTerminate);
+    pnlite_g_captureNextStackTrace = true;
     return true;
 }
 
 extern "C" void bsg_kscrashsentry_uninstallCPPExceptionHandler(void) {
     BSG_KSLOG_DEBUG(@"Uninstalling C++ exception handler.");
-    if (!bsg_g_installed) {
+    if (!pnlite_g_installed) {
         BSG_KSLOG_DEBUG(@"C++ exception handler already uninstalled.");
         return;
     }
 
-    bsg_g_captureNextStackTrace = false;
-    std::set_terminate(bsg_g_originalTerminateHandler);
-    bsg_g_installed = 0;
+    pnlite_g_captureNextStackTrace = false;
+    std::set_terminate(pnlite_g_originalTerminateHandler);
+    pnlite_g_installed = 0;
 }

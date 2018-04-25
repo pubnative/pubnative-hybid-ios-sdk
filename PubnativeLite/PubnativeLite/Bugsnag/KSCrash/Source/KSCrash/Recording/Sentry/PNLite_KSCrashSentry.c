@@ -23,7 +23,7 @@
 #include "PNLite_KSCrashSentry.h"
 #include "PNLite_KSCrashSentry_Private.h"
 
-#include "BSG_KSCrashSentry_CPPException.h"
+#include "PNLite_KSCrashSentry_CPPException.h"
 #include "PNLite_KSCrashSentry_Deadlock.h"
 #include "PNLite_KSCrashSentry_NSException.h"
 #include "PNLite_KSCrashSentry_Signal.h"
