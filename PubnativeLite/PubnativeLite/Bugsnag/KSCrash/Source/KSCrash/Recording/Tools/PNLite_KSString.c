@@ -1,30 +1,26 @@
 //
-//  KSString.m
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-09-15.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#include "BSG_KSString.h"
+#include "PNLite_KSString.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -32,14 +28,14 @@
 #define likely_if(x) if (__builtin_expect(x, 1))
 #define unlikely_if(x) if (__builtin_expect(x, 0))
 
-static const int bsg_g_printableControlChars[0x20] = {
+static const int pnlite_g_printableControlChars[0x20] = {
     // Only tab, CR, and LF are considered printable
     // 1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
     0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-static const int bsg_g_continuationByteCount[0x40] = {
+static const int pnlite_g_continuationByteCount[0x40] = {
     /*
      --0xxxxx = 1 (00-1f)
      --10xxxx = 2 (20-2f)
@@ -65,7 +61,7 @@ bool bsg_ksstring_isNullTerminatedUTF8String(const void *memory, int minLength,
         }
         unlikely_if(ch & 0x80) {
             unlikely_if((ch & 0xc0) != 0xc0) { return false; }
-            int continuationBytes = bsg_g_continuationByteCount[ch & 0x3f];
+            int continuationBytes = pnlite_g_continuationByteCount[ch & 0x3f];
             unlikely_if(continuationBytes == 0 ||
                         ptr + continuationBytes >= end) {
                 return false;
@@ -75,7 +71,7 @@ bool bsg_ksstring_isNullTerminatedUTF8String(const void *memory, int minLength,
                 unlikely_if((*ptr & 0xc0) != 0x80) { return false; }
             }
         }
-        else unlikely_if(ch < 0x20 && !bsg_g_printableControlChars[ch]) {
+        else unlikely_if(ch < 0x20 && !pnlite_g_printableControlChars[ch]) {
             return false;
         }
     }
@@ -88,7 +84,7 @@ bool bsg_ksstring_isNullTerminatedUTF8String(const void *memory, int minLength,
  * INV (0x11111) is used to mark invalid characters so that any attempted
  * invalid nybble conversion is always > 0xffff.
  */
-static const unsigned int bsg_g_hexConversion[] = {
+static const unsigned int pnlite_g_hexConversion[] = {
     INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV,
     INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV,
     INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV,
@@ -121,12 +117,12 @@ bool bsg_ksstring_extractHexValue(const char *string, size_t stringLength,
             current += 2;
 
             // Must have at least one valid digit after "0x".
-            unlikely_if(bsg_g_hexConversion[*current] == INV) { continue; }
+            unlikely_if(pnlite_g_hexConversion[*current] == INV) { continue; }
 
             uint64_t accum = 0;
             unsigned int nybble = 0;
             while (current < end) {
-                nybble = bsg_g_hexConversion[*current++];
+                nybble = pnlite_g_hexConversion[*current++];
                 unlikely_if(nybble == INV) { break; }
                 accum <<= 4;
                 accum += nybble;

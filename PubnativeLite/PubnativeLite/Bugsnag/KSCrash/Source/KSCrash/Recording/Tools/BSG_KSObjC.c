@@ -28,7 +28,7 @@
 #include "BSG_KSObjCApple.h"
 
 #include "BSG_KSMach.h"
-#include "BSG_KSString.h"
+#include "PNLite_KSString.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > 70000
 #include <objc/NSObjCRuntime.h>

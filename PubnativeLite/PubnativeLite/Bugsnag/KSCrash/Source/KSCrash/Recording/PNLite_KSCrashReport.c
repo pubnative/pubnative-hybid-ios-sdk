@@ -31,7 +31,7 @@
 #include "BSG_KSMach.h"
 #include "BSG_KSObjC.h"
 #include "BSG_KSSignalInfo.h"
-#include "BSG_KSString.h"
+#include "PNLite_KSString.h"
 #include "BSG_KSZombie.h"
 
 //#define BSG_kSLogger_LocalLevel TRACE
