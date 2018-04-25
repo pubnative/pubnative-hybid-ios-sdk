@@ -25,7 +25,7 @@
 #import "PNLite_KSCrashDoctor.h"
 #import "PNLite_KSCrashReportFields.h"
 #import "BSG_KSSafeCollections.h"
-#import "BSG_RFC3339DateTool.h"
+#import "PNLite_RFC3339DateTool.h"
 #import "NSDictionary+BSG_Merge.h"
 #import "BSG_KSLogger.h"
 
@@ -169,7 +169,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
         return;
     }
     [report
-            setValue:[BSG_RFC3339DateTool
+            setValue:[PNLite_RFC3339DateTool
                     stringFromUNIXTimestamp:[timestamp unsignedLongLongValue]]
               forKey:key];
 }

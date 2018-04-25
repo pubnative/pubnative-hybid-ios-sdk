@@ -24,7 +24,7 @@
 #import "PNLiteCrashTracker.h"
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
-#import "BSG_RFC3339DateTool.h"
+#import "PNLite_RFC3339DateTool.h"
 #import "PNLiteUser.h"
 #import "PNLiteSessionTracker.h"
 
@@ -216,7 +216,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
     return @{
              kPNLiteHeaderApiPayloadVersion: @"4.0",
              kPNLiteHeaderApiKey: self.apiKey,
-             kPNLiteHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
+             kPNLiteHeaderApiSentAt: [PNLite_RFC3339DateTool stringFromDate:[NSDate new]]
     };
 }
 
@@ -224,7 +224,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
     return @{
              kPNLiteHeaderApiPayloadVersion: @"1.0",
              kPNLiteHeaderApiKey: self.apiKey,
-             kPNLiteHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
+             kPNLiteHeaderApiSentAt: [PNLite_RFC3339DateTool stringFromDate:[NSDate new]]
              };
 }
 @end

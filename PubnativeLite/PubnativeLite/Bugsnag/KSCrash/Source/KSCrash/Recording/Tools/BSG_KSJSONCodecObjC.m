@@ -27,7 +27,7 @@
 #import "BSG_KSJSONCodecObjC.h"
 
 #import "BSG_KSJSONCodec.h"
-#import "BSG_RFC3339DateTool.h"
+#import "PNLite_RFC3339DateTool.h"
 #import "NSError+BSG_SimpleConstructor.h"
 
 @interface BSG_KSJSONCodec ()
@@ -461,7 +461,7 @@ int bsg_ksjsoncodecobjc_i_encodeObject(BSG_KSJSONCodec *codec, id object,
     }
 
     if ([object isKindOfClass:[NSDate class]]) {
-        NSData *data = [[BSG_RFC3339DateTool stringFromDate:object]
+        NSData *data = [[PNLite_RFC3339DateTool stringFromDate:object]
             dataUsingEncoding:NSUTF8StringEncoding];
         return bsg_ksjsonaddStringElement(context, cName, [data bytes],
                                           [data length]);

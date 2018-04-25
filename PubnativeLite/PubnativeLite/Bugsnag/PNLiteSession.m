@@ -22,7 +22,7 @@
 
 #import "PNLiteSession.h"
 #import "PNLiteCollections.h"
-#import "BSG_RFC3339DateTool.h"
+#import "PNLite_RFC3339DateTool.h"
 
 static NSString *const kPNLiteSessionId = @"id";
 static NSString *const kPNLiteUnhandledCount = @"unhandledCount";
@@ -51,7 +51,7 @@ static NSString *const kPNLiteUser = @"user";
         _sessionId = dict[kPNLiteSessionId];
         _unhandledCount = [dict[kPNLiteUnhandledCount] unsignedIntegerValue];
         _handledCount = [dict[kPNLiteHandledCount] unsignedIntegerValue];
-        _startedAt = [BSG_RFC3339DateTool dateFromString:dict[kPNLiteStartedAt]];
+        _startedAt = [PNLite_RFC3339DateTool dateFromString:dict[kPNLiteStartedAt]];
 
         NSDictionary *userDict = dict[kPNLiteUser];
 
@@ -65,7 +65,7 @@ static NSString *const kPNLiteUser = @"user";
 - (NSDictionary *)toJson {
     NSMutableDictionary *dict = [NSMutableDictionary new];
     BSGDictInsertIfNotNil(dict, self.sessionId, kPNLiteSessionId);
-    BSGDictInsertIfNotNil(dict, [BSG_RFC3339DateTool stringFromDate:self.startedAt], kPNLiteStartedAt);
+    BSGDictInsertIfNotNil(dict, [PNLite_RFC3339DateTool stringFromDate:self.startedAt], kPNLiteStartedAt);
 
     if (self.user) {
         BSGDictInsertIfNotNil(dict, [self.user toJson], kPNLiteUser);

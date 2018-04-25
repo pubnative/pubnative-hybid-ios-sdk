@@ -35,7 +35,7 @@
 #import "NSDictionary+BSG_Merge.h"
 #import "PNLiteKSCrashSysInfoParser.h"
 #import "PNLiteSession.h"
-#import "BSG_RFC3339DateTool.h"
+#import "PNLite_RFC3339DateTool.h"
 
 NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
                                     NSArray *binaryImages) {
@@ -557,7 +557,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
     NSDictionary *sessionJson = @{
             PNLiteKeyId: self.session.sessionId,
-            @"startedAt": [BSG_RFC3339DateTool stringFromDate:self.session.startedAt],
+            @"startedAt": [PNLite_RFC3339DateTool stringFromDate:self.session.startedAt],
             @"events": events
     };
     return sessionJson;

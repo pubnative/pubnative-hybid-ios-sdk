@@ -29,7 +29,7 @@
 #import "PNLiteKeys.h"
 #import "PNLiteSessionTracker.h"
 #import "PNLiteSessionTrackingApiClient.h"
-#import "BSG_RFC3339DateTool.h"
+#import "PNLite_RFC3339DateTool.h"
 
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
@@ -200,7 +200,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
                                                                        strncpy((char *)pnLiteSessionId, newSessionId, idSize);
                                                                        pnLiteSessionId[idSize - 1] = NULL;
 
-                                                                       const char *newSessionDate = [[BSG_RFC3339DateTool stringFromDate:session.startedAt] UTF8String];
+                                                                       const char *newSessionDate = [[PNLite_RFC3339DateTool stringFromDate:session.startedAt] UTF8String];
                                                                        size_t dateSize = strlen(newSessionDate);
                                                                        strncpy((char *)pnLiteSessionStartDate, newSessionDate, dateSize);
                                                                        pnLiteSessionStartDate[dateSize - 1] = NULL;
