@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashSentry.h"
+#include "PNLite_KSCrashSentry.h"
 
 /** Install our custom signal handler.
  *
@@ -38,7 +38,7 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installSignalHandler(BSG_KSCrash_SentryContext *context);
+bool bsg_kscrashsentry_installSignalHandler(PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall our custom signal handlers and restore the previous ones.
  */

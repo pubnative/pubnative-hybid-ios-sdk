@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 #include "PNLite_KSCrashReportWriter.h"
-#include "BSG_KSCrashSentry.h"
+#include "PNLite_KSCrashSentry.h"
 #include "PNLite_KSCrashState.h"
 
 #include <signal.h>
@@ -92,7 +92,7 @@ typedef struct {
 typedef struct {
     PNLite_KSCrash_Configuration config;
     PNLite_KSCrash_State state;
-    BSG_KSCrash_SentryContext crash;
+    PNLite_KSCrash_SentryContext crash;
 } PNLite_KSCrash_Context;
 
 #ifdef __cplusplus

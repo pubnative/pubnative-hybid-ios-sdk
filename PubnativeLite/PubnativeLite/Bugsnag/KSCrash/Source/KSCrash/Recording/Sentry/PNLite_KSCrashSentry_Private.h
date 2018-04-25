@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashSentry.h"
+#include "PNLite_KSCrashSentry.h"
 
 /** Suspend all non-reserved threads.
  *
@@ -45,11 +45,11 @@ void bsg_kscrashsentry_resumeThreads(void);
 
 /** Prepare the context for handling a new crash.
  */
-void bsg_kscrashsentry_beginHandlingCrash(BSG_KSCrash_SentryContext *context);
+void bsg_kscrashsentry_beginHandlingCrash(PNLite_KSCrash_SentryContext *context);
 
 /** Clear a crash sentry context.
  */
-void bsg_kscrashsentry_clearContext(BSG_KSCrash_SentryContext *context);
+void bsg_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context);
 
 #ifdef __cplusplus
 }

@@ -1,30 +1,26 @@
 //
-//  BSG_KSCrashSentry.c
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-02-12.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#include "BSG_KSCrashSentry.h"
+#include "PNLite_KSCrashSentry.h"
 #include "PNLite_KSCrashSentry_Private.h"
 
 #include "BSG_KSCrashSentry_CPPException.h"
@@ -41,11 +37,11 @@
 
 typedef struct {
     PNLite_KSCrashType crashType;
-    bool (*install)(BSG_KSCrash_SentryContext *context);
+    bool (*install)(PNLite_KSCrash_SentryContext *context);
     void (*uninstall)(void);
-} BSG_CrashSentry;
+} PNLite_CrashSentry;
 
-static BSG_CrashSentry bsg_g_sentries[] = {
+static PNLite_CrashSentry pnlite_g_sentries[] = {
 #if PNLITE_KSCRASH_HAS_MACH
     {
         PNLite_KSCrashTypeMachException, bsg_kscrashsentry_installMachHandler,
@@ -76,23 +72,23 @@ static BSG_CrashSentry bsg_g_sentries[] = {
         bsg_kscrashsentry_uninstallUserExceptionHandler,
     },
 };
-static size_t bsg_g_sentriesCount =
-    sizeof(bsg_g_sentries) / sizeof(*bsg_g_sentries);
+static size_t pnlite_g_sentriesCount =
+    sizeof(pnlite_g_sentries) / sizeof(*pnlite_g_sentries);
 
 /** Context to fill with crash information. */
-static BSG_KSCrash_SentryContext *bsg_g_context = NULL;
+static PNLite_KSCrash_SentryContext *pnlite_g_context = NULL;
 
 /** Keeps track of whether threads have already been suspended or not.
  * This won't handle multiple suspends in a row.
  */
-static bool bsg_g_threads_are_running = true;
+static bool pnlite_g_threads_are_running = true;
 
 // ============================================================================
 #pragma mark - API -
 // ============================================================================
 
 PNLite_KSCrashType
-bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
+bsg_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
                                      PNLite_KSCrashType crashTypes,
                                      void (*onCrash)(void)) {
     if (bsg_ksmachisBeingTraced()) {
@@ -113,13 +109,13 @@ bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
             crashTypes);
     }
 
-    bsg_g_context = context;
-    bsg_kscrashsentry_clearContext(bsg_g_context);
-    bsg_g_context->onCrash = onCrash;
+    pnlite_g_context = context;
+    bsg_kscrashsentry_clearContext(pnlite_g_context);
+    pnlite_g_context->onCrash = onCrash;
 
     PNLite_KSCrashType installed = 0;
-    for (size_t i = 0; i < bsg_g_sentriesCount; i++) {
-        BSG_CrashSentry *sentry = &bsg_g_sentries[i];
+    for (size_t i = 0; i < pnlite_g_sentriesCount; i++) {
+        PNLite_CrashSentry *sentry = &pnlite_g_sentries[i];
         if (sentry->crashType & crashTypes) {
             if (sentry->install == NULL || sentry->install(context)) {
                 installed |= sentry->crashType;
@@ -133,8 +129,8 @@ bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
 
 void bsg_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes) {
     BSG_KSLOG_DEBUG("Uninstalling handlers with crash types 0x%x.", crashTypes);
-    for (size_t i = 0; i < bsg_g_sentriesCount; i++) {
-        BSG_CrashSentry *sentry = &bsg_g_sentries[i];
+    for (size_t i = 0; i < pnlite_g_sentriesCount; i++) {
+        PNLite_CrashSentry *sentry = &pnlite_g_sentries[i];
         if (sentry->crashType & crashTypes) {
             if (sentry->install != NULL) {
                 sentry->uninstall();
@@ -150,27 +146,27 @@ void bsg_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes) {
 
 void bsg_kscrashsentry_suspendThreads(void) {
     BSG_KSLOG_DEBUG("Suspending threads.");
-    if (!bsg_g_threads_are_running) {
+    if (!pnlite_g_threads_are_running) {
         BSG_KSLOG_DEBUG("Threads already suspended.");
         return;
     }
 
-    if (bsg_g_context != NULL) {
-        int numThreads = sizeof(bsg_g_context->reservedThreads) /
-                         sizeof(bsg_g_context->reservedThreads[0]);
+    if (pnlite_g_context != NULL) {
+        int numThreads = sizeof(pnlite_g_context->reservedThreads) /
+                         sizeof(pnlite_g_context->reservedThreads[0]);
         BSG_KSLOG_DEBUG(
             "Suspending all threads except for %d reserved threads.",
             numThreads);
-        if (bsg_ksmachsuspendAllThreadsExcept(bsg_g_context->reservedThreads,
+        if (bsg_ksmachsuspendAllThreadsExcept(pnlite_g_context->reservedThreads,
                                               numThreads)) {
             BSG_KSLOG_DEBUG("Suspend successful.");
-            bsg_g_threads_are_running = false;
+            pnlite_g_threads_are_running = false;
         }
     } else {
         BSG_KSLOG_DEBUG("Suspending all threads.");
         if (bsg_ksmachsuspendAllThreads()) {
             BSG_KSLOG_DEBUG("Suspend successful.");
-            bsg_g_threads_are_running = false;
+            pnlite_g_threads_are_running = false;
         }
     }
     BSG_KSLOG_DEBUG("Suspend complete.");
@@ -178,32 +174,32 @@ void bsg_kscrashsentry_suspendThreads(void) {
 
 void bsg_kscrashsentry_resumeThreads(void) {
     BSG_KSLOG_DEBUG("Resuming threads.");
-    if (bsg_g_threads_are_running) {
+    if (pnlite_g_threads_are_running) {
         BSG_KSLOG_DEBUG("Threads already resumed.");
         return;
     }
 
-    if (bsg_g_context != NULL) {
-        int numThreads = sizeof(bsg_g_context->reservedThreads) /
-                         sizeof(bsg_g_context->reservedThreads[0]);
+    if (pnlite_g_context != NULL) {
+        int numThreads = sizeof(pnlite_g_context->reservedThreads) /
+                         sizeof(pnlite_g_context->reservedThreads[0]);
         BSG_KSLOG_DEBUG("Resuming all threads except for %d reserved threads.",
                         numThreads);
-        if (bsg_ksmachresumeAllThreadsExcept(bsg_g_context->reservedThreads,
+        if (bsg_ksmachresumeAllThreadsExcept(pnlite_g_context->reservedThreads,
                                              numThreads)) {
             BSG_KSLOG_DEBUG("Resume successful.");
-            bsg_g_threads_are_running = true;
+            pnlite_g_threads_are_running = true;
         }
     } else {
         BSG_KSLOG_DEBUG("Resuming all threads.");
         if (bsg_ksmachresumeAllThreads()) {
             BSG_KSLOG_DEBUG("Resume successful.");
-            bsg_g_threads_are_running = true;
+            pnlite_g_threads_are_running = true;
         }
     }
     BSG_KSLOG_DEBUG("Resume complete.");
 }
 
-void bsg_kscrashsentry_clearContext(BSG_KSCrash_SentryContext *context) {
+void bsg_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context) {
     void (*onCrash)(void) = context->onCrash;
     bool threadTracingEnabled = context->threadTracingEnabled;
     bool reportWhenDebuggerIsAttached = context->reportWhenDebuggerIsAttached;
@@ -221,7 +217,7 @@ void bsg_kscrashsentry_clearContext(BSG_KSCrash_SentryContext *context) {
         writeBinaryImagesForUserReported;
 }
 
-void bsg_kscrashsentry_beginHandlingCrash(BSG_KSCrash_SentryContext *context) {
+void bsg_kscrashsentry_beginHandlingCrash(PNLite_KSCrash_SentryContext *context) {
     bsg_kscrashsentry_clearContext(context);
     context->handlingCrash = true;
 }

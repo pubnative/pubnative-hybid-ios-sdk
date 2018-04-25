@@ -458,7 +458,7 @@ void bsg_kscrashsentry_uninstallMachHandler(void) {
 #else
 
 bool bsg_kscrashsentry_installMachHandler(
-    __unused BSG_KSCrash_SentryContext *const context) {
+    __unused PNLite_KSCrash_SentryContext *const context) {
     BSG_KSLOG_WARN("Mach exception handler not available on this platform.");
     return false;
 }

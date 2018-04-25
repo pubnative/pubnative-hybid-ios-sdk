@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashSentry.h"
+#include "PNLite_KSCrashSentry.h"
 #include <stdbool.h>
 
 /** Install our custom mach exception handler.
@@ -43,7 +43,7 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installMachHandler(BSG_KSCrash_SentryContext *context);
+bool bsg_kscrashsentry_installMachHandler(PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall our custom mach exception handler.
  */

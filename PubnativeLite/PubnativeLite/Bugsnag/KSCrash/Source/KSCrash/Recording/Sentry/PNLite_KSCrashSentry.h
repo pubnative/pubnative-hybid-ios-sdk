@@ -1,34 +1,30 @@
 //
-//  BSG_KSCrashSentry.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-02-12.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 /** Keeps watch for crashes and informs via callback when on occurs.
  */
 
-#ifndef HDR_BSG_KSCrashSentry_h
-#define HDR_BSG_KSCrashSentry_h
+#ifndef HDR_PNLite_KSCrashSentry_h
+#define HDR_PNLite_KSCrashSentry_h
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,12 +38,12 @@ extern "C" {
 #include <stdbool.h>
 
 typedef enum {
-    BSG_KSCrashReservedThreadTypeMachPrimary,
-    BSG_KSCrashReservedThreadTypeMachSecondary,
-    BSG_KSCrashReservedThreadTypeCount
-} BSG_KSCrashReservedTheadType;
+    PNLite_KSCrashReservedThreadTypeMachPrimary,
+    PNLite_KSCrashReservedThreadTypeMachSecondary,
+    PNLite_KSCrashReservedThreadTypeCount
+} PNLite_KSCrashReservedTheadType;
 
-typedef struct BSG_KSCrash_SentryContext {
+typedef struct PNLite_KSCrash_SentryContext {
     // Caller defined values. Caller must fill these out prior to installation.
 
     /** Called by the crash handler when a crash is detected. */
@@ -68,7 +64,7 @@ typedef struct BSG_KSCrash_SentryContext {
     // Implementation defined values. Caller does not initialize these.
 
     /** Threads reserved by the crash handlers, which must not be suspended. */
-    thread_t reservedThreads[BSG_KSCrashReservedThreadTypeCount];
+    thread_t reservedThreads[PNLite_KSCrashReservedThreadTypeCount];
 
     /** If true, the crash handling system is currently handling a crash.
      * When false, all values below this field are considered invalid.
@@ -148,7 +144,7 @@ typedef struct BSG_KSCrash_SentryContext {
         const char *customStackTrace;
     } userException;
 
-} BSG_KSCrash_SentryContext;
+} PNLite_KSCrash_SentryContext;
 
 /** Install crash sentry.
  *
@@ -161,7 +157,7 @@ typedef struct BSG_KSCrash_SentryContext {
  * @return which crash handlers were installed successfully.
  */
 PNLite_KSCrashType
-bsg_kscrashsentry_installWithContext(BSG_KSCrash_SentryContext *context,
+bsg_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
                                      PNLite_KSCrashType crashTypes,
                                      void (*onCrash)(void));
 

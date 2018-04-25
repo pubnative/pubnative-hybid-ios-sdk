@@ -373,7 +373,7 @@ bool bsg_kscrw_i_fetchMachineState(
  * @return A pointer to the crash context, or NULL if not found.
  */
 BSG_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
-    const BSG_KSCrash_SentryContext *const crash, const thread_t thread,
+    const PNLite_KSCrash_SentryContext *const crash, const thread_t thread,
     BSG_STRUCT_MCONTEXT_L *const machineContextBuffer) {
     if (thread == crash->offendingThread) {
         if (crash->crashType == PNLite_KSCrashTypeSignal) {
@@ -418,7 +418,7 @@ BSG_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
  * @return The backtrace, or NULL if not found.
  */
 uintptr_t *bsg_kscrw_i_getBacktrace(
-    const BSG_KSCrash_SentryContext *const crash, const thread_t thread,
+    const PNLite_KSCrash_SentryContext *const crash, const thread_t thread,
     const BSG_STRUCT_MCONTEXT_L *const machineContext,
     uintptr_t *const backtraceBuffer, int *const backtraceLength,
     int *const skippedEntries) {
@@ -459,7 +459,7 @@ uintptr_t *bsg_kscrw_i_getBacktrace(
  *
  * @return true if the thread's stack has overflowed.
  */
-bool bsg_kscrw_i_isStackOverflow(const BSG_KSCrash_SentryContext *const crash,
+bool bsg_kscrw_i_isStackOverflow(const PNLite_KSCrash_SentryContext *const crash,
                                  const thread_t thread) {
     BSG_STRUCT_MCONTEXT_L concreteMachineContext;
     BSG_STRUCT_MCONTEXT_L *machineContext =
@@ -481,7 +481,7 @@ bool bsg_kscrw_i_isStackOverflow(const BSG_KSCrash_SentryContext *const crash,
  * @param sentryContext The crash sentry context.
  */
 void bsg_kscrw_i_logCrashType(
-    const BSG_KSCrash_SentryContext *const sentryContext) {
+    const PNLite_KSCrash_SentryContext *const sentryContext) {
     switch (sentryContext->crashType) {
     case PNLite_KSCrashTypeMachException: {
         int machExceptionType = sentryContext->mach.type;
@@ -584,7 +584,7 @@ void bsg_kscrw_i_logBacktrace(const uintptr_t *const backtrace,
  * @param crash The crash handler context.
  */
 void bsg_kscrw_i_logCrashThreadBacktrace(
-    const BSG_KSCrash_SentryContext *const crash) {
+    const PNLite_KSCrash_SentryContext *const crash) {
     thread_t thread = crash->offendingThread;
     BSG_STRUCT_MCONTEXT_L concreteMachineContext;
     uintptr_t concreteBacktrace[PNLite_kMaxStackTracePrintLines];
@@ -1357,7 +1357,7 @@ void bsg_kscrw_i_writeNotableAddresses(
  */
 void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
                              const char *const key,
-                             const BSG_KSCrash_SentryContext *const crash,
+                             const PNLite_KSCrash_SentryContext *const crash,
                              const thread_t thread, const int index,
                              const bool writeNotableAddresses,
                              const bool searchThreadNames,
@@ -1430,7 +1430,7 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
  */
 void bsg_kscrw_i_writeAllThreads(const PNLite_KSCrashReportWriter *const writer,
                                  const char *const key,
-                                 const BSG_KSCrash_SentryContext *const crash,
+                                 const PNLite_KSCrash_SentryContext *const crash,
                                  bool writeNotableAddresses,
                                  bool searchThreadNames,
                                  bool searchQueueNames) {
@@ -1621,7 +1621,7 @@ void bsg_kscrw_i_writeMemoryInfo(const PNLite_KSCrashReportWriter *const writer,
  */
 void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
                             const char *const key,
-                            const BSG_KSCrash_SentryContext *const crash) {
+                            const PNLite_KSCrash_SentryContext *const crash) {
     int machExceptionType = 0;
     kern_return_t machCode = 0;
     kern_return_t machSubCode = 0;
@@ -2103,7 +2103,7 @@ void bsg_kscrashreport_writeStandardReport(
 }
 
 void bsg_kscrashreport_logCrash(const PNLite_KSCrash_Context *const crashContext) {
-    const BSG_KSCrash_SentryContext *crash = &crashContext->crash;
+    const PNLite_KSCrash_SentryContext *crash = &crashContext->crash;
     bsg_kscrw_i_logCrashType(crash);
     bsg_kscrw_i_logCrashThreadBacktrace(&crashContext->crash);
 }

@@ -45,7 +45,7 @@ static volatile sig_atomic_t pnlite_g_installed = 0;
 static PNLite_KSCrashDeadlockMonitor *pnlite_g_monitor;
 
 /** Context to fill with crash information. */
-static BSG_KSCrash_SentryContext *pnlite_g_context;
+static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
 /** Interval between watchdog pulses. */
 static NSTimeInterval pnlite_g_watchdogInterval = 0;
@@ -150,7 +150,7 @@ static NSTimeInterval pnlite_g_watchdogInterval = 0;
 // ============================================================================
 
 bool bsg_kscrashsentry_installDeadlockHandler(
-    BSG_KSCrash_SentryContext *context) {
+    PNLite_KSCrash_SentryContext *context) {
     BSG_KSLOG_DEBUG(@"Installing deadlock handler.");
     if (pnlite_g_installed) {
         BSG_KSLOG_DEBUG(@"Deadlock handler already installed.");

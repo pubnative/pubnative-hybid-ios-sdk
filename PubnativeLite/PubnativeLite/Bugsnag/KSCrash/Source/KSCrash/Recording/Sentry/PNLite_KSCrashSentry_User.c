@@ -31,10 +31,10 @@
 #include <stdlib.h>
 
 /** Context to fill with crash information. */
-static BSG_KSCrash_SentryContext *pnlite_g_context;
+static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
 bool bsg_kscrashsentry_installUserExceptionHandler(
-    BSG_KSCrash_SentryContext *const context) {
+    PNLite_KSCrash_SentryContext *const context) {
     BSG_KSLOG_DEBUG("Installing user exception handler.");
     pnlite_g_context = context;
     return true;

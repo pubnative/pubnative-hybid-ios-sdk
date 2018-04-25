@@ -63,7 +63,7 @@ static uintptr_t bsg_g_stackTrace[STACKTRACE_BUFFER_LENGTH];
 static int bsg_g_stackTraceCount = 0;
 
 /** Context to fill with crash information. */
-static BSG_KSCrash_SentryContext *bsg_g_context;
+static PNLite_KSCrash_SentryContext *bsg_g_context;
 
 // ============================================================================
 #pragma mark - Callbacks -
@@ -184,7 +184,7 @@ static void CPPExceptionTerminate(void) {
 // ============================================================================
 
 extern "C" bool bsg_kscrashsentry_installCPPExceptionHandler(
-    BSG_KSCrash_SentryContext *context) {
+    PNLite_KSCrash_SentryContext *context) {
     BSG_KSLOG_DEBUG(@"Installing C++ exception handler.");
 
     if (bsg_g_installed) {

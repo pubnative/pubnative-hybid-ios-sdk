@@ -41,7 +41,7 @@ static volatile sig_atomic_t pnlite_g_installed = 0;
 static NSUncaughtExceptionHandler *pnlite_g_previousUncaughtExceptionHandler;
 
 /** Context to fill with crash information. */
-static BSG_KSCrash_SentryContext *pnlite_g_context;
+static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
 // ============================================================================
 #pragma mark - Callbacks -
@@ -108,7 +108,7 @@ void bsg_ksnsexc_i_handleException(NSException *exception) {
 // ============================================================================
 
 bool bsg_kscrashsentry_installNSExceptionHandler(
-    BSG_KSCrash_SentryContext *const context) {
+    PNLite_KSCrash_SentryContext *const context) {
     BSG_KSLOG_DEBUG(@"Installing NSException handler.");
     if (pnlite_g_installed) {
         BSG_KSLOG_DEBUG(@"NSException handler already installed.");

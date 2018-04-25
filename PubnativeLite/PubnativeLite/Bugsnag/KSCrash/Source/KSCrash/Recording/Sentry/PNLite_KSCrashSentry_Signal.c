@@ -54,7 +54,7 @@ static stack_t pnlite_g_signalStack = {0};
 static struct sigaction *pnlite_g_previousSignalHandlers = NULL;
 
 /** Context to fill with crash information. */
-static BSG_KSCrash_SentryContext *pnlite_g_context;
+static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
 // ============================================================================
 #pragma mark - Callbacks -
@@ -121,7 +121,7 @@ void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
 // ============================================================================
 
 bool bsg_kscrashsentry_installSignalHandler(
-    BSG_KSCrash_SentryContext *context) {
+    PNLite_KSCrash_SentryContext *context) {
     BSG_KSLOG_DEBUG("Installing signal handler.");
 
     if (pnlite_g_installed) {

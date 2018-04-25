@@ -29,7 +29,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashSentry.h"
+#include "PNLite_KSCrashSentry.h"
 
 /** Install the C++ exception handler.
  *
@@ -38,7 +38,7 @@ extern "C" {
  * @return true if installation was succesful.
  */
 bool bsg_kscrashsentry_installCPPExceptionHandler(
-    BSG_KSCrash_SentryContext *context);
+    PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall the C++ exception handler.
  */

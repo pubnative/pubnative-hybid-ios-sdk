@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSCrashSentry.h"
+#include "PNLite_KSCrashSentry.h"
 
 /** Install the deadlock handler.
  *
@@ -39,7 +39,7 @@ extern "C" {
  * @return true if installation was succesful.
  */
 bool bsg_kscrashsentry_installDeadlockHandler(
-    BSG_KSCrash_SentryContext *context);
+    PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall our custome NSException handler.
  */
