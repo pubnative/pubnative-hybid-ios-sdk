@@ -30,7 +30,7 @@
 #include "BSG_KSJSONCodec.h"
 #include "BSG_KSMach.h"
 #include "BSG_KSObjC.h"
-#include "BSG_KSSignalInfo.h"
+#include "PNLite_KSSignalInfo.h"
 #include "PNLite_KSString.h"
 #include "BSG_KSZombie.h"
 

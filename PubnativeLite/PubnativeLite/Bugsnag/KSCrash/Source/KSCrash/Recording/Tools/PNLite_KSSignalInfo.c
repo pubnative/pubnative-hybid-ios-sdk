@@ -1,49 +1,45 @@
 //
-//  BSG_KSSignalInfo.c
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-02-03.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#include "BSG_KSSignalInfo.h"
+#include "PNLite_KSSignalInfo.h"
 
 #include <signal.h>
 
 typedef struct {
     const int code;
     const char *const name;
-} BSG_KSSignalCodeInfo;
+} PNLite_KSSignalCodeInfo;
 
 typedef struct {
     const int sigNum;
     const char *const name;
-    const BSG_KSSignalCodeInfo *const codes;
+    const PNLite_KSSignalCodeInfo *const codes;
     const int numCodes;
-} BSG_KSSignalInfo;
+} PNLite_KSSignalInfo;
 
 #define ENUM_NAME_MAPPING(A)                                                   \
     { A, #A }
 
-static const BSG_KSSignalCodeInfo bsg_g_sigIllCodes[] = {
+static const PNLite_KSSignalCodeInfo pnlite_g_sigIllCodes[] = {
     ENUM_NAME_MAPPING(ILL_NOOP),   ENUM_NAME_MAPPING(EXC_CRASH),
     ENUM_NAME_MAPPING(ILL_ILLTRP), ENUM_NAME_MAPPING(ILL_PRVOPC),
     ENUM_NAME_MAPPING(ILL_ILLOPN), ENUM_NAME_MAPPING(ILL_ILLADR),
@@ -51,12 +47,12 @@ static const BSG_KSSignalCodeInfo bsg_g_sigIllCodes[] = {
     ENUM_NAME_MAPPING(ILL_BADSTK),
 };
 
-static const BSG_KSSignalCodeInfo bsg_g_sigTrapCodes[] = {
+static const PNLite_KSSignalCodeInfo pnlite_g_sigTrapCodes[] = {
     ENUM_NAME_MAPPING(0), ENUM_NAME_MAPPING(TRAP_BRKPT),
     ENUM_NAME_MAPPING(TRAP_TRACE),
 };
 
-static const BSG_KSSignalCodeInfo bsg_g_sigFPECodes[] = {
+static const PNLite_KSSignalCodeInfo pnlite_g_sigFPECodes[] = {
     ENUM_NAME_MAPPING(FPE_NOOP),   ENUM_NAME_MAPPING(FPE_FLTDIV),
     ENUM_NAME_MAPPING(FPE_FLTOVF), ENUM_NAME_MAPPING(FPE_FLTUND),
     ENUM_NAME_MAPPING(FPE_FLTRES), ENUM_NAME_MAPPING(FPE_FLTINV),
@@ -64,12 +60,12 @@ static const BSG_KSSignalCodeInfo bsg_g_sigFPECodes[] = {
     ENUM_NAME_MAPPING(FPE_INTOVF),
 };
 
-static const BSG_KSSignalCodeInfo bsg_g_sigBusCodes[] = {
+static const PNLite_KSSignalCodeInfo pnlite_g_sigBusCodes[] = {
     ENUM_NAME_MAPPING(BUS_NOOP), ENUM_NAME_MAPPING(BUS_ADRALN),
     ENUM_NAME_MAPPING(BUS_ADRERR), ENUM_NAME_MAPPING(BUS_OBJERR),
 };
 
-static const BSG_KSSignalCodeInfo bsg_g_sigSegVCodes[] = {
+static const PNLite_KSSignalCodeInfo pnlite_g_sigSegVCodes[] = {
     ENUM_NAME_MAPPING(SEGV_NOOP), ENUM_NAME_MAPPING(SEGV_MAPERR),
     ENUM_NAME_MAPPING(SEGV_ACCERR),
 };
@@ -79,40 +75,40 @@ static const BSG_KSSignalCodeInfo bsg_g_sigSegVCodes[] = {
 #define SIGNAL_INFO_NOCODES(SIGNAL)                                            \
     { SIGNAL, #SIGNAL, 0, 0 }
 
-static const BSG_KSSignalInfo bsg_g_fatalSignalData[] = {
+static const PNLite_KSSignalInfo pnlite_g_fatalSignalData[] = {
     SIGNAL_INFO_NOCODES(SIGABRT),
-    SIGNAL_INFO(SIGBUS, bsg_g_sigBusCodes),
-    SIGNAL_INFO(SIGFPE, bsg_g_sigFPECodes),
-    SIGNAL_INFO(SIGILL, bsg_g_sigIllCodes),
+    SIGNAL_INFO(SIGBUS, pnlite_g_sigBusCodes),
+    SIGNAL_INFO(SIGFPE, pnlite_g_sigFPECodes),
+    SIGNAL_INFO(SIGILL, pnlite_g_sigIllCodes),
     SIGNAL_INFO_NOCODES(SIGPIPE),
-    SIGNAL_INFO(SIGSEGV, bsg_g_sigSegVCodes),
+    SIGNAL_INFO(SIGSEGV, pnlite_g_sigSegVCodes),
     SIGNAL_INFO_NOCODES(SIGSYS),
-    SIGNAL_INFO(SIGTRAP, bsg_g_sigTrapCodes),
+    SIGNAL_INFO(SIGTRAP, pnlite_g_sigTrapCodes),
 };
-static const int bsg_g_fatalSignalsCount =
-    sizeof(bsg_g_fatalSignalData) / sizeof(*bsg_g_fatalSignalData);
+static const int pnlite_g_fatalSignalsCount =
+    sizeof(pnlite_g_fatalSignalData) / sizeof(*pnlite_g_fatalSignalData);
 
 // Note: Dereferencing a NULL pointer causes SIGILL, ILL_ILLOPC on i386
 //       but causes SIGTRAP, 0 on arm.
-static const int bsg_g_fatalSignals[] = {
+static const int pnlite_g_fatalSignals[] = {
     SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGPIPE, SIGSEGV, SIGSYS, SIGTRAP,
 };
 
 const char *bsg_kssignal_signalName(const int sigNum) {
-    for (int i = 0; i < bsg_g_fatalSignalsCount; i++) {
-        if (bsg_g_fatalSignalData[i].sigNum == sigNum) {
-            return bsg_g_fatalSignalData[i].name;
+    for (int i = 0; i < pnlite_g_fatalSignalsCount; i++) {
+        if (pnlite_g_fatalSignalData[i].sigNum == sigNum) {
+            return pnlite_g_fatalSignalData[i].name;
         }
     }
     return NULL;
 }
 
 const char *bsg_kssignal_signalCodeName(const int sigNum, const int code) {
-    for (int si = 0; si < bsg_g_fatalSignalsCount; si++) {
-        if (bsg_g_fatalSignalData[si].sigNum == sigNum) {
-            for (int ci = 0; ci < bsg_g_fatalSignalData[si].numCodes; ci++) {
-                if (bsg_g_fatalSignalData[si].codes[ci].code == code) {
-                    return bsg_g_fatalSignalData[si].codes[ci].name;
+    for (int si = 0; si < pnlite_g_fatalSignalsCount; si++) {
+        if (pnlite_g_fatalSignalData[si].sigNum == sigNum) {
+            for (int ci = 0; ci < pnlite_g_fatalSignalData[si].numCodes; ci++) {
+                if (pnlite_g_fatalSignalData[si].codes[ci].code == code) {
+                    return pnlite_g_fatalSignalData[si].codes[ci].name;
                 }
             }
         }
@@ -120,9 +116,9 @@ const char *bsg_kssignal_signalCodeName(const int sigNum, const int code) {
     return NULL;
 }
 
-const int *bsg_kssignal_fatalSignals(void) { return bsg_g_fatalSignals; }
+const int *bsg_kssignal_fatalSignals(void) { return pnlite_g_fatalSignals; }
 
-int bsg_kssignal_numFatalSignals(void) { return bsg_g_fatalSignalsCount; }
+int bsg_kssignal_numFatalSignals(void) { return pnlite_g_fatalSignalsCount; }
 
 #define EXC_UNIX_BAD_SYSCALL 0x10000 /* SIGSYS */
 #define EXC_UNIX_BAD_PIPE 0x10001    /* SIGPIPE */

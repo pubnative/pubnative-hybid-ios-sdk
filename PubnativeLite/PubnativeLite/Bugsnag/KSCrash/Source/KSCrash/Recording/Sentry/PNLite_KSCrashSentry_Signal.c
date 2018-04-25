@@ -26,7 +26,7 @@
 #include "PNLite_KSCrashSentry_Signal.h"
 
 #include "BSG_KSMach.h"
-#include "BSG_KSSignalInfo.h"
+#include "PNLite_KSSignalInfo.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"

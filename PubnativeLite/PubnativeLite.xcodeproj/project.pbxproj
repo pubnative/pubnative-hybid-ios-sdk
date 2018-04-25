@@ -336,7 +336,7 @@
 		5A8F10D02089E4D20098E337 /* BSG_KSJSONCodecObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F104C2089E4D20098E337 /* BSG_KSJSONCodecObjC.m */; };
 		5A8F10D12089E4D20098E337 /* NSDictionary+BSG_Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F104D2089E4D20098E337 /* NSDictionary+BSG_Merge.m */; };
 		5A8F10D22089E4D20098E337 /* BSG_KSFileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F104E2089E4D20098E337 /* BSG_KSFileUtils.h */; };
-		5A8F10D32089E4D20098E337 /* BSG_KSSignalInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F104F2089E4D20098E337 /* BSG_KSSignalInfo.h */; };
+		5A8F10D32089E4D20098E337 /* PNLite_KSSignalInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F104F2089E4D20098E337 /* PNLite_KSSignalInfo.h */; };
 		5A8F10D42089E4D20098E337 /* BSG_KSJSONCodec.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10502089E4D20098E337 /* BSG_KSJSONCodec.c */; };
 		5A8F10D52089E4D20098E337 /* NSError+BSG_SimpleConstructor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10512089E4D20098E337 /* NSError+BSG_SimpleConstructor.h */; };
 		5A8F10D62089E4D20098E337 /* PNLite_KSCrashCallCompletion.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10522089E4D20098E337 /* PNLite_KSCrashCallCompletion.m */; };
@@ -362,7 +362,7 @@
 		5A8F10EA2089E4D20098E337 /* NSError+BSG_SimpleConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10662089E4D20098E337 /* NSError+BSG_SimpleConstructor.m */; };
 		5A8F10EB2089E4D20098E337 /* BSG_KSMach_x86_64.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10672089E4D20098E337 /* BSG_KSMach_x86_64.c */; };
 		5A8F10EC2089E4D20098E337 /* BSG_KSObjCApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10682089E4D20098E337 /* BSG_KSObjCApple.h */; };
-		5A8F10ED2089E4D20098E337 /* BSG_KSSignalInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10692089E4D20098E337 /* BSG_KSSignalInfo.c */; };
+		5A8F10ED2089E4D20098E337 /* PNLite_KSSignalInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10692089E4D20098E337 /* PNLite_KSSignalInfo.c */; };
 		5A8F10EE2089E4D20098E337 /* BSG_KSJSONCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F106A2089E4D20098E337 /* BSG_KSJSONCodec.h */; };
 		5A8F10EF2089E4D20098E337 /* PNLite_KSString.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F106B2089E4D20098E337 /* PNLite_KSString.c */; };
 		5A8F10F02089E4D20098E337 /* BSG_KSObjC.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F106C2089E4D20098E337 /* BSG_KSObjC.c */; };
@@ -1077,7 +1077,7 @@
 		5A8F104C2089E4D20098E337 /* BSG_KSJSONCodecObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSG_KSJSONCodecObjC.m; sourceTree = "<group>"; };
 		5A8F104D2089E4D20098E337 /* NSDictionary+BSG_Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+BSG_Merge.m"; sourceTree = "<group>"; };
 		5A8F104E2089E4D20098E337 /* BSG_KSFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSFileUtils.h; sourceTree = "<group>"; };
-		5A8F104F2089E4D20098E337 /* BSG_KSSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSSignalInfo.h; sourceTree = "<group>"; };
+		5A8F104F2089E4D20098E337 /* PNLite_KSSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSSignalInfo.h; sourceTree = "<group>"; };
 		5A8F10502089E4D20098E337 /* BSG_KSJSONCodec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSJSONCodec.c; sourceTree = "<group>"; };
 		5A8F10512089E4D20098E337 /* NSError+BSG_SimpleConstructor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+BSG_SimpleConstructor.h"; sourceTree = "<group>"; };
 		5A8F10522089E4D20098E337 /* PNLite_KSCrashCallCompletion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLite_KSCrashCallCompletion.m; sourceTree = "<group>"; };
@@ -1103,7 +1103,7 @@
 		5A8F10662089E4D20098E337 /* NSError+BSG_SimpleConstructor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+BSG_SimpleConstructor.m"; sourceTree = "<group>"; };
 		5A8F10672089E4D20098E337 /* BSG_KSMach_x86_64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSMach_x86_64.c; sourceTree = "<group>"; };
 		5A8F10682089E4D20098E337 /* BSG_KSObjCApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSObjCApple.h; sourceTree = "<group>"; };
-		5A8F10692089E4D20098E337 /* BSG_KSSignalInfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSSignalInfo.c; sourceTree = "<group>"; };
+		5A8F10692089E4D20098E337 /* PNLite_KSSignalInfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PNLite_KSSignalInfo.c; sourceTree = "<group>"; };
 		5A8F106A2089E4D20098E337 /* BSG_KSJSONCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSG_KSJSONCodec.h; sourceTree = "<group>"; };
 		5A8F106B2089E4D20098E337 /* PNLite_KSString.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PNLite_KSString.c; sourceTree = "<group>"; };
 		5A8F106C2089E4D20098E337 /* BSG_KSObjC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSObjC.c; sourceTree = "<group>"; };
@@ -2327,8 +2327,8 @@
 				5A8F104D2089E4D20098E337 /* NSDictionary+BSG_Merge.m */,
 				5A8F104E2089E4D20098E337 /* BSG_KSFileUtils.h */,
 				5A8F105F2089E4D20098E337 /* BSG_KSFileUtils.c */,
-				5A8F104F2089E4D20098E337 /* BSG_KSSignalInfo.h */,
-				5A8F10692089E4D20098E337 /* BSG_KSSignalInfo.c */,
+				5A8F104F2089E4D20098E337 /* PNLite_KSSignalInfo.h */,
+				5A8F10692089E4D20098E337 /* PNLite_KSSignalInfo.c */,
 				5A8F106A2089E4D20098E337 /* BSG_KSJSONCodec.h */,
 				5A8F10502089E4D20098E337 /* BSG_KSJSONCodec.c */,
 				5A8F10512089E4D20098E337 /* NSError+BSG_SimpleConstructor.h */,
@@ -2675,7 +2675,7 @@
 				5AA3D5ED2031B903002BFDA3 /* PNLiteAdRequest.h in Headers */,
 				5A52BFDF2034580A00C4B7C5 /* PNLiteLogger.h in Headers */,
 				5A8F10FA2089E4D20098E337 /* PNLite_KSCrashC.h in Headers */,
-				5A8F10D32089E4D20098E337 /* BSG_KSSignalInfo.h in Headers */,
+				5A8F10D32089E4D20098E337 /* PNLite_KSSignalInfo.h in Headers */,
 				5A8F11292089E4D20098E337 /* PNLiteApiClient.h in Headers */,
 				5A20DBDB203B081400EF2B3C /* PNLiteBannerAdRequest.h in Headers */,
 				5A52BFDC2034576D00C4B7C5 /* PNLiteBackButton.h in Headers */,
@@ -3092,7 +3092,7 @@
 				5A8F11262089E4D20098E337 /* PNLiteFileStore.m in Sources */,
 				5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */,
 				5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */,
-				5A8F10ED2089E4D20098E337 /* BSG_KSSignalInfo.c in Sources */,
+				5A8F10ED2089E4D20098E337 /* PNLite_KSSignalInfo.c in Sources */,
 				5A8F10BC2089E4D20098E337 /* PNLiteSessionTrackingPayload.m in Sources */,
 				5A449B4C203D7BC000CEB630 /* PNLiteMRectPresenterFactory.m in Sources */,
 				5A8F10E72089E4D20098E337 /* BSG_KSSysCtl.c in Sources */,
