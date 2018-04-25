@@ -2283,7 +2283,6 @@
 			children = (
 				5A8F107A2089E4D20098E337 /* PNLite_KSCrashDoctor.h */,
 				5A8F10442089E4D20098E337 /* PNLite_KSCrashDoctor.m */,
-				5A8F10452089E4D20098E337 /* Tools */,
 				5A8F10712089E4D20098E337 /* PNLite_KSCrashContext.h */,
 				5A8F107C2089E4D20098E337 /* PNLite_KSCrashState.h */,
 				5A8F10722089E4D20098E337 /* PNLite_KSCrashState.c */,
@@ -2304,6 +2303,7 @@
 				5A8F107D2089E4D20098E337 /* PNLite_KSSystemCapabilities.h */,
 				5A8F107F2089E4D20098E337 /* PNLite_KSCrashReportVersion.h */,
 				5A8F10802089E4D20098E337 /* PNLite_KSCrashAdvanced.h */,
+				5A8F10452089E4D20098E337 /* Tools */,
 				5A8F10822089E4D20098E337 /* Sentry */,
 			);
 			path = Recording;
