@@ -26,7 +26,7 @@
 
 #include "BSG_KSMach.h"
 
-#include "BSG_KSMachApple.h"
+#include "PNLite_KSMachApple.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"
