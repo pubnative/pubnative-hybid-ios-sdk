@@ -1,30 +1,26 @@
 //
-//  BSG_KSCrashSentry_MachException.c
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-02-04.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#include "BSG_KSCrashSentry_MachException.h"
+#include "PNLite_KSCrashSentry_MachException.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"
@@ -37,8 +33,8 @@
 #pragma mark - Constants -
 // ============================================================================
 
-#define kThreadPrimary "KSCrash Exception Handler (Primary)"
-#define kThreadSecondary "KSCrash Exception Handler (Secondary)"
+#define kPNLiteThreadPrimary "KSCrash Exception Handler (Primary)"
+#define kPNLiteThreadSecondary "KSCrash Exception Handler (Secondary)"
 
 // ============================================================================
 #pragma mark - Types -
@@ -104,7 +100,7 @@ typedef struct {
  * It's not fully thread safe, but it's safer than locking and slightly better
  * than nothing.
  */
-static volatile sig_atomic_t bsg_g_installed = 0;
+static volatile sig_atomic_t pnlite_g_installed = 0;
 
 /** Holds exception port info regarding the previously installed exception
  * handlers.
@@ -115,21 +111,21 @@ static struct {
     exception_behavior_t behaviors[EXC_TYPES_COUNT];
     thread_state_flavor_t flavors[EXC_TYPES_COUNT];
     mach_msg_type_number_t count;
-} bsg_g_previousExceptionPorts;
+} pnlite_g_previousExceptionPorts;
 
 /** Our exception port. */
-static mach_port_t bsg_g_exceptionPort = MACH_PORT_NULL;
+static mach_port_t pnlite_g_exceptionPort = MACH_PORT_NULL;
 
 /** Primary exception handler thread. */
-static pthread_t bsg_g_primaryPThread;
-static thread_t bsg_g_primaryMachThread;
+static pthread_t pnlite_g_primaryPThread;
+static thread_t pnlite_g_primaryMachThread;
 
 /** Secondary exception handler thread in case crash handler crashes. */
-static pthread_t bsg_g_secondaryPThread;
-static thread_t bsg_g_secondaryMachThread;
+static pthread_t pnlite_g_secondaryPThread;
+static thread_t pnlite_g_secondaryMachThread;
 
 /** Context to fill with crash information. */
-static BSG_KSCrash_SentryContext *bsg_g_context;
+static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
 // ============================================================================
 #pragma mark - Utility -
@@ -170,21 +166,21 @@ void bsg_ksmachexc_i_restoreExceptionPorts(void) {
     kern_return_t kr;
 
     // Reinstall old exception ports.
-    for (mach_msg_type_number_t i = 0; i < bsg_g_previousExceptionPorts.count;
+    for (mach_msg_type_number_t i = 0; i < pnlite_g_previousExceptionPorts.count;
          i++) {
         BSG_KSLOG_TRACE("Restoring port index %d", i);
         kr = task_set_exception_ports(thisTask,
-                                      bsg_g_previousExceptionPorts.masks[i],
-                                      bsg_g_previousExceptionPorts.ports[i],
-                                      bsg_g_previousExceptionPorts.behaviors[i],
-                                      bsg_g_previousExceptionPorts.flavors[i]);
+                                      pnlite_g_previousExceptionPorts.masks[i],
+                                      pnlite_g_previousExceptionPorts.ports[i],
+                                      pnlite_g_previousExceptionPorts.behaviors[i],
+                                      pnlite_g_previousExceptionPorts.flavors[i]);
         if (kr != KERN_SUCCESS) {
             BSG_KSLOG_ERROR("task_set_exception_ports: %s",
                             mach_error_string(kr));
         }
     }
     BSG_KSLOG_DEBUG("Exception ports restored.");
-    bsg_g_previousExceptionPorts.count = 0;
+    pnlite_g_previousExceptionPorts.count = 0;
 }
 
 // ============================================================================
@@ -201,7 +197,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 
     const char *threadName = (const char *)userData;
     pthread_setname_np(threadName);
-    if (threadName == kThreadSecondary) {
+    if (threadName == kPNLiteThreadSecondary) {
         BSG_KSLOG_DEBUG("This is the secondary thread. Suspending.");
         thread_suspend(bsg_ksmach_thread_self());
     }
@@ -212,7 +208,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
         // Wait for a message.
         kern_return_t kr = mach_msg(
             &exceptionMessage.header, MACH_RCV_MSG, 0, sizeof(exceptionMessage),
-            bsg_g_exceptionPort, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+            pnlite_g_exceptionPort, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
         if (kr == KERN_SUCCESS) {
             break;
         }
@@ -223,9 +219,9 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 
     BSG_KSLOG_DEBUG("Trapped mach exception code 0x%x, subcode 0x%x",
                     exceptionMessage.code[0], exceptionMessage.code[1]);
-    if (bsg_g_installed) {
-        bool wasHandlingCrash = bsg_g_context->handlingCrash;
-        bsg_kscrashsentry_beginHandlingCrash(bsg_g_context);
+    if (pnlite_g_installed) {
+        bool wasHandlingCrash = pnlite_g_context->handlingCrash;
+        bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         BSG_KSLOG_DEBUG(
             "Exception handler is installed. Continuing exception handling.");
@@ -235,7 +231,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 
         // Switch to the secondary thread if necessary, or uninstall the handler
         // to avoid a death loop.
-        if (bsg_ksmach_thread_self() == bsg_g_primaryMachThread) {
+        if (bsg_ksmach_thread_self() == pnlite_g_primaryMachThread) {
             BSG_KSLOG_DEBUG("This is the primary exception thread. Activating "
                             "secondary thread.");
             if (thread_resume(g_secondaryMachThread) != KERN_SUCCESS) {
@@ -254,7 +250,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
                            "original handlers.");
             // The crash reporter itself crashed. Make a note of this and
             // uninstall all handlers so that we don't get stuck in a loop.
-            bsg_g_context->crashedDuringCrashHandling = true;
+            pnlite_g_context->crashedDuringCrashHandling = true;
             bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         }
 
@@ -264,24 +260,24 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
         if (bsg_ksmachexc_i_fetchMachineState(exceptionMessage.thread.name,
                                               &machineContext)) {
             if (exceptionMessage.exception == EXC_BAD_ACCESS) {
-                bsg_g_context->faultAddress =
+                pnlite_g_context->faultAddress =
                     bsg_ksmachfaultAddress(&machineContext);
             } else {
-                bsg_g_context->faultAddress =
+                pnlite_g_context->faultAddress =
                     bsg_ksmachinstructionAddress(&machineContext);
             }
         }
 
         BSG_KSLOG_DEBUG("Filling out context.");
-        bsg_g_context->crashType = PNLite_KSCrashTypeMachException;
-        bsg_g_context->offendingThread = exceptionMessage.thread.name;
-        bsg_g_context->registersAreValid = true;
-        bsg_g_context->mach.type = exceptionMessage.exception;
-        bsg_g_context->mach.code = exceptionMessage.code[0];
-        bsg_g_context->mach.subcode = exceptionMessage.code[1];
+        pnlite_g_context->crashType = PNLite_KSCrashTypeMachException;
+        pnlite_g_context->offendingThread = exceptionMessage.thread.name;
+        pnlite_g_context->registersAreValid = true;
+        pnlite_g_context->mach.type = exceptionMessage.exception;
+        pnlite_g_context->mach.code = exceptionMessage.code[0];
+        pnlite_g_context->mach.subcode = exceptionMessage.code[1];
 
         BSG_KSLOG_DEBUG("Calling main crash handler.");
-        bsg_g_context->onCrash();
+        pnlite_g_context->onCrash();
 
         BSG_KSLOG_DEBUG(
             "Crash handling complete. Restoring original handlers.");
@@ -306,7 +302,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 // ============================================================================
 
 bool bsg_kscrashsentry_installMachHandler(
-    BSG_KSCrash_SentryContext *const context) {
+    PNLite_KSCrash_SentryContext *const context) {
     BSG_KSLOG_DEBUG("Installing mach exception handler.");
 
     bool attributes_created = false;
@@ -320,11 +316,11 @@ bool bsg_kscrashsentry_installMachHandler(
                             EXC_MASK_ARITHMETIC | EXC_MASK_SOFTWARE |
                             EXC_MASK_BREAKPOINT;
 
-    if (bsg_g_installed) {
+    if (pnlite_g_installed) {
         BSG_KSLOG_DEBUG("Exception handler already installed.");
         return true;
     }
-    bsg_g_installed = 1;
+    pnlite_g_installed = 1;
 
     if (bsg_ksmach_isBeingTraced()) {
         // Different debuggers hook into different exception types.
@@ -336,14 +332,14 @@ bool bsg_kscrashsentry_installMachHandler(
         goto failed;
     }
 
-    bsg_g_context = context;
+    pnlite_g_context = context;
 
     BSG_KSLOG_DEBUG("Backing up original exception ports.");
     kr = task_get_exception_ports(
-        thisTask, mask, bsg_g_previousExceptionPorts.masks,
-        &g_previousExceptionPorts.count, bsg_g_previousExceptionPorts.ports,
-        bsg_g_previousExceptionPorts.behaviors,
-        bsg_g_previousExceptionPorts.flavors);
+        thisTask, mask, pnlite_g_previousExceptionPorts.masks,
+        &g_previousExceptionPorts.count, pnlite_g_previousExceptionPorts.ports,
+        pnlite_g_previousExceptionPorts.behaviors,
+        pnlite_g_previousExceptionPorts.flavors);
     if (kr != KERN_SUCCESS) {
         BSG_KSLOG_ERROR("task_get_exception_ports: %s", mach_error_string(kr));
         goto failed;
@@ -359,8 +355,8 @@ bool bsg_kscrashsentry_installMachHandler(
         }
 
         BSG_KSLOG_DEBUG("Adding send rights to port.");
-        kr = mach_port_insert_right(thisTask, bsg_g_exceptionPort,
-                                    bsg_g_exceptionPort,
+        kr = mach_port_insert_right(thisTask, pnlite_g_exceptionPort,
+                                    pnlite_g_exceptionPort,
                                     MACH_MSG_TYPE_MAKE_SEND);
         if (kr != KERN_SUCCESS) {
             BSG_KSLOG_ERROR("mach_port_insert_right: %s",
@@ -370,7 +366,7 @@ bool bsg_kscrashsentry_installMachHandler(
     }
 
     BSG_KSLOG_DEBUG("Installing port as exception handler.");
-    kr = task_set_exception_ports(thisTask, mask, bsg_g_exceptionPort,
+    kr = task_set_exception_ports(thisTask, mask, pnlite_g_exceptionPort,
                                   EXCEPTION_DEFAULT, THREAD_STATE_NONE);
     if (kr != KERN_SUCCESS) {
         BSG_KSLOG_ERROR("task_set_exception_ports: %s", mach_error_string(kr));
@@ -382,26 +378,26 @@ bool bsg_kscrashsentry_installMachHandler(
     attributes_created = true;
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
     error = pthread_create(&g_secondaryPThread, &attr,
-                           &ksmachexc_i_handleExceptions, kThreadSecondary);
+                           &ksmachexc_i_handleExceptions, kPNLiteThreadSecondary);
     if (error != 0) {
         BSG_KSLOG_ERROR("pthread_create_suspended_np: %s", strerror(error));
         goto failed;
     }
-    bsg_g_secondaryMachThread = pthread_mach_thread_np(g_secondaryPThread);
+    pnlite_g_secondaryMachThread = pthread_mach_thread_np(g_secondaryPThread);
     context->reservedThreads[KSCrashReservedThreadTypeMachSecondary] =
-        bsg_g_secondaryMachThread;
+        pnlite_g_secondaryMachThread;
 
     BSG_KSLOG_DEBUG("Creating primary exception thread.");
     error = pthread_create(&g_primaryPThread, &attr,
-                           &ksmachexc_i_handleExceptions, kThreadPrimary);
+                           &ksmachexc_i_handleExceptions, kPNLiteThreadPrimary);
     if (error != 0) {
         BSG_KSLOG_ERROR("pthread_create: %s", strerror(error));
         goto failed;
     }
     pthread_attr_destroy(&attr);
-    bsg_g_primaryMachThread = pthread_mach_thread_np(g_primaryPThread);
+    pnlite_g_primaryMachThread = pthread_mach_thread_np(g_primaryPThread);
     context->reservedThreads[KSCrashReservedThreadTypeMachPrimary] =
-        bsg_g_primaryMachThread;
+        pnlite_g_primaryMachThread;
 
     BSG_KSLOG_DEBUG("Mach exception handler installed.");
     return true;
@@ -418,7 +414,7 @@ failed:
 void bsg_kscrashsentry_uninstallMachHandler(void) {
     BSG_KSLOG_DEBUG("Uninstalling mach exception handler.");
 
-    if (!bsg_g_installed) {
+    if (!pnlite_g_installed) {
         BSG_KSLOG_DEBUG("Mach exception handler was already uninstalled.");
         return;
     }
@@ -430,29 +426,29 @@ void bsg_kscrashsentry_uninstallMachHandler(void) {
 
     thread_t thread_self = bsg_ksmachthread_self();
 
-    if (g_primaryPThread != 0 && bsg_g_primaryMachThread != thread_self) {
+    if (g_primaryPThread != 0 && pnlite_g_primaryMachThread != thread_self) {
         BSG_KSLOG_DEBUG("Cancelling primary exception thread.");
-        if (bsg_g_context->handlingCrash) {
+        if (pnlite_g_context->handlingCrash) {
             thread_terminate(g_primaryMachThread);
         } else {
             pthread_cancel(g_primaryPThread);
         }
-        bsg_g_primaryMachThread = 0;
-        bsg_g_primaryPThread = 0;
+        pnlite_g_primaryMachThread = 0;
+        pnlite_g_primaryPThread = 0;
     }
-    if (g_secondaryPThread != 0 && bsg_g_secondaryMachThread != thread_self) {
+    if (g_secondaryPThread != 0 && pnlite_g_secondaryMachThread != thread_self) {
         BSG_KSLOG_DEBUG("Cancelling secondary exception thread.");
-        if (bsg_g_context->handlingCrash) {
+        if (pnlite_g_context->handlingCrash) {
             thread_terminate(g_secondaryMachThread);
         } else {
             pthread_cancel(g_secondaryPThread);
         }
-        bsg_g_secondaryMachThread = 0;
-        bsg_g_secondaryPThread = 0;
+        pnlite_g_secondaryMachThread = 0;
+        pnlite_g_secondaryPThread = 0;
     }
 
     BSG_KSLOG_DEBUG("Mach exception handlers uninstalled.");
-    bsg_g_installed = 0;
+    pnlite_g_installed = 0;
 }
 
 #else
