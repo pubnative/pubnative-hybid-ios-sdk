@@ -27,7 +27,7 @@
 #import "BSG_KSJSONCodecObjC.h"
 #import "PNLite_KSSingleton.h"
 #import "PNLite_KSSystemCapabilities.h"
-#import "NSError+BSG_SimpleConstructor.h"
+#import "NSError+PNLite_SimpleConstructor.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #import "BSG_KSLogger.h"

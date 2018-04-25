@@ -23,7 +23,7 @@
 #import "PNLiteFileStore.h"
 #import "PNLite_KSCrashReportFields.h"
 #import "BSG_KSJSONCodecObjC.h"
-#import "NSError+BSG_SimpleConstructor.h"
+#import "NSError+PNLite_SimpleConstructor.h"
 #import "BSG_KSLogger.h"
 
 #pragma mark - Meta Data

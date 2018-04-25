@@ -28,7 +28,7 @@
 
 #import "BSG_KSJSONCodec.h"
 #import "PNLite_RFC3339DateTool.h"
-#import "NSError+BSG_SimpleConstructor.h"
+#import "NSError+PNLite_SimpleConstructor.h"
 
 @interface BSG_KSJSONCodec ()
 
