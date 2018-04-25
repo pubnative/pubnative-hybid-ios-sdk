@@ -54,7 +54,7 @@ static inline id safeValue(id value) {
 
 @end
 
-@implementation NSMutableDictionary (BSG_KSSafeCollections)
+@implementation NSMutableDictionary (PNLite_KSSafeCollections)
 
 - (void)bsg_ksc_setObjectIfNotNil:(id)object forKey:(id)key {
     if (object != nil && key != nil) {

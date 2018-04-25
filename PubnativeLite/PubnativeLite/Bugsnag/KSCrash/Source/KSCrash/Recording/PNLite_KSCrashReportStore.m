@@ -24,7 +24,7 @@
 
 #import "PNLite_KSCrashDoctor.h"
 #import "PNLite_KSCrashReportFields.h"
-#import "BSG_KSSafeCollections.h"
+#import "PNLite_KSSafeCollections.h"
 #import "PNLite_RFC3339DateTool.h"
 #import "NSDictionary+BSG_Merge.h"
 #import "BSG_KSLogger.h"
