@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 //
 
-#include "BSG_KSBacktrace_Private.h"
+#include "PNLite_KSBacktrace_Private.h"
 
 #include "BSG_KSDynamicLinker.h"
 #include "BSG_KSMach.h"
@@ -83,7 +83,7 @@ int bsg_ksbt_backtraceLength(
                                            sizeof(frame)) != KERN_SUCCESS) {
         return 1;
     }
-    for (int i = 1; i < BSG_kBacktraceGiveUpPoint; i++) {
+    for (int i = 1; i < PNLite_kBacktraceGiveUpPoint; i++) {
         if (frame.previous == 0 ||
             bsg_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
                 KERN_SUCCESS) {
@@ -91,7 +91,7 @@ int bsg_ksbt_backtraceLength(
         }
     }
 
-    return BSG_kBacktraceGiveUpPoint;
+    return PNLite_kBacktraceGiveUpPoint;
 }
 
 bool bsg_ksbt_isBacktraceTooLong(

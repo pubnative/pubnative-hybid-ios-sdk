@@ -22,7 +22,7 @@
 
 #include "PNLite_KSCrashReport.h"
 
-#include "BSG_KSBacktrace_Private.h"
+#include "PNLite_KSBacktrace_Private.h"
 #include "PNLite_KSCrashReportFields.h"
 #include "PNLite_KSCrashReportVersion.h"
 #include "BSG_KSDynamicLinker.h"
