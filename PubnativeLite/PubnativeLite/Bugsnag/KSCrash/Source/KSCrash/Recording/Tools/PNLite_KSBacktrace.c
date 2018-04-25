@@ -1,27 +1,23 @@
 //
-//  KSBacktrace.c
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-01-28.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #include "PNLite_KSBacktrace_Private.h"
@@ -58,13 +54,13 @@
  * and seems to work fine in ARM as well. I haven't included the args pointer
  * since it's not needed in this context.
  */
-typedef struct BSG_KSFrameEntry {
+typedef struct PNLite_KSFrameEntry {
     /** The previous frame in the list. */
-    const struct BSG_KSFrameEntry *const previous;
+    const struct PNLite_KSFrameEntry *const previous;
 
     /** The instruction address. */
     const uintptr_t return_address;
-} BSG_KSFrameEntry;
+} PNLite_KSFrameEntry;
 
 // Avoiding static functions due to linker issues.
 
@@ -77,7 +73,7 @@ int bsg_ksbt_backtraceLength(
         return 0;
     }
 
-    BSG_KSFrameEntry frame = {0};
+    PNLite_KSFrameEntry frame = {0};
     const uintptr_t framePtr = bsg_ksmachframePointer(machineContext);
     if (framePtr == 0 || bsg_ksmachcopyMem((void *)framePtr, &frame,
                                            sizeof(frame)) != KERN_SUCCESS) {
@@ -103,7 +99,7 @@ bool bsg_ksbt_isBacktraceTooLong(
         return 0;
     }
 
-    BSG_KSFrameEntry frame = {0};
+    PNLite_KSFrameEntry frame = {0};
     const uintptr_t framePtr = bsg_ksmachframePointer(machineContext);
     if (framePtr == 0 || bsg_ksmachcopyMem((void *)framePtr, &frame,
                                            sizeof(frame)) != KERN_SUCCESS) {
@@ -154,7 +150,7 @@ int bsg_ksbt_backtraceThreadState(
         }
     }
 
-    BSG_KSFrameEntry frame = {0};
+    PNLite_KSFrameEntry frame = {0};
 
     const uintptr_t framePtr = bsg_ksmachframePointer(machineContext);
     if (framePtr == 0 || bsg_ksmachcopyMem((void *)framePtr, &frame,

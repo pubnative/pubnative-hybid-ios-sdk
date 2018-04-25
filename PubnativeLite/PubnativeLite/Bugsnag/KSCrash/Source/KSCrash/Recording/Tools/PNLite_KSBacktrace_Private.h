@@ -28,7 +28,7 @@ extern "C" {
 #endif
 
 #include "BSG_KSArchSpecific.h"
-#include "BSG_KSBacktrace.h"
+#include "PNLite_KSBacktrace.h"
 
 #include <sys/ucontext.h>
 
