@@ -26,7 +26,7 @@
 #import "PNLite_KSCrashReportFields.h"
 #import "PNLite_KSSafeCollections.h"
 #import "PNLite_RFC3339DateTool.h"
-#import "NSDictionary+BSG_Merge.h"
+#import "NSDictionary+PNLite_Merge.h"
 #import "BSG_KSLogger.h"
 
 static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";

@@ -32,7 +32,7 @@
 #import "PNLiteHandledState.h"
 #import "PNLiteCrashLogger.h"
 #import "PNLiteKeys.h"
-#import "NSDictionary+BSG_Merge.h"
+#import "NSDictionary+PNLite_Merge.h"
 #import "PNLiteKSCrashSysInfoParser.h"
 #import "PNLiteSession.h"
 #import "PNLite_RFC3339DateTool.h"
