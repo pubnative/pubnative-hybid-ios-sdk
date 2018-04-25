@@ -30,7 +30,7 @@
 #include "BSG_KSObjC.h"
 #include "PNLite_KSString.h"
 #include "PNLite_KSSystemInfoC.h"
-#include "BSG_KSZombie.h"
+#include "PNLite_KSZombie.h"
 
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"
