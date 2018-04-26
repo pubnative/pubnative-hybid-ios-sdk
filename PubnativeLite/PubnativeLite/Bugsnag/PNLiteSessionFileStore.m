@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteSessionFileStore.h"
-#import "BSG_KSLogger.h"
+#import "PNLite_KSLogger.h"
 
 static NSString *const kPNLiteSessionStoreSuffix = @"-Session-";
 
@@ -41,7 +41,7 @@ static NSString *const kPNLiteSessionStoreSuffix = @"-Session-";
     NSData *json = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
 
     if (error != nil || ![json writeToFile:filepath atomically:YES]) {
-        BSG_KSLOG_ERROR(@"Failed to write session %@", error);
+        PNLite_KSLOG_ERROR(@"Failed to write session %@", error);
         return;
     }
 }

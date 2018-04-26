@@ -27,7 +27,7 @@
 #import "PNLite_KSSafeCollections.h"
 #import "PNLite_RFC3339DateTool.h"
 #import "NSDictionary+PNLite_Merge.h"
-#import "BSG_KSLogger.h"
+#import "PNLite_KSLogger.h"
 
 static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
 #define PNLite_kRecrashReportSuffix @"-RecrashReport-"
@@ -70,7 +70,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
     if (reportSection) {
         return reportSection[@PNLite_KSCrashField_Type];
     }
-    BSG_KSLOG_ERROR(@"Expected a report section in the report.");
+    PNLite_KSLOG_ERROR(@"Expected a report section in the report.");
     return nil;
 }
 
@@ -104,7 +104,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
 
 - (NSMutableDictionary *)fixupCrashReport:(NSDictionary *)report {
     if (![report isKindOfClass:[NSDictionary class]]) {
-        BSG_KSLOG_ERROR(@"Report should be a dictionary, not %@",
+        PNLite_KSLOG_ERROR(@"Report should be a dictionary, not %@",
                 [report class]);
         return nil;
     }
@@ -151,7 +151,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
         dstDict = [NSDictionary dictionary];
     }
     if (![dstDict isKindOfClass:[NSDictionary class]]) {
-        BSG_KSLOG_ERROR(@"'%@' should be a dictionary, not %@", dstKey,
+        PNLite_KSLOG_ERROR(@"'%@' should be a dictionary, not %@", dstKey,
                 [dstDict class]);
         return;
     }
@@ -165,7 +165,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
                 inReport:(NSMutableDictionary *)report {
     NSNumber *timestamp = report[key];
     if (timestamp == nil) {
-        BSG_KSLOG_ERROR(@"entry '%@' not found", key);
+        PNLite_KSLOG_ERROR(@"entry '%@' not found", key);
         return;
     }
     [report

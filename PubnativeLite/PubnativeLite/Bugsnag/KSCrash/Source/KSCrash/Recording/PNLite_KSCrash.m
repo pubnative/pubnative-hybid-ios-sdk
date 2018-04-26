@@ -29,8 +29,8 @@
 #import "PNLite_KSSystemCapabilities.h"
 #import "NSError+PNLite_SimpleConstructor.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#import "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#import "PNLite_KSLogger.h"
 
 #if PNLite_KSCRASH_HAS_UIKIT
 #import <UIKit/UIKit.h>
@@ -141,7 +141,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
                                                          bundleName:self.bundleName];
 
         if (!storePath) {
-            BSG_KSLOG_ERROR(
+            PNLite_KSLOG_ERROR(
                     @"Failed to initialize crash handler. Crash reporting disabled.");
             return nil;
         }
@@ -176,7 +176,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
                                            options:BSG_KSJSONEncodeOptionSorted
                                              error:&error]];
         if (error != NULL) {
-            BSG_KSLOG_ERROR(@"Could not serialize user info: %@", error);
+            PNLite_KSLOG_ERROR(@"Could not serialize user info: %@", error);
             return;
         }
     }
@@ -319,14 +319,14 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
 
     NSArray *reports = [self allReports];
 
-    BSG_KSLOG_INFO(@"Sending %d crash reports", [reports count]);
+    PNLite_KSLOG_INFO(@"Sending %d crash reports", [reports count]);
 
     [self sendReports:reports
          onCompletion:^(NSArray *filteredReports, BOOL completed,
                         NSError *error) {
-           BSG_KSLOG_DEBUG(@"Process finished with completion: %d", completed);
+           PNLite_KSLOG_DEBUG(@"Process finished with completion: %d", completed);
            if (error != nil) {
-               BSG_KSLOG_ERROR(@"Failed to send reports: %@", error);
+               PNLite_KSLOG_ERROR(@"Failed to send reports: %@", error);
            }
            if ((self.deleteBehaviorAfterSendAll == PNLite_KSCDeleteOnSucess &&
                 completed) ||
@@ -358,7 +358,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
     NSData *jsonData =
         [BSG_KSJSONCodec encode:stackTrace options:0 error:&error];
     if (jsonData == nil || error != nil) {
-        BSG_KSLOG_ERROR(@"Error encoding stack trace to JSON: %@", error);
+        PNLite_KSLOG_ERROR(@"Error encoding stack trace to JSON: %@", error);
         // Don't return, since we can still record other useful information.
     }
     NSString *jsonString =
@@ -451,7 +451,7 @@ PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
     NSString *logFilePath =
         [self.crashReportStore.path stringByAppendingPathComponent:logFilename];
     if (![self redirectConsoleLogsToFile:logFilePath overwrite:YES]) {
-        BSG_KSLOG_ERROR(@"Could not redirect logs to %@", logFilePath);
+        PNLite_KSLOG_ERROR(@"Could not redirect logs to %@", logFilePath);
         return NO;
     }
     return YES;

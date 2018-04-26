@@ -28,8 +28,8 @@
 
 #include "BSG_KSMach.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 static const char *bsg_g_registerNames[] = {
     "rax", "rbx", "rcx", "rdx",    "rdi", "rsi", "rbp",
@@ -141,7 +141,7 @@ bsg_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *const machineContext,
         return machineContext->__ss.__gs;
     }
 
-    BSG_KSLOG_ERROR("Invalid register number: %d", regNumber);
+    PNLite_KSLOG_ERROR("Invalid register number: %d", regNumber);
     return 0;
 }
 
@@ -153,7 +153,7 @@ const char *bsg_ksmachexceptionRegisterName(const int regNumber) {
     if (regNumber < bsg_ksmachnumExceptionRegisters()) {
         return bsg_g_exceptionRegisterNames[regNumber];
     }
-    BSG_KSLOG_ERROR("Invalid register number: %d", regNumber);
+    PNLite_KSLOG_ERROR("Invalid register number: %d", regNumber);
     return NULL;
 }
 
@@ -168,7 +168,7 @@ uint64_t bsg_ksmachexceptionRegisterValue(
         return machineContext->__es.__faultvaddr;
     }
 
-    BSG_KSLOG_ERROR("Invalid register number: %d", regNumber);
+    PNLite_KSLOG_ERROR("Invalid register number: %d", regNumber);
     return 0;
 }
 

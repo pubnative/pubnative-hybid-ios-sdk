@@ -24,8 +24,8 @@
 #include "PNLite_KSCrashSentry_Private.h"
 #include "BSG_KSMach.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 #include <execinfo.h>
 #include <stdlib.h>
@@ -35,13 +35,13 @@ static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
 bool bsg_kscrashsentry_installUserExceptionHandler(
     PNLite_KSCrash_SentryContext *const context) {
-    BSG_KSLOG_DEBUG("Installing user exception handler.");
+    PNLite_KSLOG_DEBUG("Installing user exception handler.");
     pnlite_g_context = context;
     return true;
 }
 
 void bsg_kscrashsentry_uninstallUserExceptionHandler(void) {
-    BSG_KSLOG_DEBUG("Uninstalling user exception handler.");
+    PNLite_KSLOG_DEBUG("Uninstalling user exception handler.");
     pnlite_g_context = NULL;
 }
 
@@ -51,27 +51,27 @@ void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
                                            const char *stackTrace,
                                            bool terminateProgram) {
     if (pnlite_g_context == NULL) {
-        BSG_KSLOG_WARN("User-reported exception sentry is not installed. "
+        PNLite_KSLOG_WARN("User-reported exception sentry is not installed. "
                        "Exception has not been recorded.");
     } else {
         bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         if (pnlite_g_context->suspendThreadsForUserReported) {
-            BSG_KSLOG_DEBUG("Suspending all threads");
+            PNLite_KSLOG_DEBUG("Suspending all threads");
             bsg_kscrashsentry_suspendThreads();
         }
 
-        BSG_KSLOG_DEBUG("Fetching call stack.");
+        PNLite_KSLOG_DEBUG("Fetching call stack.");
         int callstackCount = 100;
         uintptr_t callstack[callstackCount];
         callstackCount = backtrace((void **)callstack, callstackCount);
         if (callstackCount <= 0) {
-            BSG_KSLOG_ERROR("backtrace() returned call stack length of %d",
+            PNLite_KSLOG_ERROR("backtrace() returned call stack length of %d",
                             callstackCount);
             callstackCount = 0;
         }
 
-        BSG_KSLOG_DEBUG("Filling out context.");
+        PNLite_KSLOG_DEBUG("Filling out context.");
         pnlite_g_context->crashType = PNLite_KSCrashTypeUserReported;
         pnlite_g_context->offendingThread = bsg_ksmachthread_self();
         pnlite_g_context->registersAreValid = false;
@@ -83,7 +83,7 @@ void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
         pnlite_g_context->userException.lineOfCode = lineOfCode;
         pnlite_g_context->userException.customStackTrace = stackTrace;
 
-        BSG_KSLOG_DEBUG("Calling main crash handler.");
+        PNLite_KSLOG_DEBUG("Calling main crash handler.");
         pnlite_g_context->onCrash();
 
         if (terminateProgram) {

@@ -22,8 +22,8 @@
 
 #include "PNLite_KSSysCtl.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 #include <errno.h>
 #include <net/if.h>
@@ -33,14 +33,14 @@
 
 #define CHECK_SYSCTL_NAME(TYPE, CALL)                                          \
     if (0 != (CALL)) {                                                         \
-        BSG_KSLOG_ERROR("Could not get %s value for %s: %s", #CALL, name,      \
+        PNLite_KSLOG_ERROR("Could not get %s value for %s: %s", #CALL, name,      \
                         strerror(errno));                                      \
         return 0;                                                              \
     }
 
 #define CHECK_SYSCTL_CMD(TYPE, CALL)                                           \
     if (0 != (CALL)) {                                                         \
-        BSG_KSLOG_ERROR("Could not get %s value for %d,%d: %s", #CALL,         \
+        PNLite_KSLOG_ERROR("Could not get %s value for %d,%d: %s", #CALL,         \
                         major_cmd, minor_cmd, strerror(errno));                \
         return 0;                                                              \
     }
@@ -151,7 +151,7 @@ struct timeval bsg_kssysctl_timeval(const int major_cmd, const int minor_cmd) {
     size_t size = sizeof(value);
 
     if (0 != sysctl(cmd, sizeof(cmd) / sizeof(*cmd), &value, &size, NULL, 0)) {
-        BSG_KSLOG_ERROR("Could not get timeval value for %d,%d: %s", major_cmd,
+        PNLite_KSLOG_ERROR("Could not get timeval value for %d,%d: %s", major_cmd,
                         minor_cmd, strerror(errno));
     }
 
@@ -163,7 +163,7 @@ struct timeval bsg_kssysctl_timevalForName(const char *const name) {
     size_t size = sizeof(value);
 
     if (0 != sysctlbyname(name, &value, &size, NULL, 0)) {
-        BSG_KSLOG_ERROR("Could not get timeval value for %s: %s", name,
+        PNLite_KSLOG_ERROR("Could not get timeval value for %s: %s", name,
                         strerror(errno));
     }
 
@@ -177,7 +177,7 @@ bool bsg_kssysctl_getProcessInfo(const int pid,
 
     if (0 !=
         sysctl(cmd, sizeof(cmd) / sizeof(*cmd), procInfo, &size, NULL, 0)) {
-        BSG_KSLOG_ERROR("Could not get the name for process %d: %s", pid,
+        PNLite_KSLOG_ERROR("Could not get the name for process %d: %s", pid,
                         strerror(errno));
         return false;
     }
@@ -192,26 +192,26 @@ bool bsg_kssysctl_getMacAddress(const char *const name,
     int mib[6] = {CTL_NET, AF_ROUTE,      0,
                   AF_LINK, NET_RT_IFLIST, (int)if_nametoindex(name)};
     if (mib[5] == 0) {
-        BSG_KSLOG_ERROR("Could not get interface index for %s: %s", name,
+        PNLite_KSLOG_ERROR("Could not get interface index for %s: %s", name,
                         strerror(errno));
         return false;
     }
 
     size_t length;
     if (sysctl(mib, 6, NULL, &length, NULL, 0) != 0) {
-        BSG_KSLOG_ERROR("Could not get interface data for %s: %s", name,
+        PNLite_KSLOG_ERROR("Could not get interface data for %s: %s", name,
                         strerror(errno));
         return false;
     }
 
     void *ifBuffer = malloc(length);
     if (ifBuffer == NULL) {
-        BSG_KSLOG_ERROR("Out of memory");
+        PNLite_KSLOG_ERROR("Out of memory");
         return false;
     }
 
     if (sysctl(mib, 6, ifBuffer, &length, NULL, 0) != 0) {
-        BSG_KSLOG_ERROR("Could not get interface data for %s: %s", name,
+        PNLite_KSLOG_ERROR("Could not get interface data for %s: %s", name,
                         strerror(errno));
         free(ifBuffer);
         return false;

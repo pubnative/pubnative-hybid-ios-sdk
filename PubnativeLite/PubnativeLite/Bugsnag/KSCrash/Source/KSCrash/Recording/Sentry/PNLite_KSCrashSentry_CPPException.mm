@@ -26,8 +26,8 @@
 #include "PNLite_KSCrashSentry_Private.h"
 #include "BSG_KSMach.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 #include <cxxabi.h>
 #include <dlfcn.h>
@@ -91,14 +91,14 @@ void __cxa_throw(void *thrown_exception, std::type_info *tinfo,
 }
 
 static void CPPExceptionTerminate(void) {
-    BSG_KSLOG_DEBUG(@"Trapped c++ exception");
+    PNLite_KSLOG_DEBUG(@"Trapped c++ exception");
 
     bool isNSException = false;
     char descriptionBuff[PNLite_DESCRIPTION_BUFFER_LENGTH];
     const char *name = NULL;
     const char *description = NULL;
 
-    BSG_KSLOG_DEBUG(@"Get exception type name.");
+    PNLite_KSLOG_DEBUG(@"Get exception type name.");
     std::type_info *tinfo = __cxxabiv1::__cxa_current_exception_type();
     if (tinfo != NULL) {
         name = tinfo->name();
@@ -107,12 +107,12 @@ static void CPPExceptionTerminate(void) {
     description = descriptionBuff;
     descriptionBuff[0] = 0;
 
-    BSG_KSLOG_DEBUG(@"Discovering what kind of exception was thrown.");
+    PNLite_KSLOG_DEBUG(@"Discovering what kind of exception was thrown.");
     pnlite_g_captureNextStackTrace = false;
     try {
         throw;
     } catch (NSException *exception) {
-        BSG_KSLOG_DEBUG(@"Detected NSException. Letting the current "
+        PNLite_KSLOG_DEBUG(@"Detected NSException. Letting the current "
                         @"NSException handler deal with it.");
         isNSException = true;
     } catch (std::exception &exc) {
@@ -147,13 +147,13 @@ static void CPPExceptionTerminate(void) {
         bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         if (wasHandlingCrash) {
-            BSG_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
+            PNLite_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
                            @"original handlers.");
             pnlite_g_context->crashedDuringCrashHandling = true;
             bsg_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
         }
 
-        BSG_KSLOG_DEBUG(@"Suspending all threads.");
+        PNLite_KSLOG_DEBUG(@"Suspending all threads.");
         bsg_kscrashsentry_suspendThreads();
 
         pnlite_g_context->crashType = PNLite_KSCrashTypeCPPException;
@@ -165,10 +165,10 @@ static void CPPExceptionTerminate(void) {
         pnlite_g_context->CPPException.name = name;
         pnlite_g_context->crashReason = description;
 
-        BSG_KSLOG_DEBUG(@"Calling main crash handler.");
+        PNLite_KSLOG_DEBUG(@"Calling main crash handler.");
         pnlite_g_context->onCrash();
 
-        BSG_KSLOG_DEBUG(
+        PNLite_KSLOG_DEBUG(
             @"Crash handling complete. Restoring original handlers.");
         bsg_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
         bsg_kscrashsentry_resumeThreads();
@@ -183,10 +183,10 @@ static void CPPExceptionTerminate(void) {
 
 extern "C" bool bsg_kscrashsentry_installCPPExceptionHandler(
     PNLite_KSCrash_SentryContext *context) {
-    BSG_KSLOG_DEBUG(@"Installing C++ exception handler.");
+    PNLite_KSLOG_DEBUG(@"Installing C++ exception handler.");
 
     if (pnlite_g_installed) {
-        BSG_KSLOG_DEBUG(@"C++ exception handler already installed.");
+        PNLite_KSLOG_DEBUG(@"C++ exception handler already installed.");
         return true;
     }
     pnlite_g_installed = 1;
@@ -199,9 +199,9 @@ extern "C" bool bsg_kscrashsentry_installCPPExceptionHandler(
 }
 
 extern "C" void bsg_kscrashsentry_uninstallCPPExceptionHandler(void) {
-    BSG_KSLOG_DEBUG(@"Uninstalling C++ exception handler.");
+    PNLite_KSLOG_DEBUG(@"Uninstalling C++ exception handler.");
     if (!pnlite_g_installed) {
-        BSG_KSLOG_DEBUG(@"C++ exception handler already uninstalled.");
+        PNLite_KSLOG_DEBUG(@"C++ exception handler already uninstalled.");
         return;
     }
 

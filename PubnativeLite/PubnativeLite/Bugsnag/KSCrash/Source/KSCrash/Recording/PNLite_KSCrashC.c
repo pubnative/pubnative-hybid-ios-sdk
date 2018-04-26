@@ -32,8 +32,8 @@
 #include "PNLite_KSSystemInfoC.h"
 #include "PNLite_KSZombie.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 #include <mach/mach_time.h>
 
@@ -76,7 +76,7 @@ static inline PNLite_KSCrash_Context *crashContext(void) {
  * This function gets passed as a callback to a crash handler.
  */
 void bsg_kscrash_i_onCrash(void) {
-    BSG_KSLOG_DEBUG("Updating application state to note crash.");
+    PNLite_KSLOG_DEBUG("Updating application state to note crash.");
     bsg_kscrashstate_notifyAppCrash();
 
     PNLite_KSCrash_Context *context = crashContext();
@@ -102,12 +102,12 @@ PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
                                     const char *const recrashReportFilePath,
                                     const char *stateFilePath,
                                     const char *crashID) {
-    BSG_KSLOG_DEBUG("Installing crash reporter.");
+    PNLite_KSLOG_DEBUG("Installing crash reporter.");
 
     PNLite_KSCrash_Context *context = crashContext();
 
     if (pnlite_g_installed) {
-        BSG_KSLOG_DEBUG("Crash reporter already installed.");
+        PNLite_KSLOG_DEBUG("Crash reporter already installed.");
         return context->config.handlingCrashTypes;
     }
     pnlite_g_installed = 1;
@@ -127,7 +127,7 @@ PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
     context->config.systemInfoJSON = pnlite_kssysteminfo_toJSON();
     context->config.processName = pnlite_kssysteminfo_copyProcessName();
 
-    BSG_KSLOG_DEBUG("Installation complete.");
+    PNLite_KSLOG_DEBUG("Installation complete.");
     return crashTypes;
 }
 
@@ -135,10 +135,10 @@ void bsg_kscrash_reinstall(const char *const crashReportFilePath,
                            const char *const recrashReportFilePath,
                            const char *const stateFilePath,
                            const char *const crashID) {
-    BSG_KSLOG_TRACE("reportFilePath = %s", crashReportFilePath);
-    BSG_KSLOG_TRACE("secondaryReportFilePath = %s", recrashReportFilePath);
-    BSG_KSLOG_TRACE("stateFilePath = %s", stateFilePath);
-    BSG_KSLOG_TRACE("crashID = %s", crashID);
+    PNLite_KSLOG_TRACE("reportFilePath = %s", crashReportFilePath);
+    PNLite_KSLOG_TRACE("secondaryReportFilePath = %s", recrashReportFilePath);
+    PNLite_KSLOG_TRACE("stateFilePath = %s", stateFilePath);
+    PNLite_KSLOG_TRACE("crashID = %s", crashID);
 
     bsg_ksstring_replace((const char **)&pnlite_g_stateFilePath, stateFilePath);
     bsg_ksstring_replace((const char **)&pnlite_g_crashReportFilePath,
@@ -149,7 +149,7 @@ void bsg_kscrash_reinstall(const char *const crashReportFilePath,
     bsg_ksstring_replace(&context->config.crashID, crashID);
 
     if (!bsg_kscrashstate_init(pnlite_g_stateFilePath, &context->state)) {
-        BSG_KSLOG_ERROR("Failed to initialize persistent crash state");
+        PNLite_KSLOG_ERROR("Failed to initialize persistent crash state");
     }
     context->state.appLaunchTime = mach_absolute_time();
 }
@@ -168,7 +168,7 @@ PNLite_KSCrashType bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTyp
 }
 
 void bsg_kscrash_setUserInfoJSON(const char *const userInfoJSON) {
-    BSG_KSLOG_TRACE("set userInfoJSON to %p", userInfoJSON);
+    PNLite_KSLOG_TRACE("set userInfoJSON to %p", userInfoJSON);
     PNLite_KSCrash_Context *context = crashContext();
     bsg_ksstring_replace(&context->config.userInfoJSON, userInfoJSON);
 }
@@ -211,7 +211,7 @@ void bsg_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
         newClassesLength = length;
         newClasses = malloc(sizeof(*newClasses) * newClassesLength);
         if (newClasses == nil) {
-            BSG_KSLOG_ERROR("Could not allocate memory");
+            PNLite_KSLOG_ERROR("Could not allocate memory");
             return;
         }
 
@@ -234,7 +234,7 @@ void bsg_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
 
 void bsg_kscrash_setCrashNotifyCallback(
     const PNLite_KSReportWriteCallback onCrashNotify) {
-    BSG_KSLOG_TRACE("Set onCrashNotify to %p", onCrashNotify);
+    PNLite_KSLOG_TRACE("Set onCrashNotify to %p", onCrashNotify);
     crashContext()->config.onCrashNotify = onCrashNotify;
 }
 

@@ -22,8 +22,8 @@
 
 #include "PNLite_KSFileUtils.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -58,7 +58,7 @@ bool bsg_ksfuflushWriteBuffer(const int fd) {
     while (bufferLen > 0) {
         ssize_t bytesWritten = write(fd, pos, (size_t)bufferLen);
         if (bytesWritten == -1) {
-            BSG_KSLOG_ERROR("Could not write to fd %d: %s", fd,
+            PNLite_KSLOG_ERROR("Could not write to fd %d: %s", fd,
                             strerror(errno));
             return false;
         }
@@ -88,7 +88,7 @@ bool bsg_ksfureadBytesFromFD(const int fd, char *const bytes, ssize_t length) {
     while (length > 0) {
         ssize_t bytesRead = read(fd, pos, (size_t)length);
         if (bytesRead == -1) {
-            BSG_KSLOG_ERROR("Could not write to fd %d: %s", fd,
+            PNLite_KSLOG_ERROR("Could not write to fd %d: %s", fd,
                             strerror(errno));
             return false;
         }
@@ -102,20 +102,20 @@ bool bsg_ksfureadEntireFile(const char *const path, char **data,
                             size_t *length) {
     struct stat st;
     if (stat(path, &st) < 0) {
-        BSG_KSLOG_ERROR("Could not stat %s: %s", path, strerror(errno));
+        PNLite_KSLOG_ERROR("Could not stat %s: %s", path, strerror(errno));
         return false;
     }
 
     void *mem = NULL;
     int fd = open(path, O_RDONLY);
     if (fd < 0) {
-        BSG_KSLOG_ERROR("Could not open %s: %s", path, strerror(errno));
+        PNLite_KSLOG_ERROR("Could not open %s: %s", path, strerror(errno));
         return false;
     }
 
     mem = malloc((size_t)st.st_size);
     if (mem == NULL) {
-        BSG_KSLOG_ERROR("Out of memory");
+        PNLite_KSLOG_ERROR("Out of memory");
         goto failed;
     }
 
@@ -143,7 +143,7 @@ bool bsg_ksfuwriteStringToFD(const int fd, const char *const string) {
         while (bytesToWrite > 0) {
             ssize_t bytesWritten = write(fd, pos, bytesToWrite);
             if (bytesWritten == -1) {
-                BSG_KSLOG_ERROR("Could not write to fd %d: %s", fd,
+                PNLite_KSLOG_ERROR("Could not write to fd %d: %s", fd,
                                 strerror(errno));
                 return false;
             }
@@ -184,7 +184,7 @@ ssize_t bsg_ksfureadLineFromFD(const int fd, char *const buffer,
     for (ch = buffer; ch < end; ch++) {
         ssize_t bytesRead = read(fd, ch, 1);
         if (bytesRead < 0) {
-            BSG_KSLOG_ERROR("Could not read from fd %d: %s", fd,
+            PNLite_KSLOG_ERROR("Could not read from fd %d: %s", fd,
                             strerror(errno));
             return -1;
         } else if (bytesRead == 0 || *ch == '\n') {

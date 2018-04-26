@@ -21,7 +21,7 @@
 //
 
 #include "PNLite_KSZombie.h"
-#include "BSG_KSLogger.h"
+#include "PNLite_KSLogger.h"
 #include "BSG_KSObjC.h"
 
 #include <objc/runtime.h>
@@ -66,20 +66,20 @@ static bool copyStringIvar(const void *self, const char *ivarName, char *buffer,
                     return true;
                 }
                 else {
-                    BSG_KSLOG_DEBUG("ksobjc_copyStringContents %s failed",
+                    PNLite_KSLOG_DEBUG("ksobjc_copyStringContents %s failed",
                                     ivarName);
                 }
             }
             else {
-                BSG_KSLOG_DEBUG("ksobjc_isValidObject %s failed", ivarName);
+                PNLite_KSLOG_DEBUG("ksobjc_isValidObject %s failed", ivarName);
             }
         }
         else {
-            BSG_KSLOG_DEBUG("ksobjc_ivarValue %s failed", ivarName);
+            PNLite_KSLOG_DEBUG("ksobjc_ivarValue %s failed", ivarName);
         }
     }
     else {
-        BSG_KSLOG_DEBUG("ksobjc_ivarNamed %s failed", ivarName);
+        PNLite_KSLOG_DEBUG("ksobjc_ivarNamed %s failed", ivarName);
     }
     return false;
 }
@@ -136,7 +136,7 @@ static void install() {
     pnlite_g_zombieHashMask = cacheSize - 1;
     pnlite_g_zombieCache = calloc(cacheSize, sizeof(*pnlite_g_zombieCache));
     if (pnlite_g_zombieCache == NULL) {
-        BSG_KSLOG_ERROR("Error: Could not allocate %ld bytes of memory. "
+        PNLite_KSLOG_ERROR("Error: Could not allocate %ld bytes of memory. "
                         "KSZombie NOT installed!",
                         cacheSize * sizeof(*pnlite_g_zombieCache));
         return;

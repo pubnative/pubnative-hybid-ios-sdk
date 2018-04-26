@@ -24,7 +24,7 @@
 #import "PNLite_KSCrashReportFields.h"
 #import "BSG_KSJSONCodecObjC.h"
 #import "NSError+PNLite_SimpleConstructor.h"
-#import "BSG_KSLogger.h"
+#import "PNLite_KSLogger.h"
 
 #pragma mark - Meta Data
 
@@ -106,7 +106,7 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *filenames = [fm contentsOfDirectoryAtPath:self.path error:&error];
     if (filenames == nil) {
-        BSG_KSLOG_ERROR(@"Could not get contents of directory %@: %@",
+        PNLite_KSLOG_ERROR(@"Could not get contents of directory %@: %@",
                 self.path, error);
         return nil;
     }
@@ -121,7 +121,7 @@
             NSDictionary *fileAttribs =
                     [fm attributesOfItemAtPath:fullPath error:&error];
             if (fileAttribs == nil) {
-                BSG_KSLOG_ERROR(@"Could not read file attributes for %@: %@",
+                PNLite_KSLOG_ERROR(@"Could not read file attributes for %@: %@",
                         fullPath, error);
             } else {
                 PNLiteFileStoreInfo *info = [PNLiteFileStoreInfo fileStoreInfoWithId:fileId
@@ -177,11 +177,11 @@
     NSMutableDictionary *fileContents =
             [self readFile:[self pathToFileWithId:fileId] error:&error];
     if (error != nil) {
-        BSG_KSLOG_ERROR(@"Encountered error loading file %@: %@",
+        PNLite_KSLOG_ERROR(@"Encountered error loading file %@: %@",
                 fileId, error);
     }
     if (fileContents == nil) {
-        BSG_KSLOG_ERROR(@"Could not load file");
+        PNLite_KSLOG_ERROR(@"Could not load file");
         return nil;
     }
     return fileContents;
@@ -193,7 +193,7 @@
 
     [[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
     if (error != nil) {
-        BSG_KSLOG_ERROR(@"Could not delete file %@: %@", filename, error);
+        PNLite_KSLOG_ERROR(@"Could not delete file %@: %@", filename, error);
     }
 }
 
@@ -203,14 +203,14 @@
     NSArray *directories = NSSearchPathForDirectoriesInDomains(
             NSCachesDirectory, NSUserDomainMask, YES);
     if ([directories count] == 0) {
-        BSG_KSLOG_ERROR(@"Could not locate cache directory path.");
+        PNLite_KSLOG_ERROR(@"Could not locate cache directory path.");
         return nil;
     }
 
     NSString *cachePath = directories[0];
 
     if ([cachePath length] == 0) {
-        BSG_KSLOG_ERROR(@"Could not locate cache directory path.");
+        PNLite_KSLOG_ERROR(@"Could not locate cache directory path.");
         return nil;
     }
 
@@ -221,11 +221,11 @@
             [cachePath stringByAppendingPathComponent:storePathEnd];
 
     if ([storePath length] == 0) {
-        BSG_KSLOG_ERROR(@"Could not determine report files path.");
+        PNLite_KSLOG_ERROR(@"Could not determine report files path.");
         return nil;
     }
     if (![self ensureDirectoryExists:storePath]) {
-        BSG_KSLOG_ERROR(@"Store Directory does not exist.");
+        PNLite_KSLOG_ERROR(@"Store Directory does not exist.");
         return nil;
     }
     return storePath;
@@ -240,7 +240,7 @@
            withIntermediateDirectories:YES
                             attributes:nil
                                  error:&error]) {
-            BSG_KSLOG_ERROR(@"Could not create directory %@: %@.", path, error);
+            PNLite_KSLOG_ERROR(@"Could not create directory %@: %@.", path, error);
             return NO;
         }
     }
@@ -255,7 +255,7 @@
               operation:(void (^)(id parent, id field))operation
            okIfNotFound:(BOOL)isOkIfNotFound {
     if (fieldPath.count == 0) {
-        BSG_KSLOG_ERROR(@"Unexpected end of field path");
+        PNLite_KSLOG_ERROR(@"Unexpected end of field path");
         return;
     }
 
@@ -270,7 +270,7 @@
     id field = file[currentField];
     if (field == nil) {
         if (!isOkIfNotFound) {
-            BSG_KSLOG_ERROR(@"%@: No such field in file. Candidates are: %@",
+            PNLite_KSLOG_ERROR(@"%@: No such field in file. Candidates are: %@",
                     currentField, file.allKeys);
         }
         return;
@@ -326,7 +326,7 @@
                               error:error];
     if (error != nil && *error != nil) {
 
-        BSG_KSLOG_ERROR(@"Error decoding JSON data from %@: %@", path, *error);
+        PNLite_KSLOG_ERROR(@"Error decoding JSON data from %@: %@", path, *error);
         fileContents[@PNLite_KSCrashField_Incomplete] = @YES;
     }
     return fileContents;

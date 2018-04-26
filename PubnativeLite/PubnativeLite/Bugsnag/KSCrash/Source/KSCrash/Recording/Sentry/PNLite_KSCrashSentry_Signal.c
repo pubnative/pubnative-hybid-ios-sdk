@@ -28,8 +28,8 @@
 #include "BSG_KSMach.h"
 #include "PNLite_KSSignalInfo.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 #include <errno.h>
 #include <stdio.h>
@@ -76,25 +76,25 @@ static PNLite_KSCrash_SentryContext *pnlite_g_context;
  */
 void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
                                   void *userContext) {
-    BSG_KSLOG_DEBUG("Trapped signal %d", sigNum);
+    PNLite_KSLOG_DEBUG("Trapped signal %d", sigNum);
     if (pnlite_g_installed) {
         bool wasHandlingCrash = pnlite_g_context->handlingCrash;
         bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
-        BSG_KSLOG_DEBUG(
+        PNLite_KSLOG_DEBUG(
             "Signal handler is installed. Continuing signal handling.");
 
-        BSG_KSLOG_DEBUG("Suspending all threads.");
+        PNLite_KSLOG_DEBUG("Suspending all threads.");
         bsg_kscrashsentry_suspendThreads();
 
         if (wasHandlingCrash) {
-            BSG_KSLOG_INFO("Detected crash in the crash reporter. Restoring "
+            PNLite_KSLOG_INFO("Detected crash in the crash reporter. Restoring "
                            "original handlers.");
             pnlite_g_context->crashedDuringCrashHandling = true;
             bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         }
 
-        BSG_KSLOG_DEBUG("Filling out context.");
+        PNLite_KSLOG_DEBUG("Filling out context.");
         pnlite_g_context->crashType = PNLite_KSCrashTypeSignal;
         pnlite_g_context->offendingThread = bsg_ksmachthread_self();
         pnlite_g_context->registersAreValid = true;
@@ -102,16 +102,16 @@ void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
         pnlite_g_context->signal.userContext = userContext;
         pnlite_g_context->signal.signalInfo = signalInfo;
 
-        BSG_KSLOG_DEBUG("Calling main crash handler.");
+        PNLite_KSLOG_DEBUG("Calling main crash handler.");
         pnlite_g_context->onCrash();
 
-        BSG_KSLOG_DEBUG(
+        PNLite_KSLOG_DEBUG(
             "Crash handling complete. Restoring original handlers.");
         bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         bsg_kscrashsentry_resumeThreads();
     }
 
-    BSG_KSLOG_DEBUG("Re-raising signal for regular handlers to catch.");
+    PNLite_KSLOG_DEBUG("Re-raising signal for regular handlers to catch.");
     // This is technically not allowed, but it works in OSX and iOS.
     raise(sigNum);
 }
@@ -122,10 +122,10 @@ void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
 
 bool bsg_kscrashsentry_installSignalHandler(
     PNLite_KSCrash_SentryContext *context) {
-    BSG_KSLOG_DEBUG("Installing signal handler.");
+    PNLite_KSLOG_DEBUG("Installing signal handler.");
 
     if (pnlite_g_installed) {
-        BSG_KSLOG_DEBUG("Signal handler already installed.");
+        PNLite_KSLOG_DEBUG("Signal handler already installed.");
         return true;
     }
     pnlite_g_installed = 1;
@@ -134,14 +134,14 @@ bool bsg_kscrashsentry_installSignalHandler(
 
 #if !TARGET_OS_TV
     if (pnlite_g_signalStack.ss_size == 0) {
-        BSG_KSLOG_DEBUG("Allocating signal stack area.");
+        PNLite_KSLOG_DEBUG("Allocating signal stack area.");
         pnlite_g_signalStack.ss_size = SIGSTKSZ;
         pnlite_g_signalStack.ss_sp = malloc(pnlite_g_signalStack.ss_size);
     }
 
-    BSG_KSLOG_DEBUG("Setting signal stack area.");
+    PNLite_KSLOG_DEBUG("Setting signal stack area.");
     if (sigaltstack(&pnlite_g_signalStack, NULL) != 0) {
-        BSG_KSLOG_ERROR("signalstack: %s", strerror(errno));
+        PNLite_KSLOG_ERROR("signalstack: %s", strerror(errno));
         goto failed;
     }
 #endif
@@ -150,7 +150,7 @@ bool bsg_kscrashsentry_installSignalHandler(
     int fatalSignalsCount = bsg_kssignal_numFatalSignals();
 
     if (pnlite_g_previousSignalHandlers == NULL) {
-        BSG_KSLOG_DEBUG("Allocating memory to store previous signal handlers.");
+        PNLite_KSLOG_DEBUG("Allocating memory to store previous signal handlers.");
         pnlite_g_previousSignalHandlers =
             malloc(sizeof(*pnlite_g_previousSignalHandlers) *
                    (unsigned)fatalSignalsCount);
@@ -165,7 +165,7 @@ bool bsg_kscrashsentry_installSignalHandler(
     action.sa_sigaction = &bsg_kssighndl_i_handleSignal;
 
     for (int i = 0; i < fatalSignalsCount; i++) {
-        BSG_KSLOG_DEBUG("Assigning handler for signal %d", fatalSignals[i]);
+        PNLite_KSLOG_DEBUG("Assigning handler for signal %d", fatalSignals[i]);
         if (sigaction(fatalSignals[i], &action,
                       &pnlite_g_previousSignalHandlers[i]) != 0) {
             char sigNameBuff[30];
@@ -175,7 +175,7 @@ bool bsg_kscrashsentry_installSignalHandler(
                          fatalSignals[i]);
                 sigName = sigNameBuff;
             }
-            BSG_KSLOG_ERROR("sigaction (%s): %s", sigName, strerror(errno));
+            PNLite_KSLOG_ERROR("sigaction (%s): %s", sigName, strerror(errno));
             // Try to reverse the damage
             for (i--; i >= 0; i--) {
                 sigaction(fatalSignals[i], &pnlite_g_previousSignalHandlers[i],
@@ -184,19 +184,19 @@ bool bsg_kscrashsentry_installSignalHandler(
             goto failed;
         }
     }
-    BSG_KSLOG_DEBUG("Signal handlers installed.");
+    PNLite_KSLOG_DEBUG("Signal handlers installed.");
     return true;
 
 failed:
-    BSG_KSLOG_DEBUG("Failed to install signal handlers.");
+    PNLite_KSLOG_DEBUG("Failed to install signal handlers.");
     pnlite_g_installed = 0;
     return false;
 }
 
 void bsg_kscrashsentry_uninstallSignalHandler(void) {
-    BSG_KSLOG_DEBUG("Uninstalling signal handlers.");
+    PNLite_KSLOG_DEBUG("Uninstalling signal handlers.");
     if (!pnlite_g_installed) {
-        BSG_KSLOG_DEBUG("Signal handlers were already uninstalled.");
+        PNLite_KSLOG_DEBUG("Signal handlers were already uninstalled.");
         return;
     }
 
@@ -204,11 +204,11 @@ void bsg_kscrashsentry_uninstallSignalHandler(void) {
     int fatalSignalsCount = bsg_kssignal_numFatalSignals();
 
     for (int i = 0; i < fatalSignalsCount; i++) {
-        BSG_KSLOG_DEBUG("Restoring original handler for signal %d",
+        PNLite_KSLOG_DEBUG("Restoring original handler for signal %d",
                         fatalSignals[i]);
         sigaction(fatalSignals[i], &pnlite_g_previousSignalHandlers[i], NULL);
     }
 
-    BSG_KSLOG_DEBUG("Signal handlers uninstalled.");
+    PNLite_KSLOG_DEBUG("Signal handlers uninstalled.");
     pnlite_g_installed = 0;
 }

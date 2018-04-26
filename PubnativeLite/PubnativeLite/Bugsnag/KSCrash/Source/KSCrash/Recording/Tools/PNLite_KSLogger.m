@@ -1,30 +1,26 @@
 //
-//  BSG_KSLogger.m
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 11-06-25.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2011 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#import "BSG_KSLogger.h"
+#import "PNLite_KSLogger.h"
 
 // ===========================================================================
 #pragma mark - Common -
@@ -43,8 +39,8 @@
  *
  * Unless you're logging from within signal handlers, it's safe to set it to 0.
  */
-#ifndef BSG_KSLOGGER_CBufferSize
-#define BSG_KSLOGGER_CBufferSize 1024
+#ifndef PNLite_KSLOGGER_CBufferSize
+#define PNLite_KSLOGGER_CBufferSize 1024
 #endif
 
 /** Interpret the path as a unix file path and return the last path entry.
@@ -92,16 +88,16 @@ static inline void writeFmtToLog(const char *fmt, ...) {
     va_end(args);
 }
 
-#if BSG_KSLOGGER_CBufferSize > 0
+#if PNLite_KSLOGGER_CBufferSize > 0
 
 /** The file descriptor where log entries get written. */
-static int bsg_g_fd = STDOUT_FILENO;
+static int pnlite_g_fd = STDOUT_FILENO;
 
 static void writeToLog(const char *const str) {
     size_t bytesToWrite = strlen(str);
     const char *pos = str;
     while (bytesToWrite > 0) {
-        ssize_t bytesWritten = write(bsg_g_fd, pos, bytesToWrite);
+        ssize_t bytesWritten = write(pnlite_g_fd, pos, bytesToWrite);
         unlikely_if(bytesWritten == -1) { return; }
         bytesToWrite -= (size_t)bytesWritten;
         pos += bytesWritten;
@@ -111,7 +107,7 @@ static void writeToLog(const char *const str) {
 static inline void writeFmtArgsToLog(const char *fmt, va_list args) {
     unlikely_if(fmt == NULL) { writeToLog("(null)"); }
     else {
-        char buffer[BSG_KSLOGGER_CBufferSize];
+        char buffer[PNLite_KSLOGGER_CBufferSize];
         vsnprintf(buffer, sizeof(buffer), fmt, args);
         writeToLog(buffer);
     }
@@ -122,11 +118,11 @@ static inline void flushLog(void) {
 }
 
 static inline void setLogFD(int fd) {
-    if (bsg_g_fd >= 0 && bsg_g_fd != STDOUT_FILENO &&
-        bsg_g_fd != STDERR_FILENO && bsg_g_fd != STDIN_FILENO) {
-        close(bsg_g_fd);
+    if (pnlite_g_fd >= 0 && pnlite_g_fd != STDOUT_FILENO &&
+        pnlite_g_fd != STDERR_FILENO && pnlite_g_fd != STDIN_FILENO) {
+        close(pnlite_g_fd);
     }
-    bsg_g_fd = fd;
+    pnlite_g_fd = fd;
 }
 
 bool bsg_kslog_setLogFilename(const char *filename, bool overwrite) {
@@ -150,26 +146,26 @@ bool bsg_kslog_setLogFilename(const char *filename, bool overwrite) {
     return true;
 }
 
-#else // if BSG_KSLogger_CBufferSize <= 0
+#else // if PNLite_KSLogger_CBufferSize <= 0
 
-static FILE *bsg_g_file = NULL;
+static FILE *pnlite_g_file = NULL;
 
 static inline void setLogFD(FILE *file) {
-    if (g_file != NULL && bsg_g_file != stdout && bsg_g_file != stderr &&
-        bsg_g_file != stdin) {
+    if (g_file != NULL && pnlite_g_file != stdout && pnlite_g_file != stderr &&
+        pnlite_g_file != stdin) {
         fclose(g_file);
     }
-    bsg_g_file = file;
+    pnlite_g_file = file;
 }
 
 static void writeToLog(const char *const str) {
-    unlikely_if(g_file == NULL) { bsg_g_file = stdout; }
+    unlikely_if(g_file == NULL) { pnlite_g_file = stdout; }
 
     fprintf(g_file, "%s", str);
 }
 
 static inline void writeFmtArgsToLog(const char *fmt, va_list args) {
-    unlikely_if(g_file == NULL) { bsg_g_file = stdout; }
+    unlikely_if(g_file == NULL) { pnlite_g_file = stdout; }
 
     if (fmt == NULL) {
         writeToLog("(null)");

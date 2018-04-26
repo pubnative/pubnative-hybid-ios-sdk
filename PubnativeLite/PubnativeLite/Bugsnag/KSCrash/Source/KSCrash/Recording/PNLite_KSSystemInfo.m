@@ -29,7 +29,7 @@
 #import "PNLite_KSSysCtl.h"
 #import "PNLite_KSSystemCapabilities.h"
 #import "PNLiteKeys.h"
-#import "BSG_KSLogger.h"
+#import "PNLite_KSLogger.h"
 
 #import <CommonCrypto/CommonDigest.h>
 #if PNLite_KSCRASH_HAS_UIKIT
@@ -467,7 +467,7 @@ const char *pnlite_kssysteminfo_toJSON(void) {
                                          options:BSG_KSJSONEncodeOptionSorted
                                            error:&error];
     if (error != nil) {
-        BSG_KSLOG_ERROR(@"Could not serialize system info: %@", error);
+        PNLite_KSLOG_ERROR(@"Could not serialize system info: %@", error);
         return NULL;
     }
     if (![jsonData isKindOfClass:[NSMutableData class]]) {

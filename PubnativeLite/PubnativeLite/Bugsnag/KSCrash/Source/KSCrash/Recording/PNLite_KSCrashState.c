@@ -26,8 +26,8 @@
 #include "BSG_KSJSONCodec.h"
 #include "BSG_KSMach.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#include "PNLite_KSLogger.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -100,7 +100,7 @@ int bsg_kscrashstate_i_onIntegerElement(const char *const name,
 
     if (strcmp(name, PNLite_kKeyFormatVersion) == 0) {
         if (value != PNLite_kFormatVersion) {
-            BSG_KSLOG_ERROR("Expected version 1 but got %lld", value);
+            PNLite_KSLOG_ERROR("Expected version 1 but got %lld", value);
             return BSG_KSJSON_ERROR_INVALID_DATA;
         }
     } else if (strcmp(name, PNLite_kKeyLaunchesSinceLastCrash) == 0) {
@@ -176,7 +176,7 @@ bool bsg_kscrashstate_i_loadState(PNLite_KSCrash_State *const context,
     char *data;
     size_t length;
     if (!bsg_ksfureadEntireFile(path, &data, &length)) {
-        BSG_KSLOG_ERROR("%s: Could not load file", path);
+        PNLite_KSLOG_ERROR("%s: Could not load file", path);
         return false;
     }
 
@@ -198,7 +198,7 @@ bool bsg_kscrashstate_i_loadState(PNLite_KSCrash_State *const context,
         bsg_ksjsondecode(data, length, &callbacks, context, &errorOffset);
     free(data);
     if (result != BSG_KSJSON_OK) {
-        BSG_KSLOG_ERROR("%s, offset %d: %s", path, errorOffset,
+        PNLite_KSLOG_ERROR("%s, offset %d: %s", path, errorOffset,
                         bsg_ksjsonstringForError(result));
         return false;
     }
@@ -217,7 +217,7 @@ bool bsg_kscrashstate_i_saveState(const PNLite_KSCrash_State *const state,
                                   const char *const path) {
     int fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) {
-        BSG_KSLOG_ERROR("Could not open file %s for writing: %s", path,
+        PNLite_KSLOG_ERROR("Could not open file %s for writing: %s", path,
                         strerror(errno));
         return false;
     }
@@ -263,14 +263,14 @@ bool bsg_kscrashstate_i_saveState(const PNLite_KSCrash_State *const state,
     }
     result = bsg_ksjsonendEncode(&JSONContext);
     if (!bsg_ksfuflushWriteBuffer(fd)) {
-        BSG_KSLOG_ERROR("Failed to flush write buffer");
+        PNLite_KSLOG_ERROR("Failed to flush write buffer");
     }
 
 done:
     close(fd);
 
     if (result != BSG_KSJSON_OK) {
-        BSG_KSLOG_ERROR("%s: %s", path, bsg_ksjsonstringForError(result));
+        PNLite_KSLOG_ERROR("%s: %s", path, bsg_ksjsonstringForError(result));
         return false;
     }
     return true;

@@ -24,8 +24,8 @@
 #import "PNLite_KSCrashSentry_Private.h"
 #include "BSG_KSMach.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#import "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#import "PNLite_KSLogger.h"
 
 #define kPNLiteIdleInterval 5.0f
 
@@ -104,18 +104,18 @@ static NSTimeInterval pnlite_g_watchdogInterval = 0;
 - (void)handleDeadlock {
     bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
-    BSG_KSLOG_DEBUG(@"Filling out context.");
+    PNLite_KSLOG_DEBUG(@"Filling out context.");
     pnlite_g_context->crashType = PNLite_KSCrashTypeMainThreadDeadlock;
     pnlite_g_context->offendingThread = self.mainThread;
     pnlite_g_context->registersAreValid = false;
 
-    BSG_KSLOG_DEBUG(@"Calling main crash handler.");
+    PNLite_KSLOG_DEBUG(@"Calling main crash handler.");
     pnlite_g_context->onCrash();
 
-    BSG_KSLOG_DEBUG(@"Crash handling complete. Restoring original handlers.");
+    PNLite_KSLOG_DEBUG(@"Crash handling complete. Restoring original handlers.");
     bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
 
-    BSG_KSLOG_DEBUG(@"Calling abort()");
+    PNLite_KSLOG_DEBUG(@"Calling abort()");
     abort();
 }
 
@@ -151,28 +151,28 @@ static NSTimeInterval pnlite_g_watchdogInterval = 0;
 
 bool bsg_kscrashsentry_installDeadlockHandler(
     PNLite_KSCrash_SentryContext *context) {
-    BSG_KSLOG_DEBUG(@"Installing deadlock handler.");
+    PNLite_KSLOG_DEBUG(@"Installing deadlock handler.");
     if (pnlite_g_installed) {
-        BSG_KSLOG_DEBUG(@"Deadlock handler already installed.");
+        PNLite_KSLOG_DEBUG(@"Deadlock handler already installed.");
         return true;
     }
     pnlite_g_installed = 1;
 
     pnlite_g_context = context;
 
-    BSG_KSLOG_DEBUG(@"Creating new deadlock monitor.");
+    PNLite_KSLOG_DEBUG(@"Creating new deadlock monitor.");
     pnlite_g_monitor = [[PNLite_KSCrashDeadlockMonitor alloc] init];
     return true;
 }
 
 void bsg_kscrashsentry_uninstallDeadlockHandler(void) {
-    BSG_KSLOG_DEBUG(@"Uninstalling deadlock handler.");
+    PNLite_KSLOG_DEBUG(@"Uninstalling deadlock handler.");
     if (!pnlite_g_installed) {
-        BSG_KSLOG_DEBUG(@"Deadlock handler was already uninstalled.");
+        PNLite_KSLOG_DEBUG(@"Deadlock handler was already uninstalled.");
         return;
     }
 
-    BSG_KSLOG_DEBUG(@"Stopping deadlock monitor.");
+    PNLite_KSLOG_DEBUG(@"Stopping deadlock monitor.");
     [pnlite_g_monitor cancel];
     pnlite_g_monitor = nil;
 

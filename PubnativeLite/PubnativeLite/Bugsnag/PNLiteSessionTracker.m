@@ -22,7 +22,7 @@
 
 #import "PNLiteSessionTracker.h"
 #import "PNLiteSessionFileStore.h"
-#import "BSG_KSLogger.h"
+#import "PNLite_KSLogger.h"
 #import "PNLiteSessionTrackingPayload.h"
 #import "PNLiteSessionTrackingApiClient.h"
 
@@ -47,7 +47,7 @@
         NSString *storePath = [PNLiteFileStore findReportStorePath:@"Sessions"
                                                          bundleName:bundleName];
         if (!storePath) {
-            BSG_KSLOG_ERROR(@"Failed to initialize session store.");
+            PNLite_KSLOG_ERROR(@"Failed to initialize session store.");
         }
         _sessionStore = [PNLiteSessionFileStore storeWithPath:storePath];
     }

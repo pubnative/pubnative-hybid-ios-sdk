@@ -35,7 +35,7 @@
 #include "PNLite_KSZombie.h"
 
 //#define BSG_kSLogger_LocalLevel TRACE
-#include "BSG_KSLogger.h"
+#include "PNLite_KSLogger.h"
 
 #ifdef __arm64__
 #include <sys/_types/_ucontext64.h>
@@ -151,14 +151,14 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
                                     const char *const filePath) {
     const int fd = open(filePath, O_RDONLY);
     if (fd < 0) {
-        BSG_KSLOG_ERROR("Could not open file %s: %s", filePath,
+        PNLite_KSLOG_ERROR("Could not open file %s: %s", filePath,
                         strerror(errno));
         return;
     }
 
     if (bsg_ksjsonbeginStringElement(pnlite_getJsonContext(writer), key) !=
         BSG_KSJSON_OK) {
-        BSG_KSLOG_ERROR("Could not start string element");
+        PNLite_KSLOG_ERROR("Could not start string element");
         goto done;
     }
 
@@ -168,7 +168,7 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
          bytesRead = read(fd, buffer, sizeof(buffer))) {
         if (bsg_ksjsonappendStringElement(pnlite_getJsonContext(writer), buffer,
                                           (size_t)bytesRead) != BSG_KSJSON_OK) {
-            BSG_KSLOG_ERROR("Could not append string element");
+            PNLite_KSLOG_ERROR("Could not append string element");
             goto done;
         }
     }
@@ -263,14 +263,14 @@ void bsg_kscrw_i_addJSONElementFromFile(
     const char *const filePath) {
     const int fd = open(filePath, O_RDONLY);
     if (fd < 0) {
-        BSG_KSLOG_ERROR("Could not open file %s: %s", filePath,
+        PNLite_KSLOG_ERROR("Could not open file %s: %s", filePath,
                         strerror(errno));
         return;
     }
 
     if (bsg_ksjsonbeginElement(pnlite_getJsonContext(writer), key) !=
         BSG_KSJSON_OK) {
-        BSG_KSLOG_ERROR("Could not start JSON element");
+        PNLite_KSLOG_ERROR("Could not start JSON element");
         goto done;
     }
 
@@ -279,7 +279,7 @@ void bsg_kscrw_i_addJSONElementFromFile(
     while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
         if (bsg_ksjsonaddRawJSONData(pnlite_getJsonContext(writer), buffer,
                                      (size_t)bytesRead) != BSG_KSJSON_OK) {
-            BSG_KSLOG_ERROR("Could not append JSON data");
+            PNLite_KSLOG_ERROR("Could not append JSON data");
             goto done;
         }
     }
@@ -387,7 +387,7 @@ PNLite_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
     }
 
     if (!bsg_kscrw_i_fetchMachineState(thread, machineContextBuffer)) {
-        BSG_KSLOG_ERROR("Failed to fetch machine state for thread %d", thread);
+        PNLite_KSLOG_ERROR("Failed to fetch machine state for thread %d", thread);
         return NULL;
     }
 
@@ -490,19 +490,19 @@ void bsg_kscrw_i_logCrashType(
             bsg_ksmachexceptionName(machExceptionType);
         const char *machCodeName =
             machCode == 0 ? NULL : bsg_ksmachkernelReturnCodeName(machCode);
-        BSG_KSLOGBASIC_INFO("App crashed due to mach exception: [%s: %s] at %p",
+        PNLite_KSLOGBASIC_INFO("App crashed due to mach exception: [%s: %s] at %p",
                             machExceptionName, machCodeName,
                             sentryContext->faultAddress);
         break;
     }
     case PNLite_KSCrashTypeCPPException: {
-        BSG_KSLOG_INFO("App crashed due to C++ exception: %s: %s",
+        PNLite_KSLOG_INFO("App crashed due to C++ exception: %s: %s",
                        sentryContext->CPPException.name,
                        sentryContext->crashReason);
         break;
     }
     case PNLite_KSCrashTypeNSException: {
-        BSG_KSLOGBASIC_INFO("App crashed due to NSException: %s: %s",
+        PNLite_KSLOGBASIC_INFO("App crashed due to NSException: %s: %s",
                             sentryContext->NSException.name,
                             sentryContext->crashReason);
         break;
@@ -512,16 +512,16 @@ void bsg_kscrw_i_logCrashType(
         int sigCode = sentryContext->signal.signalInfo->si_code;
         const char *sigName = bsg_kssignal_signalName(sigNum);
         const char *sigCodeName = bsg_kssignal_signalCodeName(sigNum, sigCode);
-        BSG_KSLOGBASIC_INFO("App crashed due to signal: [%s, %s] at %08x",
+        PNLite_KSLOGBASIC_INFO("App crashed due to signal: [%s, %s] at %08x",
                             sigName, sigCodeName, sentryContext->faultAddress);
         break;
     }
     case PNLite_KSCrashTypeMainThreadDeadlock: {
-        BSG_KSLOGBASIC_INFO("Main thread deadlocked");
+        PNLite_KSLOGBASIC_INFO("Main thread deadlocked");
         break;
     }
     case PNLite_KSCrashTypeUserReported: {
-        BSG_KSLOG_INFO("App crashed due to user specified exception: %s",
+        PNLite_KSLOG_INFO("App crashed due to user specified exception: %s",
                        sentryContext->crashReason);
         break;
     }
@@ -555,7 +555,7 @@ void bsg_kscrw_i_logBacktraceEntry(const int entryNum, const uintptr_t address,
         offset = address - (uintptr_t)dlInfo->dli_fbase;
     }
 
-    BSG_KSLOGBASIC_ALWAYS(PNLite_TRACE_FMT, entryNum, fname, address, sname,
+    PNLite_KSLOGBASIC_ALWAYS(PNLite_TRACE_FMT, entryNum, fname, address, sname,
                           offset);
 }
 
@@ -772,7 +772,7 @@ void bsg_kscrw_i_writeUnknownObjectContents(
                 BSG_KSObjCIvar *ivar = &ivars[i];
                 
                 if (ivar->type == NULL) {
-                    BSG_KSLOG_ERROR("Found null ivar :(");
+                    PNLite_KSLOG_ERROR("Found null ivar :(");
                     continue;
                 }
                 
@@ -838,7 +838,7 @@ void bsg_kscrw_i_writeUnknownObjectContents(
                                                     (uintptr_t)pointer, limit);
                     break;
                 default:
-                    BSG_KSLOG_DEBUG("%s: Unknown ivar type [%s]", ivar->name,
+                    PNLite_KSLOG_DEBUG("%s: Unknown ivar type [%s]", ivar->name,
                                     ivar->type);
                 }
             }
@@ -1440,7 +1440,7 @@ void bsg_kscrw_i_writeAllThreads(const PNLite_KSCrashReportWriter *const writer,
     kern_return_t kr;
 
     if ((kr = task_threads(thisTask, &threads, &numThreads)) != KERN_SUCCESS) {
-        BSG_KSLOG_ERROR("task_threads: %s", mach_error_string(kr));
+        PNLite_KSLOG_ERROR("task_threads: %s", mach_error_string(kr));
         return;
     }
 
@@ -1477,7 +1477,7 @@ int bsg_kscrw_i_threadIndex(const thread_t thread) {
     kern_return_t kr;
 
     if ((kr = task_threads(thisTask, &threads, &numThreads)) != KERN_SUCCESS) {
-        BSG_KSLOG_ERROR("task_threads: %s", mach_error_string(kr));
+        PNLite_KSLOG_ERROR("task_threads: %s", mach_error_string(kr));
         return -1;
     }
 
@@ -1937,7 +1937,7 @@ void bsg_kscrw_i_prepareReportWriter(PNLite_KSCrashReportWriter *const writer,
 int bsg_kscrw_i_openCrashReportFile(const char *const path) {
     int fd = open(path, O_RDWR | O_CREAT | O_EXCL, 0644);
     if (fd < 0) {
-        BSG_KSLOG_ERROR("Could not open crash report file %s: %s", path,
+        PNLite_KSLOG_ERROR("Could not open crash report file %s: %s", path,
                         strerror(errno));
     }
     return fd;
@@ -1952,7 +1952,7 @@ void bsg_kscrw_i_updateStackOverflowStatus(
     // TODO: This feels weird. Shouldn't be mutating the context.
     if (bsg_kscrw_i_isStackOverflow(&crashContext->crash,
                                     crashContext->crash.offendingThread)) {
-        BSG_KSLOG_TRACE("Stack overflow detected.");
+        PNLite_KSLOG_TRACE("Stack overflow detected.");
         crashContext->crash.isStackOverflow = true;
     }
 }
@@ -1968,7 +1968,7 @@ void bsg_kscrw_i_callUserCrashHandler(PNLite_KSCrash_Context *const crashContext
 
 void bsg_kscrashreport_writeMinimalReport(
     PNLite_KSCrash_Context *const crashContext, const char *const path) {
-    BSG_KSLOG_INFO("Writing minimal crash report to %s", path);
+    PNLite_KSLOG_INFO("Writing minimal crash report to %s", path);
 
     int fd = bsg_kscrw_i_openCrashReportFile(path);
     if (fd < 0) {
@@ -2015,7 +2015,7 @@ void bsg_kscrashreport_writeMinimalReport(
 
 void bsg_kscrashreport_writeStandardReport(
     PNLite_KSCrash_Context *const crashContext, const char *const path) {
-    BSG_KSLOG_INFO("Writing crash report to %s", path);
+    PNLite_KSLOG_INFO("Writing crash report to %s", path);
 
     int fd = bsg_kscrw_i_openCrashReportFile(path);
     if (fd < 0) {
@@ -2097,7 +2097,7 @@ void bsg_kscrashreport_writeStandardReport(
     bsg_ksjsonendEncode(pnlite_getJsonContext(writer));
 
     if (!bsg_ksfuflushWriteBuffer(fd)) {
-        BSG_KSLOG_ERROR("Failed to flush write buffer");
+        PNLite_KSLOG_ERROR("Failed to flush write buffer");
     }
     close(fd);
 }

@@ -24,8 +24,8 @@
 #import "PNLite_KSCrashSentry_Private.h"
 #include "BSG_KSMach.h"
 
-//#define BSG_KSLogger_LocalLevel TRACE
-#import "BSG_KSLogger.h"
+//#define PNLite_KSLogger_LocalLevel TRACE
+#import "PNLite_KSLogger.h"
 
 // ============================================================================
 #pragma mark - Globals -
@@ -55,25 +55,25 @@ static PNLite_KSCrash_SentryContext *pnlite_g_context;
  * @param exception The exception that was raised.
  */
 void bsg_ksnsexc_i_handleException(NSException *exception) {
-    BSG_KSLOG_DEBUG(@"Trapped exception %@", exception);
+    PNLite_KSLOG_DEBUG(@"Trapped exception %@", exception);
     if (pnlite_g_installed) {
         bool wasHandlingCrash = pnlite_g_context->handlingCrash;
         bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
-        BSG_KSLOG_DEBUG(
+        PNLite_KSLOG_DEBUG(
             @"Exception handler is installed. Continuing exception handling.");
 
         if (wasHandlingCrash) {
-            BSG_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
+            PNLite_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
                            @"original handlers.");
             pnlite_g_context->crashedDuringCrashHandling = true;
             bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
         }
 
-        BSG_KSLOG_DEBUG(@"Suspending all threads.");
+        PNLite_KSLOG_DEBUG(@"Suspending all threads.");
         bsg_kscrashsentry_suspendThreads();
 
-        BSG_KSLOG_DEBUG(@"Filling out context.");
+        PNLite_KSLOG_DEBUG(@"Filling out context.");
         NSArray *addresses = [exception callStackReturnAddresses];
         NSUInteger numFrames = [addresses count];
         uintptr_t *callstack = malloc(numFrames * sizeof(*callstack));
@@ -89,15 +89,15 @@ void bsg_ksnsexc_i_handleException(NSException *exception) {
         pnlite_g_context->stackTrace = callstack;
         pnlite_g_context->stackTraceLength = (int)numFrames;
 
-        BSG_KSLOG_DEBUG(@"Calling main crash handler.");
+        PNLite_KSLOG_DEBUG(@"Calling main crash handler.");
         pnlite_g_context->onCrash();
 
-        BSG_KSLOG_DEBUG(
+        PNLite_KSLOG_DEBUG(
             @"Crash handling complete. Restoring original handlers.");
         bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
 
         if (pnlite_g_previousUncaughtExceptionHandler != NULL) {
-            BSG_KSLOG_DEBUG(@"Calling original exception handler.");
+            PNLite_KSLOG_DEBUG(@"Calling original exception handler.");
             pnlite_g_previousUncaughtExceptionHandler(exception);
         }
     }
@@ -109,32 +109,32 @@ void bsg_ksnsexc_i_handleException(NSException *exception) {
 
 bool bsg_kscrashsentry_installNSExceptionHandler(
     PNLite_KSCrash_SentryContext *const context) {
-    BSG_KSLOG_DEBUG(@"Installing NSException handler.");
+    PNLite_KSLOG_DEBUG(@"Installing NSException handler.");
     if (pnlite_g_installed) {
-        BSG_KSLOG_DEBUG(@"NSException handler already installed.");
+        PNLite_KSLOG_DEBUG(@"NSException handler already installed.");
         return true;
     }
     pnlite_g_installed = 1;
 
     pnlite_g_context = context;
 
-    BSG_KSLOG_DEBUG(@"Backing up original handler.");
+    PNLite_KSLOG_DEBUG(@"Backing up original handler.");
     pnlite_g_previousUncaughtExceptionHandler = NSGetUncaughtExceptionHandler();
 
-    BSG_KSLOG_DEBUG(@"Setting new handler.");
+    PNLite_KSLOG_DEBUG(@"Setting new handler.");
     NSSetUncaughtExceptionHandler(&bsg_ksnsexc_i_handleException);
 
     return true;
 }
 
 void bsg_kscrashsentry_uninstallNSExceptionHandler(void) {
-    BSG_KSLOG_DEBUG(@"Uninstalling NSException handler.");
+    PNLite_KSLOG_DEBUG(@"Uninstalling NSException handler.");
     if (!pnlite_g_installed) {
-        BSG_KSLOG_DEBUG(@"NSException handler was already uninstalled.");
+        PNLite_KSLOG_DEBUG(@"NSException handler was already uninstalled.");
         return;
     }
 
-    BSG_KSLOG_DEBUG(@"Restoring original handler.");
+    PNLite_KSLOG_DEBUG(@"Restoring original handler.");
     NSSetUncaughtExceptionHandler(pnlite_g_previousUncaughtExceptionHandler);
     pnlite_g_installed = 0;
 }
