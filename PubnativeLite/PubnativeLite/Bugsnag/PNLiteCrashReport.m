@@ -26,7 +26,7 @@
 #include <sys/utsname.h>
 #endif
 
-#import "BSGSerialization.h"
+#import "PNLiteSerialization.h"
 #import "PNLiteCrashTracker.h"
 #import "PNLiteCollections.h"
 #import "PNLiteHandledState.h"

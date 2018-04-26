@@ -318,7 +318,7 @@
 		5A8F10BD2089E4D20098E337 /* PNLiteCrashLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10322089E4D20098E337 /* PNLiteCrashLogger.h */; };
 		5A8F10BE2089E4D20098E337 /* PNLiteMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10332089E4D20098E337 /* PNLiteMetaData.m */; };
 		5A8F10BF2089E4D20098E337 /* PNLiteFileStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10342089E4D20098E337 /* PNLiteFileStore.h */; };
-		5A8F10C02089E4D20098E337 /* BSGSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10352089E4D20098E337 /* BSGSerialization.h */; };
+		5A8F10C02089E4D20098E337 /* PNLiteSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10352089E4D20098E337 /* PNLiteSerialization.h */; };
 		5A8F10C12089E4D20098E337 /* PNLiteBreadcrumb.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10362089E4D20098E337 /* PNLiteBreadcrumb.h */; };
 		5A8F10C22089E4D20098E337 /* PNLiteHandledState.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10372089E4D20098E337 /* PNLiteHandledState.m */; };
 		5A8F10C32089E4D20098E337 /* PNLite_KSCrashReportWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10382089E4D20098E337 /* PNLite_KSCrashReportWriter.h */; };
@@ -332,7 +332,7 @@
 		5A8F10CC2089E4D20098E337 /* PNLite_KSSysCtl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10482089E4D20098E337 /* PNLite_KSSysCtl.h */; };
 		5A8F10CD2089E4D20098E337 /* PNLite_KSSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10492089E4D20098E337 /* PNLite_KSSingleton.h */; };
 		5A8F10CE2089E4D20098E337 /* PNLite_KSDynamicLinker.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F104A2089E4D20098E337 /* PNLite_KSDynamicLinker.c */; };
-		5A8F10CF2089E4D20098E337 /* BSG_KSMach_Arm.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F104B2089E4D20098E337 /* BSG_KSMach_Arm.c */; };
+		5A8F10CF2089E4D20098E337 /* PNLite_KSMach_Arm.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F104B2089E4D20098E337 /* PNLite_KSMach_Arm.c */; };
 		5A8F10D02089E4D20098E337 /* PNLite_KSJSONCodecObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F104C2089E4D20098E337 /* PNLite_KSJSONCodecObjC.m */; };
 		5A8F10D12089E4D20098E337 /* NSDictionary+PNLite_Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F104D2089E4D20098E337 /* NSDictionary+PNLite_Merge.m */; };
 		5A8F10D22089E4D20098E337 /* PNLite_KSFileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F104E2089E4D20098E337 /* PNLite_KSFileUtils.h */; };
@@ -417,7 +417,7 @@
 		5A8F11222089E4D20098E337 /* PNLiteNotifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F109F2089E4D20098E337 /* PNLiteNotifier.h */; };
 		5A8F11232089E4D20098E337 /* PNLiteCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10A02089E4D20098E337 /* PNLiteCollections.m */; };
 		5A8F11242089E4D20098E337 /* PNLiteSink.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10A12089E4D20098E337 /* PNLiteSink.h */; };
-		5A8F11252089E4D20098E337 /* BSGSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10A22089E4D20098E337 /* BSGSerialization.m */; };
+		5A8F11252089E4D20098E337 /* PNLiteSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10A22089E4D20098E337 /* PNLiteSerialization.m */; };
 		5A8F11262089E4D20098E337 /* PNLiteFileStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10A32089E4D20098E337 /* PNLiteFileStore.m */; };
 		5A8F11272089E4D20098E337 /* PNLiteMetaData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10A42089E4D20098E337 /* PNLiteMetaData.h */; };
 		5A8F11282089E4D20098E337 /* PNLiteSessionTrackingPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10A52089E4D20098E337 /* PNLiteSessionTrackingPayload.h */; };
@@ -1059,7 +1059,7 @@
 		5A8F10322089E4D20098E337 /* PNLiteCrashLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteCrashLogger.h; sourceTree = "<group>"; };
 		5A8F10332089E4D20098E337 /* PNLiteMetaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMetaData.m; sourceTree = "<group>"; };
 		5A8F10342089E4D20098E337 /* PNLiteFileStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteFileStore.h; sourceTree = "<group>"; };
-		5A8F10352089E4D20098E337 /* BSGSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSGSerialization.h; sourceTree = "<group>"; };
+		5A8F10352089E4D20098E337 /* PNLiteSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteSerialization.h; sourceTree = "<group>"; };
 		5A8F10362089E4D20098E337 /* PNLiteBreadcrumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteBreadcrumb.h; sourceTree = "<group>"; };
 		5A8F10372089E4D20098E337 /* PNLiteHandledState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteHandledState.m; sourceTree = "<group>"; };
 		5A8F10382089E4D20098E337 /* PNLite_KSCrashReportWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSCrashReportWriter.h; sourceTree = "<group>"; };
@@ -1073,7 +1073,7 @@
 		5A8F10482089E4D20098E337 /* PNLite_KSSysCtl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSSysCtl.h; sourceTree = "<group>"; };
 		5A8F10492089E4D20098E337 /* PNLite_KSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSSingleton.h; sourceTree = "<group>"; };
 		5A8F104A2089E4D20098E337 /* PNLite_KSDynamicLinker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PNLite_KSDynamicLinker.c; sourceTree = "<group>"; };
-		5A8F104B2089E4D20098E337 /* BSG_KSMach_Arm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSMach_Arm.c; sourceTree = "<group>"; };
+		5A8F104B2089E4D20098E337 /* PNLite_KSMach_Arm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PNLite_KSMach_Arm.c; sourceTree = "<group>"; };
 		5A8F104C2089E4D20098E337 /* PNLite_KSJSONCodecObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLite_KSJSONCodecObjC.m; sourceTree = "<group>"; };
 		5A8F104D2089E4D20098E337 /* NSDictionary+PNLite_Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PNLite_Merge.m"; sourceTree = "<group>"; };
 		5A8F104E2089E4D20098E337 /* PNLite_KSFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSFileUtils.h; sourceTree = "<group>"; };
@@ -1158,7 +1158,7 @@
 		5A8F109F2089E4D20098E337 /* PNLiteNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteNotifier.h; sourceTree = "<group>"; };
 		5A8F10A02089E4D20098E337 /* PNLiteCollections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteCollections.m; sourceTree = "<group>"; };
 		5A8F10A12089E4D20098E337 /* PNLiteSink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteSink.h; sourceTree = "<group>"; };
-		5A8F10A22089E4D20098E337 /* BSGSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSGSerialization.m; sourceTree = "<group>"; };
+		5A8F10A22089E4D20098E337 /* PNLiteSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteSerialization.m; sourceTree = "<group>"; };
 		5A8F10A32089E4D20098E337 /* PNLiteFileStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteFileStore.m; sourceTree = "<group>"; };
 		5A8F10A42089E4D20098E337 /* PNLiteMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMetaData.h; sourceTree = "<group>"; };
 		5A8F10A52089E4D20098E337 /* PNLiteSessionTrackingPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteSessionTrackingPayload.h; sourceTree = "<group>"; };
@@ -2222,8 +2222,8 @@
 				5A8F10332089E4D20098E337 /* PNLiteMetaData.m */,
 				5A8F10342089E4D20098E337 /* PNLiteFileStore.h */,
 				5A8F10A32089E4D20098E337 /* PNLiteFileStore.m */,
-				5A8F10352089E4D20098E337 /* BSGSerialization.h */,
-				5A8F10A22089E4D20098E337 /* BSGSerialization.m */,
+				5A8F10352089E4D20098E337 /* PNLiteSerialization.h */,
+				5A8F10A22089E4D20098E337 /* PNLiteSerialization.m */,
 				5A8F10362089E4D20098E337 /* PNLiteBreadcrumb.h */,
 				5A8F10AB2089E4D20098E337 /* PNLiteBreadcrumb.m */,
 				5A8F10AA2089E4D20098E337 /* PNLiteHandledState.h */,
@@ -2320,7 +2320,7 @@
 				5A8F10492089E4D20098E337 /* PNLite_KSSingleton.h */,
 				5A8F10612089E4D20098E337 /* PNLite_KSDynamicLinker.h */,
 				5A8F104A2089E4D20098E337 /* PNLite_KSDynamicLinker.c */,
-				5A8F104B2089E4D20098E337 /* BSG_KSMach_Arm.c */,
+				5A8F104B2089E4D20098E337 /* PNLite_KSMach_Arm.c */,
 				5A8F10602089E4D20098E337 /* PNLite_KSJSONCodecObjC.h */,
 				5A8F104C2089E4D20098E337 /* PNLite_KSJSONCodecObjC.m */,
 				5A8F105E2089E4D20098E337 /* NSDictionary+PNLite_Merge.h */,
@@ -2601,7 +2601,7 @@
 				5A8F11082089E4D20098E337 /* PNLite_KSCrashSentry_Private.h in Headers */,
 				5ACC74E9203595250001CDC3 /* PNLiteMRAIDUtil.h in Headers */,
 				5ADACD0F202C848000617734 /* PNLiteAdModel.h in Headers */,
-				5A8F10C02089E4D20098E337 /* BSGSerialization.h in Headers */,
+				5A8F10C02089E4D20098E337 /* PNLiteSerialization.h in Headers */,
 				5A8F111A2089E4D20098E337 /* PNLiteKSCrashSysInfoParser.h in Headers */,
 				5A8F111C2089E4D20098E337 /* PNLiteUser.h in Headers */,
 				5AA3D5F12031CA96002BFDA3 /* PNLiteReachability.h in Headers */,
@@ -3063,7 +3063,7 @@
 				5ADACD0B202C6AC400617734 /* PNLiteDataModel.m in Sources */,
 				5A20DBDC203B081400EF2B3C /* PNLiteBannerAdRequest.m in Sources */,
 				5A52BFE02034580A00C4B7C5 /* PNLiteLogger.m in Sources */,
-				5A8F11252089E4D20098E337 /* BSGSerialization.m in Sources */,
+				5A8F11252089E4D20098E337 /* PNLiteSerialization.m in Sources */,
 				5AA3D5EE2031B903002BFDA3 /* PNLiteAdRequest.m in Sources */,
 				5A8F112A2089E4D20098E337 /* PNLiteCrashReport.m in Sources */,
 				5A8F10B72089E4D20098E337 /* PNLiteCrashTracker.m in Sources */,
@@ -3144,7 +3144,7 @@
 				5A8F11162089E4D20098E337 /* PNLite_KSCrashReport.c in Sources */,
 				5A8F10AF2089E4D20098E337 /* PNLiteUser.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
-				5A8F10CF2089E4D20098E337 /* BSG_KSMach_Arm.c in Sources */,
+				5A8F10CF2089E4D20098E337 /* PNLite_KSMach_Arm.c in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 				5A8F10B02089E4D20098E337 /* PNLiteKSCrashSysInfoParser.m in Sources */,

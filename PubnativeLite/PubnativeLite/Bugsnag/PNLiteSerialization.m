@@ -1,4 +1,4 @@
-#import "BSGSerialization.h"
+#import "PNLiteSerialization.h"
 
 BOOL BSGIsSanitizedType(id obj) {
     static dispatch_once_t onceToken;

@@ -1,5 +1,5 @@
-#ifndef BugsnagJSONSerializable_h
-#define BugsnagJSONSerializable_h
+#ifndef PNLiteJSONSerializable_h
+#define PNLiteJSONSerializable_h
 
 #import <Foundation/Foundation.h>
 

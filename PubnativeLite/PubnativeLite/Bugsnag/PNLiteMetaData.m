@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteMetaData.h"
-#import "BSGSerialization.h"
+#import "PNLiteSerialization.h"
 #import "PNLiteCrashLogger.h"
 
 @interface PNLiteMetaData ()
