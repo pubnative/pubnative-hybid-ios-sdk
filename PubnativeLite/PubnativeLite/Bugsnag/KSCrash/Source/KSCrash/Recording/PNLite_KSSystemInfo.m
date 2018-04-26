@@ -26,7 +26,7 @@
 #import "BSG_KSJSONCodecObjC.h"
 #import "BSG_KSMach.h"
 #import "PNLite_KSSafeCollections.h"
-#import "BSG_KSSysCtl.h"
+#import "PNLite_KSSysCtl.h"
 #import "PNLite_KSSystemCapabilities.h"
 #import "PNLiteKeys.h"
 #import "BSG_KSLogger.h"
