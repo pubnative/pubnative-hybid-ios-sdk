@@ -26,7 +26,7 @@
 #include "PNLite_KSCrashReportFields.h"
 #include "PNLite_KSCrashReportVersion.h"
 #include "PNLite_KSDynamicLinker.h"
-#include "BSG_KSFileUtils.h"
+#include "PNLite_KSFileUtils.h"
 #include "BSG_KSJSONCodec.h"
 #include "BSG_KSMach.h"
 #include "BSG_KSObjC.h"
