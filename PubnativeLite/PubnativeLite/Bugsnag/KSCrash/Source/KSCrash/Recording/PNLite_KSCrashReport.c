@@ -27,7 +27,7 @@
 #include "PNLite_KSCrashReportVersion.h"
 #include "PNLite_KSDynamicLinker.h"
 #include "PNLite_KSFileUtils.h"
-#include "BSG_KSJSONCodec.h"
+#include "PNLite_KSJSONCodec.h"
 #include "BSG_KSMach.h"
 #include "BSG_KSObjC.h"
 #include "PNLite_KSSignalInfo.h"
@@ -101,7 +101,7 @@ typedef ucontext_t SignalUserContext;
 // ============================================================================
 
 #define pnlite_getJsonContext(REPORT_WRITER)                                      \
-    ((BSG_KSJSONEncodeContext *)((REPORT_WRITER)->context))
+    ((PNLite_KSJSONEncodeContext *)((REPORT_WRITER)->context))
 
 /** Used for writing hex string values. */
 static const char pnlite_g_hexNybbles[] = {'0', '1', '2', '3', '4', '5', '6', '7',
@@ -143,7 +143,7 @@ void bsg_kscrw_i_addStringElement(const PNLite_KSCrashReportWriter *const writer
                                   const char *const key,
                                   const char *const value) {
     bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer), key, value,
-                               BSG_KSJSON_SIZE_AUTOMATIC);
+                               PNLite_KSJSON_SIZE_AUTOMATIC);
 }
 
 void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writer,
@@ -157,7 +157,7 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
     }
 
     if (bsg_ksjsonbeginStringElement(pnlite_getJsonContext(writer), key) !=
-        BSG_KSJSON_OK) {
+        PNLite_KSJSON_OK) {
         PNLite_KSLOG_ERROR("Could not start string element");
         goto done;
     }
@@ -167,7 +167,7 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
     for (bytesRead = read(fd, buffer, sizeof(buffer)); bytesRead > 0;
          bytesRead = read(fd, buffer, sizeof(buffer))) {
         if (bsg_ksjsonappendStringElement(pnlite_getJsonContext(writer), buffer,
-                                          (size_t)bytesRead) != BSG_KSJSON_OK) {
+                                          (size_t)bytesRead) != PNLite_KSJSON_OK) {
             PNLite_KSLOG_ERROR("Could not append string element");
             goto done;
         }
@@ -243,17 +243,17 @@ void bsg_kscrw_i_addJSONElement(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const jsonElement) {
     int jsonResult = bsg_ksjsonaddJSONElement(pnlite_getJsonContext(writer), key,
                                               jsonElement, strlen(jsonElement));
-    if (jsonResult != BSG_KSJSON_OK) {
+    if (jsonResult != PNLite_KSJSON_OK) {
         char errorBuff[100];
         snprintf(errorBuff, sizeof(errorBuff), "Invalid JSON data: %s",
-                 bsg_ksjsonstringForError(jsonResult));
+                 pnlite_ksjsonstringForError(jsonResult));
         bsg_ksjsonbeginObject(pnlite_getJsonContext(writer), key);
         bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer),
                                    PNLite_KSCrashField_Error, errorBuff,
-                                   BSG_KSJSON_SIZE_AUTOMATIC);
+                                   PNLite_KSJSON_SIZE_AUTOMATIC);
         bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer),
                                    PNLite_KSCrashField_JSONData, jsonElement,
-                                   BSG_KSJSON_SIZE_AUTOMATIC);
+                                   PNLite_KSJSON_SIZE_AUTOMATIC);
         bsg_ksjsonendContainer(pnlite_getJsonContext(writer));
     }
 }
@@ -269,7 +269,7 @@ void bsg_kscrw_i_addJSONElementFromFile(
     }
 
     if (bsg_ksjsonbeginElement(pnlite_getJsonContext(writer), key) !=
-        BSG_KSJSON_OK) {
+        PNLite_KSJSON_OK) {
         PNLite_KSLOG_ERROR("Could not start JSON element");
         goto done;
     }
@@ -278,7 +278,7 @@ void bsg_kscrw_i_addJSONElementFromFile(
     ssize_t bytesRead;
     while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
         if (bsg_ksjsonaddRawJSONData(pnlite_getJsonContext(writer), buffer,
-                                     (size_t)bytesRead) != BSG_KSJSON_OK) {
+                                     (size_t)bytesRead) != PNLite_KSJSON_OK) {
             PNLite_KSLOG_ERROR("Could not append JSON data");
             goto done;
         }
@@ -306,7 +306,7 @@ int bsg_kscrw_i_addJSONData(const char *const data, const size_t length,
                             void *const userData) {
     const int fd = *((int *)userData);
     const bool success = bsg_ksfuwriteBytesToFD(fd, data, (ssize_t)length);
-    return success ? BSG_KSJSON_OK : BSG_KSJSON_ERROR_CANNOT_ADD_DATA;
+    return success ? PNLite_KSJSON_OK : PNLite_KSJSON_ERROR_CANNOT_ADD_DATA;
 }
 
 // ============================================================================
@@ -1908,7 +1908,7 @@ void bsg_kscrw_i_writeReportInfo(const PNLite_KSCrashReportWriter *const writer,
  * @param context JSON writer contextual information.
  */
 void bsg_kscrw_i_prepareReportWriter(PNLite_KSCrashReportWriter *const writer,
-                                     BSG_KSJSONEncodeContext *const context) {
+                                     PNLite_KSJSONEncodeContext *const context) {
     writer->addBooleanElement = bsg_kscrw_i_addBooleanElement;
     writer->addFloatingPointElement = bsg_kscrw_i_addFloatingPointElement;
     writer->addIntegerElement = bsg_kscrw_i_addIntegerElement;
@@ -1979,7 +1979,7 @@ void bsg_kscrashreport_writeMinimalReport(
 
     bsg_kscrw_i_updateStackOverflowStatus(crashContext);
 
-    BSG_KSJSONEncodeContext jsonContext;
+    PNLite_KSJSONEncodeContext jsonContext;
     jsonContext.userData = &fd;
     PNLite_KSCrashReportWriter concreteWriter;
     PNLite_KSCrashReportWriter *writer = &concreteWriter;
@@ -2026,7 +2026,7 @@ void bsg_kscrashreport_writeStandardReport(
 
     bsg_kscrw_i_updateStackOverflowStatus(crashContext);
 
-    BSG_KSJSONEncodeContext jsonContext;
+    PNLite_KSJSONEncodeContext jsonContext;
     jsonContext.userData = &fd;
     PNLite_KSCrashReportWriter concreteWriter;
     PNLite_KSCrashReportWriter *writer = &concreteWriter;

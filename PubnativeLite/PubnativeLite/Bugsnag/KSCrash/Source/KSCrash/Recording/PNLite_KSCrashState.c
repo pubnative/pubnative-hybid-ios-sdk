@@ -23,7 +23,7 @@
 #include "PNLite_KSCrashState.h"
 
 #include "PNLite_KSFileUtils.h"
-#include "BSG_KSJSONCodec.h"
+#include "PNLite_KSJSONCodec.h"
 #include "BSG_KSMach.h"
 
 //#define PNLite_KSLogger_LocalLevel TRACE
@@ -75,7 +75,7 @@ int bsg_kscrashstate_i_onBooleanElement(const char *const name,
         state->crashedLastLaunch = value;
     }
 
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 int bsg_kscrashstate_i_onFloatingPointElement(const char *const name,
@@ -90,7 +90,7 @@ int bsg_kscrashstate_i_onFloatingPointElement(const char *const name,
         state->backgroundDurationSinceLastCrash = value;
     }
 
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 int bsg_kscrashstate_i_onIntegerElement(const char *const name,
@@ -101,7 +101,7 @@ int bsg_kscrashstate_i_onIntegerElement(const char *const name,
     if (strcmp(name, PNLite_kKeyFormatVersion) == 0) {
         if (value != PNLite_kFormatVersion) {
             PNLite_KSLOG_ERROR("Expected version 1 but got %lld", value);
-            return BSG_KSJSON_ERROR_INVALID_DATA;
+            return PNLite_KSJSON_ERROR_INVALID_DATA;
         }
     } else if (strcmp(name, PNLite_kKeyLaunchesSinceLastCrash) == 0) {
         state->launchesSinceLastCrash = (int)value;
@@ -115,31 +115,31 @@ int bsg_kscrashstate_i_onIntegerElement(const char *const name,
 
 int bsg_kscrashstate_i_onNullElement(__unused const char *const name,
                                      __unused void *const userData) {
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 int bsg_kscrashstate_i_onStringElement(__unused const char *const name,
                                        __unused const char *const value,
                                        __unused void *const userData) {
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 int bsg_kscrashstate_i_onBeginObject(__unused const char *const name,
                                      __unused void *const userData) {
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 int bsg_kscrashstate_i_onBeginArray(__unused const char *const name,
                                     __unused void *const userData) {
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 int bsg_kscrashstate_i_onEndContainer(__unused void *const userData) {
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 int bsg_kscrashstate_i_onEndData(__unused void *const userData) {
-    return BSG_KSJSON_OK;
+    return PNLite_KSJSON_OK;
 }
 
 /** Callback for adding JSON data.
@@ -148,7 +148,7 @@ int bsg_kscrashstate_i_addJSONData(const char *const data, const size_t length,
                                    void *const userData) {
     const int fd = *((int *)userData);
     const bool success = bsg_ksfuwriteBytesToFD(fd, data, (ssize_t)length);
-    return success ? BSG_KSJSON_OK : BSG_KSJSON_ERROR_CANNOT_ADD_DATA;
+    return success ? PNLite_KSJSON_OK : PNLite_KSJSON_ERROR_CANNOT_ADD_DATA;
 }
 
 // ============================================================================
@@ -180,7 +180,7 @@ bool bsg_kscrashstate_i_loadState(PNLite_KSCrash_State *const context,
         return false;
     }
 
-    BSG_KSJSONDecodeCallbacks callbacks;
+    PNLite_KSJSONDecodeCallbacks callbacks;
     callbacks.onBeginArray = bsg_kscrashstate_i_onBeginArray;
     callbacks.onBeginObject = bsg_kscrashstate_i_onBeginObject;
     callbacks.onBooleanElement = bsg_kscrashstate_i_onBooleanElement;
@@ -197,9 +197,9 @@ bool bsg_kscrashstate_i_loadState(PNLite_KSCrash_State *const context,
     const int result =
         bsg_ksjsondecode(data, length, &callbacks, context, &errorOffset);
     free(data);
-    if (result != BSG_KSJSON_OK) {
+    if (result != PNLite_KSJSON_OK) {
         PNLite_KSLOG_ERROR("%s, offset %d: %s", path, errorOffset,
-                        bsg_ksjsonstringForError(result));
+                        pnlite_ksjsonstringForError(result));
         return false;
     }
     return true;
@@ -222,43 +222,43 @@ bool bsg_kscrashstate_i_saveState(const PNLite_KSCrash_State *const state,
         return false;
     }
 
-    BSG_KSJSONEncodeContext JSONContext;
+    PNLite_KSJSONEncodeContext JSONContext;
     bsg_ksjsonbeginEncode(&JSONContext, true, bsg_kscrashstate_i_addJSONData,
                           &fd);
 
     int result;
-    if ((result = bsg_ksjsonbeginObject(&JSONContext, NULL)) != BSG_KSJSON_OK) {
+    if ((result = bsg_ksjsonbeginObject(&JSONContext, NULL)) != PNLite_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddIntegerElement(
              &JSONContext, PNLite_kKeyFormatVersion, PNLite_kFormatVersion)) !=
-        BSG_KSJSON_OK) {
+        PNLite_KSJSON_OK) {
         goto done;
     }
     // Record this launch crashed state into "crashed last launch" field.
     if ((result = bsg_ksjsonaddBooleanElement(
              &JSONContext, PNLite_kKeyCrashedLastLaunch,
-             state->crashedThisLaunch)) != BSG_KSJSON_OK) {
+             state->crashedThisLaunch)) != PNLite_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddFloatingPointElement(
              &JSONContext, PNLite_kKeyActiveDurationSinceLastCrash,
-             state->activeDurationSinceLastCrash)) != BSG_KSJSON_OK) {
+             state->activeDurationSinceLastCrash)) != PNLite_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddFloatingPointElement(
              &JSONContext, PNLite_kKeyBackgroundDurationSinceLastCrash,
-             state->backgroundDurationSinceLastCrash)) != BSG_KSJSON_OK) {
+             state->backgroundDurationSinceLastCrash)) != PNLite_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddIntegerElement(
              &JSONContext, PNLite_kKeyLaunchesSinceLastCrash,
-             state->launchesSinceLastCrash)) != BSG_KSJSON_OK) {
+             state->launchesSinceLastCrash)) != PNLite_KSJSON_OK) {
         goto done;
     }
     if ((result = bsg_ksjsonaddIntegerElement(
              &JSONContext, PNLite_kKeySessionsSinceLastCrash,
-             state->sessionsSinceLastCrash)) != BSG_KSJSON_OK) {
+             state->sessionsSinceLastCrash)) != PNLite_KSJSON_OK) {
         goto done;
     }
     result = bsg_ksjsonendEncode(&JSONContext);
@@ -269,8 +269,8 @@ bool bsg_kscrashstate_i_saveState(const PNLite_KSCrash_State *const state,
 done:
     close(fd);
 
-    if (result != BSG_KSJSON_OK) {
-        PNLite_KSLOG_ERROR("%s: %s", path, bsg_ksjsonstringForError(result));
+    if (result != PNLite_KSJSON_OK) {
+        PNLite_KSLOG_ERROR("%s: %s", path, pnlite_ksjsonstringForError(result));
         return false;
     }
     return true;

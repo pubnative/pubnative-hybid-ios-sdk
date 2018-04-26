@@ -1,34 +1,30 @@
 //
-// BSG_KSJSONCodec.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-01-07.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 /* Reads and writes JSON encoded data.
  */
 
-#ifndef HDR_BSG_KSJSONCodec_h
-#define HDR_BSG_KSJSONCodec_h
+#ifndef HDR_PNLite_KSJSONCodec_h
+#define HDR_PNLite_KSJSONCodec_h
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,30 +37,30 @@ extern "C" {
 /* Tells the encoder to automatically determine the length of a field value.
  * Currently, this is done using strlen().
  */
-#define BSG_KSJSON_SIZE_AUTOMATIC ((size_t)~0)
+#define PNLite_KSJSON_SIZE_AUTOMATIC ((size_t)~0)
 
 enum {
     /** Encoding or decoding: Everything completed without error */
-    BSG_KSJSON_OK = 0,
+    PNLite_KSJSON_OK = 0,
 
     /** Encoding or decoding: Encountered an unexpected or invalid character */
-    BSG_KSJSON_ERROR_INVALID_CHARACTER = 1,
+    PNLite_KSJSON_ERROR_INVALID_CHARACTER = 1,
 
     /** Encoding: addJSONData could not handle the data.
      * This code is not used by the decoder, but is meant to be returned by
      * the addJSONData callback method if it couldn't handle the data.
      */
-    BSG_KSJSON_ERROR_CANNOT_ADD_DATA = 2,
+    PNLite_KSJSON_ERROR_CANNOT_ADD_DATA = 2,
 
     /** Decoding: Source data appears to be truncated. */
-    BSG_KSJSON_ERROR_INCOMPLETE = 3,
+    PNLite_KSJSON_ERROR_INCOMPLETE = 3,
 
     /** Decoding: Parsing failed due to bad data structure/type/contents.
      * This code is not used by the decoder, but is meant to be returned
      * by the user callback methods if the decoded data is incorrect for
      * semantic or structural reasons.
      */
-    BSG_KSJSON_ERROR_INVALID_DATA = 4,
+    PNLite_KSJSON_ERROR_INVALID_DATA = 4,
 };
 
 /** Get a description for an error code.
@@ -73,7 +69,7 @@ enum {
  *
  * @return A string describing the error.
  */
-const char *bsg_ksjsonstringForError(const int error);
+const char *pnlite_ksjsonstringForError(const int error);
 
 // ============================================================================
 // Encode
@@ -87,15 +83,15 @@ const char *bsg_ksjsonstringForError(const int error);
  *
  * @param userData user-specified contextual data.
  *
- * @return BSG_KSJSON_OK if the data was handled.
- *         otherwise BSG_KSJSON_ERROR_CANNOT_ADD_DATA.
+ * @return PNLite_KSJSON_OK if the data was handled.
+ *         otherwise PNLite_KSJSON_ERROR_CANNOT_ADD_DATA.
  */
-typedef int (*BSG_KSJSONAddDataFunc)(const char *data, size_t length,
+typedef int (*PNLite_KSJSONAddDataFunc)(const char *data, size_t length,
                                      void *userData);
 
 typedef struct {
     /** Function to call to add more encoded JSON data. */
-    BSG_KSJSONAddDataFunc addJSONData;
+    PNLite_KSJSONAddDataFunc addJSONData;
 
     /** User-specified data */
     void *userData;
@@ -111,7 +107,7 @@ typedef struct {
 
     bool prettyPrint;
 
-} BSG_KSJSONEncodeContext;
+} PNLite_KSJSONEncodeContext;
 
 /** Begin a new encoding process.
  *
@@ -123,14 +119,14 @@ typedef struct {
  *
  * @param userData User-specified data which gets passed to addJSONData.
  */
-void bsg_ksjsonbeginEncode(BSG_KSJSONEncodeContext *context, bool prettyPrint,
-                           BSG_KSJSONAddDataFunc addJSONData, void *userData);
+void bsg_ksjsonbeginEncode(PNLite_KSJSONEncodeContext *context, bool prettyPrint,
+                           PNLite_KSJSONAddDataFunc addJSONData, void *userData);
 
 /** End the encoding process, ending any remaining open containers.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendEncode(BSG_KSJSONEncodeContext *context);
+int bsg_ksjsonendEncode(PNLite_KSJSONEncodeContext *context);
 
 /** Add a boolean element.
  *
@@ -140,9 +136,9 @@ int bsg_ksjsonendEncode(BSG_KSJSONEncodeContext *context);
  *
  * @param value The element's value.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddBooleanElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonaddBooleanElement(PNLite_KSJSONEncodeContext *context,
                                 const char *name, bool value);
 
 /** Add an integer element.
@@ -153,9 +149,9 @@ int bsg_ksjsonaddBooleanElement(BSG_KSJSONEncodeContext *context,
  *
  * @param value The element's value.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddIntegerElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonaddIntegerElement(PNLite_KSJSONEncodeContext *context,
                                 const char *name, long long value);
 
 /** Add a floating point element.
@@ -166,9 +162,9 @@ int bsg_ksjsonaddIntegerElement(BSG_KSJSONEncodeContext *context,
  *
  * @param value The element's value.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddFloatingPointElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonaddFloatingPointElement(PNLite_KSJSONEncodeContext *context,
                                       const char *name, double value);
 
 /** Add a null element.
@@ -177,9 +173,9 @@ int bsg_ksjsonaddFloatingPointElement(BSG_KSJSONEncodeContext *context,
  *
  * @param name The element's name.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddNullElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonaddNullElement(PNLite_KSJSONEncodeContext *context,
                              const char *name);
 
 /** Add a string element.
@@ -190,11 +186,11 @@ int bsg_ksjsonaddNullElement(BSG_KSJSONEncodeContext *context,
  *
  * @param value The element's value.
  *
- * @param length the length of the string, or BSG_KSJSON_SIZE_AUTOMATIC.
+ * @param length the length of the string, or PNLite_KSJSON_SIZE_AUTOMATIC.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddStringElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonaddStringElement(PNLite_KSJSONEncodeContext *context,
                                const char *name, const char *value,
                                size_t length);
 
@@ -206,9 +202,9 @@ int bsg_ksjsonaddStringElement(BSG_KSJSONEncodeContext *context,
  *
  * @param name The element's name.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginStringElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonbeginStringElement(PNLite_KSJSONEncodeContext *context,
                                  const char *name);
 
 /** Add a string fragment to an incrementally-built string element.
@@ -219,18 +215,18 @@ int bsg_ksjsonbeginStringElement(BSG_KSJSONEncodeContext *context,
  *
  * @param length the length of the string fragment.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonappendStringElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonappendStringElement(PNLite_KSJSONEncodeContext *context,
                                   const char *value, size_t length);
 
 /** End an incrementally-built string element.
  *
  * @param context The encoding context.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendStringElement(BSG_KSJSONEncodeContext *context);
+int bsg_ksjsonendStringElement(PNLite_KSJSONEncodeContext *context);
 
 /** Add a string element. The element will be converted to string-coded hex.
  *
@@ -242,9 +238,9 @@ int bsg_ksjsonendStringElement(BSG_KSJSONEncodeContext *context);
  *
  * @param length the length of the data.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddDataElement(BSG_KSJSONEncodeContext *const context,
+int bsg_ksjsonaddDataElement(PNLite_KSJSONEncodeContext *const context,
                              const char *name, const char *value,
                              size_t length);
 
@@ -257,9 +253,9 @@ int bsg_ksjsonaddDataElement(BSG_KSJSONEncodeContext *const context,
  *
  * @param name The element's name.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginDataElement(BSG_KSJSONEncodeContext *const context,
+int bsg_ksjsonbeginDataElement(PNLite_KSJSONEncodeContext *const context,
                                const char *const name);
 
 /** Add a data fragment to an incrementally-built data element.
@@ -270,18 +266,18 @@ int bsg_ksjsonbeginDataElement(BSG_KSJSONEncodeContext *const context,
  *
  * @param length the length of the data fragment.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonappendDataElement(BSG_KSJSONEncodeContext *const context,
+int bsg_ksjsonappendDataElement(PNLite_KSJSONEncodeContext *const context,
                                 const char *const value, size_t length);
 
 /** End an incrementally-built data element.
  *
  * @param context The encoding context.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendDataElement(BSG_KSJSONEncodeContext *const context);
+int bsg_ksjsonendDataElement(PNLite_KSJSONEncodeContext *const context);
 
 /** Add a pre-formatted JSON element.
  *
@@ -293,9 +289,9 @@ int bsg_ksjsonendDataElement(BSG_KSJSONEncodeContext *const context);
  *
  * @param length The length of the element.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddJSONElement(BSG_KSJSONEncodeContext *context,
+int bsg_ksjsonaddJSONElement(PNLite_KSJSONEncodeContext *context,
                              const char *restrict name,
                              const char *restrict value, size_t length);
 
@@ -305,9 +301,9 @@ int bsg_ksjsonaddJSONElement(BSG_KSJSONEncodeContext *context,
  *
  * @param name The object's name.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginObject(BSG_KSJSONEncodeContext *context, const char *name);
+int bsg_ksjsonbeginObject(PNLite_KSJSONEncodeContext *context, const char *name);
 
 /** Begin a new array container.
  *
@@ -315,9 +311,9 @@ int bsg_ksjsonbeginObject(BSG_KSJSONEncodeContext *context, const char *name);
  *
  * @param name The array's name.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginArray(BSG_KSJSONEncodeContext *context, const char *name);
+int bsg_ksjsonbeginArray(PNLite_KSJSONEncodeContext *context, const char *name);
 
 /** Begin a generic JSON element, adding any necessary JSON preamble text,
  *  including commas and names.
@@ -328,7 +324,7 @@ int bsg_ksjsonbeginArray(BSG_KSJSONEncodeContext *context, const char *name);
  * @param name The name of the next element (only needed if parent is a
  * dictionary).
  */
-int bsg_ksjsonbeginElement(BSG_KSJSONEncodeContext *const context,
+int bsg_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
                            const char *const name);
 
 /** Add JSON data manually.
@@ -340,18 +336,18 @@ int bsg_ksjsonbeginElement(BSG_KSJSONEncodeContext *const context,
  *
  * @param length The length of the data.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddRawJSONData(BSG_KSJSONEncodeContext *const context,
+int bsg_ksjsonaddRawJSONData(PNLite_KSJSONEncodeContext *const context,
                              const char *const data, const size_t length);
 
 /** End the current container and return to the next higher level.
  *
  * @param context The encoding context.
  *
- * @return BSG_KSJSON_OK if the process was successful.
+ * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendContainer(BSG_KSJSONEncodeContext *context);
+int bsg_ksjsonendContainer(PNLite_KSJSONEncodeContext *context);
 
 // ============================================================================
 // Decode
@@ -361,7 +357,7 @@ int bsg_ksjsonendContainer(BSG_KSJSONEncodeContext *context);
  * Callbacks called during a JSON decode process.
  * All function pointers must point to valid functions.
  */
-typedef struct BSG_KSJSONDecodeCallbacks {
+typedef struct PNLite_KSJSONDecodeCallbacks {
     /** Called when a boolean element is decoded.
      *
      * @param name The element's name.
@@ -370,7 +366,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onBooleanElement)(const char *name, bool value, void *userData);
 
@@ -382,7 +378,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onFloatingPointElement)(const char *name, double value,
                                   void *userData);
@@ -395,7 +391,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onIntegerElement)(const char *name, long long value, void *userData);
 
@@ -405,7 +401,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onNullElement)(const char *name, void *userData);
 
@@ -417,7 +413,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onStringElement)(const char *name, const char *value, void *userData);
 
@@ -427,7 +423,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onBeginObject)(const char *name, void *userData);
 
@@ -437,7 +433,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onBeginArray)(const char *name, void *userData);
 
@@ -446,7 +442,7 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onEndContainer)(void *userData);
 
@@ -454,11 +450,11 @@ typedef struct BSG_KSJSONDecodeCallbacks {
      *
      * @param userData Data that was specified when calling bsg_ksjsondecode().
      *
-     * @return BSG_KSJSON_OK if decoding should continue.
+     * @return PNLite_KSJSON_OK if decoding should continue.
      */
     int (*onEndData)(void *userData);
 
-} BSG_KSJSONDecodeCallbacks;
+} PNLite_KSJSONDecodeCallbacks;
 
 /** Read a JSON encoded file from the specified FD.
  *
@@ -473,10 +469,10 @@ typedef struct BSG_KSJSONDecodeCallbacks {
  * @oaram errorOffset If not null, will contain the offset into the data
  *                    where the error (if any) occurred.
  *
- * @return BSG_KSJSON_OK if succesful. An error code otherwise.
+ * @return PNLite_KSJSON_OK if succesful. An error code otherwise.
  */
 int bsg_ksjsondecode(const char *data, size_t length,
-                     BSG_KSJSONDecodeCallbacks *callbacks, void *userData,
+                     PNLite_KSJSONDecodeCallbacks *callbacks, void *userData,
                      size_t *errorOffset);
 
 #ifdef __cplusplus
