@@ -28,14 +28,14 @@ static const struct {
     const PNLite_KSCrashType type;
     const char *const name;
 } pnlite_g_crashTypes[] = {
-#define PNLITE_CRASHTYPE(NAME)                                                    \
+#define PNLite_CRASHTYPE(NAME)                                                    \
     { NAME, #NAME }
-    PNLITE_CRASHTYPE(PNLite_KSCrashTypeMachException),
-    PNLITE_CRASHTYPE(PNLite_KSCrashTypeSignal),
-    PNLITE_CRASHTYPE(PNLite_KSCrashTypeCPPException),
-    PNLITE_CRASHTYPE(PNLite_KSCrashTypeNSException),
-    PNLITE_CRASHTYPE(PNLite_KSCrashTypeMainThreadDeadlock),
-    PNLITE_CRASHTYPE(PNLite_KSCrashTypeUserReported),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeMachException),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeSignal),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeCPPException),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeNSException),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeMainThreadDeadlock),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeUserReported),
 };
 static const int pnlite_g_crashTypesCount =
     sizeof(pnlite_g_crashTypes) / sizeof(*pnlite_g_crashTypes);

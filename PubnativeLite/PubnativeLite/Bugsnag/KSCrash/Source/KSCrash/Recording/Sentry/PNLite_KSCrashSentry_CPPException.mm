@@ -35,8 +35,8 @@
 #include <execinfo.h>
 #include <typeinfo>
 
-#define PNLITE_STACKTRACE_BUFFER_LENGTH 30
-#define PNLITE_DESCRIPTION_BUFFER_LENGTH 1000
+#define PNLite_STACKTRACE_BUFFER_LENGTH 30
+#define PNLite_DESCRIPTION_BUFFER_LENGTH 1000
 
 // Compiler hints for "if" statements
 #define likely_if(x) if (__builtin_expect(x, 1))
@@ -55,7 +55,7 @@ static bool pnlite_g_captureNextStackTrace = false;
 static std::terminate_handler pnlite_g_originalTerminateHandler;
 
 /** Buffer for the backtrace of the most recent exception. */
-static uintptr_t pnlite_g_stackTrace[PNLITE_STACKTRACE_BUFFER_LENGTH];
+static uintptr_t pnlite_g_stackTrace[PNLite_STACKTRACE_BUFFER_LENGTH];
 
 /** Number of backtrace entries in the most recent exception. */
 static int pnlite_g_stackTraceCount = 0;
@@ -94,7 +94,7 @@ static void CPPExceptionTerminate(void) {
     BSG_KSLOG_DEBUG(@"Trapped c++ exception");
 
     bool isNSException = false;
-    char descriptionBuff[PNLITE_DESCRIPTION_BUFFER_LENGTH];
+    char descriptionBuff[PNLite_DESCRIPTION_BUFFER_LENGTH];
     const char *name = NULL;
     const char *description = NULL;
 

@@ -107,7 +107,7 @@ static inline void handleDealloc(const void *self) {
     }
 }
 
-#define PNLITE_CREATE_ZOMBIE_HANDLER_INSTALLER(CLASS)                             \
+#define PNLite_CREATE_ZOMBIE_HANDLER_INSTALLER(CLASS)                             \
     static IMP bsg_g_originalDealloc_##CLASS;                                  \
     static void handleDealloc_##CLASS(id self, SEL _cmd) {                     \
         handleDealloc(self);                                                   \
@@ -128,8 +128,8 @@ static inline void handleDealloc(const void *self) {
             bsg_g_originalDealloc_##CLASS);                                    \
     }
 
-PNLITE_CREATE_ZOMBIE_HANDLER_INSTALLER(NSObject)
-PNLITE_CREATE_ZOMBIE_HANDLER_INSTALLER(NSProxy)
+PNLite_CREATE_ZOMBIE_HANDLER_INSTALLER(NSObject)
+PNLite_CREATE_ZOMBIE_HANDLER_INSTALLER(NSProxy)
 
 static void install() {
     size_t cacheSize = CACHE_SIZE;

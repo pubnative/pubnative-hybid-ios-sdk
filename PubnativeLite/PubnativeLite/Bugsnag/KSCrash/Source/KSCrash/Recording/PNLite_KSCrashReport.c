@@ -39,10 +39,10 @@
 
 #ifdef __arm64__
 #include <sys/_types/_ucontext64.h>
-#define PNLITE_UC_MCONTEXT uc_mcontext64
+#define PNLite_UC_MCONTEXT uc_mcontext64
 typedef ucontext64_t SignalUserContext;
 #else
-#define PNLITE_UC_MCONTEXT uc_mcontext
+#define PNLite_UC_MCONTEXT uc_mcontext
 typedef ucontext_t SignalUserContext;
 #endif
 
@@ -87,13 +87,13 @@ typedef ucontext_t SignalUserContext;
 // ============================================================================
 
 #if defined(__LP64__)
-#define PNLITE_TRACE_FMT "%-4d%-31s 0x%016lx %s + %lu"
-#define PNLITE_POINTER_FMT "0x%016lx"
-#define PNLITE_POINTER_SHORT_FMT "0x%lx"
+#define PNLite_TRACE_FMT "%-4d%-31s 0x%016lx %s + %lu"
+#define PNLite_POINTER_FMT "0x%016lx"
+#define PNLite_POINTER_SHORT_FMT "0x%lx"
 #else
-#define PNLITE_TRACE_FMT "%-4d%-31s 0x%08lx %s + %lu"
-#define PNLITE_POINTER_FMT "0x%08lx"
-#define PNLITE_POINTER_SHORT_FMT "0x%lx"
+#define PNLite_TRACE_FMT "%-4d%-31s 0x%08lx %s + %lu"
+#define PNLite_POINTER_FMT "0x%08lx"
+#define PNLite_POINTER_SHORT_FMT "0x%lx"
 #endif
 
 // ============================================================================
@@ -378,7 +378,7 @@ PNLite_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
     if (thread == crash->offendingThread) {
         if (crash->crashType == PNLite_KSCrashTypeSignal) {
             return ((SignalUserContext *)crash->signal.userContext)
-                ->PNLITE_UC_MCONTEXT;
+                ->PNLite_UC_MCONTEXT;
         }
     }
 
@@ -543,19 +543,19 @@ void bsg_kscrw_i_logBacktraceEntry(const int entryNum, const uintptr_t address,
 
     const char *fname = bsg_ksfulastPathEntry(dlInfo->dli_fname);
     if (fname == NULL) {
-        sprintf(faddrBuff, PNLITE_POINTER_FMT, (uintptr_t)dlInfo->dli_fbase);
+        sprintf(faddrBuff, PNLite_POINTER_FMT, (uintptr_t)dlInfo->dli_fbase);
         fname = faddrBuff;
     }
 
     uintptr_t offset = address - (uintptr_t)dlInfo->dli_saddr;
     const char *sname = dlInfo->dli_sname;
     if (sname == NULL) {
-        sprintf(saddrBuff, PNLITE_POINTER_SHORT_FMT, (uintptr_t)dlInfo->dli_fbase);
+        sprintf(saddrBuff, PNLite_POINTER_SHORT_FMT, (uintptr_t)dlInfo->dli_fbase);
         sname = saddrBuff;
         offset = address - (uintptr_t)dlInfo->dli_fbase;
     }
 
-    BSG_KSLOGBASIC_ALWAYS(PNLITE_TRACE_FMT, entryNum, fname, address, sname,
+    BSG_KSLOGBASIC_ALWAYS(PNLite_TRACE_FMT, entryNum, fname, address, sname,
                           offset);
 }
 

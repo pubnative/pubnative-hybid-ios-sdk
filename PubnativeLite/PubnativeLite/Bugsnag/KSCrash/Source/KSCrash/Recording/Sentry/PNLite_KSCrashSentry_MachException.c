@@ -25,7 +25,7 @@
 //#define BSG_KSLogger_LocalLevel TRACE
 #include "BSG_KSLogger.h"
 
-#if PNLITE_KSCRASH_HAS_MACH
+#if PNLite_KSCRASH_HAS_MACH
 
 #include <pthread.h>
 

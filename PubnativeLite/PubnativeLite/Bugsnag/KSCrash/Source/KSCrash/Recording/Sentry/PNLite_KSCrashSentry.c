@@ -42,7 +42,7 @@ typedef struct {
 } PNLite_CrashSentry;
 
 static PNLite_CrashSentry pnlite_g_sentries[] = {
-#if PNLITE_KSCRASH_HAS_MACH
+#if PNLite_KSCRASH_HAS_MACH
     {
         PNLite_KSCrashTypeMachException, bsg_kscrashsentry_installMachHandler,
         bsg_kscrashsentry_uninstallMachHandler,

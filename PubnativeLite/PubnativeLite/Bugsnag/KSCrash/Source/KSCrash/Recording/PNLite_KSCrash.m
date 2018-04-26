@@ -32,7 +32,7 @@
 //#define BSG_KSLogger_LocalLevel TRACE
 #import "BSG_KSLogger.h"
 
-#if PNLITE_KSCRASH_HAS_UIKIT
+#if PNLite_KSCRASH_HAS_UIKIT
 #import <UIKit/UIKit.h>
 #endif
 
@@ -286,7 +286,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
         return false;
     }
 
-#if PNLITE_KSCRASH_HAS_UIKIT
+#if PNLite_KSCRASH_HAS_UIKIT
     NSNotificationCenter *nCenter = [NSNotificationCenter defaultCenter];
     [nCenter addObserver:self
                 selector:@selector(applicationDidBecomeActive)
