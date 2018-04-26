@@ -22,7 +22,7 @@
 
 #import "PNLiteFileStore.h"
 #import "PNLite_KSCrashReportFields.h"
-#import "BSG_KSJSONCodecObjC.h"
+#import "PNLite_KSJSONCodecObjC.h"
 #import "NSError+PNLite_SimpleConstructor.h"
 #import "PNLite_KSLogger.h"
 
@@ -319,10 +319,10 @@
     }
 
     NSMutableDictionary *fileContents =
-            [BSG_KSJSONCodec decode:jsonData
-                            options:BSG_KSJSONDecodeOptionIgnoreNullInArray |
-                                    BSG_KSJSONDecodeOptionIgnoreNullInObject |
-                                    BSG_KSJSONDecodeOptionKeepPartialObject
+            [PNLite_KSJSONCodec decode:jsonData
+                            options:PNLite_KSJSONDecodeOptionIgnoreNullInArray |
+                                    PNLite_KSJSONDecodeOptionIgnoreNullInObject |
+                                    PNLite_KSJSONDecodeOptionKeepPartialObject
                               error:error];
     if (error != nil && *error != nil) {
 

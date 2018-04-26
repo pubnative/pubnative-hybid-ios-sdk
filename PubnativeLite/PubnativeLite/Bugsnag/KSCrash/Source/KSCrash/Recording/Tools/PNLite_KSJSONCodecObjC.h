@@ -1,27 +1,23 @@
 //
-// BSG_KSJSONCodecObjC.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-01-08.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 #import <Foundation/Foundation.h>
@@ -29,11 +25,11 @@
 /** Optional behavior when encoding JSON data */
 typedef enum {
     /** Indent 4 spaces per object/array level */
-    BSG_KSJSONEncodeOptionPretty = 1,
+    PNLite_KSJSONEncodeOptionPretty = 1,
 
     /** Sort object contents by key name */
-    BSG_KSJSONEncodeOptionSorted = 2,
-} BSG_KSJSONEncodeOption;
+    PNLite_KSJSONEncodeOptionSorted = 2,
+} PNLite_KSJSONEncodeOption;
 
 /** Optional behavior when decoding JSON data */
 typedef enum {
@@ -41,25 +37,25 @@ typedef enum {
      * If this option is set, do not store anything when a null element is
      * encountered inside an array.
      */
-    BSG_KSJSONDecodeOptionIgnoreNullInArray = 1,
+    PNLite_KSJSONDecodeOptionIgnoreNullInArray = 1,
 
     /** Normally, null elements get stored as [NSNull null].
      * If this option is set, do not store anything when a null element is
      * encountered inside an object.
      */
-    BSG_KSJSONDecodeOptionIgnoreNullInObject = 2,
+    PNLite_KSJSONDecodeOptionIgnoreNullInObject = 2,
 
     /** Convenience enum to ignore nulls in arrays and objects. */
-    BSG_KSJSONDecodeOptionIgnoreAllNulls = 3,
+    PNLite_KSJSONDecodeOptionIgnoreAllNulls = 3,
 
     /** If an error is encountered, return the partially decoded object. */
-    BSG_KSJSONDecodeOptionKeepPartialObject = 4,
-} BSG_KSJSONDecodeOption;
+    PNLite_KSJSONDecodeOptionKeepPartialObject = 4,
+} PNLite_KSJSONDecodeOption;
 
 /**
  * Encodes and decodes UTF-8 JSON data.
  */
-@interface BSG_KSJSONCodec : NSObject
+@interface PNLite_KSJSONCodec : NSObject
 
 /** Encode an object to JSON data.
  *
@@ -73,7 +69,7 @@ typedef enum {
  * @return The encoded UTF-8 JSON data or nil if an error occurred.
  */
 + (NSData *)encode:(id)object
-           options:(BSG_KSJSONEncodeOption)options
+           options:(PNLite_KSJSONEncodeOption)options
              error:(NSError **)error;
 
 /** Decode JSON data to an object.
@@ -89,7 +85,7 @@ typedef enum {
  *         option is not set, nil when an error occurs.
  */
 + (id)decode:(NSData *)JSONData
-     options:(BSG_KSJSONDecodeOption)options
+     options:(PNLite_KSJSONDecodeOption)options
        error:(NSError **)error;
 
 @end

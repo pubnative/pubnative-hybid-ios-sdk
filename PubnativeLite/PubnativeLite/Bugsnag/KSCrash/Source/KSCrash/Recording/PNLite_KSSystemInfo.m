@@ -23,7 +23,7 @@
 #import "PNLite_KSSystemInfo.h"
 #import "PNLite_KSSystemInfoC.h"
 #import "PNLite_KSDynamicLinker.h"
-#import "BSG_KSJSONCodecObjC.h"
+#import "PNLite_KSJSONCodecObjC.h"
 #import "BSG_KSMach.h"
 #import "PNLite_KSSafeCollections.h"
 #import "PNLite_KSSysCtl.h"
@@ -463,8 +463,8 @@ const char *pnlite_kssysteminfo_toJSON(void) {
     NSDictionary *systemInfo = [NSMutableDictionary
         dictionaryWithDictionary:[PNLite_KSSystemInfo systemInfo]];
     NSMutableData *jsonData =
-        (NSMutableData *)[BSG_KSJSONCodec encode:systemInfo
-                                         options:BSG_KSJSONEncodeOptionSorted
+        (NSMutableData *)[PNLite_KSJSONCodec encode:systemInfo
+                                         options:PNLite_KSJSONEncodeOptionSorted
                                            error:&error];
     if (error != nil) {
         PNLite_KSLOG_ERROR(@"Could not serialize system info: %@", error);

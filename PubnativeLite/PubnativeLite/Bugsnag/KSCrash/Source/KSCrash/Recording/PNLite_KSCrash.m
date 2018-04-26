@@ -24,7 +24,7 @@
 
 #import "PNLite_KSCrashC.h"
 #import "PNLite_KSCrashCallCompletion.h"
-#import "BSG_KSJSONCodecObjC.h"
+#import "PNLite_KSJSONCodecObjC.h"
 #import "PNLite_KSSingleton.h"
 #import "PNLite_KSSystemCapabilities.h"
 #import "NSError+PNLite_SimpleConstructor.h"
@@ -172,8 +172,8 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
     NSData *userInfoJSON = nil;
     if (userInfo != nil) {
         userInfoJSON = [self
-            nullTerminated:[BSG_KSJSONCodec encode:userInfo
-                                           options:BSG_KSJSONEncodeOptionSorted
+            nullTerminated:[PNLite_KSJSONCodec encode:userInfo
+                                           options:PNLite_KSJSONEncodeOptionSorted
                                              error:&error]];
         if (error != NULL) {
             PNLite_KSLOG_ERROR(@"Could not serialize user info: %@", error);
@@ -356,7 +356,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
         [lineOfCode cStringUsingEncoding:NSUTF8StringEncoding];
     NSError *error = nil;
     NSData *jsonData =
-        [BSG_KSJSONCodec encode:stackTrace options:0 error:&error];
+        [PNLite_KSJSONCodec encode:stackTrace options:0 error:&error];
     if (jsonData == nil || error != nil) {
         PNLite_KSLOG_ERROR(@"Error encoding stack trace to JSON: %@", error);
         // Don't return, since we can still record other useful information.
