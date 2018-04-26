@@ -22,7 +22,7 @@
 
 #include "PNLite_KSCrashSentry_User.h"
 #include "PNLite_KSCrashSentry_Private.h"
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 
 //#define PNLite_KSLogger_LocalLevel TRACE
 #include "PNLite_KSLogger.h"

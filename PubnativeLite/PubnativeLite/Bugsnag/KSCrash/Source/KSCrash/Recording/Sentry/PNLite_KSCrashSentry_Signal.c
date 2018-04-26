@@ -25,7 +25,7 @@
 #include "PNLite_KSCrashSentry_Private.h"
 #include "PNLite_KSCrashSentry_Signal.h"
 
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 #include "PNLite_KSSignalInfo.h"
 
 //#define PNLite_KSLogger_LocalLevel TRACE

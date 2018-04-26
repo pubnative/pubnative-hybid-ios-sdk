@@ -27,7 +27,7 @@
 #include "BSG_KSObjC.h"
 #include "PNLite_KSObjCApple.h"
 
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 #include "PNLite_KSString.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > 70000

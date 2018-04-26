@@ -29,7 +29,7 @@
 #include "PNLite_KSCrashSentry_Signal.h"
 #include "PNLite_KSCrashSentry_User.h"
 #include "PNLite_KSLogger.h"
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 
 // ============================================================================
 #pragma mark - Globals -

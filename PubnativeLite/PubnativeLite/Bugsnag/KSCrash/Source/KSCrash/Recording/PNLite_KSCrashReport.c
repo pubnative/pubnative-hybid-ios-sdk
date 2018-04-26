@@ -28,7 +28,7 @@
 #include "PNLite_KSDynamicLinker.h"
 #include "PNLite_KSFileUtils.h"
 #include "PNLite_KSJSONCodec.h"
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 #include "BSG_KSObjC.h"
 #include "PNLite_KSSignalInfo.h"
 #include "PNLite_KSString.h"

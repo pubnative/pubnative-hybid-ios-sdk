@@ -24,7 +24,7 @@
 
 #include "PNLite_KSFileUtils.h"
 #include "PNLite_KSJSONCodec.h"
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 
 //#define PNLite_KSLogger_LocalLevel TRACE
 #include "PNLite_KSLogger.h"

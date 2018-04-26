@@ -23,8 +23,8 @@
 /* Utility functions for querying the mach kernel.
  */
 
-#ifndef HDR_PNLite_KSMach_h
-#define HDR_PNLite_KSMach_h
+#ifndef HDR_BSG_KSMach_h
+#define HDR_BSG_KSMach_h
 
 #ifdef __cplusplus
 extern "C" {

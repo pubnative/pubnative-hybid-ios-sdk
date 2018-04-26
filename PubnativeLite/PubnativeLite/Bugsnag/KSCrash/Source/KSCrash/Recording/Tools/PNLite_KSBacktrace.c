@@ -23,7 +23,7 @@
 #include "PNLite_KSBacktrace_Private.h"
 
 #include "PNLite_KSDynamicLinker.h"
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 
 /** Remove any pointer tagging from an instruction address
  * On armv7 the least significant bit of the pointer distinguishes

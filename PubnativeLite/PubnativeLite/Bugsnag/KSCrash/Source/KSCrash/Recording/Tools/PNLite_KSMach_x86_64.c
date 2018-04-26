@@ -21,7 +21,7 @@
 //
 #if defined(__x86_64__)
 
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 
 //#define PNLite_KSLogger_LocalLevel TRACE
 #include "PNLite_KSLogger.h"

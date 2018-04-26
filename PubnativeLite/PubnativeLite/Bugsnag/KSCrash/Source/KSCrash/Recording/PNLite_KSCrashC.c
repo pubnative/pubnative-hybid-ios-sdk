@@ -26,7 +26,7 @@
 #include "PNLite_KSCrashReport.h"
 #include "PNLite_KSCrashSentry_Deadlock.h"
 #include "PNLite_KSCrashSentry_User.h"
-#include "BSG_KSMach.h"
+#include "PNLite_KSMach.h"
 #include "BSG_KSObjC.h"
 #include "PNLite_KSString.h"
 #include "PNLite_KSSystemInfoC.h"
