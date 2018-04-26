@@ -25,7 +25,7 @@
 #include "PNLite_KSBacktrace_Private.h"
 #include "PNLite_KSCrashReportFields.h"
 #include "PNLite_KSCrashReportVersion.h"
-#include "BSG_KSDynamicLinker.h"
+#include "PNLite_KSDynamicLinker.h"
 #include "BSG_KSFileUtils.h"
 #include "BSG_KSJSONCodec.h"
 #include "BSG_KSMach.h"

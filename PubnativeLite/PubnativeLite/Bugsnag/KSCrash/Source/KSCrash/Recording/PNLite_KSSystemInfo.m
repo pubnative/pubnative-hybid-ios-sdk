@@ -22,7 +22,7 @@
 
 #import "PNLite_KSSystemInfo.h"
 #import "PNLite_KSSystemInfoC.h"
-#import "BSG_KSDynamicLinker.h"
+#import "PNLite_KSDynamicLinker.h"
 #import "BSG_KSJSONCodecObjC.h"
 #import "BSG_KSMach.h"
 #import "PNLite_KSSafeCollections.h"

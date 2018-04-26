@@ -22,7 +22,7 @@
 
 #include "PNLite_KSBacktrace_Private.h"
 
-#include "BSG_KSDynamicLinker.h"
+#include "PNLite_KSDynamicLinker.h"
 #include "BSG_KSMach.h"
 
 /** Remove any pointer tagging from an instruction address
