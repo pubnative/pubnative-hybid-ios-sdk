@@ -350,7 +350,7 @@
 		5A8F10DE2089E4D20098E337 /* PNLite_RFC3339DateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F105A2089E4D20098E337 /* PNLite_RFC3339DateTool.m */; };
 		5A8F10DF2089E4D20098E337 /* PNLite_KSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F105B2089E4D20098E337 /* PNLite_KSLogger.h */; };
 		5A8F10E02089E4D20098E337 /* PNLite_KSBacktrace_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F105C2089E4D20098E337 /* PNLite_KSBacktrace_Private.h */; };
-		5A8F10E12089E4D20098E337 /* BSG_KSMach_Arm64.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F105D2089E4D20098E337 /* BSG_KSMach_Arm64.c */; };
+		5A8F10E12089E4D20098E337 /* PNLite_KSMach_Arm64.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F105D2089E4D20098E337 /* PNLite_KSMach_Arm64.c */; };
 		5A8F10E22089E4D20098E337 /* NSDictionary+PNLite_Merge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F105E2089E4D20098E337 /* NSDictionary+PNLite_Merge.h */; };
 		5A8F10E32089E4D20098E337 /* PNLite_KSFileUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F105F2089E4D20098E337 /* PNLite_KSFileUtils.c */; };
 		5A8F10E42089E4D20098E337 /* PNLite_KSJSONCodecObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10602089E4D20098E337 /* PNLite_KSJSONCodecObjC.h */; };
@@ -1091,7 +1091,7 @@
 		5A8F105A2089E4D20098E337 /* PNLite_RFC3339DateTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLite_RFC3339DateTool.m; sourceTree = "<group>"; };
 		5A8F105B2089E4D20098E337 /* PNLite_KSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSLogger.h; sourceTree = "<group>"; };
 		5A8F105C2089E4D20098E337 /* PNLite_KSBacktrace_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSBacktrace_Private.h; sourceTree = "<group>"; };
-		5A8F105D2089E4D20098E337 /* BSG_KSMach_Arm64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BSG_KSMach_Arm64.c; sourceTree = "<group>"; };
+		5A8F105D2089E4D20098E337 /* PNLite_KSMach_Arm64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PNLite_KSMach_Arm64.c; sourceTree = "<group>"; };
 		5A8F105E2089E4D20098E337 /* NSDictionary+PNLite_Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PNLite_Merge.h"; sourceTree = "<group>"; };
 		5A8F105F2089E4D20098E337 /* PNLite_KSFileUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PNLite_KSFileUtils.c; sourceTree = "<group>"; };
 		5A8F10602089E4D20098E337 /* PNLite_KSJSONCodecObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLite_KSJSONCodecObjC.h; sourceTree = "<group>"; };
@@ -2352,7 +2352,7 @@
 				5A8F105B2089E4D20098E337 /* PNLite_KSLogger.h */,
 				5A8F106E2089E4D20098E337 /* PNLite_KSLogger.m */,
 				5A8F105C2089E4D20098E337 /* PNLite_KSBacktrace_Private.h */,
-				5A8F105D2089E4D20098E337 /* BSG_KSMach_Arm64.c */,
+				5A8F105D2089E4D20098E337 /* PNLite_KSMach_Arm64.c */,
 				5A8F10672089E4D20098E337 /* PNLite_KSMach_x86_64.c */,
 				5A8F10682089E4D20098E337 /* PNLite_KSObjCApple.h */,
 			);
@@ -3112,7 +3112,7 @@
 				5A540259202B129E005D80E6 /* PubnativeLite.m in Sources */,
 				5A8F10B12089E4D20098E337 /* PNLiteSessionTrackingApiClient.m in Sources */,
 				5ABE0138203F027400E6A14E /* PNLiteMRectAdRequest.m in Sources */,
-				5A8F10E12089E4D20098E337 /* BSG_KSMach_Arm64.c in Sources */,
+				5A8F10E12089E4D20098E337 /* PNLite_KSMach_Arm64.c in Sources */,
 				5A52BFEC203458D000C4B7C5 /* PNLiteBrowser.m in Sources */,
 				5ACC74F2203595250001CDC3 /* PNLiteMRAIDView.m in Sources */,
 				5A449B48203D778B00CEB630 /* PNLiteMRectPresenter.m in Sources */,
