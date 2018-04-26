@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSArchSpecific.h"
+#include "PNLite_KSArchSpecific.h"
 #include "PNLite_KSBacktrace.h"
 
 #include <sys/ucontext.h>
@@ -47,7 +47,7 @@ extern "C" {
  *
  * @return The number of backtrace entries.
  */
-int bsg_ksbt_backtraceLength(const BSG_STRUCT_MCONTEXT_L *machineContext);
+int bsg_ksbt_backtraceLength(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Check if a backtrace is too long.
  *
@@ -58,7 +58,7 @@ int bsg_ksbt_backtraceLength(const BSG_STRUCT_MCONTEXT_L *machineContext);
  * @return true if the backtrace is longer than maxLength.
  */
 bool bsg_ksbt_isBacktraceTooLong(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext, int maxLength);
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext, int maxLength);
 
 /** Generate a backtrace using the thread state in the specified machine context
  *  (async-safe).
@@ -73,7 +73,7 @@ bool bsg_ksbt_isBacktraceTooLong(
  *
  * @return The number of backtrace entries generated.
  */
-int bsg_ksbt_backtraceThreadState(const BSG_STRUCT_MCONTEXT_L *machineContext,
+int bsg_ksbt_backtraceThreadState(const PNLite_STRUCT_MCONTEXT_L *machineContext,
                                   uintptr_t *backtraceBuffer, int skipEntries,
                                   int maxEntries);
 

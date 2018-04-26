@@ -21,7 +21,7 @@
 //
 
 #include "PNLite_KSDynamicLinker.h"
-#include "BSG_KSArchSpecific.h"
+#include "PNLite_KSArchSpecific.h"
 
 #include <limits.h>
 #include <mach-o/nlist.h>
@@ -178,7 +178,7 @@ bool bsg_ksdldladdr(const uintptr_t address, Dl_info *const info) {
     info->dli_fbase = (void *)header;
 
     // Find symbol tables and get whichever symbol is closest to the address.
-    const BSG_STRUCT_NLIST *bestMatch = NULL;
+    const PNLite_STRUCT_NLIST *bestMatch = NULL;
     uintptr_t bestDistance = ULONG_MAX;
     uintptr_t cmdPtr = bsg_ksdlfirstCmdAfterHeader(header);
     if (cmdPtr == 0) {
@@ -189,8 +189,8 @@ bool bsg_ksdldladdr(const uintptr_t address, Dl_info *const info) {
         if (loadCmd->cmd == LC_SYMTAB) {
             const struct symtab_command *symtabCmd =
                 (struct symtab_command *)cmdPtr;
-            const BSG_STRUCT_NLIST *symbolTable =
-                (BSG_STRUCT_NLIST *)(segmentBase + symtabCmd->symoff);
+            const PNLite_STRUCT_NLIST *symbolTable =
+                (PNLite_STRUCT_NLIST *)(segmentBase + symtabCmd->symoff);
             const uintptr_t stringTable = segmentBase + symtabCmd->stroff;
 
             for (uint32_t iSym = 0; iSym < symtabCmd->nsyms; iSym++) {
@@ -249,8 +249,8 @@ const void *bsg_ksdlgetSymbolAddrInImage(uint32_t imageIdx,
         if (loadCmd->cmd == LC_SYMTAB) {
             const struct symtab_command *symtabCmd =
                 (struct symtab_command *)cmdPtr;
-            const BSG_STRUCT_NLIST *symbolTable =
-                (BSG_STRUCT_NLIST *)(segmentBase + symtabCmd->symoff);
+            const PNLite_STRUCT_NLIST *symbolTable =
+                (PNLite_STRUCT_NLIST *)(segmentBase + symtabCmd->symoff);
             const uintptr_t stringTable = segmentBase + symtabCmd->stroff;
 
             for (uint32_t iSym = 0; iSym < symtabCmd->nsyms; iSym++) {

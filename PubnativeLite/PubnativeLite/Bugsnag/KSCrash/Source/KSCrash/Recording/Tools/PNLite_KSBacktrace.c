@@ -65,7 +65,7 @@ typedef struct PNLite_KSFrameEntry {
 // Avoiding static functions due to linker issues.
 
 int bsg_ksbt_backtraceLength(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     const uintptr_t instructionAddress =
         bsg_ksmachinstructionAddress(machineContext);
 
@@ -91,7 +91,7 @@ int bsg_ksbt_backtraceLength(
 }
 
 bool bsg_ksbt_isBacktraceTooLong(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext, int maxLength) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext, int maxLength) {
     const uintptr_t instructionAddress =
         bsg_ksmachinstructionAddress(machineContext);
 
@@ -117,7 +117,7 @@ bool bsg_ksbt_isBacktraceTooLong(
 }
 
 int bsg_ksbt_backtraceThreadState(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext,
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     uintptr_t *const backtraceBuffer, const int skipEntries,
     const int maxEntries) {
     if (maxEntries == 0) {
@@ -179,7 +179,7 @@ int bsg_ksbt_backtraceThreadState(
 int bsg_ksbt_backtraceThread(const thread_t thread,
                              uintptr_t *const backtraceBuffer,
                              const int maxEntries) {
-    BSG_STRUCT_MCONTEXT_L machineContext;
+    PNLite_STRUCT_MCONTEXT_L machineContext;
 
     if (!bsg_ksmachthreadState(thread, &machineContext)) {
         return 0;

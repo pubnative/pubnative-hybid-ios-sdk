@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSArchSpecific.h"
+#include "PNLite_KSArchSpecific.h"
 #include "PNLite_KSCrashType.h"
 
 #include <mach/mach_types.h>

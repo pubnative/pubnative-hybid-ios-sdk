@@ -45,39 +45,39 @@ static const int bsg_g_exceptionRegisterNamesCount =
     sizeof(*bsg_g_exceptionRegisterNames);
 
 uintptr_t
-bsg_ksmachframePointer(const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+bsg_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__ebp;
 }
 
 uintptr_t
-bsg_ksmachstackPointer(const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+bsg_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__esp;
 }
 
 uintptr_t bsg_ksmachinstructionAddress(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__eip;
 }
 
 uintptr_t bsg_ksmachlinkRegister(
-    __unused const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    __unused const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return 0;
 }
 
 bool bsg_ksmachthreadState(const thread_t thread,
-                           BSG_STRUCT_MCONTEXT_L *const machineContext) {
+                           PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__ss,
                                x86_THREAD_STATE32, x86_THREAD_STATE32_COUNT);
 }
 
 bool bsg_ksmachfloatState(const thread_t thread,
-                          BSG_STRUCT_MCONTEXT_L *const machineContext) {
+                          PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__fs,
                                x86_FLOAT_STATE32, x86_FLOAT_STATE32_COUNT);
 }
 
 bool bsg_ksmachexceptionState(const thread_t thread,
-                              BSG_STRUCT_MCONTEXT_L *const machineContext) {
+                              PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__es,
                                x86_EXCEPTION_STATE32,
                                x86_EXCEPTION_STATE32_COUNT);
@@ -93,7 +93,7 @@ const char *bsg_ksmachregisterName(const int regNumber) {
 }
 
 uint64_t
-bsg_ksmachregisterValue(const BSG_STRUCT_MCONTEXT_L *const machineContext,
+bsg_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *const machineContext,
                         const int regNumber) {
     switch (regNumber) {
     case 0:
@@ -147,7 +147,7 @@ const char *bsg_ksmachexceptionRegisterName(const int regNumber) {
 }
 
 uint64_t bsg_ksmachexceptionRegisterValue(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext, const int regNumber) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext, const int regNumber) {
     switch (regNumber) {
     case 0:
         return machineContext->__es.__trapno;
@@ -162,7 +162,7 @@ uint64_t bsg_ksmachexceptionRegisterValue(
 }
 
 uintptr_t
-bsg_ksmachfaultAddress(const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+bsg_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__es.__faultvaddr;
 }
 

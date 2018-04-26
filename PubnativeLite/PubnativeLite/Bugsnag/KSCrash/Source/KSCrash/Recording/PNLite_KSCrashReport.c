@@ -344,7 +344,7 @@ bool bsg_kscrw_i_isValidString(const void *const address) {
  * @param machineContextBuffer The machine context to fill out.
  */
 bool bsg_kscrw_i_fetchMachineState(
-    const thread_t thread, BSG_STRUCT_MCONTEXT_L *const machineContextBuffer) {
+    const thread_t thread, PNLite_STRUCT_MCONTEXT_L *const machineContextBuffer) {
     if (!bsg_ksmachthreadState(thread, machineContextBuffer)) {
         return false;
     }
@@ -372,9 +372,9 @@ bool bsg_kscrw_i_fetchMachineState(
  *
  * @return A pointer to the crash context, or NULL if not found.
  */
-BSG_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
+PNLite_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
     const PNLite_KSCrash_SentryContext *const crash, const thread_t thread,
-    BSG_STRUCT_MCONTEXT_L *const machineContextBuffer) {
+    PNLite_STRUCT_MCONTEXT_L *const machineContextBuffer) {
     if (thread == crash->offendingThread) {
         if (crash->crashType == PNLite_KSCrashTypeSignal) {
             return ((SignalUserContext *)crash->signal.userContext)
@@ -419,7 +419,7 @@ BSG_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
  */
 uintptr_t *bsg_kscrw_i_getBacktrace(
     const PNLite_KSCrash_SentryContext *const crash, const thread_t thread,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext,
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     uintptr_t *const backtraceBuffer, int *const backtraceLength,
     int *const skippedEntries) {
     if (thread == crash->offendingThread) {
@@ -461,8 +461,8 @@ uintptr_t *bsg_kscrw_i_getBacktrace(
  */
 bool bsg_kscrw_i_isStackOverflow(const PNLite_KSCrash_SentryContext *const crash,
                                  const thread_t thread) {
-    BSG_STRUCT_MCONTEXT_L concreteMachineContext;
-    BSG_STRUCT_MCONTEXT_L *machineContext =
+    PNLite_STRUCT_MCONTEXT_L concreteMachineContext;
+    PNLite_STRUCT_MCONTEXT_L *machineContext =
         bsg_kscrw_i_getMachineContext(crash, thread, &concreteMachineContext);
     if (machineContext == NULL) {
         return false;
@@ -586,12 +586,12 @@ void bsg_kscrw_i_logBacktrace(const uintptr_t *const backtrace,
 void bsg_kscrw_i_logCrashThreadBacktrace(
     const PNLite_KSCrash_SentryContext *const crash) {
     thread_t thread = crash->offendingThread;
-    BSG_STRUCT_MCONTEXT_L concreteMachineContext;
+    PNLite_STRUCT_MCONTEXT_L concreteMachineContext;
     uintptr_t concreteBacktrace[PNLite_kMaxStackTracePrintLines];
     int backtraceLength =
         sizeof(concreteBacktrace) / sizeof(*concreteBacktrace);
 
-    BSG_STRUCT_MCONTEXT_L *machineContext =
+    PNLite_STRUCT_MCONTEXT_L *machineContext =
         bsg_kscrw_i_getMachineContext(crash, thread, &concreteMachineContext);
 
     int skippedEntries = 0;
@@ -1118,7 +1118,7 @@ void bsg_kscrw_i_writeBacktrace(const PNLite_KSCrashReportWriter *const writer,
  */
 void bsg_kscrw_i_writeStackContents(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext,
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     const bool isStackOverflow) {
     uintptr_t sp = bsg_ksmachstackPointer(machineContext);
     if ((void *)sp == NULL) {
@@ -1174,7 +1174,7 @@ void bsg_kscrw_i_writeStackContents(
  */
 void bsg_kscrw_i_writeNotableStackContents(
     const PNLite_KSCrashReportWriter *const writer,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext, const int backDistance,
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext, const int backDistance,
     const int forwardDistance) {
     uintptr_t sp = bsg_ksmachstackPointer(machineContext);
     if ((void *)sp == NULL) {
@@ -1216,7 +1216,7 @@ void bsg_kscrw_i_writeNotableStackContents(
  */
 void bsg_kscrw_i_writeBasicRegisters(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     char registerNameBuff[30];
     const char *registerName;
     writer->beginObject(writer, key);
@@ -1247,7 +1247,7 @@ void bsg_kscrw_i_writeBasicRegisters(
  */
 void bsg_kscrw_i_writeExceptionRegisters(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     char registerNameBuff[30];
     const char *registerName;
     writer->beginObject(writer, key);
@@ -1280,7 +1280,7 @@ void bsg_kscrw_i_writeExceptionRegisters(
  */
 void bsg_kscrw_i_writeRegisters(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext,
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     const bool isCrashedContext) {
     writer->beginObject(writer, key);
     {
@@ -1302,7 +1302,7 @@ void bsg_kscrw_i_writeRegisters(
  */
 void bsg_kscrw_i_writeNotableRegisters(
     const PNLite_KSCrashReportWriter *const writer,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     char registerNameBuff[30];
     const char *registerName;
     const int numRegisters = bsg_ksmachnumRegisters();
@@ -1330,7 +1330,7 @@ void bsg_kscrw_i_writeNotableRegisters(
  */
 void bsg_kscrw_i_writeNotableAddresses(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
-    const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     writer->beginObject(writer, key);
     {
         bsg_kscrw_i_writeNotableRegisters(writer, machineContext);
@@ -1364,12 +1364,12 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
                              const bool searchQueueNames) {
     bool isCrashedThread = thread == crash->offendingThread;
     char nameBuffer[128];
-    BSG_STRUCT_MCONTEXT_L machineContextBuffer;
+    PNLite_STRUCT_MCONTEXT_L machineContextBuffer;
     uintptr_t backtraceBuffer[PNLite_kMaxBacktraceDepth];
     int backtraceLength = sizeof(backtraceBuffer) / sizeof(*backtraceBuffer);
     int skippedEntries = 0;
 
-    BSG_STRUCT_MCONTEXT_L *machineContext =
+    PNLite_STRUCT_MCONTEXT_L *machineContext =
         bsg_kscrw_i_getMachineContext(crash, thread, &machineContextBuffer);
 
     uintptr_t *backtrace =

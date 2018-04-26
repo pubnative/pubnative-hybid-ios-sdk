@@ -43,39 +43,39 @@ static const int bsg_g_exceptionRegisterNamesCount =
     sizeof(*bsg_g_exceptionRegisterNames);
 
 uintptr_t
-bsg_ksmachframePointer(const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+bsg_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__r[7];
 }
 
 uintptr_t
-bsg_ksmachstackPointer(const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+bsg_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__sp;
 }
 
 uintptr_t bsg_ksmachinstructionAddress(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__pc;
 }
 
 uintptr_t
-bsg_ksmachlinkRegister(const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+bsg_ksmachlinkRegister(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__lr;
 }
 
 bool bsg_ksmachthreadState(const thread_t thread,
-                           BSG_STRUCT_MCONTEXT_L *const machineContext) {
+                           PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__ss,
                                ARM_THREAD_STATE, ARM_THREAD_STATE_COUNT);
 }
 
 bool bsg_ksmachfloatState(const thread_t thread,
-                          BSG_STRUCT_MCONTEXT_L *const machineContext) {
+                          PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__fs,
                                ARM_VFP_STATE, ARM_VFP_STATE_COUNT);
 }
 
 bool bsg_ksmachexceptionState(const thread_t thread,
-                              BSG_STRUCT_MCONTEXT_L *const machineContext) {
+                              PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__es,
                                ARM_EXCEPTION_STATE, ARM_EXCEPTION_STATE_COUNT);
 }
@@ -90,7 +90,7 @@ const char *bsg_ksmachregisterName(const int regNumber) {
 }
 
 uint64_t
-bsg_ksmachregisterValue(const BSG_STRUCT_MCONTEXT_L *const machineContext,
+bsg_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *const machineContext,
                         const int regNumber) {
     if (regNumber <= 12) {
         return machineContext->__ss.__r[regNumber];
@@ -124,7 +124,7 @@ const char *bsg_ksmachexceptionRegisterName(const int regNumber) {
 }
 
 uint64_t bsg_ksmachexceptionRegisterValue(
-    const BSG_STRUCT_MCONTEXT_L *const machineContext, const int regNumber) {
+    const PNLite_STRUCT_MCONTEXT_L *const machineContext, const int regNumber) {
     switch (regNumber) {
     case 0:
         return machineContext->__es.__exception;
@@ -139,7 +139,7 @@ uint64_t bsg_ksmachexceptionRegisterValue(
 }
 
 uintptr_t
-bsg_ksmachfaultAddress(const BSG_STRUCT_MCONTEXT_L *const machineContext) {
+bsg_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__es.__far;
 }
 

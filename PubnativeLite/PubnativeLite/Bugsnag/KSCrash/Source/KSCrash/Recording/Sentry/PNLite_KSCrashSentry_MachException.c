@@ -141,7 +141,7 @@ static PNLite_KSCrash_SentryContext *pnlite_g_context;
  * @param machineContext The machine context to fill out.
  */
 bool ksmachexc_i_fetchMachineState(
-    const thread_t thread, BSG_STRUCT_MCONTEXT_L *const machineContext) {
+    const thread_t thread, PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     if (!ksmach_threadState(thread, machineContext)) {
         return false;
     }
@@ -256,7 +256,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 
         // Fill out crash information
         BSG_KSLOG_DEBUG("Fetching machine state.");
-        BSG_STRUCT_MCONTEXT_L machineContext;
+        PNLite_STRUCT_MCONTEXT_L machineContext;
         if (bsg_ksmachexc_i_fetchMachineState(exceptionMessage.thread.name,
                                               &machineContext)) {
             if (exceptionMessage.exception == EXC_BAD_ACCESS) {

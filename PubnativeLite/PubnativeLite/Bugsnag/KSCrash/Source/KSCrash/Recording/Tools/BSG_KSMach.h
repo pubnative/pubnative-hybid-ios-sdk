@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#include "BSG_KSArchSpecific.h"
+#include "PNLite_KSArchSpecific.h"
 
 #include <mach/mach.h>
 #include <pthread.h>
@@ -116,7 +116,7 @@ bool bsg_ksmachfillState(thread_t thread, thread_state_t state,
  *
  * @return The context's frame pointer.
  */
-uintptr_t bsg_ksmachframePointer(const BSG_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t bsg_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the current stack pointer for a machine context.
  *
@@ -124,7 +124,7 @@ uintptr_t bsg_ksmachframePointer(const BSG_STRUCT_MCONTEXT_L *machineContext);
  *
  * @return The context's stack pointer.
  */
-uintptr_t bsg_ksmachstackPointer(const BSG_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t bsg_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the address of the instruction about to be, or being executed by a
  * machine context.
@@ -134,7 +134,7 @@ uintptr_t bsg_ksmachstackPointer(const BSG_STRUCT_MCONTEXT_L *machineContext);
  * @return The context's next instruction address.
  */
 uintptr_t
-bsg_ksmachinstructionAddress(const BSG_STRUCT_MCONTEXT_L *machineContext);
+bsg_ksmachinstructionAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the address stored in the link register (arm only). This may
  * contain the first return address of the stack.
@@ -143,7 +143,7 @@ bsg_ksmachinstructionAddress(const BSG_STRUCT_MCONTEXT_L *machineContext);
  *
  * @return The link register value.
  */
-uintptr_t bsg_ksmachlinkRegister(const BSG_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t bsg_ksmachlinkRegister(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the address whose access caused the last fault.
  *
@@ -151,7 +151,7 @@ uintptr_t bsg_ksmachlinkRegister(const BSG_STRUCT_MCONTEXT_L *machineContext);
  *
  * @return The faulting address.
  */
-uintptr_t bsg_ksmachfaultAddress(const BSG_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t bsg_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get a thread's thread state and place it in a machine context.
  *
@@ -162,7 +162,7 @@ uintptr_t bsg_ksmachfaultAddress(const BSG_STRUCT_MCONTEXT_L *machineContext);
  * @return true if successful.
  */
 bool bsg_ksmachthreadState(thread_t thread,
-                           BSG_STRUCT_MCONTEXT_L *machineContext);
+                           PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get a thread's floating point state and place it in a machine context.
  *
@@ -173,7 +173,7 @@ bool bsg_ksmachthreadState(thread_t thread,
  * @return true if successful.
  */
 bool bsg_ksmachfloatState(thread_t thread,
-                          BSG_STRUCT_MCONTEXT_L *machineContext);
+                          PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get a thread's exception state and place it in a machine context.
  *
@@ -184,7 +184,7 @@ bool bsg_ksmachfloatState(thread_t thread,
  * @return true if successful.
  */
 bool bsg_ksmachexceptionState(thread_t thread,
-                              BSG_STRUCT_MCONTEXT_L *machineContext);
+                              PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the number of normal (not floating point or exception) registers the
  *  currently running CPU has.
@@ -207,7 +207,7 @@ const char *bsg_ksmachregisterName(int regNumber);
  *
  * @return The register's current value.
  */
-uint64_t bsg_ksmachregisterValue(const BSG_STRUCT_MCONTEXT_L *machineContext,
+uint64_t bsg_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *machineContext,
                                  int regNumber);
 
 /** Get the number of exception registers the currently running CPU has.
@@ -231,7 +231,7 @@ const char *bsg_ksmachexceptionRegisterName(int regNumber);
  * @return The register's current value.
  */
 uint64_t
-bsg_ksmachexceptionRegisterValue(const BSG_STRUCT_MCONTEXT_L *machineContext,
+bsg_ksmachexceptionRegisterValue(const PNLite_STRUCT_MCONTEXT_L *machineContext,
                                  int regNumber);
 
 /** Get the direction in which the stack grows on the current architecture.
