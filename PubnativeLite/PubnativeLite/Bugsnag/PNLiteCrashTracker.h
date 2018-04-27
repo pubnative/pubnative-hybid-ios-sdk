@@ -31,11 +31,11 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
 
 @interface PNLiteCrashTracker : NSObject
 
-/** Get the current Bugsnag configuration.
+/** Get the current PNLite configuration.
  *
- * This method returns nil if called before +startBugsnagWithApiKey: or
- * +startBugsnagWithConfiguration:, and otherwise returns the current
- * configuration for Bugsnag.
+ * This method returns nil if called before +startPNLiteCrashTrackerWithApiKey: or
+ * +startPNLiteCrashTrackerWithConfiguration:, and otherwise returns the current
+ * configuration for PNLite.
  *
  * @return The configuration, or nil.
  */
@@ -43,30 +43,30 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
 
 /** Start listening for crashes.
  *
- * This method initializes Bugsnag with the default configuration. Any uncaught
+ * This method initializes PNLite with the default configuration. Any uncaught
  * NSExceptions, C++ exceptions, mach exceptions or signals will be logged to
  * disk before your app crashes. The next time your app boots, we send any such
- * reports to Bugsnag.
+ * reports to PNLite.
  *
- * @param apiKey  The API key from your Bugsnag dashboard.
+ * @param apiKey  The API key from your PNLite dashboard.
  */
-+ (void)startBugsnagWithApiKey:(NSString *_Nonnull)apiKey;
++ (void)startPNLiteCrashTrackerWithApiKey:(NSString *_Nonnull)apiKey;
 
 /** Start listening for crashes.
  *
- * This method initializes Bugsnag. Any uncaught NSExceptions, uncaught
+ * This method initializes PNLite. Any uncaught NSExceptions, uncaught
  * C++ exceptions, mach exceptions or signals will be logged to disk before
  * your app crashes. The next time your app boots, we send any such
- * reports to Bugsnag.
+ * reports to PNLite.
  *
  * @param configuration  The configuration to use.
  */
-+ (void)startBugsnagWithConfiguration:
++ (void)startPNLiteCrashTrackerWithConfiguration:
     (PNLiteConfiguration *_Nonnull)configuration;
 
-/** Send a custom or caught exception to Bugsnag.
+/** Send a custom or caught exception to PNLite.
  *
- * The exception will be sent to Bugsnag in the background allowing your
+ * The exception will be sent to PNLite in the background allowing your
  * app to continue running.
  *
  * @param exception  The exception.
@@ -74,7 +74,7 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
 + (void)notify:(NSException *_Nonnull)exception;
 
 /**
- *  Send a custom or caught exception to Bugsnag
+ *  Send a custom or caught exception to PNLite
  *
  *  @param exception The exception
  *  @param block     A block for optionally configuring the error report
@@ -83,14 +83,14 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
          block:(PNLiteNotifyBlock _Nullable)block;
 
 /**
- *  Send an error to Bugsnag
+ *  Send an error to PNLite
  *
  *  @param error The error
  */
 + (void)notifyError:(NSError *_Nonnull)error;
 
 /**
- *  Send an error to Bugsnag
+ *  Send an error to PNLite
  *
  *  @param error The error
  *  @param block A block for optionally configuring the error report
@@ -98,9 +98,9 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
 + (void)notifyError:(NSError *_Nonnull)error
               block:(PNLiteNotifyBlock _Nullable)block;
 
-/** Send a custom or caught exception to Bugsnag.
+/** Send a custom or caught exception to PNLite.
  *
- * The exception will be sent to Bugsnag in the background allowing your
+ * The exception will be sent to PNLite in the background allowing your
  * app to continue running.
  *
  * @param exception  The exception.
@@ -113,9 +113,9 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
     __deprecated_msg("Use notify:block: instead and add the metadata to the "
                      "report directly.");
 
-/** Send a custom or caught exception to Bugsnag.
+/** Send a custom or caught exception to PNLite.
  *
- * The exception will be sent to Bugsnag in the background allowing your
+ * The exception will be sent to PNLite in the background allowing your
  * app to continue running.
  *
  * @param exception  The exception.
@@ -139,22 +139,22 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
                     withData:(NSDictionary *_Nullable)metaData
                        block:(PNLiteNotifyBlock _Nullable)block;
 
-/** Add custom data to send to Bugsnag with every exception. If value is nil,
+/** Add custom data to send to PNLite with every exception. If value is nil,
  *  delete the current value for attributeName
  *
- * See also [Bugsnag configuration].metaData;
+ * See also [PNLite configuration].metaData;
  *
  * @param attributeName  The name of the data.
  *
  * @param value          Its value.
  *
- * @param tabName        The tab to show it on on the Bugsnag dashboard.
+ * @param tabName        The tab to show it on on the PNLite dashboard.
  */
 + (void)addAttribute:(NSString *_Nonnull)attributeName
            withValue:(id _Nullable)value
        toTabWithName:(NSString *_Nonnull)tabName;
 
-/** Remove custom data from Bugsnag reports.
+/** Remove custom data from PNLite reports.
  *
  * @param tabName        The tab to clear.
  */
@@ -186,7 +186,7 @@ static NSString *_Nonnull const PNLite_SeverityInfo = @"info";
 + (void)leaveBreadcrumbForNotificationName:(NSString *_Nonnull)notificationName;
 
 /**
- * Set the maximum number of breadcrumbs to keep and sent to Bugsnag.
+ * Set the maximum number of breadcrumbs to keep and sent to PNLite.
  * By default, we'll keep and send the 20 most recent breadcrumb log
  * messages.
  *

@@ -32,11 +32,11 @@
 
 typedef NS_ENUM(NSUInteger, PNLiteBreadcrumbType) {
     /**
-     *  Any breadcrumb sent via Bugsnag.leaveBreadcrumb()
+     *  Any breadcrumb sent via PNLite.leaveBreadcrumb()
      */
     PNLiteBreadcrumbTypeManual,
     /**
-     *  A call to Bugsnag.notify() (internal use only)
+     *  A call to PNLite.notify() (internal use only)
      */
     PNLiteBreadcrumbTypeError,
     /**

@@ -47,7 +47,7 @@
         NSLog(@"PubNative Lite - App Token is nil or empty and required.");
     } else {
         [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startBugsnagWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
     }
 }
 

@@ -565,7 +565,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
 // Build all stacktraces for threads and the error
 - (NSArray *)serializeThreadsWithException:(NSMutableDictionary *)exception {
-    NSMutableArray *bugsnagThreads = [NSMutableArray array];
+    NSMutableArray *pnliteThreads = [NSMutableArray array];
     for (NSDictionary *thread in [self threads]) {
         NSArray *backtrace = thread[@"backtrace"][@"contents"];
         BOOL stackOverflow = [thread[@"stack"][@"overflow"] boolValue];
@@ -611,10 +611,10 @@ initWithErrorName:(NSString *_Nonnull)name
                 BSGDictSetSafeObject(threadDict, thread[PNLiteKeyName], PNLiteKeyName);
             }
 
-            BSGArrayAddSafeObject(bugsnagThreads, threadDict);
+            BSGArrayAddSafeObject(pnliteThreads, threadDict);
         }
     }
-    return bugsnagThreads;
+    return pnliteThreads;
 }
 
 - (NSString *_Nullable)enhancedErrorMessageForThread:(NSDictionary *_Nullable)thread {

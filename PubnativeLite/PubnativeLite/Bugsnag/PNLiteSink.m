@@ -27,7 +27,7 @@
 #import "PNLiteKeys.h"
 #import "PNLite_KSSystemInfo.h"
 
-// This is private in Bugsnag, but really we want package private so define
+// This is private in PNLite, but really we want package private so define
 // it here.
 @interface PNLiteCrashTracker ()
 + (PNLiteNotifier *)notifier;
@@ -54,11 +54,11 @@
 //   and it contains the current stage
 - (void)filterReports:(NSArray *)reports
          onCompletion:(PNLite_KSCrashReportFilterCompletion)onCompletion {
-    NSMutableArray *bugsnagReports = [NSMutableArray new];
+    NSMutableArray *pnliteReports = [NSMutableArray new];
     PNLiteConfiguration *configuration = [PNLiteCrashTracker configuration];
     
     for (NSDictionary *report in reports) {
-        PNLiteCrashReport *bugsnagReport = [[PNLiteCrashReport alloc] initWithKSReport:report];
+        PNLiteCrashReport *pnliteReport = [[PNLiteCrashReport alloc] initWithKSReport:report];
         BOOL incompleteReport = (![@"standard" isEqualToString:[report valueForKeyPath:@"report.type"]] ||
                                  [[report objectForKey:@"incomplete"] boolValue]);
         
@@ -66,8 +66,8 @@
             NSDictionary *sysInfo = [PNLite_KSSystemInfo systemInfo];
             
             // reset any existing data as it will be corrupted/nil
-            bugsnagReport.appState = @{};
-            bugsnagReport.deviceState = @{};
+            pnliteReport.appState = @{};
+            pnliteReport.deviceState = @{};
 
 
             NSMutableDictionary *appDict = [NSMutableDictionary new];
@@ -86,31 +86,31 @@
             BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemName], @"osName");
             BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemVersion], @"osVersion");
 
-            bugsnagReport.app = appDict;
-            bugsnagReport.device = deviceDict;
+            pnliteReport.app = appDict;
+            pnliteReport.device = deviceDict;
         }
         
-        if (![bugsnagReport shouldBeSent])
+        if (![pnliteReport shouldBeSent])
             continue;
         BOOL shouldSend = YES;
         for (PNLiteBeforeSendBlock block in configuration.beforeSendBlocks) {
-            shouldSend = block(report, bugsnagReport);
+            shouldSend = block(report, pnliteReport);
             if (!shouldSend)
                 break;
         }
         if (shouldSend) {
-            [bugsnagReports addObject:bugsnagReport];
+            [pnliteReports addObject:pnliteReport];
         }
     }
 
-    if (bugsnagReports.count == 0) {
+    if (pnliteReports.count == 0) {
         if (onCompletion) {
-            onCompletion(bugsnagReports, YES, nil);
+            onCompletion(pnliteReports, YES, nil);
         }
         return;
     }
 
-    NSDictionary *reportData = [self getBodyFromReports:bugsnagReports];
+    NSDictionary *reportData = [self getBodyFromReports:pnliteReports];
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -130,7 +130,7 @@
         return;
     }
 
-    [self.apiClient sendData:bugsnagReports
+    [self.apiClient sendData:pnliteReports
                  withPayload:reportData
                        toURL:configuration.notifyURL
             headers:[configuration errorApiHeaders]
@@ -138,7 +138,7 @@
 }
 
 
-// Generates the payload for notifying Bugsnag
+// Generates the payload for notifying PNLite
 - (NSDictionary *)getBodyFromReports:(NSArray *)reports {
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     BSGDictSetSafeObject(data, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);

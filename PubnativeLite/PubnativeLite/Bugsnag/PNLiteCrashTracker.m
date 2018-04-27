@@ -30,7 +30,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
 @interface PNLiteCrashTracker ()
 + (PNLiteNotifier *)notifier;
-+ (BOOL)bugsnagStarted;
++ (BOOL)pnliteStarted;
 @end
 
 @interface NSDictionary (PNLiteKSMerge)
@@ -39,13 +39,13 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
 @implementation PNLiteCrashTracker
 
-+ (void)startBugsnagWithApiKey:(NSString *)apiKey {
++ (void)startPNLiteCrashTrackerWithApiKey:(NSString *)apiKey {
     PNLiteConfiguration *configuration = [PNLiteConfiguration new];
     configuration.apiKey = apiKey;
-    [self startBugsnagWithConfiguration:configuration];
+    [self startPNLiteCrashTrackerWithConfiguration:configuration];
 }
 
-+ (void)startBugsnagWithConfiguration:(PNLiteConfiguration *)configuration {
++ (void)startPNLiteCrashTrackerWithConfiguration:(PNLiteConfiguration *)configuration {
     @synchronized(self) {
         bsg_g_pnlite_notifier =
         [[PNLiteNotifier alloc] initWithConfiguration:configuration];
@@ -54,7 +54,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 }
 
 + (PNLiteConfiguration *)configuration {
-    if ([self bugsnagStarted]) {
+    if ([self pnliteStarted]) {
         return self.notifier.configuration;
     }
     return nil;
@@ -143,7 +143,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 + (void)addAttribute:(NSString *)attributeName
            withValue:(id)value
        toTabWithName:(NSString *)tabName {
-    if ([self bugsnagStarted]) {
+    if ([self pnliteStarted]) {
         [self.notifier.configuration.metaData addAttribute:attributeName
                                                  withValue:value
                                              toTabWithName:tabName];
@@ -151,15 +151,15 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 }
 
 + (void)clearTabWithName:(NSString *)tabName {
-    if ([self bugsnagStarted]) {
+    if ([self pnliteStarted]) {
         [self.notifier.configuration.metaData clearTab:tabName];
     }
 }
 
-+ (BOOL)bugsnagStarted {
++ (BOOL)pnliteStarted {
     if (self.notifier == nil) {
-        pnlite_log_err(@"Ensure you have started Bugsnag with startWithApiKey: "
-                    @"before calling any other Bugsnag functions.");
+        pnlite_log_err(@"Ensure you have started PNLiteCrashTracker with startWithApiKey: "
+                    @"before calling any other PNLiteCrashTracker functions.");
 
         return NO;
     }

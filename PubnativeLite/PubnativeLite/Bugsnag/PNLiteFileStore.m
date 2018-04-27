@@ -334,7 +334,7 @@
 
 
 - (NSString *)filenameWithId:(NSString *)fileId {
-    // e.g. Bugsnag Test App-CrashReport-54D4FF86-C3D1-4167-8485-3D7539FDFFF5.json
+    // e.g. PNLite Test App-CrashReport-54D4FF86-C3D1-4167-8485-3D7539FDFFF5.json
     return [NSString stringWithFormat:@"%@%@%@.json", self.bundleName, self.filenameSuffix, fileId];
 }
 

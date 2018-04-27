@@ -44,7 +44,7 @@
 - (void)startSession;
 
 /**
- *  Notify Bugsnag of an exception
+ *  Notify PNLite of an exception
  *
  *  @param exception the exception
  *  @param block     Configuration block for adding additional report
@@ -54,7 +54,7 @@
                   block:(PNLiteNotifyBlock _Nullable)block;
 
 /**
- *  Notify Bugsnag of an exception
+ *  Notify PNLite of an exception
  *
  *  @param exception the exception
  *  @param severity  the severity
@@ -66,7 +66,7 @@
                   block:(PNLiteNotifyBlock _Nullable)block;
 
 /**
- *  Notify Bugsnag of an exception. Only intended for React Native/Unity use.
+ *  Notify PNLite of an exception. Only intended for React Native/Unity use.
  *
  *  @param exception the exception
  *  @param metaData  the metadata
@@ -78,7 +78,7 @@
                        block:(PNLiteNotifyBlock _Nullable)block;
 
 /**
- *  Notify Bugsnag of an error
+ *  Notify PNLite of an error
  *
  *  @param error the error
  *  @param block Configuration block for adding additional report information

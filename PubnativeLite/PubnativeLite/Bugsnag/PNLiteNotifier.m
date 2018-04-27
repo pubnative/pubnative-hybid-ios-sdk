@@ -50,12 +50,12 @@ struct pnlite_data_t {
     char *handledState;
     // Contains the user-specified metaData, including the user tab from config.
     char *metaDataJSON;
-    // Contains the Bugsnag configuration, all under the "config" tab.
+    // Contains the PNLite configuration, all under the "config" tab.
     char *configJSON;
     // Contains notifier state, under "deviceState" and crash-specific
     // information under "crash".
     char *stateJSON;
-    // Contains properties in the Bugsnag payload overridden by the user before
+    // Contains properties in the PNLite payload overridden by the user before
     // it was sent
     char *userOverridesJSON;
     // User onCrash handler
@@ -546,7 +546,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     //    1 bsg_kscrash_reportUserException
     //    2 -[PNLite_KSCrash
     //    reportUserException:reason:language:lineOfCode:stackTrace:terminateProgram:]
-    //    3 -[BugsnagCrashSentry reportUserException:reason:]
+    //    3 -[PNLiteCrashSentry reportUserException:reason:]
     //    4 -[PNLiteNotifier notify:message:block:]
 
     NSNumber *depth = @(PNLITE_BSGNotifierStackFrameCount + report.depth);
@@ -857,7 +857,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     }];
 #elif TARGET_OS_MAC
     NSTableView *tableView = [note object];
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
+    [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
       breadcrumb.type = BSGBreadcrumbTypeNavigation;
       breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
       if (tableView) {
@@ -876,7 +876,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 #elif TARGET_OS_MAC
     NSMenuItem *menuItem = [[notif userInfo] valueForKey:@"MenuItem"];
     if ([menuItem isKindOfClass:[NSMenuItem class]]) {
-        [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
+        [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
           breadcrumb.type = BSGBreadcrumbTypeState;
           breadcrumb.name = BSGBreadcrumbNameForNotificationName(notif.name);
           if (menuItem.title.length > 0)
@@ -900,7 +900,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     }];
 #elif TARGET_OS_MAC
     NSControl *control = note.object;
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull breadcrumb) {
+    [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
       breadcrumb.type = BSGBreadcrumbTypeUser;
       breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
       if ([control respondsToSelector:@selector(accessibilityLabel)]) {

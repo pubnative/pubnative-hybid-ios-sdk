@@ -38,7 +38,7 @@
 typedef void (^PNLiteNotifyBlock)(PNLiteCrashReport *_Nonnull report);
 
 /**
- *  A handler for modifying data before sending it to Bugsnag
+ *  A handler for modifying data before sending it to PNLite
  *
  *  @param rawEventData The raw event data written at crash time. This
  *                      includes data added in onCrashHandler.
@@ -50,7 +50,7 @@ typedef bool (^PNLiteBeforeSendBlock)(NSDictionary *_Nonnull rawEventData,
                                        PNLiteCrashReport *_Nonnull reports);
 
 /**
- *  A handler for modifying data before sending it to Bugsnag
+ *  A handler for modifying data before sending it to PNLite
  *
  *  @param rawEventReports The raw event data written at crash time. This
  *                         includes data added in onCrashHandler.
@@ -63,11 +63,11 @@ typedef NSDictionary *_Nullable (^PNLiteBeforeNotifyHook)(
 
 @interface PNLiteConfiguration : NSObject
 /**
- *  The API key of a Bugsnag project
+ *  The API key of a PNLite project
  */
 @property(readwrite, retain, nullable) NSString *apiKey;
 /**
- *  The URL used to notify Bugsnag
+ *  The URL used to notify PNLite
  */
 @property(readwrite, retain, nullable) NSURL *notifyURL;
 /**
@@ -76,7 +76,7 @@ typedef NSDictionary *_Nullable (^PNLiteBeforeNotifyHook)(
  */
 @property(readwrite, retain, nullable) NSString *releaseStage;
 /**
- *  Release stages which are allowed to notify Bugsnag
+ *  Release stages which are allowed to notify PNLite
  */
 @property(readwrite, retain, nullable) NSArray *notifyReleaseStages;
 /**
@@ -89,7 +89,7 @@ typedef NSDictionary *_Nullable (^PNLiteBeforeNotifyHook)(
 @property(readwrite, retain, nullable) NSString *appVersion;
 
 /**
- *  The URL session used to send requests to Bugsnag.
+ *  The URL session used to send requests to PNLite.
  */
 @property(readwrite, strong, nonnull) NSURLSession *session;
 
@@ -104,7 +104,7 @@ typedef NSDictionary *_Nullable (^PNLiteBeforeNotifyHook)(
  */
 @property(readwrite, retain, nullable) PNLiteMetaData *metaData;
 /**
- *  Meta-information about the state of Bugsnag
+ *  Meta-information about the state of PNLite
  */
 @property(readwrite, retain, nullable) PNLiteMetaData *config;
 /**
@@ -119,7 +119,7 @@ PNLiteBreadcrumbs *breadcrumbs;
 @property(readwrite) BOOL automaticallyCollectBreadcrumbs;
 
 /**
- *  Hooks for modifying crash reports before it is sent to Bugsnag
+ *  Hooks for modifying crash reports before it is sent to PNLite
  */
 @property(readonly, strong, nullable)
     NSArray<PNLiteBeforeSendBlock> *beforeSendBlocks;
@@ -140,7 +140,7 @@ PNLiteBreadcrumbs *breadcrumbs;
 
 /**
  * Set the endpoint to which tracked sessions reports are sent. This defaults to https://sessions.bugsnag.com,
- * but should be overridden if you are using Bugsnag On-premise, to point to your own Bugsnag endpoint.
+ * but should be overridden if you are using PNLite On-premise, to point to your own PNLite endpoint.
  */
 @property(readwrite, retain, nullable) NSURL *sessionURL;
 
@@ -156,7 +156,7 @@ PNLiteBreadcrumbs *breadcrumbs;
        andEmail:(NSString *_Nullable)email;
 
 /**
- *  Add a callback to be invoked before a report is sent to Bugsnag, to
+ *  Add a callback to be invoked before a report is sent to PNLite, to
  *  change the report contents as needed
  *
  *  @param block A block which returns YES if the report should be sent
@@ -178,7 +178,7 @@ PNLiteBreadcrumbs *breadcrumbs;
 - (void)addBeforeNotifyHook:(PNLiteBeforeNotifyHook _Nonnull)hook
     __deprecated_msg("Use addBeforeSendBlock: instead.");
 /**
- *  Hooks for processing raw report data before it is sent to Bugsnag
+ *  Hooks for processing raw report data before it is sent to PNLite
  */
 @property(readonly, strong, nullable)
     NSArray *beforeNotifyHooks __deprecated_msg("Use beforeNotify instead.");
