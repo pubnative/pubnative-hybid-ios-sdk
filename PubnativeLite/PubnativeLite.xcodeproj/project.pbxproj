@@ -1516,7 +1516,7 @@
 				5A540250202B0C04005D80E6 /* PNLiteTargetingModel.m */,
 				5A540254202B1085005D80E6 /* PNLiteSettings.h */,
 				5A540255202B1085005D80E6 /* PNLiteSettings.m */,
-				5A8F10202089E4D20098E337 /* Bugsnag */,
+				5A8F10202089E4D20098E337 /* Crash Tracking */,
 				5ABE013D203F344A00E6A14E /* Location */,
 				5ABE013C203F33AD00E6A14E /* Network */,
 				5ABE013B203F332100E6A14E /* Ad Model */,
@@ -2181,7 +2181,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5A8F10202089E4D20098E337 /* Bugsnag */ = {
+		5A8F10202089E4D20098E337 /* Crash Tracking */ = {
 			isa = PBXGroup;
 			children = (
 				5A8F10212089E4D20098E337 /* PNLiteErrorReportApiClient.h */,
@@ -2233,7 +2233,7 @@
 				5A8F10A92089E4D20098E337 /* PNLiteConnectivity.m */,
 				5A8F103B2089E4D20098E337 /* KSCrash */,
 			);
-			path = Bugsnag;
+			path = "Crash Tracking";
 			sourceTree = "<group>";
 		};
 		5A8F103B2089E4D20098E337 /* KSCrash */ = {
