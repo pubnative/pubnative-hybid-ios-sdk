@@ -22,7 +22,7 @@
 
 #include "PNLite_KSZombie.h"
 #include "PNLite_KSLogger.h"
-#include "BSG_KSObjC.h"
+#include "PNLite_KSObjC.h"
 
 #include <objc/runtime.h>
 
@@ -56,7 +56,7 @@ static inline size_t hashIndex(const void *object) {
 static bool copyStringIvar(const void *self, const char *ivarName, char *buffer,
                            size_t bufferLength) {
     Class class = object_getClass((id)self);
-    BSG_KSObjCIvar ivar = {0};
+    PNLite_KSObjCIvar ivar = {0};
     likely_if(bsg_ksobjc_ivarNamed(class, ivarName, &ivar)) {
         void *pointer;
         likely_if(bsg_ksobjc_ivarValue(self, ivar.index, &pointer)) {

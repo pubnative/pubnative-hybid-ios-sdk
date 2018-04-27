@@ -29,7 +29,7 @@
 #include "PNLite_KSFileUtils.h"
 #include "PNLite_KSJSONCodec.h"
 #include "PNLite_KSMach.h"
-#include "BSG_KSObjC.h"
+#include "PNLite_KSObjC.h"
 #include "PNLite_KSSignalInfo.h"
 #include "PNLite_KSString.h"
 #include "PNLite_KSZombie.h"
@@ -741,7 +741,7 @@ void bsg_kscrw_i_writeUnknownObjectContents(
     const uintptr_t objectAddress, int *limit) {
     (*limit)--;
     const void *object = (const void *)objectAddress;
-    BSG_KSObjCIvar ivars[10];
+    PNLite_KSObjCIvar ivars[10];
     char s8;
     short s16;
     int sInt;
@@ -769,7 +769,7 @@ void bsg_kscrw_i_writeUnknownObjectContents(
                 class, ivars, sizeof(ivars) / sizeof(*ivars));
             *limit -= (int)ivarCount;
             for (size_t i = 0; i < ivarCount; i++) {
-                BSG_KSObjCIvar *ivar = &ivars[i];
+                PNLite_KSObjCIvar *ivar = &ivars[i];
                 
                 if (ivar->type == NULL) {
                     PNLite_KSLOG_ERROR("Found null ivar :(");
@@ -885,7 +885,7 @@ void bsg_kscrw_i_writeMemoryContents(
                                      zombieClassName);
         }
         switch (bsg_ksobjc_objectType(object)) {
-        case BSG_KSObjCTypeUnknown:
+            case PNLite_KSObjCTypeUnknown:
             if (object == NULL) {
                 writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                          PNLite_KSCrashMemType_NullPointer);
@@ -899,51 +899,51 @@ void bsg_kscrw_i_writeMemoryContents(
                                          PNLite_KSCrashMemType_Unknown);
             }
             break;
-        case BSG_KSObjCTypeClass:
+        case PNLite_KSObjCTypeClass:
             writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                      PNLite_KSCrashMemType_Class);
             writer->addStringElement(writer, PNLite_KSCrashField_Class,
                                      bsg_ksobjc_className(object));
             break;
-        case BSG_KSObjCTypeObject: {
+        case PNLite_KSObjCTypeObject: {
             writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                      PNLite_KSCrashMemType_Object);
             const char *className = bsg_ksobjc_objectClassName(object);
             writer->addStringElement(writer, PNLite_KSCrashField_Class, className);
             if (!bsg_kscrw_i_isRestrictedClass(className)) {
                 switch (bsg_ksobjc_objectClassType(object)) {
-                case BSG_KSObjCClassTypeString:
+                case PNLite_KSObjCClassTypeString:
                     bsg_kscrw_i_writeNSStringContents(
                         writer, PNLite_KSCrashField_Value, address, limit);
                     break;
-                case BSG_KSObjCClassTypeURL:
+                case PNLite_KSObjCClassTypeURL:
                     bsg_kscrw_i_writeURLContents(writer, PNLite_KSCrashField_Value,
                                                  address, limit);
                     break;
-                case BSG_KSObjCClassTypeDate:
+                case PNLite_KSObjCClassTypeDate:
                     bsg_kscrw_i_writeDateContents(
                         writer, PNLite_KSCrashField_Value, address, limit);
                     break;
-                case BSG_KSObjCClassTypeArray:
+                case PNLite_KSObjCClassTypeArray:
                     if (*limit > 0) {
                         bsg_kscrw_i_writeArrayContents(
                             writer, PNLite_KSCrashField_FirstObject, address,
                             limit);
                     }
                     break;
-                case BSG_KSObjCClassTypeNumber:
+                case PNLite_KSObjCClassTypeNumber:
                     bsg_kscrw_i_writeNumberContents(
                         writer, PNLite_KSCrashField_Value, address, limit);
                     break;
-                case BSG_KSObjCClassTypeDictionary:
-                case BSG_KSObjCClassTypeException:
+                case PNLite_KSObjCClassTypeDictionary:
+                case PNLite_KSObjCClassTypeException:
                     // TODO: Implement these.
                     if (*limit > 0) {
                         bsg_kscrw_i_writeUnknownObjectContents(
                             writer, PNLite_KSCrashField_Ivars, address, limit);
                     }
                     break;
-                case BSG_KSObjCClassTypeUnknown:
+                case PNLite_KSObjCClassTypeUnknown:
                     if (*limit > 0) {
                         bsg_kscrw_i_writeUnknownObjectContents(
                             writer, PNLite_KSCrashField_Ivars, address, limit);
@@ -953,7 +953,7 @@ void bsg_kscrw_i_writeMemoryContents(
             }
             break;
         }
-        case BSG_KSObjCTypeBlock:
+        case PNLite_KSObjCTypeBlock:
             writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                      PNLite_KSCrashMemType_Block);
             const char *className = bsg_ksobjc_objectClassName(object);
@@ -996,7 +996,7 @@ void bsg_kscrw_i_writeMemoryContentsIfNotable(
 
     const void *object = (const void *)address;
 
-    if (bsg_ksobjc_objectType(object) == BSG_KSObjCTypeUnknown &&
+    if (bsg_ksobjc_objectType(object) == PNLite_KSObjCTypeUnknown &&
         bsg_kszombie_className(object) == NULL &&
         !bsg_kscrw_i_isValidString(object)) {
         // Nothing notable about this memory location.

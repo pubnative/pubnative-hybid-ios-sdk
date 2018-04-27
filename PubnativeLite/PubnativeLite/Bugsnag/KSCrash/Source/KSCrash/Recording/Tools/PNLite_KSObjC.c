@@ -1,30 +1,26 @@
 //
-//  BSG_KSObjC.c
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-08-30.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#include "BSG_KSObjC.h"
+#include "PNLite_KSObjC.h"
 #include "PNLite_KSObjCApple.h"
 
 #include "PNLite_KSMach.h"
@@ -70,7 +66,7 @@ typedef enum {
 
 typedef struct {
     const char *name;
-    BSG_KSObjCClassType type;
+    PNLite_KSObjCClassType type;
     ClassSubtype subtype;
     bool isMutable;
     bool (*isValidObject)(const void *object);
@@ -116,63 +112,63 @@ static size_t taggedNumberDescription(const void *object, char *buffer,
 static size_t taggedStringDescription(const void *object, char *buffer,
                                       size_t bufferLength);
 
-static ClassData bsg_g_classData[] = {
-    {"__NSCFString", BSG_KSObjCClassTypeString, ClassSubtypeNone, true,
+static ClassData pnlite_g_classData[] = {
+    {"__NSCFString", PNLite_KSObjCClassTypeString, ClassSubtypeNone, true,
      stringIsValid, stringDescription},
-    {"NSCFString", BSG_KSObjCClassTypeString, ClassSubtypeNone, true,
+    {"NSCFString", PNLite_KSObjCClassTypeString, ClassSubtypeNone, true,
      stringIsValid, stringDescription},
-    {"__NSCFConstantString", BSG_KSObjCClassTypeString, ClassSubtypeNone, true,
+    {"__NSCFConstantString", PNLite_KSObjCClassTypeString, ClassSubtypeNone, true,
      stringIsValid, stringDescription},
-    {"NSCFConstantString", BSG_KSObjCClassTypeString, ClassSubtypeNone, true,
+    {"NSCFConstantString", PNLite_KSObjCClassTypeString, ClassSubtypeNone, true,
      stringIsValid, stringDescription},
-    {"__NSArray0", BSG_KSObjCClassTypeArray, ClassSubtypeNSArrayImmutable,
+    {"__NSArray0", PNLite_KSObjCClassTypeArray, ClassSubtypeNSArrayImmutable,
      false, arrayIsValid, arrayDescription},
-    {"__NSArrayI", BSG_KSObjCClassTypeArray, ClassSubtypeNSArrayImmutable,
+    {"__NSArrayI", PNLite_KSObjCClassTypeArray, ClassSubtypeNSArrayImmutable,
      false, arrayIsValid, arrayDescription},
-    {"__NSArrayM", BSG_KSObjCClassTypeArray, ClassSubtypeNSArrayMutable, true,
+    {"__NSArrayM", PNLite_KSObjCClassTypeArray, ClassSubtypeNSArrayMutable, true,
      arrayIsValid, arrayDescription},
-    {"__NSCFArray", BSG_KSObjCClassTypeArray, ClassSubtypeCFArray, false,
+    {"__NSCFArray", PNLite_KSObjCClassTypeArray, ClassSubtypeCFArray, false,
      arrayIsValid, arrayDescription},
-    {"NSCFArray", BSG_KSObjCClassTypeArray, ClassSubtypeCFArray, false,
+    {"NSCFArray", PNLite_KSObjCClassTypeArray, ClassSubtypeCFArray, false,
      arrayIsValid, arrayDescription},
-    {"__NSDate", BSG_KSObjCClassTypeDate, ClassSubtypeNone, false, dateIsValid,
+    {"__NSDate", PNLite_KSObjCClassTypeDate, ClassSubtypeNone, false, dateIsValid,
      dateDescription},
-    {"NSDate", BSG_KSObjCClassTypeDate, ClassSubtypeNone, false, dateIsValid,
+    {"NSDate", PNLite_KSObjCClassTypeDate, ClassSubtypeNone, false, dateIsValid,
      dateDescription},
-    {"__NSCFNumber", BSG_KSObjCClassTypeNumber, ClassSubtypeNone, false,
+    {"__NSCFNumber", PNLite_KSObjCClassTypeNumber, ClassSubtypeNone, false,
      numberIsValid, numberDescription},
-    {"NSCFNumber", BSG_KSObjCClassTypeNumber, ClassSubtypeNone, false,
+    {"NSCFNumber", PNLite_KSObjCClassTypeNumber, ClassSubtypeNone, false,
      numberIsValid, numberDescription},
-    {"NSNumber", BSG_KSObjCClassTypeNumber, ClassSubtypeNone, false,
+    {"NSNumber", PNLite_KSObjCClassTypeNumber, ClassSubtypeNone, false,
      numberIsValid, numberDescription},
-    {"NSURL", BSG_KSObjCClassTypeURL, ClassSubtypeNone, false, urlIsValid,
+    {"NSURL", PNLite_KSObjCClassTypeURL, ClassSubtypeNone, false, urlIsValid,
      urlDescription},
-    {NULL, BSG_KSObjCClassTypeUnknown, ClassSubtypeNone, false, objectIsValid,
+    {NULL, PNLite_KSObjCClassTypeUnknown, ClassSubtypeNone, false, objectIsValid,
      objectDescription},
 };
 
-static ClassData bsg_g_taggedClassData[] = {
-    {"NSAtom", BSG_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
+static ClassData pnlite_g_taggedClassData[] = {
+    {"NSAtom", PNLite_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
      taggedObjectIsValid, taggedObjectDescription},
-    {NULL, BSG_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
+    {NULL, PNLite_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
      taggedObjectIsValid, taggedObjectDescription},
-    {"NSString", BSG_KSObjCClassTypeString, ClassSubtypeNone, false,
+    {"NSString", PNLite_KSObjCClassTypeString, ClassSubtypeNone, false,
      taggedStringIsValid, taggedStringDescription},
-    {"NSNumber", BSG_KSObjCClassTypeNumber, ClassSubtypeNone, false,
+    {"NSNumber", PNLite_KSObjCClassTypeNumber, ClassSubtypeNone, false,
      taggedNumberIsValid, taggedNumberDescription},
-    {"NSIndexPath", BSG_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
+    {"NSIndexPath", PNLite_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
      taggedObjectIsValid, taggedObjectDescription},
-    {"NSManagedObjectID", BSG_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
+    {"NSManagedObjectID", PNLite_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
      taggedObjectIsValid, taggedObjectDescription},
-    {"NSDate", BSG_KSObjCClassTypeDate, ClassSubtypeNone, false,
+    {"NSDate", PNLite_KSObjCClassTypeDate, ClassSubtypeNone, false,
      taggedDateIsValid, taggedDateDescription},
-    {NULL, BSG_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
+    {NULL, PNLite_KSObjCClassTypeUnknown, ClassSubtypeNone, false,
      taggedObjectIsValid, taggedObjectDescription},
 };
-static size_t bsg_g_taggedClassDataCount =
-    sizeof(bsg_g_taggedClassData) / sizeof(*bsg_g_taggedClassData);
+static size_t pnlite_g_taggedClassDataCount =
+    sizeof(pnlite_g_taggedClassData) / sizeof(*pnlite_g_taggedClassData);
 
-static const char *bsg_g_blockBaseClassName = "NSBlock";
+static const char *pnlite_g_blockBaseClassName = "NSBlock";
 
 //======================================================================
 #pragma mark - Utility -
@@ -204,14 +200,14 @@ uintptr_t bsg_getTaggedPayload(const void *pointer) {
 static const ClassData *
 getClassDataFromTaggedPointer(const void *const object) {
     uintptr_t slot = bsg_getTaggedSlot(object);
-    return &bsg_g_taggedClassData[slot];
+    return &pnlite_g_taggedClassData[slot];
 }
 
 static bool isValidTaggedPointer(const void *object) {
     if (bsg_isTaggedPointer(object)) {
-        if (bsg_getTaggedSlot(object) <= bsg_g_taggedClassDataCount) {
+        if (bsg_getTaggedSlot(object) <= pnlite_g_taggedClassDataCount) {
             const ClassData *classData = getClassDataFromTaggedPointer(object);
-            return classData->type != BSG_KSObjCClassTypeUnknown;
+            return classData->type != PNLite_KSObjCClassTypeUnknown;
         }
     }
     return false;
@@ -397,7 +393,7 @@ static CFAbsoluteTime extractTaggedNSDate(const void *const object) {
  */
 static ClassData *getClassData(const void *class) {
     const char *className = getClassName(class);
-    for (ClassData *data = bsg_g_classData;; data++) {
+    for (ClassData *data = pnlite_g_classData;; data++) {
         unlikely_if(data->name == NULL) { return data; }
         unlikely_if(class == data->class) { return data; }
         unlikely_if(data->class == NULL && strcmp(className, data->name) == 0) {
@@ -446,7 +442,7 @@ static size_t stringPrintf(char *buffer, size_t bufferLength, const char *fmt,
 #define N_S 7 // Name start character: Valid for anything.
 #define T_C 4 // Type character: Valid for types only.
 
-static const unsigned int bsg_g_nameChars[] = {
+static const unsigned int pnlite_g_nameChars[] = {
     INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV,
     INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV, INV,
     INV, INV, INV, T_C, T_C, T_C, T_C, T_C, T_C, T_C, T_C, T_C, T_C, T_C, T_C,
@@ -467,9 +463,9 @@ static const unsigned int bsg_g_nameChars[] = {
     INV,
 };
 
-#define VALID_NAME_CHAR(A) ((bsg_g_nameChars[(uint8_t)(A)] & 1) != 0)
-#define VALID_NAME_START_CHAR(A) ((bsg_g_nameChars[(uint8_t)(A)] & 2) != 0)
-#define VALID_TYPE_CHAR(A) ((bsg_g_nameChars[(uint8_t)(A)] & 7) != 0)
+#define VALID_NAME_CHAR(A) ((pnlite_g_nameChars[(uint8_t)(A)] & 1) != 0)
+#define VALID_NAME_START_CHAR(A) ((pnlite_g_nameChars[(uint8_t)(A)] & 2) != 0)
+#define VALID_TYPE_CHAR(A) ((pnlite_g_nameChars[(uint8_t)(A)] & 7) != 0)
 
 static bool isValidName(const char *const name, const size_t maxLength) {
     if ((uintptr_t)name + maxLength < (uintptr_t)name) {
@@ -670,7 +666,7 @@ size_t bsg_ksobjc_ivarCount(const void *const classPtr) {
     return ivars->count;
 }
 
-size_t bsg_ksobjc_ivarList(const void *const classPtr, BSG_KSObjCIvar *dstIvars,
+size_t bsg_ksobjc_ivarList(const void *const classPtr, PNLite_KSObjCIvar *dstIvars,
                            size_t ivarsCount) {
     if (dstIvars == NULL) {
         return 0;
@@ -688,7 +684,7 @@ size_t bsg_ksobjc_ivarList(const void *const classPtr, BSG_KSObjCIvar *dstIvars,
     uintptr_t srcPtr = (uintptr_t)&srcIvars->first;
     const struct ivar_t *src = (void *)srcPtr;
     for (size_t i = 0; i < count; i++) {
-        BSG_KSObjCIvar *dst = &dstIvars[i];
+        PNLite_KSObjCIvar *dst = &dstIvars[i];
         dst->name = src->name;
         dst->type = src->type;
         dst->index = i;
@@ -699,7 +695,7 @@ size_t bsg_ksobjc_ivarList(const void *const classPtr, BSG_KSObjCIvar *dstIvars,
 }
 
 bool bsg_ksobjc_ivarNamed(const void *const classPtr, const char *name,
-                          BSG_KSObjCIvar *dst) {
+                          PNLite_KSObjCIvar *dst) {
     if (name == NULL) {
         return false;
     }
@@ -767,50 +763,50 @@ static inline bool isBlockClass(const void *class) {
     if (name == NULL) {
         return false;
     }
-    return strcmp(name, bsg_g_blockBaseClassName) == 0;
+    return strcmp(name, pnlite_g_blockBaseClassName) == 0;
 }
 
-BSG_KSObjCType bsg_ksobjc_objectType(const void *objectOrClassPtr) {
+PNLite_KSObjCType bsg_ksobjc_objectType(const void *objectOrClassPtr) {
     if (objectOrClassPtr == NULL) {
-        return BSG_KSObjCTypeUnknown;
+        return PNLite_KSObjCTypeUnknown;
     }
 
     if (bsg_isTaggedPointer(objectOrClassPtr)) {
-        return BSG_KSObjCTypeObject;
+        return PNLite_KSObjCTypeObject;
     }
 
     if (!isValidObject(objectOrClassPtr)) {
-        return BSG_KSObjCTypeUnknown;
+        return PNLite_KSObjCTypeUnknown;
     }
 
     if (!hasValidISAPointer(objectOrClassPtr)) {
-        return BSG_KSObjCTypeUnknown;
+        return PNLite_KSObjCTypeUnknown;
     }
 
     const struct class_t *isa = bsg_getIsaPointer(objectOrClassPtr);
 
     if (!containsValidROData(isa)) {
-        return BSG_KSObjCTypeUnknown;
+        return PNLite_KSObjCTypeUnknown;
     }
     if (!containsValidClassName(isa)) {
-        return BSG_KSObjCTypeUnknown;
+        return PNLite_KSObjCTypeUnknown;
     }
 
     if (isBlockClass(isa)) {
-        return BSG_KSObjCTypeBlock;
+        return PNLite_KSObjCTypeBlock;
     }
     if (!isMetaClass(isa)) {
-        return BSG_KSObjCTypeObject;
+        return PNLite_KSObjCTypeObject;
     }
 
     if (!containsValidIvarData(isa)) {
-        return BSG_KSObjCTypeUnknown;
+        return PNLite_KSObjCTypeUnknown;
     }
     if (!containsValidClassName(isa)) {
-        return BSG_KSObjCTypeUnknown;
+        return PNLite_KSObjCTypeUnknown;
     }
 
-    return BSG_KSObjCTypeClass;
+    return PNLite_KSObjCTypeClass;
 }
 
 //======================================================================
@@ -1494,7 +1490,7 @@ bool bsg_ksobjc_isValidObject(const void *object) {
     return data->isValidObject(object);
 }
 
-BSG_KSObjCClassType bsg_ksobjc_objectClassType(const void *object) {
+PNLite_KSObjCClassType bsg_ksobjc_objectClassType(const void *object) {
     const ClassData *data = getClassDataFromObject(object);
     return data->type;
 }

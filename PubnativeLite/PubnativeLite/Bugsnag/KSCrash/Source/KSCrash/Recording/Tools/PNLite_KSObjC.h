@@ -1,31 +1,27 @@
 //
-//  BSG_KSObjC.h
+//  Copyright © 2018 PubNative. All rights reserved.
 //
-//  Created by Karl Stenerud on 2012-08-30.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-//  Copyright (c) 2012 Karl Stenerud. All rights reserved.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall remain in place
-// in this source code.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
-#ifndef HDR_BSG_KSObjC_h
-#define HDR_BSG_KSObjC_h
+#ifndef HDR_PNLite_KSObjC_h
+#define HDR_PNLite_KSObjC_h
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,34 +31,34 @@ extern "C" {
 #include <mach/kern_return.h>
 
 typedef enum {
-    BSG_KSObjCTypeUnknown = 0,
-    BSG_KSObjCTypeClass,
-    BSG_KSObjCTypeObject,
-    BSG_KSObjCTypeBlock,
-} BSG_KSObjCType;
+    PNLite_KSObjCTypeUnknown = 0,
+    PNLite_KSObjCTypeClass,
+    PNLite_KSObjCTypeObject,
+    PNLite_KSObjCTypeBlock,
+} PNLite_KSObjCType;
 
 typedef enum {
-    BSG_KSObjCClassTypeUnknown = 0,
-    BSG_KSObjCClassTypeString,
-    BSG_KSObjCClassTypeDate,
-    BSG_KSObjCClassTypeURL,
-    BSG_KSObjCClassTypeArray,
-    BSG_KSObjCClassTypeDictionary,
-    BSG_KSObjCClassTypeNumber,
-    BSG_KSObjCClassTypeException,
-} BSG_KSObjCClassType;
+    PNLite_KSObjCClassTypeUnknown = 0,
+    PNLite_KSObjCClassTypeString,
+    PNLite_KSObjCClassTypeDate,
+    PNLite_KSObjCClassTypeURL,
+    PNLite_KSObjCClassTypeArray,
+    PNLite_KSObjCClassTypeDictionary,
+    PNLite_KSObjCClassTypeNumber,
+    PNLite_KSObjCClassTypeException,
+} PNLite_KSObjCClassType;
 
 typedef struct {
     const char *name;
     const char *type;
     size_t index;
-} BSG_KSObjCIvar;
+} PNLite_KSObjCIvar;
 
 //======================================================================
 #pragma mark - Initialization -
 //======================================================================
 
-/** Initialize BSG_KSObjC.
+/** Initialize PNLite_KSObjC.
  */
 void bsg_ksobjc_init(void);
 
@@ -98,10 +94,10 @@ bool bsg_ksobjc_isValidTaggedPointer(const void *const pointer);
  *
  * @param objectOrClassPtr Pointer to something that may be an object or class.
  *
- * @return The type of object, or BSG_KSObjCTypeNone if it was not an object or
+ * @return The type of object, or PNLite_KSObjCTypeNone if it was not an object or
  *         was inaccessible.
  */
-BSG_KSObjCType bsg_ksobjc_objectType(const void *objectOrClassPtr);
+PNLite_KSObjCType bsg_ksobjc_objectType(const void *objectOrClassPtr);
 
 /** Check that an object contains valid data.
  * If the object is of a recognized type (string, date, array, etc),
@@ -214,7 +210,7 @@ size_t bsg_ksobjc_ivarCount(const void *classPtr);
  *
  * @return The number of ivars copied.
  */
-size_t bsg_ksobjc_ivarList(const void *classPtr, BSG_KSObjCIvar *dstIvars,
+size_t bsg_ksobjc_ivarList(const void *classPtr, PNLite_KSObjCIvar *dstIvars,
                            size_t ivarsCount);
 
 /** Get ivar information by name/
@@ -228,7 +224,7 @@ size_t bsg_ksobjc_ivarList(const void *classPtr, BSG_KSObjCIvar *dstIvars,
  * @return true if the operation was successful.
  */
 bool bsg_ksobjc_ivarNamed(const void *const classPtr, const char *name,
-                          BSG_KSObjCIvar *dst);
+                          PNLite_KSObjCIvar *dst);
 
 /** Get the value of an ivar in an object.
  *
@@ -272,15 +268,15 @@ size_t bsg_ksobjc_getDescription(void *object, char *buffer,
                                  size_t bufferLength);
 
 /** Get the class type of an object.
- * There are a number of common class types that BSG_KSObjC understamds,
- * listed in BSG_KSObjCClassType.
+ * There are a number of common class types that PNLite_KSObjC understamds,
+ * listed in PNLite_KSObjCClassType.
  *
  * @param object The object to query.
  *
- * @return The class type, or BSG_KSObjCClassTypeUnknown if it couldn't be
+ * @return The class type, or PNLite_KSObjCClassTypeUnknown if it couldn't be
  * determined.
  */
-BSG_KSObjCClassType bsg_ksobjc_objectClassType(const void *object);
+PNLite_KSObjCClassType bsg_ksobjc_objectClassType(const void *object);
 
 //======================================================================
 #pragma mark - Object-Specific Queries -
@@ -405,4 +401,4 @@ size_t bsg_ksobjc_dictionaryCount(const void *dict);
 }
 #endif
 
-#endif // HDR_BSG_KSObjC_h
+#endif // HDR_PNLite_KSObjC_h
