@@ -128,7 +128,7 @@ NSString *BSGBreadcrumbNameForNotificationName(NSString *name) {
 }
 
 /**
- *  Writes a dictionary to a destination using the BSG_KSCrash JSON encoding
+ *  Writes a dictionary to a destination using the PNLite_KSCrash JSON encoding
  *
  *  @param dictionary  data to encode
  *  @param destination target location of the data
@@ -544,7 +544,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     //
     //    0 bsg_kscrashsentry_reportUserException
     //    1 bsg_kscrash_reportUserException
-    //    2 -[BSG_KSCrash
+    //    2 -[PNLite_KSCrash
     //    reportUserException:reason:language:lineOfCode:stackTrace:terminateProgram:]
     //    3 -[BugsnagCrashSentry reportUserException:reason:]
     //    4 -[PNLiteNotifier notify:message:block:]

@@ -69,7 +69,7 @@ typedef enum {
 @property(nonatomic, readwrite, assign) int maxStoredReports;
 
 /** Which languages to demangle when getting stack traces (default
- * BSG_KSCrashDemangleLanguageAll) */
+ * PNLite_KSCrashDemangleLanguageAll) */
 @property(nonatomic, readwrite, assign)
     PNLite_KSCrashDemangleLanguage demangleLanguages;
 
@@ -83,7 +83,7 @@ typedef enum {
 
 #pragma mark - Configuration -
 
-/** Init BSG_KSCrash instance with custom report files directory path. */
+/** Init PNLite_KSCrash instance with custom report files directory path. */
 - (id)initWithReportFilesDirectory:(NSString *)reportFilesDirectory;
 
 /** Store containing all crash reports. */
@@ -110,7 +110,7 @@ typedef enum {
  */
 @property(nonatomic, readwrite, assign) PNLite_KSReportWriteCallback onCrash;
 
-/** Path where the log of BSG_KSCrash's activities will be written.
+/** Path where the log of PNLite_KSCrash's activities will be written.
  * If nil, log entries will be printed to the console.
  *
  * This property cannot be set directly. Use one of the "redirectConsoleLogs"
@@ -134,7 +134,7 @@ typedef enum {
  */
 - (BOOL)redirectConsoleLogsToDefaultFile;
 
-/** Redirect the log of BSG_KSCrash's activities from the console to the
+/** Redirect the log of PNLite_KSCrash's activities from the console to the
  * specified log file.
  *
  * @param fullPath The path to the logfile (nil = log to console instead).

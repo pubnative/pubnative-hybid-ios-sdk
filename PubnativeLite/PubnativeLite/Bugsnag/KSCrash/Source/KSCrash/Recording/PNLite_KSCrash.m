@@ -497,8 +497,8 @@ PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 
 @end
 
-//! Project version number for BSG_KSCrashFramework.
+//! Project version number for PNLite_KSCrashFramework.
 const double PNLite_KSCrashFrameworkVersionNumber = 1.813;
 
-//! Project version string for BSG_KSCrashFramework.
+//! Project version string for PNLite_KSCrashFramework.
 const unsigned char PNLite_KSCrashFrameworkVersionString[] = "1.8.13";

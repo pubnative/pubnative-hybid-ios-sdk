@@ -23,8 +23,8 @@
 /* Catches Objective-C exceptions.
  */
 
-#ifndef HDR_BSG_KSCrashSentry_NSException_h
-#define HDR_BSG_KSCrashSentry_NSException_h
+#ifndef HDR_PNLite_KSCrashSentry_NSException_h
+#define HDR_PNLite_KSCrashSentry_NSException_h
 
 #ifdef __cplusplus
 extern "C" {

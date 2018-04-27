@@ -60,7 +60,7 @@ typedef enum {
     PNLite_KSCDeleteBehavior deleteBehaviorAfterSendAll;
 
 /** The crash types that are being handled.
- * Note: This value may change once BSG_KSCrash is installed if some handlers
+ * Note: This value may change once PNLite_KSCrash is installed if some handlers
  *       fail to install.
  */
 @property(nonatomic, readwrite, assign) PNLite_KSCrashType handlingCrashTypes;

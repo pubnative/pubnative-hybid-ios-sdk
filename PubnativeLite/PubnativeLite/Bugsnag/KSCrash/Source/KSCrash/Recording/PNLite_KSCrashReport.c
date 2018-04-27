@@ -34,7 +34,7 @@
 #include "PNLite_KSString.h"
 #include "PNLite_KSZombie.h"
 
-//#define BSG_kSLogger_LocalLevel TRACE
+//#define PNLite_kSLogger_LocalLevel TRACE
 #include "PNLite_KSLogger.h"
 
 #ifdef __arm64__

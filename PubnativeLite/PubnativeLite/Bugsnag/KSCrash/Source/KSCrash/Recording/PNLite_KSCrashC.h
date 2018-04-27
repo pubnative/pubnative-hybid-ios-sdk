@@ -60,10 +60,10 @@ PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
  *
  * @param crashTypes The crash types to handle.
  *
- * @return The crash types that are now behing handled. If BSG_KSCrash has been
+ * @return The crash types that are now behing handled. If PNLite_KSCrash has been
  *         installed, the return value represents the crash sentries that were
  *         successfully installed. Otherwise it represents which sentries it
- *         will attempt to activate when BSG_KSCrash installs.
+ *         will attempt to activate when PNLite_KSCrash installs.
  */
 PNLite_KSCrashType bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTypes);
 

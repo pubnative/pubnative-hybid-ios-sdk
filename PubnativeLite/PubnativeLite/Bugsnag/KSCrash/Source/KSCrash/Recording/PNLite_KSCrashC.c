@@ -41,7 +41,7 @@
 #pragma mark - Globals -
 // ============================================================================
 
-/** True if BSG_KSCrash has been installed. */
+/** True if PNLite_KSCrash has been installed. */
 static volatile sig_atomic_t pnlite_g_installed = 0;
 
 /** Single, global crash context. */

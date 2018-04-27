@@ -105,7 +105,7 @@
  * "KSLogger_LocalLevel" define. Note that it must be defined BEFORE
  * including PNLite_KSLogger.h
  *
- * The BSG_KSLOG_XX() and BSG_KSLOGBASIC_XX() macros will print out based on the
+ * The PNLite_KSLOG_XX() and PNLite_KSLOGBASIC_XX() macros will print out based on the
  * LOWER of PNLite_KSLogger_Level and PNLite_KSLogger_LocalLevel, so if
  * PNLite_KSLogger_Level is DEBUG and PNLite_KSLogger_LocalLevel is TRACE, it will
  * print all the way down to the trace level for the local file where

@@ -34,7 +34,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 @end
 
 @interface NSDictionary (PNLiteKSMerge)
-- (NSDictionary *)BSG_mergedInto:(NSDictionary *)dest;
+- (NSDictionary *)PNLite_mergedInto:(NSDictionary *)dest;
 @end
 
 @implementation PNLiteCrashTracker
@@ -111,7 +111,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
                   block:^(PNLiteCrashReport *_Nonnull report) {
                     report.depth += 2;
                     report.metaData = [metaData
-                        BSG_mergedInto:[self.notifier.configuration
+                        PNLite_mergedInto:[self.notifier.configuration
                                                .metaData toDictionary]];
                   }];
 }
@@ -126,7 +126,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
                   block:^(PNLiteCrashReport *_Nonnull report) {
                     report.depth += 2;
                     report.metaData = [metaData
-                        BSG_mergedInto:[self.notifier.configuration
+                        PNLite_mergedInto:[self.notifier.configuration
                                                .metaData toDictionary]];
                     report.severity = PNLiteParseSeverity(severity);
                   }];
@@ -252,7 +252,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
 @implementation NSDictionary (PNLiteKSMerge)
 
-- (NSDictionary *)BSG_mergedInto:(NSDictionary *)dest {
+- (NSDictionary *)PNLite_mergedInto:(NSDictionary *)dest {
     if ([dest count] == 0) {
         return self;
     }
@@ -266,7 +266,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
         id dstEntry = dest[key];
         if ([dstEntry isKindOfClass:[NSDictionary class]] &&
             [srcEntry isKindOfClass:[NSDictionary class]]) {
-            srcEntry = [srcEntry BSG_mergedInto:dstEntry];
+            srcEntry = [srcEntry PNLite_mergedInto:dstEntry];
         }
         dict[key] = srcEntry;
     }

@@ -554,12 +554,12 @@ typedef enum {
             return
                 [NSString stringWithFormat:@"No diagnosis due to exception "
                                            @"%@:\n%@\nPlease file a bug report "
-                                           @"to the BSG_KSCrash project.",
+                                           @"to the PNLite_KSCrash project.",
                                            e, symbols];
         }
         return [NSString
             stringWithFormat:@"No diagnosis due to exception %@\nPlease file a "
-                             @"bug report to the BSG_KSCrash project.",
+                             @"bug report to the PNLite_KSCrash project.",
                              e];
     }
 }

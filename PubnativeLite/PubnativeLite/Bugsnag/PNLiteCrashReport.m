@@ -188,7 +188,7 @@ NSDictionary *BSGParseCustomException(NSDictionary *report,
 static NSString *const PNLITE_DEFAULT_EXCEPTION_TYPE = @"cocoa";
 
 @interface NSDictionary (PNLiteKSMerge)
-- (NSDictionary *)BSG_mergedInto:(NSDictionary *)dest;
+- (NSDictionary *)PNLite_mergedInto:(NSDictionary *)dest;
 @end
 
 @interface PNLiteRegisterErrorData : NSObject
@@ -339,7 +339,7 @@ initWithErrorName:(NSString *_Nonnull)name
     NSMutableDictionary *allMetadata = [self.metaData mutableCopy];
     NSMutableDictionary *allTabData =
         allMetadata[tabName] ?: [NSMutableDictionary new];
-    allMetadata[tabName] = [cleanedData BSG_mergedInto:allTabData];
+    allMetadata[tabName] = [cleanedData PNLite_mergedInto:allTabData];
     self.metaData = allMetadata;
 }
 
@@ -606,7 +606,7 @@ initWithErrorName:(NSString *_Nonnull)name
             BSGDictSetSafeObject(threadDict, thread[@"index"], PNLiteKeyId);
             BSGDictSetSafeObject(threadDict, threadStack, PNLiteKeyStacktrace);
             BSGDictSetSafeObject(threadDict, PNLITE_DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
-            // only if this is enabled in BSG_KSCrash.
+            // only if this is enabled in PNLite_KSCrash.
             if (thread[PNLiteKeyName]) {
                 BSGDictSetSafeObject(threadDict, thread[PNLiteKeyName], PNLiteKeyName);
             }

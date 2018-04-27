@@ -42,7 +42,7 @@
     return self;
 }
 
-// Entry point called by BSG_KSCrash when a report needs to be sent. Handles
+// Entry point called by PNLite_KSCrash when a report needs to be sent. Handles
 // report filtering based on the configuration options for
 // `notifyReleaseStages`. Removes all reports not meeting at least one of the
 // following conditions:

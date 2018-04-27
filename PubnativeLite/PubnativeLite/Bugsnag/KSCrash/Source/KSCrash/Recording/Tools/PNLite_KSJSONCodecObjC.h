@@ -81,7 +81,7 @@ typedef enum {
  * @param error Place to store any error that occurs (nil = ignore). Will be
  *              set to nil on success.
  *
- * @return The decoded object or, if the BSG_KSJSONDecodeOptionKeepPartialFile
+ * @return The decoded object or, if the PNLite_KSJSONDecodeOptionKeepPartialFile
  *         option is not set, nil when an error occurs.
  */
 + (id)decode:(NSData *)JSONData
