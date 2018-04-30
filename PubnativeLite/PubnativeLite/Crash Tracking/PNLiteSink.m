@@ -71,20 +71,20 @@
 
 
             NSMutableDictionary *appDict = [NSMutableDictionary new];
-            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleVersion], @"bundleVersion");
-            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleID], @"id");
-            BSGDictInsertIfNotNil(appDict, configuration.releaseStage, @"releaseStage");
-            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_SystemName], @"type");
-            BSGDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleShortVersion], @"version");
+            PNLiteDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleVersion], @"bundleVersion");
+            PNLiteDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleID], @"id");
+            PNLiteDictInsertIfNotNil(appDict, configuration.releaseStage, @"releaseStage");
+            PNLiteDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_SystemName], @"type");
+            PNLiteDictInsertIfNotNil(appDict, sysInfo[@PNLite_KSSystemField_BundleShortVersion], @"version");
 
             NSMutableDictionary *deviceDict = [NSMutableDictionary new];
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Jailbroken], @"jailbroken");
-            BSGDictInsertIfNotNil(deviceDict, [[NSLocale currentLocale] localeIdentifier], @"locale");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@"Apple"], @"manufacturer");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Machine], @"model");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Model], @"modelNumber");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemName], @"osName");
-            BSGDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemVersion], @"osVersion");
+            PNLiteDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Jailbroken], @"jailbroken");
+            PNLiteDictInsertIfNotNil(deviceDict, [[NSLocale currentLocale] localeIdentifier], @"locale");
+            PNLiteDictInsertIfNotNil(deviceDict, sysInfo[@"Apple"], @"manufacturer");
+            PNLiteDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Machine], @"model");
+            PNLiteDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_Model], @"modelNumber");
+            PNLiteDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemName], @"osName");
+            PNLiteDictInsertIfNotNil(deviceDict, sysInfo[@PNLite_KSSystemField_SystemVersion], @"osVersion");
 
             pnliteReport.app = appDict;
             pnliteReport.device = deviceDict;
@@ -141,18 +141,18 @@
 // Generates the payload for notifying PNLite
 - (NSDictionary *)getBodyFromReports:(NSArray *)reports {
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    BSGDictSetSafeObject(data, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);
-    BSGDictSetSafeObject(data, [PNLiteCrashTracker notifier].configuration.apiKey, PNLiteKeyApiKey);
-    BSGDictSetSafeObject(data, @"4.0", @"payloadVersion");
+    PNLiteDictSetSafeObject(data, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);
+    PNLiteDictSetSafeObject(data, [PNLiteCrashTracker notifier].configuration.apiKey, PNLiteKeyApiKey);
+    PNLiteDictSetSafeObject(data, @"4.0", @"payloadVersion");
 
     NSMutableArray *formatted =
             [[NSMutableArray alloc] initWithCapacity:[reports count]];
 
     for (PNLiteCrashReport *report in reports) {
-        BSGArrayAddSafeObject(formatted, [report toJson]);
+        PNLiteArrayAddSafeObject(formatted, [report toJson]);
     }
 
-    BSGDictSetSafeObject(data, formatted, PNLiteKeyEvents);
+    PNLiteDictSetSafeObject(data, formatted, PNLiteKeyEvents);
     return data;
 }
 

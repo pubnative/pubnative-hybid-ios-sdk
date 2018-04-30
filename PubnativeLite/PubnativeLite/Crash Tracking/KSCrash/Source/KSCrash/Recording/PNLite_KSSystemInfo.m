@@ -391,7 +391,7 @@
     } else {
 #if PNLite_KSCRASH_HOST_OSX
         // MacOS has the machine in the model field, and no model
-        [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:BSGKeyHwModel]
+        [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:PNLiteKeyHwModel]
                                 forKey:@PNLite_KSSystemField_Machine];
 #else
         [sysInfo bsg_ksc_safeSetObject:[self stringSysctl:PNLiteKeyHwMachine]

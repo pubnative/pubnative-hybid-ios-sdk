@@ -50,12 +50,12 @@
     for (PNLiteSession *session in self.sessions) {
         [sessionData addObject:[session toJson]];
     }
-    BSGDictInsertIfNotNil(dict, sessionData, @"sessions");
-    BSGDictSetSafeObject(dict, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);
+    PNLiteDictInsertIfNotNil(dict, sessionData, @"sessions");
+    PNLiteDictSetSafeObject(dict, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);
     
     NSDictionary *systemInfo = [PNLite_KSSystemInfo systemInfo];
-    BSGDictSetSafeObject(dict, BSGParseAppState(systemInfo), @"app");
-    BSGDictSetSafeObject(dict, BSGParseDeviceState(systemInfo), @"device");
+    PNLiteDictSetSafeObject(dict, PNLiteParseAppState(systemInfo), @"app");
+    PNLiteDictSetSafeObject(dict, PNLiteParseDeviceState(systemInfo), @"device");
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 

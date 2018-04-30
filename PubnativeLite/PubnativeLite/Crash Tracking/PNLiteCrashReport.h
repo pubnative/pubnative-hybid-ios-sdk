@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, PNLiteSeverity) {
  *
  *  @param severity Intended severity value, such as info, warning, or error
  *
- *  @return converted severity level or BSGSeverityError if no conversion is
+ *  @return converted severity level or PNLiteSeverityError if no conversion is
  * found
  */
 PNLiteSeverity PNLiteParseSeverity(NSString *_Nonnull severity);

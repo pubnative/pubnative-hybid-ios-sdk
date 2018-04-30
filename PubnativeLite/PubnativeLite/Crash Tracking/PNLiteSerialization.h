@@ -10,7 +10,7 @@
  @param input an array
  @return a new array
  */
-NSArray *_Nonnull BSGSanitizeArray(NSArray *_Nonnull input);
+NSArray *_Nonnull PNLiteSanitizeArray(NSArray *_Nonnull input);
 
 /**
  Removes any values which would be rejected by NSJSONSerialization for
@@ -19,7 +19,7 @@ NSArray *_Nonnull BSGSanitizeArray(NSArray *_Nonnull input);
  @param input a dictionary
  @return a new dictionary
  */
-NSDictionary *_Nonnull BSGSanitizeDict(NSDictionary *_Nonnull input);
+NSDictionary *_Nonnull PNLiteSanitizeDict(NSDictionary *_Nonnull input);
 
 /**
  Checks whether the base type would be accepted by the serialization process
@@ -27,7 +27,7 @@ NSDictionary *_Nonnull BSGSanitizeDict(NSDictionary *_Nonnull input);
  @param obj any object or nil
  @return YES if the object is an Array, Dictionary, String, Number, or NSNull
  */
-BOOL BSGIsSanitizedType(id _Nullable obj);
+BOOL PNLiteIsSanitizedType(id _Nullable obj);
 
 /**
  Cleans the object, including nested dictionary and array values
@@ -35,6 +35,6 @@ BOOL BSGIsSanitizedType(id _Nullable obj);
  @param obj any object or nil
  @return a new object for serialization or nil if the obj was incompatible
  */
-id _Nullable BSGSanitizeObject(id _Nullable obj);
+id _Nullable PNLiteSanitizeObject(id _Nullable obj);
 
 #endif

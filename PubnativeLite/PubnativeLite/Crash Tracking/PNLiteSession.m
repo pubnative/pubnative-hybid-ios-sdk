@@ -64,11 +64,11 @@ static NSString *const kPNLiteUser = @"user";
 
 - (NSDictionary *)toJson {
     NSMutableDictionary *dict = [NSMutableDictionary new];
-    BSGDictInsertIfNotNil(dict, self.sessionId, kPNLiteSessionId);
-    BSGDictInsertIfNotNil(dict, [PNLite_RFC3339DateTool stringFromDate:self.startedAt], kPNLiteStartedAt);
+    PNLiteDictInsertIfNotNil(dict, self.sessionId, kPNLiteSessionId);
+    PNLiteDictInsertIfNotNil(dict, [PNLite_RFC3339DateTool stringFromDate:self.startedAt], kPNLiteStartedAt);
 
     if (self.user) {
-        BSGDictInsertIfNotNil(dict, [self.user toJson], kPNLiteUser);
+        PNLiteDictInsertIfNotNil(dict, [self.user toJson], kPNLiteUser);
     }
     return [NSDictionary dictionaryWithDictionary:dict];
 }

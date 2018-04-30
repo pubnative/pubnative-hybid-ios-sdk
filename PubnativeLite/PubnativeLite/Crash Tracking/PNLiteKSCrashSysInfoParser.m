@@ -29,20 +29,20 @@
 
 #define PLATFORM_WORD_SIZE sizeof(void*)*8
 
-NSDictionary *BSGParseDevice(NSDictionary *report) {
+NSDictionary *PNLiteParseDevice(NSDictionary *report) {
     NSMutableDictionary *device =
     [[report valueForKeyPath:@"user.state.deviceState"] mutableCopy];
     
-    [device addEntriesFromDictionary:BSGParseDeviceState(report[@"system"])];
+    [device addEntriesFromDictionary:PNLiteParseDeviceState(report[@"system"])];
     
-    BSGDictSetSafeObject(device, [[NSLocale currentLocale] localeIdentifier],
+    PNLiteDictSetSafeObject(device, [[NSLocale currentLocale] localeIdentifier],
                          @"locale");
     
-    BSGDictSetSafeObject(device, [report valueForKeyPath:@"system.time_zone"], @"timezone");
-    BSGDictSetSafeObject(device, [report valueForKeyPath:@"system.memory.usable"],
+    PNLiteDictSetSafeObject(device, [report valueForKeyPath:@"system.time_zone"], @"timezone");
+    PNLiteDictSetSafeObject(device, [report valueForKeyPath:@"system.memory.usable"],
                          @"totalMemory");
     
-    BSGDictSetSafeObject(device,
+    PNLiteDictSetSafeObject(device,
                          [report valueForKeyPath:@"system.memory.free"],
                          @"freeMemory");
     
@@ -61,19 +61,19 @@ NSDictionary *BSGParseDevice(NSDictionary *report) {
     }
     
     NSNumber *freeBytes = [fileSystemAttrs objectForKey:NSFileSystemFreeSize];
-    BSGDictSetSafeObject(device, freeBytes, @"freeDisk");
-    BSGDictSetSafeObject(device, report[@"system"][@"device_app_hash"], @"id");
+    PNLiteDictSetSafeObject(device, freeBytes, @"freeDisk");
+    PNLiteDictSetSafeObject(device, report[@"system"][@"device_app_hash"], @"id");
 
 #if TARGET_OS_SIMULATOR
-    BSGDictSetSafeObject(device, @YES, @"simulator");
+    PNLiteDictSetSafeObject(device, @YES, @"simulator");
 #elif TARGET_OS_IPHONE || TARGET_OS_TV
-    BSGDictSetSafeObject(device, @NO, @"simulator");
+    PNLiteDictSetSafeObject(device, @NO, @"simulator");
 #endif
 
     return device;
 }
 
-NSDictionary *BSGParseApp(NSDictionary *report) {
+NSDictionary *PNLiteParseApp(NSDictionary *report) {
     NSMutableDictionary *appState = [NSMutableDictionary dictionary];
     
     NSDictionary *stats = report[@"application_stats"];
@@ -83,28 +83,28 @@ NSDictionary *BSGParseApp(NSDictionary *report) {
     NSInteger backgroundTimeSinceLaunch =
     [stats[@"background_time_since_launch"] doubleValue] * 1000.0;
     
-    BSGDictSetSafeObject(appState, @(activeTimeSinceLaunch),
+    PNLiteDictSetSafeObject(appState, @(activeTimeSinceLaunch),
                          @"durationInForeground");
 
-    BSGDictSetSafeObject(appState, report[PNLiteKeyExecutableName], PNLiteKeyName);
-    BSGDictSetSafeObject(appState,
+    PNLiteDictSetSafeObject(appState, report[PNLiteKeyExecutableName], PNLiteKeyName);
+    PNLiteDictSetSafeObject(appState,
                          @(activeTimeSinceLaunch + backgroundTimeSinceLaunch),
                          @"duration");
-    BSGDictSetSafeObject(appState, stats[@"application_in_foreground"],
+    PNLiteDictSetSafeObject(appState, stats[@"application_in_foreground"],
                          @"inForeground");
-    BSGDictSetSafeObject(appState, report[@"CFBundleIdentifier"], PNLiteKeyId);
+    PNLiteDictSetSafeObject(appState, report[@"CFBundleIdentifier"], PNLiteKeyId);
     return appState;
 }
 
-NSDictionary *BSGParseAppState(NSDictionary *report) {
+NSDictionary *PNLiteParseAppState(NSDictionary *report) {
     NSMutableDictionary *app = [NSMutableDictionary dictionary];
 
-    BSGDictSetSafeObject(app, report[@"CFBundleVersion"], @"bundleVersion");
-    BSGDictSetSafeObject(app, [PNLiteCrashTracker configuration].releaseStage,
+    PNLiteDictSetSafeObject(app, report[@"CFBundleVersion"], @"bundleVersion");
+    PNLiteDictSetSafeObject(app, [PNLiteCrashTracker configuration].releaseStage,
                          PNLiteKeyReleaseStage);
-    BSGDictSetSafeObject(app, report[@"CFBundleShortVersionString"], PNLiteKeyVersion);
+    PNLiteDictSetSafeObject(app, report[@"CFBundleShortVersionString"], PNLiteKeyVersion);
     
-    BSGDictSetSafeObject(app, [PNLiteCrashTracker configuration].codeBundleId, @"codeBundleId");
+    PNLiteDictSetSafeObject(app, [PNLiteCrashTracker configuration].codeBundleId, @"codeBundleId");
     
     NSString *notifierType;
 #if TARGET_OS_TV
@@ -118,19 +118,19 @@ NSDictionary *BSGParseAppState(NSDictionary *report) {
     if ([PNLiteCrashTracker configuration].notifierType) {
         notifierType = [PNLiteCrashTracker configuration].notifierType;
     }
-    BSGDictSetSafeObject(app, notifierType, @"type");
+    PNLiteDictSetSafeObject(app, notifierType, @"type");
     return app;
 }
 
-NSDictionary *BSGParseDeviceState(NSDictionary *report) {
+NSDictionary *PNLiteParseDeviceState(NSDictionary *report) {
     NSMutableDictionary *deviceState = [NSMutableDictionary new];
-    BSGDictSetSafeObject(deviceState, report[@"model"], @"modelNumber");
-    BSGDictSetSafeObject(deviceState, report[@"machine"], @"model");
-    BSGDictSetSafeObject(deviceState, report[@"system_name"], @"osName");
-    BSGDictSetSafeObject(deviceState, report[@"system_version"], @"osVersion");
-    BSGDictSetSafeObject(deviceState, @(PLATFORM_WORD_SIZE), @"wordSize");
-    BSGDictSetSafeObject(deviceState, @"Apple", @"manufacturer");
-    BSGDictSetSafeObject(deviceState, report[@"jailbroken"], @"jailbroken");
+    PNLiteDictSetSafeObject(deviceState, report[@"model"], @"modelNumber");
+    PNLiteDictSetSafeObject(deviceState, report[@"machine"], @"model");
+    PNLiteDictSetSafeObject(deviceState, report[@"system_name"], @"osName");
+    PNLiteDictSetSafeObject(deviceState, report[@"system_version"], @"osVersion");
+    PNLiteDictSetSafeObject(deviceState, @(PLATFORM_WORD_SIZE), @"wordSize");
+    PNLiteDictSetSafeObject(deviceState, @"Apple", @"manufacturer");
+    PNLiteDictSetSafeObject(deviceState, report[@"jailbroken"], @"jailbroken");
     return deviceState;
 }
 

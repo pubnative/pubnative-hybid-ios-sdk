@@ -37,7 +37,7 @@
 #import "PNLiteSession.h"
 #import "PNLite_RFC3339DateTool.h"
 
-NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
+NSMutableDictionary *PNLiteFormatFrame(NSDictionary *frame,
                                     NSArray *binaryImages) {
     NSMutableDictionary *formatted = [NSMutableDictionary dictionary];
 
@@ -46,23 +46,23 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
     unsigned long symbolAddress = [frame[@"symbol_addr"] unsignedLongValue];
     unsigned long imageAddress = [frame[@"object_addr"] unsignedLongValue];
 
-    BSGDictSetSafeObject(
+    PNLiteDictSetSafeObject(
         formatted, [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, instructionAddress],
         @"frameAddress");
-    BSGDictSetSafeObject(formatted,
+    PNLiteDictSetSafeObject(formatted,
                          [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, symbolAddress],
                          PNLiteKeySymbolAddr);
-    BSGDictSetSafeObject(formatted,
+    PNLiteDictSetSafeObject(formatted,
                          [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, imageAddress],
                          PNLiteKeyMachoLoadAddr);
-    BSGDictInsertIfNotNil(formatted, frame[PNLiteKeyIsPC], PNLiteKeyIsPC);
-    BSGDictInsertIfNotNil(formatted, frame[PNLiteKeyIsLR], PNLiteKeyIsLR);
+    PNLiteDictInsertIfNotNil(formatted, frame[PNLiteKeyIsPC], PNLiteKeyIsPC);
+    PNLiteDictInsertIfNotNil(formatted, frame[PNLiteKeyIsLR], PNLiteKeyIsLR);
 
     NSString *file = frame[@"object_name"];
     NSString *method = frame[@"symbol_name"];
 
-    BSGDictInsertIfNotNil(formatted, file, PNLiteKeyMachoFile);
-    BSGDictInsertIfNotNil(formatted, method, @"method");
+    PNLiteDictInsertIfNotNil(formatted, file, PNLiteKeyMachoFile);
+    PNLiteDictInsertIfNotNil(formatted, method, @"method");
 
     for (NSDictionary *image in binaryImages) {
         if ([(NSNumber *)image[@"image_addr"] unsignedLongValue] ==
@@ -70,9 +70,9 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
             unsigned long imageSlide =
                 [image[@"image_vmaddr"] unsignedLongValue];
 
-            BSGDictInsertIfNotNil(formatted, image[@"uuid"], PNLiteKeyMachoUUID);
-            BSGDictInsertIfNotNil(formatted, image[PNLiteKeyName], PNLiteKeyMachoFile);
-            BSGDictSetSafeObject(
+            PNLiteDictInsertIfNotNil(formatted, image[@"uuid"], PNLiteKeyMachoUUID);
+            PNLiteDictInsertIfNotNil(formatted, image[PNLiteKeyName], PNLiteKeyMachoFile);
+            PNLiteDictSetSafeObject(
                 formatted, [NSString stringWithFormat:PNLiteKeyFrameAddrFormat, imageSlide],
                 PNLiteKeyMachoVMAddress);
 
@@ -83,7 +83,7 @@ NSMutableDictionary *BSGFormatFrame(NSDictionary *frame,
     return nil;
 }
 
-NSString *_Nonnull BSGParseErrorClass(NSDictionary *error,
+NSString *_Nonnull PNLiteParseErrorClass(NSDictionary *error,
                                       NSString *errorType) {
     NSString *errorClass;
 
@@ -105,7 +105,7 @@ NSString *_Nonnull BSGParseErrorClass(NSDictionary *error,
     return errorClass;
 }
 
-NSString *BSGParseErrorMessage(NSDictionary *report, NSDictionary *error,
+NSString *PNLiteParseErrorMessage(NSDictionary *report, NSDictionary *error,
                                NSString *errorType) {
     if ([errorType isEqualToString:PNLiteKeyMach] || error[PNLiteKeyReason] == nil) {
         NSString *diagnosis = [report valueForKeyPath:@"crash.diagnosis"];
@@ -116,7 +116,7 @@ NSString *BSGParseErrorMessage(NSDictionary *report, NSDictionary *error,
     return error[PNLiteKeyReason] ?: @"";
 }
 
-NSString *BSGParseContext(NSDictionary *report, NSDictionary *metaData) {
+NSString *PNLiteParseContext(NSDictionary *report, NSDictionary *metaData) {
     id context = [report valueForKeyPath:@"user.overrides.context"];
     if ([context isKindOfClass:[NSString class]])
         return context;
@@ -129,7 +129,7 @@ NSString *BSGParseContext(NSDictionary *report, NSDictionary *metaData) {
     return nil;
 }
 
-NSString *BSGParseGroupingHash(NSDictionary *report, NSDictionary *metaData) {
+NSString *PNLiteParseGroupingHash(NSDictionary *report, NSDictionary *metaData) {
     id groupingHash = [report valueForKeyPath:@"user.overrides.groupingHash"];
     if (groupingHash)
         return groupingHash;
@@ -139,12 +139,12 @@ NSString *BSGParseGroupingHash(NSDictionary *report, NSDictionary *metaData) {
     return nil;
 }
 
-NSArray *BSGParseBreadcrumbs(NSDictionary *report) {
+NSArray *PNLiteParseBreadcrumbs(NSDictionary *report) {
     return [report valueForKeyPath:@"user.overrides.breadcrumbs"]
                ?: [report valueForKeyPath:@"user.state.crash.breadcrumbs"];
 }
 
-NSString *BSGParseReleaseStage(NSDictionary *report) {
+NSString *PNLiteParseReleaseStage(NSDictionary *report) {
     return [report valueForKeyPath:@"user.overrides.releaseStage"]
                ?: [report valueForKeyPath:@"user.config.releaseStage"];
 }
@@ -168,7 +168,7 @@ NSString *PNLiteFormatSeverity(PNLiteSeverity severity) {
     }
 }
 
-NSDictionary *BSGParseCustomException(NSDictionary *report,
+NSDictionary *PNLiteParseCustomException(NSDictionary *report,
                                       NSString *errorClass, NSString *message) {
     id frames =
         [report valueForKeyPath:@"user.overrides.customStacktraceFrames"];
@@ -234,7 +234,7 @@ static NSString *const PNLITE_DEFAULT_EXCEPTION_TYPE = @"cocoa";
     if (self = [super init]) {
         _notifyReleaseStages =
             [report valueForKeyPath:@"user.config.notifyReleaseStages"];
-        _releaseStage = BSGParseReleaseStage(report);
+        _releaseStage = PNLiteParseReleaseStage(report);
 
         _error = [report valueForKeyPath:@"crash.error"];
         _errorType = _error[PNLiteKeyType];
@@ -244,11 +244,11 @@ static NSString *const PNLITE_DEFAULT_EXCEPTION_TYPE = @"cocoa";
             _errorClass = data.errorClass;
             _errorMessage = data.errorMessage;
         } else {
-            _errorClass = BSGParseErrorClass(_error, _errorType);
-            _errorMessage = BSGParseErrorMessage(report, _error, _errorType);
+            _errorClass = PNLiteParseErrorClass(_error, _errorType);
+            _errorMessage = PNLiteParseErrorMessage(report, _error, _errorType);
         }
         _binaryImages = report[@"binary_images"];
-        _breadcrumbs = BSGParseBreadcrumbs(report);
+        _breadcrumbs = PNLiteParseBreadcrumbs(report);
         _severity = PNLiteParseSeverity(
             [report valueForKeyPath:@"user.state.crash.severity"]);
         _depth = [[report valueForKeyPath:@"user.state.crash.depth"]
@@ -257,14 +257,14 @@ static NSString *const PNLITE_DEFAULT_EXCEPTION_TYPE = @"cocoa";
         _deviceAppHash = [report valueForKeyPath:@"system.device_app_hash"];
         _metaData =
             [report valueForKeyPath:@"user.metaData"] ?: [NSDictionary new];
-        _context = BSGParseContext(report, _metaData);
-        _deviceState = BSGParseDeviceState(report);
-        _device = BSGParseDevice(report);
-        _app = BSGParseApp(report[PNLiteKeySystem]);
-        _appState = BSGParseAppState(report[PNLiteKeySystem]);
-        _groupingHash = BSGParseGroupingHash(report, _metaData);
+        _context = PNLiteParseContext(report, _metaData);
+        _deviceState = PNLiteParseDeviceState(report);
+        _device = PNLiteParseDevice(report);
+        _app = PNLiteParseApp(report[PNLiteKeySystem]);
+        _appState = PNLiteParseAppState(report[PNLiteKeySystem]);
+        _groupingHash = PNLiteParseGroupingHash(report, _metaData);
         _overrides = [report valueForKeyPath:@"user.overrides"];
-        _customException = BSGParseCustomException(report, [_errorClass copy],
+        _customException = PNLiteParseCustomException(report, [_errorClass copy],
                                                    [_errorMessage copy]);
 
         NSDictionary *recordedState =
@@ -304,7 +304,7 @@ initWithErrorName:(NSString *_Nonnull)name
         _metaData = metaData ?: [NSDictionary new];
         _releaseStage = config.releaseStage;
         _notifyReleaseStages = config.notifyReleaseStages;
-        _context = BSGParseContext(nil, metaData);
+        _context = PNLiteParseContext(nil, metaData);
         _breadcrumbs = [config.breadcrumbs arrayValue];
         _overrides = [NSDictionary new];
 
@@ -325,13 +325,13 @@ initWithErrorName:(NSString *_Nonnull)name
 
 - (void)setMetaData:(NSDictionary *)metaData {
     @synchronized (self) {
-        _metaData = BSGSanitizeDict(metaData);
+        _metaData = PNLiteSanitizeDict(metaData);
     }
 }
 
 - (void)addMetadata:(NSDictionary *_Nonnull)tabData
       toTabWithName:(NSString *_Nonnull)tabName {
-    NSDictionary *cleanedData = BSGSanitizeDict(tabData);
+    NSDictionary *cleanedData = PNLiteSanitizeDict(tabData);
     if ([cleanedData count] == 0) {
         pnlite_log_err(@"Failed to add metadata: Values not convertible to JSON");
         return;
@@ -350,7 +350,7 @@ initWithErrorName:(NSString *_Nonnull)name
     NSMutableDictionary *allTabData =
         allMetadata[tabName] ?: [NSMutableDictionary new];
     if (value) {
-        id cleanedValue = BSGSanitizeObject(value);
+        id cleanedValue = PNLiteSanitizeObject(value);
         if (!cleanedValue) {
             pnlite_log_err(@"Failed to add metadata: Value of type %@ is not "
                         @"convertible to JSON",
@@ -474,45 +474,45 @@ initWithErrorName:(NSString *_Nonnull)name
     NSMutableDictionary *metaData = [[self metaData] mutableCopy];
 
     if (self.customException) {
-        BSGDictSetSafeObject(event, @[ self.customException ], PNLiteKeyExceptions);
-        BSGDictSetSafeObject(event, [self serializeThreadsWithException:nil],
+        PNLiteDictSetSafeObject(event, @[ self.customException ], PNLiteKeyExceptions);
+        PNLiteDictSetSafeObject(event, [self serializeThreadsWithException:nil],
                              PNLiteKeyThreads);
     } else {
         NSMutableDictionary *exception = [NSMutableDictionary dictionary];
-        BSGDictSetSafeObject(exception, [self errorClass], PNLiteKeyErrorClass);
-        BSGDictInsertIfNotNil(exception, [self errorMessage], PNLiteKeyMessage);
-        BSGDictInsertIfNotNil(exception, PNLITE_DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
-        BSGDictSetSafeObject(event, @[ exception ], PNLiteKeyExceptions);
+        PNLiteDictSetSafeObject(exception, [self errorClass], PNLiteKeyErrorClass);
+        PNLiteDictInsertIfNotNil(exception, [self errorMessage], PNLiteKeyMessage);
+        PNLiteDictInsertIfNotNil(exception, PNLITE_DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
+        PNLiteDictSetSafeObject(event, @[ exception ], PNLiteKeyExceptions);
 
-        BSGDictSetSafeObject(
+        PNLiteDictSetSafeObject(
             event, [self serializeThreadsWithException:exception], PNLiteKeyThreads);
     }
     // Build Event
-    BSGDictSetSafeObject(event, PNLiteFormatSeverity(self.severity), PNLiteKeySeverity);
-    BSGDictSetSafeObject(event, [self breadcrumbs], PNLiteKeyBreadcrumbs);
-    BSGDictSetSafeObject(event, metaData, PNLiteKeyMetaData);
+    PNLiteDictSetSafeObject(event, PNLiteFormatSeverity(self.severity), PNLiteKeySeverity);
+    PNLiteDictSetSafeObject(event, [self breadcrumbs], PNLiteKeyBreadcrumbs);
+    PNLiteDictSetSafeObject(event, metaData, PNLiteKeyMetaData);
     
     NSDictionary *device = [self.device bsg_mergedInto:self.deviceState];
-    BSGDictSetSafeObject(event, device, PNLiteKeyDevice);
+    PNLiteDictSetSafeObject(event, device, PNLiteKeyDevice);
     
     NSMutableDictionary *appObj = [NSMutableDictionary new];
     [appObj addEntriesFromDictionary:self.app];
     
     for (NSString *key in self.appState) {
-        BSGDictInsertIfNotNil(appObj, self.appState[key], key);
+        PNLiteDictInsertIfNotNil(appObj, self.appState[key], key);
     }
     
     if (self.dsymUUID) {
-        BSGDictInsertIfNotNil(appObj, @[self.dsymUUID], @"dsymUUIDs");
+        PNLiteDictInsertIfNotNil(appObj, @[self.dsymUUID], @"dsymUUIDs");
     }
     
-    BSGDictSetSafeObject(event, appObj, PNLiteKeyApp);
+    PNLiteDictSetSafeObject(event, appObj, PNLiteKeyApp);
     
-    BSGDictSetSafeObject(event, [self context], PNLiteKeyContext);
-    BSGDictInsertIfNotNil(event, self.groupingHash, PNLiteKeyGroupingHash);
+    PNLiteDictSetSafeObject(event, [self context], PNLiteKeyContext);
+    PNLiteDictInsertIfNotNil(event, self.groupingHash, PNLiteKeyGroupingHash);
     
 
-    BSGDictSetSafeObject(event, @(self.handledState.unhandled), PNLiteKeyUnhandled);
+    PNLiteDictSetSafeObject(event, @(self.handledState.unhandled), PNLiteKeyUnhandled);
 
     // serialize handled/unhandled into payload
     NSMutableDictionary *severityReason = [NSMutableDictionary new];
@@ -525,26 +525,26 @@ initWithErrorName:(NSString *_Nonnull)name
             @{self.handledState.attrKey : self.handledState.attrValue};
     }
 
-    BSGDictSetSafeObject(event, severityReason, PNLiteKeySeverityReason);
+    PNLiteDictSetSafeObject(event, severityReason, PNLiteKeySeverityReason);
 
     //  Inserted into `context` property
     [metaData removeObjectForKey:PNLiteKeyContext];
     // Build metadata
-    BSGDictSetSafeObject(metaData, [self error], PNLiteKeyError);
+    PNLiteDictSetSafeObject(metaData, [self error], PNLiteKeyError);
 
     // Make user mutable and set the id if the user hasn't already
     NSMutableDictionary *user = [metaData[PNLiteKeyUser] mutableCopy];
     if (user == nil) {
         user = [NSMutableDictionary dictionary];
     }
-    BSGDictInsertIfNotNil(event, user, PNLiteKeyUser);
+    PNLiteDictInsertIfNotNil(event, user, PNLiteKeyUser);
 
     if (!user[PNLiteKeyId] && self.device[PNLiteKeyId]) { // if device id is null, don't set user id to default
-        BSGDictSetSafeObject(user, [self deviceAppHash], PNLiteKeyId);
+        PNLiteDictSetSafeObject(user, [self deviceAppHash], PNLiteKeyId);
     }
 
     if (self.session) {
-        BSGDictSetSafeObject(event, [self generateSessionDict], PNLiteKeySession);
+        PNLiteDictSetSafeObject(event, [self generateSessionDict], PNLiteKeySession);
     }
     return event;
 }
@@ -580,38 +580,38 @@ initWithErrorName:(NSString *_Nonnull)name
                 if (seen++ >= [self depth]) {
                     // Mark the frame so we know where it came from
                     if (seen == 1 && !stackOverflow) {
-                        BSGDictSetSafeObject(mutableFrame, @YES, PNLiteKeyIsPC);
+                        PNLiteDictSetSafeObject(mutableFrame, @YES, PNLiteKeyIsPC);
                     }
                     if (seen == 2 && !stackOverflow &&
                         [@[ PNLiteKeySignal, @"deadlock", PNLiteKeyMach ]
                             containsObject:[self errorType]]) {
-                        BSGDictSetSafeObject(mutableFrame, @YES, PNLiteKeyIsLR);
+                        PNLiteDictSetSafeObject(mutableFrame, @YES, PNLiteKeyIsLR);
                     }
-                    BSGArrayInsertIfNotNil(
+                    PNLiteArrayInsertIfNotNil(
                         stacktrace,
-                        BSGFormatFrame(mutableFrame, [self binaryImages]));
+                        PNLiteFormatFrame(mutableFrame, [self binaryImages]));
                 }
             }
 
-            BSGDictSetSafeObject(exception, stacktrace, PNLiteKeyStacktrace);
+            PNLiteDictSetSafeObject(exception, stacktrace, PNLiteKeyStacktrace);
         } else {
             NSMutableArray *threadStack = [NSMutableArray array];
 
             for (NSDictionary *frame in backtrace) {
-                BSGArrayInsertIfNotNil(
-                    threadStack, BSGFormatFrame(frame, [self binaryImages]));
+                PNLiteArrayInsertIfNotNil(
+                    threadStack, PNLiteFormatFrame(frame, [self binaryImages]));
             }
 
             NSMutableDictionary *threadDict = [NSMutableDictionary dictionary];
-            BSGDictSetSafeObject(threadDict, thread[@"index"], PNLiteKeyId);
-            BSGDictSetSafeObject(threadDict, threadStack, PNLiteKeyStacktrace);
-            BSGDictSetSafeObject(threadDict, PNLITE_DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
+            PNLiteDictSetSafeObject(threadDict, thread[@"index"], PNLiteKeyId);
+            PNLiteDictSetSafeObject(threadDict, threadStack, PNLiteKeyStacktrace);
+            PNLiteDictSetSafeObject(threadDict, PNLITE_DEFAULT_EXCEPTION_TYPE, PNLiteKeyType);
             // only if this is enabled in PNLite_KSCrash.
             if (thread[PNLiteKeyName]) {
-                BSGDictSetSafeObject(threadDict, thread[PNLiteKeyName], PNLiteKeyName);
+                PNLiteDictSetSafeObject(threadDict, thread[PNLiteKeyName], PNLiteKeyName);
             }
 
-            BSGArrayAddSafeObject(pnliteThreads, threadDict);
+            PNLiteArrayAddSafeObject(pnliteThreads, threadDict);
         }
     }
     return pnliteThreads;

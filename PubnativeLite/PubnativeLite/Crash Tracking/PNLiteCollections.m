@@ -22,23 +22,23 @@
 
 #import "PNLiteCollections.h"
 
-void BSGDictSetSafeObject(NSMutableDictionary *dict, id object,
+void PNLiteDictSetSafeObject(NSMutableDictionary *dict, id object,
                           id<NSCopying> key) {
     dict[key] = object ?: [NSNull null];
 }
 
-void BSGArrayAddSafeObject(NSMutableArray *array, id object) {
+void PNLiteArrayAddSafeObject(NSMutableArray *array, id object) {
     [array addObject:object ?: [NSNull null]];
 }
 
-void BSGDictInsertIfNotNil(NSMutableDictionary *dict, id object,
+void PNLiteDictInsertIfNotNil(NSMutableDictionary *dict, id object,
                            id<NSCopying> key) {
     if (object && key) {
         dict[key] = object;
     }
 }
 
-void BSGArrayInsertIfNotNil(NSMutableArray *array, id object) {
+void PNLiteArrayInsertIfNotNil(NSMutableArray *array, id object) {
     if (object) {
         [array addObject:object];
     }

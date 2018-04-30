@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 
-NSDictionary *_Nonnull BSGParseDevice(NSDictionary *_Nonnull report);
-NSDictionary *_Nonnull BSGParseApp(NSDictionary *_Nonnull report);
-NSDictionary *_Nonnull BSGParseAppState(NSDictionary *_Nonnull report);
-NSDictionary *_Nonnull BSGParseDeviceState(NSDictionary *_Nonnull report);
+NSDictionary *_Nonnull PNLiteParseDevice(NSDictionary *_Nonnull report);
+NSDictionary *_Nonnull PNLiteParseApp(NSDictionary *_Nonnull report);
+NSDictionary *_Nonnull PNLiteParseAppState(NSDictionary *_Nonnull report);
+NSDictionary *_Nonnull PNLiteParseDeviceState(NSDictionary *_Nonnull report);

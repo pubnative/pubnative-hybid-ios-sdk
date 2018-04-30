@@ -51,9 +51,9 @@
 
 - (NSDictionary *)toJson {
     NSMutableDictionary *dict = [NSMutableDictionary new];
-    BSGDictInsertIfNotNil(dict, self.userId, @"id");
-    BSGDictInsertIfNotNil(dict, self.emailAddress, @"emailAddress");
-    BSGDictInsertIfNotNil(dict, self.name, @"name");
+    PNLiteDictInsertIfNotNil(dict, self.userId, @"id");
+    PNLiteDictInsertIfNotNil(dict, self.emailAddress, @"emailAddress");
+    PNLiteDictInsertIfNotNil(dict, self.name, @"name");
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 @end

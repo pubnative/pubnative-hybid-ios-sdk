@@ -28,7 +28,7 @@
  *  @param dict   a mutable dictionary
  *  @param object an object or nil
  */
-void BSGDictSetSafeObject(NSMutableDictionary *dict, id object,
+void PNLiteDictSetSafeObject(NSMutableDictionary *dict, id object,
                           id<NSCopying> key);
 
 /**
@@ -37,7 +37,7 @@ void BSGDictSetSafeObject(NSMutableDictionary *dict, id object,
  *  @param array  a mutable array
  *  @param object an object or nil
  */
-void BSGArrayAddSafeObject(NSMutableArray *array, id object);
+void PNLiteArrayAddSafeObject(NSMutableArray *array, id object);
 
 /**
  *  Insert an object into a collection only if not nil
@@ -46,7 +46,7 @@ void BSGArrayAddSafeObject(NSMutableArray *array, id object);
  *  @param object an object or nil
  *  @param key    the key of the object
  */
-void BSGDictInsertIfNotNil(NSMutableDictionary *dict, id object,
+void PNLiteDictInsertIfNotNil(NSMutableDictionary *dict, id object,
                            id<NSCopying> key);
 
 /**
@@ -55,4 +55,4 @@ void BSGDictInsertIfNotNil(NSMutableDictionary *dict, id object,
  *  @param array  a mutable array
  *  @param object an object or nil
  */
-void BSGArrayInsertIfNotNil(NSMutableArray *array, id object);
+void PNLiteArrayInsertIfNotNil(NSMutableArray *array, id object);

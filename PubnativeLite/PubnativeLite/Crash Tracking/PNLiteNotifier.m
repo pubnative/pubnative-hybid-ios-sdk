@@ -43,7 +43,7 @@ NSString *const PNLITE_BSTabCrash = @"crash";
 NSString *const PNLITE_BSAttributeDepth = @"depth";
 NSString *const PNLITE_BSEventLowMemoryWarning = @"lowMemoryWarning";
 
-static NSInteger const PNLITE_BSGNotifierStackFrameCount = 5;
+static NSInteger const PNLITE_NotifierStackFrameCount = 5;
 
 struct pnlite_data_t {
     // Contains the state of the event (handled/unhandled)
@@ -116,7 +116,7 @@ void BSSerializeDataCrashHandler(const PNLite_KSCrashReportWriter *writer) {
     }
 }
 
-NSString *BSGBreadcrumbNameForNotificationName(NSString *name) {
+NSString *PNLiteBreadcrumbNameForNotificationName(NSString *name) {
     NSString *readableName = notificationNameMap[name];
 
     if (readableName) {
@@ -306,7 +306,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     [self watchLifecycleEvents:center];
 
 #if TARGET_OS_TV
-    [self.details setValue:@"tvOS Bugsnag Notifier" forKey:BSGKeyName];
+    [self.details setValue:@"tvOS Bugsnag Notifier" forKey:PNLiteKeyName];
 
 #elif TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
     [self.details setValue:@"iOS Bugsnag Notifier" forKey:PNLiteKeyName];
@@ -337,7 +337,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     [self batteryChanged:nil];
     [self orientationChanged:nil];
 #elif TARGET_OS_MAC
-    [self.details setValue:@"OSX Bugsnag Notifier" forKey:BSGKeyName];
+    [self.details setValue:@"OSX Bugsnag Notifier" forKey:PNLiteKeyName];
 
     [center addObserver:self
                selector:@selector(willEnterForeground:)
@@ -549,7 +549,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     //    3 -[PNLiteCrashSentry reportUserException:reason:]
     //    4 -[PNLiteNotifier notify:message:block:]
 
-    NSNumber *depth = @(PNLITE_BSGNotifierStackFrameCount + report.depth);
+    NSNumber *depth = @(PNLITE_NotifierStackFrameCount + report.depth);
     [self.state addAttribute:PNLITE_BSAttributeDepth
                    withValue:depth
                toTabWithName:PNLITE_BSTabCrash];
@@ -664,7 +664,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     NSDictionary *lastBreadcrumb =
         [[self.configuration.breadcrumbs arrayValue] lastObject];
     NSString *orientationNotifName =
-        BSGBreadcrumbNameForNotificationName(notif.name);
+        PNLiteBreadcrumbNameForNotificationName(notif.name);
 
     if (lastBreadcrumb &&
         [orientationNotifName isEqualToString:lastBreadcrumb[PNLiteKeyName]]) {
@@ -838,7 +838,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 - (void)sendBreadcrumbForNotification:(NSNotification *)note {
     [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
       breadcrumb.type = PNLiteBreadcrumbTypeState;
-      breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
+      breadcrumb.name = PNLiteBreadcrumbNameForNotificationName(note.name);
     }];
 }
 
@@ -848,7 +848,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     NSIndexPath *indexPath = [tableView indexPathForSelectedRow];
     [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
       breadcrumb.type = PNLiteBreadcrumbTypeNavigation;
-      breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
+      breadcrumb.name = PNLiteBreadcrumbNameForNotificationName(note.name);
       if (indexPath) {
           breadcrumb.metadata =
               @{ @"row" : @(indexPath.row),
@@ -858,8 +858,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 #elif TARGET_OS_MAC
     NSTableView *tableView = [note object];
     [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
-      breadcrumb.type = BSGBreadcrumbTypeNavigation;
-      breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
+      breadcrumb.type = PNLiteBreadcrumbTypeNavigation;
+      breadcrumb.name = PNLiteBreadcrumbNameForNotificationName(note.name);
       if (tableView) {
           breadcrumb.metadata = @{
               @"selectedRow" : @(tableView.selectedRow),
@@ -877,10 +877,10 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     NSMenuItem *menuItem = [[notif userInfo] valueForKey:@"MenuItem"];
     if ([menuItem isKindOfClass:[NSMenuItem class]]) {
         [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
-          breadcrumb.type = BSGBreadcrumbTypeState;
-          breadcrumb.name = BSGBreadcrumbNameForNotificationName(notif.name);
+          breadcrumb.type = PNLiteBreadcrumbTypeState;
+          breadcrumb.name = PNLiteBreadcrumbNameForNotificationName(notif.name);
           if (menuItem.title.length > 0)
-              breadcrumb.metadata = @{BSGKeyAction : menuItem.title};
+              breadcrumb.metadata = @{PNLiteKeyAction : menuItem.title};
         }];
     }
 #endif
@@ -892,7 +892,7 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     UIControl *control = note.object;
     [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
       breadcrumb.type = PNLiteBreadcrumbTypeUser;
-      breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
+      breadcrumb.name = PNLiteBreadcrumbNameForNotificationName(note.name);
       NSString *label = control.accessibilityLabel;
       if (label.length > 0) {
           breadcrumb.metadata = @{PNLiteKeyLabel : label};
@@ -901,12 +901,12 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 #elif TARGET_OS_MAC
     NSControl *control = note.object;
     [self addBreadcrumbWithBlock:^(PNLiteBreadcrumb *_Nonnull breadcrumb) {
-      breadcrumb.type = BSGBreadcrumbTypeUser;
-      breadcrumb.name = BSGBreadcrumbNameForNotificationName(note.name);
+      breadcrumb.type = PNLiteBreadcrumbTypeUser;
+      breadcrumb.name = PNLiteBreadcrumbNameForNotificationName(note.name);
       if ([control respondsToSelector:@selector(accessibilityLabel)]) {
           NSString *label = control.accessibilityLabel;
           if (label.length > 0) {
-              breadcrumb.metadata = @{BSGKeyLabel : label};
+              breadcrumb.metadata = @{PNLiteKeyLabel : label};
           }
       }
     }];

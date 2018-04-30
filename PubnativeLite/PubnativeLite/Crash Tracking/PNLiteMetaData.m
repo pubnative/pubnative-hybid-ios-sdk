@@ -80,7 +80,7 @@
        toTabWithName:(NSString *)tabName {
     @synchronized(self) {
         if (value) {
-            id cleanedValue = BSGSanitizeObject(value);
+            id cleanedValue = PNLiteSanitizeObject(value);
             if (cleanedValue) {
                 [self getTab:tabName][attributeName] = cleanedValue;
             } else {

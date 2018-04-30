@@ -68,7 +68,7 @@ static NSString *const kPNLiteHeaderApiSentAt = @"Bugsnag-Sent-At";
 #if DEBUG
         _releaseStage = PNLiteKeyDevelopment;
 #else
-        _releaseStage = BSGKeyProduction;
+        _releaseStage = PNLiteKeyProduction;
 #endif
     }
     return self;
