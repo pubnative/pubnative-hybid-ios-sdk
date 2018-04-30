@@ -20,35 +20,30 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+/* C interface to the system information.
+ */
 
-@implementation PubnativeLite
+#ifndef PNLite_KSCrash_KSSystemInfoC_h
+#define PNLite_KSCrash_KSSystemInfoC_h
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/** Get the complete system info dictionary encoded to JSON.
+ *
+ * @return System info as JSON. Caller is responsible for calling free().
+ */
+const char *pnlite_kssysteminfo_toJSON(void);
+
+/** Create a copy of the current process name.
+ *
+ * @return The process name. Caller is responsible for calling free().
+ */
+char *pnlite_kssysteminfo_copyProcessName(void);
+
+#ifdef __cplusplus
 }
+#endif
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
-
-@end
+#endif

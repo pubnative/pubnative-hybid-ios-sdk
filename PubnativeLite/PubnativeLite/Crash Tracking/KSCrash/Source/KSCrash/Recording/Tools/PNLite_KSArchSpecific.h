@@ -20,35 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+/* Architecture-dependent defines.
+ */
 
-@implementation PubnativeLite
+#ifndef HDR_PNLite_KSArchSpecific_h
+#define HDR_PNLite_KSArchSpecific_h
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <sys/_structs.h>
+
+#ifdef __LP64__
+#define PNLite_STRUCT_NLIST struct nlist_64
+#else
+#define PNLite_STRUCT_NLIST struct nlist
+#endif
+
+#ifdef __arm64__
+#define PNLite_STRUCT_MCONTEXT_L _STRUCT_MCONTEXT64
+#else
+#define PNLite_STRUCT_MCONTEXT_L _STRUCT_MCONTEXT
+#endif
+
+#ifdef __cplusplus
 }
+#endif
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
-
-@end
+#endif // HDR_KSArchSpecific_h

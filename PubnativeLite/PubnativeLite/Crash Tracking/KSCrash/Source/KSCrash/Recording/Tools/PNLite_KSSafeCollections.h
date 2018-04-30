@@ -20,35 +20,28 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+@interface NSMutableArray (PNLite_KSSafeCollections)
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+- (void)bsg_ksc_addObjectIfNotNil:(id)object;
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+- (void)bsg_ksc_safeAddObject:(id)object;
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+- (void)bsg_ksc_insertObjectIfNotNil:(id)object atIndex:(NSUInteger)index;
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+- (void)bsg_ksc_safeInsertObject:(id)object atIndex:(NSUInteger)index;
+
+@end
+
+@interface NSMutableDictionary (PNLite_KSSafeCollections)
+
+- (void)bsg_ksc_setObjectIfNotNil:(id)object forKey:(id)key;
+
+- (void)bsg_ksc_safeSetObject:(id)object forKey:(id)key;
+
+- (void)bsg_ksc_setValueIfNotNil:(id)value forKey:(NSString *)key;
+
+- (void)bsg_ksc_safeSetValue:(id)value forKey:(NSString *)key;
 
 @end

@@ -20,35 +20,39 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#ifndef HDR_PNLite_KSCrashSentry_Private_h
+#define HDR_PNLite_KSCrashSentry_Private_h
 
-@implementation PubnativeLite
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
+#include "PNLite_KSCrashSentry.h"
+
+/** Suspend all non-reserved threads.
+ *
+ * Reserved threads include the current thread and all threads in
+ "reservedThreads" in the context.
+ */
+void bsg_kscrashsentry_suspendThreads(void);
+
+/** Resume all non-reserved threads.
+ *
+ * Reserved threads include the current thread and all threads in
+ * "reservedThreads" in the context.
+ */
+void bsg_kscrashsentry_resumeThreads(void);
+
+/** Prepare the context for handling a new crash.
+ */
+void bsg_kscrashsentry_beginHandlingCrash(PNLite_KSCrash_SentryContext *context);
+
+/** Clear a crash sentry context.
+ */
+void bsg_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context);
+
+#ifdef __cplusplus
 }
+#endif
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
-
-@end
+#endif // HDR_KSCrashSentry_Private_h

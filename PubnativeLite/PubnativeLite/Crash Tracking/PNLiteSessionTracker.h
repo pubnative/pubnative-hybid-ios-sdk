@@ -20,35 +20,36 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+#import "PNLiteSession.h"
+#import "PNLiteConfiguration.h"
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+@class PNLiteSessionTrackingApiClient;
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+typedef void (^PNLiteSessionTrackerCallback)(PNLiteSession *newSession);
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+@interface PNLiteSessionTracker : NSObject
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+- (instancetype)initWithConfig:(PNLiteConfiguration *)config
+                     apiClient:(PNLiteSessionTrackingApiClient *)apiClient
+                      callback:(void(^)(PNLiteSession *))callback;
+
+- (void)startNewSession:(NSDate *)date
+               withUser:(PNLiteUser *)user
+           autoCaptured:(BOOL)autoCaptured;
+
+- (void)suspendCurrentSession:(NSDate *)date;
+- (void)incrementHandledError;
+- (void)send;
+- (void)onAutoCaptureEnabled;
+
+@property (readonly) PNLiteSession *currentSession;
+@property (readonly) BOOL isInForeground;
+
+/**
+ * Called when a session is altered
+ */
+@property PNLiteSessionTrackerCallback callback;
 
 @end

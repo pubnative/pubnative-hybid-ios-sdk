@@ -20,35 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+/* Catches fatal unix signals.
+ */
 
-@implementation PubnativeLite
+#ifndef HDR_PNLite_KSCrashSentry_Signal_h
+#define HDR_PNLite_KSCrashSentry_Signal_h
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "PNLite_KSCrashSentry.h"
+
+/** Install our custom signal handler.
+ *
+ * @param context The crash context to fill out when a crash occurs.
+ *
+ * @return true if installation was succesful.
+ */
+bool bsg_kscrashsentry_installSignalHandler(PNLite_KSCrash_SentryContext *context);
+
+/** Uninstall our custom signal handlers and restore the previous ones.
+ */
+void bsg_kscrashsentry_uninstallSignalHandler(void);
+
+#ifdef __cplusplus
 }
+#endif
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
-
-@end
+#endif // HDR_KSCrashSentry_Signal_h

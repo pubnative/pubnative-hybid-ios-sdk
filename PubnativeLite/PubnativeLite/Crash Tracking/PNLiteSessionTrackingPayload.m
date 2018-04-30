@@ -20,35 +20,43 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
+#import "PNLiteSessionTrackingPayload.h"
+#import "PNLiteCollections.h"
+#import "PNLiteNotifier.h"
 #import "PNLiteCrashTracker.h"
+#import "PNLiteKeys.h"
+#import "PNLite_KSSystemInfo.h"
+#import "PNLiteKSCrashSysInfoParser.h"
 
-@implementation PubnativeLite
+@interface PNLiteCrashTracker ()
++ (PNLiteNotifier *)notifier;
+@end
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+@implementation PNLiteSessionTrackingPayload
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+- (instancetype)initWithSessions:(NSArray<PNLiteSession *> *)sessions {
+    if (self = [super init]) {
+        _sessions = sessions;
     }
+    return self;
+}
+
+
+- (NSDictionary *)toJson {
+    
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    NSMutableArray *sessionData = [NSMutableArray new];
+    
+    for (PNLiteSession *session in self.sessions) {
+        [sessionData addObject:[session toJson]];
+    }
+    PNLiteDictInsertIfNotNil(dict, sessionData, @"sessions");
+    PNLiteDictSetSafeObject(dict, [PNLiteCrashTracker notifier].details, PNLiteKeyNotifier);
+    
+    NSDictionary *systemInfo = [PNLite_KSSystemInfo systemInfo];
+    PNLiteDictSetSafeObject(dict, PNLiteParseAppState(systemInfo), @"app");
+    PNLiteDictSetSafeObject(dict, PNLiteParseDeviceState(systemInfo), @"device");
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 @end

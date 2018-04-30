@@ -20,35 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import "PNLite_KSCrashReportFilterCompletion.h"
 
-@implementation PubnativeLite
-
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
-
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
-
-@end
+/** Conditionally call a completion method if it's not nil.
+ *
+ * @param onCompletion The completion block. If nil, this function does nothing.
+ * @param filteredReports The parameter to send as "filteredReports".
+ * @param completed The parameter to send as "completed".
+ * @param error The parameter to send as "error".
+ */
+void bsg_kscrash_i_callCompletion(
+    PNLite_KSCrashReportFilterCompletion onCompletion, NSArray *filteredReports,
+    BOOL completed, NSError *error);

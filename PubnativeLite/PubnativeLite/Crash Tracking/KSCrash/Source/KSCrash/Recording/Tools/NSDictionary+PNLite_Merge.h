@@ -20,35 +20,27 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+/** Adds dictionary merging capabilities.
+ */
+@interface NSDictionary (PNLite_Merge)
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
-
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+/** Recursively merge this dictionary into the destination dictionary.
+ * If the same key exists in both dictionaries, the following occurs:
+ * - If both entries are dictionaries, the sub-dictionaries are merged and
+ *   placed into the merged dictionary.
+ * - Otherwise the entry from this dictionary overrides the entry from the
+ *   destination in the merged dictionary.
+ *
+ * Note: Neither this dictionary nor the destination will be modified by this
+ *       operation.
+ *
+ * @param dest The dictionary to merge into. Can be nil or empty, in which case
+ *             this dictionary is returned.
+ *
+ * @return The merged dictionary.
+ */
+- (NSDictionary *)bsg_mergedInto:(NSDictionary *)dest;
 
 @end

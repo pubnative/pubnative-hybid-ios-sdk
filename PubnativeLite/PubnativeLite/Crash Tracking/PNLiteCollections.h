@@ -20,35 +20,39 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+/**
+ *  Insert an object or NSNull into a collection
+ *
+ *  @param dict   a mutable dictionary
+ *  @param object an object or nil
+ */
+void PNLiteDictSetSafeObject(NSMutableDictionary *dict, id object,
+                          id<NSCopying> key);
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+/**
+ *  Insert an object or NSNull into a collection
+ *
+ *  @param array  a mutable array
+ *  @param object an object or nil
+ */
+void PNLiteArrayAddSafeObject(NSMutableArray *array, id object);
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+/**
+ *  Insert an object into a collection only if not nil
+ *
+ *  @param dict   a mutable dictionary
+ *  @param object an object or nil
+ *  @param key    the key of the object
+ */
+void PNLiteDictInsertIfNotNil(NSMutableDictionary *dict, id object,
+                           id<NSCopying> key);
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
-
-@end
+/**
+ *  Insert an object into a collection only if not nil
+ *
+ *  @param array  a mutable array
+ *  @param object an object or nil
+ */
+void PNLiteArrayInsertIfNotNil(NSMutableArray *array, id object);

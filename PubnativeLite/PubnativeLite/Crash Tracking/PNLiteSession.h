@@ -20,35 +20,27 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+#import "PNLiteUser.h"
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+@interface PNLiteSession : NSObject
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+- (_Nonnull instancetype)initWithId:(NSString *_Nonnull)sessionId
+                 startDate:(NSDate *_Nonnull)startDate
+                      user:(PNLiteUser *_Nullable)user
+              autoCaptured:(BOOL)autoCaptured;
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+- (_Nonnull instancetype)initWithDictionary:(NSDictionary *_Nonnull)dict;
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+- (NSDictionary *_Nonnull)toJson;
+
+@property(readonly) NSString *_Nonnull sessionId;
+@property(readonly) NSDate *_Nonnull startedAt;
+@property(readonly) PNLiteUser *_Nullable user;
+@property(readonly) BOOL autoCaptured;
+
+@property NSUInteger unhandledCount;
+@property NSUInteger handledCount;
 
 @end

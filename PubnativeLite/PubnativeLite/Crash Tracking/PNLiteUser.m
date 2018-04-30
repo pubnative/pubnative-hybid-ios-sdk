@@ -20,35 +20,40 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import "PNLiteUser.h"
+#import "PNLiteCollections.h"
 
-@implementation PubnativeLite
+@implementation PNLiteUser
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
-
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (self = [super init]) {
+        _userId = dict[@"id"];
+        _emailAddress = dict[@"emailAddress"];
+        _name = dict[@"name"];
     }
+    return self;
 }
 
+- (instancetype)initWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
+    self = [super init];
+    if (self) {
+        self.userId = userId;
+        self.name = name;
+        self.emailAddress = emailAddress;
+    }
+    return self;
+}
+
++ (instancetype)userWithUserId:(NSString *)userId name:(NSString *)name emailAddress:(NSString *)emailAddress {
+    return [[self alloc] initWithUserId:userId name:name emailAddress:emailAddress];
+}
+
+
+- (NSDictionary *)toJson {
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    PNLiteDictInsertIfNotNil(dict, self.userId, @"id");
+    PNLiteDictInsertIfNotNil(dict, self.emailAddress, @"emailAddress");
+    PNLiteDictInsertIfNotNil(dict, self.name, @"name");
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
 @end

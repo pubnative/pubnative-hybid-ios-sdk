@@ -20,35 +20,31 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+#import "PNLiteFileStore.h"
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+/**
+ * Manages a store of crash reports.
+ */
+@interface PNLite_KSCrashReportStore : PNLiteFileStore
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+/** If true, demangle any C++ symbols found in stack traces. */
+@property(nonatomic, readwrite, assign) BOOL demangleCPP;
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+/** If true, demangle any Swift symbols found in stack traces. */
+@property(nonatomic, readwrite, assign) BOOL demangleSwift;
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+
++ (PNLite_KSCrashReportStore *)storeWithPath:(NSString *)path;
+
+
+/** Full path to the recrash report with the specified ID.
+ *
+ * @param reportID The report ID
+ *
+ * @return The full path.
+ */
+- (NSString *)pathToRecrashReportWithID:(NSString *)reportID;
 
 @end

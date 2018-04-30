@@ -20,35 +20,28 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import "NSDictionary+PNLite_Merge.h"
 
-@implementation PubnativeLite
+@implementation NSDictionary (PNLite_Merge)
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
-
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+- (NSDictionary *)bsg_mergedInto:(NSDictionary *)dest {
+    if ([dest count] == 0) {
+        return self;
     }
-}
+    if ([self count] == 0) {
+        return dest;
+    }
 
+    NSMutableDictionary *dict = [dest mutableCopy];
+    for (id key in [self allKeys]) {
+        id srcEntry = self[key];
+        id dstEntry = dest[key];
+        if ([dstEntry isKindOfClass:[NSDictionary class]] &&
+            [srcEntry isKindOfClass:[NSDictionary class]]) {
+            srcEntry = [srcEntry bsg_mergedInto:dstEntry];
+        }
+        dict[key] = srcEntry;
+    }
+    return dict;
+}
 @end

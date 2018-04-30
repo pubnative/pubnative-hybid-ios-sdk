@@ -20,35 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+@class PNLiteConfiguration;
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+typedef void (^PNLiteRequestCompletion)(id data, BOOL success, NSError *error);
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+@interface PNLiteApiClient : NSObject
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+- (instancetype)initWithConfig:(PNLiteConfiguration *)configuration
+                     queueName:(NSString *)queueName;
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+/**
+ * Send outstanding reports
+ */
+- (void)flushPendingData;
+
+- (NSOperation *)deliveryOperation;
+
+- (void)sendData:(id)data
+     withPayload:(NSDictionary *)payload
+           toURL:(NSURL *)url
+         headers:(NSDictionary *)headers
+    onCompletion:(PNLiteRequestCompletion)onCompletion;
+
+@property(readonly) NSOperationQueue *sendQueue;
+@property(readonly) PNLiteConfiguration *config;
+
 
 @end

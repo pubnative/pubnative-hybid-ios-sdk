@@ -20,35 +20,43 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import "NSError+PNLite_SimpleConstructor.h"
 
-@implementation PubnativeLite
+@implementation NSError (PNLite_SimpleConstructor)
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
++ (NSError *)bsg_errorWithDomain:(NSString *)domain
+                            code:(NSInteger)code
+                     description:(NSString *)fmt, ... {
+    va_list args;
+    va_start(args, fmt);
+
+    NSString *desc = [[NSString alloc] initWithFormat:fmt arguments:args];
+    va_end(args);
+
+    return [NSError
+            errorWithDomain:domain
+                       code:code
+                   userInfo:@{NSLocalizedDescriptionKey: desc}];
 }
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
++ (BOOL)bsg_fillError:(NSError *__autoreleasing *)error
+           withDomain:(NSString *)domain
+                 code:(NSInteger)code
+          description:(NSString *)fmt, ... {
+    if (error != nil) {
+        va_list args;
+        va_start(args, fmt);
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+        NSString *desc = [[NSString alloc] initWithFormat:fmt arguments:args];
+        va_end(args);
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+        *error = [NSError
+                errorWithDomain:domain
+                           code:code
+                       userInfo:
+                               @{NSLocalizedDescriptionKey: desc}];
     }
+    return NO;
 }
 
 @end

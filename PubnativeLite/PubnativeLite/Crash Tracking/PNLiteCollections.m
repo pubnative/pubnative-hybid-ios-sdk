@@ -20,35 +20,26 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import "PNLiteCollections.h"
 
-@implementation PubnativeLite
-
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
+void PNLiteDictSetSafeObject(NSMutableDictionary *dict, id object,
+                          id<NSCopying> key) {
+    dict[key] = object ?: [NSNull null];
 }
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
+void PNLiteArrayAddSafeObject(NSMutableArray *array, id object) {
+    [array addObject:object ?: [NSNull null]];
 }
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+void PNLiteDictInsertIfNotNil(NSMutableDictionary *dict, id object,
+                           id<NSCopying> key) {
+    if (object && key) {
+        dict[key] = object;
     }
 }
 
-@end
+void PNLiteArrayInsertIfNotNil(NSMutableArray *array, id object) {
+    if (object) {
+        [array addObject:object];
+    }
+}

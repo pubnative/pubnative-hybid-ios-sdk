@@ -20,35 +20,41 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
+#import "PNLiteErrorReportApiClient.h"
 #import "PNLiteCrashTracker.h"
+#import "PNLiteCrashLogger.h"
+#import "PNLiteNotifier.h"
+#import "PNLiteSink.h"
+#import "PNLiteKeys.h"
 
-@implementation PubnativeLite
+@interface PNLiteDeliveryOperation : NSOperation
+@end
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
+@implementation PNLiteErrorReportApiClient
+
+- (NSOperation *)deliveryOperation {
+    return [PNLiteDeliveryOperation new];
 }
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+@end
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+@implementation PNLiteDeliveryOperation
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+- (void)main {
+    @autoreleasepool {
+        @try {
+            [[PNLite_KSCrash sharedInstance]
+                    sendAllReportsWithCompletion:^(NSArray *filteredReports,
+                            BOOL completed, NSError *error) {
+                        if (error) {
+                            pnlite_log_warn(@"Failed to send reports: %@", error);
+                        } else if (filteredReports.count > 0) {
+                            pnlite_log_info(@"Reports sent.");
+                        }
+                    }];
+        } @catch (NSException *e) {
+            pnlite_log_err(@"Could not send report: %@", e);
+        }
     }
 }
-
 @end

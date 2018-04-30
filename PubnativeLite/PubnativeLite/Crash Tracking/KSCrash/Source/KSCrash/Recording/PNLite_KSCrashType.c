@@ -20,35 +20,31 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#include "PNLite_KSCrashType.h"
 
-@implementation PubnativeLite
+#include <stdlib.h>
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+static const struct {
+    const PNLite_KSCrashType type;
+    const char *const name;
+} pnlite_g_crashTypes[] = {
+#define PNLite_CRASHTYPE(NAME)                                                    \
+    { NAME, #NAME }
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeMachException),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeSignal),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeCPPException),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeNSException),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeMainThreadDeadlock),
+    PNLite_CRASHTYPE(PNLite_KSCrashTypeUserReported),
+};
+static const int pnlite_g_crashTypesCount =
+    sizeof(pnlite_g_crashTypes) / sizeof(*pnlite_g_crashTypes);
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+const char *pnlite_kscrashtype_name(const PNLite_KSCrashType crashType) {
+    for (int i = 0; i < pnlite_g_crashTypesCount; i++) {
+        if (pnlite_g_crashTypes[i].type == crashType) {
+            return pnlite_g_crashTypes[i].name;
+        }
     }
+    return NULL;
 }
-
-@end

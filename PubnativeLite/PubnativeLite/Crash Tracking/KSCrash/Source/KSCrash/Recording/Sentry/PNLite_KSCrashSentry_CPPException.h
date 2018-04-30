@@ -20,35 +20,30 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#ifndef HDR_PNLite_KSCrashSentry_CPPException_h
+#define HDR_PNLite_KSCrashSentry_CPPException_h
 
-@implementation PubnativeLite
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
+#include "PNLite_KSCrashSentry.h"
+
+/** Install the C++ exception handler.
+ *
+ * @param context Contextual information for the crash handler.
+ *
+ * @return true if installation was succesful.
+ */
+bool bsg_kscrashsentry_installCPPExceptionHandler(
+    PNLite_KSCrash_SentryContext *context);
+
+/** Uninstall the C++ exception handler.
+ */
+void bsg_kscrashsentry_uninstallCPPExceptionHandler(void);
+
+#ifdef __cplusplus
 }
+#endif
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
-
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
-
-@end
+#endif // HDR_KSCrashSentry_CPPException_h

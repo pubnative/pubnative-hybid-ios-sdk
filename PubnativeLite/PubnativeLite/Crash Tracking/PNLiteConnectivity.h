@@ -20,35 +20,20 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
-@implementation PubnativeLite
+@class PNLiteConnectivity;
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+typedef void (^PNLiteConnectivityChange)(PNLiteConnectivity *connectivity);
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+@interface PNLiteConnectivity : NSObject
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+@property(nonatomic, copy) PNLiteConnectivityChange connectivityChangeBlock;
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+- (instancetype)initWithURL:(NSURL *)url
+                changeBlock:(PNLiteConnectivityChange)changeBlock;
+- (void)startWatchingConnectivity;
+- (void)stopWatchingConnectivity;
 
 @end

@@ -20,35 +20,43 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+/**
+ * Tool for converting to/from RFC3339 compliant date strings.
+ */
+@interface PNLite_RFC3339DateTool : NSObject
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+/** Convert a date to an RFC3339 string representation.
+ *
+ * @param date The date to convert.
+ *
+ * @return The RFC3339 date string.
+ */
++ (NSString *)stringFromDate:(NSDate *)date;
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+/** Convert an RFC3339 string representation to a date.
+ *
+ * @param string The string to convert.
+ *
+ * @return The date.
+ */
++ (NSDate *)dateFromString:(NSString *)string;
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+/** Convert a UNIX timestamp to an RFC3339 string representation.
+ *
+ * @param timestamp The date to convert.
+ *
+ * @return The RFC3339 date string.
+ */
++ (NSString *)stringFromUNIXTimestamp:(unsigned long long)timestamp;
 
-+ (void)initWithAppToken:(NSString *)appToken
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-    }
-}
+/** Convert an RFC3339 string representation to a UNIX timestamp.
+ *
+ * @param string The string to convert.
+ *
+ * @return The timestamp.
+ */
++ (unsigned long long)UNIXTimestampFromString:(NSString *)string;
 
 @end
