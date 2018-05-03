@@ -42,15 +42,15 @@
 
 /** The directory under "Caches" to store the crash reports. */
 #ifndef PNLite_KSCRASH_DefaultReportFilesDirectory
-#define PNLite_KSCRASH_DefaultReportFilesDirectory @"KSCrashReports"
+#define PNLite_KSCRASH_DefaultReportFilesDirectory @"PNLiteKSCrashReports"
 #endif
 
 // ============================================================================
 #pragma mark - Constants -
 // ============================================================================
 
-#define PNLite_kCrashLogFilenameSuffix "-CrashLog.txt"
-#define PNLite_kCrashStateFilenameSuffix "-CrashState.json"
+#define PNLite_kCrashLogFilenameSuffix "-PNLiteCrashLog.txt"
+#define PNLite_kCrashStateFilenameSuffix "-PNLiteCrashState.json"
 
 // ============================================================================
 #pragma mark - Globals -

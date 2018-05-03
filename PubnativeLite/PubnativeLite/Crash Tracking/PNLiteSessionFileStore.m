@@ -23,7 +23,7 @@
 #import "PNLiteSessionFileStore.h"
 #import "PNLite_KSLogger.h"
 
-static NSString *const kPNLiteSessionStoreSuffix = @"-Session-";
+static NSString *const kPNLiteSessionStoreSuffix = @"-PNLiteSession-";
 
 @implementation PNLiteSessionFileStore
 

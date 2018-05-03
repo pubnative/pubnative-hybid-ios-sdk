@@ -29,8 +29,8 @@
 #import "NSDictionary+PNLite_Merge.h"
 #import "PNLite_KSLogger.h"
 
-static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
-#define PNLite_kRecrashReportSuffix @"-RecrashReport-"
+static NSString *const kPNLiteCrashReportSuffix = @"-PNLiteCrashReport-";
+#define PNLite_kRecrashReportSuffix @"-PNLiteRecrashReport-"
 
 @implementation PNLite_KSCrashReportStore
 
