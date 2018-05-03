@@ -21,7 +21,7 @@ test:
         - bundle exec slather
 deployment:
     deployable:
-        branch: /(development|beta|master)/
+        branch: /.*/
         commands:
             - ./scripts/generate.sh
             - ./scripts/publish.sh
