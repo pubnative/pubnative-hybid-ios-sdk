@@ -44,32 +44,32 @@ typedef struct {
 static PNLite_CrashSentry pnlite_g_sentries[] = {
 #if PNLite_KSCRASH_HAS_MACH
     {
-        PNLite_KSCrashTypeMachException, bsg_kscrashsentry_installMachHandler,
-        bsg_kscrashsentry_uninstallMachHandler,
+        PNLite_KSCrashTypeMachException, pnlite_kscrashsentry_installMachHandler,
+        pnlite_kscrashsentry_uninstallMachHandler,
     },
 #endif
     {
-        PNLite_KSCrashTypeSignal, bsg_kscrashsentry_installSignalHandler,
-        bsg_kscrashsentry_uninstallSignalHandler,
+        PNLite_KSCrashTypeSignal, pnlite_kscrashsentry_installSignalHandler,
+        pnlite_kscrashsentry_uninstallSignalHandler,
     },
     {
         PNLite_KSCrashTypeCPPException,
-        bsg_kscrashsentry_installCPPExceptionHandler,
-        bsg_kscrashsentry_uninstallCPPExceptionHandler,
+        pnlite_kscrashsentry_installCPPExceptionHandler,
+        pnlite_kscrashsentry_uninstallCPPExceptionHandler,
     },
     {
-        PNLite_KSCrashTypeNSException, bsg_kscrashsentry_installNSExceptionHandler,
-        bsg_kscrashsentry_uninstallNSExceptionHandler,
+        PNLite_KSCrashTypeNSException, pnlite_kscrashsentry_installNSExceptionHandler,
+        pnlite_kscrashsentry_uninstallNSExceptionHandler,
     },
     {
         PNLite_KSCrashTypeMainThreadDeadlock,
-        bsg_kscrashsentry_installDeadlockHandler,
-        bsg_kscrashsentry_uninstallDeadlockHandler,
+        pnlite_kscrashsentry_installDeadlockHandler,
+        pnlite_kscrashsentry_uninstallDeadlockHandler,
     },
     {
         PNLite_KSCrashTypeUserReported,
-        bsg_kscrashsentry_installUserExceptionHandler,
-        bsg_kscrashsentry_uninstallUserExceptionHandler,
+        pnlite_kscrashsentry_installUserExceptionHandler,
+        pnlite_kscrashsentry_uninstallUserExceptionHandler,
     },
 };
 static size_t pnlite_g_sentriesCount =
@@ -88,10 +88,10 @@ static bool pnlite_g_threads_are_running = true;
 // ============================================================================
 
 PNLite_KSCrashType
-bsg_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
+pnlite_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
                                      PNLite_KSCrashType crashTypes,
                                      void (*onCrash)(void)) {
-    if (bsg_ksmachisBeingTraced()) {
+    if (pnlite_ksmachisBeingTraced()) {
         if (context->reportWhenDebuggerIsAttached) {
             PNLite_KSLOG_WARN("KSCrash: App is running in a debugger. Crash "
                            "handling is enabled via configuration.");
@@ -110,7 +110,7 @@ bsg_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
     }
 
     pnlite_g_context = context;
-    bsg_kscrashsentry_clearContext(pnlite_g_context);
+    pnlite_kscrashsentry_clearContext(pnlite_g_context);
     pnlite_g_context->onCrash = onCrash;
 
     PNLite_KSCrashType installed = 0;
@@ -127,7 +127,7 @@ bsg_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
     return installed;
 }
 
-void bsg_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes) {
+void pnlite_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes) {
     PNLite_KSLOG_DEBUG("Uninstalling handlers with crash types 0x%x.", crashTypes);
     for (size_t i = 0; i < pnlite_g_sentriesCount; i++) {
         PNLite_CrashSentry *sentry = &pnlite_g_sentries[i];
@@ -144,7 +144,7 @@ void bsg_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes) {
 #pragma mark - Private API -
 // ============================================================================
 
-void bsg_kscrashsentry_suspendThreads(void) {
+void pnlite_kscrashsentry_suspendThreads(void) {
     PNLite_KSLOG_DEBUG("Suspending threads.");
     if (!pnlite_g_threads_are_running) {
         PNLite_KSLOG_DEBUG("Threads already suspended.");
@@ -157,14 +157,14 @@ void bsg_kscrashsentry_suspendThreads(void) {
         PNLite_KSLOG_DEBUG(
             "Suspending all threads except for %d reserved threads.",
             numThreads);
-        if (bsg_ksmachsuspendAllThreadsExcept(pnlite_g_context->reservedThreads,
+        if (pnlite_ksmachsuspendAllThreadsExcept(pnlite_g_context->reservedThreads,
                                               numThreads)) {
             PNLite_KSLOG_DEBUG("Suspend successful.");
             pnlite_g_threads_are_running = false;
         }
     } else {
         PNLite_KSLOG_DEBUG("Suspending all threads.");
-        if (bsg_ksmachsuspendAllThreads()) {
+        if (pnlite_ksmachsuspendAllThreads()) {
             PNLite_KSLOG_DEBUG("Suspend successful.");
             pnlite_g_threads_are_running = false;
         }
@@ -172,7 +172,7 @@ void bsg_kscrashsentry_suspendThreads(void) {
     PNLite_KSLOG_DEBUG("Suspend complete.");
 }
 
-void bsg_kscrashsentry_resumeThreads(void) {
+void pnlite_kscrashsentry_resumeThreads(void) {
     PNLite_KSLOG_DEBUG("Resuming threads.");
     if (pnlite_g_threads_are_running) {
         PNLite_KSLOG_DEBUG("Threads already resumed.");
@@ -184,14 +184,14 @@ void bsg_kscrashsentry_resumeThreads(void) {
                          sizeof(pnlite_g_context->reservedThreads[0]);
         PNLite_KSLOG_DEBUG("Resuming all threads except for %d reserved threads.",
                         numThreads);
-        if (bsg_ksmachresumeAllThreadsExcept(pnlite_g_context->reservedThreads,
+        if (pnlite_ksmachresumeAllThreadsExcept(pnlite_g_context->reservedThreads,
                                              numThreads)) {
             PNLite_KSLOG_DEBUG("Resume successful.");
             pnlite_g_threads_are_running = true;
         }
     } else {
         PNLite_KSLOG_DEBUG("Resuming all threads.");
-        if (bsg_ksmachresumeAllThreads()) {
+        if (pnlite_ksmachresumeAllThreads()) {
             PNLite_KSLOG_DEBUG("Resume successful.");
             pnlite_g_threads_are_running = true;
         }
@@ -199,7 +199,7 @@ void bsg_kscrashsentry_resumeThreads(void) {
     PNLite_KSLOG_DEBUG("Resume complete.");
 }
 
-void bsg_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context) {
+void pnlite_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context) {
     void (*onCrash)(void) = context->onCrash;
     bool threadTracingEnabled = context->threadTracingEnabled;
     bool reportWhenDebuggerIsAttached = context->reportWhenDebuggerIsAttached;
@@ -217,7 +217,7 @@ void bsg_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context) {
         writeBinaryImagesForUserReported;
 }
 
-void bsg_kscrashsentry_beginHandlingCrash(PNLite_KSCrash_SentryContext *context) {
-    bsg_kscrashsentry_clearContext(context);
+void pnlite_kscrashsentry_beginHandlingCrash(PNLite_KSCrash_SentryContext *context) {
+    pnlite_kscrashsentry_clearContext(context);
     context->handlingCrash = true;
 }

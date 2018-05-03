@@ -75,21 +75,21 @@ static inline PNLite_KSCrash_Context *crashContext(void) {
  *
  * This function gets passed as a callback to a crash handler.
  */
-void bsg_kscrash_i_onCrash(void) {
+void pnlite_kscrash_i_onCrash(void) {
     PNLite_KSLOG_DEBUG("Updating application state to note crash.");
-    bsg_kscrashstate_notifyAppCrash();
+    pnlite_kscrashstate_notifyAppCrash();
 
     PNLite_KSCrash_Context *context = crashContext();
 
     if (context->config.printTraceToStdout) {
-        bsg_kscrashreport_logCrash(context);
+        pnlite_kscrashreport_logCrash(context);
     }
 
     if (context->crash.crashedDuringCrashHandling) {
-        bsg_kscrashreport_writeMinimalReport(context,
+        pnlite_kscrashreport_writeMinimalReport(context,
                                              pnlite_g_recrashReportFilePath);
     } else {
-        bsg_kscrashreport_writeStandardReport(context,
+        pnlite_kscrashreport_writeStandardReport(context,
                                               pnlite_g_crashReportFilePath);
     }
 }
@@ -98,7 +98,7 @@ void bsg_kscrash_i_onCrash(void) {
 #pragma mark - API -
 // ============================================================================
 
-PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
+PNLite_KSCrashType pnlite_kscrash_install(const char *const crashReportFilePath,
                                     const char *const recrashReportFilePath,
                                     const char *stateFilePath,
                                     const char *crashID) {
@@ -112,17 +112,17 @@ PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
     }
     pnlite_g_installed = 1;
 
-    bsg_ksmach_init();
+    pnlite_ksmach_init();
 
     if (context->config.introspectionRules.enabled) {
-        bsg_ksobjc_init();
+        pnlite_ksobjc_init();
     }
 
-    bsg_kscrash_reinstall(crashReportFilePath, recrashReportFilePath,
+    pnlite_kscrash_reinstall(crashReportFilePath, recrashReportFilePath,
                           stateFilePath, crashID);
 
     PNLite_KSCrashType crashTypes =
-        bsg_kscrash_setHandlingCrashTypes(context->config.handlingCrashTypes);
+        pnlite_kscrash_setHandlingCrashTypes(context->config.handlingCrashTypes);
 
     context->config.systemInfoJSON = pnlite_kssysteminfo_toJSON();
     context->config.processName = pnlite_kssysteminfo_copyProcessName();
@@ -131,7 +131,7 @@ PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
     return crashTypes;
 }
 
-void bsg_kscrash_reinstall(const char *const crashReportFilePath,
+void pnlite_kscrash_reinstall(const char *const crashReportFilePath,
                            const char *const recrashReportFilePath,
                            const char *const stateFilePath,
                            const char *const crashID) {
@@ -140,65 +140,65 @@ void bsg_kscrash_reinstall(const char *const crashReportFilePath,
     PNLite_KSLOG_TRACE("stateFilePath = %s", stateFilePath);
     PNLite_KSLOG_TRACE("crashID = %s", crashID);
 
-    bsg_ksstring_replace((const char **)&pnlite_g_stateFilePath, stateFilePath);
-    bsg_ksstring_replace((const char **)&pnlite_g_crashReportFilePath,
+    pnlite_ksstring_replace((const char **)&pnlite_g_stateFilePath, stateFilePath);
+    pnlite_ksstring_replace((const char **)&pnlite_g_crashReportFilePath,
                          crashReportFilePath);
-    bsg_ksstring_replace((const char **)&pnlite_g_recrashReportFilePath,
+    pnlite_ksstring_replace((const char **)&pnlite_g_recrashReportFilePath,
                          recrashReportFilePath);
     PNLite_KSCrash_Context *context = crashContext();
-    bsg_ksstring_replace(&context->config.crashID, crashID);
+    pnlite_ksstring_replace(&context->config.crashID, crashID);
 
-    if (!bsg_kscrashstate_init(pnlite_g_stateFilePath, &context->state)) {
+    if (!pnlite_kscrashstate_init(pnlite_g_stateFilePath, &context->state)) {
         PNLite_KSLOG_ERROR("Failed to initialize persistent crash state");
     }
     context->state.appLaunchTime = mach_absolute_time();
 }
 
-PNLite_KSCrashType bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTypes) {
+PNLite_KSCrashType pnlite_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTypes) {
     PNLite_KSCrash_Context *context = crashContext();
     context->config.handlingCrashTypes = crashTypes;
 
     if (pnlite_g_installed) {
-        bsg_kscrashsentry_uninstall(~crashTypes);
-        crashTypes = bsg_kscrashsentry_installWithContext(
-            &context->crash, crashTypes, bsg_kscrash_i_onCrash);
+        pnlite_kscrashsentry_uninstall(~crashTypes);
+        crashTypes = pnlite_kscrashsentry_installWithContext(
+            &context->crash, crashTypes, pnlite_kscrash_i_onCrash);
     }
 
     return crashTypes;
 }
 
-void bsg_kscrash_setUserInfoJSON(const char *const userInfoJSON) {
+void pnlite_kscrash_setUserInfoJSON(const char *const userInfoJSON) {
     PNLite_KSLOG_TRACE("set userInfoJSON to %p", userInfoJSON);
     PNLite_KSCrash_Context *context = crashContext();
-    bsg_ksstring_replace(&context->config.userInfoJSON, userInfoJSON);
+    pnlite_ksstring_replace(&context->config.userInfoJSON, userInfoJSON);
 }
 
-void bsg_kscrash_setDeadlockWatchdogInterval(double deadlockWatchdogInterval) {
-    bsg_kscrashsentry_setDeadlockHandlerWatchdogInterval(
+void pnlite_kscrash_setDeadlockWatchdogInterval(double deadlockWatchdogInterval) {
+    pnlite_kscrashsentry_setDeadlockHandlerWatchdogInterval(
         deadlockWatchdogInterval);
 }
 
-void bsg_kscrash_setPrintTraceToStdout(bool printTraceToStdout) {
+void pnlite_kscrash_setPrintTraceToStdout(bool printTraceToStdout) {
     crashContext()->config.printTraceToStdout = printTraceToStdout;
 }
 
-void bsg_kscrash_setSearchThreadNames(bool shouldSearchThreadNames) {
+void pnlite_kscrash_setSearchThreadNames(bool shouldSearchThreadNames) {
     crashContext()->config.searchThreadNames = shouldSearchThreadNames;
 }
 
-void bsg_kscrash_setSearchQueueNames(bool shouldSearchQueueNames) {
+void pnlite_kscrash_setSearchQueueNames(bool shouldSearchQueueNames) {
     crashContext()->config.searchQueueNames = shouldSearchQueueNames;
 }
 
-void bsg_kscrash_setIntrospectMemory(bool introspectMemory) {
+void pnlite_kscrash_setIntrospectMemory(bool introspectMemory) {
     crashContext()->config.introspectionRules.enabled = introspectMemory;
 }
 
-void bsg_kscrash_setCatchZombies(bool catchZombies) {
-    bsg_kszombie_setEnabled(catchZombies);
+void pnlite_kscrash_setCatchZombies(bool catchZombies) {
+    pnlite_kszombie_setEnabled(catchZombies);
 }
 
-void bsg_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
+void pnlite_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
                                            size_t length) {
     const char **oldClasses =
         crashContext()->config.introspectionRules.restrictedClasses;
@@ -232,39 +232,39 @@ void bsg_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
     }
 }
 
-void bsg_kscrash_setCrashNotifyCallback(
+void pnlite_kscrash_setCrashNotifyCallback(
     const PNLite_KSReportWriteCallback onCrashNotify) {
     PNLite_KSLOG_TRACE("Set onCrashNotify to %p", onCrashNotify);
     crashContext()->config.onCrashNotify = onCrashNotify;
 }
 
-void bsg_kscrash_reportUserException(const char *name, const char *reason,
+void pnlite_kscrash_reportUserException(const char *name, const char *reason,
                                      const char *language,
                                      const char *lineOfCode,
                                      const char *stackTrace,
                                      bool terminateProgram) {
-    bsg_kscrashsentry_reportUserException(name, reason, language, lineOfCode,
+    pnlite_kscrashsentry_reportUserException(name, reason, language, lineOfCode,
                                           stackTrace, terminateProgram);
 }
 
-void bsg_kscrash_setSuspendThreadsForUserReported(
+void pnlite_kscrash_setSuspendThreadsForUserReported(
     bool suspendThreadsForUserReported) {
     crashContext()->crash.suspendThreadsForUserReported =
         suspendThreadsForUserReported;
 }
 
-void bsg_kscrash_setWriteBinaryImagesForUserReported(
+void pnlite_kscrash_setWriteBinaryImagesForUserReported(
     bool writeBinaryImagesForUserReported) {
     crashContext()->crash.writeBinaryImagesForUserReported =
         writeBinaryImagesForUserReported;
 }
 
-void bsg_kscrash_setReportWhenDebuggerIsAttached(
+void pnlite_kscrash_setReportWhenDebuggerIsAttached(
     bool reportWhenDebuggerIsAttached) {
     crashContext()->crash.reportWhenDebuggerIsAttached =
         reportWhenDebuggerIsAttached;
 }
 
-void bsg_kscrash_setThreadTracingEnabled(bool threadTracingEnabled) {
+void pnlite_kscrash_setThreadTracingEnabled(bool threadTracingEnabled) {
     crashContext()->crash.threadTracingEnabled = threadTracingEnabled;
 }

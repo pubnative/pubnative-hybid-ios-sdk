@@ -33,19 +33,19 @@
 /** Context to fill with crash information. */
 static PNLite_KSCrash_SentryContext *pnlite_g_context;
 
-bool bsg_kscrashsentry_installUserExceptionHandler(
+bool pnlite_kscrashsentry_installUserExceptionHandler(
     PNLite_KSCrash_SentryContext *const context) {
     PNLite_KSLOG_DEBUG("Installing user exception handler.");
     pnlite_g_context = context;
     return true;
 }
 
-void bsg_kscrashsentry_uninstallUserExceptionHandler(void) {
+void pnlite_kscrashsentry_uninstallUserExceptionHandler(void) {
     PNLite_KSLOG_DEBUG("Uninstalling user exception handler.");
     pnlite_g_context = NULL;
 }
 
-void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
+void pnlite_kscrashsentry_reportUserException(const char *name, const char *reason,
                                            const char *language,
                                            const char *lineOfCode,
                                            const char *stackTrace,
@@ -54,11 +54,11 @@ void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
         PNLite_KSLOG_WARN("User-reported exception sentry is not installed. "
                        "Exception has not been recorded.");
     } else {
-        bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
+        pnlite_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         if (pnlite_g_context->suspendThreadsForUserReported) {
             PNLite_KSLOG_DEBUG("Suspending all threads");
-            bsg_kscrashsentry_suspendThreads();
+            pnlite_kscrashsentry_suspendThreads();
         }
 
         PNLite_KSLOG_DEBUG("Fetching call stack.");
@@ -73,7 +73,7 @@ void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
 
         PNLite_KSLOG_DEBUG("Filling out context.");
         pnlite_g_context->crashType = PNLite_KSCrashTypeUserReported;
-        pnlite_g_context->offendingThread = bsg_ksmachthread_self();
+        pnlite_g_context->offendingThread = pnlite_ksmachthread_self();
         pnlite_g_context->registersAreValid = false;
         pnlite_g_context->crashReason = reason;
         pnlite_g_context->stackTrace = callstack;
@@ -87,12 +87,12 @@ void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
         pnlite_g_context->onCrash();
 
         if (terminateProgram) {
-            bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
-            bsg_kscrashsentry_resumeThreads();
+            pnlite_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
+            pnlite_kscrashsentry_resumeThreads();
             abort();
         } else {
-            bsg_kscrashsentry_clearContext(pnlite_g_context);
-            bsg_kscrashsentry_resumeThreads();
+            pnlite_kscrashsentry_clearContext(pnlite_g_context);
+            pnlite_kscrashsentry_resumeThreads();
         }
     }
 }

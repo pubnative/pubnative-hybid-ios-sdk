@@ -41,55 +41,55 @@ static const int pnlite_g_exceptionRegisterNamesCount =
     sizeof(*pnlite_g_exceptionRegisterNames);
 
 uintptr_t
-bsg_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
+pnlite_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__fp;
 }
 
 uintptr_t
-bsg_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
+pnlite_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__sp;
 }
 
-uintptr_t bsg_ksmachinstructionAddress(
+uintptr_t pnlite_ksmachinstructionAddress(
     const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__pc;
 }
 
 uintptr_t
-bsg_ksmachlinkRegister(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
+pnlite_ksmachlinkRegister(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__ss.__lr;
 }
 
-bool bsg_ksmachthreadState(const thread_t thread,
+bool pnlite_ksmachthreadState(const thread_t thread,
                            PNLite_STRUCT_MCONTEXT_L *const machineContext) {
-    return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__ss,
+    return pnlite_ksmachfillState(thread, (thread_state_t)&machineContext->__ss,
                                ARM_THREAD_STATE64, ARM_THREAD_STATE64_COUNT);
 }
 
-bool bsg_ksmachfloatState(const thread_t thread,
+bool pnlite_ksmachfloatState(const thread_t thread,
                           PNLite_STRUCT_MCONTEXT_L *const machineContext) {
-    return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__ns,
+    return pnlite_ksmachfillState(thread, (thread_state_t)&machineContext->__ns,
                                ARM_VFP_STATE, ARM_VFP_STATE_COUNT);
 }
 
-bool bsg_ksmachexceptionState(const thread_t thread,
+bool pnlite_ksmachexceptionState(const thread_t thread,
                               PNLite_STRUCT_MCONTEXT_L *const machineContext) {
-    return bsg_ksmachfillState(thread, (thread_state_t)&machineContext->__es,
+    return pnlite_ksmachfillState(thread, (thread_state_t)&machineContext->__es,
                                ARM_EXCEPTION_STATE64,
                                ARM_EXCEPTION_STATE64_COUNT);
 }
 
-int bsg_ksmachnumRegisters(void) { return pnlite_g_registerNamesCount; }
+int pnlite_ksmachnumRegisters(void) { return pnlite_g_registerNamesCount; }
 
-const char *bsg_ksmachregisterName(const int regNumber) {
-    if (regNumber < bsg_ksmachnumRegisters()) {
+const char *pnlite_ksmachregisterName(const int regNumber) {
+    if (regNumber < pnlite_ksmachnumRegisters()) {
         return pnlite_g_registerNames[regNumber];
     }
     return NULL;
 }
 
 uint64_t
-bsg_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *const machineContext,
+pnlite_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *const machineContext,
                         const int regNumber) {
     if (regNumber <= 29) {
         return machineContext->__ss.__x[regNumber];
@@ -112,19 +112,19 @@ bsg_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     return 0;
 }
 
-int bsg_ksmachnumExceptionRegisters(void) {
+int pnlite_ksmachnumExceptionRegisters(void) {
     return pnlite_g_exceptionRegisterNamesCount;
 }
 
-const char *bsg_ksmachexceptionRegisterName(const int regNumber) {
-    if (regNumber < bsg_ksmachnumExceptionRegisters()) {
+const char *pnlite_ksmachexceptionRegisterName(const int regNumber) {
+    if (regNumber < pnlite_ksmachnumExceptionRegisters()) {
         return pnlite_g_exceptionRegisterNames[regNumber];
     }
     PNLite_KSLOG_ERROR("Invalid register number: %d", regNumber);
     return NULL;
 }
 
-uint64_t bsg_ksmachexceptionRegisterValue(
+uint64_t pnlite_ksmachexceptionRegisterValue(
     const PNLite_STRUCT_MCONTEXT_L *const machineContext, const int regNumber) {
     switch (regNumber) {
     case 0:
@@ -140,10 +140,10 @@ uint64_t bsg_ksmachexceptionRegisterValue(
 }
 
 uintptr_t
-bsg_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
+pnlite_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     return machineContext->__es.__far;
 }
 
-int bsg_ksmachstackGrowDirection(void) { return -1; }
+int pnlite_ksmachstackGrowDirection(void) { return -1; }
 
 #endif

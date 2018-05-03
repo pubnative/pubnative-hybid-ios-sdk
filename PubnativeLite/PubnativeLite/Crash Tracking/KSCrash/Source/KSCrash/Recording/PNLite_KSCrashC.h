@@ -49,7 +49,7 @@ extern "C" {
  *
  * @return The crash types that are being handled.
  */
-PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
+PNLite_KSCrashType pnlite_kscrash_install(const char *const crashReportFilePath,
                                     const char *const recrashReportFilePath,
                                     const char *stateFilePath,
                                     const char *crashID);
@@ -65,7 +65,7 @@ PNLite_KSCrashType bsg_kscrash_install(const char *const crashReportFilePath,
  *         successfully installed. Otherwise it represents which sentries it
  *         will attempt to activate when PNLite_KSCrash installs.
  */
-PNLite_KSCrashType bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTypes);
+PNLite_KSCrashType pnlite_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTypes);
 
 /** Reinstall the crash reporter. Useful for resetting the crash reporter
  * after a "soft" crash.
@@ -79,7 +79,7 @@ PNLite_KSCrashType bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashType crashTyp
  *
  * @param crashID The unique identifier to assign to the next crash report.
  */
-void bsg_kscrash_reinstall(const char *const crashReportFilePath,
+void pnlite_kscrash_reinstall(const char *const crashReportFilePath,
                            const char *const recrashReportFilePath,
                            const char *const stateFilePath,
                            const char *const crashID);
@@ -89,7 +89,7 @@ void bsg_kscrash_reinstall(const char *const crashReportFilePath,
  * @param userInfoJSON Pre-baked JSON containing user-supplied information.
  *                     NULL = delete.
  */
-void bsg_kscrash_setUserInfoJSON(const char *const userInfoJSON);
+void pnlite_kscrash_setUserInfoJSON(const char *const userInfoJSON);
 
 /** Set the maximum time to allow the main thread to run without returning.
  * If a task occupies the main thread for longer than this interval, the
@@ -106,25 +106,25 @@ void bsg_kscrash_setUserInfoJSON(const char *const userInfoJSON);
  *
  * Default: 0
  */
-void bsg_kscrash_setDeadlockWatchdogInterval(double deadlockWatchdogInterval);
+void pnlite_kscrash_setDeadlockWatchdogInterval(double deadlockWatchdogInterval);
 
 /** Set whether or not to print a stack trace to stdout when a crash occurs.
  *
  * Default: false
  */
-void bsg_kscrash_setPrintTraceToStdout(bool printTraceToStdout);
+void pnlite_kscrash_setPrintTraceToStdout(bool printTraceToStdout);
 
 /** If true, search for thread names where appropriate.
  * Thread name searching is not async-safe, and so comes with the risk of
  * timing out and panicking in thread_lock().
  */
-void bsg_kscrash_setSearchThreadNames(bool shouldSearchThreadNames);
+void pnlite_kscrash_setSearchThreadNames(bool shouldSearchThreadNames);
 
 /** If true, search for dispatch queue names where appropriate.
  * Queue name searching is not async-safe, and so comes with the risk of
  * timing out and panicking in thread_lock().
  */
-void bsg_kscrash_setSearchQueueNames(bool shouldSearchQueueNames);
+void pnlite_kscrash_setSearchQueueNames(bool shouldSearchQueueNames);
 
 /** If true, introspect memory contents during a crash.
  * Any Objective-C objects or C strings near the stack pointer or referenced by
@@ -133,14 +133,14 @@ void bsg_kscrash_setSearchQueueNames(bool shouldSearchQueueNames);
  *
  * Default: false
  */
-void bsg_kscrash_setIntrospectMemory(bool introspectMemory);
+void pnlite_kscrash_setIntrospectMemory(bool introspectMemory);
 
 /** If true, monitor all Objective-C/Swift deallocations and keep track of any
  * accesses after deallocation.
  *
  * Default: false
  */
-void bsg_kscrash_setCatchZombies(bool catchZombies);
+void pnlite_kscrash_setCatchZombies(bool catchZombies);
 
 /** List of Objective-C classes that should never be introspected.
  * Whenever a class in this list is encountered, only the class name will be
@@ -148,7 +148,7 @@ void bsg_kscrash_setCatchZombies(bool catchZombies);
  *
  * Default: NULL
  */
-void bsg_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
+void pnlite_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
                                            size_t length);
 
 /** Set the callback to invoke upon a crash.
@@ -162,7 +162,7 @@ void bsg_kscrash_setDoNotIntrospectClasses(const char **doNotIntrospectClasses,
  *
  * Default: NULL
  */
-void bsg_kscrash_setCrashNotifyCallback(
+void pnlite_kscrash_setCrashNotifyCallback(
     const PNLite_KSReportWriteCallback onCrashNotify);
 
 /** Report a custom, user defined exception.
@@ -186,7 +186,7 @@ void bsg_kscrash_setCrashNotifyCallback(
  * @param terminateProgram If true, do not return from this function call.
  * Terminate the program instead.
  */
-void bsg_kscrash_reportUserException(const char *name, const char *reason,
+void pnlite_kscrash_reportUserException(const char *name, const char *reason,
                                      const char *language,
                                      const char *lineOfCode,
                                      const char *stackTrace,
@@ -198,19 +198,19 @@ void bsg_kscrash_reportUserException(const char *name, const char *reason,
  *
  * Default: YES
  */
-void bsg_kscrash_setSuspendThreadsForUserReported(
+void pnlite_kscrash_setSuspendThreadsForUserReported(
     bool suspendThreadsForUserReported);
 
 /** If YES, user reported exceptions even if a debugger is attached
  *
  * Default: NO
  */
-void bsg_kscrash_setReportWhenDebuggerIsAttached(
+void pnlite_kscrash_setReportWhenDebuggerIsAttached(
     bool reportWhenDebuggerIsAttached);
 
-void bsg_kscrash_setThreadTracingEnabled(bool threadTracingEnabled);
+void pnlite_kscrash_setThreadTracingEnabled(bool threadTracingEnabled);
 
-void bsg_kscrash_setWriteBinaryImagesForUserReported(
+void pnlite_kscrash_setWriteBinaryImagesForUserReported(
     bool writeBinaryImagesForUserReported);
 
 #ifdef __cplusplus

@@ -39,11 +39,11 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installMachHandler(PNLite_KSCrash_SentryContext *context);
+bool pnlite_kscrashsentry_installMachHandler(PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall our custom mach exception handler.
  */
-void bsg_kscrashsentry_uninstallMachHandler(void);
+void pnlite_kscrashsentry_uninstallMachHandler(void);
 
 #ifdef __cplusplus
 }

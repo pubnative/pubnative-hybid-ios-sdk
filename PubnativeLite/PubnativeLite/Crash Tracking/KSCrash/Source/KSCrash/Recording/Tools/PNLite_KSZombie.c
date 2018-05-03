@@ -57,11 +57,11 @@ static bool copyStringIvar(const void *self, const char *ivarName, char *buffer,
                            size_t bufferLength) {
     Class class = object_getClass((id)self);
     PNLite_KSObjCIvar ivar = {0};
-    likely_if(bsg_ksobjc_ivarNamed(class, ivarName, &ivar)) {
+    likely_if(pnlite_ksobjc_ivarNamed(class, ivarName, &ivar)) {
         void *pointer;
-        likely_if(bsg_ksobjc_ivarValue(self, ivar.index, &pointer)) {
-            likely_if(bsg_ksobjc_isValidObject(pointer)) {
-                likely_if(bsg_ksobjc_copyStringContents(pointer, buffer,
+        likely_if(pnlite_ksobjc_ivarValue(self, ivar.index, &pointer)) {
+            likely_if(pnlite_ksobjc_isValidObject(pointer)) {
+                likely_if(pnlite_ksobjc_copyStringContents(pointer, buffer,
                                                         bufferLength) > 0) {
                     return true;
                 }
@@ -108,24 +108,24 @@ static inline void handleDealloc(const void *self) {
 }
 
 #define PNLite_CREATE_ZOMBIE_HANDLER_INSTALLER(CLASS)                             \
-    static IMP bsg_g_originalDealloc_##CLASS;                                  \
+    static IMP pnlite_g_originalDealloc_##CLASS;                                  \
     static void handleDealloc_##CLASS(id self, SEL _cmd) {                     \
         handleDealloc(self);                                                   \
         typedef void (*fn)(id, SEL);                                           \
-        fn f = (fn)bsg_g_originalDealloc_##CLASS;                              \
+        fn f = (fn)pnlite_g_originalDealloc_##CLASS;                              \
         f(self, _cmd);                                                         \
     }                                                                          \
     static void installDealloc_##CLASS() {                                     \
         Method method = class_getInstanceMethod(objc_getClass(#CLASS),         \
                                                 sel_registerName("dealloc"));  \
-        bsg_g_originalDealloc_##CLASS = method_getImplementation(method);      \
+        pnlite_g_originalDealloc_##CLASS = method_getImplementation(method);      \
         method_setImplementation(method, (IMP)handleDealloc_##CLASS);          \
     }                                                                          \
     static void uninstallDealloc_##CLASS() {                                   \
         method_setImplementation(                                              \
             class_getInstanceMethod(objc_getClass(#CLASS),                     \
                                     sel_registerName("dealloc")),              \
-            bsg_g_originalDealloc_##CLASS);                                    \
+            pnlite_g_originalDealloc_##CLASS);                                    \
     }
 
 PNLite_CREATE_ZOMBIE_HANDLER_INSTALLER(NSObject)
@@ -164,7 +164,7 @@ static void uninstall(void) {
     });
 }
 
-void bsg_kszombie_setEnabled(bool shouldEnable) {
+void pnlite_kszombie_setEnabled(bool shouldEnable) {
     bool isCurrentlyEnabled = pnlite_g_zombieCache != NULL;
     if (shouldEnable && !isCurrentlyEnabled) {
         install();
@@ -173,7 +173,7 @@ void bsg_kszombie_setEnabled(bool shouldEnable) {
     }
 }
 
-const char *bsg_kszombie_className(const void *object) {
+const char *pnlite_kszombie_className(const void *object) {
     volatile PNLite_Zombie *cache = pnlite_g_zombieCache;
     if (cache == NULL || object == NULL) {
         return NULL;
@@ -186,14 +186,14 @@ const char *bsg_kszombie_className(const void *object) {
     return NULL;
 }
 
-const void *bsg_kszombie_lastDeallocedNSExceptionAddress(void) {
+const void *pnlite_kszombie_lastDeallocedNSExceptionAddress(void) {
     return pnlite_g_lastDeallocedException.address;
 }
 
-const char *bsg_kszombie_lastDeallocedNSExceptionName(void) {
+const char *pnlite_kszombie_lastDeallocedNSExceptionName(void) {
     return pnlite_g_lastDeallocedException.name;
 }
 
-const char *bsg_kszombie_lastDeallocedNSExceptionReason(void) {
+const char *pnlite_kszombie_lastDeallocedNSExceptionReason(void) {
     return pnlite_g_lastDeallocedException.reason;
 }

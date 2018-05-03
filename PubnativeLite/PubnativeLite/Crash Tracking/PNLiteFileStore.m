@@ -305,7 +305,7 @@
 - (NSMutableDictionary *)readFile:(NSString *)path
                             error:(NSError *__autoreleasing *)error {
     if (path == nil) {
-        [NSError bsg_fillError:error
+        [NSError pnlite_fillError:error
                     withDomain:[[self class] description]
                           code:0
                    description:@"Path is nil"];

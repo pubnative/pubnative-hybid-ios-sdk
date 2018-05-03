@@ -155,7 +155,7 @@ bool ksmachexc_i_fetchMachineState(
 
 /** Restore the original mach exception ports.
  */
-void bsg_ksmachexc_i_restoreExceptionPorts(void) {
+void pnlite_ksmachexc_i_restoreExceptionPorts(void) {
     PNLite_KSLOG_DEBUG("Restoring original exception ports.");
     if (g_previousExceptionPorts.count == 0) {
         PNLite_KSLOG_DEBUG("Original exception ports were already restored.");
@@ -199,7 +199,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
     pthread_setname_np(threadName);
     if (threadName == kPNLiteThreadSecondary) {
         PNLite_KSLOG_DEBUG("This is the secondary thread. Suspending.");
-        thread_suspend(bsg_ksmach_thread_self());
+        thread_suspend(pnlite_ksmach_thread_self());
     }
 
     for (;;) {
@@ -221,17 +221,17 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
                     exceptionMessage.code[0], exceptionMessage.code[1]);
     if (pnlite_g_installed) {
         bool wasHandlingCrash = pnlite_g_context->handlingCrash;
-        bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
+        pnlite_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         PNLite_KSLOG_DEBUG(
             "Exception handler is installed. Continuing exception handling.");
 
         PNLite_KSLOG_DEBUG("Suspending all threads");
-        bsg_kscrashsentry_suspendThreads();
+        pnlite_kscrashsentry_suspendThreads();
 
         // Switch to the secondary thread if necessary, or uninstall the handler
         // to avoid a death loop.
-        if (bsg_ksmach_thread_self() == pnlite_g_primaryMachThread) {
+        if (pnlite_ksmach_thread_self() == pnlite_g_primaryMachThread) {
             PNLite_KSLOG_DEBUG("This is the primary exception thread. Activating "
                             "secondary thread.");
             if (thread_resume(g_secondaryMachThread) != KERN_SUCCESS) {
@@ -251,20 +251,20 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
             // The crash reporter itself crashed. Make a note of this and
             // uninstall all handlers so that we don't get stuck in a loop.
             pnlite_g_context->crashedDuringCrashHandling = true;
-            bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
+            pnlite_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         }
 
         // Fill out crash information
         PNLite_KSLOG_DEBUG("Fetching machine state.");
         PNLite_STRUCT_MCONTEXT_L machineContext;
-        if (bsg_ksmachexc_i_fetchMachineState(exceptionMessage.thread.name,
+        if (pnlite_ksmachexc_i_fetchMachineState(exceptionMessage.thread.name,
                                               &machineContext)) {
             if (exceptionMessage.exception == EXC_BAD_ACCESS) {
                 pnlite_g_context->faultAddress =
-                    bsg_ksmachfaultAddress(&machineContext);
+                    pnlite_ksmachfaultAddress(&machineContext);
             } else {
                 pnlite_g_context->faultAddress =
-                    bsg_ksmachinstructionAddress(&machineContext);
+                    pnlite_ksmachinstructionAddress(&machineContext);
             }
         }
 
@@ -281,8 +281,8 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 
         PNLite_KSLOG_DEBUG(
             "Crash handling complete. Restoring original handlers.");
-        bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
-        bsg_kscrashsentry_resumeThreads();
+        pnlite_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
+        pnlite_kscrashsentry_resumeThreads();
     }
 
     PNLite_KSLOG_DEBUG("Replying to mach exception message.");
@@ -301,7 +301,7 @@ void *ksmachexc_i_handleExceptions(void *const userData) {
 #pragma mark - API -
 // ============================================================================
 
-bool bsg_kscrashsentry_installMachHandler(
+bool pnlite_kscrashsentry_installMachHandler(
     PNLite_KSCrash_SentryContext *const context) {
     PNLite_KSLOG_DEBUG("Installing mach exception handler.");
 
@@ -322,7 +322,7 @@ bool bsg_kscrashsentry_installMachHandler(
     }
     pnlite_g_installed = 1;
 
-    if (bsg_ksmach_isBeingTraced()) {
+    if (pnlite_ksmach_isBeingTraced()) {
         // Different debuggers hook into different exception types.
         // For example, GDB uses EXC_BAD_ACCESS for single stepping,
         // and LLDB uses EXC_SOFTWARE to stop a debug session.
@@ -407,11 +407,11 @@ failed:
     if (attributes_created) {
         pthread_attr_destroy(&attr);
     }
-    bsg_kscrashsentry_uninstallMachHandler();
+    pnlite_kscrashsentry_uninstallMachHandler();
     return false;
 }
 
-void bsg_kscrashsentry_uninstallMachHandler(void) {
+void pnlite_kscrashsentry_uninstallMachHandler(void) {
     PNLite_KSLOG_DEBUG("Uninstalling mach exception handler.");
 
     if (!pnlite_g_installed) {
@@ -424,7 +424,7 @@ void bsg_kscrashsentry_uninstallMachHandler(void) {
 
     ksmachexc_i_restoreExceptionPorts();
 
-    thread_t thread_self = bsg_ksmachthread_self();
+    thread_t thread_self = pnlite_ksmachthread_self();
 
     if (g_primaryPThread != 0 && pnlite_g_primaryMachThread != thread_self) {
         PNLite_KSLOG_DEBUG("Cancelling primary exception thread.");
@@ -453,12 +453,12 @@ void bsg_kscrashsentry_uninstallMachHandler(void) {
 
 #else
 
-bool bsg_kscrashsentry_installMachHandler(
+bool pnlite_kscrashsentry_installMachHandler(
     __unused PNLite_KSCrash_SentryContext *const context) {
     PNLite_KSLOG_WARN("Mach exception handler not available on this platform.");
     return false;
 }
 
-void bsg_kscrashsentry_uninstallMachHandler(void) {}
+void pnlite_kscrashsentry_uninstallMachHandler(void) {}
 
 #endif

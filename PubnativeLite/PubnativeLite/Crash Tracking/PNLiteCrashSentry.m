@@ -45,7 +45,7 @@ NSUInteger const PNLITE_MAX_STORED_REPORTS = 12;
     [PNLite_KSCrash sharedInstance].demangleLanguages = 0;
 
     if (!config.autoNotify) {
-        bsg_kscrash_setHandlingCrashTypes(PNLite_KSCrashTypeUserReported);
+        pnlite_kscrash_setHandlingCrashTypes(PNLite_KSCrashTypeUserReported);
     }
     if (![[PNLite_KSCrash sharedInstance] install]) {
         pnlite_log_err(@"Failed to install crash handler. No exceptions will be "

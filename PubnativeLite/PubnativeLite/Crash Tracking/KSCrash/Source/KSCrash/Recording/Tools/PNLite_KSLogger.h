@@ -152,23 +152,23 @@ extern "C" {
 
 #import <Foundation/Foundation.h>
 
-void bsg_i_kslog_logObjC(const char *level, const char *file, int line,
+void pnlite_i_kslog_logObjC(const char *level, const char *file, int line,
                          const char *function, NSString *fmt, ...);
 
-void bsg_i_kslog_logObjCBasic(NSString *fmt, ...);
+void pnlite_i_kslog_logObjCBasic(NSString *fmt, ...);
 
-#define i_KSLOG_FULL bsg_i_kslog_logObjC
-#define i_KSLOG_BASIC bsg_i_kslog_logObjCBasic
+#define i_KSLOG_FULL pnlite_i_kslog_logObjC
+#define i_KSLOG_BASIC pnlite_i_kslog_logObjCBasic
 
 #else // __OBJC__
 
-void bsg_i_kslog_logC(const char *level, const char *file, int line,
+void pnlite_i_kslog_logC(const char *level, const char *file, int line,
                       const char *function, const char *fmt, ...);
 
-void bsg_i_kslog_logCBasic(const char *fmt, ...);
+void pnlite_i_kslog_logCBasic(const char *fmt, ...);
 
-#define i_KSLOG_FULL bsg_i_kslog_logC
-#define i_KSLOG_BASIC bsg_i_kslog_logCBasic
+#define i_KSLOG_FULL pnlite_i_kslog_logC
+#define i_KSLOG_BASIC pnlite_i_kslog_logCBasic
 
 #endif // __OBJC__
 
@@ -234,7 +234,7 @@ void bsg_i_kslog_logCBasic(const char *fmt, ...);
  *
  * @param overwrite If true, overwrite the log file.
  */
-bool bsg_kslog_setLogFilename(const char *filename, bool overwrite);
+bool pnlite_kslog_setLogFilename(const char *filename, bool overwrite);
 
 /** Tests if the logger would print at the specified level.
  *

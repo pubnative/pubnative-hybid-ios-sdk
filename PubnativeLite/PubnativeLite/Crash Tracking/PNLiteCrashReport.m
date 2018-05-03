@@ -492,7 +492,7 @@ initWithErrorName:(NSString *_Nonnull)name
     PNLiteDictSetSafeObject(event, [self breadcrumbs], PNLiteKeyBreadcrumbs);
     PNLiteDictSetSafeObject(event, metaData, PNLiteKeyMetaData);
     
-    NSDictionary *device = [self.device bsg_mergedInto:self.deviceState];
+    NSDictionary *device = [self.device pnlite_mergedInto:self.deviceState];
     PNLiteDictSetSafeObject(event, device, PNLiteKeyDevice);
     
     NSMutableDictionary *appObj = [NSMutableDictionary new];

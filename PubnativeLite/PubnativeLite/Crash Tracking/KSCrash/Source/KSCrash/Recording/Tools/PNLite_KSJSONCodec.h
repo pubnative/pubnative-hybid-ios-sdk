@@ -119,14 +119,14 @@ typedef struct {
  *
  * @param userData User-specified data which gets passed to addJSONData.
  */
-void bsg_ksjsonbeginEncode(PNLite_KSJSONEncodeContext *context, bool prettyPrint,
+void pnlite_ksjsonbeginEncode(PNLite_KSJSONEncodeContext *context, bool prettyPrint,
                            PNLite_KSJSONAddDataFunc addJSONData, void *userData);
 
 /** End the encoding process, ending any remaining open containers.
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendEncode(PNLite_KSJSONEncodeContext *context);
+int pnlite_ksjsonendEncode(PNLite_KSJSONEncodeContext *context);
 
 /** Add a boolean element.
  *
@@ -138,7 +138,7 @@ int bsg_ksjsonendEncode(PNLite_KSJSONEncodeContext *context);
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddBooleanElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonaddBooleanElement(PNLite_KSJSONEncodeContext *context,
                                 const char *name, bool value);
 
 /** Add an integer element.
@@ -151,7 +151,7 @@ int bsg_ksjsonaddBooleanElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddIntegerElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonaddIntegerElement(PNLite_KSJSONEncodeContext *context,
                                 const char *name, long long value);
 
 /** Add a floating point element.
@@ -164,7 +164,7 @@ int bsg_ksjsonaddIntegerElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddFloatingPointElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonaddFloatingPointElement(PNLite_KSJSONEncodeContext *context,
                                       const char *name, double value);
 
 /** Add a null element.
@@ -175,7 +175,7 @@ int bsg_ksjsonaddFloatingPointElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddNullElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonaddNullElement(PNLite_KSJSONEncodeContext *context,
                              const char *name);
 
 /** Add a string element.
@@ -190,7 +190,7 @@ int bsg_ksjsonaddNullElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddStringElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonaddStringElement(PNLite_KSJSONEncodeContext *context,
                                const char *name, const char *value,
                                size_t length);
 
@@ -204,7 +204,7 @@ int bsg_ksjsonaddStringElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginStringElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonbeginStringElement(PNLite_KSJSONEncodeContext *context,
                                  const char *name);
 
 /** Add a string fragment to an incrementally-built string element.
@@ -217,7 +217,7 @@ int bsg_ksjsonbeginStringElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonappendStringElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonappendStringElement(PNLite_KSJSONEncodeContext *context,
                                   const char *value, size_t length);
 
 /** End an incrementally-built string element.
@@ -226,7 +226,7 @@ int bsg_ksjsonappendStringElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendStringElement(PNLite_KSJSONEncodeContext *context);
+int pnlite_ksjsonendStringElement(PNLite_KSJSONEncodeContext *context);
 
 /** Add a string element. The element will be converted to string-coded hex.
  *
@@ -240,7 +240,7 @@ int bsg_ksjsonendStringElement(PNLite_KSJSONEncodeContext *context);
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddDataElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddDataElement(PNLite_KSJSONEncodeContext *const context,
                              const char *name, const char *value,
                              size_t length);
 
@@ -255,7 +255,7 @@ int bsg_ksjsonaddDataElement(PNLite_KSJSONEncodeContext *const context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginDataElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonbeginDataElement(PNLite_KSJSONEncodeContext *const context,
                                const char *const name);
 
 /** Add a data fragment to an incrementally-built data element.
@@ -268,7 +268,7 @@ int bsg_ksjsonbeginDataElement(PNLite_KSJSONEncodeContext *const context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonappendDataElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonappendDataElement(PNLite_KSJSONEncodeContext *const context,
                                 const char *const value, size_t length);
 
 /** End an incrementally-built data element.
@@ -277,7 +277,7 @@ int bsg_ksjsonappendDataElement(PNLite_KSJSONEncodeContext *const context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendDataElement(PNLite_KSJSONEncodeContext *const context);
+int pnlite_ksjsonendDataElement(PNLite_KSJSONEncodeContext *const context);
 
 /** Add a pre-formatted JSON element.
  *
@@ -291,7 +291,7 @@ int bsg_ksjsonendDataElement(PNLite_KSJSONEncodeContext *const context);
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddJSONElement(PNLite_KSJSONEncodeContext *context,
+int pnlite_ksjsonaddJSONElement(PNLite_KSJSONEncodeContext *context,
                              const char *restrict name,
                              const char *restrict value, size_t length);
 
@@ -303,7 +303,7 @@ int bsg_ksjsonaddJSONElement(PNLite_KSJSONEncodeContext *context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginObject(PNLite_KSJSONEncodeContext *context, const char *name);
+int pnlite_ksjsonbeginObject(PNLite_KSJSONEncodeContext *context, const char *name);
 
 /** Begin a new array container.
  *
@@ -313,7 +313,7 @@ int bsg_ksjsonbeginObject(PNLite_KSJSONEncodeContext *context, const char *name)
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonbeginArray(PNLite_KSJSONEncodeContext *context, const char *name);
+int pnlite_ksjsonbeginArray(PNLite_KSJSONEncodeContext *context, const char *name);
 
 /** Begin a generic JSON element, adding any necessary JSON preamble text,
  *  including commas and names.
@@ -324,7 +324,7 @@ int bsg_ksjsonbeginArray(PNLite_KSJSONEncodeContext *context, const char *name);
  * @param name The name of the next element (only needed if parent is a
  * dictionary).
  */
-int bsg_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
                            const char *const name);
 
 /** Add JSON data manually.
@@ -338,7 +338,7 @@ int bsg_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonaddRawJSONData(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddRawJSONData(PNLite_KSJSONEncodeContext *const context,
                              const char *const data, const size_t length);
 
 /** End the current container and return to the next higher level.
@@ -347,7 +347,7 @@ int bsg_ksjsonaddRawJSONData(PNLite_KSJSONEncodeContext *const context,
  *
  * @return PNLite_KSJSON_OK if the process was successful.
  */
-int bsg_ksjsonendContainer(PNLite_KSJSONEncodeContext *context);
+int pnlite_ksjsonendContainer(PNLite_KSJSONEncodeContext *context);
 
 // ============================================================================
 // Decode
@@ -364,7 +364,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
      *
      * @param value The element's value.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -376,7 +376,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
      *
      * @param value The element's value.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -389,7 +389,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
      *
      * @param value The element's value.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -399,7 +399,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
      *
      * @param name The element's name.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -411,7 +411,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
      *
      * @param value The element's value.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -421,7 +421,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
      *
      * @param name The object's name.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -431,7 +431,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
      *
      * @param name The array's name.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -440,7 +440,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
     /** Called when leaving the current container and returning to the next
      * higher level container.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -448,7 +448,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
 
     /** Called when the end of the input data is reached.
      *
-     * @param userData Data that was specified when calling bsg_ksjsondecode().
+     * @param userData Data that was specified when calling pnlite_ksjsondecode().
      *
      * @return PNLite_KSJSON_OK if decoding should continue.
      */
@@ -471,7 +471,7 @@ typedef struct PNLite_KSJSONDecodeCallbacks {
  *
  * @return PNLite_KSJSON_OK if succesful. An error code otherwise.
  */
-int bsg_ksjsondecode(const char *data, size_t length,
+int pnlite_ksjsondecode(const char *data, size_t length,
                      PNLite_KSJSONDecodeCallbacks *callbacks, void *userData,
                      size_t *errorOffset);
 

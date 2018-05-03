@@ -47,7 +47,7 @@ extern "C" {
  *
  * @param isEnabled If true, track zombies (default false)
  */
-void bsg_kszombie_setEnabled(bool isEnabled);
+void pnlite_kszombie_setEnabled(bool isEnabled);
 
 /** Get the class of a deallocated object pointer, if it was tracked.
  *
@@ -55,25 +55,25 @@ void bsg_kszombie_setEnabled(bool isEnabled);
  *
  * @return The object's class name, or NULL if it wasn't found.
  */
-const char *bsg_kszombie_className(const void *object);
+const char *pnlite_kszombie_className(const void *object);
 
 /** Get the address of the last exception to be deallocated.
  *
  * @return The address, or NULL if no exception has been deallocated yet.
  */
-const void *bsg_kszombie_lastDeallocedNSExceptionAddress(void);
+const void *pnlite_kszombie_lastDeallocedNSExceptionAddress(void);
 
 /** Get the name of the last exception to be deallocated.
  *
  * @return The name.
  */
-const char *bsg_kszombie_lastDeallocedNSExceptionName(void);
+const char *pnlite_kszombie_lastDeallocedNSExceptionName(void);
 
 /** Get the reason of the last exception to be deallocated.
  *
  * @return The reason.
  */
-const char *bsg_kszombie_lastDeallocedNSExceptionReason(void);
+const char *pnlite_kszombie_lastDeallocedNSExceptionReason(void);
 
 #ifdef __cplusplus
 }

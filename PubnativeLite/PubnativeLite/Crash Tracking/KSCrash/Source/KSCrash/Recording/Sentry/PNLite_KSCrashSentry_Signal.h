@@ -38,11 +38,11 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installSignalHandler(PNLite_KSCrash_SentryContext *context);
+bool pnlite_kscrashsentry_installSignalHandler(PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall our custom signal handlers and restore the previous ones.
  */
-void bsg_kscrashsentry_uninstallSignalHandler(void);
+void pnlite_kscrashsentry_uninstallSignalHandler(void);
 
 #ifdef __cplusplus
 }

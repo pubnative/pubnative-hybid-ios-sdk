@@ -41,6 +41,6 @@
  *
  * @return The merged dictionary.
  */
-- (NSDictionary *)bsg_mergedInto:(NSDictionary *)dest;
+- (NSDictionary *)pnlite_mergedInto:(NSDictionary *)dest;
 
 @end

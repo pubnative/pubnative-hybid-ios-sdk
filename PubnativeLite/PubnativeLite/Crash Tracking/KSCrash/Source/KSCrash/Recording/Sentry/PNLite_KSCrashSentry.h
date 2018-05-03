@@ -157,7 +157,7 @@ typedef struct PNLite_KSCrash_SentryContext {
  * @return which crash handlers were installed successfully.
  */
 PNLite_KSCrashType
-bsg_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
+pnlite_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
                                      PNLite_KSCrashType crashTypes,
                                      void (*onCrash)(void));
 
@@ -165,7 +165,7 @@ bsg_kscrashsentry_installWithContext(PNLite_KSCrash_SentryContext *context,
  *
  * @param crashTypes The crash types to install handlers for.
  */
-void bsg_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes);
+void pnlite_kscrashsentry_uninstall(PNLite_KSCrashType crashTypes);
 
 #ifdef __cplusplus
 }

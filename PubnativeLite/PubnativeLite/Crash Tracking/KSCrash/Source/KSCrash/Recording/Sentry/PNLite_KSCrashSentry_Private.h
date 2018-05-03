@@ -34,22 +34,22 @@ extern "C" {
  * Reserved threads include the current thread and all threads in
  "reservedThreads" in the context.
  */
-void bsg_kscrashsentry_suspendThreads(void);
+void pnlite_kscrashsentry_suspendThreads(void);
 
 /** Resume all non-reserved threads.
  *
  * Reserved threads include the current thread and all threads in
  * "reservedThreads" in the context.
  */
-void bsg_kscrashsentry_resumeThreads(void);
+void pnlite_kscrashsentry_resumeThreads(void);
 
 /** Prepare the context for handling a new crash.
  */
-void bsg_kscrashsentry_beginHandlingCrash(PNLite_KSCrash_SentryContext *context);
+void pnlite_kscrashsentry_beginHandlingCrash(PNLite_KSCrash_SentryContext *context);
 
 /** Clear a crash sentry context.
  */
-void bsg_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context);
+void pnlite_kscrashsentry_clearContext(PNLite_KSCrash_SentryContext *context);
 
 #ifdef __cplusplus
 }

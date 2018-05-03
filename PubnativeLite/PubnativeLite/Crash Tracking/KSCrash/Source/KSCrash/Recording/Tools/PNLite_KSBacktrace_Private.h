@@ -32,7 +32,7 @@ extern "C" {
 
 #include <sys/ucontext.h>
 
-/** Point at which bsg_ksbt_backtraceLength() will give up trying to count.
+/** Point at which pnlite_ksbt_backtraceLength() will give up trying to count.
  *
  * This really only comes into play during a stack overflow.
  */
@@ -47,7 +47,7 @@ extern "C" {
  *
  * @return The number of backtrace entries.
  */
-int bsg_ksbt_backtraceLength(const PNLite_STRUCT_MCONTEXT_L *machineContext);
+int pnlite_ksbt_backtraceLength(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Check if a backtrace is too long.
  *
@@ -57,7 +57,7 @@ int bsg_ksbt_backtraceLength(const PNLite_STRUCT_MCONTEXT_L *machineContext);
  *
  * @return true if the backtrace is longer than maxLength.
  */
-bool bsg_ksbt_isBacktraceTooLong(
+bool pnlite_ksbt_isBacktraceTooLong(
     const PNLite_STRUCT_MCONTEXT_L *const machineContext, int maxLength);
 
 /** Generate a backtrace using the thread state in the specified machine context
@@ -73,7 +73,7 @@ bool bsg_ksbt_isBacktraceTooLong(
  *
  * @return The number of backtrace entries generated.
  */
-int bsg_ksbt_backtraceThreadState(const PNLite_STRUCT_MCONTEXT_L *machineContext,
+int pnlite_ksbt_backtraceThreadState(const PNLite_STRUCT_MCONTEXT_L *machineContext,
                                   uintptr_t *backtraceBuffer, int skipEntries,
                                   int maxEntries);
 

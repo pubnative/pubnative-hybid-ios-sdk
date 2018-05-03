@@ -28,23 +28,23 @@ static inline id safeValue(id value) {
 
 @implementation NSMutableArray (PNLite_KSSafeCollections)
 
-- (void)bsg_ksc_addObjectIfNotNil:(id)object {
+- (void)pnlite_ksc_addObjectIfNotNil:(id)object {
     if (object != nil) {
         [self addObject:object];
     }
 }
 
-- (void)bsg_ksc_safeAddObject:(id)object {
+- (void)pnlite_ksc_safeAddObject:(id)object {
     [self addObject:safeValue(object)];
 }
 
-- (void)bsg_ksc_insertObjectIfNotNil:(id)object atIndex:(NSUInteger)index {
+- (void)pnlite_ksc_insertObjectIfNotNil:(id)object atIndex:(NSUInteger)index {
     if (object != nil) {
         [self insertObject:object atIndex:index];
     }
 }
 
-- (void)bsg_ksc_safeInsertObject:(id)object atIndex:(NSUInteger)index {
+- (void)pnlite_ksc_safeInsertObject:(id)object atIndex:(NSUInteger)index {
     [self insertObject:safeValue(object) atIndex:index];
 }
 
@@ -52,23 +52,23 @@ static inline id safeValue(id value) {
 
 @implementation NSMutableDictionary (PNLite_KSSafeCollections)
 
-- (void)bsg_ksc_setObjectIfNotNil:(id)object forKey:(id)key {
+- (void)pnlite_ksc_setObjectIfNotNil:(id)object forKey:(id)key {
     if (object != nil && key != nil) {
         self[key] = object;
     }
 }
 
-- (void)bsg_ksc_safeSetObject:(id)object forKey:(id)key {
+- (void)pnlite_ksc_safeSetObject:(id)object forKey:(id)key {
     self[key] = safeValue(object);
 }
 
-- (void)bsg_ksc_setValueIfNotNil:(id)value forKey:(NSString *)key {
+- (void)pnlite_ksc_setValueIfNotNil:(id)value forKey:(NSString *)key {
     if (value != nil && key != nil) {
         [self setValue:value forKey:key];
     }
 }
 
-- (void)bsg_ksc_safeSetValue:(id)value forKey:(NSString *)key {
+- (void)pnlite_ksc_safeSetValue:(id)value forKey:(NSString *)key {
     [self setValue:safeValue(value) forKey:key];
 }
 

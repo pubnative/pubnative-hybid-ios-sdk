@@ -79,7 +79,7 @@ static NSTimeInterval pnlite_g_watchdogInterval = 0;
         [self.monitorThread start];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-          self.mainThread = bsg_ksmachthread_self();
+          self.mainThread = pnlite_ksmachthread_self();
         });
     }
     return self;
@@ -102,7 +102,7 @@ static NSTimeInterval pnlite_g_watchdogInterval = 0;
 }
 
 - (void)handleDeadlock {
-    bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
+    pnlite_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
     PNLite_KSLOG_DEBUG(@"Filling out context.");
     pnlite_g_context->crashType = PNLite_KSCrashTypeMainThreadDeadlock;
@@ -113,7 +113,7 @@ static NSTimeInterval pnlite_g_watchdogInterval = 0;
     pnlite_g_context->onCrash();
 
     PNLite_KSLOG_DEBUG(@"Crash handling complete. Restoring original handlers.");
-    bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
+    pnlite_kscrashsentry_uninstall(PNLite_KSCrashTypeAll);
 
     PNLite_KSLOG_DEBUG(@"Calling abort()");
     abort();
@@ -149,7 +149,7 @@ static NSTimeInterval pnlite_g_watchdogInterval = 0;
 #pragma mark - API -
 // ============================================================================
 
-bool bsg_kscrashsentry_installDeadlockHandler(
+bool pnlite_kscrashsentry_installDeadlockHandler(
     PNLite_KSCrash_SentryContext *context) {
     PNLite_KSLOG_DEBUG(@"Installing deadlock handler.");
     if (pnlite_g_installed) {
@@ -165,7 +165,7 @@ bool bsg_kscrashsentry_installDeadlockHandler(
     return true;
 }
 
-void bsg_kscrashsentry_uninstallDeadlockHandler(void) {
+void pnlite_kscrashsentry_uninstallDeadlockHandler(void) {
     PNLite_KSLOG_DEBUG(@"Uninstalling deadlock handler.");
     if (!pnlite_g_installed) {
         PNLite_KSLOG_DEBUG(@"Deadlock handler was already uninstalled.");
@@ -179,6 +179,6 @@ void bsg_kscrashsentry_uninstallDeadlockHandler(void) {
     pnlite_g_installed = 0;
 }
 
-void bsg_kscrashsentry_setDeadlockHandlerWatchdogInterval(double value) {
+void pnlite_kscrashsentry_setDeadlockHandlerWatchdogInterval(double value) {
     pnlite_g_watchdogInterval = value;
 }
