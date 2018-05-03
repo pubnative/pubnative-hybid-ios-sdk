@@ -62,7 +62,7 @@ struct pnlite_data_t {
     void (*onCrash)(const PNLite_KSCrashReportWriter *writer);
 };
 
-static struct pnlite_data_t bsg_g_pnlite_data;
+static struct pnlite_data_t pnlite_g_data;
 
 static NSDictionary *notificationNameMap;
 
@@ -78,12 +78,12 @@ static bool pnLiteHasRecordedSessions;
  *  @param writer report writer which will receive updated metadata
  */
 void BSSerializeDataCrashHandler(const PNLite_KSCrashReportWriter *writer) {
-    if (bsg_g_pnlite_data.configJSON) {
-        writer->addJSONElement(writer, "config", bsg_g_pnlite_data.configJSON);
+    if (pnlite_g_data.configJSON) {
+        writer->addJSONElement(writer, "config", pnlite_g_data.configJSON);
     }
-    if (bsg_g_pnlite_data.metaDataJSON) {
+    if (pnlite_g_data.metaDataJSON) {
         writer->addJSONElement(writer, "metaData",
-                               bsg_g_pnlite_data.metaDataJSON);
+                               pnlite_g_data.metaDataJSON);
     }
 
     if (pnLiteHasRecordedSessions) { // a session is available
@@ -92,27 +92,27 @@ void BSSerializeDataCrashHandler(const PNLite_KSCrashReportWriter *writer) {
         writer->addStringElement(writer, "startedAt", (const char *) pnLiteSessionStartDate);
         writer->addUIntegerElement(writer, "handledCount", pnLiteHandledCount);
 
-        if (!bsg_g_pnlite_data.handledState) {
+        if (!pnlite_g_data.handledState) {
             writer->addUIntegerElement(writer, "unhandledCount", 1);
         } else {
             writer->addUIntegerElement(writer, "unhandledCount", 0);
         }
     }
 
-    if (bsg_g_pnlite_data.handledState) {
+    if (pnlite_g_data.handledState) {
         writer->addJSONElement(writer, "handledState",
-                               bsg_g_pnlite_data.handledState);
+                               pnlite_g_data.handledState);
     }
 
-    if (bsg_g_pnlite_data.stateJSON) {
-        writer->addJSONElement(writer, "state", bsg_g_pnlite_data.stateJSON);
+    if (pnlite_g_data.stateJSON) {
+        writer->addJSONElement(writer, "state", pnlite_g_data.stateJSON);
     }
-    if (bsg_g_pnlite_data.userOverridesJSON) {
+    if (pnlite_g_data.userOverridesJSON) {
         writer->addJSONElement(writer, "overrides",
-                               bsg_g_pnlite_data.userOverridesJSON);
+                               pnlite_g_data.userOverridesJSON);
     }
-    if (bsg_g_pnlite_data.onCrash) {
-        bsg_g_pnlite_data.onCrash(writer);
+    if (pnlite_g_data.onCrash) {
+        pnlite_g_data.onCrash(writer);
     }
 }
 
@@ -216,7 +216,7 @@ void BSSerializeJSONDictionary(NSDictionary *dictionary, char **destination) {
         [self metaDataChanged:self.configuration.metaData];
         [self metaDataChanged:self.configuration.config];
         [self metaDataChanged:self.state];
-        bsg_g_pnlite_data.onCrash = (void (*)(
+        pnlite_g_data.onCrash = (void (*)(
             const PNLite_KSCrashReportWriter *))self.configuration.onCrashHandler;
 
         static dispatch_once_t once_t;
@@ -529,11 +529,11 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
 
     [self.metaDataLock lock];
     BSSerializeJSONDictionary([report.handledState toJson],
-                              &bsg_g_pnlite_data.handledState);
+                              &pnlite_g_data.handledState);
     BSSerializeJSONDictionary(report.metaData,
-                              &bsg_g_pnlite_data.metaDataJSON);
+                              &pnlite_g_data.metaDataJSON);
     BSSerializeJSONDictionary(report.overrides,
-                              &bsg_g_pnlite_data.userOverridesJSON);
+                              &pnlite_g_data.userOverridesJSON);
 
     [self.state addAttribute:PNLiteKeySeverity
                    withValue:PNLiteFormatSeverity(report.severity)
@@ -542,8 +542,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     //    We discard 5 stack frames (including this one) by default,
     //    and sum that with the number specified by report.depth:
     //
-    //    0 bsg_kscrashsentry_reportUserException
-    //    1 bsg_kscrash_reportUserException
+    //    0 pnlite_kscrashsentry_reportUserException
+    //    1 pnlite_kscrash_reportUserException
     //    2 -[PNLite_KSCrash
     //    reportUserException:reason:language:lineOfCode:stackTrace:terminateProgram:]
     //    3 -[PNLiteCrashSentry reportUserException:reason:]
@@ -559,8 +559,8 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
     NSString *reportMessage = report.errorMessage ?: @"";
 
     [self.crashSentry reportUserException:reportName reason:reportMessage];
-    bsg_g_pnlite_data.userOverridesJSON = NULL;
-    bsg_g_pnlite_data.handledState = NULL;
+    pnlite_g_data.userOverridesJSON = NULL;
+    pnlite_g_data.handledState = NULL;
 
     // Restore metaData to pre-crash state.
     [self.metaDataLock unlock];
@@ -601,15 +601,15 @@ NSString *const kPNLiteAppWillTerminate = @"App Will Terminate";
         if (metaData == self.configuration.metaData) {
             if ([self.metaDataLock tryLock]) {
                 BSSerializeJSONDictionary([metaData toDictionary],
-                                          &bsg_g_pnlite_data.metaDataJSON);
+                                          &pnlite_g_data.metaDataJSON);
                 [self.metaDataLock unlock];
             }
         } else if (metaData == self.configuration.config) {
             BSSerializeJSONDictionary([metaData getTab:PNLiteKeyConfig],
-                                      &bsg_g_pnlite_data.configJSON);
+                                      &pnlite_g_data.configJSON);
         } else if (metaData == self.state) {
             BSSerializeJSONDictionary([metaData toDictionary],
-                                      &bsg_g_pnlite_data.stateJSON);
+                                      &pnlite_g_data.stateJSON);
         } else {
             pnlite_log_debug(@"Unknown metadata dictionary changed");
         }
