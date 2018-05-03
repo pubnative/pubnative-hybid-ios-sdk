@@ -144,20 +144,20 @@ static void CPPExceptionTerminate(void) {
 
     if (!isNSException) {
         bool wasHandlingCrash = pnlite_g_context->handlingCrash;
-        bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
+        pnlite_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         if (wasHandlingCrash) {
             PNLite_KSLOG_INFO(@"Detected crash in the crash reporter. Restoring "
                            @"original handlers.");
             pnlite_g_context->crashedDuringCrashHandling = true;
-            bsg_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
+            pnlite_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
         }
 
         PNLite_KSLOG_DEBUG(@"Suspending all threads.");
-        bsg_kscrashsentry_suspendThreads();
+        pnlite_kscrashsentry_suspendThreads();
 
         pnlite_g_context->crashType = PNLite_KSCrashTypeCPPException;
-        pnlite_g_context->offendingThread = bsg_ksmachthread_self();
+        pnlite_g_context->offendingThread = pnlite_ksmachthread_self();
         pnlite_g_context->registersAreValid = false;
         pnlite_g_context->stackTrace =
             pnlite_g_stackTrace + 1; // Don't record __cxa_throw stack entry
@@ -170,8 +170,8 @@ static void CPPExceptionTerminate(void) {
 
         PNLite_KSLOG_DEBUG(
             @"Crash handling complete. Restoring original handlers.");
-        bsg_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
-        bsg_kscrashsentry_resumeThreads();
+        pnlite_kscrashsentry_uninstall((PNLite_KSCrashType)PNLite_KSCrashTypeAll);
+        pnlite_kscrashsentry_resumeThreads();
     }
 
     pnlite_g_originalTerminateHandler();
@@ -181,7 +181,7 @@ static void CPPExceptionTerminate(void) {
 #pragma mark - Public API -
 // ============================================================================
 
-extern "C" bool bsg_kscrashsentry_installCPPExceptionHandler(
+extern "C" bool pnlite_kscrashsentry_installCPPExceptionHandler(
     PNLite_KSCrash_SentryContext *context) {
     PNLite_KSLOG_DEBUG(@"Installing C++ exception handler.");
 
@@ -198,7 +198,7 @@ extern "C" bool bsg_kscrashsentry_installCPPExceptionHandler(
     return true;
 }
 
-extern "C" void bsg_kscrashsentry_uninstallCPPExceptionHandler(void) {
+extern "C" void pnlite_kscrashsentry_uninstallCPPExceptionHandler(void) {
     PNLite_KSLOG_DEBUG(@"Uninstalling C++ exception handler.");
     if (!pnlite_g_installed) {
         PNLite_KSLOG_DEBUG(@"C++ exception handler already uninstalled.");

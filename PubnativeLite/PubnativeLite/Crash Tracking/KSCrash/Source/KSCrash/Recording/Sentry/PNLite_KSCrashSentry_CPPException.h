@@ -35,12 +35,12 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installCPPExceptionHandler(
+bool pnlite_kscrashsentry_installCPPExceptionHandler(
     PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall the C++ exception handler.
  */
-void bsg_kscrashsentry_uninstallCPPExceptionHandler(void);
+void pnlite_kscrashsentry_uninstallCPPExceptionHandler(void);
 
 #ifdef __cplusplus
 }

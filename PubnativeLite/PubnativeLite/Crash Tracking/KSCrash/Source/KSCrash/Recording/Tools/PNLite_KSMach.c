@@ -42,7 +42,7 @@
  *
  * @return true if the operation was successful.
  */
-bool bsg_ksmachi_VMStats(vm_statistics_data_t *const vmStats,
+bool pnlite_ksmachi_VMStats(vm_statistics_data_t *const vmStats,
                          vm_size_t *const pageSize);
 
 static pthread_t pnlite_g_topThread;
@@ -51,19 +51,19 @@ static pthread_t pnlite_g_topThread;
 #pragma mark - General Information -
 // ============================================================================
 
-uint64_t bsg_ksmachfreeMemory(void) {
+uint64_t pnlite_ksmachfreeMemory(void) {
     vm_statistics_data_t vmStats;
     vm_size_t pageSize;
-    if (bsg_ksmachi_VMStats(&vmStats, &pageSize)) {
+    if (pnlite_ksmachi_VMStats(&vmStats, &pageSize)) {
         return ((uint64_t)pageSize) * vmStats.free_count;
     }
     return 0;
 }
 
-uint64_t bsg_ksmachusableMemory(void) {
+uint64_t pnlite_ksmachusableMemory(void) {
     vm_statistics_data_t vmStats;
     vm_size_t pageSize;
-    if (bsg_ksmachi_VMStats(&vmStats, &pageSize)) {
+    if (pnlite_ksmachi_VMStats(&vmStats, &pageSize)) {
         return ((uint64_t)pageSize) *
                (vmStats.active_count + vmStats.inactive_count +
                 vmStats.wire_count + vmStats.free_count);
@@ -71,7 +71,7 @@ uint64_t bsg_ksmachusableMemory(void) {
     return 0;
 }
 
-const char *bsg_ksmachcurrentCPUArch(void) {
+const char *pnlite_ksmachcurrentCPUArch(void) {
     const NXArchInfo *archInfo = NXGetLocalArchInfo();
     return archInfo == NULL ? NULL : archInfo->name;
 }
@@ -80,7 +80,7 @@ const char *bsg_ksmachcurrentCPUArch(void) {
     case A:                                                                    \
         return #A
 
-const char *bsg_ksmachexceptionName(const exception_type_t exceptionType) {
+const char *pnlite_ksmachexceptionName(const exception_type_t exceptionType) {
     switch (exceptionType) {
         RETURN_NAME_FOR_ENUM(EXC_BAD_ACCESS);
         RETURN_NAME_FOR_ENUM(EXC_BAD_INSTRUCTION);
@@ -96,7 +96,7 @@ const char *bsg_ksmachexceptionName(const exception_type_t exceptionType) {
     return NULL;
 }
 
-const char *bsg_ksmachkernelReturnCodeName(const kern_return_t returnCode) {
+const char *pnlite_ksmachkernelReturnCodeName(const kern_return_t returnCode) {
     switch (returnCode) {
         RETURN_NAME_FOR_ENUM(KERN_SUCCESS);
         RETURN_NAME_FOR_ENUM(KERN_INVALID_ADDRESS);
@@ -157,7 +157,7 @@ const char *bsg_ksmachkernelReturnCodeName(const kern_return_t returnCode) {
 #pragma mark - Thread State Info -
 // ============================================================================
 
-bool bsg_ksmachfillState(const thread_t thread, const thread_state_t state,
+bool pnlite_ksmachfillState(const thread_t thread, const thread_state_t state,
                          const thread_state_flavor_t flavor,
                          const mach_msg_type_number_t stateCount) {
     mach_msg_type_number_t stateCountBuff = stateCount;
@@ -171,7 +171,7 @@ bool bsg_ksmachfillState(const thread_t thread, const thread_state_t state,
     return true;
 }
 
-void bsg_ksmach_init(void) {
+void pnlite_ksmach_init(void) {
     static volatile sig_atomic_t initialized = 0;
     if (!initialized) {
         kern_return_t kr;
@@ -196,16 +196,16 @@ void bsg_ksmach_init(void) {
     }
 }
 
-thread_t bsg_ksmachthread_self() {
+thread_t pnlite_ksmachthread_self() {
     thread_t thread_self = mach_thread_self();
     mach_port_deallocate(mach_task_self(), thread_self);
     return thread_self;
 }
 
-thread_t bsg_ksmachmachThreadFromPThread(const pthread_t pthread) {
+thread_t pnlite_ksmachmachThreadFromPThread(const pthread_t pthread) {
     const internal_pthread_t threadStruct = (internal_pthread_t)pthread;
     thread_t machThread = 0;
-    if (bsg_ksmachcopyMem(&threadStruct->kernel_thread, &machThread,
+    if (pnlite_ksmachcopyMem(&threadStruct->kernel_thread, &machThread,
                           sizeof(machThread)) != KERN_SUCCESS) {
         PNLite_KSLOG_TRACE("Could not copy mach thread from %p",
                         threadStruct->kernel_thread);
@@ -214,12 +214,12 @@ thread_t bsg_ksmachmachThreadFromPThread(const pthread_t pthread) {
     return machThread;
 }
 
-pthread_t bsg_ksmachpthreadFromMachThread(const thread_t thread) {
+pthread_t pnlite_ksmachpthreadFromMachThread(const thread_t thread) {
     internal_pthread_t threadStruct = (internal_pthread_t)pnlite_g_topThread;
     thread_t machThread = 0;
 
     for (int i = 0; i < 50; i++) {
-        if (bsg_ksmachcopyMem(&threadStruct->kernel_thread, &machThread,
+        if (pnlite_ksmachcopyMem(&threadStruct->kernel_thread, &machThread,
                               sizeof(machThread)) != KERN_SUCCESS) {
             break;
         }
@@ -227,7 +227,7 @@ pthread_t bsg_ksmachpthreadFromMachThread(const thread_t thread) {
             return (pthread_t)threadStruct;
         }
 
-        if (bsg_ksmachcopyMem(&threadStruct->plist.tqe_next, &threadStruct,
+        if (pnlite_ksmachcopyMem(&threadStruct->plist.tqe_next, &threadStruct,
                               sizeof(threadStruct)) != KERN_SUCCESS) {
             break;
         }
@@ -235,7 +235,7 @@ pthread_t bsg_ksmachpthreadFromMachThread(const thread_t thread) {
     return 0;
 }
 
-bool bsg_ksmachgetThreadName(const thread_t thread, char *const buffer,
+bool pnlite_ksmachgetThreadName(const thread_t thread, char *const buffer,
                              size_t bufLength) {
     // WARNING: This implementation is no longer async-safe!
 
@@ -243,7 +243,7 @@ bool bsg_ksmachgetThreadName(const thread_t thread, char *const buffer,
     return pthread_getname_np(pthread, buffer, bufLength) == 0;
 }
 
-bool bsg_ksmachgetThreadQueueName(const thread_t thread, char *const buffer,
+bool pnlite_ksmachgetThreadQueueName(const thread_t thread, char *const buffer,
                                   size_t bufLength) {
     // WARNING: This implementation is no longer async-safe!
 
@@ -317,15 +317,15 @@ static inline bool isThreadInList(thread_t thread, thread_t *list,
     return false;
 }
 
-bool bsg_ksmachsuspendAllThreads(void) {
-    return bsg_ksmachsuspendAllThreadsExcept(NULL, 0);
+bool pnlite_ksmachsuspendAllThreads(void) {
+    return pnlite_ksmachsuspendAllThreadsExcept(NULL, 0);
 }
 
-bool bsg_ksmachsuspendAllThreadsExcept(thread_t *exceptThreads,
+bool pnlite_ksmachsuspendAllThreadsExcept(thread_t *exceptThreads,
                                        int exceptThreadsCount) {
     kern_return_t kr;
     const task_t thisTask = mach_task_self();
-    const thread_t thisThread = bsg_ksmachthread_self();
+    const thread_t thisThread = pnlite_ksmachthread_self();
     thread_act_array_t threads;
     mach_msg_type_number_t numThreads;
 
@@ -355,15 +355,15 @@ bool bsg_ksmachsuspendAllThreadsExcept(thread_t *exceptThreads,
     return true;
 }
 
-bool bsg_ksmachresumeAllThreads(void) {
-    return bsg_ksmachresumeAllThreadsExcept(NULL, 0);
+bool pnlite_ksmachresumeAllThreads(void) {
+    return pnlite_ksmachresumeAllThreadsExcept(NULL, 0);
 }
 
-bool bsg_ksmachresumeAllThreadsExcept(thread_t *exceptThreads,
+bool pnlite_ksmachresumeAllThreadsExcept(thread_t *exceptThreads,
                                       int exceptThreadsCount) {
     kern_return_t kr;
     const task_t thisTask = mach_task_self();
-    const thread_t thisThread = bsg_ksmachthread_self();
+    const thread_t thisThread = pnlite_ksmachthread_self();
     thread_act_array_t threads;
     mach_msg_type_number_t numThreads;
 
@@ -393,7 +393,7 @@ bool bsg_ksmachresumeAllThreadsExcept(thread_t *exceptThreads,
     return true;
 }
 
-kern_return_t bsg_ksmachcopyMem(const void *const src, void *const dst,
+kern_return_t pnlite_ksmachcopyMem(const void *const src, void *const dst,
                                 const size_t numBytes) {
     vm_size_t bytesCopied = 0;
     return vm_read_overwrite(mach_task_self(), (vm_address_t)src,
@@ -401,7 +401,7 @@ kern_return_t bsg_ksmachcopyMem(const void *const src, void *const dst,
                              &bytesCopied);
 }
 
-size_t bsg_ksmachcopyMaxPossibleMem(const void *const src, void *const dst,
+size_t pnlite_ksmachcopyMaxPossibleMem(const void *const src, void *const dst,
                                     const size_t numBytes) {
     const uint8_t *pSrc = src;
     const uint8_t *pSrcMax = (uint8_t *)src + numBytes;
@@ -411,7 +411,7 @@ size_t bsg_ksmachcopyMaxPossibleMem(const void *const src, void *const dst,
     size_t bytesCopied = 0;
 
     // Short-circuit if no memory is readable
-    if (bsg_ksmachcopyMem(src, dst, 1) != KERN_SUCCESS) {
+    if (pnlite_ksmachcopyMem(src, dst, 1) != KERN_SUCCESS) {
         return 0;
     } else if (numBytes <= 1) {
         return numBytes;
@@ -423,7 +423,7 @@ size_t bsg_ksmachcopyMaxPossibleMem(const void *const src, void *const dst,
             break;
         }
 
-        if (bsg_ksmachcopyMem(pSrc, pDst, (size_t)copyLength) == KERN_SUCCESS) {
+        if (pnlite_ksmachcopyMem(pSrc, pDst, (size_t)copyLength) == KERN_SUCCESS) {
             bytesCopied += (size_t)copyLength;
             pSrc += copyLength;
             pDst += copyLength;
@@ -439,7 +439,7 @@ size_t bsg_ksmachcopyMaxPossibleMem(const void *const src, void *const dst,
     return bytesCopied;
 }
 
-double bsg_ksmachtimeDifferenceInSeconds(const uint64_t endTime,
+double pnlite_ksmachtimeDifferenceInSeconds(const uint64_t endTime,
                                          const uint64_t startTime) {
     // From
     // http://lists.apple.com/archives/perfoptimization-dev/2005/Jan/msg00039.html
@@ -464,7 +464,7 @@ double bsg_ksmachtimeDifferenceInSeconds(const uint64_t endTime,
  *
  * @return true if we're being traced.
  */
-bool bsg_ksmachisBeingTraced(void) {
+bool pnlite_ksmachisBeingTraced(void) {
     struct kinfo_proc procInfo;
     size_t structSize = sizeof(procInfo);
     int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
@@ -482,7 +482,7 @@ bool bsg_ksmachisBeingTraced(void) {
 #pragma mark - (internal) -
 // ============================================================================
 
-bool bsg_ksmachi_VMStats(vm_statistics_data_t *const vmStats,
+bool pnlite_ksmachi_VMStats(vm_statistics_data_t *const vmStats,
                          vm_size_t *const pageSize) {
     kern_return_t kr;
     const mach_port_t hostPort = mach_host_self();

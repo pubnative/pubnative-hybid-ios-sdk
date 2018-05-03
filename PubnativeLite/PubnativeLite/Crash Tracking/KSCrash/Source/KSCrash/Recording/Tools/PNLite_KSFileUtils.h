@@ -41,7 +41,7 @@ extern "C" {
  *
  * @return the last entry in the path.
  */
-const char *bsg_ksfulastPathEntry(const char *path);
+const char *pnlite_ksfulastPathEntry(const char *path);
 
 /** Write bytes to a file descriptor.
  *
@@ -53,14 +53,14 @@ const char *bsg_ksfulastPathEntry(const char *path);
  *
  * @return true if the operation was successful.
  */
-bool bsg_ksfuwriteBytesToFD(const int fd, const char *bytes, ssize_t length);
+bool pnlite_ksfuwriteBytesToFD(const int fd, const char *bytes, ssize_t length);
 
 /**
  * Flushes the write buffer
  *
  * @param fd The file descriptor
  */
-bool bsg_ksfuflushWriteBuffer(const int fd);
+bool pnlite_ksfuflushWriteBuffer(const int fd);
 
 /** Read bytes from a file descriptor.
  *
@@ -72,7 +72,7 @@ bool bsg_ksfuflushWriteBuffer(const int fd);
  *
  * @return true if the operation was successful.
  */
-bool bsg_ksfureadBytesFromFD(const int fd, char *bytes, ssize_t length);
+bool pnlite_ksfureadBytesFromFD(const int fd, char *bytes, ssize_t length);
 
 /** Read an entire file.
  *
@@ -84,7 +84,7 @@ bool bsg_ksfureadBytesFromFD(const int fd, char *bytes, ssize_t length);
  *
  * @return true if the operation was successful.
  */
-bool bsg_ksfureadEntireFile(const char *path, char **data, size_t *length);
+bool pnlite_ksfureadEntireFile(const char *path, char **data, size_t *length);
 
 /** Write a string to a file.
  *
@@ -94,7 +94,7 @@ bool bsg_ksfureadEntireFile(const char *path, char **data, size_t *length);
  *
  * @return true if successful.
  */
-bool bsg_ksfuwriteStringToFD(const int fd, const char *string);
+bool pnlite_ksfuwriteStringToFD(const int fd, const char *string);
 
 /** Write a formatted string to a file.
  *
@@ -104,7 +104,7 @@ bool bsg_ksfuwriteStringToFD(const int fd, const char *string);
  *
  * @return true if successful.
  */
-bool bsg_ksfuwriteFmtToFD(const int fd, const char *fmt, ...);
+bool pnlite_ksfuwriteFmtToFD(const int fd, const char *fmt, ...);
 
 /** Write a formatted string to a file.
  *
@@ -116,7 +116,7 @@ bool bsg_ksfuwriteFmtToFD(const int fd, const char *fmt, ...);
  *
  * @return true if successful.
  */
-bool bsg_ksfuwriteFmtArgsToFD(const int fd, const char *fmt, va_list args);
+bool pnlite_ksfuwriteFmtArgsToFD(const int fd, const char *fmt, va_list args);
 
 /** Read a single line from a file.
  *
@@ -128,7 +128,7 @@ bool bsg_ksfuwriteFmtArgsToFD(const int fd, const char *fmt, va_list args);
  *
  * @return The number of bytes read.
  */
-ssize_t bsg_ksfureadLineFromFD(const int fd, char *buffer, int maxLength);
+ssize_t pnlite_ksfureadLineFromFD(const int fd, char *buffer, int maxLength);
 
 #ifdef __cplusplus
 }

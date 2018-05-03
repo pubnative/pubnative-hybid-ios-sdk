@@ -35,7 +35,7 @@
  * @param fmt Description of the error (gets placed into the user data with the
  * key NSLocalizedDescriptionKey).
  */
-+ (NSError *)bsg_errorWithDomain:(NSString *)domain
++ (NSError *)pnlite_errorWithDomain:(NSString *)domain
                         code:(NSInteger)code
                  description:(NSString *)fmt, ...;
 
@@ -48,7 +48,7 @@
  * key NSLocalizedDescriptionKey).
  * @return NO (to keep the analyzer happy).
  */
-+ (BOOL)bsg_fillError:(NSError **)error
++ (BOOL)pnlite_fillError:(NSError **)error
            withDomain:(NSString *)domain
                  code:(NSInteger)code
           description:(NSString *)fmt, ...;

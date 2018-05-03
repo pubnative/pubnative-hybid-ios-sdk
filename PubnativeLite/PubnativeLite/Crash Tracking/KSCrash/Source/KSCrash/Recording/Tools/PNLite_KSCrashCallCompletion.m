@@ -22,7 +22,7 @@
 
 #import "PNLite_KSCrashCallCompletion.h"
 
-void bsg_kscrash_i_callCompletion(
+void pnlite_kscrash_i_callCompletion(
     PNLite_KSCrashReportFilterCompletion onCompletion, NSArray *filteredReports,
     BOOL completed, NSError *error) {
     if (onCompletion) {

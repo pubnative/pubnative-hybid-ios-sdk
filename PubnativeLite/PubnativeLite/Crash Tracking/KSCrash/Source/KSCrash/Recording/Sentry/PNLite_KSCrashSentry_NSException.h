@@ -38,12 +38,12 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installNSExceptionHandler(
+bool pnlite_kscrashsentry_installNSExceptionHandler(
     PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall our custome NSException handler.
  */
-void bsg_kscrashsentry_uninstallNSExceptionHandler(void);
+void pnlite_kscrashsentry_uninstallNSExceptionHandler(void);
 
 #ifdef __cplusplus
 }

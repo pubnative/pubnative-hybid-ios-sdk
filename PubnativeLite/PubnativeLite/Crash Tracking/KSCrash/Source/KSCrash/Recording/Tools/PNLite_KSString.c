@@ -49,7 +49,7 @@ static const int pnlite_g_continuationByteCount[0x40] = {
     2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 0, 0,
 };
 
-bool bsg_ksstring_isNullTerminatedUTF8String(const void *memory, int minLength,
+bool pnlite_ksstring_isNullTerminatedUTF8String(const void *memory, int minLength,
                                              int maxLength) {
     const unsigned char *ptr = memory;
     const unsigned char *const end = ptr + maxLength;
@@ -105,7 +105,7 @@ static const unsigned int pnlite_g_hexConversion[] = {
     INV,
 };
 
-bool bsg_ksstring_extractHexValue(const char *string, size_t stringLength,
+bool pnlite_ksstring_extractHexValue(const char *string, size_t stringLength,
                                   uint64_t *const result) {
     if (stringLength > 0) {
         const unsigned char *current = (const unsigned char *)string;
@@ -134,7 +134,7 @@ bool bsg_ksstring_extractHexValue(const char *string, size_t stringLength,
     return false;
 }
 
-void bsg_ksstring_replace(const char **dest, const char *replacement) {
+void pnlite_ksstring_replace(const char **dest, const char *replacement) {
     if (*dest != NULL) {
         free((void *)*dest);
     }

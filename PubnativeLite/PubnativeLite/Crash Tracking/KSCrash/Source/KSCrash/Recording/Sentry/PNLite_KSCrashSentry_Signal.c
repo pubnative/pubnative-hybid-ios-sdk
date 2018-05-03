@@ -74,29 +74,29 @@ static PNLite_KSCrash_SentryContext *pnlite_g_context;
  *
  * @param userContext Other contextual information.
  */
-void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
+void pnlite_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
                                   void *userContext) {
     PNLite_KSLOG_DEBUG("Trapped signal %d", sigNum);
     if (pnlite_g_installed) {
         bool wasHandlingCrash = pnlite_g_context->handlingCrash;
-        bsg_kscrashsentry_beginHandlingCrash(pnlite_g_context);
+        pnlite_kscrashsentry_beginHandlingCrash(pnlite_g_context);
 
         PNLite_KSLOG_DEBUG(
             "Signal handler is installed. Continuing signal handling.");
 
         PNLite_KSLOG_DEBUG("Suspending all threads.");
-        bsg_kscrashsentry_suspendThreads();
+        pnlite_kscrashsentry_suspendThreads();
 
         if (wasHandlingCrash) {
             PNLite_KSLOG_INFO("Detected crash in the crash reporter. Restoring "
                            "original handlers.");
             pnlite_g_context->crashedDuringCrashHandling = true;
-            bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
+            pnlite_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
         }
 
         PNLite_KSLOG_DEBUG("Filling out context.");
         pnlite_g_context->crashType = PNLite_KSCrashTypeSignal;
-        pnlite_g_context->offendingThread = bsg_ksmachthread_self();
+        pnlite_g_context->offendingThread = pnlite_ksmachthread_self();
         pnlite_g_context->registersAreValid = true;
         pnlite_g_context->faultAddress = (uintptr_t)signalInfo->si_addr;
         pnlite_g_context->signal.userContext = userContext;
@@ -107,8 +107,8 @@ void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
 
         PNLite_KSLOG_DEBUG(
             "Crash handling complete. Restoring original handlers.");
-        bsg_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
-        bsg_kscrashsentry_resumeThreads();
+        pnlite_kscrashsentry_uninstall(PNLite_KSCrashTypeAsyncSafe);
+        pnlite_kscrashsentry_resumeThreads();
     }
 
     PNLite_KSLOG_DEBUG("Re-raising signal for regular handlers to catch.");
@@ -120,7 +120,7 @@ void bsg_kssighndl_i_handleSignal(int sigNum, siginfo_t *signalInfo,
 #pragma mark - API -
 // ============================================================================
 
-bool bsg_kscrashsentry_installSignalHandler(
+bool pnlite_kscrashsentry_installSignalHandler(
     PNLite_KSCrash_SentryContext *context) {
     PNLite_KSLOG_DEBUG("Installing signal handler.");
 
@@ -146,8 +146,8 @@ bool bsg_kscrashsentry_installSignalHandler(
     }
 #endif
 
-    const int *fatalSignals = bsg_kssignal_fatalSignals();
-    int fatalSignalsCount = bsg_kssignal_numFatalSignals();
+    const int *fatalSignals = pnlite_kssignal_fatalSignals();
+    int fatalSignalsCount = pnlite_kssignal_numFatalSignals();
 
     if (pnlite_g_previousSignalHandlers == NULL) {
         PNLite_KSLOG_DEBUG("Allocating memory to store previous signal handlers.");
@@ -162,14 +162,14 @@ bool bsg_kscrashsentry_installSignalHandler(
     action.sa_flags |= SA_64REGSET;
 #endif
     sigemptyset(&action.sa_mask);
-    action.sa_sigaction = &bsg_kssighndl_i_handleSignal;
+    action.sa_sigaction = &pnlite_kssighndl_i_handleSignal;
 
     for (int i = 0; i < fatalSignalsCount; i++) {
         PNLite_KSLOG_DEBUG("Assigning handler for signal %d", fatalSignals[i]);
         if (sigaction(fatalSignals[i], &action,
                       &pnlite_g_previousSignalHandlers[i]) != 0) {
             char sigNameBuff[30];
-            const char *sigName = bsg_kssignal_signalName(fatalSignals[i]);
+            const char *sigName = pnlite_kssignal_signalName(fatalSignals[i]);
             if (sigName == NULL) {
                 snprintf(sigNameBuff, sizeof(sigNameBuff), "%d",
                          fatalSignals[i]);
@@ -193,15 +193,15 @@ failed:
     return false;
 }
 
-void bsg_kscrashsentry_uninstallSignalHandler(void) {
+void pnlite_kscrashsentry_uninstallSignalHandler(void) {
     PNLite_KSLOG_DEBUG("Uninstalling signal handlers.");
     if (!pnlite_g_installed) {
         PNLite_KSLOG_DEBUG("Signal handlers were already uninstalled.");
         return;
     }
 
-    const int *fatalSignals = bsg_kssignal_fatalSignals();
-    int fatalSignalsCount = bsg_kssignal_numFatalSignals();
+    const int *fatalSignals = pnlite_kssignal_fatalSignals();
+    int fatalSignalsCount = pnlite_kssignal_numFatalSignals();
 
     for (int i = 0; i < fatalSignalsCount; i++) {
         PNLite_KSLOG_DEBUG("Restoring original handler for signal %d",

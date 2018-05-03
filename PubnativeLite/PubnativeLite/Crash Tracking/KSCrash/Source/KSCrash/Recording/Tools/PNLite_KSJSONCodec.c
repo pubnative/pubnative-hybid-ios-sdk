@@ -106,7 +106,7 @@ const char *pnlite_ksjsonstringForError(const int error) {
  *
  * @return true if the data was handled successfully.
  */
-int bsg_ksjsoncodec_i_appendEscapedString(
+int pnlite_ksjsoncodec_i_appendEscapedString(
     PNLite_KSJSONEncodeContext *const context, const char *restrict const string,
     size_t length) {
     char workBuffer[PNLite_KSJSONCODEC_WorkBufferSize];
@@ -185,7 +185,7 @@ int bsg_ksjsoncodec_i_appendEscapedString(
  *
  * @return true if the data was handled successfully.
  */
-int bsg_ksjsoncodec_i_addEscapedString(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsoncodec_i_addEscapedString(PNLite_KSJSONEncodeContext *const context,
                                        const char *restrict const string,
                                        size_t length) {
     int result = PNLite_KSJSON_OK;
@@ -197,7 +197,7 @@ int bsg_ksjsoncodec_i_addEscapedString(PNLite_KSJSONEncodeContext *const context
         unlikely_if(toAdd > PNLite_KSJSONCODEC_WorkBufferSize / 2) {
             toAdd = PNLite_KSJSONCODEC_WorkBufferSize / 2;
         }
-        result = bsg_ksjsoncodec_i_appendEscapedString(context, string + offset,
+        result = pnlite_ksjsoncodec_i_appendEscapedString(context, string + offset,
                                                        toAdd);
         unlikely_if(result != PNLite_KSJSON_OK) { break; }
         offset += toAdd;
@@ -215,21 +215,21 @@ int bsg_ksjsoncodec_i_addEscapedString(PNLite_KSJSONEncodeContext *const context
  *
  * @return true if the data was handled successfully.
  */
-int bsg_ksjsoncodec_i_addQuotedEscapedString(
+int pnlite_ksjsoncodec_i_addQuotedEscapedString(
     PNLite_KSJSONEncodeContext *const context, const char *restrict const string,
     size_t length) {
     int result;
     unlikely_if((result = addJSONData(context, "\"", 1)) != PNLite_KSJSON_OK) {
         return result;
     }
-    unlikely_if((result = bsg_ksjsoncodec_i_addEscapedString(
+    unlikely_if((result = pnlite_ksjsoncodec_i_addEscapedString(
                      context, string, length)) != PNLite_KSJSON_OK) {
         return result;
     }
     return addJSONData(context, "\"", 1);
 }
 
-int bsg_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
                            const char *const name) {
     int result = PNLite_KSJSON_OK;
 
@@ -262,7 +262,7 @@ int bsg_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
             PNLite_KSLOG_ERROR("Name was null inside an object");
             return PNLite_KSJSON_ERROR_INVALID_DATA;
         }
-        unlikely_if((result = bsg_ksjsoncodec_i_addQuotedEscapedString(
+        unlikely_if((result = pnlite_ksjsoncodec_i_addQuotedEscapedString(
                          context, name, strlen(name))) != PNLite_KSJSON_OK) {
             return result;
         }
@@ -282,14 +282,14 @@ int bsg_ksjsonbeginElement(PNLite_KSJSONEncodeContext *const context,
     return result;
 }
 
-int bsg_ksjsonaddRawJSONData(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddRawJSONData(PNLite_KSJSONEncodeContext *const context,
                              const char *const data, const size_t length) {
     return addJSONData(context, data, length);
 }
 
-int bsg_ksjsonaddBooleanElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddBooleanElement(PNLite_KSJSONEncodeContext *const context,
                                 const char *const name, const bool value) {
-    int result = bsg_ksjsonbeginElement(context, name);
+    int result = pnlite_ksjsonbeginElement(context, name);
     unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     if (value) {
         return addJSONData(context, "true", 4);
@@ -298,30 +298,30 @@ int bsg_ksjsonaddBooleanElement(PNLite_KSJSONEncodeContext *const context,
     }
 }
 
-int bsg_ksjsonaddFloatingPointElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddFloatingPointElement(PNLite_KSJSONEncodeContext *const context,
                                       const char *const name, double value) {
-    int result = bsg_ksjsonbeginElement(context, name);
+    int result = pnlite_ksjsonbeginElement(context, name);
     unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     char buff[30];
     sprintf(buff, "%lg", value);
     return addJSONData(context, buff, strlen(buff));
 }
 
-int bsg_ksjsonaddIntegerElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddIntegerElement(PNLite_KSJSONEncodeContext *const context,
                                 const char *const name, long long value) {
-    int result = bsg_ksjsonbeginElement(context, name);
+    int result = pnlite_ksjsonbeginElement(context, name);
     unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     char buff[30];
     sprintf(buff, "%lld", value);
     return addJSONData(context, buff, strlen(buff));
 }
 
-int bsg_ksjsonaddJSONElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddJSONElement(PNLite_KSJSONEncodeContext *const context,
                              const char *restrict const name,
                              const char *restrict const element,
                              size_t length) {
     unlikely_if(element == NULL) {
-        return bsg_ksjsonaddNullElement(context, name);
+        return pnlite_ksjsonaddNullElement(context, name);
     }
     size_t idx = 0;
     while (idx < length && (element[idx] == ' ' || element[idx] == '\r' ||
@@ -357,68 +357,68 @@ int bsg_ksjsonaddJSONElement(PNLite_KSJSONEncodeContext *const context,
         return PNLite_KSJSON_ERROR_INVALID_DATA;
     }
 
-    int result = bsg_ksjsonbeginElement(context, name);
+    int result = pnlite_ksjsonbeginElement(context, name);
     unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     return addJSONData(context, element, length);
 }
 
-int bsg_ksjsonaddNullElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddNullElement(PNLite_KSJSONEncodeContext *const context,
                              const char *const name) {
-    int result = bsg_ksjsonbeginElement(context, name);
+    int result = pnlite_ksjsonbeginElement(context, name);
     unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     return addJSONData(context, "null", 4);
 }
 
-int bsg_ksjsonaddStringElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddStringElement(PNLite_KSJSONEncodeContext *const context,
                                const char *const name, const char *const value,
                                size_t length) {
     unlikely_if(value == NULL) {
-        return bsg_ksjsonaddNullElement(context, name);
+        return pnlite_ksjsonaddNullElement(context, name);
     }
-    int result = bsg_ksjsonbeginElement(context, name);
+    int result = pnlite_ksjsonbeginElement(context, name);
     unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     if (length == PNLite_KSJSON_SIZE_AUTOMATIC) {
         length = strlen(value);
     }
-    return bsg_ksjsoncodec_i_addQuotedEscapedString(context, value, length);
+    return pnlite_ksjsoncodec_i_addQuotedEscapedString(context, value, length);
 }
 
-int bsg_ksjsonbeginStringElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonbeginStringElement(PNLite_KSJSONEncodeContext *const context,
                                  const char *const name) {
-    int result = bsg_ksjsonbeginElement(context, name);
+    int result = pnlite_ksjsonbeginElement(context, name);
     unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     return addJSONData(context, "\"", 1);
 }
 
-int bsg_ksjsonappendStringElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonappendStringElement(PNLite_KSJSONEncodeContext *const context,
                                   const char *const value, size_t length) {
-    return bsg_ksjsoncodec_i_addEscapedString(context, value, length);
+    return pnlite_ksjsoncodec_i_addEscapedString(context, value, length);
 }
 
-int bsg_ksjsonendStringElement(PNLite_KSJSONEncodeContext *const context) {
+int pnlite_ksjsonendStringElement(PNLite_KSJSONEncodeContext *const context) {
     return addJSONData(context, "\"", 1);
 }
 
-int bsg_ksjsonaddDataElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonaddDataElement(PNLite_KSJSONEncodeContext *const context,
                              const char *name, const char *value,
                              size_t length) {
     int result = PNLite_KSJSON_OK;
-    result = bsg_ksjsonbeginDataElement(context, name);
+    result = pnlite_ksjsonbeginDataElement(context, name);
     if (result == PNLite_KSJSON_OK) {
-        result = bsg_ksjsonappendDataElement(context, value, length);
+        result = pnlite_ksjsonappendDataElement(context, value, length);
     }
     if (result == PNLite_KSJSON_OK) {
-        result = bsg_ksjsonendDataElement(context);
+        result = pnlite_ksjsonendDataElement(context);
     }
     return result;
 }
 
-int bsg_ksjsonbeginDataElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonbeginDataElement(PNLite_KSJSONEncodeContext *const context,
                                const char *const name) {
-    return bsg_ksjsonbeginStringElement(context, name);
+    return pnlite_ksjsonbeginStringElement(context, name);
 }
 
-int bsg_ksjsonappendDataElement(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonappendDataElement(PNLite_KSJSONEncodeContext *const context,
                                 const char *const value, size_t length) {
     unsigned char *currentByte = (unsigned char *)value;
     unsigned char *end = currentByte + length;
@@ -436,14 +436,14 @@ int bsg_ksjsonappendDataElement(PNLite_KSJSONEncodeContext *const context,
     return result;
 }
 
-int bsg_ksjsonendDataElement(PNLite_KSJSONEncodeContext *const context) {
-    return bsg_ksjsonendStringElement(context);
+int pnlite_ksjsonendDataElement(PNLite_KSJSONEncodeContext *const context) {
+    return pnlite_ksjsonendStringElement(context);
 }
 
-int bsg_ksjsonbeginArray(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonbeginArray(PNLite_KSJSONEncodeContext *const context,
                          const char *const name) {
     likely_if(context->containerLevel >= 0) {
-        int result = bsg_ksjsonbeginElement(context, name);
+        int result = pnlite_ksjsonbeginElement(context, name);
         unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     }
 
@@ -454,10 +454,10 @@ int bsg_ksjsonbeginArray(PNLite_KSJSONEncodeContext *const context,
     return addJSONData(context, "[", 1);
 }
 
-int bsg_ksjsonbeginObject(PNLite_KSJSONEncodeContext *const context,
+int pnlite_ksjsonbeginObject(PNLite_KSJSONEncodeContext *const context,
                           const char *const name) {
     likely_if(context->containerLevel >= 0) {
-        int result = bsg_ksjsonbeginElement(context, name);
+        int result = pnlite_ksjsonbeginElement(context, name);
         unlikely_if(result != PNLite_KSJSON_OK) { return result; }
     }
 
@@ -468,7 +468,7 @@ int bsg_ksjsonbeginObject(PNLite_KSJSONEncodeContext *const context,
     return addJSONData(context, "{", 1);
 }
 
-int bsg_ksjsonendContainer(PNLite_KSJSONEncodeContext *const context) {
+int pnlite_ksjsonendContainer(PNLite_KSJSONEncodeContext *const context) {
     unlikely_if(context->containerLevel <= 0) { return PNLite_KSJSON_OK; }
 
     bool isObject = context->isObject[context->containerLevel];
@@ -491,7 +491,7 @@ int bsg_ksjsonendContainer(PNLite_KSJSONEncodeContext *const context) {
     return addJSONData(context, isObject ? "}" : "]", 1);
 }
 
-void bsg_ksjsonbeginEncode(PNLite_KSJSONEncodeContext *const context,
+void pnlite_ksjsonbeginEncode(PNLite_KSJSONEncodeContext *const context,
                            bool prettyPrint,
                            PNLite_KSJSONAddDataFunc addJSONDataFunc,
                            void *const userData) {
@@ -502,10 +502,10 @@ void bsg_ksjsonbeginEncode(PNLite_KSJSONEncodeContext *const context,
     context->containerFirstEntry = true;
 }
 
-int bsg_ksjsonendEncode(PNLite_KSJSONEncodeContext *const context) {
+int pnlite_ksjsonendEncode(PNLite_KSJSONEncodeContext *const context) {
     int result = PNLite_KSJSON_OK;
     while (context->containerLevel > 0) {
-        unlikely_if((result = bsg_ksjsonendContainer(context)) !=
+        unlikely_if((result = pnlite_ksjsonendContainer(context)) !=
                     PNLite_KSJSON_OK) {
             return result;
         }
@@ -553,7 +553,7 @@ static const unsigned int pnlite_g_hexConversion[] = {
  *
  * @return PNLite_KSJSON_OK if the encoding was successful.
  */
-int bsg_ksjsoncodec_i_writeUTF8(unsigned int character, char **dst);
+int pnlite_ksjsoncodec_i_writeUTF8(unsigned int character, char **dst);
 
 /** Decode a string value. The newly allocated string is stored in dstString
  * (only if parsing was successful) and it is the responsibility of the caller
@@ -568,7 +568,7 @@ int bsg_ksjsoncodec_i_writeUTF8(unsigned int character, char **dst);
  *
  * @return PNLite_KSJSON_OK if successful.
  */
-int bsg_ksjsoncodec_i_decodeString(const char **ptr, const char *const end,
+int pnlite_ksjsoncodec_i_decodeString(const char **ptr, const char *const end,
                                    char **dstString);
 
 /** Decode a JSON element.
@@ -581,11 +581,11 @@ int bsg_ksjsoncodec_i_decodeString(const char **ptr, const char *const end,
  *
  * @param callbacks The callbacks to call while decoding.
  *
- * @param userData Data that was specified when calling bsg_ksjsondecode().
+ * @param userData Data that was specified when calling pnlite_ksjsondecode().
  *
  * @return PNLite_KSJSON_OK if successful.
  */
-int bsg_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
+int pnlite_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
                                     const char *const name,
                                     PNLite_KSJSONDecodeCallbacks *const callbacks,
                                     void *const userData);
@@ -633,7 +633,7 @@ static inline bool isFPChar(char ch) {
     }
 }
 
-int bsg_ksjsoncodec_i_writeUTF8(unsigned int character, char **dst) {
+int pnlite_ksjsoncodec_i_writeUTF8(unsigned int character, char **dst) {
     likely_if(character <= 0x7f) {
         **dst = (char)character;
         (*dst)++;
@@ -667,7 +667,7 @@ int bsg_ksjsoncodec_i_writeUTF8(unsigned int character, char **dst) {
     return PNLite_KSJSON_ERROR_INVALID_CHARACTER;
 }
 
-int bsg_ksjsoncodec_i_decodeString(const char **ptr, const char *const end,
+int pnlite_ksjsoncodec_i_decodeString(const char **ptr, const char *const end,
                                    char **dstString) {
     unlikely_if(**ptr != '\"') {
         PNLite_KSLOG_ERROR("Expected '\"' but got '%c'", **ptr);
@@ -788,7 +788,7 @@ int bsg_ksjsoncodec_i_decodeString(const char **ptr, const char *const end,
                     accum = ((accum - 0xd800) << 10) | (accum2 - 0xdc00);
                 }
 
-                result = bsg_ksjsoncodec_i_writeUTF8(accum, &dst);
+                result = pnlite_ksjsoncodec_i_writeUTF8(accum, &dst);
                 unlikely_if(result != PNLite_KSJSON_OK) { goto failed; }
                 src += 4;
                 continue;
@@ -812,7 +812,7 @@ failed:
     return result;
 }
 
-int bsg_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
+int pnlite_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
                                     const char *const name,
                                     PNLite_KSJSONDecodeCallbacks *const callbacks,
                                     void *const userData) {
@@ -837,7 +837,7 @@ int bsg_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
                 (*ptr)++;
                 return callbacks->onEndContainer(userData);
             }
-            result = bsg_ksjsoncodec_i_decodeElement(ptr, end, NULL, callbacks,
+            result = pnlite_ksjsoncodec_i_decodeElement(ptr, end, NULL, callbacks,
                                                      userData);
             unlikely_if(result != PNLite_KSJSON_OK) return result;
             skipWhitespace(ptr, end);
@@ -859,7 +859,7 @@ int bsg_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
                 return callbacks->onEndContainer(userData);
             }
             char *key;
-            result = bsg_ksjsoncodec_i_decodeString(ptr, end, &key);
+            result = pnlite_ksjsoncodec_i_decodeString(ptr, end, &key);
             unlikely_if(result != PNLite_KSJSON_OK) return result;
             skipWhitespace(ptr, end);
             unlikely_if(*ptr >= end) {
@@ -873,7 +873,7 @@ int bsg_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
             }
             (*ptr)++;
             skipWhitespace(ptr, end);
-            result = bsg_ksjsoncodec_i_decodeElement(ptr, end, key, callbacks,
+            result = pnlite_ksjsoncodec_i_decodeElement(ptr, end, key, callbacks,
                                                      userData);
             free(key);
             unlikely_if(result != PNLite_KSJSON_OK) return result;
@@ -886,7 +886,7 @@ int bsg_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
     }
     case '\"': {
         char *string;
-        result = bsg_ksjsoncodec_i_decodeString(ptr, end, &string);
+        result = pnlite_ksjsoncodec_i_decodeString(ptr, end, &string);
         unlikely_if(result != PNLite_KSJSON_OK) return result;
         result = callbacks->onStringElement(name, string, userData);
         free(string);
@@ -1007,12 +1007,12 @@ int bsg_ksjsoncodec_i_decodeElement(const char **ptr, const char *const end,
     return PNLite_KSJSON_ERROR_INVALID_CHARACTER;
 }
 
-int bsg_ksjsondecode(const char *const data, size_t length,
+int pnlite_ksjsondecode(const char *const data, size_t length,
                      PNLite_KSJSONDecodeCallbacks *const callbacks,
                      void *const userData, size_t *const errorOffset) {
     const char *ptr = data;
 
-    int result = bsg_ksjsoncodec_i_decodeElement(&ptr, ptr + length, NULL,
+    int result = pnlite_ksjsoncodec_i_decodeElement(&ptr, ptr + length, NULL,
                                                  callbacks, userData);
     likely_if(result == PNLite_KSJSON_OK) {
         result = callbacks->onEndData(userData);

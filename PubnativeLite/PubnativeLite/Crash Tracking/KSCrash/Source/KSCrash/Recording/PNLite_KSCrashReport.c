@@ -115,38 +115,38 @@ static PNLite_KSCrash_IntrospectionRules *pnlite_g_introspectionRules;
 
 #pragma mark Callbacks
 
-void bsg_kscrw_i_addBooleanElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addBooleanElement(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const key, const bool value) {
-    bsg_ksjsonaddBooleanElement(pnlite_getJsonContext(writer), key, value);
+    pnlite_ksjsonaddBooleanElement(pnlite_getJsonContext(writer), key, value);
 }
 
-void bsg_kscrw_i_addFloatingPointElement(
+void pnlite_kscrw_i_addFloatingPointElement(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const double value) {
-    bsg_ksjsonaddFloatingPointElement(pnlite_getJsonContext(writer), key, value);
+    pnlite_ksjsonaddFloatingPointElement(pnlite_getJsonContext(writer), key, value);
 }
 
-void bsg_kscrw_i_addIntegerElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addIntegerElement(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const key,
                                    const long long value) {
-    bsg_ksjsonaddIntegerElement(pnlite_getJsonContext(writer), key, value);
+    pnlite_ksjsonaddIntegerElement(pnlite_getJsonContext(writer), key, value);
 }
 
-void bsg_kscrw_i_addUIntegerElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addUIntegerElement(const PNLite_KSCrashReportWriter *const writer,
                                     const char *const key,
                                     const unsigned long long value) {
-    bsg_ksjsonaddIntegerElement(pnlite_getJsonContext(writer), key,
+    pnlite_ksjsonaddIntegerElement(pnlite_getJsonContext(writer), key,
                                 (long long)value);
 }
 
-void bsg_kscrw_i_addStringElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addStringElement(const PNLite_KSCrashReportWriter *const writer,
                                   const char *const key,
                                   const char *const value) {
-    bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer), key, value,
+    pnlite_ksjsonaddStringElement(pnlite_getJsonContext(writer), key, value,
                                PNLite_KSJSON_SIZE_AUTOMATIC);
 }
 
-void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writer,
                                     const char *const key,
                                     const char *const filePath) {
     const int fd = open(filePath, O_RDONLY);
@@ -156,7 +156,7 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
         return;
     }
 
-    if (bsg_ksjsonbeginStringElement(pnlite_getJsonContext(writer), key) !=
+    if (pnlite_ksjsonbeginStringElement(pnlite_getJsonContext(writer), key) !=
         PNLite_KSJSON_OK) {
         PNLite_KSLOG_ERROR("Could not start string element");
         goto done;
@@ -166,7 +166,7 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
     ssize_t bytesRead;
     for (bytesRead = read(fd, buffer, sizeof(buffer)); bytesRead > 0;
          bytesRead = read(fd, buffer, sizeof(buffer))) {
-        if (bsg_ksjsonappendStringElement(pnlite_getJsonContext(writer), buffer,
+        if (pnlite_ksjsonappendStringElement(pnlite_getJsonContext(writer), buffer,
                                           (size_t)bytesRead) != PNLite_KSJSON_OK) {
             PNLite_KSLOG_ERROR("Could not append string element");
             goto done;
@@ -174,36 +174,36 @@ void bsg_kscrw_i_addTextFileElement(const PNLite_KSCrashReportWriter *const writ
     }
 
 done:
-    bsg_ksjsonendStringElement(pnlite_getJsonContext(writer));
+    pnlite_ksjsonendStringElement(pnlite_getJsonContext(writer));
     close(fd);
 }
 
-void bsg_kscrw_i_addDataElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addDataElement(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const key, const char *const value,
                                 const size_t length) {
-    bsg_ksjsonaddDataElement(pnlite_getJsonContext(writer), key, value, length);
+    pnlite_ksjsonaddDataElement(pnlite_getJsonContext(writer), key, value, length);
 }
 
-void bsg_kscrw_i_beginDataElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_beginDataElement(const PNLite_KSCrashReportWriter *const writer,
                                   const char *const key) {
-    bsg_ksjsonbeginDataElement(pnlite_getJsonContext(writer), key);
+    pnlite_ksjsonbeginDataElement(pnlite_getJsonContext(writer), key);
 }
 
-void bsg_kscrw_i_appendDataElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_appendDataElement(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const value,
                                    const size_t length) {
-    bsg_ksjsonappendDataElement(pnlite_getJsonContext(writer), value, length);
+    pnlite_ksjsonappendDataElement(pnlite_getJsonContext(writer), value, length);
 }
 
-void bsg_kscrw_i_endDataElement(const PNLite_KSCrashReportWriter *const writer) {
-    bsg_ksjsonendDataElement(pnlite_getJsonContext(writer));
+void pnlite_kscrw_i_endDataElement(const PNLite_KSCrashReportWriter *const writer) {
+    pnlite_ksjsonendDataElement(pnlite_getJsonContext(writer));
 }
 
-void bsg_kscrw_i_addUUIDElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addUUIDElement(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const key,
                                 const unsigned char *const value) {
     if (value == NULL) {
-        bsg_ksjsonaddNullElement(pnlite_getJsonContext(writer), key);
+        pnlite_ksjsonaddNullElement(pnlite_getJsonContext(writer), key);
     } else {
         char uuidBuffer[37];
         const unsigned char *src = value;
@@ -233,32 +233,32 @@ void bsg_kscrw_i_addUUIDElement(const PNLite_KSCrashReportWriter *const writer,
             *dst++ = pnlite_g_hexNybbles[(*src++) & 15];
         }
 
-        bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer), key, uuidBuffer,
+        pnlite_ksjsonaddStringElement(pnlite_getJsonContext(writer), key, uuidBuffer,
                                    (size_t)(dst - uuidBuffer));
     }
 }
 
-void bsg_kscrw_i_addJSONElement(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_addJSONElement(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const key,
                                 const char *const jsonElement) {
-    int jsonResult = bsg_ksjsonaddJSONElement(pnlite_getJsonContext(writer), key,
+    int jsonResult = pnlite_ksjsonaddJSONElement(pnlite_getJsonContext(writer), key,
                                               jsonElement, strlen(jsonElement));
     if (jsonResult != PNLite_KSJSON_OK) {
         char errorBuff[100];
         snprintf(errorBuff, sizeof(errorBuff), "Invalid JSON data: %s",
                  pnlite_ksjsonstringForError(jsonResult));
-        bsg_ksjsonbeginObject(pnlite_getJsonContext(writer), key);
-        bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer),
+        pnlite_ksjsonbeginObject(pnlite_getJsonContext(writer), key);
+        pnlite_ksjsonaddStringElement(pnlite_getJsonContext(writer),
                                    PNLite_KSCrashField_Error, errorBuff,
                                    PNLite_KSJSON_SIZE_AUTOMATIC);
-        bsg_ksjsonaddStringElement(pnlite_getJsonContext(writer),
+        pnlite_ksjsonaddStringElement(pnlite_getJsonContext(writer),
                                    PNLite_KSCrashField_JSONData, jsonElement,
                                    PNLite_KSJSON_SIZE_AUTOMATIC);
-        bsg_ksjsonendContainer(pnlite_getJsonContext(writer));
+        pnlite_ksjsonendContainer(pnlite_getJsonContext(writer));
     }
 }
 
-void bsg_kscrw_i_addJSONElementFromFile(
+void pnlite_kscrw_i_addJSONElementFromFile(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const char *const filePath) {
     const int fd = open(filePath, O_RDONLY);
@@ -268,7 +268,7 @@ void bsg_kscrw_i_addJSONElementFromFile(
         return;
     }
 
-    if (bsg_ksjsonbeginElement(pnlite_getJsonContext(writer), key) !=
+    if (pnlite_ksjsonbeginElement(pnlite_getJsonContext(writer), key) !=
         PNLite_KSJSON_OK) {
         PNLite_KSLOG_ERROR("Could not start JSON element");
         goto done;
@@ -277,7 +277,7 @@ void bsg_kscrw_i_addJSONElementFromFile(
     char buffer[512];
     ssize_t bytesRead;
     while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
-        if (bsg_ksjsonaddRawJSONData(pnlite_getJsonContext(writer), buffer,
+        if (pnlite_ksjsonaddRawJSONData(pnlite_getJsonContext(writer), buffer,
                                      (size_t)bytesRead) != PNLite_KSJSON_OK) {
             PNLite_KSLOG_ERROR("Could not append JSON data");
             goto done;
@@ -288,24 +288,24 @@ done:
     close(fd);
 }
 
-void bsg_kscrw_i_beginObject(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_beginObject(const PNLite_KSCrashReportWriter *const writer,
                              const char *const key) {
-    bsg_ksjsonbeginObject(pnlite_getJsonContext(writer), key);
+    pnlite_ksjsonbeginObject(pnlite_getJsonContext(writer), key);
 }
 
-void bsg_kscrw_i_beginArray(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_beginArray(const PNLite_KSCrashReportWriter *const writer,
                             const char *const key) {
-    bsg_ksjsonbeginArray(pnlite_getJsonContext(writer), key);
+    pnlite_ksjsonbeginArray(pnlite_getJsonContext(writer), key);
 }
 
-void bsg_kscrw_i_endContainer(const PNLite_KSCrashReportWriter *const writer) {
-    bsg_ksjsonendContainer(pnlite_getJsonContext(writer));
+void pnlite_kscrw_i_endContainer(const PNLite_KSCrashReportWriter *const writer) {
+    pnlite_ksjsonendContainer(pnlite_getJsonContext(writer));
 }
 
-int bsg_kscrw_i_addJSONData(const char *const data, const size_t length,
+int pnlite_kscrw_i_addJSONData(const char *const data, const size_t length,
                             void *const userData) {
     const int fd = *((int *)userData);
-    const bool success = bsg_ksfuwriteBytesToFD(fd, data, (ssize_t)length);
+    const bool success = pnlite_ksfuwriteBytesToFD(fd, data, (ssize_t)length);
     return success ? PNLite_KSJSON_OK : PNLite_KSJSON_ERROR_CANNOT_ADD_DATA;
 }
 
@@ -319,7 +319,7 @@ int bsg_kscrw_i_addJSONData(const char *const data, const size_t length,
  *
  * @return true if the address points to a string.
  */
-bool bsg_kscrw_i_isValidString(const void *const address) {
+bool pnlite_kscrw_i_isValidString(const void *const address) {
     if ((void *)address == NULL) {
         return false;
     }
@@ -329,10 +329,10 @@ bool bsg_kscrw_i_isValidString(const void *const address) {
         // Wrapped around the address range.
         return false;
     }
-    if (bsg_ksmachcopyMem(address, buffer, sizeof(buffer)) != KERN_SUCCESS) {
+    if (pnlite_ksmachcopyMem(address, buffer, sizeof(buffer)) != KERN_SUCCESS) {
         return false;
     }
-    return bsg_ksstring_isNullTerminatedUTF8String(buffer, PNLite_kMinStringLength,
+    return pnlite_ksstring_isNullTerminatedUTF8String(buffer, PNLite_kMinStringLength,
                                                    sizeof(buffer));
 }
 
@@ -343,13 +343,13 @@ bool bsg_kscrw_i_isValidString(const void *const address) {
  *
  * @param machineContextBuffer The machine context to fill out.
  */
-bool bsg_kscrw_i_fetchMachineState(
+bool pnlite_kscrw_i_fetchMachineState(
     const thread_t thread, PNLite_STRUCT_MCONTEXT_L *const machineContextBuffer) {
-    if (!bsg_ksmachthreadState(thread, machineContextBuffer)) {
+    if (!pnlite_ksmachthreadState(thread, machineContextBuffer)) {
         return false;
     }
 
-    if (!bsg_ksmachexceptionState(thread, machineContextBuffer)) {
+    if (!pnlite_ksmachexceptionState(thread, machineContextBuffer)) {
         return false;
     }
 
@@ -372,7 +372,7 @@ bool bsg_kscrw_i_fetchMachineState(
  *
  * @return A pointer to the crash context, or NULL if not found.
  */
-PNLite_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
+PNLite_STRUCT_MCONTEXT_L *pnlite_kscrw_i_getMachineContext(
     const PNLite_KSCrash_SentryContext *const crash, const thread_t thread,
     PNLite_STRUCT_MCONTEXT_L *const machineContextBuffer) {
     if (thread == crash->offendingThread) {
@@ -382,11 +382,11 @@ PNLite_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
         }
     }
 
-    if (thread == bsg_ksmachthread_self()) {
+    if (thread == pnlite_ksmachthread_self()) {
         return NULL;
     }
 
-    if (!bsg_kscrw_i_fetchMachineState(thread, machineContextBuffer)) {
+    if (!pnlite_kscrw_i_fetchMachineState(thread, machineContextBuffer)) {
         PNLite_KSLOG_ERROR("Failed to fetch machine state for thread %d", thread);
         return NULL;
     }
@@ -417,7 +417,7 @@ PNLite_STRUCT_MCONTEXT_L *bsg_kscrw_i_getMachineContext(
  *
  * @return The backtrace, or NULL if not found.
  */
-uintptr_t *bsg_kscrw_i_getBacktrace(
+uintptr_t *pnlite_kscrw_i_getBacktrace(
     const PNLite_KSCrash_SentryContext *const crash, const thread_t thread,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     uintptr_t *const backtraceBuffer, int *const backtraceLength,
@@ -437,13 +437,13 @@ uintptr_t *bsg_kscrw_i_getBacktrace(
     }
 
     int actualSkippedEntries = 0;
-    int actualLength = bsg_ksbt_backtraceLength(machineContext);
+    int actualLength = pnlite_ksbt_backtraceLength(machineContext);
     if (actualLength >= PNLite_kStackOverflowThreshold) {
         actualSkippedEntries = actualLength - *backtraceLength;
     }
 
     *backtraceLength =
-        bsg_ksbt_backtraceThreadState(machineContext, backtraceBuffer,
+        pnlite_ksbt_backtraceThreadState(machineContext, backtraceBuffer,
                                       actualSkippedEntries, *backtraceLength);
     if (skippedEntries != NULL) {
         *skippedEntries = actualSkippedEntries;
@@ -459,16 +459,16 @@ uintptr_t *bsg_kscrw_i_getBacktrace(
  *
  * @return true if the thread's stack has overflowed.
  */
-bool bsg_kscrw_i_isStackOverflow(const PNLite_KSCrash_SentryContext *const crash,
+bool pnlite_kscrw_i_isStackOverflow(const PNLite_KSCrash_SentryContext *const crash,
                                  const thread_t thread) {
     PNLite_STRUCT_MCONTEXT_L concreteMachineContext;
     PNLite_STRUCT_MCONTEXT_L *machineContext =
-        bsg_kscrw_i_getMachineContext(crash, thread, &concreteMachineContext);
+        pnlite_kscrw_i_getMachineContext(crash, thread, &concreteMachineContext);
     if (machineContext == NULL) {
         return false;
     }
 
-    return bsg_ksbt_isBacktraceTooLong(machineContext,
+    return pnlite_ksbt_isBacktraceTooLong(machineContext,
                                        PNLite_kStackOverflowThreshold);
 }
 
@@ -480,16 +480,16 @@ bool bsg_kscrw_i_isStackOverflow(const PNLite_KSCrash_SentryContext *const crash
  *
  * @param sentryContext The crash sentry context.
  */
-void bsg_kscrw_i_logCrashType(
+void pnlite_kscrw_i_logCrashType(
     const PNLite_KSCrash_SentryContext *const sentryContext) {
     switch (sentryContext->crashType) {
     case PNLite_KSCrashTypeMachException: {
         int machExceptionType = sentryContext->mach.type;
         kern_return_t machCode = (kern_return_t)sentryContext->mach.code;
         const char *machExceptionName =
-            bsg_ksmachexceptionName(machExceptionType);
+            pnlite_ksmachexceptionName(machExceptionType);
         const char *machCodeName =
-            machCode == 0 ? NULL : bsg_ksmachkernelReturnCodeName(machCode);
+            machCode == 0 ? NULL : pnlite_ksmachkernelReturnCodeName(machCode);
         PNLite_KSLOGBASIC_INFO("App crashed due to mach exception: [%s: %s] at %p",
                             machExceptionName, machCodeName,
                             sentryContext->faultAddress);
@@ -510,8 +510,8 @@ void bsg_kscrw_i_logCrashType(
     case PNLite_KSCrashTypeSignal: {
         int sigNum = sentryContext->signal.signalInfo->si_signo;
         int sigCode = sentryContext->signal.signalInfo->si_code;
-        const char *sigName = bsg_kssignal_signalName(sigNum);
-        const char *sigCodeName = bsg_kssignal_signalCodeName(sigNum, sigCode);
+        const char *sigName = pnlite_kssignal_signalName(sigNum);
+        const char *sigCodeName = pnlite_kssignal_signalCodeName(sigNum, sigCode);
         PNLite_KSLOGBASIC_INFO("App crashed due to signal: [%s, %s] at %08x",
                             sigName, sigCodeName, sentryContext->faultAddress);
         break;
@@ -536,12 +536,12 @@ void bsg_kscrw_i_logCrashType(
  *
  * @param dlInfo Information about the nearest symbols to the address.
  */
-void bsg_kscrw_i_logBacktraceEntry(const int entryNum, const uintptr_t address,
+void pnlite_kscrw_i_logBacktraceEntry(const int entryNum, const uintptr_t address,
                                    const Dl_info *const dlInfo) {
     char faddrBuff[20];
     char saddrBuff[20];
 
-    const char *fname = bsg_ksfulastPathEntry(dlInfo->dli_fname);
+    const char *fname = pnlite_ksfulastPathEntry(dlInfo->dli_fname);
     if (fname == NULL) {
         sprintf(faddrBuff, PNLite_POINTER_FMT, (uintptr_t)dlInfo->dli_fbase);
         fname = faddrBuff;
@@ -565,16 +565,16 @@ void bsg_kscrw_i_logBacktraceEntry(const int entryNum, const uintptr_t address,
  *
  * @param backtraceLength The length of the backtrace.
  */
-void bsg_kscrw_i_logBacktrace(const uintptr_t *const backtrace,
+void pnlite_kscrw_i_logBacktrace(const uintptr_t *const backtrace,
                               const int backtraceLength,
                               const int skippedEntries) {
     if (backtraceLength > 0) {
         Dl_info symbolicated[backtraceLength];
-        bsg_ksbt_symbolicate(backtrace, symbolicated, backtraceLength,
+        pnlite_ksbt_symbolicate(backtrace, symbolicated, backtraceLength,
                              skippedEntries);
 
         for (int i = 0; i < backtraceLength; i++) {
-            bsg_kscrw_i_logBacktraceEntry(i, backtrace[i], &symbolicated[i]);
+            pnlite_kscrw_i_logBacktraceEntry(i, backtrace[i], &symbolicated[i]);
         }
     }
 }
@@ -583,7 +583,7 @@ void bsg_kscrw_i_logBacktrace(const uintptr_t *const backtrace,
  *
  * @param crash The crash handler context.
  */
-void bsg_kscrw_i_logCrashThreadBacktrace(
+void pnlite_kscrw_i_logCrashThreadBacktrace(
     const PNLite_KSCrash_SentryContext *const crash) {
     thread_t thread = crash->offendingThread;
     PNLite_STRUCT_MCONTEXT_L concreteMachineContext;
@@ -592,15 +592,15 @@ void bsg_kscrw_i_logCrashThreadBacktrace(
         sizeof(concreteBacktrace) / sizeof(*concreteBacktrace);
 
     PNLite_STRUCT_MCONTEXT_L *machineContext =
-        bsg_kscrw_i_getMachineContext(crash, thread, &concreteMachineContext);
+        pnlite_kscrw_i_getMachineContext(crash, thread, &concreteMachineContext);
 
     int skippedEntries = 0;
-    uintptr_t *backtrace = bsg_kscrw_i_getBacktrace(
+    uintptr_t *backtrace = pnlite_kscrw_i_getBacktrace(
         crash, thread, machineContext, concreteBacktrace, &backtraceLength,
         &skippedEntries);
 
     if (backtrace != NULL) {
-        bsg_kscrw_i_logBacktrace(backtrace, backtraceLength, skippedEntries);
+        pnlite_kscrw_i_logBacktrace(backtrace, backtraceLength, skippedEntries);
     }
 }
 
@@ -619,7 +619,7 @@ void bsg_kscrw_i_logCrashThreadBacktrace(
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeMemoryContents(
+void pnlite_kscrw_i_writeMemoryContents(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const uintptr_t address, int *limit);
 
@@ -634,12 +634,12 @@ void bsg_kscrw_i_writeMemoryContents(
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeNSStringContents(
+void pnlite_kscrw_i_writeNSStringContents(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const uintptr_t objectAddress, __unused int *limit) {
     const void *object = (const void *)objectAddress;
     char buffer[200];
-    if (bsg_ksobjc_copyStringContents(object, buffer, sizeof(buffer))) {
+    if (pnlite_ksobjc_copyStringContents(object, buffer, sizeof(buffer))) {
         writer->addStringElement(writer, key, buffer);
     }
 }
@@ -655,13 +655,13 @@ void bsg_kscrw_i_writeNSStringContents(
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeURLContents(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeURLContents(const PNLite_KSCrashReportWriter *const writer,
                                   const char *const key,
                                   const uintptr_t objectAddress,
                                   __unused int *limit) {
     const void *object = (const void *)objectAddress;
     char buffer[200];
-    if (bsg_ksobjc_copyStringContents(object, buffer, sizeof(buffer))) {
+    if (pnlite_ksobjc_copyStringContents(object, buffer, sizeof(buffer))) {
         writer->addStringElement(writer, key, buffer);
     }
 }
@@ -677,13 +677,13 @@ void bsg_kscrw_i_writeURLContents(const PNLite_KSCrashReportWriter *const writer
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeDateContents(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeDateContents(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const key,
                                    const uintptr_t objectAddress,
                                    __unused int *limit) {
     const void *object = (const void *)objectAddress;
     writer->addFloatingPointElement(writer, key,
-                                    bsg_ksobjc_dateContents(object));
+                                    pnlite_ksobjc_dateContents(object));
 }
 
 /** Write a number to the report.
@@ -697,12 +697,12 @@ void bsg_kscrw_i_writeDateContents(const PNLite_KSCrashReportWriter *const write
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeNumberContents(
+void pnlite_kscrw_i_writeNumberContents(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const uintptr_t objectAddress, __unused int *limit) {
     const void *object = (const void *)objectAddress;
     writer->addFloatingPointElement(writer, key,
-                                    bsg_ksobjc_numberAsFloat(object));
+                                    pnlite_ksobjc_numberAsFloat(object));
 }
 
 /** Write an array to the report.
@@ -716,13 +716,13 @@ void bsg_kscrw_i_writeNumberContents(
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeArrayContents(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeArrayContents(const PNLite_KSCrashReportWriter *const writer,
                                     const char *const key,
                                     const uintptr_t objectAddress, int *limit) {
     const void *object = (const void *)objectAddress;
     uintptr_t firstObject;
-    if (bsg_ksobjc_arrayContents(object, &firstObject, 1) == 1) {
-        bsg_kscrw_i_writeMemoryContents(writer, key, firstObject, limit);
+    if (pnlite_ksobjc_arrayContents(object, &firstObject, 1) == 1) {
+        pnlite_kscrw_i_writeMemoryContents(writer, key, firstObject, limit);
     }
 }
 
@@ -736,7 +736,7 @@ void bsg_kscrw_i_writeArrayContents(const PNLite_KSCrashReportWriter *const writ
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeUnknownObjectContents(
+void pnlite_kscrw_i_writeUnknownObjectContents(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const uintptr_t objectAddress, int *limit) {
     (*limit)--;
@@ -759,13 +759,13 @@ void bsg_kscrw_i_writeUnknownObjectContents(
 
     writer->beginObject(writer, key);
     {
-        if (bsg_ksobjc_bsg_isTaggedPointer(object)) {
+        if (pnlite_ksobjc_pnlite_isTaggedPointer(object)) {
             writer->addIntegerElement(
                 writer, "tagged_payload",
-                (long long)bsg_ksobjc_taggedPointerPayload(object));
+                (long long)pnlite_ksobjc_taggedPointerPayload(object));
         } else {
-            const void *class = bsg_ksobjc_isaPointer(object);
-            size_t ivarCount = bsg_ksobjc_ivarList(
+            const void *class = pnlite_ksobjc_isaPointer(object);
+            size_t ivarCount = pnlite_ksobjc_ivarList(
                 class, ivars, sizeof(ivars) / sizeof(*ivars));
             *limit -= (int)ivarCount;
             for (size_t i = 0; i < ivarCount; i++) {
@@ -778,63 +778,63 @@ void bsg_kscrw_i_writeUnknownObjectContents(
                 
                 switch (ivar->type[0]) {
                 case 'c':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &s8);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &s8);
                     writer->addIntegerElement(writer, ivar->name, s8);
                     break;
                 case 'i':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &sInt);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &sInt);
                     writer->addIntegerElement(writer, ivar->name, sInt);
                     break;
                 case 's':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &s16);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &s16);
                     writer->addIntegerElement(writer, ivar->name, s16);
                     break;
                 case 'l':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &s32);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &s32);
                     writer->addIntegerElement(writer, ivar->name, s32);
                     break;
                 case 'q':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &s64);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &s64);
                     writer->addIntegerElement(writer, ivar->name, s64);
                     break;
                 case 'C':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &u8);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &u8);
                     writer->addUIntegerElement(writer, ivar->name, u8);
                     break;
                 case 'I':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &uInt);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &uInt);
                     writer->addUIntegerElement(writer, ivar->name, uInt);
                     break;
                 case 'S':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &u16);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &u16);
                     writer->addUIntegerElement(writer, ivar->name, u16);
                     break;
                 case 'L':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &u32);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &u32);
                     writer->addUIntegerElement(writer, ivar->name, u32);
                     break;
                 case 'Q':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &u64);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &u64);
                     writer->addUIntegerElement(writer, ivar->name, u64);
                     break;
                 case 'f':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &f32);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &f32);
                     writer->addFloatingPointElement(writer, ivar->name, f32);
                     break;
                 case 'd':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &f64);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &f64);
                     writer->addFloatingPointElement(writer, ivar->name, f64);
                     break;
                 case 'B':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &b);
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &b);
                     writer->addBooleanElement(writer, ivar->name, b);
                     break;
                 case '*':
                 case '@':
                 case '#':
                 case ':':
-                    bsg_ksobjc_ivarValue(object, ivar->index, &pointer);
-                    bsg_kscrw_i_writeMemoryContents(writer, ivar->name,
+                    pnlite_ksobjc_ivarValue(object, ivar->index, &pointer);
+                    pnlite_kscrw_i_writeMemoryContents(writer, ivar->name,
                                                     (uintptr_t)pointer, limit);
                     break;
                 default:
@@ -847,7 +847,7 @@ void bsg_kscrw_i_writeUnknownObjectContents(
     writer->endContainer(writer);
 }
 
-bool bsg_kscrw_i_isRestrictedClass(const char *name) {
+bool pnlite_kscrw_i_isRestrictedClass(const char *name) {
     if (pnlite_g_introspectionRules->restrictedClasses != NULL) {
         for (size_t i = 0; i < pnlite_g_introspectionRules->restrictedClassesCount;
              i++) {
@@ -871,7 +871,7 @@ bool bsg_kscrw_i_isRestrictedClass(const char *name) {
  *
  * @param limit How many more subreferenced objects to write, if any.
  */
-void bsg_kscrw_i_writeMemoryContents(
+void pnlite_kscrw_i_writeMemoryContents(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const uintptr_t address, int *limit) {
     (*limit)--;
@@ -879,17 +879,17 @@ void bsg_kscrw_i_writeMemoryContents(
     writer->beginObject(writer, key);
     {
         writer->addUIntegerElement(writer, PNLite_KSCrashField_Address, address);
-        const char *zombieClassName = bsg_kszombie_className(object);
+        const char *zombieClassName = pnlite_kszombie_className(object);
         if (zombieClassName != NULL) {
             writer->addStringElement(writer, PNLite_KSCrashField_LastDeallocObject,
                                      zombieClassName);
         }
-        switch (bsg_ksobjc_objectType(object)) {
+        switch (pnlite_ksobjc_objectType(object)) {
             case PNLite_KSObjCTypeUnknown:
             if (object == NULL) {
                 writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                          PNLite_KSCrashMemType_NullPointer);
-            } else if (bsg_kscrw_i_isValidString(object)) {
+            } else if (pnlite_kscrw_i_isValidString(object)) {
                 writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                          PNLite_KSCrashMemType_String);
                 writer->addStringElement(writer, PNLite_KSCrashField_Value,
@@ -903,49 +903,49 @@ void bsg_kscrw_i_writeMemoryContents(
             writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                      PNLite_KSCrashMemType_Class);
             writer->addStringElement(writer, PNLite_KSCrashField_Class,
-                                     bsg_ksobjc_className(object));
+                                     pnlite_ksobjc_className(object));
             break;
         case PNLite_KSObjCTypeObject: {
             writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                      PNLite_KSCrashMemType_Object);
-            const char *className = bsg_ksobjc_objectClassName(object);
+            const char *className = pnlite_ksobjc_objectClassName(object);
             writer->addStringElement(writer, PNLite_KSCrashField_Class, className);
-            if (!bsg_kscrw_i_isRestrictedClass(className)) {
-                switch (bsg_ksobjc_objectClassType(object)) {
+            if (!pnlite_kscrw_i_isRestrictedClass(className)) {
+                switch (pnlite_ksobjc_objectClassType(object)) {
                 case PNLite_KSObjCClassTypeString:
-                    bsg_kscrw_i_writeNSStringContents(
+                    pnlite_kscrw_i_writeNSStringContents(
                         writer, PNLite_KSCrashField_Value, address, limit);
                     break;
                 case PNLite_KSObjCClassTypeURL:
-                    bsg_kscrw_i_writeURLContents(writer, PNLite_KSCrashField_Value,
+                    pnlite_kscrw_i_writeURLContents(writer, PNLite_KSCrashField_Value,
                                                  address, limit);
                     break;
                 case PNLite_KSObjCClassTypeDate:
-                    bsg_kscrw_i_writeDateContents(
+                    pnlite_kscrw_i_writeDateContents(
                         writer, PNLite_KSCrashField_Value, address, limit);
                     break;
                 case PNLite_KSObjCClassTypeArray:
                     if (*limit > 0) {
-                        bsg_kscrw_i_writeArrayContents(
+                        pnlite_kscrw_i_writeArrayContents(
                             writer, PNLite_KSCrashField_FirstObject, address,
                             limit);
                     }
                     break;
                 case PNLite_KSObjCClassTypeNumber:
-                    bsg_kscrw_i_writeNumberContents(
+                    pnlite_kscrw_i_writeNumberContents(
                         writer, PNLite_KSCrashField_Value, address, limit);
                     break;
                 case PNLite_KSObjCClassTypeDictionary:
                 case PNLite_KSObjCClassTypeException:
                     // TODO: Implement these.
                     if (*limit > 0) {
-                        bsg_kscrw_i_writeUnknownObjectContents(
+                        pnlite_kscrw_i_writeUnknownObjectContents(
                             writer, PNLite_KSCrashField_Ivars, address, limit);
                     }
                     break;
                 case PNLite_KSObjCClassTypeUnknown:
                     if (*limit > 0) {
-                        bsg_kscrw_i_writeUnknownObjectContents(
+                        pnlite_kscrw_i_writeUnknownObjectContents(
                             writer, PNLite_KSCrashField_Ivars, address, limit);
                     }
                     break;
@@ -956,7 +956,7 @@ void bsg_kscrw_i_writeMemoryContents(
         case PNLite_KSObjCTypeBlock:
             writer->addStringElement(writer, PNLite_KSCrashField_Type,
                                      PNLite_KSCrashMemType_Block);
-            const char *className = bsg_ksobjc_objectClassName(object);
+            const char *className = pnlite_ksobjc_objectClassName(object);
             writer->addStringElement(writer, PNLite_KSCrashField_Class, className);
             break;
         }
@@ -964,13 +964,13 @@ void bsg_kscrw_i_writeMemoryContents(
     writer->endContainer(writer);
 }
 
-bool bsg_kscrw_i_isValidPointer(const uintptr_t address) {
+bool pnlite_kscrw_i_isValidPointer(const uintptr_t address) {
     if (address == (uintptr_t)NULL) {
         return false;
     }
 
-    if (bsg_ksobjc_bsg_isTaggedPointer((const void *)address)) {
-        if (!bsg_ksobjc_isValidTaggedPointer((const void *)address)) {
+    if (pnlite_ksobjc_pnlite_isTaggedPointer((const void *)address)) {
+        if (!pnlite_ksobjc_isValidTaggedPointer((const void *)address)) {
             return false;
         }
     }
@@ -987,24 +987,24 @@ bool bsg_kscrw_i_isValidPointer(const uintptr_t address) {
  *
  * @param address The memory address.
  */
-void bsg_kscrw_i_writeMemoryContentsIfNotable(
+void pnlite_kscrw_i_writeMemoryContentsIfNotable(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const uintptr_t address) {
-    if (!bsg_kscrw_i_isValidPointer(address)) {
+    if (!pnlite_kscrw_i_isValidPointer(address)) {
         return;
     }
 
     const void *object = (const void *)address;
 
-    if (bsg_ksobjc_objectType(object) == PNLite_KSObjCTypeUnknown &&
-        bsg_kszombie_className(object) == NULL &&
-        !bsg_kscrw_i_isValidString(object)) {
+    if (pnlite_ksobjc_objectType(object) == PNLite_KSObjCTypeUnknown &&
+        pnlite_kszombie_className(object) == NULL &&
+        !pnlite_kscrw_i_isValidString(object)) {
         // Nothing notable about this memory location.
         return;
     }
 
     int limit = PNLite_kDefaultMemorySearchDepth;
-    bsg_kscrw_i_writeMemoryContents(writer, key, address, &limit);
+    pnlite_kscrw_i_writeMemoryContents(writer, key, address, &limit);
 }
 
 /** Look for a hex value in a string and try to write whatever it references.
@@ -1015,17 +1015,17 @@ void bsg_kscrw_i_writeMemoryContentsIfNotable(
  *
  * @param string The string to search.
  */
-void bsg_kscrw_i_writeAddressReferencedByString(
+void pnlite_kscrw_i_writeAddressReferencedByString(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const char *string) {
     uint64_t address = 0;
     if (string == NULL ||
-        !bsg_ksstring_extractHexValue(string, strlen(string), &address)) {
+        !pnlite_ksstring_extractHexValue(string, strlen(string), &address)) {
         return;
     }
 
     int limit = PNLite_kDefaultMemorySearchDepth;
-    bsg_kscrw_i_writeMemoryContents(writer, key, (uintptr_t)address, &limit);
+    pnlite_kscrw_i_writeMemoryContents(writer, key, (uintptr_t)address, &limit);
 }
 
 #pragma mark Backtrace
@@ -1040,14 +1040,14 @@ void bsg_kscrw_i_writeAddressReferencedByString(
  *
  * @param info Information about the nearest symbols to the address.
  */
-void bsg_kscrw_i_writeBacktraceEntry(
+void pnlite_kscrw_i_writeBacktraceEntry(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const uintptr_t address, const Dl_info *const info) {
     writer->beginObject(writer, key);
     {
         if (info->dli_fname != NULL) {
             writer->addStringElement(writer, PNLite_KSCrashField_ObjectName,
-                                     bsg_ksfulastPathEntry(info->dli_fname));
+                                     pnlite_ksfulastPathEntry(info->dli_fname));
         }
         writer->addUIntegerElement(writer, PNLite_KSCrashField_ObjectAddr,
                                    (uintptr_t)info->dli_fbase);
@@ -1077,7 +1077,7 @@ void bsg_kscrw_i_writeBacktraceEntry(
  * @param skippedEntries The number of entries that were skipped before the
  *                       beginning of backtrace.
  */
-void bsg_kscrw_i_writeBacktrace(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeBacktrace(const PNLite_KSCrashReportWriter *const writer,
                                 const char *const key,
                                 const uintptr_t *const backtrace,
                                 const int backtraceLength,
@@ -1088,11 +1088,11 @@ void bsg_kscrw_i_writeBacktrace(const PNLite_KSCrashReportWriter *const writer,
         {
             if (backtraceLength > 0) {
                 Dl_info symbolicated[backtraceLength];
-                bsg_ksbt_symbolicate(backtrace, symbolicated, backtraceLength,
+                pnlite_ksbt_symbolicate(backtrace, symbolicated, backtraceLength,
                                      skippedEntries);
 
                 for (int i = 0; i < backtraceLength; i++) {
-                    bsg_kscrw_i_writeBacktraceEntry(writer, NULL, backtrace[i],
+                    pnlite_kscrw_i_writeBacktraceEntry(writer, NULL, backtrace[i],
                                                     &symbolicated[i]);
                 }
             }
@@ -1116,21 +1116,21 @@ void bsg_kscrw_i_writeBacktrace(const PNLite_KSCrashReportWriter *const writer,
  *
  * @param isStackOverflow If true, the stack has overflowed.
  */
-void bsg_kscrw_i_writeStackContents(
+void pnlite_kscrw_i_writeStackContents(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     const bool isStackOverflow) {
-    uintptr_t sp = bsg_ksmachstackPointer(machineContext);
+    uintptr_t sp = pnlite_ksmachstackPointer(machineContext);
     if ((void *)sp == NULL) {
         return;
     }
 
     uintptr_t lowAddress =
         sp + (uintptr_t)(PNLite_kStackContentsPushedDistance * (int)sizeof(sp) *
-                         bsg_ksmachstackGrowDirection() * -1);
+                         pnlite_ksmachstackGrowDirection() * -1);
     uintptr_t highAddress =
         sp + (uintptr_t)(PNLite_kStackContentsPoppedDistance * (int)sizeof(sp) *
-                         bsg_ksmachstackGrowDirection());
+                         pnlite_ksmachstackGrowDirection());
     if (highAddress < lowAddress) {
         uintptr_t tmp = lowAddress;
         lowAddress = highAddress;
@@ -1139,7 +1139,7 @@ void bsg_kscrw_i_writeStackContents(
     writer->beginObject(writer, key);
     {
         writer->addStringElement(writer, PNLite_KSCrashField_GrowDirection,
-                                 bsg_ksmachstackGrowDirection() > 0 ? "+"
+                                 pnlite_ksmachstackGrowDirection() > 0 ? "+"
                                                                     : "-");
         writer->addUIntegerElement(writer, PNLite_KSCrashField_DumpStart,
                                    lowAddress);
@@ -1150,7 +1150,7 @@ void bsg_kscrw_i_writeStackContents(
                                   isStackOverflow);
         uint8_t stackBuffer[PNLite_kStackContentsTotalDistance * sizeof(sp)];
         size_t copyLength = highAddress - lowAddress;
-        if (bsg_ksmachcopyMem((void *)lowAddress, stackBuffer, copyLength) ==
+        if (pnlite_ksmachcopyMem((void *)lowAddress, stackBuffer, copyLength) ==
             KERN_SUCCESS) {
             writer->addDataElement(writer, PNLite_KSCrashField_Contents,
                                    (void *)stackBuffer, copyLength);
@@ -1172,20 +1172,20 @@ void bsg_kscrw_i_writeStackContents(
  *
  * @param forwardDistance The distance past the end of the stack to check.
  */
-void bsg_kscrw_i_writeNotableStackContents(
+void pnlite_kscrw_i_writeNotableStackContents(
     const PNLite_KSCrashReportWriter *const writer,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext, const int backDistance,
     const int forwardDistance) {
-    uintptr_t sp = bsg_ksmachstackPointer(machineContext);
+    uintptr_t sp = pnlite_ksmachstackPointer(machineContext);
     if ((void *)sp == NULL) {
         return;
     }
 
     uintptr_t lowAddress =
         sp + (uintptr_t)(backDistance * (int)sizeof(sp) *
-                         bsg_ksmachstackGrowDirection() * -1);
+                         pnlite_ksmachstackGrowDirection() * -1);
     uintptr_t highAddress = sp + (uintptr_t)(forwardDistance * (int)sizeof(sp) *
-                                             bsg_ksmachstackGrowDirection());
+                                             pnlite_ksmachstackGrowDirection());
     if (highAddress < lowAddress) {
         uintptr_t tmp = lowAddress;
         lowAddress = highAddress;
@@ -1195,10 +1195,10 @@ void bsg_kscrw_i_writeNotableStackContents(
     char nameBuffer[40];
     for (uintptr_t address = lowAddress; address < highAddress;
          address += sizeof(address)) {
-        if (bsg_ksmachcopyMem((void *)address, &contentsAsPointer,
+        if (pnlite_ksmachcopyMem((void *)address, &contentsAsPointer,
                               sizeof(contentsAsPointer)) == KERN_SUCCESS) {
             sprintf(nameBuffer, "stack@%p", (void *)address);
-            bsg_kscrw_i_writeMemoryContentsIfNotable(writer, nameBuffer,
+            pnlite_kscrw_i_writeMemoryContentsIfNotable(writer, nameBuffer,
                                                      contentsAsPointer);
         }
     }
@@ -1214,16 +1214,16 @@ void bsg_kscrw_i_writeNotableStackContents(
  *
  * @param machineContext The context to retrieve the registers from.
  */
-void bsg_kscrw_i_writeBasicRegisters(
+void pnlite_kscrw_i_writeBasicRegisters(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     char registerNameBuff[30];
     const char *registerName;
     writer->beginObject(writer, key);
     {
-        const int numRegisters = bsg_ksmachnumRegisters();
+        const int numRegisters = pnlite_ksmachnumRegisters();
         for (int reg = 0; reg < numRegisters; reg++) {
-            registerName = bsg_ksmachregisterName(reg);
+            registerName = pnlite_ksmachregisterName(reg);
             if (registerName == NULL) {
                 snprintf(registerNameBuff, sizeof(registerNameBuff), "r%d",
                          reg);
@@ -1231,7 +1231,7 @@ void bsg_kscrw_i_writeBasicRegisters(
             }
             writer->addUIntegerElement(
                 writer, registerName,
-                bsg_ksmachregisterValue(machineContext, reg));
+                pnlite_ksmachregisterValue(machineContext, reg));
         }
     }
     writer->endContainer(writer);
@@ -1245,16 +1245,16 @@ void bsg_kscrw_i_writeBasicRegisters(
  *
  * @param machineContext The context to retrieve the registers from.
  */
-void bsg_kscrw_i_writeExceptionRegisters(
+void pnlite_kscrw_i_writeExceptionRegisters(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     char registerNameBuff[30];
     const char *registerName;
     writer->beginObject(writer, key);
     {
-        const int numRegisters = bsg_ksmachnumExceptionRegisters();
+        const int numRegisters = pnlite_ksmachnumExceptionRegisters();
         for (int reg = 0; reg < numRegisters; reg++) {
-            registerName = bsg_ksmachexceptionRegisterName(reg);
+            registerName = pnlite_ksmachexceptionRegisterName(reg);
             if (registerName == NULL) {
                 snprintf(registerNameBuff, sizeof(registerNameBuff), "r%d",
                          reg);
@@ -1262,7 +1262,7 @@ void bsg_kscrw_i_writeExceptionRegisters(
             }
             writer->addUIntegerElement(
                 writer, registerName,
-                bsg_ksmachexceptionRegisterValue(machineContext, reg));
+                pnlite_ksmachexceptionRegisterValue(machineContext, reg));
         }
     }
     writer->endContainer(writer);
@@ -1278,16 +1278,16 @@ void bsg_kscrw_i_writeExceptionRegisters(
  *
  * @param isCrashedContext If true, this context represents the crashing thread.
  */
-void bsg_kscrw_i_writeRegisters(
+void pnlite_kscrw_i_writeRegisters(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     const bool isCrashedContext) {
     writer->beginObject(writer, key);
     {
-        bsg_kscrw_i_writeBasicRegisters(writer, PNLite_KSCrashField_Basic,
+        pnlite_kscrw_i_writeBasicRegisters(writer, PNLite_KSCrashField_Basic,
                                         machineContext);
         if (isCrashedContext) {
-            bsg_kscrw_i_writeExceptionRegisters(
+            pnlite_kscrw_i_writeExceptionRegisters(
                 writer, PNLite_KSCrashField_Exception, machineContext);
         }
     }
@@ -1300,21 +1300,21 @@ void bsg_kscrw_i_writeRegisters(
  *
  * @param machineContext The context to retrieve the registers from.
  */
-void bsg_kscrw_i_writeNotableRegisters(
+void pnlite_kscrw_i_writeNotableRegisters(
     const PNLite_KSCrashReportWriter *const writer,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     char registerNameBuff[30];
     const char *registerName;
-    const int numRegisters = bsg_ksmachnumRegisters();
+    const int numRegisters = pnlite_ksmachnumRegisters();
     for (int reg = 0; reg < numRegisters; reg++) {
-        registerName = bsg_ksmachregisterName(reg);
+        registerName = pnlite_ksmachregisterName(reg);
         if (registerName == NULL) {
             snprintf(registerNameBuff, sizeof(registerNameBuff), "r%d", reg);
             registerName = registerNameBuff;
         }
-        bsg_kscrw_i_writeMemoryContentsIfNotable(
+        pnlite_kscrw_i_writeMemoryContentsIfNotable(
             writer, registerName,
-            (uintptr_t)bsg_ksmachregisterValue(machineContext, reg));
+            (uintptr_t)pnlite_ksmachregisterValue(machineContext, reg));
     }
 }
 
@@ -1328,13 +1328,13 @@ void bsg_kscrw_i_writeNotableRegisters(
  *
  * @param machineContext The context to retrieve the registers from.
  */
-void bsg_kscrw_i_writeNotableAddresses(
+void pnlite_kscrw_i_writeNotableAddresses(
     const PNLite_KSCrashReportWriter *const writer, const char *const key,
     const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     writer->beginObject(writer, key);
     {
-        bsg_kscrw_i_writeNotableRegisters(writer, machineContext);
-        bsg_kscrw_i_writeNotableStackContents(
+        pnlite_kscrw_i_writeNotableRegisters(writer, machineContext);
+        pnlite_kscrw_i_writeNotableStackContents(
             writer, machineContext, PNLite_kStackNotableSearchBackDistance,
             PNLite_kStackNotableSearchForwardDistance);
     }
@@ -1355,7 +1355,7 @@ void bsg_kscrw_i_writeNotableAddresses(
  *
  * @param writeNotableAddresses If true, write any notable addresses found.
  */
-void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
                              const char *const key,
                              const PNLite_KSCrash_SentryContext *const crash,
                              const thread_t thread, const int index,
@@ -1370,26 +1370,26 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
     int skippedEntries = 0;
 
     PNLite_STRUCT_MCONTEXT_L *machineContext =
-        bsg_kscrw_i_getMachineContext(crash, thread, &machineContextBuffer);
+        pnlite_kscrw_i_getMachineContext(crash, thread, &machineContextBuffer);
 
     uintptr_t *backtrace =
-        bsg_kscrw_i_getBacktrace(crash, thread, machineContext, backtraceBuffer,
+        pnlite_kscrw_i_getBacktrace(crash, thread, machineContext, backtraceBuffer,
                                  &backtraceLength, &skippedEntries);
 
     writer->beginObject(writer, key);
     {
         if (backtrace != NULL) {
-            bsg_kscrw_i_writeBacktrace(writer, PNLite_KSCrashField_Backtrace,
+            pnlite_kscrw_i_writeBacktrace(writer, PNLite_KSCrashField_Backtrace,
                                        backtrace, backtraceLength,
                                        skippedEntries);
         }
         if (machineContext != NULL) {
-            bsg_kscrw_i_writeRegisters(writer, PNLite_KSCrashField_Registers,
+            pnlite_kscrw_i_writeRegisters(writer, PNLite_KSCrashField_Registers,
                                        machineContext, isCrashedThread);
         }
         writer->addIntegerElement(writer, PNLite_KSCrashField_Index, index);
         if (searchThreadNames) {
-            if (bsg_ksmachgetThreadName(thread, nameBuffer,
+            if (pnlite_ksmachgetThreadName(thread, nameBuffer,
                                         sizeof(nameBuffer)) &&
                 nameBuffer[0] != 0) {
                 writer->addStringElement(writer, PNLite_KSCrashField_Name,
@@ -1397,7 +1397,7 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
             }
         }
         if (searchQueueNames) {
-            if (bsg_ksmachgetThreadQueueName(thread, nameBuffer,
+            if (pnlite_ksmachgetThreadQueueName(thread, nameBuffer,
                                              sizeof(nameBuffer)) &&
                 nameBuffer[0] != 0) {
                 writer->addStringElement(writer, PNLite_KSCrashField_DispatchQueue,
@@ -1407,12 +1407,12 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
         writer->addBooleanElement(writer, PNLite_KSCrashField_Crashed,
                                   isCrashedThread);
         writer->addBooleanElement(writer, PNLite_KSCrashField_CurrentThread,
-                                  thread == bsg_ksmachthread_self());
+                                  thread == pnlite_ksmachthread_self());
         if (isCrashedThread && machineContext != NULL) {
-            bsg_kscrw_i_writeStackContents(writer, PNLite_KSCrashField_Stack,
+            pnlite_kscrw_i_writeStackContents(writer, PNLite_KSCrashField_Stack,
                                            machineContext, skippedEntries > 0);
             if (writeNotableAddresses) {
-                bsg_kscrw_i_writeNotableAddresses(
+                pnlite_kscrw_i_writeNotableAddresses(
                     writer, PNLite_KSCrashField_NotableAddresses, machineContext);
             }
         }
@@ -1428,7 +1428,7 @@ void bsg_kscrw_i_writeThread(const PNLite_KSCrashReportWriter *const writer,
  *
  * @param crash The crash handler context.
  */
-void bsg_kscrw_i_writeAllThreads(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeAllThreads(const PNLite_KSCrashReportWriter *const writer,
                                  const char *const key,
                                  const PNLite_KSCrash_SentryContext *const crash,
                                  bool writeNotableAddresses,
@@ -1448,7 +1448,7 @@ void bsg_kscrw_i_writeAllThreads(const PNLite_KSCrashReportWriter *const writer,
     writer->beginArray(writer, key);
     {
         for (mach_msg_type_number_t i = 0; i < numThreads; i++) {
-            bsg_kscrw_i_writeThread(writer, NULL, crash, threads[i], (int)i,
+            pnlite_kscrw_i_writeThread(writer, NULL, crash, threads[i], (int)i,
                                     writeNotableAddresses, searchThreadNames,
                                     searchQueueNames);
         }
@@ -1469,7 +1469,7 @@ void bsg_kscrw_i_writeAllThreads(const PNLite_KSCrashReportWriter *const writer,
  *
  * @return The thread's index, or -1 if it couldn't be determined.
  */
-int bsg_kscrw_i_threadIndex(const thread_t thread) {
+int pnlite_kscrw_i_threadIndex(const thread_t thread) {
     int index = -1;
     const task_t thisTask = mach_task_self();
     thread_act_array_t threads;
@@ -1508,14 +1508,14 @@ int bsg_kscrw_i_threadIndex(const thread_t thread) {
  *
  * @param index Which image to write about.
  */
-void bsg_kscrw_i_writeBinaryImage(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeBinaryImage(const PNLite_KSCrashReportWriter *const writer,
                                   const char *const key, const uint32_t index) {
     const struct mach_header *header = _dyld_get_image_header(index);
     if (header == NULL) {
         return;
     }
 
-    uintptr_t cmdPtr = bsg_ksdlfirstCmdAfterHeader(header);
+    uintptr_t cmdPtr = pnlite_ksdlfirstCmdAfterHeader(header);
     if (cmdPtr == 0) {
         return;
     }
@@ -1580,14 +1580,14 @@ void bsg_kscrw_i_writeBinaryImage(const PNLite_KSCrashReportWriter *const writer
  *
  * @param key The object key, if needed.
  */
-void bsg_kscrw_i_writeBinaryImages(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeBinaryImages(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const key) {
     const uint32_t imageCount = _dyld_image_count();
 
     writer->beginArray(writer, key);
     {
         for (uint32_t iImg = 0; iImg < imageCount; iImg++) {
-            bsg_kscrw_i_writeBinaryImage(writer, NULL, iImg);
+            pnlite_kscrw_i_writeBinaryImage(writer, NULL, iImg);
         }
     }
     writer->endContainer(writer);
@@ -1599,14 +1599,14 @@ void bsg_kscrw_i_writeBinaryImages(const PNLite_KSCrashReportWriter *const write
  *
  * @param key The object key, if needed.
  */
-void bsg_kscrw_i_writeMemoryInfo(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeMemoryInfo(const PNLite_KSCrashReportWriter *const writer,
                                  const char *const key) {
     writer->beginObject(writer, key);
     {
         writer->addUIntegerElement(writer, PNLite_KSCrashField_Usable,
-                                   bsg_ksmachusableMemory());
+                                   pnlite_ksmachusableMemory());
         writer->addUIntegerElement(writer, PNLite_KSCrashField_Free,
-                                   bsg_ksmachfreeMemory());
+                                   pnlite_ksmachfreeMemory());
     }
     writer->endContainer(writer);
 }
@@ -1619,7 +1619,7 @@ void bsg_kscrw_i_writeMemoryInfo(const PNLite_KSCrashReportWriter *const writer,
  *
  * @param crash The crash handler context.
  */
-void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
                             const char *const key,
                             const PNLite_KSCrash_SentryContext *const crash) {
     int machExceptionType = 0;
@@ -1646,7 +1646,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
         machSubCode = (kern_return_t)crash->mach.subcode;
 
         sigNum =
-            bsg_kssignal_signalForMachException(machExceptionType, machCode);
+            pnlite_kssignal_signalForMachException(machExceptionType, machCode);
         break;
     case PNLite_KSCrashTypeCPPException:
         machExceptionType = EXC_CRASH;
@@ -1663,7 +1663,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
     case PNLite_KSCrashTypeSignal:
         sigNum = crash->signal.signalInfo->si_signo;
         sigCode = crash->signal.signalInfo->si_code;
-        machExceptionType = bsg_kssignal_machExceptionForSignal(sigNum);
+        machExceptionType = pnlite_kssignal_machExceptionForSignal(sigNum);
         break;
     case PNLite_KSCrashTypeUserReported:
         machExceptionType = EXC_CRASH;
@@ -1672,11 +1672,11 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
         break;
     }
 
-    const char *machExceptionName = bsg_ksmachexceptionName(machExceptionType);
+    const char *machExceptionName = pnlite_ksmachexceptionName(machExceptionType);
     const char *machCodeName =
-        machCode == 0 ? NULL : bsg_ksmachkernelReturnCodeName(machCode);
-    const char *sigName = bsg_kssignal_signalName(sigNum);
-    const char *sigCodeName = bsg_kssignal_signalCodeName(sigNum, sigCode);
+        machCode == 0 ? NULL : pnlite_ksmachkernelReturnCodeName(machCode);
+    const char *sigName = pnlite_kssignal_signalName(sigNum);
+    const char *sigCodeName = pnlite_kssignal_signalCodeName(sigNum, sigCode);
 
     writer->beginObject(writer, key);
     {
@@ -1740,7 +1740,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
             {
                 writer->addStringElement(writer, PNLite_KSCrashField_Name,
                                          exceptionName);
-                bsg_kscrw_i_writeAddressReferencedByString(
+                pnlite_kscrw_i_writeAddressReferencedByString(
                     writer, PNLite_KSCrashField_ReferencedObject, crashReason);
             }
             writer->endContainer(writer);
@@ -1805,7 +1805,7 @@ void bsg_kscrw_i_writeError(const PNLite_KSCrashReportWriter *const writer,
  *
  * @param state The persistent crash handler state.
  */
-void bsg_kscrw_i_writeAppStats(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeAppStats(const PNLite_KSCrashReportWriter *const writer,
                                const char *const key,
                                PNLite_KSCrash_State *state) {
     writer->beginObject(writer, key);
@@ -1844,11 +1844,11 @@ void bsg_kscrw_i_writeAppStats(const PNLite_KSCrashReportWriter *const writer,
  *
  * @param key The object key, if needed.
  */
-void bsg_kscrw_i_writeProcessState(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeProcessState(const PNLite_KSCrashReportWriter *const writer,
                                    const char *const key) {
     writer->beginObject(writer, key);
     {
-        const void *excAddress = bsg_kszombie_lastDeallocedNSExceptionAddress();
+        const void *excAddress = pnlite_kszombie_lastDeallocedNSExceptionAddress();
         if (excAddress != NULL) {
             writer->beginObject(writer,
                                 PNLite_KSCrashField_LastDeallocedNSException);
@@ -1857,13 +1857,13 @@ void bsg_kscrw_i_writeProcessState(const PNLite_KSCrashReportWriter *const write
                                            (uintptr_t)excAddress);
                 writer->addStringElement(
                     writer, PNLite_KSCrashField_Name,
-                    bsg_kszombie_lastDeallocedNSExceptionName());
+                    pnlite_kszombie_lastDeallocedNSExceptionName());
                 writer->addStringElement(
                     writer, PNLite_KSCrashField_Reason,
-                    bsg_kszombie_lastDeallocedNSExceptionReason());
-                bsg_kscrw_i_writeAddressReferencedByString(
+                    pnlite_kszombie_lastDeallocedNSExceptionReason());
+                pnlite_kscrw_i_writeAddressReferencedByString(
                     writer, PNLite_KSCrashField_ReferencedObject,
-                    bsg_kszombie_lastDeallocedNSExceptionReason());
+                    pnlite_kszombie_lastDeallocedNSExceptionReason());
             }
             writer->endContainer(writer);
         }
@@ -1881,7 +1881,7 @@ void bsg_kscrw_i_writeProcessState(const PNLite_KSCrashReportWriter *const write
  *
  * @param reportID The report ID.
  */
-void bsg_kscrw_i_writeReportInfo(const PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_writeReportInfo(const PNLite_KSCrashReportWriter *const writer,
                                  const char *const key, const char *const type,
                                  const char *const reportID,
                                  const char *const processName) {
@@ -1907,24 +1907,24 @@ void bsg_kscrw_i_writeReportInfo(const PNLite_KSCrashReportWriter *const writer,
  *
  * @param context JSON writer contextual information.
  */
-void bsg_kscrw_i_prepareReportWriter(PNLite_KSCrashReportWriter *const writer,
+void pnlite_kscrw_i_prepareReportWriter(PNLite_KSCrashReportWriter *const writer,
                                      PNLite_KSJSONEncodeContext *const context) {
-    writer->addBooleanElement = bsg_kscrw_i_addBooleanElement;
-    writer->addFloatingPointElement = bsg_kscrw_i_addFloatingPointElement;
-    writer->addIntegerElement = bsg_kscrw_i_addIntegerElement;
-    writer->addUIntegerElement = bsg_kscrw_i_addUIntegerElement;
-    writer->addStringElement = bsg_kscrw_i_addStringElement;
-    writer->addTextFileElement = bsg_kscrw_i_addTextFileElement;
-    writer->addJSONFileElement = bsg_kscrw_i_addJSONElementFromFile;
-    writer->addDataElement = bsg_kscrw_i_addDataElement;
-    writer->beginDataElement = bsg_kscrw_i_beginDataElement;
-    writer->appendDataElement = bsg_kscrw_i_appendDataElement;
-    writer->endDataElement = bsg_kscrw_i_endDataElement;
-    writer->addUUIDElement = bsg_kscrw_i_addUUIDElement;
-    writer->addJSONElement = bsg_kscrw_i_addJSONElement;
-    writer->beginObject = bsg_kscrw_i_beginObject;
-    writer->beginArray = bsg_kscrw_i_beginArray;
-    writer->endContainer = bsg_kscrw_i_endContainer;
+    writer->addBooleanElement = pnlite_kscrw_i_addBooleanElement;
+    writer->addFloatingPointElement = pnlite_kscrw_i_addFloatingPointElement;
+    writer->addIntegerElement = pnlite_kscrw_i_addIntegerElement;
+    writer->addUIntegerElement = pnlite_kscrw_i_addUIntegerElement;
+    writer->addStringElement = pnlite_kscrw_i_addStringElement;
+    writer->addTextFileElement = pnlite_kscrw_i_addTextFileElement;
+    writer->addJSONFileElement = pnlite_kscrw_i_addJSONElementFromFile;
+    writer->addDataElement = pnlite_kscrw_i_addDataElement;
+    writer->beginDataElement = pnlite_kscrw_i_beginDataElement;
+    writer->appendDataElement = pnlite_kscrw_i_appendDataElement;
+    writer->endDataElement = pnlite_kscrw_i_endDataElement;
+    writer->addUUIDElement = pnlite_kscrw_i_addUUIDElement;
+    writer->addJSONElement = pnlite_kscrw_i_addJSONElement;
+    writer->beginObject = pnlite_kscrw_i_beginObject;
+    writer->beginArray = pnlite_kscrw_i_beginArray;
+    writer->endContainer = pnlite_kscrw_i_endContainer;
     writer->context = context;
 }
 
@@ -1934,7 +1934,7 @@ void bsg_kscrw_i_prepareReportWriter(PNLite_KSCrashReportWriter *const writer,
  *
  * @return The file descriptor, or -1 if an error occurred.
  */
-int bsg_kscrw_i_openCrashReportFile(const char *const path) {
+int pnlite_kscrw_i_openCrashReportFile(const char *const path) {
     int fd = open(path, O_RDWR | O_CREAT | O_EXCL, 0644);
     if (fd < 0) {
         PNLite_KSLOG_ERROR("Could not open crash report file %s: %s", path,
@@ -1947,17 +1947,17 @@ int bsg_kscrw_i_openCrashReportFile(const char *const path) {
  *
  * @param crashContext the context.
  */
-void bsg_kscrw_i_updateStackOverflowStatus(
+void pnlite_kscrw_i_updateStackOverflowStatus(
     PNLite_KSCrash_Context *const crashContext) {
     // TODO: This feels weird. Shouldn't be mutating the context.
-    if (bsg_kscrw_i_isStackOverflow(&crashContext->crash,
+    if (pnlite_kscrw_i_isStackOverflow(&crashContext->crash,
                                     crashContext->crash.offendingThread)) {
         PNLite_KSLOG_TRACE("Stack overflow detected.");
         crashContext->crash.isStackOverflow = true;
     }
 }
 
-void bsg_kscrw_i_callUserCrashHandler(PNLite_KSCrash_Context *const crashContext,
+void pnlite_kscrw_i_callUserCrashHandler(PNLite_KSCrash_Context *const crashContext,
                                       PNLite_KSCrashReportWriter *writer) {
     crashContext->config.onCrashNotify(writer);
 }
@@ -1966,78 +1966,78 @@ void bsg_kscrw_i_callUserCrashHandler(PNLite_KSCrash_Context *const crashContext
 #pragma mark - Main API -
 // ============================================================================
 
-void bsg_kscrashreport_writeMinimalReport(
+void pnlite_kscrashreport_writeMinimalReport(
     PNLite_KSCrash_Context *const crashContext, const char *const path) {
     PNLite_KSLOG_INFO("Writing minimal crash report to %s", path);
 
-    int fd = bsg_kscrw_i_openCrashReportFile(path);
+    int fd = pnlite_kscrw_i_openCrashReportFile(path);
     if (fd < 0) {
         return;
     }
 
     pnlite_g_introspectionRules = &crashContext->config.introspectionRules;
 
-    bsg_kscrw_i_updateStackOverflowStatus(crashContext);
+    pnlite_kscrw_i_updateStackOverflowStatus(crashContext);
 
     PNLite_KSJSONEncodeContext jsonContext;
     jsonContext.userData = &fd;
     PNLite_KSCrashReportWriter concreteWriter;
     PNLite_KSCrashReportWriter *writer = &concreteWriter;
-    bsg_kscrw_i_prepareReportWriter(writer, &jsonContext);
+    pnlite_kscrw_i_prepareReportWriter(writer, &jsonContext);
 
-    bsg_ksjsonbeginEncode(pnlite_getJsonContext(writer), true,
-                          bsg_kscrw_i_addJSONData, &fd);
+    pnlite_ksjsonbeginEncode(pnlite_getJsonContext(writer), true,
+                          pnlite_kscrw_i_addJSONData, &fd);
 
     writer->beginObject(writer, PNLite_KSCrashField_Report);
     {
-        bsg_kscrw_i_writeReportInfo(
+        pnlite_kscrw_i_writeReportInfo(
             writer, PNLite_KSCrashField_Report, PNLite_KSCrashReportType_Minimal,
             crashContext->config.crashID, crashContext->config.processName);
 
         writer->beginObject(writer, PNLite_KSCrashField_Crash);
         {
-            bsg_kscrw_i_writeThread(
+            pnlite_kscrw_i_writeThread(
                 writer, PNLite_KSCrashField_CrashedThread, &crashContext->crash,
                 crashContext->crash.offendingThread,
-                bsg_kscrw_i_threadIndex(crashContext->crash.offendingThread),
+                pnlite_kscrw_i_threadIndex(crashContext->crash.offendingThread),
                 false, false, false);
-            bsg_kscrw_i_writeError(writer, PNLite_KSCrashField_Error,
+            pnlite_kscrw_i_writeError(writer, PNLite_KSCrashField_Error,
                                    &crashContext->crash);
         }
         writer->endContainer(writer);
     }
     writer->endContainer(writer);
 
-    bsg_ksjsonendEncode(pnlite_getJsonContext(writer));
+    pnlite_ksjsonendEncode(pnlite_getJsonContext(writer));
 
     close(fd);
 }
 
-void bsg_kscrashreport_writeStandardReport(
+void pnlite_kscrashreport_writeStandardReport(
     PNLite_KSCrash_Context *const crashContext, const char *const path) {
     PNLite_KSLOG_INFO("Writing crash report to %s", path);
 
-    int fd = bsg_kscrw_i_openCrashReportFile(path);
+    int fd = pnlite_kscrw_i_openCrashReportFile(path);
     if (fd < 0) {
         return;
     }
 
     pnlite_g_introspectionRules = &crashContext->config.introspectionRules;
 
-    bsg_kscrw_i_updateStackOverflowStatus(crashContext);
+    pnlite_kscrw_i_updateStackOverflowStatus(crashContext);
 
     PNLite_KSJSONEncodeContext jsonContext;
     jsonContext.userData = &fd;
     PNLite_KSCrashReportWriter concreteWriter;
     PNLite_KSCrashReportWriter *writer = &concreteWriter;
-    bsg_kscrw_i_prepareReportWriter(writer, &jsonContext);
+    pnlite_kscrw_i_prepareReportWriter(writer, &jsonContext);
 
-    bsg_ksjsonbeginEncode(pnlite_getJsonContext(writer), true,
-                          bsg_kscrw_i_addJSONData, &fd);
+    pnlite_ksjsonbeginEncode(pnlite_getJsonContext(writer), true,
+                          pnlite_kscrw_i_addJSONData, &fd);
 
     writer->beginObject(writer, PNLite_KSCrashField_Report);
     {
-        bsg_kscrw_i_writeReportInfo(
+        pnlite_kscrw_i_writeReportInfo(
             writer, PNLite_KSCrashField_Report, PNLite_KSCrashReportType_Standard,
             crashContext->config.crashID, crashContext->config.processName);
 
@@ -2045,27 +2045,27 @@ void bsg_kscrashreport_writeStandardReport(
         // performance
         if (crashContext->crash.writeBinaryImagesForUserReported == true ||
             crashContext->crash.crashType != PNLite_KSCrashTypeUserReported) {
-            bsg_kscrw_i_writeBinaryImages(writer,
+            pnlite_kscrw_i_writeBinaryImages(writer,
                                           PNLite_KSCrashField_BinaryImages);
         }
 
-        bsg_kscrw_i_writeProcessState(writer, PNLite_KSCrashField_ProcessState);
+        pnlite_kscrw_i_writeProcessState(writer, PNLite_KSCrashField_ProcessState);
 
         if (crashContext->config.systemInfoJSON != NULL) {
-            bsg_kscrw_i_addJSONElement(writer, PNLite_KSCrashField_System,
+            pnlite_kscrw_i_addJSONElement(writer, PNLite_KSCrashField_System,
                                        crashContext->config.systemInfoJSON);
         }
 
         writer->beginObject(writer, PNLite_KSCrashField_SystemAtCrash);
         {
-            bsg_kscrw_i_writeMemoryInfo(writer, PNLite_KSCrashField_Memory);
-            bsg_kscrw_i_writeAppStats(writer, PNLite_KSCrashField_AppStats,
+            pnlite_kscrw_i_writeMemoryInfo(writer, PNLite_KSCrashField_Memory);
+            pnlite_kscrw_i_writeAppStats(writer, PNLite_KSCrashField_AppStats,
                                       &crashContext->state);
         }
         writer->endContainer(writer);
 
         if (crashContext->config.userInfoJSON != NULL) {
-            bsg_kscrw_i_addJSONElement(writer, PNLite_KSCrashField_User,
+            pnlite_kscrw_i_addJSONElement(writer, PNLite_KSCrashField_User,
                                        crashContext->config.userInfoJSON);
         }
 
@@ -2075,35 +2075,35 @@ void bsg_kscrashreport_writeStandardReport(
             // performance
             if (crashContext->crash.threadTracingEnabled == true ||
                 crashContext->crash.crashType != PNLite_KSCrashTypeUserReported) {
-                bsg_kscrw_i_writeAllThreads(
+                pnlite_kscrw_i_writeAllThreads(
                     writer, PNLite_KSCrashField_Threads, &crashContext->crash,
                     crashContext->config.introspectionRules.enabled,
                     crashContext->config.searchThreadNames,
                     crashContext->config.searchQueueNames);
             }
-            bsg_kscrw_i_writeError(writer, PNLite_KSCrashField_Error,
+            pnlite_kscrw_i_writeError(writer, PNLite_KSCrashField_Error,
                     &crashContext->crash);
         }
         writer->endContainer(writer);
 
         if (crashContext->config.onCrashNotify != NULL) {
             writer->beginObject(writer, PNLite_KSCrashField_UserAtCrash);
-            { bsg_kscrw_i_callUserCrashHandler(crashContext, writer); }
+            { pnlite_kscrw_i_callUserCrashHandler(crashContext, writer); }
             writer->endContainer(writer);
         }
     }
     writer->endContainer(writer);
 
-    bsg_ksjsonendEncode(pnlite_getJsonContext(writer));
+    pnlite_ksjsonendEncode(pnlite_getJsonContext(writer));
 
-    if (!bsg_ksfuflushWriteBuffer(fd)) {
+    if (!pnlite_ksfuflushWriteBuffer(fd)) {
         PNLite_KSLOG_ERROR("Failed to flush write buffer");
     }
     close(fd);
 }
 
-void bsg_kscrashreport_logCrash(const PNLite_KSCrash_Context *const crashContext) {
+void pnlite_kscrashreport_logCrash(const PNLite_KSCrash_Context *const crashContext) {
     const PNLite_KSCrash_SentryContext *crash = &crashContext->crash;
-    bsg_kscrw_i_logCrashType(crash);
-    bsg_kscrw_i_logCrashThreadBacktrace(&crashContext->crash);
+    pnlite_kscrw_i_logCrashType(crash);
+    pnlite_kscrw_i_logCrashThreadBacktrace(&crashContext->crash);
 }

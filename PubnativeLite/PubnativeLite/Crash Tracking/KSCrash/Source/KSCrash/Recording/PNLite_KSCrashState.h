@@ -89,32 +89,32 @@ typedef struct {
  *
  * @return true if initialization was successful.
  */
-bool bsg_kscrashstate_init(const char *stateFilePath, PNLite_KSCrash_State *state);
+bool pnlite_kscrashstate_init(const char *stateFilePath, PNLite_KSCrash_State *state);
 
 /** Notify the crash reporter of the application active state.
  *
  * @param isActive true if the application is active, otherwise false.
  */
-void bsg_kscrashstate_notifyAppActive(bool isActive);
+void pnlite_kscrashstate_notifyAppActive(bool isActive);
 
 /** Notify the crash reporter of the application foreground/background state.
  *
  * @param isInForeground true if the application is in the foreground, false if
  *                 it is in the background.
  */
-void bsg_kscrashstate_notifyAppInForeground(bool isInForeground);
+void pnlite_kscrashstate_notifyAppInForeground(bool isInForeground);
 
 /** Notify the crash reporter that the application is terminating.
  */
-void bsg_kscrashstate_notifyAppTerminate(void);
+void pnlite_kscrashstate_notifyAppTerminate(void);
 
 /** Notify the crash reporter that the application has crashed.
  */
-void bsg_kscrashstate_notifyAppCrash(void);
+void pnlite_kscrashstate_notifyAppCrash(void);
 
 /** Read-only access into the current state.
  */
-const PNLite_KSCrash_State *const bsg_kscrashstate_currentState(void);
+const PNLite_KSCrash_State *const pnlite_kscrashstate_currentState(void);
 
 #ifdef __cplusplus
 }

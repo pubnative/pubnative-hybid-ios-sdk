@@ -182,67 +182,67 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
     }
 
     _userInfo = userInfo;
-    bsg_kscrash_setUserInfoJSON([userInfoJSON bytes]);
+    pnlite_kscrash_setUserInfoJSON([userInfoJSON bytes]);
 }
 
 - (void)setHandlingCrashTypes:(PNLite_KSCrashType)handlingCrashTypes {
-    _handlingCrashTypes = bsg_kscrash_setHandlingCrashTypes(handlingCrashTypes);
+    _handlingCrashTypes = pnlite_kscrash_setHandlingCrashTypes(handlingCrashTypes);
 }
 
 - (void)setDeadlockWatchdogInterval:(double)deadlockWatchdogInterval {
     _deadlockWatchdogInterval = deadlockWatchdogInterval;
-    bsg_kscrash_setDeadlockWatchdogInterval(deadlockWatchdogInterval);
+    pnlite_kscrash_setDeadlockWatchdogInterval(deadlockWatchdogInterval);
 }
 
 - (void)setPrintTraceToStdout:(bool)printTraceToStdout {
     _printTraceToStdout = printTraceToStdout;
-    bsg_kscrash_setPrintTraceToStdout(printTraceToStdout);
+    pnlite_kscrash_setPrintTraceToStdout(printTraceToStdout);
 }
 
 - (void)setOnCrash:(PNLite_KSReportWriteCallback)onCrash {
     _onCrash = onCrash;
-    bsg_kscrash_setCrashNotifyCallback(onCrash);
+    pnlite_kscrash_setCrashNotifyCallback(onCrash);
 }
 
 - (void)setSearchThreadNames:(bool)searchThreadNames {
     _searchThreadNames = searchThreadNames;
-    bsg_kscrash_setSearchThreadNames(searchThreadNames);
+    pnlite_kscrash_setSearchThreadNames(searchThreadNames);
 }
 
 - (void)setSearchQueueNames:(bool)searchQueueNames {
     _searchQueueNames = searchQueueNames;
-    bsg_kscrash_setSearchQueueNames(searchQueueNames);
+    pnlite_kscrash_setSearchQueueNames(searchQueueNames);
 }
 
 - (void)setIntrospectMemory:(bool)introspectMemory {
     _introspectMemory = introspectMemory;
-    bsg_kscrash_setIntrospectMemory(introspectMemory);
+    pnlite_kscrash_setIntrospectMemory(introspectMemory);
 }
 
 - (void)setCatchZombies:(bool)catchZombies {
     _catchZombies = catchZombies;
-    bsg_kscrash_setCatchZombies(catchZombies);
+    pnlite_kscrash_setCatchZombies(catchZombies);
 }
 
 - (void)setSuspendThreadsForUserReported:(BOOL)suspendThreadsForUserReported {
     _suspendThreadsForUserReported = suspendThreadsForUserReported;
-    bsg_kscrash_setSuspendThreadsForUserReported(suspendThreadsForUserReported);
+    pnlite_kscrash_setSuspendThreadsForUserReported(suspendThreadsForUserReported);
 }
 
 - (void)setReportWhenDebuggerIsAttached:(BOOL)reportWhenDebuggerIsAttached {
     _reportWhenDebuggerIsAttached = reportWhenDebuggerIsAttached;
-    bsg_kscrash_setReportWhenDebuggerIsAttached(reportWhenDebuggerIsAttached);
+    pnlite_kscrash_setReportWhenDebuggerIsAttached(reportWhenDebuggerIsAttached);
 }
 
 - (void)setThreadTracingEnabled:(BOOL)threadTracingEnabled {
     _threadTracingEnabled = threadTracingEnabled;
-    bsg_kscrash_setThreadTracingEnabled(threadTracingEnabled);
+    pnlite_kscrash_setThreadTracingEnabled(threadTracingEnabled);
 }
 
 - (void)setWriteBinaryImagesForUserReported:
     (BOOL)writeBinaryImagesForUserReported {
     _writeBinaryImagesForUserReported = writeBinaryImagesForUserReported;
-    bsg_kscrash_setWriteBinaryImagesForUserReported(
+    pnlite_kscrash_setWriteBinaryImagesForUserReported(
         writeBinaryImagesForUserReported);
 }
 
@@ -250,7 +250,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
     _doNotIntrospectClasses = doNotIntrospectClasses;
     size_t count = [doNotIntrospectClasses count];
     if (count == 0) {
-        bsg_kscrash_setDoNotIntrospectClasses(nil, 0);
+        pnlite_kscrash_setDoNotIntrospectClasses(nil, 0);
     } else {
         NSMutableData *data =
             [NSMutableData dataWithLength:count * sizeof(const char *)];
@@ -259,7 +259,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
             classes[i] = [doNotIntrospectClasses[i]
                 cStringUsingEncoding:NSUTF8StringEncoding];
         }
-        bsg_kscrash_setDoNotIntrospectClasses(classes, count);
+        pnlite_kscrash_setDoNotIntrospectClasses(classes, count);
     }
 }
 
@@ -279,7 +279,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
 }
 
 - (BOOL)install {
-    _handlingCrashTypes = bsg_kscrash_install(
+    _handlingCrashTypes = pnlite_kscrash_install(
         [self.crashReportPath UTF8String], [self.recrashReportPath UTF8String],
         [self.stateFilePath UTF8String], [self.nextCrashID UTF8String]);
     if (self.handlingCrashTypes == 0) {
@@ -333,7 +333,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
                self.deleteBehaviorAfterSendAll == PNLite_KSCDeleteAlways) {
                [self deleteAllReports];
            }
-           bsg_kscrash_i_callCompletion(onCompletion, filteredReports,
+           pnlite_kscrash_i_callCompletion(onCompletion, filteredReports,
                                         completed, error);
          }];
 }
@@ -366,15 +366,15 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
     const char *cStackTrace =
         [jsonString cStringUsingEncoding:NSUTF8StringEncoding];
 
-    bsg_kscrash_reportUserException(cName, cReason, cLanguage, cLineOfCode,
+    pnlite_kscrash_reportUserException(cName, cReason, cLanguage, cLineOfCode,
                                     cStackTrace, terminateProgram);
 
-    // If bsg_kscrash_reportUserException() returns, we did not terminate.
+    // If pnlite_kscrash_reportUserException() returns, we did not terminate.
     // Set up IDs and paths for the next crash.
 
     self.nextCrashID = [NSUUID UUID].UUIDString;
 
-    bsg_kscrash_reinstall(
+    pnlite_kscrash_reinstall(
         [self.crashReportPath UTF8String], [self.recrashReportPath UTF8String],
         [self.stateFilePath UTF8String], [self.nextCrashID UTF8String]);
 }
@@ -385,7 +385,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(PNLite_KSCrash)
 
 #define PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(TYPE, NAME)                        \
     -(TYPE)NAME {                                                              \
-        return bsg_kscrashstate_currentState()->NAME;                          \
+        return pnlite_kscrashstate_currentState()->NAME;                          \
     }
 
 PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(NSTimeInterval,
@@ -411,14 +411,14 @@ PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 - (void)sendReports:(NSArray *)reports
        onCompletion:(PNLite_KSCrashReportFilterCompletion)onCompletion {
     if ([reports count] == 0) {
-        bsg_kscrash_i_callCompletion(onCompletion, reports, YES, nil);
+        pnlite_kscrash_i_callCompletion(onCompletion, reports, YES, nil);
         return;
     }
 
     if (self.sink == nil) {
-        bsg_kscrash_i_callCompletion(
+        pnlite_kscrash_i_callCompletion(
             onCompletion, reports, NO,
-            [NSError bsg_errorWithDomain:[[self class] description]
+            [NSError pnlite_errorWithDomain:[[self class] description]
                                     code:0
                              description:@"No sink set. Crash reports not sent."]);
         return;
@@ -427,7 +427,7 @@ PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
     [self.sink filterReports:reports
                 onCompletion:^(NSArray *filteredReports, BOOL completed,
                                NSError *error) {
-                  bsg_kscrash_i_callCompletion(onCompletion, filteredReports,
+                  pnlite_kscrash_i_callCompletion(onCompletion, filteredReports,
                                                completed, error);
                 }];
 }
@@ -438,7 +438,7 @@ PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 
 - (BOOL)redirectConsoleLogsToFile:(NSString *)fullPath
                         overwrite:(BOOL)overwrite {
-    if (bsg_kslog_setLogFilename([fullPath UTF8String], overwrite)) {
+    if (pnlite_kslog_setLogFilename([fullPath UTF8String], overwrite)) {
         self.logFilePath = fullPath;
         return YES;
     }
@@ -476,23 +476,23 @@ PNLite_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 // ============================================================================
 
 - (void)applicationDidBecomeActive {
-    bsg_kscrashstate_notifyAppActive(true);
+    pnlite_kscrashstate_notifyAppActive(true);
 }
 
 - (void)applicationWillResignActive {
-    bsg_kscrashstate_notifyAppActive(false);
+    pnlite_kscrashstate_notifyAppActive(false);
 }
 
 - (void)applicationDidEnterBackground {
-    bsg_kscrashstate_notifyAppInForeground(false);
+    pnlite_kscrashstate_notifyAppInForeground(false);
 }
 
 - (void)applicationWillEnterForeground {
-    bsg_kscrashstate_notifyAppInForeground(true);
+    pnlite_kscrashstate_notifyAppInForeground(true);
 }
 
 - (void)applicationWillTerminate {
-    bsg_kscrashstate_notifyAppTerminate();
+    pnlite_kscrashstate_notifyAppTerminate();
 }
 
 @end

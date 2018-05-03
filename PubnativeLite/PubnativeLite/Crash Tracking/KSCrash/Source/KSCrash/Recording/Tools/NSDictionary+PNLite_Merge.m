@@ -24,7 +24,7 @@
 
 @implementation NSDictionary (PNLite_Merge)
 
-- (NSDictionary *)bsg_mergedInto:(NSDictionary *)dest {
+- (NSDictionary *)pnlite_mergedInto:(NSDictionary *)dest {
     if ([dest count] == 0) {
         return self;
     }
@@ -38,7 +38,7 @@
         id dstEntry = dest[key];
         if ([dstEntry isKindOfClass:[NSDictionary class]] &&
             [srcEntry isKindOfClass:[NSDictionary class]]) {
-            srcEntry = [srcEntry bsg_mergedInto:dstEntry];
+            srcEntry = [srcEntry pnlite_mergedInto:dstEntry];
         }
         dict[key] = srcEntry;
     }

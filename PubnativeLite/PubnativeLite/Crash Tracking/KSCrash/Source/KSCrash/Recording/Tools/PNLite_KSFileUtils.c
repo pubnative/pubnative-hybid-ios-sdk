@@ -44,7 +44,7 @@
 char charBuffer[BUFFER_SIZE];
 ssize_t bufferLen = 0;
 
-const char *bsg_ksfulastPathEntry(const char *const path) {
+const char *pnlite_ksfulastPathEntry(const char *const path) {
     if (path == NULL) {
         return NULL;
     }
@@ -53,7 +53,7 @@ const char *bsg_ksfulastPathEntry(const char *const path) {
     return lastFile == NULL ? path : lastFile + 1;
 }
 
-bool bsg_ksfuflushWriteBuffer(const int fd) {
+bool pnlite_ksfuflushWriteBuffer(const int fd) {
     const char *pos = charBuffer;
     while (bufferLen > 0) {
         ssize_t bytesWritten = write(fd, pos, (size_t)bufferLen);
@@ -68,12 +68,12 @@ bool bsg_ksfuflushWriteBuffer(const int fd) {
     return true;
 }
 
-bool bsg_ksfuwriteBytesToFD(const int fd, const char *const bytes,
+bool pnlite_ksfuwriteBytesToFD(const int fd, const char *const bytes,
                             ssize_t length) {
 
     for (ssize_t k = 0; k < length; k++) {
         if (bufferLen >= BUFFER_SIZE) {
-            if (!bsg_ksfuflushWriteBuffer(fd)) {
+            if (!pnlite_ksfuflushWriteBuffer(fd)) {
                 return false;
             }
         }
@@ -83,7 +83,7 @@ bool bsg_ksfuwriteBytesToFD(const int fd, const char *const bytes,
     return true;
 }
 
-bool bsg_ksfureadBytesFromFD(const int fd, char *const bytes, ssize_t length) {
+bool pnlite_ksfureadBytesFromFD(const int fd, char *const bytes, ssize_t length) {
     char *pos = bytes;
     while (length > 0) {
         ssize_t bytesRead = read(fd, pos, (size_t)length);
@@ -98,7 +98,7 @@ bool bsg_ksfureadBytesFromFD(const int fd, char *const bytes, ssize_t length) {
     return true;
 }
 
-bool bsg_ksfureadEntireFile(const char *const path, char **data,
+bool pnlite_ksfureadEntireFile(const char *const path, char **data,
                             size_t *length) {
     struct stat st;
     if (stat(path, &st) < 0) {
@@ -119,7 +119,7 @@ bool bsg_ksfureadEntireFile(const char *const path, char **data,
         goto failed;
     }
 
-    if (!bsg_ksfureadBytesFromFD(fd, mem, (ssize_t)st.st_size)) {
+    if (!pnlite_ksfureadBytesFromFD(fd, mem, (ssize_t)st.st_size)) {
         goto failed;
     }
 
@@ -136,7 +136,7 @@ failed:
     return false;
 }
 
-bool bsg_ksfuwriteStringToFD(const int fd, const char *const string) {
+bool pnlite_ksfuwriteStringToFD(const int fd, const char *const string) {
     if (*string != 0) {
         size_t bytesToWrite = strlen(string);
         const char *pos = string;
@@ -155,28 +155,28 @@ bool bsg_ksfuwriteStringToFD(const int fd, const char *const string) {
     return false;
 }
 
-bool bsg_ksfuwriteFmtToFD(const int fd, const char *const fmt, ...) {
+bool pnlite_ksfuwriteFmtToFD(const int fd, const char *const fmt, ...) {
     if (*fmt != 0) {
         va_list args;
         va_start(args, fmt);
-        bool result = bsg_ksfuwriteFmtArgsToFD(fd, fmt, args);
+        bool result = pnlite_ksfuwriteFmtArgsToFD(fd, fmt, args);
         va_end(args);
         return result;
     }
     return false;
 }
 
-bool bsg_ksfuwriteFmtArgsToFD(const int fd, const char *const fmt,
+bool pnlite_ksfuwriteFmtArgsToFD(const int fd, const char *const fmt,
                               va_list args) {
     if (*fmt != 0) {
         char buffer[PNLite_KSFU_WriteFmtBufferSize];
         vsnprintf(buffer, sizeof(buffer), fmt, args);
-        return bsg_ksfuwriteStringToFD(fd, buffer);
+        return pnlite_ksfuwriteStringToFD(fd, buffer);
     }
     return false;
 }
 
-ssize_t bsg_ksfureadLineFromFD(const int fd, char *const buffer,
+ssize_t pnlite_ksfureadLineFromFD(const int fd, char *const buffer,
                                const int maxLength) {
     char *end = buffer + maxLength - 1;
     *end = 0;

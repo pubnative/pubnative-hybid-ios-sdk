@@ -94,7 +94,7 @@ static const int pnlite_g_fatalSignals[] = {
     SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGPIPE, SIGSEGV, SIGSYS, SIGTRAP,
 };
 
-const char *bsg_kssignal_signalName(const int sigNum) {
+const char *pnlite_kssignal_signalName(const int sigNum) {
     for (int i = 0; i < pnlite_g_fatalSignalsCount; i++) {
         if (pnlite_g_fatalSignalData[i].sigNum == sigNum) {
             return pnlite_g_fatalSignalData[i].name;
@@ -103,7 +103,7 @@ const char *bsg_kssignal_signalName(const int sigNum) {
     return NULL;
 }
 
-const char *bsg_kssignal_signalCodeName(const int sigNum, const int code) {
+const char *pnlite_kssignal_signalCodeName(const int sigNum, const int code) {
     for (int si = 0; si < pnlite_g_fatalSignalsCount; si++) {
         if (pnlite_g_fatalSignalData[si].sigNum == sigNum) {
             for (int ci = 0; ci < pnlite_g_fatalSignalData[si].numCodes; ci++) {
@@ -116,15 +116,15 @@ const char *bsg_kssignal_signalCodeName(const int sigNum, const int code) {
     return NULL;
 }
 
-const int *bsg_kssignal_fatalSignals(void) { return pnlite_g_fatalSignals; }
+const int *pnlite_kssignal_fatalSignals(void) { return pnlite_g_fatalSignals; }
 
-int bsg_kssignal_numFatalSignals(void) { return pnlite_g_fatalSignalsCount; }
+int pnlite_kssignal_numFatalSignals(void) { return pnlite_g_fatalSignalsCount; }
 
 #define EXC_UNIX_BAD_SYSCALL 0x10000 /* SIGSYS */
 #define EXC_UNIX_BAD_PIPE 0x10001    /* SIGPIPE */
 #define EXC_UNIX_ABORT 0x10002       /* SIGABRT */
 
-int bsg_kssignal_machExceptionForSignal(const int sigNum) {
+int pnlite_kssignal_machExceptionForSignal(const int sigNum) {
     switch (sigNum) {
     case SIGFPE:
         return EXC_ARITHMETIC;
@@ -151,7 +151,7 @@ int bsg_kssignal_machExceptionForSignal(const int sigNum) {
     return 0;
 }
 
-int bsg_kssignal_signalForMachException(const int exception,
+int pnlite_kssignal_signalForMachException(const int exception,
                                         const mach_exception_code_t code) {
     switch (exception) {
     case EXC_ARITHMETIC:

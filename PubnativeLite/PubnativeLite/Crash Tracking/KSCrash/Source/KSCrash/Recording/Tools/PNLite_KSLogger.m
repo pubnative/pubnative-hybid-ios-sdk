@@ -125,7 +125,7 @@ static inline void setLogFD(int fd) {
     pnlite_g_fd = fd;
 }
 
-bool bsg_kslog_setLogFilename(const char *filename, bool overwrite) {
+bool pnlite_kslog_setLogFilename(const char *filename, bool overwrite) {
     if (filename == NULL) {
         setLogFD(STDOUT_FILENO);
         return true;
@@ -176,7 +176,7 @@ static inline void writeFmtArgsToLog(const char *fmt, va_list args) {
 
 static inline void flushLog(void) { fflush(g_file); }
 
-bool bsg_kslog_setLogFilename(const char *filename, bool overwrite) {
+bool pnlite_kslog_setLogFilename(const char *filename, bool overwrite) {
     if (filename == NULL) {
         setLogFD(stdout);
         return true;
@@ -199,7 +199,7 @@ bool bsg_kslog_setLogFilename(const char *filename, bool overwrite) {
 #pragma mark - C -
 // ===========================================================================
 
-void bsg_i_kslog_logCBasic(const char *const fmt, ...) {
+void pnlite_i_kslog_logCBasic(const char *const fmt, ...) {
     va_list args;
     va_start(args, fmt);
     writeFmtArgsToLog(fmt, args);
@@ -208,7 +208,7 @@ void bsg_i_kslog_logCBasic(const char *const fmt, ...) {
     flushLog();
 }
 
-void bsg_i_kslog_logC(const char *const level, const char *const file,
+void pnlite_i_kslog_logC(const char *const level, const char *const file,
                       const int line, const char *const function,
                       const char *const fmt, ...) {
     writeFmtToLog("%s: %s (%u): %s: ", level, lastPathEntry(file), line,
@@ -225,7 +225,7 @@ void bsg_i_kslog_logC(const char *const level, const char *const file,
 #pragma mark - Objective-C -
 // ===========================================================================
 
-void bsg_i_kslog_logObjCBasic(NSString *fmt, ...) {
+void pnlite_i_kslog_logObjCBasic(NSString *fmt, ...) {
     if (fmt == nil) {
         writeToLog("(null)");
         return;
@@ -243,11 +243,11 @@ void bsg_i_kslog_logObjCBasic(NSString *fmt, ...) {
     CFRelease(entry);
 }
 
-void bsg_i_kslog_logObjC(const char *const level, const char *const file,
+void pnlite_i_kslog_logObjC(const char *const level, const char *const file,
                          const int line, const char *const function,
                          NSString *fmt, ...) {
     if (fmt == nil) {
-        bsg_i_kslog_logObjCBasic(@"%s: %s (%u): %s: (null)", level,
+        pnlite_i_kslog_logObjCBasic(@"%s: %s (%u): %s: (null)", level,
                                  lastPathEntry(file), line, function);
     } else {
         va_list args;
@@ -256,7 +256,7 @@ void bsg_i_kslog_logObjC(const char *const level, const char *const file,
             NULL, NULL, (__bridge CFStringRef)fmt, args);
         va_end(args);
 
-        bsg_i_kslog_logObjCBasic(@"%s: %s (%u): %s: %@", level,
+        pnlite_i_kslog_logObjCBasic(@"%s: %s (%u): %s: %@", level,
                                  lastPathEntry(file), line, function,
                                  (__bridge id)entry);
 

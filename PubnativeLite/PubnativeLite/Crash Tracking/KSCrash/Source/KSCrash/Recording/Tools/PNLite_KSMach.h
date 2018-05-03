@@ -42,10 +42,10 @@ extern "C" {
 // ============================================================================
 
 /** Initializes KSMach.
- * Some functions (currently only bsg_ksmachpthreadFromMachThread) require
+ * Some functions (currently only pnlite_ksmachpthreadFromMachThread) require
  * initialization before use.
  */
-void bsg_ksmach_init(void);
+void pnlite_ksmach_init(void);
 
 // ============================================================================
 #pragma mark - General Information -
@@ -55,19 +55,19 @@ void bsg_ksmach_init(void);
  *
  * @return total free memory.
  */
-uint64_t bsg_ksmachfreeMemory(void);
+uint64_t pnlite_ksmachfreeMemory(void);
 
 /** Get the total memory that is currently usable.
  *
  * @return total usable memory.
  */
-uint64_t bsg_ksmachusableMemory(void);
+uint64_t pnlite_ksmachusableMemory(void);
 
 /** Get the current CPU architecture.
  *
  * @return The current architecture.
  */
-const char *bsg_ksmachcurrentCPUArch(void);
+const char *pnlite_ksmachcurrentCPUArch(void);
 
 /** Get the name of a mach exception.
  *
@@ -75,7 +75,7 @@ const char *bsg_ksmachcurrentCPUArch(void);
  *
  * @return The exception's name or NULL if not found.
  */
-const char *bsg_ksmachexceptionName(exception_type_t exceptionType);
+const char *pnlite_ksmachexceptionName(exception_type_t exceptionType);
 
 /** Get the name of a mach kernel return code.
  *
@@ -83,7 +83,7 @@ const char *bsg_ksmachexceptionName(exception_type_t exceptionType);
  *
  * @return The code's name or NULL if not found.
  */
-const char *bsg_ksmachkernelReturnCodeName(kern_return_t returnCode);
+const char *pnlite_ksmachkernelReturnCodeName(kern_return_t returnCode);
 
 // ============================================================================
 #pragma mark - Thread State Info -
@@ -101,7 +101,7 @@ const char *bsg_ksmachkernelReturnCodeName(kern_return_t returnCode);
  *
  * @return true if state fetching was successful.
  */
-bool bsg_ksmachfillState(thread_t thread, thread_state_t state,
+bool pnlite_ksmachfillState(thread_t thread, thread_state_t state,
                          thread_state_flavor_t flavor,
                          mach_msg_type_number_t stateCount);
 
@@ -112,7 +112,7 @@ bool bsg_ksmachfillState(thread_t thread, thread_state_t state,
  *
  * @return The context's frame pointer.
  */
-uintptr_t bsg_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t pnlite_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the current stack pointer for a machine context.
  *
@@ -120,7 +120,7 @@ uintptr_t bsg_ksmachframePointer(const PNLite_STRUCT_MCONTEXT_L *machineContext)
  *
  * @return The context's stack pointer.
  */
-uintptr_t bsg_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t pnlite_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the address of the instruction about to be, or being executed by a
  * machine context.
@@ -130,7 +130,7 @@ uintptr_t bsg_ksmachstackPointer(const PNLite_STRUCT_MCONTEXT_L *machineContext)
  * @return The context's next instruction address.
  */
 uintptr_t
-bsg_ksmachinstructionAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext);
+pnlite_ksmachinstructionAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the address stored in the link register (arm only). This may
  * contain the first return address of the stack.
@@ -139,7 +139,7 @@ bsg_ksmachinstructionAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext);
  *
  * @return The link register value.
  */
-uintptr_t bsg_ksmachlinkRegister(const PNLite_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t pnlite_ksmachlinkRegister(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the address whose access caused the last fault.
  *
@@ -147,7 +147,7 @@ uintptr_t bsg_ksmachlinkRegister(const PNLite_STRUCT_MCONTEXT_L *machineContext)
  *
  * @return The faulting address.
  */
-uintptr_t bsg_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext);
+uintptr_t pnlite_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get a thread's thread state and place it in a machine context.
  *
@@ -157,7 +157,7 @@ uintptr_t bsg_ksmachfaultAddress(const PNLite_STRUCT_MCONTEXT_L *machineContext)
  *
  * @return true if successful.
  */
-bool bsg_ksmachthreadState(thread_t thread,
+bool pnlite_ksmachthreadState(thread_t thread,
                            PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get a thread's floating point state and place it in a machine context.
@@ -168,7 +168,7 @@ bool bsg_ksmachthreadState(thread_t thread,
  *
  * @return true if successful.
  */
-bool bsg_ksmachfloatState(thread_t thread,
+bool pnlite_ksmachfloatState(thread_t thread,
                           PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get a thread's exception state and place it in a machine context.
@@ -179,7 +179,7 @@ bool bsg_ksmachfloatState(thread_t thread,
  *
  * @return true if successful.
  */
-bool bsg_ksmachexceptionState(thread_t thread,
+bool pnlite_ksmachexceptionState(thread_t thread,
                               PNLite_STRUCT_MCONTEXT_L *machineContext);
 
 /** Get the number of normal (not floating point or exception) registers the
@@ -187,7 +187,7 @@ bool bsg_ksmachexceptionState(thread_t thread,
  *
  * @return The number of registers.
  */
-int bsg_ksmachnumRegisters(void);
+int pnlite_ksmachnumRegisters(void);
 
 /** Get the name of a normal register.
  *
@@ -195,7 +195,7 @@ int bsg_ksmachnumRegisters(void);
  *
  * @return The register's name or NULL if not found.
  */
-const char *bsg_ksmachregisterName(int regNumber);
+const char *pnlite_ksmachregisterName(int regNumber);
 
 /** Get the value stored in a normal register.
  *
@@ -203,14 +203,14 @@ const char *bsg_ksmachregisterName(int regNumber);
  *
  * @return The register's current value.
  */
-uint64_t bsg_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *machineContext,
+uint64_t pnlite_ksmachregisterValue(const PNLite_STRUCT_MCONTEXT_L *machineContext,
                                  int regNumber);
 
 /** Get the number of exception registers the currently running CPU has.
  *
  * @return The number of registers.
  */
-int bsg_ksmachnumExceptionRegisters(void);
+int pnlite_ksmachnumExceptionRegisters(void);
 
 /** Get the name of an exception register.
  *
@@ -218,7 +218,7 @@ int bsg_ksmachnumExceptionRegisters(void);
  *
  * @return The register's name or NULL if not found.
  */
-const char *bsg_ksmachexceptionRegisterName(int regNumber);
+const char *pnlite_ksmachexceptionRegisterName(int regNumber);
 
 /** Get the value stored in an exception register.
  *
@@ -227,14 +227,14 @@ const char *bsg_ksmachexceptionRegisterName(int regNumber);
  * @return The register's current value.
  */
 uint64_t
-bsg_ksmachexceptionRegisterValue(const PNLite_STRUCT_MCONTEXT_L *machineContext,
+pnlite_ksmachexceptionRegisterValue(const PNLite_STRUCT_MCONTEXT_L *machineContext,
                                  int regNumber);
 
 /** Get the direction in which the stack grows on the current architecture.
  *
  * @return 1 or -1, depending on which direction the stack grows in.
  */
-int bsg_ksmachstackGrowDirection(void);
+int pnlite_ksmachstackGrowDirection(void);
 
 /** Get a thread's name. Internally, a thread name will
  * never be more than 64 characters long.
@@ -247,7 +247,7 @@ int bsg_ksmachstackGrowDirection(void);
  *
  * @return true if a name was found.
  */
-bool bsg_ksmachgetThreadName(const thread_t thread, char *const buffer,
+bool pnlite_ksmachgetThreadName(const thread_t thread, char *const buffer,
                              size_t bufLength);
 
 /** Get the name of a thread's dispatch queue. Internally, a queue name will
@@ -261,7 +261,7 @@ bool bsg_ksmachgetThreadName(const thread_t thread, char *const buffer,
  *
  * @return true if a name or label was found.
  */
-bool bsg_ksmachgetThreadQueueName(thread_t thread, char *buffer,
+bool pnlite_ksmachgetThreadQueueName(thread_t thread, char *buffer,
                                   size_t bufLength);
 
 // ============================================================================
@@ -275,7 +275,7 @@ bool bsg_ksmachgetThreadQueueName(thread_t thread, char *buffer,
  *
  * @return The current thread ID.
  */
-thread_t bsg_ksmachthread_self(void);
+thread_t pnlite_ksmachthread_self(void);
 
 /** Get a mach thread's corresponding posix thread.
  *
@@ -283,7 +283,7 @@ thread_t bsg_ksmachthread_self(void);
  *
  * @return The corresponding posix thread, or 0 if an error occurred.
  */
-pthread_t bsg_ksmachpthreadFromMachThread(const thread_t thread);
+pthread_t pnlite_ksmachpthreadFromMachThread(const thread_t thread);
 
 /** Get a posix thread's corresponding mach thread.
  *
@@ -291,13 +291,13 @@ pthread_t bsg_ksmachpthreadFromMachThread(const thread_t thread);
  *
  * @return The corresponding mach thread, or 0 if an error occurred.
  */
-thread_t bsg_ksmachmachThreadFromPThread(const pthread_t pthread);
+thread_t pnlite_ksmachmachThreadFromPThread(const pthread_t pthread);
 
 /** Suspend all threads except for the current one.
  *
  * @return true if thread suspention was at least partially successful.
  */
-bool bsg_ksmachsuspendAllThreads(void);
+bool pnlite_ksmachsuspendAllThreads(void);
 
 /** Suspend all threads except for the current one and the specified threads.
  *
@@ -307,14 +307,14 @@ bool bsg_ksmachsuspendAllThreads(void);
  *
  * @return true if thread suspention was at least partially successful.
  */
-bool bsg_ksmachsuspendAllThreadsExcept(thread_t *exceptThreads,
+bool pnlite_ksmachsuspendAllThreadsExcept(thread_t *exceptThreads,
                                        int exceptThreadsCount);
 
 /** Resume all threads except for the current one.
  *
  * @return true if thread resumption was at least partially successful.
  */
-bool bsg_ksmachresumeAllThreads(void);
+bool pnlite_ksmachresumeAllThreads(void);
 
 /** Resume all threads except for the current one and the specified threads.
  *
@@ -324,7 +324,7 @@ bool bsg_ksmachresumeAllThreads(void);
  *
  * @return true if thread resumption was at least partially successful.
  */
-bool bsg_ksmachresumeAllThreadsExcept(thread_t *exceptThreads,
+bool pnlite_ksmachresumeAllThreadsExcept(thread_t *exceptThreads,
                                       int exceptThreadsCount);
 
 /** Copy memory safely. If the memory is not accessible, returns false
@@ -338,7 +338,7 @@ bool bsg_ksmachresumeAllThreadsExcept(thread_t *exceptThreads,
  *
  * @return KERN_SUCCESS or an error code.
  */
-kern_return_t bsg_ksmachcopyMem(const void *src, void *dst, size_t numBytes);
+kern_return_t pnlite_ksmachcopyMem(const void *src, void *dst, size_t numBytes);
 
 /** Copies up to numBytes of data from src to dest, stopping if memory
  * becomes inaccessible.
@@ -351,7 +351,7 @@ kern_return_t bsg_ksmachcopyMem(const void *src, void *dst, size_t numBytes);
  *
  * @return The number of bytes actually copied.
  */
-size_t bsg_ksmachcopyMaxPossibleMem(const void *src, void *dst,
+size_t pnlite_ksmachcopyMaxPossibleMem(const void *src, void *dst,
                                     size_t numBytes);
 
 /** Get the difference in seconds between two timestamps fetched via
@@ -363,13 +363,13 @@ size_t bsg_ksmachcopyMaxPossibleMem(const void *src, void *dst,
  *
  * @return The difference between the two timestamps in seconds.
  */
-double bsg_ksmachtimeDifferenceInSeconds(uint64_t endTime, uint64_t startTime);
+double pnlite_ksmachtimeDifferenceInSeconds(uint64_t endTime, uint64_t startTime);
 
 /** Check if the current process is being traced or not.
  *
  * @return true if we're being traced.
  */
-bool bsg_ksmachisBeingTraced(void);
+bool pnlite_ksmachisBeingTraced(void);
 
 #ifdef __cplusplus
 }

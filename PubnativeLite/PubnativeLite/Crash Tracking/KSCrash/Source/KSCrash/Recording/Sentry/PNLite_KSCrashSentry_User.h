@@ -38,12 +38,12 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installUserExceptionHandler(
+bool pnlite_kscrashsentry_installUserExceptionHandler(
     PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall the user exception handler.
  */
-void bsg_kscrashsentry_uninstallUserExceptionHandler(void);
+void pnlite_kscrashsentry_uninstallUserExceptionHandler(void);
 
 /** Report a custom, user defined exception.
  * If terminateProgram is true, all sentries will be uninstalled and the
@@ -64,7 +64,7 @@ void bsg_kscrashsentry_uninstallUserExceptionHandler(void);
  * @param terminateProgram If true, do not return from this function call.
  * Terminate the program instead.
  */
-void bsg_kscrashsentry_reportUserException(const char *name, const char *reason,
+void pnlite_kscrashsentry_reportUserException(const char *name, const char *reason,
                                            const char *language,
                                            const char *lineOfCode,
                                            const char *stackTrace,

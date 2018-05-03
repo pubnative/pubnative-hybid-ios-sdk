@@ -38,19 +38,19 @@ extern "C" {
  *
  * @return true if installation was succesful.
  */
-bool bsg_kscrashsentry_installDeadlockHandler(
+bool pnlite_kscrashsentry_installDeadlockHandler(
     PNLite_KSCrash_SentryContext *context);
 
 /** Uninstall our custome NSException handler.
  */
-void bsg_kscrashsentry_uninstallDeadlockHandler(void);
+void pnlite_kscrashsentry_uninstallDeadlockHandler(void);
 
 /** Set the interval between watchdog checks on the main thread.
  * Default is 5 seconds.
  *
  * @param value The number of seconds between checks (0 = disabled).
  */
-void bsg_kscrashsentry_setDeadlockHandlerWatchdogInterval(double value);
+void pnlite_kscrashsentry_setDeadlockHandlerWatchdogInterval(double value);
 
 #ifdef __cplusplus
 }

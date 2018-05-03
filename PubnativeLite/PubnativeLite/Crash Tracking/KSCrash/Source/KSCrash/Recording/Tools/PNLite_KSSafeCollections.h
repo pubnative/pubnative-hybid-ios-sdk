@@ -24,24 +24,24 @@
 
 @interface NSMutableArray (PNLite_KSSafeCollections)
 
-- (void)bsg_ksc_addObjectIfNotNil:(id)object;
+- (void)pnlite_ksc_addObjectIfNotNil:(id)object;
 
-- (void)bsg_ksc_safeAddObject:(id)object;
+- (void)pnlite_ksc_safeAddObject:(id)object;
 
-- (void)bsg_ksc_insertObjectIfNotNil:(id)object atIndex:(NSUInteger)index;
+- (void)pnlite_ksc_insertObjectIfNotNil:(id)object atIndex:(NSUInteger)index;
 
-- (void)bsg_ksc_safeInsertObject:(id)object atIndex:(NSUInteger)index;
+- (void)pnlite_ksc_safeInsertObject:(id)object atIndex:(NSUInteger)index;
 
 @end
 
 @interface NSMutableDictionary (PNLite_KSSafeCollections)
 
-- (void)bsg_ksc_setObjectIfNotNil:(id)object forKey:(id)key;
+- (void)pnlite_ksc_setObjectIfNotNil:(id)object forKey:(id)key;
 
-- (void)bsg_ksc_safeSetObject:(id)object forKey:(id)key;
+- (void)pnlite_ksc_safeSetObject:(id)object forKey:(id)key;
 
-- (void)bsg_ksc_setValueIfNotNil:(id)value forKey:(NSString *)key;
+- (void)pnlite_ksc_setValueIfNotNil:(id)value forKey:(NSString *)key;
 
-- (void)bsg_ksc_safeSetValue:(id)value forKey:(NSString *)key;
+- (void)pnlite_ksc_safeSetValue:(id)value forKey:(NSString *)key;
 
 @end

@@ -24,7 +24,7 @@
 
 @implementation NSError (PNLite_SimpleConstructor)
 
-+ (NSError *)bsg_errorWithDomain:(NSString *)domain
++ (NSError *)pnlite_errorWithDomain:(NSString *)domain
                             code:(NSInteger)code
                      description:(NSString *)fmt, ... {
     va_list args;
@@ -39,7 +39,7 @@
                    userInfo:@{NSLocalizedDescriptionKey: desc}];
 }
 
-+ (BOOL)bsg_fillError:(NSError *__autoreleasing *)error
++ (BOOL)pnlite_fillError:(NSError *__autoreleasing *)error
            withDomain:(NSString *)domain
                  code:(NSInteger)code
           description:(NSString *)fmt, ... {

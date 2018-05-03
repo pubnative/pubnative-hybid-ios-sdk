@@ -29,6 +29,6 @@
  * @param completed The parameter to send as "completed".
  * @param error The parameter to send as "error".
  */
-void bsg_kscrash_i_callCompletion(
+void pnlite_kscrash_i_callCompletion(
     PNLite_KSCrashReportFilterCompletion onCompletion, NSArray *filteredReports,
     BOOL completed, NSError *error);

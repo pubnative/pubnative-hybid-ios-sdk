@@ -64,24 +64,24 @@ typedef struct PNLite_KSFrameEntry {
 
 // Avoiding static functions due to linker issues.
 
-int bsg_ksbt_backtraceLength(
+int pnlite_ksbt_backtraceLength(
     const PNLite_STRUCT_MCONTEXT_L *const machineContext) {
     const uintptr_t instructionAddress =
-        bsg_ksmachinstructionAddress(machineContext);
+        pnlite_ksmachinstructionAddress(machineContext);
 
     if (instructionAddress == 0) {
         return 0;
     }
 
     PNLite_KSFrameEntry frame = {0};
-    const uintptr_t framePtr = bsg_ksmachframePointer(machineContext);
-    if (framePtr == 0 || bsg_ksmachcopyMem((void *)framePtr, &frame,
+    const uintptr_t framePtr = pnlite_ksmachframePointer(machineContext);
+    if (framePtr == 0 || pnlite_ksmachcopyMem((void *)framePtr, &frame,
                                            sizeof(frame)) != KERN_SUCCESS) {
         return 1;
     }
     for (int i = 1; i < PNLite_kBacktraceGiveUpPoint; i++) {
         if (frame.previous == 0 ||
-            bsg_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
+            pnlite_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
                 KERN_SUCCESS) {
             return i;
         }
@@ -90,24 +90,24 @@ int bsg_ksbt_backtraceLength(
     return PNLite_kBacktraceGiveUpPoint;
 }
 
-bool bsg_ksbt_isBacktraceTooLong(
+bool pnlite_ksbt_isBacktraceTooLong(
     const PNLite_STRUCT_MCONTEXT_L *const machineContext, int maxLength) {
     const uintptr_t instructionAddress =
-        bsg_ksmachinstructionAddress(machineContext);
+        pnlite_ksmachinstructionAddress(machineContext);
 
     if (instructionAddress == 0) {
         return 0;
     }
 
     PNLite_KSFrameEntry frame = {0};
-    const uintptr_t framePtr = bsg_ksmachframePointer(machineContext);
-    if (framePtr == 0 || bsg_ksmachcopyMem((void *)framePtr, &frame,
+    const uintptr_t framePtr = pnlite_ksmachframePointer(machineContext);
+    if (framePtr == 0 || pnlite_ksmachcopyMem((void *)framePtr, &frame,
                                            sizeof(frame)) != KERN_SUCCESS) {
         return 1;
     }
     for (int i = 1; i < maxLength; i++) {
         if (frame.previous == 0 ||
-            bsg_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
+            pnlite_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
                 KERN_SUCCESS) {
             return false;
         }
@@ -116,7 +116,7 @@ bool bsg_ksbt_isBacktraceTooLong(
     return true;
 }
 
-int bsg_ksbt_backtraceThreadState(
+int pnlite_ksbt_backtraceThreadState(
     const PNLite_STRUCT_MCONTEXT_L *const machineContext,
     uintptr_t *const backtraceBuffer, const int skipEntries,
     const int maxEntries) {
@@ -128,7 +128,7 @@ int bsg_ksbt_backtraceThreadState(
 
     if (skipEntries == 0) {
         const uintptr_t instructionAddress =
-            bsg_ksmachinstructionAddress(machineContext);
+            pnlite_ksmachinstructionAddress(machineContext);
         backtraceBuffer[i] = instructionAddress;
         i++;
 
@@ -138,7 +138,7 @@ int bsg_ksbt_backtraceThreadState(
     }
 
     if (skipEntries <= 1) {
-        uintptr_t linkRegister = bsg_ksmachlinkRegister(machineContext);
+        uintptr_t linkRegister = pnlite_ksmachlinkRegister(machineContext);
 
         if (linkRegister) {
             backtraceBuffer[i] = linkRegister;
@@ -152,14 +152,14 @@ int bsg_ksbt_backtraceThreadState(
 
     PNLite_KSFrameEntry frame = {0};
 
-    const uintptr_t framePtr = bsg_ksmachframePointer(machineContext);
-    if (framePtr == 0 || bsg_ksmachcopyMem((void *)framePtr, &frame,
+    const uintptr_t framePtr = pnlite_ksmachframePointer(machineContext);
+    if (framePtr == 0 || pnlite_ksmachcopyMem((void *)framePtr, &frame,
                                            sizeof(frame)) != KERN_SUCCESS) {
         return 0;
     }
     for (int j = 1; j < skipEntries; j++) {
         if (frame.previous == 0 ||
-            bsg_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
+            pnlite_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
                 KERN_SUCCESS) {
             return 0;
         }
@@ -168,7 +168,7 @@ int bsg_ksbt_backtraceThreadState(
     for (; i < maxEntries; i++) {
         backtraceBuffer[i] = frame.return_address;
         if (backtraceBuffer[i] == 0 || frame.previous == 0 ||
-            bsg_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
+            pnlite_ksmachcopyMem(frame.previous, &frame, sizeof(frame)) !=
                 KERN_SUCCESS) {
             break;
         }
@@ -176,47 +176,47 @@ int bsg_ksbt_backtraceThreadState(
     return i;
 }
 
-int bsg_ksbt_backtraceThread(const thread_t thread,
+int pnlite_ksbt_backtraceThread(const thread_t thread,
                              uintptr_t *const backtraceBuffer,
                              const int maxEntries) {
     PNLite_STRUCT_MCONTEXT_L machineContext;
 
-    if (!bsg_ksmachthreadState(thread, &machineContext)) {
+    if (!pnlite_ksmachthreadState(thread, &machineContext)) {
         return 0;
     }
 
-    return bsg_ksbt_backtraceThreadState(&machineContext, backtraceBuffer, 0,
+    return pnlite_ksbt_backtraceThreadState(&machineContext, backtraceBuffer, 0,
                                          maxEntries);
 }
 
-int bsg_ksbt_backtracePthread(const pthread_t thread,
+int pnlite_ksbt_backtracePthread(const pthread_t thread,
                               uintptr_t *const backtraceBuffer,
                               const int maxEntries) {
-    const thread_t mach_thread = bsg_ksmachmachThreadFromPThread(thread);
+    const thread_t mach_thread = pnlite_ksmachmachThreadFromPThread(thread);
     if (mach_thread == 0) {
         return 0;
     }
-    return bsg_ksbt_backtraceThread(mach_thread, backtraceBuffer, maxEntries);
+    return pnlite_ksbt_backtraceThread(mach_thread, backtraceBuffer, maxEntries);
 }
 
-int bsg_ksbt_backtraceSelf(uintptr_t *const backtraceBuffer,
+int pnlite_ksbt_backtraceSelf(uintptr_t *const backtraceBuffer,
                            const int maxEntries) {
-    return bsg_ksbt_backtraceThread(bsg_ksmachthread_self(), backtraceBuffer,
+    return pnlite_ksbt_backtraceThread(pnlite_ksmachthread_self(), backtraceBuffer,
                                     maxEntries);
 }
 
-void bsg_ksbt_symbolicate(const uintptr_t *const backtraceBuffer,
+void pnlite_ksbt_symbolicate(const uintptr_t *const backtraceBuffer,
                           Dl_info *const symbolsBuffer, const int numEntries,
                           const int skippedEntries) {
     int i = 0;
 
     if (!skippedEntries && i < numEntries) {
-        bsg_ksdldladdr(backtraceBuffer[i], &symbolsBuffer[i]);
+        pnlite_ksdldladdr(backtraceBuffer[i], &symbolsBuffer[i]);
         i++;
     }
 
     for (; i < numEntries; i++) {
-        bsg_ksdldladdr(CALL_INSTRUCTION_FROM_RETURN_ADDRESS(backtraceBuffer[i]),
+        pnlite_ksdldladdr(CALL_INSTRUCTION_FROM_RETURN_ADDRESS(backtraceBuffer[i]),
                        &symbolsBuffer[i]);
     }
 }

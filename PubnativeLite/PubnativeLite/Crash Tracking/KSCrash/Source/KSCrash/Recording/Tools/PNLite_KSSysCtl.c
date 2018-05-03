@@ -45,7 +45,7 @@
         return 0;                                                              \
     }
 
-int32_t bsg_kssysctl_int32(const int major_cmd, const int minor_cmd) {
+int32_t pnlite_kssysctl_int32(const int major_cmd, const int minor_cmd) {
     int cmd[2] = {major_cmd, minor_cmd};
     int32_t value = 0;
     size_t size = sizeof(value);
@@ -56,7 +56,7 @@ int32_t bsg_kssysctl_int32(const int major_cmd, const int minor_cmd) {
     return value;
 }
 
-int32_t bsg_kssysctl_int32ForName(const char *const name) {
+int32_t pnlite_kssysctl_int32ForName(const char *const name) {
     int32_t value = 0;
     size_t size = sizeof(value);
 
@@ -65,7 +65,7 @@ int32_t bsg_kssysctl_int32ForName(const char *const name) {
     return value;
 }
 
-uint32_t bsg_kssysctl_uint32(const int major_cmd, const int minor_cmd) {
+uint32_t pnlite_kssysctl_uint32(const int major_cmd, const int minor_cmd) {
     int cmd[2] = {major_cmd, minor_cmd};
     uint32_t value = 0;
     size_t size = sizeof(value);
@@ -76,7 +76,7 @@ uint32_t bsg_kssysctl_uint32(const int major_cmd, const int minor_cmd) {
     return value;
 }
 
-uint32_t bsg_kssysctl_uint32ForName(const char *const name) {
+uint32_t pnlite_kssysctl_uint32ForName(const char *const name) {
     uint32_t value = 0;
     size_t size = sizeof(value);
 
@@ -85,7 +85,7 @@ uint32_t bsg_kssysctl_uint32ForName(const char *const name) {
     return value;
 }
 
-int64_t bsg_kssysctl_int64(const int major_cmd, const int minor_cmd) {
+int64_t pnlite_kssysctl_int64(const int major_cmd, const int minor_cmd) {
     int cmd[2] = {major_cmd, minor_cmd};
     int64_t value = 0;
     size_t size = sizeof(value);
@@ -96,7 +96,7 @@ int64_t bsg_kssysctl_int64(const int major_cmd, const int minor_cmd) {
     return value;
 }
 
-int64_t bsg_kssysctl_int64ForName(const char *const name) {
+int64_t pnlite_kssysctl_int64ForName(const char *const name) {
     int64_t value = 0;
     size_t size = sizeof(value);
 
@@ -105,7 +105,7 @@ int64_t bsg_kssysctl_int64ForName(const char *const name) {
     return value;
 }
 
-uint64_t bsg_kssysctl_uint64(const int major_cmd, const int minor_cmd) {
+uint64_t pnlite_kssysctl_uint64(const int major_cmd, const int minor_cmd) {
     int cmd[2] = {major_cmd, minor_cmd};
     uint64_t value = 0;
     size_t size = sizeof(value);
@@ -116,7 +116,7 @@ uint64_t bsg_kssysctl_uint64(const int major_cmd, const int minor_cmd) {
     return value;
 }
 
-uint64_t bsg_kssysctl_uint64ForName(const char *const name) {
+uint64_t pnlite_kssysctl_uint64ForName(const char *const name) {
     uint64_t value = 0;
     size_t size = sizeof(value);
 
@@ -125,7 +125,7 @@ uint64_t bsg_kssysctl_uint64ForName(const char *const name) {
     return value;
 }
 
-size_t bsg_kssysctl_string(const int major_cmd, const int minor_cmd,
+size_t pnlite_kssysctl_string(const int major_cmd, const int minor_cmd,
                            char *const value, const size_t maxSize) {
     int cmd[2] = {major_cmd, minor_cmd};
     size_t size = value == NULL ? 0 : maxSize;
@@ -136,7 +136,7 @@ size_t bsg_kssysctl_string(const int major_cmd, const int minor_cmd,
     return size;
 }
 
-size_t bsg_kssysctl_stringForName(const char *const name, char *const value,
+size_t pnlite_kssysctl_stringForName(const char *const name, char *const value,
                                   const size_t maxSize) {
     size_t size = value == NULL ? 0 : maxSize;
 
@@ -145,7 +145,7 @@ size_t bsg_kssysctl_stringForName(const char *const name, char *const value,
     return size;
 }
 
-struct timeval bsg_kssysctl_timeval(const int major_cmd, const int minor_cmd) {
+struct timeval pnlite_kssysctl_timeval(const int major_cmd, const int minor_cmd) {
     int cmd[2] = {major_cmd, minor_cmd};
     struct timeval value = {0};
     size_t size = sizeof(value);
@@ -158,7 +158,7 @@ struct timeval bsg_kssysctl_timeval(const int major_cmd, const int minor_cmd) {
     return value;
 }
 
-struct timeval bsg_kssysctl_timevalForName(const char *const name) {
+struct timeval pnlite_kssysctl_timevalForName(const char *const name) {
     struct timeval value = {0};
     size_t size = sizeof(value);
 
@@ -170,7 +170,7 @@ struct timeval bsg_kssysctl_timevalForName(const char *const name) {
     return value;
 }
 
-bool bsg_kssysctl_getProcessInfo(const int pid,
+bool pnlite_kssysctl_getProcessInfo(const int pid,
                                  struct kinfo_proc *const procInfo) {
     int cmd[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
     size_t size = sizeof(*procInfo);
@@ -184,7 +184,7 @@ bool bsg_kssysctl_getProcessInfo(const int pid,
     return true;
 }
 
-bool bsg_kssysctl_getMacAddress(const char *const name,
+bool pnlite_kssysctl_getMacAddress(const char *const name,
                                 char *const macAddressBuffer) {
     // Based off
     // http://iphonedevelopertips.com/device/determine-mac-address.html

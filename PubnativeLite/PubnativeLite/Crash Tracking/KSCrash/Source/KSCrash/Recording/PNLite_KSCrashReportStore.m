@@ -95,7 +95,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
         NSMutableDictionary *fileContents = [NSMutableDictionary new];
         NSMutableDictionary *recrashReport =
                 [self readFile:[self pathToRecrashReportWithID:fileId] error:nil];
-        [fileContents bsg_ksc_setObjectIfNotNil:recrashReport
+        [fileContents pnlite_ksc_setObjectIfNotNil:recrashReport
                                          forKey:@PNLite_KSCrashField_RecrashReport];
         return fileContents;
     }
@@ -112,7 +112,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
     NSMutableDictionary *mutableReport = [report mutableCopy];
     NSMutableDictionary *mutableInfo =
             [report[@PNLite_KSCrashField_Report] mutableCopy];
-    [mutableReport bsg_ksc_setObjectIfNotNil:mutableInfo
+    [mutableReport pnlite_ksc_setObjectIfNotNil:mutableInfo
                                       forKey:@PNLite_KSCrashField_Report];
 
     // Timestamp gets stored as a unix timestamp. Convert it to rfc3339.
@@ -128,10 +128,10 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
 
     NSMutableDictionary *crashReport =
             [report[@PNLite_KSCrashField_Crash] mutableCopy];
-    [mutableReport bsg_ksc_setObjectIfNotNil:crashReport
+    [mutableReport pnlite_ksc_setObjectIfNotNil:crashReport
                                       forKey:@PNLite_KSCrashField_Crash];
     PNLite_KSCrashDoctor *doctor = [PNLite_KSCrashDoctor doctor];
-    [crashReport bsg_ksc_setObjectIfNotNil:[doctor diagnoseCrash:report]
+    [crashReport pnlite_ksc_setObjectIfNotNil:[doctor diagnoseCrash:report]
                                     forKey:@PNLite_KSCrashField_Diagnosis];
 
     return mutableReport;
@@ -156,7 +156,7 @@ static NSString *const kPNLiteCrashReportSuffix = @"-CrashReport-";
         return;
     }
 
-    [report bsg_ksc_setObjectIfNotNil:[srcDict bsg_mergedInto:dstDict]
+    [report pnlite_ksc_setObjectIfNotNil:[srcDict pnlite_mergedInto:dstDict]
                                forKey:dstKey];
     [report removeObjectForKey:srcKey];
 }
