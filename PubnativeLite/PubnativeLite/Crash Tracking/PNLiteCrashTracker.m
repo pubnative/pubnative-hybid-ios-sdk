@@ -26,7 +26,7 @@
 #import "PNLiteNotifier.h"
 #import "PNLiteKeys.h"
 
-static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
+static PNLiteNotifier *pnlite_g_notifier = NULL;
 
 @interface PNLiteCrashTracker ()
 + (PNLiteNotifier *)notifier;
@@ -47,9 +47,9 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 
 + (void)startPNLiteCrashTrackerWithConfiguration:(PNLiteConfiguration *)configuration {
     @synchronized(self) {
-        bsg_g_pnlite_notifier =
+        pnlite_g_notifier =
         [[PNLiteNotifier alloc] initWithConfiguration:configuration];
-        [bsg_g_pnlite_notifier start];
+        [pnlite_g_notifier start];
     }
 }
 
@@ -65,7 +65,7 @@ static PNLiteNotifier *bsg_g_pnlite_notifier = NULL;
 }
 
 + (PNLiteNotifier *)notifier {
-    return bsg_g_pnlite_notifier;
+    return pnlite_g_notifier;
 }
 
 + (void)notify:(NSException *)exception {
