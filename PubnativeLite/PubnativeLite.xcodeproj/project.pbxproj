@@ -2767,7 +2767,7 @@
 		5A969A45206523F800C3B74A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_CODE_COVERAGE = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = J6V7N93E53;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2776,6 +2776,7 @@
 					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCMockito-5.0.1",
 					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCHamcrest-7.0.2",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2790,7 +2791,7 @@
 		5A969A46206523F800C3B74A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_CODE_COVERAGE = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = J6V7N93E53;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2799,6 +2800,7 @@
 					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCMockito-5.0.1",
 					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCHamcrest-7.0.2",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
