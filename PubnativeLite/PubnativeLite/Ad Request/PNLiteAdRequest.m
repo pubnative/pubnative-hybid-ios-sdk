@@ -70,7 +70,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
         [self invokeDidStart];
         PNLiteAdFactory *adFactory = [[PNLiteAdFactory alloc] init];
         NSLog(@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
-                                                                               andWithAdSize:@"s"]].absoluteString);
+                                                                               andWithAdSize:[self adSize]]].absoluteString);
         [[PNLiteHttpRequest alloc] startWithUrlString:[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
                                                                                                                  andWithAdSize:[self adSize]]].absoluteString
                                              delegate:self];
