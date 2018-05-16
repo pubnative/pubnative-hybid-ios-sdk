@@ -129,6 +129,7 @@
     
      if (request == self.mRectAdRequest) {
         [self.mRectLoaderIndicator stopAnimating];
+        [self.moPubMrect loadAd];
     }
 }
 
