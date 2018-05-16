@@ -129,6 +129,7 @@
     
     if (request == self.bannerAdRequest) {
         [self.bannerLoaderIndicator stopAnimating];
+        [self.moPubBanner loadAd];
     } 
 }
 

@@ -128,6 +128,7 @@
     [alert show];
     
     [self.interstitialLoaderIndicator stopAnimating];
+    [self.moPubInterstitial loadAd];
 }
 
 @end
