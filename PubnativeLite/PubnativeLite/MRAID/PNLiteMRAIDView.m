@@ -37,6 +37,9 @@
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
+CGFloat const kContentInfoViewHeight = 15.0f;
+CGFloat const kContentInfoViewWidth = 15.0f;
+
 typedef enum {
     PNLiteMRAIDStateLoading,
     PNLiteMRAIDStateDefault,
@@ -78,6 +81,8 @@ typedef enum {
     UIView *resizeView;
     UIButton *resizeCloseRegion;
     
+    UIView *contentInfoView;
+    
     CGSize previousMaxSize;
     CGSize previousScreenSize;
     
@@ -91,6 +96,7 @@ typedef enum {
 - (void)showResizeCloseRegion;
 - (void)removeResizeCloseRegion;
 - (void)setResizeViewPosition;
+- (void)addContentInfoView;
 
 // These methods provide the means for native code to talk to JavaScript code.
 - (void)injectJavaScript:(NSString *)js;
@@ -147,6 +153,7 @@ typedef enum {
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
     serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
+        contentInfo:(UIView *)contentInfo
 {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
@@ -155,7 +162,8 @@ typedef enum {
              supportedFeatures:features
                       delegate:delegate
               serviceDelegate:serviceDelegate
-            rootViewController:rootViewController];
+            rootViewController:rootViewController
+                   contentInfo:contentInfo];
 }
 
 // designated initializer
@@ -165,8 +173,9 @@ typedef enum {
      asInterstitial:(BOOL)isInter
   supportedFeatures:(NSArray *)currentFeatures
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-   serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
+        contentInfo:(UIView *)contentInfo
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -206,7 +215,14 @@ typedef enum {
         previousScreenSize = CGSizeZero;
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
- 
+        
+        contentInfoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentInfoViewWidth, kContentInfoViewHeight)];
+        contentInfoView.backgroundColor = [UIColor redColor];
+        [contentInfoView addSubview:contentInfo];
+        [self addSubview:contentInfoView];
+        
+        [self addUniqueObserver:self selector:@selector(updateContentInfoSize:) name:@"PNLiteContentViewSizeChanged" object:nil];
+        
         // Get mraid.js as binary data
         NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
                                                    length:__PNLite_MRAID_mraid_js_len
@@ -237,6 +253,18 @@ typedef enum {
         }
     }
     return self;
+}
+
+- (void)addUniqueObserver:(id)observer selector:(SEL)selector name:(NSString *)name object:(id)object
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:observer name:name object:object];
+    [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:name object:object];
+}
+
+- (void)updateContentInfoSize:(NSNotification *)notification
+{
+    NSNumber *contentInfoSize = notification.object;
+    contentInfoView.frame = CGRectMake(contentInfoView.frame.origin.x, contentInfoView.frame.origin.y, [contentInfoSize floatValue], contentInfoView.frame.size.height);
 }
 
 - (void)htmlFromUrl:(NSURL *)url handler:(void (^)(NSString *html, NSError *error))handler
@@ -296,6 +324,8 @@ typedef enum {
     closeEventRegion = nil;
     resizeView = nil;
     resizeCloseRegion = nil;
+    
+    contentInfoView = nil;
     
     self.delegate = nil;
     self.serviceDelegate =nil;
@@ -752,7 +782,10 @@ typedef enum {
 #pragma mark - JavaScript --> native support helpers
 
 // These methods are helper methods for the ones above.
-
+- (void)addContentInfoView
+{
+    
+}
 - (void)addCloseEventRegion
 {
     closeEventRegion = [UIButton buttonWithType:UIButtonTypeCustom];

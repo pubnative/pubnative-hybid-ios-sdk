@@ -56,8 +56,9 @@
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-   serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
- rootViewController:(UIViewController *)rootViewController;
+    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+ rootViewController:(UIViewController *)rootViewController
+        contentInfo:(UIView *)contentInfo;
 
 - (void)cancel;
 - (void)showAsInterstitial;

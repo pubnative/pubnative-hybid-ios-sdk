@@ -20,22 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
 
-@interface PNLiteAd : NSObject
+extern NSString *const kPNLiteOrientationManagerDidChangeOrientation;
 
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSString *htmlUrl;
-@property (nonatomic, readonly) NSString *htmlData;
-@property (nonatomic, readonly) NSNumber *assetGroupID;
-@property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) UIView *contentInfo;
+@interface PNLiteOrientationManager : NSObject
 
-- (instancetype)initWithData:(PNLiteAdModel *)data;
-- (PNLiteDataModel *)assetDataWithType:(NSString *)type;
-- (PNLiteDataModel *)metaDataWithType:(NSString *)type;
-- (NSArray *)beaconsDataWithType:(NSString *)type;
++ (UIInterfaceOrientation)orientation;
 
 @end
