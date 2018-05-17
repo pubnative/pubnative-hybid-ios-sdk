@@ -49,6 +49,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteInterstitialPresenterFactory.h>
 #import <PubnativeLite/PNLiteAdCache.h>
 #import <PubnativeLite/PNLitePrebidUtils.h>
+#import <PubnativeLite/PNLiteContentInfoView.h>
 
 @interface PubnativeLite : NSObject
 

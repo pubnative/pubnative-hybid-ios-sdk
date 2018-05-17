@@ -23,10 +23,12 @@
 #import "PNLiteAd.h"
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
+#import "PNLiteContentInfoView.h"
 
 @interface PNLiteAd ()
 
 @property (nonatomic, strong)PNLiteAdModel *data;
+@property (nonatomic, strong)PNLiteContentInfoView *contentInfoView;
 
 @end
 
@@ -35,6 +37,7 @@
 - (void)dealloc
 {
     self.data = nil;
+    self.contentInfoView = nil;
 }
 
 #pragma mark PNLiteAd
@@ -95,7 +98,20 @@
         result = data.eCPM;
     }
     return result;
+}
 
+- (PNLiteContentInfoView *)contentInfo
+{
+    PNLiteDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
+    if (data) {
+        if (self.contentInfoView == nil) {
+            self.contentInfoView = [[PNLiteContentInfoView alloc] init];
+            self.contentInfoView.text = data.text;
+            self.contentInfoView.link = [data stringFieldWithKey:@"link"];
+            self.contentInfoView.icon = [data stringFieldWithKey:@"icon"];
+        }
+    }
+    return self.contentInfoView;
 }
 
 - (PNLiteDataModel *)assetDataWithType:(NSString *)type

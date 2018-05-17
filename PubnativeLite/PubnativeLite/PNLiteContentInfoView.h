@@ -20,23 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
-#import "PNLiteContentInfoView.h"
 
-@interface PNLiteAd : NSObject
+@class PNLiteContentInfoView;
 
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSString *htmlUrl;
-@property (nonatomic, readonly) NSString *htmlData;
-@property (nonatomic, readonly) NSNumber *assetGroupID;
-@property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) PNLiteContentInfoView *contentInfo;
+@protocol PNLiteContentInfoViewDelegate<NSObject>
 
-- (instancetype)initWithData:(PNLiteAdModel *)data;
-- (PNLiteDataModel *)assetDataWithType:(NSString *)type;
-- (PNLiteDataModel *)metaDataWithType:(NSString *)type;
-- (NSArray *)beaconsDataWithType:(NSString *)type;
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
+
+@end
+
+@interface PNLiteContentInfoView : UIView
+
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSString *link;
+@property (nonatomic, strong) NSString *icon;
+@property (nonatomic, weak) NSObject <PNLiteContentInfoViewDelegate> *delegate;
 
 @end

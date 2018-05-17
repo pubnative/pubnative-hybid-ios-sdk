@@ -63,13 +63,14 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 {
     self.serviceProvider = [[PNLiteMRAIDServiceProvider alloc] init];
     self.mraidView = [[PNLiteMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDMRectWidth, kPNLiteMRAIDMRectHeight)
-                                           withHtmlData:self.adModel.htmlData
-                                            withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                      supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
-                                          isInterstital:NO
-                                               delegate:self
-                                        serviceDelegate:self
-                                     rootViewController:[UIApplication sharedApplication].topViewController];
+                                               withHtmlData:self.adModel.htmlData
+                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
+                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
+                                              isInterstital:NO
+                                                   delegate:self
+                                            serviceDelegate:self
+                                         rootViewController:[UIApplication sharedApplication].topViewController
+                                                contentInfo:self.adModel.contentInfo];
 }
 
 #pragma mark PNLiteMRAIDViewDelegate

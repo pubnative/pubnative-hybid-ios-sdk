@@ -37,6 +37,9 @@
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
+CGFloat const kContentInfoViewHeight = 15.0f;
+CGFloat const kContentInfoViewWidth = 15.0f;
+
 typedef enum {
     PNLiteMRAIDStateLoading,
     PNLiteMRAIDStateDefault,
@@ -45,7 +48,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface PNLiteMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface PNLiteMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, PNLiteContentInfoViewDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -78,6 +81,9 @@ typedef enum {
     UIView *resizeView;
     UIButton *resizeCloseRegion;
     
+    UIView *contentInfoViewContainer;
+    PNLiteContentInfoView *contentInfoView;
+    
     CGSize previousMaxSize;
     CGSize previousScreenSize;
     
@@ -91,6 +97,8 @@ typedef enum {
 - (void)showResizeCloseRegion;
 - (void)removeResizeCloseRegion;
 - (void)setResizeViewPosition;
+- (void)addContentInfoViewToView:(UIView *)view;
+
 
 // These methods provide the means for native code to talk to JavaScript code.
 - (void)injectJavaScript:(NSString *)js;
@@ -147,6 +155,7 @@ typedef enum {
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
     serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
+        contentInfo:(PNLiteContentInfoView *)contentInfo
 {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
@@ -155,7 +164,8 @@ typedef enum {
              supportedFeatures:features
                       delegate:delegate
               serviceDelegate:serviceDelegate
-            rootViewController:rootViewController];
+            rootViewController:rootViewController
+                   contentInfo:contentInfo];
 }
 
 // designated initializer
@@ -165,8 +175,9 @@ typedef enum {
      asInterstitial:(BOOL)isInter
   supportedFeatures:(NSArray *)currentFeatures
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-   serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
+        contentInfo:(PNLiteContentInfoView *)contentInfo
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -180,8 +191,11 @@ typedef enum {
         _isViewable = NO;
         useCustomClose = NO;
         
+        
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
+        
+        contentInfoView = contentInfo;
         
         mraidParser = [[PNLiteMRAIDParser alloc] init];
         
@@ -206,7 +220,7 @@ typedef enum {
         previousScreenSize = CGSizeZero;
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
- 
+        
         // Get mraid.js as binary data
         NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
                                                    length:__PNLite_MRAID_mraid_js_len
@@ -296,6 +310,9 @@ typedef enum {
     closeEventRegion = nil;
     resizeView = nil;
     resizeCloseRegion = nil;
+    
+    contentInfoViewContainer = nil;
+    contentInfoView = nil;
     
     self.delegate = nil;
     self.serviceDelegate =nil;
@@ -393,6 +410,13 @@ typedef enum {
 {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     [self expand:nil];
+}
+
+#pragma mark - PNLiteContentInfoViewDelegate
+
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
+{
+    contentInfoViewContainer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
 }
 
 #pragma mark - JavaScript --> native support
@@ -593,6 +617,11 @@ typedef enum {
         state = PNLiteMRAIDStateExpanded;
         [self fireStateChangeEvent];
     }
+    
+    if (isInterstitial) {
+        [self addContentInfoViewToView:webView];
+    }
+    
     [self fireSizeChangeEvent];
     self.isViewable = YES;
 }
@@ -752,6 +781,13 @@ typedef enum {
 #pragma mark - JavaScript --> native support helpers
 
 // These methods are helper methods for the ones above.
+- (void)addContentInfoViewToView:(UIView *)view
+{
+    contentInfoViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentInfoViewWidth, kContentInfoViewHeight)];
+    contentInfoView.delegate = self;
+    [contentInfoViewContainer addSubview:contentInfoView];
+    [view addSubview:contentInfoViewContainer];
+}
 
 - (void)addCloseEventRegion
 {
@@ -1040,6 +1076,10 @@ typedef enum {
             
             if ([self.delegate respondsToSelector:@selector(mraidViewAdReady:)]) {
                 [self.delegate mraidViewAdReady:self];
+            }
+            
+            if (!isInterstitial) {
+                [self addContentInfoViewToView:self];
             }
             
             // Start monitoring device orientation so we can reset max Size and screenSize if needed.
