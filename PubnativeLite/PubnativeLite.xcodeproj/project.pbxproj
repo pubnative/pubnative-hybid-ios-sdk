@@ -57,6 +57,7 @@
 		5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */; };
 		5A449B53203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A449B54203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */; };
+		5A4FF06420AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */; };
 		5A52BFDB2034576D00C4B7C5 /* PNLiteForwardButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFD92034576D00C4B7C5 /* PNLiteForwardButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A52BFDC2034576D00C4B7C5 /* PNLiteBackButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDA2034576D00C4B7C5 /* PNLiteBackButton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A52BFDF2034580A00C4B7C5 /* PNLiteLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDD2034580900C4B7C5 /* PNLiteLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -590,6 +591,8 @@
 		5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectPresenterDecorator.m; sourceTree = "<group>"; };
 		5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDMRectPresenter.h; sourceTree = "<group>"; };
 		5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDMRectPresenter.m; sourceTree = "<group>"; };
+		5A4FF06220AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteBannerViewController.h; sourceTree = "<group>"; };
+		5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteBannerViewController.m; sourceTree = "<group>"; };
 		5A52BFD92034576D00C4B7C5 /* PNLiteForwardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteForwardButton.h; sourceTree = "<group>"; };
 		5A52BFDA2034576D00C4B7C5 /* PNLiteBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteBackButton.h; sourceTree = "<group>"; };
 		5A52BFDD2034580900C4B7C5 /* PNLiteLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteLogger.h; sourceTree = "<group>"; };
@@ -1404,6 +1407,7 @@
 				5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */,
 				5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */,
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
+				5A4FF06520AD92C700B81B3D /* PNLite */,
 				5A6354D52076506B00D47E1B /* MoPub */,
 				5A87F45B207BC48F005CC648 /* DFP */,
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
@@ -1463,6 +1467,15 @@
 				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
 			);
 			path = Banner;
+			sourceTree = "<group>";
+		};
+		5A4FF06520AD92C700B81B3D /* PNLite */ = {
+			isa = PBXGroup;
+			children = (
+				5A4FF06220AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.h */,
+				5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */,
+			);
+			path = PNLite;
 			sourceTree = "<group>";
 		};
 		5A52BFED20346B1A00C4B7C5 /* Helpers */ = {
@@ -3061,6 +3074,7 @@
 				5A7E363620AC27E400BF707D /* MPNativePositionResponseDeserializer.m in Sources */,
 				5A7E368E20AC27E400BF707D /* MPAdImpressionTimer.m in Sources */,
 				5A7E36E620AC27E400BF707D /* MPRewardedVideoCustomEvent.m in Sources */,
+				5A4FF06420AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m in Sources */,
 				5A7E36CC20AC27E400BF707D /* MPVASTResponse.m in Sources */,
 				5A7E36D320AC27E400BF707D /* MOPUBPlayerView.m in Sources */,
 				5A7E36AB20AC27E400BF707D /* MOPUBExperimentProvider.m in Sources */,
