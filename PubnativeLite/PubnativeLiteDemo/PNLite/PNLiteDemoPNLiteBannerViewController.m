@@ -102,7 +102,7 @@
     }
 }
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - PNLiteBannerPresenterDelegate
 
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
