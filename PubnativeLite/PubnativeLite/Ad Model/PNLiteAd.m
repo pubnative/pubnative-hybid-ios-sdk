@@ -100,7 +100,7 @@
     return result;
 }
 
-- (UIView *)contentInfo
+- (PNLiteContentInfoView *)contentInfo
 {
     PNLiteDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
     if (data) {
