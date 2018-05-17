@@ -22,8 +22,6 @@
 
 #import "PNLiteOrientationManager.h"
 
-NSString *const kPNLiteOrientationManagerDidChangeOrientation = @"PNLiteOrientationManagerDidChangeOrientation";
-
 @interface PNLiteOrientationManager ()
 
 @property (nonatomic, assign) UIInterfaceOrientation orientation;
@@ -89,8 +87,7 @@ NSString *const kPNLiteOrientationManagerDidChangeOrientation = @"PNLiteOrientat
 
 - (void)sendDidChangeOrientationNotication
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kPNLiteOrientationManagerDidChangeOrientation
-                                                        object:nil];
+    [self.delegate orientationManagerDidChangeOrientation];
 }
 
 @end

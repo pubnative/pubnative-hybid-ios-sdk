@@ -22,10 +22,19 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kPNLiteOrientationManagerDidChangeOrientation;
+@class PNLiteOrientationManager;
+
+@protocol PNLiteOrientationManagerDelegate<NSObject>
+
+- (void)orientationManagerDidChangeOrientation;
+
+@end
 
 @interface PNLiteOrientationManager : NSObject
 
+@property (nonatomic, weak) NSObject <PNLiteOrientationManagerDelegate> *delegate;
+
++ (instancetype)sharedInstance;
 + (UIInterfaceOrientation)orientation;
 
 @end

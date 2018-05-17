@@ -48,7 +48,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface PNLiteMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface PNLiteMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, PNLiteContentInfoViewDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -153,7 +153,7 @@ typedef enum {
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
     serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(UIView *)contentInfo
+        contentInfo:(PNLiteContentInfoView *)contentInfo
 {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
@@ -175,7 +175,7 @@ typedef enum {
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
     serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(UIView *)contentInfo
+        contentInfo:(PNLiteContentInfoView *)contentInfo
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -218,10 +218,9 @@ typedef enum {
         
         contentInfoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentInfoViewWidth, kContentInfoViewHeight)];
         contentInfoView.backgroundColor = [UIColor redColor];
+        contentInfo.delegate = self;
         [contentInfoView addSubview:contentInfo];
         [self addSubview:contentInfoView];
-        
-        [self addUniqueObserver:self selector:@selector(updateContentInfoSize:) name:@"PNLiteContentViewSizeChanged" object:nil];
         
         // Get mraid.js as binary data
         NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
@@ -253,18 +252,6 @@ typedef enum {
         }
     }
     return self;
-}
-
-- (void)addUniqueObserver:(id)observer selector:(SEL)selector name:(NSString *)name object:(id)object
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:observer name:name object:object];
-    [[NSNotificationCenter defaultCenter] addObserver:observer selector:selector name:name object:object];
-}
-
-- (void)updateContentInfoSize:(NSNotification *)notification
-{
-    NSNumber *contentInfoSize = notification.object;
-    contentInfoView.frame = CGRectMake(contentInfoView.frame.origin.x, contentInfoView.frame.origin.y, [contentInfoSize floatValue], contentInfoView.frame.size.height);
 }
 
 - (void)htmlFromUrl:(NSURL *)url handler:(void (^)(NSString *html, NSError *error))handler
@@ -423,6 +410,13 @@ typedef enum {
 {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     [self expand:nil];
+}
+
+#pragma mark - PNLiteContentInfoViewDelegate
+
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
+{
+    contentInfoView.frame = CGRectMake(contentInfoView.frame.origin.x, contentInfoView.frame.origin.y, [width floatValue], contentInfoView.frame.size.height);
 }
 
 #pragma mark - JavaScript --> native support

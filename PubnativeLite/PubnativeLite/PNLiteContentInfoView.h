@@ -22,12 +22,19 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kPNLiteContentViewSizeChanged;
+@class PNLiteContentInfoView;
 
-@interface PNLiteContentView : UIView
+@protocol PNLiteContentInfoViewDelegate<NSObject>
+
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
+
+@end
+
+@interface PNLiteContentInfoView : UIView
 
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *link;
 @property (nonatomic, strong) NSString *icon;
+@property (nonatomic, weak) NSObject <PNLiteContentInfoViewDelegate> *delegate;
 
 @end

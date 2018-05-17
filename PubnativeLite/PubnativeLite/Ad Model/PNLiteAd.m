@@ -23,12 +23,12 @@
 #import "PNLiteAd.h"
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
-#import "PNLiteContentView.h"
+#import "PNLiteContentInfoView.h"
 
 @interface PNLiteAd ()
 
 @property (nonatomic, strong)PNLiteAdModel *data;
-@property (nonatomic, strong)PNLiteContentView *contentInfoView;
+@property (nonatomic, strong)PNLiteContentInfoView *contentInfoView;
 
 @end
 
@@ -105,7 +105,7 @@
     PNLiteDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
     if (data) {
         if (self.contentInfoView == nil) {
-            self.contentInfoView = [[PNLiteContentView alloc] init];
+            self.contentInfoView = [[PNLiteContentInfoView alloc] init];
             self.contentInfoView.text = data.text;
             self.contentInfoView.link = [data stringFieldWithKey:@"link"];
             self.contentInfoView.icon = [data stringFieldWithKey:@"icon"];
