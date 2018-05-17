@@ -783,10 +783,71 @@ typedef enum {
 // These methods are helper methods for the ones above.
 - (void)addContentInfoViewToView:(UIView *)view
 {
-    contentInfoViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kContentInfoViewWidth, kContentInfoViewHeight)];
+    contentInfoViewContainer = [[UIView alloc] init];
     contentInfoView.delegate = self;
-    [contentInfoViewContainer addSubview:contentInfoView];
     [view addSubview:contentInfoViewContainer];
+    [contentInfoViewContainer addSubview:contentInfoView];
+    if (@available(iOS 11.0, *)) {
+        contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeWidth
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewWidth],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewHeight],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeTop
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view.safeAreaLayoutGuide
+                                                                               attribute:NSLayoutAttributeTop
+                                                                              multiplier:1.f
+                                                                                constant:0.f],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view.safeAreaLayoutGuide
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                              multiplier:1.f
+                                                                                constant:0.f],]];
+    } else {
+        contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeWidth
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewWidth],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewHeight],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeTop
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view
+                                                                               attribute:NSLayoutAttributeTop
+                                                                              multiplier:1.f
+                                                                                constant:0.f],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                              multiplier:1.f
+                                                                                constant:0.f],]];
+    }
 }
 
 - (void)addCloseEventRegion
