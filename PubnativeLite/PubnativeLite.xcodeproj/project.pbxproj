@@ -1409,8 +1409,6 @@
 				5ADC023720514F120071DA20 /* PNLiteDemoSettings.m */,
 				5ADC02392051700F0071DA20 /* PNLiteDemoMainViewController.h */,
 				5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */,
-				5A59DBBA2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.h */,
-				5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */,
 				5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */,
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
 				5A4FF06520AD92C700B81B3D /* PNLite */,
@@ -1484,6 +1482,8 @@
 				5A4FF06720ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m */,
 				5A4FF06920ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.h */,
 				5A4FF06A20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m */,
+				5A59DBBA2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.h */,
+				5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */,
 			);
 			path = PNLite;
 			sourceTree = "<group>";
