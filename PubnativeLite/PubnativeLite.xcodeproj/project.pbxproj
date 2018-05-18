@@ -490,6 +490,8 @@
 		5ADB0FB820AF11B2005BDAF5 /* PNLiteGeoIPModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */; };
 		5ADB0FBB20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */; };
 		5ADB0FBC20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */; };
+		5ADB0FBF20AF26B6005BDAF5 /* PNLiteUserDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */; };
+		5ADB0FC020AF26B6005BDAF5 /* PNLiteUserDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */; };
 		5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */; };
 		5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023720514F120071DA20 /* PNLiteDemoSettings.m */; };
 		5ADC023B2051700F0071DA20 /* PNLiteDemoMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */; };
@@ -1260,6 +1262,8 @@
 		5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteGeoIPModel.m; sourceTree = "<group>"; };
 		5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteGeoIPRequest.h; sourceTree = "<group>"; };
 		5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteGeoIPRequest.m; sourceTree = "<group>"; };
+		5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserDataManager.h; sourceTree = "<group>"; };
+		5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteUserDataManager.m; sourceTree = "<group>"; };
 		5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubSettingsViewController.h; sourceTree = "<group>"; };
 		5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubSettingsViewController.m; sourceTree = "<group>"; };
 		5ADC023620514F120071DA20 /* PNLiteDemoSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoSettings.h; sourceTree = "<group>"; };
@@ -1577,6 +1581,8 @@
 				5AB6FBD920AC6F6A0092C5DD /* PNLiteContentInfoView.m */,
 				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
+				5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */,
+				5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */,
 				5A8F10202089E4D20098E337 /* Crash Tracking */,
 				5ABE013D203F344A00E6A14E /* Location */,
 				5ABE013C203F33AD00E6A14E /* Network */,
@@ -2636,6 +2642,7 @@
 				5ACC74EC203595250001CDC3 /* PNLiteMRAIDParser.h in Headers */,
 				5A8F10CD2089E4D20098E337 /* PNLite_KSSingleton.h in Headers */,
 				5AECD5A9204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h in Headers */,
+				5ADB0FBF20AF26B6005BDAF5 /* PNLiteUserDataManager.h in Headers */,
 				5A8F10E92089E4D20098E337 /* PNLite_KSSafeCollections.h in Headers */,
 				5ACC74EB203595250001CDC3 /* PNLiteMRAIDSettings.h in Headers */,
 				5A8F10B92089E4D20098E337 /* PNLiteSessionTracker.h in Headers */,
@@ -3249,6 +3256,7 @@
 				5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */,
 				5A8F110E2089E4D20098E337 /* PNLite_KSCrashSentry_CPPException.mm in Sources */,
 				5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */,
+				5ADB0FC020AF26B6005BDAF5 /* PNLiteUserDataManager.m in Sources */,
 				5A8F10F22089E4D20098E337 /* PNLite_KSLogger.m in Sources */,
 				5A8F111B2089E4D20098E337 /* PNLiteSession.m in Sources */,
 				5AECD5A1204033240023ABBC /* PNLiteInterstitialAdRequest.m in Sources */,
