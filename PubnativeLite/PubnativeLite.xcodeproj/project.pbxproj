@@ -484,6 +484,8 @@
 		5ADACD1C202CB88A00617734 /* PNLiteData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD1A202CB88A00617734 /* PNLiteData.m */; };
 		5ADACD1F202CBA9800617734 /* PNLiteAsset.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADACD1D202CBA9800617734 /* PNLiteAsset.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD1E202CBA9800617734 /* PNLiteAsset.m */; };
+		5ADB0FB220AF0B30005BDAF5 /* PNLiteCountryUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB020AF0B30005BDAF5 /* PNLiteCountryUtils.h */; };
+		5ADB0FB320AF0B30005BDAF5 /* PNLiteCountryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */; };
 		5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */; };
 		5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023720514F120071DA20 /* PNLiteDemoSettings.m */; };
 		5ADC023B2051700F0071DA20 /* PNLiteDemoMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */; };
@@ -1248,6 +1250,8 @@
 		5ADACD1A202CB88A00617734 /* PNLiteData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteData.m; sourceTree = "<group>"; };
 		5ADACD1D202CBA9800617734 /* PNLiteAsset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAsset.h; sourceTree = "<group>"; };
 		5ADACD1E202CBA9800617734 /* PNLiteAsset.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAsset.m; sourceTree = "<group>"; };
+		5ADB0FB020AF0B30005BDAF5 /* PNLiteCountryUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteCountryUtils.h; sourceTree = "<group>"; };
+		5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteCountryUtils.m; sourceTree = "<group>"; };
 		5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubSettingsViewController.h; sourceTree = "<group>"; };
 		5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubSettingsViewController.m; sourceTree = "<group>"; };
 		5ADC023620514F120071DA20 /* PNLiteDemoSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoSettings.h; sourceTree = "<group>"; };
@@ -1330,6 +1334,7 @@
 			children = (
 				5A064993203DC55D00CDF925 /* Crypto */,
 				5A064994203DC56800CDF925 /* Prebid */,
+				5ADB0FB420AF0B77005BDAF5 /* Country */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2544,6 +2549,15 @@
 			path = Dependencies;
 			sourceTree = "<group>";
 		};
+		5ADB0FB420AF0B77005BDAF5 /* Country */ = {
+			isa = PBXGroup;
+			children = (
+				5ADB0FB020AF0B30005BDAF5 /* PNLiteCountryUtils.h */,
+				5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */,
+			);
+			path = Country;
+			sourceTree = "<group>";
+		};
 		5AE31C99203EC7E5005F140A /* MoPubAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -2691,6 +2705,7 @@
 				5A8F11272089E4D20098E337 /* PNLiteMetaData.h in Headers */,
 				5A52BFEA203458D000C4B7C5 /* PNLiteBrowserControlsView.h in Headers */,
 				5ADACD14202C919700617734 /* PNLiteAd.h in Headers */,
+				5ADB0FB220AF0B30005BDAF5 /* PNLiteCountryUtils.h in Headers */,
 				5AECD5A0204033240023ABBC /* PNLiteInterstitialAdRequest.h in Headers */,
 				5A8F10D82089E4D20098E337 /* PNLite_KSArchSpecific.h in Headers */,
 				5A8F11282089E4D20098E337 /* PNLiteSessionTrackingPayload.h in Headers */,
@@ -3208,6 +3223,7 @@
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 				5A8F10B02089E4D20098E337 /* PNLiteKSCrashSysInfoParser.m in Sources */,
+				5ADB0FB320AF0B30005BDAF5 /* PNLiteCountryUtils.m in Sources */,
 				5A20DBE4203B131100EF2B3C /* PNLiteBannerPresenter.m in Sources */,
 				5A8F10D12089E4D20098E337 /* NSDictionary+PNLite_Merge.m in Sources */,
 				5A8F10E62089E4D20098E337 /* PNLite_KSBacktrace.c in Sources */,
