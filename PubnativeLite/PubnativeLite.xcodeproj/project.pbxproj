@@ -488,6 +488,8 @@
 		5ADB0FB320AF0B30005BDAF5 /* PNLiteCountryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */; };
 		5ADB0FB720AF11B2005BDAF5 /* PNLiteGeoIPModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */; };
 		5ADB0FB820AF11B2005BDAF5 /* PNLiteGeoIPModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */; };
+		5ADB0FBB20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */; };
+		5ADB0FBC20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */; };
 		5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */; };
 		5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023720514F120071DA20 /* PNLiteDemoSettings.m */; };
 		5ADC023B2051700F0071DA20 /* PNLiteDemoMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */; };
@@ -1256,6 +1258,8 @@
 		5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteCountryUtils.m; sourceTree = "<group>"; };
 		5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteGeoIPModel.h; sourceTree = "<group>"; };
 		5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteGeoIPModel.m; sourceTree = "<group>"; };
+		5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteGeoIPRequest.h; sourceTree = "<group>"; };
+		5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteGeoIPRequest.m; sourceTree = "<group>"; };
 		5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubSettingsViewController.h; sourceTree = "<group>"; };
 		5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubSettingsViewController.m; sourceTree = "<group>"; };
 		5ADC023620514F120071DA20 /* PNLiteDemoSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoSettings.h; sourceTree = "<group>"; };
@@ -2526,6 +2530,8 @@
 			children = (
 				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
 				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
+				5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */,
+				5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -2691,6 +2697,7 @@
 				5A540253202B0C04005D80E6 /* PNLiteTargetingModel.h in Headers */,
 				5A8F10B82089E4D20098E337 /* PNLiteSessionFileStore.h in Headers */,
 				5A8F10E52089E4D20098E337 /* PNLite_KSDynamicLinker.h in Headers */,
+				5ADB0FBB20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h in Headers */,
 				5A8F11092089E4D20098E337 /* PNLite_KSCrashSentry_Deadlock.h in Headers */,
 				5A8F10D92089E4D20098E337 /* PNLite_KSZombie.h in Headers */,
 				5A8F10FE2089E4D20098E337 /* PNLite_KSCrashDoctor.h in Headers */,
@@ -3228,6 +3235,7 @@
 				5A8F10AF2089E4D20098E337 /* PNLiteUser.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
 				5A8F10CF2089E4D20098E337 /* PNLite_KSMach_Arm.c in Sources */,
+				5ADB0FBC20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 				5A8F10B02089E4D20098E337 /* PNLiteKSCrashSysInfoParser.m in Sources */,
