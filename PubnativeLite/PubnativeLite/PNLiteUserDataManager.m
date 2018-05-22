@@ -24,11 +24,14 @@
 #import "PNLiteSettings.h"
 #import "PNLiteGeoIPRequest.h"
 #import "PNLiteCountryUtils.h"
+#import "UIApplication+PNLiteTopViewController.h"
+#import "PNLiteConsentPageViewController.h"
 
 NSString *const kPNLiteGDPRConsentUUIDKey = @"gdpr_consent_uuid";
 NSString *const kPNLiteGDPRConsentStateKey = @"gdpr_consent_state";
 NSString *const kPNLitePrivacyPolicyUrl = @"https://pubnative.net/privacy-policy/";
 NSString *const kPNLiteVendorListUrl = @"https://pubnative.net/vendor-list/";
+NSString *const kPNLiteConsentPageUrl = @"https://www.apple.com";
 NSInteger const kPNLiteConsentStateAccepted = 1;
 NSInteger const kPNLiteConsentStateDenied = 0;
 
@@ -79,6 +82,12 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     [request requestGeoIPWithDelegate:self];
 }
 
+- (void)showConsentRequestScreen
+{
+    UIViewController *viewController = [UIApplication sharedApplication].topViewController;
+    [viewController presentViewController:[[PNLiteConsentPageViewController alloc] initWithNibName:NSStringFromClass([PNLiteConsentPageViewController class]) bundle:[NSBundle bundleForClass:[self class]]] animated:YES completion:nil];
+}
+
 - (NSString *)privacyPolicyLink
 {
     return kPNLitePrivacyPolicyUrl;
@@ -87,6 +96,11 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (NSString *)vendorListLink
 {
     return kPNLiteVendorListUrl;
+}
+
+- (NSString *)consentPageLink
+{
+    return kPNLiteConsentPageUrl;
 }
 
 - (BOOL)shouldAskConsent

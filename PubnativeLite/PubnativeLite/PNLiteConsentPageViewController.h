@@ -20,23 +20,10 @@
 //  THE SOFTWARE.
 //
 
+#import <UIKit/UIKit.h>
 
-#import <Foundation/Foundation.h>
+@class PNLiteConsentPageViewController;
 
-typedef void (^UserDataManagerCompletionBlock)(void);
-
-@interface PNLiteUserDataManager : NSObject
-
-+ (instancetype)sharedInstance;
-- (void)createUserDataManagerWithAppToken:(NSString *)appToken
-                               completion:(UserDataManagerCompletionBlock)completion;
-- (void)showConsentRequestScreen;
-- (NSString *)privacyPolicyLink;
-- (NSString *)vendorListLink;
-- (NSString *)consentPageLink;
-- (BOOL)shouldAskConsent;
-- (void)grantConsent;
-- (void)denyConsent;
-- (void)revokeConsent;
+@interface PNLiteConsentPageViewController : UIViewController
 
 @end

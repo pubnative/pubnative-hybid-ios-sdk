@@ -37,6 +37,7 @@
     // Override point for customization after application launch.
     [PubnativeLite initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^{
         NSLog(@"PubnativeLite initialisation completed");
+        [[PNLiteUserDataManager sharedInstance] showConsentRequestScreen];
     }];
     MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
