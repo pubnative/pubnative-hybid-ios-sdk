@@ -20,40 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
-#import "PNLiteUserDataManager.h"
 
-@implementation PubnativeLite
+#import <Foundation/Foundation.h>
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+typedef void (^UserDataManagerCompletionBlock)(void);
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+@interface PNLiteUserDataManager : NSObject
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-        [[PNLiteUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^{
-            NSLog(@"PNLiteUserDataManager completed");
-            completion();
-        }];
-    }
-}
++ (instancetype)sharedInstance;
+- (void)createUserDataManagerWithAppToken:(NSString *)appToken
+                               completion:(UserDataManagerCompletionBlock)completion;
+- (NSString *)privacyPolicyLink;
+- (NSString *)vendorListLink;
+- (BOOL)shouldAskConsent;
+- (void)grantConsent;
+- (void)denyConsent;
+- (void)revokeConsent;
 
 @end

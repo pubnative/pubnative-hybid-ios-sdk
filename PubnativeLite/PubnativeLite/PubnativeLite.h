@@ -51,11 +51,13 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLitePrebidUtils.h>
 #import <PubnativeLite/PNLiteContentInfoView.h>
 
+typedef void (^PubnativeLiteCompletionBlock)(void);
+
 @interface PubnativeLite : NSObject
 
 + (void)setCoppa:(BOOL)enabled;
 + (void)setTargeting:(PNLiteTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion;
 
 @end

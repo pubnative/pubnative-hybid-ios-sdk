@@ -20,40 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
-#import "PNLiteUserDataManager.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteGeoIPModel.h"
 
-@implementation PubnativeLite
+@class PNLiteGeoIPRequest;
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
+@protocol PNLiteGeoIPRequestDelegate <NSObject>
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+- (void)requestDidStart:(PNLiteGeoIPRequest *)request;
+- (void)request:(PNLiteGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP;
+- (void)request:(PNLiteGeoIPRequest *)request didFailWithError:(NSError *)error;
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
+@end
 
-+ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-        [[PNLiteUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^{
-            NSLog(@"PNLiteUserDataManager completed");
-            completion();
-        }];
-    }
-}
+@interface PNLiteGeoIPRequest : NSObject
+
+- (void)requestGeoIPWithDelegate:(NSObject<PNLiteGeoIPRequestDelegate> *)delegate;
 
 @end
