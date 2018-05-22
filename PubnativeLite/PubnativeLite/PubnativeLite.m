@@ -23,6 +23,7 @@
 #import "PubnativeLite.h"
 #import "PNLiteSettings.h"
 #import "PNLiteCrashTracker.h"
+#import "PNLiteUserDataManager.h"
 
 @implementation PubnativeLite
 
@@ -41,13 +42,17 @@
     [PNLiteSettings sharedInstance].test = enabled;
 }
 
-+ (void)initWithAppToken:(NSString *)appToken
++ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion
 {
     if (appToken == nil || appToken.length == 0) {
         NSLog(@"PubNative Lite - App Token is nil or empty and required.");
     } else {
         [PNLiteSettings sharedInstance].appToken = appToken;
         [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
+        [[PNLiteUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^{
+            NSLog(@"PNLiteUserDataManager completed");
+            completion();
+        }];
     }
 }
 

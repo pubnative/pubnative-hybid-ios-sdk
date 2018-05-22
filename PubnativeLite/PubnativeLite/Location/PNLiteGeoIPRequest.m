@@ -29,11 +29,16 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
 
 @interface PNLiteGeoIPRequest () <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <PNLiteGeoIPRequestDelegate> *delegate;
+@property (nonatomic, strong) NSObject <PNLiteGeoIPRequestDelegate> *delegate;
 
 @end
 
 @implementation PNLiteGeoIPRequest
+
+- (void)dealloc
+{
+    self.delegate = nil;
+}
 
 - (void)requestGeoIPWithDelegate:(NSObject<PNLiteGeoIPRequestDelegate> *)delegate
 {

@@ -35,10 +35,9 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 @interface PNLiteUserDataManager () <PNLiteGeoIPRequestDelegate>
 
 @property (nonatomic, assign) BOOL inGDPRZone;
-@property (nonatomic, assign) BOOL initialisedSuccessfully;
 @property (nonatomic, assign) NSInteger consentState;
 @property (nonatomic, strong) NSString *UUID;
-@property (nonatomic, weak) NSObject <PNLiteUserDataManagerDelegate> *delegate;
+@property (nonatomic, copy) UserDataManagerCompletionBlock completionBlock;
 
 @end
 
@@ -48,20 +47,33 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 {
     self.UUID = nil;
 }
-
-- (instancetype)initWithAppToken:(NSString *)appToken withDelegate:(NSObject<PNLiteUserDataManagerDelegate> *)delegate
+- (instancetype)init
 {
     self = [super init];
     if (self) {
         self.inGDPRZone = NO;
-        self.initialisedSuccessfully = NO;
         self.consentState = kPNLiteConsentStateDenied;
-        self.delegate = delegate;
     }
     return self;
 }
 
-- (void)determineUserZoneWithDelegate:(NSObject<PNLiteUserDataManagerDelegate> *)delegate
++ (instancetype)sharedInstance
+{
+    static PNLiteUserDataManager *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[PNLiteUserDataManager alloc] init];
+    });
+    return sharedInstance;
+}
+
+- (void)createUserDataManagerWithAppToken:(NSString *)appToken completion:(UserDataManagerCompletionBlock)completion
+{
+    self.completionBlock = completion;
+    [self determineUserZone];
+}
+
+- (void)determineUserZone
 {
     PNLiteGeoIPRequest *request = [[PNLiteGeoIPRequest alloc] init];
     [request requestGeoIPWithDelegate:self];
@@ -132,19 +144,24 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 - (void)requestDidStart:(PNLiteGeoIPRequest *)request
 {
-    
+    NSLog(@"PNLiteGeoIPRequestDelegate: Request %@ started:",request);
 }
 
 - (void)request:(PNLiteGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP
 {
-    self.inGDPRZone = [PNLiteCountryUtils isGDPRCountry:geoIP.countryCode];
-    self.initialisedSuccessfully = YES;
-    [self.delegate userDataInitialised:self.initialisedSuccessfully];
+    if ([geoIP.countryCode length] == 0) {
+        NSLog(@"No country code was obtained. The default value will be used, therefore no user data consent will be required.");
+        self.inGDPRZone = NO;
+    } else {
+        self.inGDPRZone = [PNLiteCountryUtils isGDPRCountry:geoIP.countryCode];
+        self.completionBlock();
+        self.completionBlock = nil;
+    }
 }
 
 - (void)request:(PNLiteGeoIPRequest *)request didFailWithError:(NSError *)error
 {
-    
+    NSLog(@"PNLiteGeoIPRequestDelegate: Request %@ failed with error: %@",request,error.localizedDescription);
 }
 
 @end

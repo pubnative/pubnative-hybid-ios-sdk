@@ -23,15 +23,13 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PNLiteUserDataManagerDelegate<NSObject>
-
-- (void)userDataInitialised:(BOOL)status;
-
-@end
+typedef void (^UserDataManagerCompletionBlock)(void);
 
 @interface PNLiteUserDataManager : NSObject
 
-- (instancetype)initWithAppToken:(NSString *)appToken withDelegate:(NSObject<PNLiteUserDataManagerDelegate> *)delegate;
++ (instancetype)sharedInstance;
+- (void)createUserDataManagerWithAppToken:(NSString *)appToken
+                               completion:(UserDataManagerCompletionBlock)completion;
 - (NSString *)privacyPolicyLink;
 - (NSString *)vendorListLink;
 - (BOOL)shouldAskConsent;
