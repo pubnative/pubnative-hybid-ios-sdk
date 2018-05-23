@@ -1543,6 +1543,18 @@
 			path = MoPub;
 			sourceTree = "<group>";
 		};
+		5A674F9C20B5AAD200B3D68D /* Consent */ = {
+			isa = PBXGroup;
+			children = (
+				5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */,
+				5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */,
+				5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */,
+				5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */,
+				5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */,
+			);
+			path = Consent;
+			sourceTree = "<group>";
+		};
 		5A6BBE79206262320079F8A5 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
@@ -1587,11 +1599,7 @@
 				5AB6FBD920AC6F6A0092C5DD /* PNLiteContentInfoView.m */,
 				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
-				5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */,
-				5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */,
-				5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */,
-				5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */,
-				5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */,
+				5A674F9C20B5AAD200B3D68D /* Consent */,
 				5A8F10202089E4D20098E337 /* Crash Tracking */,
 				5ABE013D203F344A00E6A14E /* Location */,
 				5ABE013C203F33AD00E6A14E /* Network */,
