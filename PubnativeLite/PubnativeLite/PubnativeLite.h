@@ -52,7 +52,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteContentInfoView.h>
 #import <PubnativeLite/PNLiteUserDataManager.h>
 
-typedef void (^PubnativeLiteCompletionBlock)(void);
+typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 
 @interface PubnativeLite : NSObject
 

@@ -23,7 +23,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^UserDataManagerCompletionBlock)(void);
+typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
 @interface PNLiteUserDataManager : NSObject
 
