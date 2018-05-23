@@ -72,10 +72,15 @@ NSString *const kPNLiteConsentClose = @"close";
     
     if ([absoluteUrlString containsString:kPNLiteConsentAccept]) {
         [[PNLiteUserDataManager sharedInstance] grantConsent];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return NO;
     } else if ([absoluteUrlString containsString:kPNLiteConsentReject]) {
         [[PNLiteUserDataManager sharedInstance] denyConsent];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return NO;
     } else if ([absoluteUrlString containsString:kPNLiteConsentClose]) {
-        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return NO;
     } else {
         
     }
