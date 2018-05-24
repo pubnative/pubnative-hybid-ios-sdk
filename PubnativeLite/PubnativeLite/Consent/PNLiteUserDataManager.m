@@ -31,7 +31,7 @@ NSString *const kPNLiteGDPRConsentUUIDKey = @"gdpr_consent_uuid";
 NSString *const kPNLiteGDPRConsentStateKey = @"gdpr_consent_state";
 NSString *const kPNLitePrivacyPolicyUrl = @"https://pubnative.net/privacy-policy/";
 NSString *const kPNLiteVendorListUrl = @"https://pubnative.net/vendor-list/";
-NSString *const kPNLiteConsentPageUrl = @"https://www.apple.com";
+NSString *const kPNLiteConsentPageUrl = @"https://pubnative.net/personalize-your-experience/";
 NSInteger const kPNLiteConsentStateAccepted = 1;
 NSInteger const kPNLiteConsentStateDenied = 0;
 

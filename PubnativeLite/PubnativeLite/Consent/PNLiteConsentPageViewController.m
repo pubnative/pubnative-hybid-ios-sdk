@@ -23,9 +23,9 @@
 #import "PNLiteConsentPageViewController.h"
 #import "PNLiteUserDataManager.h"
 
-NSString *const kPNLiteConsentAccept = @"accept";
-NSString *const kPNLiteConsentReject = @"reject";
-NSString *const kPNLiteConsentClose = @"close";
+NSString *const kPNLiteConsentAccept = @"https://pubnative.net/personalize-experience-yes/";
+NSString *const kPNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
+NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
 
 @interface PNLiteConsentPageViewController () <UIWebViewDelegate>
 
@@ -70,19 +70,15 @@ NSString *const kPNLiteConsentClose = @"close";
     NSURL *url = [request URL];
     NSString *absoluteUrlString = [url absoluteString];
     
-    if ([absoluteUrlString containsString:kPNLiteConsentAccept]) {
+    if ([absoluteUrlString isEqualToString:kPNLiteConsentAccept]) {
         [[PNLiteUserDataManager sharedInstance] grantConsent];
-        [self dismissViewControllerAnimated:YES completion:nil];
-        return NO;
-    } else if ([absoluteUrlString containsString:kPNLiteConsentReject]) {
+    } else if ([absoluteUrlString isEqualToString:kPNLiteConsentReject]) {
         [[PNLiteUserDataManager sharedInstance] denyConsent];
-        [self dismissViewControllerAnimated:YES completion:nil];
-        return NO;
-    } else if ([absoluteUrlString containsString:kPNLiteConsentClose]) {
+    } else if ([absoluteUrlString isEqualToString:kPNLiteConsentClose]) {
         [self dismissViewControllerAnimated:YES completion:nil];
         return NO;
     } else {
-        
+        return YES;
     }
     return YES;
 }
