@@ -23,15 +23,17 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^UserDataManagerCompletionBlock)(void);
+typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
 @interface PNLiteUserDataManager : NSObject
 
 + (instancetype)sharedInstance;
 - (void)createUserDataManagerWithAppToken:(NSString *)appToken
                                completion:(UserDataManagerCompletionBlock)completion;
+- (void)showConsentRequestScreen;
 - (NSString *)privacyPolicyLink;
 - (NSString *)vendorListLink;
+- (NSString *)consentPageLink;
 - (BOOL)shouldAskConsent;
 - (void)grantConsent;
 - (void)denyConsent;

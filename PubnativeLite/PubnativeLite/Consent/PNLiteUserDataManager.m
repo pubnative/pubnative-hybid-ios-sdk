@@ -24,17 +24,21 @@
 #import "PNLiteSettings.h"
 #import "PNLiteGeoIPRequest.h"
 #import "PNLiteCountryUtils.h"
+#import "UIApplication+PNLiteTopViewController.h"
+#import "PNLiteConsentPageViewController.h"
 
 NSString *const kPNLiteGDPRConsentUUIDKey = @"gdpr_consent_uuid";
 NSString *const kPNLiteGDPRConsentStateKey = @"gdpr_consent_state";
 NSString *const kPNLitePrivacyPolicyUrl = @"https://pubnative.net/privacy-policy/";
 NSString *const kPNLiteVendorListUrl = @"https://pubnative.net/vendor-list/";
+NSString *const kPNLiteConsentPageUrl = @"https://pubnative.net/personalize-your-experience/";
 NSInteger const kPNLiteConsentStateAccepted = 1;
 NSInteger const kPNLiteConsentStateDenied = 0;
 
 @interface PNLiteUserDataManager () <PNLiteGeoIPRequestDelegate>
 
 @property (nonatomic, assign) BOOL inGDPRZone;
+@property (nonatomic, assign) BOOL initialisedSuccessfully;
 @property (nonatomic, assign) NSInteger consentState;
 @property (nonatomic, strong) NSString *UUID;
 @property (nonatomic, copy) UserDataManagerCompletionBlock completionBlock;
@@ -52,6 +56,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     self = [super init];
     if (self) {
         self.inGDPRZone = NO;
+        self.initialisedSuccessfully = NO;
         self.consentState = kPNLiteConsentStateDenied;
     }
     return self;
@@ -79,6 +84,12 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     [request requestGeoIPWithDelegate:self];
 }
 
+- (void)showConsentRequestScreen
+{
+    UIViewController *viewController = [UIApplication sharedApplication].topViewController;
+    [viewController presentViewController:[[PNLiteConsentPageViewController alloc] initWithNibName:NSStringFromClass([PNLiteConsentPageViewController class]) bundle:[NSBundle bundleForClass:[self class]]] animated:YES completion:nil];
+}
+
 - (NSString *)privacyPolicyLink
 {
     return kPNLitePrivacyPolicyUrl;
@@ -87,6 +98,11 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (NSString *)vendorListLink
 {
     return kPNLiteVendorListUrl;
+}
+
+- (NSString *)consentPageLink
+{
+    return kPNLiteConsentPageUrl;
 }
 
 - (BOOL)shouldAskConsent
@@ -152,9 +168,11 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     if ([geoIP.countryCode length] == 0) {
         NSLog(@"No country code was obtained. The default value will be used, therefore no user data consent will be required.");
         self.inGDPRZone = NO;
+        self.initialisedSuccessfully = NO;
     } else {
         self.inGDPRZone = [PNLiteCountryUtils isGDPRCountry:geoIP.countryCode];
-        self.completionBlock();
+        self.initialisedSuccessfully = YES;
+        self.completionBlock(self.initialisedSuccessfully);
         self.completionBlock = nil;
     }
 }

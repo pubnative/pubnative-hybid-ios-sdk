@@ -123,9 +123,12 @@
     [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
     
-    [PubnativeLite initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^{
-        NSLog(@"Initialisation completed");
+    [PubnativeLite initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+        if (success) {
+            NSLog(@"Initialisation completed");
+        }
     }];
+
     [PubnativeLite setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
         [PubnativeLite setTestMode:YES];
