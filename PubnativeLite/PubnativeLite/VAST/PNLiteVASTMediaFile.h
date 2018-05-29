@@ -21,11 +21,29 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNVASTMediaFile.h"
 
-// An implementation of how to pick media file from one or more in a VAST Document. VASTMediaFilePicker looks for internet first and eliminate entries with mime type which we can't play in the phone. After that, the list is sorted by bit rate (if exists) along with hi or low speed connection + progressive/streaming attribute. Once we have the final list, we end up picking the first from the list. If you have no valid media file to pick, you will get a nil and that will generate an error to the caller.
-@interface PNVASTMediaFilePicker : NSObject
+@interface PNLiteVASTMediaFile : NSObject
 
-+ (PNVASTMediaFile *)pick:(NSArray *)mediaFiles;
+@property (nonatomic, copy, readonly) NSString *id_;  // add trailing underscore to id_ to avoid conflict with reserved keyword "id".
+@property (nonatomic, copy, readonly) NSString *delivery;
+@property (nonatomic, copy, readonly) NSString *type;
+@property (nonatomic, assign, readonly) int bitrate;
+@property (nonatomic, assign, readonly) int width;
+@property (nonatomic, assign, readonly) int height;
+@property (nonatomic, assign, readonly) BOOL scalable;
+@property (nonatomic, assign, readonly) BOOL maintainAspectRatio;
+@property (nonatomic, copy, readonly) NSString *apiFramework;
+@property (nonatomic, strong, readonly) NSURL *url;
+
+- (id)initWithId:(NSString *)id_ // add trailing underscore
+        delivery:(NSString *)delivery
+            type:(NSString *)type
+         bitrate:(NSString *)bitrate
+           width:(NSString *)width
+          height:(NSString *)height
+        scalable:(NSString *)scalable
+maintainAspectRatio:(NSString *)maintainAspectRatio
+    apiFramework:(NSString *)apiFramework
+             url:(NSString *)url;
 
 @end

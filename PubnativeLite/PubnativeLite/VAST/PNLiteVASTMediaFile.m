@@ -20,12 +20,41 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 #import "PNLiteVASTMediaFile.h"
 
-// An implementation of how to pick media file from one or more in a VAST Document. VASTMediaFilePicker looks for internet first and eliminate entries with mime type which we can't play in the phone. After that, the list is sorted by bit rate (if exists) along with hi or low speed connection + progressive/streaming attribute. Once we have the final list, we end up picking the first from the list. If you have no valid media file to pick, you will get a nil and that will generate an error to the caller.
-@interface PNLiteVASTMediaFilePicker : NSObject
+@implementation PNLiteVASTMediaFile
 
-+ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles;
+- (id)initWithId:(NSString *)id_
+        delivery:(NSString *)delivery
+            type:(NSString *)type
+         bitrate:(NSString *)bitrate
+           width:(NSString *)width
+          height:(NSString *)height
+        scalable:(NSString *)scalable
+maintainAspectRatio:(NSString *)maintainAspectRatio
+    apiFramework:(NSString *)apiFramework
+             url:(NSString *)url
+
+{
+    self = [super init];
+    if (self) {
+        _id_ = id_;
+        _delivery = delivery;
+        _type = type;
+        _bitrate = bitrate ? [bitrate intValue] : 0;
+        _width = width ? [width intValue] : 0;
+        _height = height ? [height intValue] : 0;
+        _scalable = scalable == nil || [scalable boolValue];
+        _maintainAspectRatio = maintainAspectRatio != nil && [maintainAspectRatio boolValue];
+        _apiFramework = apiFramework;
+        _url = [NSURL URLWithString:url];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    _url = nil;
+}
 
 @end

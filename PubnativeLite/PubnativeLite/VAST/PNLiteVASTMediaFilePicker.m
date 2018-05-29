@@ -26,13 +26,13 @@
 
 @interface PNLiteVASTMediaFilePicker()
 
-+ (BOOL)isMIMETypeCompatible:(PNVASTMediaFile *)vastMediaFile;
++ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile;
 
 @end
 
 @implementation PNLiteVASTMediaFilePicker
 
-+ (PNVASTMediaFile *)pick:(NSArray *)mediaFiles
++ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles
 {
     // Check whether we even have a network connection.
     // If not, return a nil.
@@ -42,7 +42,7 @@
     
     // Go through the provided media files and only those that have a compatible MIME type.
     NSMutableArray *compatibleMediaFiles = [[NSMutableArray alloc] init];
-    for (PNVASTMediaFile *vastMediaFile in mediaFiles) {
+    for (PNLiteVASTMediaFile *vastMediaFile in mediaFiles) {
         // Make sure that you have type specified for mediafile and ignore accordingly
         if (vastMediaFile.type != nil && [self isMIMETypeCompatible:vastMediaFile]) {
             [compatibleMediaFiles addObject:vastMediaFile];
@@ -54,8 +54,8 @@
     
     // Sort the media files based on their video size (in square pixels).
     NSArray *sortedMediaFiles = [compatibleMediaFiles sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        PNVASTMediaFile *mf1 = (PNVASTMediaFile *)a;
-        PNVASTMediaFile *mf2 = (PNVASTMediaFile *)b;
+        PNLiteVASTMediaFile *mf1 = (PNLiteVASTMediaFile *)a;
+        PNLiteVASTMediaFile *mf2 = (PNLiteVASTMediaFile *)b;
         int area1 = mf1.width * mf1.height;
         int area2 = mf2.width * mf2.height;
         if (area1 < area2) {
@@ -75,7 +75,7 @@
     int len = (int)[sortedMediaFiles count];
     
     for (int i = 0; i < len; i++) {
-        int videoArea = ((PNVASTMediaFile *)sortedMediaFiles[i]).width * ((PNVASTMediaFile *)sortedMediaFiles[i]).height;
+        int videoArea = ((PNLiteVASTMediaFile *)sortedMediaFiles[i]).width * ((PNLiteVASTMediaFile *)sortedMediaFiles[i]).height;
         int diff = abs(screenArea - videoArea);
        if (diff >= bestMatchDiff) {
             break;
@@ -84,7 +84,7 @@
         bestMatchDiff = diff;
     }
     
-    PNVASTMediaFile *toReturn = (PNVASTMediaFile *)sortedMediaFiles[bestMatch];
+    PNLiteVASTMediaFile *toReturn = (PNLiteVASTMediaFile *)sortedMediaFiles[bestMatch];
     NSLog(@"VAST - Mediafile Picker: Selected Media File: %@", toReturn.url);
     return toReturn;
 }
@@ -100,7 +100,7 @@
     [reachability stopNotifier];
     return result;}
 
-+ (BOOL)isMIMETypeCompatible:(PNVASTMediaFile *)vastMediaFile
++ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile
 {
     NSString *pattern = @"(mp4|m4v|quicktime|3gpp)";
     NSError *error = NULL;
