@@ -455,6 +455,8 @@
 		5A9B66D720BD6E680067964E /* PNLiteVASTMediaFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66D520BD6E680067964E /* PNLiteVASTMediaFile.m */; };
 		5A9B66DA20BD825A0067964E /* PNLiteVASTModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66D820BD82580067964E /* PNLiteVASTModel.m */; };
 		5A9B66DB20BD825A0067964E /* PNLiteVASTModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66D920BD82590067964E /* PNLiteVASTModel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A9B66DE20BD8BE00067964E /* PNLiteVASTParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66DC20BD8BDF0067964E /* PNLiteVASTParser.m */; };
+		5A9B66DF20BD8BE00067964E /* PNLiteVASTParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66DD20BD8BE00067964E /* PNLiteVASTParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */; };
 		5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */; };
 		5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */; };
@@ -1249,6 +1251,8 @@
 		5A9B66D520BD6E680067964E /* PNLiteVASTMediaFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTMediaFile.m; sourceTree = "<group>"; };
 		5A9B66D820BD82580067964E /* PNLiteVASTModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTModel.m; sourceTree = "<group>"; };
 		5A9B66D920BD82590067964E /* PNLiteVASTModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTModel.h; sourceTree = "<group>"; };
+		5A9B66DC20BD8BDF0067964E /* PNLiteVASTParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTParser.m; sourceTree = "<group>"; };
+		5A9B66DD20BD8BE00067964E /* PNLiteVASTParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTParser.h; sourceTree = "<group>"; };
 		5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdFactory.h; sourceTree = "<group>"; };
 		5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdFactory.m; sourceTree = "<group>"; };
 		5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdRequestModel.h; sourceTree = "<group>"; };
@@ -2542,6 +2546,8 @@
 				5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */,
 				5A9B66D920BD82590067964E /* PNLiteVASTModel.h */,
 				5A9B66D820BD82580067964E /* PNLiteVASTModel.m */,
+				5A9B66DD20BD8BE00067964E /* PNLiteVASTParser.h */,
+				5A9B66DC20BD8BDF0067964E /* PNLiteVASTParser.m */,
 				5A9B66D420BD6E670067964E /* PNLiteVASTMediaFile.h */,
 				5A9B66D520BD6E680067964E /* PNLiteVASTMediaFile.m */,
 				5A9B66D120BD6BF60067964E /* PNLiteVASTMediaFilePicker.h */,
@@ -2831,6 +2837,7 @@
 				5AA8E58E202DB35900C9EABC /* PNLiteAdCache.h in Headers */,
 				5A8F10BD2089E4D20098E337 /* PNLiteCrashLogger.h in Headers */,
 				5ADB0FB720AF11B2005BDAF5 /* PNLiteGeoIPModel.h in Headers */,
+				5A9B66DF20BD8BE00067964E /* PNLiteVASTParser.h in Headers */,
 				5A449B47203D778B00CEB630 /* PNLiteMRectPresenter.h in Headers */,
 				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
 				5A8F10E42089E4D20098E337 /* PNLite_KSJSONCodecObjC.h in Headers */,
@@ -3348,6 +3355,7 @@
 				5A8F10F12089E4D20098E337 /* PNLite_KSZombie.c in Sources */,
 				5A8F11162089E4D20098E337 /* PNLite_KSCrashReport.c in Sources */,
 				5A8F10AF2089E4D20098E337 /* PNLiteUser.m in Sources */,
+				5A9B66DE20BD8BE00067964E /* PNLiteVASTParser.m in Sources */,
 				5A9B66D220BD6BF60067964E /* PNLiteVASTMediaFilePicker.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
 				5A8F10CF2089E4D20098E337 /* PNLite_KSMach_Arm.c in Sources */,
