@@ -448,6 +448,7 @@
 		5A9B66C920BD62640067964E /* PNLiteVASTXMLUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66C720BD62640067964E /* PNLiteVASTXMLUtil.h */; };
 		5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9B66CA20BD63580067964E /* libxml2.tbd */; };
 		5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9B66CC20BD63810067964E /* libxml2.2.tbd */; };
+		5A9B66CF20BD66080067964E /* PNLiteVASTSchema.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66CE20BD66080067964E /* PNLiteVASTSchema.h */; };
 		5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */; };
 		5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */; };
 		5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */; };
@@ -1235,6 +1236,7 @@
 		5A9B66C720BD62640067964E /* PNLiteVASTXMLUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTXMLUtil.h; sourceTree = "<group>"; };
 		5A9B66CA20BD63580067964E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		5A9B66CC20BD63810067964E /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		5A9B66CE20BD66080067964E /* PNLiteVASTSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTSchema.h; sourceTree = "<group>"; };
 		5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdFactory.h; sourceTree = "<group>"; };
 		5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdFactory.m; sourceTree = "<group>"; };
 		5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdRequestModel.h; sourceTree = "<group>"; };
@@ -2526,6 +2528,7 @@
 				5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */,
 				5A9B66B520BD57EA0067964E /* PNLiteUnmute.png */,
 				5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */,
+				5A9B66CE20BD66080067964E /* PNLiteVASTSchema.h */,
 				5A9B66C720BD62640067964E /* PNLiteVASTXMLUtil.h */,
 				5A9B66C620BD62630067964E /* PNLiteVASTXMLUtil.m */,
 			);
@@ -2746,6 +2749,7 @@
 				5A8F10C82089E4D20098E337 /* PNLite_KSCrashReportFilterCompletion.h in Headers */,
 				5A8F11002089E4D20098E337 /* PNLite_KSCrashState.h in Headers */,
 				5A8F10C72089E4D20098E337 /* PNLite_KSCrashReportFilter.h in Headers */,
+				5A9B66CF20BD66080067964E /* PNLiteVASTSchema.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
 				5A54024F202B07C4005D80E6 /* PNLiteRequestParameter.h in Headers */,
 				5ACC74EA203595250001CDC3 /* PNLiteMRAIDServiceDelegate.h in Headers */,
