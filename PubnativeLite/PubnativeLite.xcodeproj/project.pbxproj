@@ -444,6 +444,10 @@
 		5A9B66C220BD57ED0067964E /* PNLitePlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */; };
 		5A9B66C320BD57ED0067964E /* PNLiteFullScreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B920BD57EC0067964E /* PNLiteFullScreen@2x.png */; };
 		5A9B66C420BD57ED0067964E /* PNLiteExternalLink@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66BA20BD57ED0067964E /* PNLiteExternalLink@2x.png */; };
+		5A9B66C820BD62640067964E /* PNLiteVASTXMLUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66C620BD62630067964E /* PNLiteVASTXMLUtil.m */; };
+		5A9B66C920BD62640067964E /* PNLiteVASTXMLUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66C720BD62640067964E /* PNLiteVASTXMLUtil.h */; };
+		5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9B66CA20BD63580067964E /* libxml2.tbd */; };
+		5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9B66CC20BD63810067964E /* libxml2.2.tbd */; };
 		5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */; };
 		5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */; };
 		5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */; };
@@ -1227,6 +1231,10 @@
 		5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PNLitePlay@2x.png"; sourceTree = "<group>"; };
 		5A9B66B920BD57EC0067964E /* PNLiteFullScreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PNLiteFullScreen@2x.png"; sourceTree = "<group>"; };
 		5A9B66BA20BD57ED0067964E /* PNLiteExternalLink@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PNLiteExternalLink@2x.png"; sourceTree = "<group>"; };
+		5A9B66C620BD62630067964E /* PNLiteVASTXMLUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTXMLUtil.m; sourceTree = "<group>"; };
+		5A9B66C720BD62640067964E /* PNLiteVASTXMLUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTXMLUtil.h; sourceTree = "<group>"; };
+		5A9B66CA20BD63580067964E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		5A9B66CC20BD63810067964E /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdFactory.h; sourceTree = "<group>"; };
 		5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdFactory.m; sourceTree = "<group>"; };
 		5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdRequestModel.h; sourceTree = "<group>"; };
@@ -1351,6 +1359,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
+				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2270,6 +2280,8 @@
 		5A8903CF203DE1D400D86051 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A9B66CC20BD63810067964E /* libxml2.2.tbd */,
+				5A9B66CA20BD63580067964E /* libxml2.tbd */,
 				5A8903EA203DE24500D86051 /* AdSupport.framework */,
 				5A8903E8203DE23A00D86051 /* AVFoundation.framework */,
 				5A8903E6203DE23200D86051 /* CoreGraphics.framework */,
@@ -2514,6 +2526,8 @@
 				5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */,
 				5A9B66B520BD57EA0067964E /* PNLiteUnmute.png */,
 				5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */,
+				5A9B66C720BD62640067964E /* PNLiteVASTXMLUtil.h */,
+				5A9B66C620BD62630067964E /* PNLiteVASTXMLUtil.m */,
 			);
 			path = VAST;
 			sourceTree = "<group>";
@@ -2795,6 +2809,7 @@
 				5A449B47203D778B00CEB630 /* PNLiteMRectPresenter.h in Headers */,
 				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
 				5A8F10E42089E4D20098E337 /* PNLite_KSJSONCodecObjC.h in Headers */,
+				5A9B66C920BD62640067964E /* PNLiteVASTXMLUtil.h in Headers */,
 				5A8F11032089E4D20098E337 /* PNLite_KSCrashReportVersion.h in Headers */,
 				5A8F10BF2089E4D20098E337 /* PNLiteFileStore.h in Headers */,
 				5A52BFE9203458D000C4B7C5 /* PNLiteMRAIDServiceProvider.h in Headers */,
@@ -3330,6 +3345,7 @@
 				5AECD5A1204033240023ABBC /* PNLiteInterstitialAdRequest.m in Sources */,
 				5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */,
 				5A8F10CB2089E4D20098E337 /* PNLite_KSMach_x86_32.c in Sources */,
+				5A9B66C820BD62640067964E /* PNLiteVASTXMLUtil.m in Sources */,
 				5A8F10D42089E4D20098E337 /* PNLite_KSJSONCodec.c in Sources */,
 				5A8F10CE2089E4D20098E337 /* PNLite_KSDynamicLinker.c in Sources */,
 				5A8F10F62089E4D20098E337 /* PNLite_KSCrashState.c in Sources */,
@@ -3568,6 +3584,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = PubnativeLite/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -3594,6 +3611,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = PubnativeLite/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
