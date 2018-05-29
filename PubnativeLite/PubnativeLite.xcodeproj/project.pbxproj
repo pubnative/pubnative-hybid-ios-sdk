@@ -459,6 +459,9 @@
 		5A9B66DF20BD8BE00067964E /* PNLiteVASTParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66DD20BD8BE00067964E /* PNLiteVASTParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A9B66E220BD8FF70067964E /* PNLiteVASTEventProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66E020BD8FF60067964E /* PNLiteVASTEventProcessor.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A9B66E320BD8FF70067964E /* PNLiteVASTEventProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66E120BD8FF70067964E /* PNLiteVASTEventProcessor.m */; };
+		5A9B66E720BD97530067964E /* PNLiteVASTPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66E420BD97500067964E /* PNLiteVASTPlayerViewController.h */; };
+		5A9B66E820BD97530067964E /* PNLiteVASTPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66E520BD97510067964E /* PNLiteVASTPlayerViewController.m */; };
+		5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */; };
 		5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */; };
 		5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */; };
 		5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */; };
@@ -1257,6 +1260,9 @@
 		5A9B66DD20BD8BE00067964E /* PNLiteVASTParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTParser.h; sourceTree = "<group>"; };
 		5A9B66E020BD8FF60067964E /* PNLiteVASTEventProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTEventProcessor.h; sourceTree = "<group>"; };
 		5A9B66E120BD8FF70067964E /* PNLiteVASTEventProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTEventProcessor.m; sourceTree = "<group>"; };
+		5A9B66E420BD97500067964E /* PNLiteVASTPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTPlayerViewController.h; sourceTree = "<group>"; };
+		5A9B66E520BD97510067964E /* PNLiteVASTPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTPlayerViewController.m; sourceTree = "<group>"; };
+		5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PNLiteVASTPlayerViewController.xib; sourceTree = "<group>"; };
 		5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdFactory.h; sourceTree = "<group>"; };
 		5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdFactory.m; sourceTree = "<group>"; };
 		5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdRequestModel.h; sourceTree = "<group>"; };
@@ -2554,6 +2560,9 @@
 				5A9B66DC20BD8BDF0067964E /* PNLiteVASTParser.m */,
 				5A9B66E020BD8FF60067964E /* PNLiteVASTEventProcessor.h */,
 				5A9B66E120BD8FF70067964E /* PNLiteVASTEventProcessor.m */,
+				5A9B66E420BD97500067964E /* PNLiteVASTPlayerViewController.h */,
+				5A9B66E520BD97510067964E /* PNLiteVASTPlayerViewController.m */,
+				5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */,
 				5A9B66D420BD6E670067964E /* PNLiteVASTMediaFile.h */,
 				5A9B66D520BD6E680067964E /* PNLiteVASTMediaFile.m */,
 				5A9B66D120BD6BF60067964E /* PNLiteVASTMediaFilePicker.h */,
@@ -2810,6 +2819,7 @@
 				5A8F10C52089E4D20098E337 /* PNLiteSessionTrackingApiClient.h in Headers */,
 				5A540253202B0C04005D80E6 /* PNLiteTargetingModel.h in Headers */,
 				5A8F10B82089E4D20098E337 /* PNLiteSessionFileStore.h in Headers */,
+				5A9B66E720BD97530067964E /* PNLiteVASTPlayerViewController.h in Headers */,
 				5A8F10E52089E4D20098E337 /* PNLite_KSDynamicLinker.h in Headers */,
 				5ADB0FBB20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h in Headers */,
 				5A8F11092089E4D20098E337 /* PNLite_KSCrashSentry_Deadlock.h in Headers */,
@@ -3027,6 +3037,7 @@
 				5A9B66BC20BD57ED0067964E /* PNLiteMute@2x.png in Resources */,
 				5A9B66C320BD57ED0067964E /* PNLiteFullScreen@2x.png in Resources */,
 				5A9B66C120BD57ED0067964E /* PNLiteFullScreen.png in Resources */,
+				5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */,
 				5AFF730820B451C100052F2D /* PNLiteConsentPageViewController.xib in Resources */,
 				5A9B66C420BD57ED0067964E /* PNLiteExternalLink@2x.png in Resources */,
 				5A9B66C220BD57ED0067964E /* PNLitePlay@2x.png in Resources */,
@@ -3365,6 +3376,7 @@
 				5A9B66DE20BD8BE00067964E /* PNLiteVASTParser.m in Sources */,
 				5A9B66D220BD6BF60067964E /* PNLiteVASTMediaFilePicker.m in Sources */,
 				5A9B66E320BD8FF70067964E /* PNLiteVASTEventProcessor.m in Sources */,
+				5A9B66E820BD97530067964E /* PNLiteVASTPlayerViewController.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
 				5A8F10CF2089E4D20098E337 /* PNLite_KSMach_Arm.c in Sources */,
 				5ADB0FBC20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m in Sources */,
