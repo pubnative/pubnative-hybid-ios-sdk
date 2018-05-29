@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "PNPropertyAnimation.h"
+#import "PNLitePropertyAnimation.h"
 
 @class PNLiteProgressLabel;
 
@@ -46,13 +46,11 @@ typedef NS_ENUM(NSUInteger, PNLiteProgressLabelColorTable) {
 
 @property (nonatomic, assign) BOOL clockWise;
 
-
 NSString *NSStringFromPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor);
 UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor);
 
 // Progress is a float between 0.0 and 1.0
 -(void)setProgress:(CGFloat)progress;
--(void)setProgress:(CGFloat)progress timing:(PNPropertyAnimationTiming)timing duration:(CGFloat) duration delay:(CGFloat)delay;
-
+-(void)setProgress:(CGFloat)progress timing:(PNLitePropertyAnimationTiming)timing duration:(CGFloat) duration delay:(CGFloat)delay;
 
 @end

@@ -248,14 +248,12 @@ typedef enum : NSUInteger {
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSString *,id> *)change
-                       context:(void *)context {
-    
+                       context:(void *)context
+{
     // Only handle observations for the PlayerItemContext
     
     if (context != &_playerItem) {
-        
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        
     } else if ([keyPath isEqualToString:kPNLiteVASTPlayerStatusKeyPath]
                && self.currentState == PNLiteVASTPlayerState_LOAD) {
         
@@ -343,8 +341,8 @@ typedef enum : NSUInteger {
 
 #pragma mark IBActions
 
-- (IBAction)btnMutePush:(id)sender {
-    
+- (IBAction)btnMutePush:(id)sender
+{
     NSLog(@"btnMutePush");
     self.muted = !self.muted;
     NSString *newImageName = self.muted ? kPNLiteVASTPlayerMuteImageName : kPNLiteVASTPlayerUnMuteImageName;
@@ -354,8 +352,8 @@ typedef enum : NSUInteger {
     self.player.volume = newVolume;
 }
 
-- (IBAction)btnOpenOfferPush:(id)sender {
-    
+- (IBAction)btnOpenOfferPush:(id)sender
+{
     NSLog(@"btnOpenOfferPush");
     NSArray *clickTrackingUrls = [self.vastModel clickTracking];
     if (clickTrackingUrls != nil && [clickTrackingUrls count] > 0) {
@@ -364,8 +362,8 @@ typedef enum : NSUInteger {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
 }
 
-- (IBAction)btnFullscreenPush:(id)sender {
-    
+- (IBAction)btnFullscreenPush:(id)sender
+{    
     NSLog(@"btnFullscreenPush");
     
     self.fullScreen = !self.fullScreen;

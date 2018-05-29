@@ -39,7 +39,6 @@
     return self;
 }
 
-
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -143,9 +142,9 @@
     }
 }
 
--(void)setProgress:(CGFloat)progress timing:(PNPropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay
+-(void)setProgress:(CGFloat)progress timing:(PNLitePropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay
 {
-    PNPropertyAnimation *animation = [PNPropertyAnimation propertyAnimationWithKeyPath:@"progress"];
+    PNLitePropertyAnimation *animation = [PNLitePropertyAnimation propertyAnimationWithKeyPath:@"progress"];
     animation.fromValue = @(_progress);
     animation.toValue = @(progress);
     animation.duration = duration;
@@ -153,7 +152,6 @@
     animation.timing = timing;
     [animation beginWithTarget:self];
 }
-
 
 #pragma mark -
 #pragma mark Helpers
@@ -176,7 +174,6 @@ NSString *NSStringFromPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable
     }
 }
 
-
 UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor)
 {
     switch(tableColor) {
@@ -186,8 +183,6 @@ UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabe
         default: return nil;
     }
 }
-
-
 
 -(void)drawProgressLabelCircleInRect:(CGRect)rect
 {
