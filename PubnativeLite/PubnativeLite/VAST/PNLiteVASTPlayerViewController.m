@@ -25,10 +25,8 @@
 #import "PNLiteVASTModel.h"
 #import "PNLiteVASTMediaFilePicker.h"
 #import "PNLiteVASTEventProcessor.h"
-
+#import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
-
-//#import "PNProgressLabel.h"
 
 NSString * const kPNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const kPNLiteVASTPlayerBundleName            = @"player.resources";
@@ -57,32 +55,32 @@ typedef enum : NSUInteger {
 
 @interface PNLiteVASTPlayerViewController ()<PNLiteVASTEventProcessorDelegate>
 
-@property (nonatomic, assign) BOOL                  shown;
-@property (nonatomic, assign) BOOL                  wantsToPlay;
-@property (nonatomic, assign) BOOL                  muted;
-@property (nonatomic, assign) BOOL                  fullScreen;
-@property (nonatomic, assign) PNLiteVASTPlayerState     currentState;
-@property (nonatomic, assign) PNLiteVASTPlaybackState   playback;
-@property (nonatomic, strong) NSURL                 *vastUrl;
-@property (nonatomic, strong) NSString              *vastString;
-@property (nonatomic, strong) PNLiteVASTModel           *vastModel;
-@property (nonatomic, strong) PNLiteVASTParser          *parser;
-@property (nonatomic, strong) PNLiteVASTEventProcessor  *eventProcessor;
-@property (nonatomic, strong) NSTimer               *loadTimer;
-@property (nonatomic, strong) id                    playbackToken;
+@property (nonatomic, assign) BOOL shown;
+@property (nonatomic, assign) BOOL wantsToPlay;
+@property (nonatomic, assign) BOOL muted;
+@property (nonatomic, assign) BOOL fullScreen;
+@property (nonatomic, assign) PNLiteVASTPlayerState currentState;
+@property (nonatomic, assign) PNLiteVASTPlaybackState playback;
+@property (nonatomic, strong) NSURL *vastUrl;
+@property (nonatomic, strong) NSString *vastString;
+@property (nonatomic, strong) PNLiteVASTModel *vastModel;
+@property (nonatomic, strong) PNLiteVASTParser *parser;
+@property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
+@property (nonatomic, strong) NSTimer *loadTimer;
+@property (nonatomic, strong) id playbackToken;
 // Fullscreen
-@property (nonatomic, strong) UIView                *viewContainer;
+@property (nonatomic, strong) UIView *viewContainer;
 // Player
-@property (nonatomic, strong) AVPlayer              *player;
-@property (nonatomic, strong) AVPlayerItem          *playerItem;
-@property (nonatomic, strong) AVPlayerLayer         *layer;
-@property (nonatomic, strong) PNProgressLabel       *progressLabel;
+@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayerItem *playerItem;
+@property (nonatomic, strong) AVPlayerLayer *layer;
+@property (nonatomic, strong) PNLiteProgressLabel *progressLabel;
 // IBOutlets
-@property (weak, nonatomic) IBOutlet UIButton                   *btnMute;
-@property (weak, nonatomic) IBOutlet UIButton                   *btnOpenOffer;
-@property (weak, nonatomic) IBOutlet UIButton                   *btnFullscreen;
-@property (weak, nonatomic) IBOutlet UIView                     *viewProgress;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView    *loadingSpin;
+@property (weak, nonatomic) IBOutlet UIButton *btnMute;
+@property (weak, nonatomic) IBOutlet UIButton *btnOpenOffer;
+@property (weak, nonatomic) IBOutlet UIButton *btnFullscreen;
+@property (weak, nonatomic) IBOutlet UIView *viewProgress;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpin;
 
 @end
 
@@ -224,17 +222,17 @@ typedef enum : NSUInteger {
     // Create asset to be played
     AVAsset *asset = [AVAsset assetWithURL:url];
     NSArray *assetKeys = @[@"playable"];
-
+    
     // Create a new AVPlayerItem with the asset and an
     // array of asset keys to be automatically loaded
     self.playerItem = [AVPlayerItem playerItemWithAsset:asset automaticallyLoadedAssetKeys:assetKeys];
-
+    
     // Register as an observer of the player item's status property
     [self.playerItem addObserver:self
                       forKeyPath:kPNLiteVASTPlayerStatusKeyPath
                          options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
                          context:&_playerItem];
-
+    
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
     self.player.volume = 0;
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
@@ -251,16 +249,16 @@ typedef enum : NSUInteger {
                       ofObject:(id)object
                         change:(NSDictionary<NSString *,id> *)change
                        context:(void *)context {
-
+    
     // Only handle observations for the PlayerItemContext
-
+    
     if (context != &_playerItem) {
-
+        
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-
+        
     } else if ([keyPath isEqualToString:kPNLiteVASTPlayerStatusKeyPath]
                && self.currentState == PNLiteVASTPlayerState_LOAD) {
-
+        
         AVPlayerItemStatus status = AVPlayerItemStatusUnknown;
         // Get the status change from the change dictionary
         NSNumber *statusNumber = change[NSKeyValueChangeNewKey];
@@ -290,10 +288,10 @@ typedef enum : NSUInteger {
     Float64 currentDuration = [self duration];
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
-
+    
     [self.progressLabel setProgress:currentPlayedPercent];
     self.progressLabel.text = [NSString stringWithFormat:@"%.f", currentDuration - currentPlaybackTime];
-
+    
     switch (self.playback) {
         case PNLiteVASTPlaybackState_FirstQuartile:
         {
@@ -302,7 +300,7 @@ typedef enum : NSUInteger {
                 self.playback = PNLiteVASTPlaybackState_SecondQuartile;
             }
         }
-        break;
+            break;
         case PNLiteVASTPlaybackState_SecondQuartile:
         {
             if (currentPlayedPercent>0.50f) {
@@ -310,7 +308,7 @@ typedef enum : NSUInteger {
                 self.playback = PNLiteVASTPlaybackState_ThirdQuartile;
             }
         }
-        break;
+            break;
         case PNLiteVASTPlaybackState_ThirdQuartile:
         {
             if (currentPlayedPercent>0.75f) {
@@ -318,7 +316,7 @@ typedef enum : NSUInteger {
                 self.playback = PNLiteVASTPlaybackState_FourthQuartile;
             }
         }
-        break;
+            break;
         default: break;
     }
 }
@@ -346,7 +344,7 @@ typedef enum : NSUInteger {
 #pragma mark IBActions
 
 - (IBAction)btnMutePush:(id)sender {
-
+    
     NSLog(@"btnMutePush");
     self.muted = !self.muted;
     NSString *newImageName = self.muted ? kPNLiteVASTPlayerMuteImageName : kPNLiteVASTPlayerUnMuteImageName;
@@ -357,7 +355,7 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnOpenOfferPush:(id)sender {
-
+    
     NSLog(@"btnOpenOfferPush");
     NSArray *clickTrackingUrls = [self.vastModel clickTracking];
     if (clickTrackingUrls != nil && [clickTrackingUrls count] > 0) {
@@ -367,19 +365,19 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnFullscreenPush:(id)sender {
-
+    
     NSLog(@"btnFullscreenPush");
-
+    
     self.fullScreen = !self.fullScreen;
     if (self.fullScreen) {
-
+        
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];
         self.view.frame = [UIApplication sharedApplication].topViewController.view.frame;
         [[UIApplication sharedApplication].topViewController.view addSubview:self.view];
         
     } else {
-
+        
         [self.view removeFromSuperview];
         self.view.frame = self.viewContainer.bounds;
         [self.viewContainer addSubview:self.view];
@@ -434,7 +432,7 @@ typedef enum : NSUInteger {
                                              selector: @selector(applicationDidBecomeActive:)
                                                  name: UIApplicationDidBecomeActiveNotification
                                                object: nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayBackDidFinish:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
@@ -447,7 +445,7 @@ typedef enum : NSUInteger {
         [self.playerItem removeObserver:self forKeyPath:kPNLiteVASTPlayerStatusKeyPath];
         [self.player removeTimeObserver:self.playbackToken];
     }
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];;
 }
 
@@ -475,7 +473,7 @@ typedef enum : NSUInteger {
 - (BOOL)canGoToState:(PNLiteVASTPlayerState)state
 {
     BOOL result = NO;
-
+    
     switch (state) {
         case PNLiteVASTPlayerState_IDLE:    result = YES; break;
         case PNLiteVASTPlayerState_LOAD:    result = self.currentState & PNLiteVASTPlayerState_IDLE; break;
@@ -488,11 +486,11 @@ typedef enum : NSUInteger {
             }
             result = (self.currentState & (PNLiteVASTPlayerState_READY|PNLiteVASTPlayerState_PAUSE)) && self.shown;
         }
-        break;
+            break;
         case PNLiteVASTPlayerState_PAUSE:   result = (self.currentState & PNLiteVASTPlayerState_PLAY) && self.shown; break;
         default: break;
     }
-
+    
     return result;
 }
 
@@ -515,7 +513,7 @@ typedef enum : NSUInteger {
 - (void)setIdleState
 {
     NSLog(@"PNLiteVASTPlayer - setIdleState");
-
+    
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
     self.btnOpenOffer.hidden = YES;
@@ -523,14 +521,14 @@ typedef enum : NSUInteger {
     self.viewProgress.hidden = YES;
     self.wantsToPlay = NO;
     [self.loadingSpin stopAnimating];
-
+    
     [self close];
 }
 
 - (void)setLoadState
 {
     NSLog(@"PNLiteVASTPlayer - setLoadState");
-
+    
     self.loadingSpin.hidden = NO;
     self.btnMute.hidden = YES;
     self.btnOpenOffer.hidden = YES;
@@ -538,20 +536,20 @@ typedef enum : NSUInteger {
     self.viewProgress.hidden = YES;
     self.wantsToPlay = NO;
     [self.loadingSpin startAnimating];
-
+    
     if (self.vastUrl == nil && self.vastString == nil) {
-
+        
         NSLog(@"PNLiteVASTPlayer - setLoadState error: VAST is nil and required");
         [self setState:PNLiteVASTPlayerState_IDLE];
-
+        
     } else {
-
+        
         if (self.parser == nil) {
             self.parser = [[PNLiteVASTParser alloc] init];
         }
-
+        
         [self startLoadTimeoutTimer];
-
+        
         __weak PNLiteVASTPlayerViewController *weakSelf = self;
         vastParserCompletionBlock completion = ^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
             if (model == nil) {
@@ -572,7 +570,7 @@ typedef enum : NSUInteger {
                 }
             }
         };
-
+        
         if (self.vastUrl != nil) {
             [self.parser parseWithUrl:self.vastUrl
                            completion:completion];
@@ -595,29 +593,29 @@ typedef enum : NSUInteger {
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;
     self.loadingSpin.hidden = YES;
-
+    
     if(self.layer == nil) {
         self.layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
         self.layer.videoGravity = AVLayerVideoGravityResizeAspect;
         self.layer.frame = self.view.bounds;
         [self.view.layer insertSublayer:self.layer atIndex:0];
     }
-
+    
     if(self.progressLabel == nil) {
-        self.progressLabel = [[PNProgressLabel alloc] initWithFrame:self.viewProgress.bounds];
+        self.progressLabel = [[PNLiteProgressLabel alloc] initWithFrame:self.viewProgress.bounds];
         self.progressLabel.frame = self.viewProgress.bounds;
         self.progressLabel.borderWidth = 6.0;
         self.progressLabel.colorTable = @{
-                                          NSStringFromPNProgressLabelColorTableKey(PNColorTable_ProgressLabelTrackColor):[UIColor clearColor],
-                                          NSStringFromPNProgressLabelColorTableKey(PNColorTable_ProgressLabelProgressColor):[UIColor whiteColor],
-                                          NSStringFromPNProgressLabelColorTableKey(PNColorTable_ProgressLabelFillColor):[UIColor clearColor]
-                                         };
+                                          NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelTrackColor):[UIColor clearColor],
+                                          NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelProgressColor):[UIColor whiteColor],
+                                          NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelFillColor):[UIColor clearColor]
+                                          };
         self.progressLabel.textColor = [UIColor whiteColor];
         self.progressLabel.shadowColor = [UIColor darkGrayColor];
         self.progressLabel.shadowOffset = CGSizeMake(1, 1);
         self.progressLabel.textAlignment = NSTextAlignmentCenter;
         self.progressLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
-
+        
         [self.progressLabel setProgress:0.0f];
         [self.viewProgress addSubview:self.progressLabel];
     }
@@ -627,7 +625,7 @@ typedef enum : NSUInteger {
 - (void)setPlayState
 {
     NSLog(@"PNLiteVASTPlayer - setPlayState");
-
+    
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     self.btnOpenOffer.hidden = NO;
@@ -635,7 +633,7 @@ typedef enum : NSUInteger {
     self.viewProgress.hidden = NO;
     self.wantsToPlay = NO;
     [self.loadingSpin stopAnimating];
-
+    
     // Start playback
     [self.player play];
     if([self currentPlaybackTime]  > 0) {
@@ -649,14 +647,14 @@ typedef enum : NSUInteger {
 - (void)setPauseState
 {
     NSLog(@"PNLiteVASTPlayer - setPauseState");
-
+    
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     self.btnOpenOffer.hidden = NO;
     self.btnFullscreen.hidden = !self.canResize;
     self.viewProgress.hidden = NO;
     [self.loadingSpin stopAnimating];
-
+    
     [self.player pause];
     [self.eventProcessor trackEvent:PNLiteVASTEvent_Pause];
     [self invokeDidPause];
@@ -672,7 +670,7 @@ typedef enum : NSUInteger {
         if(self.loadTimeout == 0) {
             self.loadTimeout = kPNLiteVASTPlayerDefaultLoadTimeout;
         }
-
+        
         self.loadTimer = [NSTimer scheduledTimerWithTimeInterval:self.loadTimeout
                                                           target:self
                                                         selector:@selector(loadTimeoutFired)

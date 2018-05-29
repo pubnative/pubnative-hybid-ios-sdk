@@ -37,9 +37,9 @@
 
 @interface PNLiteVASTPlayerViewController : UIViewController
 
-@property (nonatomic, assign) NSTimeInterval                                loadTimeout;
-@property (nonatomic, assign) BOOL                                          canResize;
-@property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate>  *delegate;
+@property (nonatomic, assign) NSTimeInterval loadTimeout;
+@property (nonatomic, assign) BOOL canResize;
+@property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 
 - (void)loadWithVastUrl:(NSURL*)url;
 - (void)loadWithVastString:(NSString*)vast;

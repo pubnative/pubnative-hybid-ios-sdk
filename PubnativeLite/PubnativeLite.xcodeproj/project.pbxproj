@@ -462,6 +462,8 @@
 		5A9B66E720BD97530067964E /* PNLiteVASTPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66E420BD97500067964E /* PNLiteVASTPlayerViewController.h */; };
 		5A9B66E820BD97530067964E /* PNLiteVASTPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66E520BD97510067964E /* PNLiteVASTPlayerViewController.m */; };
 		5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */; };
+		5A9B66EC20BD9DD80067964E /* PNLiteProgressLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66EA20BD9DD70067964E /* PNLiteProgressLabel.m */; };
+		5A9B66ED20BD9DD80067964E /* PNLiteProgressLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */; };
 		5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */; };
 		5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */; };
 		5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */; };
@@ -1263,6 +1265,8 @@
 		5A9B66E420BD97500067964E /* PNLiteVASTPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTPlayerViewController.h; sourceTree = "<group>"; };
 		5A9B66E520BD97510067964E /* PNLiteVASTPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTPlayerViewController.m; sourceTree = "<group>"; };
 		5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PNLiteVASTPlayerViewController.xib; sourceTree = "<group>"; };
+		5A9B66EA20BD9DD70067964E /* PNLiteProgressLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteProgressLabel.m; sourceTree = "<group>"; };
+		5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteProgressLabel.h; sourceTree = "<group>"; };
 		5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdFactory.h; sourceTree = "<group>"; };
 		5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdFactory.m; sourceTree = "<group>"; };
 		5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdRequestModel.h; sourceTree = "<group>"; };
@@ -1657,6 +1661,8 @@
 				5AB6FBD920AC6F6A0092C5DD /* PNLiteContentInfoView.m */,
 				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
+				5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */,
+				5A9B66EA20BD9DD70067964E /* PNLiteProgressLabel.m */,
 				5A9B66C520BD57FE0067964E /* VAST */,
 				5A674F9C20B5AAD200B3D68D /* Consent */,
 				5A8F10202089E4D20098E337 /* Crash Tracking */,
@@ -2850,6 +2856,7 @@
 				5A8F10FF2089E4D20098E337 /* PNLite_KSCrashReportFields.h in Headers */,
 				5A449B4B203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h in Headers */,
 				5A8F10DC2089E4D20098E337 /* PNLite_KSString.h in Headers */,
+				5A9B66ED20BD9DD80067964E /* PNLiteProgressLabel.h in Headers */,
 				5A8F11072089E4D20098E337 /* PNLite_KSCrashSentry_MachException.h in Headers */,
 				5AA8E58E202DB35900C9EABC /* PNLiteAdCache.h in Headers */,
 				5A8F10BD2089E4D20098E337 /* PNLiteCrashLogger.h in Headers */,
@@ -3313,6 +3320,7 @@
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5A8F112B2089E4D20098E337 /* PNLiteSessionTracker.m in Sources */,
 				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
+				5A9B66EC20BD9DD80067964E /* PNLiteProgressLabel.m in Sources */,
 				5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,
 				5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */,
