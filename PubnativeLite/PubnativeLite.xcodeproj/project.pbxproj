@@ -488,6 +488,8 @@
 		5ABF0B2520BEA888006821FB /* PNLiteVASTOrientationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF0B2320BEA888006821FB /* PNLiteVASTOrientationProperties.m */; };
 		5ABF0B2820BEACB7006821FB /* PNLiteVASTUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ABF0B2620BEACB7006821FB /* PNLiteVASTUtil.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5ABF0B2920BEACB7006821FB /* PNLiteVASTUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF0B2720BEACB7006821FB /* PNLiteVASTUtil.m */; };
+		5ABF0B2C20BEB07B006821FB /* PNLiteVASTModalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ABF0B2A20BEB07B006821FB /* PNLiteVASTModalViewController.h */; };
+		5ABF0B2D20BEB07B006821FB /* PNLiteVASTModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF0B2B20BEB07B006821FB /* PNLiteVASTModalViewController.m */; };
 		5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */; };
 		5AC523FA20459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */; };
 		5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74D7203595220001CDC3 /* PNLiteMRAIDParser.m */; };
@@ -1297,6 +1299,8 @@
 		5ABF0B2320BEA888006821FB /* PNLiteVASTOrientationProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTOrientationProperties.m; sourceTree = "<group>"; };
 		5ABF0B2620BEACB7006821FB /* PNLiteVASTUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTUtil.h; sourceTree = "<group>"; };
 		5ABF0B2720BEACB7006821FB /* PNLiteVASTUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTUtil.m; sourceTree = "<group>"; };
+		5ABF0B2A20BEB07B006821FB /* PNLiteVASTModalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTModalViewController.h; sourceTree = "<group>"; };
+		5ABF0B2B20BEB07B006821FB /* PNLiteVASTModalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTModalViewController.m; sourceTree = "<group>"; };
 		5AC523F520456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubInterstitialViewController.h; sourceTree = "<group>"; };
@@ -2594,6 +2598,8 @@
 				5ABF0B2720BEACB7006821FB /* PNLiteVASTUtil.m */,
 				5ABF0B2220BEA888006821FB /* PNLiteVASTOrientationProperties.h */,
 				5ABF0B2320BEA888006821FB /* PNLiteVASTOrientationProperties.m */,
+				5ABF0B2A20BEB07B006821FB /* PNLiteVASTModalViewController.h */,
+				5ABF0B2B20BEB07B006821FB /* PNLiteVASTModalViewController.m */,
 			);
 			path = VAST;
 			sourceTree = "<group>";
@@ -2813,6 +2819,7 @@
 				5A8F11132089E4D20098E337 /* PNLite_KSCrashSentry_User.h in Headers */,
 				5ACC74ED203595250001CDC3 /* PNLiteMRAIDView.h in Headers */,
 				5ABF0B2420BEA888006821FB /* PNLiteVASTOrientationProperties.h in Headers */,
+				5ABF0B2C20BEB07B006821FB /* PNLiteVASTModalViewController.h in Headers */,
 				5A3657C9203C23D1004B4347 /* PNLiteBannerPresenterFactory.h in Headers */,
 				5A8F10C82089E4D20098E337 /* PNLite_KSCrashReportFilterCompletion.h in Headers */,
 				5A8F11002089E4D20098E337 /* PNLite_KSCrashState.h in Headers */,
@@ -3390,6 +3397,7 @@
 				5AE7395620441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m in Sources */,
 				5AECD5AE20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m in Sources */,
 				5A8F11022089E4D20098E337 /* PNLite_KSCrash.m in Sources */,
+				5ABF0B2D20BEB07B006821FB /* PNLiteVASTModalViewController.m in Sources */,
 				5A8F10B22089E4D20098E337 /* PNLiteSink.m in Sources */,
 				5ACC74E8203595250001CDC3 /* PNLiteMRAIDSettings.m in Sources */,
 				5A8F111D2089E4D20098E337 /* PNLiteCrashSentry.m in Sources */,
