@@ -20,36 +20,37 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteCheckConsentRequest.h"
+#import "PNLiteUserConsentRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
 
-@interface PNLiteCheckConsentRequest() <PNLiteHttpRequestDelegate>
+@interface PNLiteUserConsentRequest() <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <CheckConsentRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <UserConsentRequestDelegate> *delegate;
 
 @end
 
-@implementation PNLiteCheckConsentRequest
+@implementation PNLiteUserConsentRequest
 
--(void)checkConsentRequestWithDelegate:(NSObject<CheckConsentRequestDelegate> *)delegate
-                          withAppToken:(NSString *)appToken
-                          withDeviceID:(NSString *)deviceID
-                      withDeviceIDType:(NSString *)deviceIDType
+#pragma mark PNLiteHttpRequestDelegate
+
+- (void)doConsentRequestWithDelegate:(NSObject<UserConsentRequestDelegate> *)delegate
+                         withRequest:(PNLiteUserConsentRequestModel *)requestModel
 {
-    if (appToken == nil || appToken.length == 0 ||
-        deviceID == nil || deviceID.length == 0 ||
-        deviceIDType == nil || deviceIDType.length == 0) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Invalid parameters for check user consent request" code:0 userInfo:nil]];
+    if (requestModel == nil) {
+        [self invokeDidFail:[NSError errorWithDomain:@"Given request is nil and required, droping this call" code:0 userInfo:nil]];
     } else if (delegate == nil) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
-        NSString *url = [PNLiteConsentEndpoints checkConsentURLWithAppToken:appToken withDeviceID:deviceID withDeviceIDType:deviceIDType];
+        NSString *url = [PNLiteConsentEndpoints consentURL];
+        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type",@"application/json",@"Accept", nil];
+        PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
+        [request setHeader:headerDictionary];
+        [request setBodyString:[requestModel createJSONString]];
         [[PNLiteHttpRequest alloc] startWithUrlString:url delegate:self];
     }
 }
-
 - (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -90,8 +91,6 @@
         }
     }
 }
-
-#pragma mark PNLiteHttpRequestDelegate
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
 {

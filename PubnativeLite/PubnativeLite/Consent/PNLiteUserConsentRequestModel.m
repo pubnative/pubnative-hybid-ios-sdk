@@ -54,4 +54,27 @@
     }
     return self;
 }
+
+- (NSString *)createJSONString
+{
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    
+    if (self.appToken) {
+        [dictionary setObject:self.appToken forKey:@"app_token"];
+    }
+    if (self.deviceID) {
+        [dictionary setObject:self.deviceID forKey:@"did"];
+    }
+    if (self.deviceIDType) {
+        [dictionary setObject:self.deviceIDType forKey:@"did_type"];
+    }
+    if (self.consented) {
+        [dictionary setObject:[NSNumber numberWithBool:self.consented] forKey:@"consented"];
+    }
+    
+    NSError * error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return jsonString;
+}
 @end

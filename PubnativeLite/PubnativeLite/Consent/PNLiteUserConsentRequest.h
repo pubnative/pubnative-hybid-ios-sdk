@@ -21,22 +21,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "PNLiteUserConsentResponseModel.h"
+#import "PNLiteUserConsentRequestModel.h"
 
-@class PNLiteHttpRequest;
+@protocol UserConsentRequestDelegate <NSObject>
 
-@protocol PNLiteHttpRequestDelegate <NSObject>
-
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode;
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error;
+- (void)success:(PNLiteUserConsentResponseModel *)model;
+- (void)fail:(NSError *)error;
 
 @end
 
-@interface PNLiteHttpRequest : NSObject
+@interface PNLiteUserConsentRequest : NSObject
 
-@property (nonatomic, strong) NSDictionary *header;
-@property (nonatomic, strong) NSString *bodyString;
-
-- (void)startWithUrlString:(NSString *)urlString delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
+- (void)doConsentRequestWithDelegate:(NSObject<UserConsentRequestDelegate> *)delegate
+                         withRequest:(PNLiteUserConsentRequestModel *)requestModel;
 
 @end
