@@ -21,8 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PNLiteBaseModel.h"
 
-@interface PNLiteUserConsentModel : NSObject
+@interface PNLiteUserConsentModel : PNLiteBaseModel
 
 @property (nonatomic, assign) BOOL found;
 @property (nonatomic, assign) BOOL consented;

@@ -441,6 +441,8 @@
 		5A91E65820BFF76900527BAA /* PNLiteUserConsentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E65620BFF76900527BAA /* PNLiteUserConsentModel.m */; };
 		5A91E65B20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E65920BFFA5E00527BAA /* PNLiteUserConsentRequestModel.h */; };
 		5A91E65C20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E65A20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.m */; };
+		5A91E65F20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E65D20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h */; };
+		5A91E66020BFFF1000527BAA /* PNLiteUserConsentResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E65E20BFFF1000527BAA /* PNLiteUserConsentResponseModel.m */; };
 		5A969A42206523F800C3B74A /* PubnativeLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; };
 		5A9B66BB20BD57ED0067964E /* PNLitePlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B120BD57E80067964E /* PNLitePlay.png */; };
 		5A9B66BC20BD57ED0067964E /* PNLiteMute@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B220BD57E90067964E /* PNLiteMute@2x.png */; };
@@ -1259,6 +1261,8 @@
 		5A91E65620BFF76900527BAA /* PNLiteUserConsentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteUserConsentModel.m; sourceTree = "<group>"; };
 		5A91E65920BFFA5E00527BAA /* PNLiteUserConsentRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserConsentRequestModel.h; sourceTree = "<group>"; };
 		5A91E65A20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteUserConsentRequestModel.m; sourceTree = "<group>"; };
+		5A91E65D20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserConsentResponseModel.h; sourceTree = "<group>"; };
+		5A91E65E20BFFF1000527BAA /* PNLiteUserConsentResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteUserConsentResponseModel.m; sourceTree = "<group>"; };
 		5A969A3D206523F800C3B74A /* PubnativeLiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PubnativeLiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A969A41206523F800C3B74A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A9B66B120BD57E80067964E /* PNLitePlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PNLitePlay.png; sourceTree = "<group>"; };
@@ -1648,6 +1652,8 @@
 				5A91E65620BFF76900527BAA /* PNLiteUserConsentModel.m */,
 				5A91E65920BFFA5E00527BAA /* PNLiteUserConsentRequestModel.h */,
 				5A91E65A20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.m */,
+				5A91E65D20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h */,
+				5A91E65E20BFFF1000527BAA /* PNLiteUserConsentResponseModel.m */,
 				5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */,
 				5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */,
 				5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */,
@@ -2919,6 +2925,7 @@
 				5A9B66DF20BD8BE00067964E /* PNLiteVASTParser.h in Headers */,
 				5A449B47203D778B00CEB630 /* PNLiteMRectPresenter.h in Headers */,
 				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
+				5A91E65F20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h in Headers */,
 				5A8F10E42089E4D20098E337 /* PNLite_KSJSONCodecObjC.h in Headers */,
 				5A9B66C920BD62640067964E /* PNLiteVASTXMLUtil.h in Headers */,
 				5A8F11032089E4D20098E337 /* PNLite_KSCrashReportVersion.h in Headers */,
@@ -3378,6 +3385,7 @@
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5A8F112B2089E4D20098E337 /* PNLiteSessionTracker.m in Sources */,
 				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
+				5A91E66020BFFF1000527BAA /* PNLiteUserConsentResponseModel.m in Sources */,
 				5A9B66EC20BD9DD80067964E /* PNLiteProgressLabel.m in Sources */,
 				5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,

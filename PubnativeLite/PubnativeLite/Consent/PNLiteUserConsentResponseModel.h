@@ -20,20 +20,15 @@
 //  THE SOFTWARE.
 //
 
+
+#import <Foundation/Foundation.h>
 #import "PNLiteUserConsentModel.h"
+#import "PNLiteBaseModel.h"
 
-@implementation PNLiteUserConsentModel
+@interface PNLiteUserConsentResponseModel : PNLiteBaseModel
 
-#pragma mark PNLiteBaseModel
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
-    self = [super initWithDictionary:dictionary];
-    if (self) {
-        self.found = dictionary[@"found"];
-        self.consented = dictionary[@"consented"];
-    }
-    return self;
-}
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *error;
+@property (nonatomic, strong) PNLiteUserConsentModel *consent;
 
 @end

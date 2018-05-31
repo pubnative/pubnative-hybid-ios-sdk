@@ -20,9 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteUserConsentModel.h"
 
-@implementation PNLiteUserConsentModel
+#import "PNLiteUserConsentResponseModel.h"
+
+@implementation PNLiteUserConsentResponseModel
+
+- (void)dealloc
+{
+    self.status = nil;
+    self.error = nil;
+    self.consent = nil;
+}
 
 #pragma mark PNLiteBaseModel
 
@@ -30,8 +38,9 @@
 {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.found = dictionary[@"found"];
-        self.consented = dictionary[@"consented"];
+        self.status = dictionary[@"status"];
+        self.error = dictionary[@"error"];
+        self.consent = [[PNLiteUserConsentModel alloc] initWithDictionary:dictionary[@"consent"]];
     }
     return self;
 }
