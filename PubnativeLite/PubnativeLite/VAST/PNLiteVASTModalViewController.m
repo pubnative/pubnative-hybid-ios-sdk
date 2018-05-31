@@ -20,18 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRAIDModalViewController.h"
-#import "PNLiteMRAIDUtil.h"
+#import "PNLiteVASTModalViewController.h"
+#import "PNLiteVASTUtil.h"
 #import "PNLiteLogger.h"
-#import "PNLiteMRAIDOrientationProperties.h"
+#import "PNLiteVASTOrientationProperties.h"
 
-@interface PNLiteMRAIDModalViewController ()
+@interface PNLiteVASTModalViewController ()
 {
     BOOL isStatusBarHidden;
     BOOL hasViewAppeared;
     BOOL hasRotated;
     
-    PNLiteMRAIDOrientationProperties *orientationProperties;
+    PNLiteVASTOrientationProperties *orientationProperties;
     UIInterfaceOrientation preferredOrientation;
 }
 
@@ -39,14 +39,14 @@
 
 @end
 
-@implementation PNLiteMRAIDModalViewController
+@implementation PNLiteVASTModalViewController
 
 - (id)init
 {
     return [self initWithOrientationProperties:nil];
 }
 
-- (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProps
+- (id)initWithOrientationProperties:(PNLiteVASTOrientationProperties *)orientationProps
 {
     self = [super init];
     if (self) {
@@ -55,23 +55,23 @@
         if (orientationProps) {
             orientationProperties = orientationProps;
         } else {
-            orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
+            orientationProperties = [[PNLiteVASTOrientationProperties alloc] init];
         }
         
         UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-
+        
         // If the orientation is forced, accomodate it.
         // If it's not fored, then match the current orientation.
-        if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
+        if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationPortrait) {
             preferredOrientation = UIInterfaceOrientationPortrait;
-        } else  if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
+        } else  if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationLandscape) {
             if (UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) {
                 preferredOrientation = currentInterfaceOrientation;
             } else {
                 preferredOrientation = UIInterfaceOrientationLandscapeLeft;
             }
         } else {
-            // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
+            // orientationProperties.forceOrientation == PNLiteVASTForceOrientationNone
             preferredOrientation = currentInterfaceOrientation;
         }
     }
@@ -81,7 +81,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,8 +97,8 @@
 {
     [super viewWillAppear:animated];
     
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
-
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -109,11 +109,11 @@
 {
     [super viewDidAppear:animated];
     
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     hasViewAppeared = YES;
     
     if (hasRotated) {
-        [self.delegate mraidModalViewControllerDidRotate:self];
+        [self.delegate vastModalViewControllerDidRotate:self];
         hasRotated = NO;
     }
 }
@@ -145,15 +145,15 @@
     BOOL isLandscapeRightSupported = [supportedOrientationsInPlist containsObject:@"UIInterfaceOrientationLandscapeRight"];
     
     UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-
+    
     BOOL retval = NO;
-
-    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
+    
+    if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationPortrait) {
         retval = (isPortraitSupported && isPortraitUpsideDownSupported);
-    } else if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
+    } else if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationLandscape) {
         retval = (isLandscapeLeftSupported && isLandscapeRightSupported);
     } else {
-        // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
+        // orientationProperties.forceOrientation == PNLiteVASTForceOrientationNone
         if (orientationProperties.allowOrientationChange) {
             retval = YES;
         } else {
@@ -166,31 +166,31 @@
         }
     }
     
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
     return retval;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
-                            [self.class description],
-                            NSStringFromSelector(_cmd),
-                            [self stringfromUIInterfaceOrientation:preferredOrientation]]];
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
+                                                                    [self.class description],
+                                                                    NSStringFromSelector(_cmd),
+                                                                    [self stringfromUIInterfaceOrientation:preferredOrientation]]];
     return preferredOrientation;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
-    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationPortrait) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
     }
     
-    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
+    if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationLandscape) {
         return UIInterfaceOrientationMaskLandscape;
     }
     
-    // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
+    // orientationProperties.forceOrientation == PNLiteVASTForceOrientationNone
     
     if (!orientationProperties.allowOrientationChange) {
         if (UIInterfaceOrientationIsPortrait(preferredOrientation)) {
@@ -206,7 +206,7 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     
     // willRotateToInterfaceOrientation code goes here
-   
+    
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         // willAnimateRotationToInterfaceOrientation code goes here
         [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -214,7 +214,7 @@
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         // didRotateFromInterfaceOrientation goes here
         if (hasViewAppeared) {
-            [self.delegate mraidModalViewControllerDidRotate:self];
+            [self.delegate vastModalViewControllerDidRotate:self];
             hasRotated = NO;
         }
     }];
@@ -223,29 +223,29 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     UIInterfaceOrientation toInterfaceOrientation = self.interfaceOrientation;
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
-                      [self.class description],
-                      NSStringFromSelector(_cmd),
-                      [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
-                      [self stringfromUIInterfaceOrientation:toInterfaceOrientation]]];
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
+                                                                    [self.class description],
+                                                                    NSStringFromSelector(_cmd),
+                                                                    [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
+                                                                    [self stringfromUIInterfaceOrientation:toInterfaceOrientation]]];
     
     if (hasViewAppeared) {
-        [self.delegate mraidModalViewControllerDidRotate:self];
+        [self.delegate vastModalViewControllerDidRotate:self];
         hasRotated = NO;
     }
 }
 
-- (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProps;
+- (void)forceToOrientation:(PNLiteVASTOrientationProperties *)orientationProps
 {
     NSString *orientationString;
     switch (orientationProps.forceOrientation) {
-        case PNLiteMRAIDForceOrientationPortrait:
+        case PNLiteVASTForceOrientationPortrait:
             orientationString = @"portrait";
             break;
-        case PNLiteMRAIDForceOrientationLandscape:
+        case PNLiteVASTForceOrientationLandscape:
             orientationString = @"landscape";
             break;
-        case PNLiteMRAIDForceOrientationNone:
+        case PNLiteVASTForceOrientationNone:
             orientationString = @"none";
             break;
         default:
@@ -253,23 +253,23 @@
             break;
     }
     
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
-                      [self.class description],
-                      NSStringFromSelector(_cmd),
-                      (orientationProperties.allowOrientationChange ? @"YES" : @"NO"),
-                      orientationString]];
-
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
+                                                                    [self.class description],
+                                                                    NSStringFromSelector(_cmd),
+                                                                    (orientationProperties.allowOrientationChange ? @"YES" : @"NO"),
+                                                                    orientationString]];
+    
     orientationProperties = orientationProps;
     UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
-    if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
+    if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationPortrait) {
         if (UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) {
             // this will accomodate both portrait and portrait upside down
             preferredOrientation = currentInterfaceOrientation;
         } else {
             preferredOrientation = UIInterfaceOrientationPortrait;
         }
-    } else if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape) {
+    } else if (orientationProperties.forceOrientation == PNLiteVASTForceOrientationLandscape) {
         if (UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) {
             // this will accomodate both landscape left and landscape right
             preferredOrientation = currentInterfaceOrientation;
@@ -277,7 +277,7 @@
             preferredOrientation = UIInterfaceOrientationLandscapeLeft;
         }
     } else {
-        // orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone
+        // orientationProperties.forceOrientation == PNLiteVASTForceOrientationNone
         if (orientationProperties.allowOrientationChange) {
             UIDeviceOrientation currentDeviceOrientation = [[UIDevice currentDevice] orientation];
             // NB: UIInterfaceOrientationLandscapeLeft = UIDeviceOrientationLandscapeRight
@@ -325,13 +325,13 @@
         }
     }
     
-    [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
-                            [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
-                            [self stringfromUIInterfaceOrientation:preferredOrientation]]];
+    [PNLiteLogger debug:@"VAST - ModalViewController" withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
+                                                                    [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
+                                                                    [self stringfromUIInterfaceOrientation:preferredOrientation]]];
     
-    if ((orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait && UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) ||
-        (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape && UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) ||
-        (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationNone && (preferredOrientation == currentInterfaceOrientation)))
+    if ((orientationProperties.forceOrientation == PNLiteVASTForceOrientationPortrait && UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) ||
+        (orientationProperties.forceOrientation == PNLiteVASTForceOrientationLandscape && UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) ||
+        (orientationProperties.forceOrientation == PNLiteVASTForceOrientationNone && (preferredOrientation == currentInterfaceOrientation)))
     {
         return;
     }
@@ -349,8 +349,8 @@
         [self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
         // iOS 6+
         [self dismissViewControllerAnimated:NO completion:^{
-             [presentingVC presentViewController:self animated:NO completion:nil];
-         }];
+            [presentingVC presentViewController:self animated:NO completion:nil];
+        }];
     } else {
         // < iOS 6
         // Turn off the warning about using a deprecated method.
