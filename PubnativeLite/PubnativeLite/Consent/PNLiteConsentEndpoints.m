@@ -34,7 +34,7 @@ NSString *const kParamDeviceIDType = @"/did_type";
 
 + (NSString *)checkConsentURLWithAppToken:(NSString *)appToken
                              withDeviceID:(NSString *)deviceID
-                           withDeviceType:(NSString *)deviceType
+                         withDeviceIDType:(NSString *)deviceType
 {
     NSString *urlString = [[NSString alloc] init];
     urlString = [urlString stringByAppendingString:kScheme];

@@ -26,7 +26,7 @@
 
 + (NSString *)checkConsentURLWithAppToken:(NSString *)appToken
                              withDeviceID:(NSString *)deviceID
-                           withDeviceType:(NSString *)deviceType;
+                         withDeviceIDType:(NSString *)deviceType;
 + (NSString *)consentURL;
 
 @end
