@@ -54,8 +54,7 @@
     }
     return self;
 }
-
-- (NSString *)createJSONString
+- (NSData *)createPOSTBody
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     
@@ -68,13 +67,11 @@
     if (self.deviceIDType) {
         [dictionary setObject:self.deviceIDType forKey:@"did_type"];
     }
-    if (self.consented) {
-        [dictionary setObject:[NSNumber numberWithBool:self.consented] forKey:@"consented"];
-    }
+    
+    [dictionary setObject:[NSNumber numberWithBool:self.consented] forKey:@"consented"];
     
     NSError * error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    return jsonString;
+    return jsonData;
 }
 @end

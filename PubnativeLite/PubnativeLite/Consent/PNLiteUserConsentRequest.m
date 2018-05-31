@@ -26,7 +26,7 @@
 
 @interface PNLiteUserConsentRequest() <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <UserConsentRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <PNLiteUserConsentRequestDelegate> *delegate;
 
 @end
 
@@ -34,7 +34,7 @@
 
 #pragma mark PNLiteHttpRequestDelegate
 
-- (void)doConsentRequestWithDelegate:(NSObject<UserConsentRequestDelegate> *)delegate
+- (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel
 {
     if (requestModel == nil) {
@@ -44,18 +44,18 @@
     } else {
         self.delegate = delegate;
         NSString *url = [PNLiteConsentEndpoints consentURL];
-        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type",@"application/json",@"Accept", nil];
+        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type", nil];
         PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-        [request setHeader:headerDictionary];
-        [request setBodyString:[requestModel createJSONString]];
-        [[PNLiteHttpRequest alloc] startWithUrlString:url delegate:self];
+        request.header = headerDictionary;
+        request.body = [requestModel createPOSTBody];
+        [request startWithUrlString:url delegate:self];
     }
 }
 - (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(success:)]) {
-            [self.delegate success:model];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestSuccess:)]) {
+            [self.delegate userConsentRequestSuccess:model];
         }
         self.delegate = nil;
     });
@@ -64,8 +64,8 @@
 - (void)invokeDidFail:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(fail:)]){
-            [self.delegate fail:error];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestFail:)]){
+            [self.delegate userConsentRequestFail:error];
         }
         self.delegate = nil;
     });

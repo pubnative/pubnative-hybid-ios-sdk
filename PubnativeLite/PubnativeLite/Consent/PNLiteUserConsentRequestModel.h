@@ -30,6 +30,6 @@
                 withDeviceIDType:(NSString *)deviceIDType
                      withConsent:(BOOL)consented;
 
-- (NSString *)createJSONString;
+- (NSData *)createPOSTBody;
 
 @end

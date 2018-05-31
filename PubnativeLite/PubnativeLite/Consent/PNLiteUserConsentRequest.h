@@ -24,16 +24,16 @@
 #import "PNLiteUserConsentResponseModel.h"
 #import "PNLiteUserConsentRequestModel.h"
 
-@protocol UserConsentRequestDelegate <NSObject>
+@protocol PNLiteUserConsentRequestDelegate <NSObject>
 
-- (void)success:(PNLiteUserConsentResponseModel *)model;
-- (void)fail:(NSError *)error;
+- (void)userConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model;
+- (void)userConsentRequestFail:(NSError *)error;
 
 @end
 
 @interface PNLiteUserConsentRequest : NSObject
 
-- (void)doConsentRequestWithDelegate:(NSObject<UserConsentRequestDelegate> *)delegate
+- (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel;
 
 @end

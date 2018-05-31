@@ -43,7 +43,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     self.urlString = nil;
     self.userAgent = nil;
     self.header = nil;
-    self.bodyString = nil;
+    self.body = nil;
 }
 
 - (void)startWithUrlString:(NSString *)urlString delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate
@@ -96,10 +96,11 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
                 [request setValue:value forHTTPHeaderField:key];
             }
         }
-        if (self.bodyString) {
+        if (self.body) {
             [request setHTTPMethod:@"POST"];
-            [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.bodyString length]] forHTTPHeaderField:@"Content-Length"];
-            [request setValue:[PNLiteCryptoUtils md5WithString:self.bodyString] forHTTPHeaderField:@"Content-MD5"];
+            [request setHTTPBody:self.body];
+            [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.body length]] forHTTPHeaderField:@"Content-Length"];
+            [request setValue:[PNLiteCryptoUtils md5WithString:[[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding]] forHTTPHeaderField:@"Content-MD5"];
         } else {
             [request setHTTPMethod:@"GET"];
         }

@@ -24,16 +24,16 @@
 #import <Foundation/Foundation.h>
 #import "PNLiteUserConsentResponseModel.h"
 
-@protocol CheckConsentRequestDelegate <NSObject>
+@protocol PNLiteCheckConsentRequestDelegate <NSObject>
 
-- (void)success:(PNLiteUserConsentResponseModel *)model;
-- (void)fail:(NSError *)error;
+- (void)checkConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model;
+- (void)checkConsentRequestFail:(NSError *)error;
 
 @end
 
 @interface PNLiteCheckConsentRequest : NSObject
 
-- (void)checkConsentRequestWithDelegate:(NSObject<CheckConsentRequestDelegate> *)delegate
+- (void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
                            withAppToken:(NSString *)appToken
                            withDeviceID:(NSString *)deviceID
                        withDeviceIDType:(NSString *)deviceIDType;

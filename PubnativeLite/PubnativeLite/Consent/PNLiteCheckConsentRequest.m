@@ -26,13 +26,13 @@
 
 @interface PNLiteCheckConsentRequest() <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <CheckConsentRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <PNLiteCheckConsentRequestDelegate> *delegate;
 
 @end
 
 @implementation PNLiteCheckConsentRequest
 
--(void)checkConsentRequestWithDelegate:(NSObject<CheckConsentRequestDelegate> *)delegate
+-(void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
                           withAppToken:(NSString *)appToken
                           withDeviceID:(NSString *)deviceID
                       withDeviceIDType:(NSString *)deviceIDType
@@ -53,8 +53,8 @@
 - (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(success:)]) {
-            [self.delegate success:model];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(checkConsentRequestSuccess:)]) {
+            [self.delegate checkConsentRequestSuccess:model];
         }
         self.delegate = nil;
     });
@@ -63,8 +63,8 @@
 - (void)invokeDidFail:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(fail:)]){
-            [self.delegate fail:error];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(checkConsentRequestFail:)]){
+            [self.delegate checkConsentRequestFail:error];
         }
         self.delegate = nil;
     });
