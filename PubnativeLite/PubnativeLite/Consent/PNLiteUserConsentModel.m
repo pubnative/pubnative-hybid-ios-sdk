@@ -24,14 +24,4 @@
 
 @implementation PNLiteUserConsentModel
 
-- (BOOL)isFound
-{
-    return self.found;
-}
-
-- (BOOL)isConsented
-{
-    return self.consented;
-}
-
 @end

@@ -22,11 +22,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PNLiteConsentEndpoints : NSObject
+@interface PNLiteUserConsentRequestModel : NSObject
 
-+ (NSString *)checkConsentURLWithAppToken:(NSString *)appToken
-                             withDeviceID:(NSString *)deviceID
-                           withDeviceType:(NSString *)deviceType;
-+ (NSString *)consentURL;
+- (instancetype)initWithAppToken:(NSString *)appToken
+                    withDeviceID:(NSString *)deviceID
+                withDeviceIDType:(NSString *)deviceIDType
+                     withConsent:(BOOL)consented;
 
 @end

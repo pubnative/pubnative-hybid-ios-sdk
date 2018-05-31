@@ -20,13 +20,35 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "PNLiteUserConsentRequestModel.h"
 
-@interface PNLiteConsentEndpoints : NSObject
+@interface PNLiteUserConsentRequestModel()
 
-+ (NSString *)checkConsentURLWithAppToken:(NSString *)appToken
-                             withDeviceID:(NSString *)deviceID
-                           withDeviceType:(NSString *)deviceType;
-+ (NSString *)consentURL;
+@property (nonatomic, strong) NSString *appToken;
+@property (nonatomic, strong) NSString *deviceID;
+@property (nonatomic, strong) NSString *deviceIDType;
+@property (nonatomic, assign) BOOL consented;
 
+@end
+
+@implementation PNLiteUserConsentRequestModel
+
+- (void)dealloc
+{
+    self.appToken = nil;
+    self.deviceID = nil;
+    self.deviceIDType = nil;
+}
+
+- (instancetype)initWithAppToken:(NSString *)appToken withDeviceID:(NSString *)deviceID withDeviceIDType:(NSString *)deviceIDType withConsent:(BOOL)consented
+{
+    self = [super init];
+    if (self) {
+        self.appToken = appToken;
+        self.deviceID = deviceID;
+        self.deviceIDType = deviceIDType;
+        self.consented = consented;
+    }
+    return self;
+}
 @end

@@ -28,11 +28,13 @@ NSString *const kConsentPath = @"consent/";
 NSString *const kAPIVersion = @"v1";
 NSString *const kParamAppToken = @"/app_token";
 NSString *const kParamDeviceID = @"/did";
-NSString *const kParamDeviceType = @"/did_type";
+NSString *const kParamDeviceIDType = @"/did_type";
 
 @implementation PNLiteConsentEndpoints
 
-+ (NSString *)checkConsentURLWithAppToken:(NSString *)appToken withDeviceID:(NSString *)deviceID withDeviceType:(NSString *)deviceType
++ (NSString *)checkConsentURLWithAppToken:(NSString *)appToken
+                             withDeviceID:(NSString *)deviceID
+                           withDeviceType:(NSString *)deviceType
 {
     NSString *urlString = [[NSString alloc] init];
     urlString = [urlString stringByAppendingString:kScheme];
@@ -43,7 +45,7 @@ NSString *const kParamDeviceType = @"/did_type";
     urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"/%@",appToken]];
     urlString = [urlString stringByAppendingString:kParamDeviceID];
     urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"/%@",deviceID]];
-    urlString = [urlString stringByAppendingString:kParamDeviceType];
+    urlString = [urlString stringByAppendingString:kParamDeviceIDType];
     urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"/%@",deviceType]];
     return urlString;
 }

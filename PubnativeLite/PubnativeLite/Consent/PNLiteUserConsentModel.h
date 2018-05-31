@@ -24,10 +24,7 @@
 
 @interface PNLiteUserConsentModel : NSObject
 
-@property (nonatomic, assign)BOOL found;
-@property (nonatomic, assign)BOOL consented;
-
-- (BOOL)isFound;
-- (BOOL)isConsented;
+@property (nonatomic, assign) BOOL found;
+@property (nonatomic, assign) BOOL consented;
 
 @end
