@@ -21,10 +21,17 @@
 //
 
 #import "PNLiteVASTMRectPresenter.h"
+#import "PNLiteVASTPlayerViewController.h"
 
-@interface PNLiteVASTMRectPresenter ()
+CGFloat const kPNLiteVASTMRectXPosition = 0.0f;
+CGFloat const kPNLiteVASTMRectYPosition = 0.0f;
+CGFloat const kPNLiteVASTMRectWidth = 300.0f;
+CGFloat const kPNLiteVASTMRectHeight = 250.0f;
+
+@interface PNLiteVASTMRectPresenter () <PNLiteVASTPlayerViewControllerDelegate>
 
 @property (nonatomic, strong) PNLiteAd *adModel;
+@property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
 
 @end
 
@@ -33,6 +40,7 @@
 - (void)dealloc
 {
     self.adModel = nil;
+    self.player = nil;
 }
 
 - (instancetype)initWithAd:(PNLiteAd *)ad
@@ -47,6 +55,55 @@
 - (PNLiteAd *)ad
 {
     return self.adModel;
+}
+
+- (void)load
+{
+    self.player = [[PNLiteVASTPlayerViewController alloc] init];
+    self.player.delegate = self;
+    [self.player loadWithVastString:self.adModel.vast];
+}
+
+- (UIView *)buildContainerWithVASTPlayer:(PNLiteVASTPlayerViewController *)player
+{
+    UIView *playerContainer = [[UIView alloc] initWithFrame:CGRectMake(kPNLiteVASTMRectXPosition, kPNLiteVASTMRectYPosition, kPNLiteVASTMRectWidth, kPNLiteVASTMRectHeight)];
+    player.view.frame = playerContainer.bounds;
+    [playerContainer addSubview:player.view];
+    return playerContainer;
+}
+
+#pragma mark PNLiteVASTPlayerViewControllerDelegate
+
+- (void)vastPlayerDidFinishLoading:(PNLiteVASTPlayerViewController *)vastPlayer
+{
+    //TO-DO: Handle play when using PNLiteAdView
+    
+    [self.delegate mRectPresenter:self didLoadWithMRect:[self buildContainerWithVASTPlayer:vastPlayer]];
+}
+
+- (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error
+{
+    [self.delegate mRectPresenter:self didFailWithError:error];
+}
+
+- (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer
+{
+    
+}
+
+- (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer
+{
+    
+}
+
+- (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer
+{
+    
+}
+
+- (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer
+{
+    [self.delegate mRectPresenterDidClick:self];
 }
 
 @end

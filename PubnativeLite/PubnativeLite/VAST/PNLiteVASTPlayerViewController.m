@@ -359,6 +359,7 @@ typedef enum : NSUInteger {
     if (clickTrackingUrls != nil && [clickTrackingUrls count] > 0) {
         [self.eventProcessor sendVASTUrls:clickTrackingUrls];
     }
+    [self invokeDidClickOffer];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
 }
 
@@ -383,6 +384,13 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - Delegate helpers
+
+- (void)invokeDidClickOffer
+{
+    if ([self.delegate respondsToSelector:@selector(vastPlayerDidOpenOffer:)]) {
+        [self.delegate vastPlayerDidOpenOffer:self];
+    }
+}
 
 - (void)invokeDidFinishLoading
 {
