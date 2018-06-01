@@ -27,4 +27,6 @@ typedef NS_ENUM(int, AssetGroupType) {
     MRAID_BANNER_2 = 12,
     MRAID_MRECT = 8,
     MRAID_INTERSTITIAL = 21,
+    
+    VAST_MRECT = 4,
 };
