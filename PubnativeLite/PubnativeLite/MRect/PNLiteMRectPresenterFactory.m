@@ -24,6 +24,7 @@
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteMRectPresenterDecorator.h"
 #import "PNLiteMRAIDMRectPresenter.h"
+#import "PNLiteVASTMRectPresenter.h"
 #import "PNLiteAdTracker.h"
 
 @implementation PNLiteMRectPresenterFactory
@@ -48,6 +49,11 @@
         case MRAID_MRECT: {
             PNLiteMRAIDMRectPresenter *mraidMRectPresenter = [[PNLiteMRAIDMRectPresenter alloc] initWithAd:ad];
             return mraidMRectPresenter;
+            break;
+        }
+        case VAST_MRECT: {
+            PNLiteVASTMRectPresenter *vastMRectPresenter = [[PNLiteVASTMRectPresenter alloc] initWithAd:ad];
+            return vastMRectPresenter;
             break;
         }
         default:
