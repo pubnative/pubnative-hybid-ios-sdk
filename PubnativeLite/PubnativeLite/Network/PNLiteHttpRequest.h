@@ -34,6 +34,9 @@
 
 @interface PNLiteHttpRequest : NSObject
 
+@property (nonatomic, strong) NSDictionary *header;
+@property (nonatomic, strong) NSData *body;
+
 - (void)startWithUrlString:(NSString *)urlString delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
 
 @end

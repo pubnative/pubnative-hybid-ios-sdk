@@ -22,6 +22,7 @@
 
 #import "PNLiteHttpRequest.h"
 #import "PNLiteReachability.h"
+#import "PNLiteCryptoUtils.h"
 
 NSTimeInterval const kPNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -41,6 +42,8 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     self.delegate = nil;
     self.urlString = nil;
     self.userAgent = nil;
+    self.header = nil;
+    self.body = nil;
 }
 
 - (void)startWithUrlString:(NSString *)urlString delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate
@@ -82,9 +85,25 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     } else {
         NSURLSession *session = [NSURLSession sharedSession];
         session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                               cachePolicy:kPNLiteHttpRequestDefaultCachePolicy
-                                                           timeoutInterval:kPNLiteHttpRequestDefaultTimeout];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:url];
+        [request setCachePolicy:kPNLiteHttpRequestDefaultCachePolicy];
+        [request setTimeoutInterval:kPNLiteHttpRequestDefaultTimeout];
+        if (self.header && self.header.count > 0) {
+            for (NSString *key in self.header) {
+                id value = self.header[key];
+                NSLog(@"Value: %@ for key: %@", value, key);
+                [request setValue:value forHTTPHeaderField:key];
+            }
+        }
+        if (self.body) {
+            [request setHTTPMethod:@"POST"];
+            [request setHTTPBody:self.body];
+            [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.body length]] forHTTPHeaderField:@"Content-Length"];
+            [request setValue:[PNLiteCryptoUtils md5WithString:[[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding]] forHTTPHeaderField:@"Content-MD5"];
+        } else {
+            [request setHTTPMethod:@"GET"];
+        }
         
         [[session dataTaskWithRequest:request
                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {

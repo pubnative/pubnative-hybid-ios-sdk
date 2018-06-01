@@ -20,39 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
-#import "PNLiteUserDataManager.h"
 
-@implementation PubnativeLite
+#import "PNLiteUserConsentResponseModel.h"
 
-+ (void)setCoppa:(BOOL)enabled
+@implementation PNLiteUserConsentResponseModel
+
+- (void)dealloc
 {
-    [PNLiteSettings sharedInstance].coppa = enabled;
+    self.status = nil;
+    self.error = nil;
+    self.consent = nil;
 }
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+#pragma mark PNLiteBaseModel
 
-+ (void)setTestMode:(BOOL)enabled
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-        [[PNLiteUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^(BOOL success) {
-            completion(success);
-        }];
+    self = [super initWithDictionary:dictionary];
+    if (self) {
+        self.status = dictionary[@"status"];
+        self.error = dictionary[@"error"];
+        self.consent = [[PNLiteUserConsentModel alloc] initWithDictionary:dictionary[@"consent"]];
     }
+    return self;
 }
 
 @end

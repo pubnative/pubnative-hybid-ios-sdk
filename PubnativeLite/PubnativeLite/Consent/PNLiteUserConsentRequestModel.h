@@ -20,39 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
-#import "PNLiteSettings.h"
-#import "PNLiteCrashTracker.h"
-#import "PNLiteUserDataManager.h"
+#import <Foundation/Foundation.h>
 
-@implementation PubnativeLite
+@interface PNLiteUserConsentRequestModel : NSObject
 
-+ (void)setCoppa:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].coppa = enabled;
-}
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
-{
-    [PNLiteSettings sharedInstance].targeting = targeting;
-}
+- (instancetype)initWithAppToken:(NSString *)appToken
+                    withDeviceID:(NSString *)deviceID
+                withDeviceIDType:(NSString *)deviceIDType
+                     withConsent:(BOOL)consented;
 
-+ (void)setTestMode:(BOOL)enabled
-{
-    [PNLiteSettings sharedInstance].test = enabled;
-}
-
-+ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
-    } else {
-        [PNLiteSettings sharedInstance].appToken = appToken;
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-        [[PNLiteUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^(BOOL success) {
-            completion(success);
-        }];
-    }
-}
+- (NSData *)createPOSTBody;
 
 @end
