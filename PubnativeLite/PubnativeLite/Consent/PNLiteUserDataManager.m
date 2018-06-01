@@ -81,6 +81,11 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     [self determineUserZone];
 }
 
+- (NSString *)consentPageLink
+{
+    return kPNLiteConsentPageUrl;
+}
+
 - (NSString *)privacyPolicyLink
 {
     return kPNLitePrivacyPolicyUrl;
@@ -89,11 +94,6 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (NSString *)vendorListLink
 {
     return kPNLiteVendorListUrl;
-}
-
-- (NSString *)consentPageLink
-{
-    return kPNLiteConsentPageUrl;
 }
 
 - (BOOL)shouldAskConsent

@@ -50,8 +50,7 @@
         [PNLiteSettings sharedInstance].appToken = appToken;
         [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
         [[PNLiteUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^(BOOL success) {
-            NSLog(@"PNLiteUserDataManager completed");
-            completion(YES);
+            completion(success);
         }];
     }
 }
