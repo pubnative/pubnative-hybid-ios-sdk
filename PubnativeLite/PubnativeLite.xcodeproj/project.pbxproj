@@ -564,7 +564,7 @@
 		5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */; };
 		5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD5AB20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AECD5AE20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5AC20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m */; };
-		5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */; };
+		5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AF93B4420C1807800214AB1 /* PNLiteVASTMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */; };
 		5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */; };
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
