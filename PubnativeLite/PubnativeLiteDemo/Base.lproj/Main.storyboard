@@ -212,8 +212,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="yTu-hJ-yJX"/>
                                         <include reference="gM5-uR-JgO"/>
+                                        <exclude reference="yTu-hJ-yJX"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -1775,10 +1775,10 @@
             </objects>
             <point key="canvasLocation" x="-918" y="720"/>
         </scene>
-        <!--Lite Demo Consent View Controller-->
+        <!--Consent-->
         <scene sceneID="2hO-zt-OlM">
             <objects>
-                <viewController id="p4x-hA-8lr" customClass="PNLiteDemoConsentViewController" sceneMemberID="viewController">
+                <viewController title="Consent" id="p4x-hA-8lr" customClass="PNLiteDemoConsentViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Ta-ad-Kat"/>
                         <viewControllerLayoutGuide type="bottom" id="h0L-Em-sHO"/>
@@ -1809,8 +1809,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="LBb-8r-x9Y"/>
                                         <include reference="896-5e-Jzk"/>
+                                        <exclude reference="LBb-8r-x9Y"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -1840,8 +1840,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="lDk-8w-7Wf"/>
                                         <include reference="88L-BN-o5L"/>
+                                        <exclude reference="lDk-8w-7Wf"/>
                                     </mask>
                                 </variation>
                                 <connections>

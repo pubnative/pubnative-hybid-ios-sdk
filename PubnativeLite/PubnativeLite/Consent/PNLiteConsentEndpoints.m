@@ -22,13 +22,13 @@
 
 #import "PNLiteConsentEndpoints.h"
 
-NSString *const kScheme = @"https://";
-NSString *const kAuthority = @"backend.pubnative.net/";
-NSString *const kConsentPath = @"consent/";
+NSString *const kScheme = @"https";
+NSString *const kAuthority = @"backend.pubnative.net";
+NSString *const kConsentPath = @"consent";
 NSString *const kAPIVersion = @"v1";
-NSString *const kParamAppToken = @"/app_token";
-NSString *const kParamDeviceID = @"/did";
-NSString *const kParamDeviceIDType = @"/did_type";
+NSString *const kParamAppToken = @"app_token";
+NSString *const kParamDeviceID = @"did";
+NSString *const kParamDeviceIDType = @"did_type";
 
 @implementation PNLiteConsentEndpoints
 
@@ -36,27 +36,23 @@ NSString *const kParamDeviceIDType = @"/did_type";
                              withDeviceID:(NSString *)deviceID
                          withDeviceIDType:(NSString *)deviceType
 {
-    NSString *urlString = [[NSString alloc] init];
-    urlString = [urlString stringByAppendingString:kScheme];
-    urlString = [urlString stringByAppendingString:kAuthority];
-    urlString = [urlString stringByAppendingString:kConsentPath];
-    urlString = [urlString stringByAppendingString:kAPIVersion];
-    urlString = [urlString stringByAppendingString:kParamAppToken];
-    urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"/%@",appToken]];
-    urlString = [urlString stringByAppendingString:kParamDeviceID];
-    urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"/%@",deviceID]];
-    urlString = [urlString stringByAppendingString:kParamDeviceIDType];
-    urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"/%@",deviceType]];
-    return urlString;
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = kScheme;
+    components.host = kAuthority;
+    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
+    NSURLQueryItem *appTokenQuery = [NSURLQueryItem queryItemWithName:kParamAppToken value:appToken];
+    NSURLQueryItem *deviceIDQuery = [NSURLQueryItem queryItemWithName:kParamDeviceID value:deviceID];
+    NSURLQueryItem *deviceIDTypeQuery = [NSURLQueryItem queryItemWithName:kParamDeviceIDType value:deviceType];
+    components.queryItems = @[appTokenQuery, deviceIDQuery, deviceIDTypeQuery];
+    return [NSString stringWithFormat:@"%@", components.URL];
 }
 
 + (NSString *)consentURL
 {
-    NSString *urlString = [[NSString alloc] init];
-    urlString = [urlString stringByAppendingString:kScheme];
-    urlString = [urlString stringByAppendingString:kAuthority];
-    urlString = [urlString stringByAppendingString:kConsentPath];
-    urlString = [urlString stringByAppendingString:kAPIVersion];
-    return urlString;
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = kScheme;
+    components.host = kAuthority;
+    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
+    return [NSString stringWithFormat:@"%@", components.URL];
 }
 @end
