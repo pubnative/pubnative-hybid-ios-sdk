@@ -14,6 +14,8 @@
                 <outlet property="btnFullscreen" destination="hIP-8P-gl0" id="GFz-vr-J29"/>
                 <outlet property="btnMute" destination="JZO-c6-3ys" id="liG-Ev-Qap"/>
                 <outlet property="btnOpenOffer" destination="BXT-cI-oP0" id="ZLh-bh-B8y"/>
+                <outlet property="contentInfoViewContainer" destination="zfp-Xd-tkd" id="upK-WK-fQE"/>
+                <outlet property="contentInfoViewWidthConstraint" destination="n8p-Pb-rke" id="q9H-P1-YXT"/>
                 <outlet property="loadingSpin" destination="KcA-ff-Pj9" id="F6m-XB-pYL"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3yE-Da-NoG"/>
                 <outlet property="viewProgress" destination="49M-ci-rbZ" id="1Jh-8U-c7w"/>
@@ -68,15 +70,25 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="KcA-ff-Pj9">
                     <rect key="frame" x="281" y="281" width="37" height="37"/>
                 </activityIndicatorView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfp-Xd-tkd">
+                    <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                    <color key="backgroundColor" red="0.80404394869999996" green="0.3154651523" blue="0.25888434049999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="15" id="n8p-Pb-rke"/>
+                        <constraint firstAttribute="height" constant="15" id="u5J-5k-Zjc"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="JZO-c6-3ys" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9a7-S0-hpY"/>
                 <constraint firstAttribute="bottom" secondItem="hIP-8P-gl0" secondAttribute="bottom" id="LeI-0S-g0V"/>
+                <constraint firstItem="zfp-Xd-tkd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="MEP-IO-aIX"/>
                 <constraint firstItem="KcA-ff-Pj9" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Mer-61-0eN"/>
                 <constraint firstAttribute="trailing" secondItem="hIP-8P-gl0" secondAttribute="trailing" id="Mt5-Yg-TgJ"/>
                 <constraint firstAttribute="trailing" secondItem="BXT-cI-oP0" secondAttribute="trailing" id="Pua-ps-kWz"/>
                 <constraint firstItem="BXT-cI-oP0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="T9P-Na-Hxq"/>
+                <constraint firstItem="zfp-Xd-tkd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="f3s-0r-rx7"/>
                 <constraint firstItem="KcA-ff-Pj9" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="fRf-Cc-YJf"/>
                 <constraint firstItem="49M-ci-rbZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="mth-fP-AO3"/>
                 <constraint firstAttribute="bottom" secondItem="49M-ci-rbZ" secondAttribute="bottom" constant="10" id="pdA-EK-GLh"/>
