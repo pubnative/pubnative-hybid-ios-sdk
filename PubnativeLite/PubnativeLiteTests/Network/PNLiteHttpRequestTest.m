@@ -51,33 +51,41 @@ NSInteger const kStatusCode = 200;
     [super tearDown];
 }
 
-- (void)test_startWithUrlString_withNilDelegateAndWithValidUrl_shouldPass
+- (void)test_startWithUrlString_withNilDelegateAndWithValidUrlAndWithValidMethod_shouldPass
 {
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-    [request startWithUrlString:@"validURL" delegate:nil];
+    [request startWithUrlString:@"validURL" withMethod:@"GET" delegate:nil];
 }
 
-- (void)test_startWithUrlString_withValidDelegateAndWithNilUrl_shouldCallbackFail
+- (void)test_startWithUrlString_withValidDelegateAndWithValidMethodAndWithNilUrl_shouldCallbackFail
 {
     NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-    [request startWithUrlString:nil delegate:delegate];
+    [request startWithUrlString:nil withMethod:@"GET" delegate:delegate];
     [verify(delegate)request:request didFailWithError:instanceOf([NSError class])];
 }
 
-- (void)test_startWithUrlString_withValidDelegateAndWithEmptyUrl_shouldCallbackFail
+- (void)test_startWithUrlString_withValidDelegateAndWithValidMethodAndWithEmptyUrl_shouldCallbackFail
 {
     NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-    [request startWithUrlString:@"" delegate:delegate];
+    [request startWithUrlString:@"" withMethod:@"GET" delegate:delegate];
     [verify(delegate)request:request didFailWithError:instanceOf([NSError class])];
 }
 
-- (void)test_startWithUrlString_withValidDelegateAndValidUrl_shouldPass
+- (void)test_startWithUrlString_withValidDelegateAndWithValidUrlAndWithNotValidMethod_shouldCallbackFail
 {
     NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-    [request startWithUrlString:@"validURL" delegate:delegate];
+    [request startWithUrlString:@"validURL" withMethod:@"notValidMethod" delegate:delegate];
+    [verify(delegate)request:request didFailWithError:instanceOf([NSError class])];
+}
+
+- (void)test_startWithUrlString_withValidDelegateAndWithValidMethodAndValidUrl_shouldPass
+{
+    NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
+    PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
+    [request startWithUrlString:@"validURL" withMethod:@"GET" delegate:delegate];
 }
 
 -(void)test_invokeFinishWithData_withValidListener_shouldCallback
