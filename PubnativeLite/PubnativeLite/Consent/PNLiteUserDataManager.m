@@ -124,13 +124,12 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 {
     self.consentGiven = consentGiven;
     
-    PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithAppToken:[PNLiteSettings sharedInstance].appToken
-                                                                                             withDeviceID:[PNLiteSettings sharedInstance].advertisingId
+    PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[PNLiteSettings sharedInstance].advertisingId
                                                                                          withDeviceIDType:kPNLiteDeviceIDType
                                                                                               withConsent:consentGiven];
     
     PNLiteUserConsentRequest *request = [[PNLiteUserConsentRequest alloc] init];
-    [request doConsentRequestWithDelegate:self withRequest:requestModel];
+    [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[PNLiteSettings sharedInstance].appToken];
 }
 
 - (void)determineUserZone
@@ -174,8 +173,8 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)checkConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
 {
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
-        if (model.consent.found) {
-            self.consentState = model.consent.consented ? kPNLiteConsentStateAccepted : kPNLiteConsentStateDenied;
+        if (model.consent != nil && model.consent.consented) {
+            self.consentState = kPNLiteConsentStateAccepted;
             [self saveGDPRConsentState];
         }
         self.completionBlock(YES);

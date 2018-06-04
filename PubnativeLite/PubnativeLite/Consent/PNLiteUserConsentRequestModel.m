@@ -24,7 +24,6 @@
 
 @interface PNLiteUserConsentRequestModel()
 
-@property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, strong) NSString *deviceID;
 @property (nonatomic, strong) NSString *deviceIDType;
 @property (nonatomic, assign) BOOL consented;
@@ -35,19 +34,16 @@
 
 - (void)dealloc
 {
-    self.appToken = nil;
     self.deviceID = nil;
     self.deviceIDType = nil;
 }
 
-- (instancetype)initWithAppToken:(NSString *)appToken
-                    withDeviceID:(NSString *)deviceID
+- (instancetype)initWithDeviceID:(NSString *)deviceID
                 withDeviceIDType:(NSString *)deviceIDType
                      withConsent:(BOOL)consented
 {
     self = [super init];
     if (self) {
-        self.appToken = appToken;
         self.deviceID = deviceID;
         self.deviceIDType = deviceIDType;
         self.consented = consented;
@@ -58,9 +54,6 @@
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     
-    if (self.appToken) {
-        [dictionary setObject:self.appToken forKey:@"app_token"];
-    }
     if (self.deviceID) {
         [dictionary setObject:self.deviceID forKey:@"did"];
     }

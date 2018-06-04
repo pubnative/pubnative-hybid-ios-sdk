@@ -40,7 +40,7 @@
     if (self) {
         self.status = dictionary[@"status"];
         self.error = dictionary[@"error"];
-        self.consent = [[PNLiteUserConsentModel alloc] initWithDictionary:dictionary[@"consent"]];
+        self.consent = [[PNLiteUserConsentModel alloc] initWithDictionary:dictionary[@"data"]];
     }
     return self;
 }

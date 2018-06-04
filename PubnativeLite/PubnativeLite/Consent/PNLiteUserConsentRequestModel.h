@@ -25,8 +25,7 @@
 @interface PNLiteUserConsentRequestModel : NSObject
 
 
-- (instancetype)initWithAppToken:(NSString *)appToken
-                    withDeviceID:(NSString *)deviceID
+- (instancetype)initWithDeviceID:(NSString *)deviceID
                 withDeviceIDType:(NSString *)deviceIDType
                      withConsent:(BOOL)consented;
 

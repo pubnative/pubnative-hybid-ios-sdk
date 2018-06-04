@@ -34,6 +34,7 @@
 @interface PNLiteUserConsentRequest : NSObject
 
 - (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
-                         withRequest:(PNLiteUserConsentRequestModel *)requestModel;
+                         withRequest:(PNLiteUserConsentRequestModel *)requestModel
+                        withAppToken:(NSString *)appToken;
 
 @end

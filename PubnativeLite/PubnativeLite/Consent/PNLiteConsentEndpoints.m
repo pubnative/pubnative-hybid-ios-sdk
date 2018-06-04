@@ -26,24 +26,21 @@ NSString *const kScheme = @"https";
 NSString *const kAuthority = @"backend.pubnative.net";
 NSString *const kConsentPath = @"consent";
 NSString *const kAPIVersion = @"v1";
-NSString *const kParamAppToken = @"app_token";
 NSString *const kParamDeviceID = @"did";
 NSString *const kParamDeviceIDType = @"did_type";
 
 @implementation PNLiteConsentEndpoints
 
-+ (NSString *)checkConsentURLWithAppToken:(NSString *)appToken
-                             withDeviceID:(NSString *)deviceID
++ (NSString *)checkConsentURLWithDeviceID:(NSString *)deviceID
                          withDeviceIDType:(NSString *)deviceType
 {
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kAuthority;
     components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
-    NSURLQueryItem *appTokenQuery = [NSURLQueryItem queryItemWithName:kParamAppToken value:appToken];
     NSURLQueryItem *deviceIDQuery = [NSURLQueryItem queryItemWithName:kParamDeviceID value:deviceID];
     NSURLQueryItem *deviceIDTypeQuery = [NSURLQueryItem queryItemWithName:kParamDeviceIDType value:deviceType];
-    components.queryItems = @[appTokenQuery, deviceIDQuery, deviceIDTypeQuery];
+    components.queryItems = @[deviceIDQuery, deviceIDTypeQuery];
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 

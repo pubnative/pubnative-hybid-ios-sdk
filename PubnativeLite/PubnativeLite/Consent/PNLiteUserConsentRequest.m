@@ -36,6 +36,7 @@
 
 - (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel
+                        withAppToken:(NSString *)appToken
 {
     if (requestModel == nil) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given request is nil and required, droping this call" code:0 userInfo:nil]];
@@ -44,7 +45,7 @@
     } else {
         self.delegate = delegate;
         NSString *url = [PNLiteConsentEndpoints consentURL];
-        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type", nil];
+        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type",[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];
         PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
         request.header = headerDictionary;
         request.body = [requestModel createPOSTBody];
