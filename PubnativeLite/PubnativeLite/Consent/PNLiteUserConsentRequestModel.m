@@ -26,7 +26,6 @@
 
 @property (nonatomic, strong) NSString *deviceID;
 @property (nonatomic, strong) NSString *deviceIDType;
-@property (nonatomic, assign) BOOL consented;
 
 @end
 
@@ -37,16 +36,13 @@
     self.deviceID = nil;
     self.deviceIDType = nil;
 }
-
 - (instancetype)initWithDeviceID:(NSString *)deviceID
                 withDeviceIDType:(NSString *)deviceIDType
-                     withConsent:(BOOL)consented
 {
     self = [super init];
     if (self) {
         self.deviceID = deviceID;
         self.deviceIDType = deviceIDType;
-        self.consented = consented;
     }
     return self;
 }
@@ -60,8 +56,6 @@
     if (self.deviceIDType) {
         [dictionary setObject:self.deviceIDType forKey:@"did_type"];
     }
-    
-    [dictionary setObject:[NSNumber numberWithBool:self.consented] forKey:@"consented"];
     
     NSError * error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];

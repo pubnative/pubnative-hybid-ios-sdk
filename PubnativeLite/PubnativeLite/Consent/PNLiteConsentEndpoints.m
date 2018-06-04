@@ -44,6 +44,19 @@ NSString *const kParamDeviceIDType = @"did_type";
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 
++ (NSString *)revokeConsentURLWithDeviceID:(NSString *)deviceID
+                          withDeviceIDType:(NSString *)deviceType
+{
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = kScheme;
+    components.host = kAuthority;
+    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
+    NSURLQueryItem *deviceIDQuery = [NSURLQueryItem queryItemWithName:kParamDeviceID value:deviceID];
+    NSURLQueryItem *deviceIDTypeQuery = [NSURLQueryItem queryItemWithName:kParamDeviceIDType value:deviceType];
+    components.queryItems = @[deviceIDQuery, deviceIDTypeQuery];
+    return [NSString stringWithFormat:@"%@", components.URL];
+}
+
 + (NSString *)consentURL
 {
     NSURLComponents *components = [[NSURLComponents alloc] init];

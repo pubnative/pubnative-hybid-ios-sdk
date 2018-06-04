@@ -49,7 +49,7 @@
         NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];
         PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
         request.header = headerDictionary;
-        [request startWithUrlString:url delegate:self];
+        [request startWithUrlString:url withMethod:@"GET" delegate:self];
     }
 }
 

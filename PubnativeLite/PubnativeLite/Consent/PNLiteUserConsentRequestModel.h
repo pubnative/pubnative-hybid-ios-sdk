@@ -26,8 +26,7 @@
 
 
 - (instancetype)initWithDeviceID:(NSString *)deviceID
-                withDeviceIDType:(NSString *)deviceIDType
-                     withConsent:(BOOL)consented;
+                withDeviceIDType:(NSString *)deviceIDType;
 
 - (NSData *)createPOSTBody;
 

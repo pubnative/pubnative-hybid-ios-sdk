@@ -47,7 +47,7 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
     } else {
         self.delegate = delegate;
         [self invokeDidStart];
-        [[PNLiteHttpRequest alloc] startWithUrlString:kPNLiteGeoIPRequestBaseUrl delegate:self];
+        [[PNLiteHttpRequest alloc] startWithUrlString:kPNLiteGeoIPRequestBaseUrl withMethod:@"GET" delegate:self];
     }
 }
 

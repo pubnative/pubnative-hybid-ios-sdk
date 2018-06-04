@@ -37,6 +37,6 @@
 @property (nonatomic, strong) NSDictionary *header;
 @property (nonatomic, strong) NSData *body;
 
-- (void)startWithUrlString:(NSString *)urlString delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
+- (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
 
 @end

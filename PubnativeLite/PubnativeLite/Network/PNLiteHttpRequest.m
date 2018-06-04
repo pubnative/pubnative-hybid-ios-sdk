@@ -32,6 +32,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
 @property (nonatomic, strong) NSObject<PNLiteHttpRequestDelegate> *delegate;
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *userAgent;
+@property (nonatomic, strong) NSString *method;
 
 @end
 
@@ -42,19 +43,23 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     self.delegate = nil;
     self.urlString = nil;
     self.userAgent = nil;
+    self.method = nil;
     self.header = nil;
     self.body = nil;
 }
 
-- (void)startWithUrlString:(NSString *)urlString delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate
+- (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate
 {
     self.delegate = delegate;
     self.urlString = urlString;
+    self.method = method;
     
     if (self.delegate == nil) {
         NSLog(@"PNLiteHttpRequest - Delegate is nil, dropping the call.");
     } else if(self.urlString == nil || self.urlString.length <= 0) {
         [self invokeFailWithMessage:@"URL is nil or empty"];
+    } else if(![self.method isEqualToString:@"GET"] && ![self.method isEqualToString:@"POST"] && ![self.method isEqualToString:@"DELETE"]) {
+        [self invokeFailWithMessage:@"Unsupported HTTP method, dropping the call."];
     } else {
         PNLiteReachability *reachability = [PNLiteReachability reachabilityForInternetConnection];
         [reachability startNotifier];
@@ -89,6 +94,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
         [request setURL:url];
         [request setCachePolicy:kPNLiteHttpRequestDefaultCachePolicy];
         [request setTimeoutInterval:kPNLiteHttpRequestDefaultTimeout];
+        [request setHTTPMethod:self.method];
         if (self.header && self.header.count > 0) {
             for (NSString *key in self.header) {
                 id value = self.header[key];
@@ -97,14 +103,11 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
             }
         }
         if (self.body) {
-            [request setHTTPMethod:@"POST"];
             [request setHTTPBody:self.body];
             [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.body length]] forHTTPHeaderField:@"Content-Length"];
             [request setValue:[PNLiteCryptoUtils md5WithString:[[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding]] forHTTPHeaderField:@"Content-MD5"];
-        } else {
-            [request setHTTPMethod:@"GET"];
         }
-        
+    
         [[session dataTaskWithRequest:request
                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;

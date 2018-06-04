@@ -21,15 +21,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PNLiteUserConsentResponseModel.h"
 
-@interface PNLiteConsentEndpoints : NSObject
+@protocol PNLiteRevokeConsentRequestDelegate <NSObject>
 
-+ (NSString *)checkConsentURLWithDeviceID:(NSString *)deviceID
-                         withDeviceIDType:(NSString *)deviceType;
+- (void)revokeConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model;
+- (void)revokeConsentRequestFail:(NSError *)error;
 
-+ (NSString *)revokeConsentURLWithDeviceID:(NSString *)deviceID
-                          withDeviceIDType:(NSString *)deviceType;
+@end
 
-+ (NSString *)consentURL;
+@interface PNLiteRevokeConsentRequest : NSObject
+
+- (void)revokeConsentRequestWithDelegate:(NSObject<PNLiteRevokeConsentRequestDelegate> *)delegate
+                            withAppToken:(NSString *)appToken
+                            withDeviceID:(NSString *)deviceID
+                        withDeviceIDType:(NSString *)deviceIDType;
 
 @end
