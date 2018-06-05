@@ -93,7 +93,7 @@ typedef enum : NSUInteger {
 
 - (instancetype)initWithContentInfo:(PNLiteContentInfoView *)contentInfo
 {
-    self = [super init];
+    self = [self init];
     if (self) {
         self.contentInfoView = contentInfo;
         self.contentInfoView.delegate = self;
@@ -210,6 +210,7 @@ typedef enum : NSUInteger {
         self.parser = nil;
         self.eventProcessor = nil;
         self.viewContainer = nil;
+        self.contentInfoView = nil;
     }
 }
 
@@ -382,15 +383,13 @@ typedef enum : NSUInteger {
     NSLog(@"btnFullscreenPush");
     
     self.fullScreen = !self.fullScreen;
+    self.contentInfoViewContainer.hidden = self.fullScreen;
     if (self.fullScreen) {
-        
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];
         self.view.frame = [UIApplication sharedApplication].topViewController.view.frame;
         [[UIApplication sharedApplication].topViewController.view addSubview:self.view];
-        
     } else {
-        
         [self.view removeFromSuperview];
         self.view.frame = self.viewContainer.bounds;
         [self.viewContainer addSubview:self.view];

@@ -72,7 +72,7 @@
                 </activityIndicatorView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfp-Xd-tkd">
                     <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
-                    <color key="backgroundColor" red="0.80404394869999996" green="0.3154651523" blue="0.25888434049999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="n8p-Pb-rke"/>
                         <constraint firstAttribute="height" constant="15" id="u5J-5k-Zjc"/>
