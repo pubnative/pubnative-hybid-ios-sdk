@@ -91,7 +91,8 @@ typedef enum : NSUInteger {
 
 #pragma mark NSObject
 
-- (instancetype)initWithContentInfo:(PNLiteContentInfoView *)contentInfo
+- (instancetype)initPlayerWithContentInfo:(PNLiteContentInfoView *)contentInfo
+                            isInterstital:(BOOL)isInterstitial
 {
     self = [self init];
     if (self) {

@@ -43,7 +43,8 @@
 @property (nonatomic, assign) BOOL canResize;
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 
-- (instancetype)initWithContentInfo:(PNLiteContentInfoView *)contentInfo;
+- (instancetype)initPlayerWithContentInfo:(PNLiteContentInfoView *)contentInfo
+                            isInterstital:(BOOL)isInterstitial;
 - (void)loadWithVastUrl:(NSURL*)url;
 - (void)loadWithVastString:(NSString*)vast;
 - (void)play;

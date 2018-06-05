@@ -57,7 +57,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 
 - (void)load
 {
-    self.player = [[PNLiteVASTPlayerViewController alloc] initWithContentInfo:self.adModel.contentInfo];
+    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:NO];
     self.player.delegate = self;
     [self.player loadWithVastString:self.adModel.vast];
 }
