@@ -53,7 +53,7 @@ typedef enum : NSUInteger {
     PNLiteVASTPlaybackState_FourthQuartile = 1 << 3
 }PNLiteVASTPlaybackState;
 
-@interface PNLiteVASTPlayerViewController ()<PNLiteVASTEventProcessorDelegate>
+@interface PNLiteVASTPlayerViewController ()<PNLiteVASTEventProcessorDelegate, PNLiteContentInfoViewDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -66,6 +66,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) PNLiteVASTModel *vastModel;
 @property (nonatomic, strong) PNLiteVASTParser *parser;
 @property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
+@property (nonatomic, strong) PNLiteContentInfoView *contentInfoView;
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
 // Fullscreen
@@ -81,12 +82,25 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIButton *btnFullscreen;
 @property (weak, nonatomic) IBOutlet UIView *viewProgress;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpin;
+@property (weak, nonatomic) IBOutlet UIView *contentInfoViewContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewWidthConstraint;
 
 @end
 
 @implementation PNLiteVASTPlayerViewController
 
 #pragma mark NSObject
+
+- (instancetype)initPlayerWithContentInfo:(PNLiteContentInfoView *)contentInfo
+                            isInterstital:(BOOL)isInterstitial
+{
+    self = [self init];
+    if (self) {
+        self.contentInfoView = contentInfo;
+        self.contentInfoView.delegate = self;
+    }
+    return self;
+}
 
 - (instancetype)init
 {
@@ -119,6 +133,7 @@ typedef enum : NSUInteger {
     [self.btnMute setImage:[self bundledImageNamed:kPNLiteVASTPlayerMuteImageName] forState:UIControlStateNormal];
     [self.btnOpenOffer setImage:[self bundledImageNamed:kPNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
     [self.btnFullscreen setImage:[self bundledImageNamed:kPNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
+    [self.contentInfoViewContainer addSubview:self.contentInfoView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -196,6 +211,7 @@ typedef enum : NSUInteger {
         self.parser = nil;
         self.eventProcessor = nil;
         self.viewContainer = nil;
+        self.contentInfoView = nil;
     }
 }
 
@@ -359,6 +375,7 @@ typedef enum : NSUInteger {
     if (clickTrackingUrls != nil && [clickTrackingUrls count] > 0) {
         [self.eventProcessor sendVASTUrls:clickTrackingUrls];
     }
+    [self invokeDidClickOffer];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
 }
 
@@ -367,15 +384,13 @@ typedef enum : NSUInteger {
     NSLog(@"btnFullscreenPush");
     
     self.fullScreen = !self.fullScreen;
+    self.contentInfoViewContainer.hidden = self.fullScreen;
     if (self.fullScreen) {
-        
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];
         self.view.frame = [UIApplication sharedApplication].topViewController.view.frame;
         [[UIApplication sharedApplication].topViewController.view addSubview:self.view];
-        
     } else {
-        
         [self.view removeFromSuperview];
         self.view.frame = self.viewContainer.bounds;
         [self.viewContainer addSubview:self.view];
@@ -383,6 +398,13 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - Delegate helpers
+
+- (void)invokeDidClickOffer
+{
+    if ([self.delegate respondsToSelector:@selector(vastPlayerDidOpenOffer:)]) {
+        [self.delegate vastPlayerDidOpenOffer:self];
+    }
+}
 
 - (void)invokeDidFinishLoading
 {
@@ -696,6 +718,14 @@ typedef enum : NSUInteger {
 - (void)eventProcessorDidTrackEvent:(PNLiteVASTEvent)event
 {
     NSLog(@"PNLiteVASTPlayer - event tracked: %ld", (long)event);
+}
+
+#pragma mark - PNLiteContentInfoViewDelegate
+
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
+{
+    self.contentInfoViewWidthConstraint.constant = [width floatValue];
+    [self.view layoutIfNeeded];
 }
 
 @end

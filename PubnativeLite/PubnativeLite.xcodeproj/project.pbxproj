@@ -566,6 +566,8 @@
 		5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */; };
 		5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AECD5AB20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AECD5AE20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AECD5AC20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m */; };
+		5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5AF93B4420C1807800214AB1 /* PNLiteVASTMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */; };
 		5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */; };
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFF730820B451C100052F2D /* PNLiteConsentPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */; };
@@ -1405,6 +1407,8 @@
 		5AECD5A8204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialPresenterFactory.m; sourceTree = "<group>"; };
 		5AECD5AB20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteInterstitialPresenterDecorator.h; sourceTree = "<group>"; };
 		5AECD5AC20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialPresenterDecorator.m; sourceTree = "<group>"; };
+		5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTMRectPresenter.h; sourceTree = "<group>"; };
+		5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTMRectPresenter.m; sourceTree = "<group>"; };
 		5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteConsentPageViewController.h; sourceTree = "<group>"; };
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteConsentPageViewController.xib; sourceTree = "<group>"; };
@@ -1592,6 +1596,8 @@
 				5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */,
 				5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */,
 				5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */,
+				5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */,
+				5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */,
 			);
 			path = MRect;
 			sourceTree = "<group>";
@@ -1730,11 +1736,6 @@
 				5AB6FBD920AC6F6A0092C5DD /* PNLiteContentInfoView.m */,
 				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
-				5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */,
-				5A9B66EA20BD9DD70067964E /* PNLiteProgressLabel.m */,
-				5A9B66EF20BDA15C0067964E /* PNLitePropertyAnimation.h */,
-				5A9B66EE20BDA15B0067964E /* PNLitePropertyAnimation.m */,
-				5A9B66C520BD57FE0067964E /* VAST */,
 				5A674F9C20B5AAD200B3D68D /* Consent */,
 				5A8F10202089E4D20098E337 /* Crash Tracking */,
 				5ABE013D203F344A00E6A14E /* Location */,
@@ -1746,6 +1747,7 @@
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
 				5AECD5A6204034F20023ABBC /* Interstitial */,
+				5A9B66C520BD57FE0067964E /* VAST */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
 				5A3657D7203C538A004B4347 /* Categories */,
 				5A064992203DBECC00CDF925 /* Utils */,
@@ -2631,6 +2633,10 @@
 				5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */,
 				5A9B66B520BD57EA0067964E /* PNLiteUnmute.png */,
 				5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */,
+				5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */,
+				5A9B66EA20BD9DD70067964E /* PNLiteProgressLabel.m */,
+				5A9B66EF20BDA15C0067964E /* PNLitePropertyAnimation.h */,
+				5A9B66EE20BDA15B0067964E /* PNLitePropertyAnimation.m */,
 				5A9B66D920BD82590067964E /* PNLiteVASTModel.h */,
 				5A9B66D820BD82580067964E /* PNLiteVASTModel.m */,
 				5A9B66DD20BD8BE00067964E /* PNLiteVASTParser.h */,
@@ -2880,6 +2886,7 @@
 				5A3657C9203C23D1004B4347 /* PNLiteBannerPresenterFactory.h in Headers */,
 				5A8F10C82089E4D20098E337 /* PNLite_KSCrashReportFilterCompletion.h in Headers */,
 				5A8F11002089E4D20098E337 /* PNLite_KSCrashState.h in Headers */,
+				5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */,
 				5A8F10C72089E4D20098E337 /* PNLite_KSCrashReportFilter.h in Headers */,
 				5A9B66CF20BD66080067964E /* PNLiteVASTSchema.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
@@ -3413,6 +3420,7 @@
 				5A8F112B2089E4D20098E337 /* PNLiteSessionTracker.m in Sources */,
 				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
 				5A91E66020BFFF1000527BAA /* PNLiteUserConsentResponseModel.m in Sources */,
+				5AF93B4420C1807800214AB1 /* PNLiteVASTMRectPresenter.m in Sources */,
 				5A9B66EC20BD9DD80067964E /* PNLiteProgressLabel.m in Sources */,
 				5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,

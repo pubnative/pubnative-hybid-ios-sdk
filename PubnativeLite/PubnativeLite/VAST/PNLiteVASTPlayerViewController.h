@@ -22,6 +22,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "PNLiteContentInfoView.h"
 
 @class PNLiteVASTPlayerViewController;
 
@@ -32,6 +33,7 @@
 - (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController*)vastPlayer;
+- (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
 
 @end
 
@@ -41,6 +43,8 @@
 @property (nonatomic, assign) BOOL canResize;
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 
+- (instancetype)initPlayerWithContentInfo:(PNLiteContentInfoView *)contentInfo
+                            isInterstital:(BOOL)isInterstitial;
 - (void)loadWithVastUrl:(NSURL*)url;
 - (void)loadWithVastString:(NSString*)vast;
 - (void)play;
