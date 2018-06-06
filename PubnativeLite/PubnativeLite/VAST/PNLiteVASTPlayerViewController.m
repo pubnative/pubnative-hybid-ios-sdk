@@ -27,6 +27,7 @@
 #import "PNLiteVASTEventProcessor.h"
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "PNLiteVASTModalViewController.h"
 
 NSString * const kPNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const kPNLiteVASTPlayerBundleName            = @"player.resources";
@@ -67,6 +68,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) PNLiteVASTParser *parser;
 @property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
 @property (nonatomic, strong) PNLiteContentInfoView *contentInfoView;
+@property (nonatomic, strong) PNLiteVASTModalViewController *modalViewController;
+
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
 // Fullscreen
@@ -188,6 +191,11 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)showAsInterstitial
+{
+
+}
+
 #pragma mark - PRIVATE -
 
 - (void)close
@@ -212,6 +220,7 @@ typedef enum : NSUInteger {
         self.eventProcessor = nil;
         self.viewContainer = nil;
         self.contentInfoView = nil;
+        self.modalViewController = nil;
     }
 }
 
