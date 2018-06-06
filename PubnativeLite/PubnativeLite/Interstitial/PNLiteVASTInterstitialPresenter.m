@@ -62,6 +62,7 @@
 - (void)show
 {
     [self.player showAsInterstitial];
+    [self.player play];
 }
 
 #pragma mark PNLiteVASTPlayerViewControllerDelegate
