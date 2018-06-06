@@ -45,8 +45,11 @@
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
-        NSString *url = [PNLiteConsentEndpoints checkConsentURLWithAppToken:appToken withDeviceID:deviceID withDeviceIDType:deviceIDType];
-        [[PNLiteHttpRequest alloc] startWithUrlString:url delegate:self];
+        NSString *url = [PNLiteConsentEndpoints checkConsentURLWithDeviceID:deviceID withDeviceIDType:deviceIDType];
+        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];
+        PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
+        request.header = headerDictionary;
+        [request startWithUrlString:url withMethod:@"GET" delegate:self];
     }
 }
 

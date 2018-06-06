@@ -24,10 +24,8 @@
 
 @interface PNLiteUserConsentRequestModel()
 
-@property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, strong) NSString *deviceID;
 @property (nonatomic, strong) NSString *deviceIDType;
-@property (nonatomic, assign) BOOL consented;
 
 @end
 
@@ -35,22 +33,16 @@
 
 - (void)dealloc
 {
-    self.appToken = nil;
     self.deviceID = nil;
     self.deviceIDType = nil;
 }
-
-- (instancetype)initWithAppToken:(NSString *)appToken
-                    withDeviceID:(NSString *)deviceID
+- (instancetype)initWithDeviceID:(NSString *)deviceID
                 withDeviceIDType:(NSString *)deviceIDType
-                     withConsent:(BOOL)consented
 {
     self = [super init];
     if (self) {
-        self.appToken = appToken;
         self.deviceID = deviceID;
         self.deviceIDType = deviceIDType;
-        self.consented = consented;
     }
     return self;
 }
@@ -58,17 +50,12 @@
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     
-    if (self.appToken) {
-        [dictionary setObject:self.appToken forKey:@"app_token"];
-    }
     if (self.deviceID) {
         [dictionary setObject:self.deviceID forKey:@"did"];
     }
     if (self.deviceIDType) {
         [dictionary setObject:self.deviceIDType forKey:@"did_type"];
     }
-    
-    [dictionary setObject:[NSNumber numberWithBool:self.consented] forKey:@"consented"];
     
     NSError * error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];

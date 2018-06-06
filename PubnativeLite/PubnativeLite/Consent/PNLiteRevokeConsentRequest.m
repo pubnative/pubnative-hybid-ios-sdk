@@ -20,43 +20,43 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteUserConsentRequest.h"
+#import "PNLiteRevokeConsentRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
 
-@interface PNLiteUserConsentRequest() <PNLiteHttpRequestDelegate>
+@interface PNLiteRevokeConsentRequest() <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <PNLiteUserConsentRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <PNLiteRevokeConsentRequestDelegate> *delegate;
 
 @end
 
-@implementation PNLiteUserConsentRequest
+@implementation PNLiteRevokeConsentRequest
 
-#pragma mark PNLiteHttpRequestDelegate
-
-- (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
-                         withRequest:(PNLiteUserConsentRequestModel *)requestModel
-                        withAppToken:(NSString *)appToken
+- (void)revokeConsentRequestWithDelegate:(NSObject<PNLiteRevokeConsentRequestDelegate> *)delegate
+                            withAppToken:(NSString *)appToken
+                            withDeviceID:(NSString *)deviceID
+                        withDeviceIDType:(NSString *)deviceIDType
 {
-    if (requestModel == nil) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call" code:0 userInfo:nil]];
+    if (appToken == nil || appToken.length == 0 ||
+        deviceID == nil || deviceID.length == 0 ||
+        deviceIDType == nil || deviceIDType.length == 0) {
+        [self invokeDidFail:[NSError errorWithDomain:@"Invalid parameters for revoke user consent request" code:0 userInfo:nil]];
     } else if (delegate == nil) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
-        NSString *url = [PNLiteConsentEndpoints consentURL];
-        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type",[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];
+        NSString *url = [PNLiteConsentEndpoints revokeConsentURLWithDeviceID:deviceID withDeviceIDType:deviceIDType];
+        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];
         PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
         request.header = headerDictionary;
-        request.body = [requestModel createPOSTBody];
-        [request startWithUrlString:url withMethod:@"POST" delegate:self];
+        [request startWithUrlString:url withMethod:@"DELETE" delegate:self];
     }
 }
 - (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestSuccess:)]) {
-            [self.delegate userConsentRequestSuccess:model];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(revokeConsentRequestSuccess:)]) {
+            [self.delegate revokeConsentRequestSuccess:model];
         }
         self.delegate = nil;
     });
@@ -65,8 +65,8 @@
 - (void)invokeDidFail:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestFail:)]){
-            [self.delegate userConsentRequestFail:error];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(revokeConsentRequestFail:)]){
+            [self.delegate revokeConsentRequestFail:error];
         }
         self.delegate = nil;
     });
@@ -92,6 +92,8 @@
         }
     }
 }
+
+#pragma mark PNLiteHttpRequestDelegate
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
 {

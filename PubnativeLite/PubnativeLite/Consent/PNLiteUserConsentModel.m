@@ -30,8 +30,7 @@
 {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.found = dictionary[@"found"];
-        self.consented = dictionary[@"consented"];
+        self.consented = dictionary[@"consent"];
     }
     return self;
 }

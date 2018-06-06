@@ -25,7 +25,6 @@
 
 @interface PNLiteUserConsentModel : PNLiteBaseModel
 
-@property (nonatomic, assign) BOOL found;
 @property (nonatomic, assign) BOOL consented;
 
 @end

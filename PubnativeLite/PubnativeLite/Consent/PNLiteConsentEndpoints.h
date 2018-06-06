@@ -24,9 +24,12 @@
 
 @interface PNLiteConsentEndpoints : NSObject
 
-+ (NSString *)checkConsentURLWithAppToken:(NSString *)appToken
-                             withDeviceID:(NSString *)deviceID
++ (NSString *)checkConsentURLWithDeviceID:(NSString *)deviceID
                          withDeviceIDType:(NSString *)deviceType;
+
++ (NSString *)revokeConsentURLWithDeviceID:(NSString *)deviceID
+                          withDeviceIDType:(NSString *)deviceType;
+
 + (NSString *)consentURL;
 
 @end
