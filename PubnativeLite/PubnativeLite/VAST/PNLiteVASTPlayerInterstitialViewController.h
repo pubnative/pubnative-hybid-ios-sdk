@@ -20,48 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteVASTInterstitialPresenter.h"
-#import "PNLiteVASTPlayerInterstitialViewController.h"
-#import "UIApplication+PNLiteTopViewController.h"
+#import <UIKit/UIKit.h>
+#import "PNLiteInterstitialPresenter.h"
+#import "PNLiteAd.h"
 
-@interface PNLiteVASTInterstitialPresenter()
+@interface PNLiteVASTPlayerInterstitialViewController : UIViewController
 
-@property (nonatomic, strong) PNLiteAd *adModel;
-@property (nonatomic, strong) PNLiteVASTPlayerInterstitialViewController *vastViewController;
-
-@end
-
-@implementation PNLiteVASTInterstitialPresenter
-
-- (void)dealloc
-{
-    self.adModel = nil;
-    self.vastViewController = nil;
-}
-
-- (instancetype)initWithAd:(PNLiteAd *)ad
-{
-    self = [super init];
-    if (self) {
-        self.adModel = ad;
-    }
-    return self;
-}
-
-- (PNLiteAd *)ad
-{
-    return self.adModel;
-}
-
-- (void)load
-{
-    self.vastViewController = [PNLiteVASTPlayerInterstitialViewController new];
-    [self.vastViewController loadFullScreenPlayerWithPresenter:self withAd:self.adModel];
-}
-
-- (void)show
-{
-    [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
-}
+- (void)loadFullScreenPlayerWithPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter withAd:(PNLiteAd *)ad;
 
 @end

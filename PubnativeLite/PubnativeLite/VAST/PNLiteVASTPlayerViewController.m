@@ -59,6 +59,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL wantsToPlay;
 @property (nonatomic, assign) BOOL muted;
 @property (nonatomic, assign) BOOL fullScreen;
+@property (nonatomic, assign) BOOL isInterstitial;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
 @property (nonatomic, assign) PNLiteVASTPlaybackState playback;
 @property (nonatomic, strong) NSURL *vastUrl;
@@ -95,6 +96,7 @@ typedef enum : NSUInteger {
 - (instancetype)initPlayerWithContentInfo:(PNLiteContentInfoView *)contentInfo
                             isInterstital:(BOOL)isInterstitial
 {
+    self.isInterstitial = isInterstitial;
     self = [self init];
     if (self) {
         self.contentInfoView = contentInfo;
@@ -105,7 +107,11 @@ typedef enum : NSUInteger {
 
 - (instancetype)init
 {
-    self = [super initWithNibName:NSStringFromClass([self class]) bundle:[self getBundle]];
+    if (self.isInterstitial) {
+        self = [super initWithNibName:@"PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
+    } else {
+        self = [super initWithNibName:NSStringFromClass([self class]) bundle:[self getBundle]];
+    }
     if (self) {
         self.state = PNLiteVASTPlayerState_IDLE;
         self.playback = PNLiteVASTPlaybackState_FirstQuartile;
@@ -655,7 +661,11 @@ typedef enum : NSUInteger {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     self.btnOpenOffer.hidden = NO;
-    self.btnFullscreen.hidden = !self.canResize;
+    if (self.isInterstitial) {
+        self.btnFullscreen.hidden = YES;
+    } else {
+        self.btnFullscreen.hidden = !self.canResize;
+    }
     self.viewProgress.hidden = NO;
     self.wantsToPlay = NO;
     [self.loadingSpin stopAnimating];
@@ -677,7 +687,11 @@ typedef enum : NSUInteger {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     self.btnOpenOffer.hidden = NO;
-    self.btnFullscreen.hidden = !self.canResize;
+    if (self.isInterstitial) {
+        self.btnFullscreen.hidden = YES;
+    } else {
+        self.btnFullscreen.hidden = !self.canResize;
+    }
     self.viewProgress.hidden = NO;
     [self.loadingSpin stopAnimating];
     
