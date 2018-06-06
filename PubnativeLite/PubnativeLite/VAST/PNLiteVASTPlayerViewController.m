@@ -34,6 +34,8 @@ NSString * const kPNLiteVASTPlayerMuteImageName         = @"PNLiteMute";
 NSString * const kPNLiteVASTPlayerUnMuteImageName       = @"PNLiteUnmute";
 NSString * const kPNLiteVASTPlayerFullScreenImageName   = @"PNLiteFullScreen";
 NSString * const kPNLiteVASTPlayerOpenImageName         = @"PNLiteExternalLink";
+NSString * const kPNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
+
 
 NSTimeInterval const kPNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
 NSTimeInterval const kPNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
@@ -82,6 +84,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIButton *btnMute;
 @property (weak, nonatomic) IBOutlet UIButton *btnOpenOffer;
 @property (weak, nonatomic) IBOutlet UIButton *btnFullscreen;
+@property (weak, nonatomic) IBOutlet UIButton *btnClose;
 @property (weak, nonatomic) IBOutlet UIView *viewProgress;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpin;
 @property (weak, nonatomic) IBOutlet UIView *contentInfoViewContainer;
@@ -140,6 +143,7 @@ typedef enum : NSUInteger {
     [self.btnMute setImage:[self bundledImageNamed:kPNLiteVASTPlayerMuteImageName] forState:UIControlStateNormal];
     [self.btnOpenOffer setImage:[self bundledImageNamed:kPNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
     [self.btnFullscreen setImage:[self bundledImageNamed:kPNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
+    [self.btnClose setImage:[self bundledImageNamed:kPNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
     [self.contentInfoViewContainer addSubview:self.contentInfoView];
 }
 
@@ -193,11 +197,6 @@ typedef enum : NSUInteger {
     @synchronized (self) {
         [self setState:PNLiteVASTPlayerState_IDLE];
     }
-}
-
-- (void)showAsInterstitial
-{
-
 }
 
 #pragma mark - PRIVATE -
@@ -380,6 +379,11 @@ typedef enum : NSUInteger {
     self.player.volume = newVolume;
 }
 
+- (IBAction)btnClosePush:(id)sender
+{
+    
+}
+
 - (IBAction)btnOpenOfferPush:(id)sender
 {
     NSLog(@"btnOpenOfferPush");
@@ -548,6 +552,9 @@ typedef enum : NSUInteger {
     
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
+    if (self.isInterstitial) {
+        self.btnClose.hidden = YES;
+    }
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -563,6 +570,9 @@ typedef enum : NSUInteger {
     
     self.loadingSpin.hidden = NO;
     self.btnMute.hidden = YES;
+    if (self.isInterstitial) {
+        self.btnClose.hidden = YES;
+    }
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -621,6 +631,9 @@ typedef enum : NSUInteger {
     NSLog(@"PNLiteVASTPlayer - setReadyState");
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
+    if (self.isInterstitial) {
+        self.btnClose.hidden = NO;
+    }
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -663,6 +676,7 @@ typedef enum : NSUInteger {
     self.btnOpenOffer.hidden = NO;
     if (self.isInterstitial) {
         self.btnFullscreen.hidden = YES;
+        self.btnClose.hidden = NO;
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }
@@ -689,6 +703,7 @@ typedef enum : NSUInteger {
     self.btnOpenOffer.hidden = NO;
     if (self.isInterstitial) {
         self.btnFullscreen.hidden = YES;
+        self.btnClose.hidden = NO;
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }

@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PNLiteVASTPlayerViewController">
             <connections>
+                <outlet property="btnClose" destination="xsk-q6-jz9" id="kFg-sc-m7Y"/>
                 <outlet property="btnFullscreen" destination="6ou-3V-8Hg" id="hiU-c3-BiD"/>
                 <outlet property="btnMute" destination="VMb-Wf-Jhi" id="HUJ-xs-WXa"/>
                 <outlet property="btnOpenOffer" destination="Jiw-2I-70B" id="cTU-wT-7b8"/>
@@ -60,6 +61,17 @@
                         <action selector="btnFullscreenPush:" destination="-1" eventType="touchUpInside" id="jFl-P1-Ati"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsk-q6-jz9" userLabel="Btn Close">
+                    <rect key="frame" x="551" y="0.0" width="49" height="51"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="49" id="ga3-Uj-WGN"/>
+                        <constraint firstAttribute="height" constant="51" id="hf6-IW-nhU"/>
+                    </constraints>
+                    <state key="normal" image="PNLiteClose.png"/>
+                    <connections>
+                        <action selector="btnClosePush:" destination="-1" eventType="touchUpInside" id="2ES-7F-HjR"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NR4-LJ-tZs">
                     <rect key="frame" x="10" y="560" width="30" height="30"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -84,6 +96,7 @@
             <constraints>
                 <constraint firstItem="EyD-B7-zGY" firstAttribute="leading" secondItem="CWD-dp-WWe" secondAttribute="leading" id="7mC-AV-ZnJ"/>
                 <constraint firstItem="VMb-Wf-Jhi" firstAttribute="leading" secondItem="CWD-dp-WWe" secondAttribute="leading" id="BLa-mC-Q82"/>
+                <constraint firstAttribute="trailing" secondItem="xsk-q6-jz9" secondAttribute="trailing" id="G1l-qy-jde"/>
                 <constraint firstItem="NR4-LJ-tZs" firstAttribute="leading" secondItem="CWD-dp-WWe" secondAttribute="leading" constant="10" id="Sd1-Fn-ym9"/>
                 <constraint firstAttribute="bottomMargin" secondItem="Jiw-2I-70B" secondAttribute="bottom" id="WPh-p7-6hj"/>
                 <constraint firstAttribute="trailing" secondItem="6ou-3V-8Hg" secondAttribute="trailing" id="ZuT-oI-6ZT"/>
@@ -94,11 +107,13 @@
                 <constraint firstAttribute="bottom" secondItem="NR4-LJ-tZs" secondAttribute="bottom" constant="10" id="mcS-L6-R2l"/>
                 <constraint firstAttribute="trailing" secondItem="Jiw-2I-70B" secondAttribute="trailing" id="nA5-X9-oea"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerY" secondItem="CWD-dp-WWe" secondAttribute="centerY" id="nBg-k3-iEi"/>
+                <constraint firstItem="xsk-q6-jz9" firstAttribute="top" secondItem="CWD-dp-WWe" secondAttribute="top" id="qnR-vK-ntT"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <resources>
+        <image name="PNLiteClose.png" width="32" height="32"/>
         <image name="PNLiteExternalLink.png" width="200" height="200"/>
         <image name="PNLiteFullScreen.png" width="200" height="200"/>
         <image name="PNLiteMute.png" width="200" height="200"/>
