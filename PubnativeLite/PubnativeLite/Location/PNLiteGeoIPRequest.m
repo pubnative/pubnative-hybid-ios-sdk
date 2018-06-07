@@ -22,8 +22,8 @@
 
 #import "PNLiteGeoIPRequest.h"
 #import "PNLiteHttpRequest.h"
+#import "PNLiteConsentEndpoints.h"
 
-NSString *const kPNLiteGeoIPRequestBaseUrl = @"http://ip-api.com/json";
 NSString *const kPNLiteGeoIPResponseSuccess = @"success";
 NSString *const kPNLiteGeoIPResponseFail = @"fail";
 
@@ -47,7 +47,7 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
     } else {
         self.delegate = delegate;
         [self invokeDidStart];
-        [[PNLiteHttpRequest alloc] startWithUrlString:kPNLiteGeoIPRequestBaseUrl withMethod:@"GET" delegate:self];
+        [[PNLiteHttpRequest alloc] startWithUrlString:[PNLiteConsentEndpoints geoIPURL] withMethod:@"GET" delegate:self];
     }
 }
 

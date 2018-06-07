@@ -32,4 +32,6 @@
 
 + (NSString *)consentURL;
 
++ (NSString *)geoIPURL;
+
 @end
