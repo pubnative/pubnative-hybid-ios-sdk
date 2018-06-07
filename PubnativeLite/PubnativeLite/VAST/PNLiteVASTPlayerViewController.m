@@ -40,6 +40,11 @@ NSString * const kPNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
 NSTimeInterval const kPNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
 NSTimeInterval const kPNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
 
+CGFloat const kPNLiteVASTPlayerSafeAreaTopPadding                = -20.0f;
+CGFloat const kPNLiteVASTPlayerSafeAreaBottomPadding             = 20.0f;
+CGFloat const kPNLiteVASTPlayerSafeAreaLeadingPadding            = 20.0f;
+CGFloat const kPNLiteVASTPlayerSafeAreaTrailingPadding           = 20.0f;
+
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
     PNLiteVASTPlayerState_LOAD = 1 << 1,
@@ -89,6 +94,17 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpin;
 @property (weak, nonatomic) IBOutlet UIView *contentInfoViewContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferTrailingConstraint;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressLeadingConstraint;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnMuteTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnMuteLeadingConstraint;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnFullscreenBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnFullScreenTrailingConstraint;
 
 @end
 
@@ -405,12 +421,50 @@ typedef enum : NSUInteger {
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];
         self.view.frame = [UIApplication sharedApplication].topViewController.view.frame;
+        [self setConstraintsForPlayerElementsInFullscreen:self.fullScreen];
         [[UIApplication sharedApplication].topViewController.view addSubview:self.view];
     } else {
         [self.view removeFromSuperview];
         self.view.frame = self.viewContainer.bounds;
         [self.viewContainer addSubview:self.view];
+        [self setConstraintsForPlayerElementsInFullscreen:self.fullScreen];
     }
+}
+
+- (void)setConstraintsForPlayerElementsInFullscreen:(BOOL)isFullscreen
+{
+    if (isFullscreen) {
+        if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+            self.btnOpenOfferTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
+            self.btnOpenOfferTrailingConstraint.constant = 0;
+            self.btnMuteTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
+            self.btnMuteLeadingConstraint.constant = 0;
+            self.btnFullscreenBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
+            self.btnFullScreenTrailingConstraint.constant = 0;
+            self.viewProgressBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
+            self.viewProgressLeadingConstraint.constant = 0;
+        } else if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+            self.btnOpenOfferTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
+            self.btnOpenOfferTrailingConstraint.constant = kPNLiteVASTPlayerSafeAreaTrailingPadding;
+            self.btnMuteTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
+            self.btnMuteLeadingConstraint.constant = kPNLiteVASTPlayerSafeAreaLeadingPadding;
+            self.btnFullscreenBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
+            self.btnFullScreenTrailingConstraint.constant = kPNLiteVASTPlayerSafeAreaTrailingPadding;
+            self.viewProgressBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
+            self.viewProgressLeadingConstraint.constant = kPNLiteVASTPlayerSafeAreaLeadingPadding;
+        }
+    } else {
+        self.btnOpenOfferTopConstraint.constant = 0;
+        self.btnOpenOfferTrailingConstraint.constant = 0;
+        self.btnMuteTopConstraint.constant = 0;
+        self.btnMuteLeadingConstraint.constant = 0;
+        self.btnFullscreenBottomConstraint.constant = 0;
+        self.btnFullScreenTrailingConstraint.constant = 0;
+        self.viewProgressBottomConstraint.constant = 0;
+        self.viewProgressLeadingConstraint.constant = 0;
+    }
+    
+    [self.view layoutIfNeeded];
 }
 
 #pragma mark - Delegate helpers
@@ -767,6 +821,7 @@ typedef enum : NSUInteger {
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
 {
     self.contentInfoViewWidthConstraint.constant = [width floatValue];
+    [self setConstraintsForPlayerElementsInFullscreen:self.fullScreen];
     [self.view layoutIfNeeded];
 }
 

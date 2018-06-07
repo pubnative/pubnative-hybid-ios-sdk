@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -40,11 +40,12 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VMb-Wf-Jhi">
-                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                    <rect key="frame" x="0.0" y="20" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Rqp-Mn-hnY"/>
                         <constraint firstAttribute="width" constant="50" id="sNN-gV-wcc"/>
                     </constraints>
+                    <viewLayoutGuide key="safeArea" id="pCL-Jx-fZy"/>
                     <state key="normal" image="PNLiteMute.png"/>
                     <connections>
                         <action selector="btnMutePush:" destination="-1" eventType="touchUpInside" id="WhW-Cj-rC0"/>
@@ -62,7 +63,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsk-q6-jz9" userLabel="Btn Close">
-                    <rect key="frame" x="551" y="0.0" width="49" height="51"/>
+                    <rect key="frame" x="551" y="20" width="49" height="51"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="49" id="ga3-Uj-WGN"/>
                         <constraint firstAttribute="height" constant="51" id="hf6-IW-nhU"/>
@@ -84,7 +85,7 @@
                     <rect key="frame" x="281" y="281" width="37" height="37"/>
                 </activityIndicatorView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyD-B7-zGY">
-                    <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                    <rect key="frame" x="0.0" y="20" width="15" height="15"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="6IQ-jq-33S"/>
@@ -94,22 +95,23 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="EyD-B7-zGY" firstAttribute="leading" secondItem="CWD-dp-WWe" secondAttribute="leading" id="7mC-AV-ZnJ"/>
-                <constraint firstItem="VMb-Wf-Jhi" firstAttribute="leading" secondItem="CWD-dp-WWe" secondAttribute="leading" id="BLa-mC-Q82"/>
-                <constraint firstAttribute="trailing" secondItem="xsk-q6-jz9" secondAttribute="trailing" id="G1l-qy-jde"/>
-                <constraint firstItem="NR4-LJ-tZs" firstAttribute="leading" secondItem="CWD-dp-WWe" secondAttribute="leading" constant="10" id="Sd1-Fn-ym9"/>
-                <constraint firstAttribute="bottomMargin" secondItem="Jiw-2I-70B" secondAttribute="bottom" id="WPh-p7-6hj"/>
-                <constraint firstAttribute="trailing" secondItem="6ou-3V-8Hg" secondAttribute="trailing" id="ZuT-oI-6ZT"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="Jiw-2I-70B" secondAttribute="trailing" id="0mH-9B-A2N"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="6ou-3V-8Hg" secondAttribute="bottom" id="3rq-r0-Iag"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="VMb-Wf-Jhi" secondAttribute="top" id="7bQ-vz-blX"/>
+                <constraint firstItem="EyD-B7-zGY" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="B4a-Nm-5pA"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="xsk-q6-jz9" secondAttribute="trailing" id="VqZ-0i-V6i"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="6ou-3V-8Hg" secondAttribute="trailing" id="aaM-eI-VjL"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerX" secondItem="CWD-dp-WWe" secondAttribute="centerX" id="bUX-hK-Noz"/>
-                <constraint firstItem="VMb-Wf-Jhi" firstAttribute="top" secondItem="CWD-dp-WWe" secondAttribute="top" id="eRh-e8-fmL"/>
-                <constraint firstAttribute="bottom" secondItem="6ou-3V-8Hg" secondAttribute="bottom" id="gdZ-FN-Fia"/>
-                <constraint firstItem="EyD-B7-zGY" firstAttribute="top" secondItem="CWD-dp-WWe" secondAttribute="top" id="iMX-Xi-pC4"/>
-                <constraint firstAttribute="bottom" secondItem="NR4-LJ-tZs" secondAttribute="bottom" constant="10" id="mcS-L6-R2l"/>
-                <constraint firstAttribute="trailing" secondItem="Jiw-2I-70B" secondAttribute="trailing" id="nA5-X9-oea"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="NR4-LJ-tZs" secondAttribute="bottom" constant="10" id="g3x-Z5-LUs"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerY" secondItem="CWD-dp-WWe" secondAttribute="centerY" id="nBg-k3-iEi"/>
-                <constraint firstItem="xsk-q6-jz9" firstAttribute="top" secondItem="CWD-dp-WWe" secondAttribute="top" id="qnR-vK-ntT"/>
+                <constraint firstItem="VMb-Wf-Jhi" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="nCr-Xc-euC"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="Jiw-2I-70B" secondAttribute="bottom" id="nm2-Uc-bVw"/>
+                <constraint firstItem="NR4-LJ-tZs" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" constant="10" id="sdg-aJ-iXb"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="xsk-q6-jz9" secondAttribute="top" id="utd-gD-lxl"/>
+                <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="EyD-B7-zGY" secondAttribute="top" id="yEK-Ua-FWV"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="pjM-1K-mT8"/>
         </view>
     </objects>
     <resources>
