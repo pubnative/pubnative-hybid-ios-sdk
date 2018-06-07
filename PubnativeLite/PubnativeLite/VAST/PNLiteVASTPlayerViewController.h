@@ -28,12 +28,14 @@
 
 @protocol PNLiteVASTPlayerViewControllerDelegate <NSObject>
 
+@required
 - (void)vastPlayerDidFinishLoading:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayer:(PNLiteVASTPlayerViewController*)vastPlayer didFailLoadingWithError:(NSError*)error;
 - (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
+@optional
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController*)vastPlayer;
 
 @end

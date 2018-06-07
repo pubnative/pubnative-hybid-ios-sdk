@@ -30,7 +30,9 @@
 {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.consented = dictionary[@"consent"];
+        if (![dictionary isEqual:(id)[NSNull null]]) {
+            self.consented = dictionary[@"consent"];
+        }
     }
     return self;
 }
