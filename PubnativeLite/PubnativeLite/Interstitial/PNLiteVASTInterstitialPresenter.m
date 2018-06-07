@@ -64,4 +64,9 @@
     [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
 }
 
+- (void)hide
+{
+    [[UIApplication sharedApplication].topViewController dismissViewControllerAnimated:self.vastViewController completion:nil];
+}
+
 @end

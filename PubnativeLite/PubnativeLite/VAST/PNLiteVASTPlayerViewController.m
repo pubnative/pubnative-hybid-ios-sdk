@@ -381,7 +381,7 @@ typedef enum : NSUInteger {
 
 - (IBAction)btnClosePush:(id)sender
 {
-    
+    [self invokeDidClose];
 }
 
 - (IBAction)btnOpenOfferPush:(id)sender
@@ -457,6 +457,13 @@ typedef enum : NSUInteger {
 {
     if([self.delegate respondsToSelector:@selector(vastPlayerDidComplete:)]) {
         [self.delegate vastPlayerDidComplete:self];
+    }
+}
+
+- (void)invokeDidClose
+{
+    if ([self.delegate respondsToSelector:@selector(vastPlayerDidClose:)]) {
+        [self.delegate vastPlayerDidClose:self];
     }
 }
 

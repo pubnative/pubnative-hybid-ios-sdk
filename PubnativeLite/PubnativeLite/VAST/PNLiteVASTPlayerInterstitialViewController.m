@@ -120,4 +120,10 @@
     [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
 }
 
+- (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer
+{
+    [self.presenter hide];
+    [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
+}
+
 @end
