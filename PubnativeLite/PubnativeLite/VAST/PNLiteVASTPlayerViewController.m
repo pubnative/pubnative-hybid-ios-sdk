@@ -39,11 +39,8 @@ NSString * const kPNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
 
 NSTimeInterval const kPNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
 NSTimeInterval const kPNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
-
-CGFloat const kPNLiteVASTPlayerSafeAreaTopPadding                = -20.0f;
-CGFloat const kPNLiteVASTPlayerSafeAreaBottomPadding             = 20.0f;
-CGFloat const kPNLiteVASTPlayerSafeAreaLeadingPadding            = 20.0f;
-CGFloat const kPNLiteVASTPlayerSafeAreaTrailingPadding           = 20.0f;
+CGFloat const kPNLiteVASTPlayerViewProgressBottomConstant       = 10.0f;
+CGFloat const kPNLiteVASTPlayerViewProgressLeadingConstant      = 10.0f;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -96,15 +93,14 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferTrailingConstraint;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressLeadingConstraint;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnMuteTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnMuteLeadingConstraint;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnFullscreenBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnFullScreenTrailingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewContainerTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewContainerLeadingConstraint;
 
 @end
 
@@ -416,7 +412,6 @@ typedef enum : NSUInteger {
     NSLog(@"btnFullscreenPush");
     
     self.fullScreen = !self.fullScreen;
-    self.contentInfoViewContainer.hidden = self.fullScreen;
     if (self.fullScreen) {
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];
@@ -433,38 +428,38 @@ typedef enum : NSUInteger {
 
 - (void)setConstraintsForPlayerElementsInFullscreen:(BOOL)isFullscreen
 {
-    if (isFullscreen) {
-        if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-            self.btnOpenOfferTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
+    if (@available(iOS 11.0, *)) {
+        if (isFullscreen) {
+            UIWindow *window = UIApplication.sharedApplication.keyWindow;
+            CGFloat topPadding = window.safeAreaInsets.top;
+            CGFloat bottomPadding = window.safeAreaInsets.bottom;
+            CGFloat leadingPadding = window.safeAreaInsets.left;
+            CGFloat trailingPadding = window.safeAreaInsets.right;
+            self.btnOpenOfferTopConstraint.constant = -topPadding;
+            self.btnOpenOfferTrailingConstraint.constant = trailingPadding;
+            self.btnMuteTopConstraint.constant = -topPadding;
+            self.btnMuteLeadingConstraint.constant = leadingPadding;
+            self.btnFullscreenBottomConstraint.constant = bottomPadding;
+            self.btnFullScreenTrailingConstraint.constant = trailingPadding;
+            self.contentInfoViewContainerTopConstraint.constant = -topPadding;
+            self.contentInfoViewContainerLeadingConstraint.constant = leadingPadding;
+            self.viewProgressBottomConstraint.constant = bottomPadding + kPNLiteVASTPlayerViewProgressBottomConstant;
+            self.viewProgressLeadingConstraint.constant = leadingPadding + kPNLiteVASTPlayerViewProgressLeadingConstant;
+        } else {
+            self.btnOpenOfferTopConstraint.constant = 0;
             self.btnOpenOfferTrailingConstraint.constant = 0;
-            self.btnMuteTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
+            self.btnMuteTopConstraint.constant = 0;
             self.btnMuteLeadingConstraint.constant = 0;
-            self.btnFullscreenBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
+            self.btnFullscreenBottomConstraint.constant = 0;
             self.btnFullScreenTrailingConstraint.constant = 0;
-            self.viewProgressBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
-            self.viewProgressLeadingConstraint.constant = 0;
-        } else if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-            self.btnOpenOfferTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
-            self.btnOpenOfferTrailingConstraint.constant = kPNLiteVASTPlayerSafeAreaTrailingPadding;
-            self.btnMuteTopConstraint.constant = kPNLiteVASTPlayerSafeAreaTopPadding;
-            self.btnMuteLeadingConstraint.constant = kPNLiteVASTPlayerSafeAreaLeadingPadding;
-            self.btnFullscreenBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
-            self.btnFullScreenTrailingConstraint.constant = kPNLiteVASTPlayerSafeAreaTrailingPadding;
-            self.viewProgressBottomConstraint.constant = kPNLiteVASTPlayerSafeAreaBottomPadding;
-            self.viewProgressLeadingConstraint.constant = kPNLiteVASTPlayerSafeAreaLeadingPadding;
+            self.contentInfoViewContainerTopConstraint.constant = 0;
+            self.contentInfoViewContainerLeadingConstraint.constant = 0;
+            self.viewProgressBottomConstraint.constant = kPNLiteVASTPlayerViewProgressBottomConstant;
+            self.viewProgressLeadingConstraint.constant = kPNLiteVASTPlayerViewProgressLeadingConstant;
         }
-    } else {
-        self.btnOpenOfferTopConstraint.constant = 0;
-        self.btnOpenOfferTrailingConstraint.constant = 0;
-        self.btnMuteTopConstraint.constant = 0;
-        self.btnMuteLeadingConstraint.constant = 0;
-        self.btnFullscreenBottomConstraint.constant = 0;
-        self.btnFullScreenTrailingConstraint.constant = 0;
-        self.viewProgressBottomConstraint.constant = 0;
-        self.viewProgressLeadingConstraint.constant = 0;
+        
+        [self.view layoutIfNeeded];
     }
-    
-    [self.view layoutIfNeeded];
 }
 
 #pragma mark - Delegate helpers

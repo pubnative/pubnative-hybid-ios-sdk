@@ -22,6 +22,8 @@
                 <outlet property="btnOpenOfferTopConstraint" destination="31L-bH-Css" id="j5S-Br-oTs"/>
                 <outlet property="btnOpenOfferTrailingConstraint" destination="fKr-XA-Yp5" id="7zo-s7-yIA"/>
                 <outlet property="contentInfoViewContainer" destination="zfp-Xd-tkd" id="upK-WK-fQE"/>
+                <outlet property="contentInfoViewContainerLeadingConstraint" destination="Ipm-aE-q0h" id="JnW-AE-mQb"/>
+                <outlet property="contentInfoViewContainerTopConstraint" destination="l4Z-lG-F6F" id="XPE-4W-fDK"/>
                 <outlet property="contentInfoViewWidthConstraint" destination="n8p-Pb-rke" id="q9H-P1-YXT"/>
                 <outlet property="loadingSpin" destination="KcA-ff-Pj9" id="F6m-XB-pYL"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3yE-Da-NoG"/>
