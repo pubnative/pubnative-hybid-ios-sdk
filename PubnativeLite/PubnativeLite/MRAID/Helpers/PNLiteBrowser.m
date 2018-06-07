@@ -143,17 +143,11 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 {
     [super viewWillAppear:animated];
     statusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
-    if (disableStatusBar && SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (disableStatusBar && SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [[UIApplication sharedApplication] setStatusBarHidden:statusBarHidden withAnimation:UIStatusBarAnimationNone];
-    }
 }
 
 - (BOOL)prefersStatusBarHidden

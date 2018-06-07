@@ -514,7 +514,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
 
-    eventJSON=[eventJSON stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    eventJSON=[eventJSON stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), eventJSON]];
     
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsCalendar]) {
@@ -564,15 +564,15 @@ typedef enum {
         
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
-        urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        urlString = [urlString stringByRemovingPercentEncoding];
         if (![[NSURL URLWithString:urlString] scheme]) {
             // relative URL
-            urlString = [[[baseURL absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByAppendingString:urlString];
+            urlString = [[[baseURL absoluteString] stringByRemovingPercentEncoding] stringByAppendingString:urlString];
         }
         
         // Need to escape characters which are URL specific
-        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
+        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+
         NSError *error;
         NSString *content = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
@@ -633,7 +633,7 @@ typedef enum {
        return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
     // Notify the callers
@@ -649,7 +649,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServicePlayVideoWithUrlString:)]) {
         [self.serviceDelegate mraidServicePlayVideoWithUrlString:urlString];
@@ -663,7 +663,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceSendSMSWithUrlString:)]) {
         [self.serviceDelegate mraidServiceSendSMSWithUrlString:urlString];
@@ -677,7 +677,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceCallNumberWithUrlString:)]) {
         [self.serviceDelegate mraidServiceCallNumberWithUrlString:urlString];
@@ -759,7 +759,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString=[urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString=[urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsStorePicture]) {
@@ -1169,7 +1169,7 @@ typedef enum {
 
     } else if ([scheme isEqualToString:@"console-log"]) {
         [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS console: %@",
-                          [[absUrlString substringFromIndex:14] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding ]]];
+                          [[absUrlString substringFromIndex:14] stringByRemovingPercentEncoding ]]];
     } else {
         [PNLiteLogger info:@"MRAID - View" withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationType)]];
         
@@ -1178,7 +1178,7 @@ typedef enum {
             // For banner views
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS webview load: %@",
-                                                                    [absUrlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+                                                                    [absUrlString stringByRemovingPercentEncoding]]];
                 [self.delegate mraidViewNavigate:self withURL:url];
             }
         } else {

@@ -100,9 +100,6 @@
     [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
 
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -121,10 +118,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")){
-        [[UIApplication sharedApplication] setStatusBarHidden:isStatusBarHidden withAnimation:UIStatusBarAnimationFade];
-    }
 }
 
 // This is to hide the status bar on iOS 7.
