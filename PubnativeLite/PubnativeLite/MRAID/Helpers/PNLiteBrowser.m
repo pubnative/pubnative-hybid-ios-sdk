@@ -22,6 +22,7 @@
 
 #import "PNLiteBrowser.h"
 #import "PNLiteLogger.h"
+#import "UIApplication+PNLiteTopViewController.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -32,7 +33,7 @@ NSString * const kPNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
 NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
 NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
-@interface PNLiteBrowser () <UIWebViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface PNLiteBrowser () <UIWebViewDelegate>
 {
     PNLiteBrowserControlsView *browserControlsView;
     NSURLRequest *currrentRequest;
@@ -218,6 +219,8 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     }
 }
 
+#pragma mark - Telephone call permission AlertView
+
 - (void)getTelPermission:(NSString *)telString
 {
     if ([self.delegate respondsToSelector:@selector(pubnativeTelPopupOpen:)]) {
@@ -226,36 +229,45 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     
     telString = [telString stringByReplacingOccurrencesOfString:kPNLiteBrowserTelPrefix withString:@""];
     
-    UIAlertView *telPermissionAlert = [[UIAlertView alloc] initWithTitle:telString
-                                                      message:nil
-                                                     delegate:self
-                                            cancelButtonTitle:@"Cancel"
-                                            otherButtonTitles:@"Call",nil];
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:telString
+                                          message:nil
+                                          preferredStyle:UIAlertControllerStyleAlert];
     
-    [telPermissionAlert show];
-}
-
-#pragma mark - Telephone call permission AlertView
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSString *buttonLabel = [alertView buttonTitleAtIndex:buttonIndex];
+    UIAlertAction *cancelAction = [UIAlertAction
+                                   actionWithTitle:@"Cancel"
+                                   style:UIAlertActionStyleCancel
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       if ([self.delegate respondsToSelector:@selector(pubnativeTelPopupClosed:)]) {
+                                           [self.delegate pubnativeTelPopupClosed:self];
+                                       }
+                                   }];
     
-    if ([self.delegate respondsToSelector:@selector(pubnativeTelPopupClosed:)]) {
-        [self.delegate pubnativeTelPopupClosed:self];
-    }
-
-    if([buttonLabel isEqualToString:@"Call"])
-    {
-        // Notify listener
-        if ([self.delegate respondsToSelector:@selector(pubnativeBrowserWillExitApp:)]) {
-            [self.delegate pubnativeBrowserWillExitApp:self];
-        }
-        
-        // Parse phone number and dial
-        NSString *toCall = [kPNLiteBrowserTelPrefix stringByAppendingString:alertView.title];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:toCall]];
-    }
+    UIAlertAction *callAction = [UIAlertAction
+                               actionWithTitle:@"Call"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   if ([self.delegate respondsToSelector:@selector(pubnativeTelPopupClosed:)]) {
+                                       [self.delegate pubnativeTelPopupClosed:self];
+                                   }
+                                   
+                                   // Notify listener
+                                   if ([self.delegate respondsToSelector:@selector(pubnativeBrowserWillExitApp:)]) {
+                                       [self.delegate pubnativeBrowserWillExitApp:self];
+                                   }
+                                   
+                                   // Parse phone number and dial
+                                   NSString *toCall = [kPNLiteBrowserTelPrefix stringByAppendingString:telString];
+                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:toCall]];
+                               }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:callAction];
+    
+    [[UIApplication sharedApplication].topViewController presentViewController:alertController animated:YES completion:nil];
+    
 }
 
 #pragma mark -
@@ -348,40 +360,43 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     }
 }
 
-#define ACTION_SHEET_TOOLBAR_ACTION 32000
 - (void)launchSafari
 {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                      initWithTitle:nil
-                                      delegate:self
-                                      cancelButtonTitle:@"Cancel"
-                                      destructiveButtonTitle:nil
-                                      otherButtonTitles:@"Launch Safari",nil];
-        actionSheet.tag = ACTION_SHEET_TOOLBAR_ACTION;
-        actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-        [actionSheet showInView:self.view];
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:nil
+                                          message:nil
+                                          preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *cancelAction = [UIAlertAction
+                                   actionWithTitle:@"Cancel"
+                                   style:UIAlertActionStyleCancel
+                                   handler:^(UIAlertAction *action)
+                                   {
+
+                                   }];
+    
+    UIAlertAction *launchSafariAction = [UIAlertAction
+                                 actionWithTitle:@"Launch Safari"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction *action)
+                                 {
+                                     NSURL *currentRequestURL = [browserWebView.request URL];
+                                     if ([self.delegate respondsToSelector:@selector(pubnativeBrowserWillExitApp:)]) {
+                                         [self.delegate pubnativeBrowserWillExitApp:self];
+                                     }
+                                     [self dismiss];
+                                     [[UIApplication sharedApplication] openURL:currentRequestURL];
+                                 }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:launchSafariAction];
+    
+    [[UIApplication sharedApplication].topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)refresh
 {
      [browserWebView reload];
-}
-
-#pragma mark -
-#pragma mark UIActionSheetDelegate
-    
-#define ACTION_LAUNCH_SAFARI 0
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (actionSheet.tag == ACTION_SHEET_TOOLBAR_ACTION) {
-        if (buttonIndex == 0) {
-            NSURL *currentRequestURL = [browserWebView.request URL];
-            if ([self.delegate respondsToSelector:@selector(pubnativeBrowserWillExitApp:)]) {
-                [self.delegate pubnativeBrowserWillExitApp:self];
-            }
-            [self dismiss];
-            [[UIApplication sharedApplication] openURL:currentRequestURL];
-        }
-    }
 }
 
 @end
