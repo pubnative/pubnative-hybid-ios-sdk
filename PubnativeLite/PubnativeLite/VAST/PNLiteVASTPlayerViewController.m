@@ -412,6 +412,7 @@ typedef enum : NSUInteger {
     NSLog(@"btnFullscreenPush");
     
     self.fullScreen = !self.fullScreen;
+    self.contentInfoViewContainer.hidden = self.fullScreen;
     if (self.fullScreen) {
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];

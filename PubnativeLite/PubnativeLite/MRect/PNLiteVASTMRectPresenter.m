@@ -77,7 +77,6 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
     //TO-DO: Handle play when using PNLiteAdView
     
     [self.delegate mRectPresenter:self didLoadWithMRect:[self buildContainerWithVASTPlayer:vastPlayer]];
-    [self.player play];
 }
 
 - (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error
