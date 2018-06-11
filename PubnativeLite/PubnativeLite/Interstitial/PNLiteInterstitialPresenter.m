@@ -39,6 +39,11 @@
     // Do nothing, this method should be overriden
 }
 
+- (void)hide
+{
+    // Do nothing, this method should be overriden
+}
+
 - (PNLiteAd *)ad
 {
     return nil;

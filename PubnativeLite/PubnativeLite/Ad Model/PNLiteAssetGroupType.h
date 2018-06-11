@@ -29,4 +29,8 @@ typedef NS_ENUM(int, AssetGroupType) {
     MRAID_INTERSTITIAL = 21,
     
     VAST_MRECT = 4,
+    VAST_INTERSTITIAL_1 = 15,
+    VAST_INTERSTITIAL_2 = 18,
+    VAST_INTERSTITIAL_3 = 19,
+    VAST_INTERSTITIAL_4 = 20,
 };

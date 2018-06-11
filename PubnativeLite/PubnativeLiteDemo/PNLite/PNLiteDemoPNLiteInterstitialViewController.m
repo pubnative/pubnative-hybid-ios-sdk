@@ -81,9 +81,15 @@
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"PNLite Demo"
+                                          message:error.localizedDescription
+                                          preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"PNLite Demo" message:error.localizedDescription delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
-    [alert show];
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:dismissAction];
+    [self presentViewController:alertController animated:YES completion:nil];
     
     [self.interstitialLoaderIndicator stopAnimating];
 }

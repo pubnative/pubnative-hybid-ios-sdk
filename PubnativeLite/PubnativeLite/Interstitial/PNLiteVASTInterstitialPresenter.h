@@ -20,23 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "PNLiteInterstitialPresenter.h"
 
-@class PNLiteVASTModalViewController;
-@class PNLiteVASTOrientationProperties;
+@interface PNLiteVASTInterstitialPresenter : PNLiteInterstitialPresenter
 
-@protocol PNLiteVASTModalViewControllerDelegate <NSObject>
-
-- (void)vastModalViewControllerDidRotate:(PNLiteVASTModalViewController *)modalViewController;
-
-@end
-
-
-@interface PNLiteVASTModalViewController : UIViewController
-
-@property (nonatomic, unsafe_unretained) id<PNLiteVASTModalViewControllerDelegate> delegate;
-
-- (id)initWithOrientationProperties:(PNLiteVASTOrientationProperties *)orientationProperties;
-- (void)forceToOrientation:(PNLiteVASTOrientationProperties *)orientationProperties;
+- (instancetype)initWithAd:(PNLiteAd *)ad;
 
 @end

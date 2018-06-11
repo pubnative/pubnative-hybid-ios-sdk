@@ -20,28 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteVASTOrientationProperties.h"
+#import <UIKit/UIKit.h>
+#import "PNLiteInterstitialPresenter.h"
+#import "PNLiteAd.h"
 
-@implementation PNLiteVASTOrientationProperties
+@interface PNLiteVASTPlayerInterstitialViewController : UIViewController
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _allowOrientationChange = YES;
-        _forceOrientation = PNLiteVASTForceOrientationNone;
-    }
-    return self;
-}
+- (void)loadFullScreenPlayerWithPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter withAd:(PNLiteAd *)ad;
 
-+ (PNLiteVASTForceOrientation)VASTForceOrientationFromString:(NSString *)s
-{
-    NSArray *names = @[ @"portrait", @"landscape", @"none" ];
-    NSUInteger i = [names indexOfObject:s];
-    if (i != NSNotFound) {
-        return (PNLiteVASTForceOrientation)i;
-    }
-    // Use none for the default value
-    return PNLiteVASTForceOrientationNone;
-}
 @end
