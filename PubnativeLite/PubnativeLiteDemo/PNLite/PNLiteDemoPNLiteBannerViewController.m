@@ -51,7 +51,8 @@
 #pragma mark - PNLiteAdViewDelegate
 
 -(void)adViewDidLoad
-{    
+{
+    NSLog(@"Banner Ad View did load:");
     self.bannerAdView.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
 }

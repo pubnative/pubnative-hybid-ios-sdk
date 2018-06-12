@@ -52,7 +52,9 @@
     [self cleanUp];
     self.delegate = delegate;
     if (zoneID == nil || zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
+            [self.delegate adViewDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
+        }
     } else {
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }
@@ -61,42 +63,15 @@
 - (void)setupAdView:(UIView *)adView
 {
     [self addSubview:adView];
-    [self invokeDidLoad];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad)]) {
+        [self.delegate adViewDidLoad];
+    }
     [self startTracking];
-    [self invokeDidTrackImpression];
 }
 
 - (void)renderAd
 {
     // Do nothing, this method should be overriden
-}
-
-- (void)invokeDidLoad
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad)]) {
-        [self.delegate adViewDidLoad];
-    }
-}
-
-- (void)invokeDidFailWithError:(NSError *)error
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
-        [self.delegate adViewDidFailWithError:error];
-    }
-}
-
-- (void)invokeDidTrackClick
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick)]) {
-        [self.delegate adViewDidTrackClick];
-    }
-}
-
-- (void)invokeDidTrackImpression
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression)]) {
-        [self.delegate adViewDidTrackImpression];
-    }
 }
 
 - (void)startTracking
@@ -120,7 +95,9 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
+            [self.delegate adViewDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
+        }
     } else {
         self.ad = ad;
         [self renderAd];
@@ -129,7 +106,9 @@
 
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
-    [self invokeDidFailWithError:error];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
+        [self.delegate adViewDidFailWithError:error];
+    }
 }
 
 @end

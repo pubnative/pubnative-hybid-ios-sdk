@@ -66,6 +66,9 @@
 - (void)startTracking
 {
     [self.bannerPresenter startTracking];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression)]) {
+        [self.delegate adViewDidTrackImpression];
+    }
 }
 
 - (void)stopTracking
@@ -78,7 +81,9 @@
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     if (banner == nil) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
+            [self.delegate adViewDidFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
+        }
     } else {
         [self setupAdView:banner];
     }
@@ -86,12 +91,17 @@
 
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
-    [self invokeDidFailWithError:error];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
+        [self.delegate adViewDidFailWithError:error];
+    }
 }
 
 - (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
 {
-    [self invokeDidTrackClick];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick)]) {
+        [self.delegate adViewDidTrackClick];
+    }
+    
 }
 
 @end

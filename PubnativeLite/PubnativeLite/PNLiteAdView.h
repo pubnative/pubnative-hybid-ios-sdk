@@ -44,9 +44,5 @@
 - (void)renderAd;
 - (void)startTracking;
 - (void)stopTracking;
-- (void)invokeDidLoad;
-- (void)invokeDidFailWithError:(NSError *)error;
-- (void)invokeDidTrackClick;
-- (void)invokeDidTrackImpression;
 
 @end
