@@ -20,11 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteConstants.h"
+#import "PNLiteAdView.h"
 
-CGSize const PNLITE_BANNER_SIZE = { .width = 320.0f, .height = 50.0f };
-CGSize const PNLITE_MEDIUM_RECT_SIZE = { .width = 300.0f, .height = 250.0f };
-
-@implementation PNLiteConstants
+@interface PNLiteBannerAdView : PNLiteAdView
 
 @end

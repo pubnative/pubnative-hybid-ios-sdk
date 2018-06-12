@@ -20,12 +20,33 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PNLiteAd.h"
+#import "PNLiteAdRequest.h"
 
-extern CGSize const PNLITE_BANNER_SIZE;
-extern CGSize const PNLITE_MEDIUM_RECT_SIZE;
+@protocol PNLiteAdViewDelegate<NSObject>
 
-@interface PNLiteConstants : NSObject
+- (void)adViewDidLoad;
+- (void)adViewDidFailWithError:(NSError *)error;
+- (void)adViewDidTrackImpression;
+- (void)adViewDidTrackClick;
+
+@end
+
+@interface PNLiteAdView : UIView <PNLiteAdRequestDelegate>
+
+@property (nonatomic, readonly) PNLiteAdRequest *adRequest;
+@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) NSObject <PNLiteAdViewDelegate> *delegate;
+
+- (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<PNLiteAdViewDelegate> *)delegate;
+- (void)setupAdView:(UIView *)adView;
+- (void)renderAd;
+- (void)startTracking;
+- (void)stopTracking;
+- (void)invokeDidLoad;
+- (void)invokeDidFailWithError:(NSError *)error;
+- (void)invokeDidTrackClick;
+- (void)invokeDidTrackImpression;
 
 @end

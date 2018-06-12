@@ -42,5 +42,7 @@
 @property (nonatomic, strong) NSObject <PNLiteBannerPresenterDelegate> *delegate;
 
 - (void)load;
+- (void)startTracking;
+- (void)stopTracking;
 
 @end
