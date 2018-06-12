@@ -1627,6 +1627,8 @@
 				5A3657CC203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m */,
 				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
 				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
+				5A81267D20CFF0D5007F7092 /* PNLiteBannerAdView.h */,
+				5A81267E20CFF0D5007F7092 /* PNLiteBannerAdView.m */,
 			);
 			path = Banner;
 			sourceTree = "<group>";
@@ -1752,8 +1754,6 @@
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
 				5A81267920CFC83D007F7092 /* PNLiteAdView.h */,
 				5A81267A20CFC83D007F7092 /* PNLiteAdView.m */,
-				5A81267D20CFF0D5007F7092 /* PNLiteBannerAdView.h */,
-				5A81267E20CFF0D5007F7092 /* PNLiteBannerAdView.m */,
 				5A674F9C20B5AAD200B3D68D /* Consent */,
 				5A8F10202089E4D20098E337 /* Crash Tracking */,
 				5ABE013D203F344A00E6A14E /* Location */,
