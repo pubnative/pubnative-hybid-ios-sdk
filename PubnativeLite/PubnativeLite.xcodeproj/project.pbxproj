@@ -297,6 +297,8 @@
 		5A7E36EA20AC27E400BF707D /* MPInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7E362220AC27E400BF707D /* MPInterstitialCustomEvent.m */; };
 		5A7E36EB20AC27E400BF707D /* MPConsentChangedNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7E362420AC27E400BF707D /* MPConsentChangedNotification.m */; };
 		5A7FEC9A2076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7FEC992076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m */; };
+		5A81267720CFC5B4007F7092 /* PNLiteConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A81267520CFC5B4007F7092 /* PNLiteConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A81267820CFC5B4007F7092 /* PNLiteConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81267620CFC5B4007F7092 /* PNLiteConstants.m */; };
 		5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */; };
 		5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */; };
 		5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903D0203DE1D400D86051 /* WebKit.framework */; };
@@ -1127,6 +1129,8 @@
 		5A7E362620AC27E400BF707D /* MPInterstitialAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPInterstitialAdController.h; sourceTree = "<group>"; };
 		5A7FEC982076751A00FAED48 /* PNLiteDFPMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPMRectCustomEvent.h; sourceTree = "<group>"; };
 		5A7FEC992076751A00FAED48 /* PNLiteDFPMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPMRectCustomEvent.m; sourceTree = "<group>"; };
+		5A81267520CFC5B4007F7092 /* PNLiteConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteConstants.h; sourceTree = "<group>"; };
+		5A81267620CFC5B4007F7092 /* PNLiteConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConstants.m; sourceTree = "<group>"; };
 		5A81F89E207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPInterstitialViewController.h; sourceTree = "<group>"; };
 		5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPInterstitialViewController.m; sourceTree = "<group>"; };
 		5A87F458207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPSettingsViewController.h; sourceTree = "<group>"; };
@@ -1734,6 +1738,8 @@
 			children = (
 				5A6CD0232029CD060022E206 /* PubnativeLite.h */,
 				5A540258202B129E005D80E6 /* PubnativeLite.m */,
+				5A81267520CFC5B4007F7092 /* PNLiteConstants.h */,
+				5A81267620CFC5B4007F7092 /* PNLiteConstants.m */,
 				5A540251202B0C04005D80E6 /* PNLiteTargetingModel.h */,
 				5A540250202B0C04005D80E6 /* PNLiteTargetingModel.m */,
 				5A540254202B1085005D80E6 /* PNLiteSettings.h */,
@@ -2881,6 +2887,7 @@
 				5A8F11012089E4D20098E337 /* PNLite_KSSystemCapabilities.h in Headers */,
 				5A8F10C12089E4D20098E337 /* PNLiteBreadcrumb.h in Headers */,
 				5A8F10D22089E4D20098E337 /* PNLite_KSFileUtils.h in Headers */,
+				5A81267720CFC5B4007F7092 /* PNLiteConstants.h in Headers */,
 				5A3657CD203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h in Headers */,
 				5A8F10B52089E4D20098E337 /* PNLiteKeys.h in Headers */,
 				5A449B4F203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h in Headers */,
@@ -3494,6 +3501,7 @@
 				5AECD5A5204034DE0023ABBC /* PNLiteInterstitialPresenter.m in Sources */,
 				5A8F10F02089E4D20098E337 /* PNLite_KSObjC.c in Sources */,
 				5A8F10F12089E4D20098E337 /* PNLite_KSZombie.c in Sources */,
+				5A81267820CFC5B4007F7092 /* PNLiteConstants.m in Sources */,
 				5A8F11162089E4D20098E337 /* PNLite_KSCrashReport.c in Sources */,
 				5A8F10AF2089E4D20098E337 /* PNLiteUser.m in Sources */,
 				5A9B66DE20BD8BE00067964E /* PNLiteVASTParser.m in Sources */,
