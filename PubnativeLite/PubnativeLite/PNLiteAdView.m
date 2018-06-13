@@ -21,8 +21,6 @@
 //
 
 #import "PNLiteAdView.h"
-#import "PNLiteBannerAdView.h"
-#import "PNLiteBannerAdRequest.h"
 
 @implementation PNLiteAdView
 
