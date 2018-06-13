@@ -42,5 +42,6 @@
 @property (nonatomic, strong) NSObject <PNLiteMRectPresenterDelegate> *delegate;
 
 - (void)load;
-
+- (void)startTracking;
+- (void)stopTracking;
 @end

@@ -29,6 +29,8 @@
 		5A2A7704206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7703206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m */; };
 		5A2A7706206A7F7B00B5643C /* PNLiteMRectAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7705206A7F7B00B5643C /* PNLiteMRectAdRequestTest.m */; };
 		5A2A7708206A819100B5643C /* PNLiteInterstitialAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7707206A819100B5643C /* PNLiteInterstitialAdRequestTest.m */; };
+		5A2AA5C720D14465007A4804 /* PNLiteMRectAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2AA5C520D14465007A4804 /* PNLiteMRectAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A2AA5C820D14465007A4804 /* PNLiteMRectAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2AA5C620D14465007A4804 /* PNLiteMRectAdView.m */; };
 		5A2EC33720C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2EC33420C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A2EC33820C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2EC33520C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.m */; };
 		5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */; };
@@ -638,6 +640,8 @@
 		5A2A7703206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerAdRequestTest.m; sourceTree = "<group>"; };
 		5A2A7705206A7F7B00B5643C /* PNLiteMRectAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectAdRequestTest.m; sourceTree = "<group>"; };
 		5A2A7707206A819100B5643C /* PNLiteInterstitialAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialAdRequestTest.m; sourceTree = "<group>"; };
+		5A2AA5C520D14465007A4804 /* PNLiteMRectAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRectAdView.h; sourceTree = "<group>"; };
+		5A2AA5C620D14465007A4804 /* PNLiteMRectAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectAdView.m; sourceTree = "<group>"; };
 		5A2EC33420C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTPlayerInterstitialViewController.h; sourceTree = "<group>"; };
 		5A2EC33520C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTPlayerInterstitialViewController.m; sourceTree = "<group>"; };
 		5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteVASTPlayerInterstitialViewController.xib; sourceTree = "<group>"; };
@@ -1612,6 +1616,8 @@
 				5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */,
 				5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */,
 				5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */,
+				5A2AA5C520D14465007A4804 /* PNLiteMRectAdView.h */,
+				5A2AA5C620D14465007A4804 /* PNLiteMRectAdView.m */,
 			);
 			path = MRect;
 			sourceTree = "<group>";
@@ -3001,6 +3007,7 @@
 				5A8F10FD2089E4D20098E337 /* PNLite_KSCrashReport.h in Headers */,
 				5A8F10AC2089E4D20098E337 /* PNLiteErrorReportApiClient.h in Headers */,
 				5A8F10F52089E4D20098E337 /* PNLite_KSCrashContext.h in Headers */,
+				5A2AA5C720D14465007A4804 /* PNLiteMRectAdView.h in Headers */,
 				5A2633542034AB480005EA39 /* PNLiteMRAIDOrientationProperties.h in Headers */,
 				5A8F11212089E4D20098E337 /* PNLiteConfiguration.h in Headers */,
 				5AA3D5ED2031B903002BFDA3 /* PNLiteAdRequest.h in Headers */,
@@ -3414,6 +3421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A8F110D2089E4D20098E337 /* PNLite_KSCrashSentry_Signal.c in Sources */,
+				5A2AA5C820D14465007A4804 /* PNLiteMRectAdView.m in Sources */,
 				5A540252202B0C04005D80E6 /* PNLiteTargetingModel.m in Sources */,
 				5A8F10F82089E4D20098E337 /* PNLite_KSCrashReportStore.m in Sources */,
 				5A8F10BB2089E4D20098E337 /* PNLiteApiClient.m in Sources */,

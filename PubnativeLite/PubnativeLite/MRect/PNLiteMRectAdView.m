@@ -20,50 +20,50 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBannerAdView.h"
-#import "PNLiteBannerPresenter.h"
-#import "PNLiteBannerPresenterFactory.h"
-#import "PNLiteBannerAdRequest.h"
+#import "PNLiteMRectAdView.h"
+#import "PNLiteMRectPresenter.h"
+#import "PNLiteMRectPresenterFactory.h"
+#import "PNLiteMRectAdRequest.h"
 
-@interface PNLiteBannerAdView() <PNLiteBannerPresenterDelegate>
+@interface PNLiteMRectAdView() <PNLiteMRectPresenterDelegate>
 
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
 
 @end
 
-@implementation PNLiteBannerAdView
+@implementation PNLiteMRectAdView
 
 - (void)dealloc
 {
-    self.bannerPresenter = nil;
+    self.mRectPresenter = nil;
 }
 
 - (instancetype)init
 {
-    return [super initWithFrame:CGRectMake(0, 0, 320, 50)];
+    return [super initWithFrame:CGRectMake(0, 0, 300, 250)];
 }
 
 - (PNLiteAdRequest *)adRequest
 {
-    PNLiteBannerAdRequest *bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
-    return bannerAdRequest;
+    PNLiteMRectAdRequest *mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
+    return mRectAdRequest;
 }
 
 - (void)renderAd
 {
-    PNLiteBannerPresenterFactory *bannerPresenterFactory = [[PNLiteBannerPresenterFactory alloc] init];
-    self.bannerPresenter = [bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
-    if (self.bannerPresenter == nil) {
-        NSLog(@"PubNativeLite - Error: Could not create valid banner presenter");
+    PNLiteMRectPresenterFactory *mRectPresenterFactory = [[PNLiteMRectPresenterFactory alloc] init];
+    self.mRectPresenter = [mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
+    if (self.mRectPresenter == nil) {
+        NSLog(@"PubNativeLite - Error: Could not create valid mRect presenter");
         return;
     } else {
-        [self.bannerPresenter load];
+        [self.mRectPresenter load];
     }
 }
 
 - (void)startTracking
 {
-    [self.bannerPresenter startTracking];
+    [self.mRectPresenter startTracking];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression)]) {
         [self.delegate adViewDidTrackImpression];
     }
@@ -71,30 +71,30 @@
 
 - (void)stopTracking
 {
-    [self.bannerPresenter stopTracking];
+    [self.mRectPresenter stopTracking];
 }
 
-#pragma mark - PNLiteBannerPresenterDelegate
+#pragma mark - PNLiteMRectPresenterDelegate
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
-    if (banner == nil) {
+    if (mRect == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
             [self.delegate adViewDidFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
         }
     } else {
-        [self setupAdView:banner];
+        [self setupAdView:mRect];
     }
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
         [self.delegate adViewDidFailWithError:error];
     }
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick)]) {
         [self.delegate adViewDidTrackClick];

@@ -44,6 +44,16 @@
     [self.mRectPresenter load];
 }
 
+- (void)startTracking
+{
+    [self.mRectPresenter startTracking];
+}
+
+- (void)stopTracking
+{
+    [self.mRectPresenter stopTracking];
+}
+
 - (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
                          withAdTracker:(PNLiteAdTracker *)adTracker
                           withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate

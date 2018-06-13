@@ -30,6 +30,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 
 @property (nonatomic, strong) PNLiteAd *adModel;
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
+@property (nonatomic, assign) BOOL isLoaded;
 
 @end
 
@@ -46,6 +47,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
     self = [super init];
     if (self) {
         self.adModel = ad;
+        self.isLoaded = NO;
     }
     return self;
 }
@@ -62,6 +64,16 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
     [self.player loadWithVastString:self.adModel.vast];
 }
 
+- (void)startTracking
+{
+    [self.player play];
+}
+
+- (void)stopTracking
+{
+    [self.player stop];
+}
+
 - (UIView *)buildContainerWithVASTPlayer:(PNLiteVASTPlayerViewController *)player
 {
     UIView *playerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteVASTMRectWidth, kPNLiteVASTMRectHeight)];
@@ -74,9 +86,10 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 
 - (void)vastPlayerDidFinishLoading:(PNLiteVASTPlayerViewController *)vastPlayer
 {
-    //TO-DO: Handle play when using PNLiteAdView
-    
-    [self.delegate mRectPresenter:self didLoadWithMRect:[self buildContainerWithVASTPlayer:vastPlayer]];
+    if (!self.isLoaded) {
+        self.isLoaded = YES;
+        [self.delegate mRectPresenter:self didLoadWithMRect:[self buildContainerWithVASTPlayer:vastPlayer]];
+    }
 }
 
 - (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error

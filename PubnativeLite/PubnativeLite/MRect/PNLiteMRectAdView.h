@@ -20,33 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRectPresenter.h"
+#import "PNLiteAdView.h"
 
-@implementation PNLiteMRectPresenter
-
-- (void)dealloc
-{
-    self.delegate = nil;
-}
-
-- (void)load
-{
-    // Do nothing, this method should be overriden
-}
-
-- (void)startTracking
-{
-    // Do nothing, this method should be overriden
-}
-
-- (void)stopTracking
-{
-    // Do nothing, this method should be overriden
-}
-
-- (PNLiteAd *)ad
-{
-    return nil;
-}
+@interface PNLiteMRectAdView : PNLiteAdView
 
 @end
