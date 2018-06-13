@@ -24,24 +24,14 @@
 #import <PubnativeLite/PubnativeLite.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteMRectViewController () <PNLiteAdRequestDelegate, PNLiteMRectPresenterDelegate>
+@interface PNLiteDemoPNLiteMRectViewController () <PNLiteAdViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
-@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
-@property (nonatomic, strong) PNLiteMRectPresenterFactory *mRectPresenterFactory;
+@property (weak, nonatomic) IBOutlet PNLiteMRectAdView *mRectAdView;
 
 @end
 
 @implementation PNLiteDemoPNLiteMRectViewController
-
-- (void)dealloc
-{
-    self.mRectAdRequest = nil;
-    self.mRectPresenter = nil;
-    self.mRectPresenterFactory = nil;
-}
 
 - (void)viewDidLoad
 {
@@ -53,80 +43,34 @@
 
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
-    self.mRectContainer.hidden = YES;
+    self.mRectAdView.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.mRectAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - PNLiteAdViewDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+-(void)adViewDidLoad
 {
-    NSLog(@"Request %@ started:",request);
-}
-
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
-{
-    NSLog(@"Request loaded with ad: %@",ad);
-    
-    if (request == self.mRectAdRequest) {
-        self.mRectPresenterFactory = [[PNLiteMRectPresenterFactory alloc] init];
-        self.mRectPresenter = [self.mRectPresenterFactory createMRectPresenterWithAd:ad withDelegate:self];
-        if (self.mRectPresenter == nil) {
-            NSLog(@"PubNativeLite - Error: Could not create valid mRect presenter");
-            return;
-        } else {
-            [self.mRectPresenter load];
-        }
-    }
-}
-
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
-{
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-    
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
-    if (request == self.mRectAdRequest) {
-        [self.mRectLoaderIndicator stopAnimating];
-    }
-}
-
-- (void)removeAllSubViewsFrom:(UIView *)view
-{
-    NSArray *viewsToRemove = [view subviews];
-    for (UIView *v in viewsToRemove) {
-        [v removeFromSuperview];
-    }
-}
-
-#pragma mark - PNLiteMRectPresenterDelegate
-
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
-{
-    [self removeAllSubViewsFrom:self.mRectContainer];
-    [self.mRectContainer addSubview:mRect];
-    self.mRectContainer.hidden = NO;
+    NSLog(@"MRect Ad View did load:");
+    self.mRectAdView.hidden = NO;
     [self.mRectLoaderIndicator stopAnimating];
 }
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)adViewDidFailWithError:(NSError *)error
 {
-    NSLog(@"MRect Presenter %@ failed with error: %@",mRectPresenter,error.localizedDescription);
+    NSLog(@"MRect Ad View did fail with error: %@",error.localizedDescription);
     [self.mRectLoaderIndicator stopAnimating];
 }
 
-- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
+- (void)adViewDidTrackClick
 {
-    NSLog(@"MRect Presenter %@ did click:",mRectPresenter);
+    NSLog(@"MRect Ad View did track click:");
+}
+
+- (void)adViewDidTrackImpression
+{
+    NSLog(@"MRect Ad View did track impression:");
 }
 
 @end

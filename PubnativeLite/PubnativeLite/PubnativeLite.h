@@ -56,6 +56,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteAd.h>
 #import <PubnativeLite/PNLiteAdView.h>
 #import <PubnativeLite/PNLiteBannerAdView.h>
+#import <PubnativeLite/PNLiteMRectAdView.h>
 
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 
