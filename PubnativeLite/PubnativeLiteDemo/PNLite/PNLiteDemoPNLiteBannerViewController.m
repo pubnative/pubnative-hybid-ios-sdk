@@ -24,24 +24,14 @@
 #import <PubnativeLite/PubnativeLite.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteBannerViewController () <PNLiteAdRequestDelegate, PNLiteBannerPresenterDelegate>
+@interface PNLiteDemoPNLiteBannerViewController () <PNLiteAdViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
-@property (nonatomic, strong) PNLiteBannerPresenterFactory *bannerPresenterFactory;
+@property (weak, nonatomic) IBOutlet PNLiteBannerAdView *bannerAdView;
 
 @end
 
 @implementation PNLiteDemoPNLiteBannerViewController
-
-- (void)dealloc
-{
-    self.bannerAdRequest = nil;
-    self.bannerPresenter = nil;
-    self.bannerPresenterFactory = nil;
-}
 
 - (void)viewDidLoad
 {
@@ -53,80 +43,34 @@
 
 - (IBAction)requestBannerTouchUpInside:(id)sender
 {
-    self.bannerContainer.hidden = YES;
+    self.bannerAdView.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.bannerAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - PNLiteAdViewDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+-(void)adViewDidLoad
 {
-    NSLog(@"Request %@ started:",request);
-}
-
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
-{
-    NSLog(@"Request loaded with ad: %@",ad);
-    
-    if (request == self.bannerAdRequest) {
-        self.bannerPresenterFactory = [[PNLiteBannerPresenterFactory alloc] init];
-        self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:ad withDelegate:self];
-        if (self.bannerPresenter == nil) {
-            NSLog(@"PubNativeLite - Error: Could not create valid banner presenter");
-            return;
-        } else {
-            [self.bannerPresenter load];
-        }
-    }
-}
-
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
-{
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-    
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
-    if (request == self.bannerAdRequest) {
-        [self.bannerLoaderIndicator stopAnimating];
-    }
-}
-
-- (void)removeAllSubViewsFrom:(UIView *)view
-{
-    NSArray *viewsToRemove = [view subviews];
-    for (UIView *v in viewsToRemove) {
-        [v removeFromSuperview];
-    }
-}
-
-#pragma mark - PNLiteBannerPresenterDelegate
-
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
-{
-    [self removeAllSubViewsFrom:self.bannerContainer];
-    [self.bannerContainer addSubview:banner];
-    self.bannerContainer.hidden = NO;
+    NSLog(@"Banner Ad View did load:");
+    self.bannerAdView.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)adViewDidFailWithError:(NSError *)error
 {
-    NSLog(@"Banner Presenter %@ failed with error: %@",bannerPresenter,error.localizedDescription);
+    NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)adViewDidTrackClick
 {
-    NSLog(@"Banner Presenter %@ did click:",bannerPresenter);
+    NSLog(@"Banner Ad View did track click:");
+}
+
+- (void)adViewDidTrackImpression
+{
+    NSLog(@"Banner Ad View did track impression:");
 }
 
 @end

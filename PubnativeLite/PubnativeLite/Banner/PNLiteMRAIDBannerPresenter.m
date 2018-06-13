@@ -73,6 +73,16 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
                                                 contentInfo:self.adModel.contentInfo];
 }
 
+- (void)startTracking
+{
+    
+}
+
+- (void)stopTracking
+{
+    
+}
+
 #pragma mark PNLiteMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(PNLiteMRAIDView *)mraidView

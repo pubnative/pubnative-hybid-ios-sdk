@@ -20,28 +20,28 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PNLiteAd.h"
+#import "PNLiteAdRequest.h"
 
-@class PNLiteBannerPresenter;
+@protocol PNLiteAdViewDelegate<NSObject>
 
-@protocol PNLiteBannerPresenterDelegate<NSObject>
-
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
-      didLoadWithBanner:(UIView *)banner;
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter;
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
-       didFailWithError:(NSError *)error;
+- (void)adViewDidLoad;
+- (void)adViewDidFailWithError:(NSError *)error;
+- (void)adViewDidTrackImpression;
+- (void)adViewDidTrackClick;
 
 @end
 
-@interface PNLiteBannerPresenter : NSObject
+@interface PNLiteAdView : UIView <PNLiteAdRequestDelegate>
 
-@property (nonatomic, readonly) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteBannerPresenterDelegate> *delegate;
+@property (nonatomic, readonly) PNLiteAdRequest *adRequest;
+@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) NSObject <PNLiteAdViewDelegate> *delegate;
 
-- (void)load;
+- (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<PNLiteAdViewDelegate> *)delegate;
+- (void)setupAdView:(UIView *)adView;
+- (void)renderAd;
 - (void)startTracking;
 - (void)stopTracking;
 
