@@ -38,6 +38,7 @@
 
 - (void)dealloc
 {
+    [self.bannerPresenter stopTracking];
     self.bannerPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
@@ -83,6 +84,7 @@
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     [self.delegate customEventBanner:self didReceiveAd:banner];
+    [self.bannerPresenter startTracking];
 }
 
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error

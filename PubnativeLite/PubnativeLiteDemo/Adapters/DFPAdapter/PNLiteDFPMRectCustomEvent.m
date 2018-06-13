@@ -38,6 +38,7 @@
 
 - (void)dealloc
 {
+    [self.mRectPresenter stopTracking];
     self.mRectPresenter = nil;
     self.mRectPresenterFactory = nil;
     self.ad = nil;
@@ -83,6 +84,7 @@
 - (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
     [self.delegate customEventBanner:self didReceiveAd:mRect];
+    [self.mRectPresenter startTracking];
 }
 
 - (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error

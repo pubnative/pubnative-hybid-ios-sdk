@@ -39,6 +39,7 @@
 
 - (void)dealloc
 {
+    [self.mRectPresenter stopTracking];
     self.mRectPresenter = nil;
     self.mRectPresenterFactory = nil;
     self.ad = nil;
@@ -92,6 +93,7 @@
 {
     [self.delegate trackImpression];
     [self.delegate bannerCustomEvent:self didLoadAd:mRect];
+    [self.mRectPresenter startTracking];
 }
 
 - (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error

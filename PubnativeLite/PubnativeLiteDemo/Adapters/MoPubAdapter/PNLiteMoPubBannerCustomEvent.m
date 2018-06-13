@@ -39,6 +39,7 @@
 
 - (void)dealloc
 {
+    [self.bannerPresenter stopTracking];
     self.bannerPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
@@ -92,6 +93,7 @@
 {
     [self.delegate trackImpression];
     [self.delegate bannerCustomEvent:self didLoadAd:banner];
+    [self.bannerPresenter startTracking];
 }
 
 - (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
