@@ -27,7 +27,6 @@
 
 @interface PNLiteBannerAdView() <PNLiteBannerPresenterDelegate>
 
-@property (nonatomic, strong) PNLiteBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
 
 @end
@@ -37,7 +36,6 @@
 - (void)dealloc
 {
     self.bannerPresenter = nil;
-    self.bannerPresenterFactory = nil;
 }
 
 - (instancetype)init
@@ -53,8 +51,8 @@
 
 - (void)renderAd
 {
-    self.bannerPresenterFactory = [[PNLiteBannerPresenterFactory alloc] init];
-    self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
+    PNLiteBannerPresenterFactory *bannerPresenterFactory = [[PNLiteBannerPresenterFactory alloc] init];
+    self.bannerPresenter = [bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
     if (self.bannerPresenter == nil) {
         NSLog(@"PubNativeLite - Error: Could not create valid banner presenter");
         return;
