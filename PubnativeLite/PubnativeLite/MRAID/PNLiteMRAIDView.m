@@ -412,6 +412,11 @@ typedef enum {
     [self expand:nil];
 }
 
+- (void)hide
+{
+    [self close];
+}
+
 #pragma mark - PNLiteContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width

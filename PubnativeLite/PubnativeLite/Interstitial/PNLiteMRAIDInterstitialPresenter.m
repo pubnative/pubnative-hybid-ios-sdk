@@ -75,6 +75,12 @@
 {
     [self.mraidView showAsInterstitial];
 }
+
+- (void)hide
+{
+    [self.mraidView hide];
+}
+
 #pragma mark PNLiteMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(PNLiteMRAIDView *)mraidView

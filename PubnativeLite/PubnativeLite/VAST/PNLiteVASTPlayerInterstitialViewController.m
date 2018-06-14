@@ -98,7 +98,7 @@
 
 - (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer
 {
-    
+    [self.presenter.delegate interstitialPresenterDidShow:self.presenter];
 }
 
 - (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer
