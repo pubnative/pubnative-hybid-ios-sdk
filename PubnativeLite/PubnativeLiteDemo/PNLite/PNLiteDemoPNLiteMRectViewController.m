@@ -61,6 +61,14 @@
 {
     NSLog(@"MRect Ad View did fail with error: %@",error.localizedDescription);
     [self.mRectLoaderIndicator stopAnimating];
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"PNLite Demo"
+                                          message:error.localizedDescription
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:dismissAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)adViewDidTrackClick
