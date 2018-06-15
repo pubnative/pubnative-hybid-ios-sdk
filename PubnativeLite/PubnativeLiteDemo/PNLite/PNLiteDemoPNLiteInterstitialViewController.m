@@ -24,12 +24,10 @@
 #import <PubnativeLite/PubnativeLite.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteInterstitialViewController () <PNLiteAdRequestDelegate, PNLiteInterstitialPresenterDelegate>
+@interface PNLiteDemoPNLiteInterstitialViewController () <PNLiteInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
-@property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
-@property (nonatomic, strong) PNLiteInterstitialPresenterFactory *interstitalPresenterFactory;
+@property (nonatomic, strong) PNLiteInterstitialAd *interstitialAd;
 
 @end
 
@@ -37,9 +35,7 @@
 
 - (void)dealloc
 {
-    self.interstitialAdRequest = nil;
-    self.interstitialPresenter = nil;
-    self.interstitalPresenterFactory = nil;
+    self.interstitialAd = nil;
 }
 
 - (void)viewDidLoad
@@ -52,36 +48,23 @@
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    self.interstitialAd = [[PNLiteInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
+    [self.interstitialAd load];
 }
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - PNLiteInterstitialAdDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+- (void)interstitialDidLoad
 {
-    NSLog(@"Request %@ started:",request);
+    NSLog(@"Interstitial did load");
+    [self.interstitialLoaderIndicator stopAnimating];
+    [self.interstitialAd show];
 }
 
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)interstitialDidFailWithError:(NSError *)error
 {
-    NSLog(@"Request loaded with ad: %@",ad);
-    if (request == self.interstitialAdRequest) {
-        self.interstitalPresenterFactory = [[PNLiteInterstitialPresenterFactory alloc] init];
-        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
-        if (self.interstitialPresenter == nil) {
-            NSLog(@"PubNativeLite - Error: Could not create valid interstitial presenter");
-            return;
-        } else {
-            [self.interstitialPresenter load];
-        }
-    }
-}
-
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
-{
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-
+    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    [self.interstitialLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"PNLite Demo"
                                           message:error.localizedDescription
@@ -90,38 +73,21 @@
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:dismissAction];
     [self presentViewController:alertController animated:YES completion:nil];
-    
-    [self.interstitialLoaderIndicator stopAnimating];
 }
 
-#pragma mark - PNLiteInterstitialPresenterDelegate
-
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialDidTrackClick
 {
-    NSLog(@"Interstitial Presenter %@ did load:",interstitialPresenter);
-    [self.interstitialLoaderIndicator stopAnimating];
-    [self.interstitialPresenter show];
+    NSLog(@"Interstitial did track click");
 }
 
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialDidTrackImpression
 {
-    NSLog(@"Interstitial Presenter %@ did show:",interstitialPresenter);
+    NSLog(@"Interstitial did track impression");
 }
 
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialDidDismiss
 {
-    NSLog(@"Interstitial Presenter %@ did click:",interstitialPresenter);
-}
-
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter
-{
-    NSLog(@"Interstitial Presenter %@ did dismiss:",interstitialPresenter);
-}
-
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
-{
-    NSLog(@"Interstitial Presenter %@ failed with error: %@",interstitialPresenter,error.localizedDescription);
-    [self.interstitialLoaderIndicator stopAnimating];
+    NSLog(@"Interstitial did dismiss");
 }
 
 @end

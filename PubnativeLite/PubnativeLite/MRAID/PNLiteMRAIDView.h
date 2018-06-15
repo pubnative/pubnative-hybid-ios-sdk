@@ -63,5 +63,6 @@
 
 - (void)cancel;
 - (void)showAsInterstitial;
+- (void)hide;
 
 @end
