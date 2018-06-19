@@ -20,33 +20,33 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubMediationBannerCustomEvent.h"
+#import "PNLiteMoPubMediationMRectCustomEvent.h"
 #import "PNLiteMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface PNLiteMoPubMediationBannerCustomEvent() <PNLiteAdViewDelegate>
+@interface PNLiteMoPubMediationMRectCustomEvent() <PNLiteAdViewDelegate>
 
-@property (nonatomic, strong) PNLiteBannerAdView *bannerAdView;
+@property (nonatomic, strong) PNLiteMRectAdView *mRectAdView;
 
 @end
 
-@implementation PNLiteMoPubMediationBannerCustomEvent
+@implementation PNLiteMoPubMediationMRectCustomEvent
 
 - (void)dealloc
 {
-    [self.bannerAdView stopTracking];
-    self.bannerAdView = nil;
+    [self.mRectAdView stopTracking];
+    self.mRectAdView = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
     if ([PNLiteMoPubUtils areExtrasValid:info]) {
-        if (CGSizeEqualToSize(MOPUB_BANNER_SIZE, size)) {
+        if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
             if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[PNLiteSettings sharedInstance].appToken]) {
-                self.bannerAdView = [[PNLiteBannerAdView alloc] init];
-                [self.bannerAdView loadWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
+                self.mRectAdView = [[PNLiteMRectAdView alloc] init];
+                [self.mRectAdView loadWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];
                 return;
@@ -56,7 +56,7 @@
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed banner ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed mRect ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -77,14 +77,14 @@
 
 - (void)didDisplayAd
 {
-    [self.bannerAdView startTracking];
+    [self.mRectAdView startTracking];
 }
 
 #pragma mark - PNLiteAdViewDelegate
 
 - (void)adViewDidLoad
 {
-    [self.delegate bannerCustomEvent:self didLoadAd:self.bannerAdView];
+    [self.delegate bannerCustomEvent:self didLoadAd:self.mRectAdView];
 }
 
 - (void)adViewDidFailWithError:(NSError *)error
