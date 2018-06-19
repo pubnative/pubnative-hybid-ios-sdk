@@ -22,6 +22,7 @@
 		5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */; };
 		5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A2633572034AB480005EA39 /* PNLiteMRAIDOrientationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */; };
+		5A288BF520D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A288BF420D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m */; };
 		5A2A2E542056CCB00051E856 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E522056CCB00051E856 /* Crashlytics.framework */; };
 		5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E532056CCB00051E856 /* Fabric.framework */; };
 		5A2A76FE206A44F100B5643C /* PNLiteAdTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A76FD206A44F100B5643C /* PNLiteAdTrackerTest.m */; };
@@ -636,6 +637,8 @@
 		5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDResizeProperties.m; sourceTree = "<group>"; };
 		5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDResizeProperties.h; sourceTree = "<group>"; };
 		5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDOrientationProperties.m; sourceTree = "<group>"; };
+		5A288BF320D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMediationInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		5A288BF420D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMediationInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5A2A2E522056CCB00051E856 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		5A2A2E532056CCB00051E856 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		5A2A76FD206A44F100B5643C /* PNLiteAdTrackerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdTrackerTest.m; sourceTree = "<group>"; };
@@ -2648,6 +2651,8 @@
 				5A91EC6220D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m */,
 				5A9F62BE20D8FCD700BE9A6F /* PNLiteMoPubMediationMRectCustomEvent.h */,
 				5A9F62BF20D8FCD700BE9A6F /* PNLiteMoPubMediationMRectCustomEvent.m */,
+				5A288BF320D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.h */,
+				5A288BF420D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m */,
 			);
 			path = Mediation;
 			sourceTree = "<group>";
@@ -3445,6 +3450,7 @@
 				5A91E67320C0381400527BAA /* PNLiteDemoConsentViewController.m in Sources */,
 				5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */,
 				5A7E366F20AC27E400BF707D /* MPInterstitialCustomEventAdapter.m in Sources */,
+				5A288BF520D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m in Sources */,
 				5A7E36D620AC27E400BF707D /* MOPUBActivityIndicatorView.m in Sources */,
 				5A7E36A620AC27E400BF707D /* MPSessionTracker.m in Sources */,
 				5A7E363720AC27E400BF707D /* MPImageDownloadQueue.m in Sources */,

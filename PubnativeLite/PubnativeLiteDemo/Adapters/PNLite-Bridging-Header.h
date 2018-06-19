@@ -8,6 +8,7 @@
 #import "PNLiteMoPubInterstitialCustomEvent.h"
 #import "PNLiteMoPubMediationBannerCustomEvent.h"
 #import "PNLiteMoPubMediationMRectCustomEvent.h"
+#import "PNLiteMoPubMediationInterstitialCustomEvent.h"
 #import "PNLiteDFPUtils.h"
 #import "PNLiteDFPBannerCustomEvent.h"
 #import "PNLiteDFPMRectCustomEvent.h"
