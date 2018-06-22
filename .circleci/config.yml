@@ -4,7 +4,7 @@ jobs:
         working_directory: ~/pubnative/pubnative-lite-ios-sdk
         shell: /bin/bash --login
         environment:
-            GYM_CODE_SIGNING_IDENTITY: "iiPhone Distribution: Pubnative GmbH"
+            GYM_CODE_SIGNING_IDENTITY: "iPhone Distribution: Pubnative GmbH"
         macos:
             xcode: "9.2.0"
         steps:
