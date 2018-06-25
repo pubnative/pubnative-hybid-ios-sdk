@@ -20,44 +20,35 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubInterstitialCustomEvent.h"
+#import "PNLiteMoPubMediationInterstitialCustomEvent.h"
 #import "PNLiteMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPError.h"
 
-@interface PNLiteMoPubInterstitialCustomEvent () <PNLiteInterstitialPresenterDelegate>
+@interface PNLiteMoPubMediationInterstitialCustomEvent() <PNLiteInterstitialAdDelegate>
 
-@property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
-@property (nonatomic, strong) PNLiteInterstitialPresenterFactory *interstitalPresenterFactory;
-@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) PNLiteInterstitialAd *interstitialAd;
 
 @end
 
-@implementation PNLiteMoPubInterstitialCustomEvent
+@implementation PNLiteMoPubMediationInterstitialCustomEvent
 
 - (void)dealloc
 {
-    self.interstitialPresenter = nil;
-    self.interstitalPresenterFactory = nil;
-    self.ad = nil;
+    self.interstitialAd = nil;
 }
 
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {
     if ([PNLiteMoPubUtils areExtrasValid:info]) {
-        self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteMoPubUtils zoneID:info]];
-        if (self.ad == nil) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteMoPubUtils zoneID:info]]];
-            return;
-        }
-        self.interstitalPresenterFactory = [[PNLiteInterstitialPresenterFactory alloc] init];
-        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
-        if (self.interstitialPresenter == nil) {
-            [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid interstitial presenter"];
-            return;
+        if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[PNLiteSettings sharedInstance].appToken]) {
+            self.interstitialAd = [[PNLiteInterstitialAd alloc] initWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
+            [self.interstitialAd load];
         } else {
-            [self.interstitialPresenter load];
+            [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];
+            return;
         }
+        
     } else {
         [self invokeFailWithMessage:@"PubNativeLite - Error: Failed interstitial ad fetch. Missing required server extras."];
         return;
@@ -67,7 +58,7 @@
 - (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController
 {
     [self.delegate interstitialCustomEventWillAppear:self];
-    [self.interstitialPresenter show];
+    [self.interstitialAd show];
 }
 
 - (void)invokeFailWithMessage:(NSString *)message
@@ -83,34 +74,34 @@
     return NO;
 }
 
-#pragma mark - PNLiteInterstitialPresenterDelegate
+#pragma mark - PNLiteInterstitialAdDelegate
 
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialDidLoad
 {
     [self.delegate interstitialCustomEvent:self didLoadAd:nil];
 }
 
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialDidFailWithError:(NSError *)error
 {
-    [self.delegate trackImpression];
-    [self.delegate interstitialCustomEventDidAppear:self];
+    [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialDidTrackClick
 {
     [self.delegate trackClick];
     [self.delegate interstitialCustomEventWillLeaveApplication:self];
 }
 
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialDidTrackImpression
+{
+    [self.delegate trackImpression];
+    [self.delegate interstitialCustomEventDidAppear:self];
+}
+
+- (void)interstitialDidDismiss
 {
     [self.delegate interstitialCustomEventWillDisappear:self];
     [self.delegate interstitialCustomEventDidDisappear:self];
-}
-
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
-{
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
 
 @end
