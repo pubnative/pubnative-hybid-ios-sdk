@@ -24,6 +24,10 @@ jobs:
                 key: v1-gems-{{ checksum "Gemfile" }}
                 paths:
                     - vendor/bundle
+                    
+            - run:
+                name: Check fastlane version
+                command: bundle list
             - run:
                 name: Create CircleCI Artifacts Directory
                 command: mkdir -p /tmp/circleci-artifacts
