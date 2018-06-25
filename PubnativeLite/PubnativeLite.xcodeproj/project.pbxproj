@@ -3132,7 +3132,7 @@
 				TargetAttributes = {
 					5A32CEB82029F79B0003B450 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					5A6CD01F2029CD060022E206 = {
 						CreatedOnToolsVersion = 9.2;
@@ -3660,7 +3660,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = J6V7N93E53;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3677,8 +3677,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "74b2870f-a0a3-4502-95f8-e9be8151a3be";
+				PROVISIONING_PROFILE_SPECIFIER = PNLiteDemoDev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -3689,7 +3689,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = J6V7N93E53;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3706,8 +3706,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "74b2870f-a0a3-4502-95f8-e9be8151a3be";
+				PROVISIONING_PROFILE_SPECIFIER = PNLiteDemoDev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
