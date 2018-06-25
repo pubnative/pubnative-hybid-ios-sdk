@@ -3677,7 +3677,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f0beaf8f-0e86-41ea-b59f-884b34a260c1";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "PubNative Lite Demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3706,7 +3706,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f0beaf8f-0e86-41ea-b59f-884b34a260c1";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "PubNative Lite Demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
