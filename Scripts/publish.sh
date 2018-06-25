@@ -7,7 +7,7 @@ rm $OPTIONS_PLIST
 rm -rf $ARCHIVE_PATH
 rm -rf $OUTPUT_FOLDER
 #GENERATE PLIST
-PLIST='{"compileBitcode":false,"method":"enterprise","provisioningProfiles":{"net.pubnative.PubnativeLite.demo":"PNLiteDemoDev"}}'
+PLIST='{"compileBitcode":false,"method":"enterprise"}'
 echo $PLIST | plutil -convert xml1 -o $OPTIONS_PLIST -
 #GENERATE ARCHIVE
 cd PubnativeLite
