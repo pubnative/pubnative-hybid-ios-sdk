@@ -7,7 +7,7 @@ rm $OPTIONS_PLIST
 rm -rf $ARCHIVE_PATH
 rm -rf $OUTPUT_FOLDER
 #GENERATE PLIST
-PLIST='{"compileBitcode":false,"method":"enterprise","signingStyle":"automatic"}'
+PLIST='{"compileBitcode":false,"method":"enterprise","signingStyle": "manual","provisioningProfiles":{"net.pubnative.PubnativeLite.demo":"PNLiteDemoAdHoc"}}'
 echo $PLIST | plutil -convert xml1 -o $OPTIONS_PLIST -
 #GENERATE ARCHIVE
 cd PubnativeLite
@@ -17,7 +17,6 @@ cd ..
 fastlane gym --include_bitcode true \
              --include_symbols true \
              --clean \
-             --export_xcargs -allowProvisioningUpdates \
              --workspace PubnativeLite.xcworkspace \
              --scheme PubnativeLiteDemo \
              --archive_path $ARCHIVE_PATH \
