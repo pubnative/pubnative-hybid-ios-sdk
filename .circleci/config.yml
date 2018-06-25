@@ -31,9 +31,6 @@ jobs:
                 name: Create CircleCI Test Results Directory
                 command: mkdir -p /tmp/circleci-test-results
             - run:
-                name: Update Bundle
-                command: bundle update
-            - run:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
                             -workspace PubnativeLite.xcworkspace
