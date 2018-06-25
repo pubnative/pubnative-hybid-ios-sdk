@@ -17,6 +17,7 @@ cd ..
 fastlane gym --include_bitcode true \
              --include_symbols true \
              --clean \
+             --skip_profile_detection true \
              --workspace PubnativeLite.xcworkspace \
              --scheme PubnativeLiteDemo \
              --archive_path $ARCHIVE_PATH \
