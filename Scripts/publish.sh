@@ -15,13 +15,14 @@ agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-
 agvtool new-version -all $CIRCLE_BUILD_NUM
 cd ..
 fastlane gym --include_bitcode true \
-             --include_symbols true \--skip_profile_detection true \
+             --include_symbols true \
              --clean \
              --workspace PubnativeLite.xcworkspace \
              --scheme PubnativeLiteDemo \
              --archive_path $ARCHIVE_PATH \
              --output_directory $OUTPUT_FOLDER \
-             --export_options $OPTIONS_PLIST
+             --export_options $OPTIONS_PLIST \
+            --skip_profile_detection true
 
 # Upload generated IPA to Fabric
 ./scripts/submit $FABRIC_API_KEY $FABRIC_API_SECRET -ipaPath $OUTPUT_FOLDER/PubnativeLiteDemo.ipa
