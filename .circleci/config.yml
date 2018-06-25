@@ -4,7 +4,7 @@ jobs:
         working_directory: ~/pubnative/pubnative-lite-ios-sdk
         shell: /bin/bash --login
         macos:
-            xcode: "9.2.0"
+            xcode: "9.3.0"
         steps:
             - checkout
             - restore_cache:
