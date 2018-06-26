@@ -28,7 +28,11 @@ NSString *const kPNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
 
 + (BOOL)areExtrasValid:(NSString *)extras
 {
-    return [PNLiteDFPUtils zoneID:extras];
+    if ([PNLiteDFPUtils zoneID:extras]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 + (NSString *)zoneID:(NSString *)extras
