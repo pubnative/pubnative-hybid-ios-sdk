@@ -29,12 +29,20 @@ NSString *const kPNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
 
 + (BOOL)isZoneIDValid:(NSDictionary *)extras
 {
-    return [PNLiteMoPubUtils zoneID:extras];
+    if ([PNLiteMoPubUtils zoneID:extras]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 + (BOOL)isAppTokenValid:(NSDictionary *)extras
 {
-    return [PNLiteMoPubUtils appToken:extras];
+    if ([PNLiteMoPubUtils appToken:extras]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 + (BOOL)areExtrasValid:(NSDictionary *)extras
