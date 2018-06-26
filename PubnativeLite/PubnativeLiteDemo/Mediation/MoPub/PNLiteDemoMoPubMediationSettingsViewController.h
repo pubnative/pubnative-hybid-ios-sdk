@@ -20,27 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <PubnativeLite/PubnativeLite.h>
+#import <UIKit/UIKit.h>
 
-@interface PNLiteDemoSettings : NSObject
-
-@property (nonatomic, strong) NSString *appToken;
-@property (nonatomic, strong) NSString *zoneID;
-@property (nonatomic, strong) NSString *moPubBannerAdUnitID;
-@property (nonatomic, strong) NSString *moPubMRectAdUnitID;
-@property (nonatomic, strong) NSString *moPubInterstitialAdUnitID;
-@property (nonatomic, strong) NSString *moPubMediationBannerAdUnitID;
-@property (nonatomic, strong) NSString *moPubMediationMRectAdUnitID;
-@property (nonatomic, strong) NSString *moPubMediationInterstitialAdUnitID;
-@property (nonatomic, strong) NSString *dfpBannerAdUnitID;
-@property (nonatomic, strong) NSString *dfpMRectAdUnitID;
-@property (nonatomic, strong) NSString *dfpInterstitialAdUnitID;
-@property (nonatomic, strong) NSString *keywords;
-@property (nonatomic, strong) PNLiteTargetingModel *targetingModel;
-@property (nonatomic, assign) BOOL testMode;
-@property (nonatomic, assign) BOOL coppaMode;
-
-+ (PNLiteDemoSettings *)sharedInstance;
+@interface PNLiteDemoMoPubMediationSettingsViewController : UIViewController
 
 @end

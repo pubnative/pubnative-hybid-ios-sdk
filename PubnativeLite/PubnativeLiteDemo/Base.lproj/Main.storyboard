@@ -533,7 +533,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-7166" y="1569"/>
+            <point key="canvasLocation" x="-7826" y="1569"/>
         </scene>
         <!--MoPub Settings-->
         <scene sceneID="Jfp-6b-UMB">
@@ -702,7 +702,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rDE-XN-fJa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6466" y="800"/>
+            <point key="canvasLocation" x="-7079" y="842"/>
         </scene>
         <!--Lite DemoPN Lite Settings View Controller-->
         <scene sceneID="y1T-iY-mOt">
@@ -1052,7 +1052,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-7169" y="800"/>
+            <point key="canvasLocation" x="-7826" y="842"/>
         </scene>
         <!--Banner-->
         <scene sceneID="PbZ-8K-4zX">
@@ -1853,15 +1853,48 @@
                                     <segue destination="hTw-Tf-HIH" kind="show" id="K0a-hV-IQ0"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAc-4r-6Lo" userLabel="Mediation Button">
+                                <rect key="frame" x="16" y="224" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="arp-9i-Dsk"/>
+                                    <constraint firstAttribute="height" constant="33" id="uNV-lR-5du"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Mediation">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="uNV-lR-5du"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="arp-9i-Dsk"/>
+                                        <include reference="uNV-lR-5du"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="cQ0-la-Lmj" kind="show" id="P32-30-xK7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="PAc-4r-6Lo" secondAttribute="trailing" constant="16" id="0v5-LI-3N1"/>
                             <constraint firstAttribute="trailing" secondItem="s2O-T7-q2r" secondAttribute="trailing" constant="16" id="6MG-mw-bSr"/>
                             <constraint firstItem="CUT-9L-phy" firstAttribute="leading" secondItem="4k7-ff-NEs" secondAttribute="leading" constant="16" id="6zB-8N-yhz"/>
                             <constraint firstItem="DVh-j7-v8L" firstAttribute="leading" secondItem="4k7-ff-NEs" secondAttribute="leading" constant="16" id="AK4-fN-zBr"/>
+                            <constraint firstItem="PAc-4r-6Lo" firstAttribute="leading" secondItem="4k7-ff-NEs" secondAttribute="leading" constant="16" id="GSe-q5-Gub"/>
                             <constraint firstItem="VlX-E6-hBh" firstAttribute="top" secondItem="UwW-7c-RxF" secondAttribute="bottom" constant="8" id="Hn1-hq-16k"/>
                             <constraint firstAttribute="trailing" secondItem="CUT-9L-phy" secondAttribute="trailing" constant="16" id="LZG-Tx-LNC"/>
                             <constraint firstAttribute="trailing" secondItem="DVh-j7-v8L" secondAttribute="trailing" constant="16" id="fly-St-17O"/>
+                            <constraint firstItem="PAc-4r-6Lo" firstAttribute="top" secondItem="s2O-T7-q2r" secondAttribute="bottom" constant="8" id="gdy-wt-nR6"/>
                             <constraint firstItem="s2O-T7-q2r" firstAttribute="top" secondItem="CUT-9L-phy" secondAttribute="bottom" constant="8" id="mac-Kk-cWQ"/>
                             <constraint firstItem="CUT-9L-phy" firstAttribute="top" secondItem="DVh-j7-v8L" secondAttribute="bottom" constant="8" id="sQJ-zg-Nt7"/>
                             <constraint firstItem="VlX-E6-hBh" firstAttribute="leading" secondItem="4k7-ff-NEs" secondAttribute="leading" constant="16" id="vOw-Vz-4fz"/>
@@ -2235,7 +2268,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YHD-3b-xdY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5764" y="799"/>
+            <point key="canvasLocation" x="-5634" y="831"/>
         </scene>
         <!--DFP Banner View Controller-->
         <scene sceneID="p25-gj-uc6">
@@ -2529,7 +2562,7 @@
         <!--MoPub Mediation Banner View Controller-->
         <scene sceneID="ETz-ft-Lq8">
             <objects>
-                <viewController title="MoPub Mediation Banner" id="DQV-cu-khe" userLabel="MoPub Mediation Banner View Controller" sceneMemberID="viewController">
+                <viewController title="MoPub Mediation Banner" id="DQV-cu-khe" userLabel="MoPub Mediation Banner View Controller" customClass="PNLiteDemoMoPubMediationBannerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PsX-st-fNP"/>
                         <viewControllerLayoutGuide type="bottom" id="wcn-W7-8Fn"/>
@@ -2828,6 +2861,246 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="faO-hB-ZOa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2854" y="1568"/>
+        </scene>
+        <!--Mediation Settings-->
+        <scene sceneID="jrF-d6-7vk">
+            <objects>
+                <viewController title="Mediation Settings" id="cQ0-la-Lmj" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R0R-G9-yMM"/>
+                        <viewControllerLayoutGuide type="bottom" id="pg0-mC-Lgm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LiD-XY-s34">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cX8-k0-VXn">
+                                <rect key="frame" x="16" y="72" width="53" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="OPW-Ck-khy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="OPW-Ck-khy"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ev5-dS-2n2" userLabel="MoPub Button">
+                                <rect key="frame" x="16" y="101" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Co1-GD-akF"/>
+                                    <constraint firstAttribute="height" constant="33" id="eUx-xS-ufm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="MoPub">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Co1-GD-akF"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="Co1-GD-akF"/>
+                                        <exclude reference="eUx-xS-ufm"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="tFs-oc-94R" kind="show" id="r0n-u4-gEN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ev5-dS-2n2" firstAttribute="top" secondItem="cX8-k0-VXn" secondAttribute="bottom" constant="8" id="8zL-y0-6Vq"/>
+                            <constraint firstItem="cX8-k0-VXn" firstAttribute="top" secondItem="R0R-G9-yMM" secondAttribute="bottom" constant="8" id="JEN-DA-sbu"/>
+                            <constraint firstItem="ev5-dS-2n2" firstAttribute="leading" secondItem="LiD-XY-s34" secondAttribute="leading" constant="16" id="Sd4-fU-f2i"/>
+                            <constraint firstItem="cX8-k0-VXn" firstAttribute="leading" secondItem="LiD-XY-s34" secondAttribute="leading" constant="16" id="Zrn-Bz-miW"/>
+                            <constraint firstAttribute="trailing" secondItem="ev5-dS-2n2" secondAttribute="trailing" constant="16" id="aOW-i1-5Gd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7ZI-0j-Vor" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6361" y="842"/>
+        </scene>
+        <!--MoPub Mediation Settings-->
+        <scene sceneID="apS-V9-4NX">
+            <objects>
+                <viewController title="MoPub Mediation Settings" id="tFs-oc-94R" customClass="PNLiteDemoMoPubMediationSettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eNE-gA-WON"/>
+                        <viewControllerLayoutGuide type="bottom" id="VMj-46-JU3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ehD-sd-mDH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggS-kM-2be">
+                                <rect key="frame" x="16" y="72" width="108.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="d57-Ms-dxD"/>
+                                    <constraint firstAttribute="height" constant="21" id="dSX-pq-PvJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="d57-Ms-dxD"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="dSX-pq-PvJ"/>
+                                        <include reference="d57-Ms-dxD"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Kfp-Gx-rTE" userLabel="Banner Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="101" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="aGC-Qt-pjz"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="tFs-oc-94R" id="RHh-j4-XZb"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MRect Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4iw-rk-qqI">
+                                <rect key="frame" x="16" y="149" width="103.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="bPM-J8-883"/>
+                                    <constraint firstAttribute="height" constant="21" id="os4-As-FgR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bPM-J8-883"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="bPM-J8-883"/>
+                                        <exclude reference="os4-As-FgR"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation MRect Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FLe-YB-OFS" userLabel="MRect Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="178" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Rlo-3M-GcO"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="tFs-oc-94R" id="JyE-aB-wIz"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLx-FX-y2B">
+                                <rect key="frame" x="16" y="226" width="125.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="CX2-Fd-EmT"/>
+                                    <constraint firstAttribute="height" constant="21" id="r9H-Eb-Ll5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="CX2-Fd-EmT"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="CX2-Fd-EmT"/>
+                                        <exclude reference="r9H-Eb-Ll5"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Gog-Rt-Cq3" userLabel="Interstitial Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="255" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="UsU-R4-N28"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="tFs-oc-94R" id="2T8-mG-0cE"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hoZ-c5-hR0" userLabel="Save MoPub Settings Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.52279043199999997" green="0.0002650673268" blue="0.54572534559999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="hGS-ib-cQG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Save MoPub Mediation Settings">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="hGS-ib-cQG"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="saveMoPubMediationSettingsTouchUpInside:" destination="tFs-oc-94R" eventType="touchUpInside" id="Xcy-rG-X42"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Gog-Rt-Cq3" firstAttribute="leading" secondItem="ehD-sd-mDH" secondAttribute="leading" constant="16" id="2es-OB-Ri5"/>
+                            <constraint firstItem="Gog-Rt-Cq3" firstAttribute="top" secondItem="DLx-FX-y2B" secondAttribute="bottom" constant="8" id="3I1-Vh-adq"/>
+                            <constraint firstItem="ggS-kM-2be" firstAttribute="top" secondItem="eNE-gA-WON" secondAttribute="bottom" constant="8" id="B27-Xc-ngd"/>
+                            <constraint firstItem="DLx-FX-y2B" firstAttribute="top" secondItem="FLe-YB-OFS" secondAttribute="bottom" constant="18" id="Hjw-JB-uyZ"/>
+                            <constraint firstItem="ggS-kM-2be" firstAttribute="leading" secondItem="ehD-sd-mDH" secondAttribute="leading" constant="16" id="NCO-mj-GAj"/>
+                            <constraint firstAttribute="trailing" secondItem="FLe-YB-OFS" secondAttribute="trailing" constant="16" id="Ogd-TQ-oOp"/>
+                            <constraint firstItem="DLx-FX-y2B" firstAttribute="leading" secondItem="ehD-sd-mDH" secondAttribute="leading" constant="16" id="Tcd-WG-3rD"/>
+                            <constraint firstItem="FLe-YB-OFS" firstAttribute="top" secondItem="4iw-rk-qqI" secondAttribute="bottom" constant="8" id="UMh-Qo-DEg"/>
+                            <constraint firstItem="hoZ-c5-hR0" firstAttribute="leading" secondItem="ehD-sd-mDH" secondAttribute="leading" constant="16" id="UQC-KM-9Nb"/>
+                            <constraint firstAttribute="trailing" secondItem="hoZ-c5-hR0" secondAttribute="trailing" constant="16" id="Wyk-jv-2R3"/>
+                            <constraint firstItem="VMj-46-JU3" firstAttribute="top" secondItem="hoZ-c5-hR0" secondAttribute="bottom" constant="8" id="ZnG-FG-Sp0"/>
+                            <constraint firstItem="Kfp-Gx-rTE" firstAttribute="leading" secondItem="ehD-sd-mDH" secondAttribute="leading" constant="16" id="eOI-FD-QvE"/>
+                            <constraint firstItem="hoZ-c5-hR0" firstAttribute="centerX" secondItem="ehD-sd-mDH" secondAttribute="centerX" id="i3q-hN-Zjl"/>
+                            <constraint firstItem="4iw-rk-qqI" firstAttribute="leading" secondItem="ehD-sd-mDH" secondAttribute="leading" constant="16" id="lsE-On-EDL"/>
+                            <constraint firstItem="FLe-YB-OFS" firstAttribute="leading" secondItem="ehD-sd-mDH" secondAttribute="leading" constant="16" id="r5k-nZ-9kg"/>
+                            <constraint firstItem="Kfp-Gx-rTE" firstAttribute="top" secondItem="ggS-kM-2be" secondAttribute="bottom" constant="8" id="rUn-HL-Gdr"/>
+                            <constraint firstAttribute="trailing" secondItem="Kfp-Gx-rTE" secondAttribute="trailing" constant="16" id="ty9-wI-MKG"/>
+                            <constraint firstItem="4iw-rk-qqI" firstAttribute="top" secondItem="Kfp-Gx-rTE" secondAttribute="bottom" constant="18" id="wdK-Qm-voH"/>
+                            <constraint firstAttribute="trailing" secondItem="Gog-Rt-Cq3" secondAttribute="trailing" constant="16" id="zt6-UM-PKn"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="MoPub Mediation Settings" id="L6I-n3-cfe"/>
+                    <connections>
+                        <outlet property="bannerAdUnitIDTextField" destination="Kfp-Gx-rTE" id="UvH-Kt-rc5"/>
+                        <outlet property="interstitialAdUnitIDTextField" destination="Gog-Rt-Cq3" id="zBe-Ti-Qyp"/>
+                        <outlet property="mRectAdUnitIDTextField" destination="FLe-YB-OFS" id="Y8S-rg-sje"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zyd-Az-u26" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6362" y="1568"/>
         </scene>
     </scenes>
 </document>

@@ -565,6 +565,7 @@
 		5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023720514F120071DA20 /* PNLiteDemoSettings.m */; };
 		5ADC023B2051700F0071DA20 /* PNLiteDemoMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */; };
 		5ADC023E205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC023D205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m */; };
+		5AE206C620E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */; };
 		5AE31C98203EC6AF005F140A /* PNLiteMoPubUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */; };
 		5AE31C9F203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */; };
 		5AE31CA2203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */; };
@@ -1419,6 +1420,8 @@
 		5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMainViewController.m; sourceTree = "<group>"; };
 		5ADC023C205181310071DA20 /* PNLiteDemoMoPubMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMRectViewController.h; sourceTree = "<group>"; };
 		5ADC023D205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMRectViewController.m; sourceTree = "<group>"; };
+		5AE206C420E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationSettingsViewController.h; sourceTree = "<group>"; };
+		5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationSettingsViewController.m; sourceTree = "<group>"; };
 		5AE31C96203EC6AF005F140A /* PNLiteMoPubUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubUtils.h; sourceTree = "<group>"; };
 		5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubUtils.m; sourceTree = "<group>"; };
 		5AE31C9D203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubBannerCustomEvent.h; sourceTree = "<group>"; };
@@ -1584,6 +1587,7 @@
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
 				5A91E67120C0381400527BAA /* PNLiteDemoConsentViewController.h */,
 				5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */,
+				5AE206C220E288D5000E770C /* Mediation */,
 				5A4FF06520AD92C700B81B3D /* PNLite */,
 				5A6354D52076506B00D47E1B /* MoPub */,
 				5A87F45B207BC48F005CC648 /* DFP */,
@@ -2848,6 +2852,23 @@
 			path = Country;
 			sourceTree = "<group>";
 		};
+		5AE206C220E288D5000E770C /* Mediation */ = {
+			isa = PBXGroup;
+			children = (
+				5AE206C320E288EF000E770C /* MoPub */,
+			);
+			path = Mediation;
+			sourceTree = "<group>";
+		};
+		5AE206C320E288EF000E770C /* MoPub */ = {
+			isa = PBXGroup;
+			children = (
+				5AE206C420E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.h */,
+				5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */,
+			);
+			path = MoPub;
+			sourceTree = "<group>";
+		};
 		5AE31C99203EC7E5005F140A /* MoPubAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -3299,6 +3320,7 @@
 				5A646A6220E2477F00B86264 /* MPNativePositionResponseDeserializer.m in Sources */,
 				5A646A7520E2477F00B86264 /* MPNativeAd.m in Sources */,
 				5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */,
+				5AE206C620E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m in Sources */,
 				5A0E770D207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m in Sources */,
 				5AE31C9F203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m in Sources */,
 				5A646ADB20E2477F00B86264 /* MPAnalyticsTracker.m in Sources */,
