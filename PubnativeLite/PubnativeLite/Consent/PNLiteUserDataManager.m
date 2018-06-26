@@ -156,7 +156,11 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 - (BOOL)GDPRConsentAsked
 {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kPNLiteGDPRConsentStateKey];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kPNLiteGDPRConsentStateKey] != nil) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void)showConsentRequestScreen
