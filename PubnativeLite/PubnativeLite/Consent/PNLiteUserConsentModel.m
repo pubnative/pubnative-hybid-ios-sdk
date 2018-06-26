@@ -31,7 +31,7 @@
     self = [super initWithDictionary:dictionary];
     if (self) {
         if (![dictionary isEqual:(id)[NSNull null]]) {
-            self.consented = dictionary[@"consent"];
+            self.consented = [dictionary[@"consent"] boolValue];
         }
     }
     return self;
