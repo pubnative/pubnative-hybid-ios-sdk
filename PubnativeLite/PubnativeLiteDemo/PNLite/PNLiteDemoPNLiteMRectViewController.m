@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PNLite MRect";
+    self.navigationItem.title = @"PubNative Lite MRect";
     [self.mRectLoaderIndicator stopAnimating];
 }
 

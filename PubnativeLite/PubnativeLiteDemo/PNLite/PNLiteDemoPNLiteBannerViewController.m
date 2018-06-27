@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PNLite Banner";
+    self.navigationItem.title = @"PubNative Lite Banner";
     [self.bannerLoaderIndicator stopAnimating];
 }
 
