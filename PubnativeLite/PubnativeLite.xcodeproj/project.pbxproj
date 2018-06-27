@@ -2866,10 +2866,10 @@
 		5AE206C320E288EF000E770C /* MoPub */ = {
 			isa = PBXGroup;
 			children = (
-				5AE206C420E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.h */,
-				5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */,
 				5A90B4F620E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.h */,
 				5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */,
+				5AE206C420E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.h */,
+				5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */,
 			);
 			path = MoPub;
 			sourceTree = "<group>";
