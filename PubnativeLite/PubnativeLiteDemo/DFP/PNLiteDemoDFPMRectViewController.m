@@ -81,6 +81,14 @@
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.dfpMrect == adView) {
         [self.mRectLoaderIndicator stopAnimating];
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"PNLite Demo"
+                                              message:error.localizedDescription
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:dismissAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 

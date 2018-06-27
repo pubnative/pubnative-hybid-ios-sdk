@@ -72,6 +72,14 @@
 {
     NSLog(@"interstitialDidFailToLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"PNLite Demo"
+                                          message:@"MoPub Interstitial did fail to load."
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:dismissAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial

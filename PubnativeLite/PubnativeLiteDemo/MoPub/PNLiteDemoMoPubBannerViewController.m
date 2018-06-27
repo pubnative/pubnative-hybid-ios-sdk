@@ -85,6 +85,14 @@
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
         [self.bannerLoaderIndicator stopAnimating];
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"PNLite Demo"
+                                              message:@"MoPub Banner did fail to load."
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:dismissAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
