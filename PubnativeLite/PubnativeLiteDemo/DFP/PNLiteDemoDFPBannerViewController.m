@@ -82,7 +82,7 @@
     if (self.dfpBanner == adView) {
         [self.bannerLoaderIndicator stopAnimating];
         UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"PNLite Demo"
+                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                               message:error.localizedDescription
                                               preferredStyle:UIAlertControllerStyleAlert];
         
@@ -135,7 +135,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:error.localizedDescription
                                           preferredStyle:UIAlertControllerStyleAlert];
     

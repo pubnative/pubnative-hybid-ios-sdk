@@ -73,7 +73,7 @@
     NSLog(@"interstitialDidFailToLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:@"MoPub Interstitial did fail to load."
                                           preferredStyle:UIAlertControllerStyleAlert];
     
@@ -133,7 +133,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
 
     UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:error.localizedDescription
                                           preferredStyle:UIAlertControllerStyleAlert];
     

@@ -73,6 +73,14 @@
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                              message:@"MoPub Banner did fail to load."
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:dismissAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 

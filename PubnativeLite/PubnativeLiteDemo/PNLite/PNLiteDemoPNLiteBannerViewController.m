@@ -62,7 +62,7 @@
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     [self.bannerLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:error.localizedDescription
                                           preferredStyle:UIAlertControllerStyleAlert];
     
