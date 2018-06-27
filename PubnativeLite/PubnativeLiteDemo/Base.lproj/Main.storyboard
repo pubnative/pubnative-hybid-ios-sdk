@@ -2690,7 +2690,7 @@
         <!--MoPub Mediation MRect-->
         <scene sceneID="J8r-92-ld7">
             <objects>
-                <viewController title="MoPub Mediation MRect" id="SzK-MW-960" sceneMemberID="viewController">
+                <viewController title="MoPub Mediation MRect" id="SzK-MW-960" customClass="PNLiteDemoMoPubMediationMRectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i0K-6Q-qk4"/>
                         <viewControllerLayoutGuide type="bottom" id="jSM-hx-cH9"/>
@@ -2792,8 +2792,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="NcM-1U-ZnK"/>
                                         <exclude reference="Bxk-dt-6eL"/>
+                                        <include reference="NcM-1U-ZnK"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -2961,8 +2961,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="dSX-pq-PvJ"/>
                                         <include reference="d57-Ms-dxD"/>
+                                        <exclude reference="dSX-pq-PvJ"/>
                                     </mask>
                                 </variation>
                             </label>

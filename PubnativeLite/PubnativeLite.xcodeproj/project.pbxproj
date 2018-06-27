@@ -454,6 +454,7 @@
 		5A8F112D2089E4D20098E337 /* PNLiteHandledState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10AA2089E4D20098E337 /* PNLiteHandledState.h */; };
 		5A8F112E2089E4D20098E337 /* PNLiteBreadcrumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8F10AB2089E4D20098E337 /* PNLiteBreadcrumb.m */; };
 		5A90B4F820E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */; };
+		5A90B4FB20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A90B4FA20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m */; };
 		5A91E64F20BFF1F300527BAA /* PNLiteConsentEndpoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E64D20BFF1F300527BAA /* PNLiteConsentEndpoints.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A91E65020BFF1F300527BAA /* PNLiteConsentEndpoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E64E20BFF1F300527BAA /* PNLiteConsentEndpoints.m */; };
 		5A91E65320BFF61F00527BAA /* PNLiteUserConsentResponseStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E65120BFF61F00527BAA /* PNLiteUserConsentResponseStatus.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1301,6 +1302,8 @@
 		5A8F10AB2089E4D20098E337 /* PNLiteBreadcrumb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteBreadcrumb.m; sourceTree = "<group>"; };
 		5A90B4F620E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationBannerViewController.h; sourceTree = "<group>"; };
 		5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationBannerViewController.m; sourceTree = "<group>"; };
+		5A90B4F920E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationMRectViewController.h; sourceTree = "<group>"; };
+		5A90B4FA20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationMRectViewController.m; sourceTree = "<group>"; };
 		5A91E64D20BFF1F300527BAA /* PNLiteConsentEndpoints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteConsentEndpoints.h; sourceTree = "<group>"; };
 		5A91E64E20BFF1F300527BAA /* PNLiteConsentEndpoints.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentEndpoints.m; sourceTree = "<group>"; };
 		5A91E65120BFF61F00527BAA /* PNLiteUserConsentResponseStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserConsentResponseStatus.h; sourceTree = "<group>"; };
@@ -2868,6 +2871,8 @@
 			children = (
 				5A90B4F620E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.h */,
 				5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */,
+				5A90B4F920E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.h */,
+				5A90B4FA20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m */,
 				5AE206C420E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.h */,
 				5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */,
 			);
@@ -3331,6 +3336,7 @@
 				5A646ADB20E2477F00B86264 /* MPAnalyticsTracker.m in Sources */,
 				5A646AEE20E2477F00B86264 /* MPVASTModel.m in Sources */,
 				5A646A6F20E2477F00B86264 /* MPTableViewAdPlacer.m in Sources */,
+				5A90B4FB20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m in Sources */,
 				5A646AFC20E2477F00B86264 /* MOPUBPlayerManager.m in Sources */,
 				5ADC023E205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m in Sources */,
 				5A646A9D20E2477F00B86264 /* MPInterstitialCustomEventAdapter.m in Sources */,
