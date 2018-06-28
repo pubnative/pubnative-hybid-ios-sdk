@@ -401,7 +401,7 @@
         <!--MoPub Interstitial View Controller-->
         <scene sceneID="9Cn-hL-hhY">
             <objects>
-                <viewController title="MoPub Mediation Interstitial" id="hty-tG-eNi" userLabel="MoPub Interstitial View Controller" sceneMemberID="viewController">
+                <viewController title="MoPub Mediation Interstitial" id="hty-tG-eNi" userLabel="MoPub Interstitial View Controller" customClass="PNLiteDemoMoPubMediationInterstitialViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9pj-rd-YYp"/>
                         <viewControllerLayoutGuide type="bottom" id="vqu-9c-iUY"/>

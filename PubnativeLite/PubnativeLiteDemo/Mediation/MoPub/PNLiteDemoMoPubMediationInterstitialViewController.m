@@ -20,35 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubInterstitialViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import "PNLiteDemoMoPubMediationInterstitialViewController.h"
 #import "MPInterstitialAdController.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubInterstitialViewController () <PNLiteAdRequestDelegate, MPInterstitialAdControllerDelegate>
+@interface PNLiteDemoMoPubMediationInterstitialViewController () <MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
-@property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
 
 @end
 
-@implementation PNLiteDemoMoPubInterstitialViewController
+@implementation PNLiteDemoMoPubMediationInterstitialViewController
 
 - (void)dealloc
 {
     self.moPubInterstitial = nil;
-    self.interstitialAdRequest = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"MoPub Interstitial";
+    self.navigationItem.title = @"MoPub Mediation Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
     
     if(self.moPubInterstitial == nil) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
+        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID];
         self.moPubInterstitial.delegate = self;
     }
 }
@@ -56,8 +53,7 @@
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.moPubInterstitial loadAd];
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
@@ -111,39 +107,6 @@
 - (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidReceiveTapEvent");
-}
-
-#pragma mark - PNLiteAdRequestDelegate
-
-- (void)requestDidStart:(PNLiteAdRequest *)request
-{
-    NSLog(@"Request %@ started:",request);
-}
-
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
-{
-    NSLog(@"Request loaded with ad: %@",ad);
-    if (request == self.interstitialAdRequest) {
-        [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
-        [self.moPubInterstitial loadAd];
-    }
-}
-
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
-{
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
-    [self.interstitialLoaderIndicator stopAnimating];
-    [self.moPubInterstitial loadAd];
 }
 
 @end
