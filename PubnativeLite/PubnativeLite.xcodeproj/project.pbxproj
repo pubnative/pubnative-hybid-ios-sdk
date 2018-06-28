@@ -515,6 +515,10 @@
 		5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5F02031CA96002BFDA3 /* PNLiteReachability.m */; };
 		5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5F32031CEC1002BFDA3 /* PNLiteHttpRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */; };
+		5AA7EC5F20E4D57800277E2B /* Banner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC5E20E4D57800277E2B /* Banner.storyboard */; };
+		5AA7EC6120E4D59800277E2B /* MRect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6020E4D59800277E2B /* MRect.storyboard */; };
+		5AA7EC6320E4D5AB00277E2B /* Interstitial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */; };
+		5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */; };
 		5AA8E58E202DB35900C9EABC /* PNLiteAdCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AA8E58F202DB35900C9EABC /* PNLiteAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */; };
 		5AB6FBDA20AC6F6A0092C5DD /* PNLiteContentInfoView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB6FBD820AC6F6A0092C5DD /* PNLiteContentInfoView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1368,6 +1372,10 @@
 		5AA3D5F02031CA96002BFDA3 /* PNLiteReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteReachability.m; sourceTree = "<group>"; };
 		5AA3D5F32031CEC1002BFDA3 /* PNLiteHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteHttpRequest.h; sourceTree = "<group>"; };
 		5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequest.m; sourceTree = "<group>"; };
+		5AA7EC5E20E4D57800277E2B /* Banner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Banner.storyboard; sourceTree = "<group>"; };
+		5AA7EC6020E4D59800277E2B /* MRect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MRect.storyboard; sourceTree = "<group>"; };
+		5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interstitial.storyboard; sourceTree = "<group>"; };
+		5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdCache.h; sourceTree = "<group>"; };
 		5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdCache.m; sourceTree = "<group>"; };
 		5AB6FBD820AC6F6A0092C5DD /* PNLiteContentInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteContentInfoView.h; sourceTree = "<group>"; };
@@ -1597,9 +1605,8 @@
 				5A4FF06520AD92C700B81B3D /* PNLite */,
 				5A6354D52076506B00D47E1B /* MoPub */,
 				5A87F45B207BC48F005CC648 /* DFP */,
-				5A32CEC12029F79B0003B450 /* Main.storyboard */,
+				5AA7EC5D20E4D54D00277E2B /* Storyboards */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
-				5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
 				5A32CECA2029F79B0003B450 /* main.m */,
 			);
@@ -2745,6 +2752,19 @@
 			path = VAST;
 			sourceTree = "<group>";
 		};
+		5AA7EC5D20E4D54D00277E2B /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				5A32CEC12029F79B0003B450 /* Main.storyboard */,
+				5AA7EC5E20E4D57800277E2B /* Banner.storyboard */,
+				5AA7EC6020E4D59800277E2B /* MRect.storyboard */,
+				5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */,
+				5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */,
+				5A32CEC62029F79B0003B450 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		5ABE0139203F2F4600E6A14E /* Ad Request */ = {
 			isa = PBXGroup;
 			children = (
@@ -3212,8 +3232,10 @@
 				5A646A8320E2477F00B86264 /* MPDAAIcon.png in Resources */,
 				5A646A8C20E2477F00B86264 /* MPCloseButtonX@2x.png in Resources */,
 				5A32CEC82029F79B0003B450 /* LaunchScreen.storyboard in Resources */,
+				5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */,
 				5A646AB220E2477F00B86264 /* MPAdBrowserController.xib in Resources */,
 				5A646A8F20E2477F00B86264 /* MPDAAIcon@3x.png in Resources */,
+				5AA7EC5F20E4D57800277E2B /* Banner.storyboard in Resources */,
 				5A646A8220E2477F00B86264 /* MRAID.bundle in Resources */,
 				5A646A8B20E2477F00B86264 /* MPCountdownTimer.html in Resources */,
 				5A646A9120E2477F00B86264 /* MPPlayBtn.png in Resources */,
@@ -3225,12 +3247,14 @@
 				5A646A8820E2477F00B86264 /* MPCloseBtn.png in Resources */,
 				5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */,
 				5A646A9220E2477F00B86264 /* MPMutedBtn.png in Resources */,
+				5AA7EC6320E4D5AB00277E2B /* Interstitial.storyboard in Resources */,
 				5A646A9420E2477F00B86264 /* MPDAAIcon@2x.png in Resources */,
 				5A646A8D20E2477F00B86264 /* MPCloseButtonX@3x.png in Resources */,
 				5A646A9320E2477F00B86264 /* MPMutedBtn@2x.png in Resources */,
 				5A646A8620E2477F00B86264 /* MPCloseBtn@2x.png in Resources */,
 				5A646A8120E2477F00B86264 /* MPUnmutedBtn.png in Resources */,
 				5A646A8920E2477F00B86264 /* MPPlayBtn@3x.png in Resources */,
+				5AA7EC6120E4D59800277E2B /* MRect.storyboard in Resources */,
 				5A646A8720E2477F00B86264 /* MPCloseBtn@3x.png in Resources */,
 				5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */,
 			);
