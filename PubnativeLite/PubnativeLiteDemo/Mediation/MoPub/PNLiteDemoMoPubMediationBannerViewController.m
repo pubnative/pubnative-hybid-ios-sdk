@@ -20,36 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubBannerViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import "PNLiteDemoMoPubMediationBannerViewController.h"
 #import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubBannerViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
+@interface PNLiteDemoMoPubMediationBannerViewController () <MPAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (nonatomic, strong) MPAdView *moPubBanner;
-@property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
 
 @end
 
-@implementation PNLiteDemoMoPubBannerViewController
+@implementation PNLiteDemoMoPubMediationBannerViewController
 
 - (void)dealloc
 {
     self.moPubBanner = nil;
-    self.bannerAdRequest = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub Banner";
-
+    self.navigationItem.title = @"MoPub Mediation Banner";
     [self.bannerLoaderIndicator stopAnimating];
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID
+    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID
                                                      size:MOPUB_BANNER_SIZE];
     self.moPubBanner.delegate = self;
     [self.moPubBanner stopAutomaticallyRefreshingContents];
@@ -60,24 +56,7 @@
 {
     self.bannerContainer.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
-}
-
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestBannerTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self.moPubBanner loadAd];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -101,7 +80,18 @@
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
         [self.bannerLoaderIndicator stopAnimating];
-        [self showAlertControllerWithMessage:@"MoPub Banner did fail to load."];
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                              message:@"MoPub Banner did fail to load."
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self requestBannerTouchUpInside:nil];
+        }];
+        [alertController addAction:dismissAction];
+        [alertController addAction:retryAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
@@ -118,33 +108,6 @@
 - (void)willLeaveApplicationFromAd:(MPAdView *)view
 {
     NSLog(@"willLeaveApplicationFromAd");
-}
-
-#pragma mark - PNLiteAdRequestDelegate
-
-- (void)requestDidStart:(PNLiteAdRequest *)request
-{
-    NSLog(@"Request %@ started:",request);
-}
-
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
-{
-    NSLog(@"Request loaded with ad: %@",ad);
-    
-    if (request == self.bannerAdRequest) {
-        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
-        [self.moPubBanner loadAd];
-    }
-}
-
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
-{
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-    
-    if (request == self.bannerAdRequest) {
-        [self.bannerLoaderIndicator stopAnimating];
-        [self showAlertControllerWithMessage:error.localizedDescription];
-    } 
 }
 
 @end

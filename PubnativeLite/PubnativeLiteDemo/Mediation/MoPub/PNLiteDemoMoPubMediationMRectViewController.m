@@ -20,36 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubMRectViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import "PNLiteDemoMoPubMediationMRectViewController.h"
 #import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubMRectViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
+@interface PNLiteDemoMoPubMediationMRectViewController () <MPAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (nonatomic, strong) MPAdView *moPubMrect;
-@property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
 @end
 
-@implementation PNLiteDemoMoPubMRectViewController
+@implementation PNLiteDemoMoPubMediationMRectViewController
 
 - (void)dealloc
 {
     self.moPubMrect = nil;
-    self.mRectAdRequest = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub MRect";
-    
+    self.navigationItem.title = @"MoPub Mediation MRect";
     [self.mRectLoaderIndicator stopAnimating];
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID
+    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID
                                                     size:MOPUB_MEDIUM_RECT_SIZE];
     self.moPubMrect.delegate = self;
     [self.moPubMrect stopAutomaticallyRefreshingContents];
@@ -60,24 +56,7 @@
 {
     self.mRectContainer.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
-}
-
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestMRectTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self.moPubMrect loadAd];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -101,7 +80,18 @@
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubMrect == view) {
         [self.mRectLoaderIndicator stopAnimating];
-        [self showAlertControllerWithMessage:@"MoPub MRect did fail to load."];
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                              message:@"MoPub MRect did fail to load."
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self requestMRectTouchUpInside:nil];
+        }];
+        [alertController addAction:dismissAction];
+        [alertController addAction:retryAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
@@ -118,33 +108,6 @@
 - (void)willLeaveApplicationFromAd:(MPAdView *)view
 {
     NSLog(@"willLeaveApplicationFromAd");
-}
-
-#pragma mark - PNLiteAdRequestDelegate
-
-- (void)requestDidStart:(PNLiteAdRequest *)request
-{
-    NSLog(@"Request %@ started:",request);
-}
-
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
-{
-    NSLog(@"Request loaded with ad: %@",ad);
-    
-    if (request == self.mRectAdRequest) {
-        [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
-        [self.moPubMrect loadAd];
-    }
-}
-
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
-{
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-    
-     if (request == self.mRectAdRequest) {
-        [self.mRectLoaderIndicator stopAnimating];
-         [self showAlertControllerWithMessage:error.localizedDescription];
-    }
 }
 
 @end

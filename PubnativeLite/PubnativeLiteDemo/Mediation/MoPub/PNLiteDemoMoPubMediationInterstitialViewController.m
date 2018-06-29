@@ -20,54 +20,58 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoPNLiteInterstitialViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import "PNLiteDemoMoPubMediationInterstitialViewController.h"
+#import "MPInterstitialAdController.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteInterstitialViewController () <PNLiteInterstitialAdDelegate>
+@interface PNLiteDemoMoPubMediationInterstitialViewController () <MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (nonatomic, strong) PNLiteInterstitialAd *interstitialAd;
+@property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 
 @end
 
-@implementation PNLiteDemoPNLiteInterstitialViewController
+@implementation PNLiteDemoMoPubMediationInterstitialViewController
 
 - (void)dealloc
 {
-    self.interstitialAd = nil;
+    self.moPubInterstitial = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"PubNative Lite Interstitial";
+    self.navigationItem.title = @"MoPub Mediation Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
+    
+    if(self.moPubInterstitial == nil) {
+        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID];
+        self.moPubInterstitial.delegate = self;
+    }
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAd = [[PNLiteInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
-    [self.interstitialAd load];
+    [self.moPubInterstitial loadAd];
 }
 
-#pragma mark - PNLiteInterstitialAdDelegate
+#pragma mark - MPInterstitialAdControllerDelegate
 
-- (void)interstitialDidLoad
+- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
 {
-    NSLog(@"Interstitial did load");
+    NSLog(@"interstitialDidLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
-    [self.interstitialAd show];
+    [self.moPubInterstitial showFromViewController:self];
 }
 
-- (void)interstitialDidFailWithError:(NSError *)error
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
 {
-    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    NSLog(@"interstitialDidFailToLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
+                                          message:@"MoPub Interstitial did fail to load."
                                           preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
@@ -79,19 +83,34 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)interstitialDidTrackClick
+- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial
 {
-    NSLog(@"Interstitial did track click");
+    NSLog(@"interstitialWillAppear");
 }
 
-- (void)interstitialDidTrackImpression
+- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial
 {
-    NSLog(@"Interstitial did track impression");
+    NSLog(@"interstitialDidAppear");
 }
 
-- (void)interstitialDidDismiss
+- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial
 {
-    NSLog(@"Interstitial did dismiss");
+    NSLog(@"interstitialWillDisappear");
+}
+
+- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial
+{
+    NSLog(@"interstitialDidDisappear");
+}
+
+- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial
+{
+    NSLog(@"interstitialDidExpire");
+}
+
+- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial
+{
+    NSLog(@"interstitialDidReceiveTapEvent");
 }
 
 @end

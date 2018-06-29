@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PNLite MRect";
+    self.navigationItem.title = @"PubNative Lite MRect";
     [self.mRectLoaderIndicator stopAnimating];
 }
 
@@ -62,12 +62,16 @@
     NSLog(@"MRect Ad View did fail with error: %@",error.localizedDescription);
     [self.mRectLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:error.localizedDescription
                                           preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestMRectTouchUpInside:nil];
+    }];
     [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 

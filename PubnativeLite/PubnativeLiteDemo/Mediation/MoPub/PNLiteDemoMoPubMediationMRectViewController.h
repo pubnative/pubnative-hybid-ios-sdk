@@ -20,40 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDFPUtils.h"
+#import <UIKit/UIKit.h>
 
-NSString *const kPNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
-
-@implementation PNLiteDFPUtils
-
-+ (BOOL)areExtrasValid:(NSString *)extras
-{
-    if ([PNLiteDFPUtils zoneID:extras]) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-+ (NSString *)zoneID:(NSString *)extras
-{
-    return [PNLiteDFPUtils valueWithKey:kPNLiteDFPAdapterKeyZoneID fromExtras:extras];
-}
-
-+ (NSString *)valueWithKey:(NSString *)key
-                fromExtras:(NSString *)extras
-{
-    NSString *result = nil;
-    NSData *jsonData = [extras dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error;
-    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                      options:0
-                                                                        error:&error];
-    if (!error) {
-        result = (NSString *)dictionary[key];
-    }
-    
-    return result;
-}
+@interface PNLiteDemoMoPubMediationMRectViewController : UIViewController
 
 @end
