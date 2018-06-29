@@ -75,7 +75,11 @@
                                           preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestInterstitialTouchUpInside:nil];
+    }];
     [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 

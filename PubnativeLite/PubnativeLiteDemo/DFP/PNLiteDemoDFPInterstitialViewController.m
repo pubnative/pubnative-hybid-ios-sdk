@@ -57,6 +57,22 @@
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
+- (void)showAlertControllerWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestInterstitialTouchUpInside:nil];
+    }];
+    [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 - (DFPInterstitial *)createAndLoadInterstitial
 {
     DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID];
@@ -81,14 +97,7 @@
 {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     [self.interstitialLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
 - (void)interstitialWillPresentScreen:(GADInterstitial *)ad
@@ -131,17 +140,10 @@
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
-    [self.interstitialLoaderIndicator stopAnimating];
+    if (request == self.interstitialAdRequest) {
+        [self showAlertControllerWithMessage:error.localizedDescription];
+        [self.interstitialLoaderIndicator stopAnimating];
+    }
 }
 
 @end

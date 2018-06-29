@@ -65,6 +65,22 @@
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
+- (void)showAlertControllerWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestBannerTouchUpInside:nil];
+    }];
+    [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - GADBannerViewDelegate
 
 - (void)adViewDidReceiveAd:(GADBannerView *)adView
@@ -81,14 +97,7 @@
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.dfpBanner == adView) {
         [self.bannerLoaderIndicator stopAnimating];
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                              message:error.localizedDescription
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-        [alertController addAction:dismissAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self showAlertControllerWithMessage:error.localizedDescription];
     }
 }
 
@@ -134,17 +143,9 @@
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
     if (request == self.bannerAdRequest) {
         [self.bannerLoaderIndicator stopAnimating];
+        [self showAlertControllerWithMessage:error.localizedDescription];
     }
 }
 
