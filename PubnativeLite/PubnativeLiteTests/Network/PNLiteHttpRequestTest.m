@@ -31,7 +31,7 @@ NSInteger const kStatusCode = 200;
 
 @property (nonatomic, strong) NSObject<PNLiteHttpRequestDelegate> *delegate;
 - (void)invokeFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode;
-- (void)invokeFailWithError:(NSError *)error;
+- (void)invokeFailWithError:(NSError *)error andAttemptRetry:(BOOL)retry;
 
 @end
 
@@ -105,21 +105,21 @@ NSInteger const kStatusCode = 200;
     [request invokeFinishWithData:data statusCode:kStatusCode];
 }
 
-- (void)test_invokeFailWithError_withValidListener_shouldCallbackFail
+- (void)test_invokeFailWithError_withValidListener_andNoRetryAttempt_shouldCallbackFail
 {
     NSObject <PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
     request.delegate = delegate;
     NSError *error = mock([NSError class]);
-    [request invokeFailWithError:error];
+    [request invokeFailWithError:error andAttemptRetry:NO];
     [verify(delegate)request:request didFailWithError:error];
 }
 
-- (void)test_invokeFailWithError_witNilListener_shouldPass
+- (void)test_invokeFailWithError_witNilListener_andNoRetryAttempt_shouldPass
 {
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
     NSError *error = mock([NSError class]);
-    [request invokeFailWithError:error];
+    [request invokeFailWithError:error andAttemptRetry:NO];
 }
 
 @end
