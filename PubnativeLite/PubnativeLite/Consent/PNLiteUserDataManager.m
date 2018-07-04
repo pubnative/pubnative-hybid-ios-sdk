@@ -34,8 +34,8 @@
 
 NSString *const kPNLiteDeviceIDType = @"idfa";
 NSString *const kPNLiteGDPRConsentStateKey = @"gdpr_consent_state";
-NSString *const kPNLitePrivacyPolicyUrl = @"https://pubnative.net/privacy-policy/";
-NSString *const kPNLiteVendorListUrl = @"https://pubnative.net/vendor-list/";
+NSString *const kPNLitePrivacyPolicyUrl = @"https://pubnative.net/privacy-notice/";
+NSString *const kPNLiteVendorListUrl = @"https://pubnative.net/monetization-partners/";
 NSString *const kPNLiteConsentPageUrl = @"https://pubnative.net/personalize-your-experience/";
 NSInteger const kPNLiteConsentStateAccepted = 1;
 NSInteger const kPNLiteConsentStateDenied = 0;
