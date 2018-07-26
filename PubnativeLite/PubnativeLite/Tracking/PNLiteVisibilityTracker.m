@@ -157,7 +157,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     }
     [self.removedItems removeAllObjects];
     
-    [self invokeCheckWithVisible:self.visibleViews invisible:self.invisibleViews];
+    [self invokeCheckVisibiltyWithVisibleViews:self.visibleViews andWithInvisibleViews:self.invisibleViews];
     [self.visibleViews removeAllObjects];
     [self.invisibleViews removeAllObjects];
     
@@ -228,7 +228,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 #pragma mark Callback Helpers
 
-- (void)invokeCheckWithVisible:(NSArray<UIView*>*)visibleViews invisible:(NSArray<UIView*>*)invisibleViews
+- (void)invokeCheckVisibiltyWithVisibleViews:(NSArray<UIView*>*)visibleViews andWithInvisibleViews:(NSArray<UIView*>*)invisibleViews
 {
     if(self.delegate && [self.delegate respondsToSelector:@selector(checkVisibilityWithVisibleViews:andWithInvisibleViews:)]) {
         [self.delegate checkVisibilityWithVisibleViews:visibleViews andWithInvisibleViews:invisibleViews];
