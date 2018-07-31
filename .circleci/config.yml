@@ -49,6 +49,9 @@ jobs:
                                 -r junit --output /tmp/circleci-test-results/junit.xml
                                 -r html --output /tmp/circleci-test-results/report.html
                                 -r json-compilation-database --output /tmp/circleci-artifacts/test_compilation_database.json
+            - run:
+                name: fastlane
+                command: bundle exec fastlane $FASTLANE_LANE
             - deploy:
                 name: Generate framework
                 command: |
