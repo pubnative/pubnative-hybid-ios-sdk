@@ -11,23 +11,22 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                keys:
-                - v1-gems-{{ checksum "Gemfile" }}
-                - v1-gems-
+                key: 1-gems-{{ checksum "Gemfile.lock" }}
             - run:
                 name: Export Env
                 command: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
             - run:
                 name: Bundle Install
                 command: bundle check || bundle install
+                paths:
+                    - vendor/bundle
                 enviroment:
                     BUNDLE_JOBS: 4
                     BUNDLE_RETRY: 3
             - save_cache:
-                key: v1-gems-{{ checksum "Gemfile" }}
+                key: 1-gems-{{ checksum "Gemfile.lock" }}
                 paths:
                     - vendor/bundle
-
             - run:
                 name: Check fastlane version
                 command: bundle list
