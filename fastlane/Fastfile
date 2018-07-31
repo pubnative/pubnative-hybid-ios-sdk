@@ -20,7 +20,7 @@ platform :ios do
     setup_circle_ci
   end
   desc "Push a new beta build to TestFlight"
-  lane :ios beta do
+  lane :beta do
     build_app(scheme: "PubnativeLiteDemo")
     upload_to_testflight
   end
