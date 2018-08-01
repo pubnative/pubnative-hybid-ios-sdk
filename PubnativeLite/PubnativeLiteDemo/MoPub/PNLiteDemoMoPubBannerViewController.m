@@ -64,6 +64,22 @@
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
+- (void)showAlertControllerWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestBannerTouchUpInside:nil];
+    }];
+    [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - MPAdViewDelegate
 
 - (UIViewController *)viewControllerForPresentingModalView
@@ -85,6 +101,7 @@
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
         [self.bannerLoaderIndicator stopAnimating];
+        [self showAlertControllerWithMessage:@"MoPub Banner did fail to load."];
     }
 }
 
@@ -123,19 +140,10 @@
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-        
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
     
     if (request == self.bannerAdRequest) {
         [self.bannerLoaderIndicator stopAnimating];
-        [self.moPubBanner loadAd];
+        [self showAlertControllerWithMessage:error.localizedDescription];
     } 
 }
 

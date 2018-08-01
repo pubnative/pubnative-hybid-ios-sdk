@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoConsentViewController.h"
-#import "PNLiteUserDataManager.h"
+#import <PubnativeLite/PubnativeLite.h>
 
 @interface PNLiteDemoConsentViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *privacyPolicyURLButton;

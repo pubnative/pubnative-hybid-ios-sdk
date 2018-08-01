@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 @property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
+
 @end
 
 @implementation PNLiteDemoMoPubInterstitialViewController
@@ -59,6 +60,22 @@
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
+- (void)showAlertControllerWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestInterstitialTouchUpInside:nil];
+    }];
+    [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - MPInterstitialAdControllerDelegate
 
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
@@ -72,6 +89,7 @@
 {
     NSLog(@"interstitialDidFailToLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
+    [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
 
 - (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial
@@ -123,18 +141,10 @@
 - (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:dismissAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
-    [self.interstitialLoaderIndicator stopAnimating];
-    [self.moPubInterstitial loadAd];
+    if (request == self.interstitialAdRequest) {
+        [self showAlertControllerWithMessage:error.localizedDescription];
+        [self.interstitialLoaderIndicator stopAnimating];
+    }
 }
 
 @end

@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PNLite Banner";
+    self.navigationItem.title = @"PubNative Lite Banner";
     [self.bannerLoaderIndicator stopAnimating];
 }
 
@@ -62,12 +62,16 @@
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     [self.bannerLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:error.localizedDescription
                                           preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestBannerTouchUpInside:nil];
+    }];
     [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 

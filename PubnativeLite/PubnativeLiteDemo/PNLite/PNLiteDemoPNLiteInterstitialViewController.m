@@ -41,7 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"PNLite Interstitial";
+    self.navigationItem.title = @"PubNative Lite Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
@@ -66,12 +66,16 @@
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
     [self.interstitialLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"PNLite Demo"
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:error.localizedDescription
                                           preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestInterstitialTouchUpInside:nil];
+    }];
     [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 

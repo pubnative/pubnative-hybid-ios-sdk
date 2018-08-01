@@ -26,6 +26,7 @@
 
 NSTimeInterval const kPNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
+NSInteger const MAX_RETRIES = 1;
 
 @interface PNLiteHttpRequest ()
 
@@ -33,6 +34,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *userAgent;
 @property (nonatomic, strong) NSString *method;
+@property (nonatomic, assign) NSInteger retryCount;
 
 @end
 
@@ -57,28 +59,33 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     if (self.delegate == nil) {
         NSLog(@"PNLiteHttpRequest - Delegate is nil, dropping the call.");
     } else if(self.urlString == nil || self.urlString.length <= 0) {
-        [self invokeFailWithMessage:@"URL is nil or empty"];
+        [self invokeFailWithMessage:@"URL is nil or empty" andAttemptRetry:NO];
     } else if(![self.method isEqualToString:@"GET"] && ![self.method isEqualToString:@"POST"] && ![self.method isEqualToString:@"DELETE"]) {
-        [self invokeFailWithMessage:@"Unsupported HTTP method, dropping the call."];
+        [self invokeFailWithMessage:@"Unsupported HTTP method, dropping the call." andAttemptRetry:NO];
     } else {
         PNLiteReachability *reachability = [PNLiteReachability reachabilityForInternetConnection];
         [reachability startNotifier];
         if([reachability currentReachabilityStatus] == PNLiteNetworkStatus_NotReachable){
             [reachability stopNotifier];
-            [self invokeFailWithMessage:@"Internet is not available."];
+            [self invokeFailWithMessage:@"Internet is not available." andAttemptRetry:YES];
         } else {
             [reachability stopNotifier];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if(self.userAgent == nil){
-                    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-                    self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-                }
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self makeRequest];
-                });
-            });
+            [self executeAsyncRequest];
         }
     }
+}
+
+- (void)executeAsyncRequest
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(self.userAgent == nil){
+            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+            self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self makeRequest];
+        });
+    });
 }
 
 - (void)makeRequest
@@ -86,7 +93,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     NSURL *url = [NSURL URLWithString:self.urlString];
     if (url == nil) {
         NSString *message = [NSString stringWithFormat:@"URL cannot be parsed: %@", self.urlString];
-        [self invokeFailWithMessage:message];
+        [self invokeFailWithMessage:message andAttemptRetry:NO];
     } else {
         NSURLSession *session = [NSURLSession sharedSession];
         session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
@@ -112,7 +119,7 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                         if (error) {
-                            [self invokeFailWithError:error];
+                            [self invokeFailWithError:error andAttemptRetry:NO];
                         } else {
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [self invokeFinishWithData:data statusCode:httpResponse.statusCode];
@@ -130,18 +137,23 @@ NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLReques
     self.delegate = nil;
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
+- (void)invokeFailWithMessage:(NSString *)message andAttemptRetry:(BOOL)retry
 {
     NSError *error = [NSError errorWithDomain:message code:0 userInfo:nil];
-    [self invokeFailWithError:error];
+    [self invokeFailWithError:error andAttemptRetry:retry];
 }
 
-- (void)invokeFailWithError:(NSError *)error
+- (void)invokeFailWithError:(NSError *)error andAttemptRetry:(BOOL)retry
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
-        [self.delegate request:self didFailWithError:error];
+    if (self.shouldRetry && self.retryCount < MAX_RETRIES && retry) {
+        self.retryCount++;
+        [self executeAsyncRequest];
+    } else {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
+            [self.delegate request:self didFailWithError:error];
+        }
+        self.delegate = nil;
     }
-    self.delegate = nil;
 }
 
 @end
