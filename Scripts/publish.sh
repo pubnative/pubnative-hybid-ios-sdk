@@ -16,6 +16,6 @@ agvtool new-version -all $CIRCLE_BUILD_NUM
 cd ..
 bundle exec fastlane action setup_circle_ci
 bundle exec fastlane match --verbose
-bundle exec fastlane gym --verbose --skip_profile_detection true --include_bitcode true --include_symbols true --clean --workspace PubnativeLite.xcworkspace --scheme PubnativeLiteDemo --archive_path $ARCHIVE_PATH --output_directory $OUTPUT_FOLDER --export_options $OPTIONS_PLIST
+bundle exec fastlane gym --verbose --include_bitcode true --include_symbols true --clean --workspace PubnativeLite.xcworkspace --scheme PubnativeLiteDemo --archive_path $ARCHIVE_PATH --output_directory $OUTPUT_FOLDER --export_options $OPTIONS_PLIST
 # Upload generated IPA to Fabric
 ./scripts/submit $FABRIC_API_KEY $FABRIC_API_SECRET -ipaPath $OUTPUT_FOLDER/PubnativeLiteDemo.ipa
