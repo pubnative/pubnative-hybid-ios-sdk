@@ -11,7 +11,7 @@
 #
 
 # Uncomment the line if you want fastlane to automatically update itself
-update_fastlane
+# update_fastlane
 
 default_platform(:ios)
 
@@ -22,6 +22,5 @@ platform :ios do
   desc "Ad-Hoc Build for Fabric"
   lane :adhoc do
     match
-    gym
   end
 end
