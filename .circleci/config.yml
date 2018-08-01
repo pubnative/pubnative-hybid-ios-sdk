@@ -25,7 +25,7 @@ jobs:
                 paths:
                     - vendor/bundle
             - run:
-                name: Check fastlane version
+                name: Check Bundle Versions
                 command: bundle list
             - run:
                 name: Create CircleCI Artifacts Directory
@@ -49,13 +49,13 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development_circle2.0" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
                       ./scripts/generate.sh
                     fi
             - deploy:
                 name: Publish to Fabric
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development_circle2.0" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
                       ./scripts/publish.sh
                     fi
             - store_test_results:
