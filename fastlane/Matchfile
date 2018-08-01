@@ -1,6 +1,6 @@
 git_url("https://github.com/pubnative/iOSCertificates.git")
 
-type("development") # The default type, can be: appstore, adhoc, enterprise or development
+type("adhoc") # The default type, can be: appstore, adhoc, enterprise or development
 
 app_identifier("net.pubnative.PubnativeLite.demo")
 username("soykarafakili89@hotmail.com") # Your Apple Developer Portal username
