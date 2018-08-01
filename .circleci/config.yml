@@ -1,0 +1,66 @@
+version: 2
+jobs:
+    build:
+        working_directory: ~/pubnative/pubnative-lite-ios-sdk
+        shell: /bin/bash --login -o pipefail
+        macos:
+            xcode: "9.3.0"
+        steps:
+            - checkout
+            - restore_cache:
+                key: 1-gems-{{ checksum "Gemfile.lock" }}
+            - run:
+                name: Export Env
+                command: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test"\nexport LC_ALL=en_US.UTF-8\nexport LC_ALL=en_US.UTF-8 >> $BASH_ENV
+            - run:
+                name: Bundle Install
+                command: bundle check || bundle install
+                paths:
+                    - vendor/bundle
+                enviroment:
+                    BUNDLE_JOBS: 4
+                    BUNDLE_RETRY: 3
+            - save_cache:
+                key: 1-gems-{{ checksum "Gemfile.lock" }}
+                paths:
+                    - vendor/bundle
+            - run:
+                name: Check fastlane version
+                command: bundle list
+            - run:
+                name: Create CircleCI Artifacts Directory
+                command: mkdir -p /tmp/circleci-artifacts
+            - run:
+                name: Create CircleCI Test Results Directory
+                command: mkdir -p /tmp/circleci-test-results
+            - run:
+                name: Xcode Build and Run Tests
+                command: xcodebuild
+                            -workspace PubnativeLite.xcworkspace
+                            -scheme PubnativeLite
+                            -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
+                            clean test
+                            | tee /tmp/circleci-artifacts/test_xcodebuild.log
+                            | xcpretty
+                                -c
+                                -r junit --output /tmp/circleci-test-results/junit.xml
+                                -r html --output /tmp/circleci-test-results/report.html
+                                -r json-compilation-database --output /tmp/circleci-artifacts/test_compilation_database.json
+            - deploy:
+                name: Generate framework
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development_circle2.0" ] ; then
+                      ./scripts/generate.sh
+                    fi
+            - deploy:
+                name: Publish to Fabric
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development_circle2.0" ] ; then
+                      ./scripts/publish.sh
+                    fi
+            - store_test_results:
+                path: /tmp/circleci-test-results
+            - store_artifacts:
+                path: /tmp/circleci-artifacts
+            - store_artifacts:
+                path: /tmp/circleci-test-results
