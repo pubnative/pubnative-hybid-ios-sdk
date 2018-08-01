@@ -1,3 +1,4 @@
+# Variable Declarations
 BASE_DIR=/tmp/circleci-artifacts
 PRODUCT_NAME=PubnativeLite
 FRAMEWORK_NAME=$PRODUCT_NAME.framework
@@ -14,11 +15,11 @@ IPHONESIMULATOR_FRAMEWORK=$IPHONESIMULATOR_PATH/$FRAMEWORK_NAME
 IPHONESIMULATOR_PRODUCT=$IPHONESIMULATOR_FRAMEWORK/$PRODUCT_NAME
 IPHONESIMULATOR_ZIP_PATH=$BASE_DIR/PubnativeLite.iphonesimulator.framework.zip
 
-# GENERATE
+# Generate Frameworks
 xcodebuild -workspace PubnativeLite.xcworkspace -scheme PubnativeLite -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
 xcodebuild -workspace PubnativeLite.xcworkspace -scheme PubnativeLite -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
 
-# MERGE
+# Merge Frameworks and .zip them
 cp -rf $IPHONEOS_FRAMEWORK $FAT_FRAMEWORK
 rm $FAT_PRODUCT
 lipo -create $IPHONEOS_PRODUCT $IPHONESIMULATOR_PRODUCT -output $FAT_PRODUCT
