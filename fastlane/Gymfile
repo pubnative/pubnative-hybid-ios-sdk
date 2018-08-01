@@ -16,6 +16,6 @@ output_directory($OUTPUT_FOLDER)
 
 export_options = {
   compileBitcode: "false",
-  method: "ad-hoc",
+  export_method: "ad-hoc",
   ProvisioningStyle: "Manual"
 }

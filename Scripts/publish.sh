@@ -12,6 +12,5 @@ agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-
 agvtool new-version -all $CIRCLE_BUILD_NUM
 cd ..
 bundle exec fastlane adhoc --verbose
-bundle exec fastlane gym --verbose
 # Upload generated IPA to Fabric
 ./scripts/submit $FABRIC_API_KEY $FABRIC_API_SECRET -ipaPath $OUTPUT_FOLDER/PubnativeLiteDemo.ipa
