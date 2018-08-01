@@ -6,6 +6,9 @@ OUTPUT_FOLDER=$BASE_FOLDER/ipa
 rm $OPTIONS_PLIST
 rm -rf $ARCHIVE_PATH
 rm -rf $OUTPUT_FOLDER
+#GENERATE PLIST
+PLIST='{"compileBitcode":false,"method":"ad-hoc","ProvisioningStyle": "Manual"}'
+echo $PLIST | plutil -convert xml1 -o $OPTIONS_PLIST -
 #GENERATE ARCHIVE
 cd PubnativeLite
 agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-${CIRCLE_BRANCH}.${CIRCLE_BUILD_NUM}"

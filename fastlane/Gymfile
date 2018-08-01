@@ -13,9 +13,4 @@ workspace("PubnativeLite.xcworkspace")
 scheme("PubnativeLiteDemo")
 archive_path($ARCHIVE_PATH)
 output_directory($OUTPUT_FOLDER)
-
-export_options = {
-  compileBitcode: "false",
-  export_method: "ad-hoc",
-  ProvisioningStyle: "Manual"
-}
+export_options($OPTIONS_PLIST)
