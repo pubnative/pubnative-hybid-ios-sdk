@@ -112,9 +112,9 @@
                                 
                                 // Send the request only, no response or errors
                                 if(error == nil) {
-                                    NSLog(@"VAST - tracking url %@ error: %@", response.URL, error);
-                                } else {
                                     NSLog(@"VAST - tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]);
+                                } else {
+                                    NSLog(@"VAST - tracking url %@ error: %@", response.URL, error);
                                 }
                             }] resume];
             });
