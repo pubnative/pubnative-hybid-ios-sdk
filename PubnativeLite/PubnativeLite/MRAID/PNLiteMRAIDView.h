@@ -21,6 +21,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNLiteContentInfoView.h"
 
 @class PNLiteMRAIDView;
 @protocol PNLiteMRAIDServiceDelegate;
@@ -56,10 +57,12 @@
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-   serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
- rootViewController:(UIViewController *)rootViewController;
+    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+ rootViewController:(UIViewController *)rootViewController
+        contentInfo:(PNLiteContentInfoView *)contentInfo;
 
 - (void)cancel;
 - (void)showAsInterstitial;
+- (void)hide;
 
 @end

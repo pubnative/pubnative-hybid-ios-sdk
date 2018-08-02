@@ -43,5 +43,5 @@
 
 - (void)load;
 - (void)show;
-
+- (void)hide;
 @end

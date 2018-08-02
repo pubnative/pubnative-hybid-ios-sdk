@@ -49,12 +49,24 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteInterstitialPresenterFactory.h>
 #import <PubnativeLite/PNLiteAdCache.h>
 #import <PubnativeLite/PNLitePrebidUtils.h>
+#import <PubnativeLite/PNLiteContentInfoView.h>
+#import <PubnativeLite/PNLiteUserDataManager.h>
+#import <PubnativeLite/PNLiteAdModel.h>
+#import <PubnativeLite/PNLiteDataModel.h>
+#import <PubnativeLite/PNLiteAd.h>
+#import <PubnativeLite/PNLiteAdView.h>
+#import <PubnativeLite/PNLiteBannerAdView.h>
+#import <PubnativeLite/PNLiteMRectAdView.h>
+#import <PubnativeLite/PNLiteInterstitialAd.h>
+#import <PubnativeLite/PNLiteSettings.h>
+
+typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 
 @interface PubnativeLite : NSObject
 
 + (void)setCoppa:(BOOL)enabled;
 + (void)setTargeting:(PNLiteTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken;
++ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion;
 
 @end

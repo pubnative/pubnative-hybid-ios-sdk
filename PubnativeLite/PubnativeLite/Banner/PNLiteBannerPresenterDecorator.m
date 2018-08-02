@@ -44,6 +44,16 @@
     [self.bannerPresenter load];
 }
 
+- (void)startTracking
+{
+    [self.bannerPresenter startTracking];
+}
+
+- (void)stopTracking
+{
+    [self.bannerPresenter stopTracking];
+}
+
 - (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
                           withAdTracker:(PNLiteAdTracker *)adTracker
                            withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate

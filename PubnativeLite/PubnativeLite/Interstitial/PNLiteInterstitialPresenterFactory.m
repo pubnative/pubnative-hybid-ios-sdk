@@ -24,6 +24,7 @@
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteInterstitialPresenterDecorator.h"
 #import "PNLiteMRAIDInterstitialPresenter.h"
+#import "PNLiteVASTInterstitialPresenter.h"
 #import "PNLiteAdTracker.h"
 
 @implementation PNLiteInterstitialPresenterFactory
@@ -49,6 +50,13 @@
             PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad];
             return mraidInterstitalPresenter;
             break;
+        }
+        case VAST_INTERSTITIAL_1:
+        case VAST_INTERSTITIAL_2:
+        case VAST_INTERSTITIAL_3:
+        case VAST_INTERSTITIAL_4: {
+            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad];
+            return vastInterstitalPresenter;
         }
         default:
             NSLog(@"PNLiteInterstitialPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format", ad.assetGroupID);
