@@ -27,6 +27,12 @@ NSString *const kPNLiteDemoZoneID;
 NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
 NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
 NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
+NSString *const kPNLiteDemoMoPubMediationBannerAdUnitID = @"8ba4f63a03da4c1ba84653c4bc66d11e";
+NSString *const kPNLiteDemoMoPubMediationMRectAdUnitID = @"038dfd33ec4d4391aee61557ffd3ed8b";
+NSString *const kPNLiteDemoMoPubMediationInterstitialAdUnitID = @"a50d6ad8b2b84ea0af8049b8dfd32126";
+NSString *const kPNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
+NSString *const kPNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
+NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitial";
 
 @implementation PNLiteDemoSettings
 
@@ -37,6 +43,12 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
     self.moPubBannerAdUnitID = nil;
     self.moPubMRectAdUnitID = nil;
     self.moPubInterstitialAdUnitID = nil;
+    self.moPubMediationBannerAdUnitID = nil;
+    self.moPubMediationMRectAdUnitID = nil;
+    self.moPubMediationInterstitialAdUnitID = nil;
+    self.dfpBannerAdUnitID = nil;
+    self.dfpMRectAdUnitID = nil;
+    self.dfpInterstitialAdUnitID = nil;
     self.keywords = nil;
     self.targetingModel = nil;
 }
@@ -60,6 +72,12 @@ NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7
         self.moPubBannerAdUnitID = kPNLiteDemoMoPubBannerAdUnitID;
         self.moPubMRectAdUnitID = kPNLiteDemoMoPubMRectAdUnitID;
         self.moPubInterstitialAdUnitID = kPNLiteDemoMoPubInterstitialAdUnitID;
+        self.moPubMediationBannerAdUnitID = kPNLiteDemoMoPubMediationBannerAdUnitID;
+        self.moPubMediationMRectAdUnitID = kPNLiteDemoMoPubMediationMRectAdUnitID;
+        self.moPubMediationInterstitialAdUnitID = kPNLiteDemoMoPubMediationInterstitialAdUnitID;
+        self.dfpBannerAdUnitID = kPNLiteDemoDFPBannerAdUnitID;
+        self.dfpMRectAdUnitID = kPNLiteDemoDFPMRectAdUnitID;
+        self.dfpInterstitialAdUnitID = kPNLiteDemoDFPInterstitialAdUnitID;
         self.targetingModel = [[PNLiteTargetingModel alloc] init];
     }
     return self;

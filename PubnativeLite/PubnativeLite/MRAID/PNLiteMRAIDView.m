@@ -37,6 +37,9 @@
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
+CGFloat const kContentInfoViewHeight = 15.0f;
+CGFloat const kContentInfoViewWidth = 15.0f;
+
 typedef enum {
     PNLiteMRAIDStateLoading,
     PNLiteMRAIDStateDefault,
@@ -45,7 +48,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface PNLiteMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface PNLiteMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, PNLiteContentInfoViewDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -78,6 +81,9 @@ typedef enum {
     UIView *resizeView;
     UIButton *resizeCloseRegion;
     
+    UIView *contentInfoViewContainer;
+    PNLiteContentInfoView *contentInfoView;
+    
     CGSize previousMaxSize;
     CGSize previousScreenSize;
     
@@ -91,6 +97,8 @@ typedef enum {
 - (void)showResizeCloseRegion;
 - (void)removeResizeCloseRegion;
 - (void)setResizeViewPosition;
+- (void)addContentInfoViewToView:(UIView *)view;
+
 
 // These methods provide the means for native code to talk to JavaScript code.
 - (void)injectJavaScript:(NSString *)js;
@@ -147,6 +155,7 @@ typedef enum {
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
     serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
+        contentInfo:(PNLiteContentInfoView *)contentInfo
 {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
@@ -155,7 +164,8 @@ typedef enum {
              supportedFeatures:features
                       delegate:delegate
               serviceDelegate:serviceDelegate
-            rootViewController:rootViewController];
+            rootViewController:rootViewController
+                   contentInfo:contentInfo];
 }
 
 // designated initializer
@@ -165,8 +175,9 @@ typedef enum {
      asInterstitial:(BOOL)isInter
   supportedFeatures:(NSArray *)currentFeatures
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-   serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
+        contentInfo:(PNLiteContentInfoView *)contentInfo
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -180,8 +191,11 @@ typedef enum {
         _isViewable = NO;
         useCustomClose = NO;
         
+        
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
+        
+        contentInfoView = contentInfo;
         
         mraidParser = [[PNLiteMRAIDParser alloc] init];
         
@@ -206,7 +220,7 @@ typedef enum {
         previousScreenSize = CGSizeZero;
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
- 
+        
         // Get mraid.js as binary data
         NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
                                                    length:__PNLite_MRAID_mraid_js_len
@@ -296,6 +310,9 @@ typedef enum {
     closeEventRegion = nil;
     resizeView = nil;
     resizeCloseRegion = nil;
+    
+    contentInfoViewContainer = nil;
+    contentInfoView = nil;
     
     self.delegate = nil;
     self.serviceDelegate =nil;
@@ -395,6 +412,18 @@ typedef enum {
     [self expand:nil];
 }
 
+- (void)hide
+{
+    [self close];
+}
+
+#pragma mark - PNLiteContentInfoViewDelegate
+
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
+{
+    contentInfoViewContainer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
+}
+
 #pragma mark - JavaScript --> native support
 
 // These methods are (indirectly) called by JavaScript code.
@@ -490,7 +519,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
 
-    eventJSON=[eventJSON stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    eventJSON=[eventJSON stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), eventJSON]];
     
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsCalendar]) {
@@ -540,15 +569,15 @@ typedef enum {
         
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
-        urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        urlString = [urlString stringByRemovingPercentEncoding];
         if (![[NSURL URLWithString:urlString] scheme]) {
             // relative URL
-            urlString = [[[baseURL absoluteString] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByAppendingString:urlString];
+            urlString = [[[baseURL absoluteString] stringByRemovingPercentEncoding] stringByAppendingString:urlString];
         }
         
         // Need to escape characters which are URL specific
-        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
+        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+
         NSError *error;
         NSString *content = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
@@ -593,6 +622,11 @@ typedef enum {
         state = PNLiteMRAIDStateExpanded;
         [self fireStateChangeEvent];
     }
+    
+    if (isInterstitial) {
+        [self addContentInfoViewToView:webView];
+    }
+    
     [self fireSizeChangeEvent];
     self.isViewable = YES;
 }
@@ -604,7 +638,7 @@ typedef enum {
        return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
     // Notify the callers
@@ -620,7 +654,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServicePlayVideoWithUrlString:)]) {
         [self.serviceDelegate mraidServicePlayVideoWithUrlString:urlString];
@@ -634,7 +668,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceSendSMSWithUrlString:)]) {
         [self.serviceDelegate mraidServiceSendSMSWithUrlString:urlString];
@@ -648,7 +682,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString = [urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString = [urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceCallNumberWithUrlString:)]) {
         [self.serviceDelegate mraidServiceCallNumberWithUrlString:urlString];
@@ -730,7 +764,7 @@ typedef enum {
         return;  // ignore programmatic touches (taps)
     }
     
-    urlString=[urlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlString=[urlString stringByRemovingPercentEncoding];
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsStorePicture]) {
@@ -752,6 +786,74 @@ typedef enum {
 #pragma mark - JavaScript --> native support helpers
 
 // These methods are helper methods for the ones above.
+- (void)addContentInfoViewToView:(UIView *)view
+{
+    contentInfoViewContainer = [[UIView alloc] init];
+    contentInfoView.delegate = self;
+    [view addSubview:contentInfoViewContainer];
+    [contentInfoViewContainer addSubview:contentInfoView];
+    if (@available(iOS 11.0, *)) {
+        contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeWidth
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewWidth],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewHeight],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeTop
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view.safeAreaLayoutGuide
+                                                                               attribute:NSLayoutAttributeTop
+                                                                              multiplier:1.f
+                                                                                constant:0.f],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view.safeAreaLayoutGuide
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                              multiplier:1.f
+                                                                                constant:0.f],]];
+    } else {
+        contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeWidth
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewWidth],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:nil
+                                                                               attribute:NSLayoutAttributeNotAnAttribute
+                                                                              multiplier:1.f
+                                                                                constant:kContentInfoViewHeight],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeTop
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view
+                                                                               attribute:NSLayoutAttributeTop
+                                                                              multiplier:1.f
+                                                                                constant:0.f],
+                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:view
+                                                                               attribute:NSLayoutAttributeLeading
+                                                                              multiplier:1.f
+                                                                                constant:0.f],]];
+    }
+}
 
 - (void)addCloseEventRegion
 {
@@ -1042,6 +1144,10 @@ typedef enum {
                 [self.delegate mraidViewAdReady:self];
             }
             
+            if (!isInterstitial) {
+                [self addContentInfoViewToView:self];
+            }
+            
             // Start monitoring device orientation so we can reset max Size and screenSize if needed.
             [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
             [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1068,7 +1174,7 @@ typedef enum {
 
     } else if ([scheme isEqualToString:@"console-log"]) {
         [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS console: %@",
-                          [[absUrlString substringFromIndex:14] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding ]]];
+                          [[absUrlString substringFromIndex:14] stringByRemovingPercentEncoding ]]];
     } else {
         [PNLiteLogger info:@"MRAID - View" withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationType)]];
         
@@ -1077,7 +1183,7 @@ typedef enum {
             // For banner views
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS webview load: %@",
-                                                                    [absUrlString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+                                                                    [absUrlString stringByRemovingPercentEncoding]]];
                 [self.delegate mraidViewNavigate:self withURL:url];
             }
         } else {

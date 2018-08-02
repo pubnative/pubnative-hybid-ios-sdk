@@ -49,6 +49,11 @@
     [self.interstitialPresenter show];
 }
 
+- (void)hide
+{
+    [self.interstitialPresenter hide];
+}
+
 - (instancetype)initWithInterstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
                                 withAdTracker:(PNLiteAdTracker *)adTracker
                                  withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate

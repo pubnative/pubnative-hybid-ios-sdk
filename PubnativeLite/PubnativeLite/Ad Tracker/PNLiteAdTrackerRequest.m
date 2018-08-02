@@ -42,7 +42,7 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
     } else {
         self.delegate = delegate;
         [self invokeDidStart];
-        [[PNLiteHttpRequest alloc] startWithUrlString:url delegate:self];
+        [[PNLiteHttpRequest alloc] startWithUrlString:url withMethod:@"GET" delegate:self];
     }
 }
 

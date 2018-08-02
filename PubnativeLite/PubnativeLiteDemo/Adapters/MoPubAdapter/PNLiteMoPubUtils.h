@@ -24,7 +24,10 @@
 
 @interface PNLiteMoPubUtils : NSObject
 
++ (BOOL)isZoneIDValid:(NSDictionary *)extras;
++ (BOOL)isAppTokenValid:(NSDictionary *)extras;
 + (BOOL)areExtrasValid:(NSDictionary *)extras;
++ (NSString *)appToken:(NSDictionary*)extras;
 + (NSString *)zoneID:(NSDictionary *)extras;
 
 @end

@@ -34,6 +34,16 @@
     // Do nothing, this method should be overriden
 }
 
+- (void)startTracking
+{
+    // Do nothing, this method should be overriden
+}
+
+- (void)stopTracking
+{
+    // Do nothing, this method should be overriden
+}
+
 - (PNLiteAd *)ad
 {
     return nil;

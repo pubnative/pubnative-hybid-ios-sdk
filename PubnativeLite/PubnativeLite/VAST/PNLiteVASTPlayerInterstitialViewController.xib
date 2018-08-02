@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14109"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PNLiteVASTPlayerInterstitialViewController">
+            <connections>
+                <outlet property="playerContainer" destination="0TU-O2-baM" id="ECH-AF-Bgg"/>
+                <outlet property="view" destination="oGj-cQ-VRl" id="xhe-NO-gKI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="oGj-cQ-VRl">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0TU-O2-baM" userLabel="VAST Player">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="0TU-O2-baM" secondAttribute="trailing" id="Cow-Fl-Nuv"/>
+                <constraint firstItem="0TU-O2-baM" firstAttribute="top" secondItem="oGj-cQ-VRl" secondAttribute="top" id="D9D-A8-3rw"/>
+                <constraint firstAttribute="bottom" secondItem="0TU-O2-baM" secondAttribute="bottom" id="RuV-BT-wgL"/>
+                <constraint firstItem="0TU-O2-baM" firstAttribute="leading" secondItem="oGj-cQ-VRl" secondAttribute="leading" id="SfM-FN-fOD"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <point key="canvasLocation" x="-382" y="-39"/>
+        </view>
+    </objects>
+</document>

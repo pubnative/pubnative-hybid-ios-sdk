@@ -87,9 +87,11 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
 
 - (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType
 {
-    for (PNLiteDataModel *dataModel in URLs) {
-        NSLog(@"%@", [NSString stringWithFormat:@"PNLiteAdTracker - Tracking %@ with URL: %@",trackType, dataModel.url]);
-        [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
+    if (URLs != nil) {
+        for (PNLiteDataModel *dataModel in URLs) {
+            NSLog(@"%@", [NSString stringWithFormat:@"PNLiteAdTracker - Tracking %@ with URL: %@",trackType, dataModel.url]);
+            [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
+        }
     }
 }
 

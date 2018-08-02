@@ -23,11 +23,31 @@
 #import "PNLiteMoPubUtils.h"
 
 NSString *const kPNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
+NSString *const kPNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
 
 @implementation PNLiteMoPubUtils
 
-+ (BOOL)areExtrasValid:(NSDictionary *)extras {
-    return [PNLiteMoPubUtils zoneID:extras];
++ (BOOL)isZoneIDValid:(NSDictionary *)extras
+{
+    if ([PNLiteMoPubUtils zoneID:extras]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
++ (BOOL)isAppTokenValid:(NSDictionary *)extras
+{
+    if ([PNLiteMoPubUtils appToken:extras]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
++ (BOOL)areExtrasValid:(NSDictionary *)extras
+{
+    return [PNLiteMoPubUtils zoneID:extras] && [PNLiteMoPubUtils appToken:extras];
 }
 
 + (NSString *)zoneID:(NSDictionary *)extras
@@ -35,11 +55,16 @@ NSString *const kPNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
     return [PNLiteMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyZoneID fromExtras:extras];
 }
 
++ (NSString *)appToken:(NSDictionary *)extras
+{
+    return [PNLiteMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyAppToken fromExtras:extras];
+}
+
 + (NSString *)valueWithKey:(NSString *)key
                 fromExtras:(NSDictionary *)extras {
-    NSString* result = nil;
+    NSString *result = nil;
     if (extras && [extras objectForKey:key]) {
-        NSString* param = [extras objectForKey:key];
+        NSString *param = [extras objectForKey:key];
         if ([param length] != 0) {
             result = param;
         }
