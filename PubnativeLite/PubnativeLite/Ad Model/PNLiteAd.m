@@ -81,6 +81,15 @@
     return result;
 }
 
+- (NSString *)link
+{
+    NSString *result = nil;
+    if (self.data) {
+        result = self.data.link;
+    }
+    return result;
+}
+
 - (NSNumber *)assetGroupID
 {
     NSNumber *result = nil;
@@ -98,6 +107,15 @@
         result = data.eCPM;
     }
     return result;
+}
+
+- (NSArray<PNLiteDataModel *> *)beacons
+{
+    if (self.data) {
+        return self.data.beacons;
+    } else {
+        return nil;
+    }
 }
 
 - (PNLiteContentInfoView *)contentInfo
