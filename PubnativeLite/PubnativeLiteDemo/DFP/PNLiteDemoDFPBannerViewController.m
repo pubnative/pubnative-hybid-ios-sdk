@@ -30,6 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
 @property (nonatomic, strong) DFPBannerView *dfpBanner;
 @property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
 
@@ -136,6 +137,7 @@
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpBanner loadRequest:request];
+        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 
