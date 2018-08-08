@@ -20,17 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAsset.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "PNLiteAd.h"
 
-@implementation PNLiteAsset
+@class PNLiteNativeAd;
 
-+ (NSString *)title { return @"title"; }
-+ (NSString *)body { return @"description"; }
-+ (NSString *)callToAction { return @"cta"; }
-+ (NSString *)rating { return @"rating"; }
-+ (NSString *)icon { return @"icon"; }
-+ (NSString *)banner { return @"banner"; }
-+ (NSString *)htmlBanner { return @"htmlbanner"; }
-+ (NSString *)vast { return @"vast2"; }
+@protocol PNLiteNativeAdDelegate <NSObject>
+
+- (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view;
+- (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd;
+
+@end
+
+@interface PNLiteNativeAd : NSObject
+
+@property (nonatomic, readonly) NSString *title;
+@property (nonatomic, readonly) NSString *body;
+@property (nonatomic, readonly) NSString *callToActionTitle;
+@property (nonatomic, readonly) NSString *iconUrl;
+@property (nonatomic, readonly) NSString *bannerUrl;
+@property (nonatomic, readonly) NSString *clickUrl;
+@property (nonatomic, readonly) NSNumber *rating;
+@property (nonatomic, readonly) UIView *contentInfo;
+
+- (instancetype)initWithAd:(PNLiteAd *)ad;
+- (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
+- (void)stopTracking;
 
 @end

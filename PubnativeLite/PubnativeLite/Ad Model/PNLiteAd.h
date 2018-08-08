@@ -30,9 +30,11 @@
 @property (nonatomic, readonly) NSString *vast;
 @property (nonatomic, readonly) NSString *htmlUrl;
 @property (nonatomic, readonly) NSString *htmlData;
+@property (nonatomic, readonly) NSString *link;
 @property (nonatomic, readonly) NSString *impressionID;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
+@property (nonatomic, readonly) NSArray<PNLiteDataModel*> *beacons;
 @property (nonatomic, readonly) PNLiteContentInfoView *contentInfo;
 
 - (instancetype)initWithData:(PNLiteAdModel *)data;

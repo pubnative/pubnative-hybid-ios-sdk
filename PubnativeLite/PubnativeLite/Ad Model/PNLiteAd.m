@@ -84,6 +84,15 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
+- (NSString *)link
+{
+    NSString *result = nil;
+    if (self.data) {
+        result = self.data.link;
+    }
+    return result;
+}
+
 - (NSString *)impressionID
 {
     NSArray *impressionBeacons = [self beaconsDataWithType:@"impression"];
@@ -124,6 +133,15 @@ NSString *const kImpressionQuerryParameter = @"t";
         result = data.eCPM;
     }
     return result;
+}
+
+- (NSArray<PNLiteDataModel *> *)beacons
+{
+    if (self.data) {
+        return self.data.beacons;
+    } else {
+        return nil;
+    }
 }
 
 - (PNLiteContentInfoView *)contentInfo

@@ -23,6 +23,8 @@
 		5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A2633572034AB480005EA39 /* PNLiteMRAIDOrientationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */; };
 		5A288BF520D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A288BF420D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m */; };
+		5A2903592119A0AD00B8969A /* PNLiteNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2903572119A0AD00B8969A /* PNLiteNativeAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A29035A2119A0AD00B8969A /* PNLiteNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2903582119A0AD00B8969A /* PNLiteNativeAd.m */; };
 		5A2A2E542056CCB00051E856 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E522056CCB00051E856 /* Crashlytics.framework */; };
 		5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E532056CCB00051E856 /* Fabric.framework */; };
 		5A2A76FE206A44F100B5643C /* PNLiteAdTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A76FD206A44F100B5643C /* PNLiteAdTrackerTest.m */; };
@@ -659,6 +661,8 @@
 		5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDOrientationProperties.m; sourceTree = "<group>"; };
 		5A288BF320D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMediationInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5A288BF420D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMediationInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		5A2903572119A0AD00B8969A /* PNLiteNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteNativeAd.h; sourceTree = "<group>"; };
+		5A2903582119A0AD00B8969A /* PNLiteNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteNativeAd.m; sourceTree = "<group>"; };
 		5A2A2E522056CCB00051E856 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		5A2A2E532056CCB00051E856 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		5A2A76FD206A44F100B5643C /* PNLiteAdTrackerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdTrackerTest.m; sourceTree = "<group>"; };
@@ -2268,6 +2272,8 @@
 				5ADACD05202C617A00617734 /* PNLiteResponseModel.m */,
 				5ADACD12202C919700617734 /* PNLiteAd.h */,
 				5ADACD11202C919600617734 /* PNLiteAd.m */,
+				5A2903572119A0AD00B8969A /* PNLiteNativeAd.h */,
+				5A2903582119A0AD00B8969A /* PNLiteNativeAd.m */,
 				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
 				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
 				5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */,
@@ -3056,6 +3062,7 @@
 				5A8F10C82089E4D20098E337 /* PNLite_KSCrashReportFilterCompletion.h in Headers */,
 				5A8F11002089E4D20098E337 /* PNLite_KSCrashState.h in Headers */,
 				5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */,
+				5A2903592119A0AD00B8969A /* PNLiteNativeAd.h in Headers */,
 				5A8F10C72089E4D20098E337 /* PNLite_KSCrashReportFilter.h in Headers */,
 				5A9B66CF20BD66080067964E /* PNLiteVASTSchema.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
@@ -3577,6 +3584,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A29035A2119A0AD00B8969A /* PNLiteNativeAd.m in Sources */,
 				5A8F110D2089E4D20098E337 /* PNLite_KSCrashSentry_Signal.c in Sources */,
 				5A2AA5C820D14465007A4804 /* PNLiteMRectAdView.m in Sources */,
 				5A540252202B0C04005D80E6 /* PNLiteTargetingModel.m in Sources */,
