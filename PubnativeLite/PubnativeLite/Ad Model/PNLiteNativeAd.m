@@ -152,20 +152,20 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate
 {
-    [self startTrackingView:view clickableViews:nil withDelegate:delegate];
+    [self startTrackingView:view withClickableViews:nil withDelegate:delegate];
 }
 
-- (void)startTrackingView:(UIView *)view clickableViews:(NSArray *)clickableViews withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate
+- (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate
 {
-    [self startTrackingView:view clickableViews:clickableViews trackingExtras:nil withDelegate:delegate];
+    [self startTrackingView:view withClickableViews:clickableViews withTrackingExtras:nil withDelegate:delegate];
 }
 
-- (void)startTrackingView:(UIView *)view clickableViews:(NSArray *)clickableViews trackingExtras:(NSDictionary *)trackingExtras withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate
+- (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withTrackingExtras:(NSDictionary *)trackingExtras withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate
 {
     self.trackingExtras = trackingExtras;
     self.delegate = delegate;
     [self startTrackingImpressionWithView:view];
-    [self startTrackingClicksWithView:view clickableViews:clickableViews];
+    [self startTrackingClicksWithView:view withClickableViews:clickableViews];
 }
 
 - (void)startTrackingImpressionWithView:(UIView *)view
@@ -183,7 +183,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (void)startTrackingClicksWithView:(UIView*)view clickableViews:(NSArray*)clickableViews
+- (void)startTrackingClicksWithView:(UIView*)view withClickableViews:(NSArray*)clickableViews
 {
     if (view == nil && clickableViews == nil) {
         NSLog(@"PNLiteNativeAd - startTrackingClicks - Error: click view is nil, clicks won't be tracked");
