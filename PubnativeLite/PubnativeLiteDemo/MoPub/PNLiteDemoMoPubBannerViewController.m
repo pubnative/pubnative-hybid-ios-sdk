@@ -29,6 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
 @property (nonatomic, strong) MPAdView *moPubBanner;
 @property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
 
@@ -134,6 +135,7 @@
     if (request == self.bannerAdRequest) {
         [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubBanner loadAd];
+        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 
