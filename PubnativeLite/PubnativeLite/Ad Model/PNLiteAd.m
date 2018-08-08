@@ -25,6 +25,9 @@
 #import "PNLiteAsset.h"
 #import "PNLiteContentInfoView.h"
 
+NSString *const kImpressionURL = @"got.pubnative.net";
+NSString *const kImpressionQuerryParameter = @"t";
+
 @interface PNLiteAd ()
 
 @property (nonatomic, strong)PNLiteAdModel *data;
@@ -88,6 +91,29 @@
         result = self.data.link;
     }
     return result;
+}
+
+- (NSString *)impressionID
+{
+    NSArray *impressionBeacons = [self beaconsDataWithType:@"impression"];
+    BOOL found = NO;
+    NSString *impressionID = @"";
+    NSInteger index = 0;
+    while (index < impressionBeacons.count && !found) {
+        PNLiteDataModel *impressionBeacon = [impressionBeacons objectAtIndex:index];
+        if (impressionBeacon.url != nil && impressionBeacon.url.length != 0) {
+            NSURLComponents *components = [[NSURLComponents alloc] initWithString:impressionBeacon.url];
+            if ([components.host isEqualToString:kImpressionURL]) {
+                NSString *idParameter = [self valueForKey:kImpressionQuerryParameter fromQueryItems:components.queryItems];
+                if (idParameter != nil && idParameter.length != 0) {
+                    impressionID = idParameter;
+                    found = YES;
+                }
+            }
+        }
+        index ++;
+    }
+    return impressionID;
 }
 
 - (NSNumber *)assetGroupID
@@ -157,6 +183,13 @@
         result = [self.data beaconsWithType:type];
     }
     return result;
+}
+
+- (NSString *)valueForKey:(NSString *)key fromQueryItems:(NSArray *)queryItems
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", key];
+    NSURLQueryItem *queryItem = [[queryItems filteredArrayUsingPredicate:predicate] firstObject];
+    return queryItem.value;
 }
 
 @end

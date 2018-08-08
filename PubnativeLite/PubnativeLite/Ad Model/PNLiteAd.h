@@ -31,6 +31,7 @@
 @property (nonatomic, readonly) NSString *htmlUrl;
 @property (nonatomic, readonly) NSString *htmlData;
 @property (nonatomic, readonly) NSString *link;
+@property (nonatomic, readonly) NSString *impressionID;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
 @property (nonatomic, readonly) NSArray<PNLiteDataModel*> *beacons;
