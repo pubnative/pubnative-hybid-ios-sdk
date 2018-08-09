@@ -29,6 +29,7 @@
 @interface PNLiteDemoDFPInterstitialViewController () <PNLiteAdRequestDelegate, GADInterstitialDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
 @property (nonatomic, strong) DFPInterstitial *dfpInterstitial;
 @property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
 
@@ -134,6 +135,7 @@
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpInterstitial loadRequest:request];
+        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 

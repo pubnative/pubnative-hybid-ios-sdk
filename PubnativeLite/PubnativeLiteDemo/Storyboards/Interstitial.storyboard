@@ -40,18 +40,47 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98I-BP-vrU">
+                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="NSo-Mt-8EG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="NSo-Mt-8EG"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SCA-ao-fsJ" userLabel="ImpressionID Text View">
+                                <rect key="frame" x="16" y="539" width="343" height="120"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="igM-ep-Uax"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WaM-kQ-bDo" firstAttribute="leading" secondItem="Own-wm-McO" secondAttribute="leadingMargin" id="4hF-a9-lX7"/>
+                            <constraint firstItem="SCA-ao-fsJ" firstAttribute="top" secondItem="98I-BP-vrU" secondAttribute="bottom" id="7Dm-05-UPQ"/>
                             <constraint firstItem="2Uo-aQ-MfH" firstAttribute="centerX" secondItem="Own-wm-McO" secondAttribute="centerX" id="L97-Lf-khf"/>
                             <constraint firstItem="WaM-kQ-bDo" firstAttribute="top" secondItem="vn7-Gr-VCI" secondAttribute="bottom" constant="8" id="TA8-SB-1Yp"/>
+                            <constraint firstItem="daF-uy-Uy5" firstAttribute="trailing" secondItem="SCA-ao-fsJ" secondAttribute="trailing" constant="16" id="XEN-GQ-FNe"/>
+                            <constraint firstItem="SCA-ao-fsJ" firstAttribute="leading" secondItem="daF-uy-Uy5" secondAttribute="leading" constant="16" id="ds0-sQ-Mbk"/>
+                            <constraint firstItem="98I-BP-vrU" firstAttribute="leading" secondItem="daF-uy-Uy5" secondAttribute="leading" constant="16" id="lXZ-2L-pMm"/>
+                            <constraint firstItem="iTQ-Gi-SXN" firstAttribute="top" secondItem="SCA-ao-fsJ" secondAttribute="bottom" constant="8" id="nKC-Xi-vJd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WaM-kQ-bDo" secondAttribute="trailing" id="uGG-Ra-gxF"/>
                             <constraint firstItem="2Uo-aQ-MfH" firstAttribute="centerY" secondItem="Own-wm-McO" secondAttribute="centerY" id="xo2-Kq-iNm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="daF-uy-Uy5"/>
                     </view>
                     <connections>
+                        <outlet property="impressionIDTextView" destination="SCA-ao-fsJ" id="LCE-0v-paK"/>
                         <outlet property="interstitialLoaderIndicator" destination="2Uo-aQ-MfH" id="KIH-MS-QLs"/>
                     </connections>
                 </viewController>
@@ -155,8 +184,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="SmZ-mS-baw"/>
                                         <exclude reference="29T-ES-13R"/>
+                                        <include reference="SmZ-mS-baw"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -185,8 +214,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="zxu-qV-adx"/>
                                         <include reference="gHz-dc-OTs"/>
+                                        <exclude reference="zxu-qV-adx"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -245,8 +274,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="cAG-Cu-IvA"/>
                                         <include reference="XsE-v8-DkP"/>
+                                        <exclude reference="cAG-Cu-IvA"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -307,18 +336,47 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbI-7h-4oq">
+                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="gQ4-Ta-IdP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="gQ4-Ta-IdP"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lfL-aL-xT7" userLabel="ImpressionID Text View">
+                                <rect key="frame" x="16" y="539" width="343" height="120"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Ygt-8K-Zn4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="e5r-BH-FkL" firstAttribute="top" secondItem="Y1i-Fx-hsU" secondAttribute="bottom" constant="8" id="15b-gW-WjK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="e5r-BH-FkL" secondAttribute="trailing" id="9vw-GF-ScY"/>
                             <constraint firstItem="EiM-7F-Rzu" firstAttribute="centerX" secondItem="gwd-nf-rGR" secondAttribute="centerX" id="BUj-Ip-K6g"/>
+                            <constraint firstItem="lfL-aL-xT7" firstAttribute="leading" secondItem="bff-hb-5WM" secondAttribute="leading" constant="16" id="O5D-la-e7T"/>
+                            <constraint firstItem="X5o-xl-H9O" firstAttribute="top" secondItem="lfL-aL-xT7" secondAttribute="bottom" constant="8" id="PZv-pF-rP4"/>
                             <constraint firstItem="EiM-7F-Rzu" firstAttribute="centerY" secondItem="gwd-nf-rGR" secondAttribute="centerY" id="cgH-PU-kXb"/>
+                            <constraint firstItem="lfL-aL-xT7" firstAttribute="top" secondItem="UbI-7h-4oq" secondAttribute="bottom" id="kqv-tx-sPN"/>
+                            <constraint firstItem="UbI-7h-4oq" firstAttribute="leading" secondItem="bff-hb-5WM" secondAttribute="leading" constant="16" id="l1S-h6-IhG"/>
                             <constraint firstItem="e5r-BH-FkL" firstAttribute="leading" secondItem="gwd-nf-rGR" secondAttribute="leadingMargin" id="ly7-sv-dRl"/>
+                            <constraint firstItem="bff-hb-5WM" firstAttribute="trailing" secondItem="lfL-aL-xT7" secondAttribute="trailing" constant="16" id="w5s-P3-s28"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bff-hb-5WM"/>
                     </view>
                     <connections>
+                        <outlet property="impressionIDTextView" destination="lfL-aL-xT7" id="jeh-0h-4o3"/>
                         <outlet property="interstitialLoaderIndicator" destination="EiM-7F-Rzu" id="O4G-jl-Ykv"/>
                     </connections>
                 </viewController>
@@ -374,8 +432,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="sGV-PR-A8M"/>
                                         <include reference="CdZ-FG-wb3"/>
+                                        <exclude reference="sGV-PR-A8M"/>
                                     </mask>
                                 </variation>
                                 <connections>
