@@ -608,6 +608,8 @@
 		5AF1362C210731A900182D0B /* MPConsentChangedNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF13564210731A800182D0B /* MPConsentChangedNotification.m */; };
 		5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AF93B4420C1807800214AB1 /* PNLiteVASTMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */; };
+		5AFE05DD211C7F48009DF560 /* PNLiteNativeLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFE05DB211C7F48009DF560 /* PNLiteNativeLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5AFE05DE211C7F48009DF560 /* PNLiteNativeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE05DC211C7F48009DF560 /* PNLiteNativeLoader.m */; };
 		5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */; };
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFF730820B451C100052F2D /* PNLiteConsentPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */; };
@@ -1497,6 +1499,8 @@
 		5AF13566210731A800182D0B /* MPInterstitialAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPInterstitialAdController.h; sourceTree = "<group>"; };
 		5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTMRectPresenter.h; sourceTree = "<group>"; };
 		5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTMRectPresenter.m; sourceTree = "<group>"; };
+		5AFE05DB211C7F48009DF560 /* PNLiteNativeLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteNativeLoader.h; sourceTree = "<group>"; };
+		5AFE05DC211C7F48009DF560 /* PNLiteNativeLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteNativeLoader.m; sourceTree = "<group>"; };
 		5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteConsentPageViewController.h; sourceTree = "<group>"; };
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteConsentPageViewController.xib; sourceTree = "<group>"; };
@@ -1844,6 +1848,7 @@
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
 				5AECD5A6204034F20023ABBC /* Interstitial */,
+				5AFE05DF211C83B9009DF560 /* Native */,
 				5A9B66C520BD57FE0067964E /* VAST */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
 				5A3657D7203C538A004B4347 /* Categories */,
@@ -3013,6 +3018,15 @@
 			path = Internal;
 			sourceTree = "<group>";
 		};
+		5AFE05DF211C83B9009DF560 /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				5AFE05DB211C7F48009DF560 /* PNLiteNativeLoader.h */,
+				5AFE05DC211C7F48009DF560 /* PNLiteNativeLoader.m */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -3141,6 +3155,7 @@
 				5A8F11282089E4D20098E337 /* PNLiteSessionTrackingPayload.h in Headers */,
 				5A8F10FF2089E4D20098E337 /* PNLite_KSCrashReportFields.h in Headers */,
 				5A449B4B203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h in Headers */,
+				5AFE05DD211C7F48009DF560 /* PNLiteNativeLoader.h in Headers */,
 				5A8F10DC2089E4D20098E337 /* PNLite_KSString.h in Headers */,
 				5A9B66ED20BD9DD80067964E /* PNLiteProgressLabel.h in Headers */,
 				5A8F11072089E4D20098E337 /* PNLite_KSCrashSentry_MachException.h in Headers */,
@@ -3665,6 +3680,7 @@
 				5A52BFE7203458D000C4B7C5 /* PNLiteBrowserControlsView.m in Sources */,
 				5A540257202B1085005D80E6 /* PNLiteSettings.m in Sources */,
 				5A8F10C22089E4D20098E337 /* PNLiteHandledState.m in Sources */,
+				5AFE05DE211C7F48009DF560 /* PNLiteNativeLoader.m in Sources */,
 				5A540259202B129E005D80E6 /* PubnativeLite.m in Sources */,
 				5A8F10B12089E4D20098E337 /* PNLiteSessionTrackingApiClient.m in Sources */,
 				5ABE0138203F027400E6A14E /* PNLiteMRectAdRequest.m in Sources */,

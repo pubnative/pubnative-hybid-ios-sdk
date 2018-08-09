@@ -45,6 +45,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteBannerPresenter.h>
 #import <PubnativeLite/PNLiteMRectPresenter.h>
 #import <PubnativeLite/PNLiteInterstitialPresenter.h>
+#import <PubnativeLite/PNLiteNativeLoader.h>
 #import <PubnativeLite/PNLiteBannerPresenterFactory.h>
 #import <PubnativeLite/PNLiteMRectPresenterFactory.h>
 #import <PubnativeLite/PNLiteInterstitialPresenterFactory.h>
