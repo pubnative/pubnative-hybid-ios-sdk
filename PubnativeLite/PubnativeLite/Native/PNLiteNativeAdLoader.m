@@ -25,7 +25,7 @@
 @interface PNLiteNativeAdLoader() <PNLiteAdRequestDelegate>
 
 @property (nonatomic, strong) PNLiteNativeAdRequest *nativeAdRequest;
-@property (nonatomic, weak) NSObject <PNLiteNativeLoaderDelegate> *delegate;
+@property (nonatomic, weak) NSObject <PNLiteNativeAdLoaderDelegate> *delegate;
 
 @end
 
@@ -45,7 +45,7 @@
     return self;
 }
 
-- (void)loadNativeAdWithDelegate:(NSObject<PNLiteNativeLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID
+- (void)loadNativeAdWithDelegate:(NSObject<PNLiteNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID
 {
     self.delegate = delegate;
     [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
