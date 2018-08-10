@@ -22,34 +22,16 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
-#import "PNLiteNativeAdRenderer.h"
+#import "PNLiteStarRatingView.h"
 
-@class PNLiteNativeAd;
+@interface PNLiteNativeAdRenderer : NSObject
 
-@protocol PNLiteNativeAdDelegate <NSObject>
-
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view;
-- (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd;
-
-@end
-
-@interface PNLiteNativeAd : NSObject
-
-@property (nonatomic, readonly) NSString *title;
-@property (nonatomic, readonly) NSString *body;
-@property (nonatomic, readonly) NSString *callToActionTitle;
-@property (nonatomic, readonly) NSString *iconUrl;
-@property (nonatomic, readonly) NSString *bannerUrl;
-@property (nonatomic, readonly) NSString *clickUrl;
-@property (nonatomic, readonly) NSNumber *rating;
-@property (nonatomic, readonly) UIView *banner;
-@property (nonatomic, readonly) UIImage *icon;
-@property (nonatomic, readonly) UIView *contentInfo;
-
-- (instancetype)initWithAd:(PNLiteAd *)ad;
-- (void)renderAd:(PNLiteNativeAdRenderer *)renderer;
-- (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
-- (void)stopTracking;
+@property (nonatomic, weak) UILabel *titleView;
+@property (nonatomic, weak) UILabel *bodyView;
+@property (nonatomic, weak) UIView *callToActionView;
+@property (nonatomic, weak) UIImageView *iconView;
+@property (nonatomic, weak) UIView *bannerView;
+@property (nonatomic, weak) UIView *contentInfoView;
+@property (nonatomic, weak) PNLiteStarRatingView *starRatingView;
 
 @end

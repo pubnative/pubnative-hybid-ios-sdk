@@ -20,36 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
 #import "PNLiteNativeAdRenderer.h"
 
-@class PNLiteNativeAd;
-
-@protocol PNLiteNativeAdDelegate <NSObject>
-
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view;
-- (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd;
-
-@end
-
-@interface PNLiteNativeAd : NSObject
-
-@property (nonatomic, readonly) NSString *title;
-@property (nonatomic, readonly) NSString *body;
-@property (nonatomic, readonly) NSString *callToActionTitle;
-@property (nonatomic, readonly) NSString *iconUrl;
-@property (nonatomic, readonly) NSString *bannerUrl;
-@property (nonatomic, readonly) NSString *clickUrl;
-@property (nonatomic, readonly) NSNumber *rating;
-@property (nonatomic, readonly) UIView *banner;
-@property (nonatomic, readonly) UIImage *icon;
-@property (nonatomic, readonly) UIView *contentInfo;
-
-- (instancetype)initWithAd:(PNLiteAd *)ad;
-- (void)renderAd:(PNLiteNativeAdRenderer *)renderer;
-- (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
-- (void)stopTracking;
+@implementation PNLiteNativeAdRenderer
 
 @end

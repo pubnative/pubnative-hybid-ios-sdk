@@ -25,19 +25,25 @@
 #import "PNLiteDataModel.h"
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
+#import "PNLiteNativeAd+Fetching.h"
 
 NSString * const kPNLiteNativeAdBeaconImpression = @"impression";
 NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 @interface PNLiteNativeAd () <PNLiteImpressionTrackerDelegate>
 
-@property (nonatomic, strong)PNLiteAd *ad;
-@property (nonatomic, strong)PNLiteImpressionTracker *impressionTracker;
-@property (nonatomic, strong)NSDictionary *trackingExtras;
-@property (nonatomic, strong)NSArray *clickableViews;
-@property (nonatomic, strong)UITapGestureRecognizer *tapRecognizer;
-@property (nonatomic, weak)NSObject<PNLiteNativeAdDelegate> *delegate;
-@property (nonatomic, assign)BOOL isImpressionConfirmed;
+@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
+@property (nonatomic, strong) NSDictionary *trackingExtras;
+@property (nonatomic, strong) NSMutableDictionary *fetchedAssets;
+@property (nonatomic, strong) NSArray *clickableViews;
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, strong) UIImageView *bannerImageView;
+@property (nonatomic, weak) NSObject<PNLiteNativeAdDelegate> *delegate;
+@property (nonatomic, weak) NSObject<PNLiteNativeAdFetchDelegate> *fetchDelegate;
+@property (nonatomic, assign) BOOL isImpressionConfirmed;
+@property (nonatomic, assign) NSInteger remainingFetchableAssets;
+
 
 @end
 
@@ -47,6 +53,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 {
     self.ad = nil;
     self.trackingExtras = nil;
+    self.fetchedAssets = nil;
     [self.tapRecognizer removeTarget:self action:@selector(handleTap:)];
     for (UIView *view in self.clickableViews) {
         [view removeGestureRecognizer:self.tapRecognizer];
@@ -55,6 +62,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     self.clickableViews = nil;
     [self.impressionTracker clear];
     self.impressionTracker = nil;
+    self.bannerImageView = nil;
 }
 
 #pragma mark PNLiteNativeAd
@@ -137,6 +145,35 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
         result = data.number;
     }
     return nil;
+}
+
+- (UIView *)banner
+{
+    if (self.bannerImageView == nil) {
+        if(self.bannerUrl && self.bannerUrl.length > 0) {
+            NSData *bannerData = self.fetchedAssets[[NSURL URLWithString:self.bannerUrl]];
+            if(bannerData && bannerData.length > 0) {
+                UIImage *bannerImage = [UIImage imageWithData:bannerData];
+                if(bannerImage) {
+                    self.bannerImageView = [[UIImageView alloc] initWithImage:bannerImage];
+                    self.bannerImageView.contentMode = UIViewContentModeScaleAspectFit;
+                }
+            }
+        }
+    }
+    return self.bannerImageView;
+}
+
+- (UIImage *)icon
+{
+    UIImage *result = nil;
+    if(self.iconUrl && self.iconUrl.length > 0) {
+        NSData *imageData = self.fetchedAssets[[NSURL URLWithString:self.iconUrl]];
+        if(imageData && imageData.length > 0) {
+            result = [UIImage imageWithData:imageData];
+        }
+    }
+    return result;
 }
 
 - (UIView *)contentInfo
@@ -280,6 +317,122 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
+#pragma mark Ad Rendering
+
+- (void)renderAd:(PNLiteNativeAdRenderer *)renderer
+{
+    if(renderer.titleView) {
+        renderer.titleView.text = self.title;
+    }
+    
+    if(renderer.bodyView) {
+        renderer.bodyView.text = self.body;
+    }
+    
+    if(renderer.callToActionView) {
+        if ([renderer.callToActionView isKindOfClass:[UIButton class]]) {
+            [(UIButton *) renderer.callToActionView setTitle:self.callToActionTitle forState:UIControlStateNormal];
+        } else if ([renderer.callToActionView isKindOfClass:[UILabel class]]) {
+            [(UILabel *) renderer.callToActionView setText:self.callToActionTitle];
+        }
+    }
+    
+    if (renderer.starRatingView) {
+        renderer.starRatingView.value = [self.rating floatValue];
+    }
+    
+    if(renderer.iconView && self.icon) {
+        renderer.iconView.image = self.icon;
+    }
+    
+    UIView *banner = self.banner;
+    if(renderer.bannerView && banner) {
+        [renderer.bannerView addSubview:banner];
+        banner.frame = renderer.bannerView.bounds;
+    }
+    
+    UIView *contentInfo = self.contentInfo;
+    if (renderer.contentInfoView && contentInfo) {
+        [renderer.contentInfoView addSubview:contentInfo];
+        contentInfo.frame = renderer.contentInfoView.bounds;
+    }
+}
+
+#pragma mark Asset Fetching
+
+- (void)fetchNativeAdAssetsWithDelegate:(NSObject<PNLiteNativeAdFetchDelegate> *)delegate
+{
+    NSMutableArray *assets = [NSMutableArray array];
+    if (self.bannerUrl) {
+        [assets addObject:self.bannerUrl];
+    }
+    if (self.iconUrl) {
+        [assets addObject:self.iconUrl];
+    }
+    if (delegate) {
+        self.fetchDelegate = delegate;
+        [self fetchAssets:assets];
+    } else {
+        NSLog(@"PNLiteNativeAd - Error: Fetch asssets with delegate nil, dropping this call");
+    }
+}
+
+- (void)fetchAssets:(NSArray<NSString *> *)assets
+{
+    if(assets && assets.count > 0) {
+        self.remainingFetchableAssets = assets.count;
+        for (NSString *assetURLString in assets) {
+            [self fetchAsset:assetURLString];
+        }
+    } else {
+        [self invokeFetchDidFailWithError:[NSError errorWithDomain:@"No assets to fetch" code:0 userInfo:nil]];
+    }
+}
+
+- (void)fetchAsset:(NSString *)assetURLString
+{
+    if (assetURLString && assetURLString.length > 0) {
+        __block NSURL *url = [NSURL URLWithString:assetURLString];
+        __block PNLiteNativeAd *strongSelf = self;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            if (data) {
+                [strongSelf cacheFetchedAssetData:data withURL:url];
+                [strongSelf checkFetchProgress];
+            } else {
+                [strongSelf invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset can not be downloaded."
+                                                                            code:0
+                                                                        userInfo:nil]];
+            }
+            url = nil;
+            strongSelf = nil;
+        });
+    } else {
+        [self invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset URL is nil or empty"
+                                                              code:0
+                                                          userInfo:nil]];
+    }
+}
+
+- (void)cacheFetchedAssetData:(NSData *)data withURL:(NSURL*)url
+{
+    if (self.fetchedAssets == nil) {
+        self.fetchedAssets = [NSMutableDictionary dictionary];
+    }
+    
+    if (url && data) {
+        self.fetchedAssets[url] = data;
+    }
+}
+
+- (void)checkFetchProgress
+{
+    self.remainingFetchableAssets --;
+    if (self.remainingFetchableAssets == 0) {
+        [self invokeFetchDidFinish];
+    }
+}
+
 #pragma mark PNLiteImpressionTrackerDelegate
 
 - (void)impressionDetectedWithView:(UIView *)view
@@ -289,6 +442,40 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 }
 
 #pragma mark Callback Helpers
+
+- (void)invokeFetchDidFinish
+{
+    __block NSObject<PNLiteNativeAdFetchDelegate> *delegate = self.fetchDelegate;
+    __block PNLiteNativeAd *strongSelf = self;
+    self.fetchDelegate = nil;
+    if (delegate) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (delegate && [delegate respondsToSelector:@selector(nativeAdDidFinishFetching:)]) {
+                [delegate nativeAdDidFinishFetching:strongSelf];
+            }
+            delegate = nil;
+            strongSelf = nil;
+        });
+    }
+}
+
+- (void)invokeFetchDidFailWithError:(NSError *)error
+{
+    __block NSError *blockError = error;
+    __block PNLiteNativeAd *strongSelf = self;
+    __block NSObject<PNLiteNativeAdFetchDelegate> *delegate = self.fetchDelegate;
+    self.fetchDelegate = nil;
+    if (delegate) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (delegate && [delegate respondsToSelector:@selector(nativeAd:didFailFetchingWithError:)]) {
+                [delegate nativeAd:strongSelf didFailFetchingWithError:blockError];
+            }
+            delegate = nil;
+            blockError = nil;
+            strongSelf = nil;
+        });
+    }
+}
 
 - (void)invokeImpressionConfirmedWithView:(UIView *)view
 {

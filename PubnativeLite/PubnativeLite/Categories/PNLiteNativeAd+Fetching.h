@@ -20,36 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
-#import "PNLiteNativeAdRenderer.h"
+#import <PubnativeLite/PubnativeLite.h>
+#import "PNLiteNativeAd.h"
 
-@class PNLiteNativeAd;
+@protocol PNLiteNativeAdFetchDelegate <NSObject>
 
-@protocol PNLiteNativeAdDelegate <NSObject>
-
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view;
-- (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd;
+- (void)nativeAdDidFinishFetching:(PNLiteNativeAd *)nativeAd;
+- (void)nativeAd:(PNLiteNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error;
 
 @end
 
-@interface PNLiteNativeAd : NSObject
+@interface PNLiteNativeAd (Fetching)
 
-@property (nonatomic, readonly) NSString *title;
-@property (nonatomic, readonly) NSString *body;
-@property (nonatomic, readonly) NSString *callToActionTitle;
-@property (nonatomic, readonly) NSString *iconUrl;
-@property (nonatomic, readonly) NSString *bannerUrl;
-@property (nonatomic, readonly) NSString *clickUrl;
-@property (nonatomic, readonly) NSNumber *rating;
-@property (nonatomic, readonly) UIView *banner;
-@property (nonatomic, readonly) UIImage *icon;
-@property (nonatomic, readonly) UIView *contentInfo;
-
-- (instancetype)initWithAd:(PNLiteAd *)ad;
-- (void)renderAd:(PNLiteNativeAdRenderer *)renderer;
-- (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
-- (void)stopTracking;
+- (void)fetchNativeAdAssetsWithDelegate:(NSObject<PNLiteNativeAdFetchDelegate> *)delegate;
 
 @end
