@@ -23,15 +23,15 @@
 #import <Foundation/Foundation.h>
 #import "PNLiteNativeAd.h"
 
-@protocol PNLiteNativeLoaderDelegate<NSObject>
+@protocol PNLiteNativeAdLoaderDelegate<NSObject>
 
 - (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd;
 - (void)nativeLoaderDidFailWithError:(NSError *)error;
 
 @end
 
-@interface PNLiteNativeLoader : NSObject
+@interface PNLiteNativeAdLoader : NSObject
 
-- (void)loadNativeAdWithDelegate:(NSObject<PNLiteNativeLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID;
+- (void)loadNativeAdWithDelegate:(NSObject<PNLiteNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID;
 
 @end
