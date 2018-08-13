@@ -25,6 +25,7 @@
 #import "PNLiteSettings.h"
 #import "PNLiteCryptoUtils.h"
 #import "PNLiteMeta.h"
+#import "PNLiteAsset.h"
 
 @implementation PNLiteAdFactory
 
@@ -45,7 +46,11 @@
         adRequestModel.requestParameters[PNLiteRequestParameter.keywords] = [[PNLiteSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
     }
     adRequestModel.requestParameters[PNLiteRequestParameter.test] =[PNLiteSettings sharedInstance].test ? @"1" : @"0";
-    adRequestModel.requestParameters[PNLiteRequestParameter.assetLayout] = adSize;
+    if (adSize) {
+        adRequestModel.requestParameters[PNLiteRequestParameter.assetLayout] = adSize;
+    } else {
+        [self setDefaultAssetFields:adRequestModel];
+    }
     [self setDefaultMetaFields:adRequestModel];
     return adRequestModel;
 }
@@ -59,6 +64,22 @@
         adRequestModel.requestParameters[PNLiteRequestParameter.idfa] = advertisingId;
         adRequestModel.requestParameters[PNLiteRequestParameter.idfamd5] = [PNLiteCryptoUtils md5WithString:advertisingId];
         adRequestModel.requestParameters[PNLiteRequestParameter.idfasha1] = [PNLiteCryptoUtils sha1WithString:advertisingId];
+    }
+}
+
+- (void)setDefaultAssetFields:(PNLiteAdRequestModel *)adRequestModel
+{
+    if (adRequestModel.requestParameters[PNLiteRequestParameter.assetsField] == nil
+        && adRequestModel.requestParameters[PNLiteRequestParameter.assetLayout] == nil) {
+        
+        NSArray *assets = @[PNLiteAsset.title,
+                            PNLiteAsset.body,
+                            PNLiteAsset.icon,
+                            PNLiteAsset.banner,
+                            PNLiteAsset.callToAction,
+                            PNLiteAsset.rating];
+        
+        adRequestModel.requestParameters[PNLiteRequestParameter.assetsField] = [assets componentsJoinedByString:@","];
     }
 }
 

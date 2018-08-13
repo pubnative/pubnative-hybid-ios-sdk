@@ -41,9 +41,11 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteBannerAdRequest.h>
 #import <PubnativeLite/PNLiteMRectAdRequest.h>
 #import <PubnativeLite/PNLiteInterstitialAdRequest.h>
+#import <PubnativeLite/PNLiteNativeAdRequest.h>
 #import <PubnativeLite/PNLiteBannerPresenter.h>
 #import <PubnativeLite/PNLiteMRectPresenter.h>
 #import <PubnativeLite/PNLiteInterstitialPresenter.h>
+#import <PubnativeLite/PNLiteNativeAdLoader.h>
 #import <PubnativeLite/PNLiteBannerPresenterFactory.h>
 #import <PubnativeLite/PNLiteMRectPresenterFactory.h>
 #import <PubnativeLite/PNLiteInterstitialPresenterFactory.h>
@@ -60,6 +62,8 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteMRectAdView.h>
 #import <PubnativeLite/PNLiteInterstitialAd.h>
 #import <PubnativeLite/PNLiteSettings.h>
+#import <PubnativeLite/PNLiteStarRatingView.h>
+#import <PubnativeLite/PNLiteNativeAdRenderer.h>
 
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 

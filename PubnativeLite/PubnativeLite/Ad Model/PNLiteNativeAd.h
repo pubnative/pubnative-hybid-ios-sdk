@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PNLiteAd.h"
+#import "PNLiteNativeAdRenderer.h"
 
 @class PNLiteNativeAd;
 
@@ -30,6 +31,13 @@
 
 - (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view;
 - (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd;
+
+@end
+
+@protocol PNLiteNativeAdFetchDelegate <NSObject>
+
+- (void)nativeAdDidFinishFetching:(PNLiteNativeAd *)nativeAd;
+- (void)nativeAd:(PNLiteNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error;
 
 @end
 
@@ -42,9 +50,13 @@
 @property (nonatomic, readonly) NSString *bannerUrl;
 @property (nonatomic, readonly) NSString *clickUrl;
 @property (nonatomic, readonly) NSNumber *rating;
+@property (nonatomic, readonly) UIView *banner;
+@property (nonatomic, readonly) UIImage *icon;
 @property (nonatomic, readonly) UIView *contentInfo;
 
 - (instancetype)initWithAd:(PNLiteAd *)ad;
+- (void)renderAd:(PNLiteNativeAdRenderer *)renderer;
+- (void)fetchNativeAdAssetsWithDelegate:(NSObject<PNLiteNativeAdFetchDelegate> *)delegate;
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
 - (void)stopTracking;
 
