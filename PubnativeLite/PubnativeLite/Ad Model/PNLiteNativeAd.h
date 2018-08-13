@@ -34,6 +34,13 @@
 
 @end
 
+@protocol PNLiteNativeAdFetchDelegate <NSObject>
+
+- (void)nativeAdDidFinishFetching:(PNLiteNativeAd *)nativeAd;
+- (void)nativeAd:(PNLiteNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error;
+
+@end
+
 @interface PNLiteNativeAd : NSObject
 
 @property (nonatomic, readonly) NSString *title;
@@ -49,6 +56,7 @@
 
 - (instancetype)initWithAd:(PNLiteAd *)ad;
 - (void)renderAd:(PNLiteNativeAdRenderer *)renderer;
+- (void)fetchNativeAdAssetsWithDelegate:(NSObject<PNLiteNativeAdFetchDelegate> *)delegate;
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
 - (void)stopTracking;
 

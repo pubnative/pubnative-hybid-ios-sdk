@@ -25,7 +25,6 @@
 #import "PNLiteDataModel.h"
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
-#import "PNLiteNativeAd+Fetching.h"
 
 NSString * const kPNLiteNativeAdBeaconImpression = @"impression";
 NSString * const kPNLiteNativeAdBeaconClick = @"click";
@@ -43,7 +42,6 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 @property (nonatomic, weak) NSObject<PNLiteNativeAdFetchDelegate> *fetchDelegate;
 @property (nonatomic, assign) BOOL isImpressionConfirmed;
 @property (nonatomic, assign) NSInteger remainingFetchableAssets;
-
 
 @end
 
