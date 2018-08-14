@@ -63,8 +63,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     self = [super init];
     if (self) {
         [self setFrame:CGRectMake(0, 0, kPNLiteContentViewWidth, kPNLiteContentViewHeight)];
-//        self.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.f;
         

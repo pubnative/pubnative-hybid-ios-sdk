@@ -179,7 +179,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 - (PNLiteContentInfoView *)contentInfo
 {
-    UIView *result = nil;
+    PNLiteContentInfoView *result = nil;
     if (self.ad) {
         result = self.ad.contentInfo;
     }
