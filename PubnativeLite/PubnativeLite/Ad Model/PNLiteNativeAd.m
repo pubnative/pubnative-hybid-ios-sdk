@@ -81,7 +81,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (data) {
         result = data.text;
     }
-    return nil;
+    return result;
 }
 
 - (NSString *)body
@@ -91,7 +91,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (data) {
         result = data.text;
     }
-    return nil;
+    return result;
 }
 
 - (NSString *)callToActionTitle
@@ -101,7 +101,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (data) {
         result = data.text;
     }
-    return nil;
+    return result;
 }
 
 - (NSString *)iconUrl
@@ -111,7 +111,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (data) {
         result = data.url;
     }
-    return nil;
+    return result;
 }
 
 - (NSString *)bannerUrl
@@ -121,7 +121,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (data) {
         result = data.url;
     }
-    return nil;
+    return result;
 }
 
 - (NSString *)clickUrl
@@ -142,7 +142,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (data) {
         result = data.number;
     }
-    return nil;
+    return result;
 }
 
 - (UIView *)banner

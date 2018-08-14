@@ -116,7 +116,7 @@
 		5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */; };
 		5A8893A1211C3CF00073BF66 /* PNLiteStarRatingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A88939F211C3CF00073BF66 /* PNLiteStarRatingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A8893A2211C3CF00073BF66 /* PNLiteStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A0211C3CF00073BF66 /* PNLiteStarRatingView.m */; };
-		5A8893A5211C40BC0073BF66 /* PNLiteNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8893A3211C40BC0073BF66 /* PNLiteNativeAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A8893A5211C40BC0073BF66 /* PNLiteNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8893A3211C40BC0073BF66 /* PNLiteNativeAdRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A8893A6211C40BC0073BF66 /* PNLiteNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A4211C40BC0073BF66 /* PNLiteNativeAdRequest.m */; };
 		5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903D0203DE1D400D86051 /* WebKit.framework */; };
 		5A8903D3203DE1DA00D86051 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903D2203DE1DA00D86051 /* UIKit.framework */; };
