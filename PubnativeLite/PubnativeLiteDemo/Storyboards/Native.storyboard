@@ -200,7 +200,7 @@
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbY-fu-Ht0" userLabel="Ad Content Info View">
                                                 <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" red="0.44705882349999998" green="0.1215686275" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="15" id="Bcj-zb-Rez"/>
                                                     <constraint firstAttribute="height" constant="15" id="qtN-fy-bFA"/>

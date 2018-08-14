@@ -29,7 +29,7 @@
 NSString * const kPNLiteNativeAdBeaconImpression = @"impression";
 NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
-@interface PNLiteNativeAd () <PNLiteImpressionTrackerDelegate>
+@interface PNLiteNativeAd () <PNLiteImpressionTrackerDelegate, PNLiteContentInfoViewDelegate>
 
 @property (nonatomic, strong) PNLiteAd *ad;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
@@ -42,6 +42,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 @property (nonatomic, weak) NSObject<PNLiteNativeAdFetchDelegate> *fetchDelegate;
 @property (nonatomic, assign) BOOL isImpressionConfirmed;
 @property (nonatomic, assign) NSInteger remainingFetchableAssets;
+@property (nonatomic, strong) PNLiteNativeAdRenderer *renderer;
 
 @end
 
@@ -50,6 +51,8 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (void)dealloc
 {
     self.ad = nil;
+    self.contentInfo = nil;
+    self.renderer = nil;
     self.trackingExtras = nil;
     self.fetchedAssets = nil;
     [self.tapRecognizer removeTarget:self action:@selector(handleTap:)];
@@ -174,7 +177,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (UIView *)contentInfo
+- (PNLiteContentInfoView *)contentInfo
 {
     UIView *result = nil;
     if (self.ad) {
@@ -319,40 +322,42 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 - (void)renderAd:(PNLiteNativeAdRenderer *)renderer
 {
-    if(renderer.titleView) {
-        renderer.titleView.text = self.title;
+    self.renderer = renderer;
+    
+    if(self.renderer.titleView) {
+        self.renderer.titleView.text = self.title;
     }
     
-    if(renderer.bodyView) {
-        renderer.bodyView.text = self.body;
+    if(self.renderer.bodyView) {
+        self.renderer.bodyView.text = self.body;
     }
     
-    if(renderer.callToActionView) {
-        if ([renderer.callToActionView isKindOfClass:[UIButton class]]) {
-            [(UIButton *) renderer.callToActionView setTitle:self.callToActionTitle forState:UIControlStateNormal];
-        } else if ([renderer.callToActionView isKindOfClass:[UILabel class]]) {
-            [(UILabel *) renderer.callToActionView setText:self.callToActionTitle];
+    if(self.renderer.callToActionView) {
+        if ([self.renderer.callToActionView isKindOfClass:[UIButton class]]) {
+            [(UIButton *) self.renderer.callToActionView setTitle:self.callToActionTitle forState:UIControlStateNormal];
+        } else if ([self.renderer.callToActionView isKindOfClass:[UILabel class]]) {
+            [(UILabel *) self.renderer.callToActionView setText:self.callToActionTitle];
         }
     }
     
-    if (renderer.starRatingView) {
-        renderer.starRatingView.value = [self.rating floatValue];
+    if (self.renderer.starRatingView) {
+        self.renderer.starRatingView.value = [self.rating floatValue];
     }
     
-    if(renderer.iconView && self.icon) {
-        renderer.iconView.image = self.icon;
+    if(self.renderer.iconView && self.icon) {
+        self.renderer.iconView.image = self.icon;
     }
     
     UIView *banner = self.banner;
-    if(renderer.bannerView && banner) {
-        [renderer.bannerView addSubview:banner];
-        banner.frame = renderer.bannerView.bounds;
+    if(self.renderer.bannerView && banner) {
+        [self.renderer.bannerView addSubview:banner];
+        banner.frame = self.renderer.bannerView.bounds;
     }
     
-    UIView *contentInfo = self.contentInfo;
-    if (renderer.contentInfoView && contentInfo) {
-        [renderer.contentInfoView addSubview:contentInfo];
-        contentInfo.frame = renderer.contentInfoView.bounds;
+    self.contentInfo.delegate = self;
+    if (self.renderer.contentInfoView && self.contentInfo) {
+        [self.renderer.contentInfoView addSubview:self.contentInfo];
+       self.contentInfo.frame = self.renderer.contentInfoView.bounds;
     }
 }
 
@@ -429,6 +434,13 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (self.remainingFetchableAssets == 0) {
         [self invokeFetchDidFinish];
     }
+}
+
+#pragma mark PNLiteImpressionTrackerDelegate
+
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
+{
+    self.renderer.contentInfoView.frame = CGRectMake(self.renderer.contentInfoView.frame.origin.x, self.renderer.contentInfoView.frame.origin.y, [width floatValue], self.renderer.contentInfoView.frame.size.height);
 }
 
 #pragma mark PNLiteImpressionTrackerDelegate
