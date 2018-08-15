@@ -84,7 +84,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 - (void)removeView:(UIView*)view
 {
-
+    
 }
 
 - (void)clear
@@ -132,20 +132,21 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 - (void)checkVisibility
 {
     for (PNLiteVisibilityTrackerItem *item in self.trackedItems) {
-        
-        // For safety we need to ensure that the view being tracked wasn't removed, in which case we stop tracking It
-        if (item != nil) {
-            if (item.view == nil || item.view.superview == nil) {
-                [self.removedItems addObject:item];
-            } else if (![self.removedItems containsObject:item]) {
-                if([self isVisibleView:item.view]
-                   && [self view:item.view visibleWithMinPercent:item.minVisibility]) {
-                    [self.visibleViews addObject:item.view];
-                } else {
-                    [self.invisibleViews addObject:item.view];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // For safety we need to ensure that the view being tracked wasn't removed, in which case we stop tracking It
+            if (item != nil) {
+                if (item.view == nil || item.view.superview == nil) {
+                    [self.removedItems addObject:item];
+                } else if (![self.removedItems containsObject:item]) {
+                    if([self isVisibleView:item.view]
+                       && [self view:item.view visibleWithMinPercent:item.minVisibility]) {
+                        [self.visibleViews addObject:item.view];
+                    } else {
+                        [self.invisibleViews addObject:item.view];
+                    }
                 }
             }
-        }
+        });
     }
     
     // We clear up all removed views
