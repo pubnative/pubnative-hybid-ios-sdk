@@ -51,7 +51,6 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (void)dealloc
 {
     self.ad = nil;
-    self.contentInfo = nil;
     self.renderer = nil;
     self.trackingExtras = nil;
     self.fetchedAssets = nil;
@@ -354,10 +353,11 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
         banner.frame = self.renderer.bannerView.bounds;
     }
     
-    self.contentInfo.delegate = self;
-    if (self.renderer.contentInfoView && self.contentInfo) {
-        [self.renderer.contentInfoView addSubview:self.contentInfo];
-       self.contentInfo.frame = self.renderer.contentInfoView.bounds;
+    PNLiteContentInfoView *contentInfo = self.contentInfo;
+    contentInfo.delegate = self;
+    if (self.renderer.contentInfoView && contentInfo) {
+        [self.renderer.contentInfoView addSubview:contentInfo];
+       contentInfo.frame = self.renderer.contentInfoView.bounds;
     }
 }
 
@@ -436,7 +436,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-#pragma mark PNLiteImpressionTrackerDelegate
+#pragma mark PNLiteContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
 {

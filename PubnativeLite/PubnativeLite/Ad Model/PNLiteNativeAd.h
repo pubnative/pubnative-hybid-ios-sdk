@@ -53,7 +53,7 @@
 @property (nonatomic, readonly) NSNumber *rating;
 @property (nonatomic, readonly) UIView *banner;
 @property (nonatomic, readonly) UIImage *icon;
-@property (nonatomic, strong) PNLiteContentInfoView *contentInfo;
+@property (nonatomic, readonly) PNLiteContentInfoView *contentInfo;
 
 - (instancetype)initWithAd:(PNLiteAd *)ad;
 - (void)renderAd:(PNLiteNativeAdRenderer *)renderer;
