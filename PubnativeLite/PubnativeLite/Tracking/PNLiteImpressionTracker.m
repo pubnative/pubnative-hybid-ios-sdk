@@ -174,12 +174,14 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
                 [self.visibleViews addObject:item];
             }
         }
+        NSMutableArray *tempVisibleViewsArray = [self.visibleViews mutableCopy];
         for (UIView *invisibleView in invisibleViews) {
             NSInteger index = [self indexOfVisibleView:invisibleView];
             if(index >= 0) {
-                [self.visibleViews removeObjectAtIndex:index];
+                [tempVisibleViewsArray removeObjectAtIndex:index];
             }
         }
+        self.visibleViews = tempVisibleViewsArray;
         if (self.visibleViews.count > 0) {
             [self scheduleNextRun];
         }
