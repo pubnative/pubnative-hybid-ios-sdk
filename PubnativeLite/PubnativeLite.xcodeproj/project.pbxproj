@@ -619,6 +619,8 @@
 		5AFE7C7D212C1BA300FFD7CA /* MoPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE7BAC212C1BA200FFD7CA /* MoPub.m */; };
 		5AFE7C7E212C1BA300FFD7CA /* MPInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE7BB0212C1BA300FFD7CA /* MPInterstitialCustomEvent.m */; };
 		5AFE7C7F212C1BA300FFD7CA /* MPConsentChangedNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE7BB2212C1BA300FFD7CA /* MPConsentChangedNotification.m */; };
+		5AFE7C82212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE7C81212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.m */; };
+		5AFE7C85212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE7C84212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.m */; };
 		5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */; };
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFF730820B451C100052F2D /* PNLiteConsentPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */; };
@@ -1525,6 +1527,10 @@
 		5AFE7BB2212C1BA300FFD7CA /* MPConsentChangedNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPConsentChangedNotification.m; sourceTree = "<group>"; };
 		5AFE7BB3212C1BA300FFD7CA /* MoPub-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MoPub-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AFE7BB4212C1BA300FFD7CA /* MPInterstitialAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPInterstitialAdController.h; sourceTree = "<group>"; };
+		5AFE7C80212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMediationNativeAdCustomEvent.h; sourceTree = "<group>"; };
+		5AFE7C81212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMediationNativeAdCustomEvent.m; sourceTree = "<group>"; };
+		5AFE7C83212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMediationNativeAdAdapter.h; sourceTree = "<group>"; };
+		5AFE7C84212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMediationNativeAdAdapter.m; sourceTree = "<group>"; };
 		5AFF730320B451C100052F2D /* PNLiteConsentPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteConsentPageViewController.h; sourceTree = "<group>"; };
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteConsentPageViewController.xib; sourceTree = "<group>"; };
@@ -2153,6 +2159,10 @@
 		5A91EC6420D7C26300129798 /* Mediation */ = {
 			isa = PBXGroup;
 			children = (
+				5AFE7C80212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.h */,
+				5AFE7C81212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.m */,
+				5AFE7C83212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.h */,
+				5AFE7C84212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.m */,
 				5A91EC6120D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.h */,
 				5A91EC6220D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m */,
 				5A9F62BE20D8FCD700BE9A6F /* PNLiteMoPubMediationMRectCustomEvent.h */,
@@ -3473,6 +3483,7 @@
 				5AFE7BC3212C1BA300FFD7CA /* MPDiskLRUCache.m in Sources */,
 				5AFE7BB9212C1BA300FFD7CA /* MPCollectionViewAdPlacer.m in Sources */,
 				5AFE7C76212C1BA300FFD7CA /* MPRewardedVideoConnection.m in Sources */,
+				5AFE7C85212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.m in Sources */,
 				5AFE7C21212C1BA300FFD7CA /* MPXMLParser.m in Sources */,
 				5AFE7BD8212C1BA300FFD7CA /* MPNativeAdRequestTargeting.m in Sources */,
 				5AFE7C34212C1BA300FFD7CA /* MPHTTPNetworkSession.m in Sources */,
@@ -3538,6 +3549,7 @@
 				5AFE7C2D212C1BA300FFD7CA /* MRCommand.m in Sources */,
 				5AFE7BB8212C1BA300FFD7CA /* MPStreamAdPlacer.m in Sources */,
 				5A91EC6320D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m in Sources */,
+				5AFE7C82212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.m in Sources */,
 				5AFE7C78212C1BA300FFD7CA /* MPRewardedVideoError.m in Sources */,
 				5AFE7BB7212C1BA300FFD7CA /* MPNativeAdRequest.m in Sources */,
 				5AFE7C4B212C1BA300FFD7CA /* NSString+MPAdditions.m in Sources */,
