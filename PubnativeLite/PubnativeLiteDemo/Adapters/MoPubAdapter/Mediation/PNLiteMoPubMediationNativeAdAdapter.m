@@ -21,6 +21,9 @@
 //
 
 #import "PNLiteMoPubMediationNativeAdAdapter.h"
+#import "MPNativeAdConstants.h"
+#import "MPNativeAdError.h"
+#import "MPLogging.h"
 
 @interface PNLiteMoPubMediationNativeAdAdapter () <PNLiteNativeAdDelegate>
 
@@ -30,7 +33,8 @@
 
 @implementation PNLiteMoPubMediationNativeAdAdapter
 
-@synthesize properties;
+@synthesize properties = _properties;
+@synthesize defaultActionURL;
 
 - (void)dealloc
 {
@@ -42,20 +46,65 @@
     self = [super init];
     if (self) {
         self.nativeAd = ad;
+        _properties = [self convertAssetsToProperties:ad];
+
     }
     return self;
+}
+
+- (NSDictionary *)convertAssetsToProperties:(PNLiteNativeAd *)nativeAd
+{
+    return @{ kAdTitleKey : nativeAd.title,
+              kAdTextKey : nativeAd.body,
+              kAdCTATextKey : nativeAd.callToActionTitle,
+              kAdStarRatingKey : nativeAd.rating,
+              kAdIconImageKey : nativeAd.iconUrl,
+              kAdMainImageKey : nativeAd.bannerUrl
+              };
+}
+
+#pragma mark - MPNativeAdAdapter
+
+- (NSURL *)defaultActionURL
+{
+    return nil;
+}
+
+- (BOOL)enableThirdPartyClickTracking
+{
+    return YES;
+}
+
+-(void)willAttachToView:(UIView *)view
+{
+    [self.nativeAd startTrackingView:view withDelegate:self];
+}
+
+- (void)didDetachFromView:(UIView *)view
+{
+    [self.nativeAd stopTracking];
 }
 
 #pragma mark - PNLiteNativeAdDelegate
 
 - (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
 {
-    
+    if ([self.delegate respondsToSelector:@selector(nativeAdWillLogImpression:)]) {
+        [self.delegate nativeAdWillLogImpression:self];
+    } else {
+        MPLogWarn(@"Delegate does not implement impression tracking callback. Impressions likely not being tracked.");
+    }
 }
 
 - (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd
 {
+    if ([self.delegate respondsToSelector:@selector(nativeAdDidClick:)]) {
+        [self.delegate nativeAdDidClick:self];
+    } else {
+        MPLogWarn(@"Delegate does not implement click tracking callback. Clicks likely not being tracked.");
+    }
     
+    [self.delegate nativeAdWillPresentModalForAdapter:self];
 }
 
 @end
