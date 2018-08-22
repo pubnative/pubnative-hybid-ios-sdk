@@ -25,8 +25,6 @@
 #import "PNLiteMoPubUtils.h"
 #import "MPNativeAd.h"
 #import "MPLogging.h"
-#import "MPConstants.h"
-#import "MPError.h"
 
 @interface PNLiteMoPubMediationNativeAdCustomEvent() <PNLiteNativeAdLoaderDelegate>
 

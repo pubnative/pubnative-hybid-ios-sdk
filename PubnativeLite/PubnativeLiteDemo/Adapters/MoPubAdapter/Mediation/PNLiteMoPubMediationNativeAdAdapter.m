@@ -22,7 +22,6 @@
 
 #import "PNLiteMoPubMediationNativeAdAdapter.h"
 #import "MPNativeAdConstants.h"
-#import "MPNativeAdError.h"
 #import "MPLogging.h"
 
 @interface PNLiteMoPubMediationNativeAdAdapter () <PNLiteNativeAdDelegate>
@@ -47,7 +46,6 @@
     if (self) {
         self.nativeAd = ad;
         _properties = [self convertAssetsToProperties:ad];
-
     }
     return self;
 }
