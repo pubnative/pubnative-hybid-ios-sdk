@@ -26,44 +26,26 @@
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BG2-lP-Cwg">
-                    <rect key="frame" x="16" y="23" width="50" height="50"/>
+                    <rect key="frame" x="8" y="23" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="AoS-Zr-sRc"/>
                         <constraint firstAttribute="width" constant="50" id="Y9L-gl-zVU"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Seq-h2-U2u">
-                    <rect key="frame" x="82" y="23" width="293" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="Mih-zd-Q6b"/>
-                    </constraints>
-                    <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi condimentum vel massa sit amet porttitor. Sed dictum placerat consectetur. Proin porta libero in massa sodales, quis luctus neque viverra. Proin pulvinar risus eu sem laoreet pharetra. Nulla at facilisis metus. Nulla ornare tempus magna eget tincidunt. Etiam a mauris molestie, ornare arcu fermentum, gravida arcu. Nullam faucibus libero vitae est cursus, non scelerisque sapien vulputate. Ut fermentum risus ante, non faucibus justo lacinia ultrices. Ut vitae aliquet nibh. Suspendisse mattis libero ac ex semper aliquam. Morbi finibus tincidunt dignissim. Aliquam cursus malesuada neque vitae finibus. Aliquam congue cursus lacus quis ullamcorper. Praesent tincidunt, turpis sit amet vestibulum cursus, metus erat lobortis lectus, ut convallis arcu urna at dui.
-
-</string>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mattis dolor, quis egestas neque." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Seq-h2-U2u">
+                    <rect key="frame" x="66" y="23" width="309" height="50"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHV-dm-J3r">
-                    <rect key="frame" x="16" y="81" width="351" height="64"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="64" id="aVd-G3-WXt"/>
-                    </constraints>
-                    <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi condimentum vel massa sit amet porttitor. Sed dictum placerat consectetur. Proin porta libero in massa sodales, quis luctus neque viverra. Proin pulvinar risus eu sem laoreet pharetra. Nulla at facilisis metus. Nulla ornare tempus magna eget tincidunt. Etiam a mauris molestie, ornare arcu fermentum, gravida arcu. Nullam faucibus libero vitae est cursus, non scelerisque sapien vulputate. Ut fermentum risus ante, non faucibus justo lacinia ultrices. Ut vitae aliquet nibh. Suspendisse mattis libero ac ex semper aliquam. Morbi finibus tincidunt dignissim. Aliquam cursus malesuada neque vitae finibus. Aliquam congue cursus lacus quis ullamcorper. Praesent tincidunt, turpis sit amet vestibulum cursus, metus erat lobortis lectus, ut convallis arcu urna at dui.
-
-</string>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mattis dolor, quis egestas neque." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHV-dm-J3r">
+                    <rect key="frame" x="8" y="295.5" width="367" height="31.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lhB-wC-0xR">
-                    <rect key="frame" x="16" y="153" width="351" height="170"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="170" id="sKb-zG-q3t"/>
-                    </constraints>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfc-J4-0oR">
-                    <rect key="frame" x="16" y="331" width="351" height="30"/>
+                    <rect key="frame" x="8" y="331" width="367" height="30"/>
                     <color key="backgroundColor" red="0.15686274509803921" green="0.44705882352941173" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="aQh-UY-p3o"/>
@@ -72,26 +54,31 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lhB-wC-0xR">
+                    <rect key="frame" x="8" y="81" width="367" height="210.5"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="UHV-dm-J3r" firstAttribute="top" secondItem="lhB-wC-0xR" secondAttribute="bottom" constant="4" id="2O9-a8-6PF"/>
                 <constraint firstAttribute="bottomMargin" secondItem="gfc-J4-0oR" secondAttribute="bottom" constant="8" id="3dM-xu-IJd"/>
                 <constraint firstItem="rT7-Ge-GYx" firstAttribute="top" secondItem="gKn-Ii-bcV" secondAttribute="top" id="4Uk-NC-hEO"/>
-                <constraint firstItem="UHV-dm-J3r" firstAttribute="top" secondItem="Seq-h2-U2u" secondAttribute="bottom" constant="8" id="6XP-zJ-HY2"/>
-                <constraint firstAttribute="trailing" secondItem="lhB-wC-0xR" secondAttribute="trailing" constant="16" id="80g-G9-U5e"/>
-                <constraint firstItem="BG2-lP-Cwg" firstAttribute="leading" secondItem="4Np-gA-0Yy" secondAttribute="leading" constant="16" id="DYe-iW-GNo"/>
-                <constraint firstItem="gfc-J4-0oR" firstAttribute="top" secondItem="lhB-wC-0xR" secondAttribute="bottom" constant="8" id="G9m-Ni-qXK"/>
-                <constraint firstItem="Seq-h2-U2u" firstAttribute="leading" secondItem="BG2-lP-Cwg" secondAttribute="trailing" constant="16" id="IUM-dw-hBF"/>
+                <constraint firstItem="gKn-Ii-bcV" firstAttribute="trailing" secondItem="lhB-wC-0xR" secondAttribute="trailing" constant="8" id="6qD-ll-F9O"/>
+                <constraint firstItem="lhB-wC-0xR" firstAttribute="leading" secondItem="gKn-Ii-bcV" secondAttribute="leading" constant="8" id="88x-W7-SLU"/>
+                <constraint firstItem="UHV-dm-J3r" firstAttribute="leading" secondItem="gKn-Ii-bcV" secondAttribute="leading" constant="8" id="AbB-BJ-mJq"/>
+                <constraint firstItem="BG2-lP-Cwg" firstAttribute="leading" secondItem="4Np-gA-0Yy" secondAttribute="leading" constant="8" id="DYe-iW-GNo"/>
+                <constraint firstItem="gfc-J4-0oR" firstAttribute="top" secondItem="UHV-dm-J3r" secondAttribute="bottom" constant="4" id="Hnj-wb-yEL"/>
+                <constraint firstItem="Seq-h2-U2u" firstAttribute="leading" secondItem="BG2-lP-Cwg" secondAttribute="trailing" constant="8" id="IUM-dw-hBF"/>
                 <constraint firstAttribute="trailing" secondItem="Seq-h2-U2u" secondAttribute="trailing" constant="8" id="JOg-rF-Rwk"/>
-                <constraint firstItem="lhB-wC-0xR" firstAttribute="top" secondItem="UHV-dm-J3r" secondAttribute="bottom" constant="8" id="OC6-bq-vSd"/>
-                <constraint firstAttribute="trailing" secondItem="gfc-J4-0oR" secondAttribute="trailing" constant="16" id="Rov-mb-xD0"/>
-                <constraint firstItem="gfc-J4-0oR" firstAttribute="leading" secondItem="4Np-gA-0Yy" secondAttribute="leading" constant="16" id="TYU-NV-LtO"/>
+                <constraint firstItem="gKn-Ii-bcV" firstAttribute="trailing" secondItem="UHV-dm-J3r" secondAttribute="trailing" constant="8" id="JxE-vb-VyI"/>
+                <constraint firstAttribute="trailing" secondItem="gfc-J4-0oR" secondAttribute="trailing" constant="8" id="Rov-mb-xD0"/>
+                <constraint firstItem="gfc-J4-0oR" firstAttribute="leading" secondItem="4Np-gA-0Yy" secondAttribute="leading" constant="8" id="TYU-NV-LtO"/>
                 <constraint firstItem="BG2-lP-Cwg" firstAttribute="top" secondItem="rT7-Ge-GYx" secondAttribute="bottom" constant="8" id="VCB-k7-7V7"/>
                 <constraint firstItem="Seq-h2-U2u" firstAttribute="top" secondItem="BG2-lP-Cwg" secondAttribute="top" id="VJ5-q3-0OO"/>
-                <constraint firstAttribute="trailing" secondItem="UHV-dm-J3r" secondAttribute="trailing" constant="16" id="aeD-Xe-bZ9"/>
+                <constraint firstItem="gfc-J4-0oR" firstAttribute="centerX" secondItem="4Np-gA-0Yy" secondAttribute="centerX" id="Z34-ee-qBZ"/>
                 <constraint firstItem="rT7-Ge-GYx" firstAttribute="leading" secondItem="gKn-Ii-bcV" secondAttribute="leading" id="fej-of-9oe"/>
-                <constraint firstItem="lhB-wC-0xR" firstAttribute="leading" secondItem="4Np-gA-0Yy" secondAttribute="leading" constant="16" id="qcF-UB-8zO"/>
-                <constraint firstItem="UHV-dm-J3r" firstAttribute="leading" secondItem="4Np-gA-0Yy" secondAttribute="leading" constant="16" id="wHj-bA-xoe"/>
+                <constraint firstItem="Seq-h2-U2u" firstAttribute="bottom" secondItem="BG2-lP-Cwg" secondAttribute="bottom" id="lCS-Jd-pg2"/>
+                <constraint firstItem="lhB-wC-0xR" firstAttribute="top" secondItem="BG2-lP-Cwg" secondAttribute="bottom" constant="8" id="pvb-kv-lOd"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="gKn-Ii-bcV"/>
