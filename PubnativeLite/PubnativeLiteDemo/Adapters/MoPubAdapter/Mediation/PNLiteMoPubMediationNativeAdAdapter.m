@@ -57,7 +57,9 @@
               kAdCTATextKey : nativeAd.callToActionTitle,
               kAdStarRatingKey : nativeAd.rating,
               kAdIconImageKey : nativeAd.iconUrl,
-              kAdMainImageKey : nativeAd.bannerUrl
+              kAdMainImageKey : nativeAd.bannerUrl,
+              kAdPrivacyIconClickUrlKey : nativeAd.contentInfo.link,
+              kAdPrivacyIconImageUrlKey : nativeAd.contentInfo.icon
               };
 }
 

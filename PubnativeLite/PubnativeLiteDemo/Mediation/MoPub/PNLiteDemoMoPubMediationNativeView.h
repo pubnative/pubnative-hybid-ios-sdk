@@ -20,17 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#else
-#import "MPNativeAdAdapter.h"
-#endif
+#import <UIKit/UIKit.h>
+#import "MPNativeAdRendering.h"
 
-#import <PubnativeLite/PubnativeLite.h>
+@interface PNLiteDemoMoPubMediationNativeView : UIView <MPNativeAdRendering>
 
-@interface PNLiteMoPubMediationNativeAdAdapter : NSObject <MPNativeAdAdapter>
-
-@property (nonatomic, weak) id<MPNativeAdAdapterDelegate> delegate;
-- (instancetype)initWithNativeAd:(PNLiteNativeAd *)ad;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *mainTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *callToActionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *mainImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *privacyInformationIconImageView;
 
 @end

@@ -20,17 +20,55 @@
 //  THE SOFTWARE.
 //
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#else
-#import "MPNativeAdAdapter.h"
-#endif
+#import "PNLiteDemoMoPubMediationNativeView.h"
 
-#import <PubnativeLite/PubnativeLite.h>
+@implementation PNLiteDemoMoPubMediationNativeView
 
-@interface PNLiteMoPubMediationNativeAdAdapter : NSObject <MPNativeAdAdapter>
+- (void)dealloc
+{
+    self.titleLabel = nil;
+    self.mainTextLabel = nil;
+    self.callToActionLabel = nil;
+    self.iconImageView = nil;
+    self.mainImageView = nil;
+    self.privacyInformationIconImageView = nil;
+}
 
-@property (nonatomic, weak) id<MPNativeAdAdapterDelegate> delegate;
-- (instancetype)initWithNativeAd:(PNLiteNativeAd *)ad;
+- (UILabel *)nativeMainTextLabel
+{
+    return self.mainTextLabel;
+}
+
+- (UILabel *)nativeTitleTextLabel
+{
+    return self.titleLabel;
+}
+
+- (UILabel *)nativeCallToActionTextLabel
+{
+    return self.callToActionLabel;
+}
+
+- (UIImageView *)nativeIconImageView
+{
+    return self.iconImageView;
+}
+
+- (UIImageView *)nativeMainImageView
+{
+    return self.mainImageView;
+}
+
+- (UIImageView *)nativePrivacyInformationIconImageView
+{
+    return self.privacyInformationIconImageView;
+}
+
++ (UINib *)nibForAd
+{
+    UINib *result = [UINib nibWithNibName:NSStringFromClass([self class])
+                                   bundle:[NSBundle mainBundle]];
+    return result;
+}
 
 @end

@@ -21,6 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubMediationNativeViewController.h"
+#import "PNLiteDemoMoPubMediationNativeView.h"
 #import "PNLiteDemoSettings.h"
 #import "MPNativeAdRequest.h"
 #import "MPNativeAd.h"
@@ -69,10 +70,11 @@
         self.imageHandler = [[MPNativeAdRendererImageHandler alloc] init];
     }
     MPStaticNativeAdRendererSettings *settings = [[MPStaticNativeAdRendererSettings alloc] init];
+    settings.renderingViewClass = [PNLiteDemoMoPubMediationNativeView class];
     MPNativeAdRendererConfiguration *config = [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
     config.supportedCustomEvents = @[@"PNLiteMoPubMediationNativeAdCustomEvent"];
     
-    self.request = [MPNativeAdRequest requestWithAdUnitIdentifier:@""
+    self.request = [MPNativeAdRequest requestWithAdUnitIdentifier:[PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID
                                            rendererConfigurations:@[config]];
     
     MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];

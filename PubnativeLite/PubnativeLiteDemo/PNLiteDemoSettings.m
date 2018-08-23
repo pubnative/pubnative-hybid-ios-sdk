@@ -27,7 +27,7 @@ NSString *const kPNLiteDemoZoneID;
 NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
 NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
 NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
-NSString *const kPNLiteDemoMoPubMediationNativeAdUnitID = @"";
+NSString *const kPNLiteDemoMoPubMediationNativeAdUnitID = @"823d7538cf714f2ab344436b2027f8ea";
 NSString *const kPNLiteDemoMoPubMediationBannerAdUnitID = @"8ba4f63a03da4c1ba84653c4bc66d11e";
 NSString *const kPNLiteDemoMoPubMediationMRectAdUnitID = @"038dfd33ec4d4391aee61557ffd3ed8b";
 NSString *const kPNLiteDemoMoPubMediationInterstitialAdUnitID = @"a50d6ad8b2b84ea0af8049b8dfd32126";
