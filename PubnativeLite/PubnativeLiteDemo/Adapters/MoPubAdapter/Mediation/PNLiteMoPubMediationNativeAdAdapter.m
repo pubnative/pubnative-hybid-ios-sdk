@@ -57,7 +57,7 @@
               kAdCTATextKey : nativeAd.callToActionTitle,
               kAdStarRatingKey : nativeAd.rating,
               kAdIconImageKey : nativeAd.iconUrl,
-              kAdMainImageKey : nativeAd.bannerUrl
+              kAdMainImageKey : nativeAd.bannerUrl,
               };
 }
 
@@ -73,7 +73,12 @@
     return YES;
 }
 
--(void)willAttachToView:(UIView *)view
+- (UIView *)privacyInformationIconView
+{
+    return self.nativeAd.contentInfo;
+}
+
+- (void)willAttachToView:(UIView *)view
 {
     [self.nativeAd startTrackingView:view withDelegate:self];
 }

@@ -30,6 +30,8 @@
 
 @interface PNLiteMoPubMediationNativeAdAdapter : NSObject <MPNativeAdAdapter>
 
+@property (nonatomic, weak) id<MPNativeAdAdapterDelegate> delegate;
+
 - (instancetype)initWithNativeAd:(PNLiteNativeAd *)ad;
 
 @end

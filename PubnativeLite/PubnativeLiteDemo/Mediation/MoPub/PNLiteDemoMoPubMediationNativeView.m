@@ -20,28 +20,55 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <PubnativeLite/PubnativeLite.h>
+#import "PNLiteDemoMoPubMediationNativeView.h"
 
-@interface PNLiteDemoSettings : NSObject
+@implementation PNLiteDemoMoPubMediationNativeView
 
-@property (nonatomic, strong) NSString *appToken;
-@property (nonatomic, strong) NSString *zoneID;
-@property (nonatomic, strong) NSString *moPubBannerAdUnitID;
-@property (nonatomic, strong) NSString *moPubMRectAdUnitID;
-@property (nonatomic, strong) NSString *moPubInterstitialAdUnitID;
-@property (nonatomic, strong) NSString *moPubMediationNativeAdUnitID;
-@property (nonatomic, strong) NSString *moPubMediationBannerAdUnitID;
-@property (nonatomic, strong) NSString *moPubMediationMRectAdUnitID;
-@property (nonatomic, strong) NSString *moPubMediationInterstitialAdUnitID;
-@property (nonatomic, strong) NSString *dfpBannerAdUnitID;
-@property (nonatomic, strong) NSString *dfpMRectAdUnitID;
-@property (nonatomic, strong) NSString *dfpInterstitialAdUnitID;
-@property (nonatomic, strong) NSString *keywords;
-@property (nonatomic, strong) PNLiteTargetingModel *targetingModel;
-@property (nonatomic, assign) BOOL testMode;
-@property (nonatomic, assign) BOOL coppaMode;
+- (void)dealloc
+{
+    self.titleLabel = nil;
+    self.mainTextLabel = nil;
+    self.callToActionLabel = nil;
+    self.iconImageView = nil;
+    self.mainImageView = nil;
+    self.privacyInformationIconImageView = nil;
+}
 
-+ (PNLiteDemoSettings *)sharedInstance;
+- (UILabel *)nativeMainTextLabel
+{
+    return self.mainTextLabel;
+}
+
+- (UILabel *)nativeTitleTextLabel
+{
+    return self.titleLabel;
+}
+
+- (UILabel *)nativeCallToActionTextLabel
+{
+    return self.callToActionLabel;
+}
+
+- (UIImageView *)nativeIconImageView
+{
+    return self.iconImageView;
+}
+
+- (UIImageView *)nativeMainImageView
+{
+    return self.mainImageView;
+}
+
+- (UIImageView *)nativePrivacyInformationIconImageView
+{
+    return self.privacyInformationIconImageView;
+}
+
++ (UINib *)nibForAd
+{
+    UINib *result = [UINib nibWithNibName:NSStringFromClass([self class])
+                                   bundle:[NSBundle mainBundle]];
+    return result;
+}
 
 @end
