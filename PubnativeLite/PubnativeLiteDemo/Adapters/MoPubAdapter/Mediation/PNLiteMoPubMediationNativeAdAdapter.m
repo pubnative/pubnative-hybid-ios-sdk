@@ -78,7 +78,7 @@
     return self.nativeAd.contentInfo;
 }
 
--(void)willAttachToView:(UIView *)view
+- (void)willAttachToView:(UIView *)view
 {
     [self.nativeAd startTrackingView:view withDelegate:self];
 }

@@ -80,9 +80,9 @@
         if(errors && errors.count > 0) {
             [self invokeFailWithMessage:@"PubNativeLite - Error: error caching resources"];
         } else {
-            PNLiteMoPubMediationNativeAdAdapter *adapter = [[PNLiteMoPubMediationNativeAdAdapter alloc] initWithNativeAd:nativeAd];
+            PNLiteMoPubMediationNativeAdAdapter *adapter = [[PNLiteMoPubMediationNativeAdAdapter alloc] initWithNativeAd:blockAd];
             MPNativeAd* result = [[MPNativeAd alloc] initWithAdAdapter:adapter];
-            [self.delegate nativeCustomEvent:self didLoadAd:result];
+            [strongSelf.delegate nativeCustomEvent:strongSelf didLoadAd:result];
         }
         blockAd = nil;
         strongSelf = nil;
