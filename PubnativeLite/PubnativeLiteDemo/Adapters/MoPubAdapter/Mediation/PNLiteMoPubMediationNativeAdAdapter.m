@@ -58,8 +58,6 @@
               kAdStarRatingKey : nativeAd.rating,
               kAdIconImageKey : nativeAd.iconUrl,
               kAdMainImageKey : nativeAd.bannerUrl,
-              kAdPrivacyIconClickUrlKey : nativeAd.contentInfo.link,
-              kAdPrivacyIconImageUrlKey : nativeAd.contentInfo.icon
               };
 }
 
@@ -73,6 +71,11 @@
 - (BOOL)enableThirdPartyClickTracking
 {
     return YES;
+}
+
+- (UIView *)privacyInformationIconView
+{
+    return self.nativeAd.contentInfo;
 }
 
 -(void)willAttachToView:(UIView *)view
