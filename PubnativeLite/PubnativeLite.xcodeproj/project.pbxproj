@@ -14,6 +14,8 @@
 		5A0779EE2134061100EBD0E7 /* PNLiteRequestInspectorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0779EC2134061100EBD0E7 /* PNLiteRequestInspectorModel.m */; };
 		5A0779F121340FFA00EBD0E7 /* PNLiteRequestInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A0779EF21340FFA00EBD0E7 /* PNLiteRequestInspector.h */; };
 		5A0779F221340FFA00EBD0E7 /* PNLiteRequestInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0779F021340FFA00EBD0E7 /* PNLiteRequestInspector.m */; };
+		5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */; };
+		5A0779F82134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */; };
 		5A0E770D207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */; };
 		5A0E7713207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7712207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m */; };
 		5A20DBDB203B081400EF2B3C /* PNLiteBannerAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -673,6 +675,9 @@
 		5A0779EC2134061100EBD0E7 /* PNLiteRequestInspectorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteRequestInspectorModel.m; sourceTree = "<group>"; };
 		5A0779EF21340FFA00EBD0E7 /* PNLiteRequestInspector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteRequestInspector.h; sourceTree = "<group>"; };
 		5A0779F021340FFA00EBD0E7 /* PNLiteRequestInspector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteRequestInspector.m; sourceTree = "<group>"; };
+		5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RequestInspector.storyboard; sourceTree = "<group>"; };
+		5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoRequestInspectorViewController.h; sourceTree = "<group>"; };
+		5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoRequestInspectorViewController.m; sourceTree = "<group>"; };
 		5A0E770B207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPBannerViewController.h; sourceTree = "<group>"; };
 		5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPBannerViewController.m; sourceTree = "<group>"; };
 		5A0E7711207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPMRectViewController.h; sourceTree = "<group>"; };
@@ -1702,6 +1707,8 @@
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
 				5A91E67120C0381400527BAA /* PNLiteDemoConsentViewController.h */,
 				5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */,
+				5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */,
+				5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */,
 				5AE206C220E288D5000E770C /* Mediation */,
 				5A4FF06520AD92C700B81B3D /* PNLite */,
 				5A6354D52076506B00D47E1B /* MoPub */,
@@ -2299,6 +2306,7 @@
 				5AA7EC6020E4D59800277E2B /* MRect.storyboard */,
 				5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */,
 				5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */,
+				5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -3398,6 +3406,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
 				5AFE7BE9212C1BA300FFD7CA /* MPCloseBtn@3x.png in Resources */,
 				5AFE7BE7212C1BA300FFD7CA /* MPPlayBtn@2x.png in Resources */,
 				5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */,
@@ -3497,6 +3506,7 @@
 				5AFE7BFC212C1BA300FFD7CA /* MPAdServerKeys.m in Sources */,
 				5AFE7C1F212C1BA300FFD7CA /* MPAdImpressionTimer.m in Sources */,
 				5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */,
+				5A0779F82134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m in Sources */,
 				5AFE7C32212C1BA300FFD7CA /* MRExpandModalViewController.m in Sources */,
 				5AFE7BBE212C1BA300FFD7CA /* MPStreamAdPlacementData.m in Sources */,
 				5AFE7C40212C1BA300FFD7CA /* MPIdentityProvider.m in Sources */,

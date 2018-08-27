@@ -21,8 +21,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PNLiteRequestInspectorModel.h"
 
 @interface PNLiteRequestInspector : NSObject
+
+@property (nonatomic, strong) PNLiteRequestInspectorModel *lastInspectedRequest;
 
 + (instancetype)sharedInstance;
 - (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency;

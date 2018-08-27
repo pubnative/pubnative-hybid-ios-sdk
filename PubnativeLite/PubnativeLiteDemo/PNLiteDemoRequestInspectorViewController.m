@@ -20,28 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteRequestInspector.h"
+#import "PNLiteDemoRequestInspectorViewController.h"
 
-@implementation PNLiteRequestInspector
+@interface PNLiteDemoRequestInspectorViewController ()
 
-- (void)dealloc
+@property (weak, nonatomic) IBOutlet UITextView *requestTextView;
+@property (weak, nonatomic) IBOutlet UITextView *latencyTextView;
+@property (weak, nonatomic) IBOutlet UITextView *responseTextView;
+
+@end
+
+@implementation PNLiteDemoRequestInspectorViewController
+
+- (void)viewDidLoad
 {
-    self.lastInspectedRequest = nil;
-}
-
-+ (instancetype)sharedInstance
-{
-    static PNLiteRequestInspector * _instance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [[PNLiteRequestInspector alloc] init];
-    });
-    return _instance;
-}
-
-- (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency
-{
-    self.lastInspectedRequest = [[PNLiteRequestInspectorModel alloc] initWithURL:url withResponse:response withLatency:latency];
+    [super viewDidLoad];
 }
 
 @end
