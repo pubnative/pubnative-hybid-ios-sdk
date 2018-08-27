@@ -21,6 +21,7 @@
 //
 
 #import "PNLiteDemoRequestInspectorViewController.h"
+#import "PNLiteRequestInspector.h"
 
 @interface PNLiteDemoRequestInspectorViewController ()
 
@@ -35,6 +36,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"Request Inspector";
+    self.requestTextView.text = [PNLiteRequestInspector sharedInstance].lastInspectedRequest.url;
+    self.latencyTextView.text = [NSString stringWithFormat:@"%@",[PNLiteRequestInspector sharedInstance].lastInspectedRequest.latency];
+    self.responseTextView.text = [PNLiteRequestInspector sharedInstance].lastInspectedRequest.response;
+}
+
+- (IBAction)dismissButtonTouchUpInside:(UIButton *)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

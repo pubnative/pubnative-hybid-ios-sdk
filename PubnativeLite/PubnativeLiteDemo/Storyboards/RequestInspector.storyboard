@@ -70,18 +70,18 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxi-oi-B2G" userLabel="Latency Text View">
-                                <rect key="frame" x="16" y="232" width="343" height="39"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxi-oi-B2G" userLabel="Latency Text View">
+                                <rect key="frame" x="16" y="232" width="343" height="28"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="G7H-5F-3Ai"/>
+                                    <constraint firstAttribute="height" constant="28" id="G7H-5F-3Ai"/>
                                 </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nO6-gW-ac8" userLabel="Response">
-                                <rect key="frame" x="16" y="289" width="62.5" height="21"/>
+                                <rect key="frame" x="16" y="278" width="62.5" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="p7G-3n-MrA"/>
                                     <constraint firstAttribute="height" constant="18" id="ybd-d4-oF2"/>
@@ -102,19 +102,43 @@
                                 </variation>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-Ad-Prm" userLabel="Response Text View">
-                                <rect key="frame" x="16" y="318" width="343" height="341"/>
+                                <rect key="frame" x="16" y="307" width="343" height="311"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cl-hk-Z1f" userLabel="Dismiss Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="cl9-dn-DYb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Dismiss">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="cl9-dn-DYb"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="dismissButtonTouchUpInside:" destination="6T1-e2-SzK" eventType="touchUpInside" id="C9Z-Dl-hgN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="uIj-Ad-Prm" firstAttribute="top" secondItem="nO6-gW-ac8" secondAttribute="bottom" constant="8" id="1xj-ZT-OvF"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="UXG-Xc-d7L" secondAttribute="trailing" constant="16" id="4bx-mg-YP4"/>
                             <constraint firstItem="UXG-Xc-d7L" firstAttribute="top" secondItem="cbD-03-bRo" secondAttribute="bottom" constant="8" id="4pC-58-iMS"/>
+                            <constraint firstItem="cGk-xB-Glb" firstAttribute="bottom" secondItem="0cl-hk-Z1f" secondAttribute="bottom" constant="8" id="5ro-qd-GcR"/>
+                            <constraint firstItem="0cl-hk-Z1f" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="D2j-Uz-0Od"/>
+                            <constraint firstItem="0cl-hk-Z1f" firstAttribute="top" secondItem="uIj-Ad-Prm" secondAttribute="bottom" constant="8" id="DHj-Or-iGN"/>
                             <constraint firstItem="mxi-oi-B2G" firstAttribute="top" secondItem="duE-tV-7ew" secondAttribute="bottom" constant="8" id="JTh-oT-xgD"/>
+                            <constraint firstItem="0cl-hk-Z1f" firstAttribute="centerX" secondItem="wbM-IK-HlV" secondAttribute="centerX" id="Jes-kB-uPg"/>
                             <constraint firstItem="UXG-Xc-d7L" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="MBM-YX-Pna"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="mxi-oi-B2G" secondAttribute="trailing" constant="16" id="MEn-fd-jDG"/>
                             <constraint firstItem="uIj-Ad-Prm" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="Oan-c8-QUS"/>
@@ -124,7 +148,7 @@
                             <constraint firstItem="duE-tV-7ew" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="fFX-dC-Pm7"/>
                             <constraint firstItem="nO6-gW-ac8" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="hUW-Jo-36T"/>
                             <constraint firstItem="nO6-gW-ac8" firstAttribute="top" secondItem="mxi-oi-B2G" secondAttribute="bottom" constant="18" id="kIW-Gi-Emw"/>
-                            <constraint firstAttribute="bottom" secondItem="uIj-Ad-Prm" secondAttribute="bottom" constant="8" id="lI6-gH-mbw"/>
+                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="0cl-hk-Z1f" secondAttribute="trailing" constant="16" id="se9-2Z-ZOu"/>
                             <constraint firstItem="cbD-03-bRo" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="swb-pv-dU0"/>
                             <constraint firstItem="duE-tV-7ew" firstAttribute="top" secondItem="UXG-Xc-d7L" secondAttribute="bottom" constant="18" id="uKj-Ge-HSk"/>
                         </constraints>
