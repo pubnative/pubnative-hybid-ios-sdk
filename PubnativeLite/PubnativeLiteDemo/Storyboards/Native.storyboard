@@ -266,6 +266,11 @@
                                         <exclude reference="xnf-f6-xV7"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <segue destination="X4U-hc-RWz" kind="popoverPresentation" popoverAnchorView="duR-SU-EK2" id="DOV-T2-Sah">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -300,6 +305,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4H1-hz-Pwf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4529" y="681"/>
+        </scene>
+        <!--RequestInspector-->
+        <scene sceneID="D5W-X6-pbJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="RequestInspector" id="X4U-hc-RWz" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TtU-uU-CCR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4531" y="1127"/>
         </scene>
         <!--Mediation Native-->
         <scene sceneID="TbM-Dc-m4Q">
