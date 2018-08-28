@@ -35,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nativeAdBody;
 @property (weak, nonatomic) IBOutlet UIButton *nativeCallToAction;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *nativeAdLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) PNLiteNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) PNLiteNativeAd *nativeAd;
 @end
@@ -69,7 +70,7 @@
 - (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd
 {
     NSLog(@"Native Ad: %@ did load",nativeAd);
-    
+    self.inspectRequestButton.hidden = NO;
     self.nativeAd = nativeAd;
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
@@ -77,6 +78,7 @@
 - (void)nativeLoaderDidFailWithError:(NSError *)error
 {
     NSLog(@"Native Ad did fail with error: %@",error.localizedDescription);
+    self.inspectRequestButton.hidden = NO;
     [self.nativeAdLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
