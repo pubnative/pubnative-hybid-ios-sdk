@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (weak, nonatomic) IBOutlet PNLiteMRectAdView *mRectAdView;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 
 @end
 
@@ -44,6 +45,7 @@
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
     self.mRectAdView.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     [self.mRectAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
@@ -54,12 +56,14 @@
 {
     NSLog(@"MRect Ad View did load:");
     self.mRectAdView.hidden = NO;
+    self.inspectRequestButton.hidden = NO;
     [self.mRectLoaderIndicator stopAnimating];
 }
 
 - (void)adViewDidFailWithError:(NSError *)error
 {
     NSLog(@"MRect Ad View did fail with error: %@",error.localizedDescription);
+    self.inspectRequestButton.hidden = NO;
     [self.mRectLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"

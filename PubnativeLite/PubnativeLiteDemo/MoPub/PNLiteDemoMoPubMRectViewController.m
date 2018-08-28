@@ -29,6 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubMrect;
 @property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
@@ -59,6 +60,7 @@
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
     self.mRectContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
@@ -92,6 +94,7 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubMrect == view) {
         self.mRectContainer.hidden = NO;
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -100,6 +103,7 @@
 {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubMrect == view) {
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:@"MoPub MRect did fail to load."];
     }

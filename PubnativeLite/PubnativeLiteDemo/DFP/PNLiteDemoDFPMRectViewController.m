@@ -30,6 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpMrect;
 @property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
@@ -60,6 +61,7 @@
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
     self.mRectContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
@@ -88,6 +90,7 @@
     NSLog(@"adViewDidReceiveAd");
     if (self.dfpMrect == adView) {
         self.mRectContainer.hidden = NO;
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -96,6 +99,7 @@
 {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.dfpMrect == adView) {
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }
