@@ -27,6 +27,7 @@
 @interface PNLiteDemoPNLiteInterstitialViewController () <PNLiteInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) PNLiteInterstitialAd *interstitialAd;
 
 @end
@@ -47,6 +48,7 @@
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
+    self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAd = [[PNLiteInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
     [self.interstitialAd load];
@@ -57,6 +59,7 @@
 - (void)interstitialDidLoad
 {
     NSLog(@"Interstitial did load");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.interstitialAd show];
 }
@@ -64,6 +67,7 @@
 - (void)interstitialDidFailWithError:(NSError *)error
 {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"

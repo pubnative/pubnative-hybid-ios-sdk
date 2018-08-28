@@ -29,6 +29,7 @@
 @interface PNLiteDemoDFPInterstitialViewController () <PNLiteAdRequestDelegate, GADInterstitialDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPInterstitial *dfpInterstitial;
 @property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
 
@@ -52,6 +53,7 @@
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
+    self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
@@ -85,6 +87,7 @@
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad
 {
     NSLog(@"interstitialDidReceiveAd");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     if (self.dfpInterstitial.isReady) {
         [self.dfpInterstitial presentFromRootViewController:self];
@@ -96,6 +99,7 @@
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error
 {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }

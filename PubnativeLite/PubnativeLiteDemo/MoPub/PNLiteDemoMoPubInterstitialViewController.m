@@ -28,6 +28,7 @@
 @interface PNLiteDemoMoPubInterstitialViewController () <PNLiteAdRequestDelegate, MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 @property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
 
@@ -55,6 +56,7 @@
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
+    self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
@@ -81,6 +83,7 @@
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidLoadAd");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.moPubInterstitial showFromViewController:self];
 }
@@ -88,6 +91,7 @@
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidFailToLoadAd");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
