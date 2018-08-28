@@ -29,7 +29,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
 @property (nonatomic, strong) MPAdView *moPubMrect;
 @property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
@@ -135,7 +134,6 @@
     if (request == self.mRectAdRequest) {
         [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubMrect loadAd];
-        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 

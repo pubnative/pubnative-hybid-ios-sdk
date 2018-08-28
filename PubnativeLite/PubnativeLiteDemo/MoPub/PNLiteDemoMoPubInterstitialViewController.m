@@ -28,7 +28,6 @@
 @interface PNLiteDemoMoPubInterstitialViewController () <PNLiteAdRequestDelegate, MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 @property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
 
@@ -136,7 +135,6 @@
     if (request == self.interstitialAdRequest) {
         [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubInterstitial loadAd];
-        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 

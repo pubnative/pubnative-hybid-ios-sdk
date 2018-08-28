@@ -46,49 +46,20 @@
                                 <rect key="frame" x="169" y="172" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YGy-HK-Vov">
-                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Nnf-Dg-dMH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="Nnf-Dg-dMH"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mqf-k6-GLO" userLabel="ImpressionID Text View">
-                                <rect key="frame" x="16" y="539" width="343" height="120"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="b8U-Tz-a6m"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="W70-8Z-8uc" firstAttribute="leading" secondItem="AbU-9G-WiF" secondAttribute="leading" constant="16" id="7Oz-aG-0gV"/>
-                            <constraint firstItem="YGy-HK-Vov" firstAttribute="leading" secondItem="Eh9-rn-D34" secondAttribute="leading" constant="16" id="7cj-2D-qaV"/>
                             <constraint firstItem="ybB-7F-sz3" firstAttribute="centerX" secondItem="AbU-9G-WiF" secondAttribute="centerX" id="7fb-BL-bRz"/>
                             <constraint firstItem="vkq-rj-q9O" firstAttribute="centerX" secondItem="AbU-9G-WiF" secondAttribute="centerX" id="8UB-mK-Akw"/>
-                            <constraint firstItem="mqf-k6-GLO" firstAttribute="leading" secondItem="Eh9-rn-D34" secondAttribute="leading" constant="16" id="Agl-OT-ahk"/>
                             <constraint firstItem="W70-8Z-8uc" firstAttribute="top" secondItem="pUe-32-Iy1" secondAttribute="bottom" constant="8" id="Dga-fv-A8E"/>
-                            <constraint firstItem="Eh9-rn-D34" firstAttribute="trailing" secondItem="mqf-k6-GLO" secondAttribute="trailing" constant="16" id="GEe-yx-bMh"/>
                             <constraint firstItem="ybB-7F-sz3" firstAttribute="top" secondItem="W70-8Z-8uc" secondAttribute="bottom" constant="114" id="GWp-Aa-ykK"/>
                             <constraint firstItem="vkq-rj-q9O" firstAttribute="top" secondItem="W70-8Z-8uc" secondAttribute="bottom" constant="8" id="Zjf-av-JqU"/>
-                            <constraint firstItem="mqf-k6-GLO" firstAttribute="top" secondItem="YGy-HK-Vov" secondAttribute="bottom" id="gmw-cF-1mS"/>
-                            <constraint firstItem="FJD-od-sDM" firstAttribute="top" secondItem="mqf-k6-GLO" secondAttribute="bottom" constant="8" id="paV-5o-skT"/>
                             <constraint firstAttribute="trailing" secondItem="W70-8Z-8uc" secondAttribute="trailing" constant="16" id="v6S-tp-cGO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Eh9-rn-D34"/>
                     </view>
                     <connections>
-                        <outlet property="impressionIDTextView" destination="mqf-k6-GLO" id="fHH-IR-xMe"/>
                         <outlet property="mRectContainer" destination="vkq-rj-q9O" id="Ak6-gM-nds"/>
                         <outlet property="mRectLoaderIndicator" destination="ybB-7F-sz3" id="zKc-EA-sRh"/>
                     </connections>
@@ -362,49 +333,20 @@
                                 <rect key="frame" x="169" y="172" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xl5-Jw-0gI">
-                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="3o2-Kc-g2Q"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="3o2-Kc-g2Q"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="aBh-AU-Yxt" userLabel="ImpressionID Text View">
-                                <rect key="frame" x="16" y="539" width="343" height="120"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="dvR-sM-NjE"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="C1U-oo-TB4" firstAttribute="top" secondItem="2Fy-dX-aMi" secondAttribute="bottom" constant="114" id="5Rl-OG-f9V"/>
                             <constraint firstItem="J5T-1T-ixB" firstAttribute="top" secondItem="2Fy-dX-aMi" secondAttribute="bottom" constant="8" id="Laq-Aj-5qo"/>
                             <constraint firstItem="C1U-oo-TB4" firstAttribute="centerX" secondItem="i7n-AD-DyD" secondAttribute="centerX" id="OUp-pG-PSI"/>
-                            <constraint firstItem="Xl5-Jw-0gI" firstAttribute="leading" secondItem="KfV-Nh-kjW" secondAttribute="leading" constant="16" id="Wwp-MG-Ztm"/>
                             <constraint firstItem="2Fy-dX-aMi" firstAttribute="leading" secondItem="i7n-AD-DyD" secondAttribute="leading" constant="16" id="YZz-ju-3cE"/>
-                            <constraint firstItem="R9q-rL-eEA" firstAttribute="top" secondItem="aBh-AU-Yxt" secondAttribute="bottom" constant="8" id="cGG-Wa-uGU"/>
-                            <constraint firstItem="KfV-Nh-kjW" firstAttribute="trailing" secondItem="aBh-AU-Yxt" secondAttribute="trailing" constant="16" id="f2I-9L-xtD"/>
-                            <constraint firstItem="aBh-AU-Yxt" firstAttribute="top" secondItem="Xl5-Jw-0gI" secondAttribute="bottom" id="hcE-hC-5sJ"/>
                             <constraint firstItem="J5T-1T-ixB" firstAttribute="centerX" secondItem="i7n-AD-DyD" secondAttribute="centerX" id="kbs-ua-Wop"/>
-                            <constraint firstItem="aBh-AU-Yxt" firstAttribute="leading" secondItem="KfV-Nh-kjW" secondAttribute="leading" constant="16" id="npT-MQ-OTG"/>
                             <constraint firstAttribute="trailing" secondItem="2Fy-dX-aMi" secondAttribute="trailing" constant="16" id="oOX-Yg-ei4"/>
                             <constraint firstItem="2Fy-dX-aMi" firstAttribute="top" secondItem="2ZA-AA-86G" secondAttribute="bottom" constant="8" id="x0p-s3-cyE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KfV-Nh-kjW"/>
                     </view>
                     <connections>
-                        <outlet property="impressionIDTextView" destination="aBh-AU-Yxt" id="ykb-he-yy4"/>
                         <outlet property="mRectContainer" destination="J5T-1T-ixB" id="NJD-bZ-Mey"/>
                         <outlet property="mRectLoaderIndicator" destination="C1U-oo-TB4" id="XeJ-k5-Yyn"/>
                     </connections>

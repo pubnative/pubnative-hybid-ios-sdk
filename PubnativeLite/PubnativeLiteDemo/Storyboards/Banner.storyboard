@@ -218,43 +218,15 @@
                                 <rect key="frame" x="169" y="74" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPD-KF-lkB">
-                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="VP2-Vx-1BL"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="VP2-Vx-1BL"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1Aq-OP-6Mx" userLabel="ImpressionID Text View">
-                                <rect key="frame" x="16" y="539" width="343" height="120"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="Y5A-Xy-XFy"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1Aq-OP-6Mx" firstAttribute="leading" secondItem="jor-Ql-Zy5" secondAttribute="leading" constant="16" id="5G6-a8-ffF"/>
-                            <constraint firstItem="W9V-7e-NWx" firstAttribute="top" secondItem="1Aq-OP-6Mx" secondAttribute="bottom" constant="8" id="AXf-0j-Iqo"/>
                             <constraint firstItem="0iV-vB-mYr" firstAttribute="centerX" secondItem="sUe-vT-OgG" secondAttribute="centerX" id="Okv-0d-Ehj"/>
                             <constraint firstItem="Wia-Tf-Or3" firstAttribute="leading" secondItem="sUe-vT-OgG" secondAttribute="leadingMargin" id="OtP-nV-ynA"/>
                             <constraint firstItem="k4Z-bz-Gsl" firstAttribute="centerX" secondItem="sUe-vT-OgG" secondAttribute="centerX" id="TAR-vg-4bX"/>
                             <constraint firstItem="0iV-vB-mYr" firstAttribute="top" secondItem="Wia-Tf-Or3" secondAttribute="bottom" constant="16" id="VOA-CL-WuO"/>
                             <constraint firstItem="k4Z-bz-Gsl" firstAttribute="top" secondItem="Wia-Tf-Or3" secondAttribute="bottom" constant="8" id="Xth-U5-LoG"/>
-                            <constraint firstItem="jor-Ql-Zy5" firstAttribute="trailing" secondItem="1Aq-OP-6Mx" secondAttribute="trailing" constant="16" id="YPw-ne-DkK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Wia-Tf-Or3" secondAttribute="trailing" id="aKM-ju-GrQ"/>
-                            <constraint firstItem="qPD-KF-lkB" firstAttribute="leading" secondItem="jor-Ql-Zy5" secondAttribute="leading" constant="16" id="rDj-i6-kE0"/>
-                            <constraint firstItem="1Aq-OP-6Mx" firstAttribute="top" secondItem="qPD-KF-lkB" secondAttribute="bottom" id="s6R-UQ-A6x"/>
                             <constraint firstItem="Wia-Tf-Or3" firstAttribute="top" secondItem="X9c-w0-SsO" secondAttribute="bottom" constant="8" id="x3U-bV-QRT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jor-Ql-Zy5"/>
@@ -262,7 +234,6 @@
                     <connections>
                         <outlet property="bannerContainer" destination="k4Z-bz-Gsl" id="czd-Rk-AFB"/>
                         <outlet property="bannerLoaderIndicator" destination="0iV-vB-mYr" id="sf6-hT-OU4"/>
-                        <outlet property="impressionIDTextView" destination="1Aq-OP-6Mx" id="I4t-Ut-Vug"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jf8-a3-7vV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -305,51 +276,22 @@
                                 <rect key="frame" x="169" y="74" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEb-Bd-AQs">
-                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="05X-Pc-v2Y"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="05X-Pc-v2Y"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cNp-L9-MrH" userLabel="ImpressionID Text View">
-                                <rect key="frame" x="16" y="539" width="343" height="120"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="bof-41-RK7"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Vqb-xp-D94" firstAttribute="centerX" secondItem="BzU-PX-iuw" secondAttribute="centerX" id="0L5-QT-LnR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0Tj-sd-uGW" secondAttribute="trailing" id="Ohz-pm-oHv"/>
-                            <constraint firstItem="cNp-L9-MrH" firstAttribute="leading" secondItem="OtW-nx-aA9" secondAttribute="leading" constant="16" id="QAe-Yu-vxw"/>
-                            <constraint firstItem="OtW-nx-aA9" firstAttribute="trailing" secondItem="cNp-L9-MrH" secondAttribute="trailing" constant="16" id="VMq-u1-ZSQ"/>
-                            <constraint firstItem="qEb-Bd-AQs" firstAttribute="leading" secondItem="OtW-nx-aA9" secondAttribute="leading" constant="16" id="WvF-Gd-TyW"/>
                             <constraint firstItem="msZ-k1-vxG" firstAttribute="top" secondItem="0Tj-sd-uGW" secondAttribute="bottom" constant="16" id="ZLw-n7-Oib"/>
                             <constraint firstItem="msZ-k1-vxG" firstAttribute="centerX" secondItem="BzU-PX-iuw" secondAttribute="centerX" id="nuW-Xv-RUs"/>
                             <constraint firstItem="0Tj-sd-uGW" firstAttribute="leading" secondItem="BzU-PX-iuw" secondAttribute="leadingMargin" id="skQ-a9-wTh"/>
                             <constraint firstItem="0Tj-sd-uGW" firstAttribute="top" secondItem="9fC-jL-XpO" secondAttribute="bottom" constant="8" id="uLO-zq-cTT"/>
                             <constraint firstItem="Vqb-xp-D94" firstAttribute="top" secondItem="0Tj-sd-uGW" secondAttribute="bottom" constant="8" id="vwm-7J-60k"/>
-                            <constraint firstItem="3hi-jj-dUe" firstAttribute="top" secondItem="cNp-L9-MrH" secondAttribute="bottom" constant="8" id="wS7-EL-9TB"/>
-                            <constraint firstItem="cNp-L9-MrH" firstAttribute="top" secondItem="qEb-Bd-AQs" secondAttribute="bottom" id="z1A-lM-LBq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OtW-nx-aA9"/>
                     </view>
                     <connections>
                         <outlet property="bannerContainer" destination="Vqb-xp-D94" id="SFE-aE-fbv"/>
                         <outlet property="bannerLoaderIndicator" destination="msZ-k1-vxG" id="JrW-ce-bOV"/>
-                        <outlet property="impressionIDTextView" destination="cNp-L9-MrH" id="gFz-iY-yaa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2U-V5-wlA" userLabel="First Responder" sceneMemberID="firstResponder"/>

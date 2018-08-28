@@ -30,7 +30,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
 @property (nonatomic, strong) DFPBannerView *dfpMrect;
 @property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
@@ -138,7 +137,6 @@
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpMrect loadRequest:request];
-        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 
