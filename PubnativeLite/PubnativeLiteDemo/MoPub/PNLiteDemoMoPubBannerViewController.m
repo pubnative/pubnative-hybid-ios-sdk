@@ -29,6 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubBanner;
 @property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
 
@@ -59,6 +60,7 @@
 - (IBAction)requestBannerTouchUpInside:(id)sender
 {
     self.bannerContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
@@ -92,6 +94,7 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
@@ -100,6 +103,7 @@
 {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:@"MoPub Banner did fail to load."];
     }

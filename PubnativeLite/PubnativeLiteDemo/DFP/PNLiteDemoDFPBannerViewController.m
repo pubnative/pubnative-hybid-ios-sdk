@@ -30,6 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpBanner;
 @property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
 
@@ -60,6 +61,7 @@
 - (IBAction)requestBannerTouchUpInside:(id)sender
 {
     self.bannerContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
@@ -88,6 +90,7 @@
     NSLog(@"adViewDidReceiveAd");
     if (self.dfpBanner == adView) {
         self.bannerContainer.hidden = NO;
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
@@ -96,6 +99,7 @@
 {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.dfpBanner == adView) {
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }
