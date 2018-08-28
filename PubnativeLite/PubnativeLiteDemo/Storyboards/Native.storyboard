@@ -435,6 +435,28 @@
                                 <rect key="frame" x="169" y="172" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3xN-qC-Iin" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Zaj-PN-quo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Zaj-PN-quo"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="X4U-hc-RWz" kind="popoverPresentation" popoverAnchorView="3xN-qC-Iin" id="T39-i3-MrR">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -443,12 +465,17 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Ahu-S1-NvZ" secondAttribute="trailing" id="HyO-KT-Pn8"/>
                             <constraint firstItem="Qxr-UP-XjP" firstAttribute="top" secondItem="Ahu-S1-NvZ" secondAttribute="bottom" constant="8" id="IKy-Sx-Xeq"/>
                             <constraint firstItem="Qxr-UP-XjP" firstAttribute="centerX" secondItem="7A1-C2-YVk" secondAttribute="centerX" id="O9r-EU-Izf"/>
+                            <constraint firstItem="3xN-qC-Iin" firstAttribute="centerX" secondItem="7A1-C2-YVk" secondAttribute="centerX" id="Ofe-SG-rsr"/>
+                            <constraint firstItem="sdT-iA-das" firstAttribute="top" secondItem="3xN-qC-Iin" secondAttribute="bottom" constant="8" id="S9I-9b-zDA"/>
                             <constraint firstItem="Ahu-S1-NvZ" firstAttribute="top" secondItem="bjU-49-5eJ" secondAttribute="bottom" constant="8" id="UR2-kM-zYi"/>
+                            <constraint firstItem="bKq-IY-Cq8" firstAttribute="trailing" secondItem="3xN-qC-Iin" secondAttribute="trailing" constant="16" id="Xf2-Mc-FEd"/>
                             <constraint firstItem="Rkf-gn-OME" firstAttribute="centerX" secondItem="7A1-C2-YVk" secondAttribute="centerX" id="pay-ok-vI7"/>
+                            <constraint firstItem="3xN-qC-Iin" firstAttribute="leading" secondItem="bKq-IY-Cq8" secondAttribute="leading" constant="16" id="yVA-T4-ZXG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bKq-IY-Cq8"/>
                     </view>
                     <connections>
+                        <outlet property="inspectRequestButton" destination="3xN-qC-Iin" id="h4C-hl-a82"/>
                         <outlet property="nativeAdContainer" destination="NfZ-lj-cVw" id="qsQ-T3-mUQ"/>
                         <outlet property="nativeAdLoaderIndicator" destination="Rkf-gn-OME" id="WAX-zP-IE2"/>
                     </connections>
@@ -458,4 +485,7 @@
             <point key="canvasLocation" x="-3294" y="1415"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="T39-i3-MrR"/>
+    </inferredMetricsTieBreakers>
 </document>

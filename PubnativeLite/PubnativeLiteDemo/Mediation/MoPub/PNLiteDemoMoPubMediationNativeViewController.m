@@ -38,6 +38,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *nativeAdLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, weak) UIView *nativeAdView;
 @property (nonatomic, strong) MPNativeAdRequest *request;
 @property (nonatomic, strong) MPNativeAd *nativeAd;
@@ -64,6 +65,7 @@
 - (IBAction)requestNativeAdTouchUpInside:(id)sender
 {
     self.nativeAdContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     
     if(self.imageHandler == nil) {
@@ -84,8 +86,10 @@
     __block PNLiteDemoMoPubMediationNativeViewController *strongSelf = self;
     [self.request startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response, NSError *error) {
         if(error == nil) {
+            self.inspectRequestButton.hidden = NO;
             [strongSelf processResponse:response];
         } else {
+            self.inspectRequestButton.hidden = NO;
             NSLog(@"MoPub Mediation Native Ad - Downloading Error: %@", error);
         }
         [strongSelf.nativeAdLoaderIndicator stopAnimating];
