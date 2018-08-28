@@ -94,7 +94,6 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubMrect == view) {
         self.mRectContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -103,7 +102,6 @@
 {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubMrect == view) {
-        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:@"MoPub MRect did fail to load."];
     }
@@ -136,6 +134,7 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubMrect loadAd];
     }
@@ -146,7 +145,8 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
      if (request == self.mRectAdRequest) {
-        [self.mRectLoaderIndicator stopAnimating];
+         self.inspectRequestButton.hidden = NO;
+         [self.mRectLoaderIndicator stopAnimating];
          [self showAlertControllerWithMessage:error.localizedDescription];
     }
 }

@@ -94,7 +94,6 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
@@ -103,7 +102,6 @@
 {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
-        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:@"MoPub Banner did fail to load."];
     }
@@ -136,6 +134,7 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.bannerAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubBanner loadAd];
     }
@@ -146,6 +145,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.bannerAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     } 

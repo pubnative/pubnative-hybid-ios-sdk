@@ -87,7 +87,6 @@
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad
 {
     NSLog(@"interstitialDidReceiveAd");
-    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     if (self.dfpInterstitial.isReady) {
         [self.dfpInterstitial presentFromRootViewController:self];
@@ -99,7 +98,6 @@
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error
 {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
-    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }
@@ -135,6 +133,7 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpInterstitial loadRequest:request];
@@ -145,6 +144,7 @@
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     if (request == self.interstitialAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self showAlertControllerWithMessage:error.localizedDescription];
         [self.interstitialLoaderIndicator stopAnimating];
     }

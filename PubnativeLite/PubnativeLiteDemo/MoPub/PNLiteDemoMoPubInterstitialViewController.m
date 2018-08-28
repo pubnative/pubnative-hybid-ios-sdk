@@ -83,7 +83,6 @@
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidLoadAd");
-    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.moPubInterstitial showFromViewController:self];
 }
@@ -91,7 +90,6 @@
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidFailToLoadAd");
-    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
@@ -137,6 +135,7 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubInterstitial loadAd];
     }
@@ -146,6 +145,7 @@
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     if (request == self.interstitialAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self showAlertControllerWithMessage:error.localizedDescription];
         [self.interstitialLoaderIndicator stopAnimating];
     }

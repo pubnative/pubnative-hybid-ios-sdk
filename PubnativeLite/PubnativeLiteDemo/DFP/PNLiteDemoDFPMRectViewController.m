@@ -90,7 +90,6 @@
     NSLog(@"adViewDidReceiveAd");
     if (self.dfpMrect == adView) {
         self.mRectContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -99,7 +98,6 @@
 {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.dfpMrect == adView) {
-        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }
@@ -138,6 +136,7 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpMrect loadRequest:request];
@@ -149,6 +148,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.mRectAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }

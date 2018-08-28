@@ -90,7 +90,6 @@
     NSLog(@"adViewDidReceiveAd");
     if (self.dfpBanner == adView) {
         self.bannerContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
@@ -99,7 +98,6 @@
 {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.dfpBanner == adView) {
-        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }
@@ -137,6 +135,7 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.bannerAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
         request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpBanner loadRequest:request];
@@ -148,6 +147,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.bannerAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }
