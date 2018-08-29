@@ -142,10 +142,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FQo-hx-Lio" userLabel="Native Ad Background">
-                                <rect key="frame" x="16" y="66" width="343" height="282"/>
+                                <rect key="frame" x="16" y="66" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Onu-Cg-Wwm" userLabel="Native Ad Container View">
-                                        <rect key="frame" x="8" y="8" width="327" height="266"/>
+                                        <rect key="frame" x="8" y="8" width="327" height="226"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NCh-FR-Cjj" userLabel="Ad Icon Image View">
                                                 <rect key="frame" x="8" y="23" width="50" height="50"/>
@@ -183,17 +183,17 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mc0-kA-QNo" userLabel="Ad Banner View">
-                                                <rect key="frame" x="8" y="81" width="311" height="112.5"/>
+                                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="mc0-kA-QNo" userLabel="Ad Banner View">
+                                                <rect key="frame" x="8" y="81" width="311" height="72.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mattis dolor, quis egestas neque." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FdC-cL-UbO" userLabel="Ad Description Label">
-                                                <rect key="frame" x="8" y="197.5" width="311" height="26.5"/>
+                                                <rect key="frame" x="8" y="157.5" width="311" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJU-zv-PHa" userLabel="Ad Call To Action Button">
-                                                <rect key="frame" x="8" y="228" width="311" height="30"/>
+                                                <rect key="frame" x="8" y="188" width="311" height="30"/>
                                                 <color key="backgroundColor" red="0.15686274509803921" green="0.44705882352941173" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="y0k-gF-XdB"/>
@@ -234,7 +234,7 @@
                                             <constraint firstItem="QeS-tV-xcG" firstAttribute="leading" secondItem="lfr-iU-T7K" secondAttribute="leading" id="saB-M8-Jdh"/>
                                             <constraint firstAttribute="trailing" secondItem="FdC-cL-UbO" secondAttribute="trailing" constant="8" id="tsC-QY-Gb1"/>
                                             <constraint firstItem="QeS-tV-xcG" firstAttribute="bottom" secondItem="NCh-FR-Cjj" secondAttribute="bottom" id="wgK-An-bsd"/>
-                                            <constraint firstAttribute="height" constant="266" id="wvg-f9-phm"/>
+                                            <constraint firstAttribute="height" constant="226" id="wvg-f9-phm"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -243,7 +243,7 @@
                                     <constraint firstItem="Onu-Cg-Wwm" firstAttribute="centerX" secondItem="FQo-hx-Lio" secondAttribute="centerX" id="Zbm-pU-BW5"/>
                                     <constraint firstAttribute="width" constant="343" id="ZzA-Kw-lDg"/>
                                     <constraint firstItem="Onu-Cg-Wwm" firstAttribute="centerY" secondItem="FQo-hx-Lio" secondAttribute="centerY" id="qB1-Av-nSj"/>
-                                    <constraint firstAttribute="height" constant="282" id="yfn-0n-nMA"/>
+                                    <constraint firstAttribute="height" constant="242" id="yfn-0n-nMA"/>
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="R4Q-mZ-tSF" userLabel="Native Ad Loader Indicator">
@@ -412,13 +412,13 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qxr-UP-XjP" userLabel="Native Ad Background">
-                                <rect key="frame" x="16" y="66" width="343" height="282"/>
+                                <rect key="frame" x="16" y="66" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfZ-lj-cVw" userLabel="Native Ad Container View">
-                                        <rect key="frame" x="8" y="8" width="327" height="266"/>
+                                        <rect key="frame" x="8" y="8" width="327" height="226"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="266" id="PLm-Om-dU6"/>
+                                            <constraint firstAttribute="height" constant="226" id="PLm-Om-dU6"/>
                                             <constraint firstAttribute="width" constant="327" id="rop-xY-XwW"/>
                                         </constraints>
                                     </view>
@@ -426,7 +426,7 @@
                                 <color key="backgroundColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="343" id="85T-gJ-nVi"/>
-                                    <constraint firstAttribute="height" constant="282" id="8fv-aQ-24R"/>
+                                    <constraint firstAttribute="height" constant="242" id="8fv-aQ-24R"/>
                                     <constraint firstItem="NfZ-lj-cVw" firstAttribute="centerX" secondItem="Qxr-UP-XjP" secondAttribute="centerX" id="TQk-kN-EmT"/>
                                     <constraint firstItem="NfZ-lj-cVw" firstAttribute="centerY" secondItem="Qxr-UP-XjP" secondAttribute="centerY" id="rD5-Z7-D47"/>
                                 </constraints>
