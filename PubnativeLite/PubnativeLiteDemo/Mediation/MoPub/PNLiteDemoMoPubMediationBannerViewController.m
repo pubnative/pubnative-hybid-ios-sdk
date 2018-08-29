@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubBanner;
 
 @end
@@ -55,6 +56,7 @@
 - (IBAction)requestBannerTouchUpInside:(id)sender
 {
     self.bannerContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     [self.moPubBanner loadAd];
 }
@@ -71,6 +73,7 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
@@ -79,6 +82,7 @@
 {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
+        self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"I have a bad feeling about this... 🙄"

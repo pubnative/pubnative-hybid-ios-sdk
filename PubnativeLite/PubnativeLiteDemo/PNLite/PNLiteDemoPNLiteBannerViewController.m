@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet PNLiteBannerAdView *bannerAdView;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 
 @end
 
@@ -44,6 +45,7 @@
 - (IBAction)requestBannerTouchUpInside:(id)sender
 {
     self.bannerAdView.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
@@ -54,12 +56,14 @@
 {
     NSLog(@"Banner Ad View did load:");
     self.bannerAdView.hidden = NO;
+    self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
 }
 
 - (void)adViewDidFailWithError:(NSError *)error
 {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
+    self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"

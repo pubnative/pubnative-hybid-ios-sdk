@@ -27,6 +27,7 @@
 #import "PNLiteResponseModel.h"
 #import "PNLiteAdModel.h"
 #import "PNLiteAdCache.h"
+#import "PNLiteRequestInspector.h"
 
 NSString *const kPNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
 NSString *const kPNLiteResponseOK = @"ok";
@@ -39,6 +40,9 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 @property (nonatomic, weak) NSObject <PNLiteAdRequestDelegate> *delegate;
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSDate *startTime;
+@property (nonatomic, strong) NSURL *requestURL;
+
 @end
 
 @implementation PNLiteAdRequest
@@ -46,6 +50,8 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 - (void)dealloc
 {
     self.zoneID = nil;
+    self.startTime = nil;
+    self.requestURL = nil;
 }
 
 - (NSString *)adSize
@@ -64,6 +70,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
         NSLog(@"PNLiteAdRequest - Zone ID nil or empty, droping this call");
     }
     else {
+        self.startTime = [NSDate date];
         self.delegate = delegate;
         self.zoneID = zoneID;
         self.isRunning = YES;
@@ -71,9 +78,9 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
         PNLiteAdFactory *adFactory = [[PNLiteAdFactory alloc] init];
         NSLog(@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
                                                                                andWithAdSize:[self adSize]]].absoluteString);
-        [[PNLiteHttpRequest alloc] startWithUrlString:[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
-                                                                                                                 andWithAdSize:[self adSize]]].absoluteString withMethod:@"GET" delegate:self];
-        
+        self.requestURL = [self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
+                                                                                     andWithAdSize:[self adSize]]];
+        [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
     }
 }
 
@@ -122,7 +129,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     });
 }
 
-- (void)processResponseWithData:(NSData *)data
+- (NSDictionary *)createDictionaryFromData:(NSData *)data
 {
     NSError *parseError;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
@@ -130,8 +137,16 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
                                                                     error:&parseError];
     if (parseError) {
         [self invokeDidFail:parseError];
+        return nil;
     } else {
-        
+        return jsonDictonary;
+    }
+}
+
+- (void)processResponseWithData:(NSData *)data
+{
+    NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
+    if (jsonDictonary) {
         PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
         if(response == nil) {
             NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
@@ -169,6 +184,17 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 {
     if(kPNLiteResponseStatusOK == statusCode ||
        kPNLiteResponseStatusRequestMalformed == statusCode) {
+        
+        NSString *responseString;
+        if ([self createDictionaryFromData:data]) {
+            responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
+        } else {
+            responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+        }
+        
+        [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
+                                                                   withResponse:responseString
+                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
         [self processResponseWithData:data];
     } else {
         NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
@@ -178,6 +204,9 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
 {
+    [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
+                                                               withResponse:error.localizedDescription
+                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
     [self invokeDidFail:error];
 }
 

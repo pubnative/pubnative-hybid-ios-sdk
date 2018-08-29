@@ -40,47 +40,45 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98I-BP-vrU">
-                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fpb-gc-LZn" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="NSo-Mt-8EG"/>
+                                    <constraint firstAttribute="height" constant="33" id="aVy-s1-1n4"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="NSo-Mt-8EG"/>
+                                        <exclude reference="aVy-s1-1n4"/>
                                     </mask>
                                 </variation>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SCA-ao-fsJ" userLabel="ImpressionID Text View">
-                                <rect key="frame" x="16" y="539" width="343" height="120"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="igM-ep-Uax"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <connections>
+                                    <segue destination="Hux-xf-8YT" kind="popoverPresentation" popoverAnchorView="Fpb-gc-LZn" id="pTo-SC-IaU">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WaM-kQ-bDo" firstAttribute="leading" secondItem="Own-wm-McO" secondAttribute="leadingMargin" id="4hF-a9-lX7"/>
-                            <constraint firstItem="SCA-ao-fsJ" firstAttribute="top" secondItem="98I-BP-vrU" secondAttribute="bottom" id="7Dm-05-UPQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Fpb-gc-LZn" secondAttribute="bottom" constant="8" id="6Xi-oa-fnN"/>
+                            <constraint firstAttribute="trailing" secondItem="Fpb-gc-LZn" secondAttribute="trailing" constant="16" id="8T3-la-mZH"/>
+                            <constraint firstItem="Fpb-gc-LZn" firstAttribute="centerX" secondItem="Own-wm-McO" secondAttribute="centerX" id="I4a-u3-Ky9"/>
                             <constraint firstItem="2Uo-aQ-MfH" firstAttribute="centerX" secondItem="Own-wm-McO" secondAttribute="centerX" id="L97-Lf-khf"/>
+                            <constraint firstItem="Fpb-gc-LZn" firstAttribute="leading" secondItem="daF-uy-Uy5" secondAttribute="leading" constant="16" id="Ldu-pE-7zX"/>
                             <constraint firstItem="WaM-kQ-bDo" firstAttribute="top" secondItem="vn7-Gr-VCI" secondAttribute="bottom" constant="8" id="TA8-SB-1Yp"/>
-                            <constraint firstItem="daF-uy-Uy5" firstAttribute="trailing" secondItem="SCA-ao-fsJ" secondAttribute="trailing" constant="16" id="XEN-GQ-FNe"/>
-                            <constraint firstItem="SCA-ao-fsJ" firstAttribute="leading" secondItem="daF-uy-Uy5" secondAttribute="leading" constant="16" id="ds0-sQ-Mbk"/>
-                            <constraint firstItem="98I-BP-vrU" firstAttribute="leading" secondItem="daF-uy-Uy5" secondAttribute="leading" constant="16" id="lXZ-2L-pMm"/>
-                            <constraint firstItem="iTQ-Gi-SXN" firstAttribute="top" secondItem="SCA-ao-fsJ" secondAttribute="bottom" constant="8" id="nKC-Xi-vJd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WaM-kQ-bDo" secondAttribute="trailing" id="uGG-Ra-gxF"/>
                             <constraint firstItem="2Uo-aQ-MfH" firstAttribute="centerY" secondItem="Own-wm-McO" secondAttribute="centerY" id="xo2-Kq-iNm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="daF-uy-Uy5"/>
                     </view>
                     <connections>
-                        <outlet property="impressionIDTextView" destination="SCA-ao-fsJ" id="LCE-0v-paK"/>
+                        <outlet property="inspectRequestButton" destination="Fpb-gc-LZn" id="NJg-PW-fYC"/>
                         <outlet property="interstitialLoaderIndicator" destination="2Uo-aQ-MfH" id="KIH-MS-QLs"/>
                     </connections>
                 </viewController>
@@ -117,18 +115,45 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nbe-2E-jDT" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="RRK-i9-klj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="RRK-i9-klj"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="Hux-xf-8YT" kind="popoverPresentation" popoverAnchorView="Nbe-2E-jDT" id="JXD-9v-7E7">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Nbe-2E-jDT" firstAttribute="centerX" secondItem="KP9-Zi-3CG" secondAttribute="centerX" id="A0o-iE-e0r"/>
                             <constraint firstItem="k75-qS-QNC" firstAttribute="top" secondItem="bvQ-cX-aTQ" secondAttribute="bottom" constant="8" id="C6p-ce-3gy"/>
+                            <constraint firstItem="WM8-Dr-VmA" firstAttribute="top" secondItem="Nbe-2E-jDT" secondAttribute="bottom" constant="8" id="GiA-VE-bqM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="k75-qS-QNC" secondAttribute="trailing" id="JyG-OQ-dSj"/>
                             <constraint firstItem="k75-qS-QNC" firstAttribute="leading" secondItem="KP9-Zi-3CG" secondAttribute="leadingMargin" id="YVa-h3-gv9"/>
                             <constraint firstItem="13t-sK-pXH" firstAttribute="centerX" secondItem="KP9-Zi-3CG" secondAttribute="centerX" id="aCE-0i-1pb"/>
                             <constraint firstItem="13t-sK-pXH" firstAttribute="centerY" secondItem="KP9-Zi-3CG" secondAttribute="centerY" id="b3X-VD-ar8"/>
+                            <constraint firstItem="V6l-GE-VFp" firstAttribute="trailing" secondItem="Nbe-2E-jDT" secondAttribute="trailing" constant="16" id="fNB-AQ-aZL"/>
+                            <constraint firstItem="Nbe-2E-jDT" firstAttribute="leading" secondItem="V6l-GE-VFp" secondAttribute="leading" constant="16" id="zAN-Qx-G3b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="V6l-GE-VFp"/>
                     </view>
                     <connections>
+                        <outlet property="inspectRequestButton" destination="Nbe-2E-jDT" id="Rpj-x3-ois"/>
                         <outlet property="interstitialLoaderIndicator" destination="13t-sK-pXH" id="Ppi-hB-hf8"/>
                     </connections>
                 </viewController>
@@ -336,47 +361,45 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ImpressionID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbI-7h-4oq">
-                                <rect key="frame" x="16" y="518" width="83.5" height="21"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w2l-8z-L6U" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="gQ4-Ta-IdP"/>
+                                    <constraint firstAttribute="height" constant="33" id="2ez-lo-aoI"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="gQ4-Ta-IdP"/>
+                                        <exclude reference="2ez-lo-aoI"/>
                                     </mask>
                                 </variation>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lfL-aL-xT7" userLabel="ImpressionID Text View">
-                                <rect key="frame" x="16" y="539" width="343" height="120"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="Ygt-8K-Zn4"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <connections>
+                                    <segue destination="Hux-xf-8YT" kind="popoverPresentation" popoverAnchorView="w2l-8z-L6U" id="Iws-vw-cye">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="e5r-BH-FkL" firstAttribute="top" secondItem="Y1i-Fx-hsU" secondAttribute="bottom" constant="8" id="15b-gW-WjK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="e5r-BH-FkL" secondAttribute="trailing" id="9vw-GF-ScY"/>
                             <constraint firstItem="EiM-7F-Rzu" firstAttribute="centerX" secondItem="gwd-nf-rGR" secondAttribute="centerX" id="BUj-Ip-K6g"/>
-                            <constraint firstItem="lfL-aL-xT7" firstAttribute="leading" secondItem="bff-hb-5WM" secondAttribute="leading" constant="16" id="O5D-la-e7T"/>
-                            <constraint firstItem="X5o-xl-H9O" firstAttribute="top" secondItem="lfL-aL-xT7" secondAttribute="bottom" constant="8" id="PZv-pF-rP4"/>
+                            <constraint firstItem="X5o-xl-H9O" firstAttribute="top" secondItem="w2l-8z-L6U" secondAttribute="bottom" constant="8" id="bPw-qS-PZi"/>
                             <constraint firstItem="EiM-7F-Rzu" firstAttribute="centerY" secondItem="gwd-nf-rGR" secondAttribute="centerY" id="cgH-PU-kXb"/>
-                            <constraint firstItem="lfL-aL-xT7" firstAttribute="top" secondItem="UbI-7h-4oq" secondAttribute="bottom" id="kqv-tx-sPN"/>
-                            <constraint firstItem="UbI-7h-4oq" firstAttribute="leading" secondItem="bff-hb-5WM" secondAttribute="leading" constant="16" id="l1S-h6-IhG"/>
+                            <constraint firstItem="w2l-8z-L6U" firstAttribute="centerX" secondItem="gwd-nf-rGR" secondAttribute="centerX" id="hMj-7k-VU7"/>
                             <constraint firstItem="e5r-BH-FkL" firstAttribute="leading" secondItem="gwd-nf-rGR" secondAttribute="leadingMargin" id="ly7-sv-dRl"/>
-                            <constraint firstItem="bff-hb-5WM" firstAttribute="trailing" secondItem="lfL-aL-xT7" secondAttribute="trailing" constant="16" id="w5s-P3-s28"/>
+                            <constraint firstAttribute="trailing" secondItem="w2l-8z-L6U" secondAttribute="trailing" constant="16" id="vPv-Z7-wzS"/>
+                            <constraint firstItem="w2l-8z-L6U" firstAttribute="leading" secondItem="bff-hb-5WM" secondAttribute="leading" constant="16" id="xBy-8q-2mC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bff-hb-5WM"/>
                     </view>
                     <connections>
-                        <outlet property="impressionIDTextView" destination="lfL-aL-xT7" id="jeh-0h-4o3"/>
+                        <outlet property="inspectRequestButton" destination="w2l-8z-L6U" id="Gg4-Ma-NFx"/>
                         <outlet property="interstitialLoaderIndicator" destination="EiM-7F-Rzu" id="O4G-jl-Ykv"/>
                     </connections>
                 </viewController>
@@ -456,6 +479,14 @@
             </objects>
             <point key="canvasLocation" x="2857" y="833"/>
         </scene>
+        <!--RequestInspector-->
+        <scene sceneID="bDY-eR-NnJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="RequestInspector" id="Hux-xf-8YT" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BAc-Hd-4mP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1536" y="1679"/>
+        </scene>
         <!--MoPub Interstitial View Controller-->
         <scene sceneID="9Cn-hL-hhY">
             <objects>
@@ -485,6 +516,28 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RkG-ee-6R6" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Iro-sh-8eC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Iro-sh-8eC"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="Hux-xf-8YT" kind="popoverPresentation" popoverAnchorView="RkG-ee-6R6" id="5kC-SF-Tlg">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -492,11 +545,16 @@
                             <constraint firstItem="NCt-JB-T7F" firstAttribute="leading" secondItem="8yD-GS-l2c" secondAttribute="leadingMargin" id="5Os-zF-NFd"/>
                             <constraint firstItem="rXD-We-99c" firstAttribute="centerY" secondItem="8yD-GS-l2c" secondAttribute="centerY" id="7JO-8X-ckx"/>
                             <constraint firstItem="rXD-We-99c" firstAttribute="centerX" secondItem="8yD-GS-l2c" secondAttribute="centerX" id="DqR-oM-Dul"/>
+                            <constraint firstItem="CQO-8w-XYz" firstAttribute="trailing" secondItem="RkG-ee-6R6" secondAttribute="trailing" constant="16" id="GpC-N7-RwQ"/>
+                            <constraint firstItem="RkG-ee-6R6" firstAttribute="centerX" secondItem="8yD-GS-l2c" secondAttribute="centerX" id="LnX-lZ-oUo"/>
                             <constraint firstItem="NCt-JB-T7F" firstAttribute="top" secondItem="9pj-rd-YYp" secondAttribute="bottom" constant="8" id="sZD-Wl-G3F"/>
+                            <constraint firstItem="RkG-ee-6R6" firstAttribute="leading" secondItem="8yD-GS-l2c" secondAttribute="leading" constant="16" id="vV1-YS-eor"/>
+                            <constraint firstItem="vqu-9c-iUY" firstAttribute="top" secondItem="RkG-ee-6R6" secondAttribute="bottom" constant="8" id="xgM-Ot-EfM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CQO-8w-XYz"/>
                     </view>
                     <connections>
+                        <outlet property="inspectRequestButton" destination="RkG-ee-6R6" id="JaB-pM-CUN"/>
                         <outlet property="interstitialLoaderIndicator" destination="rXD-We-99c" id="98g-Lh-18s"/>
                     </connections>
                 </viewController>
@@ -505,4 +563,7 @@
             <point key="canvasLocation" x="2857" y="1591"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="5kC-SF-Tlg"/>
+    </inferredMetricsTieBreakers>
 </document>

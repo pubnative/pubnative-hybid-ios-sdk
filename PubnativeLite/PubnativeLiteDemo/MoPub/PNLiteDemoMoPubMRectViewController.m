@@ -29,7 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubMrect;
 @property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
 
@@ -60,6 +60,7 @@
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
     self.mRectContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
@@ -133,9 +134,9 @@
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubMrect loadAd];
-        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 
@@ -144,7 +145,8 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
      if (request == self.mRectAdRequest) {
-        [self.mRectLoaderIndicator stopAnimating];
+         self.inspectRequestButton.hidden = NO;
+         [self.mRectLoaderIndicator stopAnimating];
          [self showAlertControllerWithMessage:error.localizedDescription];
     }
 }
