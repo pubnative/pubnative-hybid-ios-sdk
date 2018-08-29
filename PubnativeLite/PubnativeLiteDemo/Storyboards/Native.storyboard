@@ -317,7 +317,7 @@
         <!--Mediation Native-->
         <scene sceneID="TbM-Dc-m4Q">
             <objects>
-                <viewController title="Mediation Banner" id="EVQ-hr-AcY" userLabel="Mediation Native" sceneMemberID="viewController">
+                <viewController title="Mediation Native" id="EVQ-hr-AcY" userLabel="Mediation Native" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jX8-oK-dKm"/>
                         <viewControllerLayoutGuide type="bottom" id="cKB-AN-Cuj"/>
