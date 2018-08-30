@@ -47,7 +47,7 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
-    if ([PNLiteMoPubUtils areExtrasValid:info]) {
+    if ([PNLiteMoPubUtils isZoneIDValid:info]) {
         self.size = size;
         if (CGSizeEqualToSize(MOPUB_BANNER_SIZE, size)) {
             self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteMoPubUtils zoneID:info]];
