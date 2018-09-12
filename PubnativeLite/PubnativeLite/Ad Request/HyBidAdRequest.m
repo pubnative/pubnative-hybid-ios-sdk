@@ -26,7 +26,7 @@
 #import "PNLiteAdRequestModel.h"
 #import "PNLiteResponseModel.h"
 #import "PNLiteAdModel.h"
-#import "PNLiteAdCache.h"
+#import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
 
 NSString *const kPNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
@@ -157,7 +157,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (PNLiteAdModel *adModel in response.ads) {
                 PNLiteAd *ad = [[PNLiteAd alloc] initWithData:adModel];
-                [[PNLiteAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
+                [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
             }
             if (responseAdArray.count > 0) {

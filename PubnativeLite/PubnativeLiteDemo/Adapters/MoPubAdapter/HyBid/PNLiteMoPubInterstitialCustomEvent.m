@@ -45,7 +45,7 @@
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {
     if ([PNLiteMoPubUtils isZoneIDValid:info]) {
-        self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteMoPubUtils zoneID:info]];
+        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteMoPubUtils zoneID:info]];
         if (self.ad == nil) {
             [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteMoPubUtils zoneID:info]]];
             return;

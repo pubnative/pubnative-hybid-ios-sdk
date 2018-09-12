@@ -22,6 +22,34 @@
 
 #import "HyBidAdCache.h"
 
-@interface PNLiteAdCache : HyBidAdCache
+@implementation HyBidAdCache
+
+- (void)dealloc
+{
+    self.adCache = nil;
+}
+
++ (instancetype)sharedInstance
+{
+    static HyBidAdCache *_sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedInstance = [[HyBidAdCache alloc] init];
+        _sharedInstance.adCache = [[NSMutableDictionary alloc] init];
+    });
+    return _sharedInstance;
+}
+
+- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
+{
+    [[HyBidAdCache sharedInstance].adCache setObject:ad forKey:zoneID];
+}
+
+- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID
+{
+    PNLiteAd *cachedAd = [[HyBidAdCache sharedInstance].adCache objectForKey:zoneID];
+    [[HyBidAdCache sharedInstance].adCache removeObjectForKey:zoneID];
+    return cachedAd;
+}
 
 @end

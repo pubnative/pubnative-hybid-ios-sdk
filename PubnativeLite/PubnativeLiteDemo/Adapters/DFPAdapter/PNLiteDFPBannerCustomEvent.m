@@ -51,7 +51,7 @@
 {
     if ([PNLiteDFPUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
-            self.ad = [[PNLiteAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteDFPUtils zoneID:serverParameter]];
+            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteDFPUtils zoneID:serverParameter]];
             if (self.ad == nil) {
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteDFPUtils zoneID:serverParameter]]];
                 return;
