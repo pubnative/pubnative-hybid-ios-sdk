@@ -30,7 +30,7 @@
 
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
-@property (nonatomic, strong) PNLiteMRectPresenterFactory *mRectPresenterFactory;
+@property (nonatomic, strong) HyBidMRectPresenterFactory *mRectPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
 @end
@@ -55,7 +55,7 @@
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteMoPubUtils zoneID:info]]];
                 return;
             }
-            self.mRectPresenterFactory = [[PNLiteMRectPresenterFactory alloc] init];
+            self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
             self.mRectPresenter = [self.mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
             if (self.mRectPresenter == nil) {
                 [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid mRect presenter"];

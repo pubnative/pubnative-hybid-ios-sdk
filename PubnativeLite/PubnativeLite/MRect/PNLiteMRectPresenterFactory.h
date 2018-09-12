@@ -20,13 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "HyBidMRectPresenter.h"
-#import "PNLiteAd.h"
+#import "HyBidMRectPresenterFactory.h"
 
-@interface PNLiteMRectPresenterFactory : NSObject
-
-- (HyBidMRectPresenter *)createMRectPresenterWithAd:(PNLiteAd *)ad
-                                        withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate;
+@interface PNLiteMRectPresenterFactory : HyBidMRectPresenterFactory
 
 @end

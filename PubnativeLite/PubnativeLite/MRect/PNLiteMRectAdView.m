@@ -22,7 +22,7 @@
 
 #import "PNLiteMRectAdView.h"
 #import "HyBidMRectPresenter.h"
-#import "PNLiteMRectPresenterFactory.h"
+#import "HyBidMRectPresenterFactory.h"
 #import "HyBidMRectAdRequest.h"
 
 @interface PNLiteMRectAdView() <HyBidMRectPresenterDelegate>
@@ -51,7 +51,7 @@
 
 - (void)renderAd
 {
-    PNLiteMRectPresenterFactory *mRectPresenterFactory = [[PNLiteMRectPresenterFactory alloc] init];
+    HyBidMRectPresenterFactory *mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
     self.mRectPresenter = [mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
     if (self.mRectPresenter == nil) {
         NSLog(@"PubNativeLite - Error: Could not create valid mRect presenter");
