@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteBrowserControlsView.h"
-#import "PNLiteBrowser.h"
+#import "HyBidBrowser.h"
 #import "PNLiteBackButton.h"
 #import "PNLiteForwardButton.h"
 
@@ -41,14 +41,14 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
     UIBarButtonItem *launchSafariButton;
     UIBarButtonItem *flexLaunch;
     UIBarButtonItem *stopButton;
-    __unsafe_unretained PNLiteBrowser *pnBrowser;
+    __unsafe_unretained HyBidBrowser *pnBrowser;
 }
 
 @end
 
 @implementation PNLiteBrowserControlsView
 
-- (id)initWithPubnativeBrowser:(PNLiteBrowser *)p_pnBrowser
+- (id)initWithPubnativeBrowser:(HyBidBrowser *)p_pnBrowser
 {
     self = [super initWithFrame:CGRectMake(0, 0, p_pnBrowser.view.bounds.size.width, kControlsToobarHeight)];
     

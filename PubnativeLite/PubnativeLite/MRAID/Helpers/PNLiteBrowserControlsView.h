@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class PNLiteBrowser;
+@class HyBidBrowser;
 @protocol PNLiteBrowserControlsViewDelegate <NSObject>
 
 @required
@@ -42,6 +42,6 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *forwardButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *loadingIndicator;
 
-- (id)initWithPubnativeBrowser:(PNLiteBrowser *)p_pnBrowser;
+- (id)initWithPubnativeBrowser:(HyBidBrowser *)p_pnBrowser;
 
 @end

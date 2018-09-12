@@ -21,14 +21,14 @@
 //
 
 #import "PNLiteMRAIDServiceProvider.h"
-#import "PNLiteBrowser.h"
+#import "HyBidBrowser.h"
 #import <EventKit/EventKit.h>
 
 @implementation PNLiteMRAIDServiceProvider
 
 - (void)openBrowser:(NSString *)urlString
 {
-    PNLiteBrowser *browser = [[PNLiteBrowser alloc] initWithDelegate:nil withFeatures:@[kPNLiteBrowserFeatureSupportInlineMediaPlayback
+    HyBidBrowser *browser = [[HyBidBrowser alloc] initWithDelegate:nil withFeatures:@[kPNLiteBrowserFeatureSupportInlineMediaPlayback
                                                                                 , kPNLiteBrowserFeatureDisableStatusBar
                                                                                 , kPNLiteBrowserFeatureScalePagesToFit]];
     [browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
