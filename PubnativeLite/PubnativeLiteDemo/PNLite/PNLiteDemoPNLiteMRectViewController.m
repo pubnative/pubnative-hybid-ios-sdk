@@ -27,7 +27,7 @@
 @interface PNLiteDemoPNLiteMRectViewController () <PNLiteAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet PNLiteMRectAdView *mRectAdView;
+@property (weak, nonatomic) IBOutlet HyBidMRectAdView *mRectAdView;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 
 @end

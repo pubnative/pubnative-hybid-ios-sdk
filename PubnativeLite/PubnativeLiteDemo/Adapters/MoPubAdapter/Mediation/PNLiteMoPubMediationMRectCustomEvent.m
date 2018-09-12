@@ -28,7 +28,7 @@
 
 @interface PNLiteMoPubMediationMRectCustomEvent() <PNLiteAdViewDelegate>
 
-@property (nonatomic, strong) PNLiteMRectAdView *mRectAdView;
+@property (nonatomic, strong) HyBidMRectAdView *mRectAdView;
 
 @end
 
@@ -45,7 +45,7 @@
     if ([PNLiteMoPubUtils areExtrasValid:info]) {
         if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
             if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.mRectAdView = [[PNLiteMRectAdView alloc] init];
+                self.mRectAdView = [[HyBidMRectAdView alloc] init];
                 [self.mRectAdView loadWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];
