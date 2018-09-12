@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRectPresenter.h"
+#import "HyBidMRectPresenter.h"
 
-@interface PNLiteMRAIDMRectPresenter : PNLiteMRectPresenter
+@interface PNLiteMRAIDMRectPresenter : HyBidMRectPresenter
 
 - (instancetype)initWithAd:(PNLiteAd *)ad;
 

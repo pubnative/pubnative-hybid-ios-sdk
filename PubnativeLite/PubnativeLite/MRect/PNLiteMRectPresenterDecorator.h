@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRectPresenter.h"
+#import "HyBidMRectPresenter.h"
 #import "HyBidAdTracker.h"
 
-@interface PNLiteMRectPresenterDecorator : PNLiteMRectPresenter <PNLiteMRectPresenterDelegate>
+@interface PNLiteMRectPresenterDecorator : HyBidMRectPresenter <HyBidMRectPresenterDelegate>
 
-- (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
+- (instancetype)initWithMRectPresenter:(HyBidMRectPresenter *)mRectPresenter
                          withAdTracker:(HyBidAdTracker *)adTracker
-                          withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate;
+                          withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate;
 
 @end

@@ -21,13 +21,13 @@
 //
 
 #import "PNLiteMRectAdView.h"
-#import "PNLiteMRectPresenter.h"
+#import "HyBidMRectPresenter.h"
 #import "PNLiteMRectPresenterFactory.h"
 #import "HyBidMRectAdRequest.h"
 
-@interface PNLiteMRectAdView() <PNLiteMRectPresenterDelegate>
+@interface PNLiteMRectAdView() <HyBidMRectPresenterDelegate>
 
-@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
 
 @end
 
@@ -74,9 +74,9 @@
     [self.mRectPresenter stopTracking];
 }
 
-#pragma mark - PNLiteMRectPresenterDelegate
+#pragma mark - HyBidMRectPresenterDelegate
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
     if (mRect == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
@@ -87,14 +87,14 @@
     }
 }
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
         [self.delegate adViewDidFailWithError:error];
     }
 }
 
-- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
+- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick)]) {
         [self.delegate adViewDidTrackClick];

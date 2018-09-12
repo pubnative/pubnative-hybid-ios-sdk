@@ -23,10 +23,10 @@
 #import "PNLiteDFPMRectCustomEvent.h"
 #import "PNLiteDFPUtils.h"
 
-@interface PNLiteDFPMRectCustomEvent () <PNLiteMRectPresenterDelegate>
+@interface PNLiteDFPMRectCustomEvent () <HyBidMRectPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
 @property (nonatomic, strong) PNLiteMRectPresenterFactory *mRectPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
@@ -79,20 +79,20 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - PNLiteMRectPresenterDelegate
+#pragma mark - HyBidMRectPresenterDelegate
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
     [self.delegate customEventBanner:self didReceiveAd:mRect];
     [self.mRectPresenter startTracking];
 }
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
+- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
 {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];

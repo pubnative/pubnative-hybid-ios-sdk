@@ -22,10 +22,31 @@
 
 #import "HyBidMRectPresenter.h"
 
-@protocol PNLiteMRectPresenterDelegate<HyBidMRectPresenterDelegate>
+@implementation HyBidMRectPresenter
 
-@end
+- (void)dealloc
+{
+    self.delegate = nil;
+}
 
-@interface PNLiteMRectPresenter : HyBidMRectPresenter
+- (void)load
+{
+    // Do nothing, this method should be overriden
+}
+
+- (void)startTracking
+{
+    // Do nothing, this method should be overriden
+}
+
+- (void)stopTracking
+{
+    // Do nothing, this method should be overriden
+}
+
+- (PNLiteAd *)ad
+{
+    return nil;
+}
 
 @end

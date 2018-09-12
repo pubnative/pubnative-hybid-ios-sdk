@@ -20,12 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMRectPresenter.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "PNLiteAd.h"
 
-@protocol PNLiteMRectPresenterDelegate<HyBidMRectPresenterDelegate>
+@class HyBidMRectPresenter;
+
+@protocol HyBidMRectPresenterDelegate<NSObject>
+
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter
+      didLoadWithMRect:(UIView *)mRect;
+- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter;
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter
+      didFailWithError:(NSError *)error;
 
 @end
 
-@interface PNLiteMRectPresenter : HyBidMRectPresenter
+@interface HyBidMRectPresenter : NSObject
+
+@property (nonatomic, readonly) PNLiteAd *ad;
+@property (nonatomic, strong) NSObject <HyBidMRectPresenterDelegate> *delegate;
+
+- (void)load;
+- (void)startTracking;
+- (void)stopTracking;
 
 @end

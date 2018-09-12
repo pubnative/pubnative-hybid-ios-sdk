@@ -29,10 +29,10 @@
 
 @implementation PNLiteMRectPresenterFactory
 
-- (PNLiteMRectPresenter *)createMRectPresenterWithAd:(PNLiteAd *)ad
-                                        withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate
+- (HyBidMRectPresenter *)createMRectPresenterWithAd:(PNLiteAd *)ad
+                                        withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate
 {
-    PNLiteMRectPresenter *mRectPresenter = [self createMRectPresenterFromAd:ad];
+    HyBidMRectPresenter *mRectPresenter = [self createMRectPresenterFromAd:ad];
     if (!mRectPresenter) {
         return nil;
     }
@@ -43,7 +43,7 @@
     return mRectPresenterDecorator;
 }
 
-- (PNLiteMRectPresenter *)createMRectPresenterFromAd:(PNLiteAd *)ad
+- (HyBidMRectPresenter *)createMRectPresenterFromAd:(PNLiteAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_MRECT: {

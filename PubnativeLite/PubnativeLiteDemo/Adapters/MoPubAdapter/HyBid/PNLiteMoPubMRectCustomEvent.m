@@ -26,10 +26,10 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface PNLiteMoPubMRectCustomEvent () <PNLiteMRectPresenterDelegate>
+@interface PNLiteMoPubMRectCustomEvent () <HyBidMRectPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
 @property (nonatomic, strong) PNLiteMRectPresenterFactory *mRectPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
@@ -87,21 +87,21 @@
     return NO;
 }
 
-#pragma mark - PNLiteMRectPresenterDelegate
+#pragma mark - HyBidMRectPresenterDelegate
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
     [self.delegate trackImpression];
     [self.delegate bannerCustomEvent:self didLoadAd:mRect];
     [self.mRectPresenter startTracking];
 }
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
+- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];

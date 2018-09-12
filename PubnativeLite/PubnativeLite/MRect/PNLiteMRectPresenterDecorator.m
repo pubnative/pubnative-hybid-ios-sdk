@@ -24,9 +24,9 @@
 
 @interface PNLiteMRectPresenterDecorator ()
 
-@property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<PNLiteMRectPresenterDelegate> *mRectPresenterDelegate;
+@property (nonatomic, strong) NSObject<HyBidMRectPresenterDelegate> *mRectPresenterDelegate;
 
 @end
 
@@ -54,9 +54,9 @@
     [self.mRectPresenter stopTracking];
 }
 
-- (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
+- (instancetype)initWithMRectPresenter:(HyBidMRectPresenter *)mRectPresenter
                          withAdTracker:(HyBidAdTracker *)adTracker
-                          withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate
+                          withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
@@ -67,21 +67,21 @@
     return self;
 }
 
-#pragma mark PNLiteMRectPresenterDelegate
+#pragma mark HyBidMRectPresenterDelegate
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
     [self.adTracker trackImpression];
     [self.mRectPresenterDelegate mRectPresenter:mRectPresenter didLoadWithMRect:mRect];
 }
 
-- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter
+- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
 {
     [self.adTracker trackClick];
     [self.mRectPresenterDelegate mRectPresenterDidClick:mRectPresenter];
 }
 
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
     [self.mRectPresenterDelegate mRectPresenter:mRectPresenter didFailWithError:error];
 }
