@@ -41,7 +41,7 @@
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {
     if ([PNLiteMoPubUtils areExtrasValid:info]) {
-        if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[PNLiteSettings sharedInstance].appToken]) {
+        if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[PNLiteInterstitialAd alloc] initWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
             [self.interstitialAd load];
         } else {

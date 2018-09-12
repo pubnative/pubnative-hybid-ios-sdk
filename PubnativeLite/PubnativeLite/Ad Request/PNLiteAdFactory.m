@@ -22,7 +22,7 @@
 
 #import "PNLiteAdFactory.h"
 #import "HyBidRequestParameter.h"
-#import "PNLiteSettings.h"
+#import "HyBidSettings.h"
 #import "PNLiteCryptoUtils.h"
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
@@ -33,19 +33,19 @@
 {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
-    adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [PNLiteSettings sharedInstance].appToken;
-    adRequestModel.requestParameters[HyBidRequestParameter.os] = [PNLiteSettings sharedInstance].os;
-    adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [PNLiteSettings sharedInstance].osVersion;
-    adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [PNLiteSettings sharedInstance].deviceName;
-    adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [PNLiteSettings sharedInstance].coppa ? @"1" : @"0";
+    adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
+    adRequestModel.requestParameters[HyBidRequestParameter.os] = [HyBidSettings sharedInstance].os;
+    adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [HyBidSettings sharedInstance].osVersion;
+    adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [HyBidSettings sharedInstance].deviceName;
+    adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
     [self setIDFA:adRequestModel];
-    adRequestModel.requestParameters[HyBidRequestParameter.locale] = [PNLiteSettings sharedInstance].locale;
-    if (![PNLiteSettings sharedInstance].coppa) {
-        adRequestModel.requestParameters[HyBidRequestParameter.age] = [[PNLiteSettings sharedInstance].targeting.age stringValue];
-        adRequestModel.requestParameters[HyBidRequestParameter.gender] = [PNLiteSettings sharedInstance].targeting.gender;
-        adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[PNLiteSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
+    adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
+    if (![HyBidSettings sharedInstance].coppa) {
+        adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
+        adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
+        adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
     }
-    adRequestModel.requestParameters[HyBidRequestParameter.test] =[PNLiteSettings sharedInstance].test ? @"1" : @"0";
+    adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
     if (adSize) {
         adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize;
     } else {
@@ -57,7 +57,7 @@
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel
 {
-    NSString *advertisingId = [PNLiteSettings sharedInstance].advertisingId;
+    NSString *advertisingId = [HyBidSettings sharedInstance].advertisingId;
     if (advertisingId == nil || advertisingId.length == 0) {
         adRequestModel.requestParameters[HyBidRequestParameter.dnt] = @"1";
     } else {

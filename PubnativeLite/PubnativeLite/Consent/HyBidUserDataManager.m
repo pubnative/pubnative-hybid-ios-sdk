@@ -21,7 +21,7 @@
 //
 
 #import "HyBidUserDataManager.h"
-#import "PNLiteSettings.h"
+#import "HyBidSettings.h"
 #import "PNLiteGeoIPRequest.h"
 #import "PNLiteCountryUtils.h"
 #import "UIApplication+PNLiteTopViewController.h"
@@ -119,19 +119,19 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 - (void)notifyConsentGiven
 {
-    PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[PNLiteSettings sharedInstance].advertisingId
+    PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
                                                                                          withDeviceIDType:kPNLiteDeviceIDType];
     
     PNLiteUserConsentRequest *request = [[PNLiteUserConsentRequest alloc] init];
-    [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[PNLiteSettings sharedInstance].appToken];
+    [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[HyBidSettings sharedInstance].appToken];
 }
 
 - (void)notifyConsentRevoked
 {
     PNLiteRevokeConsentRequest *request = [[PNLiteRevokeConsentRequest alloc] init];
     [request revokeConsentRequestWithDelegate:self
-                                 withAppToken:[PNLiteSettings sharedInstance].appToken
-                                 withDeviceID:[PNLiteSettings sharedInstance].advertisingId
+                                 withAppToken:[HyBidSettings sharedInstance].appToken
+                                 withDeviceID:[HyBidSettings sharedInstance].advertisingId
                              withDeviceIDType:kPNLiteDeviceIDType];
 }
 
@@ -144,8 +144,8 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)checkConsentGiven
 {
     PNLiteCheckConsentRequest * request = [[PNLiteCheckConsentRequest alloc] init];
-    [request checkConsentRequestWithDelegate:self withAppToken:[PNLiteSettings sharedInstance].appToken
-                                withDeviceID:[PNLiteSettings sharedInstance].advertisingId
+    [request checkConsentRequestWithDelegate:self withAppToken:[HyBidSettings sharedInstance].appToken
+                                withDeviceID:[HyBidSettings sharedInstance].advertisingId
                             withDeviceIDType:kPNLiteDeviceIDType];
 }
 

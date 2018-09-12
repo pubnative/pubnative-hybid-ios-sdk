@@ -42,7 +42,7 @@
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info
 {
     if ([PNLiteMoPubUtils areExtrasValid:info]) {
-        if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[PNLiteSettings sharedInstance].appToken]) {
+        if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
             [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[PNLiteMoPubUtils zoneID:info]];
         } else {

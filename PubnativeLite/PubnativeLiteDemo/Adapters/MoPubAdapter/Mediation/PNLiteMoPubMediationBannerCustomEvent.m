@@ -44,7 +44,7 @@
 {
     if ([PNLiteMoPubUtils areExtrasValid:info]) {
         if (CGSizeEqualToSize(MOPUB_BANNER_SIZE, size)) {
-            if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[PNLiteSettings sharedInstance].appToken]) {
+            if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.bannerAdView = [[PNLiteBannerAdView alloc] init];
                 [self.bannerAdView loadWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
             } else {

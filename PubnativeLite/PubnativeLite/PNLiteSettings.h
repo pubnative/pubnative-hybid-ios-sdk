@@ -20,30 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <AdSupport/AdSupport.h>
-#import <CoreLocation/CoreLocation.h>
-#import "HyBidTargetingModel.h"
+#import "HyBidSettings.h"
 
-@interface PNLiteSettings : NSObject
-
-// CONFIGURABLE PARAMETERS
-@property (nonatomic, assign) BOOL test;
-@property (nonatomic, assign) BOOL coppa;
-@property (nonatomic, strong) HyBidTargetingModel *targeting;
-@property (nonatomic, strong) NSString *appToken;
-
-// COMMON PARAMETERS
-@property (readonly) NSString *advertisingId;
-@property (readonly) NSString *os;
-@property (readonly) NSString *osVersion;
-@property (readonly) NSString *deviceName;
-@property (readonly) NSString *locale;
-@property (readonly) NSString *sdkVersion;
-@property (readonly) NSString *appBundleID;
-@property (readonly) NSString *appVersion;
-@property (readonly) CLLocation *location;
-
-+ (PNLiteSettings *)sharedInstance;
+@interface PNLiteSettings : HyBidSettings
 
 @end
