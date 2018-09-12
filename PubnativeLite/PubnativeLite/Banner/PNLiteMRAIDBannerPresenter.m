@@ -23,7 +23,7 @@
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "PNLiteMRAIDView.h"
 #import "PNLiteMRAIDServiceDelegate.h"
-#import "PNLiteMRAIDServiceProvider.h"
+#import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
 CGFloat const kPNLiteMRAIDBannerWidth = 320.0f;
@@ -31,7 +31,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 @interface PNLiteMRAIDBannerPresenter () <PNLiteMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
 
-@property (nonatomic, strong) PNLiteMRAIDServiceProvider *serviceProvider;
+@property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNLiteMRAIDView *mraidView;
 @property (nonatomic, strong) PNLiteAd *adModel;
 
@@ -61,7 +61,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 - (void)load
 {
-    self.serviceProvider = [[PNLiteMRAIDServiceProvider alloc] init];
+    self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
     self.mraidView = [[PNLiteMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDBannerWidth, kPNLiteMRAIDBannerHeight)
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]

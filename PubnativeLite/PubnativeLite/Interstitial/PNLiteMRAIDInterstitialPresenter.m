@@ -23,12 +23,12 @@
 #import "PNLiteMRAIDInterstitialPresenter.h"
 #import "PNLiteMRAIDView.h"
 #import "PNLiteMRAIDServiceDelegate.h"
-#import "PNLiteMRAIDServiceProvider.h"
+#import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
 @interface PNLiteMRAIDInterstitialPresenter() <PNLiteMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
 
-@property (nonatomic, strong) PNLiteMRAIDServiceProvider *serviceProvider;
+@property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNLiteMRAIDView *mraidView;
 @property (nonatomic, strong) PNLiteAd *adModel;
 
@@ -58,7 +58,7 @@
 
 - (void)load
 {
-    self.serviceProvider = [[PNLiteMRAIDServiceProvider alloc] init];
+    self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
     self.mraidView = [[PNLiteMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]

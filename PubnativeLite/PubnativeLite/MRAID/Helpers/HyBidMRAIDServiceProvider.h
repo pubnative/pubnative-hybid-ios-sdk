@@ -20,8 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMRAIDServiceProvider.h"
+#import <Foundation/Foundation.h>
 
-@interface PNLiteMRAIDServiceProvider : HyBidMRAIDServiceProvider
+@interface HyBidMRAIDServiceProvider : NSObject
+
+- (void)openBrowser:(NSString *)urlString;
+- (void)playVideo:(NSString *)urlString;
+- (void)storePicture:(NSString *)urlString;
+- (void)createEvent:(NSString *)eventJSON;
+- (void)sendSMS:(NSString *)urlString;
+- (void)callNumber:(NSString *)urlString;
 
 @end
