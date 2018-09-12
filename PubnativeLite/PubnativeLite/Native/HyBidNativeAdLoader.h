@@ -20,12 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidNativeAdLoader.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteNativeAd.h"
 
-@protocol PNLiteNativeAdLoaderDelegate<HyBidNativeAdLoaderDelegate>
+@protocol HyBidNativeAdLoaderDelegate<NSObject>
+
+- (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd;
+- (void)nativeLoaderDidFailWithError:(NSError *)error;
 
 @end
 
-@interface PNLiteNativeAdLoader : HyBidNativeAdLoader
+@interface HyBidNativeAdLoader : NSObject
+
+- (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID;
 
 @end

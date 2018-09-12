@@ -24,7 +24,7 @@
 #import <PubnativeLite/PubnativeLite.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteNativeAdViewController () <PNLiteNativeAdLoaderDelegate, PNLiteNativeAdDelegate, PNLiteNativeAdFetchDelegate>
+@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, PNLiteNativeAdDelegate, PNLiteNativeAdFetchDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContentInfo;
@@ -36,7 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *nativeCallToAction;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *nativeAdLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (nonatomic, strong) PNLiteNativeAdLoader *nativeAdLoader;
+@property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) PNLiteNativeAd *nativeAd;
 @end
 
@@ -61,11 +61,11 @@
 {
     self.nativeAdContainer.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
-    self.nativeAdLoader = [[PNLiteNativeAdLoader alloc] init];
+    self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-#pragma mark - PNLiteNativeAdLoaderDelegate
+#pragma mark - HyBidNativeAdLoaderDelegate
 
 - (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd
 {
