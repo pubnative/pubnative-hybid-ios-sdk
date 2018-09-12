@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteAdFactory.h"
-#import "PNLiteRequestParameter.h"
+#import "HyBidRequestParameter.h"
 #import "PNLiteSettings.h"
 #import "PNLiteCryptoUtils.h"
 #import "PNLiteMeta.h"
@@ -32,22 +32,22 @@
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID andWithAdSize:(NSString *)adSize
 {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
-    adRequestModel.requestParameters[PNLiteRequestParameter.zoneId] = zoneID;
-    adRequestModel.requestParameters[PNLiteRequestParameter.appToken] = [PNLiteSettings sharedInstance].appToken;
-    adRequestModel.requestParameters[PNLiteRequestParameter.os] = [PNLiteSettings sharedInstance].os;
-    adRequestModel.requestParameters[PNLiteRequestParameter.osVersion] = [PNLiteSettings sharedInstance].osVersion;
-    adRequestModel.requestParameters[PNLiteRequestParameter.deviceModel] = [PNLiteSettings sharedInstance].deviceName;
-    adRequestModel.requestParameters[PNLiteRequestParameter.coppa] = [PNLiteSettings sharedInstance].coppa ? @"1" : @"0";
+    adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
+    adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [PNLiteSettings sharedInstance].appToken;
+    adRequestModel.requestParameters[HyBidRequestParameter.os] = [PNLiteSettings sharedInstance].os;
+    adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [PNLiteSettings sharedInstance].osVersion;
+    adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [PNLiteSettings sharedInstance].deviceName;
+    adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [PNLiteSettings sharedInstance].coppa ? @"1" : @"0";
     [self setIDFA:adRequestModel];
-    adRequestModel.requestParameters[PNLiteRequestParameter.locale] = [PNLiteSettings sharedInstance].locale;
+    adRequestModel.requestParameters[HyBidRequestParameter.locale] = [PNLiteSettings sharedInstance].locale;
     if (![PNLiteSettings sharedInstance].coppa) {
-        adRequestModel.requestParameters[PNLiteRequestParameter.age] = [[PNLiteSettings sharedInstance].targeting.age stringValue];
-        adRequestModel.requestParameters[PNLiteRequestParameter.gender] = [PNLiteSettings sharedInstance].targeting.gender;
-        adRequestModel.requestParameters[PNLiteRequestParameter.keywords] = [[PNLiteSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
+        adRequestModel.requestParameters[HyBidRequestParameter.age] = [[PNLiteSettings sharedInstance].targeting.age stringValue];
+        adRequestModel.requestParameters[HyBidRequestParameter.gender] = [PNLiteSettings sharedInstance].targeting.gender;
+        adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[PNLiteSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
     }
-    adRequestModel.requestParameters[PNLiteRequestParameter.test] =[PNLiteSettings sharedInstance].test ? @"1" : @"0";
+    adRequestModel.requestParameters[HyBidRequestParameter.test] =[PNLiteSettings sharedInstance].test ? @"1" : @"0";
     if (adSize) {
-        adRequestModel.requestParameters[PNLiteRequestParameter.assetLayout] = adSize;
+        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize;
     } else {
         [self setDefaultAssetFields:adRequestModel];
     }
@@ -59,18 +59,18 @@
 {
     NSString *advertisingId = [PNLiteSettings sharedInstance].advertisingId;
     if (advertisingId == nil || advertisingId.length == 0) {
-        adRequestModel.requestParameters[PNLiteRequestParameter.dnt] = @"1";
+        adRequestModel.requestParameters[HyBidRequestParameter.dnt] = @"1";
     } else {
-        adRequestModel.requestParameters[PNLiteRequestParameter.idfa] = advertisingId;
-        adRequestModel.requestParameters[PNLiteRequestParameter.idfamd5] = [PNLiteCryptoUtils md5WithString:advertisingId];
-        adRequestModel.requestParameters[PNLiteRequestParameter.idfasha1] = [PNLiteCryptoUtils sha1WithString:advertisingId];
+        adRequestModel.requestParameters[HyBidRequestParameter.idfa] = advertisingId;
+        adRequestModel.requestParameters[HyBidRequestParameter.idfamd5] = [PNLiteCryptoUtils md5WithString:advertisingId];
+        adRequestModel.requestParameters[HyBidRequestParameter.idfasha1] = [PNLiteCryptoUtils sha1WithString:advertisingId];
     }
 }
 
 - (void)setDefaultAssetFields:(PNLiteAdRequestModel *)adRequestModel
 {
-    if (adRequestModel.requestParameters[PNLiteRequestParameter.assetsField] == nil
-        && adRequestModel.requestParameters[PNLiteRequestParameter.assetLayout] == nil) {
+    if (adRequestModel.requestParameters[HyBidRequestParameter.assetsField] == nil
+        && adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] == nil) {
         
         NSArray *assets = @[PNLiteAsset.title,
                             PNLiteAsset.body,
@@ -79,13 +79,13 @@
                             PNLiteAsset.callToAction,
                             PNLiteAsset.rating];
         
-        adRequestModel.requestParameters[PNLiteRequestParameter.assetsField] = [assets componentsJoinedByString:@","];
+        adRequestModel.requestParameters[HyBidRequestParameter.assetsField] = [assets componentsJoinedByString:@","];
     }
 }
 
 - (void)setDefaultMetaFields:(PNLiteAdRequestModel *)adRequestModel
 {
-    NSString *metaFieldsString = adRequestModel.requestParameters[PNLiteRequestParameter.metaField];
+    NSString *metaFieldsString = adRequestModel.requestParameters[HyBidRequestParameter.metaField];
     NSMutableArray *newMetaFields = [NSMutableArray array];
     if (metaFieldsString && metaFieldsString.length > 0) {
         newMetaFields = [[metaFieldsString componentsSeparatedByString:@","] mutableCopy];
@@ -99,7 +99,7 @@
     if (![newMetaFields containsObject:PNLiteMeta.points]) {
         [newMetaFields addObject:PNLiteMeta.points];
     }
-    adRequestModel.requestParameters[PNLiteRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
+    adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
 }
 
 @end

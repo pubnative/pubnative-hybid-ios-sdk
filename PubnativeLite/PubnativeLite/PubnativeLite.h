@@ -64,6 +64,9 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteStarRatingView.h>
 #import <PubnativeLite/PNLiteNativeAdRenderer.h>
 
+#import <PubnativeLite/HyBidRequestParameter.h>
+
+
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 
 @interface PubnativeLite : NSObject
