@@ -21,10 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteBaseModel.h"
+#import "HyBidBaseModel.h"
 #import "HyBidDataModel.h"
 
-@interface HyBidAdModel : PNLiteBaseModel
+@interface HyBidAdModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSString *link;
 @property (nonatomic, strong) NSNumber *assetgroupid;

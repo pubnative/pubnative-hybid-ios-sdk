@@ -20,13 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidBaseModel.h"
 
-@interface PNLiteBaseModel : NSObject
-
-@property (nonatomic, strong) NSDictionary *dictionary;
-
-+ (NSArray *)parseArrayValues:(NSArray *)array;
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@interface PNLiteBaseModel : HyBidBaseModel
 
 @end

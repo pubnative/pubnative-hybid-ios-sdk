@@ -20,8 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBaseModel.h"
+#import <Foundation/Foundation.h>
 
-@implementation PNLiteBaseModel
+@interface HyBidBaseModel : NSObject
+
+@property (nonatomic, strong) NSDictionary *dictionary;
+
++ (NSArray *)parseArrayValues:(NSArray *)array;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

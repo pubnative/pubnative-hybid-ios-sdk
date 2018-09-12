@@ -21,9 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteBaseModel.h"
+#import "HyBidBaseModel.h"
 
-@interface HyBidDataModel : PNLiteBaseModel
+@interface HyBidDataModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSDictionary *data;

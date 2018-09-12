@@ -21,9 +21,9 @@
 //
 
 #import <PubnativeLite/PubnativeLite.h>
-#import "PNLiteBaseModel.h"
+#import "HyBidBaseModel.h"
 
-@interface PNLiteGeoIPModel : PNLiteBaseModel
+@interface PNLiteGeoIPModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *country;

@@ -20,8 +20,35 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBaseModel.h"
+#import "HyBidBaseModel.h"
 
-@implementation PNLiteBaseModel
+@implementation HyBidBaseModel
+
+- (void)dealloc
+{
+    self.dictionary = nil;
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary
+{
+    self = [super init];
+    if (self) {
+        self.dictionary = dictionary;
+    }
+    return self;
+}
+
++ (NSArray *)parseArrayValues:(NSArray *)array
+{
+    NSMutableArray *result;
+    if(array) {
+        result = [NSMutableArray array];
+        for (NSDictionary *valueDictionary in array) {
+            NSObject *value = [[self alloc] initWithDictionary:valueDictionary];
+            [result addObject:value];
+        }
+    }
+    return result;
+}
 
 @end
