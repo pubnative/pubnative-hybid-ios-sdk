@@ -20,8 +20,20 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdModel.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteBaseModel.h"
+#import "PNLiteDataModel.h"
 
-@interface PNLiteAdModel : HyBidAdModel
+@interface HyBidAdModel : PNLiteBaseModel
+
+@property (nonatomic, strong) NSString *link;
+@property (nonatomic, strong) NSNumber *assetgroupid;
+@property (nonatomic, strong) NSArray<PNLiteDataModel*> *assets;
+@property (nonatomic, strong) NSArray<PNLiteDataModel*> *beacons;
+@property (nonatomic, strong) NSArray<PNLiteDataModel*> *meta;
+
+- (PNLiteDataModel *)assetWithType:(NSString *)type;
+- (PNLiteDataModel *)metaWithType:(NSString *)type;
+- (NSArray *)beaconsWithType:(NSString *)type;
 
 @end

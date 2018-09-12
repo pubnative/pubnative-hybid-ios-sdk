@@ -25,7 +25,7 @@
 #import "PNLiteAdFactory.h"
 #import "PNLiteAdRequestModel.h"
 #import "PNLiteResponseModel.h"
-#import "PNLiteAdModel.h"
+#import "HyBidAdModel.h"
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
 
@@ -155,7 +155,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
             [self invokeDidFail:error];
         } else if ([kPNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
-            for (PNLiteAdModel *adModel in response.ads) {
+            for (HyBidAdModel *adModel in response.ads) {
                 PNLiteAd *ad = [[PNLiteAd alloc] initWithData:adModel];
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];

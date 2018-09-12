@@ -30,7 +30,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 @interface PNLiteAd ()
 
-@property (nonatomic, strong)PNLiteAdModel *data;
+@property (nonatomic, strong)HyBidAdModel *data;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
 
 @end
@@ -45,7 +45,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 #pragma mark PNLiteAd
 
-- (instancetype)initWithData:(PNLiteAdModel *)data
+- (instancetype)initWithData:(HyBidAdModel *)data
 {
     self = [super init];
     if (self) {

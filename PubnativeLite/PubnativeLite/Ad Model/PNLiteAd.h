@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
+#import "HyBidAdModel.h"
 #import "HyBidContentInfoView.h"
 
 @interface PNLiteAd : NSObject
@@ -37,7 +37,7 @@
 @property (nonatomic, readonly) NSArray<PNLiteDataModel*> *beacons;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
-- (instancetype)initWithData:(PNLiteAdModel *)data;
+- (instancetype)initWithData:(HyBidAdModel *)data;
 - (PNLiteDataModel *)assetDataWithType:(NSString *)type;
 - (PNLiteDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;

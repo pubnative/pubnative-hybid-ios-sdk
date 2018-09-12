@@ -21,7 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAdModel.h"
+#import "HyBidAdModel.h"
 #import "PNLiteBaseModel.h"
 
 @interface PNLiteResponseModel : PNLiteBaseModel

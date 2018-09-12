@@ -40,7 +40,7 @@
     if (self) {
         self.status = dictionary[@"status"];
         self.errorMessage = dictionary[@"error_message"];
-        self.ads = [PNLiteAdModel parseArrayValues:dictionary[@"ads"]];
+        self.ads = [HyBidAdModel parseArrayValues:dictionary[@"ads"]];
     }
     return self;
 }
