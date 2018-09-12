@@ -23,7 +23,7 @@
 #import "PNLiteMRectAdView.h"
 #import "PNLiteMRectPresenter.h"
 #import "PNLiteMRectPresenterFactory.h"
-#import "PNLiteMRectAdRequest.h"
+#import "HyBidMRectAdRequest.h"
 
 @interface PNLiteMRectAdView() <PNLiteMRectPresenterDelegate>
 
@@ -45,7 +45,7 @@
 
 - (HyBidAdRequest *)adRequest
 {
-    PNLiteMRectAdRequest *mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
+    HyBidMRectAdRequest *mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     return mRectAdRequest;
 }
 

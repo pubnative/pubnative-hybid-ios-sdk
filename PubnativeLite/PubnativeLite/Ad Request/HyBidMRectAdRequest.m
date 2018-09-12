@@ -22,6 +22,11 @@
 
 #import "HyBidMRectAdRequest.h"
 
-@interface PNLiteMRectAdRequest : HyBidMRectAdRequest
+@implementation HyBidMRectAdRequest
+
+- (NSString *)adSize
+{
+    return @"m";
+}
 
 @end

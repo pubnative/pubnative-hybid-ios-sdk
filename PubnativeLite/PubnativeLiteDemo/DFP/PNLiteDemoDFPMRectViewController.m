@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpMrect;
-@property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
+@property (nonatomic, strong) HyBidMRectAdRequest *mRectAdRequest;
 
 @end
 
@@ -63,7 +63,7 @@
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
+    self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
