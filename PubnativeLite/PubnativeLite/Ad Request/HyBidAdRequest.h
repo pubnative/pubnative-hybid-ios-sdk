@@ -20,8 +20,23 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAdRequest.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteAd.h"
 
-@implementation PNLiteAdRequest
+@class HyBidAdRequest;
+
+@protocol HyBidAdRequestDelegate <NSObject>
+
+- (void)requestDidStart:(HyBidAdRequest *)request;
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(PNLiteAd *)ad;
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error;
+
+@end
+
+@interface HyBidAdRequest : NSObject
+
+@property (nonatomic, readonly) NSString *adSize;
+
+- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
 
 @end

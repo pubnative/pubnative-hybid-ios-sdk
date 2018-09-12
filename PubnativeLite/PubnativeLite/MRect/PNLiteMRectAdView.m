@@ -43,7 +43,7 @@
     return [super initWithFrame:CGRectMake(0, 0, 300, 250)];
 }
 
-- (PNLiteAdRequest *)adRequest
+- (HyBidAdRequest *)adRequest
 {
     PNLiteMRectAdRequest *mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
     return mRectAdRequest;

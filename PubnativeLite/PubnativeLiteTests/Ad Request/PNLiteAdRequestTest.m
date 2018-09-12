@@ -23,11 +23,11 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
-#import "PNLiteAdRequest.h"
+#import "HyBidAdRequest.h"
 
-@interface PNLiteAdRequest ()
+@interface HyBidAdRequest ()
 
-@property (nonatomic, weak) NSObject <PNLiteAdRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidAdRequestDelegate> *delegate;
 - (void)invokeDidStart;
 - (void)invokeDidLoad:(PNLiteAd *)ad;
 - (void)invokeDidFail:(NSError *)error;
@@ -51,34 +51,34 @@
 
 - (void)test_requestAdWithDelegate_withNilDelegateAndValidZoneID_shouldPass
 {
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     [request requestAdWithDelegate:nil withZoneID:@"validZoneID"];
 }
 
 - (void)test_requestAdWithDelegate_withValidDelegateAndNilZoneID_shouldPass
 {
-    NSObject <PNLiteAdRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdRequestDelegate));
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     [request requestAdWithDelegate:delegate withZoneID:nil];
 }
 
 - (void)test_requestAdWithDelegate_withValidDelegateAndEmptyZoneID_shouldPass
 {
-    NSObject <PNLiteAdRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdRequestDelegate));
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     [request requestAdWithDelegate:delegate withZoneID:@""];
 }
 
 - (void)test_requestAdWithDelegate_withValidDelegateAndValidZoneID_shouldPass
 {
-    NSObject <PNLiteAdRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdRequestDelegate));
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     [request requestAdWithDelegate:delegate withZoneID:@"validZoneID"];
 }
 
 - (void)test_invokeDidStart_withNilListener_shouldPass
 {
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     request.delegate = nil;
     [request invokeDidStart];
     
@@ -93,8 +93,8 @@
 
 - (void)test_invokeDidStart_withValidListener_shouldCallback
 {
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
-    NSObject <PNLiteAdRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdRequestDelegate));
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
+    NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     request.delegate = delegate;
     [request invokeDidStart];
     
@@ -110,7 +110,7 @@
 
 - (void)test_invokeDidLoad_withNilListener_shouldPass
 {
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     request.delegate = nil;
     [request invokeDidStart];
     
@@ -125,9 +125,9 @@
 
 - (void)test_invokeDidLoad_withValidListener_shouldCallback
 {
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     PNLiteAd *ad = mock([PNLiteAd class]);
-    NSObject <PNLiteAdRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdRequestDelegate));
+    NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     request.delegate = delegate;
     [request invokeDidLoad:ad];
     
@@ -143,7 +143,7 @@
 
 - (void)test_invokeDidFail_witNilListener_shouldPass
 {
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     request.delegate = nil;
     NSError *error = mock([NSError class]);
     [request invokeDidFail:error];
@@ -159,8 +159,8 @@
 
 - (void)test_invokeDidFail_withValidListener_shouldCallback
 {
-    PNLiteAdRequest *request = [[PNLiteAdRequest alloc] init];
-    NSObject <PNLiteAdRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdRequestDelegate));
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
+    NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     request.delegate = delegate;
     NSError *error = mock([NSError class]);
     [request invokeDidFail:error];

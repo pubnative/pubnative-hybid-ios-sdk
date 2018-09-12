@@ -82,14 +82,14 @@
     // Do nothing, this method should be overriden
 }
 
-#pragma mark PNLiteAdRequestDelegate
+#pragma mark HyBidAdRequestDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+- (void)requestDidStart:(HyBidAdRequest *)request
 {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {
@@ -102,7 +102,7 @@
     }
 }
 
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
         [self.delegate adViewDidFailWithError:error];

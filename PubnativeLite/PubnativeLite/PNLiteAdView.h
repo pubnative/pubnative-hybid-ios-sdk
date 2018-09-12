@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PNLiteAd.h"
-#import "PNLiteAdRequest.h"
+#import "HyBidAdRequest.h"
 
 @protocol PNLiteAdViewDelegate<NSObject>
 
@@ -33,9 +33,9 @@
 
 @end
 
-@interface PNLiteAdView : UIView <PNLiteAdRequestDelegate>
+@interface PNLiteAdView : UIView <HyBidAdRequestDelegate>
 
-@property (nonatomic, readonly) PNLiteAdRequest *adRequest;
+@property (nonatomic, readonly) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) PNLiteAd *ad;
 @property (nonatomic, strong) NSObject <PNLiteAdViewDelegate> *delegate;
 
