@@ -24,9 +24,9 @@
 
 @interface PNLiteInterstitialPresenterDecorator()
 
-@property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
+@property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<PNLiteInterstitialPresenterDelegate> *interstitialPresenterDelegate;
+@property (nonatomic, strong) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
 
 @end
 
@@ -54,9 +54,9 @@
     [self.interstitialPresenter hide];
 }
 
-- (instancetype)initWithInterstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (instancetype)initWithInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
                                 withAdTracker:(HyBidAdTracker *)adTracker
-                                 withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
+                                 withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
@@ -67,31 +67,31 @@
     return self;
 }
 
-#pragma mark PNLiteInterstitialPresenterDelegate
+#pragma mark HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
 }
 
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.adTracker trackImpression];
     [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
 }
 
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.adTracker trackClick];
     [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
 }
 
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
 }
 
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
 {
     [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
 }

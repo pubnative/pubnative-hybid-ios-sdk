@@ -25,9 +25,9 @@
 #import "MPLogging.h"
 #import "MPError.h"
 
-@interface PNLiteMoPubInterstitialCustomEvent () <PNLiteInterstitialPresenterDelegate>
+@interface PNLiteMoPubInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 
-@property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
+@property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) PNLiteInterstitialPresenterFactory *interstitalPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
@@ -83,32 +83,32 @@
     return NO;
 }
 
-#pragma mark - PNLiteInterstitialPresenterDelegate
+#pragma mark - HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.delegate interstitialCustomEvent:self didLoadAd:nil];
 }
 
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.delegate trackImpression];
     [self.delegate interstitialCustomEventDidAppear:self];
 }
 
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.delegate trackClick];
     [self.delegate interstitialCustomEventWillLeaveApplication:self];
 }
 
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.delegate interstitialCustomEventWillDisappear:self];
     [self.delegate interstitialCustomEventDidDisappear:self];
 }
 
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }

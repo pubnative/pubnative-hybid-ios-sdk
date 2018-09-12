@@ -23,9 +23,9 @@
 #import "PNLiteDFPInterstitialCustomEvent.h"
 #import "PNLiteDFPUtils.h"
 
-@interface PNLiteDFPInterstitialCustomEvent () <PNLiteInterstitialPresenterDelegate>
+@interface PNLiteDFPInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 
-@property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
+@property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) PNLiteInterstitialPresenterFactory *interstitalPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
@@ -77,31 +77,31 @@
     [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - PNLiteInterstitialPresenterDelegate
+#pragma mark - HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.delegate customEventInterstitialDidReceiveAd:self];
 }
 
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     
 }
 
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.delegate customEventInterstitialWasClicked:self];
     [self.delegate customEventInterstitialWillLeaveApplication:self];
 }
 
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self.delegate customEventInterstitialWillDismiss:self];
     [self.delegate customEventInterstitialDidDismiss:self];
 }
 
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }

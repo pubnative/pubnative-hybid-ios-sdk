@@ -22,8 +22,31 @@
 
 #import "HyBidInterstitialPresenter.h"
 
-@interface PNLiteMRAIDInterstitialPresenter : HyBidInterstitialPresenter
+@implementation HyBidInterstitialPresenter
 
-- (instancetype)initWithAd:(PNLiteAd *)ad;
+- (void)dealloc
+{
+    self.delegate = nil;
+}
+
+- (void)load
+{
+    // Do nothing, this method should be overriden
+}
+
+- (void)show
+{
+    // Do nothing, this method should be overriden
+}
+
+- (void)hide
+{
+    // Do nothing, this method should be overriden
+}
+
+- (PNLiteAd *)ad
+{
+    return nil;
+}
 
 @end

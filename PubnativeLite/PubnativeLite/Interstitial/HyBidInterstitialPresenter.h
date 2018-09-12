@@ -20,10 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidInterstitialPresenter.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteAd.h"
 
-@interface PNLiteMRAIDInterstitialPresenter : HyBidInterstitialPresenter
+@class HyBidInterstitialPresenter;
 
-- (instancetype)initWithAd:(PNLiteAd *)ad;
+@protocol HyBidInterstitialPresenterDelegate<NSObject>
+
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
+             didFailWithError:(NSError *)error;
+
+@end
+
+@interface HyBidInterstitialPresenter : NSObject
+
+@property (nonatomic, readonly) PNLiteAd *ad;
+@property (nonatomic, strong) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
+
+- (void)load;
+- (void)show;
+- (void)hide;
 
 @end

@@ -22,14 +22,14 @@
 
 #import "PNLiteInterstitialAd.h"
 #import "HyBidInterstitialAdRequest.h"
-#import "PNLiteInterstitialPresenter.h"
+#import "HyBidInterstitialPresenter.h"
 #import "PNLiteInterstitialPresenterFactory.h"
 
-@interface PNLiteInterstitialAd() <PNLiteInterstitialPresenterDelegate, HyBidAdRequestDelegate>
+@interface PNLiteInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSObject<PNLiteInterstitialAdDelegate> *delegate;
-@property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
+@property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
 @end
@@ -148,30 +148,30 @@
     [self invokeDidFailWithError:error];
 }
 
-#pragma mark PNLiteInterstitialPresenterDelegate
+#pragma mark HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     self.isReady = YES;
     [self invokeDidLoad];
 }
 
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
 {
     [self invokeDidFailWithError:error];
 }
 
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self invokeDidTrackImpression];
 }
 
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self invokeDidTrackClick];
 }
 
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
 {
     [self invokeDidDismiss];
 }
