@@ -22,7 +22,7 @@
 
 #import "PNLiteBannerAdView.h"
 #import "HyBidBannerPresenter.h"
-#import "PNLiteBannerPresenterFactory.h"
+#import "HyBidBannerPresenterFactory.h"
 #import "HyBidBannerAdRequest.h"
 
 @interface PNLiteBannerAdView() <HyBidBannerPresenterDelegate>
@@ -51,7 +51,7 @@
 
 - (void)renderAd
 {
-    PNLiteBannerPresenterFactory *bannerPresenterFactory = [[PNLiteBannerPresenterFactory alloc] init];
+    HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
     self.bannerPresenter = [bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
     if (self.bannerPresenter == nil) {
         NSLog(@"PubNativeLite - Error: Could not create valid banner presenter");

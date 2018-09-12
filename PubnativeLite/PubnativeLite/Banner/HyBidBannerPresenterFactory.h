@@ -20,8 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerPresenterFactory.h"
+#import <Foundation/Foundation.h>
+#import "HyBidBannerPresenter.h"
+#import "PNLiteAd.h"
 
-@interface PNLiteBannerPresenterFactory : HyBidBannerPresenterFactory
+@interface HyBidBannerPresenterFactory : NSObject
+
+- (HyBidBannerPresenter *)createBannerPresenterWithAd:(PNLiteAd *)ad
+                                         withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate;
 
 @end

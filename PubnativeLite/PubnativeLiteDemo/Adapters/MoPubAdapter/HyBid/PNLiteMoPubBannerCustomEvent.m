@@ -30,7 +30,7 @@
 
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
-@property (nonatomic, strong) PNLiteBannerPresenterFactory *bannerPresenterFactory;
+@property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
 @end
@@ -55,7 +55,7 @@
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteMoPubUtils zoneID:info]]];
                 return;
             }
-            self.bannerPresenterFactory = [[PNLiteBannerPresenterFactory alloc] init];
+            self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
             self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
             if (self.bannerPresenter == nil) {
                 [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid banner presenter"];
