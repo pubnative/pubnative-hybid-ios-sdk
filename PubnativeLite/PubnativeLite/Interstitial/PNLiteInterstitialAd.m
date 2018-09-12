@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteInterstitialAd.h"
-#import "PNLiteInterstitialAdRequest.h"
+#import "HyBidInterstitialAdRequest.h"
 #import "PNLiteInterstitialPresenter.h"
 #import "PNLiteInterstitialPresenterFactory.h"
 
@@ -30,7 +30,7 @@
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSObject<PNLiteInterstitialAdDelegate> *delegate;
 @property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
-@property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
 @end
 
@@ -48,7 +48,7 @@
 {
     self = [super init];
     if (self) {
-        self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
+        self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
         self.zoneID = zoneID;
         self.delegate = delegate;
     }

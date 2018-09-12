@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPInterstitial *dfpInterstitial;
-@property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
 @end
 
@@ -55,7 +55,7 @@
 {
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 

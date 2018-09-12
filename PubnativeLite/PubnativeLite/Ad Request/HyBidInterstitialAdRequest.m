@@ -20,8 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteInterstitialAdRequest.h"
+#import "HyBidInterstitialAdRequest.h"
 
-@implementation PNLiteInterstitialAdRequest
+@implementation HyBidInterstitialAdRequest
+
+- (NSString *)adSize
+{
+    return @"l";
+}
 
 @end

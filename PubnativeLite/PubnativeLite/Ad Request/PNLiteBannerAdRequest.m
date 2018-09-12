@@ -24,5 +24,4 @@
 
 @implementation PNLiteBannerAdRequest
 
-
 @end
