@@ -20,8 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidPrebidUtils.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteAd.h"
 
-@interface PNLitePrebidUtils : HyBidPrebidUtils
+@interface HyBidPrebidUtils : NSObject
+
++ (NSString *)createPrebidKeywordsStringWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
 
 @end

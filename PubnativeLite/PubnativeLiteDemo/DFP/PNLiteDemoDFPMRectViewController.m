@@ -138,7 +138,7 @@
     if (request == self.mRectAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpMrect loadRequest:request];
     }
 }

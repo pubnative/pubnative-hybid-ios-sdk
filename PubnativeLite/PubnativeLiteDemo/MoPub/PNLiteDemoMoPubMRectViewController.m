@@ -135,7 +135,7 @@
     
     if (request == self.mRectAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubMrect setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
+        [self.moPubMrect setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubMrect loadAd];
     }
 }
