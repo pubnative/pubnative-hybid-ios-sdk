@@ -22,14 +22,14 @@
 
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "PNLiteMRAIDView.h"
-#import "PNLiteMRAIDServiceDelegate.h"
+#import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
 CGFloat const kPNLiteMRAIDBannerWidth = 320.0f;
 CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
-@interface PNLiteMRAIDBannerPresenter () <PNLiteMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
+@interface PNLiteMRAIDBannerPresenter () <PNLiteMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNLiteMRAIDView *mraidView;

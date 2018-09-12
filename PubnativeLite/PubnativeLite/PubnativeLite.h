@@ -70,6 +70,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/HyBidBrowser.h>
 #import <PubnativeLite/HyBidBrowserControlsView.h>
 #import <PubnativeLite/HyBidMRAIDServiceProvider.h>
+#import <PubnativeLite/HyBidMRAIDServiceDelegate.h>
 
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 

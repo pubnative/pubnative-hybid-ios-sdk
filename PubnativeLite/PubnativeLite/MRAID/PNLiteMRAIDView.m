@@ -25,7 +25,7 @@
 #import "PNLiteMRAIDResizeProperties.h"
 #import "PNLiteMRAIDParser.h"
 #import "PNLiteMRAIDModalViewController.h"
-#import "PNLiteMRAIDServiceDelegate.h"
+#import "HyBidMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
 
@@ -153,7 +153,7 @@ typedef enum {
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+    serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(PNLiteContentInfoView *)contentInfo
 {
@@ -175,7 +175,7 @@ typedef enum {
      asInterstitial:(BOOL)isInter
   supportedFeatures:(NSArray *)currentFeatures
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+    serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(PNLiteContentInfoView *)contentInfo
 {

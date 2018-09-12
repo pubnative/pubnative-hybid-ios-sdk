@@ -22,11 +22,11 @@
 
 #import "PNLiteMRAIDInterstitialPresenter.h"
 #import "PNLiteMRAIDView.h"
-#import "PNLiteMRAIDServiceDelegate.h"
+#import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-@interface PNLiteMRAIDInterstitialPresenter() <PNLiteMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
+@interface PNLiteMRAIDInterstitialPresenter() <PNLiteMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) PNLiteMRAIDView *mraidView;

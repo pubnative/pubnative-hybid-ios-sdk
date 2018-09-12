@@ -24,7 +24,7 @@
 #import "PNLiteContentInfoView.h"
 
 @class PNLiteMRAIDView;
-@protocol PNLiteMRAIDServiceDelegate;
+@protocol HyBidMRAIDServiceDelegate;
 
 // A delegate for MRAIDView to listen for notification on ad ready or expand related events.
 @protocol PNLiteMRAIDViewDelegate <NSObject>
@@ -46,7 +46,7 @@
 @interface PNLiteMRAIDView : UIView
 
 @property (nonatomic, strong) id<PNLiteMRAIDViewDelegate> delegate;
-@property (nonatomic, strong) id<PNLiteMRAIDServiceDelegate> serviceDelegate;
+@property (nonatomic, strong) id<HyBidMRAIDServiceDelegate> serviceDelegate;
 @property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
 @property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
 
@@ -57,7 +57,7 @@
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
            delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
+    serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(PNLiteContentInfoView *)contentInfo;
 
