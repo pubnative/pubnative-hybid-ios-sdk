@@ -29,7 +29,7 @@
 NSString * const kPNLiteNativeAdBeaconImpression = @"impression";
 NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
-@interface PNLiteNativeAd () <PNLiteImpressionTrackerDelegate, PNLiteContentInfoViewDelegate>
+@interface PNLiteNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate>
 
 @property (nonatomic, strong) PNLiteAd *ad;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
@@ -176,9 +176,9 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (PNLiteContentInfoView *)contentInfo
+- (HyBidContentInfoView *)contentInfo
 {
-    PNLiteContentInfoView *result = nil;
+    HyBidContentInfoView *result = nil;
     if (self.ad) {
         result = self.ad.contentInfo;
     }
@@ -353,7 +353,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
         banner.frame = self.renderer.bannerView.bounds;
     }
     
-    PNLiteContentInfoView *contentInfo = self.contentInfo;
+    HyBidContentInfoView *contentInfo = self.contentInfo;
     contentInfo.delegate = self;
     if (self.renderer.contentInfoView && contentInfo) {
         [self.renderer.contentInfoView addSubview:contentInfo];
@@ -436,7 +436,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-#pragma mark PNLiteContentInfoViewDelegate
+#pragma mark HyBidContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
 {

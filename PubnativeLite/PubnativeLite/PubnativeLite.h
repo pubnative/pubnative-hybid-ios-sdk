@@ -84,6 +84,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/HyBidInterstitialPresenterFactory.h>
 #import <PubnativeLite/HyBidAdCache.h>
 #import <PubnativeLite/HyBidPrebidUtils.h>
+#import <PubnativeLite/HyBidContentInfoView.h>
 
 
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);

@@ -20,12 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidContentInfoView.h"
+#import <UIKit/UIKit.h>
 
-@protocol PNLiteContentInfoViewDelegate<HyBidContentInfoViewDelegate>
+@class HyBidContentInfoView;
+
+@protocol HyBidContentInfoViewDelegate<NSObject>
+
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
 
 @end
 
-@interface PNLiteContentInfoView : HyBidContentInfoView
+@interface HyBidContentInfoView : UIView
+
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSString *link;
+@property (nonatomic, strong) NSString *icon;
+@property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
 
 @end

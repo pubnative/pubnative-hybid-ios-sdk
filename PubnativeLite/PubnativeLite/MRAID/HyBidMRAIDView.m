@@ -48,7 +48,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, PNLiteContentInfoViewDelegate>
+@interface HyBidMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -82,7 +82,7 @@ typedef enum {
     UIButton *resizeCloseRegion;
     
     UIView *contentInfoViewContainer;
-    PNLiteContentInfoView *contentInfoView;
+    HyBidContentInfoView *contentInfoView;
     
     CGSize previousMaxSize;
     CGSize previousScreenSize;
@@ -155,7 +155,7 @@ typedef enum {
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(PNLiteContentInfoView *)contentInfo
+        contentInfo:(HyBidContentInfoView *)contentInfo
 {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
@@ -177,7 +177,7 @@ typedef enum {
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(PNLiteContentInfoView *)contentInfo
+        contentInfo:(HyBidContentInfoView *)contentInfo
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -417,7 +417,7 @@ typedef enum {
     [self close];
 }
 
-#pragma mark - PNLiteContentInfoViewDelegate
+#pragma mark - HyBidContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
 {

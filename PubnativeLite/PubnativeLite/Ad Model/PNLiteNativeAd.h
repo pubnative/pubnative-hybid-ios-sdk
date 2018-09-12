@@ -24,7 +24,7 @@
 #import <UIKit/UIKit.h>
 #import "PNLiteAd.h"
 #import "PNLiteNativeAdRenderer.h"
-#import "PNLiteContentInfoView.h"
+#import "HyBidContentInfoView.h"
 
 @class PNLiteNativeAd;
 
@@ -53,7 +53,7 @@
 @property (nonatomic, readonly) NSNumber *rating;
 @property (nonatomic, readonly) UIView *banner;
 @property (nonatomic, readonly) UIImage *icon;
-@property (nonatomic, readonly) PNLiteContentInfoView *contentInfo;
+@property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
 - (instancetype)initWithAd:(PNLiteAd *)ad;
 - (void)renderAd:(PNLiteNativeAdRenderer *)renderer;

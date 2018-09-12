@@ -21,7 +21,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNLiteContentInfoView.h"
+#import "HyBidContentInfoView.h"
 
 @class HyBidMRAIDView;
 @protocol HyBidMRAIDServiceDelegate;
@@ -59,7 +59,7 @@
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(PNLiteContentInfoView *)contentInfo;
+        contentInfo:(HyBidContentInfoView *)contentInfo;
 
 - (void)cancel;
 - (void)showAsInterstitial;

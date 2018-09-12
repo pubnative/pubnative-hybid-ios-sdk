@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "PNLiteContentInfoView.h"
+#import "HyBidContentInfoView.h"
 
 @class PNLiteVASTPlayerViewController;
 
@@ -46,7 +46,7 @@
 @property (nonatomic, assign) BOOL canResize;
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 
-- (instancetype)initPlayerWithContentInfo:(PNLiteContentInfoView *)contentInfo
+- (instancetype)initPlayerWithContentInfo:(HyBidContentInfoView *)contentInfo
                             isInterstital:(BOOL)isInterstitial;
 - (void)loadWithVastUrl:(NSURL*)url;
 - (void)loadWithVastString:(NSString*)vast;

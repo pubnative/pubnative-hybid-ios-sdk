@@ -23,7 +23,7 @@
 #import "PNLiteAd.h"
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
-#import "PNLiteContentInfoView.h"
+#import "HyBidContentInfoView.h"
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -31,7 +31,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 @interface PNLiteAd ()
 
 @property (nonatomic, strong)PNLiteAdModel *data;
-@property (nonatomic, strong)PNLiteContentInfoView *contentInfoView;
+@property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
 
 @end
 
@@ -144,12 +144,12 @@ NSString *const kImpressionQuerryParameter = @"t";
     }
 }
 
-- (PNLiteContentInfoView *)contentInfo
+- (HyBidContentInfoView *)contentInfo
 {
     PNLiteDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
     if (data) {
         if (self.contentInfoView == nil) {
-            self.contentInfoView = [[PNLiteContentInfoView alloc] init];
+            self.contentInfoView = [[HyBidContentInfoView alloc] init];
             self.contentInfoView.text = data.text;
             self.contentInfoView.link = [data stringFieldWithKey:@"link"];
             self.contentInfoView.icon = [data stringFieldWithKey:@"icon"];
