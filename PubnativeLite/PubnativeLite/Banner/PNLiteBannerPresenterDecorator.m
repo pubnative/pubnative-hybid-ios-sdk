@@ -25,7 +25,7 @@
 @interface PNLiteBannerPresenterDecorator ()
 
 @property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
-@property (nonatomic, strong) PNLiteAdTracker *adTracker;
+@property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, strong) NSObject<HyBidBannerPresenterDelegate> *bannerPresenterDelegate;
 
 @end
@@ -55,7 +55,7 @@
 }
 
 - (instancetype)initWithBannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-                          withAdTracker:(PNLiteAdTracker *)adTracker
+                          withAdTracker:(HyBidAdTracker *)adTracker
                            withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
 {
     self = [super init];

@@ -25,7 +25,7 @@
 #import "PNLiteMRectPresenterDecorator.h"
 #import "PNLiteMRAIDMRectPresenter.h"
 #import "PNLiteVASTMRectPresenter.h"
-#import "PNLiteAdTracker.h"
+#import "HyBidAdTracker.h"
 
 @implementation PNLiteMRectPresenterFactory
 
@@ -37,7 +37,7 @@
         return nil;
     }
     PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter
-                                                                                                             withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
+                                                                                                             withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
                                                                                                               withDelegate:delegate];
     mRectPresenter.delegate = mRectPresenterDecorator;
     return mRectPresenterDecorator;

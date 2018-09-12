@@ -25,7 +25,7 @@
 @interface PNLiteInterstitialPresenterDecorator()
 
 @property (nonatomic, strong) PNLiteInterstitialPresenter *interstitialPresenter;
-@property (nonatomic, strong) PNLiteAdTracker *adTracker;
+@property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, strong) NSObject<PNLiteInterstitialPresenterDelegate> *interstitialPresenterDelegate;
 
 @end
@@ -55,7 +55,7 @@
 }
 
 - (instancetype)initWithInterstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
-                                withAdTracker:(PNLiteAdTracker *)adTracker
+                                withAdTracker:(HyBidAdTracker *)adTracker
                                  withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
 {
     self = [super init];

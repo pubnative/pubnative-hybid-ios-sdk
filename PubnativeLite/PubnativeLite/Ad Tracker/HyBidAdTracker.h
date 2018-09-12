@@ -20,13 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerPresenter.h"
-#import "HyBidAdTracker.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteAdTrackerRequest.h"
 
-@interface PNLiteBannerPresenterDecorator : HyBidBannerPresenter <HyBidBannerPresenterDelegate>
+extern NSString *const kPNLiteAdTrackerClick;
+extern NSString *const kPNLiteAdTrackerImpression;
 
-- (instancetype)initWithBannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-                          withAdTracker:(HyBidAdTracker *)adTracker
-                           withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate;
+@interface HyBidAdTracker : NSObject
+
+- (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
+                         withClickURLs:(NSArray *)clickURLs;
+- (void)trackClick;
+- (void)trackImpression;
 
 @end

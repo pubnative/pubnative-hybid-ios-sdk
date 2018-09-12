@@ -25,7 +25,7 @@
 @interface PNLiteMRectPresenterDecorator ()
 
 @property (nonatomic, strong) PNLiteMRectPresenter *mRectPresenter;
-@property (nonatomic, strong) PNLiteAdTracker *adTracker;
+@property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, strong) NSObject<PNLiteMRectPresenterDelegate> *mRectPresenterDelegate;
 
 @end
@@ -55,7 +55,7 @@
 }
 
 - (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
-                         withAdTracker:(PNLiteAdTracker *)adTracker
+                         withAdTracker:(HyBidAdTracker *)adTracker
                           withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate
 {
     self = [super init];

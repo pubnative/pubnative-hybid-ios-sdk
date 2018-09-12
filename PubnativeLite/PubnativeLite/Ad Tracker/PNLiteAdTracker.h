@@ -20,15 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAdTrackerRequest.h"
+#import "HyBidAdTracker.h"
 
-extern NSString *const kPNLiteAdTrackerClick;
-extern NSString *const kPNLiteAdTrackerImpression;
+@interface PNLiteAdTracker : HyBidAdTracker
 
-@interface PNLiteAdTracker : NSObject
-- (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
-                         withClickURLs:(NSArray *)clickURLs;
-- (void)trackClick;
-- (void)trackImpression;
 @end

@@ -24,7 +24,7 @@
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteBannerPresenterDecorator.h"
 #import "PNLiteMRAIDBannerPresenter.h"
-#import "PNLiteAdTracker.h"
+#import "HyBidAdTracker.h"
 
 @implementation PNLiteBannerPresenterFactory
 
@@ -36,7 +36,7 @@
         return nil;
     }
     PNLiteBannerPresenterDecorator *bannerPresenterDecorator = [[PNLiteBannerPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter
-                                                                                                                 withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
+                                                                                                                 withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
                                                                                                                   withDelegate:delegate];
     bannerPresenter.delegate = bannerPresenterDecorator;
     return bannerPresenterDecorator;

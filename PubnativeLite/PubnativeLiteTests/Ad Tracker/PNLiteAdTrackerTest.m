@@ -23,10 +23,10 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
-#import "PNLiteAdTracker.h"
+#import "HyBidAdTracker.h"
 #import "PNLiteTestUtil.h"
 
-@interface PNLiteAdTracker() 
+@interface HyBidAdTracker()
 
 @property (retain) PNLiteAdTrackerRequest *adTrackerRequest;
 
@@ -34,7 +34,7 @@
 
 @interface PNLiteAdTrackerTest : XCTestCase
 
-@property (nonatomic, strong) PNLiteAdTracker *adTracker;
+@property (nonatomic, strong) HyBidAdTracker *adTracker;
 
 @end
 
@@ -43,7 +43,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.adTracker = [[PNLiteAdTracker alloc] initWithImpressionURLs:[[PNLiteTestUtil sharedInstance] createMockImpressionBeaconArray]
+    self.adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[[PNLiteTestUtil sharedInstance] createMockImpressionBeaconArray]
                                                        withClickURLs:[[PNLiteTestUtil sharedInstance] createMockClickBeaconArray]];
 }
 

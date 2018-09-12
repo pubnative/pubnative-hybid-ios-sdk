@@ -21,12 +21,12 @@
 //
 
 #import "PNLiteMRectPresenter.h"
-#import "PNLiteAdTracker.h"
+#import "HyBidAdTracker.h"
 
 @interface PNLiteMRectPresenterDecorator : PNLiteMRectPresenter <PNLiteMRectPresenterDelegate>
 
 - (instancetype)initWithMRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
-                         withAdTracker:(PNLiteAdTracker *)adTracker
+                         withAdTracker:(HyBidAdTracker *)adTracker
                           withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate;
 
 @end
