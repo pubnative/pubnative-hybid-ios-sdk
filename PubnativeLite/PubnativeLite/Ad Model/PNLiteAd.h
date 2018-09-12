@@ -34,12 +34,12 @@
 @property (nonatomic, readonly) NSString *impressionID;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) NSArray<PNLiteDataModel*> *beacons;
+@property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
 - (instancetype)initWithData:(HyBidAdModel *)data;
-- (PNLiteDataModel *)assetDataWithType:(NSString *)type;
-- (PNLiteDataModel *)metaDataWithType:(NSString *)type;
+- (HyBidDataModel *)assetDataWithType:(NSString *)type;
+- (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;
 
 @end

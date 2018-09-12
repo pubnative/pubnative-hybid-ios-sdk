@@ -22,7 +22,7 @@
 
 #import "PNLiteNativeAd.h"
 #import "PNLiteAsset.h"
-#import "PNLiteDataModel.h"
+#import "HyBidDataModel.h"
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
 
@@ -79,7 +79,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (NSString *)title
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self.ad assetDataWithType:PNLiteAsset.title];
+    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.title];
     if (data) {
         result = data.text;
     }
@@ -89,7 +89,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (NSString *)body
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self.ad assetDataWithType:PNLiteAsset.body];
+    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.body];
     if (data) {
         result = data.text;
     }
@@ -99,7 +99,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (NSString *)callToActionTitle
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self.ad assetDataWithType:PNLiteAsset.callToAction];
+    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.callToAction];
     if (data) {
         result = data.text;
     }
@@ -109,7 +109,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (NSString *)iconUrl
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self.ad assetDataWithType:PNLiteAsset.icon];
+    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.icon];
     if (data) {
         result = data.url;
     }
@@ -119,7 +119,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (NSString *)bannerUrl
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self.ad assetDataWithType:PNLiteAsset.banner];
+    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.banner];
     if (data) {
         result = data.url;
     }
@@ -140,7 +140,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (NSNumber *)rating
 {
     NSNumber *result = nil;
-    PNLiteDataModel *data = [self.ad assetDataWithType:PNLiteAsset.rating];
+    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.rating];
     if (data) {
         result = data.number;
     }
@@ -277,7 +277,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     if (self.ad == nil || self.ad.beacons == nil || self.ad.beacons.count == 0) {
         NSLog(@"PNLiteNativeAd - confirmBeaconsWithType: %@ - Ad beacons not found", type);
     } else {
-        for (PNLiteDataModel *beacon in self.ad.beacons) {
+        for (HyBidDataModel *beacon in self.ad.beacons) {
             if ([beacon.type isEqualToString:type]) {
                 NSString *beaconJs = [beacon stringFieldWithKey:@"js"];
                 if (beacon.url && beacon.url.length > 0) {

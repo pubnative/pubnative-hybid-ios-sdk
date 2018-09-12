@@ -41,25 +41,25 @@
     if (self) {
         self.link = dictionary[@"link"];
         self.assetgroupid = dictionary[@"assetgroupid"];
-        self.assets = [PNLiteDataModel parseArrayValues:dictionary[@"assets"]];
-        self.meta = [PNLiteDataModel parseArrayValues:dictionary[@"meta"]];
-        self.beacons = [PNLiteDataModel parseArrayValues:dictionary[@"beacons"]];;
+        self.assets = [HyBidDataModel parseArrayValues:dictionary[@"assets"]];
+        self.meta = [HyBidDataModel parseArrayValues:dictionary[@"meta"]];
+        self.beacons = [HyBidDataModel parseArrayValues:dictionary[@"beacons"]];;
     }
     return self;
 }
 
 #pragma mark HyBidAdModel
 
-- (PNLiteDataModel *)assetWithType:(NSString *)type
+- (HyBidDataModel *)assetWithType:(NSString *)type
 {
-    PNLiteDataModel *result = nil;
+    HyBidDataModel *result = nil;
     result = [self dataWithType:type fromList:self.assets];
     return result;
 }
 
-- (PNLiteDataModel *)metaWithType:(NSString *)type
+- (HyBidDataModel *)metaWithType:(NSString *)type
 {
-    PNLiteDataModel *result = nil;
+    HyBidDataModel *result = nil;
     result = [self dataWithType:type fromList:self.meta];
     return result;
 }
@@ -71,12 +71,12 @@
     return result;
 }
 
-- (PNLiteDataModel *)dataWithType:(NSString *)type
+- (HyBidDataModel *)dataWithType:(NSString *)type
                          fromList:(NSArray *)list
 {
-    PNLiteDataModel *result = nil;
+    HyBidDataModel *result = nil;
     if (list != nil) {
-        for (PNLiteDataModel *data in list) {
+        for (HyBidDataModel *data in list) {
             if ([type isEqualToString:data.type]) {
                 result = data;
                 break;
@@ -91,7 +91,7 @@
 {
     NSMutableArray *result = nil;
     if (list != nil) {
-        for (PNLiteDataModel *data in list) {
+        for (HyBidDataModel *data in list) {
             if ([type isEqualToString:data.type]) {
                 if (result == nil) {
                     result = [[NSMutableArray alloc] init];

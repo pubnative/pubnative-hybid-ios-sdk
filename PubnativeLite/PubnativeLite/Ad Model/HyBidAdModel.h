@@ -22,18 +22,18 @@
 
 #import <Foundation/Foundation.h>
 #import "PNLiteBaseModel.h"
-#import "PNLiteDataModel.h"
+#import "HyBidDataModel.h"
 
 @interface HyBidAdModel : PNLiteBaseModel
 
 @property (nonatomic, strong) NSString *link;
 @property (nonatomic, strong) NSNumber *assetgroupid;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *assets;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *beacons;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *meta;
+@property (nonatomic, strong) NSArray<HyBidDataModel*> *assets;
+@property (nonatomic, strong) NSArray<HyBidDataModel*> *beacons;
+@property (nonatomic, strong) NSArray<HyBidDataModel*> *meta;
 
-- (PNLiteDataModel *)assetWithType:(NSString *)type;
-- (PNLiteDataModel *)metaWithType:(NSString *)type;
+- (HyBidDataModel *)assetWithType:(NSString *)type;
+- (HyBidDataModel *)metaWithType:(NSString *)type;
 - (NSArray *)beaconsWithType:(NSString *)type;
 
 @end

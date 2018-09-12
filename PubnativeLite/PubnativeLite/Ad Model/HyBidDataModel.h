@@ -20,8 +20,23 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDataModel.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteBaseModel.h"
 
-@implementation PNLiteDataModel
+@interface HyBidDataModel : PNLiteBaseModel
+
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSDictionary *data;
+
+@property (nonatomic, readonly) NSString *text;
+@property (nonatomic, readonly) NSString *vast;
+@property (nonatomic, readonly) NSNumber *number;
+@property (nonatomic, readonly) NSString *url;
+@property (nonatomic, readonly) NSString *html;
+@property (nonatomic, readonly) NSNumber *eCPM;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (NSString *)stringFieldWithKey:(NSString *)key;
+- (NSNumber *)numberFieldWithKey:(NSString *)key;
 
 @end

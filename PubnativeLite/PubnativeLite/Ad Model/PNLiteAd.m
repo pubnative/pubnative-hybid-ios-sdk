@@ -57,7 +57,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (NSString *)vast
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self assetDataWithType:PNLiteAsset.vast];
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.vast];
     if (data) {
         result = data.vast;
     }
@@ -67,7 +67,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (NSString *)htmlUrl
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
         result = data.url;
     }
@@ -77,7 +77,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (NSString *)htmlData
 {
     NSString *result = nil;
-    PNLiteDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
         result = data.html;
     }
@@ -100,7 +100,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     NSString *impressionID = @"";
     NSInteger index = 0;
     while (index < impressionBeacons.count && !found) {
-        PNLiteDataModel *impressionBeacon = [impressionBeacons objectAtIndex:index];
+        HyBidDataModel *impressionBeacon = [impressionBeacons objectAtIndex:index];
         if (impressionBeacon.url != nil && impressionBeacon.url.length != 0) {
             NSURLComponents *components = [[NSURLComponents alloc] initWithString:impressionBeacon.url];
             if ([components.host isEqualToString:kImpressionURL]) {
@@ -128,14 +128,14 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (NSNumber *)eCPM
 {
     NSNumber *result = nil;
-    PNLiteDataModel *data = [self metaDataWithType:PNLiteMeta.points];
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.points];
     if (data) {
         result = data.eCPM;
     }
     return result;
 }
 
-- (NSArray<PNLiteDataModel *> *)beacons
+- (NSArray<HyBidDataModel *> *)beacons
 {
     if (self.data) {
         return self.data.beacons;
@@ -146,7 +146,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 - (HyBidContentInfoView *)contentInfo
 {
-    PNLiteDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
     if (data) {
         if (self.contentInfoView == nil) {
             self.contentInfoView = [[HyBidContentInfoView alloc] init];
@@ -158,18 +158,18 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self.contentInfoView;
 }
 
-- (PNLiteDataModel *)assetDataWithType:(NSString *)type
+- (HyBidDataModel *)assetDataWithType:(NSString *)type
 {
-    PNLiteDataModel *result = nil;
+    HyBidDataModel *result = nil;
     if (self.data) {
         result = [self.data assetWithType:type];
     }
     return result;
 }
 
-- (PNLiteDataModel *)metaDataWithType:(NSString *)type
+- (HyBidDataModel *)metaDataWithType:(NSString *)type
 {
-    PNLiteDataModel *result = nil;
+    HyBidDataModel *result = nil;
     if (self.data) {
         result = [self.data metaWithType:type];
     }
