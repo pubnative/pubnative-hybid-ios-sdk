@@ -26,7 +26,7 @@
 @interface PNLiteDFPInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
-@property (nonatomic, strong) PNLiteInterstitialPresenterFactory *interstitalPresenterFactory;
+@property (nonatomic, strong) HyBidInterstitialPresenterFactory *interstitalPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
 @end
@@ -52,7 +52,7 @@
             [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteDFPUtils zoneID:serverParameter]]];
             return;
         }
-        self.interstitalPresenterFactory = [[PNLiteInterstitialPresenterFactory alloc] init];
+        self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
         if (self.interstitialPresenter == nil) {
             [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid interstitial presenter"];

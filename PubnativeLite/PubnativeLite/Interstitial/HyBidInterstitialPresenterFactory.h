@@ -20,8 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteInterstitialPresenterFactory.h"
+#import <Foundation/Foundation.h>
+#import "HyBidInterstitialPresenter.h"
+#import "PNLiteAd.h"
 
-@implementation PNLiteInterstitialPresenterFactory
+@interface HyBidInterstitialPresenterFactory : NSObject
+
+- (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad
+                                                    withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate;
 
 @end

@@ -23,7 +23,7 @@
 #import "PNLiteInterstitialAd.h"
 #import "HyBidInterstitialAdRequest.h"
 #import "HyBidInterstitialPresenter.h"
-#import "PNLiteInterstitialPresenterFactory.h"
+#import "HyBidInterstitialPresenterFactory.h"
 
 @interface PNLiteInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -81,7 +81,7 @@
 
 - (void)renderAd:(PNLiteAd *)ad
 {
-    PNLiteInterstitialPresenterFactory *interstitalPresenterFactory = [[PNLiteInterstitialPresenterFactory alloc] init];
+    HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
     if (self.interstitialPresenter == nil) {
         NSLog(@"PubNativeLite - Error: Could not create valid interstitial presenter");
