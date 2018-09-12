@@ -20,23 +20,8 @@
 //  THE SOFTWARE.
 //
 
+#import "HyBidUserDataManager.h"
 
-#import <Foundation/Foundation.h>
-
-typedef void (^UserDataManagerCompletionBlock)(BOOL);
-
-@interface PNLiteUserDataManager : NSObject
-
-+ (instancetype)sharedInstance;
-- (void)createUserDataManagerWithAppToken:(NSString *)appToken
-                               completion:(UserDataManagerCompletionBlock)completion;
-- (void)showConsentRequestScreen;
-- (NSString *)privacyPolicyLink;
-- (NSString *)vendorListLink;
-- (NSString *)consentPageLink;
-- (BOOL)shouldAskConsent;
-- (void)grantConsent;
-- (void)denyConsent;
-- (void)revokeConsent;
+@interface PNLiteUserDataManager : HyBidUserDataManager
 
 @end
