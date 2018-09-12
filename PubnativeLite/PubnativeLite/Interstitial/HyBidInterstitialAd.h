@@ -20,8 +20,25 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteInterstitialAd.h"
+#import <Foundation/Foundation.h>
 
-@implementation PNLiteInterstitialAd
+@protocol HyBidInterstitialAdDelegate<NSObject>
+
+- (void)interstitialDidLoad;
+- (void)interstitialDidFailWithError:(NSError *)error;
+- (void)interstitialDidTrackImpression;
+- (void)interstitialDidTrackClick;
+- (void)interstitialDidDismiss;
+
+@end
+
+@interface HyBidInterstitialAd : NSObject
+
+@property (nonatomic, assign) BOOL isReady;
+
+- (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
+- (void)load;
+- (void)show;
+- (void)hide;
 
 @end
