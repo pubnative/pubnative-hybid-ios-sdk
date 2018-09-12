@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PNLiteAd.h"
-#import "PNLiteNativeAdRenderer.h"
+#import "HyBidNativeAdRenderer.h"
 #import "HyBidContentInfoView.h"
 
 @class PNLiteNativeAd;
@@ -56,7 +56,7 @@
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
 - (instancetype)initWithAd:(PNLiteAd *)ad;
-- (void)renderAd:(PNLiteNativeAdRenderer *)renderer;
+- (void)renderAd:(HyBidNativeAdRenderer *)renderer;
 - (void)fetchNativeAdAssetsWithDelegate:(NSObject<PNLiteNativeAdFetchDelegate> *)delegate;
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
 - (void)stopTracking;

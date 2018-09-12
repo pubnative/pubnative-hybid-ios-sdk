@@ -22,6 +22,6 @@
 
 #import "HyBidNativeAdRenderer.h"
 
-@interface PNLiteNativeAdRenderer : HyBidNativeAdRenderer
+@implementation HyBidNativeAdRenderer
 
 @end

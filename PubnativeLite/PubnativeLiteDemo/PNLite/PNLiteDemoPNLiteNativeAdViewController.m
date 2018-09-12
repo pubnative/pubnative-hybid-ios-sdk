@@ -98,7 +98,7 @@
 
 - (void)nativeAdDidFinishFetching:(PNLiteNativeAd *)nativeAd
 {
-    PNLiteNativeAdRenderer *renderer = [[PNLiteNativeAdRenderer alloc] init];
+    HyBidNativeAdRenderer *renderer = [[HyBidNativeAdRenderer alloc] init];
     renderer.contentInfoView = self.nativeAdContentInfo;
     renderer.iconView = self.nativeAdIcon;
     renderer.titleView = self.nativeAdTitle;

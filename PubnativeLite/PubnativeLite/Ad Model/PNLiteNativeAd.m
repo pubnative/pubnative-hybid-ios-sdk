@@ -42,7 +42,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 @property (nonatomic, weak) NSObject<PNLiteNativeAdFetchDelegate> *fetchDelegate;
 @property (nonatomic, assign) BOOL isImpressionConfirmed;
 @property (nonatomic, assign) NSInteger remainingFetchableAssets;
-@property (nonatomic, strong) PNLiteNativeAdRenderer *renderer;
+@property (nonatomic, strong) HyBidNativeAdRenderer *renderer;
 
 @end
 
@@ -319,7 +319,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 #pragma mark Ad Rendering
 
-- (void)renderAd:(PNLiteNativeAdRenderer *)renderer
+- (void)renderAd:(HyBidNativeAdRenderer *)renderer
 {
     self.renderer = renderer;
     
