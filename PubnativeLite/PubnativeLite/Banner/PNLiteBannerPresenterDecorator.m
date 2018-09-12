@@ -24,9 +24,9 @@
 
 @interface PNLiteBannerPresenterDecorator ()
 
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
 @property (nonatomic, strong) PNLiteAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<PNLiteBannerPresenterDelegate> *bannerPresenterDelegate;
+@property (nonatomic, strong) NSObject<HyBidBannerPresenterDelegate> *bannerPresenterDelegate;
 
 @end
 
@@ -54,9 +54,9 @@
     [self.bannerPresenter stopTracking];
 }
 
-- (instancetype)initWithBannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
+- (instancetype)initWithBannerPresenter:(HyBidBannerPresenter *)bannerPresenter
                           withAdTracker:(PNLiteAdTracker *)adTracker
-                           withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
+                           withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
@@ -67,21 +67,21 @@
     return self;
 }
 
-#pragma mark PNLiteBannerPresenterDelegate
+#pragma mark HyBidBannerPresenterDelegate
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     [self.adTracker trackImpression];
     [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didLoadWithBanner:banner];
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
 {
     [self.adTracker trackClick];
     [self.bannerPresenterDelegate bannerPresenterDidClick:bannerPresenter];
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
     [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didFailWithError:error];
 }

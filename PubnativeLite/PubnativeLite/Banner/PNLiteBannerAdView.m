@@ -21,13 +21,13 @@
 //
 
 #import "PNLiteBannerAdView.h"
-#import "PNLiteBannerPresenter.h"
+#import "HyBidBannerPresenter.h"
 #import "PNLiteBannerPresenterFactory.h"
 #import "HyBidBannerAdRequest.h"
 
-@interface PNLiteBannerAdView() <PNLiteBannerPresenterDelegate>
+@interface PNLiteBannerAdView() <HyBidBannerPresenterDelegate>
 
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
 
 @end
 
@@ -74,9 +74,9 @@
     [self.bannerPresenter stopTracking];
 }
 
-#pragma mark - PNLiteBannerPresenterDelegate
+#pragma mark - HyBidBannerPresenterDelegate
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     if (banner == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
@@ -87,14 +87,14 @@
     }
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
         [self.delegate adViewDidFailWithError:error];
     }
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick)]) {
         [self.delegate adViewDidTrackClick];

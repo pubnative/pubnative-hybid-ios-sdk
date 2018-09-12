@@ -26,10 +26,10 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface PNLiteMoPubBannerCustomEvent () <PNLiteBannerPresenterDelegate>
+@interface PNLiteMoPubBannerCustomEvent () <HyBidBannerPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
 @property (nonatomic, strong) PNLiteBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
@@ -87,21 +87,21 @@
     return NO;
 }
 
-#pragma mark - PNLiteBannerPresenterDelegate
+#pragma mark - HyBidBannerPresenterDelegate
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     [self.delegate trackImpression];
     [self.delegate bannerCustomEvent:self didLoadAd:banner];
     [self.bannerPresenter startTracking];
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];

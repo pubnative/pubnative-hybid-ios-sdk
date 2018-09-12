@@ -23,10 +23,10 @@
 #import "PNLiteDFPBannerCustomEvent.h"
 #import "PNLiteDFPUtils.h"
 
-@interface PNLiteDFPBannerCustomEvent () <PNLiteBannerPresenterDelegate>
+@interface PNLiteDFPBannerCustomEvent () <HyBidBannerPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) PNLiteBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
 @property (nonatomic, strong) PNLiteBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) PNLiteAd *ad;
 
@@ -79,20 +79,20 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - PNLiteBannerPresenterDelegate
+#pragma mark - HyBidBannerPresenterDelegate
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     [self.delegate customEventBanner:self didReceiveAd:banner];
     [self.bannerPresenter startTracking];
 }
 
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter
+- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
 {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];

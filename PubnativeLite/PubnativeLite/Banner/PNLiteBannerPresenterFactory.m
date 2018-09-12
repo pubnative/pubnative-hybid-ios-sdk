@@ -28,10 +28,10 @@
 
 @implementation PNLiteBannerPresenterFactory
 
-- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAd *)ad
-                                          withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
+- (HyBidBannerPresenter *)createBannerPresenterWithAd:(PNLiteAd *)ad
+                                          withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
 {
-    PNLiteBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
+    HyBidBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
     if (!bannerPresenter) {
         return nil;
     }
@@ -42,7 +42,7 @@
     return bannerPresenterDecorator;
 }
 
-- (PNLiteBannerPresenter *)createBannerPresenterFromAd:(PNLiteAd *)ad
+- (HyBidBannerPresenter *)createBannerPresenterFromAd:(PNLiteAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_BANNER_1:

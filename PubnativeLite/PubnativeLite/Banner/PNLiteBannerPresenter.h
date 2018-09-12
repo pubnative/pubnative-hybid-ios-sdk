@@ -20,29 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
+#import "HyBidBannerPresenter.h"
 
-@class PNLiteBannerPresenter;
-
-@protocol PNLiteBannerPresenterDelegate<NSObject>
-
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
-      didLoadWithBanner:(UIView *)banner;
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter;
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
-       didFailWithError:(NSError *)error;
+@protocol PNLiteBannerPresenterDelegate<HyBidBannerPresenterDelegate>
 
 @end
 
-@interface PNLiteBannerPresenter : NSObject
-
-@property (nonatomic, readonly) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteBannerPresenterDelegate> *delegate;
-
-- (void)load;
-- (void)startTracking;
-- (void)stopTracking;
+@interface PNLiteBannerPresenter : HyBidBannerPresenter
 
 @end
