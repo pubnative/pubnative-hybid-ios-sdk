@@ -35,7 +35,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
 @interface HyBidBrowser () <UIWebViewDelegate>
 {
-    PNLiteBrowserControlsView *browserControlsView;
+    HyBidBrowserControlsView *browserControlsView;
     NSURLRequest *currrentRequest;
     UIViewController *currentViewController;
     NSArray *pubnativeBrowserFeatures;
@@ -113,7 +113,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
         UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
         UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         [self.view addSubview:browserWebView];
-        browserControlsView = [[PNLiteBrowserControlsView  alloc] initWithPubnativeBrowser:self];
+        browserControlsView = [[HyBidBrowserControlsView  alloc] initWithPubnativeBrowser:self];
         browserControlsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |UIViewAutoresizingFlexibleTopMargin;
         
         // screenSize is ALWAYS for portrait orientation, so we need to figure out the

@@ -20,8 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBrowserControlsView.h"
+#import <UIKit/UIKit.h>
 
-@implementation PNLiteBrowserControlsView
+@class HyBidBrowser;
+
+@protocol HyBidBrowserControlsViewDelegate <NSObject>
+
+@required
+
+- (void)back;
+- (void)forward;
+- (void)refresh;
+- (void)launchSafari;
+- (void)dismiss;
+
+@end
+
+@interface HyBidBrowserControlsView : UIView
+
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *backButton;
+@property (nonatomic, retain) IBOutlet UIToolbar *controlsToolbar;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *forwardButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *loadingIndicator;
+
+- (id)initWithPubnativeBrowser:(HyBidBrowser *)p_pnBrowser;
 
 @end

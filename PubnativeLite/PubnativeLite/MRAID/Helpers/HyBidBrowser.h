@@ -21,7 +21,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNLiteBrowserControlsView.h"
+#import "HyBidBrowserControlsView.h"
 
 extern NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback;
 extern NSString * const kPNLiteBrowserFeatureDisableStatusBar;
@@ -43,7 +43,7 @@ extern NSString * const kPNLiteBrowserFeatureScalePagesToFit;
 
 @end
 
-@interface HyBidBrowser : UIViewController <PNLiteBrowserControlsViewDelegate>
+@interface HyBidBrowser : UIViewController <HyBidBrowserControlsViewDelegate>
 
 @property (nonatomic, unsafe_unretained) id<HyBidBrowserDelegate>delegate;
 
