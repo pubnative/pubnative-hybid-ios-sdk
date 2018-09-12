@@ -65,6 +65,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLiteNativeAdRenderer.h>
 
 #import <PubnativeLite/HyBidRequestParameter.h>
+#import <PubnativeLite/HyBidTargetingModel.h>
 
 
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);
@@ -72,7 +73,7 @@ typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 @interface PubnativeLite : NSObject
 
 + (void)setCoppa:(BOOL)enabled;
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting;
++ (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
 + (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion;
 

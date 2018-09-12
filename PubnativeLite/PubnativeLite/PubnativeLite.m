@@ -32,7 +32,7 @@
     [PNLiteSettings sharedInstance].coppa = enabled;
 }
 
-+ (void)setTargeting:(PNLiteTargetingModel *)targeting
++ (void)setTargeting:(HyBidTargetingModel *)targeting
 {
     [PNLiteSettings sharedInstance].targeting = targeting;
 }

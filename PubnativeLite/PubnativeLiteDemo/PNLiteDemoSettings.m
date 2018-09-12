@@ -81,7 +81,7 @@ NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitia
         self.dfpBannerAdUnitID = kPNLiteDemoDFPBannerAdUnitID;
         self.dfpMRectAdUnitID = kPNLiteDemoDFPMRectAdUnitID;
         self.dfpInterstitialAdUnitID = kPNLiteDemoDFPInterstitialAdUnitID;
-        self.targetingModel = [[PNLiteTargetingModel alloc] init];
+        self.targetingModel = [[HyBidTargetingModel alloc] init];
     }
     return self;
 }

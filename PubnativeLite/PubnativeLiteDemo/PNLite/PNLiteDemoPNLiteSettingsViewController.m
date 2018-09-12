@@ -35,7 +35,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *femaleButton;
 @property (nonatomic, assign) BOOL testModeSelected;
 @property (nonatomic, assign) BOOL coppaModeSelected;
-@property (nonatomic, strong) PNLiteTargetingModel *targetingModel;
+@property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, strong) NSString *gender;
 @end
 
@@ -143,7 +143,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (PNLiteTargetingModel *)configureTargetingModel
+- (HyBidTargetingModel *)configureTargetingModel
 {
     if (([self.ageTextField.text length] > 0) && (self.ageTextField.text.integerValue > 0)) {
         self.targetingModel.age = [NSNumber numberWithInt:[self.ageTextField.text intValue]];

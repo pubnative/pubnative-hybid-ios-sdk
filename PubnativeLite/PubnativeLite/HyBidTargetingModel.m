@@ -20,8 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteTargetingModel.h"
+#import "HyBidTargetingModel.h"
 
-@implementation PNLiteTargetingModel
+@implementation HyBidTargetingModel
+
+- (void)dealloc
+{
+    self.age = nil;
+    self.interests = nil;
+    self.gender = nil;
+}
 
 @end

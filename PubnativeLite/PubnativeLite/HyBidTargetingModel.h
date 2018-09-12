@@ -19,9 +19,12 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
+#import <Foundation/Foundation.h>
 
-#import "PNLiteTargetingModel.h"
+@interface HyBidTargetingModel : NSObject
 
-@implementation PNLiteTargetingModel
+@property (nonatomic, strong) NSNumber *age;
+@property (nonatomic, strong) NSArray<NSString*> *interests;
+@property (nonatomic, assign) NSString *gender;
 
 @end

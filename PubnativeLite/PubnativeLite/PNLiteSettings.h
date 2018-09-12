@@ -23,14 +23,14 @@
 #import <UIKit/UIKit.h>
 #import <AdSupport/AdSupport.h>
 #import <CoreLocation/CoreLocation.h>
-#import "PNLiteTargetingModel.h"
+#import "HyBidTargetingModel.h"
 
 @interface PNLiteSettings : NSObject
 
 // CONFIGURABLE PARAMETERS
 @property (nonatomic, assign) BOOL test;
 @property (nonatomic, assign) BOOL coppa;
-@property (nonatomic, strong) PNLiteTargetingModel *targeting;
+@property (nonatomic, strong) HyBidTargetingModel *targeting;
 @property (nonatomic, strong) NSString *appToken;
 
 // COMMON PARAMETERS
