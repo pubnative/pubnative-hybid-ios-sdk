@@ -22,6 +22,11 @@
 
 #import "HyBidBannerAdRequest.h"
 
-@interface PNLiteBannerAdRequest : HyBidBannerAdRequest
+@implementation HyBidBannerAdRequest
+
+- (NSString *)adSize
+{
+    return @"s";
+}
 
 @end

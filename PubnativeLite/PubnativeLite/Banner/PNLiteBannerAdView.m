@@ -23,7 +23,7 @@
 #import "PNLiteBannerAdView.h"
 #import "PNLiteBannerPresenter.h"
 #import "PNLiteBannerPresenterFactory.h"
-#import "PNLiteBannerAdRequest.h"
+#import "HyBidBannerAdRequest.h"
 
 @interface PNLiteBannerAdView() <PNLiteBannerPresenterDelegate>
 
@@ -45,7 +45,7 @@
 
 - (HyBidAdRequest *)adRequest
 {
-    PNLiteBannerAdRequest *bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
+    HyBidBannerAdRequest *bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     return bannerAdRequest;
 }
 

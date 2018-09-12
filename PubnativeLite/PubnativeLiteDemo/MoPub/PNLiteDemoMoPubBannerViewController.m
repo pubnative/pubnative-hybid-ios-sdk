@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubBanner;
-@property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
+@property (nonatomic, strong) HyBidBannerAdRequest *bannerAdRequest;
 
 @end
 
@@ -62,7 +62,7 @@
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
+    self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 

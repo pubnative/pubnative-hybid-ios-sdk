@@ -24,9 +24,5 @@
 
 @implementation PNLiteBannerAdRequest
 
-- (NSString *)adSize
-{
-    return @"s";
-}
 
 @end

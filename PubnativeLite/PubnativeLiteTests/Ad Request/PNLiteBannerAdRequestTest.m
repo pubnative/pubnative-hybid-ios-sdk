@@ -23,7 +23,7 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
-#import "PNLiteBannerAdRequest.h"
+#import "HyBidBannerAdRequest.h"
 
 @interface PNLiteBannerAdRequestTest : XCTestCase
 
@@ -43,7 +43,7 @@
 
 - (void)test_adSize
 {
-    PNLiteBannerAdRequest *bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
+    HyBidBannerAdRequest *bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     assertThat(bannerAdRequest.adSize, is(@"s"));
 }
 

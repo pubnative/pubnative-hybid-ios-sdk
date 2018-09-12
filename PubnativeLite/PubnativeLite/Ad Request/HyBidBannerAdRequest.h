@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerAdRequest.h"
+#import "HyBidAdRequest.h"
 
-@interface PNLiteBannerAdRequest : HyBidBannerAdRequest
+@interface HyBidBannerAdRequest : HyBidAdRequest
 
 @end
