@@ -18,3 +18,4 @@
 
 #import "HyBidMoPubUtils.h"
 #import "HyBidMoPubBannerCustomEvent.h"
+#import "HyBidMoPubMRectCustomEvent.h"
