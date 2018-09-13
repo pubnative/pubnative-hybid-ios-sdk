@@ -20,8 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPBannerCustomEvent.h"
+#import <Foundation/Foundation.h>
+#import <PubnativeLite/PubnativeLite.h>
 
-@interface PNLiteDFPBannerCustomEvent : HyBidDFPBannerCustomEvent
+@import GoogleMobileAds;
+
+@interface HyBidDFPBannerCustomEvent : NSObject <GADCustomEventBanner>
 
 @end
