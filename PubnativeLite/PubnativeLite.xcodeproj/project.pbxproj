@@ -373,6 +373,7 @@
 		5AC35B4E214A90AA001F0ED3 /* HyBidMoPubMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B4D214A90AA001F0ED3 /* HyBidMoPubMRectCustomEvent.m */; };
 		5AC35B51214A91D0001F0ED3 /* HyBidMoPubInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B50214A91D0001F0ED3 /* HyBidMoPubInterstitialCustomEvent.m */; };
 		5AC35B54214A92BA001F0ED3 /* HyBidMoPubMediationNativeAdCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B53214A92BA001F0ED3 /* HyBidMoPubMediationNativeAdCustomEvent.m */; };
+		5AC35B57214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B56214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m */; };
 		5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */; };
 		5AC523FA20459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */; };
 		5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74D7203595220001CDC3 /* PNLiteMRAIDParser.m */; };
@@ -1140,6 +1141,8 @@
 		5AC35B50214A91D0001F0ED3 /* HyBidMoPubInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC35B52214A92BA001F0ED3 /* HyBidMoPubMediationNativeAdCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubMediationNativeAdCustomEvent.h; sourceTree = "<group>"; };
 		5AC35B53214A92BA001F0ED3 /* HyBidMoPubMediationNativeAdCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationNativeAdCustomEvent.m; sourceTree = "<group>"; };
+		5AC35B55214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubMediationNativeAdAdapter.h; sourceTree = "<group>"; };
+		5AC35B56214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationNativeAdAdapter.m; sourceTree = "<group>"; };
 		5AC523F520456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubInterstitialViewController.h; sourceTree = "<group>"; };
@@ -2390,6 +2393,8 @@
 				5AC35B53214A92BA001F0ED3 /* HyBidMoPubMediationNativeAdCustomEvent.m */,
 				5AFE7C83212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.h */,
 				5AFE7C84212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.m */,
+				5AC35B55214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.h */,
+				5AC35B56214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m */,
 				5A91EC6120D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.h */,
 				5A91EC6220D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m */,
 				5A9F62BE20D8FCD700BE9A6F /* PNLiteMoPubMediationMRectCustomEvent.h */,
@@ -3899,6 +3904,7 @@
 				5AC523FA20459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m in Sources */,
 				5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */,
 				5AFE7BD5212C1BA300FFD7CA /* MPNativeAdRenderingImageLoader.m in Sources */,
+				5AC35B57214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m in Sources */,
 				5AFE7C79212C1BA300FFD7CA /* MPRewardedVideoCustomEvent+Caching.m in Sources */,
 				5AFE7C38212C1BA300FFD7CA /* MPGlobal.m in Sources */,
 				5AFE7C39212C1BA300FFD7CA /* MPTimer.m in Sources */,

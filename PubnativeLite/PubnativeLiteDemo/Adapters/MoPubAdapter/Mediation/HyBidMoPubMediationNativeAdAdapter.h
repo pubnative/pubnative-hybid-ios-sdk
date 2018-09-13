@@ -20,8 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubMediationNativeAdAdapter.h"
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPNativeAdAdapter.h"
+#endif
 
-@interface PNLiteMoPubMediationNativeAdAdapter : HyBidMoPubMediationNativeAdAdapter
+#import <PubnativeLite/PubnativeLite.h>
+
+@interface HyBidMoPubMediationNativeAdAdapter : NSObject <MPNativeAdAdapter>
+
+@property (nonatomic, weak) id<MPNativeAdAdapterDelegate> delegate;
+
+- (instancetype)initWithNativeAd:(HyBidNativeAd *)ad;
 
 @end

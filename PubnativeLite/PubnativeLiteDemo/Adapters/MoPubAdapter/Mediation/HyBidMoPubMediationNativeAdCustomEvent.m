@@ -21,7 +21,7 @@
 //
 
 #import "HyBidMoPubMediationNativeAdCustomEvent.h"
-#import "PNLiteMoPubMediationNativeAdAdapter.h"
+#import "HyBidMoPubMediationNativeAdAdapter.h"
 #import "HyBidMoPubUtils.h"
 #import "MPNativeAd.h"
 #import "MPLogging.h"
@@ -80,7 +80,7 @@
         if(errors && errors.count > 0) {
             [self invokeFailWithMessage:@"PubNativeLite - Error: error caching resources"];
         } else {
-            PNLiteMoPubMediationNativeAdAdapter *adapter = [[PNLiteMoPubMediationNativeAdAdapter alloc] initWithNativeAd:blockAd];
+            HyBidMoPubMediationNativeAdAdapter *adapter = [[HyBidMoPubMediationNativeAdAdapter alloc] initWithNativeAd:blockAd];
             MPNativeAd* result = [[MPNativeAd alloc] initWithAdAdapter:adapter];
             [strongSelf.delegate nativeCustomEvent:strongSelf didLoadAd:result];
         }
