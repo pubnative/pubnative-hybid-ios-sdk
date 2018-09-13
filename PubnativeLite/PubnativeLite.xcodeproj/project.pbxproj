@@ -366,6 +366,8 @@
 		5AC35B3D214A6B5B001F0ED3 /* HyBidNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B3B214A6B5B001F0ED3 /* HyBidNativeAd.m */; };
 		5AC35B40214A7055001F0ED3 /* HyBidAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AC35B3E214A7055001F0ED3 /* HyBidAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AC35B41214A7055001F0ED3 /* HyBidAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B3F214A7055001F0ED3 /* HyBidAd.m */; };
+		5AC35B44214A7727001F0ED3 /* HyBidStarRatingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AC35B42214A7727001F0ED3 /* HyBidStarRatingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5AC35B45214A7727001F0ED3 /* HyBidStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B43214A7727001F0ED3 /* HyBidStarRatingView.m */; };
 		5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */; };
 		5AC523FA20459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */; };
 		5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74D7203595220001CDC3 /* PNLiteMRAIDParser.m */; };
@@ -1121,6 +1123,8 @@
 		5AC35B3B214A6B5B001F0ED3 /* HyBidNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidNativeAd.m; sourceTree = "<group>"; };
 		5AC35B3E214A7055001F0ED3 /* HyBidAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAd.h; sourceTree = "<group>"; };
 		5AC35B3F214A7055001F0ED3 /* HyBidAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAd.m; sourceTree = "<group>"; };
+		5AC35B42214A7727001F0ED3 /* HyBidStarRatingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidStarRatingView.h; sourceTree = "<group>"; };
+		5AC35B43214A7727001F0ED3 /* HyBidStarRatingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidStarRatingView.m; sourceTree = "<group>"; };
 		5AC523F520456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubInterstitialViewController.h; sourceTree = "<group>"; };
@@ -2071,6 +2075,8 @@
 				5AC35B37214A6392001F0ED3 /* HyBidAdView.m */,
 				5A88939F211C3CF00073BF66 /* PNLiteStarRatingView.h */,
 				5A8893A0211C3CF00073BF66 /* PNLiteStarRatingView.m */,
+				5AC35B42214A7727001F0ED3 /* HyBidStarRatingView.h */,
+				5AC35B43214A7727001F0ED3 /* HyBidStarRatingView.m */,
 				5A0779F321341E9100EBD0E7 /* Request Inspector */,
 				5A9A885B21087C43006A081D /* Tracking */,
 				5A674F9C20B5AAD200B3D68D /* Consent */,
@@ -3518,6 +3524,7 @@
 				5ADF9E8721494F730081355E /* HyBidBannerPresenterFactory.h in Headers */,
 				5AA3D5ED2031B903002BFDA3 /* PNLiteAdRequest.h in Headers */,
 				5A52BFDF2034580A00C4B7C5 /* PNLiteLogger.h in Headers */,
+				5AC35B44214A7727001F0ED3 /* HyBidStarRatingView.h in Headers */,
 				5A8F10FA2089E4D20098E337 /* PNLite_KSCrashC.h in Headers */,
 				5A91E66720C008E900527BAA /* PNLiteCheckConsentRequest.h in Headers */,
 				5A8F10D32089E4D20098E337 /* PNLite_KSSignalInfo.h in Headers */,
@@ -4131,6 +4138,7 @@
 				5AECD5A1204033240023ABBC /* PNLiteInterstitialAdRequest.m in Sources */,
 				5A91E65020BFF1F300527BAA /* PNLiteConsentEndpoints.m in Sources */,
 				5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */,
+				5AC35B45214A7727001F0ED3 /* HyBidStarRatingView.m in Sources */,
 				5A8F10CB2089E4D20098E337 /* PNLite_KSMach_x86_32.c in Sources */,
 				5A9B66C820BD62640067964E /* PNLiteVASTXMLUtil.m in Sources */,
 				5A9A886F2108BE59006A081D /* PNLiteImpressionTracker.m in Sources */,

@@ -30,7 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContentInfo;
 @property (weak, nonatomic) IBOutlet UIImageView *nativeAdIcon;
 @property (weak, nonatomic) IBOutlet UILabel *nativeAdTitle;
-@property (weak, nonatomic) IBOutlet PNLiteStarRatingView *nativeAdRating;
+@property (weak, nonatomic) IBOutlet HyBidStarRatingView *nativeAdRating;
 @property (weak, nonatomic) IBOutlet UIView *nativeAdBanner;
 @property (weak, nonatomic) IBOutlet UILabel *nativeAdBody;
 @property (weak, nonatomic) IBOutlet UIButton *nativeCallToAction;

@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteStarRatingView.h"
+#import "HyBidStarRatingView.h"
 
 @interface HyBidNativeAdRenderer : NSObject
 
@@ -32,6 +32,6 @@
 @property (nonatomic, weak) UIImageView *iconView;
 @property (nonatomic, weak) UIView *bannerView;
 @property (nonatomic, weak) UIView *contentInfoView;
-@property (nonatomic, weak) PNLiteStarRatingView *starRatingView;
+@property (nonatomic, weak) HyBidStarRatingView *starRatingView;
 
 @end

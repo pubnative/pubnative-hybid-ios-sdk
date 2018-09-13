@@ -97,7 +97,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/HyBidMRectAdView.h>
 #import <PubnativeLite/HyBidInterstitialAd.h>
 #import <PubnativeLite/HyBidSettings.h>
-//Create HyBidStarRatingView Here
+#import <PubnativeLite/HyBidStarRatingView.h>
 #import <PubnativeLite/HyBidNativeAdRenderer.h>
 
 
