@@ -22,6 +22,8 @@
 
 #import "HyBidStarRatingView.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidStarRatingView instead.")
+
 @interface PNLiteStarRatingView : HyBidStarRatingView
 
 @end

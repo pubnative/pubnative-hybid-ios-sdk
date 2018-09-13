@@ -22,9 +22,13 @@
 
 #import "HyBidBrowser.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowserDelegate instead.")
+
 @protocol PNLiteBrowserDelegate <HyBidBrowserDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowser instead.")
 
 @interface PNLiteBrowser : HyBidBrowser
 

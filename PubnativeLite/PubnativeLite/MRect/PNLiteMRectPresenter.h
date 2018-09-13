@@ -22,9 +22,13 @@
 
 #import "HyBidMRectPresenter.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectPresenterDelegate instead.")
+
 @protocol PNLiteMRectPresenterDelegate<HyBidMRectPresenterDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectPresenter instead.")
 
 @interface PNLiteMRectPresenter : HyBidMRectPresenter
 

@@ -22,9 +22,13 @@
 
 #import "HyBidBrowserControlsView.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowserControlsViewDelegate instead.")
+
 @protocol PNLiteBrowserControlsViewDelegate <HyBidBrowserControlsViewDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowserControlsView instead.")
 
 @interface PNLiteBrowserControlsView : HyBidBrowserControlsView
 

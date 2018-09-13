@@ -22,6 +22,8 @@
 
 #import "HyBidMRAIDServiceProvider.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRAIDServiceProvider instead.")
+
 @interface PNLiteMRAIDServiceProvider : HyBidMRAIDServiceProvider
 
 @end

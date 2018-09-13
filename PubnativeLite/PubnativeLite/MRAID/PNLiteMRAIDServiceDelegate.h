@@ -22,6 +22,8 @@
 
 #import "HyBidMRAIDServiceDelegate.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRAIDServiceDelegate instead.")
+
 @protocol PNLiteMRAIDServiceDelegate <HyBidMRAIDServiceDelegate>
 
 @end

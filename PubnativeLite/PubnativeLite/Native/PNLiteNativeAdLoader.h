@@ -22,9 +22,13 @@
 
 #import "HyBidNativeAdLoader.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidNativeAdLoaderDelegate instead.")
+
 @protocol PNLiteNativeAdLoaderDelegate<HyBidNativeAdLoaderDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidNativeAdLoader instead.")
 
 @interface PNLiteNativeAdLoader : HyBidNativeAdLoader
 

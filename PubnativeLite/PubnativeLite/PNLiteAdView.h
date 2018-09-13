@@ -22,9 +22,13 @@
 
 #import "HyBidAdView.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdViewDelegate instead.")
+
 @protocol PNLiteAdViewDelegate<HyBidAdViewDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdView instead.")
 
 @interface PNLiteAdView : HyBidAdView
 

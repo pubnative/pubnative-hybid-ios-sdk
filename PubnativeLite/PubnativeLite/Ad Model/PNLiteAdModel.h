@@ -22,6 +22,8 @@
 
 #import "HyBidAdModel.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdModel instead.")
+
 @interface PNLiteAdModel : HyBidAdModel
 
 @end

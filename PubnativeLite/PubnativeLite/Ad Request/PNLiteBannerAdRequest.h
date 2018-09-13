@@ -22,6 +22,8 @@
 
 #import "HyBidBannerAdRequest.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerAdRequest instead.")
+
 @interface PNLiteBannerAdRequest : HyBidBannerAdRequest
 
 @end

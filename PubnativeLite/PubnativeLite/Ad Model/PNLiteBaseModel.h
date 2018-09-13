@@ -22,6 +22,8 @@
 
 #import "HyBidBaseModel.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBaseModel instead.")
+
 @interface PNLiteBaseModel : HyBidBaseModel
 
 @end

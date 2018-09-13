@@ -22,9 +22,13 @@
 
 #import "HyBidMRAIDView.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRAIDViewDelegate instead.")
+
 @protocol PNLiteMRAIDViewDelegate <HyBidMRAIDViewDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRAIDView instead.")
 
 @interface PNLiteMRAIDView : HyBidMRAIDView
 

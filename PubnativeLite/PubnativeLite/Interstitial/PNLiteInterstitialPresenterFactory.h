@@ -22,6 +22,8 @@
 
 #import "HyBidInterstitialPresenterFactory.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialPresenterFactory instead.")
+
 @interface PNLiteInterstitialPresenterFactory : HyBidInterstitialPresenterFactory
 
 @end

@@ -22,6 +22,8 @@
 
 #import "HyBidUserDataManager.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidUserDataManager instead.")
+
 @interface PNLiteUserDataManager : HyBidUserDataManager
 
 @end

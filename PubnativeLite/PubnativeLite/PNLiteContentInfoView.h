@@ -22,9 +22,13 @@
 
 #import "HyBidContentInfoView.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidContentInfoViewDelegate instead.")
+
 @protocol PNLiteContentInfoViewDelegate<HyBidContentInfoViewDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidContentInfoView instead.")
 
 @interface PNLiteContentInfoView : HyBidContentInfoView
 

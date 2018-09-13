@@ -22,6 +22,8 @@
 
 #import "HyBidAdCache.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdCache instead.")
+
 @interface PNLiteAdCache : HyBidAdCache
 
 @end

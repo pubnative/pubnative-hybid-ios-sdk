@@ -22,6 +22,8 @@
 
 #import "HyBidMRectAdRequest.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectAdRequest instead.")
+
 @interface PNLiteMRectAdRequest : HyBidMRectAdRequest
 
 @end

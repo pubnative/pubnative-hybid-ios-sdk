@@ -22,6 +22,8 @@
 
 #import "HyBidSettings.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidSettings instead.")
+
 @interface PNLiteSettings : HyBidSettings
 
 @end

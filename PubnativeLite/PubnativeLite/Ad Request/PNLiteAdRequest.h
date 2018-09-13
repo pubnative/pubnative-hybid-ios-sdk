@@ -22,11 +22,13 @@
 
 #import "HyBidAdRequest.h"
 
-@class PNLiteAdRequest;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdRequestDelegate instead.")
 
 @protocol PNLiteAdRequestDelegate <HyBidAdRequestDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdRequest instead.")
 
 @interface PNLiteAdRequest : HyBidAdRequest
 

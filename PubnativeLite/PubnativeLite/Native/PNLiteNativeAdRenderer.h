@@ -22,6 +22,8 @@
 
 #import "HyBidNativeAdRenderer.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidNativeAdRenderer instead.")
+
 @interface PNLiteNativeAdRenderer : HyBidNativeAdRenderer
 
 @end

@@ -22,6 +22,8 @@
 
 #import "HyBidRequestParameter.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidRequestParameter instead.")
+
 @interface PNLiteRequestParameter : HyBidRequestParameter
 
 @end

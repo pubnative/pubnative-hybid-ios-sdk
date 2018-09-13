@@ -22,9 +22,13 @@
 
 #import "HyBidInterstitialAd.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialAdDelegate instead.")
+
 @protocol PNLiteInterstitialAdDelegate<HyBidInterstitialAdDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialAd instead.")
 
 @interface PNLiteInterstitialAd : HyBidInterstitialAd
 

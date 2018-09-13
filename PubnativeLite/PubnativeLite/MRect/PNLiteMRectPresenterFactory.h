@@ -22,6 +22,8 @@
 
 #import "HyBidMRectPresenterFactory.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectPresenterFactory instead.")
+
 @interface PNLiteMRectPresenterFactory : HyBidMRectPresenterFactory
 
 @end

@@ -22,6 +22,8 @@
 
 #import "HyBidBannerAdView.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerAdView instead.")
+
 @interface PNLiteBannerAdView : HyBidBannerAdView
 
 @end

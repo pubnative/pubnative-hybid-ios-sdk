@@ -22,9 +22,13 @@
 
 #import "HyBidInterstitialPresenter.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialPresenterDelegate instead.")
+
 @protocol PNLiteInterstitialPresenterDelegate<HyBidInterstitialPresenterDelegate>
 
 @end
+
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialPresenter instead.")
 
 @interface PNLiteInterstitialPresenter : HyBidInterstitialPresenter
 

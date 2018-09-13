@@ -22,6 +22,8 @@
 
 #import "HyBidBannerPresenterFactory.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenterFactory instead.")
+
 @interface PNLiteBannerPresenterFactory : HyBidBannerPresenterFactory
 
 @end

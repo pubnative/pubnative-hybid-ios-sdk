@@ -22,6 +22,8 @@
 
 #import "HyBidMRectAdView.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectAdView instead.")
+
 @interface PNLiteMRectAdView : HyBidMRectAdView
 
 @end

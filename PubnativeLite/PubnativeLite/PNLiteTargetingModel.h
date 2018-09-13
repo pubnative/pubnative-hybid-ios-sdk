@@ -22,6 +22,8 @@
 
 #import "HyBidTargetingModel.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidTargetingModel instead.")
+
 @interface PNLiteTargetingModel : HyBidTargetingModel
 
 @end

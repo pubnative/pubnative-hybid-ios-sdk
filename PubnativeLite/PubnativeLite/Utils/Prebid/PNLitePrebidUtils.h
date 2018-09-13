@@ -22,6 +22,8 @@
 
 #import "HyBidPrebidUtils.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidPrebidUtils instead.")
+
 @interface PNLitePrebidUtils : HyBidPrebidUtils
 
 @end
