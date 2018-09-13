@@ -23,3 +23,4 @@
 #import "HyBidMoPubMediationNativeAdCustomEvent.h"
 #import "HyBidMoPubMediationNativeAdAdapter.h"
 #import "HyBidMoPubMediationBannerCustomEvent.h"
+#import "HyBidMoPubMediationMRectCustomEvent.h"
