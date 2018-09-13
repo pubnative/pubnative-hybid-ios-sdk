@@ -21,11 +21,11 @@
 //
 
 #import "HyBidNativeAdLoader.h"
-#import "PNLiteNativeAdRequest.h"
+#import "HyBidNativeAdRequest.h"
 
 @interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
 
-@property (nonatomic, strong) PNLiteNativeAdRequest *nativeAdRequest;
+@property (nonatomic, strong) HyBidNativeAdRequest *nativeAdRequest;
 @property (nonatomic, weak) NSObject <HyBidNativeAdLoaderDelegate> *delegate;
 
 @end
@@ -41,7 +41,7 @@
 {
     self = [super init];
     if (self) {
-        self.nativeAdRequest = [[PNLiteNativeAdRequest alloc] init];
+        self.nativeAdRequest = [[HyBidNativeAdRequest alloc] init];
     }
     return self;
 }

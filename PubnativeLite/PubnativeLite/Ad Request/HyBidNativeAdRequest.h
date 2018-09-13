@@ -22,6 +22,6 @@
 
 #import "HyBidAdRequest.h"
 
-@interface PNLiteNativeAdRequest : HyBidAdRequest
+@interface HyBidNativeAdRequest : HyBidAdRequest
 
 @end

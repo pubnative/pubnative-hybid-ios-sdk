@@ -120,8 +120,8 @@
 		5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */; };
 		5A8893A1211C3CF00073BF66 /* PNLiteStarRatingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A88939F211C3CF00073BF66 /* PNLiteStarRatingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A8893A2211C3CF00073BF66 /* PNLiteStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A0211C3CF00073BF66 /* PNLiteStarRatingView.m */; };
-		5A8893A5211C40BC0073BF66 /* PNLiteNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8893A3211C40BC0073BF66 /* PNLiteNativeAdRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5A8893A6211C40BC0073BF66 /* PNLiteNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A4211C40BC0073BF66 /* PNLiteNativeAdRequest.m */; };
+		5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */; };
 		5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903D0203DE1D400D86051 /* WebKit.framework */; };
 		5A8903D3203DE1DA00D86051 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903D2203DE1DA00D86051 /* UIKit.framework */; };
 		5A8903D5203DE1E100D86051 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903D4203DE1E100D86051 /* SystemConfiguration.framework */; };
@@ -880,8 +880,8 @@
 		5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPSettingsViewController.m; sourceTree = "<group>"; };
 		5A88939F211C3CF00073BF66 /* PNLiteStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteStarRatingView.h; sourceTree = "<group>"; };
 		5A8893A0211C3CF00073BF66 /* PNLiteStarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteStarRatingView.m; sourceTree = "<group>"; };
-		5A8893A3211C40BC0073BF66 /* PNLiteNativeAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteNativeAdRequest.h; sourceTree = "<group>"; };
-		5A8893A4211C40BC0073BF66 /* PNLiteNativeAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteNativeAdRequest.m; sourceTree = "<group>"; };
+		5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidNativeAdRequest.h; sourceTree = "<group>"; };
+		5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidNativeAdRequest.m; sourceTree = "<group>"; };
 		5A8903D0203DE1D400D86051 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		5A8903D2203DE1DA00D86051 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5A8903D4203DE1E100D86051 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -2562,8 +2562,8 @@
 				5AECD59F204033240023ABBC /* PNLiteInterstitialAdRequest.m */,
 				5ADF9E6D21493B6D0081355E /* HyBidInterstitialAdRequest.h */,
 				5ADF9E6E21493B6D0081355E /* HyBidInterstitialAdRequest.m */,
-				5A8893A3211C40BC0073BF66 /* PNLiteNativeAdRequest.h */,
-				5A8893A4211C40BC0073BF66 /* PNLiteNativeAdRequest.m */,
+				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
+				5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */,
 			);
 			path = "Ad Request";
 			sourceTree = "<group>";
@@ -3551,7 +3551,7 @@
 				5A9B66C920BD62640067964E /* PNLiteVASTXMLUtil.h in Headers */,
 				5A8F11032089E4D20098E337 /* PNLite_KSCrashReportVersion.h in Headers */,
 				5ADF9E602149216E0081355E /* HyBidMRAIDServiceDelegate.h in Headers */,
-				5A8893A5211C40BC0073BF66 /* PNLiteNativeAdRequest.h in Headers */,
+				5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */,
 				5ADF9EAB214969ED0081355E /* HyBidBaseModel.h in Headers */,
 				5A8F10BF2089E4D20098E337 /* PNLiteFileStore.h in Headers */,
 				5A52BFE9203458D000C4B7C5 /* PNLiteMRAIDServiceProvider.h in Headers */,
@@ -4149,7 +4149,7 @@
 				5A8F111D2089E4D20098E337 /* PNLiteCrashSentry.m in Sources */,
 				5A8F111F2089E4D20098E337 /* PNLiteSessionFileStore.m in Sources */,
 				5ADF9E8421494C240081355E /* HyBidNativeAdLoader.m in Sources */,
-				5A8893A6211C40BC0073BF66 /* PNLiteNativeAdRequest.m in Sources */,
+				5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */,
 				5ADF9EAC214969ED0081355E /* HyBidBaseModel.m in Sources */,
 				5A8F10B62089E4D20098E337 /* PNLiteConfiguration.m in Sources */,
 				5A9A88632108A4D1006A081D /* PNLiteVisibilityTrackerItem.m in Sources */,

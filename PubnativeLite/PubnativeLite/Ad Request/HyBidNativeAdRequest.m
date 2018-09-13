@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteNativeAdRequest.h"
+#import "HyBidNativeAdRequest.h"
 
-@implementation PNLiteNativeAdRequest
+@implementation HyBidNativeAdRequest
 
 - (NSString *)adSize
 {
