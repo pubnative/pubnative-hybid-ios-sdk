@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteMoPubMRectCustomEvent.h"
-#import "PNLiteMoPubUtils.h"
+#import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
@@ -47,12 +47,12 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
-    if ([PNLiteMoPubUtils isZoneIDValid:info]) {
+    if ([HyBidMoPubUtils isZoneIDValid:info]) {
         self.size = size;
         if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
-            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteMoPubUtils zoneID:info]];
+            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
             if (self.ad == nil) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteMoPubUtils zoneID:info]]];
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
                 return;
             }
             self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];

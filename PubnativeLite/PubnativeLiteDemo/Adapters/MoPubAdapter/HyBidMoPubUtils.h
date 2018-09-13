@@ -20,8 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubUtils.h"
+#import <Foundation/Foundation.h>
 
-@implementation PNLiteMoPubUtils
+@interface HyBidMoPubUtils : NSObject
+
++ (BOOL)isZoneIDValid:(NSDictionary *)extras;
++ (BOOL)isAppTokenValid:(NSDictionary *)extras;
++ (BOOL)areExtrasValid:(NSDictionary *)extras;
++ (NSString *)appToken:(NSDictionary*)extras;
++ (NSString *)zoneID:(NSDictionary *)extras;
 
 @end

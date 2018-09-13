@@ -22,7 +22,7 @@
 
 #import "PNLiteMoPubMediationNativeAdCustomEvent.h"
 #import "PNLiteMoPubMediationNativeAdAdapter.h"
-#import "PNLiteMoPubUtils.h"
+#import "HyBidMoPubUtils.h"
 #import "MPNativeAd.h"
 #import "MPLogging.h"
 
@@ -41,10 +41,10 @@
 
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info
 {
-    if ([PNLiteMoPubUtils areExtrasValid:info]) {
-        if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+    if ([HyBidMoPubUtils areExtrasValid:info]) {
+        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
-            [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[PNLiteMoPubUtils zoneID:info]];
+            [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[HyBidMoPubUtils zoneID:info]];
         } else {
             [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];
             return;

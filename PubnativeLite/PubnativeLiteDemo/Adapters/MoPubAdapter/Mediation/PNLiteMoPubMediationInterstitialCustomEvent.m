@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteMoPubMediationInterstitialCustomEvent.h"
-#import "PNLiteMoPubUtils.h"
+#import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPError.h"
 
@@ -40,9 +40,9 @@
 
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {
-    if ([PNLiteMoPubUtils areExtrasValid:info]) {
-        if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
+    if ([HyBidMoPubUtils areExtrasValid:info]) {
+        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             [self.interstitialAd load];
         } else {
             [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];

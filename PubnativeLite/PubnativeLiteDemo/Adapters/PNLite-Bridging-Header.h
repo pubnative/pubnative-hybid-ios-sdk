@@ -15,3 +15,5 @@
 #import "PNLiteDFPBannerCustomEvent.h"
 #import "PNLiteDFPMRectCustomEvent.h"
 #import "PNLiteDFPInterstitialCustomEvent.h"
+
+#import "HyBidMoPubUtils.h"

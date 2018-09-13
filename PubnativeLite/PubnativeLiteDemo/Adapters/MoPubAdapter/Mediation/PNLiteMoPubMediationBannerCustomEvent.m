@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteMoPubMediationBannerCustomEvent.h"
-#import "PNLiteMoPubUtils.h"
+#import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
@@ -42,11 +42,11 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
-    if ([PNLiteMoPubUtils areExtrasValid:info]) {
+    if ([HyBidMoPubUtils areExtrasValid:info]) {
         if (CGSizeEqualToSize(MOPUB_BANNER_SIZE, size)) {
-            if ([PNLiteMoPubUtils appToken:info] != nil || [[PNLiteMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.bannerAdView = [[HyBidBannerAdView alloc] init];
-                [self.bannerAdView loadWithZoneID:[PNLiteMoPubUtils zoneID:info] andWithDelegate:self];
+                [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];
                 return;
