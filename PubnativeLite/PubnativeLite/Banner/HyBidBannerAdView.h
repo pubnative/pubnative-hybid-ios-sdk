@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAdView.h"
+#import "HyBidAdView.h"
 
-@interface HyBidBannerAdView : PNLiteAdView
+@interface HyBidBannerAdView : HyBidAdView
 
 @end

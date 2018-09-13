@@ -24,7 +24,7 @@
 #import <PubnativeLite/PubnativeLite.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteBannerViewController () <PNLiteAdViewDelegate>
+@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet HyBidBannerAdView *bannerAdView;
@@ -50,7 +50,7 @@
     [self.bannerAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
 
-#pragma mark - PNLiteAdViewDelegate
+#pragma mark - HyBidAdViewDelegate
 
 -(void)adViewDidLoad
 {

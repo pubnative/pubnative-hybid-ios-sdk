@@ -26,7 +26,7 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface PNLiteMoPubMediationMRectCustomEvent() <PNLiteAdViewDelegate>
+@interface PNLiteMoPubMediationMRectCustomEvent() <HyBidAdViewDelegate>
 
 @property (nonatomic, strong) HyBidMRectAdView *mRectAdView;
 
@@ -80,7 +80,7 @@
     [self.mRectAdView startTracking];
 }
 
-#pragma mark - PNLiteAdViewDelegate
+#pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad
 {

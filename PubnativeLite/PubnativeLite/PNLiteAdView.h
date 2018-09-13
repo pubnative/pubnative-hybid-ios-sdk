@@ -20,29 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
-#import "HyBidAdRequest.h"
+#import "HyBidAdView.h"
 
-@protocol PNLiteAdViewDelegate<NSObject>
-
-- (void)adViewDidLoad;
-- (void)adViewDidFailWithError:(NSError *)error;
-- (void)adViewDidTrackImpression;
-- (void)adViewDidTrackClick;
+@protocol PNLiteAdViewDelegate<HyBidAdViewDelegate>
 
 @end
 
-@interface PNLiteAdView : UIView <HyBidAdRequestDelegate>
-
-@property (nonatomic, readonly) HyBidAdRequest *adRequest;
-@property (nonatomic, strong) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteAdViewDelegate> *delegate;
-
-- (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<PNLiteAdViewDelegate> *)delegate;
-- (void)setupAdView:(UIView *)adView;
-- (void)renderAd;
-- (void)startTracking;
-- (void)stopTracking;
+@interface PNLiteAdView : HyBidAdView
 
 @end
