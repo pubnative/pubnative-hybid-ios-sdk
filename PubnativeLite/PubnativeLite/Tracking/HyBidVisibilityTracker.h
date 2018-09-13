@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@protocol PNLiteVisibilityTrackerDelegate <NSObject>
+@protocol HyBidVisibilityTrackerDelegate <NSObject>
 
 - (void)checkVisibilityWithVisibleViews:(NSArray <UIView*>*)visibleViews andWithInvisibleViews:(NSArray<UIView*>*)invisibleViews;
 
@@ -31,7 +31,7 @@
 
 @interface HyBidVisibilityTracker : NSObject
 
-@property (nonatomic, weak) NSObject <PNLiteVisibilityTrackerDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidVisibilityTrackerDelegate> *delegate;
 
 - (void)addView:(UIView*)view withMinVisibility:(CGFloat)minVisibility;
 - (void)removeView:(UIView*)view;
