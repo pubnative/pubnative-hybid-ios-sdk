@@ -22,6 +22,8 @@
 
 #import "HyBidMoPubMediationNativeAdCustomEvent.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubMediationNativeAdCustomEvent instead.")
+
 @interface PNLiteMoPubMediationNativeAdCustomEvent : HyBidMoPubMediationNativeAdCustomEvent
 
 @end

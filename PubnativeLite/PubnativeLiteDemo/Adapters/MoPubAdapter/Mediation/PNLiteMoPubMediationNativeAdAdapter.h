@@ -22,6 +22,8 @@
 
 #import "HyBidMoPubMediationNativeAdAdapter.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubMediationNativeAdAdapter instead.")
+
 @interface PNLiteMoPubMediationNativeAdAdapter : HyBidMoPubMediationNativeAdAdapter
 
 @end

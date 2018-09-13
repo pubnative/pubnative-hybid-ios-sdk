@@ -22,6 +22,8 @@
 
 #import "HyBidDFPInterstitialCustomEvent.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPInterstitialCustomEvent instead.")
+
 @interface PNLiteDFPInterstitialCustomEvent : HyBidDFPInterstitialCustomEvent
 
 @end

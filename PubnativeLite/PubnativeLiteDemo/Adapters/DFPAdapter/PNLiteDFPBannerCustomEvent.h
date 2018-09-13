@@ -22,6 +22,8 @@
 
 #import "HyBidDFPBannerCustomEvent.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPBannerCustomEvent instead.")
+
 @interface PNLiteDFPBannerCustomEvent : HyBidDFPBannerCustomEvent
 
 @end

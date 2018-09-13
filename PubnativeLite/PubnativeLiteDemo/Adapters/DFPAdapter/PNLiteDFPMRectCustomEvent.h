@@ -22,6 +22,8 @@
 
 #import "HyBidDFPMRectCustomEvent.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPMRectCustomEvent instead.")
+
 @interface PNLiteDFPMRectCustomEvent : HyBidDFPMRectCustomEvent
 
 @end

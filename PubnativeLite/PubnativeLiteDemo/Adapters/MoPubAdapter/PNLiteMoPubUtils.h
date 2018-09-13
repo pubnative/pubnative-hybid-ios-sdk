@@ -22,6 +22,8 @@
 
 #import "HyBidMoPubUtils.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubUtils instead.")
+
 @interface PNLiteMoPubUtils : HyBidMoPubUtils
 
 @end

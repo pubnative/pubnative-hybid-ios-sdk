@@ -22,6 +22,8 @@
 
 #import "HyBidMoPubInterstitialCustomEvent.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubInterstitialCustomEvent instead.")
+
 @interface PNLiteMoPubInterstitialCustomEvent : HyBidMoPubInterstitialCustomEvent
 
 @end

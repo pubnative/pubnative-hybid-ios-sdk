@@ -22,6 +22,8 @@
 
 #import "HyBidMoPubBannerCustomEvent.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubBannerCustomEvent instead.")
+
 @interface PNLiteMoPubBannerCustomEvent : HyBidMoPubBannerCustomEvent
 
 @end

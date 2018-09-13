@@ -22,6 +22,8 @@
 
 #import "HyBidMoPubMediationMRectCustomEvent.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubMediationMRectCustomEvent instead.")
+
 @interface PNLiteMoPubMediationMRectCustomEvent : HyBidMoPubMediationMRectCustomEvent
 
 @end

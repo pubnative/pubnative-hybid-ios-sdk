@@ -22,6 +22,8 @@
 
 #import "HyBidDFPUtils.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPUtils instead.")
+
 @interface PNLiteDFPUtils : HyBidDFPUtils
 
 @end
