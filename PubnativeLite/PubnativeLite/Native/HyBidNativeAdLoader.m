@@ -52,7 +52,7 @@
     [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
 }
 
-- (void)invokeDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd
+- (void)invokeDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeLoaderDidLoadWithNativeAd:)]) {
         [self.delegate nativeLoaderDidLoadWithNativeAd:nativeAd];
@@ -79,7 +79,7 @@
     if (ad == nil) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
     } else {
-        [self invokeDidLoadWithNativeAd:[[PNLiteNativeAd alloc] initWithAd:ad]];
+        [self invokeDidLoadWithNativeAd:[[HyBidNativeAd alloc] initWithAd:ad]];
     }
 }
 

@@ -20,45 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
-#import "HyBidNativeAdRenderer.h"
-#import "HyBidContentInfoView.h"
+#import "HyBidNativeAd.h"
 
-@class PNLiteNativeAd;
-
-@protocol PNLiteNativeAdDelegate <NSObject>
-
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view;
-- (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd;
+@protocol PNLiteNativeAdDelegate <HyBidNativeAdDelegate>
 
 @end
 
-@protocol PNLiteNativeAdFetchDelegate <NSObject>
-
-- (void)nativeAdDidFinishFetching:(PNLiteNativeAd *)nativeAd;
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error;
+@protocol PNLiteNativeAdFetchDelegate <HyBidNativeAdFetchDelegate>
 
 @end
 
-@interface PNLiteNativeAd : NSObject
-
-@property (nonatomic, readonly) NSString *title;
-@property (nonatomic, readonly) NSString *body;
-@property (nonatomic, readonly) NSString *callToActionTitle;
-@property (nonatomic, readonly) NSString *iconUrl;
-@property (nonatomic, readonly) NSString *bannerUrl;
-@property (nonatomic, readonly) NSString *clickUrl;
-@property (nonatomic, readonly) NSNumber *rating;
-@property (nonatomic, readonly) UIView *banner;
-@property (nonatomic, readonly) UIImage *icon;
-@property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
-
-- (instancetype)initWithAd:(PNLiteAd *)ad;
-- (void)renderAd:(HyBidNativeAdRenderer *)renderer;
-- (void)fetchNativeAdAssetsWithDelegate:(NSObject<PNLiteNativeAdFetchDelegate> *)delegate;
-- (void)startTrackingView:(UIView *)view withDelegate:(NSObject<PNLiteNativeAdDelegate> *)delegate;
-- (void)stopTracking;
+@interface PNLiteNativeAd : HyBidNativeAd
 
 @end

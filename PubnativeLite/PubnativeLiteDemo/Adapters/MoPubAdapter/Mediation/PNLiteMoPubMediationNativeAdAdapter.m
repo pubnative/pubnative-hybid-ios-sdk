@@ -24,9 +24,9 @@
 #import "MPNativeAdConstants.h"
 #import "MPLogging.h"
 
-@interface PNLiteMoPubMediationNativeAdAdapter () <PNLiteNativeAdDelegate>
+@interface PNLiteMoPubMediationNativeAdAdapter () <HyBidNativeAdDelegate>
 
-@property(nonatomic, strong) PNLiteNativeAd *nativeAd;
+@property(nonatomic, strong) HyBidNativeAd *nativeAd;
 
 @end
 
@@ -40,7 +40,7 @@
     self.nativeAd = nil;
 }
 
-- (instancetype)initWithNativeAd:(PNLiteNativeAd *)ad
+- (instancetype)initWithNativeAd:(HyBidNativeAd *)ad
 {
     self = [super init];
     if (self) {
@@ -50,7 +50,7 @@
     return self;
 }
 
-- (NSDictionary *)convertAssetsToProperties:(PNLiteNativeAd *)nativeAd
+- (NSDictionary *)convertAssetsToProperties:(HyBidNativeAd *)nativeAd
 {
     return @{ kAdTitleKey : nativeAd.title,
               kAdTextKey : nativeAd.body,
@@ -88,9 +88,9 @@
     [self.nativeAd stopTracking];
 }
 
-#pragma mark - PNLiteNativeAdDelegate
+#pragma mark - HyBidNativeAdDelegate
 
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
+- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
 {
     if ([self.delegate respondsToSelector:@selector(nativeAdWillLogImpression:)]) {
         [self.delegate nativeAdWillLogImpression:self];
@@ -99,7 +99,7 @@
     }
 }
 
-- (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd
+- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd
 {
     if ([self.delegate respondsToSelector:@selector(nativeAdDidClick:)]) {
         [self.delegate nativeAdDidClick:self];

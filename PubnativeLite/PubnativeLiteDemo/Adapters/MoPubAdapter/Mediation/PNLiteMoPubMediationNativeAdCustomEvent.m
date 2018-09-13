@@ -66,10 +66,10 @@
 
 #pragma mark - HyBidNativeAdLoaderDelegate
 
-- (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
 {
     __block PNLiteMoPubMediationNativeAdCustomEvent *strongSelf = self;
-    __block PNLiteNativeAd *blockAd = nativeAd;
+    __block HyBidNativeAd *blockAd = nativeAd;
     NSString *bannerURLString = nativeAd.bannerUrl;
     NSString *iconURLString = nativeAd.iconUrl;
     

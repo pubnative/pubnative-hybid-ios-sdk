@@ -21,11 +21,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteNativeAd.h"
+#import "HyBidNativeAd.h"
 
 @protocol HyBidNativeAdLoaderDelegate<NSObject>
 
-- (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd;
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd;
 - (void)nativeLoaderDidFailWithError:(NSError *)error;
 
 @end

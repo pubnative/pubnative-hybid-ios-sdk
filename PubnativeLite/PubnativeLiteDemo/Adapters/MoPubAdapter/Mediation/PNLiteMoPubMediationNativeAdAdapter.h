@@ -32,6 +32,6 @@
 
 @property (nonatomic, weak) id<MPNativeAdAdapterDelegate> delegate;
 
-- (instancetype)initWithNativeAd:(PNLiteNativeAd *)ad;
+- (instancetype)initWithNativeAd:(HyBidNativeAd *)ad;
 
 @end
