@@ -20,14 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#else
-#import "MPBannerCustomEvent.h"
-#endif
+#import "HyBidMoPubBannerCustomEvent.h"
 
-#import <PubnativeLite/PubnativeLite.h>
-
-@interface PNLiteMoPubBannerCustomEvent : MPBannerCustomEvent
+@interface PNLiteMoPubBannerCustomEvent : HyBidMoPubBannerCustomEvent
 
 @end
