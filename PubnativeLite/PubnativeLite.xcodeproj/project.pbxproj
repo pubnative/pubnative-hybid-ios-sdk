@@ -376,6 +376,7 @@
 		5AC35B57214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B56214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m */; };
 		5AC35B5A214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B59214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m */; };
 		5AC35B5D214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B5C214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.m */; };
+		5AC35B60214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B5F214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m */; };
 		5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */; };
 		5AC523FA20459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */; };
 		5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74D7203595220001CDC3 /* PNLiteMRAIDParser.m */; };
@@ -1149,6 +1150,8 @@
 		5AC35B59214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationBannerCustomEvent.m; sourceTree = "<group>"; };
 		5AC35B5B214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubMediationMRectCustomEvent.h; sourceTree = "<group>"; };
 		5AC35B5C214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationMRectCustomEvent.m; sourceTree = "<group>"; };
+		5AC35B5E214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubMediationInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		5AC35B5F214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC523F520456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubInterstitialViewController.h; sourceTree = "<group>"; };
@@ -2411,6 +2414,8 @@
 				5AC35B5C214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.m */,
 				5A288BF320D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.h */,
 				5A288BF420D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m */,
+				5AC35B5E214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.h */,
+				5AC35B5F214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m */,
 			);
 			path = Mediation;
 			sourceTree = "<group>";
@@ -3994,6 +3999,7 @@
 				5AFE7C0D212C1BA300FFD7CA /* MPAPIEndpoints.m in Sources */,
 				5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */,
 				5AFE7C0B212C1BA300FFD7CA /* MPBannerCustomEventAdapter.m in Sources */,
+				5AC35B60214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m in Sources */,
 				5AFE7C28212C1BA300FFD7CA /* MRBridge.m in Sources */,
 				5AFE7C20212C1BA300FFD7CA /* MPActivityViewControllerHelper+TweetShare.m in Sources */,
 				5AFE7C44212C1BA300FFD7CA /* NSError+MPAdditions.m in Sources */,
