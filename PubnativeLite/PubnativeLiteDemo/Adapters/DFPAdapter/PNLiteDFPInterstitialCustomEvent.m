@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDFPInterstitialCustomEvent.h"
-#import "PNLiteDFPUtils.h"
+#import "HyBidDFPUtils.h"
 
 @interface PNLiteDFPInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 
@@ -46,10 +46,10 @@
                                      label:(NSString * _Nullable)serverLabel
                                    request:(nonnull GADCustomEventRequest *)request
 {
-    if ([PNLiteDFPUtils areExtrasValid:serverParameter]) {
-        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteDFPUtils zoneID:serverParameter]];
+    if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
+        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
         if (self.ad == nil) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteDFPUtils zoneID:serverParameter]]];
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];

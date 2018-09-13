@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDFPMRectCustomEvent.h"
-#import "PNLiteDFPUtils.h"
+#import "HyBidDFPUtils.h"
 
 @interface PNLiteDFPMRectCustomEvent () <HyBidMRectPresenterDelegate>
 
@@ -49,11 +49,11 @@
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request
 {
-    if ([PNLiteDFPUtils areExtrasValid:serverParameter]) {
+    if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeMediumRectangle.size, adSize.size)) {
-            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[PNLiteDFPUtils zoneID:serverParameter]];
+            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
             if (self.ad == nil) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [PNLiteDFPUtils zoneID:serverParameter]]];
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
                 return;
             }
             self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];

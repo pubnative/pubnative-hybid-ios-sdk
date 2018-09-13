@@ -20,8 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPUtils.h"
+#import <Foundation/Foundation.h>
 
-@interface PNLiteDFPUtils : HyBidDFPUtils
+@interface HyBidDFPUtils : NSObject
+
++ (BOOL)areExtrasValid:(NSString *)extras;
++ (NSString *)zoneID:(NSString *)extras;
 
 @end
