@@ -20,8 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDFPMRectCustomEvent.h"
+#import <Foundation/Foundation.h>
+#import <PubnativeLite/PubnativeLite.h>
 
-@implementation PNLiteDFPMRectCustomEvent
+@import GoogleMobileAds;
+
+@interface HyBidDFPMRectCustomEvent : NSObject <GADCustomEventBanner>
 
 @end
