@@ -20,8 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPInterstitialCustomEvent.h"
+#import <Foundation/Foundation.h>
+#import <PubnativeLite/PubnativeLite.h>
 
-@interface PNLiteDFPInterstitialCustomEvent : HyBidDFPInterstitialCustomEvent
+@import GoogleMobileAds;
+
+@interface HyBidDFPInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
 
 @end

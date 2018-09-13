@@ -28,3 +28,4 @@
 #import "HyBidDFPUtils.h"
 #import "HyBidDFPBannerCustomEvent.h"
 #import "HyBidDFPMRectCustomEvent.h"
+#import "HyBidDFPInterstitialCustomEvent.h"

@@ -380,6 +380,7 @@
 		5AC35B63214A9DC5001F0ED3 /* HyBidDFPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B62214A9DC5001F0ED3 /* HyBidDFPUtils.m */; };
 		5AC35B66214AA104001F0ED3 /* HyBidDFPBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B65214AA104001F0ED3 /* HyBidDFPBannerCustomEvent.m */; };
 		5AC35B69214AA35B001F0ED3 /* HyBidDFPMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B68214AA35B001F0ED3 /* HyBidDFPMRectCustomEvent.m */; };
+		5AC35B6C214AA499001F0ED3 /* HyBidDFPInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B6B214AA499001F0ED3 /* HyBidDFPInterstitialCustomEvent.m */; };
 		5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */; };
 		5AC523FA20459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */; };
 		5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74D7203595220001CDC3 /* PNLiteMRAIDParser.m */; };
@@ -1161,6 +1162,8 @@
 		5AC35B65214AA104001F0ED3 /* HyBidDFPBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDFPBannerCustomEvent.m; sourceTree = "<group>"; };
 		5AC35B67214AA35B001F0ED3 /* HyBidDFPMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDFPMRectCustomEvent.h; sourceTree = "<group>"; };
 		5AC35B68214AA35B001F0ED3 /* HyBidDFPMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDFPMRectCustomEvent.m; sourceTree = "<group>"; };
+		5AC35B6A214AA499001F0ED3 /* HyBidDFPInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDFPInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		5AC35B6B214AA499001F0ED3 /* HyBidDFPInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDFPInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC523F520456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5AC523F620456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		5AC523F820459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubInterstitialViewController.h; sourceTree = "<group>"; };
@@ -2743,6 +2746,8 @@
 				5AC35B68214AA35B001F0ED3 /* HyBidDFPMRectCustomEvent.m */,
 				5A066D2B20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.h */,
 				5A066D2C20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m */,
+				5AC35B6A214AA499001F0ED3 /* HyBidDFPInterstitialCustomEvent.h */,
+				5AC35B6B214AA499001F0ED3 /* HyBidDFPInterstitialCustomEvent.m */,
 			);
 			path = DFPAdapter;
 			sourceTree = "<group>";
@@ -4022,6 +4027,7 @@
 				5AFE7C20212C1BA300FFD7CA /* MPActivityViewControllerHelper+TweetShare.m in Sources */,
 				5AFE7C44212C1BA300FFD7CA /* NSError+MPAdditions.m in Sources */,
 				5AFE7C72212C1BA300FFD7CA /* MPMoPubRewardedVideoCustomEvent.m in Sources */,
+				5AC35B6C214AA499001F0ED3 /* HyBidDFPInterstitialCustomEvent.m in Sources */,
 				5AFE7BBA212C1BA300FFD7CA /* MPNativeAdData.m in Sources */,
 				5A288BF520D934360049092E /* PNLiteMoPubMediationInterstitialCustomEvent.m in Sources */,
 				5AFE7BD3212C1BA300FFD7CA /* MPAdPositioning.m in Sources */,
