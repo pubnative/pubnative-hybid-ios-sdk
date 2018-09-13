@@ -449,7 +449,7 @@
                                     <action selector="requestBannerTouchUpInside:" destination="N7x-ag-E8p" eventType="touchUpInside" id="XCd-6c-7ki"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zf8-zL-pq3" customClass="PNLiteBannerAdView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zf8-zL-pq3" userLabel="HyBid Banner Ad View" customClass="HyBidBannerAdView">
                                 <rect key="frame" x="27.5" y="66" width="320" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="M60-yO-Miz"/>
@@ -500,7 +500,7 @@
                         <viewLayoutGuide key="safeArea" id="pWO-nZ-fPm"/>
                     </view>
                     <connections>
-                        <outlet property="bannerAdView" destination="Zf8-zL-pq3" id="1hc-DA-fsN"/>
+                        <outlet property="bannerAdView" destination="Zf8-zL-pq3" id="ost-gU-DSn"/>
                         <outlet property="bannerLoaderIndicator" destination="WfN-yr-XKY" id="1Ck-kj-aeU"/>
                         <outlet property="inspectRequestButton" destination="LYh-gB-Tx5" id="yjK-lS-IlI"/>
                     </connections>

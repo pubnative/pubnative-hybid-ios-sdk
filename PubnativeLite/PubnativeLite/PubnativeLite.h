@@ -52,6 +52,7 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/PNLitePrebidUtils.h>
 #import <PubnativeLite/PNLiteContentInfoView.h>
 #import <PubnativeLite/PNLiteUserDataManager.h>
+#import <PubnativeLite/PNLiteBaseModel.h>
 #import <PubnativeLite/PNLiteAdModel.h>
 #import <PubnativeLite/PNLiteDataModel.h>
 #import <PubnativeLite/PNLiteAd.h>
@@ -86,9 +87,11 @@ FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
 #import <PubnativeLite/HyBidPrebidUtils.h>
 #import <PubnativeLite/HyBidContentInfoView.h>
 #import <PubnativeLite/HyBidUserDataManager.h>
+#import <PubnativeLite/HyBidBaseModel.h>
 #import <PubnativeLite/HyBidAdModel.h>
 #import <PubnativeLite/HyBidDataModel.h>
 
+#import <PubnativeLite/HyBidBannerAdView.h>
 #import <PubnativeLite/HyBidMRectAdView.h>
 #import <PubnativeLite/HyBidInterstitialAd.h>
 #import <PubnativeLite/HyBidSettings.h>

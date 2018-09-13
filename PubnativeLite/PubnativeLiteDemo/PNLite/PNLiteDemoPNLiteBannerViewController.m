@@ -27,7 +27,7 @@
 @interface PNLiteDemoPNLiteBannerViewController () <PNLiteAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (weak, nonatomic) IBOutlet PNLiteBannerAdView *bannerAdView;
+@property (weak, nonatomic) IBOutlet HyBidBannerAdView *bannerAdView;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 
 @end
