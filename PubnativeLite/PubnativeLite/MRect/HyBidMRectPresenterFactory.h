@@ -22,11 +22,11 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidMRectPresenter.h"
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 
 @interface HyBidMRectPresenterFactory : NSObject
 
-- (HyBidMRectPresenter *)createMRectPresenterWithAd:(PNLiteAd *)ad
+- (HyBidMRectPresenter *)createMRectPresenterWithAd:(HyBidAd *)ad
                                        withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate;
 
 @end

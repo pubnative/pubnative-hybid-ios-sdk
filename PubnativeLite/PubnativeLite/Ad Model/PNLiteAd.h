@@ -20,26 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "HyBidAdModel.h"
-#import "HyBidContentInfoView.h"
+#import "HyBidAd.h"
 
-@interface PNLiteAd : NSObject
-
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSString *htmlUrl;
-@property (nonatomic, readonly) NSString *htmlData;
-@property (nonatomic, readonly) NSString *link;
-@property (nonatomic, readonly) NSString *impressionID;
-@property (nonatomic, readonly) NSNumber *assetGroupID;
-@property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;
-@property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
-
-- (instancetype)initWithData:(HyBidAdModel *)data;
-- (HyBidDataModel *)assetDataWithType:(NSString *)type;
-- (HyBidDataModel *)metaDataWithType:(NSString *)type;
-- (NSArray *)beaconsDataWithType:(NSString *)type;
+@interface PNLiteAd : HyBidAd
 
 @end

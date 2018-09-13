@@ -44,7 +44,7 @@
     // Do nothing, this method should be overriden
 }
 
-- (PNLiteAd *)ad
+- (HyBidAd *)ad
 {
     return nil;
 }

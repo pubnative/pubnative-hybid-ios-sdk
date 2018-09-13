@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 #import "HyBidNativeAdRenderer.h"
 #import "HyBidContentInfoView.h"
 
@@ -55,7 +55,7 @@
 @property (nonatomic, readonly) UIImage *icon;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
-- (instancetype)initWithAd:(PNLiteAd *)ad;
+- (instancetype)initWithAd:(HyBidAd *)ad;
 - (void)renderAd:(HyBidNativeAdRenderer *)renderer;
 - (void)fetchNativeAdAssetsWithDelegate:(NSObject<HyBidNativeAdFetchDelegate> *)delegate;
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate;

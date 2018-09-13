@@ -107,7 +107,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     });
 }
 
-- (void)invokeDidLoad:(PNLiteAd *)ad
+- (void)invokeDidLoad:(HyBidAd *)ad
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isRunning = NO;
@@ -156,7 +156,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
         } else if ([kPNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in response.ads) {
-                PNLiteAd *ad = [[PNLiteAd alloc] initWithData:adModel];
+                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel];
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
             }

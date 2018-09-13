@@ -24,6 +24,6 @@
 
 @interface PNLiteMRAIDInterstitialPresenter : HyBidInterstitialPresenter
 
-- (instancetype)initWithAd:(PNLiteAd *)ad;
+- (instancetype)initWithAd:(HyBidAd *)ad;
 
 @end

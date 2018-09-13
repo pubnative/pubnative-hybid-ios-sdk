@@ -33,7 +33,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
-@property (nonatomic, strong) PNLiteAd *adModel;
+@property (nonatomic, strong) HyBidAd *adModel;
 
 @end
 
@@ -45,7 +45,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
     self.adModel = nil;
 }
 
-- (instancetype)initWithAd:(PNLiteAd *)ad
+- (instancetype)initWithAd:(HyBidAd *)ad
 {
     self = [super init];
     if (self) {
@@ -54,7 +54,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
     return self;
 }
 
-- (PNLiteAd *)ad
+- (HyBidAd *)ad
 {
     return self.adModel;
 }

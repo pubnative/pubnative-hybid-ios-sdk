@@ -22,11 +22,11 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidInterstitialPresenter.h"
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 
 @interface HyBidInterstitialPresenterFactory : NSObject
 
-- (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad
+- (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate;
 
 @end

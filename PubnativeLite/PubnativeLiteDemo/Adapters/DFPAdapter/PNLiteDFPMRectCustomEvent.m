@@ -28,7 +28,7 @@
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
 @property (nonatomic, strong) HyBidMRectPresenterFactory *mRectPresenterFactory;
-@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) HyBidAd *ad;
 
 @end
 

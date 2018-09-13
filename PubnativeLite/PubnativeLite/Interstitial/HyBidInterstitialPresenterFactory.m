@@ -29,7 +29,7 @@
 
 @implementation HyBidInterstitialPresenterFactory
 
-- (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad
+- (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate
 {
     HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad];
@@ -43,7 +43,7 @@
     return interstitialPresenterDecorator;
 }
 
-- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(PNLiteAd *)ad
+- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_INTERSTITIAL: {

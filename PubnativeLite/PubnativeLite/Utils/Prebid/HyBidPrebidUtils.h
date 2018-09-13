@@ -21,11 +21,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 
 @interface HyBidPrebidUtils : NSObject
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
 
 @end

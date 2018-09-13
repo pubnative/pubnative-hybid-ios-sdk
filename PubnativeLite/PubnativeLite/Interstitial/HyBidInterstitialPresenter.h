@@ -21,7 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 
 @class HyBidInterstitialPresenter;
 
@@ -38,7 +38,7 @@
 
 @interface HyBidInterstitialPresenter : NSObject
 
-@property (nonatomic, readonly) PNLiteAd *ad;
+@property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic, strong) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
 
 - (void)load;

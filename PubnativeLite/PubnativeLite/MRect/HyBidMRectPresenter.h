@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 
 @class HyBidMRectPresenter;
 
@@ -38,7 +38,7 @@
 
 @interface HyBidMRectPresenter : NSObject
 
-@property (nonatomic, readonly) PNLiteAd *ad;
+@property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic, strong) NSObject <HyBidMRectPresenterDelegate> *delegate;
 
 - (void)load;

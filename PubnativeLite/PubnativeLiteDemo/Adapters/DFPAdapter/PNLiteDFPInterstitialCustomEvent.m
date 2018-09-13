@@ -27,7 +27,7 @@
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialPresenterFactory *interstitalPresenterFactory;
-@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) HyBidAd *ad;
 
 @end
 

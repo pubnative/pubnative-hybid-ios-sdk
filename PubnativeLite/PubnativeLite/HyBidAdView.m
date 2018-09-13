@@ -89,7 +89,7 @@
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {

@@ -79,7 +79,7 @@
     [self.interstitialPresenter hide];
 }
 
-- (void)renderAd:(PNLiteAd *)ad
+- (void)renderAd:(HyBidAd *)ad
 {
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
@@ -133,7 +133,7 @@
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {

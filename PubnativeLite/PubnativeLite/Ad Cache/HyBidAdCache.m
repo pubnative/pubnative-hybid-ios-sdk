@@ -40,14 +40,14 @@
     return _sharedInstance;
 }
 
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
+- (void)putAdToCache:(HyBidAd *)ad withZoneID:(NSString *)zoneID
 {
     [[HyBidAdCache sharedInstance].adCache setObject:ad forKey:zoneID];
 }
 
-- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID
+- (HyBidAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID
 {
-    PNLiteAd *cachedAd = [[HyBidAdCache sharedInstance].adCache objectForKey:zoneID];
+    HyBidAd *cachedAd = [[HyBidAdCache sharedInstance].adCache objectForKey:zoneID];
     [[HyBidAdCache sharedInstance].adCache removeObjectForKey:zoneID];
     return cachedAd;
 }

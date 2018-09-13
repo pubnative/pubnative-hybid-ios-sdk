@@ -30,7 +30,7 @@
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
-@property (nonatomic, strong) PNLiteAd *adModel;
+@property (nonatomic, strong) HyBidAd *adModel;
 
 @end
 
@@ -42,7 +42,7 @@
     self.adModel = nil;
 }
 
-- (instancetype)initWithAd:(PNLiteAd *)ad
+- (instancetype)initWithAd:(HyBidAd *)ad
 {
     self = [super init];
     if (self) {
@@ -51,7 +51,7 @@
     return self;
 }
 
-- (PNLiteAd *)ad
+- (HyBidAd *)ad
 {
     return self.adModel;
 }

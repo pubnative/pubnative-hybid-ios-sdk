@@ -21,14 +21,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 
 @interface HyBidAdCache : NSObject
 
 @property(nonatomic, strong) NSMutableDictionary *adCache;
 
 + (instancetype)sharedInstance;
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID;
+- (void)putAdToCache:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
+- (HyBidAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID;
 
 @end

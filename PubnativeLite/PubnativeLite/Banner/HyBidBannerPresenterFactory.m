@@ -28,7 +28,7 @@
 
 @implementation HyBidBannerPresenterFactory
 
-- (HyBidBannerPresenter *)createBannerPresenterWithAd:(PNLiteAd *)ad
+- (HyBidBannerPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
                                          withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
 {
     HyBidBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
@@ -42,7 +42,7 @@
     return bannerPresenterDecorator;
 }
 
-- (HyBidBannerPresenter *)createBannerPresenterFromAd:(PNLiteAd *)ad
+- (HyBidBannerPresenter *)createBannerPresenterFromAd:(HyBidAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_BANNER_1:

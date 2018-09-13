@@ -29,7 +29,7 @@ double const kECPMPointsDivider = 1000.0;
 
 @implementation HyBidPrebidUtils
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID
 {
     NSMutableString *prebidString = [[NSMutableString alloc] init];
     [prebidString appendString:kPNLiteKeyPN];
@@ -49,7 +49,7 @@ double const kECPMPointsDivider = 1000.0;
     return [NSString stringWithString:prebidString];
 }
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID
 {
     NSMutableDictionary *prebidDictionary = [NSMutableDictionary dictionary];
     [prebidDictionary setValue:@"true" forKey:kPNLiteKeyPN];
@@ -58,7 +58,7 @@ double const kECPMPointsDivider = 1000.0;
     return prebidDictionary;
 }
 
-+ (NSString *)eCPMFromAd:(PNLiteAd *)ad
++ (NSString *)eCPMFromAd:(HyBidAd *)ad
 {
     return [NSString stringWithFormat:@"%.3f", [ad.eCPM doubleValue]/kECPMPointsDivider];
 }

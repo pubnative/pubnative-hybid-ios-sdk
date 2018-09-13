@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIView *playerContainer;
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
 @property (nonatomic, strong) HyBidInterstitialPresenter *presenter;
-@property (nonatomic, strong) PNLiteAd *adModel;
+@property (nonatomic, strong) HyBidAd *adModel;
 
 @end
 
@@ -72,7 +72,7 @@
     [self.player stop];
 }
 
-- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(PNLiteAd *)ad
+- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad
 {
     self.presenter = interstitialPresenter;
     self.adModel = ad;

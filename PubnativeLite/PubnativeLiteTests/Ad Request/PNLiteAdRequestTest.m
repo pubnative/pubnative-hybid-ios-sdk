@@ -29,7 +29,7 @@
 
 @property (nonatomic, weak) NSObject <HyBidAdRequestDelegate> *delegate;
 - (void)invokeDidStart;
-- (void)invokeDidLoad:(PNLiteAd *)ad;
+- (void)invokeDidLoad:(HyBidAd *)ad;
 - (void)invokeDidFail:(NSError *)error;
 @end
 
@@ -126,7 +126,7 @@
 - (void)test_invokeDidLoad_withValidListener_shouldCallback
 {
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
-    PNLiteAd *ad = mock([PNLiteAd class]);
+    HyBidAd *ad = mock([HyBidAd class]);
     NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     request.delegate = delegate;
     [request invokeDidLoad:ad];

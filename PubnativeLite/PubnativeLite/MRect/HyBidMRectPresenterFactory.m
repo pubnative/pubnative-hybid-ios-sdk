@@ -29,7 +29,7 @@
 
 @implementation HyBidMRectPresenterFactory
 
-- (HyBidMRectPresenter *)createMRectPresenterWithAd:(PNLiteAd *)ad
+- (HyBidMRectPresenter *)createMRectPresenterWithAd:(HyBidAd *)ad
                                        withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate
 {
     HyBidMRectPresenter *mRectPresenter = [self createMRectPresenterFromAd:ad];
@@ -43,7 +43,7 @@
     return mRectPresenterDecorator;
 }
 
-- (HyBidMRectPresenter *)createMRectPresenterFromAd:(PNLiteAd *)ad
+- (HyBidMRectPresenter *)createMRectPresenterFromAd:(HyBidAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_MRECT: {

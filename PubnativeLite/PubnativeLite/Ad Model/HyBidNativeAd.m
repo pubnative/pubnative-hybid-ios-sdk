@@ -31,7 +31,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 @interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate>
 
-@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) NSDictionary *trackingExtras;
 @property (nonatomic, strong) NSMutableDictionary *fetchedAssets;
@@ -67,7 +67,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 #pragma mark HyBidNativeAd
 
-- (instancetype)initWithAd:(PNLiteAd *)ad
+- (instancetype)initWithAd:(HyBidAd *)ad
 {
     self = [super init];
     if (self) {

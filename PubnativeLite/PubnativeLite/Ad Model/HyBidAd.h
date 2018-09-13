@@ -22,27 +22,24 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "HyBidAd.h"
+#import "HyBidAdModel.h"
+#import "HyBidContentInfoView.h"
 
-@class HyBidBannerPresenter;
+@interface HyBidAd : NSObject
 
-@protocol HyBidBannerPresenterDelegate<NSObject>
+@property (nonatomic, readonly) NSString *vast;
+@property (nonatomic, readonly) NSString *htmlUrl;
+@property (nonatomic, readonly) NSString *htmlData;
+@property (nonatomic, readonly) NSString *link;
+@property (nonatomic, readonly) NSString *impressionID;
+@property (nonatomic, readonly) NSNumber *assetGroupID;
+@property (nonatomic, readonly) NSNumber *eCPM;
+@property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;
+@property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-      didLoadWithBanner:(UIView *)banner;
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter;
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-       didFailWithError:(NSError *)error;
-
-@end
-
-@interface HyBidBannerPresenter : NSObject
-
-@property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidBannerPresenterDelegate> *delegate;
-
-- (void)load;
-- (void)startTracking;
-- (void)stopTracking;
+- (instancetype)initWithData:(HyBidAdModel *)data;
+- (HyBidDataModel *)assetDataWithType:(NSString *)type;
+- (HyBidDataModel *)metaDataWithType:(NSString *)type;
+- (NSArray *)beaconsDataWithType:(NSString *)type;
 
 @end

@@ -31,7 +31,7 @@
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
-@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) HyBidAd *ad;
 
 @end
 

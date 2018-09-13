@@ -21,7 +21,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
+#import "HyBidAd.h"
 #import "HyBidAdRequest.h"
 
 @protocol HyBidAdViewDelegate<NSObject>
@@ -36,7 +36,7 @@
 @interface HyBidAdView : UIView <HyBidAdRequestDelegate>
 
 @property (nonatomic, readonly) HyBidAdRequest *adRequest;
-@property (nonatomic, strong) PNLiteAd *ad;
+@property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) NSObject <HyBidAdViewDelegate> *delegate;
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
