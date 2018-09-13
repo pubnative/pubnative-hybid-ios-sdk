@@ -20,8 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMoPubInterstitialCustomEvent.h"
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPInterstitialCustomEvent.h"
+#endif
 
-@implementation PNLiteMoPubInterstitialCustomEvent
+#import <PubnativeLite/PubnativeLite.h>
+
+@interface HyBidMoPubInterstitialCustomEvent : MPInterstitialCustomEvent
 
 @end
