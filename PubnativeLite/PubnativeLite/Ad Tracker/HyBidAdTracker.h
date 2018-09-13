@@ -21,7 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAdTrackerRequest.h"
+#import "HyBidAdTrackerRequest.h"
 
 extern NSString *const kPNLiteAdTrackerClick;
 extern NSString *const kPNLiteAdTrackerImpression;

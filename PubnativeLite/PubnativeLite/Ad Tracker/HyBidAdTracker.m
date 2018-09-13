@@ -26,9 +26,9 @@
 NSString *const kPNLiteAdTrackerClick = @"click";
 NSString *const kPNLiteAdTrackerImpression = @"impression";
 
-@interface HyBidAdTracker() <PNLiteAdTrackerRequestDelegate>
+@interface HyBidAdTracker() <HyBidAdTrackerRequestDelegate>
 
-@property (nonatomic, strong) PNLiteAdTrackerRequest *adTrackerRequest;
+@property (nonatomic, strong) HyBidAdTrackerRequest *adTrackerRequest;
 @property (nonatomic, strong) NSArray *impressionURLs;
 @property (nonatomic, strong) NSArray *clickURLs;
 @property (nonatomic, assign) BOOL impressionTracked;
@@ -48,11 +48,11 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
                          withClickURLs:(NSArray *)clickURLs
 {
-    PNLiteAdTrackerRequest *adTrackerRequest = [[PNLiteAdTrackerRequest alloc] init];
+    HyBidAdTrackerRequest *adTrackerRequest = [[HyBidAdTrackerRequest alloc] init];
     return [self initWithAdTrackerRequest:adTrackerRequest withImpressionURLs:impressionURLs withClickURLs:clickURLs];
 }
 
-- (instancetype)initWithAdTrackerRequest:(PNLiteAdTrackerRequest *)adTrackerRequest
+- (instancetype)initWithAdTrackerRequest:(HyBidAdTrackerRequest *)adTrackerRequest
                       withImpressionURLs:(NSArray *)impressionURLs
                            withClickURLs:(NSArray *)clickURLs
 {
@@ -95,19 +95,19 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
     }
 }
 
-#pragma mark PNLiteAdTrackerRequestDelegate
+#pragma mark HyBidAdTrackerRequestDelegate
 
-- (void)requestDidStart:(PNLiteAdTrackerRequest *)request
+- (void)requestDidStart:(HyBidAdTrackerRequest *)request
 {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)requestDidFinish:(PNLiteAdTrackerRequest *)request
+- (void)requestDidFinish:(HyBidAdTrackerRequest *)request
 {
     NSLog(@"Request %@ finished:",request);
 }
 
-- (void)request:(PNLiteAdTrackerRequest *)request didFailWithError:(NSError *)error
+- (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
 }

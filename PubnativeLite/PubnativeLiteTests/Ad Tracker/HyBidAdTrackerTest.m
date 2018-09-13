@@ -28,7 +28,7 @@
 
 @interface HyBidAdTracker()
 
-@property (retain) PNLiteAdTrackerRequest *adTrackerRequest;
+@property (retain) HyBidAdTrackerRequest *adTrackerRequest;
 
 @end
 
@@ -54,20 +54,20 @@
 
 - (void)test_trackImpression
 {
-    PNLiteAdTrackerRequest *adTrackerRequest = mock([PNLiteAdTrackerRequest class]);
+    HyBidAdTrackerRequest *adTrackerRequest = mock([HyBidAdTrackerRequest class]);
     self.adTracker.adTrackerRequest = adTrackerRequest;
     [self.adTracker trackImpression];
     [self.adTracker trackImpression];
-    [verifyCount(self.adTracker.adTrackerRequest, times(1)) trackAdWithDelegate:((id<PNLiteAdTrackerRequestDelegate>)self.adTracker) withURL:@"validImpressionURL"];
+    [verifyCount(self.adTracker.adTrackerRequest, times(1)) trackAdWithDelegate:((id<HyBidAdTrackerRequestDelegate>)self.adTracker) withURL:@"validImpressionURL"];
 }
 
 - (void)test_trackClick
 {
-    PNLiteAdTrackerRequest *adTrackerRequest = mock([PNLiteAdTrackerRequest class]);
+    HyBidAdTrackerRequest *adTrackerRequest = mock([HyBidAdTrackerRequest class]);
     self.adTracker.adTrackerRequest = adTrackerRequest;
     [self.adTracker trackClick];
     [self.adTracker trackClick];
-    [verifyCount(self.adTracker.adTrackerRequest, times(1)) trackAdWithDelegate:((id<PNLiteAdTrackerRequestDelegate>)self.adTracker) withURL:@"validClickURL"];
+    [verifyCount(self.adTracker.adTrackerRequest, times(1)) trackAdWithDelegate:((id<HyBidAdTrackerRequestDelegate>)self.adTracker) withURL:@"validClickURL"];
 }
 
 @end

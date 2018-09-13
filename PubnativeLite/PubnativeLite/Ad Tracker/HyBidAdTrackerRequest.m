@@ -20,25 +20,25 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAdTrackerRequest.h"
+#import "HyBidAdTrackerRequest.h"
 #import "PNLiteHttpRequest.h"
 
 NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
 
-@interface PNLiteAdTrackerRequest() <PNLiteHttpRequestDelegate>
+@interface HyBidAdTrackerRequest() <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <PNLiteAdTrackerRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidAdTrackerRequestDelegate> *delegate;
 
 @end
 
-@implementation PNLiteAdTrackerRequest
+@implementation HyBidAdTrackerRequest
 
-- (void)trackAdWithDelegate:(NSObject<PNLiteAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url
+- (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url
 {
     if(delegate == nil){
-        NSLog(@"PNLiteAdTrackerRequest - Given delegate is nil and required, droping this call");
+        NSLog(@"HyBidAdTrackerRequest - Given delegate is nil and required, droping this call");
     } else if(url == nil || url.length == 0){
-        NSLog(@"PNLiteAdTrackerRequest - URL nil or empty, droping this call");
+        NSLog(@"HyBidAdTrackerRequest - URL nil or empty, droping this call");
     } else {
         self.delegate = delegate;
         [self invokeDidStart];

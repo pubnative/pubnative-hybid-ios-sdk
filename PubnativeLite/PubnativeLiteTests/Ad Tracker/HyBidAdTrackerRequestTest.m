@@ -23,21 +23,21 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
-#import "PNLiteAdTrackerRequest.h"
+#import "HyBidAdTrackerRequest.h"
 
-@interface PNLiteAdTrackerRequest()
+@interface HyBidAdTrackerRequest()
 
-@property (nonatomic, weak) NSObject <PNLiteAdTrackerRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidAdTrackerRequestDelegate> *delegate;
 - (void)invokeDidStart;
 - (void)invokeDidLoad;
 - (void)invokeDidFail:(NSError *)error;
 @end
 
-@interface PNLiteAdTrackerRequestTest : XCTestCase
+@interface HyBidAdTrackerRequestTest : XCTestCase
 
 @end
 
-@implementation PNLiteAdTrackerRequestTest
+@implementation HyBidAdTrackerRequestTest
 
 - (void)setUp
 {
@@ -51,34 +51,34 @@
 
 - (void)test_trackAdWithDelegate_withNilDelegateAndWithValidUrl_shouldPass
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
     [request trackAdWithDelegate:nil withURL:@"validURL"];
 }
 
 - (void)test_trackAdWithDelegate_withValidDelegateAndWithNilUrl_shouldPass
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
-    NSObject <PNLiteAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdTrackerRequestDelegate));
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
+    NSObject <HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
     [request trackAdWithDelegate:delegate withURL:nil];
 }
 
 - (void)test_trackAdWithDelegate_withValidDelegateAndWithEmptyUrl_shouldPass
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
-    NSObject <PNLiteAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdTrackerRequestDelegate));
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
+    NSObject <HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
     [request trackAdWithDelegate:delegate withURL:@""];
 }
 
 - (void)test_trackAdWithDelegate_withValidDelegateAndWithValidUrl_shouldPass
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
-    NSObject <PNLiteAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdTrackerRequestDelegate));
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
+    NSObject <HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
     [request trackAdWithDelegate:delegate withURL:@"validURL"];
 }
 
 - (void)test_invokeDidStart_withNilListener_shouldPass
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
     request.delegate = nil;
     [request invokeDidStart];
     
@@ -93,8 +93,8 @@
 
 - (void)test_invokeDidStart_withValidListener_shouldCallback
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
-    NSObject<PNLiteAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdTrackerRequestDelegate));
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
+    NSObject<HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
     request.delegate = delegate;
     [request invokeDidStart];
     
@@ -110,7 +110,7 @@
 
 - (void)test_invokeDidLoad_withNilListener_shouldPass
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
     request.delegate = nil;
     [request invokeDidStart];
     
@@ -125,8 +125,8 @@
 
 - (void)test_invokeDidLoad_withValidListener_shouldCallback
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
-    NSObject<PNLiteAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdTrackerRequestDelegate));
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
+    NSObject<HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
     request.delegate = delegate;
     [request invokeDidLoad];
     
@@ -142,7 +142,7 @@
 
 - (void)test_invokeDidFail_witNilListener_shouldPass
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
     request.delegate = nil;
     NSError *error = mock([NSError class]);
     [request invokeDidFail:error];
@@ -158,8 +158,8 @@
 
 - (void)test_invokeDidFail_withValidListener_shouldCallback
 {
-    PNLiteAdTrackerRequest *request = [[PNLiteAdTrackerRequest alloc] init];
-    NSObject<PNLiteAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteAdTrackerRequestDelegate));
+    HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
+    NSObject<HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
     request.delegate = delegate;
     NSError *error = mock([NSError class]);
     [request invokeDidFail:error];
