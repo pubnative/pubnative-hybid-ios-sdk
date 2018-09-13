@@ -292,8 +292,8 @@
 		5A9A885F21088024006A081D /* PNLiteTrackingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A885D21088023006A081D /* PNLiteTrackingManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A9A88622108A4D1006A081D /* PNLiteVisibilityTrackerItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A88602108A4D1006A081D /* PNLiteVisibilityTrackerItem.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A9A88632108A4D1006A081D /* PNLiteVisibilityTrackerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A88612108A4D1006A081D /* PNLiteVisibilityTrackerItem.m */; };
-		5A9A88662108A82F006A081D /* PNLiteVisibilityTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A88642108A82E006A081D /* PNLiteVisibilityTracker.m */; };
-		5A9A88672108A82F006A081D /* PNLiteVisibilityTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A88652108A82F006A081D /* PNLiteVisibilityTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A9A88662108A82F006A081D /* HyBidVisibilityTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A88642108A82E006A081D /* HyBidVisibilityTracker.m */; };
+		5A9A88672108A82F006A081D /* HyBidVisibilityTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A88652108A82F006A081D /* HyBidVisibilityTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A9A886A2108BB9A006A081D /* PNLiteImpressionTrackerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A88682108BB98006A081D /* PNLiteImpressionTrackerItem.m */; };
 		5A9A886B2108BB9A006A081D /* PNLiteImpressionTrackerItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A88692108BB99006A081D /* PNLiteImpressionTrackerItem.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A9A886E2108BE59006A081D /* PNLiteImpressionTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A886C2108BE58006A081D /* PNLiteImpressionTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1057,8 +1057,8 @@
 		5A9A885D21088023006A081D /* PNLiteTrackingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteTrackingManager.h; sourceTree = "<group>"; };
 		5A9A88602108A4D1006A081D /* PNLiteVisibilityTrackerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVisibilityTrackerItem.h; sourceTree = "<group>"; };
 		5A9A88612108A4D1006A081D /* PNLiteVisibilityTrackerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVisibilityTrackerItem.m; sourceTree = "<group>"; };
-		5A9A88642108A82E006A081D /* PNLiteVisibilityTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteVisibilityTracker.m; sourceTree = "<group>"; };
-		5A9A88652108A82F006A081D /* PNLiteVisibilityTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteVisibilityTracker.h; sourceTree = "<group>"; };
+		5A9A88642108A82E006A081D /* HyBidVisibilityTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidVisibilityTracker.m; sourceTree = "<group>"; };
+		5A9A88652108A82F006A081D /* HyBidVisibilityTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidVisibilityTracker.h; sourceTree = "<group>"; };
 		5A9A88682108BB98006A081D /* PNLiteImpressionTrackerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteImpressionTrackerItem.m; sourceTree = "<group>"; };
 		5A9A88692108BB99006A081D /* PNLiteImpressionTrackerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteImpressionTrackerItem.h; sourceTree = "<group>"; };
 		5A9A886C2108BE58006A081D /* PNLiteImpressionTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteImpressionTracker.h; sourceTree = "<group>"; };
@@ -2469,8 +2469,8 @@
 				5A9A885C21088023006A081D /* PNLiteTrackingManager.m */,
 				5A9A885821087C13006A081D /* PNLiteTrackingManagerItem.h */,
 				5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */,
-				5A9A88652108A82F006A081D /* PNLiteVisibilityTracker.h */,
-				5A9A88642108A82E006A081D /* PNLiteVisibilityTracker.m */,
+				5A9A88652108A82F006A081D /* HyBidVisibilityTracker.h */,
+				5A9A88642108A82E006A081D /* HyBidVisibilityTracker.m */,
 				5A9A88602108A4D1006A081D /* PNLiteVisibilityTrackerItem.h */,
 				5A9A88612108A4D1006A081D /* PNLiteVisibilityTrackerItem.m */,
 			);
@@ -3397,7 +3397,7 @@
 				5ACC74EC203595250001CDC3 /* PNLiteMRAIDParser.h in Headers */,
 				5A8F10CD2089E4D20098E337 /* PNLite_KSSingleton.h in Headers */,
 				5A81267B20CFC83D007F7092 /* PNLiteAdView.h in Headers */,
-				5A9A88672108A82F006A081D /* PNLiteVisibilityTracker.h in Headers */,
+				5A9A88672108A82F006A081D /* HyBidVisibilityTracker.h in Headers */,
 				5AECD5A9204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h in Headers */,
 				5ADB0FBF20AF26B6005BDAF5 /* PNLiteUserDataManager.h in Headers */,
 				5ADF9E6F21493B6D0081355E /* HyBidInterstitialAdRequest.h in Headers */,
@@ -4198,7 +4198,7 @@
 				5ADF9EB8214970430081355E /* HyBidInterstitialAd.m in Sources */,
 				5A8F112E2089E4D20098E337 /* PNLiteBreadcrumb.m in Sources */,
 				5AECD5AA204050F10023ABBC /* PNLiteInterstitialPresenterFactory.m in Sources */,
-				5A9A88662108A82F006A081D /* PNLiteVisibilityTracker.m in Sources */,
+				5A9A88662108A82F006A081D /* HyBidVisibilityTracker.m in Sources */,
 				5A8F110E2089E4D20098E337 /* PNLite_KSCrashSentry_CPPException.mm in Sources */,
 				5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */,
 				5A91E65820BFF76900527BAA /* PNLiteUserConsentModel.m in Sources */,

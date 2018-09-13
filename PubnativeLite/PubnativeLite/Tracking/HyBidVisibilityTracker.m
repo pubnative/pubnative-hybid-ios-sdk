@@ -20,12 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteVisibilityTracker.h"
+#import "HyBidVisibilityTracker.h"
 #import "PNLiteVisibilityTrackerItem.h"
 
 NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
-@interface PNLiteVisibilityTracker ()
+@interface HyBidVisibilityTracker ()
 
 @property (nonatomic, assign) BOOL isVisibilityScheduled;
 @property (nonatomic, strong) NSMutableArray<PNLiteVisibilityTrackerItem *> *trackedItems;
@@ -36,7 +36,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 @end
 
-@implementation PNLiteVisibilityTracker
+@implementation HyBidVisibilityTracker
 
 - (void)dealloc
 {
@@ -70,9 +70,9 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 - (void)addView:(UIView*)view withMinVisibility:(CGFloat)minVisibility
 {
     if(view == nil) {
-        NSLog(@"PNLiteVisibilityTracker - View is nil and required, dropping this call");
+        NSLog(@"HyBidVisibilityTracker - View is nil and required, dropping this call");
     } else if ([self isTrackingView:view]){
-        NSLog(@"PNLiteVisibilityTracker - View is already being tracked, dropping this call");
+        NSLog(@"HyBidVisibilityTracker - View is already being tracked, dropping this call");
     } else {
         PNLiteVisibilityTrackerItem *item = [[PNLiteVisibilityTrackerItem alloc] init];
         item.view = view;
