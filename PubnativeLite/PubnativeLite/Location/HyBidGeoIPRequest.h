@@ -23,18 +23,18 @@
 #import <Foundation/Foundation.h>
 #import "PNLiteGeoIPModel.h"
 
-@class PNLiteGeoIPRequest;
+@class HyBidGeoIPRequest;
 
-@protocol PNLiteGeoIPRequestDelegate <NSObject>
+@protocol HyBidGeoIPRequestDelegate <NSObject>
 
-- (void)requestDidStart:(PNLiteGeoIPRequest *)request;
-- (void)request:(PNLiteGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP;
-- (void)request:(PNLiteGeoIPRequest *)request didFailWithError:(NSError *)error;
+- (void)requestDidStart:(HyBidGeoIPRequest *)request;
+- (void)request:(HyBidGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP;
+- (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error;
 
 @end
 
-@interface PNLiteGeoIPRequest : NSObject
+@interface HyBidGeoIPRequest : NSObject
 
-- (void)requestGeoIPWithDelegate:(NSObject<PNLiteGeoIPRequestDelegate> *)delegate;
+- (void)requestGeoIPWithDelegate:(NSObject<HyBidGeoIPRequestDelegate> *)delegate;
 
 @end

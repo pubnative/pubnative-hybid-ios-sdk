@@ -22,7 +22,7 @@
 
 #import "HyBidUserDataManager.h"
 #import "HyBidSettings.h"
-#import "PNLiteGeoIPRequest.h"
+#import "HyBidGeoIPRequest.h"
 #import "PNLiteCountryUtils.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "PNLiteConsentPageViewController.h"
@@ -40,7 +40,7 @@ NSString *const kPNLiteConsentPageUrl = @"https://pubnative.net/personalize-your
 NSInteger const kPNLiteConsentStateAccepted = 1;
 NSInteger const kPNLiteConsentStateDenied = 0;
 
-@interface HyBidUserDataManager () <PNLiteGeoIPRequestDelegate, PNLiteUserConsentRequestDelegate, PNLiteCheckConsentRequestDelegate, PNLiteRevokeConsentRequestDelegate>
+@interface HyBidUserDataManager () <HyBidGeoIPRequestDelegate, PNLiteUserConsentRequestDelegate, PNLiteCheckConsentRequestDelegate, PNLiteRevokeConsentRequestDelegate>
 
 @property (nonatomic, assign) BOOL inGDPRZone;
 @property (nonatomic, assign) NSInteger consentState;
@@ -137,7 +137,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 - (void)determineUserZone
 {
-    PNLiteGeoIPRequest *request = [[PNLiteGeoIPRequest alloc] init];
+    HyBidGeoIPRequest *request = [[HyBidGeoIPRequest alloc] init];
     [request requestGeoIPWithDelegate:self];
 }
 
@@ -225,14 +225,14 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     NSLog(@"PNLiteUserConsentRequestDelegate: Request failed with error: %@",error.localizedDescription);
 }
 
-#pragma mark PNLiteGeoIPRequestDelegate
+#pragma mark HyBidGeoIPRequestDelegate
 
-- (void)requestDidStart:(PNLiteGeoIPRequest *)request
+- (void)requestDidStart:(HyBidGeoIPRequest *)request
 {
-    NSLog(@"PNLiteGeoIPRequestDelegate: Request %@ started:",request);
+    NSLog(@"HyBidGeoIPRequestDelegate: Request %@ started:",request);
 }
 
-- (void)request:(PNLiteGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP
+- (void)request:(HyBidGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP
 {
     if ([geoIP.countryCode length] == 0) {
         NSLog(@"No country code was obtained. The default value will be used, therefore no user data consent will be required.");
@@ -248,9 +248,9 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     }
 }
 
-- (void)request:(PNLiteGeoIPRequest *)request didFailWithError:(NSError *)error
+- (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error
 {
-    NSLog(@"PNLiteGeoIPRequestDelegate: Request %@ failed with error: %@",request,error.localizedDescription);
+    NSLog(@"HyBidGeoIPRequestDelegate: Request %@ failed with error: %@",request,error.localizedDescription);
     self.completionBlock(NO);
 }
 

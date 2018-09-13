@@ -415,8 +415,8 @@
 		5ADB0FB320AF0B30005BDAF5 /* PNLiteCountryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */; };
 		5ADB0FB720AF11B2005BDAF5 /* PNLiteGeoIPModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */; };
 		5ADB0FB820AF11B2005BDAF5 /* PNLiteGeoIPModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */; };
-		5ADB0FBB20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */; };
-		5ADB0FBC20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */; };
+		5ADB0FBB20AF1A8A005BDAF5 /* HyBidGeoIPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB920AF1A8A005BDAF5 /* HyBidGeoIPRequest.h */; };
+		5ADB0FBC20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FBA20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m */; };
 		5ADB0FBF20AF26B6005BDAF5 /* PNLiteUserDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ADB0FC020AF26B6005BDAF5 /* PNLiteUserDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */; };
 		5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */; };
@@ -1198,8 +1198,8 @@
 		5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteCountryUtils.m; sourceTree = "<group>"; };
 		5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteGeoIPModel.h; sourceTree = "<group>"; };
 		5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteGeoIPModel.m; sourceTree = "<group>"; };
-		5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteGeoIPRequest.h; sourceTree = "<group>"; };
-		5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteGeoIPRequest.m; sourceTree = "<group>"; };
+		5ADB0FB920AF1A8A005BDAF5 /* HyBidGeoIPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGeoIPRequest.h; sourceTree = "<group>"; };
+		5ADB0FBA20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGeoIPRequest.m; sourceTree = "<group>"; };
 		5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserDataManager.h; sourceTree = "<group>"; };
 		5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteUserDataManager.m; sourceTree = "<group>"; };
 		5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubSettingsViewController.h; sourceTree = "<group>"; };
@@ -2634,8 +2634,8 @@
 			children = (
 				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
 				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
-				5ADB0FB920AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h */,
-				5ADB0FBA20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m */,
+				5ADB0FB920AF1A8A005BDAF5 /* HyBidGeoIPRequest.h */,
+				5ADB0FBA20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -3497,7 +3497,7 @@
 				5A8F10E52089E4D20098E337 /* PNLite_KSDynamicLinker.h in Headers */,
 				5ADF9E9B21495C500081355E /* HyBidContentInfoView.h in Headers */,
 				5AC35B40214A7055001F0ED3 /* HyBidAd.h in Headers */,
-				5ADB0FBB20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.h in Headers */,
+				5ADB0FBB20AF1A8A005BDAF5 /* HyBidGeoIPRequest.h in Headers */,
 				5A8F11092089E4D20098E337 /* PNLite_KSCrashSentry_Deadlock.h in Headers */,
 				5A8F10D92089E4D20098E337 /* PNLite_KSZombie.h in Headers */,
 				5ADF9E772149426B0081355E /* HyBidAdTracker.h in Headers */,
@@ -4173,7 +4173,7 @@
 				5A9B66E820BD97530067964E /* PNLiteVASTPlayerViewController.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
 				5A8F10CF2089E4D20098E337 /* PNLite_KSMach_Arm.c in Sources */,
-				5ADB0FBC20AF1A8A005BDAF5 /* PNLiteGeoIPRequest.m in Sources */,
+				5ADB0FBC20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5AC35B35214A5F80001F0ED3 /* HyBidBannerAdView.m in Sources */,
 				5A3C2F7D20C5603700E36D06 /* PNLiteRevokeConsentRequest.m in Sources */,

@@ -20,30 +20,30 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteGeoIPRequest.h"
+#import "HyBidGeoIPRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
 
 NSString *const kPNLiteGeoIPResponseSuccess = @"success";
 NSString *const kPNLiteGeoIPResponseFail = @"fail";
 
-@interface PNLiteGeoIPRequest () <PNLiteHttpRequestDelegate>
+@interface HyBidGeoIPRequest () <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, strong) NSObject <PNLiteGeoIPRequestDelegate> *delegate;
+@property (nonatomic, strong) NSObject <HyBidGeoIPRequestDelegate> *delegate;
 
 @end
 
-@implementation PNLiteGeoIPRequest
+@implementation HyBidGeoIPRequest
 
 - (void)dealloc
 {
     self.delegate = nil;
 }
 
-- (void)requestGeoIPWithDelegate:(NSObject<PNLiteGeoIPRequestDelegate> *)delegate
+- (void)requestGeoIPWithDelegate:(NSObject<HyBidGeoIPRequestDelegate> *)delegate
 {
     if(delegate == nil){
-        NSLog(@"PNLiteGeoIPRequest - Given delegate is nil and required, droping this call");
+        NSLog(@"HyBidGeoIPRequest - Given delegate is nil and required, droping this call");
     } else {
         self.delegate = delegate;
         [self invokeDidStart];
@@ -99,7 +99,7 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
             [self invokeDidLoad:geoIP];
             
         } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"PNLiteGeoIPRequest - %@", geoIP.message];
+            NSString *errorMessage = [NSString stringWithFormat:@"HyBidGeoIPRequest - %@", geoIP.message];
             NSError *responseError = [NSError errorWithDomain:errorMessage
                                                          code:0
                                                      userInfo:nil];
