@@ -20,3 +20,4 @@
 #import "HyBidMoPubBannerCustomEvent.h"
 #import "HyBidMoPubMRectCustomEvent.h"
 #import "HyBidMoPubInterstitialCustomEvent.h"
+#import "HyBidMoPubMediationNativeAdCustomEvent.h"

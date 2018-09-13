@@ -74,7 +74,7 @@
     MPStaticNativeAdRendererSettings *settings = [[MPStaticNativeAdRendererSettings alloc] init];
     settings.renderingViewClass = [PNLiteDemoMoPubMediationNativeView class];
     MPNativeAdRendererConfiguration *config = [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
-    config.supportedCustomEvents = @[@"PNLiteMoPubMediationNativeAdCustomEvent"];
+    config.supportedCustomEvents = @[@"HyBidMoPubMediationNativeAdCustomEvent"];
     
     self.request = [MPNativeAdRequest requestWithAdUnitIdentifier:[PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID
                                            rendererConfigurations:@[config]];
