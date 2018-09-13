@@ -32,13 +32,13 @@
 
 @end
 
-@interface PNLiteAdTrackerTest : XCTestCase
+@interface HyBidAdTrackerTest : XCTestCase
 
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 
 @end
 
-@implementation PNLiteAdTrackerTest
+@implementation HyBidAdTrackerTest
 
 - (void)setUp
 {
