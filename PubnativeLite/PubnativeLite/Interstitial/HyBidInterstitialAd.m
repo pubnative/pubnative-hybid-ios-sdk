@@ -84,7 +84,7 @@
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
     if (self.interstitialPresenter == nil) {
-        NSLog(@"PubNativeLite - Error: Could not create valid interstitial presenter");
+        NSLog(@"HyBid - Error: Could not create valid interstitial presenter");
         return;
     } else {
         [self.interstitialPresenter load];

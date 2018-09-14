@@ -53,23 +53,23 @@
         if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
             if (self.ad == nil) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
                 return;
             }
             self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
             self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
             if (self.bannerPresenter == nil) {
-                [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid banner presenter"];
+                [self invokeFailWithMessage:@"HyBid - Error: Could not create valid banner presenter"];
                 return;
             } else {
                 [self.bannerPresenter load];
             }
         } else {
-            [self invokeFailWithMessage:@"PubNativeLite - Error: Wrong ad size."];
+            [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed banner ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"HyBid - Error: Failed banner ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -89,7 +89,7 @@
 
 - (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
 - (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter

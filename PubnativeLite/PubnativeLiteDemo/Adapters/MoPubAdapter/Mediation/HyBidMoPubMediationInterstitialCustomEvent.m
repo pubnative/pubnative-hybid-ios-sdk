@@ -45,12 +45,12 @@
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             [self.interstitialAd load];
         } else {
-            [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];
+            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise PNLite."];
             return;
         }
         
     } else {
-        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed interstitial ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"HyBid - Error: Failed interstitial ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -83,7 +83,7 @@
 
 - (void)interstitialDidFailWithError:(NSError *)error
 {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
 - (void)interstitialDidTrackClick

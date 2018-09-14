@@ -48,15 +48,15 @@
                 self.mRectAdView = [[HyBidMRectAdView alloc] init];
                 [self.mRectAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
-                [self invokeFailWithMessage:@"PubNativeLite - The provided app token doesn't match the one used to initialise PNLite."];
+                [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise PNLite."];
                 return;
             }
         } else {
-            [self invokeFailWithMessage:@"PubNativeLite - Error: Wrong ad size."];
+            [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed mRect ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"HyBid - Error: Failed mRect ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -89,7 +89,7 @@
 
 - (void)adViewDidFailWithError:(NSError *)error
 {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
 - (void)adViewDidTrackImpression

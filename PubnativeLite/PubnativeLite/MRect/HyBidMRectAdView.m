@@ -54,7 +54,7 @@
     HyBidMRectPresenterFactory *mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
     self.mRectPresenter = [mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
     if (self.mRectPresenter == nil) {
-        NSLog(@"PubNativeLite - Error: Could not create valid mRect presenter");
+        NSLog(@"HyBid - Error: Could not create valid mRect presenter");
         return;
     } else {
         [self.mRectPresenter load];

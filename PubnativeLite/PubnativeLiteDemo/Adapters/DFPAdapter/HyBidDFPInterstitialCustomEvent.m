@@ -49,19 +49,19 @@
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
         if (self.ad == nil) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
         if (self.interstitialPresenter == nil) {
-            [self invokeFailWithMessage:@"PubNativeLite - Error: Could not create valid interstitial presenter"];
+            [self invokeFailWithMessage:@"HyBid - Error: Could not create valid interstitial presenter"];
             return;
         } else {
             [self.interstitialPresenter load];
         }
     } else {
-        [self invokeFailWithMessage:@"PubNativeLite - Error: Failed interstitial ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"HyBid - Error: Failed interstitial ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -103,7 +103,7 @@
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
 {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"PubNativeLite - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
 @end

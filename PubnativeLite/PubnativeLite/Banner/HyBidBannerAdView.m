@@ -54,7 +54,7 @@
     HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
     self.bannerPresenter = [bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
     if (self.bannerPresenter == nil) {
-        NSLog(@"PubNativeLite - Error: Could not create valid banner presenter");
+        NSLog(@"HyBid - Error: Could not create valid banner presenter");
         return;
     } else {
         [self.bannerPresenter load];
