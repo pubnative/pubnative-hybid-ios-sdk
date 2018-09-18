@@ -16,8 +16,8 @@ IPHONESIMULATOR_PRODUCT=$IPHONESIMULATOR_FRAMEWORK/$PRODUCT_NAME
 IPHONESIMULATOR_ZIP_PATH=$BASE_DIR/HyBid.iphonesimulator.framework.zip
 
 # Generate Frameworks
-xcodebuild -project HyBid.xcodeproj -scheme HyBid -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
-xcodebuild -project HyBid.xcodeproj -scheme HyBid -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HyBid -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HyBid -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
 
 # Merge Frameworks and .zip them
 cp -rf $IPHONEOS_FRAMEWORK $FAT_FRAMEWORK
