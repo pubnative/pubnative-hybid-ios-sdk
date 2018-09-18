@@ -103,7 +103,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);
 
-@interface PubnativeLite : NSObject
+@interface HyBid : NSObject
 
 + (void)setCoppa:(BOOL)enabled;
 + (void)setTargeting:(HyBidTargetingModel *)targeting;

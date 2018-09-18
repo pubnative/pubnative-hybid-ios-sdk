@@ -20,12 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "PubnativeLite.h"
+#import "HyBid.h"
 #import "HyBidSettings.h"
 #import "PNLiteCrashTracker.h"
 #import "HyBidUserDataManager.h"
 
-@implementation PubnativeLite
+@implementation HyBid
 
 + (void)setCoppa:(BOOL)enabled
 {

@@ -123,22 +123,22 @@
     [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
     
-    [PubnativeLite initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
     }];
 
-    [PubnativeLite setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
+    [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
-        [PubnativeLite setTestMode:YES];
+        [HyBid setTestMode:YES];
     } else {
-        [PubnativeLite setTestMode:NO];
+        [HyBid setTestMode:NO];
     }
     if (self.coppaModeSelected) {
-        [PubnativeLite setCoppa:YES];
+        [HyBid setCoppa:YES];
     } else {
-        [PubnativeLite setCoppa:NO];
+        [HyBid setCoppa:NO];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
