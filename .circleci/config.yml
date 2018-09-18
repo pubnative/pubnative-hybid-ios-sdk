@@ -42,7 +42,7 @@ jobs:
                             -workspace HyBid.xcworkspace
                             -scheme HyBid
                             -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
-                            clean test
+                            test
                             | tee /tmp/circleci-artifacts/test_xcodebuild.log
                             | xcpretty
                                 -c
