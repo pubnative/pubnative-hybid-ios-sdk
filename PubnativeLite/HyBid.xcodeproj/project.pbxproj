@@ -3618,7 +3618,7 @@
 				5A32CED22029F8530003B450 /* PBXTargetDependency */,
 			);
 			name = HyBidDemo;
-			productName = PubnativeLiteDemo;
+			productName = HyBidDemo;
 			productReference = 5A32CEB92029F79B0003B450 /* HyBidDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -3636,7 +3636,7 @@
 			dependencies = (
 			);
 			name = HyBid;
-			productName = PubnativeLite;
+			productName = HyBid;
 			productReference = 5A6CD0202029CD060022E206 /* HyBid.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -3654,7 +3654,7 @@
 				5A969A44206523F800C3B74A /* PBXTargetDependency */,
 			);
 			name = HyBidTests;
-			productName = PubnativeLiteTests;
+			productName = HyBidTests;
 			productReference = 5A969A3D206523F800C3B74A /* HyBidTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
