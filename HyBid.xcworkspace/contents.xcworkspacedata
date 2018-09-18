@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <Group
-      location = "group:Scripts"
+      location = "group:PubnativeLite/Scripts"
       name = "Scripts">
       <FileRef
          location = "group:generate.sh">
