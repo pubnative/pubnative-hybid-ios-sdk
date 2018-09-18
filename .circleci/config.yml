@@ -39,7 +39,7 @@ jobs:
             - run:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
-                            -workspace HyBid.xcworkspace
+                            -project PubnativeLite/HyBid.xcodeproj
                             -scheme HyBid
                             -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
                             clean test
