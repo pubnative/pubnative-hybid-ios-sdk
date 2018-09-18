@@ -4286,10 +4286,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.3.0/Viewability/Avid",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8c77220-af53-4731-8529-65639492db72";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development net.pubnative.PubnativeLite.demo";
+				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development net.pubnative.HyBid.demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4316,10 +4316,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.3.0/Viewability/Avid",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dcff7787-f3a4-4327-8861-54f6a01c3d2c";
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc net.pubnative.PubnativeLite.demo";
+				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc net.pubnative.HyBid.demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
