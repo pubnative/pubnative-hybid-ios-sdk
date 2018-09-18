@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "HyBidBaseModel.h"
 
 @interface PNLiteGeoIPModel : HyBidBaseModel

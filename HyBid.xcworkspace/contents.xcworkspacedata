@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <Group
-      location = "group:Scripts"
+      location = "group:PubnativeLite/Scripts"
       name = "Scripts">
       <FileRef
          location = "group:generate.sh">
@@ -15,6 +15,6 @@
       </FileRef>
    </Group>
    <FileRef
-      location = "group:PubnativeLite/PubnativeLite.xcodeproj">
+      location = "group:/Users/cansoykarafakili/Documents/Pubnative Projects/iOS HyBid/pubnative-lite-ios-sdk/PubnativeLite/HyBid.xcodeproj">
    </FileRef>
 </Workspace>

@@ -21,7 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 
 @interface PNLiteDemoSettings : NSObject
 
