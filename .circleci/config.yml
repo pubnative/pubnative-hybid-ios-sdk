@@ -35,11 +35,11 @@ jobs:
                 command: mkdir -p /tmp/circleci-test-results
             - run:
                 name: List Schemes
-                command: xcodebuild -workspace PubnativeLite.xcworkspace -list
+                command: xcodebuild -workspace HyBid.xcworkspace -list
             - run:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
-                            -workspace PubnativeLite.xcworkspace
+                            -workspace HyBid.xcworkspace
                             -scheme PubnativeLite
                             -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
                             clean test
@@ -52,13 +52,13 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development_HyBid_renaming" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development_HyBid_renaming_workspace" ] ; then
                       ./scripts/generate.sh
                     fi
             - deploy:
                 name: Publish to Fabric
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development_HyBid_renaming" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development_HyBid_renaming_workspace" ] ; then
                       ./scripts/publish.sh
                     fi
             - store_test_results:

@@ -2,7 +2,7 @@ coverage_service: coveralls
 ci_service: circleci
 xcodeproj: PubnativeLite/PubnativeLite.xcodeproj
 scheme: PubnativeLite
-workspace: PubnativeLite.xcworkspace
+workspace: HyBid.xcworkspace
 ignore:
     - "dependencies/**"
     - "circleci/*"
