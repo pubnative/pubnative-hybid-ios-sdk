@@ -17,7 +17,7 @@
                BlueprintIdentifier = "5A32CEB82029F79B0003B450"
                BuildableName = "HyBidDemo.app"
                BlueprintName = "HyBidDemo"
-               ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+               ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "5A32CEB82029F79B0003B450"
             BuildableName = "HyBidDemo.app"
             BlueprintName = "HyBidDemo"
-            ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "5A32CEB82029F79B0003B450"
             BuildableName = "HyBidDemo.app"
             BlueprintName = "HyBidDemo"
-            ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -77,7 +77,7 @@
             BlueprintIdentifier = "5A32CEB82029F79B0003B450"
             BuildableName = "HyBidDemo.app"
             BlueprintName = "HyBidDemo"
-            ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

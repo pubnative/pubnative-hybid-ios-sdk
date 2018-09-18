@@ -16,6 +16,6 @@ agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-
 agvtool new-version -all $CIRCLE_BUILD_NUM
 cd ..
 bundle exec fastlane adhoc --verbose
-bundle exec fastlane gym --verbose --include_bitcode true --include_symbols true --clean --workspace HyBid.xcworkspace --scheme HyBid --archive_path $ARCHIVE_PATH --output_directory $OUTPUT_FOLDER --export_options $OPTIONS_PLIST
+bundle exec fastlane gym --verbose --include_bitcode true --include_symbols true --clean --project HyBid.xcodeproj --scheme HyBid --archive_path $ARCHIVE_PATH --output_directory $OUTPUT_FOLDER --export_options $OPTIONS_PLIST
 # Upload Generated IPA to Fabric
 ./scripts/submit $FABRIC_API_KEY $FABRIC_API_SECRET -ipaPath $OUTPUT_FOLDER/HyBid.ipa

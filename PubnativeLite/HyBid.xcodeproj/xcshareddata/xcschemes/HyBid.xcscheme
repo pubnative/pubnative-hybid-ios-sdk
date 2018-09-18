@@ -17,7 +17,7 @@
                BlueprintIdentifier = "5A6CD01F2029CD060022E206"
                BuildableName = "HyBid.framework"
                BlueprintName = "HyBid"
-               ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+               ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "5A969A3C206523F800C3B74A"
             BuildableName = "HyBidTests.xctest"
             BlueprintName = "HyBidTests"
-            ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
@@ -46,7 +46,7 @@
                BlueprintIdentifier = "5A969A3C206523F800C3B74A"
                BuildableName = "HyBidTests.xctest"
                BlueprintName = "HyBidTests"
-               ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+               ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,7 +56,7 @@
             BlueprintIdentifier = "5A6CD01F2029CD060022E206"
             BuildableName = "HyBid.framework"
             BlueprintName = "HyBid"
-            ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -78,7 +78,7 @@
             BlueprintIdentifier = "5A6CD01F2029CD060022E206"
             BuildableName = "HyBid.framework"
             BlueprintName = "HyBid"
-            ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -96,7 +96,7 @@
             BlueprintIdentifier = "5A6CD01F2029CD060022E206"
             BuildableName = "HyBid.framework"
             BlueprintName = "HyBid"
-            ReferencedContainer = "container:PubnativeLite/HyBid.xcodeproj">
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -35,14 +35,14 @@ jobs:
                 command: mkdir -p /tmp/circleci-test-results
             - run:
                 name: List Schemes
-                command: xcodebuild -workspace HyBid.xcworkspace -list
+                command: xcodebuild -project HyBid.xcodeproj -list
             - run:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
-                            -workspace HyBid.xcworkspace
+                            -project HyBid.xcodeproj
                             -scheme HyBid
                             -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
-                            test
+                            clean test
                             | tee /tmp/circleci-artifacts/test_xcodebuild.log
                             | xcpretty
                                 -c
