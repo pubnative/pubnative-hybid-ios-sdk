@@ -42,7 +42,7 @@
     [HyBidSettings sharedInstance].test = enabled;
 }
 
-+ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion
++ (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion
 {
     if (appToken == nil || appToken.length == 0) {
         NSLog(@"PubNative Lite - App Token is nil or empty and required.");

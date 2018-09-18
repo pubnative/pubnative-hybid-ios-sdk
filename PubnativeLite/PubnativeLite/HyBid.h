@@ -101,13 +101,13 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidNativeAdRenderer.h>
 
 
-typedef void (^PubnativeLiteCompletionBlock)(BOOL);
+typedef void (^HyBidCompletionBlock)(BOOL);
 
 @interface HyBid : NSObject
 
 + (void)setCoppa:(BOOL)enabled;
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
-+ (void)initWithAppToken:(NSString *)appToken completion:(PubnativeLiteCompletionBlock)completion;
++ (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
 
 @end
