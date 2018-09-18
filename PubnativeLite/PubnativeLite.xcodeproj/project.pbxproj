@@ -4286,7 +4286,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.3.0/Viewability/Avid",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8c77220-af53-4731-8529-65639492db72";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development net.pubnative.PubnativeLite.demo";
@@ -4316,7 +4316,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.3.0/Viewability/Avid",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "dcff7787-f3a4-4327-8861-54f6a01c3d2c";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc net.pubnative.PubnativeLite.demo";
