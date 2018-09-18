@@ -40,7 +40,7 @@ jobs:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
                             -workspace HyBid.xcworkspace
-                            -scheme PubnativeLite
+                            -scheme HyBid
                             -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
                             clean test
                             | tee /tmp/circleci-artifacts/test_xcodebuild.log

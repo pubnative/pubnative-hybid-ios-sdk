@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5A6CD01F2029CD060022E206"
-               BuildableName = "PubnativeLite.framework"
-               BlueprintName = "PubnativeLite"
-               ReferencedContainer = "container:PubnativeLite.xcodeproj">
+               BuildableName = "HyBid.framework"
+               BlueprintName = "HyBid"
+               ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5A969A3C206523F800C3B74A"
-               BuildableName = "PubnativeLiteTests.xctest"
-               BlueprintName = "PubnativeLiteTests"
-               ReferencedContainer = "container:PubnativeLite.xcodeproj">
+               BuildableName = "HyBidTests.xctest"
+               BlueprintName = "HyBidTests"
+               ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,22 +47,12 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5A969A3C206523F800C3B74A"
-            BuildableName = "PubnativeLiteTests.xctest"
-            BlueprintName = "PubnativeLiteTests"
-            ReferencedContainer = "container:PubnativeLite.xcodeproj">
+            BuildableName = "HyBidTests.xctest"
+            BlueprintName = "HyBidTests"
+            ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A969A3C206523F800C3B74A"
-               BuildableName = "PubnativeLiteTests.xctest"
-               BlueprintName = "PubnativeLiteTests"
-               ReferencedContainer = "container:PubnativeLite.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -86,15 +76,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A6CD01F2029CD060022E206"
-            BuildableName = "PubnativeLite.framework"
-            BlueprintName = "PubnativeLite"
-            ReferencedContainer = "container:PubnativeLite.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -104,15 +85,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A6CD01F2029CD060022E206"
-            BuildableName = "PubnativeLite.framework"
-            BlueprintName = "PubnativeLite"
-            ReferencedContainer = "container:PubnativeLite.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

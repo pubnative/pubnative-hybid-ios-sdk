@@ -1,23 +1,23 @@
 # Variable Declarations
 BASE_DIR=/tmp/circleci-artifacts
-PRODUCT_NAME=PubnativeLite
+PRODUCT_NAME=HyBid
 FRAMEWORK_NAME=$PRODUCT_NAME.framework
 FAT_FRAMEWORK=$BASE_DIR/$FRAMEWORK_NAME
 FAT_PRODUCT=$FAT_FRAMEWORK/$PRODUCT_NAME
-FAT_ZIP_PATH=$BASE_DIR/PubnativeLite.framework.zip
+FAT_ZIP_PATH=$BASE_DIR/HyBid.framework.zip
 IPHONEOS_PATH=$BASE_DIR/iphoneos
 IPHONEOS_ARCH=$IPHONEOS_PATH/arch
 IPHONEOS_FRAMEWORK=$IPHONEOS_PATH/$FRAMEWORK_NAME
 IPHONEOS_PRODUCT=$IPHONEOS_FRAMEWORK/$PRODUCT_NAME
-IPHONEOS_ZIP_PATH=$BASE_DIR/PubnativeLite.iphoneos.framework.zip
+IPHONEOS_ZIP_PATH=$BASE_DIR/HyBid.iphoneos.framework.zip
 IPHONESIMULATOR_PATH=$BASE_DIR/iphonesimulator
 IPHONESIMULATOR_FRAMEWORK=$IPHONESIMULATOR_PATH/$FRAMEWORK_NAME
 IPHONESIMULATOR_PRODUCT=$IPHONESIMULATOR_FRAMEWORK/$PRODUCT_NAME
-IPHONESIMULATOR_ZIP_PATH=$BASE_DIR/PubnativeLite.iphonesimulator.framework.zip
+IPHONESIMULATOR_ZIP_PATH=$BASE_DIR/HyBid.iphonesimulator.framework.zip
 
 # Generate Frameworks
-xcodebuild -workspace HyBid.xcworkspace -scheme PubnativeLite -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
-xcodebuild -workspace HyBid.xcworkspace -scheme PubnativeLite -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HyBid -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HyBid -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
 
 # Merge Frameworks and .zip them
 cp -rf $IPHONEOS_FRAMEWORK $FAT_FRAMEWORK

@@ -52,8 +52,8 @@
 		5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
 		5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC42029F79B0003B450 /* Assets.xcassets */; };
 		5A32CECB2029F79B0003B450 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CECA2029F79B0003B450 /* main.m */; };
-		5A32CECF2029F8530003B450 /* PubnativeLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; };
-		5A32CED02029F8530003B450 /* PubnativeLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5A32CECF2029F8530003B450 /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
+		5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5A3657C9203C23D1004B4347 /* PNLiteBannerPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657C7203C23D1004B4347 /* PNLiteBannerPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A3657CA203C23D1004B4347 /* PNLiteBannerPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657C8203C23D1004B4347 /* PNLiteBannerPresenterFactory.m */; };
 		5A3657CD203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657CB203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -285,7 +285,7 @@
 		5A91E66C20C01E5000527BAA /* PNLiteUserConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */; };
 		5A91E67320C0381400527BAA /* PNLiteDemoConsentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */; };
 		5A91EC6320D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91EC6220D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m */; };
-		5A969A42206523F800C3B74A /* PubnativeLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */; };
+		5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
 		5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */; };
 		5A9A885A21087C13006A081D /* PNLiteTrackingManagerItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A885821087C13006A081D /* PNLiteTrackingManagerItem.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A9A885E21088024006A081D /* PNLiteTrackingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885C21088023006A081D /* PNLiteTrackingManager.m */; };
@@ -739,7 +739,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5A32CED02029F8530003B450 /* PubnativeLite.framework in Embed Frameworks */,
+				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -793,7 +793,7 @@
 		5A2EC33C20C83DA2000F9747 /* PNLiteClose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PNLiteClose@2x.png"; sourceTree = "<group>"; };
 		5A2EC33D20C83DA3000F9747 /* PNLiteClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PNLiteClose.png; sourceTree = "<group>"; };
 		5A2EC33E20C83DA5000F9747 /* PNLiteClose@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PNLiteClose@3x.png"; sourceTree = "<group>"; };
-		5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PubnativeLiteDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A32CEB92029F79B0003B450 /* HyBidDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A32CEBB2029F79B0003B450 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5A32CEBC2029F79B0003B450 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5A32CEBE2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubBannerViewController.h; sourceTree = "<group>"; };
@@ -860,7 +860,7 @@
 		5A6354D22076191100D47E1B /* PNLiteDFPBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPBannerCustomEvent.h; sourceTree = "<group>"; };
 		5A6354D32076191100D47E1B /* PNLiteDFPBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPBannerCustomEvent.m; sourceTree = "<group>"; };
 		5A6BBE7A206263BB0079F8A5 /* PNLite-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PNLite-Bridging-Header.h"; sourceTree = "<group>"; };
-		5A6CD0202029CD060022E206 /* PubnativeLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PubnativeLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* PubnativeLite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PubnativeLite.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequestTest.m; sourceTree = "<group>"; };
@@ -1049,7 +1049,7 @@
 		5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoConsentViewController.m; sourceTree = "<group>"; };
 		5A91EC6120D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMediationBannerCustomEvent.h; sourceTree = "<group>"; };
 		5A91EC6220D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMediationBannerCustomEvent.m; sourceTree = "<group>"; };
-		5A969A3D206523F800C3B74A /* PubnativeLiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PubnativeLiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A969A3D206523F800C3B74A /* HyBidTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A969A41206523F800C3B74A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteTrackingManagerItem.m; sourceTree = "<group>"; };
 		5A9A885821087C13006A081D /* PNLiteTrackingManagerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteTrackingManagerItem.h; sourceTree = "<group>"; };
@@ -1754,7 +1754,7 @@
 				5A8903D5203DE1E100D86051 /* SystemConfiguration.framework in Frameworks */,
 				5A8903D3203DE1DA00D86051 /* UIKit.framework in Frameworks */,
 				5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */,
-				5A32CECF2029F8530003B450 /* PubnativeLite.framework in Frameworks */,
+				5A32CECF2029F8530003B450 /* HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1772,7 +1772,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */,
-				5A969A42206523F800C3B74A /* PubnativeLite.framework in Frameworks */,
+				5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */,
 				5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2076,9 +2076,9 @@
 		5A6CD0212029CD060022E206 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5A6CD0202029CD060022E206 /* PubnativeLite.framework */,
-				5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */,
-				5A969A3D206523F800C3B74A /* PubnativeLiteTests.xctest */,
+				5A6CD0202029CD060022E206 /* HyBid.framework */,
+				5A32CEB92029F79B0003B450 /* HyBidDemo.app */,
+				5A969A3D206523F800C3B74A /* HyBidTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3602,9 +3602,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5A32CEB82029F79B0003B450 /* PubnativeLiteDemo */ = {
+		5A32CEB82029F79B0003B450 /* HyBidDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5A32CECE2029F79B0003B450 /* Build configuration list for PBXNativeTarget "PubnativeLiteDemo" */;
+			buildConfigurationList = 5A32CECE2029F79B0003B450 /* Build configuration list for PBXNativeTarget "HyBidDemo" */;
 			buildPhases = (
 				5A32CEB52029F79B0003B450 /* Sources */,
 				5A32CEB62029F79B0003B450 /* Frameworks */,
@@ -3617,14 +3617,14 @@
 			dependencies = (
 				5A32CED22029F8530003B450 /* PBXTargetDependency */,
 			);
-			name = PubnativeLiteDemo;
+			name = HyBidDemo;
 			productName = PubnativeLiteDemo;
-			productReference = 5A32CEB92029F79B0003B450 /* PubnativeLiteDemo.app */;
+			productReference = 5A32CEB92029F79B0003B450 /* HyBidDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5A6CD01F2029CD060022E206 /* PubnativeLite */ = {
+		5A6CD01F2029CD060022E206 /* HyBid */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "PubnativeLite" */;
+			buildConfigurationList = 5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "HyBid" */;
 			buildPhases = (
 				5A6CD01B2029CD060022E206 /* Sources */,
 				5A6CD01C2029CD060022E206 /* Frameworks */,
@@ -3635,14 +3635,14 @@
 			);
 			dependencies = (
 			);
-			name = PubnativeLite;
+			name = HyBid;
 			productName = PubnativeLite;
-			productReference = 5A6CD0202029CD060022E206 /* PubnativeLite.framework */;
+			productReference = 5A6CD0202029CD060022E206 /* HyBid.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5A969A3C206523F800C3B74A /* PubnativeLiteTests */ = {
+		5A969A3C206523F800C3B74A /* HyBidTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5A969A47206523F800C3B74A /* Build configuration list for PBXNativeTarget "PubnativeLiteTests" */;
+			buildConfigurationList = 5A969A47206523F800C3B74A /* Build configuration list for PBXNativeTarget "HyBidTests" */;
 			buildPhases = (
 				5A969A39206523F800C3B74A /* Sources */,
 				5A969A3A206523F800C3B74A /* Frameworks */,
@@ -3653,9 +3653,9 @@
 			dependencies = (
 				5A969A44206523F800C3B74A /* PBXTargetDependency */,
 			);
-			name = PubnativeLiteTests;
+			name = HyBidTests;
 			productName = PubnativeLiteTests;
-			productReference = 5A969A3D206523F800C3B74A /* PubnativeLiteTests.xctest */;
+			productReference = 5A969A3D206523F800C3B74A /* HyBidTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -3681,7 +3681,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "PubnativeLite" */;
+			buildConfigurationList = 5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "HyBid" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -3694,9 +3694,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5A6CD01F2029CD060022E206 /* PubnativeLite */,
-				5A32CEB82029F79B0003B450 /* PubnativeLiteDemo */,
-				5A969A3C206523F800C3B74A /* PubnativeLiteTests */,
+				5A6CD01F2029CD060022E206 /* HyBid */,
+				5A32CEB82029F79B0003B450 /* HyBidDemo */,
+				5A969A3C206523F800C3B74A /* HyBidTests */,
 			);
 		};
 /* End PBXProject section */
@@ -4242,12 +4242,12 @@
 /* Begin PBXTargetDependency section */
 		5A32CED22029F8530003B450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5A6CD01F2029CD060022E206 /* PubnativeLite */;
+			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A32CED12029F8530003B450 /* PBXContainerItemProxy */;
 		};
 		5A969A44206523F800C3B74A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5A6CD01F2029CD060022E206 /* PubnativeLite */;
+			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -4541,7 +4541,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5A32CECE2029F79B0003B450 /* Build configuration list for PBXNativeTarget "PubnativeLiteDemo" */ = {
+		5A32CECE2029F79B0003B450 /* Build configuration list for PBXNativeTarget "HyBidDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5A32CECC2029F79B0003B450 /* Debug */,
@@ -4550,7 +4550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "PubnativeLite" */ = {
+		5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "HyBid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5A6CD0262029CD060022E206 /* Debug */,
@@ -4559,7 +4559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "PubnativeLite" */ = {
+		5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "HyBid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5A6CD0292029CD060022E206 /* Debug */,
@@ -4568,7 +4568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5A969A47206523F800C3B74A /* Build configuration list for PBXNativeTarget "PubnativeLiteTests" */ = {
+		5A969A47206523F800C3B74A /* Build configuration list for PBXNativeTarget "HyBidTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5A969A45206523F800C3B74A /* Debug */,
