@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubInterstitialViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "MPInterstitialAdController.h"
 #import "PNLiteDemoSettings.h"
 

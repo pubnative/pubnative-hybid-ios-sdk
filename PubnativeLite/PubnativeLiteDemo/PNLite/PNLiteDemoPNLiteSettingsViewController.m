@@ -22,7 +22,7 @@
 
 #import "PNLiteDemoPNLiteSettingsViewController.h"
 #import "PNLiteDemoSettings.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 
 @interface PNLiteDemoPNLiteSettingsViewController () <UITextFieldDelegate>
 

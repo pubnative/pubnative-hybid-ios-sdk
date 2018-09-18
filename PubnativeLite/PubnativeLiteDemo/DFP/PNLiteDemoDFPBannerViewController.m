@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoDFPBannerViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
 @import GoogleMobileAds;

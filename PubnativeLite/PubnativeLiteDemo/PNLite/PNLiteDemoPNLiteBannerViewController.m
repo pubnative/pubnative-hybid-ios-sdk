@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoPNLiteBannerViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate>

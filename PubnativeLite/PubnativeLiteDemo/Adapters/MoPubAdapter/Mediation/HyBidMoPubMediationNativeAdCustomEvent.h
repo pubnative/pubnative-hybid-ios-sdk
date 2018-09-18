@@ -26,7 +26,7 @@
 #import "MPNativeCustomEvent.h"
 #endif
 
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 
 @interface HyBidMoPubMediationNativeAdCustomEvent : MPNativeCustomEvent
 

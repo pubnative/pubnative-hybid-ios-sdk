@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubMRectViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 

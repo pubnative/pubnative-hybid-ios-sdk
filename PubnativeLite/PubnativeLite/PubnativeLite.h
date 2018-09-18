@@ -22,83 +22,83 @@
 
 #import <UIKit/UIKit.h>
 
-//! Project version number for PubnativeLite.
-FOUNDATION_EXPORT double PubnativeLiteVersionNumber;
+//! Project version number for HyBid.
+FOUNDATION_EXPORT double HyBidVersionNumber;
 
-//! Project version string for PubnativeLite.
-FOUNDATION_EXPORT const unsigned char PubnativeLiteVersionString[];
+//! Project version string for HyBid.
+FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <PubnativeLite/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import <HyBid/PublicHeader.h>
 
-#import <PubnativeLite/PNLiteRequestParameter.h>
-#import <PubnativeLite/PNLiteTargetingModel.h>
-#import <PubnativeLite/PNLiteAdRequest.h>
-#import <PubnativeLite/PNLiteBrowser.h>
-#import <PubnativeLite/PNLiteBrowserControlsView.h>
-#import <PubnativeLite/PNLiteMRAIDServiceProvider.h>
-#import <PubnativeLite/PNLiteMRAIDView.h>
-#import <PubnativeLite/PNLiteMRAIDServiceDelegate.h>
-#import <PubnativeLite/PNLiteBannerAdRequest.h>
-#import <PubnativeLite/PNLiteMRectAdRequest.h>
-#import <PubnativeLite/PNLiteInterstitialAdRequest.h>
-#import <PubnativeLite/PNLiteBannerPresenter.h>
-#import <PubnativeLite/PNLiteMRectPresenter.h>
-#import <PubnativeLite/PNLiteInterstitialPresenter.h>
-#import <PubnativeLite/PNLiteNativeAdLoader.h>
-#import <PubnativeLite/PNLiteBannerPresenterFactory.h>
-#import <PubnativeLite/PNLiteMRectPresenterFactory.h>
-#import <PubnativeLite/PNLiteInterstitialPresenterFactory.h>
-#import <PubnativeLite/PNLiteAdCache.h>
-#import <PubnativeLite/PNLitePrebidUtils.h>
-#import <PubnativeLite/PNLiteContentInfoView.h>
-#import <PubnativeLite/PNLiteUserDataManager.h>
-#import <PubnativeLite/PNLiteBaseModel.h>
-#import <PubnativeLite/PNLiteAdModel.h>
-#import <PubnativeLite/PNLiteDataModel.h>
-#import <PubnativeLite/PNLiteAd.h>
-#import <PubnativeLite/PNLiteNativeAd.h>
-#import <PubnativeLite/PNLiteAdView.h>
-#import <PubnativeLite/PNLiteBannerAdView.h>
-#import <PubnativeLite/PNLiteMRectAdView.h>
-#import <PubnativeLite/PNLiteInterstitialAd.h>
-#import <PubnativeLite/PNLiteSettings.h>
-#import <PubnativeLite/PNLiteStarRatingView.h>
-#import <PubnativeLite/PNLiteNativeAdRenderer.h>
+#import <HyBid/PNLiteRequestParameter.h>
+#import <HyBid/PNLiteTargetingModel.h>
+#import <HyBid/PNLiteAdRequest.h>
+#import <HyBid/PNLiteBrowser.h>
+#import <HyBid/PNLiteBrowserControlsView.h>
+#import <HyBid/PNLiteMRAIDServiceProvider.h>
+#import <HyBid/PNLiteMRAIDView.h>
+#import <HyBid/PNLiteMRAIDServiceDelegate.h>
+#import <HyBid/PNLiteBannerAdRequest.h>
+#import <HyBid/PNLiteMRectAdRequest.h>
+#import <HyBid/PNLiteInterstitialAdRequest.h>
+#import <HyBid/PNLiteBannerPresenter.h>
+#import <HyBid/PNLiteMRectPresenter.h>
+#import <HyBid/PNLiteInterstitialPresenter.h>
+#import <HyBid/PNLiteNativeAdLoader.h>
+#import <HyBid/PNLiteBannerPresenterFactory.h>
+#import <HyBid/PNLiteMRectPresenterFactory.h>
+#import <HyBid/PNLiteInterstitialPresenterFactory.h>
+#import <HyBid/PNLiteAdCache.h>
+#import <HyBid/PNLitePrebidUtils.h>
+#import <HyBid/PNLiteContentInfoView.h>
+#import <HyBid/PNLiteUserDataManager.h>
+#import <HyBid/PNLiteBaseModel.h>
+#import <HyBid/PNLiteAdModel.h>
+#import <HyBid/PNLiteDataModel.h>
+#import <HyBid/PNLiteAd.h>
+#import <HyBid/PNLiteNativeAd.h>
+#import <HyBid/PNLiteAdView.h>
+#import <HyBid/PNLiteBannerAdView.h>
+#import <HyBid/PNLiteMRectAdView.h>
+#import <HyBid/PNLiteInterstitialAd.h>
+#import <HyBid/PNLiteSettings.h>
+#import <HyBid/PNLiteStarRatingView.h>
+#import <HyBid/PNLiteNativeAdRenderer.h>
 
-#import <PubnativeLite/HyBidRequestParameter.h>
-#import <PubnativeLite/HyBidTargetingModel.h>
-#import <PubnativeLite/HyBidAdRequest.h>
-#import <PubnativeLite/HyBidBrowser.h>
-#import <PubnativeLite/HyBidBrowserControlsView.h>
-#import <PubnativeLite/HyBidMRAIDServiceProvider.h>
-#import <PubnativeLite/HyBidMRAIDView.h>
-#import <PubnativeLite/HyBidMRAIDServiceDelegate.h>
-#import <PubnativeLite/HyBidBannerAdRequest.h>
-#import <PubnativeLite/HyBidMRectAdRequest.h>
-#import <PubnativeLite/HyBidInterstitialAdRequest.h>
-#import <PubnativeLite/HyBidBannerPresenter.h>
-#import <PubnativeLite/HyBidMRectPresenter.h>
-#import <PubnativeLite/HyBidInterstitialPresenter.h>
-#import <PubnativeLite/HyBidNativeAdLoader.h>
-#import <PubnativeLite/HyBidBannerPresenterFactory.h>
-#import <PubnativeLite/HyBidMRectPresenterFactory.h>
-#import <PubnativeLite/HyBidInterstitialPresenterFactory.h>
-#import <PubnativeLite/HyBidAdCache.h>
-#import <PubnativeLite/HyBidPrebidUtils.h>
-#import <PubnativeLite/HyBidContentInfoView.h>
-#import <PubnativeLite/HyBidUserDataManager.h>
-#import <PubnativeLite/HyBidBaseModel.h>
-#import <PubnativeLite/HyBidAdModel.h>
-#import <PubnativeLite/HyBidDataModel.h>
-#import <PubnativeLite/HyBidAd.h>
-#import <PubnativeLite/HyBidNativeAd.h>
-#import <PubnativeLite/HyBidAdView.h>
-#import <PubnativeLite/HyBidBannerAdView.h>
-#import <PubnativeLite/HyBidMRectAdView.h>
-#import <PubnativeLite/HyBidInterstitialAd.h>
-#import <PubnativeLite/HyBidSettings.h>
-#import <PubnativeLite/HyBidStarRatingView.h>
-#import <PubnativeLite/HyBidNativeAdRenderer.h>
+#import <HyBid/HyBidRequestParameter.h>
+#import <HyBid/HyBidTargetingModel.h>
+#import <HyBid/HyBidAdRequest.h>
+#import <HyBid/HyBidBrowser.h>
+#import <HyBid/HyBidBrowserControlsView.h>
+#import <HyBid/HyBidMRAIDServiceProvider.h>
+#import <HyBid/HyBidMRAIDView.h>
+#import <HyBid/HyBidMRAIDServiceDelegate.h>
+#import <HyBid/HyBidBannerAdRequest.h>
+#import <HyBid/HyBidMRectAdRequest.h>
+#import <HyBid/HyBidInterstitialAdRequest.h>
+#import <HyBid/HyBidBannerPresenter.h>
+#import <HyBid/HyBidMRectPresenter.h>
+#import <HyBid/HyBidInterstitialPresenter.h>
+#import <HyBid/HyBidNativeAdLoader.h>
+#import <HyBid/HyBidBannerPresenterFactory.h>
+#import <HyBid/HyBidMRectPresenterFactory.h>
+#import <HyBid/HyBidInterstitialPresenterFactory.h>
+#import <HyBid/HyBidAdCache.h>
+#import <HyBid/HyBidPrebidUtils.h>
+#import <HyBid/HyBidContentInfoView.h>
+#import <HyBid/HyBidUserDataManager.h>
+#import <HyBid/HyBidBaseModel.h>
+#import <HyBid/HyBidAdModel.h>
+#import <HyBid/HyBidDataModel.h>
+#import <HyBid/HyBidAd.h>
+#import <HyBid/HyBidNativeAd.h>
+#import <HyBid/HyBidAdView.h>
+#import <HyBid/HyBidBannerAdView.h>
+#import <HyBid/HyBidMRectAdView.h>
+#import <HyBid/HyBidInterstitialAd.h>
+#import <HyBid/HyBidSettings.h>
+#import <HyBid/HyBidStarRatingView.h>
+#import <HyBid/HyBidNativeAdRenderer.h>
 
 
 typedef void (^PubnativeLiteCompletionBlock)(BOOL);
