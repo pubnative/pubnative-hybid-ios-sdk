@@ -1,6 +1,6 @@
 //
 //  main.m
-//  PubnativeLiteDemo
+//  HyBidDemo
 //
 //  Created by Can Soykarafakili on 06.02.18.
 //  Copyright © 2018 Can Soykarafakili. All rights reserved.
