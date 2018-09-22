@@ -15,6 +15,7 @@ Thumbs.db
 ## Build generated
 build/
 DerivedData/
+Export/
 
 ## Various settings
 *.pbxuser
