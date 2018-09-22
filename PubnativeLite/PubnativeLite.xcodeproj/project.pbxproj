@@ -6,6 +6,20 @@
 	objectVersion = 48;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		DBD3F8C821564A03005D5234 /* PubnativeLiteStaticFat */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = DBD3F8C921564A03005D5234 /* Build configuration list for PBXAggregateTarget "PubnativeLiteStaticFat" */;
+			buildPhases = (
+				DBD3F8CC21564A0E005D5234 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = PubnativeLiteStaticFat;
+			productName = dfghj;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5A064990203DB75C00CDF925 /* PNLitePrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A06498E203DB75C00CDF925 /* PNLitePrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A064991203DB75C00CDF925 /* PNLitePrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A06498F203DB75C00CDF925 /* PNLitePrebidUtils.m */; };
@@ -1818,6 +1832,7 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFF730520B451C100052F2D /* PNLiteConsentPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteConsentPageViewController.xib; sourceTree = "<group>"; };
 		DBD3F8A221563ED3005D5234 /* PubnativeLiteStatic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PubnativeLiteStatic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DBD3F8B8215649F0005D5234 /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = Library/Frameworks/AppleScriptObjC.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2239,6 +2254,7 @@
 				5A8903D4203DE1E100D86051 /* SystemConfiguration.framework */,
 				5A8903D2203DE1DA00D86051 /* UIKit.framework */,
 				5A8903D0203DE1D400D86051 /* WebKit.framework */,
+				DBD3F8B8215649F0005D5234 /* AppleScriptObjC.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3747,6 +3763,8 @@
 				DBD3F7E321563ED3005D5234 /* Frameworks */,
 				DBD3F7E621563ED3005D5234 /* Headers */,
 				DBD3F88C21563ED3005D5234 /* Resources */,
+				DBD3F8CD21564F1C005D5234 /* Export Result */,
+				DBD3F8CE21565244005D5234 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3781,6 +3799,10 @@
 					DBD3F74F21563ED3005D5234 = {
 						ProvisioningStyle = Manual;
 					};
+					DBD3F8C821564A03005D5234 = {
+						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "PubnativeLite" */;
@@ -3798,6 +3820,7 @@
 			targets = (
 				5A6CD01F2029CD060022E206 /* PubnativeLite */,
 				DBD3F74F21563ED3005D5234 /* PubnativeLiteStatic */,
+				DBD3F8C821564A03005D5234 /* PubnativeLiteStaticFat */,
 				5A32CEB82029F79B0003B450 /* PubnativeLiteDemo */,
 				5A969A3C206523F800C3B74A /* PubnativeLiteTests */,
 			);
@@ -3912,6 +3935,46 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run f61a9f30a8156746aae4b1cc84856189a3bf8575 537c5f9f76b46d7a1d200e942627095296d712b141ae62d982d273c1ef1bd9ee";
+		};
+		DBD3F8CC21564A0E005D5234 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "_OUTDIR=\"${SRCROOT}/../Export\"\n\nmkdir -p \"${_OUTDIR}\"\n\necho \"### Cleanup\"\n\nrm -rf \"${_OUTDIR}/\"{*,.*}\n\necho \" ### Build\"\n\nxcodebuild clean build -target \"PubnativeLiteStatic\" -configuration Release -sdk iphoneos -arch armv7 -arch arm64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\"\n\nRESULT_FRAMEWORK_IOS=\"${BUILD_DIR}/Release-iphoneos/PubnativeLiteStatic.framework\"\necho \" ### IOS: ${RESULT_FRAMEWORK_IOS}\"\n\nxcodebuild clean build -target \"PubnativeLiteStatic\" -configuration Release -sdk iphonesimulator -arch x86_64 -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\"\n\nRESULT_FRAMEWORK_SYM=\"${BUILD_DIR}/Release-iphonesimulator/PubnativeLiteStatic.framework\"\necho \" ### SYM: ${RESULT_FRAMEWORK_SYM}\"\n\ncp -R \"${RESULT_FRAMEWORK_IOS}\" \"${_OUTDIR}\"\n\nlipo -create -output \"${_OUTDIR}/PubnativeLiteStatic.framework/PubnativeLiteStatic\" \"${RESULT_FRAMEWORK_IOS}/PubnativeLiteStatic\" \"${RESULT_FRAMEWORK_SYM}/PubnativeLiteStatic\"\n\n\necho \"### DONE !!!\"";
+		};
+		DBD3F8CD21564F1C005D5234 /* Export Result */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Export Result";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "RESULT_FRAMEWORK=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\"\n\necho \" ### Build Framework DONE \"\necho \" ### ${RESULT_FRAMEWORK}\"\n\nexport RESULT_FRAMEWORK=\"${RESULT_FRAMEWORK}\"\n\n";
+		};
+		DBD3F8CE21565244005D5234 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \" #### ${RESULT_FRAMEWORK}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4810,6 +4873,24 @@
 			};
 			name = Release;
 		};
+		DBD3F8CA21564A03005D5234 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q4MDY7ULF7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DBD3F8CB21564A03005D5234 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q4MDY7ULF7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4854,6 +4935,15 @@
 			buildConfigurations = (
 				DBD3F8A021563ED3005D5234 /* Debug */,
 				DBD3F8A121563ED3005D5234 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DBD3F8C921564A03005D5234 /* Build configuration list for PBXAggregateTarget "PubnativeLiteStaticFat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DBD3F8CA21564A03005D5234 /* Debug */,
+				DBD3F8CB21564A03005D5234 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
