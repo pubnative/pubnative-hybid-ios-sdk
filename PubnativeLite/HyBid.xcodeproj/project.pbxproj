@@ -859,7 +859,7 @@
 		5A6293BC20D2665600ABB1E2 /* PNLiteInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialAd.m; sourceTree = "<group>"; };
 		5A6354D22076191100D47E1B /* PNLiteDFPBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPBannerCustomEvent.h; sourceTree = "<group>"; };
 		5A6354D32076191100D47E1B /* PNLiteDFPBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPBannerCustomEvent.m; sourceTree = "<group>"; };
-		5A6BBE7A206263BB0079F8A5 /* PNLite-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PNLite-Bridging-Header.h"; sourceTree = "<group>"; };
+		5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyBid-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* HyBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBid.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2055,7 +2055,7 @@
 		5A6BBE79206262320079F8A5 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
-				5A6BBE7A206263BB0079F8A5 /* PNLite-Bridging-Header.h */,
+				5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */,
 				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
 				5AE4C6DD20752A4A00A2A8C5 /* DFPAdapter */,
 			);
