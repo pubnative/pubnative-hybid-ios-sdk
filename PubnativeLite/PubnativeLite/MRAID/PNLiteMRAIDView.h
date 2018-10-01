@@ -20,49 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNLiteContentInfoView.h"
+#import "HyBidMRAIDView.h"
 
-@class PNLiteMRAIDView;
-@protocol PNLiteMRAIDServiceDelegate;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRAIDViewDelegate instead.")
 
-// A delegate for MRAIDView to listen for notification on ad ready or expand related events.
-@protocol PNLiteMRAIDViewDelegate <NSObject>
-
-@optional
-
-// These callbacks are for basic banner ad functionality.
-- (void)mraidViewAdReady:(PNLiteMRAIDView *)mraidView;
-- (void)mraidViewAdFailed:(PNLiteMRAIDView *)mraidView;
-- (void)mraidViewWillExpand:(PNLiteMRAIDView *)mraidView;
-- (void)mraidViewDidClose:(PNLiteMRAIDView *)mraidView;
-- (void)mraidViewNavigate:(PNLiteMRAIDView *)mraidView withURL:(NSURL *)url;
-
-// This callback is to ask permission to resize an ad.
-- (BOOL)mraidViewShouldResize:(PNLiteMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen;
+@protocol PNLiteMRAIDViewDelegate <HyBidMRAIDViewDelegate>
 
 @end
 
-@interface PNLiteMRAIDView : UIView
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRAIDView instead.")
 
-@property (nonatomic, strong) id<PNLiteMRAIDViewDelegate> delegate;
-@property (nonatomic, strong) id<PNLiteMRAIDServiceDelegate> serviceDelegate;
-@property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
-@property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
-
-// IMPORTANT: This is the only valid initializer for an MRAIDView; -init and -initWithFrame: will throw exceptions
-- (id)initWithFrame:(CGRect)frame
-       withHtmlData:(NSString*)htmlData
-        withBaseURL:(NSURL*)bsURL
-  supportedFeatures:(NSArray *)features
-      isInterstital:(BOOL)isInterstitial
-           delegate:(id<PNLiteMRAIDViewDelegate>)delegate
-    serviceDelegate:(id<PNLiteMRAIDServiceDelegate>)serviceDelegate
- rootViewController:(UIViewController *)rootViewController
-        contentInfo:(PNLiteContentInfoView *)contentInfo;
-
-- (void)cancel;
-- (void)showAsInterstitial;
-- (void)hide;
+@interface PNLiteMRAIDView : HyBidMRAIDView
 
 @end

@@ -21,14 +21,14 @@
 //
 
 #import "PNLiteDemoPNLiteInterstitialViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteInterstitialViewController () <PNLiteInterstitialAdDelegate>
+@interface PNLiteDemoPNLiteInterstitialViewController () <HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (nonatomic, strong) PNLiteInterstitialAd *interstitialAd;
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
 @end
 
@@ -50,11 +50,11 @@
 {
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAd = [[PNLiteInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
     [self.interstitialAd load];
 }
 
-#pragma mark - PNLiteInterstitialAdDelegate
+#pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad
 {

@@ -22,7 +22,7 @@
 
 #import "PNLiteDemoPNLiteSettingsViewController.h"
 #import "PNLiteDemoSettings.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 
 @interface PNLiteDemoPNLiteSettingsViewController () <UITextFieldDelegate>
 
@@ -35,7 +35,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *femaleButton;
 @property (nonatomic, assign) BOOL testModeSelected;
 @property (nonatomic, assign) BOOL coppaModeSelected;
-@property (nonatomic, strong) PNLiteTargetingModel *targetingModel;
+@property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, strong) NSString *gender;
 @end
 
@@ -123,27 +123,27 @@
     [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
     
-    [PubnativeLite initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
     }];
 
-    [PubnativeLite setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
+    [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
-        [PubnativeLite setTestMode:YES];
+        [HyBid setTestMode:YES];
     } else {
-        [PubnativeLite setTestMode:NO];
+        [HyBid setTestMode:NO];
     }
     if (self.coppaModeSelected) {
-        [PubnativeLite setCoppa:YES];
+        [HyBid setCoppa:YES];
     } else {
-        [PubnativeLite setCoppa:NO];
+        [HyBid setCoppa:NO];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (PNLiteTargetingModel *)configureTargetingModel
+- (HyBidTargetingModel *)configureTargetingModel
 {
     if (([self.ageTextField.text length] > 0) && (self.ageTextField.text.integerValue > 0)) {
         self.targetingModel.age = [NSNumber numberWithInt:[self.ageTextField.text intValue]];

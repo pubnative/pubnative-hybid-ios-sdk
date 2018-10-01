@@ -20,18 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteStarRatingView.h"
+#import "HyBidNativeAdRenderer.h"
 
-@interface PNLiteNativeAdRenderer : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidNativeAdRenderer instead.")
 
-@property (nonatomic, weak) UILabel *titleView;
-@property (nonatomic, weak) UILabel *bodyView;
-@property (nonatomic, weak) UIView *callToActionView;
-@property (nonatomic, weak) UIImageView *iconView;
-@property (nonatomic, weak) UIView *bannerView;
-@property (nonatomic, weak) UIView *contentInfoView;
-@property (nonatomic, weak) PNLiteStarRatingView *starRatingView;
+@interface PNLiteNativeAdRenderer : HyBidNativeAdRenderer
 
 @end

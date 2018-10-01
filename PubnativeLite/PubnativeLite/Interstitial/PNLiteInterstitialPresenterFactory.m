@@ -21,48 +21,7 @@
 //
 
 #import "PNLiteInterstitialPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
-#import "PNLiteInterstitialPresenterDecorator.h"
-#import "PNLiteMRAIDInterstitialPresenter.h"
-#import "PNLiteVASTInterstitialPresenter.h"
-#import "PNLiteAdTracker.h"
 
 @implementation PNLiteInterstitialPresenterFactory
-
-- (PNLiteInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad
-                                                     withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate
-{
-    PNLiteInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad];
-    if (!interstitialPresenter) {
-        return nil;
-    }
-    PNLiteInterstitialPresenterDecorator *interstitialPresenterDecorator = [[PNLiteInterstitialPresenterDecorator alloc] initWithInterstitialPresenter:interstitialPresenter
-                                                                                                                                         withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                                                          withDelegate:delegate];
-    interstitialPresenter.delegate = interstitialPresenterDecorator;
-    return interstitialPresenterDecorator;
-}
-
-- (PNLiteInterstitialPresenter *)createInterstitalPresenterFromAd:(PNLiteAd *)ad
-{
-    switch (ad.assetGroupID.integerValue) {
-        case MRAID_INTERSTITIAL: {
-            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad];
-            return mraidInterstitalPresenter;
-            break;
-        }
-        case VAST_INTERSTITIAL_1:
-        case VAST_INTERSTITIAL_2:
-        case VAST_INTERSTITIAL_3:
-        case VAST_INTERSTITIAL_4: {
-            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad];
-            return vastInterstitalPresenter;
-        }
-        default:
-            NSLog(@"PNLiteInterstitialPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format", ad.assetGroupID);
-            return nil;
-            break;
-    }
-}
 
 @end

@@ -20,11 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <PubnativeLite/PubnativeLite.h>
+#import "HyBidDFPBannerCustomEvent.h"
 
-@import GoogleMobileAds;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPBannerCustomEvent instead.")
 
-@interface PNLiteDFPBannerCustomEvent : NSObject <GADCustomEventBanner>
+@interface PNLiteDFPBannerCustomEvent : HyBidDFPBannerCustomEvent
 
 @end

@@ -21,17 +21,17 @@
 //
 
 #import "PNLiteDemoDFPInterstitialViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
 @import GoogleMobileAds;
 
-@interface PNLiteDemoDFPInterstitialViewController () <PNLiteAdRequestDelegate, GADInterstitialDelegate>
+@interface PNLiteDemoDFPInterstitialViewController () <HyBidAdRequestDelegate, GADInterstitialDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPInterstitial *dfpInterstitial;
-@property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
 @end
 
@@ -55,7 +55,7 @@
 {
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
@@ -122,25 +122,25 @@
     NSLog(@"interstitialWillLeaveApplication");
 }
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+- (void)requestDidStart:(HyBidAdRequest *)request
 {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpInterstitial loadRequest:request];
     }
 }
 
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     if (request == self.interstitialAdRequest) {

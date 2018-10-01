@@ -20,28 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "HyBidBrowserControlsView.h"
 
-@class PNLiteBrowser;
-@protocol PNLiteBrowserControlsViewDelegate <NSObject>
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowserControlsViewDelegate instead.")
 
-@required
-
-- (void)back;
-- (void)forward;
-- (void)refresh;
-- (void)launchSafari;
-- (void)dismiss;
+@protocol PNLiteBrowserControlsViewDelegate <HyBidBrowserControlsViewDelegate>
 
 @end
 
-@interface PNLiteBrowserControlsView : UIView
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowserControlsView instead.")
 
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *backButton;
-@property (nonatomic, retain) IBOutlet UIToolbar *controlsToolbar;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *forwardButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *loadingIndicator;
-
-- (id)initWithPubnativeBrowser:(PNLiteBrowser *)p_pnBrowser;
+@interface PNLiteBrowserControlsView : HyBidBrowserControlsView
 
 @end

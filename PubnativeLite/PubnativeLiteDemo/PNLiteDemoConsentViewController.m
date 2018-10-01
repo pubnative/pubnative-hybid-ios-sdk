@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoConsentViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 
 @interface PNLiteDemoConsentViewController ()
 
@@ -42,33 +42,33 @@
     /*
     // This would be the normal implementation for a regular publisher.
     // We remove this condition here for testing purposes
-    if ([[PNLiteUserDataManager sharedInstance] shouldAskConsent]) {
-        [[PNLiteUserDataManager sharedInstance] showConsentRequestScreen];
+    if ([[HyBidUserDataManager sharedInstance] shouldAskConsent]) {
+        [[HyBidUserDataManager sharedInstance] showConsentRequestScreen];
     } else {
         NSLog(@"Consent has already been answered. If you want to try again please clear your app cache");
     }
     */
     self.privacyPolicyURLButton.hidden = YES;
     self.vendorListURLButton.hidden = YES;
-    [[PNLiteUserDataManager sharedInstance] showConsentRequestScreen];
+    [[HyBidUserDataManager sharedInstance] showConsentRequestScreen];
 }
 
 - (IBAction)publisherOwnedTouchUpInside:(UIButton *)sender
 {
-    [self.privacyPolicyURLButton setTitle:[[PNLiteUserDataManager sharedInstance] privacyPolicyLink] forState:UIControlStateNormal];
-    [self.vendorListURLButton setTitle:[[PNLiteUserDataManager sharedInstance] vendorListLink] forState:UIControlStateNormal];
+    [self.privacyPolicyURLButton setTitle:[[HyBidUserDataManager sharedInstance] privacyPolicyLink] forState:UIControlStateNormal];
+    [self.vendorListURLButton setTitle:[[HyBidUserDataManager sharedInstance] vendorListLink] forState:UIControlStateNormal];
     self.privacyPolicyURLButton.hidden = NO;
     self.vendorListURLButton.hidden = NO;
 }
 
 - (IBAction)acceptConsentTouchUpInside:(UIButton *)sender
 {
-    [[PNLiteUserDataManager sharedInstance] grantConsent];
+    [[HyBidUserDataManager sharedInstance] grantConsent];
 }
 
 - (IBAction)rejectConsentTouchUpInside:(UIButton *)sender
 {
-    [[PNLiteUserDataManager sharedInstance] denyConsent];
+    [[HyBidUserDataManager sharedInstance] denyConsent];
 }
 
 - (IBAction)privacyPolicyURLTouchUpInside:(UIButton *)sender

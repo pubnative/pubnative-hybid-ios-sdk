@@ -24,11 +24,4 @@
 
 @implementation PNLiteTargetingModel
 
-- (void)dealloc
-{
-    self.age = nil;
-    self.interests = nil;
-    self.gender = nil;
-}
-
 @end

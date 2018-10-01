@@ -35,9 +35,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [PubnativeLite initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
-            NSLog(@"PubnativeLite initialisation completed");
+            NSLog(@"HyBid initialisation completed");
         }
     }];
     MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];

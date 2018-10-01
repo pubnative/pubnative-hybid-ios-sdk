@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteTestUtil.h"
-#import "PNLiteDataModel.h"
+#import "HyBidDataModel.h"
 
 @implementation PNLiteTestUtil
 
@@ -39,7 +39,7 @@
 {
     NSDictionary *urlDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"validImpressionURL",@"url", nil];
     NSDictionary *dataDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"impression", @"type", urlDictionary, @"data", nil];
-    PNLiteDataModel * dataModel = [[PNLiteDataModel alloc] initWithDictionary:dataDictionary];
+    HyBidDataModel * dataModel = [[HyBidDataModel alloc] initWithDictionary:dataDictionary];
     return [[NSArray array] arrayByAddingObject:dataModel];
 }
 
@@ -47,7 +47,7 @@
 {
     NSDictionary *urlDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"validClickURL",@"url", nil];
     NSDictionary *dataDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"click", @"type", urlDictionary, @"data", nil];
-    PNLiteDataModel * dataModel = [[PNLiteDataModel alloc] initWithDictionary:dataDictionary];
+    HyBidDataModel * dataModel = [[HyBidDataModel alloc] initWithDictionary:dataDictionary];
     return [[NSArray array] arrayByAddingObject:dataModel];
 }
 

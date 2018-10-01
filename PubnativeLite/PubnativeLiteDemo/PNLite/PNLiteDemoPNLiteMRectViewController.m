@@ -21,13 +21,13 @@
 //
 
 #import "PNLiteDemoPNLiteMRectViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteMRectViewController () <PNLiteAdViewDelegate>
+@interface PNLiteDemoPNLiteMRectViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet PNLiteMRectAdView *mRectAdView;
+@property (weak, nonatomic) IBOutlet HyBidMRectAdView *mRectAdView;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 
 @end
@@ -50,7 +50,7 @@
     [self.mRectAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
 
-#pragma mark - PNLiteAdViewDelegate
+#pragma mark - HyBidAdViewDelegate
 
 -(void)adViewDidLoad
 {

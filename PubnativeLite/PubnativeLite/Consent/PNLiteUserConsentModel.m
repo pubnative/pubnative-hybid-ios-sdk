@@ -24,7 +24,7 @@
 
 @implementation PNLiteUserConsentModel
 
-#pragma mark PNLiteBaseModel
+#pragma mark HyBidBaseModel
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {

@@ -23,7 +23,7 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
-#import "PNLiteMRectAdRequest.h"
+#import "HyBidMRectAdRequest.h"
 
 @interface PNLiteMRectAdRequestTest : XCTestCase
 
@@ -43,7 +43,7 @@
 
 - (void)test_adSize
 {
-    PNLiteMRectAdRequest *mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
+    HyBidMRectAdRequest *mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     assertThat(mRectAdRequest.adSize, is(@"m"));
 }
 

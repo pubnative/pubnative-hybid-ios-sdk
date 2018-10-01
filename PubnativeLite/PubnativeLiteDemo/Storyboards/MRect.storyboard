@@ -120,7 +120,7 @@
                                     <action selector="requestMRectTouchUpInside:" destination="dTm-Wf-e4x" eventType="touchUpInside" id="4Wc-4X-Uyf"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XUD-ym-bBf" customClass="PNLiteMRectAdView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XUD-ym-bBf" userLabel="HyBid MRect Ad View" customClass="HyBidMRectAdView">
                                 <rect key="frame" x="37.5" y="66" width="300" height="250"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="6U0-UA-7du"/>
@@ -172,7 +172,7 @@
                     </view>
                     <connections>
                         <outlet property="inspectRequestButton" destination="9ZW-IJ-E4R" id="aRm-W0-WIQ"/>
-                        <outlet property="mRectAdView" destination="XUD-ym-bBf" id="xy3-M9-ZNF"/>
+                        <outlet property="mRectAdView" destination="XUD-ym-bBf" id="5xd-ah-C5X"/>
                         <outlet property="mRectLoaderIndicator" destination="waw-Vz-zvH" id="fAb-WB-dxO"/>
                     </connections>
                 </viewController>
@@ -603,6 +603,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Al6-XO-Oi9"/>
+        <segue reference="hCN-s3-VnP"/>
     </inferredMetricsTieBreakers>
 </document>

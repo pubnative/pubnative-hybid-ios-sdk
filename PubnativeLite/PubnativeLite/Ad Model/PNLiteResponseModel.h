@@ -21,10 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteAdModel.h"
-#import "PNLiteBaseModel.h"
+#import "HyBidAdModel.h"
+#import "HyBidBaseModel.h"
 
-@interface PNLiteResponseModel : PNLiteBaseModel
+@interface PNLiteResponseModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *errorMessage;

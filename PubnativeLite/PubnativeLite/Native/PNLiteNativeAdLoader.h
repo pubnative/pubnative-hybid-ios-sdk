@@ -20,18 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteNativeAd.h"
+#import "HyBidNativeAdLoader.h"
 
-@protocol PNLiteNativeAdLoaderDelegate<NSObject>
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidNativeAdLoaderDelegate instead.")
 
-- (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd;
-- (void)nativeLoaderDidFailWithError:(NSError *)error;
+@protocol PNLiteNativeAdLoaderDelegate<HyBidNativeAdLoaderDelegate>
 
 @end
 
-@interface PNLiteNativeAdLoader : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidNativeAdLoader instead.")
 
-- (void)loadNativeAdWithDelegate:(NSObject<PNLiteNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID;
+@interface PNLiteNativeAdLoader : HyBidNativeAdLoader
 
 @end

@@ -21,17 +21,17 @@
 //
 
 #import "PNLiteDemoMoPubBannerViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubBannerViewController () <PNLiteAdRequestDelegate, MPAdViewDelegate>
+@interface PNLiteDemoMoPubBannerViewController () <HyBidAdRequestDelegate, MPAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubBanner;
-@property (nonatomic, strong) PNLiteBannerAdRequest *bannerAdRequest;
+@property (nonatomic, strong) HyBidBannerAdRequest *bannerAdRequest;
 
 @end
 
@@ -62,7 +62,7 @@
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[PNLiteBannerAdRequest alloc] init];
+    self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
@@ -122,25 +122,25 @@
     NSLog(@"willLeaveApplicationFromAd");
 }
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+- (void)requestDidStart:(HyBidAdRequest *)request
 {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.bannerAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubBanner setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
+        [self.moPubBanner setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
         [self.moPubBanner loadAd];
     }
 }
 
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     

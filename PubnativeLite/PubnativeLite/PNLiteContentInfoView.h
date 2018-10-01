@@ -20,21 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "HyBidContentInfoView.h"
 
-@class PNLiteContentInfoView;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidContentInfoViewDelegate instead.")
 
-@protocol PNLiteContentInfoViewDelegate<NSObject>
-
-- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
+@protocol PNLiteContentInfoViewDelegate<HyBidContentInfoViewDelegate>
 
 @end
 
-@interface PNLiteContentInfoView : UIView
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidContentInfoView instead.")
 
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSString *link;
-@property (nonatomic, strong) NSString *icon;
-@property (nonatomic, weak) NSObject <PNLiteContentInfoViewDelegate> *delegate;
+@interface PNLiteContentInfoView : HyBidContentInfoView
 
 @end

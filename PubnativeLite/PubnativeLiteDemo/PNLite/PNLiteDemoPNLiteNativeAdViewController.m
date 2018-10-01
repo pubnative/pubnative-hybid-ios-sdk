@@ -21,23 +21,23 @@
 //
 
 #import "PNLiteDemoPNLiteNativeAdViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteNativeAdViewController () <PNLiteNativeAdLoaderDelegate, PNLiteNativeAdDelegate, PNLiteNativeAdFetchDelegate>
+@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContentInfo;
 @property (weak, nonatomic) IBOutlet UIImageView *nativeAdIcon;
 @property (weak, nonatomic) IBOutlet UILabel *nativeAdTitle;
-@property (weak, nonatomic) IBOutlet PNLiteStarRatingView *nativeAdRating;
+@property (weak, nonatomic) IBOutlet HyBidStarRatingView *nativeAdRating;
 @property (weak, nonatomic) IBOutlet UIView *nativeAdBanner;
 @property (weak, nonatomic) IBOutlet UILabel *nativeAdBody;
 @property (weak, nonatomic) IBOutlet UIButton *nativeCallToAction;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *nativeAdLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (nonatomic, strong) PNLiteNativeAdLoader *nativeAdLoader;
-@property (nonatomic, strong) PNLiteNativeAd *nativeAd;
+@property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
+@property (nonatomic, strong) HyBidNativeAd *nativeAd;
 @end
 
 @implementation PNLiteDemoPNLiteNativeAdViewController
@@ -61,13 +61,13 @@
 {
     self.nativeAdContainer.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
-    self.nativeAdLoader = [[PNLiteNativeAdLoader alloc] init];
+    self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-#pragma mark - PNLiteNativeAdLoaderDelegate
+#pragma mark - HyBidNativeAdLoaderDelegate
 
-- (void)nativeLoaderDidLoadWithNativeAd:(PNLiteNativeAd *)nativeAd
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
 {
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.inspectRequestButton.hidden = NO;
@@ -94,11 +94,11 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-#pragma mark - PNLiteNativeAdFetchDelegate
+#pragma mark - HyBidNativeAdFetchDelegate
 
-- (void)nativeAdDidFinishFetching:(PNLiteNativeAd *)nativeAd
+- (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd
 {
-    PNLiteNativeAdRenderer *renderer = [[PNLiteNativeAdRenderer alloc] init];
+    HyBidNativeAdRenderer *renderer = [[HyBidNativeAdRenderer alloc] init];
     renderer.contentInfoView = self.nativeAdContentInfo;
     renderer.iconView = self.nativeAdIcon;
     renderer.titleView = self.nativeAdTitle;
@@ -113,7 +113,7 @@
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error
+- (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error
 {
     NSLog(@"Native Ad did fail with error: %@",error.localizedDescription);
     [self.nativeAdLoaderIndicator stopAnimating];
@@ -131,14 +131,14 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-#pragma mark - PNLiteNativeAdDelegate
+#pragma mark - HyBidNativeAdDelegate
 
-- (void)nativeAd:(PNLiteNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
+- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
 {
     NSLog(@"Native Ad did track impression:");
 }
 
-- (void)nativeAdDidClick:(PNLiteNativeAd *)nativeAd
+- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd
 {
     NSLog(@"Native Ad did track click:");
 }

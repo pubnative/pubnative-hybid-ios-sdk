@@ -20,18 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#else
-#import "MPNativeAdAdapter.h"
-#endif
+#import "HyBidMoPubMediationNativeAdAdapter.h"
 
-#import <PubnativeLite/PubnativeLite.h>
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubMediationNativeAdAdapter instead.")
 
-@interface PNLiteMoPubMediationNativeAdAdapter : NSObject <MPNativeAdAdapter>
-
-@property (nonatomic, weak) id<MPNativeAdAdapterDelegate> delegate;
-
-- (instancetype)initWithNativeAd:(PNLiteNativeAd *)ad;
+@interface PNLiteMoPubMediationNativeAdAdapter : HyBidMoPubMediationNativeAdAdapter
 
 @end
