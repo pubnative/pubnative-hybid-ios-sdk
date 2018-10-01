@@ -100,7 +100,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidStarRatingView.h>
 #import <HyBid/HyBidNativeAdRenderer.h>
 
-
 typedef void (^HyBidCompletionBlock)(BOOL);
 
 @interface HyBid : NSObject
