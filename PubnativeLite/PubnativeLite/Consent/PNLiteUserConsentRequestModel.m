@@ -61,7 +61,8 @@
     if (self.deviceIDType) {
         [dictionary setObject:self.deviceIDType forKey:@"did_type"];
     }
-    if (self.consent) {
+    
+    if ([NSNumber numberWithBool:self.consent] != nil ) {
         [dictionary setObject:[NSNumber numberWithBool:self.consent] forKey:@"consent"];
     }
     

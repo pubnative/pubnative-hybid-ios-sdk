@@ -102,11 +102,13 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 - (void)grantConsent
 {
+    self.consentState = kPNLiteConsentStateAccepted;
     [self notifyConsentGiven];
 }
 
 - (void)denyConsent
 {
+    self.consentState = kPNLiteConsentStateDenied;
     [self notifyConsentDenied];
 }
 
@@ -194,11 +196,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)userConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
 {
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
-        if (model.consent.consented) {
-            self.consentState = kPNLiteConsentStateAccepted;
-            [self saveGDPRConsentState];
-        } else {
-            self.consentState = kPNLiteConsentStateDenied;
+        if ([NSNumber numberWithInteger:self.consentState] != nil) {
             [self saveGDPRConsentState];
         }
     }
