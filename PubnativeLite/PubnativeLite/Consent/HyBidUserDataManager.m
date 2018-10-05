@@ -120,7 +120,8 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)notifyConsentGiven
 {
     PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
-                                                                                         withDeviceIDType:kPNLiteDeviceIDType];
+                                                                                         withDeviceIDType:kPNLiteDeviceIDType
+                                                                                              withConsent:YES];
     
     PNLiteUserConsentRequest *request = [[PNLiteUserConsentRequest alloc] init];
     [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[HyBidSettings sharedInstance].appToken];
