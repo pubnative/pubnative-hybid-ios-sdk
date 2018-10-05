@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--PubNative Lite Demo-->
+        <!--HyBid Demo-->
         <scene sceneID="La3-Pw-El7">
             <objects>
                 <viewController id="dIX-wM-j9j" customClass="PNLiteDemoMainViewController" sceneMemberID="viewController">
@@ -262,7 +262,7 @@
                             <outletCollection property="gestureRecognizers" destination="S6C-z2-jku" appends="YES" id="dY7-eG-4gv"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="PubNative Lite Demo" id="0pE-n5-Vvz"/>
+                    <navigationItem key="navigationItem" title="HyBid Demo" id="0pE-n5-Vvz"/>
                     <connections>
                         <outlet property="bannerButton" destination="62G-RC-7fB" id="uLD-8V-Vaj"/>
                         <outlet property="interstitialButton" destination="Hcb-bJ-YfG" id="VwJ-nf-MG4"/>
@@ -421,7 +421,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csr-7u-ucR" userLabel="Accept Consent Button">
-                                <rect key="frame" x="16" y="617" width="167" height="30"/>
+                                <rect key="frame" x="16" y="617" width="166.5" height="30"/>
                                 <color key="backgroundColor" red="0.5490196078431373" green="0.74509803921568629" blue="0.70980392156862748" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="goo-AA-iak"/>
@@ -463,7 +463,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aie-BP-xwZ" userLabel="PN Owned Button">
-                                <rect key="frame" x="16" y="579" width="167" height="30"/>
+                                <rect key="frame" x="16" y="579" width="166.5" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="yDt-OI-2el"/>

@@ -42,7 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"PubNative Lite Interstitial";
+    self.navigationItem.title = @"HyBid Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
 }
 

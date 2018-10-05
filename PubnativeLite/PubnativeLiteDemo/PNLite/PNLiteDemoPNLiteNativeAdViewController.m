@@ -53,7 +53,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PubNative Lite Native Ad";
+    self.navigationItem.title = @"HyBid Native Ad";
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
