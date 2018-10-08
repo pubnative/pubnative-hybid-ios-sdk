@@ -50,7 +50,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"PubNative Lite Settings";
+    self.navigationItem.title = @"HyBid Settings";
     self.appTokenTextField.text = [PNLiteDemoSettings sharedInstance].appToken;
     self.testModeSelected = [PNLiteDemoSettings sharedInstance].testMode;
     self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;

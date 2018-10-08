@@ -45,7 +45,7 @@
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion
 {
     if (appToken == nil || appToken.length == 0) {
-        NSLog(@"PubNative Lite - App Token is nil or empty and required.");
+        NSLog(@"HyBid - App Token is nil or empty and required.");
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
         [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];

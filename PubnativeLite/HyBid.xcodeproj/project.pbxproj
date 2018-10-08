@@ -62,8 +62,6 @@
 		5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */; };
 		5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
-		5A3C2F7C20C5603700E36D06 /* PNLiteRevokeConsentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3C2F7A20C5603700E36D06 /* PNLiteRevokeConsentRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5A3C2F7D20C5603700E36D06 /* PNLiteRevokeConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C2F7B20C5603700E36D06 /* PNLiteRevokeConsentRequest.m */; };
 		5A404B4A204E991200BEE041 /* HyBidAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */; };
 		5A449B47203D778B00CEB630 /* PNLiteMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B45203D778B00CEB630 /* PNLiteMRectPresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -810,8 +808,6 @@
 		5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDBannerPresenter.m; sourceTree = "<group>"; };
 		5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+PNLiteTopViewController.h"; sourceTree = "<group>"; };
 		5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+PNLiteTopViewController.m"; sourceTree = "<group>"; };
-		5A3C2F7A20C5603700E36D06 /* PNLiteRevokeConsentRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteRevokeConsentRequest.h; sourceTree = "<group>"; };
-		5A3C2F7B20C5603700E36D06 /* PNLiteRevokeConsentRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteRevokeConsentRequest.m; sourceTree = "<group>"; };
 		5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdTrackerRequest.h; sourceTree = "<group>"; };
 		5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequest.m; sourceTree = "<group>"; };
 		5A449B45203D778B00CEB630 /* PNLiteMRectPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRectPresenter.h; sourceTree = "<group>"; };
@@ -2039,8 +2035,6 @@
 				5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */,
 				5A91E66520C008E900527BAA /* PNLiteCheckConsentRequest.h */,
 				5A91E66620C008E900527BAA /* PNLiteCheckConsentRequest.m */,
-				5A3C2F7A20C5603700E36D06 /* PNLiteRevokeConsentRequest.h */,
-				5A3C2F7B20C5603700E36D06 /* PNLiteRevokeConsentRequest.m */,
 				5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */,
 				5ADB0FBE20AF26B6005BDAF5 /* PNLiteUserDataManager.m */,
 				5ADF9E9D21495FFB0081355E /* HyBidUserDataManager.h */,
@@ -3407,7 +3401,6 @@
 				5A9B66D320BD6BF60067964E /* PNLiteVASTMediaFilePicker.h in Headers */,
 				5A81267F20CFF0D5007F7092 /* PNLiteBannerAdView.h in Headers */,
 				5A8F10B92089E4D20098E337 /* PNLiteSessionTracker.h in Headers */,
-				5A3C2F7C20C5603700E36D06 /* PNLiteRevokeConsentRequest.h in Headers */,
 				5A8F11142089E4D20098E337 /* PNLite_KSCrashSentry_Signal.h in Headers */,
 				5ADF9EA3214962340081355E /* HyBidAdModel.h in Headers */,
 				5A8F110B2089E4D20098E337 /* PNLite_KSCrashSentry.h in Headers */,
@@ -4176,7 +4169,6 @@
 				5ADB0FBC20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
 				5AC35B35214A5F80001F0ED3 /* HyBidBannerAdView.m in Sources */,
-				5A3C2F7D20C5603700E36D06 /* PNLiteRevokeConsentRequest.m in Sources */,
 				5A9B66F020BDA15D0067964E /* PNLitePropertyAnimation.m in Sources */,
 				5ADACD13202C919700617734 /* PNLiteAd.m in Sources */,
 				5A8F10B02089E4D20098E337 /* PNLiteKSCrashSysInfoParser.m in Sources */,

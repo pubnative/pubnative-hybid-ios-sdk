@@ -38,7 +38,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PubNative Lite Banner";
+    self.navigationItem.title = @"HyBid Banner";
     [self.bannerLoaderIndicator stopAnimating];
 }
 

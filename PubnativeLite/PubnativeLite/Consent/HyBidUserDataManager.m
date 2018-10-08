@@ -30,7 +30,6 @@
 #import "PNLiteUserConsentRequestModel.h"
 #import "PNLiteUserConsentResponseStatus.h"
 #import "PNLiteCheckConsentRequest.h"
-#import "PNLiteRevokeConsentRequest.h"
 
 NSString *const kPNLiteDeviceIDType = @"idfa";
 NSString *const kPNLiteGDPRConsentStateKey = @"gdpr_consent_state";
@@ -40,7 +39,7 @@ NSString *const kPNLiteConsentPageUrl = @"https://pubnative.net/personalize-your
 NSInteger const kPNLiteConsentStateAccepted = 1;
 NSInteger const kPNLiteConsentStateDenied = 0;
 
-@interface HyBidUserDataManager () <HyBidGeoIPRequestDelegate, PNLiteUserConsentRequestDelegate, PNLiteCheckConsentRequestDelegate, PNLiteRevokeConsentRequestDelegate>
+@interface HyBidUserDataManager () <HyBidGeoIPRequestDelegate, PNLiteUserConsentRequestDelegate, PNLiteCheckConsentRequestDelegate>
 
 @property (nonatomic, assign) BOOL inGDPRZone;
 @property (nonatomic, assign) NSInteger consentState;
@@ -103,36 +102,33 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 - (void)grantConsent
 {
+    self.consentState = kPNLiteConsentStateAccepted;
     [self notifyConsentGiven];
 }
 
 - (void)denyConsent
 {
     self.consentState = kPNLiteConsentStateDenied;
-    [self saveGDPRConsentState];
-}
-
-- (void)revokeConsent
-{
-    [self notifyConsentRevoked];
+    [self notifyConsentDenied];
 }
 
 - (void)notifyConsentGiven
 {
     PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
-                                                                                         withDeviceIDType:kPNLiteDeviceIDType];
+                                                                                         withDeviceIDType:kPNLiteDeviceIDType
+                                                                                              withConsent:YES];
     
     PNLiteUserConsentRequest *request = [[PNLiteUserConsentRequest alloc] init];
     [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[HyBidSettings sharedInstance].appToken];
 }
 
-- (void)notifyConsentRevoked
+- (void)notifyConsentDenied
 {
-    PNLiteRevokeConsentRequest *request = [[PNLiteRevokeConsentRequest alloc] init];
-    [request revokeConsentRequestWithDelegate:self
-                                 withAppToken:[HyBidSettings sharedInstance].appToken
-                                 withDeviceID:[HyBidSettings sharedInstance].advertisingId
-                             withDeviceIDType:kPNLiteDeviceIDType];
+    PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
+                                                                                    withDeviceIDType:kPNLiteDeviceIDType
+                                                                                         withConsent:NO];
+    PNLiteUserConsentRequest *request = [[PNLiteUserConsentRequest alloc] init];
+    [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[HyBidSettings sharedInstance].appToken];
 }
 
 - (void)determineUserZone
@@ -144,9 +140,9 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)checkConsentGiven
 {
     PNLiteCheckConsentRequest * request = [[PNLiteCheckConsentRequest alloc] init];
-    [request checkConsentRequestWithDelegate:self withAppToken:[HyBidSettings sharedInstance].appToken
-                                withDeviceID:[HyBidSettings sharedInstance].advertisingId
-                            withDeviceIDType:kPNLiteDeviceIDType];
+    [request checkConsentRequestWithDelegate:self
+                                withAppToken:[HyBidSettings sharedInstance].appToken
+                                withDeviceID:[HyBidSettings sharedInstance].advertisingId];
 }
 
 - (BOOL)GDPRApplies
@@ -175,21 +171,6 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-#pragma mark PNLiteRevokeConsentRequestDelegate
-
-- (void)revokeConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
-{
-    if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
-        self.consentState = kPNLiteConsentStateDenied;
-        [self saveGDPRConsentState];
-    }
-}
-
-- (void)revokeConsentRequestFail:(NSError *)error
-{
-    NSLog(@"PNLiteRevokeConsentRequestDelegate: Request failed with error: %@",error.localizedDescription);
-}
-
 #pragma mark PNLiteCheckConsentRequestDelegate
 
 - (void)checkConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
@@ -215,8 +196,9 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)userConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
 {
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
-        self.consentState = kPNLiteConsentStateAccepted;
-        [self saveGDPRConsentState];
+        if ([NSNumber numberWithInteger:self.consentState] != nil) {
+            [self saveGDPRConsentState];
+        }
     }
 }
 
