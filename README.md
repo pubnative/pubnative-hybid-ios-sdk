@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
 
-# PubNative Lite iOS SDK
+# HyBid iOS SDK
 
 All the documentation is located under the [GitHub wiki](https://github.com/pubnative/pubnative-lite-ios-sdk/wiki).
 
