@@ -23,9 +23,9 @@
 
 #import <Foundation/Foundation.h>
 #import "PNLiteUserConsentModel.h"
-#import "PNLiteBaseModel.h"
+#import "HyBidBaseModel.h"
 
-@interface PNLiteUserConsentResponseModel : PNLiteBaseModel
+@interface PNLiteUserConsentResponseModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *error;

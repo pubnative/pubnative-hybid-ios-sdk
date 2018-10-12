@@ -24,9 +24,4 @@
 
 @implementation PNLiteInterstitialAdRequest
 
-- (NSString *)adSize
-{
-    return @"l";
-}
-
 @end

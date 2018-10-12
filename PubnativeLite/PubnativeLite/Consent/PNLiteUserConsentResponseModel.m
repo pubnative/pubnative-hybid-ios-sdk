@@ -32,7 +32,7 @@
     self.consent = nil;
 }
 
-#pragma mark PNLiteBaseModel
+#pragma mark HyBidBaseModel
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {

@@ -21,46 +21,7 @@
 //
 
 #import "PNLiteMRectPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
-#import "PNLiteMRectPresenterDecorator.h"
-#import "PNLiteMRAIDMRectPresenter.h"
-#import "PNLiteVASTMRectPresenter.h"
-#import "PNLiteAdTracker.h"
 
 @implementation PNLiteMRectPresenterFactory
-
-- (PNLiteMRectPresenter *)createMRectPresenterWithAd:(PNLiteAd *)ad
-                                        withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate
-{
-    PNLiteMRectPresenter *mRectPresenter = [self createMRectPresenterFromAd:ad];
-    if (!mRectPresenter) {
-        return nil;
-    }
-    PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter
-                                                                                                             withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                              withDelegate:delegate];
-    mRectPresenter.delegate = mRectPresenterDecorator;
-    return mRectPresenterDecorator;
-}
-
-- (PNLiteMRectPresenter *)createMRectPresenterFromAd:(PNLiteAd *)ad
-{
-    switch (ad.assetGroupID.integerValue) {
-        case MRAID_MRECT: {
-            PNLiteMRAIDMRectPresenter *mraidMRectPresenter = [[PNLiteMRAIDMRectPresenter alloc] initWithAd:ad];
-            return mraidMRectPresenter;
-            break;
-        }
-        case VAST_MRECT: {
-            PNLiteVASTMRectPresenter *vastMRectPresenter = [[PNLiteVASTMRectPresenter alloc] initWithAd:ad];
-            return vastMRectPresenter;
-            break;
-        }
-        default:
-            NSLog(@"PNLiteMRectPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for MRect ad format", ad.assetGroupID);
-            return nil;
-            break;
-    }
-}
 
 @end

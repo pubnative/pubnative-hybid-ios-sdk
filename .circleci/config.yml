@@ -34,10 +34,13 @@ jobs:
                 name: Create CircleCI Test Results Directory
                 command: mkdir -p /tmp/circleci-test-results
             - run:
+                name: List Schemes
+                command: xcodebuild -project PubnativeLite/HyBid.xcodeproj -list
+            - run:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
-                            -workspace PubnativeLite.xcworkspace
-                            -scheme PubnativeLite
+                            -project PubnativeLite/HyBid.xcodeproj
+                            -scheme HyBid
                             -destination 'platform=iOS Simulator,OS=11.2,name=iPhone 7'
                             clean test
                             | tee /tmp/circleci-artifacts/test_xcodebuild.log
@@ -50,13 +53,13 @@ jobs:
                 name: Generate framework
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
-                      ./scripts/generate.sh
+                      PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
                 name: Publish to Fabric
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
-                      ./scripts/publish.sh
+                      PubnativeLite/Scripts/publish.sh
                     fi
             - store_test_results:
                 path: /tmp/circleci-test-results

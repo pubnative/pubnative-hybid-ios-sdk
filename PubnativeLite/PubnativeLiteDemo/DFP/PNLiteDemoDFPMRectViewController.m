@@ -21,18 +21,18 @@
 //
 
 #import "PNLiteDemoDFPMRectViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
 @import GoogleMobileAds;
 
-@interface PNLiteDemoDFPMRectViewController () <PNLiteAdRequestDelegate, GADBannerViewDelegate>
+@interface PNLiteDemoDFPMRectViewController () <HyBidAdRequestDelegate, GADBannerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpMrect;
-@property (nonatomic, strong) PNLiteMRectAdRequest *mRectAdRequest;
+@property (nonatomic, strong) HyBidMRectAdRequest *mRectAdRequest;
 
 @end
 
@@ -61,8 +61,9 @@
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
     self.mRectContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    self.mRectAdRequest = [[PNLiteMRectAdRequest alloc] init];
+    self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
@@ -123,30 +124,31 @@
 }
 
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+- (void)requestDidStart:(HyBidAdRequest *)request
 {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [PNLitePrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
         [self.dfpMrect loadRequest:request];
-        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.mRectAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }

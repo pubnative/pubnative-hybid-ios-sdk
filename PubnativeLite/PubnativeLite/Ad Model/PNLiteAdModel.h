@@ -20,20 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteBaseModel.h"
-#import "PNLiteDataModel.h"
+#import "HyBidAdModel.h"
 
-@interface PNLiteAdModel : PNLiteBaseModel
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdModel instead.")
 
-@property (nonatomic, strong) NSString *link;
-@property (nonatomic, strong) NSNumber *assetgroupid;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *assets;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *beacons;
-@property (nonatomic, strong) NSArray<PNLiteDataModel*> *meta;
-
-- (PNLiteDataModel *)assetWithType:(NSString *)type;
-- (PNLiteDataModel *)metaWithType:(NSString *)type;
-- (NSArray *)beaconsWithType:(NSString *)type;
+@interface PNLiteAdModel : HyBidAdModel
 
 @end

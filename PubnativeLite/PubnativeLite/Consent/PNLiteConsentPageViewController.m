@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteConsentPageViewController.h"
-#import "PNLiteUserDataManager.h"
+#import "HyBidUserDataManager.h"
 
 NSString *const kPNLiteConsentAccept = @"https://pubnative.net/personalize-experience-yes/";
 NSString *const kPNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
@@ -43,7 +43,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
 
 - (void)loadConsentPage
 {
-    NSURL *url = [NSURL URLWithString:[[PNLiteUserDataManager sharedInstance] consentPageLink]];
+    NSURL *url = [NSURL URLWithString:[[HyBidUserDataManager sharedInstance] consentPageLink]];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:urlRequest];
 }
@@ -71,9 +71,9 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     NSString *absoluteUrlString = [url absoluteString];
     
     if ([absoluteUrlString isEqualToString:kPNLiteConsentAccept]) {
-        [[PNLiteUserDataManager sharedInstance] grantConsent];
+        [[HyBidUserDataManager sharedInstance] grantConsent];
     } else if ([absoluteUrlString isEqualToString:kPNLiteConsentReject]) {
-        [[PNLiteUserDataManager sharedInstance] denyConsent];
+        [[HyBidUserDataManager sharedInstance] denyConsent];
     } else if ([absoluteUrlString isEqualToString:kPNLiteConsentClose]) {
         [self dismissViewControllerAnimated:YES completion:nil];
         return NO;

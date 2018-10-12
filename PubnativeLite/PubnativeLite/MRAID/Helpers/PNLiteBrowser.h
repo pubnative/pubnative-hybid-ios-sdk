@@ -20,35 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNLiteBrowserControlsView.h"
+#import "HyBidBrowser.h"
 
-extern NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback;
-extern NSString * const kPNLiteBrowserFeatureDisableStatusBar;
-extern NSString * const kPNLiteBrowserFeatureScalePagesToFit;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowserDelegate instead.")
 
-@class PNLiteBrowser;
-
-@protocol PNLiteBrowserDelegate <NSObject>
-
-@required
-
-- (void)pubnativeBrowserClosed:(PNLiteBrowser *)pubnativeBrowser;  // sent when the PubnativeBrowser viewController has dismissed - required
-- (void)pubnativeBrowserWillExitApp:(PNLiteBrowser *)pubnativeBrowser;  // sent when the PubnativeBrowser exits by opening the system openURL command
-
-@optional
-
-- (void)pubnativeTelPopupOpen:(PNLiteBrowser *)pubnativeBrowser; // sent when the telephone dial confirmation popup is on the screen
-- (void)pubnativeTelPopupClosed:(PNLiteBrowser *)pubnativeBrowser; // sent when the telephone dial confirmation popip is dismissed
+@protocol PNLiteBrowserDelegate <HyBidBrowserDelegate>
 
 @end
 
-@interface PNLiteBrowser : UIViewController <PNLiteBrowserControlsViewDelegate>
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBrowser instead.")
 
-@property (nonatomic, unsafe_unretained) id<PNLiteBrowserDelegate>delegate;
-
-- (id)initWithDelegate:(id<PNLiteBrowserDelegate>)delegate withFeatures:(NSArray *)pubnativeBrowserFeatures;  // designated initializer for PubnativeBrowser
-
-- (void)loadRequest:(NSURLRequest *)urlRequest;   // load urlRequest and present the souceKitBrowserViewController Note: requests such as tel: will immediately be presented using the UIApplication openURL: method without presenting the PubnativeBrowser's viewController
+@interface PNLiteBrowser : HyBidBrowser
 
 @end

@@ -20,8 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAdView.h"
+#import "HyBidBannerAdView.h"
 
-@interface PNLiteBannerAdView : PNLiteAdView
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerAdView instead.")
+
+@interface PNLiteBannerAdView : HyBidBannerAdView
 
 @end

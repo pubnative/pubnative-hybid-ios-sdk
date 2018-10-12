@@ -27,6 +27,7 @@
 @interface PNLiteDemoMoPubMediationInterstitialViewController () <MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 
 @end
@@ -52,6 +53,7 @@
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
+    self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     [self.moPubInterstitial loadAd];
 }
@@ -61,6 +63,7 @@
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidLoadAd");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.moPubInterstitial showFromViewController:self];
 }
@@ -68,6 +71,7 @@
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
 {
     NSLog(@"interstitialDidFailToLoadAd");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"

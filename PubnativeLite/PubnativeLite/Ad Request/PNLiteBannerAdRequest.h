@@ -20,8 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteAdRequest.h"
+#import "HyBidBannerAdRequest.h"
 
-@interface PNLiteBannerAdRequest : PNLiteAdRequest
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerAdRequest instead.")
+
+@interface PNLiteBannerAdRequest : HyBidBannerAdRequest
 
 @end

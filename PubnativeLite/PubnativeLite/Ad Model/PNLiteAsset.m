@@ -24,6 +24,12 @@
 
 @implementation PNLiteAsset
 
++ (NSString *)title { return @"title"; }
++ (NSString *)body { return @"description"; }
++ (NSString *)callToAction { return @"cta"; }
++ (NSString *)rating { return @"rating"; }
++ (NSString *)icon { return @"icon"; }
++ (NSString *)banner { return @"banner"; }
 + (NSString *)htmlBanner { return @"htmlbanner"; }
 + (NSString *)vast { return @"vast2"; }
 

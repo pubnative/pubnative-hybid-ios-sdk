@@ -24,9 +24,4 @@
 
 @implementation PNLiteMRectAdRequest
 
-- (NSString *)adSize
-{
-    return @"m";
-}
-
 @end

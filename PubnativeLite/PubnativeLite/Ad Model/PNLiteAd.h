@@ -20,24 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAdModel.h"
-#import "PNLiteContentInfoView.h"
+#import "HyBidAd.h"
 
-@interface PNLiteAd : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAd instead.")
 
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSString *htmlUrl;
-@property (nonatomic, readonly) NSString *htmlData;
-@property (nonatomic, readonly) NSString *impressionID;
-@property (nonatomic, readonly) NSNumber *assetGroupID;
-@property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) PNLiteContentInfoView *contentInfo;
-
-- (instancetype)initWithData:(PNLiteAdModel *)data;
-- (PNLiteDataModel *)assetDataWithType:(NSString *)type;
-- (PNLiteDataModel *)metaDataWithType:(NSString *)type;
-- (NSArray *)beaconsDataWithType:(NSString *)type;
+@interface PNLiteAd : HyBidAd
 
 @end

@@ -32,20 +32,18 @@
 
 @implementation PNLiteCheckConsentRequest
 
--(void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
-                          withAppToken:(NSString *)appToken
-                          withDeviceID:(NSString *)deviceID
-                      withDeviceIDType:(NSString *)deviceIDType
+- (void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
+                           withAppToken:(NSString *)appToken
+                           withDeviceID:(NSString *)deviceID
 {
     if (appToken == nil || appToken.length == 0 ||
-        deviceID == nil || deviceID.length == 0 ||
-        deviceIDType == nil || deviceIDType.length == 0) {
+        deviceID == nil || deviceID.length == 0) {
         [self invokeDidFail:[NSError errorWithDomain:@"Invalid parameters for check user consent request" code:0 userInfo:nil]];
     } else if (delegate == nil) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
-        NSString *url = [PNLiteConsentEndpoints checkConsentURLWithDeviceID:deviceID withDeviceIDType:deviceIDType];
+        NSString *url = [PNLiteConsentEndpoints checkConsentURLWithDeviceID:deviceID];
         NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];
         PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
         request.header = headerDictionary;

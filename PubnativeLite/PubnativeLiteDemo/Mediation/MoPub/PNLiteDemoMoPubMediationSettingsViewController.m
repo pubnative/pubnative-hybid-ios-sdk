@@ -24,6 +24,7 @@
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubMediationSettingsViewController () <UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *nativeAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *bannerAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mRectAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *interstitialAdUnitIDTextField;
@@ -35,12 +36,14 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Settings";
+    self.nativeAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID;
     self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID;
     self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID;
     self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID;
 }
 - (IBAction)saveMoPubMediationSettingsTouchUpInside:(UIButton *)sender
 {
+    [PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID = self.nativeAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID = self.bannerAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID = self.mRectAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;

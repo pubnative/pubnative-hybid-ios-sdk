@@ -32,7 +32,7 @@
     self.ads = nil;
 }
 
-#pragma mark PNLiteBaseModel
+#pragma mark HyBidBaseModel
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
@@ -40,7 +40,7 @@
     if (self) {
         self.status = dictionary[@"status"];
         self.errorMessage = dictionary[@"error_message"];
-        self.ads = [PNLiteAdModel parseArrayValues:dictionary[@"ads"]];
+        self.ads = [HyBidAdModel parseArrayValues:dictionary[@"ads"]];
     }
     return self;
 }

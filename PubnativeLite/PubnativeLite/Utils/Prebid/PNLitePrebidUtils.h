@@ -20,12 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "HyBidPrebidUtils.h"
 
-@interface PNLitePrebidUtils : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidPrebidUtils instead.")
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
+@interface PNLitePrebidUtils : HyBidPrebidUtils
 
 @end

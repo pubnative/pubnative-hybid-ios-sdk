@@ -20,11 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <PubnativeLite/PubnativeLite.h>
+#import "HyBidDFPMRectCustomEvent.h"
 
-@import GoogleMobileAds;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPMRectCustomEvent instead.")
 
-@interface PNLiteDFPMRectCustomEvent : NSObject <GADCustomEventBanner>
+@interface PNLiteDFPMRectCustomEvent : HyBidDFPMRectCustomEvent
 
 @end

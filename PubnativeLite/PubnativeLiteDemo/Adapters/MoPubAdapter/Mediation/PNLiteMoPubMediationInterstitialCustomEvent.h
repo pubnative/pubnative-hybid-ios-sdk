@@ -20,14 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#else
-#import "MPInterstitialCustomEvent.h"
-#endif
+#import "HyBidMoPubMediationInterstitialCustomEvent.h"
 
-#import <PubnativeLite/PubnativeLite.h>
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubMediationInterstitialCustomEvent instead.")
 
-@interface PNLiteMoPubMediationInterstitialCustomEvent : MPInterstitialCustomEvent
+@interface PNLiteMoPubMediationInterstitialCustomEvent : HyBidMoPubMediationInterstitialCustomEvent
 
 @end
