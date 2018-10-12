@@ -23,7 +23,7 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
-#import "PNLiteInterstitialAdRequest.h"
+#import "HyBidInterstitialAdRequest.h"
 
 @interface PNLiteInterstitialAdRequestTest : XCTestCase
 
@@ -43,7 +43,7 @@
 
 - (void)test_adSize
 {
-    PNLiteInterstitialAdRequest *interstitialRequest = [[PNLiteInterstitialAdRequest alloc] init];
+    HyBidInterstitialAdRequest *interstitialRequest = [[HyBidInterstitialAdRequest alloc] init];
     assertThat(interstitialRequest.adSize, is(@"l"));
 }
 

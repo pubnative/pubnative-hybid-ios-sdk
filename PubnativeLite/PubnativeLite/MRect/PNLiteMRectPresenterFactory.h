@@ -20,13 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteMRectPresenter.h"
-#import "PNLiteAd.h"
+#import "HyBidMRectPresenterFactory.h"
 
-@interface PNLiteMRectPresenterFactory : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectPresenterFactory instead.")
 
-- (PNLiteMRectPresenter *)createMRectPresenterWithAd:(PNLiteAd *)ad
-                                        withDelegate:(NSObject<PNLiteMRectPresenterDelegate> *)delegate;
+@interface PNLiteMRectPresenterFactory : HyBidMRectPresenterFactory
 
 @end

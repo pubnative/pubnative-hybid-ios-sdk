@@ -21,9 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteBaseModel.h"
+#import "HyBidBaseModel.h"
 
-@interface PNLiteUserConsentModel : PNLiteBaseModel
+@interface PNLiteUserConsentModel : HyBidBaseModel
 
 @property (nonatomic, assign) BOOL consented;
 

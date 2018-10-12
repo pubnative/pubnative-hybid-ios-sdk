@@ -20,12 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidTargetingModel.h"
 
-@interface PNLiteTargetingModel : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidTargetingModel instead.")
 
-@property (nonatomic, strong) NSNumber *age;
-@property (nonatomic, strong) NSArray<NSString*> *interests;
-@property (nonatomic, assign) NSString *gender;
+@interface PNLiteTargetingModel : HyBidTargetingModel
 
 @end

@@ -26,7 +26,7 @@
 
 @interface PNLiteVASTInterstitialPresenter()
 
-@property (nonatomic, strong) PNLiteAd *adModel;
+@property (nonatomic, strong) HyBidAd *adModel;
 @property (nonatomic, strong) PNLiteVASTPlayerInterstitialViewController *vastViewController;
 
 @end
@@ -39,7 +39,7 @@
     self.vastViewController = nil;
 }
 
-- (instancetype)initWithAd:(PNLiteAd *)ad
+- (instancetype)initWithAd:(HyBidAd *)ad
 {
     self = [super init];
     if (self) {
@@ -48,7 +48,7 @@
     return self;
 }
 
-- (PNLiteAd *)ad
+- (HyBidAd *)ad
 {
     return self.adModel;
 }

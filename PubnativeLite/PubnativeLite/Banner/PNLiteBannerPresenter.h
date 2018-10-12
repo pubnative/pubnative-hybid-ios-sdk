@@ -20,29 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
+#import "HyBidBannerPresenter.h"
 
-@class PNLiteBannerPresenter;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenterDelegate instead.")
 
-@protocol PNLiteBannerPresenterDelegate<NSObject>
-
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
-      didLoadWithBanner:(UIView *)banner;
-- (void)bannerPresenterDidClick:(PNLiteBannerPresenter *)bannerPresenter;
-- (void)bannerPresenter:(PNLiteBannerPresenter *)bannerPresenter
-       didFailWithError:(NSError *)error;
+@protocol PNLiteBannerPresenterDelegate<HyBidBannerPresenterDelegate>
 
 @end
 
-@interface PNLiteBannerPresenter : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenter instead.")
 
-@property (nonatomic, readonly) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteBannerPresenterDelegate> *delegate;
-
-- (void)load;
-- (void)startTracking;
-- (void)stopTracking;
+@interface PNLiteBannerPresenter : HyBidBannerPresenter
 
 @end

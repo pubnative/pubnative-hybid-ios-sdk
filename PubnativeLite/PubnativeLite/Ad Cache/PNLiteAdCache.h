@@ -20,15 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "HyBidAdCache.h"
 
-@interface PNLiteAdCache : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdCache instead.")
 
-@property(nonatomic, strong) NSMutableDictionary *adCache;
-
-+ (instancetype)sharedInstance;
-- (void)putAdToCache:(PNLiteAd *)ad withZoneID:(NSString *)zoneID;
-- (PNLiteAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID;
+@interface PNLiteAdCache : HyBidAdCache
 
 @end

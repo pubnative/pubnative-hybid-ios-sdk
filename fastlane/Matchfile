@@ -1,4 +1,0 @@
-git_url("https://github.com/pubnative/iOSCertificates.git") # The Github Repo URL of the certificates & provisioning profiles
-type("adhoc") # The default type, can be: appstore, adhoc, enterprise or development
-app_identifier("net.pubnative.PubnativeLite.demo") # The bundle identifier of your app
-username("can.soykarafakili@pubnative.net") # Your Apple Developer Portal username

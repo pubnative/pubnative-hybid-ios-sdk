@@ -28,7 +28,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 
 @interface PNLiteVASTMRectPresenter () <PNLiteVASTPlayerViewControllerDelegate>
 
-@property (nonatomic, strong) PNLiteAd *adModel;
+@property (nonatomic, strong) HyBidAd *adModel;
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
 @property (nonatomic, assign) BOOL isLoaded;
 
@@ -42,7 +42,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
     self.player = nil;
 }
 
-- (instancetype)initWithAd:(PNLiteAd *)ad
+- (instancetype)initWithAd:(HyBidAd *)ad
 {
     self = [super init];
     if (self) {
@@ -52,7 +52,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
     return self;
 }
 
-- (PNLiteAd *)ad
+- (HyBidAd *)ad
 {
     return self.adModel;
 }

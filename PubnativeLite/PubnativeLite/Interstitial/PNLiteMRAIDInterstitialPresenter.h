@@ -20,10 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteInterstitialPresenter.h"
+#import "HyBidInterstitialPresenter.h"
 
-@interface PNLiteMRAIDInterstitialPresenter : PNLiteInterstitialPresenter
+@interface PNLiteMRAIDInterstitialPresenter : HyBidInterstitialPresenter
 
-- (instancetype)initWithAd:(PNLiteAd *)ad;
+- (instancetype)initWithAd:(HyBidAd *)ad;
 
 @end

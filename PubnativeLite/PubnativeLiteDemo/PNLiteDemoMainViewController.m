@@ -26,6 +26,7 @@
 @interface PNLiteDemoMainViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *zoneIDTextField;
+@property (weak, nonatomic) IBOutlet UIButton *nativeButton;
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
@@ -63,10 +64,12 @@
 {
     [textField resignFirstResponder];
     if (textField.text.length) {
+        self.nativeButton.hidden = NO;
         self.bannerButton.hidden = NO;
         self.mRectButton.hidden = NO;
         self.interstitialButton.hidden = NO;
     } else {
+        self.nativeButton.hidden = YES;
         self.bannerButton.hidden = YES;
         self.mRectButton.hidden = YES;
         self.interstitialButton.hidden = YES;
