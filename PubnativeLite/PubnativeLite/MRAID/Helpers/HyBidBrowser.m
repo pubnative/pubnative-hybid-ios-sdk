@@ -295,6 +295,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
         if ([absUrlString hasPrefix:@"tel"]) {
             [self getTelPermission:absUrlString];
             decisionHandler(WKNavigationActionPolicyCancel);
+            return;
         } else if ([host isEqualToString:@"itunes.apple.com"] || [host isEqualToString:@"phobos.apple.com"] || [host isEqualToString:@"maps.google.com"]) {
             // Handle known URL hosts
             openSystemBrowserDirectly = YES;
@@ -312,14 +313,17 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
                 [self dismiss];
                 [[UIApplication sharedApplication] openURL:url];
                 decisionHandler(WKNavigationActionPolicyCancel);
+                return;
             } else {
                 [self dismiss];
                 decisionHandler(WKNavigationActionPolicyCancel);
+                return;
             }
         }
     }
     
     decisionHandler(WKNavigationActionPolicyAllow);
+    return;
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
