@@ -281,7 +281,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 #pragma mark -
 #pragma mark WKNavigationDelegate
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     NSURL *url = [navigationAction.request URL];
     NSString *scheme = [url scheme];
