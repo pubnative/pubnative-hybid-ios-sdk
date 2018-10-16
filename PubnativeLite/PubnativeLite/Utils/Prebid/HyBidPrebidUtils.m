@@ -22,26 +22,19 @@
 
 #import "HyBidPrebidUtils.h"
 
-NSString *const kPNLiteKeyPN = @"m_pn";
-NSString *const kPNLiteKeyPN_ZONE_ID = @"pn_zone_id";
 NSString *const kPNLiteKeyPN_BID = @"pn_bid";
 double const kECPMPointsDivider = 1000.0;
 
 @implementation HyBidPrebidUtils
 
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad
+{
+    return [HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:nil];
+}
+
 + (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID
 {
     NSMutableString *prebidString = [[NSMutableString alloc] init];
-    [prebidString appendString:kPNLiteKeyPN];
-    [prebidString appendString:@":"];
-    [prebidString appendString:@"true"];
-    [prebidString appendString:@","];
-    
-    [prebidString appendString:kPNLiteKeyPN_ZONE_ID];
-    [prebidString appendString:@":"];
-    [prebidString appendString:zoneID];
-    [prebidString appendString:@","];
-    
     [prebidString appendString:kPNLiteKeyPN_BID];
     [prebidString appendString:@":"];
     [prebidString appendString:[HyBidPrebidUtils eCPMFromAd:ad]];
@@ -49,11 +42,14 @@ double const kECPMPointsDivider = 1000.0;
     return [NSString stringWithString:prebidString];
 }
 
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad
+{
+    return [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:nil];
+}
+
 + (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID
 {
     NSMutableDictionary *prebidDictionary = [NSMutableDictionary dictionary];
-    [prebidDictionary setValue:@"true" forKey:kPNLiteKeyPN];
-    [prebidDictionary setValue:zoneID forKey:kPNLiteKeyPN_ZONE_ID];
     [prebidDictionary setValue:[HyBidPrebidUtils eCPMFromAd:ad] forKey:kPNLiteKeyPN_BID];
     return prebidDictionary;
 }
