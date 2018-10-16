@@ -5,16 +5,16 @@
       location = "group:PubnativeLite/Scripts"
       name = "Scripts">
       <FileRef
-         location = "group:generate.sh">
+         location = "group:submit">
       </FileRef>
       <FileRef
          location = "group:publish.sh">
       </FileRef>
       <FileRef
-         location = "group:submit">
+         location = "group:generate.sh">
       </FileRef>
    </Group>
    <FileRef
-      location = "group:/Users/cansoykarafakili/Documents/Pubnative Projects/iOS HyBid/pubnative-lite-ios-sdk/PubnativeLite/HyBid.xcodeproj">
+      location = "group:PubnativeLite/HyBid.xcodeproj">
    </FileRef>
 </Workspace>
