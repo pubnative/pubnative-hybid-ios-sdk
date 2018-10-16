@@ -25,7 +25,9 @@
 
 @interface HyBidPrebidUtils : NSObject
 
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad;
 + (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad;
 + (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
 
 @end
