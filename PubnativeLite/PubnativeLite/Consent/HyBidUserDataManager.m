@@ -91,6 +91,29 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     return kPNLiteVendorListUrl;
 }
 
+- (BOOL)canCollectData
+{
+    if ([self GDPRApplies]) {
+        if ([self GDPRConsentAsked]) {
+            switch ([[NSUserDefaults standardUserDefaults] integerForKey:kPNLiteGDPRConsentStateKey]) {
+                case kPNLiteConsentStateAccepted:
+                    return YES;
+                    break;
+                case kPNLiteConsentStateDenied:
+                    return NO;
+                    break;
+                default:
+                    return NO;
+                    break;
+            }
+        } else {
+            return NO;
+        }
+    } else {
+        return YES;
+    }
+}
+
 - (BOOL)shouldAskConsent
 {
     return [self GDPRApplies] && ![self GDPRConsentAsked];
