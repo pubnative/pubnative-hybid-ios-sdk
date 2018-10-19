@@ -23,9 +23,19 @@
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
 
+typedef enum {
+    TWO_DECIMAL_PLACES,
+    THREE_DECIMAL_PLACES,
+} HyBidKeywordMode;
+
 @interface HyBidPrebidUtils : NSObject
 
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad;
 + (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
+
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad;
 + (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
 
 @end
