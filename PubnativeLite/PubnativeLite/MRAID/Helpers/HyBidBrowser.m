@@ -23,6 +23,7 @@
 #import "HyBidBrowser.h"
 #import "PNLiteLogger.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import <WebKit/WebKit.h>
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -33,13 +34,13 @@ NSString * const kPNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
 NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
 NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
-@interface HyBidBrowser () <UIWebViewDelegate>
+@interface HyBidBrowser () <WKNavigationDelegate>
 {
     HyBidBrowserControlsView *browserControlsView;
     NSURLRequest *currrentRequest;
     UIViewController *currentViewController;
     NSArray *pubnativeBrowserFeatures;
-    UIWebView *browserWebView;
+    WKWebView *browserWebView;
     UIActivityIndicatorView *loadingIndicator;
     BOOL disableStatusBar;
     BOOL scalePagesToFit;
@@ -103,12 +104,19 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 {
     [super viewDidAppear:animated];
     if(!browserWebView) {
-        browserWebView = [[UIWebView alloc] initWithFrame: self.view.bounds];
-        browserWebView.delegate = self;
-        browserWebView.scalesPageToFit = scalePagesToFit;
-        browserWebView.allowsInlineMediaPlayback = supportInlineMediaPlayback;
-        browserWebView.mediaPlaybackRequiresUserAction = NO;
-        browserWebView.autoresizesSubviews=YES;
+        WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
+        webConfiguration.allowsInlineMediaPlayback = supportInlineMediaPlayback;
+        webConfiguration.requiresUserActionForMediaPlayback = NO;
+        if (scalePagesToFit) {
+            NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
+            WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+            WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+            [wkUController addUserScript:wkUScript];
+            webConfiguration.userContentController = wkUController;
+        }
+        browserWebView = [[WKWebView alloc] initWithFrame: self.view.bounds configuration:webConfiguration];
+        browserWebView.navigationDelegate = self;
+        browserWebView.autoresizesSubviews = YES;
         browserWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight |
         UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
         UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -271,11 +279,11 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 }
 
 #pragma mark -
-#pragma mark UIWebViewDelegate
+#pragma mark WKNavigationDelegate
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    NSURL *url = [request URL];
+    NSURL *url = [navigationAction.request URL];
     NSString *scheme = [url scheme];
     NSString *host = [url host];
     NSString *absUrlString = [url absoluteString];
@@ -286,7 +294,8 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
         BOOL openSystemBrowserDirectly = NO;
         if ([absUrlString hasPrefix:@"tel"]) {
             [self getTelPermission:absUrlString];
-            return NO;
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
         } else if ([host isEqualToString:@"itunes.apple.com"] || [host isEqualToString:@"phobos.apple.com"] || [host isEqualToString:@"maps.google.com"]) {
             // Handle known URL hosts
             openSystemBrowserDirectly = YES;
@@ -303,25 +312,28 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
                 }
                 [self dismiss];
                 [[UIApplication sharedApplication] openURL:url];
-                return NO;
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
             } else {
                 [self dismiss];
-                return NO;
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
             }
         }
     }
     
-    return YES;
+    decisionHandler(WKNavigationActionPolicyAllow);
+    return;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     browserControlsView.backButton.enabled = [webView canGoBack];
     browserControlsView.forwardButton.enabled = [webView canGoForward];
     [loadingIndicator stopAnimating];
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
 {
     [loadingIndicator startAnimating];
 }
@@ -380,7 +392,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
                                          style:UIAlertActionStyleDefault
                                          handler:^(UIAlertAction *action)
                                          {
-                                             NSURL *currentRequestURL = [browserWebView.request URL];
+                                             NSURL *currentRequestURL = browserWebView.URL;
                                              if ([self.delegate respondsToSelector:@selector(pubnativeBrowserWillExitApp:)]) {
                                                  [self.delegate pubnativeBrowserWillExitApp:self];
                                              }

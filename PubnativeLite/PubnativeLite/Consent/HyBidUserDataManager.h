@@ -33,6 +33,7 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 - (NSString *)privacyPolicyLink;
 - (NSString *)vendorListLink;
 - (NSString *)consentPageLink;
+- (BOOL)canCollectData;
 - (BOOL)shouldAskConsent;
 - (void)grantConsent;
 - (void)denyConsent;
