@@ -68,9 +68,11 @@ double const kECPMPointsDivider = 1000.0;
 + (NSString *)eCPMFromAd:(HyBidAd *)ad withDecimalPlaces:(HyBidKeywordMode)decimalPlaces
 {
     if (decimalPlaces == TWO_DECIMAL_PLACES) {
-        return [NSString stringWithFormat:@"%.2f", [ad.eCPM doubleValue]/kECPMPointsDivider];
+        return @"0.01";
+//        return [NSString stringWithFormat:@"%.2f", [ad.eCPM doubleValue]/kECPMPointsDivider];
     } else {
-        return [NSString stringWithFormat:@"%.3f", [ad.eCPM doubleValue]/kECPMPointsDivider];
+        return @"0.001";
+//        return [NSString stringWithFormat:@"%.3f", [ad.eCPM doubleValue]/kECPMPointsDivider];
     }
 }
 

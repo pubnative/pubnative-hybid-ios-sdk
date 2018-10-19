@@ -34,6 +34,8 @@
 #import "PNLitemraidjs.h"
 #import "PNLiteCloseButton.h"
 
+#import <WebKit/WebKit.h>
+
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -48,7 +50,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <UIWebViewDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate>
+@interface HyBidMRAIDView () <WKNavigationDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -72,9 +74,9 @@ typedef enum {
     NSArray *mraidFeatures;
     NSArray *supportedFeatures;
     
-    UIWebView *webView;
-    UIWebView *webViewPart2;
-    UIWebView *currentWebView;
+    WKWebView *webView;
+    WKWebView *webViewPart2;
+    WKWebView *currentWebView;
     
     UIButton *closeEventRegion;
     
@@ -114,7 +116,7 @@ typedef enum {
 -(void)setScreenSize;
 
 // internal helper methods
-- (void)initWebView:(UIWebView *)wv;
+- (void)initWebView:(WKWebView *)wv;
 - (void)parseCommandUrl:(NSString *)commandUrlString;
 
 @end
@@ -211,7 +213,7 @@ typedef enum {
             supportedFeatures=currentFeatures;
         }
         
-        webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+        webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) configuration:[self createConfiguration]];
         [self initWebView:webView];
         currentWebView = webView;
         [self addSubview:webView];
@@ -465,7 +467,7 @@ typedef enum {
     
     if (webViewPart2) {
         // Clean up webViewPart2 if returning from 2-part expansion.
-        webViewPart2.delegate = nil;
+        webViewPart2.navigationDelegate = nil;
         currentWebView = webView;
         webViewPart2 = nil;
     } else {
@@ -558,7 +560,7 @@ typedef enum {
         [webView removeFromSuperview];
     } else {
         // 2-part expansion
-        webViewPart2 = [[UIWebView alloc] initWithFrame:frame];
+        webViewPart2 = [[WKWebView alloc] initWithFrame:frame configuration:[self createConfiguration]];
         [self initWebView:webViewPart2];
         currentWebView = webViewPart2;
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
@@ -586,7 +588,7 @@ typedef enum {
             // Error! Clean up and return.
             [PNLiteLogger error:@"MRAID - View" withMessage:[NSString stringWithFormat:@"Could not load part 2 expanded content for URL: %@" ,urlString]];
             currentWebView = webView;
-            webViewPart2.delegate = nil;
+            webViewPart2.navigationDelegate = nil;
             webViewPart2 = nil;
             modalVC = nil;
             return;
@@ -966,7 +968,7 @@ typedef enum {
 
 - (void)injectJavaScript:(NSString *)js
 {
-    [currentWebView stringByEvaluatingJavaScriptFromString:js];
+    [currentWebView evaluateJavaScript:js completionHandler:^(id result, NSError *error) {}];
 }
 
 // convenience methods
@@ -1105,14 +1107,14 @@ typedef enum {
     }
 }
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - WKNavigationDelegate
 
-- (void)webViewDidStartLoad:(UIWebView *)wv
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
 {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)wv
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     @synchronized(self) {
         [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
@@ -1122,11 +1124,11 @@ typedef enum {
         // if (wv != webViewPart2) {
         
         if (PNLite_ENABLE_JS_LOG) {
-            [wv stringByEvaluatingJavaScriptFromString:@"var enableLog = true"];
+            [webView evaluateJavaScript:@"var enableLog = true" completionHandler:^(id result, NSError *error) {}];
         }
         
         if (PNLite_SUPPRESS_JS_ALERT) {
-            [wv stringByEvaluatingJavaScriptFromString:@"function alert(){}; function prompt(){}; function confirm(){}"];
+            [webView evaluateJavaScript:@"function alert(){}; function prompt(){}; function confirm(){}" completionHandler:^(id result, NSError *error) {}];
         }
         
         if (state == PNLiteMRAIDStateLoading) {
@@ -1158,14 +1160,14 @@ typedef enum {
     }
 }
 
-- (void)webView:(UIWebView *)wv didFailLoadWithError:(NSError *)error
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
 }
 
-- (BOOL)webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    NSURL *url = [request URL];
+    NSURL *url = [navigationAction.request URL];
     NSString *scheme = [url scheme];
     NSString *absUrlString = [url absoluteString];
     
@@ -1176,10 +1178,10 @@ typedef enum {
         [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS console: %@",
                                                          [[absUrlString substringFromIndex:14] stringByRemovingPercentEncoding ]]];
     } else {
-        [PNLiteLogger info:@"MRAID - View" withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationType)]];
+        [PNLiteLogger info:@"MRAID - View" withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationAction.navigationType)]];
         
         // Links, Form submissions
-        if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
             // For banner views
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS webview load: %@",
@@ -1188,10 +1190,12 @@ typedef enum {
             }
         } else {
             // Need to let browser to handle rendering and other things
-            return YES;
+            decisionHandler(WKNavigationActionPolicyAllow);
+            return;
         }
     }
-    return NO;
+    decisionHandler(WKNavigationActionPolicyCancel);
+    return;
 }
 
 #pragma mark - MRAIDModalViewControllerDelegate
@@ -1205,23 +1209,30 @@ typedef enum {
 
 #pragma mark - internal helper methods
 
-- (void)initWebView:(UIWebView *)wv
+- (WKWebViewConfiguration *)createConfiguration
 {
-    wv.delegate = self;
+    WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
+
+    if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
+        webConfiguration.allowsInlineMediaPlayback = YES;
+        webConfiguration.requiresUserActionForMediaPlayback = NO;
+    } else {
+        webConfiguration.allowsInlineMediaPlayback = NO;
+        webConfiguration.requiresUserActionForMediaPlayback = YES;
+        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"No inline video support has been included, videos will play full screen without autoplay."]];
+    }
+    
+    return webConfiguration;
+}
+
+- (void)initWebView:(WKWebView *)wv
+{
+    wv.navigationDelegate = self;
     wv.opaque = NO;
     wv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight |
     UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
     UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     wv.autoresizesSubviews = YES;
-    
-    if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
-        wv.allowsInlineMediaPlayback = YES;
-        wv.mediaPlaybackRequiresUserAction = NO;
-    } else {
-        wv.allowsInlineMediaPlayback = NO;
-        wv.mediaPlaybackRequiresUserAction = YES;
-        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"No inline video support has been included, videos will play full screen without autoplay."]];
-    }
     
     // disable scrolling
     UIScrollView *scrollView;
@@ -1241,11 +1252,11 @@ typedef enum {
     
     // disable selection
     NSString *js = @"window.getSelection().removeAllRanges();";
-    [wv stringByEvaluatingJavaScriptFromString:js];
+    [wv evaluateJavaScript:js completionHandler:^(id result, NSError *error) {}];
     
     // Alert suppression
     if (PNLite_SUPPRESS_JS_ALERT)
-        [wv stringByEvaluatingJavaScriptFromString:@"function alert(){}; function prompt(){}; function confirm(){}"];
+        [wv evaluateJavaScript:@"function alert(){}; function prompt(){}; function confirm(){}" completionHandler:^(id result, NSError *error) {}];
 }
 
 - (void)parseCommandUrl:(NSString *)commandUrlString
