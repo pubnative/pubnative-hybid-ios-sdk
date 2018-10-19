@@ -136,7 +136,7 @@
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubInterstitial setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
+        [self.moPubInterstitial setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
         [self.moPubInterstitial loadAd];
     }
 }

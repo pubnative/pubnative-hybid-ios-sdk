@@ -33,6 +33,7 @@
 
 NSString *const kPNLiteDeviceIDType = @"idfa";
 NSString *const kPNLiteGDPRConsentStateKey = @"gdpr_consent_state";
+NSString *const kPNLiteGDPRAdvertisingIDKey = @"gdpr_advertising_id";
 NSString *const kPNLitePrivacyPolicyUrl = @"https://pubnative.net/privacy-notice/";
 NSString *const kPNLiteVendorListUrl = @"https://pubnative.net/monetization-partners/";
 NSString *const kPNLiteConsentPageUrl = @"https://pubnative.net/personalize-your-experience/";
@@ -43,17 +44,12 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 @property (nonatomic, assign) BOOL inGDPRZone;
 @property (nonatomic, assign) NSInteger consentState;
-@property (nonatomic, strong) NSString *IDFA;
 @property (nonatomic, copy) UserDataManagerCompletionBlock completionBlock;
 
 @end
 
 @implementation HyBidUserDataManager
 
-- (void)dealloc
-{
-    self.IDFA = nil;
-}
 - (instancetype)init
 {
     self = [super init];
@@ -93,6 +89,29 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (NSString *)vendorListLink
 {
     return kPNLiteVendorListUrl;
+}
+
+- (BOOL)canCollectData
+{
+    if ([self GDPRApplies]) {
+        if ([self GDPRConsentAsked]) {
+            switch ([[NSUserDefaults standardUserDefaults] integerForKey:kPNLiteGDPRConsentStateKey]) {
+                case kPNLiteConsentStateAccepted:
+                    return YES;
+                    break;
+                case kPNLiteConsentStateDenied:
+                    return NO;
+                    break;
+                default:
+                    return NO;
+                    break;
+            }
+        } else {
+            return NO;
+        }
+    } else {
+        return YES;
+    }
 }
 
 - (BOOL)shouldAskConsent
@@ -152,11 +171,14 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 - (BOOL)GDPRConsentAsked
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kPNLiteGDPRConsentStateKey] != nil) {
-        return YES;
-    } else {
-        return NO;
+    BOOL askedForConsent = [[NSUserDefaults standardUserDefaults] objectForKey:kPNLiteGDPRConsentStateKey];
+    if (askedForConsent) {
+        NSString *IDFA = [[NSUserDefaults standardUserDefaults] stringForKey:kPNLiteGDPRAdvertisingIDKey];
+        if (IDFA != nil && IDFA.length > 0 && ![IDFA isEqualToString:[HyBidSettings sharedInstance].advertisingId]) {
+            askedForConsent = NO;
+        }
     }
+    return askedForConsent;
 }
 
 - (void)showConsentRequestScreen
@@ -168,6 +190,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)saveGDPRConsentState
 {
     [[NSUserDefaults standardUserDefaults] setInteger:self.consentState forKey:kPNLiteGDPRConsentStateKey];
+    [[NSUserDefaults standardUserDefaults] setObject:[HyBidSettings sharedInstance].advertisingId forKey:kPNLiteGDPRAdvertisingIDKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -176,9 +199,14 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 - (void)checkConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
 {
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
-        if (model.consent != nil && model.consent.consented) {
-            self.consentState = kPNLiteConsentStateAccepted;
-            [self saveGDPRConsentState];
+        if (model.consent != nil) {
+            if (model.consent.consented) {
+                self.consentState = kPNLiteConsentStateAccepted;
+                [self saveGDPRConsentState];
+            } else {
+                self.consentState = kPNLiteConsentStateDenied;
+                [self saveGDPRConsentState];
+            }
         }
         self.completionBlock(YES);
     }

@@ -135,7 +135,7 @@
     
     if (request == self.bannerAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubBanner setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
+        [self.moPubBanner setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
         [self.moPubBanner loadAd];
     }
 }

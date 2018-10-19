@@ -27,6 +27,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *privacyPolicyURLButton;
 @property (weak, nonatomic) IBOutlet UIButton *vendorListURLButton;
+@property (weak, nonatomic) IBOutlet UIImageView *canCollectDataIndicator;
 
 @end
 
@@ -35,6 +36,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self prepareCanCollectDataIndicator];
+}
+
+- (void)prepareCanCollectDataIndicator
+{
+    if ([[HyBidUserDataManager sharedInstance] canCollectData]) {
+        [self.canCollectDataIndicator setImage:[UIImage imageNamed:@"Success"]];
+    } else {
+        [self.canCollectDataIndicator setImage:[UIImage imageNamed:@"Fail"]];
+    }
+}
+
+- (IBAction)checkConsentTouchUpInside:(UIButton *)sender
+{
+    [self prepareCanCollectDataIndicator];
 }
 
 - (IBAction)pnOwnedTouchUpInside:(UIButton *)sender
