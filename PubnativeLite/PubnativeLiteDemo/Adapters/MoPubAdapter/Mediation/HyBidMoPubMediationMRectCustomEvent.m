@@ -82,22 +82,22 @@
 
 #pragma mark - HyBidAdViewDelegate
 
-- (void)adViewDidLoad
+- (void)adViewDidLoad:(HyBidAdView *)adView
 {
     [self.delegate bannerCustomEvent:self didLoadAd:self.mRectAdView];
 }
 
-- (void)adViewDidFailWithError:(NSError *)error
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)adViewDidTrackImpression
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView
 {
     [self.delegate trackImpression];
 }
 
-- (void)adViewDidTrackClick
+- (void)adViewDidTrackClick:(HyBidAdView *)adView
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];

@@ -24,12 +24,14 @@
 #import "HyBidAd.h"
 #import "HyBidAdRequest.h"
 
+@class HyBidAdView;
+
 @protocol HyBidAdViewDelegate<NSObject>
 
-- (void)adViewDidLoad;
-- (void)adViewDidFailWithError:(NSError *)error;
-- (void)adViewDidTrackImpression;
-- (void)adViewDidTrackClick;
+- (void)adViewDidLoad:(HyBidAdView *)adView;
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error;
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView;
+- (void)adViewDidTrackClick:(HyBidAdView *)adView;
 
 @end
 
