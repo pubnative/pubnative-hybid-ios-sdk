@@ -50,8 +50,8 @@
     [self cleanUp];
     self.delegate = delegate;
     if (zoneID == nil || zoneID.length == 0) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
-            [self.delegate adViewDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
         }
     } else {
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
@@ -61,8 +61,8 @@
 - (void)setupAdView:(UIView *)adView
 {
     [self addSubview:adView];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad)]) {
-        [self.delegate adViewDidLoad];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+        [self.delegate adViewDidLoad:self];
     }
     [self startTracking];
 }
@@ -93,8 +93,8 @@
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
-            [self.delegate adViewDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
         }
     } else {
         self.ad = ad;
@@ -104,8 +104,8 @@
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
-        [self.delegate adViewDidFailWithError:error];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+        [self.delegate adView:self didFailWithError:error];
     }
 }
 

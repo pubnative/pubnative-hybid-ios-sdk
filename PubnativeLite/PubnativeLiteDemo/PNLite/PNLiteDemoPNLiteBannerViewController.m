@@ -52,7 +52,7 @@
 
 #pragma mark - HyBidAdViewDelegate
 
--(void)adViewDidLoad
+- (void)adViewDidLoad:(HyBidAdView *)adView
 {
     NSLog(@"Banner Ad View did load:");
     self.bannerAdView.hidden = NO;
@@ -60,7 +60,7 @@
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (void)adViewDidFailWithError:(NSError *)error
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
 {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
@@ -79,12 +79,12 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)adViewDidTrackClick
+- (void)adViewDidTrackClick:(HyBidAdView *)adView
 {
     NSLog(@"Banner Ad View did track click:");
 }
 
-- (void)adViewDidTrackImpression
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView
 {
     NSLog(@"Banner Ad View did track impression:");
 }

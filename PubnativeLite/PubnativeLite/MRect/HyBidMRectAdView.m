@@ -64,8 +64,8 @@
 - (void)startTracking
 {
     [self.mRectPresenter startTracking];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression)]) {
-        [self.delegate adViewDidTrackImpression];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
+        [self.delegate adViewDidTrackImpression:self];
     }
 }
 
@@ -79,8 +79,8 @@
 - (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
 {
     if (mRect == nil) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
-            [self.delegate adViewDidFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
         }
     } else {
         [self setupAdView:mRect];
@@ -89,15 +89,15 @@
 
 - (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidFailWithError:)]) {
-        [self.delegate adViewDidFailWithError:error];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+        [self.delegate adView:self didFailWithError:error];
     }
 }
 
 - (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick)]) {
-        [self.delegate adViewDidTrackClick];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
+        [self.delegate adViewDidTrackClick:self];
     }
 }
 
