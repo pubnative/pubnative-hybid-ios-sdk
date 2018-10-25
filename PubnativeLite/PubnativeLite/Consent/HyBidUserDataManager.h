@@ -21,15 +21,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
 @interface HyBidUserDataManager : NSObject
 
+@property (nonatomic, readonly) BOOL isConsentPageLoaded;
+
 + (instancetype)sharedInstance;
 - (void)createUserDataManagerWithAppToken:(NSString *)appToken
                                completion:(UserDataManagerCompletionBlock)completion;
-- (void)showConsentRequestScreen;
+
+- (void)loadConsentPageWithCompletion:(void (^ _Nullable)(NSError * _Nullable error))completion;
+- (void)showConsentPage:(void (^ _Nullable)(void))didShow didDismiss:(void (^ _Nullable)(void))didDismiss;
 - (NSString *)privacyPolicyLink;
 - (NSString *)vendorListLink;
 - (NSString *)consentPageLink;
