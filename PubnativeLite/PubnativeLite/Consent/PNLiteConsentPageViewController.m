@@ -23,46 +23,116 @@
 #import "PNLiteConsentPageViewController.h"
 #import "HyBidUserDataManager.h"
 
+typedef void(^PNLiteConsentPageViewControllerCompletion)(BOOL success, NSError *error);
+
 NSString *const kPNLiteConsentAccept = @"https://pubnative.net/personalize-experience-yes/";
 NSString *const kPNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
 NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
 
 @interface PNLiteConsentPageViewController () <UIWebViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, assign) BOOL finishedInitialLoad;
+@property (nonatomic, copy) PNLiteConsentPageViewControllerCompletion didLoadCompletionBlock;
+@property (nonatomic, copy) NSString *consentPageURL;
 
 @end
 
 @implementation PNLiteConsentPageViewController
 
+#pragma mark - Initialization
+
+- (instancetype)initWithConsentPageURL:(NSString *)consentPageURL
+{
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        _consentPageURL = consentPageURL;
+        [self setUpWebView];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self loadConsentPage];
+    self.view.backgroundColor = [UIColor blackColor];
+    [self layoutWebView];
 }
 
-- (void)loadConsentPage
+- (void)viewWillDisappear:(BOOL)animated
 {
-    NSURL *url = [NSURL URLWithString:[[HyBidUserDataManager sharedInstance] consentPageLink]];
+    [super viewWillDisappear:animated];
+    
+    if ([self.delegate respondsToSelector:@selector(consentPageViewControllerWillDisappear:)]) {
+        [self.delegate consentPageViewControllerWillDisappear:self];
+    }
+}
+
+- (void)setUpWebView
+{
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+    self.webView.delegate = self;
+    self.webView.scrollView.bounces = NO;
+    self.webView.backgroundColor = [UIColor whiteColor];
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
+- (void)layoutWebView
+{
+    self.webView.frame = self.view.bounds;
+    [self.view addSubview:self.webView];
+    
+    // Set up autolayout constraints on iOS 11+. This web view should always stay within the safe area.
+    if (@available(iOS 11.0, *)) {
+        self.webView.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[
+                                                  [self.webView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor],
+                                                  [self.webView.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor],
+                                                  [self.webView.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor],
+                                                  [self.webView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor],
+                                                  ]];
+    }
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+#pragma mark - Load Consent Page
+
+- (void)loadConsentPageWithCompletion:(PNLiteConsentPageViewControllerCompletion)completion
+{
+    self.finishedInitialLoad = NO;
+    self.didLoadCompletionBlock = completion;
+    NSURL *url = [NSURL URLWithString:self.consentPageURL];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:urlRequest];
 }
 
 #pragma mark UIWebViewDelegate
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    
-}
-
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    
+    if (!self.finishedInitialLoad) {
+        self.finishedInitialLoad = YES;
+        
+        if (self.didLoadCompletionBlock) {
+            self.didLoadCompletionBlock(YES, nil);
+            self.didLoadCompletionBlock = nil;
+        }
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-
+    if (!self.finishedInitialLoad) {
+        self.finishedInitialLoad = YES;
+        
+        if (self.didLoadCompletionBlock) {
+            self.didLoadCompletionBlock(NO, error);
+            self.didLoadCompletionBlock = nil;
+        }
+    }
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -75,7 +145,11 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     } else if ([absoluteUrlString isEqualToString:kPNLiteConsentReject]) {
         [[HyBidUserDataManager sharedInstance] denyConsent];
     } else if ([absoluteUrlString isEqualToString:kPNLiteConsentClose]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            if ([self.delegate respondsToSelector:@selector(consentPageViewControllerDidDismiss:)]) {
+                [self.delegate consentPageViewControllerDidDismiss:self];
+            }
+        }];
         return NO;
     } else {
         return YES;
