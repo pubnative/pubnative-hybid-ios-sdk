@@ -24,6 +24,27 @@
 
 @class PNLiteConsentPageViewController;
 
+@protocol PNLiteConsentPageViewControllerDelegate<NSObject>
+
+@optional
+
+- (void)consentPageViewControllerWillDisappear:(PNLiteConsentPageViewController *)consentDialogViewController;
+- (void)consentPageViewControllerDidDismiss:(PNLiteConsentPageViewController *)consentDialogViewController;
+
+@end
+
 @interface PNLiteConsentPageViewController : UIViewController
+
+@property (nonatomic, weak) id<PNLiteConsentPageViewControllerDelegate> delegate;
+
+- (instancetype)initWithConsentPageURL:(NSString *)consentPageURL NS_DESIGNATED_INITIALIZER;
+- (void)loadConsentPageWithCompletion:(void (^_Nullable)(BOOL success, NSError *error))completion;
+
+/**
+ These initializers are not available
+ */
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil NS_UNAVAILABLE;
 
 @end

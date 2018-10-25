@@ -66,7 +66,15 @@
     */
     self.privacyPolicyURLButton.hidden = YES;
     self.vendorListURLButton.hidden = YES;
-    [[HyBidUserDataManager sharedInstance] showConsentRequestScreen];
+    [[HyBidUserDataManager sharedInstance] loadConsentPageWithCompletion:^(NSError * _Nullable error) {
+        if (error == nil) {
+            [[HyBidUserDataManager sharedInstance] showConsentPage:^{
+                
+            } didDismiss:^{
+                
+            }];
+        }
+    }];
 }
 
 - (IBAction)publisherOwnedTouchUpInside:(UIButton *)sender

@@ -40,11 +40,13 @@ NSString *const kPNLiteConsentPageUrl = @"https://pubnative.net/personalize-your
 NSInteger const kPNLiteConsentStateAccepted = 1;
 NSInteger const kPNLiteConsentStateDenied = 0;
 
-@interface HyBidUserDataManager () <HyBidGeoIPRequestDelegate, PNLiteUserConsentRequestDelegate, PNLiteCheckConsentRequestDelegate>
+@interface HyBidUserDataManager () <HyBidGeoIPRequestDelegate, PNLiteUserConsentRequestDelegate, PNLiteCheckConsentRequestDelegate, PNLiteConsentPageViewControllerDelegate>
 
 @property (nonatomic, assign) BOOL inGDPRZone;
 @property (nonatomic, assign) NSInteger consentState;
 @property (nonatomic, copy) UserDataManagerCompletionBlock completionBlock;
+@property (nonatomic, strong, nullable) PNLiteConsentPageViewController * consentPageViewController;
+@property (nonatomic, copy) void (^consentPageDidDismissCompletionBlock)(void);
 
 @end
 
@@ -181,17 +183,75 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     return askedForConsent;
 }
 
-- (void)showConsentRequestScreen
-{
-    UIViewController *viewController = [UIApplication sharedApplication].topViewController;
-    [viewController presentViewController:[[PNLiteConsentPageViewController alloc] initWithNibName:NSStringFromClass([PNLiteConsentPageViewController class]) bundle:[NSBundle bundleForClass:[self class]]] animated:YES completion:nil];
-}
-
 - (void)saveGDPRConsentState
 {
     [[NSUserDefaults standardUserDefaults] setInteger:self.consentState forKey:kPNLiteGDPRConsentStateKey];
     [[NSUserDefaults standardUserDefaults] setObject:[HyBidSettings sharedInstance].advertisingId forKey:kPNLiteGDPRAdvertisingIDKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark Consent Dialog
+
+- (BOOL)isConsentPageLoaded
+{
+    return self.consentPageViewController != nil;
+}
+
+- (void)loadConsentPageWithCompletion:(void (^)(NSError * _Nullable))completion
+{
+    // Helper block to call completion if not nil
+    void (^callCompletion)(NSError *error) = ^(NSError *error) {
+        if (completion != nil) {
+            completion(error);
+        }
+    };
+    
+    // If a view controller is already loaded, don't load another.
+    if (self.consentPageViewController) {
+        callCompletion(nil);
+        return;
+    }
+    
+    // Weak self reference for blocks
+    __weak __typeof__(self) weakSelf = self;
+    
+    PNLiteConsentPageViewController *viewController = [[PNLiteConsentPageViewController alloc] initWithConsentPageURL:self.consentPageLink];
+    viewController.delegate = weakSelf;
+    [viewController loadConsentPageWithCompletion:^(BOOL success, NSError *error) {
+        if (success) {
+            weakSelf.consentPageViewController = viewController;
+            callCompletion(nil);
+        } else {
+            weakSelf.consentPageViewController = nil;
+            callCompletion(error);
+        }
+    }];
+}
+
+- (void)showConsentPage:(void (^)(void))didShow didDismiss:(void (^)(void))didDismiss
+{
+    if (self.isConsentPageLoaded) {
+        UIViewController *viewController = [UIApplication sharedApplication].topViewController;
+        [viewController presentViewController:self.consentPageViewController
+                                     animated:YES
+                                   completion:didShow];
+        self.consentPageDidDismissCompletionBlock = didDismiss;
+    }
+}
+
+#pragma mark PNLiteConsentPageViewControllerDelegate
+
+- (void)consentPageViewControllerWillDisappear:(PNLiteConsentPageViewController *)consentDialogViewController
+{
+    self.consentPageViewController = nil;
+}
+
+- (void)consentPageViewControllerDidDismiss:(PNLiteConsentPageViewController *)consentDialogViewController
+{
+    if (self.consentPageDidDismissCompletionBlock) {
+        self.consentPageDidDismissCompletionBlock();
+        self.consentPageDidDismissCompletionBlock = nil;
+    }
 }
 
 #pragma mark PNLiteCheckConsentRequestDelegate
