@@ -55,15 +55,24 @@
 
 - (IBAction)pnOwnedTouchUpInside:(UIButton *)sender
 {
-    /*
+     /*
     // This would be the normal implementation for a regular publisher.
     // We remove this condition here for testing purposes
     if ([[HyBidUserDataManager sharedInstance] shouldAskConsent]) {
-        [[HyBidUserDataManager sharedInstance] showConsentRequestScreen];
+        [[HyBidUserDataManager sharedInstance] loadConsentPageWithCompletion:^(NSError * _Nullable error) {
+            if (error == nil) {
+                [[HyBidUserDataManager sharedInstance] showConsentPage:^{
+                    // Consent Page Did Show Completion Block..
+                } didDismiss:^{
+                    // Consent Page Did Dismiss Completion Block..
+                }];
+            }
+        }];
     } else {
         NSLog(@"Consent has already been answered. If you want to try again please clear your app cache");
     }
     */
+    
     self.privacyPolicyURLButton.hidden = YES;
     self.vendorListURLButton.hidden = YES;
     [[HyBidUserDataManager sharedInstance] loadConsentPageWithCompletion:^(NSError * _Nullable error) {
