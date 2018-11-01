@@ -95,6 +95,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAd.h>
 #import <HyBid/HyBidNativeAd.h>
 #import <HyBid/HyBidAdView.h>
+#import <HyBid/HyBidLeaderboardAdView.h>
 #import <HyBid/HyBidBannerAdView.h>
 #import <HyBid/HyBidMRectAdView.h>
 #import <HyBid/HyBidInterstitialAd.h>
