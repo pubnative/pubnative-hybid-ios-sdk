@@ -119,7 +119,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
     return NO;
 }
 
-#pragma mark PNMRAIDServiceDelegate
+#pragma mark HyBidMRAIDServiceDelegate
 
 - (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString
 {

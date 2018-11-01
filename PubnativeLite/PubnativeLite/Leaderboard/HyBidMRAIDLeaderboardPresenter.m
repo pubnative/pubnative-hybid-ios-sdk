@@ -20,13 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRAIDInterstitialPresenter.h"
+#import "HyBidMRAIDLeaderboardPresenter.h"
 #import "HyBidMRAIDView.h"
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-@interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
+CGFloat const kHyBidMRAIDLeaderboardWidth = 728.0f;
+CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
+
+@interface HyBidMRAIDLeaderboardPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
@@ -34,7 +37,7 @@
 
 @end
 
-@implementation PNLiteMRAIDInterstitialPresenter
+@implementation HyBidMRAIDLeaderboardPresenter
 
 - (void)dealloc
 {
@@ -59,59 +62,56 @@
 - (void)load
 {
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
-    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
-                                               withHtmlData:self.adModel.htmlData
-                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
-                                              isInterstital:YES
-                                                   delegate:self
-                                            serviceDelegate:self
-                                         rootViewController:[UIApplication sharedApplication].topViewController
-                                                contentInfo:self.adModel.contentInfo];
-
+    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kHyBidMRAIDLeaderboardWidth, kHyBidMRAIDLeaderboardHeight)
+                                              withHtmlData:self.adModel.htmlData
+                                               withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
+                                             isInterstital:NO
+                                                  delegate:self
+                                           serviceDelegate:self
+                                        rootViewController:[UIApplication sharedApplication].topViewController
+                                               contentInfo:self.adModel.contentInfo];
 }
 
-- (void)show
+- (void)startTracking
 {
-    [self.mraidView showAsInterstitial];
+    
 }
 
-- (void)hide
+- (void)stopTracking
 {
-    [self.mraidView hide];
+    
 }
 
 #pragma mark HyBidMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView
 {
-    [self.delegate interstitialPresenterDidLoad:self];
+    [self.delegate leaderboardPresenter:self didLoadWithLeaderboard:mraidView];
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView
 {
-    NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDInterstitialPresenter - MRAID View  Failed" code:0 userInfo:nil];
-    [self.delegate interstitialPresenter:self didFailWithError:error];
+    NSError *error = [NSError errorWithDomain:@"HyBidMRAIDLeaderboardPresenter - MRAID View  Failed" code:0 userInfo:nil];
+    [self.delegate leaderboardPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView
 {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
-    [self.delegate interstitialPresenterDidShow:self];
+    [self.delegate leaderboardPresenterDidClick:self];
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView
 {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID did close!");
-    [self.delegate interstitialPresenterDidDismiss:self];
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url
 {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
-    [self.delegate interstitialPresenterDidClick:self];
-
+    [self.delegate leaderboardPresenterDidClick:self];
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
@@ -138,7 +138,7 @@
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
 {
-    [self.delegate interstitialPresenterDidClick:self];
+    [self.delegate leaderboardPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 
@@ -151,4 +151,5 @@
 {
     [self.serviceProvider storePicture:urlString];
 }
+
 @end
