@@ -73,6 +73,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidMRAIDServiceProvider.h>
 #import <HyBid/HyBidMRAIDView.h>
 #import <HyBid/HyBidMRAIDServiceDelegate.h>
+#import <HyBid/HyBidLeaderboardAdRequest.h>
 #import <HyBid/HyBidBannerAdRequest.h>
 #import <HyBid/HyBidMRectAdRequest.h>
 #import <HyBid/HyBidInterstitialAdRequest.h>

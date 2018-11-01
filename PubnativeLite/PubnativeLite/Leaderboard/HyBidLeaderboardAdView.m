@@ -23,6 +23,7 @@
 #import "HyBidLeaderboardAdView.h"
 #import "HyBidLeaderboardPresenter.h"
 #import "HyBidLeaderboardPresenterFactory.h"
+#import "HyBidLeaderboardAdRequest.h"
 
 @interface HyBidLeaderboardAdView() <HyBidLeaderboardPresenterDelegate>
 
@@ -44,7 +45,8 @@
 
 - (HyBidAdRequest *)adRequest
 {
-    return nil;
+    HyBidLeaderboardAdRequest *leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+    return leaderboardAdRequest;
 }
 
 - (void)renderAd
