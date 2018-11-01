@@ -36,6 +36,8 @@
 		5A262DD6218B3395001A29E2 /* HyBidLeaderboardAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DD4218B3395001A29E2 /* HyBidLeaderboardAdView.m */; };
 		5A262DD9218B394C001A29E2 /* HyBidLeaderboardAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A262DDA218B394C001A29E2 /* HyBidLeaderboardAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DD8218B394C001A29E2 /* HyBidLeaderboardAdRequest.m */; };
+		5A262DDD218B4B3F001A29E2 /* Leaderboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A262DDB218B4720001A29E2 /* Leaderboard.storyboard */; };
+		5A262DE0218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DDF218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.m */; };
 		5A2633542034AB480005EA39 /* PNLiteMRAIDOrientationProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633502034AB470005EA39 /* PNLiteMRAIDOrientationProperties.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */; };
 		5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -791,6 +793,9 @@
 		5A262DD4218B3395001A29E2 /* HyBidLeaderboardAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardAdView.m; sourceTree = "<group>"; };
 		5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardAdRequest.h; sourceTree = "<group>"; };
 		5A262DD8218B394C001A29E2 /* HyBidLeaderboardAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardAdRequest.m; sourceTree = "<group>"; };
+		5A262DDB218B4720001A29E2 /* Leaderboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Leaderboard.storyboard; sourceTree = "<group>"; };
+		5A262DDE218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoHyBidLeaderboardViewController.h; sourceTree = "<group>"; };
+		5A262DDF218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoHyBidLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A2633502034AB470005EA39 /* PNLiteMRAIDOrientationProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDOrientationProperties.h; sourceTree = "<group>"; };
 		5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDResizeProperties.m; sourceTree = "<group>"; };
 		5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDResizeProperties.h; sourceTree = "<group>"; };
@@ -2614,6 +2619,8 @@
 			children = (
 				5A9CC60B2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.h */,
 				5A9CC60C2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.m */,
+				5A262DDE218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.h */,
+				5A262DDF218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.m */,
 				5A4FF06220AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.h */,
 				5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */,
 				5A4FF06620ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.h */,
@@ -3166,6 +3173,7 @@
 			children = (
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
 				5A9CC6092121C7F600A3C45E /* Native.storyboard */,
+				5A262DDB218B4720001A29E2 /* Leaderboard.storyboard */,
 				5AA7EC5E20E4D57800277E2B /* Banner.storyboard */,
 				5AA7EC6020E4D59800277E2B /* MRect.storyboard */,
 				5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */,
@@ -3758,6 +3766,7 @@
 			files = (
 				5A41747D2175EBE90053CDA3 /* MPDAAIcon.png in Resources */,
 				5A41747E2175EBE90053CDA3 /* MPUnmutedBtn@3x.png in Resources */,
+				5A262DDD218B4B3F001A29E2 /* Leaderboard.storyboard in Resources */,
 				5A41748D2175EBE90053CDA3 /* MPMutedBtn@2x.png in Resources */,
 				5A4174882175EBE90053CDA3 /* MPCloseButtonX.png in Resources */,
 				5A41747F2175EBE90053CDA3 /* MPPlayBtn@2x.png in Resources */,
@@ -3956,6 +3965,7 @@
 				5A41745B2175EBE90053CDA3 /* MPDiskLRUCache.m in Sources */,
 				5A91EC6320D7AA7600129798 /* PNLiteMoPubMediationBannerCustomEvent.m in Sources */,
 				5AFE7C82212C453500FFD7CA /* PNLiteMoPubMediationNativeAdCustomEvent.m in Sources */,
+				5A262DE0218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.m in Sources */,
 				5A4174FB2175EBE90053CDA3 /* MPVASTManager.m in Sources */,
 				5A4174CA2175EBE90053CDA3 /* MRController.m in Sources */,
 				5A4174C02175EBE90053CDA3 /* MRConstants.m in Sources */,
