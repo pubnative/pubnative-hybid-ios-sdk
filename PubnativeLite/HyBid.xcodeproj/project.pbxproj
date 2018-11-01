@@ -24,6 +24,8 @@
 		5A20DBE0203B0CB400EF2B3C /* PNLiteAssetGroupType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */; };
 		5A20DBE3203B131100EF2B3C /* PNLiteBannerPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBE1203B131100EF2B3C /* PNLiteBannerPresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A20DBE4203B131100EF2B3C /* PNLiteBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBE2203B131100EF2B3C /* PNLiteBannerPresenter.m */; };
+		5A262DC4218AFFE5001A29E2 /* HyBidLeaderboardPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DC2218AFFE5001A29E2 /* HyBidLeaderboardPresenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A262DC5218AFFE5001A29E2 /* HyBidLeaderboardPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DC3218AFFE5001A29E2 /* HyBidLeaderboardPresenter.m */; };
 		5A2633542034AB480005EA39 /* PNLiteMRAIDOrientationProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633502034AB470005EA39 /* PNLiteMRAIDOrientationProperties.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */; };
 		5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -767,6 +769,8 @@
 		5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAssetGroupType.m; sourceTree = "<group>"; };
 		5A20DBE1203B131100EF2B3C /* PNLiteBannerPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteBannerPresenter.h; sourceTree = "<group>"; };
 		5A20DBE2203B131100EF2B3C /* PNLiteBannerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerPresenter.m; sourceTree = "<group>"; };
+		5A262DC2218AFFE5001A29E2 /* HyBidLeaderboardPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardPresenter.h; sourceTree = "<group>"; };
+		5A262DC3218AFFE5001A29E2 /* HyBidLeaderboardPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardPresenter.m; sourceTree = "<group>"; };
 		5A2633502034AB470005EA39 /* PNLiteMRAIDOrientationProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDOrientationProperties.h; sourceTree = "<group>"; };
 		5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDResizeProperties.m; sourceTree = "<group>"; };
 		5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDResizeProperties.h; sourceTree = "<group>"; };
@@ -1821,6 +1825,15 @@
 			path = "Request Inspector";
 			sourceTree = "<group>";
 		};
+		5A262DC6218B02D1001A29E2 /* Leaderboard */ = {
+			isa = PBXGroup;
+			children = (
+				5A262DC2218AFFE5001A29E2 /* HyBidLeaderboardPresenter.h */,
+				5A262DC3218AFFE5001A29E2 /* HyBidLeaderboardPresenter.m */,
+			);
+			path = Leaderboard;
+			sourceTree = "<group>";
+		};
 		5A2633582034AB960005EA39 /* Properties */ = {
 			isa = PBXGroup;
 			children = (
@@ -2718,6 +2731,7 @@
 				5ABE0139203F2F4600E6A14E /* Ad Request */,
 				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
 				5A404B47204E96C200BEE041 /* Ad Tracker */,
+				5A262DC6218B02D1001A29E2 /* Leaderboard */,
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
 				5AECD5A6204034F20023ABBC /* Interstitial */,
@@ -3461,6 +3475,7 @@
 				5A8D7DC420C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h in Headers */,
 				5ACC74EA203595250001CDC3 /* PNLiteMRAIDServiceDelegate.h in Headers */,
 				5AECD5A4204034DE0023ABBC /* PNLiteInterstitialPresenter.h in Headers */,
+				5A262DC4218AFFE5001A29E2 /* HyBidLeaderboardPresenter.h in Headers */,
 				5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */,
 				5A8F11082089E4D20098E337 /* PNLite_KSCrashSentry_Private.h in Headers */,
 				5ACC74E9203595250001CDC3 /* PNLiteMRAIDUtil.h in Headers */,
@@ -4071,6 +4086,7 @@
 				5A8F11182089E4D20098E337 /* PNLite_KSSystemInfo.m in Sources */,
 				5ADACD04202C5AB800617734 /* PNLiteBaseModel.m in Sources */,
 				5A8F11232089E4D20098E337 /* PNLiteCollections.m in Sources */,
+				5A262DC5218AFFE5001A29E2 /* HyBidLeaderboardPresenter.m in Sources */,
 				5A8F112C2089E4D20098E337 /* PNLiteConnectivity.m in Sources */,
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5A8F112B2089E4D20098E337 /* PNLiteSessionTracker.m in Sources */,
