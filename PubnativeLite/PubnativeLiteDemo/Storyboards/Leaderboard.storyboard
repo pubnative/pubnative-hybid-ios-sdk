@@ -225,7 +225,9 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="gTH-T8-Jwt" kind="show" id="bY3-tM-jsa"/>
+                                    <segue destination="gTH-T8-Jwt" kind="popoverPresentation" popoverAnchorView="xre-uH-1hE" id="hhf-dJ-Hj8">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
                                 </connections>
                             </button>
                         </subviews>
