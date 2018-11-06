@@ -22,6 +22,7 @@
 #import "HyBidMoPubInterstitialCustomEvent.h"
 #import "HyBidMoPubMediationNativeAdCustomEvent.h"
 #import "HyBidMoPubMediationNativeAdAdapter.h"
+#import "HyBidMoPubMediationLeaderboardCustomEvent.h"
 #import "HyBidMoPubMediationBannerCustomEvent.h"
 #import "HyBidMoPubMediationMRectCustomEvent.h"
 #import "HyBidMoPubMediationInterstitialCustomEvent.h"

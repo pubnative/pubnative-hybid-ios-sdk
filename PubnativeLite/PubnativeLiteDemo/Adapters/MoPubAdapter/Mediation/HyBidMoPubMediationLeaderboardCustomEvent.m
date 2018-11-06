@@ -20,33 +20,33 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubMediationMRectCustomEvent.h"
+#import "HyBidMoPubMediationLeaderboardCustomEvent.h"
 #import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubMediationMRectCustomEvent() <HyBidAdViewDelegate>
+@interface HyBidMoPubMediationLeaderboardCustomEvent()  <HyBidAdViewDelegate>
 
-@property (nonatomic, strong) HyBidMRectAdView *mRectAdView;
+@property (nonatomic, strong) HyBidLeaderboardAdView *leaderboardAdView;
 
 @end
 
-@implementation HyBidMoPubMediationMRectCustomEvent
+@implementation HyBidMoPubMediationLeaderboardCustomEvent
 
 - (void)dealloc
 {
-    [self.mRectAdView stopTracking];
-    self.mRectAdView = nil;
+    [self.leaderboardAdView stopTracking];
+    self.leaderboardAdView = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
+        if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.mRectAdView = [[HyBidMRectAdView alloc] init];
-                [self.mRectAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
+                self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
+                [self.leaderboardAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
                 return;
@@ -56,7 +56,7 @@
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed mRect ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"HyBid - Error: Failed leaderboard ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -77,14 +77,14 @@
 
 - (void)didDisplayAd
 {
-    [self.mRectAdView startTracking];
+    [self.leaderboardAdView startTracking];
 }
 
 #pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad:(HyBidAdView *)adView
 {
-    [self.delegate bannerCustomEvent:self didLoadAd:self.mRectAdView];
+    [self.delegate bannerCustomEvent:self didLoadAd:self.leaderboardAdView];
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error

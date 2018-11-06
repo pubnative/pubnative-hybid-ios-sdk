@@ -48,7 +48,7 @@
                 self.bannerAdView = [[HyBidBannerAdView alloc] init];
                 [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
-                [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise PNLite."];
+                [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
                 return;
             }
         } else {
