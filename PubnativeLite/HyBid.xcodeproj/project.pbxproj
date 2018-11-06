@@ -322,6 +322,7 @@
 		5A6293BD20D2665600ABB1E2 /* PNLiteInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6293BB20D2665600ABB1E2 /* PNLiteInterstitialAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A6293BE20D2665600ABB1E2 /* PNLiteInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6293BC20D2665600ABB1E2 /* PNLiteInterstitialAd.m */; };
 		5A6354D42076191100D47E1B /* PNLiteDFPBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6354D32076191100D47E1B /* PNLiteDFPBannerCustomEvent.m */; };
+		5A63F23B2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A63F23A2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m */; };
 		5A6CD0252029CD060022E206 /* HyBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* HyBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
 		5A71309E20690463000B83D9 /* HyBidAdTrackerRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */; };
@@ -1311,6 +1312,8 @@
 		5A6293BC20D2665600ABB1E2 /* PNLiteInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteInterstitialAd.m; sourceTree = "<group>"; };
 		5A6354D22076191100D47E1B /* PNLiteDFPBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPBannerCustomEvent.h; sourceTree = "<group>"; };
 		5A6354D32076191100D47E1B /* PNLiteDFPBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPBannerCustomEvent.m; sourceTree = "<group>"; };
+		5A63F2392191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationLeaderboardViewController.h; sourceTree = "<group>"; };
+		5A63F23A2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyBid-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* HyBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBid.h; sourceTree = "<group>"; };
@@ -3340,6 +3343,8 @@
 				5AFDAFED212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.h */,
 				5AFDAFEE212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.m */,
 				5AFDAFF0212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib */,
+				5A63F2392191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.h */,
+				5A63F23A2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m */,
 				5A90B4F620E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.h */,
 				5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */,
 				5A90B4F920E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.h */,
@@ -3906,6 +3911,7 @@
 				5A4174B52175EBE90053CDA3 /* MPAdAlertGestureRecognizer.m in Sources */,
 				5AFE7C85212C4EFC00FFD7CA /* PNLiteMoPubMediationNativeAdAdapter.m in Sources */,
 				5A4174E42175EBE90053CDA3 /* NSHTTPURLResponse+MPAdditions.m in Sources */,
+				5A63F23B2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m in Sources */,
 				5A4174F72175EBE90053CDA3 /* MPVASTInline.m in Sources */,
 				5A4174FC2175EBE90053CDA3 /* MPMoPubConfiguration.m in Sources */,
 				5A41748F2175EBE90053CDA3 /* MPAdTargeting.m in Sources */,
