@@ -21,17 +21,29 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "HyBidAd.h"
 
-typedef NS_ENUM(int, AssetGroupType) {
-    MRAID_BANNER_1 = 10,
-    MRAID_BANNER_2 = 12,
-    MRAID_MRECT = 8,
-    MRAID_INTERSTITIAL = 21,
-    MRAID_LEADERBOARD = 24,
-    
-    VAST_MRECT = 4,
-    VAST_INTERSTITIAL_1 = 15,
-    VAST_INTERSTITIAL_2 = 18,
-    VAST_INTERSTITIAL_3 = 19,
-    VAST_INTERSTITIAL_4 = 20,
-};
+@class HyBidLeaderboardPresenter;
+
+@protocol HyBidLeaderboardPresenterDelegate<NSObject>
+
+- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter
+      didLoadWithLeaderboard:(UIView *)leaderboard;
+- (void)leaderboardPresenterDidClick:(HyBidLeaderboardPresenter *)leaderboardPresenter;
+- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter
+       didFailWithError:(NSError *)error;
+
+@end
+
+@interface HyBidLeaderboardPresenter : NSObject
+
+@property (nonatomic, readonly) HyBidAd *ad;
+@property (nonatomic, strong) NSObject <HyBidLeaderboardPresenterDelegate> *delegate;
+
+- (void)load;
+- (void)startTracking;
+- (void)stopTracking;
+
+@end
+

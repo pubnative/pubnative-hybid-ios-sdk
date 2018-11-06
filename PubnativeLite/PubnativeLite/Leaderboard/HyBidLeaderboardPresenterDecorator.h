@@ -20,18 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidLeaderboardPresenter.h"
+#import "HyBidAdTracker.h"
 
-typedef NS_ENUM(int, AssetGroupType) {
-    MRAID_BANNER_1 = 10,
-    MRAID_BANNER_2 = 12,
-    MRAID_MRECT = 8,
-    MRAID_INTERSTITIAL = 21,
-    MRAID_LEADERBOARD = 24,
-    
-    VAST_MRECT = 4,
-    VAST_INTERSTITIAL_1 = 15,
-    VAST_INTERSTITIAL_2 = 18,
-    VAST_INTERSTITIAL_3 = 19,
-    VAST_INTERSTITIAL_4 = 20,
-};
+@interface HyBidLeaderboardPresenterDecorator : HyBidLeaderboardPresenter <HyBidLeaderboardPresenterDelegate>
+
+- (instancetype)initWithLeaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter
+                               withAdTracker:(HyBidAdTracker *)adTracker
+                                withDelegate:(NSObject<HyBidLeaderboardPresenterDelegate> *)delegate;
+
+@end
+
