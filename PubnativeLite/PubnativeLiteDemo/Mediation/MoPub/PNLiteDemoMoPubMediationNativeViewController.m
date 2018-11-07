@@ -64,6 +64,7 @@
 
 - (IBAction)requestNativeAdTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];

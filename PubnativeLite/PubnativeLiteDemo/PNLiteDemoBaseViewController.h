@@ -21,8 +21,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNLiteDemoBaseViewController.h"
 
-@interface PNLiteDemoMoPubBannerViewController : PNLiteDemoBaseViewController
+@interface PNLiteDemoBaseViewController : UIViewController
+
+- (void)clearLastInspectedRequest;
 
 @end

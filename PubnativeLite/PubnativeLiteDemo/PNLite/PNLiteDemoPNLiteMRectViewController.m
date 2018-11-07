@@ -44,6 +44,7 @@
 
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.mRectAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];

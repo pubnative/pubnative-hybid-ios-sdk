@@ -55,6 +55,7 @@
 
 - (IBAction)requestLeaderboardTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
