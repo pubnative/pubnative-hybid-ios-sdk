@@ -55,6 +55,7 @@
     self.leaderboardPresenter = [leaderboardPresenterFactory createLeaderboardPresenterWithAd:self.ad withDelegate:self];
     if (self.leaderboardPresenter == nil) {
         NSLog(@"HyBid - Error: Could not create valid leaderboard presenter");
+        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
         return;
     } else {
         [self.leaderboardPresenter load];
