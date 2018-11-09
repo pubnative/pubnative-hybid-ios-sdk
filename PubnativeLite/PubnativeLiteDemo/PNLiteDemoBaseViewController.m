@@ -20,9 +20,23 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
 #import "PNLiteDemoBaseViewController.h"
+#import "PNLiteRequestInspector.h"
 
-@interface PNLiteDemoMoPubBannerViewController : PNLiteDemoBaseViewController
+@interface PNLiteDemoBaseViewController ()
+
+@end
+
+@implementation PNLiteDemoBaseViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+}
+
+- (void)clearLastInspectedRequest
+{
+    [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:@"No request URL available..."  withResponse:@"No response available..." withLatency:nil];
+}
 
 @end

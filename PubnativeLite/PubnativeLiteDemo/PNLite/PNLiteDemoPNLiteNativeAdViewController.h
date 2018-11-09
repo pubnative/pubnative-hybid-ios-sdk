@@ -21,7 +21,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNLiteDemoBaseViewController.h"
 
-@interface PNLiteDemoPNLiteNativeAdViewController : UIViewController
+@interface PNLiteDemoPNLiteNativeAdViewController : PNLiteDemoBaseViewController
 
 @end

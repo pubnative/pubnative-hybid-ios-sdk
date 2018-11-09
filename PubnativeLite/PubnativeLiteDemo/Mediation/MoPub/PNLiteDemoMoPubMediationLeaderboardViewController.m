@@ -20,46 +20,46 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoMoPubMediationBannerViewController.h"
+#import "PNLiteDemoMoPubMediationLeaderboardViewController.h"
 #import "MPAdView.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubMediationBannerViewController () <MPAdViewDelegate>
+@interface PNLiteDemoMoPubMediationLeaderboardViewController () <MPAdViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *bannerContainer;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIView *leaderboardContainer;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (nonatomic, strong) MPAdView *moPubBanner;
+@property (nonatomic, strong) MPAdView *moPubLeaderboard;
 
 @end
 
-@implementation PNLiteDemoMoPubMediationBannerViewController
+@implementation PNLiteDemoMoPubMediationLeaderboardViewController
 
 - (void)dealloc
 {
-    self.moPubBanner = nil;
+    self.moPubLeaderboard = nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub Mediation Banner";
-    [self.bannerLoaderIndicator stopAnimating];
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID
-                                                     size:MOPUB_BANNER_SIZE];
-    self.moPubBanner.delegate = self;
-    [self.moPubBanner stopAutomaticallyRefreshingContents];
-    [self.bannerContainer addSubview:self.moPubBanner];
+    self.navigationItem.title = @"MoPub Mediation Leaderboard";
+    [self.leaderboardLoaderIndicator stopAnimating];
+    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID
+                                                     size:MOPUB_LEADERBOARD_SIZE];
+    self.moPubLeaderboard.delegate = self;
+    [self.moPubLeaderboard stopAutomaticallyRefreshingContents];
+    [self.leaderboardContainer addSubview:self.moPubLeaderboard];
 }
 
-- (IBAction)requestBannerTouchUpInside:(id)sender
+- (IBAction)requestLeaderboardTouchUpInside:(id)sender
 {
     [self clearLastInspectedRequest];
-    self.bannerContainer.hidden = YES;
+    self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
-    [self.bannerLoaderIndicator startAnimating];
-    [self.moPubBanner loadAd];
+    [self.leaderboardLoaderIndicator startAnimating];
+    [self.moPubLeaderboard loadAd];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -72,27 +72,27 @@
 - (void)adViewDidLoadAd:(MPAdView *)view
 {
     NSLog(@"adViewDidLoadAd");
-    if (self.moPubBanner == view) {
-        self.bannerContainer.hidden = NO;
+    if (self.moPubLeaderboard == view) {
+        self.leaderboardContainer.hidden = NO;
         self.inspectRequestButton.hidden = NO;
-        [self.bannerLoaderIndicator stopAnimating];
+        [self.leaderboardLoaderIndicator stopAnimating];
     }
 }
 
 - (void)adViewDidFailToLoadAd:(MPAdView *)view
 {
     NSLog(@"adViewDidFailToLoadAd");
-    if (self.moPubBanner == view) {
+    if (self.moPubLeaderboard == view) {
         self.inspectRequestButton.hidden = NO;
-        [self.bannerLoaderIndicator stopAnimating];
+        [self.leaderboardLoaderIndicator stopAnimating];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                              message:@"MoPub Banner did fail to load."
+                                              message:@"MoPub Leaderboard did fail to load."
                                               preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self requestBannerTouchUpInside:nil];
+            [self requestLeaderboardTouchUpInside:nil];
         }];
         [alertController addAction:dismissAction];
         [alertController addAction:retryAction];

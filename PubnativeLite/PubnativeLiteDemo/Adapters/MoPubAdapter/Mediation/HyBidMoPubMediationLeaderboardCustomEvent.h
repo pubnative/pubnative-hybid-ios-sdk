@@ -20,9 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNLiteDemoBaseViewController.h"
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPBannerCustomEvent.h"
+#endif
 
-@interface PNLiteDemoMoPubBannerViewController : PNLiteDemoBaseViewController
+#import <HyBid/HyBid.h>
+
+@interface HyBidMoPubMediationLeaderboardCustomEvent : MPBannerCustomEvent
 
 @end

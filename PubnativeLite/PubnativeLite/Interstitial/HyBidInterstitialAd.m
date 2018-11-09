@@ -85,6 +85,7 @@
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
     if (self.interstitialPresenter == nil) {
         NSLog(@"HyBid - Error: Could not create valid interstitial presenter");
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
         return;
     } else {
         [self.interstitialPresenter load];
