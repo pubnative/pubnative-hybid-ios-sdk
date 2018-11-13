@@ -21,16 +21,135 @@
 //
 
 #import "PNLiteDemoMoPubLeaderboardViewController.h"
+#import <HyBid/HyBid.h>
+#import "MPAdView.h"
+#import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubLeaderboardViewController ()
+@interface PNLiteDemoMoPubLeaderboardViewController () <HyBidAdRequestDelegate, MPAdViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIView *leaderboardContainer;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (nonatomic, strong) MPAdView *moPubLeaderboard;
+@property (nonatomic, strong) HyBidLeaderboardAdRequest *leaderboardAdRequest;
 
 @end
 
 @implementation PNLiteDemoMoPubLeaderboardViewController
 
+- (void)dealloc
+{
+    self.moPubLeaderboard = nil;
+    self.leaderboardAdRequest = nil;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"MoPub Leaderboard";
+    
+    [self.leaderboardLoaderIndicator stopAnimating];
+    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID
+                                                          size:MOPUB_LEADERBOARD_SIZE];
+    self.moPubLeaderboard.delegate = self;
+    [self.moPubLeaderboard stopAutomaticallyRefreshingContents];
+    [self.leaderboardContainer addSubview:self.moPubLeaderboard];
+}
+
+- (IBAction)requestLeaderboardTouchUpInside:(id)sender
+{
+    [self clearLastInspectedRequest];
+    self.leaderboardContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
+    [self.leaderboardLoaderIndicator startAnimating];
+    self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+}
+
+- (void)showAlertControllerWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestLeaderboardTouchUpInside:nil];
+    }];
+    [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+#pragma mark - MPAdViewDelegate
+
+- (UIViewController *)viewControllerForPresentingModalView
+{
+    return self;
+}
+
+- (void)adViewDidLoadAd:(MPAdView *)view
+{
+    NSLog(@"adViewDidLoadAd");
+    if (self.moPubLeaderboard == view) {
+        self.leaderboardContainer.hidden = NO;
+        [self.leaderboardLoaderIndicator stopAnimating];
+    }
+}
+
+- (void)adViewDidFailToLoadAd:(MPAdView *)view
+{
+    NSLog(@"adViewDidFailToLoadAd");
+    if (self.moPubLeaderboard == view) {
+        [self.leaderboardLoaderIndicator stopAnimating];
+        [self showAlertControllerWithMessage:@"MoPub Leaderboard did fail to load."];
+    }
+}
+
+- (void)willPresentModalViewForAd:(MPAdView *)view
+{
+    NSLog(@"willPresentModalViewForAd");
+}
+
+- (void)didDismissModalViewForAd:(MPAdView *)view
+{
+    NSLog(@"didDismissModalViewForAd");
+}
+
+- (void)willLeaveApplicationFromAd:(MPAdView *)view
+{
+    NSLog(@"willLeaveApplicationFromAd");
+}
+
+#pragma mark - HyBidAdRequestDelegate
+
+- (void)requestDidStart:(HyBidAdRequest *)request
+{
+    NSLog(@"Request %@ started:",request);
+}
+
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
+{
+    NSLog(@"Request loaded with ad: %@",ad);
+    
+    if (request == self.leaderboardAdRequest) {
+        self.inspectRequestButton.hidden = NO;
+        [self.moPubLeaderboard setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
+        [self.moPubLeaderboard loadAd];
+    }
+}
+
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
+{
+    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+    
+    if (request == self.leaderboardAdRequest) {
+        self.inspectRequestButton.hidden = NO;
+        [self.leaderboardLoaderIndicator stopAnimating];
+        [self showAlertControllerWithMessage:error.localizedDescription];
+    }
 }
 
 @end
