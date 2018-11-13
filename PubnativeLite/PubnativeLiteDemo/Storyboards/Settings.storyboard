@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -300,6 +300,40 @@
                                     <outlet property="delegate" destination="LCU-2E-ix7" id="m62-Ux-e1D"/>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leaderboard Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UQJ-Vs-UgY">
+                                <rect key="frame" x="16" y="259" width="143" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Fjo-cn-GiC"/>
+                                    <constraint firstAttribute="height" constant="18" id="Olv-Md-PCX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Olv-Md-PCX"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Fjo-cn-GiC"/>
+                                        <include reference="Olv-Md-PCX"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fbY-PS-hjw" userLabel="Leaderboard Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="288" width="736" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="8w8-fg-0f1"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="pUa-nI-1vi" id="AbU-xX-DQT"/>
+                                </connections>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Db-uk-l66" userLabel="Save MoPub Settings Button">
                                 <rect key="frame" x="16" y="626" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -324,6 +358,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="WNd-bE-mq4" firstAttribute="top" secondItem="CRV-ib-Qx9" secondAttribute="bottom" constant="18" id="3Ib-WU-7Pu"/>
+                            <constraint firstItem="fbY-PS-hjw" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="84E-ym-Nfn"/>
+                            <constraint firstItem="fbY-PS-hjw" firstAttribute="top" secondItem="UQJ-Vs-UgY" secondAttribute="bottom" constant="8" id="8AJ-G3-hRg"/>
                             <constraint firstItem="ZoF-dA-3en" firstAttribute="top" secondItem="2ei-dH-BPG" secondAttribute="bottom" constant="8" id="8mT-Hc-0F1"/>
                             <constraint firstAttribute="trailing" secondItem="CRV-ib-Qx9" secondAttribute="trailing" constant="16" id="MBu-O8-9Ae"/>
                             <constraint firstItem="zxZ-5x-hvQ" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="OYn-DN-SQX"/>
@@ -334,6 +370,7 @@
                             <constraint firstItem="WNd-bE-mq4" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="Yiq-mB-gMD"/>
                             <constraint firstItem="CRV-ib-Qx9" firstAttribute="top" secondItem="6P8-9i-DdU" secondAttribute="bottom" constant="8" id="aXl-si-RKV"/>
                             <constraint firstItem="CRV-ib-Qx9" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="awY-n1-bUP"/>
+                            <constraint firstItem="UQJ-Vs-UgY" firstAttribute="top" secondItem="ZoF-dA-3en" secondAttribute="bottom" constant="18" id="beU-2N-CLu"/>
                             <constraint firstItem="7Db-uk-l66" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="cwm-7x-nDH"/>
                             <constraint firstItem="2ei-dH-BPG" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="lfr-33-lwe"/>
                             <constraint firstItem="2ei-dH-BPG" firstAttribute="top" secondItem="zxZ-5x-hvQ" secondAttribute="bottom" constant="18" id="mg9-tF-5nP"/>
@@ -341,14 +378,43 @@
                             <constraint firstItem="6P8-9i-DdU" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="rQF-Fw-MgL"/>
                             <constraint firstAttribute="trailing" secondItem="zxZ-5x-hvQ" secondAttribute="trailing" constant="16" id="rqK-o3-pfY"/>
                             <constraint firstAttribute="trailing" secondItem="7Db-uk-l66" secondAttribute="trailing" constant="16" id="t7l-tP-ksp"/>
+                            <constraint firstItem="UQJ-Vs-UgY" firstAttribute="leading" secondItem="1Wn-p3-w6a" secondAttribute="leading" constant="16" id="xKW-vf-Tgs"/>
+                            <constraint firstItem="B9o-ep-w2v" firstAttribute="trailing" secondItem="fbY-PS-hjw" secondAttribute="trailing" constant="16" id="xav-Fv-yWs"/>
                             <constraint firstItem="7Db-uk-l66" firstAttribute="centerX" secondItem="1Wn-p3-w6a" secondAttribute="centerX" id="xzo-gq-jpD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="B9o-ep-w2v"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="UQJ-Vs-UgY"/>
+                                <exclude reference="fbY-PS-hjw"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="xav-Fv-yWs"/>
+                                <exclude reference="beU-2N-CLu"/>
+                                <exclude reference="xKW-vf-Tgs"/>
+                                <exclude reference="84E-ym-Nfn"/>
+                                <exclude reference="8AJ-G3-hRg"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="subviews">
+                                <include reference="UQJ-Vs-UgY"/>
+                                <include reference="fbY-PS-hjw"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="xav-Fv-yWs"/>
+                                <include reference="beU-2N-CLu"/>
+                                <include reference="xKW-vf-Tgs"/>
+                                <include reference="84E-ym-Nfn"/>
+                                <include reference="8AJ-G3-hRg"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="MoPub Settings" id="KlS-Jl-hca"/>
                     <connections>
                         <outlet property="bannerAdUnitIDTextField" destination="CRV-ib-Qx9" id="o6C-bv-85U"/>
                         <outlet property="interstitialAdUnitIDTextField" destination="ZoF-dA-3en" id="WYh-VZ-3ca"/>
+                        <outlet property="leaderboardAdUnitTextField" destination="fbY-PS-hjw" id="d2e-ye-4yJ"/>
                         <outlet property="mRectAdUnitIDTextField" destination="zxZ-5x-hvQ" id="FVZ-i2-NQd"/>
                     </connections>
                 </viewController>
