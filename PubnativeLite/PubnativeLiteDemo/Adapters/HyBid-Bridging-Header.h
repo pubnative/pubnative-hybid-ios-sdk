@@ -17,6 +17,7 @@
 #import "PNLiteDFPInterstitialCustomEvent.h"
 
 #import "HyBidMoPubUtils.h"
+#import "HyBidMoPubLeaderboardCustomEvent.h"
 #import "HyBidMoPubBannerCustomEvent.h"
 #import "HyBidMoPubMRectCustomEvent.h"
 #import "HyBidMoPubInterstitialCustomEvent.h"
