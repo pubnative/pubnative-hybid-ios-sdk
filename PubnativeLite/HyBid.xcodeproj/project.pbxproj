@@ -291,6 +291,7 @@
 		5A449B50203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */; };
 		5A449B53203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A449B54203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */; };
+		5A453D9E219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */; };
 		5A4FF06420AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */; };
 		5A4FF06820ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06720ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m */; };
 		5A4FF06B20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06A20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m */; };
@@ -1277,6 +1278,8 @@
 		5A449B4E203D80B800CEB630 /* PNLiteMRectPresenterDecorator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRectPresenterDecorator.m; sourceTree = "<group>"; };
 		5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDMRectPresenter.h; sourceTree = "<group>"; };
 		5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDMRectPresenter.m; sourceTree = "<group>"; };
+		5A453D9C219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubLeaderboardViewController.h; sourceTree = "<group>"; };
+		5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A4FF06220AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteBannerViewController.h; sourceTree = "<group>"; };
 		5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteBannerViewController.m; sourceTree = "<group>"; };
 		5A4FF06620ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteMRectViewController.h; sourceTree = "<group>"; };
@@ -2670,6 +2673,8 @@
 		5A6354D52076506B00D47E1B /* MoPub */ = {
 			isa = PBXGroup;
 			children = (
+				5A453D9C219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.h */,
+				5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */,
 				5A32CEBE2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.h */,
 				5A32CEBF2029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m */,
 				5ADC023C205181310071DA20 /* PNLiteDemoMoPubMRectViewController.h */,
@@ -3951,6 +3956,7 @@
 				5A4174982175EBE90053CDA3 /* MPInterstitialAdManager.m in Sources */,
 				5A4174B32175EBE90053CDA3 /* MPRealTimeTimer.m in Sources */,
 				5A41746C2175EBE90053CDA3 /* MPNativeAdRendererConfiguration.m in Sources */,
+				5A453D9E219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m in Sources */,
 				5AE206C620E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m in Sources */,
 				5AC35B5D214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.m in Sources */,
 				5A4175112175EBE90053CDA3 /* MPRewardedVideoReward.m in Sources */,
