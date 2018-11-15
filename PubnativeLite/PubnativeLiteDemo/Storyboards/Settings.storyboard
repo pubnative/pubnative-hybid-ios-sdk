@@ -1219,6 +1219,7 @@
                     <connections>
                         <outlet property="bannerAdUnitIDTextField" destination="x9Y-Aj-pmZ" id="wGg-M4-mAc"/>
                         <outlet property="interstitialAdUnitIDTextField" destination="EBG-sd-1KD" id="cpC-um-D3y"/>
+                        <outlet property="leaderboardAdUnitIDTextField" destination="JXI-Ng-Vdz" id="4FT-DY-cx4"/>
                         <outlet property="mRectAdUnitIDTextField" destination="XUO-bO-UmM" id="bBq-6K-l2Y"/>
                     </connections>
                 </viewController>
