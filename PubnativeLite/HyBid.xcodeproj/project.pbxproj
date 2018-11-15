@@ -338,6 +338,7 @@
 		5A81267F20CFF0D5007F7092 /* PNLiteBannerAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A81267D20CFF0D5007F7092 /* PNLiteBannerAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A81268020CFF0D5007F7092 /* PNLiteBannerAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81267E20CFF0D5007F7092 /* PNLiteBannerAdView.m */; };
 		5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */; };
+		5A82190B219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */; };
 		5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */; };
 		5A8893A1211C3CF00073BF66 /* PNLiteStarRatingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A88939F211C3CF00073BF66 /* PNLiteStarRatingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A8893A2211C3CF00073BF66 /* PNLiteStarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A0211C3CF00073BF66 /* PNLiteStarRatingView.m */; };
@@ -1341,6 +1342,8 @@
 		5A81267E20CFF0D5007F7092 /* PNLiteBannerAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerAdView.m; sourceTree = "<group>"; };
 		5A81F89E207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPInterstitialViewController.h; sourceTree = "<group>"; };
 		5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPInterstitialViewController.m; sourceTree = "<group>"; };
+		5A821909219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPLeaderboardViewController.h; sourceTree = "<group>"; };
+		5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A87F458207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPSettingsViewController.h; sourceTree = "<group>"; };
 		5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPSettingsViewController.m; sourceTree = "<group>"; };
 		5A88939F211C3CF00073BF66 /* PNLiteStarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteStarRatingView.h; sourceTree = "<group>"; };
@@ -2830,6 +2833,8 @@
 		5A87F45B207BC48F005CC648 /* DFP */ = {
 			isa = PBXGroup;
 			children = (
+				5A821909219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.h */,
+				5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */,
 				5A0E770B207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.h */,
 				5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */,
 				5A0E7711207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.h */,
@@ -4056,6 +4061,7 @@
 				5A41745F2175EBE90053CDA3 /* MPCollectionViewAdPlacerCell.m in Sources */,
 				5A066D2D20777EF8009008FC /* PNLiteDFPInterstitialCustomEvent.m in Sources */,
 				5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */,
+				5A82190B219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m in Sources */,
 				5A4174532175EBE90053CDA3 /* MPStaticNativeAdRendererSettings.m in Sources */,
 				5A4175182175EBE90053CDA3 /* MPInterstitialCustomEvent.m in Sources */,
 				5AC35B51214A91D0001F0ED3 /* HyBidMoPubInterstitialCustomEvent.m in Sources */,

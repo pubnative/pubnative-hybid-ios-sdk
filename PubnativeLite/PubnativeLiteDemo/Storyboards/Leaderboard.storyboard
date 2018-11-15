@@ -519,7 +519,7 @@
         <!--DFP Leaderboard View Controller-->
         <scene sceneID="R2X-VS-15o">
             <objects>
-                <viewController title="DFP Leaderboard" id="9W2-I4-Mng" userLabel="DFP Leaderboard View Controller" customClass="PNLiteDemoMoPubLeaderboardViewController" sceneMemberID="viewController">
+                <viewController title="DFP Leaderboard" id="9W2-I4-Mng" userLabel="DFP Leaderboard View Controller" customClass="PNLiteDemoDFPLeaderboardViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NBM-8e-mmB"/>
                         <viewControllerLayoutGuide type="bottom" id="fvl-ck-2VH"/>
@@ -537,6 +537,9 @@
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestLeaderboardTouchUpInside:" destination="9W2-I4-Mng" eventType="touchUpInside" id="IhH-d7-zve"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b9S-mW-Uwl" userLabel="Leaderboard Container" customClass="HyBidLeaderboardAdView">
                                 <rect key="frame" x="-176.5" y="66" width="728" height="90"/>
@@ -588,6 +591,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="udO-PL-GfU"/>
                     </view>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="UIU-re-t3l" id="lvm-rN-aF4"/>
+                        <outlet property="leaderboardContainer" destination="b9S-mW-Uwl" id="iIt-Ab-SGG"/>
+                        <outlet property="leaderboardLoaderIndicator" destination="MKR-UZ-mlG" id="3ZT-jm-G3x"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Fz-zv-itc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -595,6 +603,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="TMN-lQ-sFl"/>
+        <segue reference="woC-es-dP3"/>
     </inferredMetricsTieBreakers>
 </document>
