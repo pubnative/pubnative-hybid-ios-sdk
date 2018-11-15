@@ -20,53 +20,53 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubMRectCustomEvent.h"
+#import "HyBidMoPubLeaderboardCustomEvent.h"
 #import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubMRectCustomEvent () <HyBidMRectPresenterDelegate>
+@interface HyBidMoPubLeaderboardCustomEvent () <HyBidLeaderboardPresenterDelegate>
 
-@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
-@property (nonatomic, strong) HyBidMRectPresenterFactory *mRectPresenterFactory;
+@property (nonatomic, strong) HyBidLeaderboardPresenter *leaderboardPresenter;
+@property (nonatomic, strong) HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
 @end
 
-@implementation HyBidMoPubMRectCustomEvent
+@implementation HyBidMoPubLeaderboardCustomEvent
 
 - (void)dealloc
 {
-    [self.mRectPresenter stopTracking];
-    self.mRectPresenter = nil;
-    self.mRectPresenterFactory = nil;
+    [self.leaderboardPresenter stopTracking];
+    self.leaderboardPresenter = nil;
+    self.leaderboardPresenterFactory = nil;
     self.ad = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
-        if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
+        if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
             if (self.ad == nil) {
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
                 return;
             }
-            self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-            self.mRectPresenter = [self.mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
-            if (self.mRectPresenter == nil) {
-                [self invokeFailWithMessage:@"HyBid - Error: Could not create valid mRect presenter"];
+            self.leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
+            self.leaderboardPresenter = [self.leaderboardPresenterFactory createLeaderboardPresenterWithAd:self.ad withDelegate:self];
+            if (self.leaderboardPresenter == nil) {
+                [self invokeFailWithMessage:@"HyBid - Error: Could not create valid leaderboard presenter"];
                 return;
             } else {
-                [self.mRectPresenter load];
+                [self.leaderboardPresenter load];
             }
         } else {
             [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed mRect ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"HyBid - Error: Failed leaderboard ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -85,21 +85,21 @@
     return NO;
 }
 
-#pragma mark - HyBidMRectPresenterDelegate
+#pragma mark - HyBidLeaderboardPresenterDelegate
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didLoadWithLeaderboard:(UIView *)leaderboard
 {
     [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:mRect];
-    [self.mRectPresenter startTracking];
+    [self.delegate bannerCustomEvent:self didLoadAd:leaderboard];
+    [self.leaderboardPresenter startTracking];
 }
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
+- (void)leaderboardPresenterDidClick:(HyBidLeaderboardPresenter *)leaderboardPresenter
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];

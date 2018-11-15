@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2B9-Fy-cFf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2B9-Fy-cFf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -36,7 +36,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eb1-Nl-13F" userLabel="MoPub Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eb1-Nl-13F" userLabel="MoPub Button">
                                 <rect key="frame" x="16" y="57" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
@@ -62,6 +62,9 @@
                                         <exclude reference="bkj-Hp-5cH"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <segue destination="rbg-cy-SEA" kind="show" id="xVJ-28-sik"/>
+                                </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pyF-Fy-e4W" userLabel="DFP Button">
                                 <rect key="frame" x="16" y="98" width="343" height="33"/>
@@ -173,7 +176,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iLP-ip-MXP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3967" y="-170"/>
+            <point key="canvasLocation" x="-4294" y="-170"/>
         </scene>
         <!--PNLite Leaderboard View Controller-->
         <scene sceneID="vhf-cI-bX0">
@@ -258,7 +261,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yk8-7I-hPj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3967" y="565"/>
+            <point key="canvasLocation" x="-3967" y="564"/>
         </scene>
         <!--RequestInspector-->
         <scene sceneID="9Ui-bS-dDM">
@@ -266,7 +269,7 @@
                 <viewControllerPlaceholder storyboardName="RequestInspector" id="gTH-T8-Jwt" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vjq-rw-EsJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3531" y="1031"/>
+            <point key="canvasLocation" x="-3968" y="1112"/>
         </scene>
         <!--Mediation Leaderboard-->
         <scene sceneID="weM-t1-QPn">
@@ -425,8 +428,93 @@
             </objects>
             <point key="canvasLocation" x="-3106" y="564"/>
         </scene>
+        <!--MoPub Leaderboard View Controller-->
+        <scene sceneID="dtN-dQ-Ity">
+            <objects>
+                <viewController title="MoPub Leaderboard" id="rbg-cy-SEA" userLabel="MoPub Leaderboard View Controller" customClass="PNLiteDemoMoPubLeaderboardViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nYd-1r-hDr"/>
+                        <viewControllerLayoutGuide type="bottom" id="Enk-5c-bPp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="m4f-Vh-b6M">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfd-ei-Lbi">
+                                <rect key="frame" x="16" y="28" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="PfZ-hE-99i"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestLeaderboardTouchUpInside:" destination="rbg-cy-SEA" eventType="touchUpInside" id="cYI-Cx-sSm"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVf-cq-l9g" userLabel="Leaderboard Container" customClass="HyBidLeaderboardAdView">
+                                <rect key="frame" x="-176.5" y="66" width="728" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="4gD-kd-3on"/>
+                                    <constraint firstAttribute="width" constant="728" id="h7G-q7-zUd"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XIW-jH-a8I" userLabel="Leaderboard Loader Indicator">
+                                <rect key="frame" x="169" y="90" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BBD-oF-8KP" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Gbq-Tk-VaY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Gbq-Tk-VaY"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="gTH-T8-Jwt" kind="popoverPresentation" popoverAnchorView="BBD-oF-8KP" id="TMN-lQ-sFl">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wfd-ei-Lbi" firstAttribute="leading" secondItem="m4f-Vh-b6M" secondAttribute="leadingMargin" id="5cP-br-oif"/>
+                            <constraint firstItem="BBD-oF-8KP" firstAttribute="leading" secondItem="hdC-P5-9wG" secondAttribute="leading" constant="16" id="9JY-Nj-bRg"/>
+                            <constraint firstItem="BBD-oF-8KP" firstAttribute="centerX" secondItem="m4f-Vh-b6M" secondAttribute="centerX" id="Bl0-G1-zdl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wfd-ei-Lbi" secondAttribute="trailing" id="EqZ-xD-IbZ"/>
+                            <constraint firstItem="Enk-5c-bPp" firstAttribute="top" secondItem="BBD-oF-8KP" secondAttribute="bottom" constant="8" id="FTZ-Ic-H9X"/>
+                            <constraint firstItem="hdC-P5-9wG" firstAttribute="trailing" secondItem="BBD-oF-8KP" secondAttribute="trailing" constant="16" id="XFI-et-XAL"/>
+                            <constraint firstItem="zVf-cq-l9g" firstAttribute="centerX" secondItem="m4f-Vh-b6M" secondAttribute="centerX" id="c9T-Zb-5jW"/>
+                            <constraint firstItem="zVf-cq-l9g" firstAttribute="top" secondItem="wfd-ei-Lbi" secondAttribute="bottom" constant="8" id="cm5-z9-1Mu"/>
+                            <constraint firstItem="XIW-jH-a8I" firstAttribute="top" secondItem="wfd-ei-Lbi" secondAttribute="bottom" constant="32" id="eCD-PS-fcf"/>
+                            <constraint firstItem="wfd-ei-Lbi" firstAttribute="top" secondItem="nYd-1r-hDr" secondAttribute="bottom" constant="8" id="erC-zM-3dx"/>
+                            <constraint firstItem="XIW-jH-a8I" firstAttribute="centerX" secondItem="m4f-Vh-b6M" secondAttribute="centerX" id="uhF-1K-v9l"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hdC-P5-9wG"/>
+                    </view>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="BBD-oF-8KP" id="QQT-gt-t1g"/>
+                        <outlet property="leaderboardContainer" destination="zVf-cq-l9g" id="mW6-KR-OhY"/>
+                        <outlet property="leaderboardLoaderIndicator" destination="XIW-jH-a8I" id="TsA-9c-Iut"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iJO-vL-cQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4681" y="564"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oYX-iK-vB5"/>
+        <segue reference="TMN-lQ-sFl"/>
     </inferredMetricsTieBreakers>
 </document>
