@@ -48,6 +48,7 @@
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];

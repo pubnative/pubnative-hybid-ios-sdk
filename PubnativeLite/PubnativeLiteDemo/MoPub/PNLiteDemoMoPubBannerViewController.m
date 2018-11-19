@@ -59,6 +59,7 @@
 
 - (IBAction)requestBannerTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];

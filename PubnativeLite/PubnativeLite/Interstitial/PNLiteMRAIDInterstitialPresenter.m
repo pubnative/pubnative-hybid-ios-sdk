@@ -119,7 +119,7 @@
     return NO;
 }
 
-#pragma mark PNMRAIDServiceDelegate
+#pragma mark HyBidMRAIDServiceDelegate
 
 - (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString
 {

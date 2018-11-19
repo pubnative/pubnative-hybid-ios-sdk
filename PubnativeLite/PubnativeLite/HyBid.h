@@ -73,13 +73,16 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidMRAIDServiceProvider.h>
 #import <HyBid/HyBidMRAIDView.h>
 #import <HyBid/HyBidMRAIDServiceDelegate.h>
+#import <HyBid/HyBidLeaderboardAdRequest.h>
 #import <HyBid/HyBidBannerAdRequest.h>
 #import <HyBid/HyBidMRectAdRequest.h>
 #import <HyBid/HyBidInterstitialAdRequest.h>
+#import <HyBid/HyBidLeaderboardPresenter.h>
 #import <HyBid/HyBidBannerPresenter.h>
 #import <HyBid/HyBidMRectPresenter.h>
 #import <HyBid/HyBidInterstitialPresenter.h>
 #import <HyBid/HyBidNativeAdLoader.h>
+#import <HyBid/HyBidLeaderboardPresenterFactory.h>
 #import <HyBid/HyBidBannerPresenterFactory.h>
 #import <HyBid/HyBidMRectPresenterFactory.h>
 #import <HyBid/HyBidInterstitialPresenterFactory.h>
@@ -93,6 +96,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAd.h>
 #import <HyBid/HyBidNativeAd.h>
 #import <HyBid/HyBidAdView.h>
+#import <HyBid/HyBidLeaderboardAdView.h>
 #import <HyBid/HyBidBannerAdView.h>
 #import <HyBid/HyBidMRectAdView.h>
 #import <HyBid/HyBidInterstitialAd.h>

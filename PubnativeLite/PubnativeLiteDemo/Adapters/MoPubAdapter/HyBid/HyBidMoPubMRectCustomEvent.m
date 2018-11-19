@@ -28,7 +28,6 @@
 
 @interface HyBidMoPubMRectCustomEvent () <HyBidMRectPresenterDelegate>
 
-@property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
 @property (nonatomic, strong) HyBidMRectPresenterFactory *mRectPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
@@ -48,7 +47,6 @@
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
-        self.size = size;
         if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
             if (self.ad == nil) {

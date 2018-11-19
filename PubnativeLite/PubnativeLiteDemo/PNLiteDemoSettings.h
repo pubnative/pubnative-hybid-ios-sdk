@@ -27,10 +27,12 @@
 
 @property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSString *moPubLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *moPubBannerAdUnitID;
 @property (nonatomic, strong) NSString *moPubMRectAdUnitID;
 @property (nonatomic, strong) NSString *moPubInterstitialAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationNativeAdUnitID;
+@property (nonatomic, strong) NSString *moPubMediationLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationBannerAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationMRectAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationInterstitialAdUnitID;

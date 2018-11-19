@@ -45,7 +45,7 @@
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             [self.interstitialAd load];
         } else {
-            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise PNLite."];
+            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
         
