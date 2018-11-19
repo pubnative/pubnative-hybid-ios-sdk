@@ -28,7 +28,6 @@
 
 @interface HyBidMoPubBannerCustomEvent () <HyBidBannerPresenterDelegate>
 
-@property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
@@ -48,7 +47,6 @@
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
-        self.size = size;
         if (CGSizeEqualToSize(MOPUB_BANNER_SIZE, size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
             if (self.ad == nil) {
@@ -106,6 +104,5 @@
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];
 }
-
 
 @end

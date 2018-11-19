@@ -55,6 +55,7 @@
     self.mRectPresenter = [mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
     if (self.mRectPresenter == nil) {
         NSLog(@"HyBid - Error: Could not create valid mRect presenter");
+        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
         return;
     } else {
         [self.mRectPresenter load];

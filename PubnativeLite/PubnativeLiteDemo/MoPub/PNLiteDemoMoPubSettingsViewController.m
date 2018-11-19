@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *bannerAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mRectAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *interstitialAdUnitIDTextField;
+@property (weak, nonatomic) IBOutlet UITextField *leaderboardAdUnitTextField;
 
 @end
 
@@ -40,6 +41,7 @@
     self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID;
     self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID;
     self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID;
+    self.leaderboardAdUnitTextField.text = [PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID;
 }
 
 - (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender
@@ -47,6 +49,7 @@
     [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID = self.bannerAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID = self.mRectAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID = self.leaderboardAdUnitTextField.text;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

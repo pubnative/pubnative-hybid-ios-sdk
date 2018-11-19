@@ -46,7 +46,7 @@
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
             [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[HyBidMoPubUtils zoneID:info]];
         } else {
-            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise PNLite."];
+            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
     } else {

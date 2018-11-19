@@ -21,7 +21,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNLiteDemoBaseViewController.h"
 
-@interface PNLiteDemoMoPubBannerViewController : UIViewController
+@interface PNLiteDemoMoPubBannerViewController : PNLiteDemoBaseViewController
 
 @end
