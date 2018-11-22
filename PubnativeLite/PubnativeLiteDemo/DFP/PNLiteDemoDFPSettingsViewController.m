@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *bannerAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mRectAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *interstitialAdUnitIDTextField;
+@property (weak, nonatomic) IBOutlet UITextField *leaderboardAdUnitIDTextField;
 
 @end
 
@@ -40,7 +41,7 @@
     self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
     self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
     self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID;
-    
+    self.leaderboardAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpLeaderboardAdUnitID;
 }
 
 - (IBAction)saveDFPSettingsTouchUpInside:(UIButton *)sender
@@ -48,6 +49,7 @@
     [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID = self.bannerAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID = self.mRectAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].dfpLeaderboardAdUnitID = self.leaderboardAdUnitIDTextField.text;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

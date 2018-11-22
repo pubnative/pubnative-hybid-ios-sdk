@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSString *moPubMediationBannerAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationMRectAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationInterstitialAdUnitID;
+@property (nonatomic, strong) NSString *dfpLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *dfpBannerAdUnitID;
 @property (nonatomic, strong) NSString *dfpMRectAdUnitID;
 @property (nonatomic, strong) NSString *dfpInterstitialAdUnitID;
