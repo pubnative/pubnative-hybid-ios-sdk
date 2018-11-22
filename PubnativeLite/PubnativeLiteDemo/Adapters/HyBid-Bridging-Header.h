@@ -28,6 +28,7 @@
 #import "HyBidMoPubMediationMRectCustomEvent.h"
 #import "HyBidMoPubMediationInterstitialCustomEvent.h"
 #import "HyBidDFPUtils.h"
+#import "HyBidDFPLeaderboardCustomEvent.h"
 #import "HyBidDFPBannerCustomEvent.h"
 #import "HyBidDFPMRectCustomEvent.h"
 #import "HyBidDFPInterstitialCustomEvent.h"
