@@ -791,6 +791,8 @@ typedef enum {
 - (void)addContentInfoViewToView:(UIView *)view
 {
     contentInfoViewContainer = [[UIView alloc] init];
+    [contentInfoViewContainer setAccessibilityLabel:@"Content Info View Container"];
+    [contentInfoViewContainer setAccessibilityIdentifier:@"contentInfoViewContainer"];
     contentInfoView.delegate = self;
     [view addSubview:contentInfoViewContainer];
     [contentInfoViewContainer addSubview:contentInfoView];
