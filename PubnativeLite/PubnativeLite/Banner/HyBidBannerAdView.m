@@ -52,7 +52,7 @@
 - (void)renderAd
 {
     HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-    self.bannerPresenter = [bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
+    self.bannerPresenter = [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
     if (self.bannerPresenter == nil) {
         NSLog(@"HyBid - Error: Could not create valid banner presenter");
         [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];

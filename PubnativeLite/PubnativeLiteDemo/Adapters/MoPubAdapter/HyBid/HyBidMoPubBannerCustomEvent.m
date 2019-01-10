@@ -54,7 +54,7 @@
                 return;
             }
             self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-            self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
+            self.bannerPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
             if (self.bannerPresenter == nil) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid banner presenter"];
                 return;

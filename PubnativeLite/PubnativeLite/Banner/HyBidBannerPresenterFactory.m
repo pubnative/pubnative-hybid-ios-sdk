@@ -22,27 +22,11 @@
 
 #import "HyBidBannerPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
-#import "PNLiteAdPresenterDecorator.h"
 #import "PNLiteMRAIDBannerPresenter.h"
-#import "HyBidAdTracker.h"
 
 @implementation HyBidBannerPresenterFactory
 
-- (HyBidAdPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
-                                     withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
-{
-    HyBidAdPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
-    if (!bannerPresenter) {
-        return nil;
-    }
-    PNLiteAdPresenterDecorator *bannerPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithAdPresenter:bannerPresenter
-                                                                                                     withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                      withDelegate:delegate];
-    bannerPresenter.delegate = bannerPresenterDecorator;
-    return bannerPresenterDecorator;
-}
-
-- (HyBidAdPresenter *)createBannerPresenterFromAd:(HyBidAd *)ad
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_BANNER_1:
