@@ -88,13 +88,13 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 {
     if (!self.isLoaded) {
         self.isLoaded = YES;
-        [self.delegate mRectPresenter:self didLoadWithMRect:[self buildContainerWithVASTPlayer:vastPlayer]];
+        [self.delegate adPresenter:self didLoadWithAd:[self buildContainerWithVASTPlayer:vastPlayer]];
     }
 }
 
 - (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error
 {
-    [self.delegate mRectPresenter:self didFailWithError:error];
+    [self.delegate adPresenter:self didFailWithError:error];
 }
 
 - (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer
@@ -114,7 +114,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer
 {
-    [self.delegate mRectPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
 }
 
 @end

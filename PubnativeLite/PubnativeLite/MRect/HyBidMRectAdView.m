@@ -21,13 +21,13 @@
 //
 
 #import "HyBidMRectAdView.h"
-#import "HyBidMRectPresenter.h"
+#import "HyBidAdPresenter.h"
 #import "HyBidMRectPresenterFactory.h"
 #import "HyBidMRectAdRequest.h"
 
-@interface HyBidMRectAdView() <HyBidMRectPresenterDelegate>
+@interface HyBidMRectAdView() <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *mRectPresenter;
 
 @end
 
@@ -52,7 +52,7 @@
 - (void)renderAd
 {
     HyBidMRectPresenterFactory *mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-    self.mRectPresenter = [mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
+    self.mRectPresenter = [mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
     if (self.mRectPresenter == nil) {
         NSLog(@"HyBid - Error: Could not create valid mRect presenter");
         [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
@@ -75,27 +75,27 @@
     [self.mRectPresenter stopTracking];
 }
 
-#pragma mark - HyBidMRectPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
-    if (mRect == nil) {
+    if (adView == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
         }
     } else {
-        [self setupAdView:mRect];
+        [self setupAdView:adView];
     }
 }
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }
 }
 
-- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
+-  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];
