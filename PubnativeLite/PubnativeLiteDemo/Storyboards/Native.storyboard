@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HI2-1L-CXq">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HI2-1L-CXq">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,11 +19,12 @@
                         <viewControllerLayoutGuide type="bottom" id="RLa-ua-T4m"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PGj-E4-qvi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hAe-MX-6we">
                                 <rect key="frame" x="16" y="28" width="53" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="networkLabel" label="Network Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Dhe-nK-hMD"/>
                                 </constraints>
@@ -37,8 +38,9 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8l1-mZ-XqJ" userLabel="HyBid Button">
-                                <rect key="frame" x="16" y="57" width="343" height="33"/>
+                                <rect key="frame" x="16" y="57" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="hyBidButton" label="HyBid Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="hJt-Fb-z4E"/>
                                     <constraint firstAttribute="height" constant="33" id="nxG-Oq-1ts"/>
@@ -67,8 +69,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mqz-ZW-crm" userLabel="Mediation Button">
-                                <rect key="frame" x="16" y="98" width="343" height="33"/>
+                                <rect key="frame" x="16" y="98" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.49019607840000001" green="0.039215686270000001" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mediationButton" label="Mediation Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="Oft-Fl-ASD"/>
                                     <constraint firstAttribute="height" constant="33" id="S00-qG-idq"/>
@@ -124,12 +127,13 @@
                         <viewControllerLayoutGuide type="bottom" id="gHW-Mf-1nu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1Hg-lM-ZFo">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FIg-ue-65i">
-                                <rect key="frame" x="16" y="28" width="343" height="30"/>
+                                <rect key="frame" x="16" y="28" width="736" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="kGv-rv-C1C"/>
                                 </constraints>
@@ -141,7 +145,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FQo-hx-Lio" userLabel="Native Ad Background">
-                                <rect key="frame" x="16" y="66" width="343" height="242"/>
+                                <rect key="frame" x="212.5" y="66" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Onu-Cg-Wwm" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
@@ -149,6 +153,9 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NCh-FR-Cjj" userLabel="Ad Icon Image View">
                                                 <rect key="frame" x="8" y="23" width="50" height="50"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="adIconImageView" label="Ad Icon Image View">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="Tbt-Ll-jPK"/>
                                                     <constraint firstAttribute="height" constant="50" id="eRM-9Z-jVO"/>
@@ -156,6 +163,7 @@
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mattis dolor, quis egestas neque." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfr-iU-T7K" userLabel="Ad Title Label">
                                                 <rect key="frame" x="66" y="23" width="253" height="33"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="adTitleLabel" label="Ad Title Label"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="33" id="5sr-8g-4HD"/>
                                                 </constraints>
@@ -166,6 +174,9 @@
                                                 <rect key="frame" x="66" y="53" width="60" height="20"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="tintColor" red="1" green="0.79215686269999996" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="adRatingView" label="Ad Rating View">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="60" id="Bas-zH-kgJ"/>
                                                     <constraint firstAttribute="height" constant="20" id="zDz-Oa-zWA"/>
@@ -185,15 +196,20 @@
                                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="mc0-kA-QNo" userLabel="Ad Banner View">
                                                 <rect key="frame" x="8" y="81" width="311" height="72.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="adBannerView" label="Ad Banner View">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mattis dolor, quis egestas neque." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FdC-cL-UbO" userLabel="Ad Description Label">
                                                 <rect key="frame" x="8" y="157.5" width="311" height="26.5"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="adDescriptionLabel" label="Ad Description Label"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJU-zv-PHa" userLabel="Ad Call To Action Button">
                                                 <rect key="frame" x="8" y="188" width="311" height="30"/>
                                                 <color key="backgroundColor" red="0.15686274509803921" green="0.44705882352941173" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="adCallToActionButton" label="Ad Call To Action Button"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="y0k-gF-XdB"/>
                                                 </constraints>
@@ -204,6 +220,9 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbY-fu-Ht0" userLabel="Ad Content Info View">
                                                 <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="adContentInfoView" label="Ad Content Info View">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="15" id="Bcj-zb-Rez"/>
                                                     <constraint firstAttribute="height" constant="15" id="qtN-fy-bFA"/>
@@ -211,6 +230,9 @@
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="nativeAdContainerView" label="Native Ad Container View">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="GJU-zv-PHa" secondAttribute="trailing" constant="8" id="1Sy-Yt-mkD"/>
                                             <constraint firstItem="NCh-FR-Cjj" firstAttribute="leading" secondItem="Onu-Cg-Wwm" secondAttribute="leading" constant="8" id="4Y3-po-31t"/>
@@ -238,6 +260,9 @@
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nativeAdBackgroundView" label="Native Ad Background View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstItem="Onu-Cg-Wwm" firstAttribute="centerX" secondItem="FQo-hx-Lio" secondAttribute="centerX" id="Zbm-pU-BW5"/>
                                     <constraint firstAttribute="width" constant="343" id="ZzA-Kw-lDg"/>
@@ -246,12 +271,13 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="R4Q-mZ-tSF" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="169" y="172" width="37" height="37"/>
+                                <rect key="frame" x="365.5" y="172" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="duR-SU-EK2" userLabel="Inspect Request Button">
-                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <rect key="frame" x="16" y="983" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="xnf-f6-xV7"/>
                                 </constraints>
@@ -322,11 +348,12 @@
                         <viewControllerLayoutGuide type="bottom" id="cKB-AN-Cuj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6XL-Es-Q7M">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCD-ib-3TC">
                                 <rect key="frame" x="16" y="28" width="53" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="networkLabel" label="Network Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="2eU-pL-nBQ"/>
                                 </constraints>
@@ -340,8 +367,9 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DMg-Sc-do2" userLabel="MoPub Button">
-                                <rect key="frame" x="16" y="57" width="343" height="33"/>
+                                <rect key="frame" x="16" y="57" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="moPubButton" label="MoPub Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="ONR-cd-KAl"/>
                                     <constraint firstAttribute="height" constant="33" id="QzS-8m-Ruo"/>
@@ -394,12 +422,13 @@
                         <viewControllerLayoutGuide type="bottom" id="sdT-iA-das"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7A1-C2-YVk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ahu-S1-NvZ">
-                                <rect key="frame" x="16" y="28" width="343" height="30"/>
+                                <rect key="frame" x="20" y="28" width="728" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="hW9-2x-cPW"/>
                                 </constraints>
@@ -411,11 +440,14 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qxr-UP-XjP" userLabel="Native Ad Background">
-                                <rect key="frame" x="16" y="66" width="343" height="242"/>
+                                <rect key="frame" x="212.5" y="66" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfZ-lj-cVw" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="nativeAdContainerView" label="Native Ad Container View">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="226" id="PLm-Om-dU6"/>
                                             <constraint firstAttribute="width" constant="327" id="rop-xY-XwW"/>
@@ -423,6 +455,9 @@
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nativeAdBackgroundView" label="Native Ad Background View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="343" id="85T-gJ-nVi"/>
                                     <constraint firstAttribute="height" constant="242" id="8fv-aQ-24R"/>
@@ -431,12 +466,13 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Rkf-gn-OME" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="169" y="172" width="37" height="37"/>
+                                <rect key="frame" x="365.5" y="172" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3xN-qC-Iin" userLabel="Inspect Request Button">
-                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <rect key="frame" x="16" y="983" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="Zaj-PN-quo"/>
                                 </constraints>
