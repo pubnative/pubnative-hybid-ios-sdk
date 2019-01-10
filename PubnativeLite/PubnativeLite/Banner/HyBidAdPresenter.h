@@ -28,10 +28,10 @@
 
 @protocol HyBidAdPresenterDelegate<NSObject>
 
-- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter
-      didLoadWithBanner:(UIView *)banner;
-- (void)bannerPresenterDidClick:(HyBidAdPresenter *)bannerPresenter;
-- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter
+      didLoadWithAd:(UIView *)adView;
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter;
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter
        didFailWithError:(NSError *)error;
 
 @end

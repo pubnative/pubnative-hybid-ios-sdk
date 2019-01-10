@@ -87,19 +87,19 @@
 
 #pragma mark - HyBidAdPresenterDelegate
 
-- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
     [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:banner];
+    [self.delegate bannerCustomEvent:self didLoadAd:adView];
     [self.bannerPresenter startTracking];
 }
 
-- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)bannerPresenterDidClick:(HyBidAdPresenter *)bannerPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];

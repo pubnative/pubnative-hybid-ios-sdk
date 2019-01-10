@@ -24,9 +24,9 @@
 
 @interface PNLiteBannerPresenterDecorator ()
 
-@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<HyBidAdPresenterDelegate> *bannerPresenterDelegate;
+@property (nonatomic, strong) NSObject<HyBidAdPresenterDelegate> *adPresenterDelegate;
 
 @end
 
@@ -34,24 +34,24 @@
 
 - (void)dealloc
 {
-    self.bannerPresenter = nil;
+    self.adPresenter = nil;
     self.adTracker = nil;
-    self.bannerPresenterDelegate = nil;
+    self.adPresenterDelegate = nil;
 }
 
 - (void)load
 {
-    [self.bannerPresenter load];
+    [self.adPresenter load];
 }
 
 - (void)startTracking
 {
-    [self.bannerPresenter startTracking];
+    [self.adPresenter startTracking];
 }
 
 - (void)stopTracking
 {
-    [self.bannerPresenter stopTracking];
+    [self.adPresenter stopTracking];
 }
 
 - (instancetype)initWithBannerPresenter:(HyBidAdPresenter *)bannerPresenter
@@ -60,30 +60,30 @@
 {
     self = [super init];
     if (self) {
-        self.bannerPresenter = bannerPresenter;
+        self.adPresenter = bannerPresenter;
         self.adTracker = adTracker;
-        self.bannerPresenterDelegate = delegate;
+        self.adPresenterDelegate = delegate;
     }
     return self;
 }
 
 #pragma mark HyBidAdPresenterDelegate
 
-- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
     [self.adTracker trackImpression];
-    [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didLoadWithBanner:banner];
+    [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
 }
 
-- (void)bannerPresenterDidClick:(HyBidAdPresenter *)bannerPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     [self.adTracker trackClick];
-    [self.bannerPresenterDelegate bannerPresenterDidClick:bannerPresenter];
+    [self.adPresenterDelegate adPresenterDidClick:adPresenter];
 }
 
-- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
-    [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didFailWithError:error];
+    [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
 }
 
 @end
