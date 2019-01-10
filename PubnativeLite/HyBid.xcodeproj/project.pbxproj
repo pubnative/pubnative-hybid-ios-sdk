@@ -70,8 +70,8 @@
 		5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5A3657C9203C23D1004B4347 /* PNLiteBannerPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657C7203C23D1004B4347 /* PNLiteBannerPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A3657CA203C23D1004B4347 /* PNLiteBannerPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657C8203C23D1004B4347 /* PNLiteBannerPresenterFactory.m */; };
-		5A3657CD203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657CB203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5A3657CE203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657CC203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m */; };
+		5A3657CD203C2E75004B4347 /* PNLiteAdPresenterDecorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657CB203C2E75004B4347 /* PNLiteAdPresenterDecorator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A3657CE203C2E75004B4347 /* PNLiteAdPresenterDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657CC203C2E75004B4347 /* PNLiteAdPresenterDecorator.m */; };
 		5A3657D1203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */; };
 		5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -839,8 +839,8 @@
 		5A32CECA2029F79B0003B450 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5A3657C7203C23D1004B4347 /* PNLiteBannerPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteBannerPresenterFactory.h; sourceTree = "<group>"; };
 		5A3657C8203C23D1004B4347 /* PNLiteBannerPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerPresenterFactory.m; sourceTree = "<group>"; };
-		5A3657CB203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteBannerPresenterDecorator.h; sourceTree = "<group>"; };
-		5A3657CC203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerPresenterDecorator.m; sourceTree = "<group>"; };
+		5A3657CB203C2E75004B4347 /* PNLiteAdPresenterDecorator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdPresenterDecorator.h; sourceTree = "<group>"; };
+		5A3657CC203C2E75004B4347 /* PNLiteAdPresenterDecorator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdPresenterDecorator.m; sourceTree = "<group>"; };
 		5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDBannerPresenter.h; sourceTree = "<group>"; };
 		5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDBannerPresenter.m; sourceTree = "<group>"; };
 		5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+PNLiteTopViewController.h"; sourceTree = "<group>"; };
@@ -2625,8 +2625,8 @@
 				5A3657C8203C23D1004B4347 /* PNLiteBannerPresenterFactory.m */,
 				5ADF9E8521494F730081355E /* HyBidBannerPresenterFactory.h */,
 				5ADF9E8621494F730081355E /* HyBidBannerPresenterFactory.m */,
-				5A3657CB203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h */,
-				5A3657CC203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m */,
+				5A3657CB203C2E75004B4347 /* PNLiteAdPresenterDecorator.h */,
+				5A3657CC203C2E75004B4347 /* PNLiteAdPresenterDecorator.m */,
 				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
 				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
 				5A81267D20CFF0D5007F7092 /* PNLiteBannerAdView.h */,
@@ -3532,7 +3532,7 @@
 				5A8F10C12089E4D20098E337 /* PNLiteBreadcrumb.h in Headers */,
 				5AC35B3C214A6B5B001F0ED3 /* HyBidNativeAd.h in Headers */,
 				5A8F10D22089E4D20098E337 /* PNLite_KSFileUtils.h in Headers */,
-				5A3657CD203C2E75004B4347 /* PNLiteBannerPresenterDecorator.h in Headers */,
+				5A3657CD203C2E75004B4347 /* PNLiteAdPresenterDecorator.h in Headers */,
 				5A8F10B52089E4D20098E337 /* PNLiteKeys.h in Headers */,
 				5A449B4F203D80B800CEB630 /* PNLiteMRectPresenterDecorator.h in Headers */,
 				5ADF9E93214956FF0081355E /* HyBidAdCache.h in Headers */,
@@ -4210,7 +4210,7 @@
 				5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */,
 				5A8F10D62089E4D20098E337 /* PNLite_KSCrashCallCompletion.m in Sources */,
 				5A8F10C92089E4D20098E337 /* PNLite_KSCrashDoctor.m in Sources */,
-				5A3657CE203C2E75004B4347 /* PNLiteBannerPresenterDecorator.m in Sources */,
+				5A3657CE203C2E75004B4347 /* PNLiteAdPresenterDecorator.m in Sources */,
 				5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */,
 				5A2633572034AB480005EA39 /* PNLiteMRAIDOrientationProperties.m in Sources */,
 				5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */,

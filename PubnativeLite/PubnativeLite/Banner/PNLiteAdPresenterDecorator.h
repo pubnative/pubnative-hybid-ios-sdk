@@ -23,7 +23,7 @@
 #import "HyBidAdPresenter.h"
 #import "HyBidAdTracker.h"
 
-@interface PNLiteBannerPresenterDecorator : HyBidAdPresenter <HyBidAdPresenterDelegate>
+@interface PNLiteAdPresenterDecorator : HyBidAdPresenter <HyBidAdPresenterDelegate>
 
 - (instancetype)initWithBannerPresenter:(HyBidAdPresenter *)bannerPresenter
                           withAdTracker:(HyBidAdTracker *)adTracker

@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBannerPresenterDecorator.h"
+#import "PNLiteAdPresenterDecorator.h"
 
-@interface PNLiteBannerPresenterDecorator ()
+@interface PNLiteAdPresenterDecorator ()
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
@@ -30,7 +30,7 @@
 
 @end
 
-@implementation PNLiteBannerPresenterDecorator
+@implementation PNLiteAdPresenterDecorator
 
 - (void)dealloc
 {

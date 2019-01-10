@@ -22,7 +22,7 @@
 
 #import "HyBidBannerPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
-#import "PNLiteBannerPresenterDecorator.h"
+#import "PNLiteAdPresenterDecorator.h"
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "HyBidAdTracker.h"
 
@@ -35,7 +35,7 @@
     if (!bannerPresenter) {
         return nil;
     }
-    PNLiteBannerPresenterDecorator *bannerPresenterDecorator = [[PNLiteBannerPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter
+    PNLiteAdPresenterDecorator *bannerPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter
                                                                                                                  withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
                                                                                                                   withDelegate:delegate];
     bannerPresenter.delegate = bannerPresenterDecorator;
