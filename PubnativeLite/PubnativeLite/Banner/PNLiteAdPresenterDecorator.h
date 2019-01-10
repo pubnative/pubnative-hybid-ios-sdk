@@ -25,8 +25,8 @@
 
 @interface PNLiteAdPresenterDecorator : HyBidAdPresenter <HyBidAdPresenterDelegate>
 
-- (instancetype)initWithBannerPresenter:(HyBidAdPresenter *)bannerPresenter
-                          withAdTracker:(HyBidAdTracker *)adTracker
-                           withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate;
+- (instancetype)initWithAdPresenter:(HyBidAdPresenter *)adPresenter
+                      withAdTracker:(HyBidAdTracker *)adTracker
+                       withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate;
 
 @end

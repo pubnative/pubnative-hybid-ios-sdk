@@ -29,15 +29,15 @@
 @implementation HyBidBannerPresenterFactory
 
 - (HyBidAdPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
-                                         withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
+                                     withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
 {
     HyBidAdPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
     if (!bannerPresenter) {
         return nil;
     }
-    PNLiteAdPresenterDecorator *bannerPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter
-                                                                                                                 withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                                  withDelegate:delegate];
+    PNLiteAdPresenterDecorator *bannerPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithAdPresenter:bannerPresenter
+                                                                                                     withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
+                                                                                                      withDelegate:delegate];
     bannerPresenter.delegate = bannerPresenterDecorator;
     return bannerPresenterDecorator;
 }

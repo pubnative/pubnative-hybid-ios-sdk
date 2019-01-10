@@ -54,13 +54,13 @@
     [self.adPresenter stopTracking];
 }
 
-- (instancetype)initWithBannerPresenter:(HyBidAdPresenter *)bannerPresenter
-                          withAdTracker:(HyBidAdTracker *)adTracker
-                           withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
+- (instancetype)initWithAdPresenter:(HyBidAdPresenter *)adPresenter
+                      withAdTracker:(HyBidAdTracker *)adTracker
+                       withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
-        self.adPresenter = bannerPresenter;
+        self.adPresenter = adPresenter;
         self.adTracker = adTracker;
         self.adPresenterDelegate = delegate;
     }
