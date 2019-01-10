@@ -22,9 +22,9 @@
 
 #import "HyBidAdPresenter.h"
 
-DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenterDelegate instead.")
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdPresenterDelegate instead.")
 
-@protocol PNLiteBannerPresenterDelegate<HyBidBannerPresenterDelegate>
+@protocol PNLiteBannerPresenterDelegate<HyBidAdPresenterDelegate>
 
 @end
 

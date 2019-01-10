@@ -27,6 +27,6 @@
 @interface HyBidBannerPresenterFactory : NSObject
 
 - (HyBidAdPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
-                                         withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate;
+                                         withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate;
 
 @end

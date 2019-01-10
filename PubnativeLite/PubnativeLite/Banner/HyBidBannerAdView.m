@@ -25,7 +25,7 @@
 #import "HyBidBannerPresenterFactory.h"
 #import "HyBidBannerAdRequest.h"
 
-@interface HyBidBannerAdView() <HyBidBannerPresenterDelegate>
+@interface HyBidBannerAdView() <HyBidAdPresenterDelegate>
 
 @property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 
@@ -75,7 +75,7 @@
     [self.bannerPresenter stopTracking];
 }
 
-#pragma mark - HyBidBannerPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
 - (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {

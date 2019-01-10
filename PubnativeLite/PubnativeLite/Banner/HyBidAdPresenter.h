@@ -26,7 +26,7 @@
 
 @class HyBidAdPresenter;
 
-@protocol HyBidBannerPresenterDelegate<NSObject>
+@protocol HyBidAdPresenterDelegate<NSObject>
 
 - (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter
       didLoadWithBanner:(UIView *)banner;
@@ -39,7 +39,7 @@
 @interface HyBidAdPresenter : NSObject
 
 @property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidBannerPresenterDelegate> *delegate;
+@property (nonatomic, strong) NSObject <HyBidAdPresenterDelegate> *delegate;
 
 - (void)load;
 - (void)startTracking;

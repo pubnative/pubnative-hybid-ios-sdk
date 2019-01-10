@@ -29,7 +29,7 @@
 @implementation HyBidBannerPresenterFactory
 
 - (HyBidAdPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
-                                         withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
+                                         withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
 {
     HyBidAdPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
     if (!bannerPresenter) {

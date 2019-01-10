@@ -26,7 +26,7 @@
 
 @property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<HyBidBannerPresenterDelegate> *bannerPresenterDelegate;
+@property (nonatomic, strong) NSObject<HyBidAdPresenterDelegate> *bannerPresenterDelegate;
 
 @end
 
@@ -56,7 +56,7 @@
 
 - (instancetype)initWithBannerPresenter:(HyBidAdPresenter *)bannerPresenter
                           withAdTracker:(HyBidAdTracker *)adTracker
-                           withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
+                           withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
@@ -67,7 +67,7 @@
     return self;
 }
 
-#pragma mark HyBidBannerPresenterDelegate
+#pragma mark HyBidAdPresenterDelegate
 
 - (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {

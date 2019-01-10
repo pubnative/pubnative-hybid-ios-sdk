@@ -26,7 +26,7 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubBannerCustomEvent () <HyBidBannerPresenterDelegate>
+@interface HyBidMoPubBannerCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
@@ -85,7 +85,7 @@
     return NO;
 }
 
-#pragma mark - HyBidBannerPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
 - (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {

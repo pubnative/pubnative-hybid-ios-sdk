@@ -23,7 +23,7 @@
 #import "HyBidDFPBannerCustomEvent.h"
 #import "HyBidDFPUtils.h"
 
-@interface HyBidDFPBannerCustomEvent () <HyBidBannerPresenterDelegate>
+@interface HyBidDFPBannerCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
@@ -79,7 +79,7 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - HyBidBannerPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
 - (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
