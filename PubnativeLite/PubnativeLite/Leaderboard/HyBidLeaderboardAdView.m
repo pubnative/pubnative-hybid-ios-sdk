@@ -21,13 +21,13 @@
 //
 
 #import "HyBidLeaderboardAdView.h"
-#import "HyBidLeaderboardPresenter.h"
+#import "HyBidAdPresenter.h"
 #import "HyBidLeaderboardPresenterFactory.h"
 #import "HyBidLeaderboardAdRequest.h"
 
-@interface HyBidLeaderboardAdView() <HyBidLeaderboardPresenterDelegate>
+@interface HyBidLeaderboardAdView() <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidLeaderboardPresenter *leaderboardPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *leaderboardPresenter;
 
 @end
 
@@ -52,7 +52,7 @@
 - (void)renderAd
 {
     HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
-    self.leaderboardPresenter = [leaderboardPresenterFactory createLeaderboardPresenterWithAd:self.ad withDelegate:self];
+    self.leaderboardPresenter = [leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
     if (self.leaderboardPresenter == nil) {
         NSLog(@"HyBid - Error: Could not create valid leaderboard presenter");
         [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
@@ -75,27 +75,27 @@
     [self.leaderboardPresenter stopTracking];
 }
 
-#pragma mark - HyBidLeaderboardPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didLoadWithLeaderboard:(UIView *)leaderboard
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
-    if (leaderboard == nil) {
+    if (adView == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
         }
     } else {
-        [self setupAdView:leaderboard];
+        [self setupAdView:adView];
     }
 }
 
-- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }
 }
 
-- (void)leaderboardPresenterDidClick:(HyBidLeaderboardPresenter *)leaderboardPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];

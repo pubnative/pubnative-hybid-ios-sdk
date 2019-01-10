@@ -23,10 +23,10 @@
 #import "HyBidDFPLeaderboardCustomEvent.h"
 #import "HyBidDFPUtils.h"
 
-@interface HyBidDFPLeaderboardCustomEvent () <HyBidLeaderboardPresenterDelegate>
+@interface HyBidDFPLeaderboardCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) HyBidLeaderboardPresenter *leaderboardPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *leaderboardPresenter;
 @property (nonatomic, strong) HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -57,7 +57,7 @@
                 return;
             }
             self.leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
-            self.leaderboardPresenter = [self.leaderboardPresenterFactory createLeaderboardPresenterWithAd:self.ad withDelegate:self];
+            self.leaderboardPresenter = [self.leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
             if (self.leaderboardPresenter == nil) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid leaderboard presenter"];
                 return;
@@ -79,20 +79,20 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - HyBidLeaderboardPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didLoadWithLeaderboard:(UIView *)leaderboard
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
-    [self.delegate customEventBanner:self didReceiveAd:leaderboard];
+    [self.delegate customEventBanner:self didReceiveAd:adView];
     [self.leaderboardPresenter startTracking];
 }
 
-- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)leaderboardPresenterDidClick:(HyBidLeaderboardPresenter *)leaderboardPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];

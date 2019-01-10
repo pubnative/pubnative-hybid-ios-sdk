@@ -87,19 +87,19 @@ CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
 
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView
 {
-    [self.delegate leaderboardPresenter:self didLoadWithLeaderboard:mraidView];
+    [self.delegate adPresenter:self didLoadWithAd:mraidView];
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView
 {
     NSError *error = [NSError errorWithDomain:@"HyBidMRAIDLeaderboardPresenter - MRAID View  Failed" code:0 userInfo:nil];
-    [self.delegate leaderboardPresenter:self didFailWithError:error];
+    [self.delegate adPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView
 {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
-    [self.delegate leaderboardPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView
@@ -111,7 +111,7 @@ CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
 {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
-    [self.delegate leaderboardPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
@@ -138,7 +138,7 @@ CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
 {
-    [self.delegate leaderboardPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 

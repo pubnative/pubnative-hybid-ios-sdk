@@ -77,7 +77,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidBannerAdRequest.h>
 #import <HyBid/HyBidMRectAdRequest.h>
 #import <HyBid/HyBidInterstitialAdRequest.h>
-#import <HyBid/HyBidLeaderboardPresenter.h>
 #import <HyBid/HyBidAdPresenter.h>
 #import <HyBid/HyBidMRectPresenter.h>
 #import <HyBid/HyBidInterstitialPresenter.h>
