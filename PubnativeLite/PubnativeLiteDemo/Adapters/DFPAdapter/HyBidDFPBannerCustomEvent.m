@@ -26,7 +26,7 @@
 @interface HyBidDFPBannerCustomEvent () <HyBidBannerPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -81,18 +81,18 @@
 
 #pragma mark - HyBidBannerPresenterDelegate
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     [self.delegate customEventBanner:self didReceiveAd:banner];
     [self.bannerPresenter startTracking];
 }
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
+- (void)bannerPresenterDidClick:(HyBidAdPresenter *)bannerPresenter
 {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];

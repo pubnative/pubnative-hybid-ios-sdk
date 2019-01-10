@@ -21,13 +21,13 @@
 //
 
 #import "HyBidBannerAdView.h"
-#import "HyBidBannerPresenter.h"
+#import "HyBidAdPresenter.h"
 #import "HyBidBannerPresenterFactory.h"
 #import "HyBidBannerAdRequest.h"
 
 @interface HyBidBannerAdView() <HyBidBannerPresenterDelegate>
 
-@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 
 @end
 
@@ -77,7 +77,7 @@
 
 #pragma mark - HyBidBannerPresenterDelegate
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
 {
     if (banner == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
@@ -88,14 +88,14 @@
     }
 }
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter didFailWithError:(NSError *)error
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }
 }
 
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
+- (void)bannerPresenterDidClick:(HyBidAdPresenter *)bannerPresenter
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];

@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerPresenter.h"
+#import "HyBidAdPresenter.h"
 
 DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenterDelegate instead.")
 
@@ -30,6 +30,6 @@ DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenterDelegate instead.")
 
 DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenter instead.")
 
-@interface PNLiteBannerPresenter : HyBidBannerPresenter
+@interface PNLiteBannerPresenter : HyBidAdPresenter
 
 @end

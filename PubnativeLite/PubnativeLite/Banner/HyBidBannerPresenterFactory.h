@@ -21,12 +21,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidBannerPresenter.h"
+#import "HyBidAdPresenter.h"
 #import "HyBidAd.h"
 
 @interface HyBidBannerPresenterFactory : NSObject
 
-- (HyBidBannerPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
+- (HyBidAdPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
                                          withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate;
 
 @end

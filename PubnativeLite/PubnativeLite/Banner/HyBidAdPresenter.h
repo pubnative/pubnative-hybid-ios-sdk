@@ -24,19 +24,19 @@
 #import <UIKit/UIKit.h>
 #import "HyBidAd.h"
 
-@class HyBidBannerPresenter;
+@class HyBidAdPresenter;
 
 @protocol HyBidBannerPresenterDelegate<NSObject>
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter
+- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter
       didLoadWithBanner:(UIView *)banner;
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter;
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter
+- (void)bannerPresenterDidClick:(HyBidAdPresenter *)bannerPresenter;
+- (void)bannerPresenter:(HyBidAdPresenter *)bannerPresenter
        didFailWithError:(NSError *)error;
 
 @end
 
-@interface HyBidBannerPresenter : NSObject
+@interface HyBidAdPresenter : NSObject
 
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic, strong) NSObject <HyBidBannerPresenterDelegate> *delegate;
