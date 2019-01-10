@@ -2619,14 +2619,10 @@
 			children = (
 				5A20DBE1203B131100EF2B3C /* PNLiteBannerPresenter.h */,
 				5A20DBE2203B131100EF2B3C /* PNLiteBannerPresenter.m */,
-				5ADF9E7121493DF00081355E /* HyBidAdPresenter.h */,
-				5ADF9E7221493DF00081355E /* HyBidAdPresenter.m */,
 				5A3657C7203C23D1004B4347 /* PNLiteBannerPresenterFactory.h */,
 				5A3657C8203C23D1004B4347 /* PNLiteBannerPresenterFactory.m */,
 				5ADF9E8521494F730081355E /* HyBidBannerPresenterFactory.h */,
 				5ADF9E8621494F730081355E /* HyBidBannerPresenterFactory.m */,
-				5A3657CB203C2E75004B4347 /* PNLiteAdPresenterDecorator.h */,
-				5A3657CC203C2E75004B4347 /* PNLiteAdPresenterDecorator.m */,
 				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
 				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
 				5A81267D20CFF0D5007F7092 /* PNLiteBannerAdView.h */,
@@ -2699,6 +2695,10 @@
 		5A64B3FA21E77C1800160235 /* Ad Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				5ADF9E7121493DF00081355E /* HyBidAdPresenter.h */,
+				5ADF9E7221493DF00081355E /* HyBidAdPresenter.m */,
+				5A3657CB203C2E75004B4347 /* PNLiteAdPresenterDecorator.h */,
+				5A3657CC203C2E75004B4347 /* PNLiteAdPresenterDecorator.m */,
 			);
 			path = "Ad Presenter";
 			sourceTree = "<group>";
@@ -2764,7 +2764,6 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
-				5A64B3FA21E77C1800160235 /* Ad Presenter */,
 				5A6CD0232029CD060022E206 /* HyBid.h */,
 				5A540258202B129E005D80E6 /* HyBid.m */,
 				5A540251202B0C04005D80E6 /* PNLiteTargetingModel.h */,
@@ -2799,6 +2798,7 @@
 				5ABE0139203F2F4600E6A14E /* Ad Request */,
 				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
 				5A404B47204E96C200BEE041 /* Ad Tracker */,
+				5A64B3FA21E77C1800160235 /* Ad Presenter */,
 				5A262DC6218B02D1001A29E2 /* Leaderboard */,
 				5A449B56203D93D900CEB630 /* Banner */,
 				5A449B55203D93C300CEB630 /* MRect */,
