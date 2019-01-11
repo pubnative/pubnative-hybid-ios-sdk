@@ -21,22 +21,10 @@
 //
 
 #import "HyBidLeaderboardAdView.h"
-#import "HyBidAdPresenter.h"
 #import "HyBidLeaderboardPresenterFactory.h"
 #import "HyBidLeaderboardAdRequest.h"
 
-@interface HyBidLeaderboardAdView() <HyBidAdPresenterDelegate>
-
-@property (nonatomic, strong) HyBidAdPresenter *leaderboardPresenter;
-
-@end
-
 @implementation HyBidLeaderboardAdView
-
-- (void)dealloc
-{
-    self.leaderboardPresenter = nil;
-}
 
 - (instancetype)init
 {
@@ -48,6 +36,7 @@
     HyBidLeaderboardAdRequest *leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
     return leaderboardAdRequest;
 }
+
 - (HyBidAdPresenter *)createAdPresenter
 {
     HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];

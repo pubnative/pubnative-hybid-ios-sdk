@@ -29,11 +29,11 @@
 - (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
-            case MRAID_LEADERBOARD: {
-                HyBidMRAIDLeaderboardPresenter *mraidLeaderboardPresenter = [[HyBidMRAIDLeaderboardPresenter alloc] initWithAd:ad];
-                return mraidLeaderboardPresenter;
-                break;
-            }
+        case MRAID_LEADERBOARD: {
+            HyBidMRAIDLeaderboardPresenter *mraidLeaderboardPresenter = [[HyBidMRAIDLeaderboardPresenter alloc] initWithAd:ad];
+            return mraidLeaderboardPresenter;
+            break;
+        }
         default:
             NSLog(@"HyBidLeaderboardPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for leaderboard ad format", ad.assetGroupID);
             return nil;
