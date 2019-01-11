@@ -26,9 +26,9 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubMRectCustomEvent () <HyBidMRectPresenterDelegate>
+@interface HyBidMoPubMRectCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *mRectPresenter;
 @property (nonatomic, strong) HyBidMRectPresenterFactory *mRectPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -54,7 +54,7 @@
                 return;
             }
             self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-            self.mRectPresenter = [self.mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
+            self.mRectPresenter = [self.mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
             if (self.mRectPresenter == nil) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid mRect presenter"];
                 return;
@@ -85,21 +85,21 @@
     return NO;
 }
 
-#pragma mark - HyBidMRectPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
     [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:mRect];
+    [self.delegate bannerCustomEvent:self didLoadAd:adView];
     [self.mRectPresenter startTracking];
 }
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];

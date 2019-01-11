@@ -41,8 +41,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/PNLiteBannerAdRequest.h>
 #import <HyBid/PNLiteMRectAdRequest.h>
 #import <HyBid/PNLiteInterstitialAdRequest.h>
-#import <HyBid/PNLiteBannerPresenter.h>
-#import <HyBid/PNLiteMRectPresenter.h>
 #import <HyBid/PNLiteInterstitialPresenter.h>
 #import <HyBid/PNLiteNativeAdLoader.h>
 #import <HyBid/PNLiteBannerPresenterFactory.h>
@@ -77,11 +75,10 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidBannerAdRequest.h>
 #import <HyBid/HyBidMRectAdRequest.h>
 #import <HyBid/HyBidInterstitialAdRequest.h>
-#import <HyBid/HyBidLeaderboardPresenter.h>
-#import <HyBid/HyBidBannerPresenter.h>
-#import <HyBid/HyBidMRectPresenter.h>
+#import <HyBid/HyBidAdPresenter.h>
 #import <HyBid/HyBidInterstitialPresenter.h>
 #import <HyBid/HyBidNativeAdLoader.h>
+#import <HyBid/HyBidAdPresenterFactory.h>
 #import <HyBid/HyBidLeaderboardPresenterFactory.h>
 #import <HyBid/HyBidBannerPresenterFactory.h>
 #import <HyBid/HyBidMRectPresenterFactory.h>

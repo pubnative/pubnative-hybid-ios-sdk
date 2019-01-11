@@ -20,70 +20,70 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBannerPresenterDecorator.h"
+#import "PNLiteAdPresenterDecorator.h"
 
-@interface PNLiteBannerPresenterDecorator ()
+@interface PNLiteAdPresenterDecorator ()
 
-@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<HyBidBannerPresenterDelegate> *bannerPresenterDelegate;
+@property (nonatomic, strong) NSObject<HyBidAdPresenterDelegate> *adPresenterDelegate;
 
 @end
 
-@implementation PNLiteBannerPresenterDecorator
+@implementation PNLiteAdPresenterDecorator
 
 - (void)dealloc
 {
-    self.bannerPresenter = nil;
+    self.adPresenter = nil;
     self.adTracker = nil;
-    self.bannerPresenterDelegate = nil;
+    self.adPresenterDelegate = nil;
 }
 
 - (void)load
 {
-    [self.bannerPresenter load];
+    [self.adPresenter load];
 }
 
 - (void)startTracking
 {
-    [self.bannerPresenter startTracking];
+    [self.adPresenter startTracking];
 }
 
 - (void)stopTracking
 {
-    [self.bannerPresenter stopTracking];
+    [self.adPresenter stopTracking];
 }
 
-- (instancetype)initWithBannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-                          withAdTracker:(HyBidAdTracker *)adTracker
-                           withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
+- (instancetype)initWithAdPresenter:(HyBidAdPresenter *)adPresenter
+                      withAdTracker:(HyBidAdTracker *)adTracker
+                       withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
 {
     self = [super init];
     if (self) {
-        self.bannerPresenter = bannerPresenter;
+        self.adPresenter = adPresenter;
         self.adTracker = adTracker;
-        self.bannerPresenterDelegate = delegate;
+        self.adPresenterDelegate = delegate;
     }
     return self;
 }
 
-#pragma mark HyBidBannerPresenterDelegate
+#pragma mark HyBidAdPresenterDelegate
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
     [self.adTracker trackImpression];
-    [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didLoadWithBanner:banner];
+    [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
 }
 
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     [self.adTracker trackClick];
-    [self.bannerPresenterDelegate bannerPresenterDidClick:bannerPresenter];
+    [self.adPresenterDelegate adPresenterDidClick:adPresenter];
 }
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
-    [self.bannerPresenterDelegate bannerPresenter:bannerPresenter didFailWithError:error];
+    [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
 }
 
 @end

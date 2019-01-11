@@ -22,28 +22,12 @@
 
 #import "HyBidMRectPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
-#import "PNLiteMRectPresenterDecorator.h"
 #import "PNLiteMRAIDMRectPresenter.h"
 #import "PNLiteVASTMRectPresenter.h"
-#import "HyBidAdTracker.h"
 
 @implementation HyBidMRectPresenterFactory
 
-- (HyBidMRectPresenter *)createMRectPresenterWithAd:(HyBidAd *)ad
-                                       withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate
-{
-    HyBidMRectPresenter *mRectPresenter = [self createMRectPresenterFromAd:ad];
-    if (!mRectPresenter) {
-        return nil;
-    }
-    PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter
-                                                                                                             withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                              withDelegate:delegate];
-    mRectPresenter.delegate = mRectPresenterDecorator;
-    return mRectPresenterDecorator;
-}
-
-- (HyBidMRectPresenter *)createMRectPresenterFromAd:(HyBidAd *)ad
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad
 {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_MRECT: {

@@ -20,13 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerPresenter.h"
-#import "HyBidAdTracker.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "HyBidAd.h"
 
-@interface PNLiteBannerPresenterDecorator : HyBidBannerPresenter <HyBidBannerPresenterDelegate>
+@class HyBidAdPresenter;
 
-- (instancetype)initWithBannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-                          withAdTracker:(HyBidAdTracker *)adTracker
-                           withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate;
+@protocol HyBidAdPresenterDelegate<NSObject>
+
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter
+      didLoadWithAd:(UIView *)adView;
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter;
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter
+       didFailWithError:(NSError *)error;
+
+@end
+
+@interface HyBidAdPresenter : NSObject
+
+@property (nonatomic, readonly) HyBidAd *ad;
+@property (nonatomic, strong) NSObject <HyBidAdPresenterDelegate> *delegate;
+
+- (void)load;
+- (void)startTracking;
+- (void)stopTracking;
 
 @end

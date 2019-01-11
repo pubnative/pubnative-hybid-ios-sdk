@@ -20,8 +20,33 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteBannerPresenter.h"
+#import "HyBidAdPresenter.h"
 
-@implementation PNLiteBannerPresenter
+@implementation HyBidAdPresenter
+
+- (void)dealloc
+{
+    self.delegate = nil;
+}
+
+- (void)load
+{
+    // Do nothing, this method should be overriden
+}
+
+- (void)startTracking
+{
+    // Do nothing, this method should be overriden
+}
+
+- (void)stopTracking
+{
+    // Do nothing, this method should be overriden
+}
+
+- (HyBidAd *)ad
+{
+    return nil;
+}
 
 @end

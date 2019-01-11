@@ -20,29 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "HyBidAd.h"
+#import "HyBidAdPresenterFactory.h"
+#import "PNLiteAdPresenterDecorator.h"
+#import "HyBidAdTracker.h"
 
-@class HyBidBannerPresenter;
+@implementation HyBidAdPresenterFactory
 
-@protocol HyBidBannerPresenterDelegate<NSObject>
+- (HyBidAdPresenter *)createAdPresenterWithAd:(HyBidAd *)ad
+                                 withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
+{
+    HyBidAdPresenter *adPresenter = [self adPresenterFromAd:ad];
+    if (!adPresenter) {
+        return nil;
+    }
+    PNLiteAdPresenterDecorator *adPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithAdPresenter:adPresenter
+                                                                                                 withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
+                                                                                                  withDelegate:delegate];
+    adPresenter.delegate = adPresenterDecorator;
+    return adPresenterDecorator;
+}
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-      didLoadWithBanner:(UIView *)banner;
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter;
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter
-       didFailWithError:(NSError *)error;
-
-@end
-
-@interface HyBidBannerPresenter : NSObject
-
-@property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidBannerPresenterDelegate> *delegate;
-
-- (void)load;
-- (void)startTracking;
-- (void)stopTracking;
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad
+{
+    return nil;
+}
 
 @end

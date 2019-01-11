@@ -20,33 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidLeaderboardPresenter.h"
+#import <Foundation/Foundation.h>
+#import "HyBidAdPresenter.h"
+#import "HyBidAd.h"
 
-@implementation HyBidLeaderboardPresenter
+@interface HyBidAdPresenterFactory : NSObject
 
-- (void)dealloc
-{
-    self.delegate = nil;
-}
+- (HyBidAdPresenter *)createAdPresenterWithAd:(HyBidAd *)ad
+                                     withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate;
 
-- (void)load
-{
-    // Do nothing, this method should be overriden
-}
-
-- (void)startTracking
-{
-    // Do nothing, this method should be overriden
-}
-
-- (void)stopTracking
-{
-    // Do nothing, this method should be overriden
-}
-
-- (HyBidAd *)ad
-{
-    return nil;
-}
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad;
 
 @end

@@ -23,10 +23,10 @@
 #import "HyBidDFPMRectCustomEvent.h"
 #import "HyBidDFPUtils.h"
 
-@interface HyBidDFPMRectCustomEvent () <HyBidMRectPresenterDelegate>
+@interface HyBidDFPMRectCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *mRectPresenter;
 @property (nonatomic, strong) HyBidMRectPresenterFactory *mRectPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -57,7 +57,7 @@
                 return;
             }
             self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-            self.mRectPresenter = [self.mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
+            self.mRectPresenter = [self.mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
             if (self.mRectPresenter == nil) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid mRect presenter"];
                 return;
@@ -79,20 +79,20 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - HyBidMRectPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
-    [self.delegate customEventBanner:self didReceiveAd:mRect];
+    [self.delegate customEventBanner:self didReceiveAd:adView];
     [self.mRectPresenter startTracking];
 }
 
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];

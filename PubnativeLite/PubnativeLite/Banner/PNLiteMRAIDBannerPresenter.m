@@ -87,19 +87,19 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView
 {
-    [self.delegate bannerPresenter:self didLoadWithBanner:mraidView];
+    [self.delegate adPresenter:self didLoadWithAd:mraidView];
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView
 {
     NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDBannerPresenter - MRAID View  Failed" code:0 userInfo:nil];
-    [self.delegate bannerPresenter:self didFailWithError:error];
+    [self.delegate adPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView
 {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
-    [self.delegate bannerPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView
@@ -111,7 +111,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
-    [self.delegate bannerPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
@@ -138,7 +138,7 @@ CGFloat const kPNLiteMRAIDBannerHeight = 50.0f;
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
 {
-    [self.delegate bannerPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 

@@ -26,9 +26,9 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubBannerCustomEvent () <HyBidBannerPresenterDelegate>
+@interface HyBidMoPubBannerCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -54,7 +54,7 @@
                 return;
             }
             self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-            self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
+            self.bannerPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
             if (self.bannerPresenter == nil) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid banner presenter"];
                 return;
@@ -85,21 +85,21 @@
     return NO;
 }
 
-#pragma mark - HyBidBannerPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
 {
     [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:banner];
+    [self.delegate bannerCustomEvent:self didLoadAd:adView];
     [self.bannerPresenter startTracking];
 }
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
 {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
 {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];
