@@ -48,58 +48,10 @@
     HyBidLeaderboardAdRequest *leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
     return leaderboardAdRequest;
 }
-
-- (void)renderAd
+- (HyBidAdPresenter *)createAdPresenter
 {
     HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
-    self.leaderboardPresenter = [leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-    if (self.leaderboardPresenter == nil) {
-        NSLog(@"HyBid - Error: Could not create valid leaderboard presenter");
-        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
-        return;
-    } else {
-        [self.leaderboardPresenter load];
-    }
-}
-
-- (void)startTracking
-{
-    [self.leaderboardPresenter startTracking];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
-        [self.delegate adViewDidTrackImpression:self];
-    }
-}
-
-- (void)stopTracking
-{
-    [self.leaderboardPresenter stopTracking];
-}
-
-#pragma mark - HyBidAdPresenterDelegate
-
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
-{
-    if (adView == nil) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
-        }
-    } else {
-        [self setupAdView:adView];
-    }
-}
-
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-        [self.delegate adView:self didFailWithError:error];
-    }
-}
-
-- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
-        [self.delegate adViewDidTrackClick:self];
-    }
+    return [leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end
