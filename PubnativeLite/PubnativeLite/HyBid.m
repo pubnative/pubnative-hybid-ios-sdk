@@ -27,23 +27,19 @@
 
 @implementation HyBid
 
-+ (void)setCoppa:(BOOL)enabled
-{
++ (void)setCoppa:(BOOL)enabled {
     [HyBidSettings sharedInstance].coppa = enabled;
 }
 
-+ (void)setTargeting:(HyBidTargetingModel *)targeting
-{
++ (void)setTargeting:(HyBidTargetingModel *)targeting {
     [HyBidSettings sharedInstance].targeting = targeting;
 }
 
-+ (void)setTestMode:(BOOL)enabled
-{
++ (void)setTestMode:(BOOL)enabled {
     [HyBidSettings sharedInstance].test = enabled;
 }
 
-+ (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion
-{
++ (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
     if (appToken == nil || appToken.length == 0) {
         NSLog(@"HyBid - App Token is nil or empty and required.");
     } else {

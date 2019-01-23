@@ -23,9 +23,9 @@
 #import <UIKit/UIKit.h>
 #import "HyBidBrowserControlsView.h"
 
-extern NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback;
-extern NSString * const kPNLiteBrowserFeatureDisableStatusBar;
-extern NSString * const kPNLiteBrowserFeatureScalePagesToFit;
+extern NSString * const PNLiteBrowserFeatureSupportInlineMediaPlayback;
+extern NSString * const PNLiteBrowserFeatureDisableStatusBar;
+extern NSString * const PNLiteBrowserFeatureScalePagesToFit;
 
 @class HyBidBrowser;
 

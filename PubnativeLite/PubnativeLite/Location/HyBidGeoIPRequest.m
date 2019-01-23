@@ -24,8 +24,8 @@
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
 
-NSString *const kPNLiteGeoIPResponseSuccess = @"success";
-NSString *const kPNLiteGeoIPResponseFail = @"fail";
+NSString *const PNLiteGeoIPResponseSuccess = @"success";
+NSString *const PNLiteGeoIPResponseFail = @"fail";
 
 @interface HyBidGeoIPRequest () <PNLiteHttpRequestDelegate>
 
@@ -35,14 +35,12 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
 
 @implementation HyBidGeoIPRequest
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.delegate = nil;
 }
 
-- (void)requestGeoIPWithDelegate:(NSObject<HyBidGeoIPRequestDelegate> *)delegate
-{
-    if(delegate == nil){
+- (void)requestGeoIPWithDelegate:(NSObject<HyBidGeoIPRequestDelegate> *)delegate {
+    if(delegate == nil) {
         NSLog(@"HyBidGeoIPRequest - Given delegate is nil and required, droping this call");
     } else {
         self.delegate = delegate;
@@ -51,8 +49,7 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
     }
 }
 
-- (void)invokeDidStart
-{
+- (void)invokeDidStart {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(requestDidStart:)]) {
             [self.delegate requestDidStart:self];
@@ -60,8 +57,7 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
     });
 }
 
-- (void)invokeDidLoad:(PNLiteGeoIPModel *)geoIP
-{
+- (void)invokeDidLoad:(PNLiteGeoIPModel *)geoIP {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(request:didLoadWithGeoIP:)]) {
             [self.delegate request:self didLoadWithGeoIP:geoIP];
@@ -70,18 +66,16 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
     });
 }
 
-- (void)invokeDidFail:(NSError *)error
-{
+- (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]){
+        if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }
         self.delegate = nil;
     });
 }
 
-- (void)processResponseWithData:(NSData *)data
-{
+- (void)processResponseWithData:(NSData *)data {
     NSError *parseError;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
@@ -95,7 +89,7 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
-        } else if ([kPNLiteGeoIPResponseSuccess isEqualToString:geoIP.status]) {
+        } else if ([PNLiteGeoIPResponseSuccess isEqualToString:geoIP.status]) {
             [self invokeDidLoad:geoIP];
             
         } else {
@@ -110,13 +104,11 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
 
 #pragma mark PNLiteHttpRequestDelegate
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     [self processResponseWithData:data];
 }
 
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFail:error];
 }
 @end

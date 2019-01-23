@@ -24,8 +24,7 @@
 
 @implementation HyBidBannerAdRequest
 
-- (NSString *)adSize
-{
+- (NSString *)adSize {
     return @"s";
 }
 

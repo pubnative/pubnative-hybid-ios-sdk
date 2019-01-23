@@ -35,8 +35,7 @@
 
 @synthesize delegate;
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.interstitialPresenter = nil;
     self.interstitalPresenterFactory = nil;
     self.ad = nil;
@@ -44,8 +43,7 @@
 
 - (void)requestInterstitialAdWithParameter:(NSString * _Nullable)serverParameter
                                      label:(NSString * _Nullable)serverLabel
-                                   request:(nonnull GADCustomEventRequest *)request
-{
+                                   request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
         if (self.ad == nil) {
@@ -66,43 +64,36 @@
     }
 }
 
-- (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController
-{
+- (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
     [self.delegate customEventInterstitialWillPresent:self];
     [self.interstitialPresenter show];
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
+- (void)invokeFailWithMessage:(NSString *)message {
     [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.delegate customEventInterstitialDidReceiveAd:self];
 }
 
-- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
     
 }
 
-- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.delegate customEventInterstitialWasClicked:self];
     [self.delegate customEventInterstitialWillLeaveApplication:self];
 }
 
-- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.delegate customEventInterstitialWillDismiss:self];
     [self.delegate customEventInterstitialDidDismiss:self];
 }
 
-- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
-{
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 

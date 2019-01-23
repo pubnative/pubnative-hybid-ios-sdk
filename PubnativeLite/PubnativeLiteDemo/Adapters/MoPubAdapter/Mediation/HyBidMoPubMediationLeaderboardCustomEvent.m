@@ -34,14 +34,12 @@
 
 @implementation HyBidMoPubMediationLeaderboardCustomEvent
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.leaderboardAdView stopTracking];
     self.leaderboardAdView = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
-{
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
@@ -61,8 +59,7 @@
     }
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
+- (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(message);
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
@@ -70,35 +67,29 @@
                                                      userInfo:nil]];
 }
 
-- (BOOL)enableAutomaticImpressionAndClickTracking
-{
+- (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
 }
 
-- (void)didDisplayAd
-{
+- (void)didDisplayAd {
     [self.leaderboardAdView startTracking];
 }
 
 #pragma mark - HyBidAdViewDelegate
 
-- (void)adViewDidLoad:(HyBidAdView *)adView
-{
+- (void)adViewDidLoad:(HyBidAdView *)adView {
     [self.delegate bannerCustomEvent:self didLoadAd:self.leaderboardAdView];
 }
 
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
-{
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     [self.delegate trackImpression];
 }
 
-- (void)adViewDidTrackClick:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];
 }

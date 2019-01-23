@@ -33,8 +33,7 @@
 @implementation PNLiteVASTEventProcessor
 
 // designated initializer
-- (id)initWithEvents:(NSDictionary *)events delegate:(id<PNLiteVASTEventProcessorDelegate>)delegate;
-{
+- (id)initWithEvents:(NSDictionary *)events delegate:(id<PNLiteVASTEventProcessorDelegate>)delegate; {
     self = [super init];
     if (self) {
         self.events = events;
@@ -43,14 +42,12 @@
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.events = nil;
     self.userAgent = nil;
 }
 
-- (void)trackEvent:(PNLiteVASTEvent)event
-{
+- (void)trackEvent:(PNLiteVASTEvent)event {
     NSString *eventString = nil;
     switch (event) {
         case PNLiteVASTEvent_Start:           eventString = @"start";           break;
@@ -74,30 +71,27 @@
     }
 }
 
-- (void)invokeDidTrackEvent:(PNLiteVASTEvent)event
-{
+- (void)invokeDidTrackEvent:(PNLiteVASTEvent)event {
     if ([self.delegate respondsToSelector:@selector(eventProcessorDidTrackEvent:)]) {
         [self.delegate eventProcessorDidTrackEvent:event];
     }
 }
 
-- (void)sendVASTUrls:(NSArray *)urls
-{
+- (void)sendVASTUrls:(NSArray *)urls {
     for (NSURL *url in urls) {
         [self sendTrackingRequest:url];
         NSLog(@"VAST - Event Processor: Sent http request to url: %@", url);
     }
 }
 
-- (void)sendTrackingRequest:(NSURL *)url
-{
+- (void)sendTrackingRequest:(NSURL *)url {
     dispatch_queue_t sendTrackRequestQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(sendTrackRequestQueue, ^{
         
         NSLog(@"VAST - Event Processor: Event processor sending request to url: %@", [url absoluteString]);
         
         NSURLSession * session = [NSURLSession sharedSession];
-        if(self.userAgent == nil){
+        if(self.userAgent == nil) {
             // Perform on main thread/queue
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];

@@ -24,8 +24,7 @@
 
 @implementation PNLiteDemoMoPubMediationNativeView
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.titleLabel = nil;
     self.mainTextLabel = nil;
     self.callToActionLabel = nil;
@@ -34,38 +33,31 @@
     self.privacyInformationIconImageView = nil;
 }
 
-- (UILabel *)nativeMainTextLabel
-{
+- (UILabel *)nativeMainTextLabel {
     return self.mainTextLabel;
 }
 
-- (UILabel *)nativeTitleTextLabel
-{
+- (UILabel *)nativeTitleTextLabel {
     return self.titleLabel;
 }
 
-- (UILabel *)nativeCallToActionTextLabel
-{
+- (UILabel *)nativeCallToActionTextLabel {
     return self.callToActionLabel;
 }
 
-- (UIImageView *)nativeIconImageView
-{
+- (UIImageView *)nativeIconImageView {
     return self.iconImageView;
 }
 
-- (UIImageView *)nativeMainImageView
-{
+- (UIImageView *)nativeMainImageView {
     return self.mainImageView;
 }
 
-- (UIImageView *)nativePrivacyInformationIconImageView
-{
+- (UIImageView *)nativePrivacyInformationIconImageView {
     return self.privacyInformationIconImageView;
 }
 
-+ (UINib *)nibForAd
-{
++ (UINib *)nibForAd {
     UINib *result = [UINib nibWithNibName:NSStringFromClass([self class])
                                    bundle:[NSBundle mainBundle]];
     return result;

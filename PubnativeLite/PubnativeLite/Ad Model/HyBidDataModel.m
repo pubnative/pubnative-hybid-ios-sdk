@@ -26,16 +26,14 @@
 
 @implementation HyBidDataModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.type = nil;
     self.data = nil;
 }
 
 #pragma mark HyBidBaseModel
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.type = dictionary[@"type"];
@@ -46,48 +44,39 @@
 
 #pragma mark HyBidDataModel
 
-- (NSString *)text
-{
+- (NSString *)text {
     return [self stringFieldWithKey:PNLiteData.text];
 }
 
-- (NSString *)vast
-{
+- (NSString *)vast {
     return [self stringFieldWithKey:PNLiteData.vast];
 }
 
-- (NSNumber *)number
-{
+- (NSNumber *)number {
     return [self numberFieldWithKey:PNLiteData.number];
 }
 
-- (NSString *)url
-{
+- (NSString *)url {
     return [self stringFieldWithKey:PNLiteData.url];
 }
 
-- (NSString *)html
-{
+- (NSString *)html {
     return [self stringFieldWithKey:PNLiteData.html];
 }
 
-- (NSNumber *)eCPM
-{
+- (NSNumber *)eCPM {
     return [self numberFieldWithKey:PNLiteData.number];
 }
 
-- (NSString *)stringFieldWithKey:(NSString *)key
-{
+- (NSString *)stringFieldWithKey:(NSString *)key {
     return (NSString *) [self dataWithKey:key];
 }
 
-- (NSNumber *)numberFieldWithKey:(NSString *)key
-{
+- (NSNumber *)numberFieldWithKey:(NSString *)key {
     return (NSNumber *) [self dataWithKey:key];
 }
 
-- (NSObject *)dataWithKey:(NSString *)key
-{
+- (NSObject *)dataWithKey:(NSString *)key {
     NSObject *result = nil;
     if (self.data != nil && [self.data objectForKey:key]) {
         result = [self.data objectForKey:key];

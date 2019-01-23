@@ -26,8 +26,7 @@
 
 @implementation HyBidLeaderboardPresenterFactory
 
-- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad
-{
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_LEADERBOARD: {
             HyBidMRAIDLeaderboardPresenter *mraidLeaderboardPresenter = [[HyBidMRAIDLeaderboardPresenter alloc] initWithAd:ad];

@@ -36,8 +36,7 @@
 
 @synthesize delegate;
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.bannerPresenter stopTracking];
     self.bannerPresenter = nil;
     self.bannerPresenterFactory = nil;
@@ -47,8 +46,7 @@
 - (void)requestBannerAd:(GADAdSize)adSize
               parameter:(NSString * _Nullable)serverParameter
                   label:(NSString * _Nullable)serverLabel
-                request:(nonnull GADCustomEventRequest *)request
-{
+                request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
@@ -74,26 +72,22 @@
     }
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
+- (void)invokeFailWithMessage:(NSString *)message {
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - HyBidAdPresenterDelegate
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     [self.delegate customEventBanner:self didReceiveAd:adView];
     [self.bannerPresenter startTracking];
 }
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
-{
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];
 }

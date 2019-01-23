@@ -26,19 +26,16 @@
 
 @implementation HyBidMRectAdView
 
-- (instancetype)init
-{
+- (instancetype)init {
     return [super initWithFrame:CGRectMake(0, 0, 300, 250)];
 }
 
-- (HyBidAdRequest *)adRequest
-{
+- (HyBidAdRequest *)adRequest {
     HyBidMRectAdRequest *mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     return mRectAdRequest;
 }
 
-- (HyBidAdPresenter *)createAdPresenter
-{
+- (HyBidAdPresenter *)createAdPresenter {
     HyBidMRectPresenterFactory *mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
     return [mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }

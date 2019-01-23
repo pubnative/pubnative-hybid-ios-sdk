@@ -29,13 +29,12 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 // Features
-NSString * const kPNLiteBrowserFeatureDisableStatusBar = @"disableStatusBar";
-NSString * const kPNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
-NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
-NSString * const kPNLiteBrowserTelPrefix = @"tel://";
+NSString * const PNLiteBrowserFeatureDisableStatusBar = @"disableStatusBar";
+NSString * const PNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
+NSString * const PNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
+NSString * const PNLiteBrowserTelPrefix = @"tel://";
 
-@interface HyBidBrowser () <WKNavigationDelegate>
-{
+@interface HyBidBrowser () <WKNavigationDelegate> {
     HyBidBrowserControlsView *browserControlsView;
     NSURLRequest *currrentRequest;
     UIViewController *currentViewController;
@@ -55,8 +54,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 #pragma mark - Init & dealloc
 
 // designated initializer
-- (id)initWithDelegate:(id<HyBidBrowserDelegate>)delegate withFeatures:(NSArray *)p_pubnativeBrowserFeatures
-{
+- (id)initWithDelegate:(id<HyBidBrowserDelegate>)delegate withFeatures:(NSArray *)p_pubnativeBrowserFeatures {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _delegate = delegate;
@@ -66,13 +64,13 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
         {
             for (NSString *feature in p_pubnativeBrowserFeatures)
             {
-                if ([feature isEqualToString:kPNLiteBrowserFeatureDisableStatusBar]) {
+                if ([feature isEqualToString:PNLiteBrowserFeatureDisableStatusBar]) {
                     disableStatusBar = YES;
                 }
-                else if ([feature isEqualToString:kPNLiteBrowserFeatureSupportInlineMediaPlayback]) {
+                else if ([feature isEqualToString:PNLiteBrowserFeatureSupportInlineMediaPlayback]) {
                     supportInlineMediaPlayback = YES;
                 }
-                else if ([feature isEqualToString:kPNLiteBrowserFeatureScalePagesToFit]) {
+                else if ([feature isEqualToString:PNLiteBrowserFeatureScalePagesToFit]) {
                     scalePagesToFit = YES;
                 }
                 
@@ -90,8 +88,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     return nil;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:@"-initWithNibName:bundle: is not a valid initializer for the class PubnativeBrowser"
                                  userInfo:nil];
@@ -100,8 +97,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
 #pragma mark - View lifecycle
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if(!browserWebView) {
         WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
@@ -148,24 +144,20 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     }
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     statusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return disableStatusBar;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.view.autoresizesSubviews = YES;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight |
@@ -175,8 +167,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
 #pragma mark - PubnativeBrowser public methods
 
-- (void)loadRequest:(NSURLRequest *)request
-{
+- (void)loadRequest:(NSURLRequest *)request {
     currentViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (currentViewController.presentedViewController) {
         currentViewController = currentViewController.presentedViewController;
@@ -229,13 +220,12 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 
 #pragma mark - Telephone call permission AlertView
 
-- (void)getTelPermission:(NSString *)telString
-{
+- (void)getTelPermission:(NSString *)telString {
     if ([self.delegate respondsToSelector:@selector(pubnativeTelPopupOpen:)]) {
         [self.delegate pubnativeTelPopupOpen:self];
     }
     
-    telString = [telString stringByReplacingOccurrencesOfString:kPNLiteBrowserTelPrefix withString:@""];
+    telString = [telString stringByReplacingOccurrencesOfString:PNLiteBrowserTelPrefix withString:@""];
     
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:telString
@@ -267,7 +257,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
                                      }
                                      
                                      // Parse phone number and dial
-                                     NSString *toCall = [kPNLiteBrowserTelPrefix stringByAppendingString:telString];
+                                     NSString *toCall = [PNLiteBrowserTelPrefix stringByAppendingString:telString];
                                      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:toCall]];
                                  }];
     
@@ -281,8 +271,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
 #pragma mark -
 #pragma mark WKNavigationDelegate
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
-{
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     NSURL *url = [navigationAction.request URL];
     NSString *scheme = [url scheme];
     NSString *host = [url host];
@@ -326,30 +315,26 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     return;
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     browserControlsView.backButton.enabled = [webView canGoBack];
     browserControlsView.forwardButton.enabled = [webView canGoForward];
     [loadingIndicator stopAnimating];
 }
 
-- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
     [loadingIndicator startAnimating];
 }
 
 #pragma mark -
 #pragma mark PubnativeBrowserControlsView actions
 
-- (void)back
-{
+- (void)back {
     if([browserWebView canGoBack]) {
         [browserWebView goBack];
     }
 }
 
-- (void)dismiss
-{
+- (void)dismiss {
     [PNLiteLogger debug:@"PNBrowser" withMessage:@"Dismissing PubnativeBrowser"];
     if ([self.delegate respondsToSelector:@selector(pubnativeBrowserClosed:)]) {
         [self.delegate pubnativeBrowserClosed:self];
@@ -365,15 +350,13 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     [currentViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (void)forward
-{
+- (void)forward {
     if([browserWebView canGoForward]) {
         [browserWebView goForward];
     }
 }
 
-- (void)launchSafari
-{
+- (void)launchSafari {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:nil
                                           message:nil
@@ -406,8 +389,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
     [[UIApplication sharedApplication].topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)refresh
-{
+- (void)refresh {
     [browserWebView reload];
 }
 

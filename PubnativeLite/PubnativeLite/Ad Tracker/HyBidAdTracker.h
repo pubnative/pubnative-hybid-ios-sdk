@@ -23,8 +23,8 @@
 #import <Foundation/Foundation.h>
 #import "HyBidAdTrackerRequest.h"
 
-extern NSString *const kPNLiteAdTrackerClick;
-extern NSString *const kPNLiteAdTrackerImpression;
+extern NSString *const PNLiteAdTrackerClick;
+extern NSString *const PNLiteAdTrackerImpression;
 
 @interface HyBidAdTracker : NSObject
 

@@ -37,14 +37,12 @@
 
 @implementation PNLiteDemoMoPubMRectViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubMrect = nil;
     self.mRectAdRequest = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"MoPub MRect";
@@ -57,8 +55,7 @@
     [self.mRectContainer addSubview:self.moPubMrect];
 }
 
-- (IBAction)requestMRectTouchUpInside:(id)sender
-{
+- (IBAction)requestMRectTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -67,8 +64,7 @@
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
+- (void)showAlertControllerWithMessage:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:message
@@ -85,13 +81,11 @@
 
 #pragma mark - MPAdViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
+- (void)adViewDidLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidLoadAd");
     if (self.moPubMrect == view) {
         self.mRectContainer.hidden = NO;
@@ -99,8 +93,7 @@
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
-{
+- (void)adViewDidFailToLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubMrect == view) {
         [self.mRectLoaderIndicator stopAnimating];
@@ -108,30 +101,25 @@
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
-{
+- (void)willPresentModalViewForAd:(MPAdView *)view {
     NSLog(@"willPresentModalViewForAd");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
-{
+- (void)didDismissModalViewForAd:(MPAdView *)view {
     NSLog(@"didDismissModalViewForAd");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
-{
+- (void)willLeaveApplicationFromAd:(MPAdView *)view {
     NSLog(@"willLeaveApplicationFromAd");
 }
 
 #pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
@@ -141,8 +129,7 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
      if (request == self.mRectAdRequest) {

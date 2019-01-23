@@ -32,8 +32,7 @@
 
 @implementation PNLiteVASTMediaFilePicker
 
-+ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles
-{
++ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles {
     // Check whether we even have a network connection.
     // If not, return a nil.
     if (![PNLiteVASTMediaFilePicker isInternetReachable]) {
@@ -89,8 +88,7 @@
     return toReturn;
 }
 
-+ (BOOL)isInternetReachable
-{
++ (BOOL)isInternetReachable {
     BOOL result = false;
     PNLiteReachability *reachability = [PNLiteReachability reachabilityForInternetConnection];
     [reachability startNotifier];
@@ -100,8 +98,7 @@
     [reachability stopNotifier];
     return result;}
 
-+ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile
-{
++ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile {
     NSString *pattern = @"(mp4|m4v|quicktime|3gpp)";
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern

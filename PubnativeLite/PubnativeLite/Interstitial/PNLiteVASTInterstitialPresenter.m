@@ -33,14 +33,12 @@
 
 @implementation PNLiteVASTInterstitialPresenter
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.adModel = nil;
     self.vastViewController = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad
-{
+- (instancetype)initWithAd:(HyBidAd *)ad {
     self = [super init];
     if (self) {
         self.adModel = ad;
@@ -48,24 +46,20 @@
     return self;
 }
 
-- (HyBidAd *)ad
-{
+- (HyBidAd *)ad {
     return self.adModel;
 }
 
-- (void)load
-{
+- (void)load {
     self.vastViewController = [PNLiteVASTPlayerInterstitialViewController new];
     [self.vastViewController loadFullScreenPlayerWithPresenter:self withAd:self.adModel];
 }
 
-- (void)show
-{
+- (void)show {
     [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
 }
 
-- (void)hide
-{
+- (void)hide {
     [[UIApplication sharedApplication].topViewController dismissViewControllerAnimated:NO completion:nil];
 }
 

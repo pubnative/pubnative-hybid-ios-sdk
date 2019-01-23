@@ -36,16 +36,14 @@
 
 @implementation HyBidInterstitialAd
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.zoneID = nil;
     self.delegate = nil;
     self.interstitialPresenter = nil;
     self.interstitialAdRequest = nil;
 }
 
-- (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate
-{
+- (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
     self = [super init];
     if (self) {
         self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
@@ -55,8 +53,7 @@
     return self;
 }
 
-- (void)load
-{
+- (void)load {
     if (self.zoneID == nil || self.zoneID.length == 0) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
     } else {
@@ -65,8 +62,7 @@
     }
 }
 
-- (void)show
-{
+- (void)show {
     if (self.isReady) {
         [self.interstitialPresenter show];
     } else {
@@ -74,13 +70,11 @@
     }
 }
 
-- (void)hide
-{
+- (void)hide {
     [self.interstitialPresenter hide];
 }
 
-- (void)renderAd:(HyBidAd *)ad
-{
+- (void)renderAd:(HyBidAd *)ad {
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
     if (self.interstitialPresenter == nil) {
@@ -92,36 +86,31 @@
     }
 }
 
-- (void)invokeDidLoad
-{
+- (void)invokeDidLoad {
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidLoad)]) {
         [self.delegate interstitialDidLoad];
     }
 }
 
-- (void)invokeDidFailWithError:(NSError *)error
-{
+- (void)invokeDidFailWithError:(NSError *)error {
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidFailWithError:)]) {
         [self.delegate interstitialDidFailWithError:error];
     }
 }
 
-- (void)invokeDidTrackImpression
-{
+- (void)invokeDidTrackImpression {
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidTrackImpression)]) {
         [self.delegate interstitialDidTrackImpression];
     }
 }
 
-- (void)invokeDidTrackClick
-{
+- (void)invokeDidTrackClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidTrackClick)]) {
         [self.delegate interstitialDidTrackClick];
     }
 }
 
-- (void)invokeDidDismiss
-{
+- (void)invokeDidDismiss {
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidDismiss)]) {
         [self.delegate interstitialDidDismiss];
     }
@@ -129,13 +118,11 @@
 
 #pragma mark HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
@@ -144,36 +131,30 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFailWithError:error];
 }
 
 #pragma mark HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
     self.isReady = YES;
     [self invokeDidLoad];
 }
 
-- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
-{
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     [self invokeDidFailWithError:error];
 }
 
-- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self invokeDidTrackImpression];
 }
 
-- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self invokeDidTrackClick];
 }
 
-- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self invokeDidDismiss];
 }
 

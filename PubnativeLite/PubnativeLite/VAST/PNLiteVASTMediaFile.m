@@ -33,9 +33,7 @@
         scalable:(NSString *)scalable
 maintainAspectRatio:(NSString *)maintainAspectRatio
     apiFramework:(NSString *)apiFramework
-             url:(NSString *)url
-
-{
+             url:(NSString *)url {
     self = [super init];
     if (self) {
         _id_ = id_;
@@ -52,8 +50,7 @@ maintainAspectRatio:(NSString *)maintainAspectRatio
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     _url = nil;
 }
 

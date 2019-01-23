@@ -33,8 +33,7 @@
 
 @implementation PNLiteMRAIDParser
 
-- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl;
-{
+- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl; {
     /*
      The command is a URL string that looks like this:
      
@@ -119,8 +118,7 @@
     return commandDict;
 }
 
-- (BOOL)isValidCommand:(NSString *)command
-{
+- (BOOL)isValidCommand:(NSString *)command {
     NSArray *kCommands = @[
                            @"createCalendarEvent",
                            @"close",
@@ -139,8 +137,7 @@
     return [kCommands containsObject:command];
 }
 
-- (BOOL)checkParamsForCommand:(NSString *)command params:(NSDictionary *)params;
-{
+- (BOOL)checkParamsForCommand:(NSString *)command params:(NSDictionary *)params; {
     if ([command isEqualToString:@"createCalendarEvent"]) {
         return ([params valueForKey:@"eventJSON"] != nil);
     } else if ([command isEqualToString:@"open"] || [command isEqualToString:@"playVideo"] || [command isEqualToString:@"storePicture"] || [command isEqualToString:@"sendSMS"] || [command isEqualToString:@"callNumber"]) {

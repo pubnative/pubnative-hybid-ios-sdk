@@ -26,22 +26,19 @@
 
 @implementation HyBidMRAIDServiceProvider
 
-- (void)openBrowser:(NSString *)urlString
-{
-    HyBidBrowser *browser = [[HyBidBrowser alloc] initWithDelegate:nil withFeatures:@[kPNLiteBrowserFeatureSupportInlineMediaPlayback
-                                                                                      , kPNLiteBrowserFeatureDisableStatusBar
-                                                                                      , kPNLiteBrowserFeatureScalePagesToFit]];
+- (void)openBrowser:(NSString *)urlString {
+    HyBidBrowser *browser = [[HyBidBrowser alloc] initWithDelegate:nil withFeatures:@[PNLiteBrowserFeatureSupportInlineMediaPlayback
+                                                                                      , PNLiteBrowserFeatureDisableStatusBar
+                                                                                      , PNLiteBrowserFeatureScalePagesToFit]];
     [browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 }
 
-- (void)playVideo:(NSString *)urlString
-{
+- (void)playVideo:(NSString *)urlString {
     NSURL *videoUrl = [NSURL URLWithString:urlString];
     [[UIApplication sharedApplication] openURL:videoUrl];
 }
 
-- (void)storePicture:(NSString *)urlString
-{
+- (void)storePicture:(NSString *)urlString {
     [self downloadImageWithURL:[NSURL URLWithString:urlString] completionBlock:^(BOOL succeeded, UIImage *image) {
         if (succeeded) {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
@@ -49,8 +46,7 @@
     }];
 }
 
-- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
-{
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error)
       {
@@ -63,8 +59,7 @@
       }] resume];
 }
 
-- (void)createEvent:(NSString *)eventJSON
-{
+- (void)createEvent:(NSString *)eventJSON {
     NSData *data = [eventJSON dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
     NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data
@@ -96,16 +91,13 @@
         NSError *err = nil;
         [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
     }];
-    
 }
 
-- (void)sendSMS:(NSString *)urlString
-{
+- (void)sendSMS:(NSString *)urlString {
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString:[@"sms:" stringByAppendingString:urlString]]];
 }
 
-- (void)callNumber:(NSString *)urlString
-{
+- (void)callNumber:(NSString *)urlString {
     NSURL *phoneUrl = [NSURL URLWithString:[@"telprompt://" stringByAppendingString:urlString]];
     NSURL *phoneFallbackUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:urlString]];
     

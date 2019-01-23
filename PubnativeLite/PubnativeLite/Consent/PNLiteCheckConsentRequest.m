@@ -34,8 +34,7 @@
 
 - (void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
                            withAppToken:(NSString *)appToken
-                           withDeviceID:(NSString *)deviceID
-{
+                           withDeviceID:(NSString *)deviceID {
     if (appToken == nil || appToken.length == 0 ||
         deviceID == nil || deviceID.length == 0) {
         [self invokeDidFail:[NSError errorWithDomain:@"Invalid parameters for check user consent request" code:0 userInfo:nil]];
@@ -51,8 +50,7 @@
     }
 }
 
-- (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model
-{
+- (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(checkConsentRequestSuccess:)]) {
             [self.delegate checkConsentRequestSuccess:model];
@@ -61,18 +59,16 @@
     });
 }
 
-- (void)invokeDidFail:(NSError *)error
-{
+- (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(checkConsentRequestFail:)]){
+        if(self.delegate && [self.delegate respondsToSelector:@selector(checkConsentRequestFail:)]) {
             [self.delegate checkConsentRequestFail:error];
         }
         self.delegate = nil;
     });
 }
 
-- (void)processResponseWithData:(NSData *)data
-{
+- (void)processResponseWithData:(NSData *)data {
     NSError *parseError;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
@@ -94,13 +90,11 @@
 
 #pragma mark PNLiteHttpRequestDelegate
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     [self processResponseWithData:data];
 }
 
--(void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFail:error];
 }
 

@@ -23,9 +23,9 @@
 #import "PNLiteTrackingManagerItem.h"
 #import "PNLiteHttpRequest.h"
 
-NSString * const kPNLiteTrackingManagerQueueKey             = @"PNLiteTrackingManager.queue.key";
-NSString * const kPNLiteTrackingManagerFailedQueueKey       = @"PNLiteTrackingManager.failedQueue.key";
-NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
+NSString * const PNLiteTrackingManagerQueueKey             = @"PNLiteTrackingManager.queue.key";
+NSString * const PNLiteTrackingManagerFailedQueueKey       = @"PNLiteTrackingManager.failedQueue.key";
+NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 
 @interface PNLiteTrackingManager () <PNLiteHttpRequestDelegate>
 
@@ -36,13 +36,11 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
 
 @implementation PNLiteTrackingManager
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.currentItem = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.isRunning = NO;
@@ -50,8 +48,7 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return self;
 }
 
-+ (instancetype)sharedManager
-{
++ (instancetype)sharedManager {
     static PNLiteTrackingManager *instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -60,39 +57,37 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return instance;
 }
 
-+ (void)trackWithURL:(NSURL*)url
-{
++ (void)trackWithURL:(NSURL*)url {
     if (url == nil) {
         NSLog(@"PNLiteTrackingManager - URL passed is nil or empty, dropping this call: %@", url);
     } else {
         // Enqueue failed items
-        NSMutableArray *failedQueue = [self queueForKey:kPNLiteTrackingManagerFailedQueueKey];
+        NSMutableArray *failedQueue = [self queueForKey:PNLiteTrackingManagerFailedQueueKey];
         for (NSDictionary *dictionary in failedQueue) {
             PNLiteTrackingManagerItem *item = [[PNLiteTrackingManagerItem alloc] initWithDictionary:dictionary];
-            [self enqueueItem:item withQueueKey:kPNLiteTrackingManagerQueueKey];
+            [self enqueueItem:item withQueueKey:PNLiteTrackingManagerQueueKey];
         }
-        [self setQueue:nil forKey:kPNLiteTrackingManagerFailedQueueKey];
+        [self setQueue:nil forKey:PNLiteTrackingManagerFailedQueueKey];
         
         // Enqueue current item
         PNLiteTrackingManagerItem *item = [[PNLiteTrackingManagerItem alloc] init];
         item.url = url;
         item.timestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-        [self enqueueItem:item withQueueKey:kPNLiteTrackingManagerQueueKey];
+        [self enqueueItem:item withQueueKey:PNLiteTrackingManagerQueueKey];
         [[self sharedManager] trackNextItem];
     }
 }
 
-- (void)trackNextItem
-{
+- (void)trackNextItem {
     if(!self.isRunning) {
         
         self.isRunning = YES;
-        PNLiteTrackingManagerItem *item = [PNLiteTrackingManager dequeueItemWithQueueKey:kPNLiteTrackingManagerQueueKey];
+        PNLiteTrackingManagerItem *item = [PNLiteTrackingManager dequeueItemWithQueueKey:PNLiteTrackingManagerQueueKey];
         if(item) {
             self.currentItem = item;
             NSTimeInterval currentTimestamp = [[NSDate date] timeIntervalSince1970];
             NSTimeInterval itemTimestamp = [item.timestamp doubleValue];
-            if((currentTimestamp - itemTimestamp) < kPNLiteTrackingManagerItemValidTime) {
+            if((currentTimestamp - itemTimestamp) < PNLiteTrackingManagerItemValidTime) {
                 // Track item
                 [[PNLiteHttpRequest alloc] startWithUrlString:[self.currentItem.url absoluteString] withMethod:@"GET" delegate:self];
             } else {
@@ -107,17 +102,15 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
 
 #pragma mark Queue
 
-+ (void)enqueueItem:(PNLiteTrackingManagerItem *)item withQueueKey:(NSString*)key
-{
-    if(item){
++ (void)enqueueItem:(PNLiteTrackingManagerItem *)item withQueueKey:(NSString*)key {
+    if(item) {
         NSMutableArray *queue = [PNLiteTrackingManager queueForKey:key];
         [queue addObject:[item toDictionary]];
         [PNLiteTrackingManager setQueue:queue forKey:key];
     }
 }
 
-+ (PNLiteTrackingManagerItem *)dequeueItemWithQueueKey:(NSString*)key
-{
++ (PNLiteTrackingManagerItem *)dequeueItemWithQueueKey:(NSString*)key {
     PNLiteTrackingManagerItem *result = nil;
     NSMutableArray *queue = [PNLiteTrackingManager queueForKey:key];
     if (queue.count > 0) {
@@ -128,12 +121,11 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return result;
 }
 
-+ (NSMutableArray*)queueForKey:(NSString*)key
-{
++ (NSMutableArray*)queueForKey:(NSString*)key {
     NSArray *queue = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     NSMutableArray *result;
     
-    if(queue){
+    if(queue) {
         result = [queue mutableCopy];
     } else {
         result = [NSMutableArray array];
@@ -141,23 +133,20 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return result;
 }
 
-+ (void)setQueue:(NSArray*)queue forKey:(NSString*)key
-{
++ (void)setQueue:(NSArray*)queue forKey:(NSString*)key {
     [[NSUserDefaults standardUserDefaults] setObject:queue
                                               forKey:key];
 }
 
 #pragma mark PNLiteHttpRequestDelegate
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     self.isRunning = NO;
     [self trackNextItem];
 }
 
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
-    [PNLiteTrackingManager enqueueItem:self.currentItem withQueueKey:kPNLiteTrackingManagerFailedQueueKey];
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
+    [PNLiteTrackingManager enqueueItem:self.currentItem withQueueKey:PNLiteTrackingManagerFailedQueueKey];
     self.isRunning = NO;
     [self trackNextItem];
 }

@@ -27,21 +27,19 @@
 @implementation HyBidAdPresenterFactory
 
 - (HyBidAdPresenter *)createAdPresenterWithAd:(HyBidAd *)ad
-                                 withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
-{
+                                 withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate {
     HyBidAdPresenter *adPresenter = [self adPresenterFromAd:ad];
     if (!adPresenter) {
         return nil;
     }
     PNLiteAdPresenterDecorator *adPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithAdPresenter:adPresenter
-                                                                                                 withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
+                                                                                                 withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:PNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:PNLiteAdTrackerClick]]
                                                                                                   withDelegate:delegate];
     adPresenter.delegate = adPresenterDecorator;
     return adPresenterDecorator;
 }
 
-- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad
-{
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     return nil;
 }
 

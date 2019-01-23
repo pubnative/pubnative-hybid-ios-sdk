@@ -34,20 +34,17 @@
 
 @implementation PNLiteDemoPNLiteInterstitialViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.interstitialAd = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestInterstitialTouchUpInside:(id)sender
-{
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -57,16 +54,14 @@
 
 #pragma mark - HyBidInterstitialAdDelegate
 
-- (void)interstitialDidLoad
-{
+- (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.interstitialAd show];
 }
 
-- (void)interstitialDidFailWithError:(NSError *)error
-{
+- (void)interstitialDidFailWithError:(NSError *)error {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
@@ -84,18 +79,15 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)interstitialDidTrackClick
-{
+- (void)interstitialDidTrackClick {
     NSLog(@"Interstitial did track click");
 }
 
-- (void)interstitialDidTrackImpression
-{
+- (void)interstitialDidTrackImpression {
     NSLog(@"Interstitial did track impression");
 }
 
-- (void)interstitialDidDismiss
-{
+- (void)interstitialDidDismiss {
     NSLog(@"Interstitial did dismiss");
 }
 

@@ -30,30 +30,26 @@
 
 @implementation HyBidAdView
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.ad = nil;
     self.delegate = nil;
     self.adPresenter = nil;
 }
 
-- (void)cleanUp
-{
+- (void)cleanUp {
     [self stopTracking];
     [self removeAllSubViewsFrom:self];
     self.ad = nil;
 }
 
-- (void)removeAllSubViewsFrom:(UIView *)view
-{
+- (void)removeAllSubViewsFrom:(UIView *)view {
     NSArray *viewsToRemove = [view subviews];
     for (UIView *v in viewsToRemove) {
         [v removeFromSuperview];
     }
 }
 
-- (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate
-{
+- (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
     if (zoneID == nil || zoneID.length == 0) {
@@ -65,8 +61,7 @@
     }
 }
 
-- (void)setupAdView:(UIView *)adView
-{
+- (void)setupAdView:(UIView *)adView {
     [self addSubview:adView];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
         [self.delegate adViewDidLoad:self];
@@ -74,8 +69,7 @@
     [self startTracking];
 }
 
-- (void)renderAd
-{
+- (void)renderAd {
     self.adPresenter = [self createAdPresenter];
     if (self.adPresenter == nil) {
         NSLog(@"HyBid - Error: Could not create valid ad presenter");
@@ -86,33 +80,28 @@
     }
 }
 
-- (void)startTracking
-{
+- (void)startTracking {
     [self.adPresenter startTracking];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
         [self.delegate adViewDidTrackImpression:self];
     }
 }
 
-- (void)stopTracking
-{
+- (void)stopTracking {
     [self.adPresenter stopTracking];
 }
 
-- (HyBidAdPresenter *)createAdPresenter
-{
+- (HyBidAdPresenter *)createAdPresenter {
     return nil;
 }
 
 #pragma mark HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
@@ -124,8 +113,7 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }
@@ -133,8 +121,7 @@
 
 #pragma mark - HyBidAdPresenterDelegate
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     if (adView == nil) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
@@ -144,15 +131,13 @@
     }
 }
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }
 }
 
--  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
-{
+-  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];
     }

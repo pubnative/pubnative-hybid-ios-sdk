@@ -38,14 +38,12 @@
 
 @implementation PNLiteDemoDFPLeaderboardViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.dfpLeaderboard = nil;
     self.leaderboardAdRequest = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"DFP Leaderboard";
@@ -58,8 +56,7 @@
     [self.leaderboardContainer addSubview:self.dfpLeaderboard];
 }
 
-- (IBAction)requestLeaderboardTouchUpInside:(id)sender
-{
+- (IBAction)requestLeaderboardTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -68,8 +65,7 @@
     [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
+- (void)showAlertControllerWithMessage:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:message
@@ -86,8 +82,7 @@
 
 #pragma mark - GADBannerViewDelegate
 
-- (void)adViewDidReceiveAd:(GADBannerView *)adView
-{
+- (void)adViewDidReceiveAd:(GADBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
     if (self.dfpLeaderboard == adView) {
         self.leaderboardContainer.hidden = NO;
@@ -95,8 +90,7 @@
     }
 }
 
-- (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error
-{
+- (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.dfpLeaderboard == adView) {
         [self.leaderboardLoaderIndicator stopAnimating];
@@ -104,35 +98,29 @@
     }
 }
 
-- (void)adViewWillPresentScreen:(GADBannerView *)adView
-{
+- (void)adViewWillPresentScreen:(GADBannerView *)adView {
     NSLog(@"adViewWillPresentScreen");
 }
 
-- (void)adViewWillDismissScreen:(GADBannerView *)adView
-{
+- (void)adViewWillDismissScreen:(GADBannerView *)adView {
     NSLog(@"adViewWillDismissScreen");
 }
 
-- (void)adViewDidDismissScreen:(GADBannerView *)adView
-{
+- (void)adViewDidDismissScreen:(GADBannerView *)adView {
     NSLog(@"adViewDidDismissScreen");
 }
 
-- (void)adViewWillLeaveApplication:(GADBannerView *)adView
-{
+- (void)adViewWillLeaveApplication:(GADBannerView *)adView {
     NSLog(@"adViewWillLeaveApplication");
 }
 
 #pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.leaderboardAdRequest) {
@@ -143,8 +131,7 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.leaderboardAdRequest) {

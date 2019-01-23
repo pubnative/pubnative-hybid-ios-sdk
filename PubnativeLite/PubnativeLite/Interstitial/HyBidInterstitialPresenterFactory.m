@@ -30,21 +30,19 @@
 @implementation HyBidInterstitialPresenterFactory
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
-                                                    withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate
-{
+                                                    withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate {
     HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad];
     if (!interstitialPresenter) {
         return nil;
     }
     PNLiteInterstitialPresenterDecorator *interstitialPresenterDecorator = [[PNLiteInterstitialPresenterDecorator alloc] initWithInterstitialPresenter:interstitialPresenter
-                                                                                                                                         withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
+                                                                                                                                         withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:PNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:PNLiteAdTrackerClick]]
                                                                                                                                           withDelegate:delegate];
     interstitialPresenter.delegate = interstitialPresenterDecorator;
     return interstitialPresenterDecorator;
 }
 
-- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad
-{
+- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_INTERSTITIAL: {
             PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad];

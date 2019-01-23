@@ -29,13 +29,11 @@
 
 @implementation PNLiteDemoBaseViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 }
 
-- (void)clearLastInspectedRequest
-{
+- (void)clearLastInspectedRequest {
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:@"No request URL available..."  withResponse:@"No response available..." withLatency:nil];
 }
 

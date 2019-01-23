@@ -42,23 +42,20 @@
 
 @implementation PNLiteDemoPNLiteNativeAdViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.nativeAdLoader = nil;
     [self.nativeAd stopTracking];
     self.nativeAd = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"HyBid Native Ad";
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestNativeAdTouchUpInside:(id)sender
-{
+- (IBAction)requestNativeAdTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
@@ -68,16 +65,14 @@
 
 #pragma mark - HyBidNativeAdLoaderDelegate
 
-- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.inspectRequestButton.hidden = NO;
     self.nativeAd = nativeAd;
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
 
-- (void)nativeLoaderDidFailWithError:(NSError *)error
-{
+- (void)nativeLoaderDidFailWithError:(NSError *)error {
     NSLog(@"Native Ad did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.nativeAdLoaderIndicator stopAnimating];
@@ -97,8 +92,7 @@
 
 #pragma mark - HyBidNativeAdFetchDelegate
 
-- (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd {
     HyBidNativeAdRenderer *renderer = [[HyBidNativeAdRenderer alloc] init];
     renderer.contentInfoView = self.nativeAdContentInfo;
     renderer.iconView = self.nativeAdIcon;
@@ -114,8 +108,7 @@
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
-- (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error
-{
+- (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error {
     NSLog(@"Native Ad did fail with error: %@",error.localizedDescription);
     [self.nativeAdLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
@@ -134,13 +127,11 @@
 
 #pragma mark - HyBidNativeAdDelegate
 
-- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
-{
+- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view {
     NSLog(@"Native Ad did track impression:");
 }
 
-- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad did track click:");
 }
 

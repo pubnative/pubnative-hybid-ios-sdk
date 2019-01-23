@@ -35,13 +35,11 @@
 
 @implementation PNLiteDemoMoPubMediationBannerViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubBanner = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"MoPub Mediation Banner";
@@ -53,8 +51,7 @@
     [self.bannerContainer addSubview:self.moPubBanner];
 }
 
-- (IBAction)requestBannerTouchUpInside:(id)sender
-{
+- (IBAction)requestBannerTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -64,13 +61,11 @@
 
 #pragma mark - MPAdViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
+- (void)adViewDidLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidLoadAd");
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
@@ -79,8 +74,7 @@
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
-{
+- (void)adViewDidFailToLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
         self.inspectRequestButton.hidden = NO;
@@ -100,18 +94,15 @@
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
-{
+- (void)willPresentModalViewForAd:(MPAdView *)view {
     NSLog(@"willPresentModalViewForAd");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
-{
+- (void)didDismissModalViewForAd:(MPAdView *)view {
     NSLog(@"didDismissModalViewForAd");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
-{
+- (void)willLeaveApplicationFromAd:(MPAdView *)view {
     NSLog(@"willLeaveApplicationFromAd");
 }
 

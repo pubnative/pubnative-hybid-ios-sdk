@@ -24,8 +24,7 @@
 
 @implementation PNLiteGeoIPModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.status = nil;
     self.country = nil;
     self.countryCode = nil;
@@ -34,8 +33,7 @@
 
 #pragma mark HyBidBaseModel
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.status = dictionary[@"status"];

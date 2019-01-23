@@ -36,18 +36,15 @@
 
 @implementation PNLiteDemoMainViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 }
 
-- (IBAction)chooseAdFormatTouchUpInside:(UIButton *)sender
-{
+- (IBAction)chooseAdFormatTouchUpInside:(UIButton *)sender {
     [PNLiteDemoSettings sharedInstance].zoneID = self.zoneIDTextField.text;
 }
 
-- (IBAction)handleTap:(UIGestureRecognizer *)recognizer
-{
+- (IBAction)handleTap:(UIGestureRecognizer *)recognizer {
     if (!([self.zoneIDTextField.text length] > 0)) {
         self.zoneIDTextField.text = nil;
         [self.zoneIDTextField resignFirstResponder];
@@ -56,13 +53,11 @@
 
 #pragma mark UITextFieldDelegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField becomeFirstResponder];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     [textField resignFirstResponder];
     if (textField.text.length) {
         self.leaderboardButton.hidden = NO;
@@ -79,8 +74,7 @@
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField endEditing:YES];
     return YES;
 }
