@@ -40,8 +40,7 @@ NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitia
 
 @implementation PNLiteDemoSettings
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.appToken = nil;
     self.zoneID = nil;
     self.moPubLeaderboardAdUnitID = nil;
@@ -61,8 +60,7 @@ NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitia
     self.targetingModel = nil;
 }
 
-+ (PNLiteDemoSettings *)sharedInstance
-{
++ (PNLiteDemoSettings *)sharedInstance {
     static PNLiteDemoSettings * _instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -71,8 +69,7 @@ NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitia
     return _instance;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.appToken = kPNLiteDemoAppToken;

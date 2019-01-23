@@ -35,13 +35,11 @@
 
 @implementation PNLiteDemoMoPubMediationLeaderboardViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubLeaderboard = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"MoPub Mediation Leaderboard";
@@ -53,8 +51,7 @@
     [self.leaderboardContainer addSubview:self.moPubLeaderboard];
 }
 
-- (IBAction)requestLeaderboardTouchUpInside:(id)sender
-{
+- (IBAction)requestLeaderboardTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -64,13 +61,11 @@
 
 #pragma mark - MPAdViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
+- (void)adViewDidLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidLoadAd");
     if (self.moPubLeaderboard == view) {
         self.leaderboardContainer.hidden = NO;
@@ -79,8 +74,7 @@
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
-{
+- (void)adViewDidFailToLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubLeaderboard == view) {
         self.inspectRequestButton.hidden = NO;
@@ -100,18 +94,15 @@
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
-{
+- (void)willPresentModalViewForAd:(MPAdView *)view {
     NSLog(@"willPresentModalViewForAd");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
-{
+- (void)didDismissModalViewForAd:(MPAdView *)view {
     NSLog(@"didDismissModalViewForAd");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
-{
+- (void)willLeaveApplicationFromAd:(MPAdView *)view {
     NSLog(@"willLeaveApplicationFromAd");
 }
 

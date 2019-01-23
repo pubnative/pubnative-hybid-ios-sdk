@@ -48,22 +48,19 @@
 
 @implementation PNLiteDemoMoPubMediationNativeViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.request = nil;
     self.nativeAd = nil;
     self.imageHandler = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Native";
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestNativeAdTouchUpInside:(id)sender
-{
+- (IBAction)requestNativeAdTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -99,8 +96,7 @@
     }];
 }
 
-- (void)processResponse:(MPNativeAd *)ad
-{
+- (void)processResponse:(MPNativeAd *)ad {
     self.nativeAd = ad;
     self.nativeAd.delegate = self;
     
@@ -117,8 +113,7 @@
     }
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
+- (void)showAlertControllerWithMessage:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
                                           message:message
@@ -135,23 +130,19 @@
 
 #pragma mark - MPNativeAdDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)willPresentModalForNativeAd:(MPNativeAd *)nativeAd
-{
+- (void)willPresentModalForNativeAd:(MPNativeAd *)nativeAd {
     NSLog(@"willPresentModalForNativeAd");
 }
 
-- (void)didDismissModalForNativeAd:(MPNativeAd *)nativeAd
-{
+- (void)didDismissModalForNativeAd:(MPNativeAd *)nativeAd {
     NSLog(@"didDismissModalForNativeAd");
 }
 
-- (void)willLeaveApplicationFromNativeAd:(MPNativeAd *)nativeAd
-{
+- (void)willLeaveApplicationFromNativeAd:(MPNativeAd *)nativeAd {
     NSLog(@"willLeaveApplicationFromNativeAd");
 }
 

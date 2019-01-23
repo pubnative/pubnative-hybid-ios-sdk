@@ -33,13 +33,11 @@
 
 @implementation HyBidMoPubMediationInterstitialCustomEvent
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.interstitialAd = nil;
 }
 
-- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
-{
+- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
@@ -55,51 +53,43 @@
     }
 }
 
-- (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController
-{
+- (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
     [self.delegate interstitialCustomEventWillAppear:self];
     [self.interstitialAd show];
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
+- (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(message);
     [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                              code:0
                                                                                          userInfo:nil]];
 }
 
-- (BOOL)enableAutomaticImpressionAndClickTracking
-{
+- (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
 }
 
 #pragma mark - HyBidInterstitialAdDelegate
 
-- (void)interstitialDidLoad
-{
+- (void)interstitialDidLoad {
     [self.delegate interstitialCustomEvent:self didLoadAd:nil];
 }
 
-- (void)interstitialDidFailWithError:(NSError *)error
-{
+- (void)interstitialDidFailWithError:(NSError *)error {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)interstitialDidTrackClick
-{
+- (void)interstitialDidTrackClick {
     [self.delegate trackClick];
     [self.delegate interstitialCustomEventWillLeaveApplication:self];
 }
 
-- (void)interstitialDidTrackImpression
-{
+- (void)interstitialDidTrackImpression {
     [self.delegate trackImpression];
     [self.delegate interstitialCustomEventDidAppear:self];
 }
 
-- (void)interstitialDidDismiss
-{
+- (void)interstitialDidDismiss {
     [self.delegate interstitialCustomEventWillDisappear:self];
     [self.delegate interstitialCustomEventDidDisappear:self];
 }

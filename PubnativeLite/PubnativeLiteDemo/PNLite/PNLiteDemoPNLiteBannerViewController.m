@@ -34,16 +34,14 @@
 
 @implementation PNLiteDemoPNLiteBannerViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"HyBid Banner";
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestBannerTouchUpInside:(id)sender
-{
+- (IBAction)requestBannerTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.bannerAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -53,16 +51,14 @@
 
 #pragma mark - HyBidAdViewDelegate
 
-- (void)adViewDidLoad:(HyBidAdView *)adView
-{
+- (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
     self.bannerAdView.hidden = NO;
     self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
-{
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
@@ -80,13 +76,11 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)adViewDidTrackClick:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did track click:");
 }
 
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did track impression:");
 }
 

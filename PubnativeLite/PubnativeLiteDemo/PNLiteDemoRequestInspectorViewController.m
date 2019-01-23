@@ -33,8 +33,7 @@
 
 @implementation PNLiteDemoRequestInspectorViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Request Inspector";
     self.requestTextView.text = [PNLiteRequestInspector sharedInstance].lastInspectedRequest.url;
@@ -42,15 +41,13 @@
     self.responseTextView.text = [PNLiteRequestInspector sharedInstance].lastInspectedRequest.response;
 }
 
-- (void)viewDidLayoutSubviews
-{
+- (void)viewDidLayoutSubviews {
     [self.requestTextView setContentOffset:CGPointZero animated:NO];
     [self.latencyTextView setContentOffset:CGPointZero animated:NO];
     [self.responseTextView setContentOffset:CGPointZero animated:NO];
 }
 
-- (IBAction)dismissButtonTouchUpInside:(UIButton *)sender
-{
+- (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

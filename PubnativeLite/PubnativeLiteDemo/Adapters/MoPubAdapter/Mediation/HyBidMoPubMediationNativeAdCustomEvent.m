@@ -34,13 +34,11 @@
 
 @implementation HyBidMoPubMediationNativeAdCustomEvent
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.nativeAdLoader = nil;
 }
 
-- (void)requestAdWithCustomEventInfo:(NSDictionary *)info
-{
+- (void)requestAdWithCustomEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
@@ -55,8 +53,7 @@
     }
 }
 
-- (void)invokeFailWithMessage:(NSString*)message
-{
+- (void)invokeFailWithMessage:(NSString*)message {
     MPLogError(message);
     [self.delegate nativeCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
@@ -66,8 +63,7 @@
 
 #pragma mark - HyBidNativeAdLoaderDelegate
 
-- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     __block HyBidMoPubMediationNativeAdCustomEvent *strongSelf = self;
     __block HyBidNativeAd *blockAd = nativeAd;
     NSString *bannerURLString = nativeAd.bannerUrl;
@@ -89,8 +85,7 @@
     }];
 }
 
-- (void)nativeLoaderDidFailWithError:(NSError *)error
-{
+- (void)nativeLoaderDidFailWithError:(NSError *)error {
     [self invokeFailWithMessage:error.localizedDescription];
 }
 

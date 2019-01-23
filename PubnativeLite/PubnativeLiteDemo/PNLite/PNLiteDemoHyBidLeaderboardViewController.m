@@ -34,16 +34,14 @@
 
 @implementation PNLiteDemoHyBidLeaderboardViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"HyBid Leaderboard";
     [self.leaderboardLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestLeaderboardTouchUpInside:(id)sender
-{
+- (IBAction)requestLeaderboardTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.leaderboardAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -53,16 +51,14 @@
 
 #pragma mark - HyBidAdViewDelegate
 
-- (void)adViewDidLoad:(HyBidAdView *)adView
-{
+- (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Leaderboard Ad View did load:");
     self.leaderboardAdView.hidden = NO;
     self.inspectRequestButton.hidden = NO;
     [self.leaderboardLoaderIndicator stopAnimating];
 }
 
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
-{
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     NSLog(@"Leaderboard Ad View did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.leaderboardLoaderIndicator stopAnimating];
@@ -80,13 +76,11 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)adViewDidTrackClick:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
     NSLog(@"Leaderboard Ad View did track click:");
 }
 
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"Leaderboard Ad View did track impression:");
 }
 @end

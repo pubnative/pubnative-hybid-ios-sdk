@@ -34,8 +34,7 @@
 
 @implementation PNLiteDemoDFPSettingsViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"DFP Settings";
     self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
@@ -44,8 +43,7 @@
     self.leaderboardAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].dfpLeaderboardAdUnitID;
 }
 
-- (IBAction)saveDFPSettingsTouchUpInside:(UIButton *)sender
-{
+- (IBAction)saveDFPSettingsTouchUpInside:(UIButton *)sender {
     [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID = self.bannerAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID = self.mRectAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
@@ -55,18 +53,15 @@
 
 #pragma mark UITextFieldDelegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField becomeFirstResponder];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     [textField resignFirstResponder];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField endEditing:YES];
     return YES;
 }

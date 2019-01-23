@@ -26,8 +26,7 @@ NSString *const kPNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
 
 @implementation HyBidDFPUtils
 
-+ (BOOL)areExtrasValid:(NSString *)extras
-{
++ (BOOL)areExtrasValid:(NSString *)extras {
     if ([HyBidDFPUtils zoneID:extras]) {
         return YES;
     } else {
@@ -35,14 +34,12 @@ NSString *const kPNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
     }
 }
 
-+ (NSString *)zoneID:(NSString *)extras
-{
++ (NSString *)zoneID:(NSString *)extras {
     return [HyBidDFPUtils valueWithKey:kPNLiteDFPAdapterKeyZoneID fromExtras:extras];
 }
 
 + (NSString *)valueWithKey:(NSString *)key
-                fromExtras:(NSString *)extras
-{
+                fromExtras:(NSString *)extras {
     NSString *result = nil;
     NSData *jsonData = [extras dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;

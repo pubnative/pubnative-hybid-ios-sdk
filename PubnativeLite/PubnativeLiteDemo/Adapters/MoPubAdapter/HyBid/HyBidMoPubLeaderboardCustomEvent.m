@@ -36,16 +36,14 @@
 
 @implementation HyBidMoPubLeaderboardCustomEvent
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.leaderboardPresenter stopTracking];
     self.leaderboardPresenter = nil;
     self.leaderboardPresenterFactory = nil;
     self.ad = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
-{
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
@@ -71,8 +69,7 @@
     }
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
+- (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(message);
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
@@ -80,27 +77,23 @@
                                                      userInfo:nil]];
 }
 
-- (BOOL)enableAutomaticImpressionAndClickTracking
-{
+- (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
 }
 
 #pragma mark - HyBidAdPresenterDelegate
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     [self.delegate trackImpression];
     [self.delegate bannerCustomEvent:self didLoadAd:adView];
     [self.leaderboardPresenter startTracking];
 }
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
 }
 
-- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
-{
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];
 }

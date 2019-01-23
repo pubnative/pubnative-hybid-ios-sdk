@@ -34,13 +34,11 @@
 
 @implementation PNLiteDemoMoPubMediationInterstitialViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubInterstitial = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
@@ -51,8 +49,7 @@
     }
 }
 
-- (IBAction)requestInterstitialTouchUpInside:(id)sender
-{
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -61,16 +58,14 @@
 
 #pragma mark - MPInterstitialAdControllerDelegate
 
-- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.moPubInterstitial showFromViewController:self];
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidFailToLoadAd");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
@@ -88,33 +83,27 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillAppear");
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidAppear");
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillDisappear");
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidDisappear");
 }
 
-- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidExpire");
 }
 
-- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidReceiveTapEvent");
 }
 

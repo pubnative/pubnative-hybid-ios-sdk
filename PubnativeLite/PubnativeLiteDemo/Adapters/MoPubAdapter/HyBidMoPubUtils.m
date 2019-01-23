@@ -28,8 +28,7 @@ NSString *const kPNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
 
 @implementation HyBidMoPubUtils
 
-+ (BOOL)isZoneIDValid:(NSDictionary *)extras
-{
++ (BOOL)isZoneIDValid:(NSDictionary *)extras {
     if ([HyBidMoPubUtils zoneID:extras]) {
         return YES;
     } else {
@@ -37,8 +36,7 @@ NSString *const kPNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
     }
 }
 
-+ (BOOL)isAppTokenValid:(NSDictionary *)extras
-{
++ (BOOL)isAppTokenValid:(NSDictionary *)extras {
     if ([HyBidMoPubUtils appToken:extras]) {
         return YES;
     } else {
@@ -46,18 +44,15 @@ NSString *const kPNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
     }
 }
 
-+ (BOOL)areExtrasValid:(NSDictionary *)extras
-{
++ (BOOL)areExtrasValid:(NSDictionary *)extras {
     return [HyBidMoPubUtils zoneID:extras] && [HyBidMoPubUtils appToken:extras];
 }
 
-+ (NSString *)zoneID:(NSDictionary *)extras
-{
++ (NSString *)zoneID:(NSDictionary *)extras {
     return [HyBidMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyZoneID fromExtras:extras];
 }
 
-+ (NSString *)appToken:(NSDictionary *)extras
-{
++ (NSString *)appToken:(NSDictionary *)extras {
     return [HyBidMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyAppToken fromExtras:extras];
 }
 
