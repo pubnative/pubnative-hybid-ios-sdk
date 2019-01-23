@@ -32,32 +32,27 @@
 
 @implementation PNLiteInterstitialPresenterDecorator
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.interstitialPresenter = nil;
     self.adTracker = nil;
     self.interstitialPresenterDelegate = nil;
 }
 
-- (void)load
-{
+- (void)load {
     [self.interstitialPresenter load];
 }
 
-- (void)show
-{
+- (void)show {
     [self.interstitialPresenter show];
 }
 
-- (void)hide
-{
+- (void)hide {
     [self.interstitialPresenter hide];
 }
 
 - (instancetype)initWithInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
                                 withAdTracker:(HyBidAdTracker *)adTracker
-                                 withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate
-{
+                                 withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate {
     self = [super init];
     if (self) {
         self.interstitialPresenter = interstitialPresenter;
@@ -69,30 +64,25 @@
 
 #pragma mark HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
 }
 
-- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.adTracker trackImpression];
     [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
 }
 
-- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.adTracker trackClick];
     [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
 }
 
-- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
-{
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
 }
 
-- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
-{
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
 }
 

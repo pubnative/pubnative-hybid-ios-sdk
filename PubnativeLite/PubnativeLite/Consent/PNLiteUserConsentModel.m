@@ -26,8 +26,7 @@
 
 #pragma mark HyBidBaseModel
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
         if (![dictionary isEqual:(id)[NSNull null]]) {

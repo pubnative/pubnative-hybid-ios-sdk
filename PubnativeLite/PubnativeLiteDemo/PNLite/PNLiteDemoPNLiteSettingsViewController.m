@@ -41,7 +41,7 @@
 
 @implementation PNLiteDemoPNLiteSettingsViewController
 
--(void)dealloc
+- (void)dealloc
 {
     self.targetingModel = nil;
     self.gender = nil;

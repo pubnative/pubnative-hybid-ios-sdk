@@ -26,19 +26,16 @@
 
 @implementation HyBidLeaderboardAdView
 
-- (instancetype)init
-{
+- (instancetype)init {
     return [super initWithFrame:CGRectMake(0, 0, 728, 90)];
 }
 
-- (HyBidAdRequest *)adRequest
-{
+- (HyBidAdRequest *)adRequest {
     HyBidLeaderboardAdRequest *leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
     return leaderboardAdRequest;
 }
 
-- (HyBidAdPresenter *)createAdPresenter
-{
+- (HyBidAdPresenter *)createAdPresenter {
     HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
     return [leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }

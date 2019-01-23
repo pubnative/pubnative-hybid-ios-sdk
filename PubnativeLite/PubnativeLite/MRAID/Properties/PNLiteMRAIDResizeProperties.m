@@ -24,8 +24,7 @@
 
 @implementation PNLiteMRAIDResizeProperties
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         _width = 0;
@@ -38,8 +37,7 @@
     return self;
 }
 
-+ (PNLiteMRAIDCustomClosePosition)MRAIDCustomClosePositionFromString:(NSString *)s
-{
++ (PNLiteMRAIDCustomClosePosition)MRAIDCustomClosePositionFromString:(NSString *)s {
     NSArray *names = @[
                        @"top-left",
                        @"top-center",

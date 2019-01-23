@@ -36,8 +36,7 @@
 
 - (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel
-                        withAppToken:(NSString *)appToken
-{
+                        withAppToken:(NSString *)appToken {
     if (requestModel == nil) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call" code:0 userInfo:nil]];
     } else if (delegate == nil) {
@@ -52,8 +51,8 @@
         [request startWithUrlString:url withMethod:@"POST" delegate:self];
     }
 }
-- (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model
-{
+
+- (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestSuccess:)]) {
             [self.delegate userConsentRequestSuccess:model];
@@ -62,18 +61,16 @@
     });
 }
 
-- (void)invokeDidFail:(NSError *)error
-{
+- (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestFail:)]){
+        if(self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestFail:)]) {
             [self.delegate userConsentRequestFail:error];
         }
         self.delegate = nil;
     });
 }
 
-- (void)processResponseWithData:(NSData *)data
-{
+- (void)processResponseWithData:(NSData *)data {
     NSError *parseError;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
@@ -93,13 +90,11 @@
     }
 }
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     [self processResponseWithData:data];
 }
 
--(void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFail:error];
 }
 

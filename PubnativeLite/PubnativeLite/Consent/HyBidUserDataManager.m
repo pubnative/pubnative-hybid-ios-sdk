@@ -52,8 +52,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 @implementation HyBidUserDataManager
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.inGDPRZone = NO;
@@ -62,8 +61,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     return self;
 }
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static HyBidUserDataManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -72,29 +70,24 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     return sharedInstance;
 }
 
-- (void)createUserDataManagerWithAppToken:(NSString *)appToken completion:(UserDataManagerCompletionBlock)completion
-{
+- (void)createUserDataManagerWithAppToken:(NSString *)appToken completion:(UserDataManagerCompletionBlock)completion {
     self.completionBlock = completion;
     [self determineUserZone];
 }
 
-- (NSString *)consentPageLink
-{
+- (NSString *)consentPageLink {
     return kPNLiteConsentPageUrl;
 }
 
-- (NSString *)privacyPolicyLink
-{
+- (NSString *)privacyPolicyLink {
     return kPNLitePrivacyPolicyUrl;
 }
 
-- (NSString *)vendorListLink
-{
+- (NSString *)vendorListLink {
     return kPNLiteVendorListUrl;
 }
 
-- (BOOL)canCollectData
-{
+- (BOOL)canCollectData {
     if ([self GDPRApplies]) {
         if ([self GDPRConsentAsked]) {
             switch ([[NSUserDefaults standardUserDefaults] integerForKey:kPNLiteGDPRConsentStateKey]) {
@@ -116,25 +109,21 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     }
 }
 
-- (BOOL)shouldAskConsent
-{
+- (BOOL)shouldAskConsent {
     return [self GDPRApplies] && ![self GDPRConsentAsked];
 }
 
-- (void)grantConsent
-{
+- (void)grantConsent {
     self.consentState = kPNLiteConsentStateAccepted;
     [self notifyConsentGiven];
 }
 
-- (void)denyConsent
-{
+- (void)denyConsent {
     self.consentState = kPNLiteConsentStateDenied;
     [self notifyConsentDenied];
 }
 
-- (void)notifyConsentGiven
-{
+- (void)notifyConsentGiven {
     PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
                                                                                          withDeviceIDType:kPNLiteDeviceIDType
                                                                                               withConsent:YES];
@@ -143,8 +132,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[HyBidSettings sharedInstance].appToken];
 }
 
-- (void)notifyConsentDenied
-{
+- (void)notifyConsentDenied {
     PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
                                                                                     withDeviceIDType:kPNLiteDeviceIDType
                                                                                          withConsent:NO];
@@ -152,27 +140,23 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     [request doConsentRequestWithDelegate:self withRequest:requestModel withAppToken:[HyBidSettings sharedInstance].appToken];
 }
 
-- (void)determineUserZone
-{
+- (void)determineUserZone {
     HyBidGeoIPRequest *request = [[HyBidGeoIPRequest alloc] init];
     [request requestGeoIPWithDelegate:self];
 }
 
-- (void)checkConsentGiven
-{
+- (void)checkConsentGiven {
     PNLiteCheckConsentRequest * request = [[PNLiteCheckConsentRequest alloc] init];
     [request checkConsentRequestWithDelegate:self
                                 withAppToken:[HyBidSettings sharedInstance].appToken
                                 withDeviceID:[HyBidSettings sharedInstance].advertisingId];
 }
 
-- (BOOL)GDPRApplies
-{
+- (BOOL)GDPRApplies {
     return self.inGDPRZone;
 }
 
-- (BOOL)GDPRConsentAsked
-{
+- (BOOL)GDPRConsentAsked {
     BOOL askedForConsent = [[NSUserDefaults standardUserDefaults] objectForKey:kPNLiteGDPRConsentStateKey];
     if (askedForConsent) {
         NSString *IDFA = [[NSUserDefaults standardUserDefaults] stringForKey:kPNLiteGDPRAdvertisingIDKey];
@@ -183,8 +167,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     return askedForConsent;
 }
 
-- (void)saveGDPRConsentState
-{
+- (void)saveGDPRConsentState {
     [[NSUserDefaults standardUserDefaults] setInteger:self.consentState forKey:kPNLiteGDPRConsentStateKey];
     [[NSUserDefaults standardUserDefaults] setObject:[HyBidSettings sharedInstance].advertisingId forKey:kPNLiteGDPRAdvertisingIDKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -192,13 +175,11 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 #pragma mark Consent Dialog
 
-- (BOOL)isConsentPageLoaded
-{
+- (BOOL)isConsentPageLoaded {
     return self.consentPageViewController != nil;
 }
 
-- (void)loadConsentPageWithCompletion:(void (^)(NSError * _Nullable))completion
-{
+- (void)loadConsentPageWithCompletion:(void (^)(NSError * _Nullable))completion {
     // Helper block to call completion if not nil
     void (^callCompletion)(NSError *error) = ^(NSError *error) {
         if (completion != nil) {
@@ -228,8 +209,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     }];
 }
 
-- (void)showConsentPage:(void (^)(void))didShow didDismiss:(void (^)(void))didDismiss
-{
+- (void)showConsentPage:(void (^)(void))didShow didDismiss:(void (^)(void))didDismiss {
     if (self.isConsentPageLoaded) {
         UIViewController *viewController = [UIApplication sharedApplication].topViewController;
         [viewController presentViewController:self.consentPageViewController
@@ -241,13 +221,11 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 #pragma mark PNLiteConsentPageViewControllerDelegate
 
-- (void)consentPageViewControllerWillDisappear:(PNLiteConsentPageViewController *)consentDialogViewController
-{
+- (void)consentPageViewControllerWillDisappear:(PNLiteConsentPageViewController *)consentDialogViewController {
     self.consentPageViewController = nil;
 }
 
-- (void)consentPageViewControllerDidDismiss:(PNLiteConsentPageViewController *)consentDialogViewController
-{
+- (void)consentPageViewControllerDidDismiss:(PNLiteConsentPageViewController *)consentDialogViewController {
     if (self.consentPageDidDismissCompletionBlock) {
         self.consentPageDidDismissCompletionBlock();
         self.consentPageDidDismissCompletionBlock = nil;
@@ -256,8 +234,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 #pragma mark PNLiteCheckConsentRequestDelegate
 
-- (void)checkConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
-{
+- (void)checkConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model {
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
         if (model.consent != nil) {
             if (model.consent.consented) {
@@ -272,8 +249,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     }
 }
 
-- (void)checkConsentRequestFail:(NSError *)error
-{
+- (void)checkConsentRequestFail:(NSError *)error {
     NSLog(@"PNLiteCheckConsentRequestDelegate: Request failed with error: %@",error.localizedDescription);
     self.completionBlock(NO);
     
@@ -281,8 +257,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
 
 #pragma mark PNLiteUserConsentRequestDelegate
 
-- (void)userConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model
-{
+- (void)userConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model {
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
         if ([NSNumber numberWithInteger:self.consentState] != nil) {
             [self saveGDPRConsentState];
@@ -290,20 +265,17 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     }
 }
 
-- (void)userConsentRequestFail:(NSError *)error
-{
+- (void)userConsentRequestFail:(NSError *)error {
     NSLog(@"PNLiteUserConsentRequestDelegate: Request failed with error: %@",error.localizedDescription);
 }
 
 #pragma mark HyBidGeoIPRequestDelegate
 
-- (void)requestDidStart:(HyBidGeoIPRequest *)request
-{
+- (void)requestDidStart:(HyBidGeoIPRequest *)request {
     NSLog(@"HyBidGeoIPRequestDelegate: Request %@ started:",request);
 }
 
-- (void)request:(HyBidGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP
-{
+- (void)request:(HyBidGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP {
     if ([geoIP.countryCode length] == 0) {
         NSLog(@"No country code was obtained. The default value will be used, therefore no user data consent will be required.");
         self.inGDPRZone = NO;
@@ -318,8 +290,7 @@ NSInteger const kPNLiteConsentStateDenied = 0;
     }
 }
 
-- (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"HyBidGeoIPRequestDelegate: Request %@ failed with error: %@",request,error.localizedDescription);
     self.completionBlock(NO);
 }

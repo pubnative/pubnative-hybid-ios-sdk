@@ -30,8 +30,7 @@ static PNLitePropertyAnimationManager *__manager = nil;
 
 // Manager declaration
 @class PNLitePropertyAnimation;
-@interface PNLitePropertyAnimationManager : NSObject
-{
+@interface PNLitePropertyAnimationManager : NSObject {
     id timer;
     NSMutableArray *animations;
 }
@@ -50,8 +49,7 @@ static PNLitePropertyAnimationManager *__manager = nil;
 @implementation PNLitePropertyAnimation
 @synthesize target, delegate, keyPath, duration, timing, fromValue, toValue, chainedAnimation, startTime, startDelay;
 
-- (id)initWithKeyPath:(NSString*)theKeyPath
-{
+- (id)initWithKeyPath:(NSString*)theKeyPath {
     if ( !(self = [super init]) ) return nil;
     keyPath = theKeyPath ;
     timing = PNLitePropertyAnimationTimingEaseInEaseOut;
@@ -60,18 +58,15 @@ static PNLitePropertyAnimationManager *__manager = nil;
     return self;
 }
 
-+ (PNLitePropertyAnimation*)propertyAnimationWithKeyPath:(NSString*)keyPath
-{
++ (PNLitePropertyAnimation*)propertyAnimationWithKeyPath:(NSString*)keyPath {
     return [[PNLitePropertyAnimation alloc] initWithKeyPath:keyPath] ;
 }
 
-+ (NSArray*)allPropertyAnimationsForTarget:(id)target
-{
++ (NSArray*)allPropertyAnimationsForTarget:(id)target {
     return [[PNLitePropertyAnimationManager manager] allPropertyAnimationsForTarget:target];
 }
 
-- (void)begin
-{
+- (void)begin {
     startTime = [NSDate timeIntervalSinceReferenceDate];
     
     if ( !fromValue ) {
@@ -81,14 +76,12 @@ static PNLitePropertyAnimationManager *__manager = nil;
     [[PNLitePropertyAnimationManager manager] addAnimation:self];
 }
 
-- (void)beginWithTarget:(id)theTarget
-{
+- (void)beginWithTarget:(id)theTarget {
     self.target = theTarget;
     [self begin];
 }
 
-- (void)cancel
-{
+- (void)cancel {
     [[PNLitePropertyAnimationManager manager] removeAnimation:self];
 }
 
@@ -97,13 +90,11 @@ static PNLitePropertyAnimationManager *__manager = nil;
 #pragma mark -
 #pragma mark Timing
 
-static inline CGFloat funcQuad(CGFloat ft, CGFloat f0, CGFloat f1)
-{
+static inline CGFloat funcQuad(CGFloat ft, CGFloat f0, CGFloat f1) {
 	return f0 + (f1 - f0) * ft * ft;
 }
 
-static inline CGFloat funcQuadInOut(CGFloat ft, CGFloat f0, CGFloat f1)
-{
+static inline CGFloat funcQuadInOut(CGFloat ft, CGFloat f0, CGFloat f1) {
     CGFloat a = ((f1 - f0)/2.0);
     if ( ft < 0.5 ) {
         return f0 + a * (2*ft)*(2*ft);
@@ -113,8 +104,7 @@ static inline CGFloat funcQuadInOut(CGFloat ft, CGFloat f0, CGFloat f1)
     }
 }
 
-static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1)
-{
+static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1) {
 	return f0 + (f1 - f0) * (1.0 - (ft-1.0)*(ft-1.0));
 }
 
@@ -123,16 +113,14 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1)
 
 @implementation PNLitePropertyAnimationManager
 
-+ (PNLitePropertyAnimationManager*)manager
-{
++ (PNLitePropertyAnimationManager*)manager {
     if ( !__manager ) {
         __manager = [[PNLitePropertyAnimationManager alloc] init];
     }
     return __manager;
 }
 
-- (NSArray*)allPropertyAnimationsForTarget:(id)target
-{
+- (NSArray*)allPropertyAnimationsForTarget:(id)target {
     NSMutableArray *result = [NSMutableArray array];
     if ( animations ) {
         for ( PNLitePropertyAnimation* animation in animations ) {
@@ -142,8 +130,7 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1)
     return result;
 }
 
-- (void)addAnimation:(PNLitePropertyAnimation *)animation
-{
+- (void)addAnimation:(PNLitePropertyAnimation *)animation {
     if ( !animations ) {
         animations = [[NSMutableArray alloc] init];
     }
@@ -160,8 +147,7 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1)
     }
 }
 
-- (void)removeAnimation:(PNLitePropertyAnimation *)animation
-{
+- (void)removeAnimation:(PNLitePropertyAnimation *)animation {
     [animations removeObject:animation];
     
     if ( [animations count] == 0 ) {
@@ -170,13 +156,11 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1)
     }
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     if ( timer ) [timer invalidate];
 }
 
-- (void)update:(id)sender
-{
+- (void)update:(id)sender {
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
     for ( PNLitePropertyAnimation *animation in [animations copy] ) {
         

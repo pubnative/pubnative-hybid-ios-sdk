@@ -34,8 +34,7 @@ NSString *const kParamKeyValue = @"4ykqS3YU062TII3";
 
 @implementation PNLiteConsentEndpoints
 
-+ (NSString *)checkConsentURLWithDeviceID:(NSString *)deviceID
-{
++ (NSString *)checkConsentURLWithDeviceID:(NSString *)deviceID {
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kAuthority;
@@ -45,8 +44,7 @@ NSString *const kParamKeyValue = @"4ykqS3YU062TII3";
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 
-+ (NSString *)consentURL
-{
++ (NSString *)consentURL {
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kAuthority;
@@ -54,8 +52,7 @@ NSString *const kParamKeyValue = @"4ykqS3YU062TII3";
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 
-+ (NSString *)geoIPURL
-{
++ (NSString *)geoIPURL {
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kGeoIPAuthority;

@@ -65,7 +65,7 @@ NSInteger const MAX_RETRIES = 1;
     } else {
         PNLiteReachability *reachability = [PNLiteReachability reachabilityForInternetConnection];
         [reachability startNotifier];
-        if([reachability currentReachabilityStatus] == PNLiteNetworkStatus_NotReachable){
+        if([reachability currentReachabilityStatus] == PNLiteNetworkStatus_NotReachable) {
             [reachability stopNotifier];
             [self invokeFailWithMessage:@"Internet is not available." andAttemptRetry:YES];
         } else {
@@ -78,7 +78,7 @@ NSInteger const MAX_RETRIES = 1;
 - (void)executeAsyncRequest
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.userAgent == nil){
+        if(self.userAgent == nil) {
             UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
             self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
         }

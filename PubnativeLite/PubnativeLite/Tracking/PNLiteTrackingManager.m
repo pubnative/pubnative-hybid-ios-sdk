@@ -36,13 +36,11 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
 
 @implementation PNLiteTrackingManager
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.currentItem = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.isRunning = NO;
@@ -50,8 +48,7 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return self;
 }
 
-+ (instancetype)sharedManager
-{
++ (instancetype)sharedManager {
     static PNLiteTrackingManager *instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -60,8 +57,7 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return instance;
 }
 
-+ (void)trackWithURL:(NSURL*)url
-{
++ (void)trackWithURL:(NSURL*)url {
     if (url == nil) {
         NSLog(@"PNLiteTrackingManager - URL passed is nil or empty, dropping this call: %@", url);
     } else {
@@ -82,8 +78,7 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     }
 }
 
-- (void)trackNextItem
-{
+- (void)trackNextItem {
     if(!self.isRunning) {
         
         self.isRunning = YES;
@@ -107,17 +102,15 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
 
 #pragma mark Queue
 
-+ (void)enqueueItem:(PNLiteTrackingManagerItem *)item withQueueKey:(NSString*)key
-{
-    if(item){
++ (void)enqueueItem:(PNLiteTrackingManagerItem *)item withQueueKey:(NSString*)key {
+    if(item) {
         NSMutableArray *queue = [PNLiteTrackingManager queueForKey:key];
         [queue addObject:[item toDictionary]];
         [PNLiteTrackingManager setQueue:queue forKey:key];
     }
 }
 
-+ (PNLiteTrackingManagerItem *)dequeueItemWithQueueKey:(NSString*)key
-{
++ (PNLiteTrackingManagerItem *)dequeueItemWithQueueKey:(NSString*)key {
     PNLiteTrackingManagerItem *result = nil;
     NSMutableArray *queue = [PNLiteTrackingManager queueForKey:key];
     if (queue.count > 0) {
@@ -128,12 +121,11 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return result;
 }
 
-+ (NSMutableArray*)queueForKey:(NSString*)key
-{
++ (NSMutableArray*)queueForKey:(NSString*)key {
     NSArray *queue = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     NSMutableArray *result;
     
-    if(queue){
+    if(queue) {
         result = [queue mutableCopy];
     } else {
         result = [NSMutableArray array];
@@ -141,22 +133,19 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     return result;
 }
 
-+ (void)setQueue:(NSArray*)queue forKey:(NSString*)key
-{
++ (void)setQueue:(NSArray*)queue forKey:(NSString*)key {
     [[NSUserDefaults standardUserDefaults] setObject:queue
                                               forKey:key];
 }
 
 #pragma mark PNLiteHttpRequestDelegate
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     self.isRunning = NO;
     [self trackNextItem];
 }
 
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [PNLiteTrackingManager enqueueItem:self.currentItem withQueueKey:kPNLiteTrackingManagerFailedQueueKey];
     self.isRunning = NO;
     [self trackNextItem];

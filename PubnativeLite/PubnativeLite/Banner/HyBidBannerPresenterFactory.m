@@ -26,8 +26,7 @@
 
 @implementation HyBidBannerPresenterFactory
 
-- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad
-{
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_BANNER_1:
         case MRAID_BANNER_2: {

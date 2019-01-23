@@ -28,8 +28,7 @@
 static const float kControlsToobarHeight = 44.0;
 static const float kControlsLoadingIndicatorWidthHeight = 30.0;
 
-@interface HyBidBrowserControlsView ()
-{
+@interface HyBidBrowserControlsView () {
     // backButton is a property
     UIBarButtonItem *flexBack;
     // forwardButton is a property
@@ -48,8 +47,7 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
 
 @implementation HyBidBrowserControlsView
 
-- (id)initWithPubnativeBrowser:(HyBidBrowser *)p_pnBrowser
-{
+- (id)initWithPubnativeBrowser:(HyBidBrowser *)p_pnBrowser {
     self = [super initWithFrame:CGRectMake(0, 0, p_pnBrowser.view.bounds.size.width, kControlsToobarHeight)];
     
     if (self) {
@@ -93,16 +91,14 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
     return nil;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:@"-initWithFrame: is not a valid initializer for the class PubnativeBrowserControlsView"
                                  userInfo:nil];
     return nil;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     flexBack = nil;
     flexForward = nil;
     flexLoading = nil;
@@ -116,28 +112,23 @@ static const float kControlsLoadingIndicatorWidthHeight = 30.0;
 #pragma mark -
 #pragma mark PubnativeBrowserControlsView actions
 
-- (void)back:(id)sender
-{
+- (void)back:(id)sender {
     [pnBrowser back];
 }
 
-- (void)dismiss:(id)sender
-{
+- (void)dismiss:(id)sender {
     [pnBrowser dismiss];
 }
 
-- (void)forward:(id)sender
-{
+- (void)forward:(id)sender {
     [pnBrowser forward];
 }
 
-- (void)launchSafari:(id)sender
-{
+- (void)launchSafari:(id)sender {
     [pnBrowser launchSafari];
 }
 
-- (void)refresh:(id)sender
-{
+- (void)refresh:(id)sender {
     [pnBrowser refresh];
 }
 

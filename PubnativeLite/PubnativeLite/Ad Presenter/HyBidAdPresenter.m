@@ -24,28 +24,23 @@
 
 @implementation HyBidAdPresenter
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.delegate = nil;
 }
 
-- (void)load
-{
+- (void)load {
     // Do nothing, this method should be overriden
 }
 
-- (void)startTracking
-{
+- (void)startTracking {
     // Do nothing, this method should be overriden
 }
 
-- (void)stopTracking
-{
+- (void)stopTracking {
     // Do nothing, this method should be overriden
 }
 
-- (HyBidAd *)ad
-{
+- (HyBidAd *)ad {
     return nil;
 }
 

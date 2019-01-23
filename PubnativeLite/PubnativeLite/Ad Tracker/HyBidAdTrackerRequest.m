@@ -33,11 +33,10 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
 
 @implementation HyBidAdTrackerRequest
 
-- (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url
-{
-    if(delegate == nil){
+- (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url {
+    if(delegate == nil) {
         NSLog(@"HyBidAdTrackerRequest - Given delegate is nil and required, droping this call");
-    } else if(url == nil || url.length == 0){
+    } else if(url == nil || url.length == 0) {
         NSLog(@"HyBidAdTrackerRequest - URL nil or empty, droping this call");
     } else {
         self.delegate = delegate;
@@ -46,8 +45,7 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
     }
 }
 
-- (void)invokeDidStart
-{
+- (void)invokeDidStart {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(requestDidStart:)]) {
             [self.delegate requestDidStart:self];
@@ -55,8 +53,7 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
     });
 }
 
-- (void)invokeDidLoad
-{
+- (void)invokeDidLoad {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(requestDidFinish:)]) {
             [self.delegate requestDidFinish:self];
@@ -64,10 +61,9 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
     });
 }
 
-- (void)invokeDidFail:(NSError *)error
-{
+- (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]){
+        if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }
     });
@@ -75,8 +71,7 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
 
 #pragma mark PNLiteHttpRequestDelegate
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     if(kPNLiteResponseStatusRequestNotFound == statusCode) {
         NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
         [self invokeDidFail:statusError];
@@ -85,8 +80,7 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
     }
 }
 
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFail:error];
 }
 

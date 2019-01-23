@@ -40,16 +40,14 @@
 
 #pragma mark - "private" method
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.vastDocumentArray = nil;
 }
 
 // We deliberately do not declare this method in the header file in order to hide it.
 // It should be used only be the VAST2Parser to build the model.
 // It should not be used by anybody else receiving the model object.
-- (void)addVASTDocument:(NSData *)vastDocument
-{
+- (void)addVASTDocument:(NSData *)vastDocument {
     if (self.vastDocumentArray == nil) {
         self.vastDocumentArray = [NSMutableArray array];
     }
@@ -58,8 +56,7 @@
 
 #pragma mark - public methods
 
-- (NSString *)vastVersion
-{
+- (NSString *)vastVersion {
     // sanity check
     if ([self.vastDocumentArray count] == 0) {
         return nil;
@@ -76,34 +73,29 @@
     return version;
 }
 
-- (NSArray<NSString*> *)errors
-{
+- (NSArray<NSString*> *)errors {
     NSString *query = @"//Error";
     return [self resultsForQuery:query];
 }
 
-- (NSArray<NSString*> *)impressions
-{
+- (NSArray<NSString*> *)impressions {
     NSString *query = @"//Impression";
     return [self resultsForQuery:query];
 }
 
-- (NSString *)clickThrough
-{
+- (NSString *)clickThrough {
     NSString *query = @"//ClickThrough";
     NSArray *array = [self resultsForQuery:query];
     // There should be at most only one array element.
     return ([array count] > 0) ? array[0] : nil;
 }
 
-- (NSArray<NSString*> *)clickTracking
-{
+- (NSArray<NSString*> *)clickTracking {
     NSString *query = @"//ClickTracking";
     return [self resultsForQuery:query];
 }
 
-- (NSDictionary *)trackingEvents
-{
+- (NSDictionary *)trackingEvents {
     NSMutableDictionary *eventDict;
     NSString *query = @"//Linear//Tracking";
     
@@ -144,8 +136,7 @@
     return eventDict;
 }
 
-- (NSArray *)mediaFiles;
-{
+- (NSArray *)mediaFiles; {
     NSMutableArray *mediaFileArray;
     NSString *query = @"//MediaFile";
     
@@ -218,8 +209,7 @@
 
 #pragma mark - helper methods
 
-- (NSArray *)resultsForQuery:(NSString *)query
-{
+- (NSArray *)resultsForQuery:(NSString *)query {
     NSMutableArray *array;
     NSString *elementName = [query stringByReplacingOccurrencesOfString:@"/" withString:@""];
     
@@ -240,8 +230,7 @@
     return array;
 }
 
-- (NSString *)content:(NSDictionary *)node
-{
+- (NSString *)content:(NSDictionary *)node {
     // this is for string data
     if ([node[@"nodeContent"] length] > 0) {
         return node[@"nodeContent"];
@@ -262,8 +251,7 @@
     return nil;
 }
 
-- (NSURL*)urlWithCleanString:(NSString *)string
-{
+- (NSURL*)urlWithCleanString:(NSString *)string {
     NSString *cleanUrlString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];  // remove leading, trailing \n or space
     cleanUrlString = [cleanUrlString stringByReplacingOccurrencesOfString:@"|" withString:@"%7c"];
     return [NSURL URLWithString:cleanUrlString];                                                                            // return the resulting URL

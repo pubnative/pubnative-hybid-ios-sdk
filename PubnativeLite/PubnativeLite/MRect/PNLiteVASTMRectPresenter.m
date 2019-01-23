@@ -36,14 +36,12 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 
 @implementation PNLiteVASTMRectPresenter
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.adModel = nil;
     self.player = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad
-{
+- (instancetype)initWithAd:(HyBidAd *)ad {
     self = [super init];
     if (self) {
         self.adModel = ad;
@@ -52,30 +50,25 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
     return self;
 }
 
-- (HyBidAd *)ad
-{
+- (HyBidAd *)ad {
     return self.adModel;
 }
 
-- (void)load
-{
+- (void)load {
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:NO];
     self.player.delegate = self;
     [self.player loadWithVastString:self.adModel.vast];
 }
 
-- (void)startTracking
-{
+- (void)startTracking {
     [self.player play];
 }
 
-- (void)stopTracking
-{
+- (void)stopTracking {
     [self.player stop];
 }
 
-- (UIView *)buildContainerWithVASTPlayer:(PNLiteVASTPlayerViewController *)player
-{
+- (UIView *)buildContainerWithVASTPlayer:(PNLiteVASTPlayerViewController *)player {
     UIView *playerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteVASTMRectWidth, kPNLiteVASTMRectHeight)];
     player.view.frame = playerContainer.bounds;
     [playerContainer addSubview:player.view];
@@ -84,36 +77,30 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 
 #pragma mark PNLiteVASTPlayerViewControllerDelegate
 
-- (void)vastPlayerDidFinishLoading:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidFinishLoading:(PNLiteVASTPlayerViewController *)vastPlayer {
     if (!self.isLoaded) {
         self.isLoaded = YES;
         [self.delegate adPresenter:self didLoadWithAd:[self buildContainerWithVASTPlayer:vastPlayer]];
     }
 }
 
-- (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error
-{
+- (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error {
     [self.delegate adPresenter:self didFailWithError:error];
 }
 
-- (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer {
     
 }
 
-- (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer {
     
 }
 
-- (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
     
 }
 
-- (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.delegate adPresenterDidClick:self];
 }
 

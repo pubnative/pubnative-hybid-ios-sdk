@@ -32,13 +32,11 @@
 
 @implementation HyBidNativeAdLoader
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.nativeAdRequest = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.nativeAdRequest = [[HyBidNativeAdRequest alloc] init];
@@ -46,21 +44,18 @@
     return self;
 }
 
-- (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID
-{
+- (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
     self.delegate = delegate;
     [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
 }
 
-- (void)invokeDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
-{
+- (void)invokeDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeLoaderDidLoadWithNativeAd:)]) {
         [self.delegate nativeLoaderDidLoadWithNativeAd:nativeAd];
     }
 }
 
-- (void)invokeDidFailWithError:(NSError *)error
-{
+- (void)invokeDidFailWithError:(NSError *)error {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeLoaderDidFailWithError:)]) {
         [self.delegate nativeLoaderDidFailWithError:error];
     }
@@ -68,13 +63,11 @@
 
 #pragma mark HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     if (ad == nil) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
@@ -83,8 +76,7 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFailWithError:error];
 }
 

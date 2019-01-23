@@ -32,16 +32,14 @@
 
 @implementation PNLiteUserConsentRequestModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.deviceID = nil;
     self.deviceIDType = nil;
 }
 
 - (instancetype)initWithDeviceID:(NSString *)deviceID
                 withDeviceIDType:(NSString *)deviceIDType
-                     withConsent:(BOOL)consent
-{
+                     withConsent:(BOOL)consent {
     self = [super init];
     if (self) {
         self.deviceID = deviceID;
@@ -51,8 +49,7 @@
     return self;
 }
 
-- (NSData *)createPOSTBody
-{
+- (NSData *)createPOSTBody {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     
     if (self.deviceID) {

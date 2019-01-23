@@ -24,15 +24,13 @@
 
 @implementation PNLiteRequestInspectorModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.url = nil;
     self.response = nil;
     self.latency = nil;
 }
 
-- (instancetype)initWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency
-{
+- (instancetype)initWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency {
     self = [super init];
     if (self) {
         self.url = url;

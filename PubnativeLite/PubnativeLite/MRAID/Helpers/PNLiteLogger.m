@@ -27,8 +27,7 @@ static PNLiteLogLevel logLevel;
 
 @implementation PNLiteLogger
 
-+ (void)setLogLevel:(PNLiteLogLevel)level
-{
++ (void)setLogLevel:(PNLiteLogLevel)level {
     NSArray *levelNames = @[
                             @"none",
                             @"error",
@@ -42,29 +41,25 @@ static PNLiteLogLevel logLevel;
     logLevel = level;
 }
 
-+ (void)error:(NSString *)tag withMessage:(NSString *)message
-{
++ (void)error:(NSString *)tag withMessage:(NSString *)message {
     if (logLevel >= PNLiteLogLevelError) {
         NSLog(@"%@: (E) %@", tag, message);
     }
 }
 
-+ (void)warning:(NSString *)tag withMessage:(NSString *)message
-{
++ (void)warning:(NSString *)tag withMessage:(NSString *)message {
     if (logLevel >= PNLiteLogLevelWarning) {
         NSLog(@"%@: (W) %@", tag, message);
     }
 }
 
-+ (void)info:(NSString *)tag withMessage:(NSString *)message
-{
++ (void)info:(NSString *)tag withMessage:(NSString *)message {
     if (logLevel >= PNLiteLogLevelInfo) {
         NSLog(@"%@: (I) %@", tag, message);
     }
 }
 
-+ (void)debug:(NSString *)tag withMessage:(NSString *)message
-{
++ (void)debug:(NSString *)tag withMessage:(NSString *)message {
     if (logLevel >= PNLiteLogLevelDebug) {
         NSLog(@"%@: (D) %@", tag, message);
     }

@@ -25,8 +25,7 @@
 #import "PNLiteLogger.h"
 #import "PNLiteMRAIDOrientationProperties.h"
 
-@interface PNLiteMRAIDModalViewController ()
-{
+@interface PNLiteMRAIDModalViewController () {
     BOOL isStatusBarHidden;
     BOOL hasViewAppeared;
     BOOL hasRotated;
@@ -41,13 +40,11 @@
 
 @implementation PNLiteMRAIDModalViewController
 
-- (id)init
-{
+- (id)init {
     return [self initWithOrientationProperties:nil];
 }
 
-- (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProps
-{
+- (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProps {
     self = [super init];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -78,14 +75,12 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -93,8 +88,7 @@
 #pragma mark - status bar
 
 // This is to hide the status bar on iOS 6 and lower.
--(void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
@@ -102,8 +96,7 @@
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
@@ -115,21 +108,18 @@
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
 // This is to hide the status bar on iOS 7.
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
 #pragma mark - rotation/orientation
 
-- (BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate {
     NSArray *supportedOrientationsInPlist = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UISupportedInterfaceOrientations"];
     
     BOOL isPortraitSupported = [supportedOrientationsInPlist containsObject:@"UIInterfaceOrientationPortrait"];
@@ -163,8 +153,7 @@
     return retval;
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
                             [self.class description],
                             NSStringFromSelector(_cmd),
@@ -172,8 +161,7 @@
     return preferredOrientation;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
@@ -213,8 +201,7 @@
     }];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIInterfaceOrientation toInterfaceOrientation = self.interfaceOrientation;
     [PNLiteLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
                       [self.class description],
@@ -228,8 +215,7 @@
     }
 }
 
-- (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProps;
-{
+- (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProps; {
     NSString *orientationString;
     switch (orientationProps.forceOrientation) {
         case PNLiteMRAIDForceOrientationPortrait:
@@ -357,8 +343,7 @@
     hasRotated = YES;
 }
 
-- (NSString *)stringfromUIInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (NSString *)stringfromUIInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     switch (interfaceOrientation) {
         case UIInterfaceOrientationPortrait:
             return @"portrait";

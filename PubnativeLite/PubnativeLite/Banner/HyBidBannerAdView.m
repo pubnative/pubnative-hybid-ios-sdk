@@ -26,19 +26,16 @@
 
 @implementation HyBidBannerAdView
 
-- (instancetype)init
-{
+- (instancetype)init {
     return [super initWithFrame:CGRectMake(0, 0, 320, 50)];
 }
 
-- (HyBidAdRequest *)adRequest
-{
+- (HyBidAdRequest *)adRequest {
     HyBidBannerAdRequest *bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     return bannerAdRequest;
 }
 
-- (HyBidAdPresenter *)createAdPresenter
-{
+- (HyBidAdPresenter *)createAdPresenter {
     HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
     return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }

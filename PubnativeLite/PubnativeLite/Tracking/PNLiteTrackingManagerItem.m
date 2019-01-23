@@ -26,14 +26,12 @@ NSString * const kPNLiteTrackingManagerTimestampKey = @"timestamp";
 
 @implementation PNLiteTrackingManagerItem
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.url = nil;
     self.timestamp = nil;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [self init];
     if (self) {
         self.url = [NSURL URLWithString:dictionary[kPNLiteTrackingManagerURLKey]];
@@ -42,8 +40,7 @@ NSString * const kPNLiteTrackingManagerTimestampKey = @"timestamp";
     return self;
 }
 
-- (NSDictionary *)toDictionary
-{
+- (NSDictionary *)toDictionary {
     return @{ kPNLiteTrackingManagerURLKey : [self.url absoluteString],
               kPNLiteTrackingManagerTimestampKey : self.timestamp };
 }

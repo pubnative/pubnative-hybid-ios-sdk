@@ -25,13 +25,11 @@
 
 @implementation PNLiteCountryUtils
 
-+ (BOOL)isGDPRCountry:(NSString *)countryCode
-{
++ (BOOL)isGDPRCountry:(NSString *)countryCode {
     return [[PNLiteCountryUtils gdprCountries] containsObject:[countryCode uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"en"]]];
 }
 
-+ (NSArray *)gdprCountries
-{
++ (NSArray *)gdprCountries {
     return [NSArray arrayWithObjects:@"BE", @"EL", @"LT", @"PT", @"BG", @"ES", @"LU", @"RO", @"CZ", @"FR", @"HU", @"SI", @"DK", @"HR", @"MT", @"SK", @"DE", @"IT", @"NL", @"FI", @"EE", @"CY", @"AT", @"SE", @"IE", @"LV", @"PL", @"UK", @"CH", @"NO", @"IS", @"LI", nil];
 }
 

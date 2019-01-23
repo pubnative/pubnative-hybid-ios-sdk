@@ -42,8 +42,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
 
 #pragma mark - Initialization
 
-- (instancetype)initWithConsentPageURL:(NSString *)consentPageURL
-{
+- (instancetype)initWithConsentPageURL:(NSString *)consentPageURL {
     if (self = [super initWithNibName:nil bundle:nil]) {
         _consentPageURL = consentPageURL;
         [self setUpWebView];
@@ -51,15 +50,13 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     [self layoutWebView];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     if ([self.delegate respondsToSelector:@selector(consentPageViewControllerWillDisappear:)]) {
@@ -67,8 +64,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     }
 }
 
-- (void)setUpWebView
-{
+- (void)setUpWebView {
     self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
     self.webView.delegate = self;
     self.webView.scrollView.bounces = NO;
@@ -76,8 +72,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
-- (void)layoutWebView
-{
+- (void)layoutWebView {
     self.webView.frame = self.view.bounds;
     [self.view addSubview:self.webView];
     
@@ -93,15 +88,13 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     }
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
 #pragma mark - Load Consent Page
 
-- (void)loadConsentPageWithCompletion:(PNLiteConsentPageViewControllerCompletion)completion
-{
+- (void)loadConsentPageWithCompletion:(PNLiteConsentPageViewControllerCompletion)completion {
     self.finishedInitialLoad = NO;
     self.didLoadCompletionBlock = completion;
     NSURL *url = [NSURL URLWithString:self.consentPageURL];
@@ -111,8 +104,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
 
 #pragma mark UIWebViewDelegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (!self.finishedInitialLoad) {
         self.finishedInitialLoad = YES;
         
@@ -123,8 +115,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     }
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     if (!self.finishedInitialLoad) {
         self.finishedInitialLoad = YES;
         
@@ -135,8 +126,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     }
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSURL *url = [request URL];
     NSString *absoluteUrlString = [url absoluteString];
     

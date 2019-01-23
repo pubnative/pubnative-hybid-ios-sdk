@@ -32,32 +32,27 @@
 
 @implementation PNLiteAdPresenterDecorator
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.adPresenter = nil;
     self.adTracker = nil;
     self.adPresenterDelegate = nil;
 }
 
-- (void)load
-{
+- (void)load {
     [self.adPresenter load];
 }
 
-- (void)startTracking
-{
+- (void)startTracking {
     [self.adPresenter startTracking];
 }
 
-- (void)stopTracking
-{
+- (void)stopTracking {
     [self.adPresenter stopTracking];
 }
 
 - (instancetype)initWithAdPresenter:(HyBidAdPresenter *)adPresenter
                       withAdTracker:(HyBidAdTracker *)adTracker
-                       withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate
-{
+                       withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate {
     self = [super init];
     if (self) {
         self.adPresenter = adPresenter;
@@ -69,20 +64,17 @@
 
 #pragma mark HyBidAdPresenterDelegate
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     [self.adTracker trackImpression];
     [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
 }
 
-- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
-{
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     [self.adTracker trackClick];
     [self.adPresenterDelegate adPresenterDidClick:adPresenter];
 }
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
 }
 

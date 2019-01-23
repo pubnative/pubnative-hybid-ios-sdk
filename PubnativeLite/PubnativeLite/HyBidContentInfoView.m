@@ -42,8 +42,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
 
 @implementation HyBidContentInfoView
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.closeTimer invalidate];
     self.closeTimer = nil;
     [self.textView removeFromSuperview];
@@ -58,8 +57,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     self.tapRecognizer = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         [self setFrame:CGRectMake(0, 0, kPNLiteContentViewWidth, kPNLiteContentViewHeight)];
@@ -141,8 +139,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     self.hidden = YES;
     
     if(self.iconImage == nil) {
@@ -156,8 +153,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     }
 }
 
-- (void)configureView
-{
+- (void)configureView {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.textView.text = self.text;
         [self.textView sizeToFit];
@@ -167,26 +163,22 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     });
 }
 
-- (void)stopCloseTimer
-{
+- (void)stopCloseTimer {
     [self.closeTimer invalidate];
     self.closeTimer = nil;
 }
 
-- (void)startCloseTimer
-{
+- (void)startCloseTimer {
     self.closeTimer = [NSTimer scheduledTimerWithTimeInterval:kPNLiteContentViewClosingTime target:self selector:@selector(closeFromTimer) userInfo:nil repeats:NO];
 }
 
--(void)closeFromTimer
-{
+- (void)closeFromTimer {
     if ([self.closeTimer isValid]) {
         [self close];
     }
 }
 
-- (void)handleTap:(UITapGestureRecognizer *)sender
-{
+- (void)handleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if(self.isOpen) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link]];
@@ -197,8 +189,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     }
 }
 
-- (void)open
-{
+- (void)open {
     self.isOpen = YES;
     [self layoutIfNeeded];
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, self.frame.size.height);
@@ -207,8 +198,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     [self startCloseTimer];
 }
 
-- (void)close
-{
+- (void)close {
     self.isOpen = NO;
     [self stopCloseTimer];
     [self layoutIfNeeded];
@@ -219,8 +209,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
 
 #pragma mark PNLiteOrientationManagerDelegate
 
-- (void)orientationManagerDidChangeOrientation
-{
+- (void)orientationManagerDidChangeOrientation {
     [self.delegate contentInfoViewWidthNeedsUpdate:[NSNumber numberWithFloat: self.frame.size.width]];
 }
 

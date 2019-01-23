@@ -36,14 +36,12 @@
 
 @implementation PNLiteMRAIDInterstitialPresenter
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.serviceProvider = nil;
     self.adModel = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad
-{
+- (instancetype)initWithAd:(HyBidAd *)ad {
     self = [super init];
     if (self) {
         self.adModel = ad;
@@ -51,13 +49,11 @@
     return self;
 }
 
-- (HyBidAd *)ad
-{
+- (HyBidAd *)ad {
     return self.adModel;
 }
 
-- (void)load
-{
+- (void)load {
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
                                                withHtmlData:self.adModel.htmlData
@@ -71,84 +67,70 @@
 
 }
 
-- (void)show
-{
+- (void)show {
     [self.mraidView showAsInterstitial];
 }
 
-- (void)hide
-{
+- (void)hide {
     [self.mraidView hide];
 }
 
 #pragma mark HyBidMRAIDViewDelegate
 
-- (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView
-{
+- (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
     [self.delegate interstitialPresenterDidLoad:self];
 }
 
-- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView
-{
+- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
     NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDInterstitialPresenter - MRAID View  Failed" code:0 userInfo:nil];
     [self.delegate interstitialPresenter:self didFailWithError:error];
 }
 
-- (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView
-{
+- (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
     [self.delegate interstitialPresenterDidShow:self];
 }
 
-- (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView
-{
+- (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID did close!");
     [self.delegate interstitialPresenterDidDismiss:self];
 }
 
-- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url
-{
+- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
     [self.delegate interstitialPresenterDidClick:self];
 
 }
 
-- (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
-{
+- (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
     return NO;
 }
 
 #pragma mark HyBidMRAIDServiceDelegate
 
-- (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString
-{
+- (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString {
     [self.serviceProvider callNumber:urlString];
 }
 
-- (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString
-{
+- (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString {
     [self.serviceProvider sendSMS:urlString];
 }
 
-- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON
-{
+- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON {
     [self.serviceProvider createEvent:eventJSON];
 }
 
-- (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
-{
+- (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
     [self.delegate interstitialPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 
-- (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString
-{
+- (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
     [self.serviceProvider playVideo:urlString];
 }
 
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString
-{
+- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
     [self.serviceProvider storePicture:urlString];
 }
 @end

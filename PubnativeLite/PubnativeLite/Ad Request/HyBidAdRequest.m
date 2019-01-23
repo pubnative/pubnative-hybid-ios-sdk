@@ -47,26 +47,23 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 
 @implementation HyBidAdRequest
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.zoneID = nil;
     self.startTime = nil;
     self.requestURL = nil;
 }
 
-- (NSString *)adSize
-{
+- (NSString *)adSize {
     return nil;
 }
 
-- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID
-{
+- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
     if (self.isRunning) {
         NSError *runningError = [NSError errorWithDomain:@"HyBidAdRequest - Request is currently running, droping this call" code:0 userInfo:nil];
         [self invokeDidFail:runningError];
-    } else if(delegate == nil){
+    } else if(delegate == nil) {
         NSLog(@"HyBidAdRequest - Given delegate is nil and required, droping this call");
-    } else if(zoneID == nil || zoneID.length == 0){
+    } else if(zoneID == nil || zoneID.length == 0) {
         NSLog(@"HyBidAdRequest - Zone ID nil or empty, droping this call");
     }
     else {
@@ -84,8 +81,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
-- (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel
-{
+- (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
     NSURLComponents *components = [NSURLComponents componentsWithString:kPNLiteRequestBaseUrl];
     if (adRequestModel.requestParameters) {
         NSMutableArray *query = [NSMutableArray array];
@@ -98,8 +94,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     return components.URL;
 }
 
-- (void)invokeDidStart
-{
+- (void)invokeDidStart {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(requestDidStart:)]) {
             [self.delegate requestDidStart:self];
@@ -107,8 +102,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     });
 }
 
-- (void)invokeDidLoad:(HyBidAd *)ad
-{
+- (void)invokeDidLoad:(HyBidAd *)ad {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isRunning = NO;
         if (self.delegate && [self.delegate respondsToSelector:@selector(request:didLoadWithAd:)]) {
@@ -118,19 +112,17 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     });
 }
 
-- (void)invokeDidFail:(NSError *)error
-{
+- (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isRunning = NO;
-        if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]){
+        if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }
         self.delegate = nil;
     });
 }
 
-- (NSDictionary *)createDictionaryFromData:(NSData *)data
-{
+- (NSDictionary *)createDictionaryFromData:(NSData *)data {
     NSError *parseError;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
@@ -143,8 +135,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
-- (void)processResponseWithData:(NSData *)data
-{
+- (void)processResponseWithData:(NSData *)data {
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (jsonDictonary) {
         PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
@@ -180,8 +171,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 
 #pragma mark PNLiteHttpRequestDelegate
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     if(kPNLiteResponseStatusOK == statusCode ||
        kPNLiteResponseStatusRequestMalformed == statusCode) {
         
@@ -202,8 +192,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
                                                                withResponse:error.localizedDescription
                                                                 withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];

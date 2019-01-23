@@ -40,8 +40,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 
 @implementation PNLiteImpressionTracker
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.delegate = nil;
     [self.trackedViews removeAllObjects];
     self.trackedViews = nil;
@@ -49,8 +48,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     self.visibleViews = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.visibleViews = [NSMutableArray array];
@@ -63,8 +61,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     return self;
 }
 
-- (void)addView:(UIView*)view
-{
+- (void)addView:(UIView*)view {
     if([self.trackedViews containsObject:view]) {
         NSLog(@"PNLiteImpressionTracker - View is already being tracked, dropping this call");
     } else {
@@ -73,14 +70,12 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     }
 }
 
-- (void)removeView:(UIView*)view
-{
+- (void)removeView:(UIView*)view {
     [self.visibilityTracker removeView:view];
     [self.trackedViews removeObject:view];
 }
 
-- (void)clear
-{
+- (void)clear {
     self.isVisibiltyCheckValid = NO;
     self.isVisibiltyCheckScheduled = NO;
     [self.visibleViews removeAllObjects];
@@ -89,14 +84,13 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     self.visibilityTracker = nil;
 }
 
-- (void)scheduleNextRun
-{
+- (void)scheduleNextRun {
     if(self.isVisibiltyCheckValid && !self.isVisibiltyCheckScheduled) {
         self.isVisibiltyCheckScheduled = YES;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kPNImpressionCheckPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if(self.delegate == nil) {
                 [self clear];
-            } else if(self.visibleViews && self.visibleViews.count > 0){
+            } else if(self.visibleViews && self.visibleViews.count > 0) {
                 [self checkVisibility];
             }
         });
@@ -106,8 +100,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     }
 }
 
-- (void)checkVisibility
-{
+- (void)checkVisibility {
     if(self.visibleViews != nil) {
         for (int i = 0; i < self.visibleViews.count; i++) {
             if (i < self.visibleViews.count) {
@@ -134,8 +127,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     }
 }
 
-- (NSInteger)indexOfVisibleView:(UIView*)view
-{
+- (NSInteger)indexOfVisibleView:(UIView*)view {
     NSInteger result = -1;
     for (int index = 0; index<self.visibleViews.count; index++) {
         PNLiteImpressionTrackerItem *item = self.visibleViews[index];
@@ -149,8 +141,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 
 #pragma mark Callback Helper
 
-- (void)invokeImpressionDetected:(UIView*)view
-{
+- (void)invokeImpressionDetected:(UIView*)view {
     if (self.delegate && [self.delegate respondsToSelector:@selector(impressionDetectedWithView:)]) {
         [self.delegate impressionDetectedWithView:view];
     }
@@ -158,8 +149,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 
 #pragma mark HyBidVisibilityTrackerDelegate
 
-- (void)checkVisibilityWithVisibleViews:(NSArray<UIView *> *)visibleViews andWithInvisibleViews:(NSArray<UIView *> *)invisibleViews
-{
+- (void)checkVisibilityWithVisibleViews:(NSArray<UIView *> *)visibleViews andWithInvisibleViews:(NSArray<UIView *> *)invisibleViews {
     if(self.delegate == nil) {
         [self clear];
     } else {

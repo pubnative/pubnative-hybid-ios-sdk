@@ -27,18 +27,15 @@ double const kECPMPointsDivider = 1000.0;
 
 @implementation HyBidPrebidUtils
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad
-{
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad {
     return [HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:nil];
 }
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID
-{
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID {
     return [HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withKeywordMode:THREE_DECIMAL_PLACES];
 }
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode
-{
++ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
     NSMutableString *prebidString = [[NSMutableString alloc] init];
     [prebidString appendString:kPNLiteKeyPN_BID];
     [prebidString appendString:@":"];
@@ -47,26 +44,22 @@ double const kECPMPointsDivider = 1000.0;
     return [NSString stringWithString:prebidString];
 }
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad
-{
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad {
     return [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:nil];
 }
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID
-{
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID {
     return [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withKeywordMode:THREE_DECIMAL_PLACES];
 }
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode
-{
++ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
     NSMutableDictionary *prebidDictionary = [NSMutableDictionary dictionary];
     [prebidDictionary setValue:[HyBidPrebidUtils eCPMFromAd:ad withDecimalPlaces:keywordMode] forKey:kPNLiteKeyPN_BID];
     return prebidDictionary;
 }
 
 
-+ (NSString *)eCPMFromAd:(HyBidAd *)ad withDecimalPlaces:(HyBidKeywordMode)decimalPlaces
-{
++ (NSString *)eCPMFromAd:(HyBidAd *)ad withDecimalPlaces:(HyBidKeywordMode)decimalPlaces {
     if (decimalPlaces == TWO_DECIMAL_PLACES) {
         return [NSString stringWithFormat:@"%.2f", [ad.eCPM doubleValue]/kECPMPointsDivider];
     } else {

@@ -38,24 +38,21 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
 
 @implementation HyBidAdTracker
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.adTrackerRequest = nil;
     self.impressionURLs = nil;
     self.clickURLs = nil;
 }
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
-                         withClickURLs:(NSArray *)clickURLs
-{
+                         withClickURLs:(NSArray *)clickURLs {
     HyBidAdTrackerRequest *adTrackerRequest = [[HyBidAdTrackerRequest alloc] init];
     return [self initWithAdTrackerRequest:adTrackerRequest withImpressionURLs:impressionURLs withClickURLs:clickURLs];
 }
 
 - (instancetype)initWithAdTrackerRequest:(HyBidAdTrackerRequest *)adTrackerRequest
                       withImpressionURLs:(NSArray *)impressionURLs
-                           withClickURLs:(NSArray *)clickURLs
-{
+                           withClickURLs:(NSArray *)clickURLs {
     self = [super init];
     if (self) {
         self.adTrackerRequest = adTrackerRequest;
@@ -65,8 +62,7 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
     return self;
 }
 
-- (void)trackClick
-{
+- (void)trackClick {
     if (self.clickTracked) {
         return;
     }
@@ -75,8 +71,7 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
     self.clickTracked = YES;
 }
 
-- (void)trackImpression
-{
+- (void)trackImpression {
     if (self.impressionTracked) {
         return;
     }
@@ -85,8 +80,7 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
     self.impressionTracked = YES;
 }
 
-- (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType
-{
+- (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType {
     if (URLs != nil) {
         for (HyBidDataModel *dataModel in URLs) {
             NSLog(@"%@", [NSString stringWithFormat:@"HyBidAdTracker - Tracking %@ with URL: %@",trackType, dataModel.url]);
@@ -97,18 +91,15 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
 
 #pragma mark HyBidAdTrackerRequestDelegate
 
-- (void)requestDidStart:(HyBidAdTrackerRequest *)request
-{
+- (void)requestDidStart:(HyBidAdTrackerRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)requestDidFinish:(HyBidAdTrackerRequest *)request
-{
+- (void)requestDidFinish:(HyBidAdTrackerRequest *)request {
     NSLog(@"Request %@ finished:",request);
 }
 
-- (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
 }
 
