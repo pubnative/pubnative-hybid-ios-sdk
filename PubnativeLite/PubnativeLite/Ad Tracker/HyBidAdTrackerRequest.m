@@ -23,7 +23,7 @@
 #import "HyBidAdTrackerRequest.h"
 #import "PNLiteHttpRequest.h"
 
-NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
+NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
 @interface HyBidAdTrackerRequest() <PNLiteHttpRequestDelegate>
 
@@ -72,7 +72,7 @@ NSInteger const kPNLiteResponseStatusRequestNotFound = 404;
 #pragma mark PNLiteHttpRequestDelegate
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
-    if(kPNLiteResponseStatusRequestNotFound == statusCode) {
+    if(PNLiteResponseStatusRequestNotFound == statusCode) {
         NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
         [self invokeDidFail:statusError];
     } else {

@@ -24,8 +24,8 @@
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
 
-NSString *const kPNLiteGeoIPResponseSuccess = @"success";
-NSString *const kPNLiteGeoIPResponseFail = @"fail";
+NSString *const PNLiteGeoIPResponseSuccess = @"success";
+NSString *const PNLiteGeoIPResponseFail = @"fail";
 
 @interface HyBidGeoIPRequest () <PNLiteHttpRequestDelegate>
 
@@ -89,7 +89,7 @@ NSString *const kPNLiteGeoIPResponseFail = @"fail";
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
-        } else if ([kPNLiteGeoIPResponseSuccess isEqualToString:geoIP.status]) {
+        } else if ([PNLiteGeoIPResponseSuccess isEqualToString:geoIP.status]) {
             [self invokeDidLoad:geoIP];
             
         } else {

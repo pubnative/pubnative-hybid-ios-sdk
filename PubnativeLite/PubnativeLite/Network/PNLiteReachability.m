@@ -17,7 +17,7 @@
 #pragma mark IPv6 Support
 //Reachability fully support IPv6.  For full details, see ReadMe.md.
 
-NSString *kPNLiteReachabilityChangedNotification = @"kNetworkReachabilityChangedNotification";
+NSString *PNLiteReachabilityChangedNotification = @"kNetworkReachabilityChangedNotification";
 
 #pragma mark - Supporting functions
 
@@ -50,7 +50,7 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
     
     PNLiteReachability* noteObject = (__bridge PNLiteReachability *)info;
     // Post a notification to notify the client that the network reachability changed.
-    [[NSNotificationCenter defaultCenter] postNotificationName: kPNLiteReachabilityChangedNotification object: noteObject];
+    [[NSNotificationCenter defaultCenter] postNotificationName: PNLiteReachabilityChangedNotification object: noteObject];
 }
 
 

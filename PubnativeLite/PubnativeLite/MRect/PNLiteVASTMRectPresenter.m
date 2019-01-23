@@ -23,8 +23,8 @@
 #import "PNLiteVASTMRectPresenter.h"
 #import "PNLiteVASTPlayerViewController.h"
 
-CGFloat const kPNLiteVASTMRectWidth = 300.0f;
-CGFloat const kPNLiteVASTMRectHeight = 250.0f;
+CGFloat const PNLiteVASTMRectWidth = 300.0f;
+CGFloat const PNLiteVASTMRectHeight = 250.0f;
 
 @interface PNLiteVASTMRectPresenter () <PNLiteVASTPlayerViewControllerDelegate>
 
@@ -69,7 +69,7 @@ CGFloat const kPNLiteVASTMRectHeight = 250.0f;
 }
 
 - (UIView *)buildContainerWithVASTPlayer:(PNLiteVASTPlayerViewController *)player {
-    UIView *playerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteVASTMRectWidth, kPNLiteVASTMRectHeight)];
+    UIView *playerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PNLiteVASTMRectWidth, PNLiteVASTMRectHeight)];
     player.view.frame = playerContainer.bounds;
     [playerContainer addSubview:player.view];
     return playerContainer;

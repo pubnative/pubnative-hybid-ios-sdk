@@ -22,7 +22,7 @@
 
 #import "HyBidPrebidUtils.h"
 
-NSString *const kPNLiteKeyPN_BID = @"pn_bid";
+NSString *const PNLiteKeyPN_BID = @"pn_bid";
 double const kECPMPointsDivider = 1000.0;
 
 @implementation HyBidPrebidUtils
@@ -37,7 +37,7 @@ double const kECPMPointsDivider = 1000.0;
 
 + (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
     NSMutableString *prebidString = [[NSMutableString alloc] init];
-    [prebidString appendString:kPNLiteKeyPN_BID];
+    [prebidString appendString:PNLiteKeyPN_BID];
     [prebidString appendString:@":"];
     [prebidString appendString:[HyBidPrebidUtils eCPMFromAd:ad withDecimalPlaces:keywordMode]];
     
@@ -54,7 +54,7 @@ double const kECPMPointsDivider = 1000.0;
 
 + (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
     NSMutableDictionary *prebidDictionary = [NSMutableDictionary dictionary];
-    [prebidDictionary setValue:[HyBidPrebidUtils eCPMFromAd:ad withDecimalPlaces:keywordMode] forKey:kPNLiteKeyPN_BID];
+    [prebidDictionary setValue:[HyBidPrebidUtils eCPMFromAd:ad withDecimalPlaces:keywordMode] forKey:PNLiteKeyPN_BID];
     return prebidDictionary;
 }
 

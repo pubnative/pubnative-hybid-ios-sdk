@@ -23,8 +23,8 @@
 #import "HyBidAdTracker.h"
 #import "HyBidDataModel.h"
 
-NSString *const kPNLiteAdTrackerClick = @"click";
-NSString *const kPNLiteAdTrackerImpression = @"impression";
+NSString *const PNLiteAdTrackerClick = @"click";
+NSString *const PNLiteAdTrackerImpression = @"impression";
 
 @interface HyBidAdTracker() <HyBidAdTrackerRequestDelegate>
 
@@ -67,7 +67,7 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
         return;
     }
     
-    [self trackURLs:self.clickURLs withTrackType:kPNLiteAdTrackerClick];
+    [self trackURLs:self.clickURLs withTrackType:PNLiteAdTrackerClick];
     self.clickTracked = YES;
 }
 
@@ -76,7 +76,7 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
         return;
     }
     
-    [self trackURLs:self.impressionURLs withTrackType:kPNLiteAdTrackerImpression];
+    [self trackURLs:self.impressionURLs withTrackType:PNLiteAdTrackerImpression];
     self.impressionTracked = YES;
 }
 

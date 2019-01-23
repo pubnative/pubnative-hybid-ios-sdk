@@ -23,8 +23,8 @@
 
 #import "HyBidMoPubUtils.h"
 
-NSString *const kPNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
-NSString *const kPNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
+NSString *const PNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
+NSString *const PNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
 
 @implementation HyBidMoPubUtils
 
@@ -49,11 +49,11 @@ NSString *const kPNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
 }
 
 + (NSString *)zoneID:(NSDictionary *)extras {
-    return [HyBidMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyZoneID fromExtras:extras];
+    return [HyBidMoPubUtils valueWithKey:PNLiteMoPubAdapterKeyZoneID fromExtras:extras];
 }
 
 + (NSString *)appToken:(NSDictionary *)extras {
-    return [HyBidMoPubUtils valueWithKey:kPNLiteMoPubAdapterKeyAppToken fromExtras:extras];
+    return [HyBidMoPubUtils valueWithKey:PNLiteMoPubAdapterKeyAppToken fromExtras:extras];
 }
 
 + (NSString *)valueWithKey:(NSString *)key

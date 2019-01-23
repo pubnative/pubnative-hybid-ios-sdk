@@ -27,9 +27,9 @@
 @implementation HyBidMRAIDServiceProvider
 
 - (void)openBrowser:(NSString *)urlString {
-    HyBidBrowser *browser = [[HyBidBrowser alloc] initWithDelegate:nil withFeatures:@[kPNLiteBrowserFeatureSupportInlineMediaPlayback
-                                                                                      , kPNLiteBrowserFeatureDisableStatusBar
-                                                                                      , kPNLiteBrowserFeatureScalePagesToFit]];
+    HyBidBrowser *browser = [[HyBidBrowser alloc] initWithDelegate:nil withFeatures:@[PNLiteBrowserFeatureSupportInlineMediaPlayback
+                                                                                      , PNLiteBrowserFeatureDisableStatusBar
+                                                                                      , PNLiteBrowserFeatureScalePagesToFit]];
     [browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 }
 

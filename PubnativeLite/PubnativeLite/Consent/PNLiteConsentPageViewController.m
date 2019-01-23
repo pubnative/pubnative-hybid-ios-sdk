@@ -25,9 +25,9 @@
 
 typedef void(^PNLiteConsentPageViewControllerCompletion)(BOOL success, NSError *error);
 
-NSString *const kPNLiteConsentAccept = @"https://pubnative.net/personalize-experience-yes/";
-NSString *const kPNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
-NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
+NSString *const PNLiteConsentAccept = @"https://pubnative.net/personalize-experience-yes/";
+NSString *const PNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
+NSString *const PNLiteConsentClose = @"https://pubnative.net/";
 
 @interface PNLiteConsentPageViewController () <UIWebViewDelegate>
 
@@ -130,11 +130,11 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     NSURL *url = [request URL];
     NSString *absoluteUrlString = [url absoluteString];
     
-    if ([absoluteUrlString isEqualToString:kPNLiteConsentAccept]) {
+    if ([absoluteUrlString isEqualToString:PNLiteConsentAccept]) {
         [[HyBidUserDataManager sharedInstance] grantConsent];
-    } else if ([absoluteUrlString isEqualToString:kPNLiteConsentReject]) {
+    } else if ([absoluteUrlString isEqualToString:PNLiteConsentReject]) {
         [[HyBidUserDataManager sharedInstance] denyConsent];
-    } else if ([absoluteUrlString isEqualToString:kPNLiteConsentClose]) {
+    } else if ([absoluteUrlString isEqualToString:PNLiteConsentClose]) {
         [self dismissViewControllerAnimated:YES completion:^{
             if ([self.delegate respondsToSelector:@selector(consentPageViewControllerDidDismiss:)]) {
                 [self.delegate consentPageViewControllerDidDismiss:self];

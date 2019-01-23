@@ -22,7 +22,7 @@
 
 #import "HyBidDFPUtils.h"
 
-NSString *const kPNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
+NSString *const PNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
 
 @implementation HyBidDFPUtils
 
@@ -35,7 +35,7 @@ NSString *const kPNLiteDFPAdapterKeyZoneID = @"pn_zone_id";
 }
 
 + (NSString *)zoneID:(NSString *)extras {
-    return [HyBidDFPUtils valueWithKey:kPNLiteDFPAdapterKeyZoneID fromExtras:extras];
+    return [HyBidDFPUtils valueWithKey:PNLiteDFPAdapterKeyZoneID fromExtras:extras];
 }
 
 + (NSString *)valueWithKey:(NSString *)key

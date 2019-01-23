@@ -29,10 +29,10 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 // Features
-NSString * const kPNLiteBrowserFeatureDisableStatusBar = @"disableStatusBar";
-NSString * const kPNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
-NSString * const kPNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
-NSString * const kPNLiteBrowserTelPrefix = @"tel://";
+NSString * const PNLiteBrowserFeatureDisableStatusBar = @"disableStatusBar";
+NSString * const PNLiteBrowserFeatureScalePagesToFit = @"scalePagesToFit";
+NSString * const PNLiteBrowserFeatureSupportInlineMediaPlayback = @"supportInlineMediaPlayback";
+NSString * const PNLiteBrowserTelPrefix = @"tel://";
 
 @interface HyBidBrowser () <WKNavigationDelegate> {
     HyBidBrowserControlsView *browserControlsView;
@@ -64,13 +64,13 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
         {
             for (NSString *feature in p_pubnativeBrowserFeatures)
             {
-                if ([feature isEqualToString:kPNLiteBrowserFeatureDisableStatusBar]) {
+                if ([feature isEqualToString:PNLiteBrowserFeatureDisableStatusBar]) {
                     disableStatusBar = YES;
                 }
-                else if ([feature isEqualToString:kPNLiteBrowserFeatureSupportInlineMediaPlayback]) {
+                else if ([feature isEqualToString:PNLiteBrowserFeatureSupportInlineMediaPlayback]) {
                     supportInlineMediaPlayback = YES;
                 }
-                else if ([feature isEqualToString:kPNLiteBrowserFeatureScalePagesToFit]) {
+                else if ([feature isEqualToString:PNLiteBrowserFeatureScalePagesToFit]) {
                     scalePagesToFit = YES;
                 }
                 
@@ -225,7 +225,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
         [self.delegate pubnativeTelPopupOpen:self];
     }
     
-    telString = [telString stringByReplacingOccurrencesOfString:kPNLiteBrowserTelPrefix withString:@""];
+    telString = [telString stringByReplacingOccurrencesOfString:PNLiteBrowserTelPrefix withString:@""];
     
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:telString
@@ -257,7 +257,7 @@ NSString * const kPNLiteBrowserTelPrefix = @"tel://";
                                      }
                                      
                                      // Parse phone number and dial
-                                     NSString *toCall = [kPNLiteBrowserTelPrefix stringByAppendingString:telString];
+                                     NSString *toCall = [PNLiteBrowserTelPrefix stringByAppendingString:telString];
                                      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:toCall]];
                                  }];
     

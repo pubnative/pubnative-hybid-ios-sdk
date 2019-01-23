@@ -24,8 +24,8 @@
 #import "PNLiteReachability.h"
 #import "PNLiteCryptoUtils.h"
 
-NSTimeInterval const kPNLiteHttpRequestDefaultTimeout = 60;
-NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
+NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
+NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
 NSInteger const MAX_RETRIES = 1;
 
 @interface PNLiteHttpRequest ()
@@ -99,8 +99,8 @@ NSInteger const MAX_RETRIES = 1;
         session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:url];
-        [request setCachePolicy:kPNLiteHttpRequestDefaultCachePolicy];
-        [request setTimeoutInterval:kPNLiteHttpRequestDefaultTimeout];
+        [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];
+        [request setTimeoutInterval:PNLiteHttpRequestDefaultTimeout];
         [request setHTTPMethod:self.method];
         if (self.header && self.header.count > 0) {
             for (NSString *key in self.header) {

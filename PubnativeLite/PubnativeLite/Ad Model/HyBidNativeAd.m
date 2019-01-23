@@ -26,8 +26,8 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
 
-NSString * const kPNLiteNativeAdBeaconImpression = @"impression";
-NSString * const kPNLiteNativeAdBeaconClick = @"click";
+NSString * const PNLiteNativeAdBeaconImpression = @"impression";
+NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 @interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate>
 
@@ -243,7 +243,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 - (void)handleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         [self invokeDidClick];
-        [self confirmBeaconsWithType:kPNLiteNativeAdBeaconClick];
+        [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
     }
 }
@@ -415,7 +415,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 #pragma mark PNLiteImpressionTrackerDelegate
 
 - (void)impressionDetectedWithView:(UIView *)view {
-    [self confirmBeaconsWithType:kPNLiteNativeAdBeaconImpression];
+    [self confirmBeaconsWithType:PNLiteNativeAdBeaconImpression];
     [self invokeImpressionConfirmedWithView:view];
 }
 

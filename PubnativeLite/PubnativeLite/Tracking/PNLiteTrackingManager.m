@@ -23,9 +23,9 @@
 #import "PNLiteTrackingManagerItem.h"
 #import "PNLiteHttpRequest.h"
 
-NSString * const kPNLiteTrackingManagerQueueKey             = @"PNLiteTrackingManager.queue.key";
-NSString * const kPNLiteTrackingManagerFailedQueueKey       = @"PNLiteTrackingManager.failedQueue.key";
-NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
+NSString * const PNLiteTrackingManagerQueueKey             = @"PNLiteTrackingManager.queue.key";
+NSString * const PNLiteTrackingManagerFailedQueueKey       = @"PNLiteTrackingManager.failedQueue.key";
+NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 
 @interface PNLiteTrackingManager () <PNLiteHttpRequestDelegate>
 
@@ -62,18 +62,18 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
         NSLog(@"PNLiteTrackingManager - URL passed is nil or empty, dropping this call: %@", url);
     } else {
         // Enqueue failed items
-        NSMutableArray *failedQueue = [self queueForKey:kPNLiteTrackingManagerFailedQueueKey];
+        NSMutableArray *failedQueue = [self queueForKey:PNLiteTrackingManagerFailedQueueKey];
         for (NSDictionary *dictionary in failedQueue) {
             PNLiteTrackingManagerItem *item = [[PNLiteTrackingManagerItem alloc] initWithDictionary:dictionary];
-            [self enqueueItem:item withQueueKey:kPNLiteTrackingManagerQueueKey];
+            [self enqueueItem:item withQueueKey:PNLiteTrackingManagerQueueKey];
         }
-        [self setQueue:nil forKey:kPNLiteTrackingManagerFailedQueueKey];
+        [self setQueue:nil forKey:PNLiteTrackingManagerFailedQueueKey];
         
         // Enqueue current item
         PNLiteTrackingManagerItem *item = [[PNLiteTrackingManagerItem alloc] init];
         item.url = url;
         item.timestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-        [self enqueueItem:item withQueueKey:kPNLiteTrackingManagerQueueKey];
+        [self enqueueItem:item withQueueKey:PNLiteTrackingManagerQueueKey];
         [[self sharedManager] trackNextItem];
     }
 }
@@ -82,12 +82,12 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
     if(!self.isRunning) {
         
         self.isRunning = YES;
-        PNLiteTrackingManagerItem *item = [PNLiteTrackingManager dequeueItemWithQueueKey:kPNLiteTrackingManagerQueueKey];
+        PNLiteTrackingManagerItem *item = [PNLiteTrackingManager dequeueItemWithQueueKey:PNLiteTrackingManagerQueueKey];
         if(item) {
             self.currentItem = item;
             NSTimeInterval currentTimestamp = [[NSDate date] timeIntervalSince1970];
             NSTimeInterval itemTimestamp = [item.timestamp doubleValue];
-            if((currentTimestamp - itemTimestamp) < kPNLiteTrackingManagerItemValidTime) {
+            if((currentTimestamp - itemTimestamp) < PNLiteTrackingManagerItemValidTime) {
                 // Track item
                 [[PNLiteHttpRequest alloc] startWithUrlString:[self.currentItem.url absoluteString] withMethod:@"GET" delegate:self];
             } else {
@@ -146,7 +146,7 @@ NSTimeInterval const kPNLiteTrackingManagerItemValidTime    = 1800;
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
-    [PNLiteTrackingManager enqueueItem:self.currentItem withQueueKey:kPNLiteTrackingManagerFailedQueueKey];
+    [PNLiteTrackingManager enqueueItem:self.currentItem withQueueKey:PNLiteTrackingManagerFailedQueueKey];
     self.isRunning = NO;
     [self trackNextItem];
 }

@@ -28,19 +28,19 @@
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-NSString * const kPNLiteVASTPlayerStatusKeyPath         = @"status";
-NSString * const kPNLiteVASTPlayerBundleName            = @"player.resources";
-NSString * const kPNLiteVASTPlayerMuteImageName         = @"PNLiteMute";
-NSString * const kPNLiteVASTPlayerUnMuteImageName       = @"PNLiteUnmute";
-NSString * const kPNLiteVASTPlayerFullScreenImageName   = @"PNLiteFullScreen";
-NSString * const kPNLiteVASTPlayerOpenImageName         = @"PNLiteExternalLink";
-NSString * const kPNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
+NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
+NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
+NSString * const PNLiteVASTPlayerMuteImageName         = @"PNLiteMute";
+NSString * const PNLiteVASTPlayerUnMuteImageName       = @"PNLiteUnmute";
+NSString * const PNLiteVASTPlayerFullScreenImageName   = @"PNLiteFullScreen";
+NSString * const PNLiteVASTPlayerOpenImageName         = @"PNLiteExternalLink";
+NSString * const PNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
 
 
-NSTimeInterval const kPNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
-NSTimeInterval const kPNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
-CGFloat const kPNLiteVASTPlayerViewProgressBottomConstant       = 10.0f;
-CGFloat const kPNLiteVASTPlayerViewProgressLeadingConstant      = 10.0f;
+NSTimeInterval const PNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
+NSTimeInterval const PNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
+CGFloat const PNLiteVASTPlayerViewProgressBottomConstant       = 10.0f;
+CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant      = 10.0f;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -147,10 +147,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLoad {
-    [self.btnMute setImage:[self bundledImageNamed:kPNLiteVASTPlayerMuteImageName] forState:UIControlStateNormal];
-    [self.btnOpenOffer setImage:[self bundledImageNamed:kPNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
-    [self.btnFullscreen setImage:[self bundledImageNamed:kPNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
-    [self.btnClose setImage:[self bundledImageNamed:kPNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
+    [self.btnMute setImage:[self bundledImageNamed:PNLiteVASTPlayerMuteImageName] forState:UIControlStateNormal];
+    [self.btnOpenOffer setImage:[self bundledImageNamed:PNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
+    [self.btnFullscreen setImage:[self bundledImageNamed:PNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
+    [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
     [self.contentInfoViewContainer addSubview:self.contentInfoView];
 }
 
@@ -252,7 +252,7 @@ typedef enum : NSUInteger {
     
     // Register as an observer of the player item's status property
     [self.playerItem addObserver:self
-                      forKeyPath:kPNLiteVASTPlayerStatusKeyPath
+                      forKeyPath:PNLiteVASTPlayerStatusKeyPath
                          options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
                          context:&_playerItem];
     
@@ -260,7 +260,7 @@ typedef enum : NSUInteger {
     self.player.volume = 0;
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     __weak typeof(self) weakSelf = self;
-    CMTime interval = CMTimeMakeWithSeconds(kPNLiteVASTPlayerDefaultPlaybackInterval, NSEC_PER_SEC);
+    CMTime interval = CMTimeMakeWithSeconds(PNLiteVASTPlayerDefaultPlaybackInterval, NSEC_PER_SEC);
     self.playbackToken = [self.player addPeriodicTimeObserverForInterval:interval
                                                                    queue:nil
                                                               usingBlock:^(CMTime time) {
@@ -276,7 +276,7 @@ typedef enum : NSUInteger {
     
     if (context != &_playerItem) {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    } else if ([keyPath isEqualToString:kPNLiteVASTPlayerStatusKeyPath]
+    } else if ([keyPath isEqualToString:PNLiteVASTPlayerStatusKeyPath]
                && self.currentState == PNLiteVASTPlayerState_LOAD) {
         
         AVPlayerItemStatus status = AVPlayerItemStatusUnknown;
@@ -362,7 +362,7 @@ typedef enum : NSUInteger {
 - (IBAction)btnMutePush:(id)sender {
     NSLog(@"btnMutePush");
     self.muted = !self.muted;
-    NSString *newImageName = self.muted ? kPNLiteVASTPlayerMuteImageName : kPNLiteVASTPlayerUnMuteImageName;
+    NSString *newImageName = self.muted ? PNLiteVASTPlayerMuteImageName : PNLiteVASTPlayerUnMuteImageName;
     UIImage *newImage = [self bundledImageNamed:newImageName];
     [self.btnMute setImage:newImage forState:UIControlStateNormal];
     CGFloat newVolume = self.muted?0.0f:1.0f;
@@ -418,8 +418,8 @@ typedef enum : NSUInteger {
             self.btnFullScreenTrailingConstraint.constant = trailingPadding;
             self.contentInfoViewContainerTopConstraint.constant = -topPadding;
             self.contentInfoViewContainerLeadingConstraint.constant = leadingPadding;
-            self.viewProgressBottomConstraint.constant = bottomPadding + kPNLiteVASTPlayerViewProgressBottomConstant;
-            self.viewProgressLeadingConstraint.constant = leadingPadding + kPNLiteVASTPlayerViewProgressLeadingConstant;
+            self.viewProgressBottomConstraint.constant = bottomPadding + PNLiteVASTPlayerViewProgressBottomConstant;
+            self.viewProgressLeadingConstraint.constant = leadingPadding + PNLiteVASTPlayerViewProgressLeadingConstant;
         } else {
             self.btnOpenOfferTopConstraint.constant = 0;
             self.btnOpenOfferTrailingConstraint.constant = 0;
@@ -429,8 +429,8 @@ typedef enum : NSUInteger {
             self.btnFullScreenTrailingConstraint.constant = 0;
             self.contentInfoViewContainerTopConstraint.constant = 0;
             self.contentInfoViewContainerLeadingConstraint.constant = 0;
-            self.viewProgressBottomConstraint.constant = kPNLiteVASTPlayerViewProgressBottomConstant;
-            self.viewProgressLeadingConstraint.constant = kPNLiteVASTPlayerViewProgressLeadingConstant;
+            self.viewProgressBottomConstraint.constant = PNLiteVASTPlayerViewProgressBottomConstant;
+            self.viewProgressLeadingConstraint.constant = PNLiteVASTPlayerViewProgressLeadingConstant;
         }
         
         [self.view layoutIfNeeded];
@@ -500,7 +500,7 @@ typedef enum : NSUInteger {
 
 - (void)removeObservers {
     if(self.player != nil) {
-        [self.playerItem removeObserver:self forKeyPath:kPNLiteVASTPlayerStatusKeyPath];
+        [self.playerItem removeObserver:self forKeyPath:PNLiteVASTPlayerStatusKeyPath];
         [self.player removeTimeObserver:self.playbackToken];
     }
     
@@ -735,7 +735,7 @@ typedef enum : NSUInteger {
     @synchronized (self) {
         [self stopLoadTimeoutTimer];
         if(self.loadTimeout == 0) {
-            self.loadTimeout = kPNLiteVASTPlayerDefaultLoadTimeout;
+            self.loadTimeout = PNLiteVASTPlayerDefaultLoadTimeout;
         }
         
         self.loadTimer = [NSTimer scheduledTimerWithTimeInterval:self.loadTimeout

@@ -22,21 +22,21 @@
 
 #import "PNLiteDemoSettings.h"
 
-NSString *const kPNLiteDemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
-NSString *const kPNLiteDemoZoneID;
-NSString *const kPNLiteDemoMoPubLeaderboardAdUnitID = @"990b5957b0374238a4ce6fcf451c8e89";
-NSString *const kPNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
-NSString *const kPNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
-NSString *const kPNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
-NSString *const kPNLiteDemoMoPubMediationNativeAdUnitID = @"823d7538cf714f2ab344436b2027f8ea";
-NSString *const kPNLiteDemoMoPubMediationLeaderboardAdUnitID = @"8c18da9010144ebabeb85eead8141bf6";
-NSString *const kPNLiteDemoMoPubMediationBannerAdUnitID = @"8ba4f63a03da4c1ba84653c4bc66d11e";
-NSString *const kPNLiteDemoMoPubMediationMRectAdUnitID = @"038dfd33ec4d4391aee61557ffd3ed8b";
-NSString *const kPNLiteDemoMoPubMediationInterstitialAdUnitID = @"a50d6ad8b2b84ea0af8049b8dfd32126";
-NSString *const kPNLiteDemoDFPLeaderboardAdUnitID = @"/6499/example/banner";
-NSString *const kPNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
-NSString *const kPNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
-NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitial";
+NSString *const PNLiteDemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
+NSString *const PNLiteDemoZoneID;
+NSString *const PNLiteDemoMoPubLeaderboardAdUnitID = @"990b5957b0374238a4ce6fcf451c8e89";
+NSString *const PNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
+NSString *const PNLiteDemoMoPubMRectAdUnitID = @"7f797ff5c287480cbf15e9f1735fb8d7";
+NSString *const PNLiteDemoMoPubInterstitialAdUnitID = @"a91bc5a72fd54888ac248e7656b69b2e";
+NSString *const PNLiteDemoMoPubMediationNativeAdUnitID = @"823d7538cf714f2ab344436b2027f8ea";
+NSString *const PNLiteDemoMoPubMediationLeaderboardAdUnitID = @"8c18da9010144ebabeb85eead8141bf6";
+NSString *const PNLiteDemoMoPubMediationBannerAdUnitID = @"8ba4f63a03da4c1ba84653c4bc66d11e";
+NSString *const PNLiteDemoMoPubMediationMRectAdUnitID = @"038dfd33ec4d4391aee61557ffd3ed8b";
+NSString *const PNLiteDemoMoPubMediationInterstitialAdUnitID = @"a50d6ad8b2b84ea0af8049b8dfd32126";
+NSString *const PNLiteDemoDFPLeaderboardAdUnitID = @"/6499/example/banner";
+NSString *const PNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
+NSString *const PNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
+NSString *const PNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitial";
 
 @implementation PNLiteDemoSettings
 
@@ -72,21 +72,21 @@ NSString *const kPNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitia
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.appToken = kPNLiteDemoAppToken;
-        self.zoneID = kPNLiteDemoZoneID;
-        self.moPubLeaderboardAdUnitID = kPNLiteDemoMoPubLeaderboardAdUnitID;
-        self.moPubBannerAdUnitID = kPNLiteDemoMoPubBannerAdUnitID;
-        self.moPubMRectAdUnitID = kPNLiteDemoMoPubMRectAdUnitID;
-        self.moPubInterstitialAdUnitID = kPNLiteDemoMoPubInterstitialAdUnitID;
-        self.moPubMediationNativeAdUnitID = kPNLiteDemoMoPubMediationNativeAdUnitID;
-        self.moPubMediationLeaderboardAdUnitID = kPNLiteDemoMoPubMediationLeaderboardAdUnitID;
-        self.moPubMediationBannerAdUnitID = kPNLiteDemoMoPubMediationBannerAdUnitID;
-        self.moPubMediationMRectAdUnitID = kPNLiteDemoMoPubMediationMRectAdUnitID;
-        self.moPubMediationInterstitialAdUnitID = kPNLiteDemoMoPubMediationInterstitialAdUnitID;
-        self.dfpLeaderboardAdUnitID = kPNLiteDemoDFPLeaderboardAdUnitID;
-        self.dfpBannerAdUnitID = kPNLiteDemoDFPBannerAdUnitID;
-        self.dfpMRectAdUnitID = kPNLiteDemoDFPMRectAdUnitID;
-        self.dfpInterstitialAdUnitID = kPNLiteDemoDFPInterstitialAdUnitID;
+        self.appToken = PNLiteDemoAppToken;
+        self.zoneID = PNLiteDemoZoneID;
+        self.moPubLeaderboardAdUnitID = PNLiteDemoMoPubLeaderboardAdUnitID;
+        self.moPubBannerAdUnitID = PNLiteDemoMoPubBannerAdUnitID;
+        self.moPubMRectAdUnitID = PNLiteDemoMoPubMRectAdUnitID;
+        self.moPubInterstitialAdUnitID = PNLiteDemoMoPubInterstitialAdUnitID;
+        self.moPubMediationNativeAdUnitID = PNLiteDemoMoPubMediationNativeAdUnitID;
+        self.moPubMediationLeaderboardAdUnitID = PNLiteDemoMoPubMediationLeaderboardAdUnitID;
+        self.moPubMediationBannerAdUnitID = PNLiteDemoMoPubMediationBannerAdUnitID;
+        self.moPubMediationMRectAdUnitID = PNLiteDemoMoPubMediationMRectAdUnitID;
+        self.moPubMediationInterstitialAdUnitID = PNLiteDemoMoPubMediationInterstitialAdUnitID;
+        self.dfpLeaderboardAdUnitID = PNLiteDemoDFPLeaderboardAdUnitID;
+        self.dfpBannerAdUnitID = PNLiteDemoDFPBannerAdUnitID;
+        self.dfpMRectAdUnitID = PNLiteDemoDFPMRectAdUnitID;
+        self.dfpInterstitialAdUnitID = PNLiteDemoDFPInterstitialAdUnitID;
         self.targetingModel = [[HyBidTargetingModel alloc] init];
     }
     return self;

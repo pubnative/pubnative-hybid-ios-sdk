@@ -29,11 +29,11 @@
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
 
-NSString *const kPNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
-NSString *const kPNLiteResponseOK = @"ok";
-NSString *const kPNLiteResponseError = @"error";
-NSInteger const kPNLiteResponseStatusOK = 200;
-NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
+NSString *const PNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
+NSString *const PNLiteResponseOK = @"ok";
+NSString *const PNLiteResponseError = @"error";
+NSInteger const PNLiteResponseStatusOK = 200;
+NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 @interface HyBidAdRequest () <PNLiteHttpRequestDelegate>
 
@@ -82,7 +82,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
-    NSURLComponents *components = [NSURLComponents componentsWithString:kPNLiteRequestBaseUrl];
+    NSURLComponents *components = [NSURLComponents componentsWithString:PNLiteRequestBaseUrl];
     if (adRequestModel.requestParameters) {
         NSMutableArray *query = [NSMutableArray array];
         NSDictionary *parametersDictionary = adRequestModel.requestParameters;
@@ -144,7 +144,7 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
-        } else if ([kPNLiteResponseOK isEqualToString:response.status]) {
+        } else if ([PNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in response.ads) {
                 HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel];
@@ -172,8 +172,8 @@ NSInteger const kPNLiteResponseStatusRequestMalformed = 422;
 #pragma mark PNLiteHttpRequestDelegate
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
-    if(kPNLiteResponseStatusOK == statusCode ||
-       kPNLiteResponseStatusRequestMalformed == statusCode) {
+    if(PNLiteResponseStatusOK == statusCode ||
+       PNLiteResponseStatusRequestMalformed == statusCode) {
         
         NSString *responseString;
         if ([self createDictionaryFromData:data]) {

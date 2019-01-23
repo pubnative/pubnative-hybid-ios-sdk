@@ -25,8 +25,8 @@
 #import "PNLiteVASTModel.h"
 #import "PNLiteVASTSchema.h"
 
-NSInteger const kPNLiteVASTModel_MaxRecursiveDepth = 5;
-BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
+NSInteger const PNLiteVASTModel_MaxRecursiveDepth = 5;
+BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
 
 @interface PNLiteVASTModel (private)
 
@@ -80,7 +80,7 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
 #pragma mark - "private" method
 
 - (PNLiteVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth {
-    if (depth >= kPNLiteVASTModel_MaxRecursiveDepth) {
+    if (depth >= PNLiteVASTModel_MaxRecursiveDepth) {
         self.vastModel = nil;
         return PNLiteVASTParserError_TooManyWrappers;
     }
@@ -96,7 +96,7 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
         return PNLiteVASTParserError_XMLParse;
     }
 
-    if (kPNLiteVASTModel_ValidateWithSchema) {
+    if (PNLiteVASTModel_ValidateWithSchema) {
         
         // Using header data
         NSData *PNLiteVASTSchemaData = [NSData dataWithBytesNoCopy:pubnative_lite_vast_2_0_1_xsd

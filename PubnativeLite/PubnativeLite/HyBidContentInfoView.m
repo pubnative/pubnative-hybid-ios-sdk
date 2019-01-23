@@ -24,9 +24,9 @@
 #import "PNLiteMeta.h"
 #import "PNLiteOrientationManager.h"
 
-CGFloat const kPNLiteContentViewHeight = 15.0f;
-CGFloat const kPNLiteContentViewWidth = 15.0f;
-NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
+CGFloat const PNLiteContentViewHeight = 15.0f;
+CGFloat const PNLiteContentViewWidth = 15.0f;
+NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 
 @interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate>
 
@@ -60,7 +60,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self setFrame:CGRectMake(0, 0, kPNLiteContentViewWidth, kPNLiteContentViewHeight)];
+        [self setFrame:CGRectMake(0, 0, PNLiteContentViewWidth, PNLiteContentViewHeight)];
         self.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.f;
@@ -83,14 +83,14 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
                                                                toItem:nil
                                                             attribute:NSLayoutAttributeNotAnAttribute
                                                            multiplier:1.f
-                                                             constant:kPNLiteContentViewHeight],
+                                                             constant:PNLiteContentViewHeight],
                                [NSLayoutConstraint constraintWithItem:self.iconView
                                                             attribute:NSLayoutAttributeWidth
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:nil
                                                             attribute:NSLayoutAttributeNotAnAttribute
                                                            multiplier:1.f
-                                                             constant:kPNLiteContentViewWidth],
+                                                             constant:PNLiteContentViewWidth],
                                [NSLayoutConstraint constraintWithItem:self.iconView
                                                             attribute:NSLayoutAttributeLeading
                                                             relatedBy:NSLayoutRelationEqual
@@ -111,7 +111,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
                                                                toItem:nil
                                                             attribute:NSLayoutAttributeNotAnAttribute
                                                            multiplier:1.f
-                                                             constant:kPNLiteContentViewHeight],
+                                                             constant:PNLiteContentViewHeight],
                                [NSLayoutConstraint constraintWithItem:self.textView
                                                             attribute:NSLayoutAttributeLeading
                                                             relatedBy:NSLayoutRelationEqual
@@ -169,7 +169,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
 }
 
 - (void)startCloseTimer {
-    self.closeTimer = [NSTimer scheduledTimerWithTimeInterval:kPNLiteContentViewClosingTime target:self selector:@selector(closeFromTimer) userInfo:nil repeats:NO];
+    self.closeTimer = [NSTimer scheduledTimerWithTimeInterval:PNLiteContentViewClosingTime target:self selector:@selector(closeFromTimer) userInfo:nil repeats:NO];
 }
 
 - (void)closeFromTimer {
@@ -202,7 +202,7 @@ NSTimeInterval const kPNLiteContentViewClosingTime = 3.0f;
     self.isOpen = NO;
     [self stopCloseTimer];
     [self layoutIfNeeded];
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, kPNLiteContentViewWidth, self.frame.size.height);
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, self.frame.size.height);
     [self layoutIfNeeded];
     [self.delegate contentInfoViewWidthNeedsUpdate:[NSNumber numberWithFloat: self.frame.size.width]];
 }

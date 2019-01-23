@@ -26,8 +26,8 @@
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
-CGFloat const kPNLiteMRAIDMRectWidth = 300.0f;
-CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
+CGFloat const PNLiteMRAIDMRectWidth = 300.0f;
+CGFloat const PNLiteMRAIDMRectHeight = 250.0f;
 
 @interface PNLiteMRAIDMRectPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
@@ -58,7 +58,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 
 - (void)load {
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
-    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDMRectWidth, kPNLiteMRAIDMRectHeight)
+    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, PNLiteMRAIDMRectWidth, PNLiteMRAIDMRectHeight)
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                           supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
