@@ -142,7 +142,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (void)layoutSubviews {
     self.hidden = YES;
     
-    if(self.iconImage == nil) {
+    if(!self.iconImage) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.icon]];
             self.iconImage = [UIImage imageWithData:iconData];

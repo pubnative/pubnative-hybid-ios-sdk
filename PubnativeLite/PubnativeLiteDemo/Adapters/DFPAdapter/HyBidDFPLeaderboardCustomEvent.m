@@ -50,13 +50,13 @@
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeLeaderboard.size, adSize.size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
-            if (self.ad == nil) {
+            if (!self.ad) {
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
                 return;
             }
             self.leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
             self.leaderboardPresenter = [self.leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-            if (self.leaderboardPresenter == nil) {
+            if (!self.leaderboardPresenter) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid leaderboard presenter"];
                 return;
             } else {

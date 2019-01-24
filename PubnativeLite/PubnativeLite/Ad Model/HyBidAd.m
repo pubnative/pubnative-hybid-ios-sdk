@@ -137,7 +137,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (HyBidContentInfoView *)contentInfo {
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
     if (data) {
-        if (self.contentInfoView == nil) {
+        if (!self.contentInfoView) {
             self.contentInfoView = [[HyBidContentInfoView alloc] init];
             self.contentInfoView.text = data.text;
             self.contentInfoView.link = [data stringFieldWithKey:@"link"];

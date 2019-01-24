@@ -29,7 +29,7 @@
 }
 
 - (UIViewController *)topViewController:(UIViewController *)rootViewController {
-    if (rootViewController.presentedViewController == nil) {
+    if (!rootViewController.presentedViewController) {
         return rootViewController;
     }
     

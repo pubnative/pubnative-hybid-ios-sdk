@@ -46,7 +46,7 @@
     self.navigationItem.title = @"MoPub Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
     
-    if(self.moPubInterstitial == nil) {
+    if(!self.moPubInterstitial) {
         self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
         self.moPubInterstitial.delegate = self;
     }

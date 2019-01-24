@@ -222,7 +222,7 @@
 
 - (void)_drawAccurateHalfStarImageWithFrame:(CGRect)frame tintColor:(UIColor *)tintColor progress:(CGFloat)progress {
     UIImage *image = self.halfStarImage;
-    if (image == nil) {
+    if (!image) {
         // first draw star outline
         [self _drawStarImageWithFrame:frame tintColor:tintColor highlighted:NO];
         

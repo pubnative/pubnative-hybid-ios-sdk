@@ -86,7 +86,7 @@
     if (list != nil) {
         for (HyBidDataModel *data in list) {
             if ([type isEqualToString:data.type]) {
-                if (result == nil) {
+                if (!result) {
                     result = [[NSMutableArray alloc] init];
                 }
                 [result addObject:data];

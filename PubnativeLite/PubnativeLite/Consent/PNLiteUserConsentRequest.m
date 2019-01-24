@@ -37,9 +37,9 @@
 - (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel
                         withAppToken:(NSString *)appToken {
-    if (requestModel == nil) {
+    if (!requestModel) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call" code:0 userInfo:nil]];
-    } else if (delegate == nil) {
+    } else if (!delegate) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
@@ -79,7 +79,7 @@
         [self invokeDidFail:parseError];
     } else {
         PNLiteUserConsentResponseModel *response = [[PNLiteUserConsentResponseModel alloc] initWithDictionary:jsonDictonary];
-        if (response == nil) {
+        if (!response) {
             NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
                                                  code:0
                                              userInfo:nil];

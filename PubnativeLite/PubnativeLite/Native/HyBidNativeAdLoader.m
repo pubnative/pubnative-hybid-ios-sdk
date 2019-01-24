@@ -69,7 +69,7 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
-    if (ad == nil) {
+    if (!ad) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
     } else {
         [self invokeDidLoadWithNativeAd:[[HyBidNativeAd alloc] initWithAd:ad]];

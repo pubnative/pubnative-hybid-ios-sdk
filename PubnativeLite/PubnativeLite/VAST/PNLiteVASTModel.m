@@ -48,7 +48,7 @@
 // It should be used only be the VAST2Parser to build the model.
 // It should not be used by anybody else receiving the model object.
 - (void)addVASTDocument:(NSData *)vastDocument {
-    if (self.vastDocumentArray == nil) {
+    if (!self.vastDocumentArray) {
         self.vastDocumentArray = [NSMutableArray array];
     }
     [self.vastDocumentArray addObject:vastDocument];
@@ -216,7 +216,7 @@
     for (NSData *document in self.vastDocumentArray) {
         NSArray *results = performXMLXPathQuery(document, query);
         for (NSDictionary *result in results) {
-            if (array == nil) {
+            if (!array) {
                 array = [NSMutableArray array];
             }
             NSString *urlString = [self content:result];

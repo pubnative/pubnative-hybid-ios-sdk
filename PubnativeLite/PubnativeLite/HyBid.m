@@ -40,7 +40,7 @@
 }
 
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
-    if (appToken == nil || appToken.length == 0) {
+    if (!appToken || appToken.length == 0) {
         NSLog(@"HyBid - App Token is nil or empty and required.");
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;

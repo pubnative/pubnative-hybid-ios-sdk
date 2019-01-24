@@ -46,13 +46,13 @@
                                    request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
-        if (self.ad == nil) {
+        if (!self.ad) {
             [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
-        if (self.interstitialPresenter == nil) {
+        if (!self.interstitialPresenter) {
             [self invokeFailWithMessage:@"HyBid - Error: Could not create valid interstitial presenter"];
             return;
         } else {

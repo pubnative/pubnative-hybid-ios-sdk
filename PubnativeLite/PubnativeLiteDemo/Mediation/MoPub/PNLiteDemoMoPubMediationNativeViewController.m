@@ -66,7 +66,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     
-    if(self.imageHandler == nil) {
+    if(!self.imageHandler) {
         self.imageHandler = [[MPNativeAdRendererImageHandler alloc] init];
     }
     MPStaticNativeAdRendererSettings *settings = [[MPStaticNativeAdRendererSettings alloc] init];
@@ -83,7 +83,7 @@
     
     __block PNLiteDemoMoPubMediationNativeViewController *strongSelf = self;
     [self.request startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response, NSError *error) {
-        if(error == nil) {
+        if(!error) {
             self.inspectRequestButton.hidden = NO;
             [strongSelf processResponse:response];
         } else {
@@ -103,7 +103,7 @@
     NSError *error = nil;
     [self.nativeAdView removeFromSuperview];
     self.nativeAdView = [ad retrieveAdViewWithError:&error];
-    if(error == nil) {
+    if(!error) {
         self.nativeAdView.frame = self.nativeAdContainer.bounds;
         [self.nativeAdContainer addSubview:self.nativeAdView];
         self.nativeAdContainer.hidden = NO;

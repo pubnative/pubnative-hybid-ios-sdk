@@ -230,7 +230,7 @@ typedef enum : NSUInteger {
     // Try getting the regular PNG
     NSString *imagePath = [bundle pathForResource:name ofType:@"png"];
     // If nil, let's try to get the combined TIFF, JIC it's enabled
-    if(imagePath == nil) {
+    if(!imagePath) {
         imagePath = [bundle pathForResource:name ofType:@"tiff"];
     }
     return [UIImage imageWithContentsOfFile:imagePath];
@@ -595,14 +595,14 @@ typedef enum : NSUInteger {
     self.wantsToPlay = NO;
     [self.loadingSpin startAnimating];
     
-    if (self.vastUrl == nil && self.vastString == nil) {
+    if (!self.vastUrl && !self.vastString) {
         
         NSLog(@"PNLiteVASTPlayer - setLoadState error: VAST is nil and required");
         [self setState:PNLiteVASTPlayerState_IDLE];
         
     } else {
         
-        if (self.parser == nil) {
+        if (!self.parser) {
             self.parser = [[PNLiteVASTParser alloc] init];
         }
         
@@ -610,7 +610,7 @@ typedef enum : NSUInteger {
         
         __weak PNLiteVASTPlayerViewController *weakSelf = self;
         vastParserCompletionBlock completion = ^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
-            if (model == nil) {
+            if (!model) {
                 NSError *parseError = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", (long)error]
                                                           code:0
                                                       userInfo:nil];
@@ -618,7 +618,7 @@ typedef enum : NSUInteger {
             } else {
                 weakSelf.eventProcessor = [[PNLiteVASTEventProcessor alloc] initWithEvents:[model trackingEvents] delegate:self];
                 NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[model mediaFiles]].url;
-                if(mediaUrl == nil) {
+                if(!mediaUrl) {
                     NSLog(@"PNLiteVASTPlayerVC - Error: did not find a compatible mediaFile");
                     NSError *mediaNotFoundError = [NSError errorWithDomain:@"PNLiteVASTPlayerVC - Error: Not found compatible media with this device" code:0 userInfo:nil];
                     [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
@@ -654,14 +654,14 @@ typedef enum : NSUInteger {
     self.viewProgress.hidden = YES;
     self.loadingSpin.hidden = YES;
     
-    if(self.layer == nil) {
+    if(!self.layer) {
         self.layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
         self.layer.videoGravity = AVLayerVideoGravityResizeAspect;
         self.layer.frame = self.view.bounds;
         [self.view.layer insertSublayer:self.layer atIndex:0];
     }
     
-    if(self.progressLabel == nil) {
+    if(!self.progressLabel) {
         self.progressLabel = [[PNLiteProgressLabel alloc] initWithFrame:self.viewProgress.bounds];
         self.progressLabel.frame = self.viewProgress.bounds;
         self.progressLabel.borderWidth = 6.0;

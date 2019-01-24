@@ -139,7 +139,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (UIView *)banner {
-    if (self.bannerImageView == nil) {
+    if (!self.bannerImageView) {
         if(self.bannerUrl && self.bannerUrl.length > 0) {
             NSData *bannerData = self.fetchedAssets[[NSURL URLWithString:self.bannerUrl]];
             if(bannerData && bannerData.length > 0) {
@@ -191,12 +191,12 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)startTrackingImpressionWithView:(UIView *)view {
-    if (view == nil) {
+    if (!view) {
         NSLog(@"HyBidNativeAd - startTrackingImpression - Ad view is nil, cannot start tracking");
     } else if (self.isImpressionConfirmed) {
         NSLog(@"HyBidNativeAd - startTrackingImpression - Impression is already confirmed, dropping impression tracking");
     } else {
-        if(self.impressionTracker == nil) {
+        if(!self.impressionTracker) {
             self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
             self.impressionTracker.delegate = self;
         }
@@ -205,16 +205,16 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)startTrackingClicksWithView:(UIView*)view withClickableViews:(NSArray*)clickableViews {
-    if (view == nil && clickableViews == nil) {
+    if (!view && !clickableViews) {
         NSLog(@"HyBidNativeAd - startTrackingClicks - Error: click view is nil, clicks won't be tracked");
     } else if (!self.clickUrl || self.clickUrl.length == 0) {
         NSLog(@"HyBidNativeAd - startTrackingClicks - Error: clickUrl is empty, clicks won't be tracked");
     } else {
         self.clickableViews = [clickableViews mutableCopy];
-        if(self.clickableViews == nil) {
+        if(!self.clickableViews) {
             self.clickableViews = [NSArray arrayWithObjects:view, nil];
         }
-        if(self.tapRecognizer == nil) {
+        if(!self.tapRecognizer) {
             self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         }
         for (UIView *clickableView in self.clickableViews) {
@@ -251,7 +251,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 #pragma Confirm Beacons
 
 - (void)confirmBeaconsWithType:(NSString *)type {
-    if (self.ad == nil || self.ad.beacons == nil || self.ad.beacons.count == 0) {
+    if (!self.ad || !self.ad.beacons || self.ad.beacons.count == 0) {
         NSLog(@"HyBidNativeAd - confirmBeaconsWithType: %@ - Ad beacons not found", type);
     } else {
         for (HyBidDataModel *beacon in self.ad.beacons) {
@@ -279,7 +279,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     NSURL *result = url;
     if (self.trackingExtras != nil) {
         NSString *query = result.query;
-        if(query == nil) {
+        if(!query) {
             query = @"";
         }
         for (NSString *key in self.trackingExtras) {
@@ -390,7 +390,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)cacheFetchedAssetData:(NSData *)data withURL:(NSURL*)url {
-    if (self.fetchedAssets == nil) {
+    if (!self.fetchedAssets) {
         self.fetchedAssets = [NSMutableDictionary dictionary];
     }
     

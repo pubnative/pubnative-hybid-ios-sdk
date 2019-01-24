@@ -47,13 +47,13 @@
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         if (CGSizeEqualToSize(MOPUB_BANNER_SIZE, size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
-            if (self.ad == nil) {
+            if (!self.ad) {
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
                 return;
             }
             self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
             self.bannerPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-            if (self.bannerPresenter == nil) {
+            if (!self.bannerPresenter) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid banner presenter"];
                 return;
             } else {

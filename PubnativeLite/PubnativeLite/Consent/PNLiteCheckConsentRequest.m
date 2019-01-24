@@ -35,10 +35,10 @@
 - (void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
                            withAppToken:(NSString *)appToken
                            withDeviceID:(NSString *)deviceID {
-    if (appToken == nil || appToken.length == 0 ||
-        deviceID == nil || deviceID.length == 0) {
+    if (!appToken || appToken.length == 0 ||
+        !deviceID || deviceID.length == 0) {
         [self invokeDidFail:[NSError errorWithDomain:@"Invalid parameters for check user consent request" code:0 userInfo:nil]];
-    } else if (delegate == nil) {
+    } else if (!delegate) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
@@ -77,7 +77,7 @@
         [self invokeDidFail:parseError];
     } else {
         PNLiteUserConsentResponseModel *response = [[PNLiteUserConsentResponseModel alloc] initWithDictionary:jsonDictonary];
-        if (response == nil) {
+        if (!response) {
             NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
                                                  code:0
                                              userInfo:nil];
