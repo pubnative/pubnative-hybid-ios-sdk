@@ -52,7 +52,7 @@
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
-    if (zoneID == nil || zoneID.length == 0) {
+    if (!zoneID || zoneID.length == 0) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
         }
@@ -71,7 +71,7 @@
 
 - (void)renderAd {
     self.adPresenter = [self createAdPresenter];
-    if (self.adPresenter == nil) {
+    if (!self.adPresenter) {
         NSLog(@"HyBid - Error: Could not create valid ad presenter");
         [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
         return;
@@ -103,7 +103,7 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
-    if (ad == nil) {
+    if (!ad) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
         }
@@ -122,7 +122,7 @@
 #pragma mark - HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    if (adView == nil) {
+    if (!adView) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
         }

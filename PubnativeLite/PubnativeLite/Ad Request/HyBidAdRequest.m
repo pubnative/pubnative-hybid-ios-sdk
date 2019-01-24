@@ -61,9 +61,9 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     if (self.isRunning) {
         NSError *runningError = [NSError errorWithDomain:@"HyBidAdRequest - Request is currently running, droping this call" code:0 userInfo:nil];
         [self invokeDidFail:runningError];
-    } else if(delegate == nil) {
+    } else if(!delegate) {
         NSLog(@"HyBidAdRequest - Given delegate is nil and required, droping this call");
-    } else if(zoneID == nil || zoneID.length == 0) {
+    } else if(!zoneID || zoneID.length == 0) {
         NSLog(@"HyBidAdRequest - Zone ID nil or empty, droping this call");
     }
     else {
@@ -139,7 +139,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (jsonDictonary) {
         PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
-        if(response == nil) {
+        if(!response) {
             NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
                                                  code:0
                                              userInfo:nil];

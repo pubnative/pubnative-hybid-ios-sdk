@@ -88,7 +88,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     if(self.isVisibiltyCheckValid && !self.isVisibiltyCheckScheduled) {
         self.isVisibiltyCheckScheduled = YES;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kPNImpressionCheckPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            if(self.delegate == nil) {
+            if(!self.delegate) {
                 [self clear];
             } else if(self.visibleViews && self.visibleViews.count > 0) {
                 [self checkVisibility];
@@ -150,7 +150,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 #pragma mark HyBidVisibilityTrackerDelegate
 
 - (void)checkVisibilityWithVisibleViews:(NSArray<UIView *> *)visibleViews andWithInvisibleViews:(NSArray<UIView *> *)invisibleViews {
-    if(self.delegate == nil) {
+    if(!self.delegate) {
         [self clear];
     } else {
         for (UIView *visibleView in visibleViews) {

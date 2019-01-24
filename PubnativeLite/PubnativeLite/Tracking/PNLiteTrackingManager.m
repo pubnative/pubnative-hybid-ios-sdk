@@ -58,7 +58,7 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 }
 
 + (void)trackWithURL:(NSURL*)url {
-    if (url == nil) {
+    if (!url) {
         NSLog(@"PNLiteTrackingManager - URL passed is nil or empty, dropping this call: %@", url);
     } else {
         // Enqueue failed items

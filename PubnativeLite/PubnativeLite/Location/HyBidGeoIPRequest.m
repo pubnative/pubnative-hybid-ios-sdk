@@ -40,7 +40,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 }
 
 - (void)requestGeoIPWithDelegate:(NSObject<HyBidGeoIPRequestDelegate> *)delegate {
-    if(delegate == nil) {
+    if(!delegate) {
         NSLog(@"HyBidGeoIPRequest - Given delegate is nil and required, droping this call");
     } else {
         self.delegate = delegate;
@@ -84,7 +84,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
         [self invokeDidFail:parseError];
     } else {
         PNLiteGeoIPModel *geoIP = [[PNLiteGeoIPModel alloc] initWithDictionary:jsonDictonary];
-        if(geoIP == nil) {
+        if(!geoIP) {
             NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
                                                  code:0
                                              userInfo:nil];

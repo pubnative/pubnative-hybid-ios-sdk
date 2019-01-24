@@ -56,7 +56,7 @@
     // We remove this condition here for testing purposes
     if ([[HyBidUserDataManager sharedInstance] shouldAskConsent]) {
         [[HyBidUserDataManager sharedInstance] loadConsentPageWithCompletion:^(NSError * _Nullable error) {
-            if (error == nil) {
+            if (!error) {
                 [[HyBidUserDataManager sharedInstance] showConsentPage:^{
                     // Consent Page Did Show Completion Block..
                 } didDismiss:^{
@@ -72,7 +72,7 @@
     self.privacyPolicyURLButton.hidden = YES;
     self.vendorListURLButton.hidden = YES;
     [[HyBidUserDataManager sharedInstance] loadConsentPageWithCompletion:^(NSError * _Nullable error) {
-        if (error == nil) {
+        if (!error) {
             [[HyBidUserDataManager sharedInstance] showConsentPage:^{
                 
             } didDismiss:^{

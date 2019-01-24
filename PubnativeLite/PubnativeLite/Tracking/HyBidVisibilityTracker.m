@@ -66,7 +66,7 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 }
 
 - (void)addView:(UIView*)view withMinVisibility:(CGFloat)minVisibility {
-    if(view == nil) {
+    if(!view) {
         NSLog(@"HyBidVisibilityTracker - View is nil and required, dropping this call");
     } else if ([self isTrackingView:view]) {
         NSLog(@"HyBidVisibilityTracker - View is already being tracked, dropping this call");
@@ -122,7 +122,7 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     for (PNLiteVisibilityTrackerItem *item in self.trackedItems) {
         // For safety we need to ensure that the view being tracked wasn't removed, in which case we stop tracking It
         if (item != nil) {
-            if (item.view == nil || item.view.superview == nil) {
+            if (!item.view || !item.view.superview) {
                 [self.removedItems addObject:item];
             } else if (![self.removedItems containsObject:item]) {
                 if([self isVisibleView:item.view]
@@ -172,7 +172,7 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 - (BOOL)inersectsParentViewOfView:(UIView*)view {
     UIWindow *parentWindow = [self parentWindowForView:view];
     
-    if (parentWindow == nil) {
+    if (!parentWindow) {
         return NO;
     }
     
@@ -183,7 +183,7 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 - (BOOL)view:(UIView*)view visibleWithMinPercent:(CGFloat)percentVisible {
     UIWindow *parentWindow = [self parentWindowForView:view];
     
-    if (parentWindow == nil) {
+    if (!parentWindow) {
         return NO;
     }
     

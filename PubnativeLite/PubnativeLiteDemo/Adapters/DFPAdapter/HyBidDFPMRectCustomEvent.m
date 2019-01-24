@@ -50,13 +50,13 @@
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeMediumRectangle.size, adSize.size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
-            if (self.ad == nil) {
+            if (!self.ad) {
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
                 return;
             }
             self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
             self.mRectPresenter = [self.mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-            if (self.mRectPresenter == nil) {
+            if (!self.mRectPresenter) {
                 [self invokeFailWithMessage:@"HyBid - Error: Could not create valid mRect presenter"];
                 return;
             } else {

@@ -61,7 +61,7 @@
         default: break;
     }
     [self invokeDidTrackEvent:event];
-    if(eventString == nil) {
+    if(!eventString) {
         [self invokeDidTrackEvent:PNLiteVASTEvent_Unknown];
     } else {
         for (NSURL *eventUrl in self.events[eventString]) {
@@ -91,7 +91,7 @@
         NSLog(@"VAST - Event Processor: Event processor sending request to url: %@", [url absoluteString]);
         
         NSURLSession * session = [NSURLSession sharedSession];
-        if(self.userAgent == nil) {
+        if(!self.userAgent) {
             // Perform on main thread/queue
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
@@ -105,7 +105,7 @@
                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                 
                                 // Send the request only, no response or errors
-                                if(error == nil) {
+                                if(!error) {
                                     NSLog(@"VAST - tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]);
                                 } else {
                                     NSLog(@"VAST - tracking url %@ error: %@", response.URL, error);

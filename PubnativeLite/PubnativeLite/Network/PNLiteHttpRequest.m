@@ -56,9 +56,9 @@ NSInteger const MAX_RETRIES = 1;
     self.urlString = urlString;
     self.method = method;
     
-    if (self.delegate == nil) {
+    if (!self.delegate) {
         NSLog(@"PNLiteHttpRequest - Delegate is nil, dropping the call.");
-    } else if(self.urlString == nil || self.urlString.length <= 0) {
+    } else if(!self.urlString || self.urlString.length <= 0) {
         [self invokeFailWithMessage:@"URL is nil or empty" andAttemptRetry:NO];
     } else if(![self.method isEqualToString:@"GET"] && ![self.method isEqualToString:@"POST"] && ![self.method isEqualToString:@"DELETE"]) {
         [self invokeFailWithMessage:@"Unsupported HTTP method, dropping the call." andAttemptRetry:NO];
@@ -78,7 +78,7 @@ NSInteger const MAX_RETRIES = 1;
 - (void)executeAsyncRequest
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.userAgent == nil) {
+        if(!self.userAgent) {
             UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
             self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
         }
@@ -91,7 +91,7 @@ NSInteger const MAX_RETRIES = 1;
 - (void)makeRequest
 {
     NSURL *url = [NSURL URLWithString:self.urlString];
-    if (url == nil) {
+    if (!url) {
         NSString *message = [NSString stringWithFormat:@"URL cannot be parsed: %@", self.urlString];
         [self invokeFailWithMessage:message andAttemptRetry:NO];
     } else {

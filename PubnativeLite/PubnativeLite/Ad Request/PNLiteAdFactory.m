@@ -56,7 +56,7 @@
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {
     NSString *advertisingId = [HyBidSettings sharedInstance].advertisingId;
-    if (advertisingId == nil || advertisingId.length == 0) {
+    if (!advertisingId || advertisingId.length == 0) {
         adRequestModel.requestParameters[HyBidRequestParameter.dnt] = @"1";
     } else {
         adRequestModel.requestParameters[HyBidRequestParameter.idfa] = advertisingId;
@@ -66,8 +66,8 @@
 }
 
 - (void)setDefaultAssetFields:(PNLiteAdRequestModel *)adRequestModel {
-    if (adRequestModel.requestParameters[HyBidRequestParameter.assetsField] == nil
-        && adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] == nil) {
+    if (!adRequestModel.requestParameters[HyBidRequestParameter.assetsField]
+        && !adRequestModel.requestParameters[HyBidRequestParameter.assetLayout]) {
         
         NSArray *assets = @[PNLiteAsset.title,
                             PNLiteAsset.body,

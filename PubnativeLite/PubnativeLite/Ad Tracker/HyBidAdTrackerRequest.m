@@ -34,9 +34,9 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 @implementation HyBidAdTrackerRequest
 
 - (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url {
-    if(delegate == nil) {
+    if(!delegate) {
         NSLog(@"HyBidAdTrackerRequest - Given delegate is nil and required, droping this call");
-    } else if(url == nil || url.length == 0) {
+    } else if(!url || url.length == 0) {
         NSLog(@"HyBidAdTrackerRequest - URL nil or empty, droping this call");
     } else {
         self.delegate = delegate;

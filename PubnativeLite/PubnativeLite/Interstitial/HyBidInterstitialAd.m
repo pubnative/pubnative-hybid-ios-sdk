@@ -54,7 +54,7 @@
 }
 
 - (void)load {
-    if (self.zoneID == nil || self.zoneID.length == 0) {
+    if (!self.zoneID || self.zoneID.length == 0) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
     } else {
         self.isReady = NO;
@@ -77,7 +77,7 @@
 - (void)renderAd:(HyBidAd *)ad {
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
-    if (self.interstitialPresenter == nil) {
+    if (!self.interstitialPresenter) {
         NSLog(@"HyBid - Error: Could not create valid interstitial presenter");
         [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
         return;
@@ -124,7 +124,7 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
-    if (ad == nil) {
+    if (!ad) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
     } else {
         [self renderAd:ad];
