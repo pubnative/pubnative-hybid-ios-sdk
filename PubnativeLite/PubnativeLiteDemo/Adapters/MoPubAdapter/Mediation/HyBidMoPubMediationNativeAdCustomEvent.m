@@ -54,7 +54,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString*)message {
-    MPLogError(message);
+    MPLogError(@"%@", message);
     [self.delegate nativeCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
