@@ -68,7 +68,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    MPLogError(message);
+    MPLogError(@"%@", message);
     [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                              code:0
                                                                                          userInfo:nil]];

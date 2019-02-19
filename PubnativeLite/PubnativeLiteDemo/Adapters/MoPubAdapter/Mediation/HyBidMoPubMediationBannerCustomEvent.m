@@ -60,7 +60,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    MPLogError(message);
+    MPLogError(@"%@", message);
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
