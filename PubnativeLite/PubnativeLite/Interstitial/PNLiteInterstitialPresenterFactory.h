@@ -20,13 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteInterstitialPresenter.h"
-#import "PNLiteAd.h"
+#import "HyBidInterstitialPresenterFactory.h"
 
-@interface PNLiteInterstitialPresenterFactory : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialPresenterFactory instead.")
 
-- (PNLiteInterstitialPresenter *)createInterstitalPresenterWithAd:(PNLiteAd *)ad
-                                                     withDelegate:(NSObject<PNLiteInterstitialPresenterDelegate> *)delegate;
+@interface PNLiteInterstitialPresenterFactory : HyBidInterstitialPresenterFactory
 
 @end

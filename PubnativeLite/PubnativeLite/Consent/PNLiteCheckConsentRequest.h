@@ -35,7 +35,6 @@
 
 - (void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
                            withAppToken:(NSString *)appToken
-                           withDeviceID:(NSString *)deviceID
-                       withDeviceIDType:(NSString *)deviceIDType;
+                           withDeviceID:(NSString *)deviceID;
 
 @end

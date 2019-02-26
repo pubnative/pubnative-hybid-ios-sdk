@@ -20,29 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
+#import "HyBidMRectPresenter.h"
 
-@class PNLiteMRectPresenter;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectPresenterDelegate instead.")
 
-@protocol PNLiteMRectPresenterDelegate<NSObject>
-
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
-      didLoadWithMRect:(UIView *)mRect;
-- (void)mRectPresenterDidClick:(PNLiteMRectPresenter *)mRectPresenter;
-- (void)mRectPresenter:(PNLiteMRectPresenter *)mRectPresenter
-       didFailWithError:(NSError *)error;
+@protocol PNLiteMRectPresenterDelegate<HyBidMRectPresenterDelegate>
 
 @end
 
-@interface PNLiteMRectPresenter : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRectPresenter instead.")
 
-@property (nonatomic, readonly) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteMRectPresenterDelegate> *delegate;
-
-- (void)load;
-- (void)startTracking;
-- (void)stopTracking;
+@interface PNLiteMRectPresenter : HyBidMRectPresenter
 
 @end

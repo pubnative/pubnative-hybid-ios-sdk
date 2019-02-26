@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubMrect;
 
 @end
@@ -54,7 +55,9 @@
 
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.mRectContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     [self.moPubMrect loadAd];
 }
@@ -71,6 +74,7 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubMrect == view) {
         self.mRectContainer.hidden = NO;
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -79,6 +83,7 @@
 {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubMrect == view) {
+        self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"I have a bad feeling about this... 🙄"

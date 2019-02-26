@@ -20,23 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "HyBidAdRequest.h"
 
-@class PNLiteAdRequest;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdRequestDelegate instead.")
 
-@protocol PNLiteAdRequestDelegate <NSObject>
-
-- (void)requestDidStart:(PNLiteAdRequest *)request;
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad;
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error;
+@protocol PNLiteAdRequestDelegate <HyBidAdRequestDelegate>
 
 @end
 
-@interface PNLiteAdRequest : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdRequest instead.")
 
-@property (nonatomic, readonly) NSString *adSize;
-
-- (void)requestAdWithDelegate:(NSObject<PNLiteAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
+@interface PNLiteAdRequest : HyBidAdRequest
 
 @end

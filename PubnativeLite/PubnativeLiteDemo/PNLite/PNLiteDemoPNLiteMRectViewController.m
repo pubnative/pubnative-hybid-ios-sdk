@@ -21,13 +21,14 @@
 //
 
 #import "PNLiteDemoPNLiteMRectViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteMRectViewController () <PNLiteAdViewDelegate>
+@interface PNLiteDemoPNLiteMRectViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet PNLiteMRectAdView *mRectAdView;
+@property (weak, nonatomic) IBOutlet HyBidMRectAdView *mRectAdView;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 
 @end
 
@@ -37,29 +38,33 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PubNative Lite MRect";
+    self.navigationItem.title = @"HyBid MRect";
     [self.mRectLoaderIndicator stopAnimating];
 }
 
 - (IBAction)requestMRectTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.mRectAdView.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     [self.mRectAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
 
-#pragma mark - PNLiteAdViewDelegate
+#pragma mark - HyBidAdViewDelegate
 
--(void)adViewDidLoad
+- (void)adViewDidLoad:(HyBidAdView *)adView
 {
     NSLog(@"MRect Ad View did load:");
     self.mRectAdView.hidden = NO;
+    self.inspectRequestButton.hidden = NO;
     [self.mRectLoaderIndicator stopAnimating];
 }
 
-- (void)adViewDidFailWithError:(NSError *)error
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
 {
     NSLog(@"MRect Ad View did fail with error: %@",error.localizedDescription);
+    self.inspectRequestButton.hidden = NO;
     [self.mRectLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
@@ -75,12 +80,12 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)adViewDidTrackClick
+- (void)adViewDidTrackClick:(HyBidAdView *)adView
 {
     NSLog(@"MRect Ad View did track click:");
 }
 
-- (void)adViewDidTrackImpression
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView
 {
     NSLog(@"MRect Ad View did track impression:");
 }

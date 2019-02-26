@@ -20,10 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <PubnativeLite/PubnativeLite.h>
-#import "PNLiteBaseModel.h"
+#import <HyBid/HyBid.h>
+#import "HyBidBaseModel.h"
 
-@interface PNLiteGeoIPModel : PNLiteBaseModel
+@interface PNLiteGeoIPModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *country;

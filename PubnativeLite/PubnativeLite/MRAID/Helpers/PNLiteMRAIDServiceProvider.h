@@ -20,15 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidMRAIDServiceProvider.h"
 
-@interface PNLiteMRAIDServiceProvider : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMRAIDServiceProvider instead.")
 
-- (void)openBrowser:(NSString *)urlString;
-- (void)playVideo:(NSString *)urlString;
-- (void)storePicture:(NSString *)urlString;
-- (void)createEvent:(NSString *)eventJSON;
-- (void)sendSMS:(NSString *)urlString;
-- (void)callNumber:(NSString *)urlString;
+@interface PNLiteMRAIDServiceProvider : HyBidMRAIDServiceProvider
 
 @end

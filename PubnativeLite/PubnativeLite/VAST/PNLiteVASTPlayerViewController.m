@@ -57,7 +57,7 @@ typedef enum : NSUInteger {
     PNLiteVASTPlaybackState_FourthQuartile = 1 << 3
 }PNLiteVASTPlaybackState;
 
-@interface PNLiteVASTPlayerViewController ()<PNLiteVASTEventProcessorDelegate, PNLiteContentInfoViewDelegate>
+@interface PNLiteVASTPlayerViewController ()<PNLiteVASTEventProcessorDelegate, HyBidContentInfoViewDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -71,7 +71,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) PNLiteVASTModel *vastModel;
 @property (nonatomic, strong) PNLiteVASTParser *parser;
 @property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
-@property (nonatomic, strong) PNLiteContentInfoView *contentInfoView;
+@property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
@@ -108,7 +108,7 @@ typedef enum : NSUInteger {
 
 #pragma mark NSObject
 
-- (instancetype)initPlayerWithContentInfo:(PNLiteContentInfoView *)contentInfo
+- (instancetype)initPlayerWithContentInfo:(HyBidContentInfoView *)contentInfo
                             isInterstital:(BOOL)isInterstitial
 {
     self.isInterstitial = isInterstitial;
@@ -812,7 +812,7 @@ typedef enum : NSUInteger {
     NSLog(@"PNLiteVASTPlayer - event tracked: %ld", (long)event);
 }
 
-#pragma mark - PNLiteContentInfoViewDelegate
+#pragma mark - HyBidContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
 {

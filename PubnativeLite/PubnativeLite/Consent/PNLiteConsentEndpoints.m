@@ -29,35 +29,19 @@ NSString *const kConsentPath = @"consent";
 NSString *const kJSONPath = @"json";
 NSString *const kAPIVersion = @"v1";
 NSString *const kParamDeviceID = @"did";
-NSString *const kParamDeviceIDType = @"did_type";
 NSString *const kParamKey = @"key";
 NSString *const kParamKeyValue = @"4ykqS3YU062TII3";
 
 @implementation PNLiteConsentEndpoints
 
 + (NSString *)checkConsentURLWithDeviceID:(NSString *)deviceID
-                         withDeviceIDType:(NSString *)deviceType
 {
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kAuthority;
     components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
     NSURLQueryItem *deviceIDQuery = [NSURLQueryItem queryItemWithName:kParamDeviceID value:deviceID];
-    NSURLQueryItem *deviceIDTypeQuery = [NSURLQueryItem queryItemWithName:kParamDeviceIDType value:deviceType];
-    components.queryItems = @[deviceIDQuery, deviceIDTypeQuery];
-    return [NSString stringWithFormat:@"%@", components.URL];
-}
-
-+ (NSString *)revokeConsentURLWithDeviceID:(NSString *)deviceID
-                          withDeviceIDType:(NSString *)deviceType
-{
-    NSURLComponents *components = [[NSURLComponents alloc] init];
-    components.scheme = kScheme;
-    components.host = kAuthority;
-    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
-    NSURLQueryItem *deviceIDQuery = [NSURLQueryItem queryItemWithName:kParamDeviceID value:deviceID];
-    NSURLQueryItem *deviceIDTypeQuery = [NSURLQueryItem queryItemWithName:kParamDeviceIDType value:deviceType];
-    components.queryItems = @[deviceIDQuery, deviceIDTypeQuery];
+    components.queryItems = @[deviceIDQuery];
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 

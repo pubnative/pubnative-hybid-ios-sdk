@@ -20,11 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidDFPUtils.h"
 
-@interface PNLiteDFPUtils : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPUtils instead.")
 
-+ (BOOL)areExtrasValid:(NSString *)extras;
-+ (NSString *)zoneID:(NSString *)extras;
+@interface PNLiteDFPUtils : HyBidDFPUtils
 
 @end

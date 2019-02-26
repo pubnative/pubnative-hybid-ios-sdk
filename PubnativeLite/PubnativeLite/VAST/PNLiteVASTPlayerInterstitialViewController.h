@@ -21,11 +21,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNLiteInterstitialPresenter.h"
-#import "PNLiteAd.h"
+#import "HyBidInterstitialPresenter.h"
+#import "HyBidAd.h"
 
 @interface PNLiteVASTPlayerInterstitialViewController : UIViewController
 
-- (void)loadFullScreenPlayerWithPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter withAd:(PNLiteAd *)ad;
+- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad;
 
 @end

@@ -22,17 +22,17 @@
 
 #import "PNLiteImpressionTracker.h"
 #import "PNLiteImpressionTrackerItem.h"
-#import "PNLiteVisibilityTracker.h"
+#import "HyBidVisibilityTracker.h"
 
 NSTimeInterval const kPNImpressionCheckPeriod = 0.25f; // Check every 250 ms
 CGFloat const kPNVisibilityThreshold = 0.5f; // 50% of the view
 CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 
-@interface PNLiteImpressionTracker () <PNLiteVisibilityTrackerDelegate>
+@interface PNLiteImpressionTracker () <HyBidVisibilityTrackerDelegate>
 
 @property (nonatomic, strong) NSMutableArray<PNLiteImpressionTrackerItem*> *visibleViews;
 @property (nonatomic, strong) NSMutableArray<UIView*> *trackedViews;
-@property (nonatomic, strong) PNLiteVisibilityTracker *visibilityTracker;
+@property (nonatomic, strong) HyBidVisibilityTracker *visibilityTracker;
 @property (nonatomic, assign) BOOL isVisibiltyCheckScheduled;
 @property (nonatomic, assign) BOOL isVisibiltyCheckValid;
 
@@ -55,7 +55,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     if (self) {
         self.visibleViews = [NSMutableArray array];
         self.trackedViews = [NSMutableArray array];
-        self.visibilityTracker = [[PNLiteVisibilityTracker alloc] init];
+        self.visibilityTracker = [[HyBidVisibilityTracker alloc] init];
         self.visibilityTracker.delegate = self;
         self.isVisibiltyCheckScheduled = NO;
         self.isVisibiltyCheckValid = NO;
@@ -156,7 +156,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
     }
 }
 
-#pragma mark PNLiteVisibilityTrackerDelegate
+#pragma mark HyBidVisibilityTrackerDelegate
 
 - (void)checkVisibilityWithVisibleViews:(NSArray<UIView *> *)visibleViews andWithInvisibleViews:(NSArray<UIView *> *)invisibleViews
 {

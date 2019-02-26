@@ -20,14 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidMoPubUtils.h"
 
-@interface PNLiteMoPubUtils : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidMoPubUtils instead.")
 
-+ (BOOL)isZoneIDValid:(NSDictionary *)extras;
-+ (BOOL)isAppTokenValid:(NSDictionary *)extras;
-+ (BOOL)areExtrasValid:(NSDictionary *)extras;
-+ (NSString *)appToken:(NSDictionary*)extras;
-+ (NSString *)zoneID:(NSDictionary *)extras;
+@interface PNLiteMoPubUtils : HyBidMoPubUtils
 
 @end

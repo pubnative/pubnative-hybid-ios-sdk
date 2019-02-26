@@ -21,19 +21,19 @@
 //
 
 #import "PNLiteMRAIDMRectPresenter.h"
-#import "PNLiteMRAIDView.h"
-#import "PNLiteMRAIDServiceDelegate.h"
-#import "PNLiteMRAIDServiceProvider.h"
+#import "HyBidMRAIDView.h"
+#import "HyBidMRAIDServiceDelegate.h"
+#import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 
 CGFloat const kPNLiteMRAIDMRectWidth = 300.0f;
 CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
 
-@interface PNLiteMRAIDMRectPresenter () <PNLiteMRAIDViewDelegate, PNLiteMRAIDServiceDelegate>
+@interface PNLiteMRAIDMRectPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
-@property (nonatomic, strong) PNLiteMRAIDServiceProvider *serviceProvider;
-@property (nonatomic, retain) PNLiteMRAIDView *mraidView;
-@property (nonatomic, strong) PNLiteAd *adModel;
+@property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
+@property (nonatomic, retain) HyBidMRAIDView *mraidView;
+@property (nonatomic, strong) HyBidAd *adModel;
 
 @end
 
@@ -45,7 +45,7 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
     self.adModel = nil;
 }
 
-- (instancetype)initWithAd:(PNLiteAd *)ad
+- (instancetype)initWithAd:(HyBidAd *)ad
 {
     self = [super init];
     if (self) {
@@ -54,15 +54,15 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
     return self;
 }
 
-- (PNLiteAd *)ad
+- (HyBidAd *)ad
 {
     return self.adModel;
 }
 
 - (void)load
 {
-    self.serviceProvider = [[PNLiteMRAIDServiceProvider alloc] init];
-    self.mraidView = [[PNLiteMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDMRectWidth, kPNLiteMRAIDMRectHeight)
+    self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
+    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kPNLiteMRAIDMRectWidth, kPNLiteMRAIDMRectHeight)
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                           supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
@@ -83,43 +83,43 @@ CGFloat const kPNLiteMRAIDMRectHeight = 250.0f;
     
 }
 
-#pragma mark PNLiteMRAIDViewDelegate
+#pragma mark HyBidMRAIDViewDelegate
 
-- (void)mraidViewAdReady:(PNLiteMRAIDView *)mraidView
+- (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView
 {
     [self.delegate mRectPresenter:self didLoadWithMRect:mraidView];
 }
 
-- (void)mraidViewAdFailed:(PNLiteMRAIDView *)mraidView
+- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView
 {
     NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDMRectPresenter - MRAID View  Failed" code:0 userInfo:nil];
     [self.delegate mRectPresenter:self didFailWithError:error];
 }
 
-- (void)mraidViewWillExpand:(PNLiteMRAIDView *)mraidView
+- (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView
 {
-    NSLog(@"PNLiteMRAIDViewDelegate - MRAID will expand!");
+    NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
     [self.delegate mRectPresenterDidClick:self];
 }
 
-- (void)mraidViewDidClose:(PNLiteMRAIDView *)mraidView
+- (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView
 {
-    NSLog(@"PNLiteMRAIDViewDelegate - MRAID did close!");
+    NSLog(@"HyBidMRAIDViewDelegate - MRAID did close!");
 }
 
-- (void)mraidViewNavigate:(PNLiteMRAIDView *)mraidView withURL:(NSURL *)url
+- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url
 {
-    NSLog(@"PNLiteMRAIDViewDelegate - MRAID navigate with URL:%@",url);
+    NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
     [self.serviceProvider openBrowser:url.absoluteString];
     [self.delegate mRectPresenterDidClick:self];
 }
 
-- (BOOL)mraidViewShouldResize:(PNLiteMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
+- (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
 {
     return NO;
 }
 
-#pragma mark PNMRAIDServiceDelegate
+#pragma mark HyBidMRAIDServiceDelegate
 
 - (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString
 {

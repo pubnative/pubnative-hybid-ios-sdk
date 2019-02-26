@@ -21,16 +21,16 @@
 //
 
 #import "PNLiteDemoMoPubInterstitialViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "MPInterstitialAdController.h"
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoMoPubInterstitialViewController () <PNLiteAdRequestDelegate, MPInterstitialAdControllerDelegate>
+@interface PNLiteDemoMoPubInterstitialViewController () <HyBidAdRequestDelegate, MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UITextView *impressionIDTextView;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
-@property (nonatomic, strong) PNLiteInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
 @end
 
@@ -56,8 +56,10 @@
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
+    self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAdRequest = [[PNLiteInterstitialAdRequest alloc] init];
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
@@ -123,27 +125,28 @@
     NSLog(@"interstitialDidReceiveTapEvent");
 }
 
-#pragma mark - PNLiteAdRequestDelegate
+#pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(PNLiteAdRequest *)request
+- (void)requestDidStart:(HyBidAdRequest *)request
 {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(PNLiteAdRequest *)request didLoadWithAd:(PNLiteAd *)ad
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
 {
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
-        [self.moPubInterstitial setKeywords:[PNLitePrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:[PNLiteDemoSettings sharedInstance].zoneID]];
+        self.inspectRequestButton.hidden = NO;
+        [self.moPubInterstitial setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
         [self.moPubInterstitial loadAd];
-        self.impressionIDTextView.text = ad.impressionID;
     }
 }
 
-- (void)request:(PNLiteAdRequest *)request didFailWithError:(NSError *)error
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     if (request == self.interstitialAdRequest) {
+        self.inspectRequestButton.hidden = NO;
         [self showAlertControllerWithMessage:error.localizedDescription];
         [self.interstitialLoaderIndicator stopAnimating];
     }

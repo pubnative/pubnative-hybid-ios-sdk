@@ -21,41 +21,7 @@
 //
 
 #import "PNLiteBannerPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
-#import "PNLiteBannerPresenterDecorator.h"
-#import "PNLiteMRAIDBannerPresenter.h"
-#import "PNLiteAdTracker.h"
 
 @implementation PNLiteBannerPresenterFactory
-
-- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAd *)ad
-                                          withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate
-{
-    PNLiteBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
-    if (!bannerPresenter) {
-        return nil;
-    }
-    PNLiteBannerPresenterDecorator *bannerPresenterDecorator = [[PNLiteBannerPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter
-                                                                                                                 withAdTracker:[[PNLiteAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                                  withDelegate:delegate];
-    bannerPresenter.delegate = bannerPresenterDecorator;
-    return bannerPresenterDecorator;
-}
-
-- (PNLiteBannerPresenter *)createBannerPresenterFromAd:(PNLiteAd *)ad
-{
-    switch (ad.assetGroupID.integerValue) {
-        case MRAID_BANNER_1:
-        case MRAID_BANNER_2: {
-            PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
-            return mraidBannerPresenter;
-            break;
-        }
-        default:
-            NSLog(@"PNLiteBannerPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for banner ad format", ad.assetGroupID);
-            return nil;
-            break;
-    }
-}
 
 @end

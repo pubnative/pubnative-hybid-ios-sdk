@@ -20,29 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNLiteAd.h"
-#import "PNLiteAdRequest.h"
+#import "HyBidAdView.h"
 
-@protocol PNLiteAdViewDelegate<NSObject>
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdViewDelegate instead.")
 
-- (void)adViewDidLoad;
-- (void)adViewDidFailWithError:(NSError *)error;
-- (void)adViewDidTrackImpression;
-- (void)adViewDidTrackClick;
+@protocol PNLiteAdViewDelegate<HyBidAdViewDelegate>
 
 @end
 
-@interface PNLiteAdView : UIView <PNLiteAdRequestDelegate>
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdView instead.")
 
-@property (nonatomic, readonly) PNLiteAdRequest *adRequest;
-@property (nonatomic, strong) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteAdViewDelegate> *delegate;
-
-- (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<PNLiteAdViewDelegate> *)delegate;
-- (void)setupAdView:(UIView *)adView;
-- (void)renderAd;
-- (void)startTracking;
-- (void)stopTracking;
+@interface PNLiteAdView : HyBidAdView
 
 @end

@@ -20,13 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteBannerPresenter.h"
-#import "PNLiteAd.h"
+#import "HyBidBannerPresenterFactory.h"
 
-@interface PNLiteBannerPresenterFactory : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenterFactory instead.")
 
-- (PNLiteBannerPresenter *)createBannerPresenterWithAd:(PNLiteAd *)ad
-                                          withDelegate:(NSObject<PNLiteBannerPresenterDelegate> *)delegate;
+@interface PNLiteBannerPresenterFactory : HyBidBannerPresenterFactory
 
 @end

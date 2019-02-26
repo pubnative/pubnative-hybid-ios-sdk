@@ -21,13 +21,14 @@
 //
 
 #import "PNLiteDemoPNLiteInterstitialViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteInterstitialViewController () <PNLiteInterstitialAdDelegate>
+@interface PNLiteDemoPNLiteInterstitialViewController () <HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (nonatomic, strong) PNLiteInterstitialAd *interstitialAd;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
 @end
 
@@ -41,22 +42,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"PubNative Lite Interstitial";
+    self.navigationItem.title = @"HyBid Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
+    self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAd = [[PNLiteInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
     [self.interstitialAd load];
 }
 
-#pragma mark - PNLiteInterstitialAdDelegate
+#pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad
 {
     NSLog(@"Interstitial did load");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.interstitialAd show];
 }
@@ -64,6 +68,7 @@
 - (void)interstitialDidFailWithError:(NSError *)error
 {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"

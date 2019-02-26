@@ -21,78 +21,7 @@
 //
 
 #import "PNLiteDataModel.h"
-#import "PNLiteMeta.h"
-#import "PNLiteData.h"
 
 @implementation PNLiteDataModel
-
-- (void)dealloc
-{
-    self.type = nil;
-    self.data = nil;
-}
-
-#pragma mark PNLiteBaseModel
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
-    self = [super initWithDictionary:dictionary];
-    if (self) {
-        self.type = dictionary[@"type"];
-        self.data = dictionary[@"data"];
-    }
-    return self;
-}
-
-#pragma mark PNLiteDataModel
-
-- (NSString *)text
-{
-    return [self stringFieldWithKey:PNLiteData.text];
-}
-
-- (NSString *)vast
-{
-    return [self stringFieldWithKey:PNLiteData.vast];
-}
-
-- (NSNumber *)number
-{
-    return [self numberFieldWithKey:PNLiteData.number];
-}
-
-- (NSString *)url
-{
-    return [self stringFieldWithKey:PNLiteData.url];
-}
-
-- (NSString *)html
-{
-    return [self stringFieldWithKey:PNLiteData.html];
-}
-
-- (NSNumber *)eCPM
-{
-    return [self numberFieldWithKey:PNLiteData.number];
-}
-
-- (NSString *)stringFieldWithKey:(NSString *)key
-{
-    return (NSString *) [self dataWithKey:key];
-}
-
-- (NSNumber *)numberFieldWithKey:(NSString *)key
-{
-    return (NSNumber *) [self dataWithKey:key];
-}
-
-- (NSObject *)dataWithKey:(NSString *)key
-{
-    NSObject *result = nil;
-    if (self.data != nil && [self.data objectForKey:key]) {
-        result = [self.data objectForKey:key];
-    }
-    return result;
-}
 
 @end

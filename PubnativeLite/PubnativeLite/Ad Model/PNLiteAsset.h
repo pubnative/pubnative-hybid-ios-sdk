@@ -24,6 +24,12 @@
 
 @interface PNLiteAsset : NSObject
 
++ (NSString *)title;
++ (NSString *)body;
++ (NSString *)callToAction;
++ (NSString *)rating;
++ (NSString *)icon;
++ (NSString *)banner;
 + (NSString *)vast;
 + (NSString *)htmlBanner;
 

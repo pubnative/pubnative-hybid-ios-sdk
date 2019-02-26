@@ -21,13 +21,14 @@
 //
 
 #import "PNLiteDemoPNLiteBannerViewController.h"
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteBannerViewController () <PNLiteAdViewDelegate>
+@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (weak, nonatomic) IBOutlet PNLiteBannerAdView *bannerAdView;
+@property (weak, nonatomic) IBOutlet HyBidBannerAdView *bannerAdView;
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 
 @end
 
@@ -37,29 +38,33 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"PubNative Lite Banner";
+    self.navigationItem.title = @"HyBid Banner";
     [self.bannerLoaderIndicator stopAnimating];
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender
 {
+    [self clearLastInspectedRequest];
     self.bannerAdView.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
 
-#pragma mark - PNLiteAdViewDelegate
+#pragma mark - HyBidAdViewDelegate
 
--(void)adViewDidLoad
+- (void)adViewDidLoad:(HyBidAdView *)adView
 {
     NSLog(@"Banner Ad View did load:");
     self.bannerAdView.hidden = NO;
+    self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (void)adViewDidFailWithError:(NSError *)error
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
 {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
+    self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
@@ -75,12 +80,12 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)adViewDidTrackClick
+- (void)adViewDidTrackClick:(HyBidAdView *)adView
 {
     NSLog(@"Banner Ad View did track click:");
 }
 
-- (void)adViewDidTrackImpression
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView
 {
     NSLog(@"Banner Ad View did track impression:");
 }

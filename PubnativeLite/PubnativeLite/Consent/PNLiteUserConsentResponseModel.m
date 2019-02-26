@@ -32,7 +32,7 @@
     self.consent = nil;
 }
 
-#pragma mark PNLiteBaseModel
+#pragma mark HyBidBaseModel
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {
@@ -40,7 +40,9 @@
     if (self) {
         self.status = dictionary[@"status"];
         self.error = dictionary[@"error"];
-        self.consent = [[PNLiteUserConsentModel alloc] initWithDictionary:dictionary[@"data"]];
+        if (dictionary[@"data"]) {
+            self.consent = [[PNLiteUserConsentModel alloc] initWithDictionary:dictionary[@"data"]];
+        }
     }
     return self;
 }

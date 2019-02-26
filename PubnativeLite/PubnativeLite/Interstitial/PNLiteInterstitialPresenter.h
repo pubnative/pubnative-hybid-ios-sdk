@@ -20,28 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteAd.h"
+#import "HyBidInterstitialPresenter.h"
 
-@class PNLiteInterstitialPresenter;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialPresenterDelegate instead.")
 
-@protocol PNLiteInterstitialPresenterDelegate<NSObject>
-
-- (void)interstitialPresenterDidLoad:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidShow:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidClick:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterDidDismiss:(PNLiteInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenter:(PNLiteInterstitialPresenter *)interstitialPresenter
-             didFailWithError:(NSError *)error;
+@protocol PNLiteInterstitialPresenterDelegate<HyBidInterstitialPresenterDelegate>
 
 @end
 
-@interface PNLiteInterstitialPresenter : NSObject
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidInterstitialPresenter instead.")
 
-@property (nonatomic, readonly) PNLiteAd *ad;
-@property (nonatomic, strong) NSObject <PNLiteInterstitialPresenterDelegate> *delegate;
+@interface PNLiteInterstitialPresenter : HyBidInterstitialPresenter
 
-- (void)load;
-- (void)show;
-- (void)hide;
 @end

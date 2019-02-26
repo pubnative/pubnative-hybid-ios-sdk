@@ -32,7 +32,7 @@
     self.message = nil;
 }
 
-#pragma mark PNLiteBaseModel
+#pragma mark HyBidBaseModel
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
 {

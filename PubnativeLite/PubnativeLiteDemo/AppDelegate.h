@@ -21,12 +21,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <PubnativeLite/PubnativeLite.h>
+#import <HyBid/HyBid.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 
 @end
 

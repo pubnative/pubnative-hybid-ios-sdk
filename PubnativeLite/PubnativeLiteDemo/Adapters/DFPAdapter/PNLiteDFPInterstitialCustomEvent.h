@@ -20,11 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <PubnativeLite/PubnativeLite.h>
+#import "HyBidDFPInterstitialCustomEvent.h"
 
-@import GoogleMobileAds;
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidDFPInterstitialCustomEvent instead.")
 
-@interface PNLiteDFPInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
+@interface PNLiteDFPInterstitialCustomEvent : HyBidDFPInterstitialCustomEvent
 
 @end
