@@ -40,7 +40,7 @@
 
 @property (nonatomic, readonly) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidAdViewDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidAdViewDelegate> *delegate;
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)setupAdView:(UIView *)adView;

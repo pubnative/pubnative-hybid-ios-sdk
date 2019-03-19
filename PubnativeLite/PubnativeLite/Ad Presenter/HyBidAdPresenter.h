@@ -39,7 +39,7 @@
 @interface HyBidAdPresenter : NSObject
 
 @property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidAdPresenterDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidAdPresenterDelegate> *delegate;
 
 - (void)load;
 - (void)startTracking;

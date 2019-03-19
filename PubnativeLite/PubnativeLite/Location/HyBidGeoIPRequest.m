@@ -29,7 +29,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 
 @interface HyBidGeoIPRequest () <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, strong) NSObject <HyBidGeoIPRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidGeoIPRequestDelegate> *delegate;
 
 @end
 

@@ -28,7 +28,7 @@
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
 @property (nonatomic, strong) NSString *zoneID;
-@property (nonatomic, strong) NSObject<HyBidInterstitialAdDelegate> *delegate;
+@property (nonatomic, weak) NSObject<HyBidInterstitialAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
