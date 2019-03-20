@@ -32,6 +32,10 @@
 
 @implementation PNLiteCheckConsentRequest
 
+- (void)dealloc {
+    self.delegate = nil;
+}
+
 - (void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
                            withAppToken:(NSString *)appToken
                            withDeviceID:(NSString *)deviceID {

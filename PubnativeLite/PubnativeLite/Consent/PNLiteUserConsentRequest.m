@@ -34,6 +34,10 @@
 
 #pragma mark PNLiteHttpRequestDelegate
 
+- (void)dealloc {
+    self.delegate = nil;
+}
+
 - (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel
                         withAppToken:(NSString *)appToken {
