@@ -34,6 +34,7 @@
 
 - (void)dealloc {
     self.nativeAdRequest = nil;
+    self.delegate = nil;
 }
 
 - (instancetype)init {

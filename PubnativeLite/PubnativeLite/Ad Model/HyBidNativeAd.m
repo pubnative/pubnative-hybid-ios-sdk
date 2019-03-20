@@ -62,6 +62,8 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     [self.impressionTracker clear];
     self.impressionTracker = nil;
     self.bannerImageView = nil;
+    self.delegate = nil;
+    self.fetchDelegate = nil;
 }
 
 #pragma mark HyBidNativeAd
