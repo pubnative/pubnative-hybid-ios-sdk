@@ -45,7 +45,7 @@
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
         [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^(BOOL success) {
+        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
             completion(success);
         }];
     }

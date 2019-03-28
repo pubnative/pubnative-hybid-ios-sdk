@@ -70,7 +70,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
     return sharedInstance;
 }
 
-- (void)createUserDataManagerWithAppToken:(NSString *)appToken completion:(UserDataManagerCompletionBlock)completion {
+- (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock)completion {
     self.completionBlock = completion;
     [self determineUserZone];
 }
