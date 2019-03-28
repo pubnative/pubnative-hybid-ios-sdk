@@ -71,15 +71,15 @@
 }
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.adTracker trackImpression];
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)]) {
+        [self.adTracker trackImpression];
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
     }
 }
 
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.adTracker trackClick];
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidClick:)]) {
+        [self.adTracker trackClick];
         [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
     }
 }

@@ -65,15 +65,16 @@
 #pragma mark HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    [self.adTracker trackImpression];
+    
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
+        [self.adTracker trackImpression];
         [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
     }
 }
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
-    [self.adTracker trackClick];
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidClick:)]) {
+        [self.adTracker trackClick];
         [self.adPresenterDelegate adPresenterDidClick:adPresenter];
     }
 }
