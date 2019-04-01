@@ -51,6 +51,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     self.zoneID = nil;
     self.startTime = nil;
     self.requestURL = nil;
+    self.delegate = nil;
 }
 
 - (NSString *)adSize {

@@ -45,11 +45,6 @@
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
-    
-    if(!self.moPubInterstitial) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
-        self.moPubInterstitial.delegate = self;
-    }
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
@@ -123,6 +118,8 @@
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
+        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
+        self.moPubInterstitial.delegate = self;
         [self.moPubInterstitial setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
         [self.moPubInterstitial loadAd];
     }

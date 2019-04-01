@@ -26,7 +26,7 @@
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<HyBidAdPresenterDelegate> *adPresenterDelegate;
+@property (nonatomic, weak) NSObject<HyBidAdPresenterDelegate> *adPresenterDelegate;
 
 @end
 
@@ -65,17 +65,24 @@
 #pragma mark HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    [self.adTracker trackImpression];
-    [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
+    
+    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
+        [self.adTracker trackImpression];
+        [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
+    }
 }
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
-    [self.adTracker trackClick];
-    [self.adPresenterDelegate adPresenterDidClick:adPresenter];
+    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidClick:)]) {
+        [self.adTracker trackClick];
+        [self.adPresenterDelegate adPresenterDidClick:adPresenter];
+    }
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
-    [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
+    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didFailWithError:)]) {
+        [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
+    }
 }
 
 @end

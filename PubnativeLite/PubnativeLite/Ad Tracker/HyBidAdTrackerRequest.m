@@ -33,6 +33,10 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
 @implementation HyBidAdTrackerRequest
 
+- (void)dealloc {
+    self.delegate = nil;
+}
+
 - (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url {
     if(!delegate) {
         NSLog(@"HyBidAdTrackerRequest - Given delegate is nil and required, droping this call");

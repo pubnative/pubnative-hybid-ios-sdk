@@ -81,8 +81,8 @@
 }
 
 - (void)startTracking {
-    [self.adPresenter startTracking];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
+        [self.adPresenter startTracking];
         [self.delegate adViewDidTrackImpression:self];
     }
 }

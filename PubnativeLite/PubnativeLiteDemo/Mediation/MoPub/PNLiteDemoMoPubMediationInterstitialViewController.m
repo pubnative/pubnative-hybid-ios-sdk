@@ -42,17 +42,14 @@
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
-    
-    if(!self.moPubInterstitial) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID];
-        self.moPubInterstitial.delegate = self;
-    }
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
+    self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID];
+    self.moPubInterstitial.delegate = self;
     [self.moPubInterstitial loadAd];
 }
 
