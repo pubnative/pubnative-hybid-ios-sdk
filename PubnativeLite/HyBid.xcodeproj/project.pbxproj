@@ -494,7 +494,6 @@
 		5AE31C98203EC6AF005F140A /* PNLiteMoPubUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C97203EC6AF005F140A /* PNLiteMoPubUtils.m */; };
 		5AE31C9F203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */; };
 		5AE31CA2203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */; };
-		5AE4C6D92074D5DF00A2A8C5 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4C6D82074D5DF00A2A8C5 /* GoogleMobileAds.framework */; };
 		5AE4C6DC207529AA00A2A8C5 /* PNLiteDFPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4C6DB207529AA00A2A8C5 /* PNLiteDFPUtils.m */; };
 		5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5AE7395620441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE7395420441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m */; };
@@ -719,6 +718,10 @@
 		5AFB9CC02253660600D98251 /* MPConsoleLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB9BE72253660500D98251 /* MPConsoleLogger.m */; };
 		5AFB9CC12253660600D98251 /* MPBaseAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB9BEE2253660500D98251 /* MPBaseAdapterConfiguration.m */; };
 		5AFB9CC22253660600D98251 /* MPConsentChangedNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB9BEF2253660500D98251 /* MPConsentChangedNotification.m */; };
+		5AFB9CC82253711B00D98251 /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFB9CC42253711B00D98251 /* GoogleAppMeasurement.framework */; };
+		5AFB9CC92253711B00D98251 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFB9CC52253711B00D98251 /* GoogleUtilities.framework */; };
+		5AFB9CCA2253711B00D98251 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFB9CC62253711B00D98251 /* nanopb.framework */; };
+		5AFB9CCB2253711B00D98251 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFB9CC72253711B00D98251 /* GoogleMobileAds.framework */; };
 		5AFDAFEC212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFDAFEB212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.m */; };
 		5AFDAFEF212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFDAFEE212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.m */; };
 		5AFDAFF1212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AFDAFF0212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib */; };
@@ -1307,7 +1310,6 @@
 		5AE31C9E203ECC8B005F140A /* PNLiteMoPubBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubBannerCustomEvent.m; sourceTree = "<group>"; };
 		5AE31CA0203EE122005F140A /* PNLiteMoPubMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMoPubMRectCustomEvent.h; sourceTree = "<group>"; };
 		5AE31CA1203EE122005F140A /* PNLiteMoPubMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMoPubMRectCustomEvent.m; sourceTree = "<group>"; };
-		5AE4C6D82074D5DF00A2A8C5 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		5AE4C6DA207529AA00A2A8C5 /* PNLiteDFPUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDFPUtils.h; sourceTree = "<group>"; };
 		5AE4C6DB207529AA00A2A8C5 /* PNLiteDFPUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDFPUtils.m; sourceTree = "<group>"; };
 		5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDInterstitialPresenter.h; sourceTree = "<group>"; };
@@ -1758,6 +1760,10 @@
 		5AFB9BEE2253660500D98251 /* MPBaseAdapterConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPBaseAdapterConfiguration.m; sourceTree = "<group>"; };
 		5AFB9BEF2253660500D98251 /* MPConsentChangedNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPConsentChangedNotification.m; sourceTree = "<group>"; };
 		5AFB9BF02253660500D98251 /* MPInterstitialAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPInterstitialAdController.h; sourceTree = "<group>"; };
+		5AFB9CC42253711B00D98251 /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppMeasurement.framework; sourceTree = "<group>"; };
+		5AFB9CC52253711B00D98251 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
+		5AFB9CC62253711B00D98251 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
+		5AFB9CC72253711B00D98251 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		5AFDAFEA212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationNativeViewController.h; sourceTree = "<group>"; };
 		5AFDAFEB212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationNativeViewController.m; sourceTree = "<group>"; };
 		5AFDAFED212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationNativeView.h; sourceTree = "<group>"; };
@@ -1780,15 +1786,18 @@
 			files = (
 				5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */,
 				5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */,
-				5AE4C6D92074D5DF00A2A8C5 /* GoogleMobileAds.framework in Frameworks */,
+				5AFB9CCA2253711B00D98251 /* nanopb.framework in Frameworks */,
+				5AFB9CC82253711B00D98251 /* GoogleAppMeasurement.framework in Frameworks */,
 				5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */,
 				5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */,
 				5A8903E5203DE22A00D86051 /* CoreMedia.framework in Frameworks */,
+				5AFB9CC92253711B00D98251 /* GoogleUtilities.framework in Frameworks */,
 				5AFB9C192253660600D98251 /* libAvid-mopub-3.6.1.a in Frameworks */,
 				5A8903E3203DE22300D86051 /* CoreTelephony.framework in Frameworks */,
 				5AFB9C1A2253660600D98251 /* MPUBMoatMobileAppKit.framework in Frameworks */,
 				5A8903E1203DE21D00D86051 /* Foundation.framework in Frameworks */,
 				5A8903DF203DE21400D86051 /* MediaPlayer.framework in Frameworks */,
+				5AFB9CCB2253711B00D98251 /* GoogleMobileAds.framework in Frameworks */,
 				5A8903DD203DE20800D86051 /* MessageUI.framework in Frameworks */,
 				5A8903DB203DE1FC00D86051 /* QuartzCore.framework in Frameworks */,
 				5A8903D9203DE1F500D86051 /* SafariServices.framework in Frameworks */,
@@ -1928,7 +1937,7 @@
 			children = (
 				5A2A2E522056CCB00051E856 /* Crashlytics.framework */,
 				5A2A2E532056CCB00051E856 /* Fabric.framework */,
-				5AE4C6D72074D5DF00A2A8C5 /* GoogleMobileAdsSDK-7.30.0 */,
+				5AFB9CC32253711B00D98251 /* GoogleMobileAdsSDK-7.42.2 */,
 				5AFB9A272253660300D98251 /* MoPubSDK-5.6.0 */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
@@ -2788,14 +2797,6 @@
 			path = MoPubAdapter;
 			sourceTree = "<group>";
 		};
-		5AE4C6D72074D5DF00A2A8C5 /* GoogleMobileAdsSDK-7.30.0 */ = {
-			isa = PBXGroup;
-			children = (
-				5AE4C6D82074D5DF00A2A8C5 /* GoogleMobileAds.framework */,
-			);
-			path = "GoogleMobileAdsSDK-7.30.0";
-			sourceTree = "<group>";
-		};
 		5AE4C6DD20752A4A00A2A8C5 /* DFPAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -3469,6 +3470,17 @@
 				5AFB9BE82253660500D98251 /* MPLogManager.h */,
 			);
 			path = Internal;
+			sourceTree = "<group>";
+		};
+		5AFB9CC32253711B00D98251 /* GoogleMobileAdsSDK-7.42.2 */ = {
+			isa = PBXGroup;
+			children = (
+				5AFB9CC42253711B00D98251 /* GoogleAppMeasurement.framework */,
+				5AFB9CC52253711B00D98251 /* GoogleUtilities.framework */,
+				5AFB9CC62253711B00D98251 /* nanopb.framework */,
+				5AFB9CC72253711B00D98251 /* GoogleMobileAds.framework */,
+			);
+			path = "GoogleMobileAdsSDK-7.42.2";
 			sourceTree = "<group>";
 		};
 		5AFE05DF211C83B9009DF560 /* Native */ = {
@@ -4395,8 +4407,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.30.0",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.6.0/Viewability/MOAT",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.42.2",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -4425,8 +4437,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.30.0",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.6.0/Viewability/MOAT",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.42.2",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
