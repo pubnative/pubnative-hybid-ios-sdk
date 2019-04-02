@@ -34,6 +34,8 @@
 			</dict>
 		</array>
 	</dict>
+	<key>GADIsAdManagerApp</key>
+	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
