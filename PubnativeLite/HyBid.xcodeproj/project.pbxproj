@@ -361,6 +361,8 @@
 		5AA8E58E202DB35900C9EABC /* PNLiteAdCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AA8E58F202DB35900C9EABC /* PNLiteAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */; };
 		5AB6D21322575B1200AB9C8F /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB6D21222575B1200AB9C8F /* OMSDK_Pubnativenet.framework */; };
+		5AB6D21822575FF200AB9C8F /* HyBidViewabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB6D21622575FF200AB9C8F /* HyBidViewabilityManager.h */; };
+		5AB6D21922575FF200AB9C8F /* HyBidViewabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6D21722575FF200AB9C8F /* HyBidViewabilityManager.m */; };
 		5AB6FBDA20AC6F6A0092C5DD /* PNLiteContentInfoView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB6FBD820AC6F6A0092C5DD /* PNLiteContentInfoView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AB6FBDB20AC6F6A0092C5DD /* PNLiteContentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6FBD920AC6F6A0092C5DD /* PNLiteContentInfoView.m */; };
 		5AB6FBDE20AC722A0092C5DD /* PNLiteOrientationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */; };
@@ -1155,6 +1157,8 @@
 		5AA8E58C202DB35900C9EABC /* PNLiteAdCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAdCache.h; sourceTree = "<group>"; };
 		5AA8E58D202DB35900C9EABC /* PNLiteAdCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdCache.m; sourceTree = "<group>"; };
 		5AB6D21222575B1200AB9C8F /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
+		5AB6D21622575FF200AB9C8F /* HyBidViewabilityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidViewabilityManager.h; sourceTree = "<group>"; };
+		5AB6D21722575FF200AB9C8F /* HyBidViewabilityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidViewabilityManager.m; sourceTree = "<group>"; };
 		5AB6FBD820AC6F6A0092C5DD /* PNLiteContentInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteContentInfoView.h; sourceTree = "<group>"; };
 		5AB6FBD920AC6F6A0092C5DD /* PNLiteContentInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteContentInfoView.m; sourceTree = "<group>"; };
 		5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteOrientationManager.h; sourceTree = "<group>"; };
@@ -2183,6 +2187,8 @@
 				5A8893A0211C3CF00073BF66 /* PNLiteStarRatingView.m */,
 				5AC35B42214A7727001F0ED3 /* HyBidStarRatingView.h */,
 				5AC35B43214A7727001F0ED3 /* HyBidStarRatingView.m */,
+				5AB6D21622575FF200AB9C8F /* HyBidViewabilityManager.h */,
+				5AB6D21722575FF200AB9C8F /* HyBidViewabilityManager.m */,
 				5A0779F321341E9100EBD0E7 /* Request Inspector */,
 				5A9A885B21087C43006A081D /* Tracking */,
 				5A674F9C20B5AAD200B3D68D /* Consent */,
@@ -3586,6 +3592,7 @@
 				5A8D7DC420C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h in Headers */,
 				5ACC74EA203595250001CDC3 /* PNLiteMRAIDServiceDelegate.h in Headers */,
 				5AECD5A4204034DE0023ABBC /* PNLiteInterstitialPresenter.h in Headers */,
+				5AB6D21822575FF200AB9C8F /* HyBidViewabilityManager.h in Headers */,
 				5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */,
 				5A8F11082089E4D20098E337 /* PNLite_KSCrashSentry_Private.h in Headers */,
 				5ACC74E9203595250001CDC3 /* PNLiteMRAIDUtil.h in Headers */,
@@ -4278,6 +4285,7 @@
 				5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */,
 				5A52BFEB203458D000C4B7C5 /* PNLiteMRAIDServiceProvider.m in Sources */,
 				5A8F10DD2089E4D20098E337 /* PNLite_KSMach.c in Sources */,
+				5AB6D21922575FF200AB9C8F /* HyBidViewabilityManager.m in Sources */,
 				5A8F10E32089E4D20098E337 /* PNLite_KSFileUtils.c in Sources */,
 				5AE7395620441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m in Sources */,
 				5A9A886A2108BB9A006A081D /* PNLiteImpressionTrackerItem.m in Sources */,
