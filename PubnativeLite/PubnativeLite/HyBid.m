@@ -44,6 +44,7 @@
         NSLog(@"HyBid - App Token is nil or empty and required.");
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
+        [HyBidViewabilityManager sharedInstance];
         [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
         [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
             completion(success);

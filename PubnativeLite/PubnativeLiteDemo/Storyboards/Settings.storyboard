@@ -763,7 +763,7 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Q0-ii-Xf7">
                                 <rect key="frame" x="310" y="234" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="viewabilitySwitch" label="Viewability Switch"/>
-                                <color key="onTintColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="onTintColor" red="0.32941176470588235" green="0.58823529411764708" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="viewabilitySwitchValueChanged:" destination="nGO-xg-xlE" eventType="valueChanged" id="0uS-6y-pKb"/>
                                 </connections>
