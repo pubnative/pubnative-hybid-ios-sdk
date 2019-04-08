@@ -37,7 +37,6 @@
 @implementation HyBidMoPubMRectCustomEvent
 
 - (void)dealloc {
-    [self.mRectPresenter stopTracking];
     self.mRectPresenter = nil;
     self.mRectPresenterFactory = nil;
     self.ad = nil;

@@ -35,7 +35,6 @@
 @implementation HyBidMoPubMediationMRectCustomEvent
 
 - (void)dealloc {
-    [self.mRectAdView stopTracking];
     self.mRectAdView = nil;
 }
 

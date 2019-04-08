@@ -35,7 +35,6 @@
 @implementation HyBidMoPubMediationBannerCustomEvent
 
 - (void)dealloc {
-    [self.bannerAdView stopTracking];
     self.bannerAdView = nil;
 }
 

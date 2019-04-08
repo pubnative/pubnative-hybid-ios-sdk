@@ -74,7 +74,9 @@ CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
 }
 
 - (void)stopTracking {
-    
+    if (self.mraidView) {
+        [self.mraidView stopAdSession];
+    }
 }
 
 #pragma mark HyBidMRAIDViewDelegate

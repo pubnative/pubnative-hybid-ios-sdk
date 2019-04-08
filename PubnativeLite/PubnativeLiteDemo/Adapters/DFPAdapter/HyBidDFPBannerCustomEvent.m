@@ -37,7 +37,6 @@
 @synthesize delegate;
 
 - (void)dealloc {
-    [self.bannerPresenter stopTracking];
     self.bannerPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;

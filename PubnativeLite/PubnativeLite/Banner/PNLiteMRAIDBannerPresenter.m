@@ -74,7 +74,9 @@ CGFloat const PNLiteMRAIDBannerHeight = 50.0f;
 }
 
 - (void)stopTracking {
-    
+    if (self.mraidView) {
+        [self.mraidView stopAdSession];
+    }
 }
 
 #pragma mark HyBidMRAIDViewDelegate

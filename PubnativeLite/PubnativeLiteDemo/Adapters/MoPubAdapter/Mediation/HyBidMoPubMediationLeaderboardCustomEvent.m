@@ -35,7 +35,6 @@
 @implementation HyBidMoPubMediationLeaderboardCustomEvent
 
 - (void)dealloc {
-    [self.leaderboardAdView stopTracking];
     self.leaderboardAdView = nil;
 }
 

@@ -37,7 +37,6 @@
 }
 
 - (void)cleanUp {
-    [self stopTracking];
     [self removeAllSubViewsFrom:self];
     self.ad = nil;
 }
