@@ -20,8 +20,9 @@
 //  THE SOFTWARE.
 //
 
+@class OMIDPubnativenetPartner;
+
 #import <Foundation/Foundation.h>
-#import <OMSDK_Pubnativenet/OMIDPartner.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

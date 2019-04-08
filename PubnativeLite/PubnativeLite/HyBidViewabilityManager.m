@@ -22,6 +22,7 @@
 
 #import "HyBidViewabilityManager.h"
 #import <OMSDK_Pubnativenet/OMIDSDK.h>
+#import <OMSDK_Pubnativenet/OMIDPartner.h>
 
 NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
 
@@ -60,7 +61,7 @@ NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
 }
 
 - (BOOL)isViewabilityMeasurementActivated {
-    return self.isViewabilityMeasurementActivated && self.viewabilityMeasurementEnabled;
+    return self.viewabilityMeasurementActivated && self.viewabilityMeasurementEnabled;
 }
 
 @end
