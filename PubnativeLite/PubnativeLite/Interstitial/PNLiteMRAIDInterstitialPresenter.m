@@ -93,6 +93,9 @@
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID did close!");
+    if (self.mraidView) {
+        [self.mraidView stopAdSession];
+    }
     [self.delegate interstitialPresenterDidDismiss:self];
 }
 
