@@ -70,10 +70,6 @@
     return NO;
 }
 
-- (void)didDisplayAd {
-    [self.mRectAdView startTracking];
-}
-
 #pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {

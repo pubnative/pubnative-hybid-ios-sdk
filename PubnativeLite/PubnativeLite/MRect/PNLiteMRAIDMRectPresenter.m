@@ -70,7 +70,9 @@ CGFloat const PNLiteMRAIDMRectHeight = 250.0f;
 }
 
 - (void)startTracking {
-    
+    if (self.mraidView) {
+        [self.mraidView startAdSession];
+    }
 }
 
 - (void)stopTracking {

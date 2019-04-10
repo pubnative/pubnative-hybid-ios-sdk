@@ -89,6 +89,9 @@
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
     NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
     [self.delegate interstitialPresenterDidShow:self];
+    if (self.mraidView) {
+        [self.mraidView startAdSession];
+    }
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
