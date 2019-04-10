@@ -28,6 +28,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
+#import "HyBidViewabilityManager.h"
 
 #import "PNLiteLogger.h"
 
@@ -35,6 +36,10 @@
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
+#import <OMSDK_Pubnativenet/OMIDAdSessionContext.h>
+#import <OMSDK_Pubnativenet/OMIDAdSessionConfiguration.h>
+#import <OMSDK_Pubnativenet/OMIDAdSession.h>
+#import <OMSDK_Pubnativenet/OMIDAdEvents.h>
 
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -54,6 +59,9 @@ typedef enum {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
     BOOL isInterstitial;
+    BOOL isAdSessionCreated;
+    
+    OMIDPubnativenetAdSession *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
@@ -1097,6 +1105,7 @@ typedef enum {
             [self fireReadyEvent];
             
             if ([self.delegate respondsToSelector:@selector(mraidViewAdReady:)]) {
+                NSLog(@"OMSKD - MRAID View Ad Ready with WebView: %@", webView);
                 [self.delegate mraidViewAdReady:self];
             }
             
@@ -1148,6 +1157,57 @@ typedef enum {
     }
     decisionHandler(WKNavigationActionPolicyCancel);
     return;
+}
+
+#pragma mark - OM SDK Viewability
+
+- (void)startAdSession {
+    NSLog(@"OMSKD - START Ad Session for MRAID View: %@ for WebView: %@",self, currentWebView);
+
+    if (!isAdSessionCreated && [HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) {
+        NSError *contextError;
+        NSString *customReferenceID = @"";
+
+        OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:[HyBidViewabilityManager sharedInstance].partner
+                                                                                                      webView:currentWebView
+                                                                                    customReferenceIdentifier:customReferenceID
+                                                                                                        error:&contextError];
+        NSError *configurationError;
+        OMIDPubnativenetAdSessionConfiguration *configuration = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithImpressionOwner:OMIDNativeOwner
+                                                                                                                videoEventsOwner:OMIDNoneOwner
+                                                                                                      isolateVerificationScripts:NO
+                                                                                                                           error:&configurationError];
+        NSError *sessionError;
+        adSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:configuration adSessionContext:context error:&sessionError];
+        adSession.mainAdView = currentWebView;
+
+        if (contentInfoView) {
+            [adSession addFriendlyObstruction:contentInfoView];
+            [adSession addFriendlyObstruction:contentInfoViewContainer];
+        }
+
+        if (isInterstitial) {
+            [adSession addFriendlyObstruction:closeEventRegion];
+        }
+
+        [adSession start];
+        isAdSessionCreated = YES;
+
+        NSError *adEventsError;
+        OMIDPubnativenetAdEvents *adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:adSession error:&adEventsError];
+        NSError *impressionError;
+        [adEvents impressionOccurredWithError:&impressionError];
+    }
+}
+
+- (void)stopAdSession {
+    NSLog(@"OMSKD - STOP Ad Session for MRAID View: %@",self);
+
+    if (isAdSessionCreated) {
+        [adSession finish];
+        adSession = nil;
+        isAdSessionCreated = NO;
+    }
 }
 
 #pragma mark - MRAIDModalViewControllerDelegate
