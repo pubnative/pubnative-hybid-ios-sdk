@@ -41,6 +41,9 @@
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import <OMSDK_Pubnativenet/OMIDAdEvents.h>
 
+#import "HyBidViewabilityConstants.h"
+
+
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -75,6 +78,7 @@ typedef enum {
     PNLiteMRAIDModalViewController *modalVC;
     
     NSString *mraidjs;
+    NSString *omSDKjs;
     
     NSURL *baseURL;
     
@@ -238,6 +242,14 @@ typedef enum {
         
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
+        }
+        
+        NSData *omSDKJSData = [[NSData alloc] initWithBase64EncodedString:HyBidOMSDKJS options:0];
+        omSDKjs = [[NSString alloc] initWithData:omSDKJSData encoding:NSUTF8StringEncoding];
+        omSDKJSData = nil;
+        
+        if (omSDKjs) {
+            [self injectJavaScript:omSDKjs];
         }
         
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
@@ -553,6 +565,10 @@ typedef enum {
         
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
+        }
+        
+        if (omSDKjs) {
+            [self injectJavaScript:omSDKjs];
         }
         
         // Check to see whether we've been given an absolute or relative URL.

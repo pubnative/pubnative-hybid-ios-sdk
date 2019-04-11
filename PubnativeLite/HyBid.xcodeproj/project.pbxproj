@@ -22,6 +22,8 @@
 		5A20DBDC203B081400EF2B3C /* PNLiteBannerAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */; };
 		5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5A20DBE0203B0CB400EF2B3C /* PNLiteAssetGroupType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */; };
+		5A22C18F225F4D4E0077B4ED /* HyBidViewabilityConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A22C18D225F4D4E0077B4ED /* HyBidViewabilityConstants.h */; };
+		5A22C190225F4D4E0077B4ED /* HyBidViewabilityConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A22C18E225F4D4E0077B4ED /* HyBidViewabilityConstants.m */; };
 		5A262DCD218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DCB218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A262DCE218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DCC218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m */; };
 		5A262DD1218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DCF218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -787,6 +789,8 @@
 		5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerAdRequest.m; sourceTree = "<group>"; };
 		5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAssetGroupType.h; sourceTree = "<group>"; };
 		5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAssetGroupType.m; sourceTree = "<group>"; };
+		5A22C18D225F4D4E0077B4ED /* HyBidViewabilityConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidViewabilityConstants.h; sourceTree = "<group>"; };
+		5A22C18E225F4D4E0077B4ED /* HyBidViewabilityConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidViewabilityConstants.m; sourceTree = "<group>"; };
 		5A262DCB218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardPresenterFactory.h; sourceTree = "<group>"; };
 		5A262DCC218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardPresenterFactory.m; sourceTree = "<group>"; };
 		5A262DCF218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMRAIDLeaderboardPresenter.h; sourceTree = "<group>"; };
@@ -1880,6 +1884,17 @@
 			path = "Request Inspector";
 			sourceTree = "<group>";
 		};
+		5A22C18C225F41EC0077B4ED /* Viewability */ = {
+			isa = PBXGroup;
+			children = (
+				5AB6D21622575FF200AB9C8F /* HyBidViewabilityManager.h */,
+				5AB6D21722575FF200AB9C8F /* HyBidViewabilityManager.m */,
+				5A22C18D225F4D4E0077B4ED /* HyBidViewabilityConstants.h */,
+				5A22C18E225F4D4E0077B4ED /* HyBidViewabilityConstants.m */,
+			);
+			path = Viewability;
+			sourceTree = "<group>";
+		};
 		5A262DC6218B02D1001A29E2 /* Leaderboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -2187,8 +2202,7 @@
 				5A8893A0211C3CF00073BF66 /* PNLiteStarRatingView.m */,
 				5AC35B42214A7727001F0ED3 /* HyBidStarRatingView.h */,
 				5AC35B43214A7727001F0ED3 /* HyBidStarRatingView.m */,
-				5AB6D21622575FF200AB9C8F /* HyBidViewabilityManager.h */,
-				5AB6D21722575FF200AB9C8F /* HyBidViewabilityManager.m */,
+				5A22C18C225F41EC0077B4ED /* Viewability */,
 				5A0779F321341E9100EBD0E7 /* Request Inspector */,
 				5A9A885B21087C43006A081D /* Tracking */,
 				5A674F9C20B5AAD200B3D68D /* Consent */,
@@ -3530,6 +3544,7 @@
 				5ACC74EC203595250001CDC3 /* PNLiteMRAIDParser.h in Headers */,
 				5A8F10CD2089E4D20098E337 /* PNLite_KSSingleton.h in Headers */,
 				5A81267B20CFC83D007F7092 /* PNLiteAdView.h in Headers */,
+				5A22C18F225F4D4E0077B4ED /* HyBidViewabilityConstants.h in Headers */,
 				5A9A88672108A82F006A081D /* HyBidVisibilityTracker.h in Headers */,
 				5AECD5A9204050F10023ABBC /* PNLiteInterstitialPresenterFactory.h in Headers */,
 				5ADB0FBF20AF26B6005BDAF5 /* PNLiteUserDataManager.h in Headers */,
@@ -4238,6 +4253,7 @@
 				5A0779F221340FFA00EBD0E7 /* PNLiteRequestInspector.m in Sources */,
 				5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */,
 				5A64B3FE21E78A3E00160235 /* HyBidAdPresenterFactory.m in Sources */,
+				5A22C190225F4D4E0077B4ED /* HyBidViewabilityConstants.m in Sources */,
 				5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */,
 				5A8F10ED2089E4D20098E337 /* PNLite_KSSignalInfo.c in Sources */,
 				5A8F10BC2089E4D20098E337 /* PNLiteSessionTrackingPayload.m in Sources */,
