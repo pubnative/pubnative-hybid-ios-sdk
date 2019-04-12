@@ -1121,7 +1121,6 @@ typedef enum {
             [self fireReadyEvent];
             
             if ([self.delegate respondsToSelector:@selector(mraidViewAdReady:)]) {
-                NSLog(@"OMSKD - MRAID View Ad Ready with WebView: %@", webView);
                 [self.delegate mraidViewAdReady:self];
             }
             
@@ -1178,8 +1177,6 @@ typedef enum {
 #pragma mark - OM SDK Viewability
 
 - (void)startAdSession {
-    NSLog(@"OMSKD - START Ad Session for MRAID View: %@ for WebView: %@",self, currentWebView);
-
     if (!isAdSessionCreated && [HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) {
         NSError *contextError;
         NSString *customReferenceID = @"";
@@ -1217,8 +1214,6 @@ typedef enum {
 }
 
 - (void)stopAdSession {
-    NSLog(@"OMSKD - STOP Ad Session for MRAID View: %@",self);
-
     if (isAdSessionCreated) {
         [adSession finish];
         adSession = nil;
