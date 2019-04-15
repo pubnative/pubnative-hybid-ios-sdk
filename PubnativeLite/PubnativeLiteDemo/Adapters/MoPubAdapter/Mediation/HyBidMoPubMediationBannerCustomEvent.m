@@ -35,7 +35,6 @@
 @implementation HyBidMoPubMediationBannerCustomEvent
 
 - (void)dealloc {
-    [self.bannerAdView stopTracking];
     self.bannerAdView = nil;
 }
 
@@ -69,10 +68,6 @@
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
-}
-
-- (void)didDisplayAd {
-    [self.bannerAdView startTracking];
 }
 
 #pragma mark - HyBidAdViewDelegate

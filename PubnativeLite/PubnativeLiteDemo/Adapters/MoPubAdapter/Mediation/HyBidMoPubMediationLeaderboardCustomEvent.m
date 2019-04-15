@@ -35,7 +35,6 @@
 @implementation HyBidMoPubMediationLeaderboardCustomEvent
 
 - (void)dealloc {
-    [self.leaderboardAdView stopTracking];
     self.leaderboardAdView = nil;
 }
 
@@ -69,10 +68,6 @@
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
-}
-
-- (void)didDisplayAd {
-    [self.leaderboardAdView startTracking];
 }
 
 #pragma mark - HyBidAdViewDelegate

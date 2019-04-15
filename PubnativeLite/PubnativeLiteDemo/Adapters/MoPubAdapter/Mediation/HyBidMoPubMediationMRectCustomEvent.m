@@ -35,7 +35,6 @@
 @implementation HyBidMoPubMediationMRectCustomEvent
 
 - (void)dealloc {
-    [self.mRectAdView stopTracking];
     self.mRectAdView = nil;
 }
 
@@ -69,10 +68,6 @@
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
-}
-
-- (void)didDisplayAd {
-    [self.mRectAdView startTracking];
 }
 
 #pragma mark - HyBidAdViewDelegate

@@ -33,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *notSetButton;
 @property (weak, nonatomic) IBOutlet UIButton *maleButton;
 @property (weak, nonatomic) IBOutlet UIButton *femaleButton;
+@property (weak, nonatomic) IBOutlet UISwitch *viewabilitySwitch;
 @property (nonatomic, assign) BOOL testModeSelected;
 @property (nonatomic, assign) BOOL coppaModeSelected;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
@@ -194,6 +195,10 @@
         [sender setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
     self.coppaModeSelected = sender.selected;
+}
+
+- (IBAction)viewabilitySwitchValueChanged:(UISwitch *)sender {
+    [HyBidViewabilityManager sharedInstance].viewabilityMeasurementEnabled = sender.on;
 }
 
 #pragma mark UITextFieldDelegate

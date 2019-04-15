@@ -28,6 +28,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
+#import "HyBidViewabilityManager.h"
 
 #import "PNLiteLogger.h"
 
@@ -35,6 +36,13 @@
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
+#import <OMSDK_Pubnativenet/OMIDAdSessionContext.h>
+#import <OMSDK_Pubnativenet/OMIDAdSessionConfiguration.h>
+#import <OMSDK_Pubnativenet/OMIDAdSession.h>
+#import <OMSDK_Pubnativenet/OMIDAdEvents.h>
+
+#import "HyBidViewabilityConstants.h"
+
 
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -54,6 +62,9 @@ typedef enum {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
     BOOL isInterstitial;
+    BOOL isAdSessionCreated;
+    
+    OMIDPubnativenetAdSession *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
@@ -67,6 +78,7 @@ typedef enum {
     PNLiteMRAIDModalViewController *modalVC;
     
     NSString *mraidjs;
+    NSString *omSDKjs;
     
     NSURL *baseURL;
     
@@ -230,6 +242,14 @@ typedef enum {
         
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
+        }
+        
+        NSData *omSDKJSData = [[NSData alloc] initWithBase64EncodedString:HyBidOMSDKJS options:0];
+        omSDKjs = [[NSString alloc] initWithData:omSDKJSData encoding:NSUTF8StringEncoding];
+        omSDKJSData = nil;
+        
+        if (omSDKjs) {
+            [self injectJavaScript:omSDKjs];
         }
         
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
@@ -545,6 +565,10 @@ typedef enum {
         
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
+        }
+        
+        if (omSDKjs) {
+            [self injectJavaScript:omSDKjs];
         }
         
         // Check to see whether we've been given an absolute or relative URL.
@@ -1148,6 +1172,53 @@ typedef enum {
     }
     decisionHandler(WKNavigationActionPolicyCancel);
     return;
+}
+
+#pragma mark - OM SDK Viewability
+
+- (void)startAdSession {
+    if (!isAdSessionCreated && [HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) {
+        NSError *contextError;
+        NSString *customReferenceID = @"";
+
+        OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:[HyBidViewabilityManager sharedInstance].partner
+                                                                                                      webView:currentWebView
+                                                                                    customReferenceIdentifier:customReferenceID
+                                                                                                        error:&contextError];
+        NSError *configurationError;
+        OMIDPubnativenetAdSessionConfiguration *configuration = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithImpressionOwner:OMIDNativeOwner
+                                                                                                                videoEventsOwner:OMIDNoneOwner
+                                                                                                      isolateVerificationScripts:NO
+                                                                                                                           error:&configurationError];
+        NSError *sessionError;
+        adSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:configuration adSessionContext:context error:&sessionError];
+        adSession.mainAdView = currentWebView;
+
+        if (contentInfoView) {
+            [adSession addFriendlyObstruction:contentInfoView];
+            [adSession addFriendlyObstruction:contentInfoViewContainer];
+        }
+
+        if (isInterstitial) {
+            [adSession addFriendlyObstruction:closeEventRegion];
+        }
+
+        [adSession start];
+        isAdSessionCreated = YES;
+
+        NSError *adEventsError;
+        OMIDPubnativenetAdEvents *adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:adSession error:&adEventsError];
+        NSError *impressionError;
+        [adEvents impressionOccurredWithError:&impressionError];
+    }
+}
+
+- (void)stopAdSession {
+    if (isAdSessionCreated) {
+        [adSession finish];
+        adSession = nil;
+        isAdSessionCreated = NO;
+    }
 }
 
 #pragma mark - MRAIDModalViewControllerDelegate

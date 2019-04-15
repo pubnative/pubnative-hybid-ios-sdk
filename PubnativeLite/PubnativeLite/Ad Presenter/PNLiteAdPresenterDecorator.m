@@ -33,6 +33,7 @@
 @implementation PNLiteAdPresenterDecorator
 
 - (void)dealloc {
+    [self stopTracking];
     self.adPresenter = nil;
     self.adTracker = nil;
     self.adPresenterDelegate = nil;
