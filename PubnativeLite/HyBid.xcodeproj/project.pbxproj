@@ -428,8 +428,6 @@
 		5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD1E202CBA9800617734 /* PNLiteAsset.m */; };
 		5ADB0FB220AF0B30005BDAF5 /* PNLiteCountryUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB020AF0B30005BDAF5 /* PNLiteCountryUtils.h */; };
 		5ADB0FB320AF0B30005BDAF5 /* PNLiteCountryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */; };
-		5ADB0FB720AF11B2005BDAF5 /* PNLiteGeoIPModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */; };
-		5ADB0FB820AF11B2005BDAF5 /* PNLiteGeoIPModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */; };
 		5ADB0FBB20AF1A8A005BDAF5 /* HyBidGeoIPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB920AF1A8A005BDAF5 /* HyBidGeoIPRequest.h */; };
 		5ADB0FBC20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FBA20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m */; };
 		5ADB0FBF20AF26B6005BDAF5 /* PNLiteUserDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1241,8 +1239,6 @@
 		5ADACD1E202CBA9800617734 /* PNLiteAsset.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAsset.m; sourceTree = "<group>"; };
 		5ADB0FB020AF0B30005BDAF5 /* PNLiteCountryUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteCountryUtils.h; sourceTree = "<group>"; };
 		5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteCountryUtils.m; sourceTree = "<group>"; };
-		5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteGeoIPModel.h; sourceTree = "<group>"; };
-		5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteGeoIPModel.m; sourceTree = "<group>"; };
 		5ADB0FB920AF1A8A005BDAF5 /* HyBidGeoIPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGeoIPRequest.h; sourceTree = "<group>"; };
 		5ADB0FBA20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGeoIPRequest.m; sourceTree = "<group>"; };
 		5ADB0FBD20AF26B6005BDAF5 /* PNLiteUserDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserDataManager.h; sourceTree = "<group>"; };
@@ -2724,8 +2720,6 @@
 				5AC35B3B214A6B5B001F0ED3 /* HyBidNativeAd.m */,
 				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
 				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
-				5ADB0FB520AF11B2005BDAF5 /* PNLiteGeoIPModel.h */,
-				5ADB0FB620AF11B2005BDAF5 /* PNLiteGeoIPModel.m */,
 			);
 			path = "Ad Model";
 			sourceTree = "<group>";
@@ -3689,7 +3683,6 @@
 				5AA8E58E202DB35900C9EABC /* PNLiteAdCache.h in Headers */,
 				5ADF9E7F2149492B0081355E /* HyBidInterstitialPresenter.h in Headers */,
 				5A8F10BD2089E4D20098E337 /* PNLiteCrashLogger.h in Headers */,
-				5ADB0FB720AF11B2005BDAF5 /* PNLiteGeoIPModel.h in Headers */,
 				5A9B66DF20BD8BE00067964E /* PNLiteVASTParser.h in Headers */,
 				5ADF9E7321493DF00081355E /* HyBidAdPresenter.h in Headers */,
 				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
@@ -4272,7 +4265,6 @@
 				5A262DD6218B3395001A29E2 /* HyBidLeaderboardAdView.m in Sources */,
 				5ADF9E5A21491B9B0081355E /* HyBidBrowserControlsView.m in Sources */,
 				5ADF9EBC214972940081355E /* HyBidMRectAdView.m in Sources */,
-				5ADB0FB820AF11B2005BDAF5 /* PNLiteGeoIPModel.m in Sources */,
 				5AA3D5EA20319D82002BFDA3 /* PNLiteAdRequestModel.m in Sources */,
 				5ADF9EA021495FFB0081355E /* HyBidUserDataManager.m in Sources */,
 				5ADF9E56214917020081355E /* HyBidBrowser.m in Sources */,
