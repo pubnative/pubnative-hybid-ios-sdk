@@ -57,10 +57,10 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
     });
 }
 
-- (void)invokeDidLoad:(PNLiteGeoIPModel *)geoIP {
+- (void)invokeDidLoad:(NSString *)countryCode {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(request:didLoadWithGeoIP:)]) {
-            [self.delegate request:self didLoadWithGeoIP:geoIP];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(request:didLoadWithCountryCode:)]) {
+            [self.delegate request:self didLoadWithCountryCode:countryCode];
         }
         self.delegate = nil;
     });
@@ -76,29 +76,14 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 }
 
 - (void)processResponseWithData:(NSData *)data {
-    NSError *parseError;
-    NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:&parseError];
-    if (parseError) {
-        [self invokeDidFail:parseError];
+    NSString *countryCode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if (!countryCode) {
+        NSError *error = [NSError errorWithDomain:@"Error: Can't parse country code from server"
+                                             code:0
+                                         userInfo:nil];
+        [self invokeDidFail:error];
     } else {
-        PNLiteGeoIPModel *geoIP = [[PNLiteGeoIPModel alloc] initWithDictionary:jsonDictonary];
-        if(!geoIP) {
-            NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
-                                                 code:0
-                                             userInfo:nil];
-            [self invokeDidFail:error];
-        } else if ([PNLiteGeoIPResponseSuccess isEqualToString:geoIP.status]) {
-            [self invokeDidLoad:geoIP];
-            
-        } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"HyBidGeoIPRequest - %@", geoIP.message];
-            NSError *responseError = [NSError errorWithDomain:errorMessage
-                                                         code:0
-                                                     userInfo:nil];
-            [self invokeDidFail:responseError];
-        }
+        [self invokeDidLoad:countryCode];
     }
 }
 

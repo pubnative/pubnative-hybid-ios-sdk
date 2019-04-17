@@ -275,13 +275,13 @@ NSInteger const PNLiteConsentStateDenied = 0;
     NSLog(@"HyBidGeoIPRequestDelegate: Request %@ started:",request);
 }
 
-- (void)request:(HyBidGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP {
-    if ([geoIP.countryCode length] == 0) {
+- (void)request:(HyBidGeoIPRequest *)request didLoadWithCountryCode:(NSString *)countryCode {
+    if ([countryCode length] == 0) {
         NSLog(@"No country code was obtained. The default value will be used, therefore no user data consent will be required.");
         self.inGDPRZone = NO;
         self.completionBlock(NO);
     } else {
-        self.inGDPRZone = [PNLiteCountryUtils isGDPRCountry:geoIP.countryCode];
+        self.inGDPRZone = [PNLiteCountryUtils isGDPRCountry:countryCode];
         if (self.inGDPRZone && ![self GDPRConsentAsked]) {
             [self checkConsentGiven];
         } else {

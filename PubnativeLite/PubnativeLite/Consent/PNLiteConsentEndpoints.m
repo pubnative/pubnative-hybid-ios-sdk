@@ -24,13 +24,11 @@
 
 NSString *const kScheme = @"https";
 NSString *const kAuthority = @"backend.pubnative.net";
-NSString *const kGeoIPAuthority = @"pro.ip-api.com";
+NSString *const kGeoIPAuthority = @"pubnative.info";
 NSString *const kConsentPath = @"consent";
-NSString *const kJSONPath = @"json";
+NSString *const kCountryPath = @"country";
 NSString *const kAPIVersion = @"v1";
 NSString *const kParamDeviceID = @"did";
-NSString *const kParamKey = @"key";
-NSString *const kParamKeyValue = @"4ykqS3YU062TII3";
 
 @implementation PNLiteConsentEndpoints
 
@@ -56,9 +54,7 @@ NSString *const kParamKeyValue = @"4ykqS3YU062TII3";
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kGeoIPAuthority;
-    components.path = [NSString stringWithFormat:@"/%@",kJSONPath];
-    NSURLQueryItem *keyQuery = [NSURLQueryItem queryItemWithName:kParamKey value:kParamKeyValue];
-    components.queryItems = @[keyQuery];
+    components.path = [NSString stringWithFormat:@"/%@",kCountryPath];
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 @end
