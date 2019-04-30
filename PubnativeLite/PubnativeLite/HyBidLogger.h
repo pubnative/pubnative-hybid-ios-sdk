@@ -23,20 +23,20 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    PNLiteLogLevelNone,
-    PNLiteLogLevelError,
-    PNLiteLogLevelWarning,
-    PNLiteLogLevelInfo,
-    PNLiteLogLevelDebug,
-} PNLiteLogLevel;
+    HyBidLogLevelNone,
+    HyBidLogLevelError,
+    HyBidLogLevelWarning,
+    HyBidLogLevelInfo,
+    HyBidLogLevelDebug,
+} HyBidLogLevel;
 
 // A simple logger enable you to see different levels of logging.
 // Use logLevel as a filter to see the messages for the specific level.
 //
-@interface PNLiteLogger : NSObject
+@interface HyBidLogger : NSObject
 
 // Method to filter logging with the level passed as the paramter
-+ (void)setLogLevel:(PNLiteLogLevel)logLevel;
++ (void)setLogLevel:(HyBidLogLevel)logLevel;
 
 + (void)error:(NSString *)tag withMessage:(NSString *)message;
 + (void)warning:(NSString *)tag withMessage:(NSString *)message;

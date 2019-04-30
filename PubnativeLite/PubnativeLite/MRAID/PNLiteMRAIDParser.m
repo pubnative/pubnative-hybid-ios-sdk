@@ -22,7 +22,7 @@
 
 #import "PNLiteMRAIDParser.h"
 
-#import "PNLiteLogger.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteMRAIDParser ()
 
@@ -43,7 +43,7 @@
      and then send an appropriate message back to the MRAIDView to run the command.
      */
     
-    [PNLiteLogger debug:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"%@ %@", NSStringFromSelector(_cmd), commandUrl]];
+    [HyBidLogger debug:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"%@ %@", NSStringFromSelector(_cmd), commandUrl]];
     
     // Remove mraid:// prefix.
     NSString *s = [commandUrl substringFromIndex:8];
@@ -70,13 +70,13 @@
     
     // Check for valid command.
     if (![self isValidCommand:command]) {
-        [PNLiteLogger warning:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"command %@ is unknown", command]];
+        [HyBidLogger warning:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"command %@ is unknown", command]];
         return nil;
     }
     
     // Check for valid parameters for the given command.
     if (![self checkParamsForCommand:command params:params]) {
-        [PNLiteLogger warning:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"command URL %@ is missing parameters", commandUrl]];
+        [HyBidLogger warning:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"command URL %@ is missing parameters", commandUrl]];
         return nil;
     }
     

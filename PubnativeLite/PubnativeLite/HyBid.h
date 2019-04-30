@@ -101,6 +101,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidStarRatingView.h>
 #import <HyBid/HyBidNativeAdRenderer.h>
 #import <HyBid/HyBidViewabilityManager.h>
+#import <HyBid/HyBidLogger.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 

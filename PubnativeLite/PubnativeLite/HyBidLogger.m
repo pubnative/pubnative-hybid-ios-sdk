@@ -20,14 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteLogger.h"
+#import "HyBidLogger.h"
 
-// Default setting is PNLiteLogLevelNone.
-static PNLiteLogLevel logLevel;
+// Default setting is HyBidLogLevelNone.
+static HyBidLogLevel logLevel;
 
-@implementation PNLiteLogger
+@implementation HyBidLogger
 
-+ (void)setLogLevel:(PNLiteLogLevel)level {
++ (void)setLogLevel:(HyBidLogLevel)level {
     NSArray *levelNames = @[
                             @"none",
                             @"error",
@@ -42,25 +42,25 @@ static PNLiteLogLevel logLevel;
 }
 
 + (void)error:(NSString *)tag withMessage:(NSString *)message {
-    if (logLevel >= PNLiteLogLevelError) {
+    if (logLevel >= HyBidLogLevelError) {
         NSLog(@"%@: (E) %@", tag, message);
     }
 }
 
 + (void)warning:(NSString *)tag withMessage:(NSString *)message {
-    if (logLevel >= PNLiteLogLevelWarning) {
+    if (logLevel >= HyBidLogLevelWarning) {
         NSLog(@"%@: (W) %@", tag, message);
     }
 }
 
 + (void)info:(NSString *)tag withMessage:(NSString *)message {
-    if (logLevel >= PNLiteLogLevelInfo) {
+    if (logLevel >= HyBidLogLevelInfo) {
         NSLog(@"%@: (I) %@", tag, message);
     }
 }
 
 + (void)debug:(NSString *)tag withMessage:(NSString *)message {
-    if (logLevel >= PNLiteLogLevelDebug) {
+    if (logLevel >= HyBidLogLevelDebug) {
         NSLog(@"%@: (D) %@", tag, message);
     }
 }
