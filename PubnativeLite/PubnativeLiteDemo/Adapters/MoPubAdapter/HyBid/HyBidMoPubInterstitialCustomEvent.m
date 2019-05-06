@@ -45,19 +45,19 @@
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
         if (!self.ad) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
         if (!self.interstitialPresenter) {
-            [self invokeFailWithMessage:@"HyBid - Error: Could not create valid interstitial presenter"];
+            [self invokeFailWithMessage:@"Could not create valid interstitial presenter."];
             return;
         } else {
             [self.interstitialPresenter load];
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed interstitial ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -69,6 +69,7 @@
 
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:message];
     [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                              code:0
                                                                                          userInfo:nil]];
@@ -100,7 +101,7 @@
 }
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
 @end

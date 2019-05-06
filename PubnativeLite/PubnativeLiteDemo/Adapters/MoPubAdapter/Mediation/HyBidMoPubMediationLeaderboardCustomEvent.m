@@ -45,21 +45,22 @@
                 self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
                 [self.leaderboardAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
-                [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
+                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
             }
         } else {
-            [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
+            [self invokeFailWithMessage:@"Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed leaderboard ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed leaderboard ad fetch. Missing required server extras."];
         return;
     }
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:message];
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
@@ -77,7 +78,7 @@
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {

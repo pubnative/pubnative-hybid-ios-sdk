@@ -25,6 +25,7 @@
 #import "PNLite_KSLogger.h"
 #import "PNLiteSessionTrackingPayload.h"
 #import "PNLiteSessionTrackingApiClient.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteSessionTracker ()
 @property PNLiteConfiguration *config;
@@ -118,13 +119,13 @@
                         onCompletion:^(id data, BOOL success, NSError *error) {
 
                             if (success && error == nil) {
-                                NSLog(@"Sent sessions to Bugsnag");
+                                [HyBidLogger debug:NSStringFromClass([self class]) withMessage:@"Sent sessions to Bugsnag."];
 
                                 for (NSString *fileId in fileIds) {
                                     [self.sessionStore deleteFileWithId:fileId];
                                 }
                             } else {
-                                NSLog(@"Failed to send sessions to Bugsnag: %@", error);
+                                [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Failed to send sessions to Bugsnag: %@", error]];
                             }
                         }];
         }

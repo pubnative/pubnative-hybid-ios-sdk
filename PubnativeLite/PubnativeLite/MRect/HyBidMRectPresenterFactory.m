@@ -24,6 +24,7 @@
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteMRAIDMRectPresenter.h"
 #import "PNLiteVASTMRectPresenter.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidMRectPresenterFactory
 
@@ -40,7 +41,7 @@
             break;
         }
         default:
-            NSLog(@"HyBidMRectPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for MRect ad format", ad.assetGroupID);
+            [HyBidLogger warning:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for MRect ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

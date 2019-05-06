@@ -23,6 +23,7 @@
 #import "PNLiteHttpRequest.h"
 #import "PNLiteReachability.h"
 #import "PNLiteCryptoUtils.h"
+#import "HyBidLogger.h"
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -57,9 +58,9 @@ NSInteger const MAX_RETRIES = 1;
     self.method = method;
     
     if (!self.delegate) {
-        NSLog(@"PNLiteHttpRequest - Delegate is nil, dropping the call.");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Delegate is nil, dropping the call."];
     } else if(!self.urlString || self.urlString.length <= 0) {
-        [self invokeFailWithMessage:@"URL is nil or empty" andAttemptRetry:NO];
+        [self invokeFailWithMessage:@"URL is nil or empty." andAttemptRetry:NO];
     } else if(![self.method isEqualToString:@"GET"] && ![self.method isEqualToString:@"POST"] && ![self.method isEqualToString:@"DELETE"]) {
         [self invokeFailWithMessage:@"Unsupported HTTP method, dropping the call." andAttemptRetry:NO];
     } else {
@@ -105,7 +106,7 @@ NSInteger const MAX_RETRIES = 1;
         if (self.header && self.header.count > 0) {
             for (NSString *key in self.header) {
                 id value = self.header[key];
-                NSLog(@"Value: %@ for key: %@", value, key);
+                [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Value: %@ for key: %@", value, key]];
                 [request setValue:value forHTTPHeaderField:key];
             }
         }
@@ -145,6 +146,8 @@ NSInteger const MAX_RETRIES = 1;
 
 - (void)invokeFailWithError:(NSError *)error andAttemptRetry:(BOOL)retry
 {
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"HTTP Request failed with error: %@", error.localizedDescription]];
+
     if (self.shouldRetry && self.retryCount < MAX_RETRIES && retry) {
         self.retryCount++;
         [self executeAsyncRequest];

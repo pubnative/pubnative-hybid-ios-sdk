@@ -22,6 +22,7 @@
 
 #import "HyBidAdTrackerRequest.h"
 #import "PNLiteHttpRequest.h"
+#import "HyBidLogger.h"
 
 NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
@@ -39,9 +40,9 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
 - (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url {
     if(!delegate) {
-        NSLog(@"HyBidAdTrackerRequest - Given delegate is nil and required, droping this call");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Given delegate is nil and required, droping this call."];
     } else if(!url || url.length == 0) {
-        NSLog(@"HyBidAdTrackerRequest - URL nil or empty, droping this call");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"URL nil or empty, droping this call."];
     } else {
         self.delegate = delegate;
         [self invokeDidStart];
@@ -67,6 +68,7 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }
@@ -77,7 +79,7 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     if(PNLiteResponseStatusRequestNotFound == statusCode) {
-        NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
+        NSError *statusError = [NSError errorWithDomain:@"Server error with the status code" code:statusCode userInfo:nil];
         [self invokeDidFail:statusError];
     } else {
         [self invokeDidLoad];

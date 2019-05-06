@@ -28,6 +28,7 @@
 #import "HyBidAdModel.h"
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
+#import "HyBidLogger.h"
 
 NSString *const PNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
 NSString *const PNLiteResponseOK = @"ok";
@@ -60,12 +61,12 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
     if (self.isRunning) {
-        NSError *runningError = [NSError errorWithDomain:@"HyBidAdRequest - Request is currently running, droping this call" code:0 userInfo:nil];
+        NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
         [self invokeDidFail:runningError];
     } else if(!delegate) {
-        NSLog(@"HyBidAdRequest - Given delegate is nil and required, droping this call");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Given delegate is nil and required, droping this call."];
     } else if(!zoneID || zoneID.length == 0) {
-        NSLog(@"HyBidAdRequest - Zone ID nil or empty, droping this call");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Zone ID nil or empty, droping this call."];
     }
     else {
         self.startTime = [NSDate date];
@@ -74,8 +75,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         self.isRunning = YES;
         [self invokeDidStart];
         PNLiteAdFactory *adFactory = [[PNLiteAdFactory alloc] init];
-        NSLog(@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
-                                                                               andWithAdSize:[self adSize]]].absoluteString);
+        [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
+                                                                                                                                                                   andWithAdSize:[self adSize]]].absoluteString]];
         self.requestURL = [self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
                                                                                      andWithAdSize:[self adSize]]];
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
@@ -116,6 +117,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isRunning = NO;
+        [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }
@@ -141,7 +143,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     if (jsonDictonary) {
         PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
         if(!response) {
-            NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
+            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
@@ -155,7 +157,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             if (responseAdArray.count > 0) {
                 [self invokeDidLoad:responseAdArray.firstObject];
             } else {
-                NSError *error = [NSError errorWithDomain:@"Error: No fill"
+                NSError *error = [NSError errorWithDomain:@"No fill"
                                                      code:0
                                                  userInfo:nil];
                 [self invokeDidFail:error];

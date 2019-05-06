@@ -44,17 +44,18 @@
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
             [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[HyBidMoPubUtils zoneID:info]];
         } else {
-            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed native ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed native ad fetch. Missing required server extras."];
         return;
     }
 }
 
 - (void)invokeFailWithMessage:(NSString*)message {
     MPLogError(@"%@", message);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:message];
     [self.delegate nativeCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
@@ -74,7 +75,7 @@
     
     [self precacheImagesWithURLs:@[bannerURL, iconURL] completionBlock:^(NSArray *errors) {
         if(errors && errors.count > 0) {
-            [self invokeFailWithMessage:@"HyBid - Error: error caching resources"];
+            [self invokeFailWithMessage:@"Error caching resources."];
         } else {
             HyBidMoPubMediationNativeAdAdapter *adapter = [[HyBidMoPubMediationNativeAdAdapter alloc] initWithNativeAd:blockAd];
             MPNativeAd* result = [[MPNativeAd alloc] initWithAdAdapter:adapter];

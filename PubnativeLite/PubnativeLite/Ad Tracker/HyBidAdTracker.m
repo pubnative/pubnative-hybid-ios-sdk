@@ -22,6 +22,7 @@
 
 #import "HyBidAdTracker.h"
 #import "HyBidDataModel.h"
+#import "HyBidLogger.h"
 
 NSString *const PNLiteAdTrackerClick = @"click";
 NSString *const PNLiteAdTrackerImpression = @"impression";
@@ -83,7 +84,7 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 - (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType {
     if (URLs != nil) {
         for (HyBidDataModel *dataModel in URLs) {
-            NSLog(@"%@", [NSString stringWithFormat:@"HyBidAdTracker - Tracking %@ with URL: %@",trackType, dataModel.url]);
+            [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
             [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
         }
     }
@@ -92,15 +93,15 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 #pragma mark HyBidAdTrackerRequestDelegate
 
 - (void)requestDidStart:(HyBidAdTrackerRequest *)request {
-    NSLog(@"Request %@ started:",request);
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ started:",request]];
 }
 
 - (void)requestDidFinish:(HyBidAdTrackerRequest *)request {
-    NSLog(@"Request %@ finished:",request);
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ finished:",request]];
 }
 
 - (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ failed with error: %@",request,error.localizedDescription]];
 }
 
 @end

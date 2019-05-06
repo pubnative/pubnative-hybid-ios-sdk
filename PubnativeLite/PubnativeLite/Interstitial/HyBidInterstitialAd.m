@@ -24,6 +24,7 @@
 #import "HyBidInterstitialAdRequest.h"
 #import "HyBidInterstitialPresenter.h"
 #import "HyBidInterstitialPresenterFactory.h"
+#import "HyBidLogger.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -55,7 +56,7 @@
 
 - (void)load {
     if (!self.zoneID || self.zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
     } else {
         self.isReady = NO;
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
@@ -66,7 +67,7 @@
     if (self.isReady) {
         [self.interstitialPresenter show];
     } else {
-        NSLog(@"PNInterstitialAd - Can't display ad. Interstitial not ready.");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Can't display ad. Interstitial not ready."];
     }
 }
 
@@ -78,8 +79,8 @@
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
     if (!self.interstitialPresenter) {
-        NSLog(@"HyBid - Error: Could not create valid interstitial presenter");
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
+        [HyBidLogger error:NSStringFromClass([self class]) withMessage:@"Could not create valid interstitial presenter."];
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];
         return;
     } else {
         [self.interstitialPresenter load];
@@ -93,6 +94,7 @@
 }
 
 - (void)invokeDidFailWithError:(NSError *)error {
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidFailWithError:)]) {
         [self.delegate interstitialDidFailWithError:error];
     }
@@ -119,13 +121,13 @@
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
-    NSLog(@"Request %@ started:",request);
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    NSLog(@"Request loaded with ad: %@",ad);
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Request loaded with ad: %@",ad]];
     if (!ad) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
     } else {
         [self renderAd:ad];
     }

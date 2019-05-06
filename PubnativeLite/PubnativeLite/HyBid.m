@@ -41,7 +41,7 @@
 
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
     if (!appToken || appToken.length == 0) {
-        NSLog(@"HyBid - App Token is nil or empty and required.");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"App Token is nil or empty and required."];
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
         [HyBidViewabilityManager sharedInstance];

@@ -29,15 +29,15 @@ static HyBidLogLevel logLevel;
 
 + (void)setLogLevel:(HyBidLogLevel)level {
     NSArray *levelNames = @[
-                            @"none",
-                            @"error",
-                            @"warning",
-                            @"info",
-                            @"debug",
+                            @"None",
+                            @"Error",
+                            @"Warning",
+                            @"Info",
+                            @"Debug",
                             ];
     
     NSString *levelName = levelNames[level];
-    NSLog(@"PubNative Logger: log level set to %@", levelName);
+    NSLog(@"HyBid Logger: log level set to '%@'", levelName);
     logLevel = level;
 }
 

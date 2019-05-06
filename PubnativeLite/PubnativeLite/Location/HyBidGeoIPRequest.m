@@ -23,6 +23,7 @@
 #import "HyBidGeoIPRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
+#import "HyBidLogger.h"
 
 NSString *const PNLiteGeoIPResponseSuccess = @"success";
 NSString *const PNLiteGeoIPResponseFail = @"fail";
@@ -41,7 +42,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 
 - (void)requestGeoIPWithDelegate:(NSObject<HyBidGeoIPRequestDelegate> *)delegate {
     if(!delegate) {
-        NSLog(@"HyBidGeoIPRequest - Given delegate is nil and required, droping this call");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Given delegate is nil and required, droping this call."];
     } else {
         self.delegate = delegate;
         [self invokeDidStart];
@@ -68,6 +69,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }
@@ -78,7 +80,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 - (void)processResponseWithData:(NSData *)data {
     NSString *countryCode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if (!countryCode) {
-        NSError *error = [NSError errorWithDomain:@"Error: Can't parse country code from server"
+        NSError *error = [NSError errorWithDomain:@"Can't parse country code from server."
                                              code:0
                                          userInfo:nil];
         [self invokeDidFail:error];

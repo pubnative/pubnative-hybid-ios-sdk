@@ -25,6 +25,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidLogger.h"
 
 CGFloat const PNLiteMRAIDMRectWidth = 300.0f;
 CGFloat const PNLiteMRAIDMRectHeight = 250.0f;
@@ -88,21 +89,22 @@ CGFloat const PNLiteMRAIDMRectHeight = 250.0f;
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
-    NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDMRectPresenter - MRAID View  Failed" code:0 userInfo:nil];
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:@"MRAID View failed."];
+    NSError *error = [NSError errorWithDomain:@"MRAID View failed." code:0 userInfo:nil];
     [self.delegate adPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:@"MRAID will expand."];
     [self.delegate adPresenterDidClick:self];
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID did close!");
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:@"MRAID did close."];
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
     [self.serviceProvider openBrowser:url.absoluteString];
     [self.delegate adPresenterDidClick:self];
 }

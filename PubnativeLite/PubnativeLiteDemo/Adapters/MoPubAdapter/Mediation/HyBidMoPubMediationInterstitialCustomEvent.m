@@ -43,12 +43,12 @@
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             [self.interstitialAd load];
         } else {
-            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
         
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed interstitial ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -60,6 +60,7 @@
 
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:message];
     [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                              code:0
                                                                                          userInfo:nil]];
@@ -76,7 +77,7 @@
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)interstitialDidTrackClick {

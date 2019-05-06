@@ -30,6 +30,7 @@
 #import "PNLiteUserConsentRequestModel.h"
 #import "PNLiteUserConsentResponseStatus.h"
 #import "PNLiteCheckConsentRequest.h"
+#import "HyBidLogger.h"
 
 NSString *const PNLiteDeviceIDType = @"idfa";
 NSString *const PNLiteGDPRConsentStateKey = @"gdpr_consent_state";
@@ -250,9 +251,8 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (void)checkConsentRequestFail:(NSError *)error {
-    NSLog(@"PNLiteCheckConsentRequestDelegate: Request failed with error: %@",error.localizedDescription);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Check Consent Request failed with error: %@",error.localizedDescription]];
     self.completionBlock(NO);
-    
 }
 
 #pragma mark PNLiteUserConsentRequestDelegate
@@ -266,18 +266,18 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (void)userConsentRequestFail:(NSError *)error {
-    NSLog(@"PNLiteUserConsentRequestDelegate: Request failed with error: %@",error.localizedDescription);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"User Consent Request failed with error: %@",error.localizedDescription]];
 }
 
 #pragma mark HyBidGeoIPRequestDelegate
 
 - (void)requestDidStart:(HyBidGeoIPRequest *)request {
-    NSLog(@"HyBidGeoIPRequestDelegate: Request %@ started:",request);
+    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Geo IP Request %@ started:",request]];
 }
 
 - (void)request:(HyBidGeoIPRequest *)request didLoadWithCountryCode:(NSString *)countryCode {
     if ([countryCode length] == 0) {
-        NSLog(@"No country code was obtained. The default value will be used, therefore no user data consent will be required.");
+        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"No country code was obtained. The default value will be used, therefore no user data consent will be required."];
         self.inGDPRZone = NO;
         self.completionBlock(NO);
     } else {
@@ -291,7 +291,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"HyBidGeoIPRequestDelegate: Request %@ failed with error: %@",request,error.localizedDescription);
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Geo IP Request failed with error: %@",error.localizedDescription]];
     self.completionBlock(NO);
 }
 
