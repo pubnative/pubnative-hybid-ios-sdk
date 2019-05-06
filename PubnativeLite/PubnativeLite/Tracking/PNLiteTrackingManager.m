@@ -147,6 +147,7 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
+    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Track Request failed with error: %@", error.localizedDescription]];
     [PNLiteTrackingManager enqueueItem:self.currentItem withQueueKey:PNLiteTrackingManagerFailedQueueKey];
     self.isRunning = NO;
     [self trackNextItem];
