@@ -285,7 +285,7 @@ typedef enum {
     if (htmlData) {
         [currentWebView loadHTMLString:htmlData baseURL:baseURL];
     } else {
-        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad HTML is invalid, cannot load"];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad HTML is invalid, cannot load."];
         if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
             [self.delegate mraidViewAdFailed:self];
         }
@@ -343,7 +343,7 @@ typedef enum {
     // Validate the features set by the user
     for (id feature in features) {
         if (![kFeatures containsObject:feature]) {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"feature %@ is unknown, no supports set", feature]];
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"feature %@ is unknown, no supports set.", feature]];
             return NO;
         }
     }
@@ -384,7 +384,7 @@ typedef enum {
         return;
     }
     
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"self.frame has changed"];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"self.frame has changed."];
     
     CGRect oldFrame = CGRectNull;
     CGRect newFrame = CGRectNull;

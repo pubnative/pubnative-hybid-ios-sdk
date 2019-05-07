@@ -102,7 +102,7 @@
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request loaded with ad: %@",ad]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     if (!ad) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
@@ -114,7 +114,7 @@
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request failed with error: %@", error.localizedDescription]];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ failed with error: %@",request, error.localizedDescription]];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }

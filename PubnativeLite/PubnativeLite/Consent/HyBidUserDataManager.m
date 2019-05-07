@@ -260,6 +260,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
 
 - (void)userConsentRequestSuccess:(PNLiteUserConsentResponseModel *)model {
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"User Consent Request finished."];
         if ([NSNumber numberWithInteger:self.consentState] != nil) {
             [self saveGDPRConsentState];
         }
@@ -293,7 +294,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Geo IP Request failed with error: %@",error.localizedDescription]];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Geo IP Request %@ failed with error: %@",request, error.localizedDescription]];
     self.completionBlock(NO);
 }
 

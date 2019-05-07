@@ -74,7 +74,7 @@ NSString * const PNLiteBrowserTelPrefix = @"tel://";
                     scalePagesToFit = YES;
                 }
                 
-                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Requesting PubnativeBrowser feature: %@", feature]];
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Requesting HyBidBrowser feature: %@", feature]];
             }
         }
     }
@@ -83,14 +83,14 @@ NSString * const PNLiteBrowserTelPrefix = @"tel://";
 
 - (id)init {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:@"-init is not a valid initializer for the class PubnativeBrowser"
+                                   reason:@"-init is not a valid initializer for the class HyBidBrowser"
                                  userInfo:nil];
     return nil;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:@"-initWithNibName:bundle: is not a valid initializer for the class PubnativeBrowser"
+                                   reason:@"-initWithNibName:bundle: is not a valid initializer for the class HyBidBrowser"
                                  userInfo:nil];
     return nil;
 }
@@ -203,7 +203,7 @@ NSString * const PNLiteBrowserTelPrefix = @"tel://";
         }
     } else {
         currrentRequest = request;
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"presenting browser from viewController: %@", currentViewController]];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Presenting browser from viewController: %@", currentViewController]];
         
         if ([currentViewController respondsToSelector:@selector(presentViewController:animated:completion:)]) {
             // used if running >= iOS 6
@@ -335,7 +335,7 @@ NSString * const PNLiteBrowserTelPrefix = @"tel://";
 }
 
 - (void)dismiss {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dismissing PubnativeBrowser"];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dismissing HyBidBrowser"];
     if ([self.delegate respondsToSelector:@selector(pubnativeBrowserClosed:)]) {
         [self.delegate pubnativeBrowserClosed:self];
     }
