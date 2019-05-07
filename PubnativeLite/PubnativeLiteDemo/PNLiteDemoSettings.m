@@ -22,7 +22,7 @@
 
 #import "PNLiteDemoSettings.h"
 
-NSString *const PNLiteDemoAppToken = @"";
+NSString *const PNLiteDemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
 NSString *const PNLiteDemoZoneID;
 NSString *const PNLiteDemoMoPubLeaderboardAdUnitID = @"990b5957b0374238a4ce6fcf451c8e89";
 NSString *const PNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
