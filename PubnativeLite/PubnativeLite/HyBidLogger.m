@@ -22,8 +22,8 @@
 
 #import "HyBidLogger.h"
 
-// Default setting is HyBidLogLevelNone.
-static HyBidLogLevel logLevel;
+// Default setting is HyBidLogLevelInfo.
+static HyBidLogLevel logLevel = HyBidLogLevelInfo;
 
 @implementation HyBidLogger
 

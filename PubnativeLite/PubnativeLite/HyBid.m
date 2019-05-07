@@ -40,7 +40,6 @@
 }
 
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
-    [HyBidLogger setLogLevel:HyBidLogLevelInfo];
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
     } else {
