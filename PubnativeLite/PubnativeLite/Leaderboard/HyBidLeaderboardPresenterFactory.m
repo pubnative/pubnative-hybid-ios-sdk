@@ -23,6 +23,7 @@
 #import "HyBidLeaderboardPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
 #import "HyBidMRAIDLeaderboardPresenter.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidLeaderboardPresenterFactory
 
@@ -34,7 +35,7 @@
             break;
         }
         default:
-            NSLog(@"HyBidLeaderboardPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for leaderboard ad format", ad.assetGroupID);
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for leaderboard ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

@@ -47,19 +47,19 @@
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
         if (!self.ad) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
         if (!self.interstitialPresenter) {
-            [self invokeFailWithMessage:@"HyBid - Error: Could not create valid interstitial presenter"];
+            [self invokeFailWithMessage:@"Could not create valid interstitial presenter."];
             return;
         } else {
             [self.interstitialPresenter load];
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed interstitial ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -70,6 +70,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
@@ -94,7 +95,7 @@
 }
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
 @end

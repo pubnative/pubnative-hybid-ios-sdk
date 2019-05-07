@@ -23,6 +23,7 @@
 #import "HyBidViewabilityManager.h"
 #import <OMSDK_Pubnativenet/OMIDSDK.h>
 #import <OMSDK_Pubnativenet/OMIDPartner.h>
+#import "HyBidLogger.h"
 
 NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
 
@@ -45,7 +46,7 @@ NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
 //            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
             self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidViewabilityPartnerName versionString:@"1.2.1"];
         } else {
-            NSLog(@"HyBid: Viewability Manager couldn't initialized properly with error: %@", error.debugDescription);
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Viewability Manager couldn't initialized properly with error: %@", error.debugDescription]];
         }
     }
     return self;

@@ -23,6 +23,7 @@
 #import "PNLiteImpressionTracker.h"
 #import "PNLiteImpressionTrackerItem.h"
 #import "HyBidVisibilityTracker.h"
+#import "HyBidLogger.h"
 
 NSTimeInterval const kPNImpressionCheckPeriod = 0.25f; // Check every 250 ms
 CGFloat const kPNVisibilityThreshold = 0.5f; // 50% of the view
@@ -63,7 +64,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 
 - (void)addView:(UIView*)view {
     if([self.trackedViews containsObject:view]) {
-        NSLog(@"PNLiteImpressionTracker - View is already being tracked, dropping this call");
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is already being tracked, dropping this call."];
     } else {
         [self.trackedViews addObject:view];
         [self.visibilityTracker addView:view withMinVisibility:kPNVisibilityThreshold];

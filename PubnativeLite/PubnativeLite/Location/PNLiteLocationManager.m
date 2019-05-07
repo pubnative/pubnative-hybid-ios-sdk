@@ -21,6 +21,7 @@
 //
 
 #import "PNLiteLocationManager.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteLocationManager () <CLLocationManagerDelegate>
 
@@ -66,7 +67,7 @@
             if (@available(iOS 9.0, *)) {
                 [[PNLiteLocationManager sharedInstance].manager requestLocation];
             } else {
-                NSLog(@"PNLiteLocationManager - Location tracking is not supported in this OS version. Dropping call.");
+                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Location tracking is not supported in this OS version. Dropping call."];
             }
         }
     }
@@ -80,7 +81,7 @@
 #pragma mark CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"PNLiteLocationManager - Error: %@", error);
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Location manager failed with error: %@",error.localizedDescription]];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {

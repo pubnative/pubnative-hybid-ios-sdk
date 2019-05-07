@@ -23,6 +23,7 @@
 #import "PNLiteVASTModel.h"
 #import "PNLiteVASTMediaFile.h"
 #import "PNLiteVASTXMLUtil.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteVASTModel ()
 
@@ -126,11 +127,10 @@
             }
         }
     }
-    
-    NSLog(@"VAST - Model: returning event dictionary with %lu event(s)", (unsigned long)[eventDict count]);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"VAST Model returning event dictionary with %lu event(s)", (unsigned long)[eventDict count]]];
     for (NSString *event in [eventDict allKeys]) {
         NSArray *array = (NSArray *)[eventDict valueForKey:event];
-        NSLog(@"VAST - Model: %@ has %lu URL(s)", event, (unsigned long)[array count]);
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"VAST Model %@ has %lu URL(s)", event, (unsigned long)[array count]]];
     }
     
     return eventDict;
@@ -225,8 +225,7 @@
             }
         }
     }
-    
-    NSLog(@"VAST - Model: returning %@ array with %lu element(s)", elementName, (unsigned long)[array count]);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"VAST Model returning %@ array with %lu element(s)", elementName, (unsigned long)[array count]]];
     return array;
 }
 

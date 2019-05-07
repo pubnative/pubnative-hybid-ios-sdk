@@ -23,6 +23,7 @@
 #import "HyBidBannerPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteMRAIDBannerPresenter.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidBannerPresenterFactory
 
@@ -35,7 +36,7 @@
             break;
         }
         default:
-            NSLog(@"HyBidBannerPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for banner ad format", ad.assetGroupID);
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

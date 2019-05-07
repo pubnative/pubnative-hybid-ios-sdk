@@ -26,6 +26,7 @@
 #import "PNLiteMRAIDInterstitialPresenter.h"
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "HyBidAdTracker.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidInterstitialPresenterFactory
 
@@ -57,7 +58,7 @@
             return vastInterstitalPresenter;
         }
         default:
-            NSLog(@"HyBidInterstitialPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format", ad.assetGroupID);
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

@@ -23,6 +23,7 @@
 #import "PNLiteVASTMediaFilePicker.h"
 #import "PNLiteReachability.h"
 #import <UIKit/UIKit.h>
+#import "HyBidLogger.h"
 
 @interface PNLiteVASTMediaFilePicker()
 
@@ -84,7 +85,7 @@
     }
     
     PNLiteVASTMediaFile *toReturn = (PNLiteVASTMediaFile *)sortedMediaFiles[bestMatch];
-    NSLog(@"VAST - Mediafile Picker: Selected Media File: %@", toReturn.url);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Selected Media File: %@", toReturn.url]];
     return toReturn;
 }
 
@@ -93,7 +94,7 @@
     PNLiteReachability *reachability = [PNLiteReachability reachabilityForInternetConnection];
     [reachability startNotifier];
     PNLiteNetworkStatus currentNetwork = [reachability currentReachabilityStatus];
-    NSLog(@"VAST - Mediafile Picker: NetworkType: %ld", (long)currentNetwork);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"NetworkType: %ld", (long)currentNetwork]];
     result = currentNetwork != PNLiteNetworkStatus_NotReachable;
     [reachability stopNotifier];
     return result;}

@@ -23,6 +23,7 @@
 #import "PNLiteUserConsentRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteUserConsentRequest() <PNLiteHttpRequestDelegate>
 
@@ -32,8 +33,6 @@
 
 @implementation PNLiteUserConsentRequest
 
-#pragma mark PNLiteHttpRequestDelegate
-
 - (void)dealloc {
     self.delegate = nil;
 }
@@ -42,9 +41,9 @@
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel
                         withAppToken:(NSString *)appToken {
     if (!requestModel) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call" code:0 userInfo:nil]];
+        [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call." code:0 userInfo:nil]];
     } else if (!delegate) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
+        [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call." code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
         NSString *url = [PNLiteConsentEndpoints consentURL];
@@ -67,6 +66,7 @@
 
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestFail:)]) {
             [self.delegate userConsentRequestFail:error];
         }
@@ -84,7 +84,7 @@
     } else {
         PNLiteUserConsentResponseModel *response = [[PNLiteUserConsentResponseModel alloc] initWithDictionary:jsonDictonary];
         if (!response) {
-            NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
+            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server."
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
@@ -93,6 +93,8 @@
         }
     }
 }
+
+#pragma mark PNLiteHttpRequestDelegate
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     [self processResponseWithData:data];

@@ -47,29 +47,30 @@
         if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
             if (!self.ad) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
                 return;
             }
             self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
             self.mRectPresenter = [self.mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
             if (!self.mRectPresenter) {
-                [self invokeFailWithMessage:@"HyBid - Error: Could not create valid mRect presenter"];
+                [self invokeFailWithMessage:@"Could not create valid mRect presenter."];
                 return;
             } else {
                 [self.mRectPresenter load];
             }
         } else {
-            [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
+            [self invokeFailWithMessage:@"Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed mRect ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed mRect ad fetch. Missing required server extras."];
         return;
     }
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
@@ -89,7 +90,7 @@
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {

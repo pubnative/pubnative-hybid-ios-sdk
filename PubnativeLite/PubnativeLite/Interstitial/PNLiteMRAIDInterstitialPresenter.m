@@ -25,6 +25,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
@@ -82,12 +83,13 @@
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
-    NSError *error = [NSError errorWithDomain:@"PNLiteMRAIDInterstitialPresenter - MRAID View  Failed" code:0 userInfo:nil];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
+    NSError *error = [NSError errorWithDomain:@"MRAID View failed." code:0 userInfo:nil];
     [self.delegate interstitialPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
     [self.delegate interstitialPresenterDidShow:self];
     if (self.mraidView) {
         [self.mraidView startAdSession];
@@ -95,7 +97,7 @@
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID did close!");
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
     if (self.mraidView) {
         [self.mraidView stopAdSession];
     }
@@ -103,7 +105,7 @@
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
     [self.serviceProvider openBrowser:url.absoluteString];
     [self.delegate interstitialPresenterDidClick:self];
 

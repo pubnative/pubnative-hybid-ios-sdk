@@ -22,6 +22,7 @@
 
 #import "HyBidNativeAdLoader.h"
 #import "HyBidNativeAdRequest.h"
+#import "HyBidLogger.h"
 
 @interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
 
@@ -57,6 +58,8 @@
 }
 
 - (void)invokeDidFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeLoaderDidFailWithError:)]) {
         [self.delegate nativeLoaderDidFailWithError:error];
     }
@@ -65,13 +68,13 @@
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
-    NSLog(@"Request %@ started:",request);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    NSLog(@"Request loaded with ad: %@",ad);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     if (!ad) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
     } else {
         [self invokeDidLoadWithNativeAd:[[HyBidNativeAd alloc] initWithAd:ad]];
     }

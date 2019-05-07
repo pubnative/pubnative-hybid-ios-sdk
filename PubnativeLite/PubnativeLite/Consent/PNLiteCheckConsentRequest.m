@@ -23,6 +23,7 @@
 #import "PNLiteCheckConsentRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteCheckConsentRequest() <PNLiteHttpRequestDelegate>
 
@@ -41,9 +42,9 @@
                            withDeviceID:(NSString *)deviceID {
     if (!appToken || appToken.length == 0 ||
         !deviceID || deviceID.length == 0) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Invalid parameters for check user consent request" code:0 userInfo:nil]];
+        [self invokeDidFail:[NSError errorWithDomain:@"Invalid parameters for check user consent request." code:0 userInfo:nil]];
     } else if (!delegate) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
+        [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call." code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
         NSString *url = [PNLiteConsentEndpoints checkConsentURLWithDeviceID:deviceID];
@@ -65,6 +66,7 @@
 
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(checkConsentRequestFail:)]) {
             [self.delegate checkConsentRequestFail:error];
         }
@@ -82,7 +84,7 @@
     } else {
         PNLiteUserConsentResponseModel *response = [[PNLiteUserConsentResponseModel alloc] initWithDictionary:jsonDictonary];
         if (!response) {
-            NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
+            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server."
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];

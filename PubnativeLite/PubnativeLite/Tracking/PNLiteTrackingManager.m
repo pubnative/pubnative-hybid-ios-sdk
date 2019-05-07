@@ -22,6 +22,7 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteTrackingManagerItem.h"
 #import "PNLiteHttpRequest.h"
+#import "HyBidLogger.h"
 
 NSString * const PNLiteTrackingManagerQueueKey             = @"PNLiteTrackingManager.queue.key";
 NSString * const PNLiteTrackingManagerFailedQueueKey       = @"PNLiteTrackingManager.failedQueue.key";
@@ -59,7 +60,7 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 
 + (void)trackWithURL:(NSURL*)url {
     if (!url) {
-        NSLog(@"PNLiteTrackingManager - URL passed is nil or empty, dropping this call: %@", url);
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"URL passed is nil or empty, dropping this call."];
     } else {
         // Enqueue failed items
         NSMutableArray *failedQueue = [self queueForKey:PNLiteTrackingManagerFailedQueueKey];
@@ -146,6 +147,7 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Track Request %@ failed with error: %@",request, error.localizedDescription]];
     [PNLiteTrackingManager enqueueItem:self.currentItem withQueueKey:PNLiteTrackingManagerFailedQueueKey];
     self.isRunning = NO;
     [self trackNextItem];

@@ -21,6 +21,7 @@
 //
 
 #import "HyBidAdView.h"
+#import "HyBidLogger.h"
 
 @interface HyBidAdView()
 
@@ -53,7 +54,7 @@
     self.delegate = delegate;
     if (!zoneID || zoneID.length == 0) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided" code:0 userInfo:nil]];
+            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
@@ -71,8 +72,8 @@
 - (void)renderAd {
     self.adPresenter = [self createAdPresenter];
     if (!self.adPresenter) {
-        NSLog(@"HyBid - Error: Could not create valid ad presenter");
-        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid ad presenter."];
+        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];
         return;
     } else {
         [self.adPresenter load];
@@ -97,14 +98,14 @@
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
-    NSLog(@"Request %@ started:",request);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    NSLog(@"Request loaded with ad: %@",ad);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     if (!ad) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Server returned nil ad" code:0 userInfo:nil]];
+            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
         }
     } else {
         self.ad = ad;
@@ -113,6 +114,7 @@
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ failed with error: %@",request, error.localizedDescription]];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }
@@ -123,7 +125,7 @@
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     if (!adView) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
+            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad." code:0 userInfo:nil]];
         }
     } else {
         [self setupAdView:adView];
