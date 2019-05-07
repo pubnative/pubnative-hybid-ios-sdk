@@ -68,9 +68,9 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 - (void)addView:(UIView*)view withMinVisibility:(CGFloat)minVisibility {
     if(!view) {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"View is nil and required, dropping this call."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is nil and required, dropping this call."];
     } else if ([self isTrackingView:view]) {
-        [HyBidLogger debug:NSStringFromClass([self class]) withMessage:@"View is already being tracked, dropping this call."];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is already being tracked, dropping this call."];
     } else {
         PNLiteVisibilityTrackerItem *item = [[PNLiteVisibilityTrackerItem alloc] init];
         item.view = view;

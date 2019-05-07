@@ -38,9 +38,9 @@ typedef enum {
 // Method to filter logging with the level passed as the paramter
 + (void)setLogLevel:(HyBidLogLevel)logLevel;
 
-+ (void)error:(NSString *)tag withMessage:(NSString *)message;
-+ (void)warning:(NSString *)tag withMessage:(NSString *)message;
-+ (void)info:(NSString *)tag withMessage:(NSString *)message;
-+ (void)debug:(NSString *)tag withMessage:(NSString *)message;
++ (void)errorLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message;
++ (void)warningLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message;
++ (void)infoLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message;
++ (void)debugLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message;
 
 @end

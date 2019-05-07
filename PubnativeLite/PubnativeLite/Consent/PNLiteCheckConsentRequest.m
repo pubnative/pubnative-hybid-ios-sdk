@@ -66,7 +66,7 @@
 
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(checkConsentRequestFail:)]) {
             [self.delegate checkConsentRequestFail:error];
         }

@@ -64,7 +64,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 
 - (void)addView:(UIView*)view {
     if([self.trackedViews containsObject:view]) {
-        [HyBidLogger debug:NSStringFromClass([self class]) withMessage:@"View is already being tracked, dropping this call."];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is already being tracked, dropping this call."];
     } else {
         [self.trackedViews addObject:view];
         [self.visibilityTracker addView:view withMinVisibility:kPNVisibilityThreshold];

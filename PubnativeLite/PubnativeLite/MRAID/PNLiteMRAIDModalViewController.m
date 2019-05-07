@@ -91,7 +91,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
 
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
 }
@@ -99,7 +99,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     hasViewAppeared = YES;
     
     if (hasRotated) {
@@ -149,12 +149,12 @@
         }
     }
     
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
     return retval;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@",
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@ %@",
                             [self.class description],
                             NSStringFromSelector(_cmd),
                             [self stringfromUIInterfaceOrientation:preferredOrientation]]];
@@ -162,7 +162,7 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
     }
@@ -203,7 +203,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIInterfaceOrientation toInterfaceOrientation = self.interfaceOrientation;
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
                       [self.class description],
                       NSStringFromSelector(_cmd),
                       [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
@@ -232,7 +232,7 @@
             break;
     }
     
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
                       [self.class description],
                       NSStringFromSelector(_cmd),
                       (orientationProperties.allowOrientationChange ? @"YES" : @"NO"),
@@ -304,7 +304,7 @@
         }
     }
     
-    [HyBidLogger debug:@"MRAID - ModalViewController" withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
                             [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
                             [self stringfromUIInterfaceOrientation:preferredOrientation]]];
     

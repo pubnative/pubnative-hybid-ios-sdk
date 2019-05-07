@@ -42,7 +42,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 
 - (void)requestGeoIPWithDelegate:(NSObject<HyBidGeoIPRequestDelegate> *)delegate {
     if(!delegate) {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Given delegate is nil and required, droping this call."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
     } else {
         self.delegate = delegate;
         [self invokeDidStart];
@@ -69,7 +69,7 @@ NSString *const PNLiteGeoIPResponseFail = @"fail";
 
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }

@@ -69,7 +69,7 @@
 
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:message];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                              code:0
                                                                                          userInfo:nil]];

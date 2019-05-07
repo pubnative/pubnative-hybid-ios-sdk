@@ -84,7 +84,7 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 - (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType {
     if (URLs != nil) {
         for (HyBidDataModel *dataModel in URLs) {
-            [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
             [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
         }
     }
@@ -93,15 +93,15 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 #pragma mark HyBidAdTrackerRequestDelegate
 
 - (void)requestDidStart:(HyBidAdTrackerRequest *)request {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ started:",request]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ started:",request]];
 }
 
 - (void)requestDidFinish:(HyBidAdTrackerRequest *)request {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ finished:",request]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ finished:",request]];
 }
 
 - (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ failed with error: %@",request,error.localizedDescription]];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ failed with error: %@",request,error.localizedDescription]];
 }
 
 @end

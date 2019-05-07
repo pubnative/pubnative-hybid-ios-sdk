@@ -58,7 +58,7 @@ NSInteger const MAX_RETRIES = 1;
     self.method = method;
     
     if (!self.delegate) {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Delegate is nil, dropping the call."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Delegate is nil, dropping the call."];
     } else if(!self.urlString || self.urlString.length <= 0) {
         [self invokeFailWithMessage:@"URL is nil or empty." andAttemptRetry:NO];
     } else if(![self.method isEqualToString:@"GET"] && ![self.method isEqualToString:@"POST"] && ![self.method isEqualToString:@"DELETE"]) {
@@ -106,7 +106,7 @@ NSInteger const MAX_RETRIES = 1;
         if (self.header && self.header.count > 0) {
             for (NSString *key in self.header) {
                 id value = self.header[key];
-                [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Value: %@ for key: %@", value, key]];
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Value: %@ for key: %@", value, key]];
                 [request setValue:value forHTTPHeaderField:key];
             }
         }
@@ -146,7 +146,7 @@ NSInteger const MAX_RETRIES = 1;
 
 - (void)invokeFailWithError:(NSError *)error andAttemptRetry:(BOOL)retry
 {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"HTTP Request failed with error: %@", error.localizedDescription]];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"HTTP Request failed with error: %@", error.localizedDescription]];
 
     if (self.shouldRetry && self.retryCount < MAX_RETRIES && retry) {
         self.retryCount++;

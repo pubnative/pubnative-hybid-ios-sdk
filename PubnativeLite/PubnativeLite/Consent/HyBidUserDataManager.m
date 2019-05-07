@@ -246,12 +246,13 @@ NSInteger const PNLiteConsentStateDenied = 0;
                 [self saveGDPRConsentState];
             }
         }
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Check Consent Request finished."];
         self.completionBlock(YES);
     }
 }
 
 - (void)checkConsentRequestFail:(NSError *)error {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Check Consent Request failed with error: %@",error.localizedDescription]];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Check Consent Request failed with error: %@",error.localizedDescription]];
     self.completionBlock(NO);
 }
 
@@ -266,18 +267,18 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (void)userConsentRequestFail:(NSError *)error {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"User Consent Request failed with error: %@",error.localizedDescription]];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"User Consent Request failed with error: %@",error.localizedDescription]];
 }
 
 #pragma mark HyBidGeoIPRequestDelegate
 
 - (void)requestDidStart:(HyBidGeoIPRequest *)request {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Geo IP Request %@ started:",request]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Geo IP Request %@ started:",request]];
 }
 
 - (void)request:(HyBidGeoIPRequest *)request didLoadWithCountryCode:(NSString *)countryCode {
     if ([countryCode length] == 0) {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"No country code was obtained. The default value will be used, therefore no user data consent will be required."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"No country code was obtained. The default value will be used, therefore no user data consent will be required."];
         self.inGDPRZone = NO;
         self.completionBlock(NO);
     } else {
@@ -285,13 +286,14 @@ NSInteger const PNLiteConsentStateDenied = 0;
         if (self.inGDPRZone && ![self GDPRConsentAsked]) {
             [self checkConsentGiven];
         } else {
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Geo IP Request %@ finished:",request]];
             self.completionBlock(YES);
         }
     }
 }
 
 - (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Geo IP Request failed with error: %@",error.localizedDescription]];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Geo IP Request failed with error: %@",error.localizedDescription]];
     self.completionBlock(NO);
 }
 

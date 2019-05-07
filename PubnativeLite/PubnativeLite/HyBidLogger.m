@@ -37,31 +37,31 @@ static HyBidLogLevel logLevel;
                             ];
     
     NSString *levelName = levelNames[level];
-    NSLog(@"HyBid Logger: log level set to '%@'", levelName);
+    NSLog(@"HyBid Logger: Log level set to '%@'", levelName);
     logLevel = level;
 }
 
-+ (void)error:(NSString *)tag withMessage:(NSString *)message {
++ (void)errorLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message {
     if (logLevel >= HyBidLogLevelError) {
-        NSLog(@"%@: (E) %@", tag, message);
+        NSLog(@"\n ----------------------- \n [LOG TYPE]: Error\n [CLASS]: %@\n [METHOD]: %@ \n [MESSAGE]: %@\n -----------------------", className, methodName, message);
     }
 }
 
-+ (void)warning:(NSString *)tag withMessage:(NSString *)message {
++ (void)warningLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message {
     if (logLevel >= HyBidLogLevelWarning) {
-        NSLog(@"%@: (W) %@", tag, message);
+        NSLog(@"\n ----------------------- \n [LOG TYPE]: Warning\n [CLASS]: %@\n [METHOD]: %@ \n [MESSAGE]: %@\n -----------------------", className, methodName, message);
     }
 }
 
-+ (void)info:(NSString *)tag withMessage:(NSString *)message {
++ (void)infoLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message {
     if (logLevel >= HyBidLogLevelInfo) {
-        NSLog(@"%@: (I) %@", tag, message);
+        NSLog(@"\n ----------------------- \n [LOG TYPE]: Info\n [CLASS]: %@\n [METHOD]: %@ \n [MESSAGE]: %@\n -----------------------", className, methodName, message);
     }
 }
 
-+ (void)debug:(NSString *)tag withMessage:(NSString *)message {
++ (void)debugLogFromClass:(NSString *)className fromMethod:(NSString *)methodName withMessage:(NSString *)message {
     if (logLevel >= HyBidLogLevelDebug) {
-        NSLog(@"%@: (D) %@", tag, message);
+        NSLog(@"\n ----------------------- \n [LOG TYPE]: Debug\n [CLASS]: %@\n [METHOD]: %@ \n [MESSAGE]: %@\n -----------------------", className, methodName, message);
     }
 }
 

@@ -119,13 +119,13 @@
                         onCompletion:^(id data, BOOL success, NSError *error) {
 
                             if (success && error == nil) {
-                                [HyBidLogger debug:NSStringFromClass([self class]) withMessage:@"Sent sessions to Bugsnag."];
+                                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Sent sessions to Bugsnag."];
 
                                 for (NSString *fileId in fileIds) {
                                     [self.sessionStore deleteFileWithId:fileId];
                                 }
                             } else {
-                                [HyBidLogger error:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Failed to send sessions to Bugsnag: %@", error]];
+                                [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Failed to send sessions to Bugsnag: %@", error]];
                             }
                         }];
         }

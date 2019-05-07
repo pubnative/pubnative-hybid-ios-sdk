@@ -74,7 +74,7 @@ NSString * const PNLiteBrowserTelPrefix = @"tel://";
                     scalePagesToFit = YES;
                 }
                 
-                [HyBidLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"Requesting PubnativeBrowser feature: %@", feature]];
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Requesting PubnativeBrowser feature: %@", feature]];
             }
         }
     }
@@ -203,7 +203,7 @@ NSString * const PNLiteBrowserTelPrefix = @"tel://";
         }
     } else {
         currrentRequest = request;
-        [HyBidLogger debug:@"PNBrowser" withMessage:[NSString stringWithFormat:@"presenting browser from viewController: %@", currentViewController]];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"presenting browser from viewController: %@", currentViewController]];
         
         if ([currentViewController respondsToSelector:@selector(presentViewController:animated:completion:)]) {
             // used if running >= iOS 6
@@ -335,7 +335,7 @@ NSString * const PNLiteBrowserTelPrefix = @"tel://";
 }
 
 - (void)dismiss {
-    [HyBidLogger debug:@"PNBrowser" withMessage:@"Dismissing PubnativeBrowser"];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dismissing PubnativeBrowser"];
     if ([self.delegate respondsToSelector:@selector(pubnativeBrowserClosed:)]) {
         [self.delegate pubnativeBrowserClosed:self];
     }

@@ -352,7 +352,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)trackError {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:@"Sending Error requests."];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Sending Error requests."];
     if(self.vastModel && [self.vastModel errors] != nil) {
         [self.eventProcessor sendVASTUrls:[self.vastModel errors]];
     }
@@ -452,7 +452,7 @@ typedef enum : NSUInteger {
 
 - (void)invokeDidFailLoadingWithError:(NSError*)error {
     [self close];
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
     if([self.delegate respondsToSelector:@selector(vastPlayer:didFailLoadingWithError:)]) {
         [self.delegate vastPlayer:self didFailLoadingWithError:error];
     }
@@ -536,7 +536,7 @@ typedef enum : NSUInteger {
         {
             if ((self.currentState & PNLiteVASTPlayerState_READY) && !self.shown) {
                 self.wantsToPlay = YES;
-                [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"You're trying to play when the view is not add to the screen, it will be played as soon as the view is add to the screen."];
+                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"You're trying to play when the view is not add to the screen, it will be played as soon as the view is add to the screen."];
             }
             result = (self.currentState & (PNLiteVASTPlayerState_READY|PNLiteVASTPlayerState_PAUSE)) && self.shown;
         }
@@ -559,7 +559,7 @@ typedef enum : NSUInteger {
             case PNLiteVASTPlayerState_PAUSE:   [self setPauseState];   break;
         }
     } else {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Cannot go to state %lu, invalid previous state.", (unsigned long)state]];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Cannot go to state %lu, invalid previous state.", (unsigned long)state]];
     }
 }
 
@@ -591,7 +591,7 @@ typedef enum : NSUInteger {
     [self.loadingSpin startAnimating];
     
     if (!self.vastUrl && !self.vastString) {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"VAST is nil and required."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST is nil and required."];
         [self setState:PNLiteVASTPlayerState_IDLE];
         
     } else {
@@ -613,7 +613,7 @@ typedef enum : NSUInteger {
                 weakSelf.eventProcessor = [[PNLiteVASTEventProcessor alloc] initWithEvents:[model trackingEvents] delegate:self];
                 NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[model mediaFiles]].url;
                 if(!mediaUrl) {
-                    [HyBidLogger error:NSStringFromClass([self class]) withMessage:@"Did not find a compatible media file."];
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
                     NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:0 userInfo:nil];
                     [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
                 } else {
@@ -750,7 +750,7 @@ typedef enum : NSUInteger {
 #pragma mark PNLiteVASTEventProcessorDelegate
 
 - (void)eventProcessorDidTrackEvent:(PNLiteVASTEvent)event {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Event tracked: %ld", (long)event]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Event tracked: %ld", (long)event]];
 }
 
 #pragma mark - HyBidContentInfoViewDelegate

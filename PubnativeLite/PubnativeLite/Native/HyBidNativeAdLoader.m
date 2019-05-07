@@ -58,7 +58,7 @@
 }
 
 - (void)invokeDidFailWithError:(NSError *)error {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeLoaderDidFailWithError:)]) {
         [self.delegate nativeLoaderDidFailWithError:error];
@@ -68,11 +68,11 @@
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Request loaded with ad: %@",ad]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request loaded with ad: %@",ad]];
     if (!ad) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
     } else {

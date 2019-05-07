@@ -67,7 +67,7 @@
     if (self.isReady) {
         [self.interstitialPresenter show];
     } else {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Can't display ad. Interstitial not ready."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Interstitial not ready."];
     }
 }
 
@@ -79,7 +79,7 @@
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
     self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
     if (!self.interstitialPresenter) {
-        [HyBidLogger error:NSStringFromClass([self class]) withMessage:@"Could not create valid interstitial presenter."];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid interstitial presenter."];
         [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];
         return;
     } else {
@@ -94,7 +94,7 @@
 }
 
 - (void)invokeDidFailWithError:(NSError *)error {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidFailWithError:)]) {
         [self.delegate interstitialDidFailWithError:error];
     }
@@ -121,11 +121,11 @@
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"Ad Request loaded with ad: %@",ad]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request loaded with ad: %@",ad]];
     if (!ad) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
     } else {

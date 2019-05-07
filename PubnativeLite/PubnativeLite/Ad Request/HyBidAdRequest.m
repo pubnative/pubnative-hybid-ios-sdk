@@ -64,9 +64,9 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
         [self invokeDidFail:runningError];
     } else if(!delegate) {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Given delegate is nil and required, droping this call."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
     } else if(!zoneID || zoneID.length == 0) {
-        [HyBidLogger warning:NSStringFromClass([self class]) withMessage:@"Zone ID nil or empty, droping this call."];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Zone ID nil or empty, droping this call."];
     }
     else {
         self.startTime = [NSDate date];
@@ -75,7 +75,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         self.isRunning = YES;
         [self invokeDidStart];
         PNLiteAdFactory *adFactory = [[PNLiteAdFactory alloc] init];
-        [HyBidLogger debug:NSStringFromClass([self class]) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
                                                                                                                                                                    andWithAdSize:[self adSize]]].absoluteString]];
         self.requestURL = [self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
                                                                                      andWithAdSize:[self adSize]]];
@@ -117,7 +117,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isRunning = NO;
-        [HyBidLogger error:NSStringFromClass([self class]) withMessage:error.localizedDescription];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];
         }

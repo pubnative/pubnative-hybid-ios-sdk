@@ -70,7 +70,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    [HyBidLogger error:NSStringFromClass([self class]) withMessage:message];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
