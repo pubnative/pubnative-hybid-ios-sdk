@@ -42,6 +42,7 @@
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             [self.interstitialAd load];
+            MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
@@ -56,11 +57,11 @@
 - (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
     [self.delegate interstitialCustomEventWillAppear:self];
     [self.interstitialAd show];
+    MPLogEvent([MPLogEvent adShowAttemptForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    MPLogError(@"%@", message);
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    MPLogInfo(@"%@", message);
     [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                              code:0
                                                                                          userInfo:nil]];
@@ -73,25 +74,32 @@
 #pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad {
+    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEvent:self didLoadAd:nil];
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
+    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)interstitialDidTrackClick {
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate trackClick];
     [self.delegate interstitialCustomEventWillLeaveApplication:self];
 }
 
 - (void)interstitialDidTrackImpression {
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate trackImpression];
+    MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEventDidAppear:self];
 }
 
 - (void)interstitialDidDismiss {
+    MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEventWillDisappear:self];
+    MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEventDidDisappear:self];
 }
 

@@ -84,19 +84,21 @@
 
 - (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view {
     if ([self.delegate respondsToSelector:@selector(nativeAdWillLogImpression:)]) {
+        MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
         [self.delegate nativeAdWillLogImpression:self];
     } else {
-        MPLogWarn(@"Delegate does not implement impression tracking callback. Impressions likely not being tracked.");
+        MPLogInfo(@"Delegate does not implement impression tracking callback. Impressions likely not being tracked.");
     }
 }
 
 - (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
     if ([self.delegate respondsToSelector:@selector(nativeAdDidClick:)]) {
+        MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
         [self.delegate nativeAdDidClick:self];
     } else {
-        MPLogWarn(@"Delegate does not implement click tracking callback. Clicks likely not being tracked.");
+        MPLogInfo(@"Delegate does not implement click tracking callback. Clicks likely not being tracked.");
     }
-    
+    MPLogEvent([MPLogEvent adWillPresentModalForAdapter:NSStringFromClass([self class])]);
     [self.delegate nativeAdWillPresentModalForAdapter:self];
 }
 

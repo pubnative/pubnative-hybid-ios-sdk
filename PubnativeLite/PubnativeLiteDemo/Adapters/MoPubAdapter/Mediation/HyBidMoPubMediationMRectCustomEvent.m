@@ -44,6 +44,7 @@
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.mRectAdView = [[HyBidMRectAdView alloc] init];
                 [self.mRectAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
+                MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
@@ -59,8 +60,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-   MPLogError(@"%@", message);
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    MPLogInfo(@"%@", message);
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
@@ -74,18 +74,22 @@
 #pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
+    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate bannerCustomEvent:self didLoadAd:self.mRectAdView];
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
+    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate trackImpression];
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];
 }
