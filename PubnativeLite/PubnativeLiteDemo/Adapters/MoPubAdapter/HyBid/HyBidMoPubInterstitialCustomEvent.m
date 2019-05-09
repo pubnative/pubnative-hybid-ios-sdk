@@ -55,6 +55,7 @@
             return;
         } else {
             [self.interstitialPresenter load];
+            MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         }
     } else {
         [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
@@ -65,11 +66,11 @@
 - (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
     [self.delegate interstitialCustomEventWillAppear:self];
     [self.interstitialPresenter show];
+    MPLogEvent([MPLogEvent adShowAttemptForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    MPLogError(@"%@", message);
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    MPLogInfo(@"%@", message);
     [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                              code:0
                                                                                          userInfo:nil]];
@@ -82,25 +83,32 @@
 #pragma mark - HyBidInterstitialPresenterDelegate
 
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
+    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEvent:self didLoadAd:nil];
 }
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
+    MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
     [self.delegate trackImpression];
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEventDidAppear:self];
 }
 
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate trackClick];
     [self.delegate interstitialCustomEventWillLeaveApplication:self];
 }
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
+    MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEventWillDisappear:self];
+    MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
     [self.delegate interstitialCustomEventDidDisappear:self];
 }
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
+    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
