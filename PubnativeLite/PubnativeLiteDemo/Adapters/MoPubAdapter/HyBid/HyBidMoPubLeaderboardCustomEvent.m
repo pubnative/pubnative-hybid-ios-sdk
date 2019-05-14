@@ -84,10 +84,10 @@
 #pragma mark - HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
+    [self.delegate bannerCustomEvent:self didLoadAd:adView];
     MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate trackImpression];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
-    [self.delegate bannerCustomEvent:self didLoadAd:adView];
     [self.leaderboardPresenter startTracking];
 }
 
