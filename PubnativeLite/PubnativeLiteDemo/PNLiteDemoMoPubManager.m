@@ -40,6 +40,8 @@
 
 - (void)initMoPubSDKWithAppToken:(NSString *)appToken withAdUnitID:(NSString *)adUnitID completion:(void(^_Nullable)(void))completionBlock {
     MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
+    sdkConfig.loggingLevel = MPBLogLevelInfo;
+    
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:completionBlock];
 }
 
