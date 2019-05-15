@@ -68,7 +68,7 @@
         [self invokeDidTrackEvent:PNLiteVASTEvent_Unknown];
     } else {
         for (NSURL *eventUrl in self.events[eventString]) {
-            [self sendTrackingRequest:eventUrl];
+            [self sendTrackingRequest:[eventUrl absoluteString]];
             NSLog(@"VAST - Event Processor: Sent event '%@' to url: %@", eventString, [eventUrl absoluteString]);
         }
     }
@@ -83,18 +83,18 @@
 
 - (void)sendVASTUrls:(NSArray *)urls
 {
-    for (NSURL *url in urls) {
-        [self sendTrackingRequest:url];
-        NSLog(@"VAST - Event Processor: Sent http request to url: %@", url);
+    for (NSString *stringURL in urls) {
+        [self sendTrackingRequest:stringURL];
+        NSLog(@"VAST - Event Processor: Sent http request to url: %@", stringURL);
     }
 }
 
-- (void)sendTrackingRequest:(NSURL *)url
+- (void)sendTrackingRequest:(NSString *)url
 {
     dispatch_queue_t sendTrackRequestQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(sendTrackRequestQueue, ^{
         
-        NSLog(@"VAST - Event Processor: Event processor sending request to url: %@", [url absoluteString]);
+        NSLog(@"VAST - Event Processor: Event processor sending request to url: %@", url);
         
         NSURLSession * session = [NSURLSession sharedSession];
         if(self.userAgent == nil){
@@ -103,7 +103,7 @@
                 UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
                 self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
                 session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
-                NSURLRequest* request = [NSURLRequest requestWithURL:url
+                NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                      timeoutInterval:1.0];
                 
@@ -112,7 +112,33 @@
                                 
                                 // Send the request only, no response or errors
                                 if(error == nil) {
-                                    NSLog(@"VAST - tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]);
+                                    if ([data length] > 0) {
+                                        NSLog(@"VAST - tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]);
+                                    } else {
+                                        NSLog(@"VAST - tracking url %@ response", response.URL);
+                                    }
+                                } else {
+                                    NSLog(@"VAST - tracking url %@ error: %@", response.URL, error);
+                                }
+                            }] resume];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
+                NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
+                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                     timeoutInterval:1.0];
+                
+                [[session dataTaskWithRequest:request
+                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                
+                                // Send the request only, no response or errors
+                                if(error == nil) {
+                                    if ([data length] > 0) {
+                                        NSLog(@"VAST - tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]);
+                                    } else {
+                                        NSLog(@"VAST - tracking url %@ response", response.URL);
+                                    }
                                 } else {
                                     NSLog(@"VAST - tracking url %@ error: %@", response.URL, error);
                                 }
