@@ -34,12 +34,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
-        if (success) {
-            [HyBidLogger setLogLevel:HyBidLogLevelDebug];
-            NSLog(@"HyBid initialisation completed");
-        }
-    }];
     [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[PNLiteDemoSettings sharedInstance].appToken withAdUnitID:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
     [Fabric with:@[[Crashlytics class]]];
     return YES;

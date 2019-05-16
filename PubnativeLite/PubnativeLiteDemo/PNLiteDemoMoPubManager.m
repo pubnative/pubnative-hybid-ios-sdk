@@ -22,6 +22,7 @@
 
 #import "PNLiteDemoMoPubManager.h"
 #import "MoPub.h"
+#import "HyBidAdapterConfiguration.h"
 
 @implementation PNLiteDemoMoPubManager
 
@@ -40,8 +41,9 @@
 
 - (void)initMoPubSDKWithAppToken:(NSString *)appToken withAdUnitID:(NSString *)adUnitID completion:(void(^_Nullable)(void))completionBlock {
     MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
+    [sdkConfig setNetworkConfiguration:@{HyBidAdapterConfigurationAppTokenKey : appToken} forMediationAdapter:NSStringFromClass([HyBidAdapterConfiguration class])];
     sdkConfig.loggingLevel = MPBLogLevelInfo;
-    
+    sdkConfig.additionalNetworks = @[[HyBidAdapterConfiguration class]];
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:completionBlock];
 }
 
