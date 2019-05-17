@@ -24,7 +24,7 @@
 #import "PNLiteDemoSettings.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "MoPub.h"
+#import "PNLiteDemoMoPubManager.h"
 
 @interface AppDelegate ()
 
@@ -34,14 +34,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
-        if (success) {
-            [HyBidLogger setLogLevel:HyBidLogLevelDebug];
-            NSLog(@"HyBid initialisation completed");
-        }
-    }];
-    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
-    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
+    [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[PNLiteDemoSettings sharedInstance].appToken withAdUnitID:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
     [Fabric with:@[[Crashlytics class]]];
     return YES;
 }
