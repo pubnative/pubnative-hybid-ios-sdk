@@ -1,3 +1,5 @@
 PubnativeLite/PubnativeLite/OMSDK-1.2.13/**
 PubnativeLite/PubnativeLiteDemo/GoogleMobileAdsSDK-7.42.2/**
 PubnativeLite/PubnativeLiteDemo/MoPubSDK-5.6.0/**
+PubnativeLite/Crashlytics.framework/**
+PubnativeLite/Fabric.framework/**
