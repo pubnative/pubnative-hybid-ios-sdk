@@ -45,6 +45,10 @@
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -66,18 +70,7 @@
     NSLog(@"interstitialDidFailToLoadAd");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:@"MoPub Interstitial did fail to load."
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestInterstitialTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
 
 - (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {

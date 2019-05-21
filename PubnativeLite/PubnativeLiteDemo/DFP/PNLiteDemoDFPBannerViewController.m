@@ -57,27 +57,16 @@
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
-}
-
-- (void)showAlertControllerWithMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestBannerTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - GADBannerViewDelegate

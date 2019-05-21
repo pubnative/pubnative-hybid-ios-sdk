@@ -52,6 +52,10 @@
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -79,18 +83,7 @@
     if (self.moPubBanner == view) {
         self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                              message:@"MoPub Banner did fail to load."
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-        UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self requestBannerTouchUpInside:nil];
-        }];
-        [alertController addAction:dismissAction];
-        [alertController addAction:retryAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self showAlertControllerWithMessage:@"MoPub Banner did fail to load."];
     }
 }
 

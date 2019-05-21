@@ -48,26 +48,15 @@
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
-}
-
-- (void)showAlertControllerWithMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestInterstitialTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
@@ -129,8 +118,8 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self showAlertControllerWithMessage:error.localizedDescription];
         [self.interstitialLoaderIndicator stopAnimating];
+        [self showAlertControllerWithMessage:error.localizedDescription];
     }
 }
 
