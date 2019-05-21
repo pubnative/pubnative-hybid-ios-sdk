@@ -43,7 +43,6 @@ NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
         self.viewabilityMeasurementActivated = [[OMIDPubnativenetSDK sharedInstance] activateWithOMIDAPIVersion:OMIDSDKAPIVersionString
                                                                                                           error:&error];
         if (self.viewabilityMeasurementActivated) {
-//            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
             self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidViewabilityPartnerName versionString:@"1.2.1"];
         } else {
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Viewability Manager couldn't initialized properly with error: %@", error.debugDescription]];
