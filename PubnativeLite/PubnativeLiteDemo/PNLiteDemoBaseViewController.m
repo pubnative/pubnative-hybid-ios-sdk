@@ -33,8 +33,27 @@
     [super viewDidLoad];
 }
 
+- (void)requestAd {
+    
+}
+
 - (void)clearLastInspectedRequest {
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:@"No request URL available..."  withResponse:@"No response available..." withLatency:nil];
+}
+
+- (void)showAlertControllerWithMessage:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self requestAd];
+    }];
+    [alertController addAction:dismissAction];
+    [alertController addAction:retryAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

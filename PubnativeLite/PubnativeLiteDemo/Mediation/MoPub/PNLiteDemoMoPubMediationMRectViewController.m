@@ -52,6 +52,10 @@
 }
 
 - (IBAction)requestMRectTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -79,18 +83,7 @@
     if (self.moPubMrect == view) {
         self.inspectRequestButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                              message:@"MoPub MRect did fail to load."
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-        UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self requestMRectTouchUpInside:nil];
-        }];
-        [alertController addAction:dismissAction];
-        [alertController addAction:retryAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self showAlertControllerWithMessage:@"MoPub MRect did fail to load."];
     }
 }
 

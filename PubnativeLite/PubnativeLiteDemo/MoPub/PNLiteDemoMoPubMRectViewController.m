@@ -56,27 +56,16 @@
 }
 
 - (IBAction)requestMRectTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
-}
-
-- (void)showAlertControllerWithMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestMRectTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - MPAdViewDelegate

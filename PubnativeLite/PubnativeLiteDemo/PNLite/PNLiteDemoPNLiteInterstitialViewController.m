@@ -45,6 +45,10 @@
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -65,18 +69,7 @@
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestInterstitialTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
 - (void)interstitialDidTrackClick {

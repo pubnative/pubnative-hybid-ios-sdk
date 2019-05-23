@@ -42,6 +42,10 @@
 }
 
 - (IBAction)requestLeaderboardTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.leaderboardAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -62,18 +66,7 @@
     NSLog(@"Leaderboard Ad View did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.leaderboardLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestLeaderboardTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
@@ -83,4 +76,5 @@
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"Leaderboard Ad View did track impression:");
 }
+
 @end

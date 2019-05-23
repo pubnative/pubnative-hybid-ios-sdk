@@ -61,6 +61,10 @@
 }
 
 - (IBAction)requestNativeAdTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -111,21 +115,6 @@
         [self showAlertControllerWithMessage:[NSString stringWithFormat:@"MoPub Mediation Native Ad - Rendering Error: %@", error]];
         NSLog(@"MoPub Mediation Native Ad - Rendering Error: %@", error);
     }
-}
-
-- (void)showAlertControllerWithMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestNativeAdTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - MPNativeAdDelegate
