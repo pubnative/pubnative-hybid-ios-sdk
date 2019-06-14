@@ -58,7 +58,8 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate> {
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate>
+{
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
     BOOL isInterstitial;
@@ -469,6 +470,7 @@ typedef enum {
     if (webViewPart2) {
         // Clean up webViewPart2 if returning from 2-part expansion.
         webViewPart2.navigationDelegate = nil;
+        webViewPart2.UIDelegate = nil;
         currentWebView = webView;
         webViewPart2 = nil;
     } else {
@@ -591,6 +593,7 @@ typedef enum {
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Could not load part 2 expanded content for URL: %@" ,urlString]];
             currentWebView = webView;
             webViewPart2.navigationDelegate = nil;
+            webViewPart2.UIDelegate = nil;
             webViewPart2 = nil;
             modalVC = nil;
             return;
@@ -1219,6 +1222,21 @@ typedef enum {
     }
 }
 
+#pragma mark - WKUIDelegate
+
+- (WKWebView *)webView:(WKWebView *)webView
+createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+   forNavigationAction:(WKNavigationAction *)navigationAction
+        windowFeatures:(WKWindowFeatures *)windowFeatures {
+    // Open any links to new windows in the current WKWebView rather than create a new one
+    if (!navigationAction.targetFrame.isMainFrame) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [[UIApplication sharedApplication] openURL:[navigationAction.request URL]];
+    }
+    
+    return nil;
+}
+
 #pragma mark - MRAIDModalViewControllerDelegate
 
 - (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController {
@@ -1246,6 +1264,7 @@ typedef enum {
 
 - (void)initWebView:(WKWebView *)wv {
     wv.navigationDelegate = self;
+    wv.UIDelegate = self;
     wv.opaque = NO;
     wv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight |
     UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
