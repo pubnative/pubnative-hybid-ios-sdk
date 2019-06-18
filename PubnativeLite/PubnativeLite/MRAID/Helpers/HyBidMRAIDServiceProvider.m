@@ -21,16 +21,14 @@
 //
 
 #import "HyBidMRAIDServiceProvider.h"
-#import "HyBidBrowser.h"
+#import <UIKit/UIKit.h>
 #import <EventKit/EventKit.h>
 
 @implementation HyBidMRAIDServiceProvider
 
 - (void)openBrowser:(NSString *)urlString {
-    HyBidBrowser *browser = [[HyBidBrowser alloc] initWithDelegate:nil withFeatures:@[PNLiteBrowserFeatureSupportInlineMediaPlayback
-                                                                                      , PNLiteBrowserFeatureDisableStatusBar
-                                                                                      , PNLiteBrowserFeatureScalePagesToFit]];
-    [browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+    NSURL *linkURL = [NSURL URLWithString:urlString];
+    [[UIApplication sharedApplication] openURL:linkURL];
 }
 
 - (void)playVideo:(NSString *)urlString {
