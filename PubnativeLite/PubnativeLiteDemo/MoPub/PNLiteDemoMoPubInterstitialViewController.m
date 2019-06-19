@@ -36,26 +36,22 @@
 
 @implementation PNLiteDemoMoPubInterstitialViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubInterstitial = nil;
     self.interstitialAdRequest = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
-    
-    if(self.moPubInterstitial == nil) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
-        self.moPubInterstitial.delegate = self;
-    }
 }
 
-- (IBAction)requestInterstitialTouchUpInside:(id)sender
-{
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -63,92 +59,67 @@
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestInterstitialTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - MPInterstitialAdControllerDelegate
 
-- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
     [self.moPubInterstitial showFromViewController:self];
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidFailToLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
 
-- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillAppear");
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidAppear");
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillDisappear");
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidDisappear");
 }
 
-- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidExpire");
 }
 
-- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidReceiveTapEvent");
 }
 
 #pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
+        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
+        self.moPubInterstitial.delegate = self;
         [self.moPubInterstitial setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
         [self.moPubInterstitial loadAd];
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self showAlertControllerWithMessage:error.localizedDescription];
         [self.interstitialLoaderIndicator stopAnimating];
+        [self showAlertControllerWithMessage:error.localizedDescription];
     }
 }
 

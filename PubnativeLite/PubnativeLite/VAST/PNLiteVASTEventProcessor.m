@@ -21,6 +21,7 @@
 //
 
 #import "PNLiteVASTEventProcessor.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteVASTEventProcessor()
 
@@ -33,8 +34,7 @@
 @implementation PNLiteVASTEventProcessor
 
 // designated initializer
-- (id)initWithEvents:(NSDictionary *)events delegate:(id<PNLiteVASTEventProcessorDelegate>)delegate;
-{
+- (id)initWithEvents:(NSDictionary *)events delegate:(id<PNLiteVASTEventProcessorDelegate>)delegate; {
     self = [super init];
     if (self) {
         self.events = events;
@@ -43,14 +43,12 @@
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.events = nil;
     self.userAgent = nil;
 }
 
-- (void)trackEvent:(PNLiteVASTEvent)event
-{
+- (void)trackEvent:(PNLiteVASTEvent)event {
     NSString *eventString = nil;
     switch (event) {
         case PNLiteVASTEvent_Start:           eventString = @"start";           break;
@@ -64,40 +62,37 @@
         default: break;
     }
     [self invokeDidTrackEvent:event];
-    if(eventString == nil) {
+    if(!eventString) {
         [self invokeDidTrackEvent:PNLiteVASTEvent_Unknown];
     } else {
         for (NSURL *eventUrl in self.events[eventString]) {
             [self sendTrackingRequest:[eventUrl absoluteString]];
-            NSLog(@"VAST - Event Processor: Sent event '%@' to url: %@", eventString, [eventUrl absoluteString]);
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", eventString, [eventUrl absoluteString]]];
         }
     }
 }
 
-- (void)invokeDidTrackEvent:(PNLiteVASTEvent)event
-{
+- (void)invokeDidTrackEvent:(PNLiteVASTEvent)event {
     if ([self.delegate respondsToSelector:@selector(eventProcessorDidTrackEvent:)]) {
         [self.delegate eventProcessorDidTrackEvent:event];
     }
 }
 
-- (void)sendVASTUrls:(NSArray *)urls
-{
+- (void)sendVASTUrls:(NSArray *)urls {
     for (NSString *stringURL in urls) {
         [self sendTrackingRequest:stringURL];
-        NSLog(@"VAST - Event Processor: Sent http request to url: %@", stringURL);
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent http request to url: %@", stringURL]];
     }
 }
 
-- (void)sendTrackingRequest:(NSString *)url
-{
+- (void)sendTrackingRequest:(NSString *)url {
     dispatch_queue_t sendTrackRequestQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(sendTrackRequestQueue, ^{
         
-        NSLog(@"VAST - Event Processor: Event processor sending request to url: %@", url);
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Event processor sending request to url: %@", url]];
         
         NSURLSession * session = [NSURLSession sharedSession];
-        if(self.userAgent == nil){
+        if(!self.userAgent) {
             // Perform on main thread/queue
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
@@ -111,14 +106,14 @@
                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                 
                                 // Send the request only, no response or errors
-                                if(error == nil) {
+                                if(!error) {
                                     if ([data length] > 0) {
-                                        NSLog(@"VAST - tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]);
+                                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]]];
                                     } else {
-                                        NSLog(@"VAST - tracking url %@ response", response.URL);
+                                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url: %@", response.URL]];
                                     }
                                 } else {
-                                    NSLog(@"VAST - tracking url %@ error: %@", response.URL, error);
+                                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ error: %@", response.URL, error]];
                                 }
                             }] resume];
             });
@@ -133,14 +128,14 @@
                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                 
                                 // Send the request only, no response or errors
-                                if(error == nil) {
+                                if(!error) {
                                     if ([data length] > 0) {
-                                        NSLog(@"VAST - tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]);
+                                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]]];
                                     } else {
-                                        NSLog(@"VAST - tracking url %@ response", response.URL);
+                                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url: %@", response.URL]];
                                     }
                                 } else {
-                                    NSLog(@"VAST - tracking url %@ error: %@", response.URL, error);
+                                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ error: %@", response.URL, error]];
                                 }
                             }] resume];
             });

@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidLeaderboardPresenter.h"
+#import "HyBidAdPresenter.h"
 
-@interface HyBidMRAIDLeaderboardPresenter : HyBidLeaderboardPresenter
+@interface HyBidMRAIDLeaderboardPresenter : HyBidAdPresenter
 
 - (instancetype)initWithAd:(HyBidAd *)ad;
 

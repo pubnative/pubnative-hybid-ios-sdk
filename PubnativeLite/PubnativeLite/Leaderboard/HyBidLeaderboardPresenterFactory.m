@@ -22,35 +22,20 @@
 
 #import "HyBidLeaderboardPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
-#import "HyBidLeaderboardPresenterDecorator.h"
 #import "HyBidMRAIDLeaderboardPresenter.h"
-#import "HyBidAdTracker.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidLeaderboardPresenterFactory
 
-- (HyBidLeaderboardPresenter *)createLeaderboardPresenterWithAd:(HyBidAd *)ad
-                                                   withDelegate:(NSObject<HyBidLeaderboardPresenterDelegate> *)delegate
-{
-    HyBidLeaderboardPresenter *leaderboardPresenter = [self createLeaderboardPresenterFromAd:ad];
-    if (!leaderboardPresenter) {
-        return nil;
-    }
-    HyBidLeaderboardPresenterDecorator *leaderboardPresenterDecorator = [[HyBidLeaderboardPresenterDecorator alloc] initWithLeaderboardPresenter:leaderboardPresenter
-                                                                                                                                   withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]] withDelegate:delegate];
-    leaderboardPresenter.delegate = leaderboardPresenterDecorator;
-    return leaderboardPresenterDecorator;
-}
-
-- (HyBidLeaderboardPresenter *)createLeaderboardPresenterFromAd:(HyBidAd *)ad
-{
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
-            case MRAID_LEADERBOARD: {
-                HyBidMRAIDLeaderboardPresenter *mraidLeaderboardPresenter = [[HyBidMRAIDLeaderboardPresenter alloc] initWithAd:ad];
-                return mraidLeaderboardPresenter;
-                break;
-            }
+        case MRAID_LEADERBOARD: {
+            HyBidMRAIDLeaderboardPresenter *mraidLeaderboardPresenter = [[HyBidMRAIDLeaderboardPresenter alloc] initWithAd:ad];
+            return mraidLeaderboardPresenter;
+            break;
+        }
         default:
-            NSLog(@"HyBidLeaderboardPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for leaderboard ad format", ad.assetGroupID);
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for leaderboard ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

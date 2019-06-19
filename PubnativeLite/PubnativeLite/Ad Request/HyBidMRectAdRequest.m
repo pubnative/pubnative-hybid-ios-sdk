@@ -24,8 +24,7 @@
 
 @implementation HyBidMRectAdRequest
 
-- (NSString *)adSize
-{
+- (NSString *)adSize {
     return @"m";
 }
 

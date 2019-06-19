@@ -23,6 +23,7 @@
 #import "PNLiteVASTModel.h"
 #import "PNLiteVASTMediaFile.h"
 #import "PNLiteVASTXMLUtil.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteVASTModel ()
 
@@ -40,17 +41,15 @@
 
 #pragma mark - "private" method
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.vastDocumentArray = nil;
 }
 
 // We deliberately do not declare this method in the header file in order to hide it.
 // It should be used only be the VAST2Parser to build the model.
 // It should not be used by anybody else receiving the model object.
-- (void)addVASTDocument:(NSData *)vastDocument
-{
-    if (self.vastDocumentArray == nil) {
+- (void)addVASTDocument:(NSData *)vastDocument {
+    if (!self.vastDocumentArray) {
         self.vastDocumentArray = [NSMutableArray array];
     }
     [self.vastDocumentArray addObject:vastDocument];
@@ -58,8 +57,7 @@
 
 #pragma mark - public methods
 
-- (NSString *)vastVersion
-{
+- (NSString *)vastVersion {
     // sanity check
     if ([self.vastDocumentArray count] == 0) {
         return nil;
@@ -76,34 +74,29 @@
     return version;
 }
 
-- (NSArray<NSString*> *)errors
-{
+- (NSArray<NSString*> *)errors {
     NSString *query = @"//Error";
     return [self resultsForQuery:query];
 }
 
-- (NSArray<NSString*> *)impressions
-{
+- (NSArray<NSString*> *)impressions {
     NSString *query = @"//Impression";
     return [self resultsForQuery:query];
 }
 
-- (NSString *)clickThrough
-{
+- (NSString *)clickThrough {
     NSString *query = @"//ClickThrough";
     NSArray *array = [self resultsForQuery:query];
     // There should be at most only one array element.
     return ([array count] > 0) ? array[0] : nil;
 }
 
-- (NSArray<NSString*> *)clickTracking
-{
+- (NSArray<NSString*> *)clickTracking {
     NSString *query = @"//ClickTracking";
     return [self resultsForQuery:query];
 }
 
-- (NSDictionary *)trackingEvents
-{
+- (NSDictionary *)trackingEvents {
     NSMutableDictionary *eventDict;
     NSString *query = @"//Linear//Tracking";
     
@@ -134,18 +127,16 @@
             }
         }
     }
-    
-    NSLog(@"VAST - Model: returning event dictionary with %lu event(s)", (unsigned long)[eventDict count]);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"VAST Model returning event dictionary with %lu event(s)", (unsigned long)[eventDict count]]];
     for (NSString *event in [eventDict allKeys]) {
         NSArray *array = (NSArray *)[eventDict valueForKey:event];
-        NSLog(@"VAST - Model: %@ has %lu URL(s)", event, (unsigned long)[array count]);
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"VAST Model %@ has %lu URL(s)", event, (unsigned long)[array count]]];
     }
     
     return eventDict;
 }
 
-- (NSArray *)mediaFiles;
-{
+- (NSArray *)mediaFiles; {
     NSMutableArray *mediaFileArray;
     NSString *query = @"//MediaFile";
     
@@ -218,15 +209,14 @@
 
 #pragma mark - helper methods
 
-- (NSArray *)resultsForQuery:(NSString *)query
-{
+- (NSArray *)resultsForQuery:(NSString *)query {
     NSMutableArray *array;
     NSString *elementName = [query stringByReplacingOccurrencesOfString:@"/" withString:@""];
     
     for (NSData *document in self.vastDocumentArray) {
         NSArray *results = performXMLXPathQuery(document, query);
         for (NSDictionary *result in results) {
-            if (array == nil) {
+            if (!array) {
                 array = [NSMutableArray array];
             }
             NSString *urlString = [self content:result];
@@ -235,13 +225,11 @@
             }
         }
     }
-    
-    NSLog(@"VAST - Model: returning %@ array with %lu element(s)", elementName, (unsigned long)[array count]);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"VAST Model returning %@ array with %lu element(s)", elementName, (unsigned long)[array count]]];
     return array;
 }
 
-- (NSString *)content:(NSDictionary *)node
-{
+- (NSString *)content:(NSDictionary *)node {
     // this is for string data
     if ([node[@"nodeContent"] length] > 0) {
         return node[@"nodeContent"];
@@ -262,8 +250,7 @@
     return nil;
 }
 
-- (NSURL*)urlWithCleanString:(NSString *)string
-{
+- (NSURL*)urlWithCleanString:(NSString *)string {
     NSString *cleanUrlString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];  // remove leading, trailing \n or space
     cleanUrlString = [cleanUrlString stringByReplacingOccurrencesOfString:@"|" withString:@"%7c"];
     return [NSURL URLWithString:cleanUrlString];                                                                            // return the resulting URL

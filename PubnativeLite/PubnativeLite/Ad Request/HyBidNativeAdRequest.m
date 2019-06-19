@@ -24,8 +24,7 @@
 
 @implementation HyBidNativeAdRequest
 
-- (NSString *)adSize
-{
+- (NSString *)adSize {
     return nil;
 }
 

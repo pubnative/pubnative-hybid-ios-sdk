@@ -24,28 +24,23 @@
 
 @implementation HyBidInterstitialPresenter
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.delegate = nil;
 }
 
-- (void)load
-{
+- (void)load {
     // Do nothing, this method should be overriden
 }
 
-- (void)show
-{
+- (void)show {
     // Do nothing, this method should be overriden
 }
 
-- (void)hide
-{
+- (void)hide {
     // Do nothing, this method should be overriden
 }
 
-- (HyBidAd *)ad
-{
+- (HyBidAd *)ad {
     return nil;
 }
 

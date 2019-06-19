@@ -29,8 +29,7 @@
 
 @implementation PNLiteAdFactory
 
-- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID andWithAdSize:(NSString *)adSize
-{
+- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID andWithAdSize:(NSString *)adSize {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
     adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
@@ -55,10 +54,9 @@
     return adRequestModel;
 }
 
-- (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel
-{
+- (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {
     NSString *advertisingId = [HyBidSettings sharedInstance].advertisingId;
-    if (advertisingId == nil || advertisingId.length == 0) {
+    if (!advertisingId || advertisingId.length == 0) {
         adRequestModel.requestParameters[HyBidRequestParameter.dnt] = @"1";
     } else {
         adRequestModel.requestParameters[HyBidRequestParameter.idfa] = advertisingId;
@@ -67,10 +65,9 @@
     }
 }
 
-- (void)setDefaultAssetFields:(PNLiteAdRequestModel *)adRequestModel
-{
-    if (adRequestModel.requestParameters[HyBidRequestParameter.assetsField] == nil
-        && adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] == nil) {
+- (void)setDefaultAssetFields:(PNLiteAdRequestModel *)adRequestModel {
+    if (!adRequestModel.requestParameters[HyBidRequestParameter.assetsField]
+        && !adRequestModel.requestParameters[HyBidRequestParameter.assetLayout]) {
         
         NSArray *assets = @[PNLiteAsset.title,
                             PNLiteAsset.body,
@@ -83,8 +80,7 @@
     }
 }
 
-- (void)setDefaultMetaFields:(PNLiteAdRequestModel *)adRequestModel
-{
+- (void)setDefaultMetaFields:(PNLiteAdRequestModel *)adRequestModel {
     NSString *metaFieldsString = adRequestModel.requestParameters[HyBidRequestParameter.metaField];
     NSMutableArray *newMetaFields = [NSMutableArray array];
     if (metaFieldsString && metaFieldsString.length > 0) {

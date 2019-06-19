@@ -35,13 +35,11 @@
 @synthesize properties = _properties;
 @synthesize defaultActionURL;
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.nativeAd = nil;
 }
 
-- (instancetype)initWithNativeAd:(HyBidNativeAd *)ad
-{
+- (instancetype)initWithNativeAd:(HyBidNativeAd *)ad {
     self = [super init];
     if (self) {
         self.nativeAd = ad;
@@ -50,8 +48,7 @@
     return self;
 }
 
-- (NSDictionary *)convertAssetsToProperties:(HyBidNativeAd *)nativeAd
-{
+- (NSDictionary *)convertAssetsToProperties:(HyBidNativeAd *)nativeAd {
     return @{ kAdTitleKey : nativeAd.title,
               kAdTextKey : nativeAd.body,
               kAdCTATextKey : nativeAd.callToActionTitle,
@@ -63,35 +60,29 @@
 
 #pragma mark - MPNativeAdAdapter
 
-- (NSURL *)defaultActionURL
-{
+- (NSURL *)defaultActionURL {
     return nil;
 }
 
-- (BOOL)enableThirdPartyClickTracking
-{
+- (BOOL)enableThirdPartyClickTracking {
     return YES;
 }
 
-- (UIView *)privacyInformationIconView
-{
+- (UIView *)privacyInformationIconView {
     return self.nativeAd.contentInfo;
 }
 
-- (void)willAttachToView:(UIView *)view
-{
+- (void)willAttachToView:(UIView *)view {
     [self.nativeAd startTrackingView:view withDelegate:self];
 }
 
-- (void)didDetachFromView:(UIView *)view
-{
+- (void)didDetachFromView:(UIView *)view {
     [self.nativeAd stopTracking];
 }
 
 #pragma mark - HyBidNativeAdDelegate
 
-- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
-{
+- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view {
     if ([self.delegate respondsToSelector:@selector(nativeAdWillLogImpression:)]) {
         [self.delegate nativeAdWillLogImpression:self];
     } else {
@@ -99,8 +90,7 @@
     }
 }
 
-- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
     if ([self.delegate respondsToSelector:@selector(nativeAdDidClick:)]) {
         [self.delegate nativeAdDidClick:self];
     } else {

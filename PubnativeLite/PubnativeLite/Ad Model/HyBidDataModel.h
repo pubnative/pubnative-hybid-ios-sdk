@@ -27,7 +27,6 @@
 
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSDictionary *data;
-
 @property (nonatomic, readonly) NSString *text;
 @property (nonatomic, readonly) NSString *vast;
 @property (nonatomic, readonly) NSNumber *number;

@@ -64,5 +64,6 @@
 - (void)cancel;
 - (void)showAsInterstitial;
 - (void)hide;
-
+- (void)stopAdSession;
+- (void)startAdSession;
 @end

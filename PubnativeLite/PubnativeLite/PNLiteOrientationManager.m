@@ -31,13 +31,11 @@
 @implementation PNLiteOrientationManager
 
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.orientation = UIInterfaceOrientationUnknown;
@@ -45,8 +43,7 @@
     return self;
 }
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static PNLiteOrientationManager *_sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -55,21 +52,18 @@
     return _sharedInstance;
 }
 
-+ (void)load
-{
++ (void)load {
     [[PNLiteOrientationManager sharedInstance] startListening];
 }
 
-+ (UIInterfaceOrientation)orientation
-{
++ (UIInterfaceOrientation)orientation {
     if([PNLiteOrientationManager sharedInstance].orientation == UIInterfaceOrientationUnknown) {
         [PNLiteOrientationManager sharedInstance].orientation = [UIApplication sharedApplication].statusBarOrientation;
     }
     return [PNLiteOrientationManager sharedInstance].orientation;
 }
 
-- (void)startListening
-{
+- (void)startListening {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangeStatusBarOrientation:)
                                                  name:UIApplicationDidChangeStatusBarOrientationNotification
@@ -77,16 +71,14 @@
 }
 
 
-- (void)didChangeStatusBarOrientation:(NSNotification *)notification
-{
+- (void)didChangeStatusBarOrientation:(NSNotification *)notification {
     if ([PNLiteOrientationManager sharedInstance].orientation != [UIApplication sharedApplication].statusBarOrientation) {
         [PNLiteOrientationManager sharedInstance].orientation = [UIApplication sharedApplication].statusBarOrientation;
         [self sendDidChangeOrientationNotication];
     }
 }
 
-- (void)sendDidChangeOrientationNotication
-{
+- (void)sendDidChangeOrientationNotication {
     [self.delegate orientationManagerDidChangeOrientation];
 }
 

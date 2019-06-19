@@ -37,16 +37,14 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 @implementation HyBidAd
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.data = nil;
     self.contentInfoView = nil;
 }
 
 #pragma mark HyBidAd
 
-- (instancetype)initWithData:(HyBidAdModel *)data
-{
+- (instancetype)initWithData:(HyBidAdModel *)data {
     self = [super init];
     if (self) {
         self.data = data;
@@ -54,8 +52,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self;
 }
 
-- (NSString *)vast
-{
+- (NSString *)vast {
     NSString *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.vast];
     if (data) {
@@ -64,8 +61,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSString *)htmlUrl
-{
+- (NSString *)htmlUrl {
     NSString *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
@@ -74,8 +70,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSString *)htmlData
-{
+- (NSString *)htmlData {
     NSString *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
@@ -84,8 +79,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSString *)link
-{
+- (NSString *)link {
     NSString *result = nil;
     if (self.data) {
         result = self.data.link;
@@ -93,8 +87,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSString *)impressionID
-{
+- (NSString *)impressionID {
     NSArray *impressionBeacons = [self beaconsDataWithType:@"impression"];
     BOOL found = NO;
     NSString *impressionID = @"";
@@ -116,8 +109,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return impressionID;
 }
 
-- (NSNumber *)assetGroupID
-{
+- (NSNumber *)assetGroupID {
     NSNumber *result = nil;
     if (self.data) {
         result = self.data.assetgroupid;
@@ -125,8 +117,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSNumber *)eCPM
-{
+- (NSNumber *)eCPM {
     NSNumber *result = nil;
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.points];
     if (data) {
@@ -135,8 +126,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSArray<HyBidDataModel *> *)beacons
-{
+- (NSArray<HyBidDataModel *> *)beacons {
     if (self.data) {
         return self.data.beacons;
     } else {
@@ -144,11 +134,10 @@ NSString *const kImpressionQuerryParameter = @"t";
     }
 }
 
-- (HyBidContentInfoView *)contentInfo
-{
+- (HyBidContentInfoView *)contentInfo {
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.contentInfo];
     if (data) {
-        if (self.contentInfoView == nil) {
+        if (!self.contentInfoView) {
             self.contentInfoView = [[HyBidContentInfoView alloc] init];
             self.contentInfoView.text = data.text;
             self.contentInfoView.link = [data stringFieldWithKey:@"link"];
@@ -158,8 +147,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self.contentInfoView;
 }
 
-- (HyBidDataModel *)assetDataWithType:(NSString *)type
-{
+- (HyBidDataModel *)assetDataWithType:(NSString *)type {
     HyBidDataModel *result = nil;
     if (self.data) {
         result = [self.data assetWithType:type];
@@ -167,8 +155,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (HyBidDataModel *)metaDataWithType:(NSString *)type
-{
+- (HyBidDataModel *)metaDataWithType:(NSString *)type {
     HyBidDataModel *result = nil;
     if (self.data) {
         result = [self.data metaWithType:type];
@@ -176,8 +163,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSArray *)beaconsDataWithType:(NSString *)type
-{
+- (NSArray *)beaconsDataWithType:(NSString *)type {
     NSArray *result = nil;
     if (self.data) {
         result = [self.data beaconsWithType:type];
@@ -185,8 +171,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
-- (NSString *)valueForKey:(NSString *)key fromQueryItems:(NSArray *)queryItems
-{
+- (NSString *)valueForKey:(NSString *)key fromQueryItems:(NSArray *)queryItems {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", key];
     NSURLQueryItem *queryItem = [[queryItems filteredArrayUsingPredicate:predicate] firstObject];
     return queryItem.value;

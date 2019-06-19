@@ -200,14 +200,12 @@
 
 #pragma mark - State
 
-- (void)setEnabled:(BOOL)enabled
-{
+- (void)setEnabled:(BOOL)enabled {
     [self _updateAppearanceForState:enabled];
     [super setEnabled:enabled];
 }
 
-- (void)_updateAppearanceForState:(BOOL)enabled
-{
+- (void)_updateAppearanceForState:(BOOL)enabled {
     self.alpha = enabled ? 1.f : .5f;
 }
 
@@ -224,7 +222,7 @@
 
 - (void)_drawAccurateHalfStarImageWithFrame:(CGRect)frame tintColor:(UIColor *)tintColor progress:(CGFloat)progress {
     UIImage *image = self.halfStarImage;
-    if (image == nil) {
+    if (!image) {
         // first draw star outline
         [self _drawStarImageWithFrame:frame tintColor:tintColor highlighted:NO];
         
@@ -337,6 +335,7 @@
         [self _drawHalfStarShapeWithFrame:frame tintColor:tintColor];
     }
 }
+
 - (void)_drawAccurateStarWithFrame:(CGRect)frame tintColor:(UIColor *)tintColor progress:(CGFloat)progress {
     if (self.shouldUseImages) {
         [self _drawAccurateHalfStarImageWithFrame:frame tintColor:tintColor progress:progress];

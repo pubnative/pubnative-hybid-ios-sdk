@@ -88,7 +88,7 @@ NSInteger const kStatusCode = 200;
     [request startWithUrlString:@"validURL" withMethod:@"GET" delegate:delegate];
 }
 
--(void)test_invokeFinishWithData_withValidListener_shouldCallback
+- (void)test_invokeFinishWithData_withValidListener_shouldCallback
 {
     NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];

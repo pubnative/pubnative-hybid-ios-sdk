@@ -23,10 +23,10 @@
 #import "HyBidDFPBannerCustomEvent.h"
 #import "HyBidDFPUtils.h"
 
-@interface HyBidDFPBannerCustomEvent () <HyBidBannerPresenterDelegate>
+@interface HyBidDFPBannerCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -36,9 +36,7 @@
 
 @synthesize delegate;
 
-- (void)dealloc
-{
-    [self.bannerPresenter stopTracking];
+- (void)dealloc {
     self.bannerPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
@@ -47,53 +45,49 @@
 - (void)requestBannerAd:(GADAdSize)adSize
               parameter:(NSString * _Nullable)serverParameter
                   label:(NSString * _Nullable)serverLabel
-                request:(nonnull GADCustomEventRequest *)request
-{
+                request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
-            if (self.ad == nil) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
+            if (!self.ad) {
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
                 return;
             }
             self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-            self.bannerPresenter = [self.bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
-            if (self.bannerPresenter == nil) {
-                [self invokeFailWithMessage:@"HyBid - Error: Could not create valid banner presenter"];
+            self.bannerPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
+            if (!self.bannerPresenter) {
+                [self invokeFailWithMessage:@"Could not create valid banner presenter."];
                 return;
             } else {
                 [self.bannerPresenter load];
             }
         } else {
-            [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
+            [self invokeFailWithMessage:@"Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed banner ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
         return;
     }
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
+- (void)invokeFailWithMessage:(NSString *)message {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - HyBidBannerPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
-{
-    [self.delegate customEventBanner:self didReceiveAd:banner];
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
+    [self.delegate customEventBanner:self didReceiveAd:adView];
     [self.bannerPresenter startTracking];
 }
 
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
-{
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
-{
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];
 }

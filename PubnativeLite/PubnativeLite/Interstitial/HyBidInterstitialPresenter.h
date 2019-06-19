@@ -39,7 +39,7 @@
 @interface HyBidInterstitialPresenter : NSObject
 
 @property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
 
 - (void)load;
 - (void)show;

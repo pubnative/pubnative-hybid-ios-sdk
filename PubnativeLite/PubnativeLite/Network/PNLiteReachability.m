@@ -17,14 +17,13 @@
 #pragma mark IPv6 Support
 //Reachability fully support IPv6.  For full details, see ReadMe.md.
 
-NSString *kPNLiteReachabilityChangedNotification = @"kNetworkReachabilityChangedNotification";
+NSString *PNLiteReachabilityChangedNotification = @"kNetworkReachabilityChangedNotification";
 
 #pragma mark - Supporting functions
 
 #define kPNShouldPrintReachabilityFlags 1
 
-static void PNPrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char* comment)
-{
+static void PNPrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char* comment) {
 #if kPNShouldPrintReachabilityFlags
     
     NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
@@ -44,27 +43,24 @@ static void PNPrintReachabilityFlags(SCNetworkReachabilityFlags flags, const cha
 }
 
 
-static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
-{
+static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info) {
 #pragma unused (target, flags)
     NSCAssert(info != NULL, @"info was NULL in ReachabilityCallback");
     NSCAssert([(__bridge NSObject*) info isKindOfClass: [PNLiteReachability class]], @"info was wrong class in ReachabilityCallback");
     
     PNLiteReachability* noteObject = (__bridge PNLiteReachability *)info;
     // Post a notification to notify the client that the network reachability changed.
-    [[NSNotificationCenter defaultCenter] postNotificationName: kPNLiteReachabilityChangedNotification object: noteObject];
+    [[NSNotificationCenter defaultCenter] postNotificationName: PNLiteReachabilityChangedNotification object: noteObject];
 }
 
 
 #pragma mark - Reachability implementation
 
-@implementation PNLiteReachability
-{
+@implementation PNLiteReachability {
     SCNetworkReachabilityRef _reachabilityRef;
 }
 
-+ (instancetype)reachabilityWithHostName:(NSString *)hostName
-{
++ (instancetype)reachabilityWithHostName:(NSString *)hostName {
     PNLiteReachability* returnValue = NULL;
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
     if (reachability != NULL) {
@@ -79,8 +75,7 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
 }
 
 
-+ (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress
-{
++ (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress {
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, hostAddress);
     PNLiteReachability* returnValue = NULL;
     
@@ -96,8 +91,7 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
 }
 
 
-+ (instancetype)reachabilityForInternetConnection
-{
++ (instancetype)reachabilityForInternetConnection {
     struct sockaddr_in zeroAddress;
     bzero(&zeroAddress, sizeof(zeroAddress));
     zeroAddress.sin_len = sizeof(zeroAddress);
@@ -113,8 +107,7 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
 
 #pragma mark - Start and stop notifier
 
-- (BOOL)startNotifier
-{
+- (BOOL)startNotifier {
     BOOL returnValue = NO;
     SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
     
@@ -127,16 +120,14 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
 }
 
 
-- (void)stopNotifier
-{
+- (void)stopNotifier {
     if (_reachabilityRef != NULL) {
         SCNetworkReachabilityUnscheduleFromRunLoop(_reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     }
 }
 
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self stopNotifier];
     if (_reachabilityRef != NULL) {
         CFRelease(_reachabilityRef);
@@ -146,8 +137,7 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
 
 #pragma mark - Network Flag Handling
 
-- (PNLiteNetworkStatus)networkStatusForFlags:(SCNetworkReachabilityFlags)flags
-{
+- (PNLiteNetworkStatus)networkStatusForFlags:(SCNetworkReachabilityFlags)flags {
     PNPrintReachabilityFlags(flags, "networkStatusForFlags");
     if ((flags & kSCNetworkReachabilityFlagsReachable) == 0) {
         // The target host is not reachable.
@@ -186,8 +176,7 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
 }
 
 
-- (BOOL)connectionRequired
-{
+- (BOOL)connectionRequired {
     NSAssert(_reachabilityRef != NULL, @"connectionRequired called with NULL reachabilityRef");
     SCNetworkReachabilityFlags flags;
     if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
@@ -197,8 +186,7 @@ static void PNLiteReachabilityCallback(SCNetworkReachabilityRef target, SCNetwor
 }
 
 
-- (PNLiteNetworkStatus)currentReachabilityStatus
-{
+- (PNLiteNetworkStatus)currentReachabilityStatus {
     NSAssert(_reachabilityRef != NULL, @"currentNetworkStatus called with NULL SCNetworkReachabilityRef");
     PNLiteNetworkStatus returnValue = PNLiteNetworkStatus_NotReachable;
     SCNetworkReachabilityFlags flags;

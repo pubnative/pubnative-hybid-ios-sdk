@@ -34,16 +34,18 @@
 
 @implementation PNLiteDemoPNLiteBannerViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"HyBid Banner";
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestBannerTouchUpInside:(id)sender
-{
+- (IBAction)requestBannerTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.bannerAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -53,40 +55,25 @@
 
 #pragma mark - HyBidAdViewDelegate
 
-- (void)adViewDidLoad:(HyBidAdView *)adView
-{
+- (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
     self.bannerAdView.hidden = NO;
     self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
 }
 
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
-{
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestBannerTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
-- (void)adViewDidTrackClick:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did track click:");
 }
 
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did track impression:");
 }
 

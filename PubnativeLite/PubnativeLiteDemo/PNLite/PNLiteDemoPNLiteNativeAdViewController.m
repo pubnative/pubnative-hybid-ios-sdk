@@ -42,23 +42,24 @@
 
 @implementation PNLiteDemoPNLiteNativeAdViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.nativeAdLoader = nil;
     [self.nativeAd stopTracking];
     self.nativeAd = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"HyBid Native Ad";
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestNativeAdTouchUpInside:(id)sender
-{
+- (IBAction)requestNativeAdTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
@@ -68,37 +69,23 @@
 
 #pragma mark - HyBidNativeAdLoaderDelegate
 
-- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.inspectRequestButton.hidden = NO;
     self.nativeAd = nativeAd;
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
 
-- (void)nativeLoaderDidFailWithError:(NSError *)error
-{
+- (void)nativeLoaderDidFailWithError:(NSError *)error {
     NSLog(@"Native Ad did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.nativeAdLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestNativeAdTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
 #pragma mark - HyBidNativeAdFetchDelegate
 
-- (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd {
     HyBidNativeAdRenderer *renderer = [[HyBidNativeAdRenderer alloc] init];
     renderer.contentInfoView = self.nativeAdContentInfo;
     renderer.iconView = self.nativeAdIcon;
@@ -114,33 +101,19 @@
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
-- (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error
-{
+- (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error {
     NSLog(@"Native Ad did fail with error: %@",error.localizedDescription);
     [self.nativeAdLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestNativeAdTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
 #pragma mark - HyBidNativeAdDelegate
 
-- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
-{
+- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view {
     NSLog(@"Native Ad did track impression:");
 }
 
-- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad did track click:");
 }
 

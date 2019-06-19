@@ -48,28 +48,29 @@
 
 @implementation PNLiteDemoMoPubMediationNativeViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.request = nil;
     self.nativeAd = nil;
     self.imageHandler = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Native";
     [self.nativeAdLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestNativeAdTouchUpInside:(id)sender
-{
+- (IBAction)requestNativeAdTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     
-    if(self.imageHandler == nil) {
+    if(!self.imageHandler) {
         self.imageHandler = [[MPNativeAdRendererImageHandler alloc] init];
     }
     MPStaticNativeAdRendererSettings *settings = [[MPStaticNativeAdRendererSettings alloc] init];
@@ -86,7 +87,7 @@
     
     __block PNLiteDemoMoPubMediationNativeViewController *strongSelf = self;
     [self.request startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response, NSError *error) {
-        if(error == nil) {
+        if(!error) {
             self.inspectRequestButton.hidden = NO;
             [strongSelf processResponse:response];
         } else {
@@ -99,15 +100,14 @@
     }];
 }
 
-- (void)processResponse:(MPNativeAd *)ad
-{
+- (void)processResponse:(MPNativeAd *)ad {
     self.nativeAd = ad;
     self.nativeAd.delegate = self;
     
     NSError *error = nil;
     [self.nativeAdView removeFromSuperview];
     self.nativeAdView = [ad retrieveAdViewWithError:&error];
-    if(error == nil) {
+    if(!error) {
         self.nativeAdView.frame = self.nativeAdContainer.bounds;
         [self.nativeAdContainer addSubview:self.nativeAdView];
         self.nativeAdContainer.hidden = NO;
@@ -117,41 +117,21 @@
     }
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestNativeAdTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - MPNativeAdDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)willPresentModalForNativeAd:(MPNativeAd *)nativeAd
-{
+- (void)willPresentModalForNativeAd:(MPNativeAd *)nativeAd {
     NSLog(@"willPresentModalForNativeAd");
 }
 
-- (void)didDismissModalForNativeAd:(MPNativeAd *)nativeAd
-{
+- (void)didDismissModalForNativeAd:(MPNativeAd *)nativeAd {
     NSLog(@"didDismissModalForNativeAd");
 }
 
-- (void)willLeaveApplicationFromNativeAd:(MPNativeAd *)nativeAd
-{
+- (void)willLeaveApplicationFromNativeAd:(MPNativeAd *)nativeAd {
     NSLog(@"willLeaveApplicationFromNativeAd");
 }
 

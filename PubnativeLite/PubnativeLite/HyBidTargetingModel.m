@@ -24,8 +24,7 @@
 
 @implementation HyBidTargetingModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.age = nil;
     self.interests = nil;
     self.gender = nil;
