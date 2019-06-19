@@ -29,7 +29,7 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
 @property (nonatomic, readonly) BOOL isConsentPageLoaded;
 
-+ (instancetype _Nonnull)sharedInstance;
++ (instancetype)sharedInstance;
 - (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock _Nonnull)completion;
 
 - (void)loadConsentPageWithCompletion:(void (^ _Nullable)(NSError * _Nullable error))completion;
