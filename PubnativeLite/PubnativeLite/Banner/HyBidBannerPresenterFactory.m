@@ -22,28 +22,12 @@
 
 #import "HyBidBannerPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
-#import "PNLiteBannerPresenterDecorator.h"
 #import "PNLiteMRAIDBannerPresenter.h"
-#import "HyBidAdTracker.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidBannerPresenterFactory
 
-- (HyBidBannerPresenter *)createBannerPresenterWithAd:(HyBidAd *)ad
-                                         withDelegate:(NSObject<HyBidBannerPresenterDelegate> *)delegate
-{
-    HyBidBannerPresenter *bannerPresenter = [self createBannerPresenterFromAd:ad];
-    if (!bannerPresenter) {
-        return nil;
-    }
-    PNLiteBannerPresenterDecorator *bannerPresenterDecorator = [[PNLiteBannerPresenterDecorator alloc] initWithBannerPresenter:bannerPresenter
-                                                                                                                 withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                                  withDelegate:delegate];
-    bannerPresenter.delegate = bannerPresenterDecorator;
-    return bannerPresenterDecorator;
-}
-
-- (HyBidBannerPresenter *)createBannerPresenterFromAd:(HyBidAd *)ad
-{
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_BANNER_1:
         case MRAID_BANNER_2: {
@@ -52,7 +36,7 @@
             break;
         }
         default:
-            NSLog(@"HyBidBannerPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for banner ad format", ad.assetGroupID);
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

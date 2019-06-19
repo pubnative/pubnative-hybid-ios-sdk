@@ -24,13 +24,11 @@
 
 @implementation PNLiteAdRequestModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.requestParameters = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.requestParameters = [[NSMutableDictionary alloc] init];

@@ -50,7 +50,7 @@ NSString *NSStringFromPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable
 UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor);
 
 // Progress is a float between 0.0 and 1.0
--(void)setProgress:(CGFloat)progress;
--(void)setProgress:(CGFloat)progress timing:(PNLitePropertyAnimationTiming)timing duration:(CGFloat) duration delay:(CGFloat)delay;
+- (void)setProgress:(CGFloat)progress;
+- (void)setProgress:(CGFloat)progress timing:(PNLitePropertyAnimationTiming)timing duration:(CGFloat) duration delay:(CGFloat)delay;
 
 @end

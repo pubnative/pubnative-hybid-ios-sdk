@@ -27,29 +27,26 @@
 
 @implementation HyBid
 
-+ (void)setCoppa:(BOOL)enabled
-{
++ (void)setCoppa:(BOOL)enabled {
     [HyBidSettings sharedInstance].coppa = enabled;
 }
 
-+ (void)setTargeting:(HyBidTargetingModel *)targeting
-{
++ (void)setTargeting:(HyBidTargetingModel *)targeting {
     [HyBidSettings sharedInstance].targeting = targeting;
 }
 
-+ (void)setTestMode:(BOOL)enabled
-{
++ (void)setTestMode:(BOOL)enabled {
     [HyBidSettings sharedInstance].test = enabled;
 }
 
-+ (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion
-{
-    if (appToken == nil || appToken.length == 0) {
-        NSLog(@"HyBid - App Token is nil or empty and required.");
++ (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
+    if (!appToken || appToken.length == 0) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
+        [HyBidViewabilityManager sharedInstance];
         [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
-        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithAppToken:appToken completion:^(BOOL success) {
+        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
             completion(success);
         }];
     }

@@ -23,6 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "HyBidAd.h"
 #import "HyBidAdRequest.h"
+#import "HyBidAdPresenter.h"
 
 @class HyBidAdView;
 
@@ -35,16 +36,17 @@
 
 @end
 
-@interface HyBidAdView : UIView <HyBidAdRequestDelegate>
+@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate>
 
 @property (nonatomic, readonly) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidAdViewDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidAdViewDelegate> *delegate;
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)setupAdView:(UIView *)adView;
 - (void)renderAd;
 - (void)startTracking;
 - (void)stopTracking;
+- (HyBidAdPresenter *)createAdPresenter;
 
 @end

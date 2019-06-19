@@ -25,6 +25,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidLogger.h"
 
 CGFloat const kHyBidMRAIDLeaderboardWidth = 728.0f;
 CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
@@ -39,14 +40,12 @@ CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
 
 @implementation HyBidMRAIDLeaderboardPresenter
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.serviceProvider = nil;
     self.adModel = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad
-{
+- (instancetype)initWithAd:(HyBidAd *)ad {
     self = [super init];
     if (self) {
         self.adModel = ad;
@@ -54,13 +53,11 @@ CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
     return self;
 }
 
-- (HyBidAd *)ad
-{
+- (HyBidAd *)ad {
     return self.adModel;
 }
 
-- (void)load
-{
+- (void)load {
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, kHyBidMRAIDLeaderboardWidth, kHyBidMRAIDLeaderboardHeight)
                                               withHtmlData:self.adModel.htmlData
@@ -73,82 +70,73 @@ CGFloat const kHyBidMRAIDLeaderboardHeight = 90.0f;
                                                contentInfo:self.adModel.contentInfo];
 }
 
-- (void)startTracking
-{
-    
+- (void)startTracking {
+    if (self.mraidView) {
+        [self.mraidView startAdSession];
+    }
 }
 
-- (void)stopTracking
-{
-    
+- (void)stopTracking {
+    if (self.mraidView) {
+        [self.mraidView stopAdSession];
+    }
 }
 
 #pragma mark HyBidMRAIDViewDelegate
 
-- (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView
-{
-    [self.delegate leaderboardPresenter:self didLoadWithLeaderboard:mraidView];
+- (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
+    [self.delegate adPresenter:self didLoadWithAd:mraidView];
 }
 
-- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView
-{
-    NSError *error = [NSError errorWithDomain:@"HyBidMRAIDLeaderboardPresenter - MRAID View  Failed" code:0 userInfo:nil];
-    [self.delegate leaderboardPresenter:self didFailWithError:error];
+- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
+    NSError *error = [NSError errorWithDomain:@"MRAID View failed." code:0 userInfo:nil];
+    [self.delegate adPresenter:self didFailWithError:error];
 }
 
-- (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView
-{
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID will expand!");
-    [self.delegate leaderboardPresenterDidClick:self];
+- (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
+    [self.delegate adPresenterDidClick:self];
 }
 
-- (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView
-{
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID did close!");
+- (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
 }
 
-- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url
-{
-    NSLog(@"HyBidMRAIDViewDelegate - MRAID navigate with URL:%@",url);
+- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
     [self.serviceProvider openBrowser:url.absoluteString];
-    [self.delegate leaderboardPresenterDidClick:self];
+    [self.delegate adPresenterDidClick:self];
 }
 
-- (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen
-{
+- (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
     return NO;
 }
 
 #pragma mark HyBidMRAIDServiceDelegate
 
-- (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString
-{
+- (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString {
     [self.serviceProvider callNumber:urlString];
 }
 
-- (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString
-{
+- (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString {
     [self.serviceProvider sendSMS:urlString];
 }
 
-- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON
-{
+- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON {
     [self.serviceProvider createEvent:eventJSON];
 }
 
-- (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString
-{
-    [self.delegate leaderboardPresenterDidClick:self];
+- (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
+    [self.delegate adPresenterDidClick:self];
     [self.serviceProvider openBrowser:urlString];
 }
 
-- (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString
-{
+- (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
     [self.serviceProvider playVideo:urlString];
 }
 
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString
-{
+- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
     [self.serviceProvider storePicture:urlString];
 }
 

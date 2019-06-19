@@ -34,16 +34,14 @@
 
 @implementation PNLiteVASTPlayerInterstitialViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.player stop];
     self.player = nil;
     self.presenter = nil;
     self.adModel = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:currentBundle];
     self.view = [currentBundle loadNibNamed:NSStringFromClass([self class])
@@ -52,28 +50,23 @@
     return self;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [self.player play];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     [self.player stop];
 }
 
-- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad
-{
+- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad {
     self.presenter = interstitialPresenter;
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:YES];
@@ -83,41 +76,34 @@
 
 #pragma mark PNLiteVASTPlayerViewControllerDelegate
 
-- (void)vastPlayerDidFinishLoading:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidFinishLoading:(PNLiteVASTPlayerViewController *)vastPlayer {
     self.player = vastPlayer;
     self.player.view.frame = self.playerContainer.bounds;
     [self.playerContainer addSubview:self.player.view];
     [self.presenter.delegate interstitialPresenterDidLoad:self.presenter];
 }
 
-- (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error
-{
+- (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error {
     [self.presenter.delegate interstitialPresenter:self.presenter didFailWithError:error];
 }
 
-- (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter.delegate interstitialPresenterDidShow:self.presenter];
 }
 
-- (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer {
     
 }
 
-- (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
     
 }
 
-- (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
 }
 
-- (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer
-{
+- (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter hide];
     [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
 }

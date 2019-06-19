@@ -24,8 +24,7 @@
 
 @implementation PNLiteVisibilityTrackerItem
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.view = nil;
 }
 

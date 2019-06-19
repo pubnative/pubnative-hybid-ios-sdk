@@ -26,9 +26,9 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubLeaderboardCustomEvent () <HyBidLeaderboardPresenterDelegate>
+@interface HyBidMoPubLeaderboardCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidLeaderboardPresenter *leaderboardPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *leaderboardPresenter;
 @property (nonatomic, strong) HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -36,71 +36,64 @@
 
 @implementation HyBidMoPubLeaderboardCustomEvent
 
-- (void)dealloc
-{
-    [self.leaderboardPresenter stopTracking];
+- (void)dealloc {
     self.leaderboardPresenter = nil;
     self.leaderboardPresenterFactory = nil;
     self.ad = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
-{
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
-            if (self.ad == nil) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Error: Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
+            if (!self.ad) {
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
                 return;
             }
             self.leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
-            self.leaderboardPresenter = [self.leaderboardPresenterFactory createLeaderboardPresenterWithAd:self.ad withDelegate:self];
-            if (self.leaderboardPresenter == nil) {
-                [self invokeFailWithMessage:@"HyBid - Error: Could not create valid leaderboard presenter"];
+            self.leaderboardPresenter = [self.leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
+            if (!self.leaderboardPresenter) {
+                [self invokeFailWithMessage:@"Could not create valid leaderboard presenter."];
                 return;
             } else {
                 [self.leaderboardPresenter load];
             }
         } else {
-            [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
+            [self invokeFailWithMessage:@"Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed leaderboard ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed leaderboard ad fetch. Missing required server extras."];
         return;
     }
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
-    MPLogError(message);
+- (void)invokeFailWithMessage:(NSString *)message {
+    MPLogError(@"%@", message);
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
                                                      userInfo:nil]];
 }
 
-- (BOOL)enableAutomaticImpressionAndClickTracking
-{
+- (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
 }
 
-#pragma mark - HyBidLeaderboardPresenterDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didLoadWithLeaderboard:(UIView *)leaderboard
-{
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:leaderboard];
+    [self.delegate bannerCustomEvent:self didLoadAd:adView];
     [self.leaderboardPresenter startTracking];
 }
 
-- (void)leaderboardPresenter:(HyBidLeaderboardPresenter *)leaderboardPresenter didFailWithError:(NSError *)error
-{
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
-- (void)leaderboardPresenterDidClick:(HyBidLeaderboardPresenter *)leaderboardPresenter
-{
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];
 }

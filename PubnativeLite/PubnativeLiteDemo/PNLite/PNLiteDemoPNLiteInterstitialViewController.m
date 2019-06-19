@@ -34,20 +34,21 @@
 
 @implementation PNLiteDemoPNLiteInterstitialViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.interstitialAd = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
-- (IBAction)requestInterstitialTouchUpInside:(id)sender
-{
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -57,45 +58,29 @@
 
 #pragma mark - HyBidInterstitialAdDelegate
 
-- (void)interstitialDidLoad
-{
+- (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.interstitialAd show];
 }
 
-- (void)interstitialDidFailWithError:(NSError *)error
-{
+- (void)interstitialDidFailWithError:(NSError *)error {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:error.localizedDescription
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestInterstitialTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
-- (void)interstitialDidTrackClick
-{
+- (void)interstitialDidTrackClick {
     NSLog(@"Interstitial did track click");
 }
 
-- (void)interstitialDidTrackImpression
-{
+- (void)interstitialDidTrackImpression {
     NSLog(@"Interstitial did track impression");
 }
 
-- (void)interstitialDidDismiss
-{
+- (void)interstitialDidDismiss {
     NSLog(@"Interstitial did dismiss");
 }
 

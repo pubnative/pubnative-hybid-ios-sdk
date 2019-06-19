@@ -22,7 +22,7 @@
 
 #import "PNLiteMRAIDParser.h"
 
-#import "PNLiteLogger.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteMRAIDParser ()
 
@@ -33,8 +33,7 @@
 
 @implementation PNLiteMRAIDParser
 
-- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl;
-{
+- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl; {
     /*
      The command is a URL string that looks like this:
      
@@ -44,7 +43,7 @@
      and then send an appropriate message back to the MRAIDView to run the command.
      */
     
-    [PNLiteLogger debug:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"%@ %@", NSStringFromSelector(_cmd), commandUrl]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@", NSStringFromSelector(_cmd), commandUrl]];
     
     // Remove mraid:// prefix.
     NSString *s = [commandUrl substringFromIndex:8];
@@ -71,13 +70,13 @@
     
     // Check for valid command.
     if (![self isValidCommand:command]) {
-        [PNLiteLogger warning:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"command %@ is unknown", command]];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"command %@ is unknown", command]];
         return nil;
     }
     
     // Check for valid parameters for the given command.
     if (![self checkParamsForCommand:command params:params]) {
-        [PNLiteLogger warning:@"MRAID - Parser" withMessage:[NSString stringWithFormat:@"command URL %@ is missing parameters", commandUrl]];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"command URL %@ is missing parameters", commandUrl]];
         return nil;
     }
     
@@ -119,8 +118,7 @@
     return commandDict;
 }
 
-- (BOOL)isValidCommand:(NSString *)command
-{
+- (BOOL)isValidCommand:(NSString *)command {
     NSArray *kCommands = @[
                            @"createCalendarEvent",
                            @"close",
@@ -139,8 +137,7 @@
     return [kCommands containsObject:command];
 }
 
-- (BOOL)checkParamsForCommand:(NSString *)command params:(NSDictionary *)params;
-{
+- (BOOL)checkParamsForCommand:(NSString *)command params:(NSDictionary *)params; {
     if ([command isEqualToString:@"createCalendarEvent"]) {
         return ([params valueForKey:@"eventJSON"] != nil);
     } else if ([command isEqualToString:@"open"] || [command isEqualToString:@"playVideo"] || [command isEqualToString:@"storePicture"] || [command isEqualToString:@"sendSMS"] || [command isEqualToString:@"callNumber"]) {

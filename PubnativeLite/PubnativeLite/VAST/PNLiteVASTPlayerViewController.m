@@ -27,20 +27,21 @@
 #import "PNLiteVASTEventProcessor.h"
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidLogger.h"
 
-NSString * const kPNLiteVASTPlayerStatusKeyPath         = @"status";
-NSString * const kPNLiteVASTPlayerBundleName            = @"player.resources";
-NSString * const kPNLiteVASTPlayerMuteImageName         = @"PNLiteMute";
-NSString * const kPNLiteVASTPlayerUnMuteImageName       = @"PNLiteUnmute";
-NSString * const kPNLiteVASTPlayerFullScreenImageName   = @"PNLiteFullScreen";
-NSString * const kPNLiteVASTPlayerOpenImageName         = @"PNLiteExternalLink";
-NSString * const kPNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
+NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
+NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
+NSString * const PNLiteVASTPlayerMuteImageName         = @"PNLiteMute";
+NSString * const PNLiteVASTPlayerUnMuteImageName       = @"PNLiteUnmute";
+NSString * const PNLiteVASTPlayerFullScreenImageName   = @"PNLiteFullScreen";
+NSString * const PNLiteVASTPlayerOpenImageName         = @"PNLiteExternalLink";
+NSString * const PNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
 
 
-NSTimeInterval const kPNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
-NSTimeInterval const kPNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
-CGFloat const kPNLiteVASTPlayerViewProgressBottomConstant       = 10.0f;
-CGFloat const kPNLiteVASTPlayerViewProgressLeadingConstant      = 10.0f;
+NSTimeInterval const PNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
+NSTimeInterval const PNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
+CGFloat const PNLiteVASTPlayerViewProgressBottomConstant       = 10.0f;
+CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant      = 10.0f;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -109,8 +110,7 @@ typedef enum : NSUInteger {
 #pragma mark NSObject
 
 - (instancetype)initPlayerWithContentInfo:(HyBidContentInfoView *)contentInfo
-                            isInterstital:(BOOL)isInterstitial
-{
+                            isInterstital:(BOOL)isInterstitial {
     self.isInterstitial = isInterstitial;
     self = [self init];
     if (self) {
@@ -120,8 +120,7 @@ typedef enum : NSUInteger {
     return self;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     if (self.isInterstitial) {
         self = [super initWithNibName:@"PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
     } else {
@@ -136,76 +135,66 @@ typedef enum : NSUInteger {
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self close];
 }
 
 #pragma mark UIViewController
 
-- (void)viewWillLayoutSubviews
-{
+- (void)viewWillLayoutSubviews {
     if(self.layer) {
         self.layer.frame = self.view.bounds;
     }
 }
 
-- (void)viewDidLoad
-{
-    [self.btnMute setImage:[self bundledImageNamed:kPNLiteVASTPlayerMuteImageName] forState:UIControlStateNormal];
-    [self.btnOpenOffer setImage:[self bundledImageNamed:kPNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
-    [self.btnFullscreen setImage:[self bundledImageNamed:kPNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
-    [self.btnClose setImage:[self bundledImageNamed:kPNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
+- (void)viewDidLoad {
+    [self.btnMute setImage:[self bundledImageNamed:PNLiteVASTPlayerMuteImageName] forState:UIControlStateNormal];
+    [self.btnOpenOffer setImage:[self bundledImageNamed:PNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
+    [self.btnFullscreen setImage:[self bundledImageNamed:PNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
+    [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
     [self.contentInfoViewContainer addSubview:self.contentInfoView];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     self.shown = YES;
     if(self.wantsToPlay) {
         [self setState:PNLiteVASTPlayerState_PLAY];
     }
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     self.shown = NO;
 }
 
 #pragma mark - PUBLIC -
 
-- (void)loadWithVastUrl:(NSURL*)url
-{
+- (void)loadWithVastUrl:(NSURL*)url {
     @synchronized (self) {
         self.vastUrl = url;
         [self setState:PNLiteVASTPlayerState_LOAD];
     }
 }
 
-- (void)loadWithVastString:(NSString *)vast
-{
+- (void)loadWithVastString:(NSString *)vast {
     @synchronized (self) {
         self.vastString = vast;
         [self setState:PNLiteVASTPlayerState_LOAD];
     }
 }
 
-- (void)play
-{
+- (void)play {
     @synchronized (self) {
         [self setState:PNLiteVASTPlayerState_PLAY];
     }
 }
 
-- (void)pause
-{
+- (void)pause {
     @synchronized (self) {
         [self setState:PNLiteVASTPlayerState_PAUSE];
     }
 }
 
-- (void)stop
-{
+- (void)stop {
     @synchronized (self) {
         [self setState:PNLiteVASTPlayerState_IDLE];
     }
@@ -213,8 +202,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - PRIVATE -
 
-- (void)close
-{
+- (void)close {
     @synchronized (self) {
         [self removeObservers];
         [self stopLoadTimeoutTimer];
@@ -238,25 +226,22 @@ typedef enum : NSUInteger {
     }
 }
 
-- (UIImage*)bundledImageNamed:(NSString*)name
-{
+- (UIImage*)bundledImageNamed:(NSString*)name {
     NSBundle *bundle = [self getBundle];
     // Try getting the regular PNG
     NSString *imagePath = [bundle pathForResource:name ofType:@"png"];
     // If nil, let's try to get the combined TIFF, JIC it's enabled
-    if(imagePath == nil) {
+    if(!imagePath) {
         imagePath = [bundle pathForResource:name ofType:@"tiff"];
     }
     return [UIImage imageWithContentsOfFile:imagePath];
 }
 
-- (NSBundle*)getBundle
-{
+- (NSBundle*)getBundle {
     return [NSBundle bundleForClass:[self class]];
 }
 
-- (void)createVideoPlayerWithVideoUrl:(NSURL*)url
-{
+- (void)createVideoPlayerWithVideoUrl:(NSURL*)url {
     [self addObservers];
     // Create asset to be played
     AVAsset *asset = [AVAsset assetWithURL:url];
@@ -268,7 +253,7 @@ typedef enum : NSUInteger {
     
     // Register as an observer of the player item's status property
     [self.playerItem addObserver:self
-                      forKeyPath:kPNLiteVASTPlayerStatusKeyPath
+                      forKeyPath:PNLiteVASTPlayerStatusKeyPath
                          options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
                          context:&_playerItem];
     
@@ -276,7 +261,7 @@ typedef enum : NSUInteger {
     self.player.volume = 0;
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     __weak typeof(self) weakSelf = self;
-    CMTime interval = CMTimeMakeWithSeconds(kPNLiteVASTPlayerDefaultPlaybackInterval, NSEC_PER_SEC);
+    CMTime interval = CMTimeMakeWithSeconds(PNLiteVASTPlayerDefaultPlaybackInterval, NSEC_PER_SEC);
     self.playbackToken = [self.player addPeriodicTimeObserverForInterval:interval
                                                                    queue:nil
                                                               usingBlock:^(CMTime time) {
@@ -287,13 +272,12 @@ typedef enum : NSUInteger {
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSString *,id> *)change
-                       context:(void *)context
-{
+                       context:(void *)context {
     // Only handle observations for the PlayerItemContext
     
     if (context != &_playerItem) {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    } else if ([keyPath isEqualToString:kPNLiteVASTPlayerStatusKeyPath]
+    } else if ([keyPath isEqualToString:PNLiteVASTPlayerStatusKeyPath]
                && self.currentState == PNLiteVASTPlayerState_LOAD) {
         
         AVPlayerItemStatus status = AVPlayerItemStatusUnknown;
@@ -320,8 +304,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)onPlaybackProgressTick
-{
+- (void)onPlaybackProgressTick {
     Float64 currentDuration = [self duration];
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
@@ -358,21 +341,18 @@ typedef enum : NSUInteger {
     }
 }
 
-- (Float64)duration
-{
+- (Float64)duration {
     AVPlayerItem *currentItem = self.player.currentItem;
     return CMTimeGetSeconds([currentItem duration]);
 }
 
-- (Float64)currentPlaybackTime
-{
+- (Float64)currentPlaybackTime {
     AVPlayerItem *currentItem = self.player.currentItem;
     return CMTimeGetSeconds([currentItem currentTime]);
 }
 
-- (void)trackError
-{
-    NSLog(@"VASTPlayer - Sending Error requests");
+- (void)trackError {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Sending Error requests."];
     if(self.vastModel && [self.vastModel errors] != nil) {
         [self.eventProcessor sendVASTUrls:[self.vastModel errors]];
     }
@@ -380,25 +360,20 @@ typedef enum : NSUInteger {
 
 #pragma mark IBActions
 
-- (IBAction)btnMutePush:(id)sender
-{
-    NSLog(@"btnMutePush");
+- (IBAction)btnMutePush:(id)sender {
     self.muted = !self.muted;
-    NSString *newImageName = self.muted ? kPNLiteVASTPlayerMuteImageName : kPNLiteVASTPlayerUnMuteImageName;
+    NSString *newImageName = self.muted ? PNLiteVASTPlayerMuteImageName : PNLiteVASTPlayerUnMuteImageName;
     UIImage *newImage = [self bundledImageNamed:newImageName];
     [self.btnMute setImage:newImage forState:UIControlStateNormal];
     CGFloat newVolume = self.muted?0.0f:1.0f;
     self.player.volume = newVolume;
 }
 
-- (IBAction)btnClosePush:(id)sender
-{
+- (IBAction)btnClosePush:(id)sender {
     [self invokeDidClose];
 }
 
-- (IBAction)btnOpenOfferPush:(id)sender
-{
-    NSLog(@"btnOpenOfferPush");
+- (IBAction)btnOpenOfferPush:(id)sender {
     NSArray *clickTrackingUrls = [self.vastModel clickTracking];
     if (clickTrackingUrls != nil && [clickTrackingUrls count] > 0) {
         [self.eventProcessor sendVASTUrls:clickTrackingUrls];
@@ -407,9 +382,7 @@ typedef enum : NSUInteger {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
 }
 
-- (IBAction)btnFullscreenPush:(id)sender
-{    
-    NSLog(@"btnFullscreenPush");
+- (IBAction)btnFullscreenPush:(id)sender {
     
     self.fullScreen = !self.fullScreen;
     self.contentInfoViewContainer.hidden = self.fullScreen;
@@ -427,8 +400,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)setConstraintsForPlayerElementsInFullscreen:(BOOL)isFullscreen
-{
+- (void)setConstraintsForPlayerElementsInFullscreen:(BOOL)isFullscreen {
     if (@available(iOS 11.0, *)) {
         if (isFullscreen) {
             UIWindow *window = UIApplication.sharedApplication.keyWindow;
@@ -444,8 +416,8 @@ typedef enum : NSUInteger {
             self.btnFullScreenTrailingConstraint.constant = trailingPadding;
             self.contentInfoViewContainerTopConstraint.constant = -topPadding;
             self.contentInfoViewContainerLeadingConstraint.constant = leadingPadding;
-            self.viewProgressBottomConstraint.constant = bottomPadding + kPNLiteVASTPlayerViewProgressBottomConstant;
-            self.viewProgressLeadingConstraint.constant = leadingPadding + kPNLiteVASTPlayerViewProgressLeadingConstant;
+            self.viewProgressBottomConstraint.constant = bottomPadding + PNLiteVASTPlayerViewProgressBottomConstant;
+            self.viewProgressLeadingConstraint.constant = leadingPadding + PNLiteVASTPlayerViewProgressLeadingConstant;
         } else {
             self.btnOpenOfferTopConstraint.constant = 0;
             self.btnOpenOfferTrailingConstraint.constant = 0;
@@ -455,8 +427,8 @@ typedef enum : NSUInteger {
             self.btnFullScreenTrailingConstraint.constant = 0;
             self.contentInfoViewContainerTopConstraint.constant = 0;
             self.contentInfoViewContainerLeadingConstraint.constant = 0;
-            self.viewProgressBottomConstraint.constant = kPNLiteVASTPlayerViewProgressBottomConstant;
-            self.viewProgressLeadingConstraint.constant = kPNLiteVASTPlayerViewProgressLeadingConstant;
+            self.viewProgressBottomConstraint.constant = PNLiteVASTPlayerViewProgressBottomConstant;
+            self.viewProgressLeadingConstraint.constant = PNLiteVASTPlayerViewProgressLeadingConstant;
         }
         
         [self.view layoutIfNeeded];
@@ -465,53 +437,47 @@ typedef enum : NSUInteger {
 
 #pragma mark - Delegate helpers
 
-- (void)invokeDidClickOffer
-{
+- (void)invokeDidClickOffer {
     if ([self.delegate respondsToSelector:@selector(vastPlayerDidOpenOffer:)]) {
         [self.delegate vastPlayerDidOpenOffer:self];
     }
 }
 
-- (void)invokeDidFinishLoading
-{
+- (void)invokeDidFinishLoading {
     [self stopLoadTimeoutTimer];
     if([self.delegate respondsToSelector:@selector(vastPlayerDidFinishLoading:)]) {
         [self.delegate vastPlayerDidFinishLoading:self];
     }
 }
 
-- (void)invokeDidFailLoadingWithError:(NSError*)error
-{
+- (void)invokeDidFailLoadingWithError:(NSError*)error {
     [self close];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
     if([self.delegate respondsToSelector:@selector(vastPlayer:didFailLoadingWithError:)]) {
         [self.delegate vastPlayer:self didFailLoadingWithError:error];
     }
     [self trackError];
 }
 
-- (void)invokeDidStartPlaying
-{
+- (void)invokeDidStartPlaying {
     if([self.delegate respondsToSelector:@selector(vastPlayerDidStartPlaying:)]) {
         [self.delegate vastPlayerDidStartPlaying:self];
     }
 }
 
-- (void)invokeDidPause
-{
+- (void)invokeDidPause {
     if([self.delegate respondsToSelector:@selector(vastPlayerDidPause:)]) {
         [self.delegate vastPlayerDidPause:self];
     }
 }
 
-- (void)invokeDidComplete
-{
+- (void)invokeDidComplete {
     if([self.delegate respondsToSelector:@selector(vastPlayerDidComplete:)]) {
         [self.delegate vastPlayerDidComplete:self];
     }
 }
 
-- (void)invokeDidClose
-{
+- (void)invokeDidClose {
     if ([self.delegate respondsToSelector:@selector(vastPlayerDidClose:)]) {
         [self.delegate vastPlayerDidClose:self];
     }
@@ -519,8 +485,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - AVPlayer notifications
 
-- (void)addObservers
-{
+- (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(applicationDidBecomeActive:)
                                                  name: UIApplicationDidBecomeActiveNotification
@@ -532,25 +497,22 @@ typedef enum : NSUInteger {
                                                object:self.player];
 }
 
-- (void)removeObservers
-{
+- (void)removeObservers {
     if(self.player != nil) {
-        [self.playerItem removeObserver:self forKeyPath:kPNLiteVASTPlayerStatusKeyPath];
+        [self.playerItem removeObserver:self forKeyPath:PNLiteVASTPlayerStatusKeyPath];
         [self.player removeTimeObserver:self.playbackToken];
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];;
 }
 
-- (void)applicationDidBecomeActive:(NSNotification*)notification
-{
+- (void)applicationDidBecomeActive:(NSNotification*)notification {
     if(self.currentState == PNLiteVASTPlayerState_PLAY) {
         [self.player play];
     }
 }
 
-- (void)moviePlayBackDidFinish:(NSNotification*)notification
-{
+- (void)moviePlayBackDidFinish:(NSNotification*)notification {
     [self.eventProcessor trackEvent:PNLiteVASTEvent_Complete];
     if(self.fullScreen) {
         [self btnFullscreenPush:self.btnFullscreen];
@@ -563,8 +525,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - State Machine
 
-- (BOOL)canGoToState:(PNLiteVASTPlayerState)state
-{
+- (BOOL)canGoToState:(PNLiteVASTPlayerState)state {
     BOOL result = NO;
     
     switch (state) {
@@ -575,7 +536,7 @@ typedef enum : NSUInteger {
         {
             if ((self.currentState & PNLiteVASTPlayerState_READY) && !self.shown) {
                 self.wantsToPlay = YES;
-                NSLog(@"PNLiteVASTPlayer - You're trying to play when the view is not add to the screen, it will be played as soon as the view is add to the screen");
+                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"You're trying to play when the view is not add to the screen, it will be played as soon as the view is add to the screen."];
             }
             result = (self.currentState & (PNLiteVASTPlayerState_READY|PNLiteVASTPlayerState_PAUSE)) && self.shown;
         }
@@ -587,8 +548,7 @@ typedef enum : NSUInteger {
     return result;
 }
 
-- (void)setState:(PNLiteVASTPlayerState)state
-{
+- (void)setState:(PNLiteVASTPlayerState)state {
     if ([self canGoToState:state]) {
         self.currentState = state;
         switch (self.currentState) {
@@ -599,14 +559,11 @@ typedef enum : NSUInteger {
             case PNLiteVASTPlayerState_PAUSE:   [self setPauseState];   break;
         }
     } else {
-        NSLog(@"PNLiteVASTPlayer - Cannot go to state %lu, invalid previous state", (unsigned long)state);
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Cannot go to state %lu, invalid previous state.", (unsigned long)state]];
     }
 }
 
-- (void)setIdleState
-{
-    NSLog(@"PNLiteVASTPlayer - setIdleState");
-    
+- (void)setIdleState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
     if (self.isInterstitial) {
@@ -621,10 +578,7 @@ typedef enum : NSUInteger {
     [self close];
 }
 
-- (void)setLoadState
-{
-    NSLog(@"PNLiteVASTPlayer - setLoadState");
-    
+- (void)setLoadState {
     self.loadingSpin.hidden = NO;
     self.btnMute.hidden = YES;
     if (self.isInterstitial) {
@@ -636,14 +590,13 @@ typedef enum : NSUInteger {
     self.wantsToPlay = NO;
     [self.loadingSpin startAnimating];
     
-    if (self.vastUrl == nil && self.vastString == nil) {
-        
-        NSLog(@"PNLiteVASTPlayer - setLoadState error: VAST is nil and required");
+    if (!self.vastUrl && !self.vastString) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST is nil and required."];
         [self setState:PNLiteVASTPlayerState_IDLE];
         
     } else {
         
-        if (self.parser == nil) {
+        if (!self.parser) {
             self.parser = [[PNLiteVASTParser alloc] init];
         }
         
@@ -651,7 +604,7 @@ typedef enum : NSUInteger {
         
         __weak PNLiteVASTPlayerViewController *weakSelf = self;
         vastParserCompletionBlock completion = ^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
-            if (model == nil) {
+            if (!model) {
                 NSError *parseError = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", (long)error]
                                                           code:0
                                                       userInfo:nil];
@@ -659,9 +612,9 @@ typedef enum : NSUInteger {
             } else {
                 weakSelf.eventProcessor = [[PNLiteVASTEventProcessor alloc] initWithEvents:[model trackingEvents] delegate:self];
                 NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[model mediaFiles]].url;
-                if(mediaUrl == nil) {
-                    NSLog(@"PNLiteVASTPlayerVC - Error: did not find a compatible mediaFile");
-                    NSError *mediaNotFoundError = [NSError errorWithDomain:@"PNLiteVASTPlayerVC - Error: Not found compatible media with this device" code:0 userInfo:nil];
+                if(!mediaUrl) {
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
+                    NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:0 userInfo:nil];
                     [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
                 } else {
                     weakSelf.vastModel = model;
@@ -677,15 +630,13 @@ typedef enum : NSUInteger {
             [self.parser parseWithData:[self.vastString dataUsingEncoding:NSUTF8StringEncoding]
                             completion:completion];
         } else {
-            NSError *unexpectedError = [NSError errorWithDomain:@"PNLiteVASTPlayerVC - Error: unexpected" code:0 userInfo:nil];
+            NSError *unexpectedError = [NSError errorWithDomain:@"Unexpected Error." code:0 userInfo:nil];
             [self invokeDidFailLoadingWithError:unexpectedError];
         }
     }
 }
 
-- (void)setReadyState
-{
-    NSLog(@"PNLiteVASTPlayer - setReadyState");
+- (void)setReadyState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
     if (self.isInterstitial) {
@@ -696,14 +647,14 @@ typedef enum : NSUInteger {
     self.viewProgress.hidden = YES;
     self.loadingSpin.hidden = YES;
     
-    if(self.layer == nil) {
+    if(!self.layer) {
         self.layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
         self.layer.videoGravity = AVLayerVideoGravityResizeAspect;
         self.layer.frame = self.view.bounds;
         [self.view.layer insertSublayer:self.layer atIndex:0];
     }
     
-    if(self.progressLabel == nil) {
+    if(!self.progressLabel) {
         self.progressLabel = [[PNLiteProgressLabel alloc] initWithFrame:self.viewProgress.bounds];
         self.progressLabel.frame = self.viewProgress.bounds;
         self.progressLabel.borderWidth = 6.0;
@@ -724,10 +675,7 @@ typedef enum : NSUInteger {
     self.progressLabel.text = @"0";
 }
 
-- (void)setPlayState
-{
-    NSLog(@"PNLiteVASTPlayer - setPlayState");
-    
+- (void)setPlayState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     self.btnOpenOffer.hidden = NO;
@@ -751,10 +699,7 @@ typedef enum : NSUInteger {
     [self invokeDidStartPlaying];
 }
 
-- (void)setPauseState
-{
-    NSLog(@"PNLiteVASTPlayer - setPauseState");
-    
+- (void)setPauseState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     self.btnOpenOffer.hidden = NO;
@@ -775,12 +720,11 @@ typedef enum : NSUInteger {
 #pragma mark - TIMERS -
 #pragma mark Load timer
 
-- (void)startLoadTimeoutTimer
-{
+- (void)startLoadTimeoutTimer {
     @synchronized (self) {
         [self stopLoadTimeoutTimer];
         if(self.loadTimeout == 0) {
-            self.loadTimeout = kPNLiteVASTPlayerDefaultLoadTimeout;
+            self.loadTimeout = PNLiteVASTPlayerDefaultLoadTimeout;
         }
         
         self.loadTimer = [NSTimer scheduledTimerWithTimeInterval:self.loadTimeout
@@ -791,31 +735,27 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)stopLoadTimeoutTimer
-{
+- (void)stopLoadTimeoutTimer {
     [self.loadTimer invalidate];
     self.loadTimer = nil;
 }
 
-- (void)loadTimeoutFired
-{
+- (void)loadTimeoutFired {
     [self close];
-    NSError *error = [NSError errorWithDomain:@"VASTPlayer - video load timeout" code:0 userInfo:nil];
+    NSError *error = [NSError errorWithDomain:@"Video load timeout." code:0 userInfo:nil];
     [self invokeDidFailLoadingWithError:error];
 }
 
 #pragma mark - CALLBACKS -
 #pragma mark PNLiteVASTEventProcessorDelegate
 
-- (void)eventProcessorDidTrackEvent:(PNLiteVASTEvent)event
-{
-    NSLog(@"PNLiteVASTPlayer - event tracked: %ld", (long)event);
+- (void)eventProcessorDidTrackEvent:(PNLiteVASTEvent)event {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Event tracked: %ld", (long)event]];
 }
 
 #pragma mark - HyBidContentInfoViewDelegate
 
-- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
-{
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width {
     self.contentInfoViewWidthConstraint.constant = [width floatValue];
     [self setConstraintsForPlayerElementsInFullscreen:self.fullScreen];
     [self.view layoutIfNeeded];

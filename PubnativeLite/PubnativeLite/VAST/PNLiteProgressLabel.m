@@ -23,15 +23,13 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PNLiteProgressLabel.h"
 
-@implementation PNLiteProgressLabel
-{
+@implementation PNLiteProgressLabel {
     pnradiansFromDegreesCompletion _radiansFromDegrees;
 }
 
 #pragma mark Core
 
--(id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self baseInit];
@@ -39,8 +37,7 @@
     return self;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if(self) {
         [self baseInit];
@@ -48,8 +45,7 @@
     return self;
 }
 
--(void)baseInit
-{
+- (void)baseInit {
     _radiansFromDegrees = ^(CGFloat degrees) {
         return (CGFloat)((degrees) / 180.0 * M_PI);
     };
@@ -67,14 +63,12 @@
     [self squareDimensions];
 }
 
--(void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     [self drawProgressLabelCircleInRect:rect];
     [super drawTextInRect:rect];
 }
 
--(void)setColorTable:(NSDictionary *)colorTable
-{
+- (void)setColorTable:(NSDictionary *)colorTable {
 
     // The Default values...
     NSMutableDictionary *mutableColorTable = [ @{
@@ -94,40 +88,35 @@
 }
 
 // Set square frame.
--(void)squareDimensions
-{
+- (void)squareDimensions {
     CGRect rect = self.frame;
     rect.size.height = self.frame.size.width;
     self.frame = rect;
 }
 
 #pragma mark - Public API
--(void)setBorderWidth:(CGFloat)borderWidth {
+- (void)setBorderWidth:(CGFloat)borderWidth {
     _borderWidth = borderWidth;
     [self setNeedsDisplay];
 }
 
--(void)setStartDegree:(CGFloat)startDegree
-{
+- (void)setStartDegree:(CGFloat)startDegree {
     _startDegree = startDegree - 90;
     [self setNeedsDisplay];
 }
 
--(void)setEndDegree:(CGFloat)endDegree
-{
+- (void)setEndDegree:(CGFloat)endDegree {
     _endDegree = endDegree - 90;
     _progress = endDegree/360;
     [self setNeedsDisplay];
 }
 
--(void)setClockWise:(BOOL)clockWise
-{
+- (void)setClockWise:(BOOL)clockWise {
     _clockWise = clockWise;
     [self setNeedsDisplay];
 }
 
--(void)setProgress:(CGFloat)progress
-{
+- (void)setProgress:(CGFloat)progress {
     if(_progress != progress) {
 
         _progress = progress;
@@ -142,8 +131,7 @@
     }
 }
 
--(void)setProgress:(CGFloat)progress timing:(PNLitePropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay
-{
+- (void)setProgress:(CGFloat)progress timing:(PNLitePropertyAnimationTiming)timing duration:(CGFloat)duration delay:(CGFloat)delay {
     PNLitePropertyAnimation *animation = [PNLitePropertyAnimation propertyAnimationWithKeyPath:@"progress"];
     animation.fromValue = @(_progress);
     animation.toValue = @(progress);
@@ -157,15 +145,13 @@
 #pragma mark Helpers
 #pragma mark -
 
--(void)colorTableDictionaryWarmer
-{
+- (void)colorTableDictionaryWarmer {
     if(!self.colorTable || !self.colorTable[@"fillColor"]) {
         self.colorTable = [NSDictionary new];
     }
 }
 
-NSString *NSStringFromPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor)
-{
+NSString *NSStringFromPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor) {
     switch(tableColor) {
         case PNLiteColorTable_ProgressLabelFillColor: return @"fillColor";
         case PNLiteColorTable_ProgressLabelTrackColor: return @"trackColor";
@@ -174,8 +160,7 @@ NSString *NSStringFromPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable
     }
 }
 
-UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor)
-{
+UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabelColorTable tableColor) {
     switch(tableColor) {
         case PNLiteColorTable_ProgressLabelFillColor: return [UIColor clearColor];
         case PNLiteColorTable_ProgressLabelTrackColor: return [UIColor lightGrayColor];
@@ -184,8 +169,7 @@ UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabe
     }
 }
 
--(void)drawProgressLabelCircleInRect:(CGRect)rect
-{
+- (void)drawProgressLabelCircleInRect:(CGRect)rect {
     [self colorTableDictionaryWarmer];
 
     UIColor *fillColor = self.colorTable[@"fillColor"];
@@ -228,8 +212,7 @@ UIColor *UIColorDefaultForColorInPNProgressLabelColorTableKey(PNLiteProgressLabe
     CGContextStrokePath(context);
 }
 
--(CGRect)rectForCircle:(CGRect)rect
-{
+- (CGRect)rectForCircle:(CGRect)rect {
     CGFloat circleRadius = (self.bounds.size.width / 2) - (_borderWidth * 2);
     CGPoint circleCenter = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
     return CGRectMake(circleCenter.x - circleRadius, circleCenter.y - circleRadius, 2 * circleRadius, 2 * circleRadius);

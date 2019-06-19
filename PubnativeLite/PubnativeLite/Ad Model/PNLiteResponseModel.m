@@ -25,8 +25,7 @@
 
 @implementation PNLiteResponseModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.status = nil;
     self.errorMessage = nil;
     self.ads = nil;
@@ -34,8 +33,7 @@
 
 #pragma mark HyBidBaseModel
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.status = dictionary[@"status"];

@@ -24,8 +24,7 @@
 
 @implementation HyBidAdModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.link = nil;
     self.assets = nil;
     self.meta = nil;
@@ -35,8 +34,7 @@
 
 #pragma mark HyBidBaseModel
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.link = dictionary[@"link"];
@@ -50,30 +48,26 @@
 
 #pragma mark HyBidAdModel
 
-- (HyBidDataModel *)assetWithType:(NSString *)type
-{
+- (HyBidDataModel *)assetWithType:(NSString *)type {
     HyBidDataModel *result = nil;
     result = [self dataWithType:type fromList:self.assets];
     return result;
 }
 
-- (HyBidDataModel *)metaWithType:(NSString *)type
-{
+- (HyBidDataModel *)metaWithType:(NSString *)type {
     HyBidDataModel *result = nil;
     result = [self dataWithType:type fromList:self.meta];
     return result;
 }
 
-- (NSArray *)beaconsWithType:(NSString *)type;
-{
+- (NSArray *)beaconsWithType:(NSString *)type {
     NSArray *result = nil;
     result = [self allWithType:type fromList:self.beacons];
     return result;
 }
 
 - (HyBidDataModel *)dataWithType:(NSString *)type
-                         fromList:(NSArray *)list
-{
+                         fromList:(NSArray *)list {
     HyBidDataModel *result = nil;
     if (list != nil) {
         for (HyBidDataModel *data in list) {
@@ -87,13 +81,12 @@
 }
 
 - (NSArray *)allWithType:(NSString *)type
-                fromList:(NSArray *)list
-{
+                fromList:(NSArray *)list {
     NSMutableArray *result = nil;
     if (list != nil) {
         for (HyBidDataModel *data in list) {
             if ([type isEqualToString:data.type]) {
-                if (result == nil) {
+                if (!result) {
                     result = [[NSMutableArray alloc] init];
                 }
                 [result addObject:data];

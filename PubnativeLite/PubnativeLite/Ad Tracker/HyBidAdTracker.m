@@ -22,9 +22,10 @@
 
 #import "HyBidAdTracker.h"
 #import "HyBidDataModel.h"
+#import "HyBidLogger.h"
 
-NSString *const kPNLiteAdTrackerClick = @"click";
-NSString *const kPNLiteAdTrackerImpression = @"impression";
+NSString *const PNLiteAdTrackerClick = @"click";
+NSString *const PNLiteAdTrackerImpression = @"impression";
 
 @interface HyBidAdTracker() <HyBidAdTrackerRequestDelegate>
 
@@ -38,24 +39,21 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
 
 @implementation HyBidAdTracker
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.adTrackerRequest = nil;
     self.impressionURLs = nil;
     self.clickURLs = nil;
 }
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
-                         withClickURLs:(NSArray *)clickURLs
-{
+                         withClickURLs:(NSArray *)clickURLs {
     HyBidAdTrackerRequest *adTrackerRequest = [[HyBidAdTrackerRequest alloc] init];
     return [self initWithAdTrackerRequest:adTrackerRequest withImpressionURLs:impressionURLs withClickURLs:clickURLs];
 }
 
 - (instancetype)initWithAdTrackerRequest:(HyBidAdTrackerRequest *)adTrackerRequest
                       withImpressionURLs:(NSArray *)impressionURLs
-                           withClickURLs:(NSArray *)clickURLs
-{
+                           withClickURLs:(NSArray *)clickURLs {
     self = [super init];
     if (self) {
         self.adTrackerRequest = adTrackerRequest;
@@ -65,31 +63,28 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
     return self;
 }
 
-- (void)trackClick
-{
+- (void)trackClick {
     if (self.clickTracked) {
         return;
     }
     
-    [self trackURLs:self.clickURLs withTrackType:kPNLiteAdTrackerClick];
+    [self trackURLs:self.clickURLs withTrackType:PNLiteAdTrackerClick];
     self.clickTracked = YES;
 }
 
-- (void)trackImpression
-{
+- (void)trackImpression {
     if (self.impressionTracked) {
         return;
     }
     
-    [self trackURLs:self.impressionURLs withTrackType:kPNLiteAdTrackerImpression];
+    [self trackURLs:self.impressionURLs withTrackType:PNLiteAdTrackerImpression];
     self.impressionTracked = YES;
 }
 
-- (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType
-{
+- (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType {
     if (URLs != nil) {
         for (HyBidDataModel *dataModel in URLs) {
-            NSLog(@"%@", [NSString stringWithFormat:@"HyBidAdTracker - Tracking %@ with URL: %@",trackType, dataModel.url]);
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
             [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
         }
     }
@@ -97,19 +92,16 @@ NSString *const kPNLiteAdTrackerImpression = @"impression";
 
 #pragma mark HyBidAdTrackerRequestDelegate
 
-- (void)requestDidStart:(HyBidAdTrackerRequest *)request
-{
-    NSLog(@"Request %@ started:",request);
+- (void)requestDidStart:(HyBidAdTrackerRequest *)request {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ started:",request]];
 }
 
-- (void)requestDidFinish:(HyBidAdTrackerRequest *)request
-{
-    NSLog(@"Request %@ finished:",request);
+- (void)requestDidFinish:(HyBidAdTrackerRequest *)request {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ finished:",request]];
 }
 
-- (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error
-{
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+- (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ failed with error: %@",request,error.localizedDescription]];
 }
 
 @end

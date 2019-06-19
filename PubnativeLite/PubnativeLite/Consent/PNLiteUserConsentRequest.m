@@ -23,6 +23,7 @@
 #import "PNLiteUserConsentRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteConsentEndpoints.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteUserConsentRequest() <PNLiteHttpRequestDelegate>
 
@@ -32,16 +33,17 @@
 
 @implementation PNLiteUserConsentRequest
 
-#pragma mark PNLiteHttpRequestDelegate
+- (void)dealloc {
+    self.delegate = nil;
+}
 
 - (void)doConsentRequestWithDelegate:(NSObject<PNLiteUserConsentRequestDelegate> *)delegate
                          withRequest:(PNLiteUserConsentRequestModel *)requestModel
-                        withAppToken:(NSString *)appToken
-{
-    if (requestModel == nil) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call" code:0 userInfo:nil]];
-    } else if (delegate == nil) {
-        [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call" code:0 userInfo:nil]];
+                        withAppToken:(NSString *)appToken {
+    if (!requestModel) {
+        [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call." code:0 userInfo:nil]];
+    } else if (!delegate) {
+        [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call." code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
         NSString *url = [PNLiteConsentEndpoints consentURL];
@@ -52,8 +54,8 @@
         [request startWithUrlString:url withMethod:@"POST" delegate:self];
     }
 }
-- (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model
-{
+
+- (void)invokeDidLoad:(PNLiteUserConsentResponseModel *)model {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestSuccess:)]) {
             [self.delegate userConsentRequestSuccess:model];
@@ -62,18 +64,17 @@
     });
 }
 
-- (void)invokeDidFail:(NSError *)error
-{
+- (void)invokeDidFail:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestFail:)]){
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(userConsentRequestFail:)]) {
             [self.delegate userConsentRequestFail:error];
         }
         self.delegate = nil;
     });
 }
 
-- (void)processResponseWithData:(NSData *)data
-{
+- (void)processResponseWithData:(NSData *)data {
     NSError *parseError;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
@@ -82,8 +83,8 @@
         [self invokeDidFail:parseError];
     } else {
         PNLiteUserConsentResponseModel *response = [[PNLiteUserConsentResponseModel alloc] initWithDictionary:jsonDictonary];
-        if (response == nil) {
-            NSError *error = [NSError errorWithDomain:@"Error: Can't parse JSON from server"
+        if (!response) {
+            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server."
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
@@ -93,13 +94,13 @@
     }
 }
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode
-{
+#pragma mark PNLiteHttpRequestDelegate
+
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     [self processResponseWithData:data];
 }
 
--(void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFail:error];
 }
 

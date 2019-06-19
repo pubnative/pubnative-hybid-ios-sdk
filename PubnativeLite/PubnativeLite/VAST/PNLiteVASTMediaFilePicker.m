@@ -23,6 +23,7 @@
 #import "PNLiteVASTMediaFilePicker.h"
 #import "PNLiteReachability.h"
 #import <UIKit/UIKit.h>
+#import "HyBidLogger.h"
 
 @interface PNLiteVASTMediaFilePicker()
 
@@ -32,8 +33,7 @@
 
 @implementation PNLiteVASTMediaFilePicker
 
-+ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles
-{
++ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles {
     // Check whether we even have a network connection.
     // If not, return a nil.
     if (![PNLiteVASTMediaFilePicker isInternetReachable]) {
@@ -85,23 +85,21 @@
     }
     
     PNLiteVASTMediaFile *toReturn = (PNLiteVASTMediaFile *)sortedMediaFiles[bestMatch];
-    NSLog(@"VAST - Mediafile Picker: Selected Media File: %@", toReturn.url);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Selected Media File: %@", toReturn.url]];
     return toReturn;
 }
 
-+ (BOOL)isInternetReachable
-{
++ (BOOL)isInternetReachable {
     BOOL result = false;
     PNLiteReachability *reachability = [PNLiteReachability reachabilityForInternetConnection];
     [reachability startNotifier];
     PNLiteNetworkStatus currentNetwork = [reachability currentReachabilityStatus];
-    NSLog(@"VAST - Mediafile Picker: NetworkType: %ld", (long)currentNetwork);
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"NetworkType: %ld", (long)currentNetwork]];
     result = currentNetwork != PNLiteNetworkStatus_NotReachable;
     [reachability stopNotifier];
     return result;}
 
-+ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile
-{
++ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile {
     NSString *pattern = @"(mp4|m4v|quicktime|3gpp)";
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern

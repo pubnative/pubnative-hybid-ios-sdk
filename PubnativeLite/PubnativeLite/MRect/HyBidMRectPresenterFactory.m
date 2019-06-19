@@ -22,29 +22,13 @@
 
 #import "HyBidMRectPresenterFactory.h"
 #import "PNLiteAssetGroupType.h"
-#import "PNLiteMRectPresenterDecorator.h"
 #import "PNLiteMRAIDMRectPresenter.h"
 #import "PNLiteVASTMRectPresenter.h"
-#import "HyBidAdTracker.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidMRectPresenterFactory
 
-- (HyBidMRectPresenter *)createMRectPresenterWithAd:(HyBidAd *)ad
-                                       withDelegate:(NSObject<HyBidMRectPresenterDelegate> *)delegate
-{
-    HyBidMRectPresenter *mRectPresenter = [self createMRectPresenterFromAd:ad];
-    if (!mRectPresenter) {
-        return nil;
-    }
-    PNLiteMRectPresenterDecorator *mRectPresenterDecorator = [[PNLiteMRectPresenterDecorator alloc] initWithMRectPresenter:mRectPresenter
-                                                                                                             withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:kPNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:kPNLiteAdTrackerClick]]
-                                                                                                              withDelegate:delegate];
-    mRectPresenter.delegate = mRectPresenterDecorator;
-    return mRectPresenterDecorator;
-}
-
-- (HyBidMRectPresenter *)createMRectPresenterFromAd:(HyBidAd *)ad
-{
+- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_MRECT: {
             PNLiteMRAIDMRectPresenter *mraidMRectPresenter = [[PNLiteMRAIDMRectPresenter alloc] initWithAd:ad];
@@ -57,7 +41,7 @@
             break;
         }
         default:
-            NSLog(@"HyBidMRectPresenterFactory - Asset Group %@ is an incompatible Asset Group ID for MRect ad format", ad.assetGroupID);
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for MRect ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

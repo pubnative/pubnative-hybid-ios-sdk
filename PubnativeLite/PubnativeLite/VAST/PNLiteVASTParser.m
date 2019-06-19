@@ -25,8 +25,8 @@
 #import "PNLiteVASTModel.h"
 #import "PNLiteVASTSchema.h"
 
-NSInteger const kPNLiteVASTModel_MaxRecursiveDepth = 5;
-BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
+NSInteger const PNLiteVASTModel_MaxRecursiveDepth = 5;
+BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
 
 @interface PNLiteVASTModel (private)
 
@@ -44,8 +44,7 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
 
 @implementation PNLiteVASTParser
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         self.vastModel = [[PNLiteVASTModel alloc] init];
@@ -53,15 +52,13 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.vastModel = nil;
 }
 
 #pragma mark - "public" methods
 
-- (void)parseWithUrl:(NSURL *)url completion:(vastParserCompletionBlock)block
-{
+- (void)parseWithUrl:(NSURL *)url completion:(vastParserCompletionBlock)block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *vastData = [NSData dataWithContentsOfURL:url];
         PNLiteVASTParserError vastError = [self parseRecursivelyWithData:vastData depth:0];
@@ -71,8 +68,7 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
     });
 }
 
-- (void)parseWithData:(NSData *)vastData completion:(vastParserCompletionBlock)block
-{
+- (void)parseWithData:(NSData *)vastData completion:(vastParserCompletionBlock)block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         PNLiteVASTParserError vastError = [self parseRecursivelyWithData:vastData depth:0];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -83,9 +79,8 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
 
 #pragma mark - "private" method
 
-- (PNLiteVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth
-{
-    if (depth >= kPNLiteVASTModel_MaxRecursiveDepth) {
+- (PNLiteVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth {
+    if (depth >= PNLiteVASTModel_MaxRecursiveDepth) {
         self.vastModel = nil;
         return PNLiteVASTParserError_TooManyWrappers;
     }
@@ -101,7 +96,7 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
         return PNLiteVASTParserError_XMLParse;
     }
 
-    if (kPNLiteVASTModel_ValidateWithSchema) {
+    if (PNLiteVASTModel_ValidateWithSchema) {
         
         // Using header data
         NSData *PNLiteVASTSchemaData = [NSData dataWithBytesNoCopy:pubnative_lite_vast_2_0_1_xsd
@@ -140,8 +135,7 @@ BOOL const kPNLiteVASTModel_ValidateWithSchema = NO;
     return PNLiteVASTParserError_None;
 }
 
-- (NSString *)content:(NSDictionary *)node
-{
+- (NSString *)content:(NSDictionary *)node {
     // this is for string data
     if ([node[@"nodeContent"] length] > 0) {
         return node[@"nodeContent"];

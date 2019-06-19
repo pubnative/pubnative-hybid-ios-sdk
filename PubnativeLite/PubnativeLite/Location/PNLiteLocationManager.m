@@ -21,6 +21,7 @@
 //
 
 #import "PNLiteLocationManager.h"
+#import "HyBidLogger.h"
 
 @interface PNLiteLocationManager () <CLLocationManagerDelegate>
 
@@ -33,13 +34,11 @@
 
 #pragma mark NSObject
 
-+ (void)load
-{
++ (void)load {
     [PNLiteLocationManager requestLocation];
 }
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         self.manager = [[CLLocationManager alloc] init];
@@ -51,8 +50,7 @@
 
 #pragma mark PNLiteLocationManager
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static PNLiteLocationManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -61,8 +59,7 @@
     return sharedInstance;
 }
 
-+ (void)requestLocation
-{
++ (void)requestLocation {
     if([CLLocationManager locationServicesEnabled]) {
         CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
         if (status == kCLAuthorizationStatusAuthorizedAlways ||
@@ -70,27 +67,24 @@
             if (@available(iOS 9.0, *)) {
                 [[PNLiteLocationManager sharedInstance].manager requestLocation];
             } else {
-                NSLog(@"PNLiteLocationManager - Location tracking is not supported in this OS version. Dropping call.");
+                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Location tracking is not supported in this OS version. Dropping call."];
             }
         }
     }
 }
 
-+ (CLLocation *)getLocation
-{
++ (CLLocation *)getLocation {
     [PNLiteLocationManager requestLocation];
     return [PNLiteLocationManager sharedInstance].lastKnownLocation;
 }
 
 #pragma mark CLLocationManagerDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"PNLiteLocationManager - Error: %@", error);
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Location manager failed with error: %@",error.localizedDescription]];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     self.lastKnownLocation = locations.lastObject;
 }
 

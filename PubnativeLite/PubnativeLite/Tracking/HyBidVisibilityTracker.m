@@ -22,8 +22,9 @@
 
 #import "HyBidVisibilityTracker.h"
 #import "PNLiteVisibilityTrackerItem.h"
+#import "HyBidLogger.h"
 
-NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
+NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 @interface HyBidVisibilityTracker ()
 
@@ -38,8 +39,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 @implementation HyBidVisibilityTracker
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.isValid = NO;
     self.isVisibilityScheduled = NO;
     
@@ -54,8 +54,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     self.removedItems = nil;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.isValid = YES;
@@ -67,12 +66,11 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     return self;
 }
 
-- (void)addView:(UIView*)view withMinVisibility:(CGFloat)minVisibility
-{
-    if(view == nil) {
-        NSLog(@"HyBidVisibilityTracker - View is nil and required, dropping this call");
-    } else if ([self isTrackingView:view]){
-        NSLog(@"HyBidVisibilityTracker - View is already being tracked, dropping this call");
+- (void)addView:(UIView*)view withMinVisibility:(CGFloat)minVisibility {
+    if(!view) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is nil and required, dropping this call."];
+    } else if ([self isTrackingView:view]) {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is already being tracked, dropping this call."];
     } else {
         PNLiteVisibilityTrackerItem *item = [[PNLiteVisibilityTrackerItem alloc] init];
         item.view = view;
@@ -82,13 +80,11 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     }
 }
 
-- (void)removeView:(UIView*)view
-{
+- (void)removeView:(UIView*)view {
     
 }
 
-- (void)clear
-{
+- (void)clear {
     self.isValid = NO;
     [self.trackedItems removeAllObjects];
     self.isVisibilityScheduled = NO;
@@ -96,15 +92,12 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 #pragma mark Tracking Views
 
-- (BOOL)isTrackingView:(UIView*)view
-{
+- (BOOL)isTrackingView:(UIView*)view {
     return [self indexOfView:view] >= 0;
 }
 
-- (NSInteger)indexOfView:(UIView*)view
-{
+- (NSInteger)indexOfView:(UIView*)view {
     NSInteger result = -1;
-    
     for (int i = 0; i < self.trackedItems.count; i++) {
         PNLiteVisibilityTrackerItem *item = self.trackedItems[i];
         if (item != nil && view == item.view) {
@@ -112,29 +105,25 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
             break;
         }
     }
-    
     return result;
 }
 
 #pragma mark Visibility Check
 
-- (void)scheduleVisibilityCheck
-{
+- (void)scheduleVisibilityCheck {
     if(self.isValid && !self.isVisibilityScheduled) {
-        
         self.isVisibilityScheduled = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kPNLiteVisibilityTrackerPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, PNLiteVisibilityTrackerPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self checkVisibility];
         });
     }
 }
 
-- (void)checkVisibility
-{
+- (void)checkVisibility {
     for (PNLiteVisibilityTrackerItem *item in self.trackedItems) {
         // For safety we need to ensure that the view being tracked wasn't removed, in which case we stop tracking It
         if (item != nil) {
-            if (item.view == nil || item.view.superview == nil) {
+            if (!item.view || !item.view.superview) {
                 [self.removedItems addObject:item];
             } else if (![self.removedItems containsObject:item]) {
                 if([self isVisibleView:item.view]
@@ -166,15 +155,13 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 #pragma mark Visibility Helpers
 
-- (BOOL)isVisibleView:(UIView*)view
-{
+- (BOOL)isVisibleView:(UIView*)view {
     return (!view.hidden
             && ![self hasHiddenAncestorForView:view]
             && [self inersectsParentViewOfView:view]);
 }
 
-- (BOOL)hasHiddenAncestorForView:(UIView*)view
-{
+- (BOOL)hasHiddenAncestorForView:(UIView*)view {
     UIView *ancestor = view.superview;
     while (ancestor) {
         if (ancestor.hidden) return YES;
@@ -183,11 +170,10 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     return NO;
 }
 
-- (BOOL)inersectsParentViewOfView:(UIView*)view
-{
+- (BOOL)inersectsParentViewOfView:(UIView*)view {
     UIWindow *parentWindow = [self parentWindowForView:view];
     
-    if (parentWindow == nil) {
+    if (!parentWindow) {
         return NO;
     }
     
@@ -195,11 +181,10 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     return CGRectIntersectsRect(viewFrameInWindowCoordinates, parentWindow.frame);
 }
 
-- (BOOL)view:(UIView*)view visibleWithMinPercent:(CGFloat)percentVisible
-{
+- (BOOL)view:(UIView*)view visibleWithMinPercent:(CGFloat)percentVisible {
     UIWindow *parentWindow = [self parentWindowForView:view];
     
-    if (parentWindow == nil) {
+    if (!parentWindow) {
         return NO;
     }
     
@@ -213,8 +198,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     return intersectionArea >= (originalArea * percentVisible);
 }
 
-- (UIWindow*)parentWindowForView:(UIView*)view
-{
+- (UIWindow*)parentWindowForView:(UIView*)view {
     UIView *ancestor = view.superview;
     while (ancestor) {
         if ([ancestor isKindOfClass:[UIWindow class]]) {
@@ -227,8 +211,7 @@ NSTimeInterval const kPNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 #pragma mark Callback Helpers
 
-- (void)invokeCheckVisibiltyWithVisibleViews:(NSArray<UIView*>*)visibleViews andWithInvisibleViews:(NSArray<UIView*>*)invisibleViews
-{
+- (void)invokeCheckVisibiltyWithVisibleViews:(NSArray<UIView*>*)visibleViews andWithInvisibleViews:(NSArray<UIView*>*)invisibleViews {
     if(self.delegate && [self.delegate respondsToSelector:@selector(checkVisibilityWithVisibleViews:andWithInvisibleViews:)]) {
         [self.delegate checkVisibilityWithVisibleViews:visibleViews andWithInvisibleViews:invisibleViews];
     }
