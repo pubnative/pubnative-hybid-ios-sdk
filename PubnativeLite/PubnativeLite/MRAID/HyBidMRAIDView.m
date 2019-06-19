@@ -244,7 +244,7 @@ typedef enum {
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
         }
-        
+        /*
         NSData *omSDKJSData = [[NSData alloc] initWithBase64EncodedString:HyBidOMSDKJS options:0];
         omSDKjs = [[NSString alloc] initWithData:omSDKJSData encoding:NSUTF8StringEncoding];
         omSDKJSData = nil;
@@ -252,7 +252,7 @@ typedef enum {
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        
+        */
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
@@ -568,11 +568,11 @@ typedef enum {
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
         }
-        
+        /*
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        
+        */
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
         urlString = [urlString stringByRemovingPercentEncoding];
@@ -1178,6 +1178,7 @@ typedef enum {
 #pragma mark - OM SDK Viewability
 
 - (void)startAdSession {
+    /*
     if (!isAdSessionCreated && [HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) {
         NSError *contextError;
         NSString *customReferenceID = @"";
@@ -1211,15 +1212,16 @@ typedef enum {
         OMIDPubnativenetAdEvents *adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:adSession error:&adEventsError];
         NSError *impressionError;
         [adEvents impressionOccurredWithError:&impressionError];
-    }
+    }*/
 }
 
 - (void)stopAdSession {
+    /*
     if (isAdSessionCreated) {
         [adSession finish];
         adSession = nil;
         isAdSessionCreated = NO;
-    }
+    }*/
 }
 
 #pragma mark - WKUIDelegate
