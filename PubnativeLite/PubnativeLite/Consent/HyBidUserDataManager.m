@@ -63,7 +63,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 + (instancetype)sharedInstance {
-    static HyBidUserDataManager *sharedInstance = nil;
+    static HyBidUserDataManager *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[HyBidUserDataManager alloc] init];
