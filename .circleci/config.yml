@@ -4,7 +4,7 @@ jobs:
         working_directory: ~/pubnative/pubnative-hybid-ios-sdk
         shell: /bin/bash --login -o pipefail
         macos:
-            xcode: "9.3.0"
+            xcode: "10.2.0"
         steps:
             - checkout
             - restore_cache:
