@@ -1,4 +1,3 @@
-app_identifier("net.pubnative.HyBid.demo") # The bundle identifier of your app
+app_identifier("com.pubnative.HyBid.demo") # The bundle identifier of your app
 apple_id("can.soykarafakili@pubnative.net") # Your Apple email address
-itc_team_id("118006077") # App Store Connect Team ID
-team_id("J6V7N93E53") # Developer Portal Team ID
+team_id("TL55SBB4FM") # Developer Portal Team ID
