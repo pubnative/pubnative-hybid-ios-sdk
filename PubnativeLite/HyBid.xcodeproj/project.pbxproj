@@ -4413,7 +4413,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = J6V7N93E53;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4427,10 +4427,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.7.1/Viewability/Avid",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBid.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development net.pubnative.HyBid.demo";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development com.pubnative.HyBid.demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4443,7 +4443,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = J6V7N93E53;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4457,10 +4457,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLiteDemo/MoPubSDK-5.7.1/Viewability/Avid",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBid.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc net.pubnative.HyBid.demo";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.pubnative.HyBid.demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
