@@ -687,7 +687,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwp-5P-1u0" userLabel="Keywords Button">
-                                <rect key="frame" x="16" y="276" width="343" height="33"/>
+                                <rect key="frame" x="16" y="335" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="keywordsButton" label="Keywords Button"/>
                                 <constraints>
@@ -768,6 +768,42 @@
                                     <action selector="viewabilitySwitchValueChanged:" destination="nGO-xg-xlE" eventType="valueChanged" id="0uS-6y-pKb"/>
                                 </connections>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="API URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJO-EG-VVb">
+                                <rect key="frame" x="16" y="268" width="48.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="apiURLLabel" label="API URL Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="rPW-gg-Xi9"/>
+                                    <constraint firstAttribute="height" constant="21" id="z3W-B0-f2i"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="z3W-B0-f2i"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="z3W-B0-f2i"/>
+                                        <exclude reference="rPW-gg-Xi9"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="API URL" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cKm-HC-iYK" userLabel="App Token Text Field">
+                                <rect key="frame" x="16" y="297" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="apiURLTextField" label="API URL TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="G1E-g2-dnO"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="nGO-xg-xlE" id="WQL-Kl-r2c"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -779,20 +815,23 @@
                             <constraint firstItem="t7D-mO-sSx" firstAttribute="leading" secondItem="XR4-a4-G7L" secondAttribute="leading" constant="16" id="607-KX-tCH"/>
                             <constraint firstItem="Dph-7b-Jiy" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="89u-mU-Tjo"/>
                             <constraint firstItem="m0j-k5-mea" firstAttribute="top" secondItem="WMd-ox-EsH" secondAttribute="bottom" constant="8" id="8Un-8o-Phy"/>
+                            <constraint firstItem="RJO-EG-VVb" firstAttribute="top" secondItem="t7D-mO-sSx" secondAttribute="bottom" constant="8" id="Avj-62-ccg"/>
                             <constraint firstItem="t7D-mO-sSx" firstAttribute="top" secondItem="uhM-Na-pDc" secondAttribute="bottom" constant="16" id="B1C-Z5-uyd"/>
                             <constraint firstAttribute="trailing" secondItem="fyo-Uw-H2v" secondAttribute="trailing" constant="16" id="FFH-u2-flu"/>
                             <constraint firstItem="vtx-LB-b3S" firstAttribute="centerX" secondItem="VfU-Ie-GCk" secondAttribute="centerX" id="FlG-vP-gpW"/>
+                            <constraint firstItem="gwp-5P-1u0" firstAttribute="top" secondItem="cKm-HC-iYK" secondAttribute="bottom" constant="8" id="GsJ-nR-1ZS"/>
                             <constraint firstItem="3Q0-ii-Xf7" firstAttribute="centerY" secondItem="t7D-mO-sSx" secondAttribute="centerY" id="N8Y-zS-Bmd"/>
                             <constraint firstItem="WK9-is-Nnu" firstAttribute="top" secondItem="ooi-g1-RiV" secondAttribute="bottom" constant="13" id="OSa-zV-nN7"/>
                             <constraint firstAttribute="trailing" secondItem="Dph-7b-Jiy" secondAttribute="trailing" constant="16" id="Okr-dd-GJP"/>
                             <constraint firstItem="fyo-Uw-H2v" firstAttribute="leading" secondItem="ooi-g1-RiV" secondAttribute="trailing" constant="10" id="Q6i-Js-XjN"/>
+                            <constraint firstItem="RJO-EG-VVb" firstAttribute="leading" secondItem="XR4-a4-G7L" secondAttribute="leading" constant="16" id="S0K-Kx-9GE"/>
                             <constraint firstItem="1nI-Vc-Eqn" firstAttribute="width" secondItem="vtx-LB-b3S" secondAttribute="width" id="UFR-np-Ew5"/>
-                            <constraint firstItem="gwp-5P-1u0" firstAttribute="top" secondItem="t7D-mO-sSx" secondAttribute="bottom" constant="16" id="URJ-6y-2o3"/>
                             <constraint firstItem="gwp-5P-1u0" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="Xvq-6E-GEy"/>
                             <constraint firstAttribute="trailing" secondItem="gwp-5P-1u0" secondAttribute="trailing" constant="16" id="a6f-0G-ZAE"/>
                             <constraint firstItem="fyo-Uw-H2v" firstAttribute="top" secondItem="Dph-7b-Jiy" secondAttribute="bottom" constant="8" id="ac9-Sf-xWJ"/>
                             <constraint firstItem="aFq-1P-NMZ" firstAttribute="top" secondItem="8YK-7c-xht" secondAttribute="bottom" constant="8" id="b7r-VB-wJW"/>
                             <constraint firstItem="1nI-Vc-Eqn" firstAttribute="top" secondItem="b4J-lo-hCK" secondAttribute="bottom" constant="5" id="d1f-8E-l0a"/>
+                            <constraint firstItem="XR4-a4-G7L" firstAttribute="trailing" secondItem="cKm-HC-iYK" secondAttribute="trailing" constant="16" id="dgN-u5-B70"/>
                             <constraint firstItem="e81-8b-UEu" firstAttribute="top" secondItem="fyo-Uw-H2v" secondAttribute="bottom" constant="8" id="drI-JQ-IIA"/>
                             <constraint firstItem="aFq-1P-NMZ" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="dwk-YI-Eg9"/>
                             <constraint firstItem="b4J-lo-hCK" firstAttribute="top" secondItem="WK9-is-Nnu" secondAttribute="bottom" constant="8" id="e21-lY-ti6"/>
@@ -800,8 +839,10 @@
                             <constraint firstItem="uhM-Na-pDc" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="fiu-dX-PJj"/>
                             <constraint firstItem="XR4-a4-G7L" firstAttribute="trailing" secondItem="3Q0-ii-Xf7" secondAttribute="trailing" constant="16" id="hyr-hD-BDh"/>
                             <constraint firstItem="Dph-7b-Jiy" firstAttribute="top" secondItem="aFq-1P-NMZ" secondAttribute="bottom" constant="8" id="j04-t7-yH1"/>
+                            <constraint firstItem="cKm-HC-iYK" firstAttribute="top" secondItem="RJO-EG-VVb" secondAttribute="bottom" constant="8" id="jKy-rq-fWP"/>
                             <constraint firstItem="ooi-g1-RiV" firstAttribute="top" secondItem="Dph-7b-Jiy" secondAttribute="bottom" constant="8" id="mDF-Kf-rso"/>
                             <constraint firstAttribute="trailing" secondItem="1nI-Vc-Eqn" secondAttribute="trailing" constant="16" id="mNg-iT-Jhx"/>
+                            <constraint firstItem="cKm-HC-iYK" firstAttribute="leading" secondItem="XR4-a4-G7L" secondAttribute="leading" constant="16" id="o3Z-rR-8I5"/>
                             <constraint firstItem="ooi-g1-RiV" firstAttribute="width" secondItem="fyo-Uw-H2v" secondAttribute="width" id="p6G-fK-0wW"/>
                             <constraint firstItem="vtx-LB-b3S" firstAttribute="top" secondItem="b4J-lo-hCK" secondAttribute="bottom" constant="5" id="pc8-eR-2dO"/>
                             <constraint firstItem="WMd-ox-EsH" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="qlS-ig-10M"/>
@@ -817,6 +858,7 @@
                     </view>
                     <connections>
                         <outlet property="ageTextField" destination="e81-8b-UEu" id="9mZ-Ib-uhn"/>
+                        <outlet property="apiURLTextField" destination="cKm-HC-iYK" id="IfQ-f3-f7x"/>
                         <outlet property="appTokenTextField" destination="Dph-7b-Jiy" id="YYM-mr-V0a"/>
                         <outlet property="coppaModeButton" destination="fyo-Uw-H2v" id="VxQ-UC-Cnw"/>
                         <outlet property="femaleButton" destination="1nI-Vc-Eqn" id="hvy-jD-2w5"/>
