@@ -24,6 +24,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMockitoIOS/OCMockitoIOS.h>
 #import "HyBidAdRequest.h"
+#import "HyBidSettings.h"
 
 @interface HyBidAdRequest ()
 
@@ -71,6 +72,7 @@
 
 - (void)test_requestAdWithDelegate_withValidDelegateAndValidZoneID_shouldPass
 {
+    [HyBidSettings sharedInstance].apiURL = @"validAPIURL";
     NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     [request requestAdWithDelegate:delegate withZoneID:@"validZoneID"];
