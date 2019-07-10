@@ -29,8 +29,8 @@
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
 #import "HyBidLogger.h"
+#import "HyBidSettings.h"
 
-NSString *const PNLiteRequestBaseUrl = @"https://api.pubnative.net/api/v3/native";
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
 NSInteger const PNLiteResponseStatusOK = 200;
@@ -84,7 +84,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
-    NSURLComponents *components = [NSURLComponents componentsWithString:PNLiteRequestBaseUrl];
+    NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].apiURL];
+    components.path = @"/api/v3/native";
     if (adRequestModel.requestParameters) {
         NSMutableArray *query = [NSMutableArray array];
         NSDictionary *parametersDictionary = adRequestModel.requestParameters;

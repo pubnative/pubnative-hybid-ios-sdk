@@ -25,6 +25,8 @@
 #import "PNLiteCrashTracker.h"
 #import "HyBidUserDataManager.h"
 
+NSString *const HyBidBaseURL = @"https://api.pubnative.net";
+
 @implementation HyBid
 
 + (void)setCoppa:(BOOL)enabled {
@@ -44,6 +46,7 @@
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
+        [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidViewabilityManager sharedInstance];
         [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
         [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
