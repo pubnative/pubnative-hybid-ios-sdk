@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *appTokenTextField;
 @property (weak, nonatomic) IBOutlet UITextField *ageTextField;
+@property (weak, nonatomic) IBOutlet UITextField *apiURLTextField;
 @property (weak, nonatomic) IBOutlet UIButton *testModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *coppaModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *notSetButton;
@@ -55,6 +56,7 @@
     self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
+    self.apiURLTextField.text = [PNLiteDemoSettings sharedInstance].apiURL;
     [self setInitialStateForModeButtons];
     [self setInitialStateForGenderButtons];
     if (self.targetingModel.age.integerValue > 0) {
@@ -117,13 +119,14 @@
     [PNLiteDemoSettings sharedInstance].targetingModel = [self configureTargetingModel];
     [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
+    [PNLiteDemoSettings sharedInstance].apiURL = self.apiURLTextField.text;
     
     [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
     }];
-
+    [HyBidSettings sharedInstance].apiURL = [PNLiteDemoSettings sharedInstance].apiURL;
     [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
         [HyBid setTestMode:YES];

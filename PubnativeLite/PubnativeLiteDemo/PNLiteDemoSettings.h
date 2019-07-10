@@ -41,6 +41,7 @@
 @property (nonatomic, strong) NSString *dfpMRectAdUnitID;
 @property (nonatomic, strong) NSString *dfpInterstitialAdUnitID;
 @property (nonatomic, strong) NSString *keywords;
+@property (nonatomic, strong) NSString *apiURL;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, assign) BOOL testMode;
 @property (nonatomic, assign) BOOL coppaMode;
