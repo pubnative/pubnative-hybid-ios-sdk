@@ -65,7 +65,11 @@
             }
         }];
     } else {
-        NSLog(@"Consent has already been answered. If you want to try again please clear your app cache");
+        if (![HyBidSettings sharedInstance].advertisingId) {
+            NSLog(@"Advertising ID (Device ID) is nil. Check for 'Limit Ad Tracking'.");
+        } else {
+            NSLog(@"Either consent has already been answered (If you want to try again please clear your app cache), or you are not in the GDPR zone.");
+        }
     }
     */
     
@@ -74,9 +78,9 @@
     [[HyBidUserDataManager sharedInstance] loadConsentPageWithCompletion:^(NSError * _Nullable error) {
         if (!error) {
             [[HyBidUserDataManager sharedInstance] showConsentPage:^{
-                
+
             } didDismiss:^{
-                
+
             }];
         }
     }];

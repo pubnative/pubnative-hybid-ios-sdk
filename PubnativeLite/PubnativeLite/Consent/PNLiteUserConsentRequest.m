@@ -44,7 +44,10 @@
         [self invokeDidFail:[NSError errorWithDomain:@"Given request model is nil and required, droping this call." code:0 userInfo:nil]];
     } else if (!delegate) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call." code:0 userInfo:nil]];
-    } else {
+    } else if (!requestModel.deviceID) {
+        [self invokeDidFail:[NSError errorWithDomain:@" Advertising ID (Device ID) is nil and required, droping this call. Check for 'Limit Ad Tracking'." code:0 userInfo:nil]];
+    }
+    else {
         self.delegate = delegate;
         NSString *url = [PNLiteConsentEndpoints consentURL];
         NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type",[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];

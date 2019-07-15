@@ -24,7 +24,6 @@
 
 @interface PNLiteUserConsentRequestModel()
 
-@property (nonatomic, strong) NSString *deviceID;
 @property (nonatomic, strong) NSString *deviceIDType;
 @property (nonatomic, assign) BOOL consent;
 
