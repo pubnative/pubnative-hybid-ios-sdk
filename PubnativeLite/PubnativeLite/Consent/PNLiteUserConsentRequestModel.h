@@ -24,6 +24,7 @@
 
 @interface PNLiteUserConsentRequestModel : NSObject
 
+@property (nonatomic, strong) NSString *deviceID;
 
 - (instancetype)initWithDeviceID:(NSString *)deviceID
                 withDeviceIDType:(NSString *)deviceIDType
