@@ -111,7 +111,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (BOOL)shouldAskConsent {
-    return [self GDPRApplies] && ![self GDPRConsentAsked];
+    return [self GDPRApplies] && ![self GDPRConsentAsked] && [HyBidSettings sharedInstance].advertisingId;
 }
 
 - (void)grantConsent {
