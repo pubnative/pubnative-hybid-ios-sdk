@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
     SOFTWARE.
       LICENSE
     }
-  s.author       = { "Can Soykarafakili" => "can.soykarafakili@pubnative.net" }
+  s.authors      = { "Can Soykarafakili" => "can.soykarafakili@pubnative.net", "Eros Garcia Ponte" => "eros.ponte@pubnative.net" }
   s.platform     = :ios
   s.ios.deployment_target = "9.0"
   s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/1.3.3/HyBid.framework.zip" }
