@@ -1234,6 +1234,11 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     if (!navigationAction.targetFrame.isMainFrame) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         [[UIApplication sharedApplication] openURL:[navigationAction.request URL]];
+        if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
+                                                                                                                              [[[navigationAction.request URL] absoluteString] stringByRemovingPercentEncoding]]];
+            [self.delegate mraidViewNavigate:self withURL:[navigationAction.request URL]];
+        }
     }
     
     return nil;
