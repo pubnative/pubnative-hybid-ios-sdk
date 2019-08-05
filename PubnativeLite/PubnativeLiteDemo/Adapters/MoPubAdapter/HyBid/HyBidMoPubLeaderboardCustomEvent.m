@@ -44,7 +44,7 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
-        if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
+        if (size.height == kMPPresetMaxAdSize90Height.height && size.width >= 728.0f) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
             if (!self.ad) {
                 [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];

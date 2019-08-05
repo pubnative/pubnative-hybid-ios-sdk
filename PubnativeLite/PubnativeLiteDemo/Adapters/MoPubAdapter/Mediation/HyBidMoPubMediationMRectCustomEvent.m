@@ -40,7 +40,7 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if (CGSizeEqualToSize(MOPUB_MEDIUM_RECT_SIZE, size)) {
+        if (size.height == kMPPresetMaxAdSize250Height.height && size.width >= 300.0f) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.mRectAdView = [[HyBidMRectAdView alloc] init];
                 [self.mRectAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
