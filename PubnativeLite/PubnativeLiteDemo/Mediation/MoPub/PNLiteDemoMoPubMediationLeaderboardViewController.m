@@ -44,8 +44,8 @@
     
     self.navigationItem.title = @"MoPub Mediation Leaderboard";
     [self.leaderboardLoaderIndicator stopAnimating];
-    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID
-                                                     size:MOPUB_LEADERBOARD_SIZE];
+    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID];
+    [self.moPubLeaderboard setFrame:CGRectMake(0, 0, self.leaderboardContainer.frame.size.width, self.leaderboardContainer.frame.size.height)];
     self.moPubLeaderboard.delegate = self;
     [self.moPubLeaderboard stopAutomaticallyRefreshingContents];
     [self.leaderboardContainer addSubview:self.moPubLeaderboard];

@@ -44,8 +44,8 @@
     
     self.navigationItem.title = @"MoPub Mediation MRect";
     [self.mRectLoaderIndicator stopAnimating];
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID
-                                                    size:MOPUB_MEDIUM_RECT_SIZE];
+    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID];
+    [self.moPubMrect setFrame:CGRectMake(0, 0, self.mRectContainer.frame.size.width, self.mRectContainer.frame.size.height)];
     self.moPubMrect.delegate = self;
     [self.moPubMrect stopAutomaticallyRefreshingContents];
     [self.mRectContainer addSubview:self.moPubMrect];
