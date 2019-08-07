@@ -613,6 +613,10 @@
 		5ACC74F0203595250001CDC3 /* PNLiteCloseButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74E2203595240001CDC3 /* PNLiteCloseButton.h */; };
 		5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E3203595250001CDC3 /* PNLiteMRAIDUtil.m */; };
 		5ACC74F2203595250001CDC3 /* PNLiteMRAIDView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC74E4203595250001CDC3 /* PNLiteMRAIDView.m */; };
+		5AD07C0822FAD27E001BF4A1 /* Markup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AD07C0722FAD27E001BF4A1 /* Markup.storyboard */; };
+		5AD07C0B22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C0A22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m */; };
+		5AD07C0F22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C0E22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m */; };
+		5AD07C1222FB02F2001BF4A1 /* Markup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C1122FB02F2001BF4A1 /* Markup.m */; };
 		5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD140482065292A0018845E /* OCMockitoIOS.framework */; };
 		5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */; };
 		5ADACD03202C5AB800617734 /* PNLiteBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1645,6 +1649,13 @@
 		5ACC74E2203595240001CDC3 /* PNLiteCloseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteCloseButton.h; sourceTree = "<group>"; };
 		5ACC74E3203595250001CDC3 /* PNLiteMRAIDUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDUtil.m; sourceTree = "<group>"; };
 		5ACC74E4203595250001CDC3 /* PNLiteMRAIDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDView.m; sourceTree = "<group>"; };
+		5AD07C0722FAD27E001BF4A1 /* Markup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Markup.storyboard; sourceTree = "<group>"; };
+		5AD07C0922FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMarkupMainViewController.h; sourceTree = "<group>"; };
+		5AD07C0A22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMarkupMainViewController.m; sourceTree = "<group>"; };
+		5AD07C0D22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMarkupDetailViewController.h; sourceTree = "<group>"; };
+		5AD07C0E22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMarkupDetailViewController.m; sourceTree = "<group>"; };
+		5AD07C1022FB02F2001BF4A1 /* Markup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Markup.h; sourceTree = "<group>"; };
+		5AD07C1122FB02F2001BF4A1 /* Markup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Markup.m; sourceTree = "<group>"; };
 		5AD140482065292A0018845E /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockitoIOS.framework; sourceTree = "<group>"; };
 		5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		5ADACD01202C5AB700617734 /* PNLiteBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteBaseModel.h; sourceTree = "<group>"; };
@@ -2594,6 +2605,7 @@
 				5A4FF06520AD92C700B81B3D /* PNLite */,
 				5A6354D52076506B00D47E1B /* MoPub */,
 				5A87F45B207BC48F005CC648 /* DFP */,
+				5AD07C0C22FADF60001BF4A1 /* Markup */,
 				5AA7EC5D20E4D54D00277E2B /* Storyboards */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
@@ -3237,6 +3249,7 @@
 				5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */,
 				5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */,
 				5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */,
+				5AD07C0722FAD27E001BF4A1 /* Markup.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -3352,6 +3365,19 @@
 				5ADB0FBA20AF1A8A005BDAF5 /* HyBidGeoIPRequest.m */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		5AD07C0C22FADF60001BF4A1 /* Markup */ = {
+			isa = PBXGroup;
+			children = (
+				5AD07C1022FB02F2001BF4A1 /* Markup.h */,
+				5AD07C1122FB02F2001BF4A1 /* Markup.m */,
+				5AD07C0922FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.h */,
+				5AD07C0A22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m */,
+				5AD07C0D22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.h */,
+				5AD07C0E22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m */,
+			);
+			path = Markup;
 			sourceTree = "<group>";
 		};
 		5AD14046206528E90018845E /* OCMockito-5.0.1 */ = {
@@ -3849,6 +3875,7 @@
 				5A2D42BE22F06A400018C6F4 /* MPAdapters.plist in Resources */,
 				5A2D42B422F06A400018C6F4 /* MRAID.bundle in Resources */,
 				5A2D42C422F06A400018C6F4 /* MPMutedBtn.png in Resources */,
+				5AD07C0822FAD27E001BF4A1 /* Markup.storyboard in Resources */,
 				5A2D42BD22F06A400018C6F4 /* MPCloseButtonX@2x.png in Resources */,
 				5A2D42B622F06A400018C6F4 /* MPUnmutedBtn@3x.png in Resources */,
 				5A2D42C622F06A400018C6F4 /* MPDAAIcon@2x.png in Resources */,
@@ -3957,6 +3984,7 @@
 				5A2D42FB22F06A400018C6F4 /* MRConstants.m in Sources */,
 				5A32CEC02029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m in Sources */,
 				5A2D435322F06A400018C6F4 /* MPBaseAdapterConfiguration.m in Sources */,
+				5AD07C0F22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m in Sources */,
 				5A2D42E922F06A400018C6F4 /* MPURLActionInfo.m in Sources */,
 				5A2D42D422F06A400018C6F4 /* MPVASTTracking.m in Sources */,
 				5A2D431D22F06A400018C6F4 /* UIWebView+MPAdditions.m in Sources */,
@@ -4082,6 +4110,7 @@
 				5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */,
 				5A82190B219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m in Sources */,
 				5AC35B51214A91D0001F0ED3 /* HyBidMoPubInterstitialCustomEvent.m in Sources */,
+				5AD07C0B22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m in Sources */,
 				5A2D42F022F06A400018C6F4 /* MPVideoConfig.m in Sources */,
 				5A2D428722F06A3F0018C6F4 /* MPStreamAdPlacer.m in Sources */,
 				5A2D431A22F06A400018C6F4 /* NSHTTPURLResponse+MPAdditions.m in Sources */,
@@ -4140,6 +4169,7 @@
 				5A2D434B22F06A400018C6F4 /* MPBannerCustomEvent.m in Sources */,
 				5A2D432B22F06A400018C6F4 /* MPVASTMacroProcessor.m in Sources */,
 				5A2D42F822F06A400018C6F4 /* MPMediationManager.m in Sources */,
+				5AD07C1222FB02F2001BF4A1 /* Markup.m in Sources */,
 				5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */,
 				5A2D42F322F06A400018C6F4 /* MPXMLParser.m in Sources */,
 				5A2D434822F06A400018C6F4 /* MPRewardedVideoReward.m in Sources */,
