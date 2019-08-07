@@ -40,7 +40,7 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
+        if (size.height == kMPPresetMaxAdSize90Height.height && size.width >= 728.0f) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
                 [self.leaderboardAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];

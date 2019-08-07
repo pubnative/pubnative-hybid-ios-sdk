@@ -44,8 +44,8 @@
     
     self.navigationItem.title = @"MoPub Mediation Banner";
     [self.bannerLoaderIndicator stopAnimating];
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID
-                                                     size:MOPUB_BANNER_SIZE];
+    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID];
+    [self.moPubBanner setFrame:CGRectMake(0, 0, self.bannerContainer.frame.size.width, self.bannerContainer.frame.size.height)];
     self.moPubBanner.delegate = self;
     [self.moPubBanner stopAutomaticallyRefreshingContents];
     [self.bannerContainer addSubview:self.moPubBanner];
