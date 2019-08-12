@@ -45,7 +45,9 @@
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
-        case MRAID_INTERSTITIAL: {
+        case MRAID_INTERSTITIAL:
+        case MRAID_INTERSTITIAL_TABLET_1:
+        case MRAID_INTERSTITIAL_TABLET_2: {
             PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad];
             return mraidInterstitalPresenter;
             break;
