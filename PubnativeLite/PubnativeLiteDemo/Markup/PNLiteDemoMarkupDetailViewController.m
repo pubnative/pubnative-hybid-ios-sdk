@@ -87,7 +87,7 @@
 #pragma mark HyBidMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did load."];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did load."];
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
