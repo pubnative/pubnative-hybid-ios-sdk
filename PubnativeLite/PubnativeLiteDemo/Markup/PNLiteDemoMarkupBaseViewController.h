@@ -20,11 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNLiteDemoMarkupBaseViewController.h"
+#import "PNLiteDemoBaseViewController.h"
+#import "Markup.h"
+#import <HyBid/HyBid.h>
 
-@interface PNLiteDemoMarkupDetailViewController : PNLiteDemoMarkupBaseViewController
+@interface PNLiteDemoMarkupBaseViewController : PNLiteDemoBaseViewController
 
-@property (nonatomic, strong) Markup *markup;
+- (HyBidMRAIDView *)createMRAIDViewWithMarkup:(Markup *)markup
+                                    withWidth:(CGFloat)width
+                                   withHeight:(CGFloat)height
+                               isInterstitial:(BOOL)isInterstitial;
 
 @end
+

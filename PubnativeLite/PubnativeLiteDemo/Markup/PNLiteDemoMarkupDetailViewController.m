@@ -21,15 +21,12 @@
 //
 
 #import "PNLiteDemoMarkupDetailViewController.h"
-#import <HyBid/HyBid.h>
 
-@interface PNLiteDemoMarkupDetailViewController () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
+@interface PNLiteDemoMarkupDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *markupContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerHeightConstraint;
-@property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
-@property (nonatomic, retain) HyBidMRAIDView *mraidView;
 
 @end
 
@@ -37,7 +34,6 @@
 
 - (void)dealloc {
     self.markup = nil;
-    self.serviceProvider = nil;
 }
 
 - (void)viewDidLoad {
@@ -62,78 +58,14 @@
         default:
             break;
     }
-    [self renderMarkup];
-}
-
-- (void)renderMarkup {
-    self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
-    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, self.markupContainerWidthConstraint.constant, self.markupContainerHeightConstraint.constant)
-                                              withHtmlData:self.markup.text
-                                               withBaseURL:nil
-                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
-                                             isInterstital:NO
-                                                  delegate:self
-                                           serviceDelegate:self
-                                        rootViewController:self
-                                               contentInfo:nil];
-    
-    [self.markupContainer addSubview:self.mraidView];
+        [self.markupContainer addSubview:[self createMRAIDViewWithMarkup:self.markup
+                                                               withWidth:self.markupContainerWidthConstraint.constant
+                                                              withHeight:self.markupContainerHeightConstraint.constant
+                                                          isInterstitial:NO]];
 }
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark HyBidMRAIDViewDelegate
-
-- (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did load."];
-}
-
-- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
-}
-
-- (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
-}
-
-- (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
-}
-
-- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
-    [self.serviceProvider openBrowser:url.absoluteString];
-}
-
-- (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
-    return NO;
-}
-
-#pragma mark HyBidMRAIDServiceDelegate
-
-- (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString {
-    [self.serviceProvider callNumber:urlString];
-}
-
-- (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString {
-    [self.serviceProvider sendSMS:urlString];
-}
-
-- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON {
-    [self.serviceProvider createEvent:eventJSON];
-}
-
-- (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
-    [self.serviceProvider openBrowser:urlString];
-}
-
-- (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
-    [self.serviceProvider playVideo:urlString];
-}
-
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
-    [self.serviceProvider storePicture:urlString];
-}
 @end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
-    <device id="retina5_9" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,11 +19,11 @@
                         <viewControllerLayoutGuide type="bottom" id="DcH-ql-5b1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Lx2-e1-OJm">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add a new keyword" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bgl-0b-HCh" userLabel="Keyword Text Field">
-                                <rect key="frame" x="16" y="52" width="267" height="30"/>
+                                <rect key="frame" x="16" y="28" width="660" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="keywordTextField" label="Keyword TextField"/>
                                 <constraints>
@@ -37,7 +37,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MNm-yr-2oJ" userLabel="Add Button">
-                                <rect key="frame" x="299" y="52" width="60" height="30"/>
+                                <rect key="frame" x="692" y="28" width="60" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="addButton" label="Add Button"/>
                                 <constraints>
@@ -66,7 +66,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Keywords" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLh-7E-mW2">
-                                <rect key="frame" x="16" y="90" width="109" height="21"/>
+                                <rect key="frame" x="16" y="66" width="109" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="currentKeywordsLabel" label="Current Keywords Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="L6x-vt-bhW"/>
@@ -88,7 +88,7 @@
                                 </variation>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xI6-1Y-VfZ" userLabel="Current Keywords Text View">
-                                <rect key="frame" x="16" y="119" width="343" height="569"/>
+                                <rect key="frame" x="16" y="95" width="736" height="839"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="currentKeywordsTextField" label="Current Keywords TextField"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -99,7 +99,7 @@
                                 </connections>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOs-Ai-roq" userLabel="Clear All Keywords Button">
-                                <rect key="frame" x="16" y="696" width="343" height="33"/>
+                                <rect key="frame" x="16" y="942" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="clearAllKeywordsButton" label="Clear All Keywords Button"/>
                                 <constraints>
@@ -130,7 +130,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na1-8b-rxD" userLabel="Save Keywords Button">
-                                <rect key="frame" x="16" y="737" width="343" height="33"/>
+                                <rect key="frame" x="16" y="983" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveKeywordsButton" label="Save Keywords Button"/>
                                 <constraints>
@@ -201,11 +201,11 @@
                         <viewControllerLayoutGuide type="bottom" id="vyY-aO-dqW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1Wn-p3-w6a">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6P8-9i-DdU">
-                                <rect key="frame" x="16.000000000000007" y="52" width="108.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="28" width="108.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDLabel" label="Banner Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="QS0-Te-cbQ"/>
@@ -227,7 +227,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CRV-ib-Qx9" userLabel="Banner Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="81" width="343" height="30"/>
+                                <rect key="frame" x="16" y="57" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDTextField" label="Banner Ad Unit ID TextField"/>
                                 <constraints>
@@ -241,7 +241,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MRect Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WNd-bE-mq4">
-                                <rect key="frame" x="16.000000000000007" y="129" width="103.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="105" width="103.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDLabel" label="MRect Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="EMw-m9-9dB"/>
@@ -263,7 +263,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub MRect Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zxZ-5x-hvQ" userLabel="MRect Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="158" width="343" height="30"/>
+                                <rect key="frame" x="16" y="134" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDTextField" label="MRect Ad Unit ID TextField"/>
                                 <constraints>
@@ -277,7 +277,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ei-dH-BPG">
-                                <rect key="frame" x="16.000000000000007" y="206" width="125.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="182" width="125.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDLabel" label="Interstitial Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="1rE-ss-AcC"/>
@@ -299,7 +299,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZoF-dA-3en" userLabel="Interstitial Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="235" width="343" height="30"/>
+                                <rect key="frame" x="16" y="211" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDTextField" label="Interstitial Ad Unit ID TextField"/>
                                 <constraints>
@@ -335,7 +335,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fbY-PS-hjw" userLabel="Leaderboard Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="288" width="992" height="30"/>
+                                <rect key="frame" x="16" y="288" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDTextField" label="Leaderboard Ad Unit ID TextField"/>
                                 <constraints>
@@ -349,7 +349,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Db-uk-l66" userLabel="Save MoPub Settings Button">
-                                <rect key="frame" x="16" y="737" width="343" height="33"/>
+                                <rect key="frame" x="16" y="983" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveMoPubSettingsButton" label="Save MoPub Settings Button"/>
                                 <constraints>
@@ -446,11 +446,11 @@
                         <viewControllerLayoutGuide type="bottom" id="m0j-k5-mea"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="VfU-Ie-GCk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Token" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFq-1P-NMZ">
-                                <rect key="frame" x="16" y="52" width="64.666666666666671" height="21"/>
+                                <rect key="frame" x="16" y="28" width="64.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="appTokenLabel" label="App Token Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="MQS-Hl-DW3"/>
@@ -472,7 +472,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your App Token" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dph-7b-Jiy" userLabel="App Token Text Field">
-                                <rect key="frame" x="16" y="81" width="343" height="30"/>
+                                <rect key="frame" x="16" y="57" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="appTokenTextField" label="App Token TextField"/>
                                 <constraints>
@@ -486,10 +486,10 @@
                                 </connections>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="cFF-Hf-GKS">
-                                <rect key="frame" x="16" y="119" width="343" height="30"/>
+                                <rect key="frame" x="16" y="95" width="736" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooi-g1-RiV" userLabel="Testing Mode Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="163.66666666666666" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="360" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="testingButton" label="Testing Button"/>
                                         <constraints>
@@ -511,7 +511,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyo-Uw-H2v" userLabel="Coppa Mode Button">
-                                        <rect key="frame" x="179.66666666666663" y="0.0" width="163.33333333333337" height="30"/>
+                                        <rect key="frame" x="376" y="0.0" width="360" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="coppaButton" label="Coppa Button"/>
                                         <constraints>
@@ -535,7 +535,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WK9-is-Nnu">
-                                <rect key="frame" x="16" y="162" width="25" height="21"/>
+                                <rect key="frame" x="16" y="138" width="25" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="ageLabel" label="Age Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="6P6-A8-P1H"/>
@@ -557,7 +557,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Age for targeting (Optional)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e81-8b-UEu" userLabel="Age Text Field">
-                                <rect key="frame" x="71" y="157" width="288" height="30"/>
+                                <rect key="frame" x="71" y="133" width="681" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="ageTextField" label="Age TextField"/>
                                 <constraints>
@@ -571,7 +571,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4J-lo-hCK">
-                                <rect key="frame" x="15.999999999999996" y="191" width="45.666666666666657" height="21"/>
+                                <rect key="frame" x="16" y="167" width="46" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="genderLabel" label="Gender Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="NPO-Dj-ydN"/>
@@ -593,10 +593,10 @@
                                 </variation>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="aAv-lb-I3F">
-                                <rect key="frame" x="16" y="217" width="343" height="30"/>
+                                <rect key="frame" x="16" y="193" width="736" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uhM-Na-pDc" userLabel="Not Set Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="103.66666666666667" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="234.5" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="notSetButton" label="Not Set Button"/>
                                         <constraints>
@@ -624,7 +624,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtx-LB-b3S" userLabel="Male Button">
-                                        <rect key="frame" x="119.66666666666666" y="0.0" width="103.66666666666666" height="30"/>
+                                        <rect key="frame" x="250.5" y="0.0" width="235" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="maleButton" label="Male Button"/>
                                         <constraints>
@@ -660,7 +660,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nI-Vc-Eqn" userLabel="Female Button">
-                                        <rect key="frame" x="239.33333333333334" y="0.0" width="103.66666666666666" height="30"/>
+                                        <rect key="frame" x="501.5" y="0.0" width="234.5" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="femaleButton" label="Female Button"/>
                                         <constraints>
@@ -690,7 +690,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwp-5P-1u0" userLabel="Keywords Button">
-                                <rect key="frame" x="16" y="359" width="343" height="33"/>
+                                <rect key="frame" x="16" y="335" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="keywordsButton" label="Keywords Button"/>
                                 <constraints>
@@ -721,7 +721,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMd-ox-EsH" userLabel="Save PNLite Settings Button">
-                                <rect key="frame" x="16" y="737" width="343" height="33"/>
+                                <rect key="frame" x="16" y="983" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveHyBidSettingsButton" label="Save HyBid Settings Button"/>
                                 <constraints>
@@ -742,7 +742,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Viewability" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7D-mO-sSx">
-                                <rect key="frame" x="16" y="263" width="66.666666666666671" height="21"/>
+                                <rect key="frame" x="16" y="239" width="67" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="viewabilityLabel" label="Viewability Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Xkb-58-zVO"/>
@@ -764,7 +764,7 @@
                                 </variation>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Q0-ii-Xf7">
-                                <rect key="frame" x="310" y="258" width="51" height="31"/>
+                                <rect key="frame" x="703" y="234" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="viewabilitySwitch" label="Viewability Switch"/>
                                 <color key="onTintColor" red="0.49019607843137253" green="0.039215686274509803" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
@@ -772,7 +772,7 @@
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="API URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJO-EG-VVb">
-                                <rect key="frame" x="16.000000000000004" y="292" width="48.333333333333343" height="21"/>
+                                <rect key="frame" x="16" y="268" width="48.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="apiURLLabel" label="API URL Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="rPW-gg-Xi9"/>
@@ -794,7 +794,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="API URL" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cKm-HC-iYK" userLabel="App Token Text Field">
-                                <rect key="frame" x="16" y="321" width="343" height="30"/>
+                                <rect key="frame" x="16" y="297" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="apiURLTextField" label="API URL TextField"/>
                                 <constraints>
@@ -889,11 +889,11 @@
                         <viewControllerLayoutGuide type="bottom" id="gCN-03-G1b"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tJp-tk-Bun">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wks-dj-u9n">
-                                <rect key="frame" x="16" y="52" width="53" height="21"/>
+                                <rect key="frame" x="16" y="28" width="53" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="networkLabel" label="Network Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ExH-8i-xxT"/>
@@ -908,7 +908,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LX0-th-QXm" userLabel="MoPub Button">
-                                <rect key="frame" x="16" y="81" width="343" height="33"/>
+                                <rect key="frame" x="16" y="57" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="moPubButton" label="MoPub Button"/>
                                 <constraints>
@@ -939,7 +939,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUN-x4-mNQ" userLabel="DFP Button">
-                                <rect key="frame" x="16" y="122" width="343" height="33"/>
+                                <rect key="frame" x="16" y="98" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="dfpButton" label="DFP Button"/>
                                 <constraints>
@@ -970,7 +970,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hog-UA-hbL" userLabel="HyBid Button">
-                                <rect key="frame" x="16" y="163" width="343" height="33"/>
+                                <rect key="frame" x="16" y="139" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="hyBidButton" label="HyBid Button"/>
                                 <constraints>
@@ -1001,7 +1001,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGy-Fy-cpz" userLabel="Mediation Button">
-                                <rect key="frame" x="16" y="204" width="343" height="33"/>
+                                <rect key="frame" x="16" y="180" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.49019607840000001" green="0.039215686270000001" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mediationButton" label="Mediation Button"/>
                                 <constraints>
@@ -1032,7 +1032,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Miscellaneous" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y0J-ig-HoA">
-                                <rect key="frame" x="16" y="245" width="85.666666666666671" height="21"/>
+                                <rect key="frame" x="16" y="221" width="85.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="miscellaneousLabel" label="Miscellaneous Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="zCO-dd-qVC"/>
@@ -1047,7 +1047,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKU-y7-Uke" userLabel="Consent Button">
-                                <rect key="frame" x="16" y="274" width="343" height="33"/>
+                                <rect key="frame" x="16" y="250" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentButton" label="Consent Button"/>
                                 <constraints>
@@ -1078,7 +1078,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ca-Dr-k29" userLabel="Consent Button">
-                                <rect key="frame" x="16" y="315" width="343" height="33"/>
+                                <rect key="frame" x="16" y="291" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentButton" label="Consent Button"/>
                                 <constraints>
@@ -1150,11 +1150,11 @@
                         <viewControllerLayoutGuide type="bottom" id="OkB-jf-cZR"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="HiG-aM-Ue5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bxf-ld-Kjd">
-                                <rect key="frame" x="16.000000000000007" y="52" width="108.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="28" width="108.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDLabel" label="Banner Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="DCz-TR-5HL"/>
@@ -1176,7 +1176,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your DFP Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="x9Y-Aj-pmZ" userLabel="Banner Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="81" width="343" height="30"/>
+                                <rect key="frame" x="16" y="57" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDTextField" label="Banner Ad Unit ID TextField"/>
                                 <constraints>
@@ -1190,7 +1190,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MRect Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Mm-GM-ADE">
-                                <rect key="frame" x="16.000000000000007" y="129" width="103.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="105" width="103.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDLabel" label="MRect Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="D5h-0E-OWn"/>
@@ -1212,7 +1212,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your DFP MRect Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XUO-bO-UmM" userLabel="MRect Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="158" width="343" height="30"/>
+                                <rect key="frame" x="16" y="134" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDTextField" label="MRect Ad Unit ID TextField"/>
                                 <constraints>
@@ -1226,7 +1226,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jug-J3-FYD">
-                                <rect key="frame" x="16.000000000000007" y="206" width="125.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="182" width="125.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDLabel" label="Interstitial Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="GCF-PN-hWI"/>
@@ -1248,7 +1248,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your DFP Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EBG-sd-1KD" userLabel="Interstitial Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="235" width="343" height="30"/>
+                                <rect key="frame" x="16" y="211" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDTextField" label="Interstitial Ad Unit ID TextField"/>
                                 <constraints>
@@ -1284,7 +1284,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your DFP Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JXI-Ng-Vdz" userLabel="Leaderboard Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="278" width="992" height="30"/>
+                                <rect key="frame" x="16" y="278" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDTextField" label="Leaderboard Ad Unit ID TextField"/>
                                 <constraints>
@@ -1298,7 +1298,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYg-PP-KVG" userLabel="Save DFP Settings Button">
-                                <rect key="frame" x="16" y="737" width="343" height="33"/>
+                                <rect key="frame" x="16" y="983" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveDFPSettingsButton" label="Save DFP Settings Button"/>
                                 <constraints>
@@ -1393,11 +1393,11 @@
                         <viewControllerLayoutGuide type="bottom" id="38y-Tc-wFT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8fF-nl-LJF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZ1-rM-yxl">
-                                <rect key="frame" x="16" y="52" width="53" height="21"/>
+                                <rect key="frame" x="16" y="28" width="53" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="networkLabel" label="Network Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="blQ-Xw-MB0"/>
@@ -1412,7 +1412,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdk-iN-P1P" userLabel="MoPub Button">
-                                <rect key="frame" x="16" y="81" width="343" height="33"/>
+                                <rect key="frame" x="16" y="57" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="moPubButton" label="MoPub Button"/>
                                 <constraints>
@@ -1467,11 +1467,11 @@
                         <viewControllerLayoutGuide type="bottom" id="jtc-lm-GRr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FUy-Y1-ULU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Native Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5J-mK-0TE" userLabel="Native Ad Unit ID">
-                                <rect key="frame" x="16.000000000000007" y="52" width="104.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="28" width="104.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="nativeAdUnitIDLabel" label="Native Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="V7w-wz-Ku2"/>
@@ -1493,7 +1493,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Native Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TMF-ll-pYd" userLabel="Native Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="81" width="343" height="30"/>
+                                <rect key="frame" x="16" y="57" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="nativeAdUnitIDTextField" label="Native Ad Unit ID TextField"/>
                                 <constraints>
@@ -1507,7 +1507,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1z-iM-Svk">
-                                <rect key="frame" x="16.000000000000007" y="129" width="108.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="105" width="108.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDLabel" label="Banner Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="oD6-6R-iCd"/>
@@ -1529,7 +1529,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="IZM-LV-9OQ" userLabel="Banner Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="158" width="343" height="30"/>
+                                <rect key="frame" x="16" y="134" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDTextField" label="Banner Ad Unit ID TextField"/>
                                 <constraints>
@@ -1543,7 +1543,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MRect Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPo-ge-fBA">
-                                <rect key="frame" x="16.000000000000007" y="206" width="103.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="182" width="103.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDLabel" label="MRect Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="bZl-e2-LVm"/>
@@ -1565,7 +1565,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation MRect Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zjs-f9-j8i" userLabel="MRect Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="235" width="343" height="30"/>
+                                <rect key="frame" x="16" y="211" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDTextField" label="MRect Ad Unit ID TextField"/>
                                 <constraints>
@@ -1579,7 +1579,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXo-BQ-6sY">
-                                <rect key="frame" x="16.000000000000007" y="283" width="125.66666666666669" height="21"/>
+                                <rect key="frame" x="16" y="259" width="125.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDLabel" label="Interstitial Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="19Z-Dl-Riw"/>
@@ -1601,7 +1601,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2lg-LB-cu2" userLabel="Interstitial Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="312" width="343" height="30"/>
+                                <rect key="frame" x="16" y="288" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDTextField" label="Interstitial Ad Unit ID TextField"/>
                                 <constraints>
@@ -1615,7 +1615,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zr-oL-H67" userLabel="Save MoPub Settings Button">
-                                <rect key="frame" x="16" y="737" width="343" height="33"/>
+                                <rect key="frame" x="16" y="983" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveMoPubMediationSettingsButton" label="Save MoPub Mediation Settings Button"/>
                                 <constraints>
@@ -1658,7 +1658,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dvZ-XJ-YVF" userLabel="Leaderboard Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="365" width="992" height="30"/>
+                                <rect key="frame" x="16" y="365" width="736" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDTextField" label="Leaderboard Ad Unit ID TextField"/>
                                 <constraints>
@@ -1754,11 +1754,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Q9r-D4-QE9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="M0o-4x-YLG">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29J-dg-gzu" userLabel="Privacy Policy URL Button">
-                                <rect key="frame" x="16" y="52" width="343" height="33"/>
+                                <rect key="frame" x="16" y="28" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="privacyPolicyURLButton" label="Privacy Policy URL Button"/>
                                 <constraints>
@@ -1789,7 +1789,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eu6-Mq-3vy" userLabel="Vendor List URL Button">
-                                <rect key="frame" x="15" y="93" width="343" height="33"/>
+                                <rect key="frame" x="15" y="69" width="736" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="vendorListURLButton" label="Vendor List URL Button"/>
                                 <constraints>
@@ -1820,10 +1820,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cEm-9g-NJ8" userLabel="Check Collect Data View">
-                                <rect key="frame" x="16" y="649" width="342" height="30"/>
+                                <rect key="frame" x="16" y="895" width="735" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Can collect data?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJB-yC-od7">
-                                        <rect key="frame" x="16.000000000000007" y="4.6666666666666288" width="117.66666666666669" height="21"/>
+                                        <rect key="frame" x="16" y="4.5" width="117.5" height="21"/>
                                         <accessibility key="accessibilityConfiguration" identifier="canCollectDataLabel" label="Can Collect Data Label"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="uGG-Eh-igW"/>
@@ -1838,7 +1838,7 @@
                                         </variation>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fail" translatesAutoresizingMaskIntoConstraints="NO" id="HWo-Sw-lzB" userLabel="Consent Image View">
-                                        <rect key="frame" x="141.66666666666666" y="7" width="16" height="16"/>
+                                        <rect key="frame" x="141.5" y="7" width="16" height="16"/>
                                         <accessibility key="accessibilityConfiguration" identifier="canCollectDataIndicatorImageView" label="Can Collect Data Indicator ImageView">
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
@@ -1864,7 +1864,7 @@
                                         </variation>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6fU-hR-tdk" userLabel="Check Consent Button">
-                                        <rect key="frame" x="269" y="2.6666666666666288" width="65" height="25"/>
+                                        <rect key="frame" x="662" y="2.5" width="65" height="25"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration" identifier="checkConsentButton" label="Check Consent Button"/>
                                         <constraints>
@@ -1902,7 +1902,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9L-dE-AhN" userLabel="PN Owned Button">
-                                <rect key="frame" x="16" y="690" width="166.66666666666666" height="30"/>
+                                <rect key="frame" x="16" y="936" width="363" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="pnOwnedButton" label="PN Owned Button"/>
                                 <constraints>
@@ -1924,7 +1924,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qgd-FE-zST" userLabel="Publisher Owned Button">
-                                <rect key="frame" x="192.66666666666663" y="690" width="166.33333333333337" height="30"/>
+                                <rect key="frame" x="389" y="936" width="363" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="publisherOwnedButton" label="Publisher Owned Button"/>
                                 <constraints>
@@ -1946,7 +1946,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uZ9-bW-kpt" userLabel="Accept Consent Button">
-                                <rect key="frame" x="16" y="728" width="166.66666666666666" height="30"/>
+                                <rect key="frame" x="16" y="974" width="363" height="30"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="acceptConsentButton" label="Accept Consent Button"/>
                                 <constraints>
@@ -1968,7 +1968,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ITm-dC-zmf" userLabel="Reject Consent Button">
-                                <rect key="frame" x="192.66666666666663" y="728" width="166.33333333333337" height="30"/>
+                                <rect key="frame" x="389" y="974" width="363" height="30"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="rejectConsentButton" label="Reject Consent Button"/>
                                 <constraints>

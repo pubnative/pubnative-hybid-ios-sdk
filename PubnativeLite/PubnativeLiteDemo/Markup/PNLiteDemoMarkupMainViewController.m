@@ -22,9 +22,8 @@
 
 #import "PNLiteDemoMarkupMainViewController.h"
 #import "PNLiteDemoMarkupDetailViewController.h"
-#import <HyBid/HyBid.h>
 
-@interface PNLiteDemoMarkupMainViewController () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
+@interface PNLiteDemoMarkupMainViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
@@ -33,8 +32,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *markupTextView;
 @property (nonatomic, retain) NSNumber *placement;
 @property (nonatomic, strong) Markup *markup;
-@property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
-@property (nonatomic, retain) HyBidMRAIDView *mraidView;
 
 @end
 
@@ -42,7 +39,6 @@
 
 - (void)dealloc {
     self.markup = nil;
-    self.serviceProvider = nil;
 }
 
 - (void)viewDidLoad {
@@ -72,25 +68,16 @@
             break;
         }
         case 3:
-            [self renderMarkup];
+            [self createMRAIDViewWithMarkup:self.markup
+                                  withWidth:[[UIScreen mainScreen] bounds].size.width
+                                 withHeight:[[UIScreen mainScreen] bounds].size.height
+                             isInterstitial:YES];
             break;
         default:
             break;
     }
 }
 
-- (void)renderMarkup {
-    self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
-    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
-                                              withHtmlData:self.markup.text
-                                               withBaseURL:nil
-                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
-                                             isInterstital:YES
-                                                  delegate:self
-                                           serviceDelegate:self
-                                        rootViewController:self
-                                               contentInfo:nil];
-}
 
 - (IBAction)bannerTouchUpInside:(UIButton *)sender {
     [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
@@ -122,60 +109,6 @@
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     self.placement = [NSNumber numberWithInteger:sender.tag];
-}
-
-#pragma mark HyBidMRAIDViewDelegate
-
-- (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did load."];
-    [self.mraidView showAsInterstitial];
-}
-
-- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
-}
-
-- (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
-}
-
-- (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
-}
-
-- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
-    [self.serviceProvider openBrowser:url.absoluteString];
-}
-
-- (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
-    return NO;
-}
-
-#pragma mark HyBidMRAIDServiceDelegate
-
-- (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString {
-    [self.serviceProvider callNumber:urlString];
-}
-
-- (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString {
-    [self.serviceProvider sendSMS:urlString];
-}
-
-- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON {
-    [self.serviceProvider createEvent:eventJSON];
-}
-
-- (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
-    [self.serviceProvider openBrowser:urlString];
-}
-
-- (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
-    [self.serviceProvider playVideo:urlString];
-}
-
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
-    [self.serviceProvider storePicture:urlString];
 }
 
 @end

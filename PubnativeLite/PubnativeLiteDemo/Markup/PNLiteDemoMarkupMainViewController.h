@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoBaseViewController.h"
+#import "PNLiteDemoMarkupBaseViewController.h"
 
-@interface PNLiteDemoMarkupMainViewController : PNLiteDemoBaseViewController
+@interface PNLiteDemoMarkupMainViewController : PNLiteDemoMarkupBaseViewController
 
 @end
