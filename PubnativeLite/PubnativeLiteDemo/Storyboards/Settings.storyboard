@@ -1266,20 +1266,13 @@
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDLabel" label="Leaderboard Ad Unit ID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="7y2-bV-pjo"/>
-                                    <constraint firstAttribute="height" constant="18" id="tZx-40-YTO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="tZx-40-YTO"/>
-                                    </mask>
-                                </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
                                         <exclude reference="7y2-bV-pjo"/>
-                                        <include reference="tZx-40-YTO"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -1356,6 +1349,7 @@
                                 <exclude reference="Fg9-NB-aeI"/>
                                 <exclude reference="7cj-3U-JsL"/>
                                 <exclude reference="LFo-dY-ols"/>
+                                <exclude reference="joI-bh-485"/>
                                 <exclude reference="r0c-2q-IU9"/>
                             </mask>
                         </variation>
@@ -1368,6 +1362,7 @@
                                 <include reference="Fg9-NB-aeI"/>
                                 <include reference="7cj-3U-JsL"/>
                                 <include reference="LFo-dY-ols"/>
+                                <include reference="joI-bh-485"/>
                                 <include reference="r0c-2q-IU9"/>
                             </mask>
                         </variation>
