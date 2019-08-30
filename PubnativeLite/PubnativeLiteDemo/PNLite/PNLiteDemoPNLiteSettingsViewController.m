@@ -67,7 +67,7 @@
 - (void)setInitialStateForModeButtons {
     if (self.testModeSelected) {
         self.testModeButton.selected = YES;
-        [self.testModeButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.testModeButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         self.testModeButton.selected = NO;
         [self.testModeButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
@@ -75,7 +75,7 @@
     
     if (self.coppaModeSelected) {
         self.coppaModeButton.selected = YES;
-        [self.coppaModeButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.coppaModeButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         self.coppaModeButton.selected = NO;
         [self.coppaModeButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
@@ -88,7 +88,7 @@
         self.maleButton.selected = YES;
         self.femaleButton.selected = NO;
         [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-        [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
         [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     } else if ([self.targetingModel.gender isEqualToString:@"f"]) {
         self.notSetButton.selected = NO;
@@ -96,12 +96,12 @@
         self.femaleButton.selected = YES;
         [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
         [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-        [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         self.notSetButton.selected = YES;
         self.maleButton.selected = NO;
         self.femaleButton.selected = NO;
-        [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
         [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
         [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
@@ -154,7 +154,7 @@
     self.notSetButton.selected = YES;
     self.maleButton.selected = NO;
     self.femaleButton.selected = NO;
-    [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+    [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     self.gender = nil;
@@ -165,7 +165,7 @@
     self.maleButton.selected = YES;
     self.femaleButton.selected = NO;
     [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+    [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     self.gender = @"m";
 }
@@ -176,14 +176,14 @@
     self.femaleButton.selected = YES;
     [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+    [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     self.gender = @"f";
 }
 
 - (IBAction)testingModeTouchUpInside:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (sender.selected) {
-        [sender setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [sender setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         [sender setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
@@ -193,7 +193,7 @@
 - (IBAction)coppaModeTouchUpInside:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (sender.selected) {
-        [sender setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [sender setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         [sender setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
