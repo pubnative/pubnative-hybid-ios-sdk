@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9g-pB-WIY">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Custom Markup-->
+        <scene sceneID="G3z-S7-CB5">
+            <objects>
+                <viewController title="Custom Markup" id="Q9g-pB-WIY" customClass="PNLiteDemoMarkupMainViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AwM-4x-1z3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nZA-SP-hpf" userLabel="Markup Text View">
+                                <rect key="frame" x="16" y="57" width="343" height="438"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="markupTextView" label="Markup Text View"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UUt-fc-4G8" userLabel="Load Markup Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadMarkupButton" label="Load Markup Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="KxE-eD-3zZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Markup">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="KxE-eD-3zZ"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="loadMarkupTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="iGw-Rx-Icn"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your Markup down below and choose a placement" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkt-rD-xcj">
+                                <rect key="frame" x="16" y="28" width="343" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="currentKeywordsLabel" label="Current Keywords Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="sYB-7U-8va"/>
+                                    <constraint firstAttribute="height" constant="21" id="wCU-37-FPH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="sYB-7U-8va"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="sYB-7U-8va"/>
+                                        <exclude reference="wCU-37-FPH"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VWP-dK-fVO">
+                                <rect key="frame" x="16" y="503" width="343" height="115"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcN-Rw-vmz" userLabel="Banner Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="PA7-VM-LRg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Banner">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="PA7-VM-LRg"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="bannerTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="H4J-j7-Fgo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKS-2C-YmJ" userLabel="MRect Button">
+                                        <rect key="frame" x="0.0" y="41" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="tWp-bT-lor"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="MRect">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="tWp-bT-lor"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="mRectTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="6K5-16-eYE"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhC-CT-DDv" userLabel="Leaderboard Button">
+                                        <rect key="frame" x="0.0" y="78" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="1w0-4U-g9f"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Leaderboard">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="1w0-4U-g9f"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular" hidden="NO"/>
+                                        <connections>
+                                            <action selector="leaderboardTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="Ry5-67-v3E"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgL-LC-cfw" userLabel="Interstitial Button">
+                                        <rect key="frame" x="0.0" y="82" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="J2y-uJ-AF3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Interstitial">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="J2y-uJ-AF3"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="interstitialTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="1HD-aX-czl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="UUt-fc-4G8" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="2cb-bE-rGM"/>
+                            <constraint firstItem="UUt-fc-4G8" firstAttribute="top" secondItem="VWP-dK-fVO" secondAttribute="bottom" constant="8" id="2f4-Fm-XDb"/>
+                            <constraint firstItem="VWP-dK-fVO" firstAttribute="top" secondItem="nZA-SP-hpf" secondAttribute="bottom" constant="8" id="3VB-aj-hZf"/>
+                            <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="UUt-fc-4G8" secondAttribute="trailing" constant="16" id="6vS-Ai-8of"/>
+                            <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="VWP-dK-fVO" secondAttribute="trailing" constant="16" id="7mt-YD-J2I"/>
+                            <constraint firstItem="nZA-SP-hpf" firstAttribute="top" secondItem="gkt-rD-xcj" secondAttribute="bottom" constant="8" id="CtB-j0-w7u"/>
+                            <constraint firstItem="gkt-rD-xcj" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="Twe-8T-vww"/>
+                            <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="gkt-rD-xcj" secondAttribute="trailing" constant="16" id="k6V-ko-NsB"/>
+                            <constraint firstItem="VWP-dK-fVO" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="kaI-sY-eay"/>
+                            <constraint firstItem="gkt-rD-xcj" firstAttribute="top" secondItem="qB6-6l-fJL" secondAttribute="top" constant="8" id="oYN-CT-wjz"/>
+                            <constraint firstItem="nZA-SP-hpf" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="pDq-DJ-RZn"/>
+                            <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="nZA-SP-hpf" secondAttribute="trailing" constant="16" id="toO-79-CAH"/>
+                            <constraint firstItem="qB6-6l-fJL" firstAttribute="bottom" secondItem="UUt-fc-4G8" secondAttribute="bottom" constant="8" id="zYc-sg-wRH"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="qB6-6l-fJL"/>
+                    </view>
+                    <connections>
+                        <outlet property="bannerButton" destination="BcN-Rw-vmz" id="rew-Iv-Q8U"/>
+                        <outlet property="interstitialButton" destination="kgL-LC-cfw" id="c4h-fr-04q"/>
+                        <outlet property="leaderboardButton" destination="yhC-CT-DDv" id="UK8-zo-S0P"/>
+                        <outlet property="mRectButton" destination="jKS-2C-YmJ" id="0Cv-rM-kA4"/>
+                        <outlet property="markupTextView" destination="nZA-SP-hpf" id="2Bb-J7-Lc6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XnD-T8-Rgg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-167.19999999999999" y="149.77511244377811"/>
+        </scene>
+        <!--Lite Demo Markup Detail View Controller-->
+        <scene sceneID="DIW-Fv-njr">
+            <objects>
+                <viewController storyboardIdentifier="MarkupDetailViewController" id="t3g-UM-WGa" customClass="PNLiteDemoMarkupDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Q3-s6-hSk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Co1-fo-dsl">
+                                <rect key="frame" x="182.5" y="328.5" width="10" height="10"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="8xM-uK-Az9"/>
+                                    <constraint firstAttribute="height" constant="10" id="FtR-ha-SRY"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaL-GW-gek" userLabel="Dismiss Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="dismissButton" label="Dismiss Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="SRa-Rq-6Uj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Dismiss">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="SRa-Rq-6Uj"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="dismissButtonTouchUpInside:" destination="t3g-UM-WGa" eventType="touchUpInside" id="WlI-Yw-8Rg"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Based on the Markup that you've provided, your ad will look like this;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3a-kx-wxR">
+                                <rect key="frame" x="16" y="28" width="343" height="40"/>
+                                <accessibility key="accessibilityConfiguration" identifier="currentKeywordsLabel" label="Current Keywords Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Pv9-Vn-ubv"/>
+                                    <constraint firstAttribute="height" constant="21" id="tdd-Ze-bDL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="tdd-Ze-bDL"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Pv9-Vn-ubv"/>
+                                        <include reference="tdd-Ze-bDL"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="vaL-GW-gek" secondAttribute="trailing" constant="16" id="2lm-C4-fee"/>
+                            <constraint firstItem="D3a-kx-wxR" firstAttribute="top" secondItem="a6s-2C-epg" secondAttribute="top" constant="8" id="3sv-kG-uDg"/>
+                            <constraint firstItem="D3a-kx-wxR" firstAttribute="leading" secondItem="a6s-2C-epg" secondAttribute="leading" constant="16" id="5Jo-21-3To"/>
+                            <constraint firstItem="Co1-fo-dsl" firstAttribute="centerY" secondItem="4Q3-s6-hSk" secondAttribute="centerY" id="FHS-tw-ZnL"/>
+                            <constraint firstItem="vaL-GW-gek" firstAttribute="centerX" secondItem="4Q3-s6-hSk" secondAttribute="centerX" id="NbZ-U3-Rov"/>
+                            <constraint firstItem="a6s-2C-epg" firstAttribute="bottom" secondItem="vaL-GW-gek" secondAttribute="bottom" constant="8" id="cxB-ZT-mGG"/>
+                            <constraint firstItem="Co1-fo-dsl" firstAttribute="centerX" secondItem="4Q3-s6-hSk" secondAttribute="centerX" id="gDX-gm-26c"/>
+                            <constraint firstItem="a6s-2C-epg" firstAttribute="trailing" secondItem="D3a-kx-wxR" secondAttribute="trailing" constant="16" id="ggU-8R-mbr"/>
+                            <constraint firstItem="vaL-GW-gek" firstAttribute="leading" secondItem="a6s-2C-epg" secondAttribute="leading" constant="16" id="use-lk-y5R"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="a6s-2C-epg"/>
+                    </view>
+                    <connections>
+                        <outlet property="markupContainer" destination="Co1-fo-dsl" id="FwT-zD-a2T"/>
+                        <outlet property="markupContainerHeightConstraint" destination="FtR-ha-SRY" id="ecP-wm-S3b"/>
+                        <outlet property="markupContainerWidthConstraint" destination="8xM-uK-Az9" id="qEa-oA-gMO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Onz-JG-KX9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="656.79999999999995" y="150"/>
+        </scene>
+    </scenes>
+</document>
