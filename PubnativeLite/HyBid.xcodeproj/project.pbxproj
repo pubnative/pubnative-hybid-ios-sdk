@@ -352,6 +352,7 @@
 		5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903E6203DE23200D86051 /* CoreGraphics.framework */; };
 		5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903E8203DE23A00D86051 /* AVFoundation.framework */; };
 		5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903EA203DE24500D86051 /* AdSupport.framework */; };
+		5A8D5D83232B8E1D00BB8AE3 /* HyBidAdMobUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D5D82232B8E1D00BB8AE3 /* HyBidAdMobUtils.m */; };
 		5A8D7DC420C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8D7DC220C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h */; };
 		5A8D7DC520C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D7DC320C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m */; };
 		5A8F10AC2089E4D20098E337 /* PNLiteErrorReportApiClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8F10212089E4D20098E337 /* PNLiteErrorReportApiClient.h */; };
@@ -1366,6 +1367,8 @@
 		5A8903E6203DE23200D86051 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5A8903E8203DE23A00D86051 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5A8903EA203DE24500D86051 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		5A8D5D81232B8E1D00BB8AE3 /* HyBidAdMobUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobUtils.h; sourceTree = "<group>"; };
+		5A8D5D82232B8E1D00BB8AE3 /* HyBidAdMobUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobUtils.m; sourceTree = "<group>"; };
 		5A8D7DC220C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTInterstitialPresenter.h; sourceTree = "<group>"; };
 		5A8D7DC320C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTInterstitialPresenter.m; sourceTree = "<group>"; };
 		5A8F10212089E4D20098E337 /* PNLiteErrorReportApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteErrorReportApiClient.h; sourceTree = "<group>"; };
@@ -2764,6 +2767,7 @@
 			isa = PBXGroup;
 			children = (
 				5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */,
+				5A8D5D84232B8E2C00BB8AE3 /* AdMobAdapter */,
 				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
 				5AE4C6DD20752A4A00A2A8C5 /* DFPAdapter */,
 			);
@@ -2913,6 +2917,15 @@
 				5A8903D0203DE1D400D86051 /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5A8D5D84232B8E2C00BB8AE3 /* AdMobAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				5A8D5D81232B8E1D00BB8AE3 /* HyBidAdMobUtils.h */,
+				5A8D5D82232B8E1D00BB8AE3 /* HyBidAdMobUtils.m */,
+			);
+			path = AdMobAdapter;
 			sourceTree = "<group>";
 		};
 		5A8F10202089E4D20098E337 /* Crash Tracking */ = {
@@ -3954,6 +3967,7 @@
 				5A4FF06820ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m in Sources */,
 				5A2D42A222F06A3F0018C6F4 /* MPNativeAdRendererConfiguration.m in Sources */,
 				5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */,
+				5A8D5D83232B8E1D00BB8AE3 /* HyBidAdMobUtils.m in Sources */,
 				5A2D42A622F06A3F0018C6F4 /* MPNativeAdRequestTargeting.m in Sources */,
 				5A2D428822F06A3F0018C6F4 /* MPCollectionViewAdPlacer.m in Sources */,
 				5A0779F82134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m in Sources */,

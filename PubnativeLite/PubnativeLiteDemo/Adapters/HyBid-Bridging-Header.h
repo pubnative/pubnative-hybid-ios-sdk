@@ -32,3 +32,4 @@
 #import "HyBidDFPBannerCustomEvent.h"
 #import "HyBidDFPMRectCustomEvent.h"
 #import "HyBidDFPInterstitialCustomEvent.h"
+#import "HyBidAdMobUtils.h"
