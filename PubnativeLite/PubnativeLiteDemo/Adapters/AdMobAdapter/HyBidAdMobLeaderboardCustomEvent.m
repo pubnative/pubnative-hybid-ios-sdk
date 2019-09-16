@@ -20,21 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobBannerCustomEvent.h"
+#import "HyBidAdMobLeaderboardCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobBannerCustomEvent() <HyBidAdViewDelegate>
+@interface HyBidAdMobLeaderboardCustomEvent() <HyBidAdViewDelegate>
 
-@property (nonatomic, strong) HyBidBannerAdView *bannerAdView;
+@property (nonatomic, strong) HyBidLeaderboardAdView *leaderboardAdView;
 
 @end
 
-@implementation HyBidAdMobBannerCustomEvent
+@implementation HyBidAdMobLeaderboardCustomEvent
 
 @synthesize delegate;
 
 - (void)dealloc {
-    self.bannerAdView = nil;
+    self.leaderboardAdView = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
@@ -42,10 +42,10 @@
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
+        if (CGSizeEqualToSize(kGADAdSizeLeaderboard.size, adSize.size)) {
             if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.bannerAdView = [[HyBidBannerAdView alloc] init];
-                [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
+                self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
+                [self.leaderboardAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
@@ -55,7 +55,7 @@
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed leaderboard ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -72,7 +72,7 @@
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-     [self invokeFailWithMessage:error.localizedDescription];
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
