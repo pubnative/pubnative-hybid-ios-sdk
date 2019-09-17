@@ -36,3 +36,4 @@
 #import "HyBidAdMobBannerCustomEvent.h"
 #import "HyBidAdMobMRectCustomEvent.h"
 #import "HyBidAdMobLeaderboardCustomEvent.h"
+#import "HyBidAdMobInterstitialCustomEvent.h"
