@@ -62,6 +62,7 @@
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
+    self.inspectRequestButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];

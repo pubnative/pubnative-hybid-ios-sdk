@@ -20,68 +20,68 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoAdMobMediationBannerViewController.h"
+#import "PNLiteDemoAdMobMediationMRectViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
 @import GoogleMobileAds;
 
-@interface PNLiteDemoAdMobMediationBannerViewController () <GADBannerViewDelegate>
+@interface PNLiteDemoAdMobMediationMRectViewController () <GADBannerViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *bannerContainer;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet UIView *mRectContainer;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (nonatomic, strong) GADBannerView *adMobBanner;
+@property (nonatomic, strong) GADBannerView *adMobMRect;
 
 @end
 
-@implementation PNLiteDemoAdMobMediationBannerViewController
+@implementation PNLiteDemoAdMobMediationMRectViewController
 
 - (void)dealloc {
-    self.adMobBanner = nil;
+    self.adMobMRect = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"AdMob Mediation Banner";
+    self.navigationItem.title = @"AdMob Mediation MRect";
     
-    [self.bannerLoaderIndicator stopAnimating];
-    self.adMobBanner = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    self.adMobBanner.delegate = self;
-    self.adMobBanner.adUnitID = [PNLiteDemoSettings sharedInstance].adMobMediationBannerAdUnitID;
-    self.adMobBanner.rootViewController = self;
-    [self.bannerContainer addSubview:self.adMobBanner];
+    [self.mRectLoaderIndicator stopAnimating];
+    self.adMobMRect = [[GADBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+    self.adMobMRect.delegate = self;
+    self.adMobMRect.adUnitID = [PNLiteDemoSettings sharedInstance].adMobMediationMRectAdUnitID;
+    self.adMobMRect.rootViewController = self;
+    [self.mRectContainer addSubview:self.adMobMRect];
 }
 
-- (IBAction)requestBannerTouchUpInside:(id)sender {
+- (IBAction)requestMRectTouchUpInside:(id)sender {
     [self requestAd];
 }
 
 - (void)requestAd {
     [self clearLastInspectedRequest];
-    self.bannerContainer.hidden = YES;
+    self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
-    [self.bannerLoaderIndicator startAnimating];
-    [self.adMobBanner loadRequest:[GADRequest request]];
+    [self.mRectLoaderIndicator startAnimating];
+    [self.adMobMRect loadRequest:[GADRequest request]];
 }
 
 #pragma mark - GADBannerViewDelegate
 
 - (void)adViewDidReceiveAd:(GADBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
-    if (self.adMobBanner == adView) {
-        self.bannerContainer.hidden = NO;
+    if (self.adMobMRect == adView) {
+        self.mRectContainer.hidden = NO;
         self.inspectRequestButton.hidden = NO;
-        [self.bannerLoaderIndicator stopAnimating];
+        [self.mRectLoaderIndicator stopAnimating];
     }
 }
 
 - (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
-    if (self.adMobBanner == adView) {
+    if (self.adMobMRect == adView) {
         self.inspectRequestButton.hidden = NO;
-        [self.bannerLoaderIndicator stopAnimating];
+        [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }
 }

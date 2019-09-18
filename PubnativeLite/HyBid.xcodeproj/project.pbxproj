@@ -284,6 +284,7 @@
 		5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */; };
 		5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; };
 		5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
+		5A40351823322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */; };
 		5A404B4A204E991200BEE041 /* HyBidAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */; };
 		5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */; };
 		5A449B4B203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1289,6 +1290,8 @@
 		5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDBannerPresenter.m; sourceTree = "<group>"; };
 		5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+PNLiteTopViewController.h"; sourceTree = "<group>"; };
 		5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+PNLiteTopViewController.m"; sourceTree = "<group>"; };
+		5A40351623322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationMRectViewController.h; sourceTree = "<group>"; };
+		5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationMRectViewController.m; sourceTree = "<group>"; };
 		5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdTrackerRequest.h; sourceTree = "<group>"; };
 		5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequest.m; sourceTree = "<group>"; };
 		5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRectPresenterFactory.h; sourceTree = "<group>"; };
@@ -1903,6 +1906,8 @@
 			children = (
 				5A2057DF2331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.h */,
 				5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */,
+				5A40351623322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.h */,
+				5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */,
 			);
 			path = AdMob;
 			sourceTree = "<group>";
@@ -4064,6 +4069,7 @@
 				5A2D42D222F06A400018C6F4 /* MPInterstitialCustomEventAdapter.m in Sources */,
 				5A90B4FB20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m in Sources */,
 				5A2D429D22F06A3F0018C6F4 /* MPMoPubNativeCustomEvent.m in Sources */,
+				5A40351823322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m in Sources */,
 				5A2D434A22F06A400018C6F4 /* MPRewardedVideoCustomEvent.m in Sources */,
 				5A2D428422F06A3F0018C6F4 /* MPServerAdPositioning.m in Sources */,
 				5A2D42B022F06A400018C6F4 /* MPViewabilityTracker.m in Sources */,

@@ -23,6 +23,6 @@
 #import <UIKit/UIKit.h>
 #import "PNLiteDemoBaseViewController.h"
 
-@interface PNLiteDemoAdMobMediationBannerViewController : PNLiteDemoBaseViewController
+@interface PNLiteDemoAdMobMediationMRectViewController : PNLiteDemoBaseViewController
 
 @end
