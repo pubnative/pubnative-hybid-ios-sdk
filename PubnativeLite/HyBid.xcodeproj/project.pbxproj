@@ -285,6 +285,7 @@
 		5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; };
 		5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
 		5A40351823322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */; };
+		5A40351B23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */; };
 		5A404B4A204E991200BEE041 /* HyBidAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */; };
 		5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */; };
 		5A449B4B203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1292,6 +1293,8 @@
 		5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+PNLiteTopViewController.m"; sourceTree = "<group>"; };
 		5A40351623322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationMRectViewController.h; sourceTree = "<group>"; };
 		5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationMRectViewController.m; sourceTree = "<group>"; };
+		5A40351923326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationLeaderboardViewController.h; sourceTree = "<group>"; };
+		5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdTrackerRequest.h; sourceTree = "<group>"; };
 		5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequest.m; sourceTree = "<group>"; };
 		5A449B49203D7BC000CEB630 /* PNLiteMRectPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRectPresenterFactory.h; sourceTree = "<group>"; };
@@ -1908,6 +1911,8 @@
 				5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */,
 				5A40351623322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.h */,
 				5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */,
+				5A40351923326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.h */,
+				5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */,
 			);
 			path = AdMob;
 			sourceTree = "<group>";
@@ -4040,6 +4045,7 @@
 				5A2D42CD22F06A400018C6F4 /* MPHTTPNetworkTaskData.m in Sources */,
 				5AC35B5A214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m in Sources */,
 				5A2D42FB22F06A400018C6F4 /* MRConstants.m in Sources */,
+				5A40351B23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m in Sources */,
 				5A32CEC02029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m in Sources */,
 				5A2D435322F06A400018C6F4 /* MPBaseAdapterConfiguration.m in Sources */,
 				5AD07C0F22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m in Sources */,
