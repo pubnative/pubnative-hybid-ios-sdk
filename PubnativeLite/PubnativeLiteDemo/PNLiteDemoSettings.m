@@ -37,6 +37,8 @@ NSString *const PNLiteDemoDFPLeaderboardAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitial";
+NSString *const PNLiteDemoAdMobMediationBannerAdUnitID = @"ca-app-pub-3940256099942544/2934735716";
+
 NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
 @implementation PNLiteDemoSettings
@@ -57,6 +59,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
     self.dfpBannerAdUnitID = nil;
     self.dfpMRectAdUnitID = nil;
     self.dfpInterstitialAdUnitID = nil;
+    self.adMobMediationBannerAdUnitID = nil;
     self.keywords = nil;
     self.targetingModel = nil;
     self.apiURL = nil;
@@ -89,6 +92,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         self.dfpBannerAdUnitID = PNLiteDemoDFPBannerAdUnitID;
         self.dfpMRectAdUnitID = PNLiteDemoDFPMRectAdUnitID;
         self.dfpInterstitialAdUnitID = PNLiteDemoDFPInterstitialAdUnitID;
+        self.adMobMediationBannerAdUnitID = PNLiteDemoAdMobMediationBannerAdUnitID;
         self.targetingModel = [[HyBidTargetingModel alloc] init];
         self.apiURL = PNLiteDemoAPIURL;
     }

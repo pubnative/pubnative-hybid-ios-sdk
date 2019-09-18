@@ -20,6 +20,7 @@
 		5A0E7713207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7712207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m */; };
 		5A2057DB232EBA3400AE124D /* HyBidAdMobLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057DA232EBA3400AE124D /* HyBidAdMobLeaderboardCustomEvent.m */; };
 		5A2057DE2330CFDE00AE124D /* HyBidAdMobInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057DD2330CFDE00AE124D /* HyBidAdMobInterstitialCustomEvent.m */; };
+		5A2057E12331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */; };
 		5A20DBDB203B081400EF2B3C /* PNLiteBannerAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A20DBDC203B081400EF2B3C /* PNLiteBannerAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */; };
 		5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */; };
@@ -786,6 +787,8 @@
 		5A2057DA232EBA3400AE124D /* HyBidAdMobLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobLeaderboardCustomEvent.m; sourceTree = "<group>"; };
 		5A2057DC2330CFDE00AE124D /* HyBidAdMobInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5A2057DD2330CFDE00AE124D /* HyBidAdMobInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		5A2057DF2331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationBannerViewController.h; sourceTree = "<group>"; };
+		5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationBannerViewController.m; sourceTree = "<group>"; };
 		5A20DBD9203B081400EF2B3C /* PNLiteBannerAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteBannerAdRequest.h; sourceTree = "<group>"; };
 		5A20DBDA203B081400EF2B3C /* PNLiteBannerAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteBannerAdRequest.m; sourceTree = "<group>"; };
 		5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAssetGroupType.h; sourceTree = "<group>"; };
@@ -1893,6 +1896,15 @@
 				5A0779EC2134061100EBD0E7 /* PNLiteRequestInspectorModel.m */,
 			);
 			path = "Request Inspector";
+			sourceTree = "<group>";
+		};
+		5A2057E22331219400AE124D /* AdMob */ = {
+			isa = PBXGroup;
+			children = (
+				5A2057DF2331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.h */,
+				5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */,
+			);
+			path = AdMob;
 			sourceTree = "<group>";
 		};
 		5A22C18C225F41EC0077B4ED /* Viewability */ = {
@@ -3456,6 +3468,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE206C320E288EF000E770C /* MoPub */,
+				5A2057E22331219400AE124D /* AdMob */,
 			);
 			path = Mediation;
 			sourceTree = "<group>";
@@ -4214,6 +4227,7 @@
 				5A2D42F822F06A400018C6F4 /* MPMediationManager.m in Sources */,
 				5AD07C1222FB02F2001BF4A1 /* Markup.m in Sources */,
 				5AC523F720456DA9007E1967 /* PNLiteMoPubInterstitialCustomEvent.m in Sources */,
+				5A2057E12331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m in Sources */,
 				5A2D42F322F06A400018C6F4 /* MPXMLParser.m in Sources */,
 				5A2D434822F06A400018C6F4 /* MPRewardedVideoReward.m in Sources */,
 				5A2D42EF22F06A400018C6F4 /* MPURLResolver.m in Sources */,
