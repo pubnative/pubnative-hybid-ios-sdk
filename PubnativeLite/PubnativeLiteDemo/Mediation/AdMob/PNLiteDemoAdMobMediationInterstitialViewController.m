@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2019 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +20,34 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoDFPInterstitialViewController.h"
+#import "PNLiteDemoAdMobMediationInterstitialViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
 @import GoogleMobileAds;
 
-@interface PNLiteDemoDFPInterstitialViewController () <HyBidAdRequestDelegate, GADInterstitialDelegate>
+@interface PNLiteDemoAdMobMediationInterstitialViewController () <GADInterstitialDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (nonatomic, strong) DFPInterstitial *dfpInterstitial;
-@property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic, strong) GADInterstitial *adMobInterstitial;
 
 @end
 
-@implementation PNLiteDemoDFPInterstitialViewController
+@implementation PNLiteDemoAdMobMediationInterstitialViewController
 
 - (void)dealloc {
-    self.dfpInterstitial = nil;
-    self.interstitialAdRequest = nil;
+    self.adMobInterstitial = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"DFP Interstitial";
+    self.navigationItem.title = @"AdMob Mediation Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
-    self.dfpInterstitial = [self createAndLoadInterstitial];
+    self.adMobInterstitial = [self createAndLoadInterstitial];
     [self requestAd];
 }
 
@@ -57,12 +55,12 @@
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    GADRequest *request = [GADRequest request];
+    [self.adMobInterstitial loadRequest:request];
 }
 
-- (DFPInterstitial *)createAndLoadInterstitial {
-    DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID];
+- (GADInterstitial *)createAndLoadInterstitial {
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].adMobMediationInterstitialAdUnitID];
     interstitial.delegate = self;
     return interstitial;
 }
@@ -72,8 +70,8 @@
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     NSLog(@"interstitialDidReceiveAd");
     [self.interstitialLoaderIndicator stopAnimating];
-    if (self.dfpInterstitial.isReady) {
-        [self.dfpInterstitial presentFromRootViewController:self];
+    if (self.adMobInterstitial.isReady) {
+        [self.adMobInterstitial presentFromRootViewController:self];
     } else {
         NSLog(@"Ad wasn't ready");
     }
@@ -99,31 +97,6 @@
 
 - (void)interstitialWillLeaveApplication:(GADInterstitial *)ad {
     NSLog(@"interstitialWillLeaveApplication");
-}
-
-#pragma mark - HyBidAdRequestDelegate
-
-- (void)requestDidStart:(HyBidAdRequest *)request {
-    NSLog(@"Request %@ started:",request);
-}
-
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    NSLog(@"Request loaded with ad: %@",ad);
-    if (request == self.interstitialAdRequest) {
-        self.inspectRequestButton.hidden = NO;
-        DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad];
-        [self.dfpInterstitial loadRequest:request];
-    }
-}
-
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
-    if (request == self.interstitialAdRequest) {
-        self.inspectRequestButton.hidden = NO;
-        [self showAlertControllerWithMessage:error.localizedDescription];
-        [self.interstitialLoaderIndicator stopAnimating];
-    }
 }
 
 @end
