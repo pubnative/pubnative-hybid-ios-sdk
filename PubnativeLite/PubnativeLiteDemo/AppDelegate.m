@@ -26,6 +26,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import "MoPub.h"
 
+@import GoogleMobileAds;
+
 @interface AppDelegate ()
 
 @end
@@ -42,6 +44,7 @@
     }];
     MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
+    [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     [Fabric with:@[[Crashlytics class]]];
     return YES;
 }

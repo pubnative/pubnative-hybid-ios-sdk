@@ -37,6 +37,12 @@ NSString *const PNLiteDemoDFPLeaderboardAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitial";
+NSString *const PNLiteDemoAdMobMediationAppID = @"ca-app-pub-2576283444991206~5819414108";
+NSString *const PNLiteDemoAdMobMediationBannerAdUnitID = @"ca-app-pub-2576283444991206/7675421252";
+NSString *const PNLiteDemoAdMobMediationMRectAdUnitID = @"ca-app-pub-2576283444991206/1943393054";
+NSString *const PNLiteDemoAdMobMediationLeaderboardAdUnitID = @"ca-app-pub-2576283444991206/2969889488";
+NSString *const PNLiteDemoAdMobMediationInterstitialAdUnitID = @"ca-app-pub-2576283444991206/1852248931";
+
 NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
 @implementation PNLiteDemoSettings
@@ -57,6 +63,11 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
     self.dfpBannerAdUnitID = nil;
     self.dfpMRectAdUnitID = nil;
     self.dfpInterstitialAdUnitID = nil;
+    self.adMobMediationAppID = nil;
+    self.adMobMediationBannerAdUnitID = nil;
+    self.adMobMediationMRectAdUnitID = nil;
+    self.adMobMediationLeaderboardAdUnitID = nil;
+    self.adMobMediationInterstitialAdUnitID = nil;
     self.keywords = nil;
     self.targetingModel = nil;
     self.apiURL = nil;
@@ -89,6 +100,11 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         self.dfpBannerAdUnitID = PNLiteDemoDFPBannerAdUnitID;
         self.dfpMRectAdUnitID = PNLiteDemoDFPMRectAdUnitID;
         self.dfpInterstitialAdUnitID = PNLiteDemoDFPInterstitialAdUnitID;
+        self.adMobMediationAppID = PNLiteDemoAdMobMediationAppID;
+        self.adMobMediationBannerAdUnitID = PNLiteDemoAdMobMediationBannerAdUnitID;
+        self.adMobMediationMRectAdUnitID = PNLiteDemoAdMobMediationMRectAdUnitID;
+        self.adMobMediationLeaderboardAdUnitID = PNLiteDemoAdMobMediationLeaderboardAdUnitID;
+        self.adMobMediationInterstitialAdUnitID = PNLiteDemoAdMobMediationInterstitialAdUnitID;
         self.targetingModel = [[HyBidTargetingModel alloc] init];
         self.apiURL = PNLiteDemoAPIURL;
     }
