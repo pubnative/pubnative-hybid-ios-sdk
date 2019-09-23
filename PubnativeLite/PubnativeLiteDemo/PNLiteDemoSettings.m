@@ -37,11 +37,11 @@ NSString *const PNLiteDemoDFPLeaderboardAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPInterstitialAdUnitID = @"/6499/example/interstitial";
-NSString *const PNLiteDemoAdMobMediationAppID = @"";
-NSString *const PNLiteDemoAdMobMediationBannerAdUnitID = @"ca-app-pub-3940256099942544/2934735716";
-NSString *const PNLiteDemoAdMobMediationMRectAdUnitID = @"ca-app-pub-3940256099942544/2934735716";
-NSString *const PNLiteDemoAdMobMediationLeaderboardAdUnitID = @"ca-app-pub-3940256099942544/2934735716";
-NSString *const PNLiteDemoAdMobMediationInterstitialAdUnitID = @"ca-app-pub-3940256099942544/4411468910";
+NSString *const PNLiteDemoAdMobMediationAppID = @"ca-app-pub-2576283444991206~5819414108";
+NSString *const PNLiteDemoAdMobMediationBannerAdUnitID = @"ca-app-pub-2576283444991206/7675421252";
+NSString *const PNLiteDemoAdMobMediationMRectAdUnitID = @"ca-app-pub-2576283444991206/1943393054";
+NSString *const PNLiteDemoAdMobMediationLeaderboardAdUnitID = @"ca-app-pub-2576283444991206/2969889488";
+NSString *const PNLiteDemoAdMobMediationInterstitialAdUnitID = @"ca-app-pub-2576283444991206/1852248931";
 
 NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
