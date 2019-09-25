@@ -22,6 +22,7 @@
 
 #import "PNLiteConsentPageViewController.h"
 #import "HyBidUserDataManager.h"
+#import <WebKit/WebKit.h>
 
 typedef void(^PNLiteConsentPageViewControllerCompletion)(BOOL success, NSError *error);
 
@@ -29,9 +30,9 @@ NSString *const PNLiteConsentAccept = @"https://pubnative.net/personalize-experi
 NSString *const PNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
 NSString *const PNLiteConsentClose = @"https://pubnative.net/";
 
-@interface PNLiteConsentPageViewController () <UIWebViewDelegate>
+@interface PNLiteConsentPageViewController () <WKUIDelegate, WKNavigationDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, assign) BOOL finishedInitialLoad;
 @property (nonatomic, copy) PNLiteConsentPageViewControllerCompletion didLoadCompletionBlock;
 @property (nonatomic, copy) NSString *consentPageURL;
@@ -65,8 +66,9 @@ NSString *const PNLiteConsentClose = @"https://pubnative.net/";
 }
 
 - (void)setUpWebView {
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    self.webView.delegate = self;
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+    self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     self.webView.scrollView.bounces = NO;
     self.webView.backgroundColor = [UIColor whiteColor];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -102,9 +104,9 @@ NSString *const PNLiteConsentClose = @"https://pubnative.net/";
     [self.webView loadRequest:urlRequest];
 }
 
-#pragma mark UIWebViewDelegate
+#pragma mark WKNavigationDelegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if (!self.finishedInitialLoad) {
         self.finishedInitialLoad = YES;
         
@@ -114,8 +116,7 @@ NSString *const PNLiteConsentClose = @"https://pubnative.net/";
         }
     }
 }
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     if (!self.finishedInitialLoad) {
         self.finishedInitialLoad = YES;
         
@@ -125,25 +126,26 @@ NSString *const PNLiteConsentClose = @"https://pubnative.net/";
         }
     }
 }
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSURL *url = [request URL];
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSURL *url = [navigationAction.request URL];
     NSString *absoluteUrlString = [url absoluteString];
     
     if ([absoluteUrlString isEqualToString:PNLiteConsentAccept]) {
         [[HyBidUserDataManager sharedInstance] grantConsent];
+        decisionHandler(WKNavigationActionPolicyAllow);
     } else if ([absoluteUrlString isEqualToString:PNLiteConsentReject]) {
         [[HyBidUserDataManager sharedInstance] denyConsent];
+        decisionHandler(WKNavigationActionPolicyAllow);
     } else if ([absoluteUrlString isEqualToString:PNLiteConsentClose]) {
         [self dismissViewControllerAnimated:YES completion:^{
             if ([self.delegate respondsToSelector:@selector(consentPageViewControllerDidDismiss:)]) {
                 [self.delegate consentPageViewControllerDidDismiss:self];
             }
         }];
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
     } else {
-        return YES;
+        decisionHandler(WKNavigationActionPolicyAllow);
     }
-    return YES;
 }
+
 @end

@@ -1281,10 +1281,8 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     // disable scrolling
     UIScrollView *scrollView;
     if ([wv respondsToSelector:@selector(scrollView)]) {
-        // UIWebView has a scrollView property in iOS 5+.
         scrollView = [wv scrollView];
     } else {
-        // We have to look for the UIWebView's scrollView in iOS 4.
         for (id subview in [self subviews]) {
             if ([subview isKindOfClass:[UIScrollView class]]) {
                 scrollView = subview;
@@ -1343,7 +1341,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;   // required to allow UIWebview to work correctly, see  http://stackoverflow.com/questions/2909807/does-uigesturerecognizer-work-on-a-uiwebview
+    return YES;
 }
 
 - (void)oneFingerOneTap {
