@@ -26,6 +26,7 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
 #import "HyBidLogger.h"
+#import <WebKit/WebKit.h>
 
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
@@ -267,10 +268,18 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                 } else if (beaconJs && beaconJs.length > 0) {
                     __block NSString *beaconJsBlock = [beacon stringFieldWithKey:@"js"];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIWebView *webView = [[UIWebView alloc] init];
-                        webView.scalesPageToFit = YES;
+                        NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
+                        WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+                        WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+                        [wkUController addUserScript:wkUScript];
+                        WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
+                        wkWebConfig.userContentController = wkUController;
+
+                        WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
                         webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-                        [webView stringByEvaluatingJavaScriptFromString:beaconJsBlock];
+//                        [webView evaluateJavaScript:beaconJsBlock completionHandler:nil];
+                        [webView evaluateJavaScript:beaconJsBlock completionHandler:^(id result, NSError *error) {}];
+
                     });
                 }
             }
