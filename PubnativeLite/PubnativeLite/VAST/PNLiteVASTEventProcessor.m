@@ -22,12 +22,12 @@
 
 #import "PNLiteVASTEventProcessor.h"
 #import "HyBidLogger.h"
+#import "HyBidWebBrowserUserAgentInfo.h"
 
 @interface PNLiteVASTEventProcessor()
 
 @property(nonatomic, strong) NSDictionary *events;
 @property(nonatomic, weak) NSObject<PNLiteVASTEventProcessorDelegate> *delegate;
-@property (nonatomic, strong) NSString *userAgent;
 
 @end
 
@@ -45,7 +45,6 @@
 
 - (void)dealloc {
     self.events = nil;
-    self.userAgent = nil;
 }
 
 - (void)trackEvent:(PNLiteVASTEvent)event {
@@ -92,12 +91,8 @@
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Event processor sending request to url: %@", url]];
         
         NSURLSession * session = [NSURLSession sharedSession];
-        if(!self.userAgent) {
-            // Perform on main thread/queue
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-                self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
+                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.userAgent};
                 NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                      timeoutInterval:1.0];
@@ -117,29 +112,7 @@
                                 }
                             }] resume];
             });
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
-                NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
-                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                     timeoutInterval:1.0];
-                
-                [[session dataTaskWithRequest:request
-                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                
-                                // Send the request only, no response or errors
-                                if(!error) {
-                                    if ([data length] > 0) {
-                                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]]];
-                                    } else {
-                                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url: %@", response.URL]];
-                                    }
-                                } else {
-                                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ error: %@", response.URL, error]];
-                                }
-                            }] resume];
-            });
-        }
+        
     });
 }
 

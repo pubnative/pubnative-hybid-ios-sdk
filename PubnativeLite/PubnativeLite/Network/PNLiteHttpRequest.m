@@ -24,6 +24,7 @@
 #import "PNLiteReachability.h"
 #import "PNLiteCryptoUtils.h"
 #import "HyBidLogger.h"
+#import "HyBidWebBrowserUserAgentInfo.h"
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -33,7 +34,6 @@ NSInteger const MAX_RETRIES = 1;
 
 @property (nonatomic, strong) NSObject<PNLiteHttpRequestDelegate> *delegate;
 @property (nonatomic, strong) NSString *urlString;
-@property (nonatomic, strong) NSString *userAgent;
 @property (nonatomic, strong) NSString *method;
 @property (nonatomic, assign) NSInteger retryCount;
 
@@ -45,7 +45,6 @@ NSInteger const MAX_RETRIES = 1;
 {
     self.delegate = nil;
     self.urlString = nil;
-    self.userAgent = nil;
     self.method = nil;
     self.header = nil;
     self.body = nil;
@@ -79,10 +78,6 @@ NSInteger const MAX_RETRIES = 1;
 - (void)executeAsyncRequest
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(!self.userAgent) {
-            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-            self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self makeRequest];
         });
@@ -97,7 +92,7 @@ NSInteger const MAX_RETRIES = 1;
         [self invokeFailWithMessage:message andAttemptRetry:NO];
     } else {
         NSURLSession *session = [NSURLSession sharedSession];
-        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
+        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.userAgent};
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:url];
         [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];

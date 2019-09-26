@@ -53,18 +53,11 @@ NSString * const kUserDefaultsUserAgentKey = @"com.pubnative.hybid-ios-sdk.user-
         // Use the cached value before the async JavaScript evaluation is successful.
         gUserAgent = cachedUserAgent;
     } else {
-        /*
-         Use the composed value before the async JavaScript evaluation is successful. This composed
-         user agent value should be very close to the actual value like this one:
-           "Mozilla/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-        */
-
         NSString *systemVersion = [[UIDevice currentDevice].systemVersion stringByReplacingOccurrencesOfString:@"." withString:@"_"];
         NSString *deviceType = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
         gUserAgent = [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU %@ OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
                       deviceType, deviceType, systemVersion];
     }
-
     dispatch_async(dispatch_get_main_queue(), ^{
         gWkWebView = [WKWebView new]; // `WKWebView` must be created in main thread
         [gWkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
