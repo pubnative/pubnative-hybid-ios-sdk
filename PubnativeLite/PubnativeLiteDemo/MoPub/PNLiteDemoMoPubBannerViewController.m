@@ -74,7 +74,7 @@
     return self;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view {
+- (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
     NSLog(@"adViewDidLoadAd");
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
@@ -82,7 +82,7 @@
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view {
+- (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
         [self.bannerLoaderIndicator stopAnimating];
