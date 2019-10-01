@@ -1,5 +1,0 @@
-framework module GoogleUtilities {
-umbrella header "GoogleUtilities.h"
-export *
-module * { export * }
-}
