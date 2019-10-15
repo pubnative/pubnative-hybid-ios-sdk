@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "1.3.7"
+  s.version      = "1.3.8"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -38,6 +38,6 @@ Pod::Spec.new do |s|
   s.authors      = { "Can Soykarafakili" => "can.soykarafakili@pubnative.net", "Eros Garcia Ponte" => "eros.ponte@pubnative.net" }
   s.platform     = :ios
   s.ios.deployment_target = "9.0"
-  s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/1.3.7/HyBid.framework.zip" }
+  s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/1.3.8/HyBid.framework.zip" }
   s.ios.vendored_frameworks = 'HyBid.framework'
 end
