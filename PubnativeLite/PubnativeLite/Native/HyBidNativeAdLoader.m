@@ -49,6 +49,7 @@
 
 - (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
     self.delegate = delegate;
+    [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE];
     [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
 }
 
