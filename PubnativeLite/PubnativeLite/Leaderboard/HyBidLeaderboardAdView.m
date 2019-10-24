@@ -22,17 +22,28 @@
 
 #import "HyBidLeaderboardAdView.h"
 #import "HyBidLeaderboardPresenterFactory.h"
-#import "HyBidLeaderboardAdRequest.h"
 
 @implementation HyBidLeaderboardAdView
 
+- (void)dealloc {
+    self.leaderboardAdRequest = nil;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+}
+
 - (instancetype)init {
-    return [super initWithFrame:CGRectMake(0, 0, 728, 90)];
+    self = [super initWithFrame:CGRectMake(0, 0, 728, 90)];
+    if (self) {
+        self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+    }
+    return self;
 }
 
 - (HyBidAdRequest *)adRequest {
-    HyBidLeaderboardAdRequest *leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
-    return leaderboardAdRequest;
+    return self.leaderboardAdRequest;
 }
 
 - (HyBidAdPresenter *)createAdPresenter {

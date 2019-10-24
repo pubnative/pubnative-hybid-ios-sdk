@@ -22,17 +22,28 @@
 
 #import "HyBidBannerAdView.h"
 #import "HyBidBannerPresenterFactory.h"
-#import "HyBidBannerAdRequest.h"
 
 @implementation HyBidBannerAdView
 
+- (void)dealloc {
+    self.bannerAdRequest = nil;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+}
+
 - (instancetype)init {
-    return [super initWithFrame:CGRectMake(0, 0, 320, 50)];
+    self = [super initWithFrame:CGRectMake(0, 0, 320, 50)];
+    if (self) {
+        self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+    }
+    return self;
 }
 
 - (HyBidAdRequest *)adRequest {
-    HyBidBannerAdRequest *bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
-    return bannerAdRequest;
+    return self.bannerAdRequest;
 }
 
 - (HyBidAdPresenter *)createAdPresenter {

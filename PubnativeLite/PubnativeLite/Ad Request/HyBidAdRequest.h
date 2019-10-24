@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
+#import "HyBidIntegrationType.h"
 
 @class HyBidAdRequest;
 
@@ -37,6 +38,7 @@
 
 @property (nonatomic, readonly) NSString *adSize;
 
+- (void)setIntegrationType:(IntegrationType)integrationType;
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
 
 @end

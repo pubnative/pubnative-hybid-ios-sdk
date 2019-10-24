@@ -25,6 +25,7 @@
 #import "HyBidInterstitialPresenter.h"
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
+#import "HyBidIntegrationType.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -59,6 +60,7 @@
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
     } else {
         self.isReady = NO;
+        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE];
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
 }

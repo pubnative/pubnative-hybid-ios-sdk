@@ -35,6 +35,7 @@
 @interface HyBidInterstitialAd : NSObject
 
 @property (nonatomic, assign) BOOL isReady;
+@property (nonatomic, assign) BOOL isMediation;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;

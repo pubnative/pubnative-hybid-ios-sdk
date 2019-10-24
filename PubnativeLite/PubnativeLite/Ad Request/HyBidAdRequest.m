@@ -43,6 +43,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSURL *requestURL;
+@property (nonatomic, assign) BOOL isSetIntegrationTypeCalled;
+@property (nonatomic, strong) PNLiteAdFactory *adFactory;
 
 @end
 
@@ -53,10 +55,24 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     self.startTime = nil;
     self.requestURL = nil;
     self.delegate = nil;
+    self.adFactory = nil;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.adFactory = [[PNLiteAdFactory alloc] init];
+    }
+    return self;
 }
 
 - (NSString *)adSize {
     return nil;
+}
+
+- (void)setIntegrationType:(IntegrationType)integrationType {
+    self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
+    self.isSetIntegrationTypeCalled = YES;
 }
 
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
@@ -74,13 +90,22 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         self.zoneID = zoneID;
         self.isRunning = YES;
         [self invokeDidStart];
-        PNLiteAdFactory *adFactory = [[PNLiteAdFactory alloc] init];
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
-                                                                                                                                                                   andWithAdSize:[self adSize]]].absoluteString]];
-        self.requestURL = [self requestURLFromAdRequestModel: [adFactory createAdRequestWithZoneID:self.zoneID
-                                                                                     andWithAdSize:[self adSize]]];
+        
+        if (!self.isSetIntegrationTypeCalled) {
+            [self setIntegrationType:HEADER_BIDDING];
+        }
+
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
     }
+}
+
+- (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
+                                                                                                                                                                                                                      andWithAdSize:[self adSize]
+                                                                                                                                                                                                             andWithIntegrationType:integrationType]].absoluteString]];
+    return [self.adFactory createAdRequestWithZoneID:self.zoneID
+                                       andWithAdSize:[self adSize]
+                              andWithIntegrationType:integrationType];
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {

@@ -29,7 +29,9 @@
 
 @implementation PNLiteAdFactory
 
-- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID andWithAdSize:(NSString *)adSize {
+- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
+                                      andWithAdSize:(NSString *)adSize
+                             andWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
     adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
@@ -51,7 +53,17 @@
         [self setDefaultAssetFields:adRequestModel];
     }
     [self setDefaultMetaFields:adRequestModel];
+//    [self setDisplayManager:adRequestModel withIntegrationType:integrationType];
     return adRequestModel;
+}
+
+- (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
+    NSDictionary *infoDictionary = [[NSBundle bundleForClass: [HyBidSettings class]] infoDictionary];
+    NSString *name = [infoDictionary valueForKey:(__bridge NSString*)kCFBundleNameKey];
+    NSString *version = [infoDictionary valueForKey:(__bridge NSString*)kCFBundleVersionKey];
+
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = name;
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [NSString stringWithFormat:@"%@_%@_%@", @"sdkios", [HyBidIntegrationType getIntegrationTypeCodeFromIntegrationType:integrationType] ,version];
 }
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {

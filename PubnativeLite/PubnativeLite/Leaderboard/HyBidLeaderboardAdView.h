@@ -21,7 +21,10 @@
 //
 
 #import "HyBidAdView.h"
+#import "HyBidLeaderboardAdRequest.h"
 
 @interface HyBidLeaderboardAdView : HyBidAdView
+
+@property (nonatomic, strong) HyBidLeaderboardAdRequest *leaderboardAdRequest;
 
 @end

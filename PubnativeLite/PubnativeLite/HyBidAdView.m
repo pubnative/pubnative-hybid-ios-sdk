@@ -22,6 +22,7 @@
 
 #import "HyBidAdView.h"
 #import "HyBidLogger.h"
+#import "HyBidIntegrationType.h"
 
 @interface HyBidAdView()
 
@@ -57,6 +58,7 @@
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
+        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE];
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }
 }
