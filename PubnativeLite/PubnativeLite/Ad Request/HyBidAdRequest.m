@@ -70,7 +70,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     return nil;
 }
 
-- (void)setIntegrationType:(IntegrationType)integrationType {
+- (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
+    self.zoneID = zoneID;
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
     self.isSetIntegrationTypeCalled = YES;
 }
@@ -92,7 +93,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         [self invokeDidStart];
         
         if (!self.isSetIntegrationTypeCalled) {
-            [self setIntegrationType:HEADER_BIDDING];
+            [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
         }
 
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];

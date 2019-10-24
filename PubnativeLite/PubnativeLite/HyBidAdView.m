@@ -58,7 +58,7 @@
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
-        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE];
+        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }
 }

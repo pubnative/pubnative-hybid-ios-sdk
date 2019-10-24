@@ -53,7 +53,7 @@
         [self setDefaultAssetFields:adRequestModel];
     }
     [self setDefaultMetaFields:adRequestModel];
-//    [self setDisplayManager:adRequestModel withIntegrationType:integrationType];
+    [self setDisplayManager:adRequestModel withIntegrationType:integrationType];
     return adRequestModel;
 }
 

@@ -38,7 +38,7 @@
 
 @property (nonatomic, readonly) NSString *adSize;
 
-- (void)setIntegrationType:(IntegrationType)integrationType;
+- (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
 
 @end

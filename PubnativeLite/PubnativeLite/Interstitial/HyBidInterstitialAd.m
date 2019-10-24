@@ -60,7 +60,7 @@
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
     } else {
         self.isReady = NO;
-        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE];
+        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
 }
