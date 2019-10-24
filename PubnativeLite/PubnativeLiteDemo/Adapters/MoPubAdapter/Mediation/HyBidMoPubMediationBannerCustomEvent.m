@@ -43,6 +43,7 @@
         if (size.height == kMPPresetMaxAdSize50Height.height && size.width >= 320.0f) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.bannerAdView = [[HyBidBannerAdView alloc] init];
+                self.bannerAdView.isMediation = YES;
                 [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];

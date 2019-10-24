@@ -43,6 +43,7 @@
         if (size.height == kMPPresetMaxAdSize90Height.height && size.width >= 728.0f) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
+                self.leaderboardAdView.isMediation = YES;
                 [self.leaderboardAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
