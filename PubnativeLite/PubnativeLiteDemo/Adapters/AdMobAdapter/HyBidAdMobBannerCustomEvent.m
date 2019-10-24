@@ -45,6 +45,7 @@
         if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
             if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.bannerAdView = [[HyBidBannerAdView alloc] init];
+                self.bannerAdView.isMediation = YES;
                 [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
