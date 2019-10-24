@@ -31,4 +31,5 @@ typedef enum {
 @interface HyBidIntegrationType : NSObject
 
 + (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType;
+
 @end
