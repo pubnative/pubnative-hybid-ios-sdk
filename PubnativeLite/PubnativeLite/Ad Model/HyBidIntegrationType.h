@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2019 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -22,33 +22,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HyBidRequestParameter : NSObject
+typedef enum {
+    HEADER_BIDDING,
+    MEDIATION,
+    STANDALONE,
+} IntegrationType;
 
-+ (NSString *)appToken;
-+ (NSString *)os;
-+ (NSString *)osVersion;
-+ (NSString *)deviceModel;
-+ (NSString *)dnt;
-+ (NSString *)locale;
-+ (NSString *)adCount;
-+ (NSString *)zoneId;
-+ (NSString *)lat;
-+ (NSString *)lon;
-+ (NSString *)gender;
-+ (NSString *)age;
-+ (NSString *)keywords;
-+ (NSString *)appVersion;
-+ (NSString *)test;
-+ (NSString *)video;
-+ (NSString *)metaField;
-+ (NSString *)assetsField;
-+ (NSString *)idfa;
-+ (NSString *)idfamd5;
-+ (NSString *)idfasha1;
-+ (NSString *)coppa;
-+ (NSString *)assetLayout;
-+ (NSString *)bundleId;
-+ (NSString *)displayManager;
-+ (NSString *)displayManagerVersion;
+@interface HyBidIntegrationType : NSObject
+
++ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType;
 
 @end

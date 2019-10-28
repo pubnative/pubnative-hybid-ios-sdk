@@ -22,17 +22,36 @@
 
 #import "HyBidMRectAdView.h"
 #import "HyBidMRectPresenterFactory.h"
-#import "HyBidMRectAdRequest.h"
 
 @implementation HyBidMRectAdView
 
+- (void)dealloc {
+    self.mRectAdRequest = nil;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+    }
+    return self;
+}
+
 - (instancetype)init {
-    return [super initWithFrame:CGRectMake(0, 0, 300, 250)];
+    self = [super initWithFrame:CGRectMake(0, 0, 300, 250)];
+    if (self) {
+        self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+    }
+    return self;
 }
 
 - (HyBidAdRequest *)adRequest {
-    HyBidMRectAdRequest *mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
-    return mRectAdRequest;
+    return self.mRectAdRequest;
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
