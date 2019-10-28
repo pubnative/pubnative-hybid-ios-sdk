@@ -58,9 +58,8 @@
 }
 
 - (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
-    NSDictionary *infoDictionary = [[NSBundle bundleForClass: [HyBidSettings class]] infoDictionary];
-    NSString *name = [infoDictionary valueForKey:(__bridge NSString*)kCFBundleNameKey];
-    NSString *version = [infoDictionary valueForKey:(__bridge NSString*)kCFBundleVersionKey];
+    NSString *name = @"HyBid";
+    NSString *version = @"1.4.0";
 
     adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = name;
     adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [NSString stringWithFormat:@"%@_%@_%@", @"sdkios", [HyBidIntegrationType getIntegrationTypeCodeFromIntegrationType:integrationType] ,version];
