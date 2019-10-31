@@ -21,7 +21,10 @@
 //
 
 #import "HyBidAdView.h"
+#import "HyBidBannerAdRequest.h"
 
 @interface HyBidBannerAdView : HyBidAdView
+
+@property (nonatomic, strong) HyBidBannerAdRequest *bannerAdRequest;
 
 @end

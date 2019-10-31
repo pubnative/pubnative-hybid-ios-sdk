@@ -23,6 +23,7 @@
 #import "HyBidNativeAdLoader.h"
 #import "HyBidNativeAdRequest.h"
 #import "HyBidLogger.h"
+#import "HyBidIntegrationType.h"
 
 @interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
 
@@ -48,6 +49,7 @@
 
 - (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
     self.delegate = delegate;
+    [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
     [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
 }
 
