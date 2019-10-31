@@ -93,6 +93,10 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
                 [[PNLiteHttpRequest alloc] startWithUrlString:[self.currentItem.url absoluteString] withMethod:@"GET" delegate:self];
             } else {
                 // Discard the item and continue
+//                This code piece down below makes sure that isRunning param resets itself.
+//                But this scenario is happening only when we have breakpoints.
+//                Since Timestamp difference is not a valid time because we are debugging and we are using time for it.
+//                self.isRunning = NO;
                 [self trackNextItem];
             }
         } else {
