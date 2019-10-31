@@ -48,5 +48,6 @@
 + (NSString *)coppa          { return @"coppa"; }
 + (NSString *)assetLayout    { return @"al"; }
 + (NSString *)bundleId       { return @"bundleid"; }
-
++ (NSString *)displayManager { return @"displaymanager"; }
++(NSString *)displayManagerVersion {return @"displaymanagerver"; }
 @end

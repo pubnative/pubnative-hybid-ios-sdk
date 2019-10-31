@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2019 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,35 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidIntegrationType.h"
 
-@interface HyBidRequestParameter : NSObject
+@implementation HyBidIntegrationType
 
-+ (NSString *)appToken;
-+ (NSString *)os;
-+ (NSString *)osVersion;
-+ (NSString *)deviceModel;
-+ (NSString *)dnt;
-+ (NSString *)locale;
-+ (NSString *)adCount;
-+ (NSString *)zoneId;
-+ (NSString *)lat;
-+ (NSString *)lon;
-+ (NSString *)gender;
-+ (NSString *)age;
-+ (NSString *)keywords;
-+ (NSString *)appVersion;
-+ (NSString *)test;
-+ (NSString *)video;
-+ (NSString *)metaField;
-+ (NSString *)assetsField;
-+ (NSString *)idfa;
-+ (NSString *)idfamd5;
-+ (NSString *)idfasha1;
-+ (NSString *)coppa;
-+ (NSString *)assetLayout;
-+ (NSString *)bundleId;
-+ (NSString *)displayManager;
-+ (NSString *)displayManagerVersion;
-
++ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType {
+    NSArray *integrationTypes = @[
+                                  @"hb",
+                                  @"m",
+                                  @"s",
+                                  ];
+    return integrationTypes[integrationType];
+}
 @end

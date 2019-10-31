@@ -45,6 +45,7 @@
         if (CGSizeEqualToSize(kGADAdSizeLeaderboard.size, adSize.size)) {
             if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
+                self.leaderboardAdView.isMediation = YES;
                 [self.leaderboardAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];

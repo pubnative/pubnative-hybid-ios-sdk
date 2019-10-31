@@ -32,6 +32,8 @@
 
 @interface HyBidNativeAdLoader : NSObject
 
+@property (nonatomic, assign) BOOL isMediation;
+
 - (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID;
 
 @end
