@@ -20,11 +20,14 @@
 //  THE SOFTWARE.
 //
 
-
 #import <Foundation/Foundation.h>
 
-@interface HyBidViewabilityConstants : NSObject
+@interface HyBidVerificationScriptResource : NSObject
 
-extern NSString * const HyBidOMSDKJS;
+@property (nonatomic, readwrite, strong) NSString *url;
+@property (nonatomic, readwrite, strong) NSString *vendorKey;
+@property (nonatomic, readwrite, strong) NSString *params;
+
+- (void)hyBidVerificationScriptResource:(NSDictionary *)jsonDic;
 
 @end
