@@ -38,7 +38,7 @@
     self.nativeAdLoader = nil;
 }
 
-- (void)requestAdWithCustomEventInfo:(NSDictionary *)info {
+- (void)requestAdWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
