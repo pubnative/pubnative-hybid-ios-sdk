@@ -41,6 +41,7 @@
     self.bannerPresenterFactory = nil;
     self.ad = nil;
 }
+
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         if (size.height == kMPPresetMaxAdSize50Height.height && size.width >= 320.0f) {
