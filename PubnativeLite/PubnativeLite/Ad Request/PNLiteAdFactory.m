@@ -26,6 +26,7 @@
 #import "PNLiteCryptoUtils.h"
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
+#import "HyBidConstants.h"
 
 @implementation PNLiteAdFactory
 
@@ -58,11 +59,8 @@
 }
 
 - (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
-    NSString *name = @"HyBid";
-    NSString *version = @"1.4.0";
-
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = name;
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [NSString stringWithFormat:@"%@_%@_%@", @"sdkios", [HyBidIntegrationType getIntegrationTypeCodeFromIntegrationType:integrationType] ,version];
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = HYBID_SDK_NAME;
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [NSString stringWithFormat:@"%@_%@_%@", @"sdkios", [HyBidIntegrationType getIntegrationTypeCodeFromIntegrationType:integrationType] ,HYBID_SDK_VERSION];
 }
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {

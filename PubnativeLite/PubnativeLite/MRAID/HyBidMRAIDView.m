@@ -36,13 +36,7 @@
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
-#import <OMSDK_Pubnativenet/OMIDAdSessionContext.h>
-#import <OMSDK_Pubnativenet/OMIDAdSessionConfiguration.h>
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
-#import <OMSDK_Pubnativenet/OMIDAdEvents.h>
-
-#import "HyBidViewabilityConstants.h"
-
 
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -245,10 +239,7 @@ typedef enum {
             [self injectJavaScript:mraidjs];
         }
         /*
-        NSData *omSDKJSData = [[NSData alloc] initWithBase64EncodedString:HyBidOMSDKJS options:0];
-        omSDKjs = [[NSString alloc] initWithData:omSDKJSData encoding:NSUTF8StringEncoding];
-        omSDKJSData = nil;
-        
+        omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
@@ -1179,49 +1170,29 @@ typedef enum {
 
 - (void)startAdSession {
     /*
-    if (!isAdSessionCreated && [HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) {
-        NSError *contextError;
-        NSString *customReferenceID = @"";
-
-        OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:[HyBidViewabilityManager sharedInstance].partner
-                                                                                                      webView:currentWebView
-                                                                                    customReferenceIdentifier:customReferenceID
-                                                                                                        error:&contextError];
-        NSError *configurationError;
-        OMIDPubnativenetAdSessionConfiguration *configuration = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithImpressionOwner:OMIDNativeOwner
-                                                                                                                videoEventsOwner:OMIDNoneOwner
-                                                                                                      isolateVerificationScripts:NO
-                                                                                                                           error:&configurationError];
-        NSError *sessionError;
-        adSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:configuration adSessionContext:context error:&sessionError];
-        adSession.mainAdView = currentWebView;
-
+    if (!isAdSessionCreated) {
+        adSession = [[HyBidViewabilityManager sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
         if (contentInfoView) {
-            [adSession addFriendlyObstruction:contentInfoView];
-            [adSession addFriendlyObstruction:contentInfoViewContainer];
+            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession];
+            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession];
         }
-
         if (isInterstitial) {
-            [adSession addFriendlyObstruction:closeEventRegion];
+            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession];
         }
-
-        [adSession start];
+        [[HyBidViewabilityManager sharedInstance] startOMIDAdSession:adSession];
         isAdSessionCreated = YES;
-
-        NSError *adEventsError;
-        OMIDPubnativenetAdEvents *adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:adSession error:&adEventsError];
-        NSError *impressionError;
-        [adEvents impressionOccurredWithError:&impressionError];
-    }*/
+        [[HyBidViewabilityManager sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
+    }
+     */
 }
 
 - (void)stopAdSession {
     /*
     if (isAdSessionCreated) {
-        [adSession finish];
-        adSession = nil;
+        [[HyBidViewabilityManager sharedInstance] stopOMIDAdSession:adSession];
         isAdSessionCreated = NO;
-    }*/
+    }
+     */
 }
 
 #pragma mark - WKUIDelegate

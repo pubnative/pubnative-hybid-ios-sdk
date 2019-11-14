@@ -41,7 +41,7 @@
     self.ad = nil;
 }
 
-- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info {
+- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
         if (!self.ad) {

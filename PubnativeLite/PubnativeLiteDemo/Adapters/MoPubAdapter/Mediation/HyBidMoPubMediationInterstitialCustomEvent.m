@@ -37,7 +37,7 @@
     self.interstitialAd = nil;
 }
 
-- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info {
+- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
