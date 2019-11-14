@@ -38,7 +38,7 @@
     self.bannerAdView = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if (size.height == kMPPresetMaxAdSize50Height.height && size.width >= 320.0f) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {

@@ -42,7 +42,7 @@
     self.ad = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         if (size.height == kMPPresetMaxAdSize250Height.height && size.width >= 300.0f) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
