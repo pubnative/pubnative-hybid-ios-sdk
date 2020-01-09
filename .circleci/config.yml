@@ -4,7 +4,7 @@ jobs:
         working_directory: ~/pubnative/pubnative-hybid-ios-sdk
         shell: /bin/bash --login -o pipefail
         macos:
-            xcode: "10.0.0"
+            xcode: "11.2.0"
         steps:
             - checkout
             - restore_cache:
@@ -52,13 +52,13 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-xcodeUpdate" ] ; then
                       PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
                 name: Publish to Fabric
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-xcodeUpdate" ]; then
                       PubnativeLite/Scripts/publish.sh
                     fi
             - store_test_results:
