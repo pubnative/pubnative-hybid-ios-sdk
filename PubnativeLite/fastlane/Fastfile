@@ -4,11 +4,11 @@ platform :ios do
   before_all do
     setup_circle_ci
   end
-  desc "Ad-Hoc Build for Fabric"
+  desc "Ad-Hoc Build for Firebase"
   lane :adhoc do
     match
   end
-  desc "Distribute Build for Fabric"
+  desc "Distribute Build for Firebase"
   lane :distribute do
     firebase_app_distribution(
               app: "1:786277539067:ios:8b6750af0afc3240ab245e",

@@ -59,7 +59,7 @@ jobs:
                       PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
-                name: Publish to Fabric
+                name: Publish to Firebase
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-xcodeUpdate" ] || [ "${CIRCLE_BRANCH}" == "development-firebase" ]; then
                       PubnativeLite/Scripts/publish.sh
