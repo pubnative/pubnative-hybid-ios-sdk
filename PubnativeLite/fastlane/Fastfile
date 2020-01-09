@@ -11,7 +11,7 @@ platform :ios do
   desc "Distribute Build for Fabric"
   lane :distribute do
     firebase_app_distribution(
-              app: "1:786277539067:ios:8b6750af0afc3240ab245e"
+              app: "1:786277539067:ios:8b6750af0afc3240ab245e",
               ipa_path: "/tmp/circleci-artifacts/ipa/HyBidDemo.ipa"
           )
   end
