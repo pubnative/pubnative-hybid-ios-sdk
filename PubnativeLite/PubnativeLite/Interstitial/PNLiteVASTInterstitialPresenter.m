@@ -52,6 +52,7 @@
 
 - (void)load {
     self.vastViewController = [PNLiteVASTPlayerInterstitialViewController new];
+    [self.vastViewController setModalPresentationStyle: UIModalPresentationFullScreen];
     [self.vastViewController loadFullScreenPlayerWithPresenter:self withAd:self.adModel];
 }
 

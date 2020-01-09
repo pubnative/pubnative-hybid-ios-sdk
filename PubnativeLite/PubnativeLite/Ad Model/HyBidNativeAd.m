@@ -421,7 +421,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 #pragma mark HyBidContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width {
-    self.renderer.contentInfoView.frame = CGRectMake(self.renderer.contentInfoView.frame.origin.x, self.renderer.contentInfoView.frame.origin.y, [width floatValue], self.renderer.contentInfoView.frame.size.height);
+    self.renderer.contentInfoView.layer.frame = CGRectMake(self.renderer.contentInfoView.frame.origin.x, self.renderer.contentInfoView.frame.origin.y, [width floatValue], self.renderer.contentInfoView.frame.size.height);
 }
 
 #pragma mark PNLiteImpressionTrackerDelegate
