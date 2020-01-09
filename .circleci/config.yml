@@ -28,6 +28,9 @@ jobs:
                 name: Check Bundle Versions
                 command: bundle list
             - run:
+                name: Install Firebase CLI
+                command: curl -sL firebase.tools | bash
+            - run:
                 name: Create CircleCI Artifacts Directory
                 command: mkdir -p /tmp/circleci-artifacts
             - run:
@@ -52,11 +55,11 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-xcodeUpdate" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-xcodeUpdate" ]; then
                       PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
-                name: Publish to Fabric
+                name: Publish to Firebase
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-xcodeUpdate" ]; then
                       PubnativeLite/Scripts/publish.sh
