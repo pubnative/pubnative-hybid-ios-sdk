@@ -16,4 +16,4 @@ agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-
 agvtool new-version -all $CIRCLE_BUILD_NUM
 bundle exec fastlane adhoc --verbose
 bundle exec fastlane gym --verbose --include_bitcode true --include_symbols true --clean --project HyBid.xcodeproj --scheme HyBidDemo --archive_path $ARCHIVE_PATH --output_directory $OUTPUT_FOLDER --export_options $OPTIONS_PLIST
-bundle exec fastlane run firebase_app_distribution --verbose --app 1:786277539067:ios:8b6750af0afc3240ab245e
+bundle exec fastlane firebase_app_distribution --app 1:786277539067:ios:8b6750af0afc3240ab245e --verbose
