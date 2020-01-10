@@ -34,8 +34,6 @@
 		5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */; };
 		5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */; };
 		5A2633572034AB480005EA39 /* PNLiteMRAIDOrientationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */; };
-		5A2A2E542056CCB00051E856 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E522056CCB00051E856 /* Crashlytics.framework */; };
-		5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2A2E532056CCB00051E856 /* Fabric.framework */; };
 		5A2A76FE206A44F100B5643C /* HyBidAdTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A76FD206A44F100B5643C /* HyBidAdTrackerTest.m */; };
 		5A2A7701206A4D1A00B5643C /* PNLiteTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7700206A4D1A00B5643C /* PNLiteTestUtil.m */; };
 		5A2A7704206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2A7703206A7B2A00B5643C /* PNLiteBannerAdRequestTest.m */; };
@@ -745,8 +743,6 @@
 		5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDResizeProperties.m; sourceTree = "<group>"; };
 		5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDResizeProperties.h; sourceTree = "<group>"; };
 		5A2633532034AB470005EA39 /* PNLiteMRAIDOrientationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDOrientationProperties.m; sourceTree = "<group>"; };
-		5A2A2E522056CCB00051E856 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
-		5A2A2E532056CCB00051E856 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		5A2A76FD206A44F100B5643C /* HyBidAdTrackerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerTest.m; sourceTree = "<group>"; };
 		5A2A76FF206A4D1A00B5643C /* PNLiteTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteTestUtil.h; sourceTree = "<group>"; };
 		5A2A7700206A4D1A00B5643C /* PNLiteTestUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteTestUtil.m; sourceTree = "<group>"; };
@@ -1693,7 +1689,6 @@
 				5A91E29C234354B700CDF595 /* nanopb.framework in Frameworks */,
 				5A91E297234354B700CDF595 /* GoogleAppMeasurement.framework in Frameworks */,
 				5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */,
-				5A2A2E552056CCB00051E856 /* Fabric.framework in Frameworks */,
 				5AC2A51E237983E800928EA5 /* MPUBMoatMobileAppKit.framework in Frameworks */,
 				5A91E29B234354B700CDF595 /* GoogleUtilities.framework in Frameworks */,
 				5A8903E5203DE22A00D86051 /* CoreMedia.framework in Frameworks */,
@@ -1704,7 +1699,6 @@
 				5A91E29D234354B700CDF595 /* GoogleMobileAds.framework in Frameworks */,
 				5A8903DB203DE1FC00D86051 /* QuartzCore.framework in Frameworks */,
 				5A8903D9203DE1F500D86051 /* SafariServices.framework in Frameworks */,
-				5A2A2E542056CCB00051E856 /* Crashlytics.framework in Frameworks */,
 				5AC2A51D237983E800928EA5 /* libAvid-mopub-3.6.1.a in Frameworks */,
 				5A8903D7203DE1EC00D86051 /* StoreKit.framework in Frameworks */,
 				5A8903D5203DE1E100D86051 /* SystemConfiguration.framework in Frameworks */,
@@ -1863,8 +1857,6 @@
 		5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */ = {
 			isa = PBXGroup;
 			children = (
-				5A2A2E522056CCB00051E856 /* Crashlytics.framework */,
-				5A2A2E532056CCB00051E856 /* Fabric.framework */,
 				5A91E28E234354B700CDF595 /* GoogleMobileAdsSDK-7.50.0 */,
 				5AC2A31E237983E700928EA5 /* MoPubSDK-5.10.0 */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
@@ -3612,7 +3604,6 @@
 				5A32CEB62029F79B0003B450 /* Frameworks */,
 				5A32CEB72029F79B0003B450 /* Resources */,
 				5A32CED32029F8530003B450 /* Embed Frameworks */,
-				5A2A2E512056CC760051E856 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3780,22 +3771,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5A2A2E512056CC760051E856 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run f61a9f30a8156746aae4b1cc84856189a3bf8575 537c5f9f76b46d7a1d200e942627095296d712b141ae62d982d273c1ef1bd9ee\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5A32CEB52029F79B0003B450 /* Sources */ = {
