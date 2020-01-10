@@ -274,6 +274,7 @@
 		5A91E66C20C01E5000527BAA /* PNLiteUserConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */; };
 		5A91E67320C0381400527BAA /* PNLiteDemoConsentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */; };
 		5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
+		5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */; };
 		5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */; };
 		5A9A885A21087C13006A081D /* PNLiteTrackingManagerItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9A885821087C13006A081D /* PNLiteTrackingManagerItem.h */; };
 		5A9A885E21088024006A081D /* PNLiteTrackingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885C21088023006A081D /* PNLiteTrackingManager.m */; };
@@ -1014,6 +1015,7 @@
 		5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoConsentViewController.m; sourceTree = "<group>"; };
 		5A969A3D206523F800C3B74A /* HyBidTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A969A41206523F800C3B74A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteTrackingManagerItem.m; sourceTree = "<group>"; };
 		5A9A885821087C13006A081D /* PNLiteTrackingManagerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteTrackingManagerItem.h; sourceTree = "<group>"; };
 		5A9A885C21088023006A081D /* PNLiteTrackingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteTrackingManager.m; sourceTree = "<group>"; };
@@ -2534,6 +2536,7 @@
 				5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */,
 				5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */,
 				5AD07C0722FAD27E001BF4A1 /* Markup.storyboard */,
+				5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -3735,6 +3738,7 @@
 				5AC2A52C237983E800928EA5 /* MPUnmutedBtn@2x.png in Resources */,
 				5AD07C0822FAD27E001BF4A1 /* Markup.storyboard in Resources */,
 				5AC2A535237983E800928EA5 /* MPMutedBtn@2x.png in Resources */,
+				5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */,
 				5AC2A533237983E800928EA5 /* MPPlayBtn.png in Resources */,
 				5AFDAFF1212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib in Resources */,
 				5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */,
@@ -4258,7 +4262,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -4290,7 +4294,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
