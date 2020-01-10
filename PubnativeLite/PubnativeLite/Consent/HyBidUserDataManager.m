@@ -198,6 +198,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
     __weak __typeof__(self) weakSelf = self;
     
     PNLiteConsentPageViewController *viewController = [[PNLiteConsentPageViewController alloc] initWithConsentPageURL:self.consentPageLink];
+    [viewController setModalPresentationStyle: UIModalPresentationFullScreen];
     viewController.delegate = weakSelf;
     [viewController loadConsentPageWithCompletion:^(BOOL success, NSError *error) {
         if (success) {
