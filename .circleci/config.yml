@@ -4,7 +4,7 @@ jobs:
         working_directory: ~/pubnative/pubnative-hybid-ios-sdk
         shell: /bin/bash --login -o pipefail
         macos:
-            xcode: "10.0.0"
+            xcode: "11.2.0"
         steps:
             - checkout
             - restore_cache:
@@ -28,6 +28,9 @@ jobs:
                 name: Check Bundle Versions
                 command: bundle list
             - run:
+                name: Install Firebase CLI
+                command: curl -sL firebase.tools | bash
+            - run:
                 name: Create CircleCI Artifacts Directory
                 command: mkdir -p /tmp/circleci-artifacts
             - run:
@@ -41,7 +44,7 @@ jobs:
                 command: xcodebuild
                             -project PubnativeLite/HyBid.xcodeproj
                             -scheme HyBid
-                            -destination 'platform=iOS Simulator,OS=12.0,name=iPhone 7'
+                            -destination 'platform=iOS Simulator,OS=12.2,name=iPhone 8'
                             clean test
                             | tee /tmp/circleci-artifacts/test_xcodebuild.log
                             | xcpretty
@@ -52,13 +55,13 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
                       PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
-                name: Publish to Fabric
+                name: Publish to Firebase
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] ; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
                       PubnativeLite/Scripts/publish.sh
                     fi
             - store_test_results:

@@ -417,7 +417,7 @@ typedef enum {
 #pragma mark - HyBidContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width {
-    contentInfoViewContainer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
+    contentInfoViewContainer.layer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
 }
 
 #pragma mark - JavaScript --> native support
