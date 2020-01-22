@@ -37,7 +37,7 @@ NSString *const PNLiteGDPRConsentStateKey = @"gdpr_consent_state";
 NSString *const PNLiteGDPRAdvertisingIDKey = @"gdpr_advertising_id";
 NSString *const PNLitePrivacyPolicyUrl = @"https://pubnative.net/privacy-notice/";
 NSString *const PNLiteVendorListUrl = @"https://pubnative.net/monetization-partners/";
-NSString *const PNLiteConsentPageUrl = @"https://pubnative.net/personalize-your-experience/";
+NSString *const PNLiteConsentPageUrl = @"https://cdn.pubnative.net/static/consent/consent.html";
 NSInteger const PNLiteConsentStateAccepted = 1;
 NSInteger const PNLiteConsentStateDenied = 0;
 
