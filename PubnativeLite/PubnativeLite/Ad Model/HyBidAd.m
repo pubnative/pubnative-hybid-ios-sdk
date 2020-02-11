@@ -109,6 +109,15 @@ NSString *const kImpressionQuerryParameter = @"t";
     return impressionID;
 }
 
+- (NSString *)creativeID {
+    NSString *creativeID = @"";
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.creativeId];
+    if(data) {
+        creativeID = data.text;
+    }
+    return creativeID;
+}
+
 - (NSNumber *)assetGroupID {
     NSNumber *result = nil;
     if (self.data) {
