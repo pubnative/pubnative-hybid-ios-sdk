@@ -21,6 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidAd.h"
 
 @protocol HyBidInterstitialAdDelegate<NSObject>
 
@@ -34,6 +35,7 @@
 
 @interface HyBidInterstitialAd : NSObject
 
+@property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
 
