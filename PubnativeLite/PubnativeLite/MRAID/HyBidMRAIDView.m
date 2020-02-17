@@ -410,6 +410,12 @@ typedef enum {
     [self expand:nil];
 }
 
+- (void)showAsInterstitialFromViewController:(UIViewController *)viewController {
+    [self setRootViewController:viewController];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
+    [self expand:nil];
+}
+
 - (void)hide {
     [self close];
 }

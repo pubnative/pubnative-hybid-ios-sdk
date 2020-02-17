@@ -79,6 +79,14 @@
     }
 }
 
+- (void)showFromViewController:(UIViewController *)viewController {
+    if (self.isReady) {
+        [self.interstitialPresenter showFromViewController:viewController];
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Interstitial not ready."];
+    }
+}
+
 - (void)hide {
     [self.interstitialPresenter hide];
 }

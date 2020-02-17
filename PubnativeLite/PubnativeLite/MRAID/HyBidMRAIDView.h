@@ -62,7 +62,16 @@
         contentInfo:(HyBidContentInfoView *)contentInfo;
 
 - (void)cancel;
+
+/// Helper method that presents the interstitial ad modally from the current view controller.
 - (void)showAsInterstitial;
+
+/**
+* Helper method that presents the interstitial ad modally from the specified view controller.
+*
+* @param viewController The view controller that should be used to present the interstitial ad.
+*/
+- (void)showAsInterstitialFromViewController:(UIViewController *)viewController;
 - (void)hide;
 - (void)stopAdSession;
 - (void)startAdSession;
