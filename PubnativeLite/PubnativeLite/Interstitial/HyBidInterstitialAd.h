@@ -41,7 +41,21 @@
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;
+
+/// Presents the interstitial ad modally from the current view controller.
+/// 
+/// This method will do nothing if the interstitial ad has not been loaded (i.e. the value of its `isReady` property is NO).
 - (void)show;
+
+/**
+* Presents the interstitial ad modally from the specified view controller.
+*
+* This method will do nothing if the interstitial ad has not been loaded (i.e. the value of its
+* `isReady` property is NO).
+*
+* @param viewController The view controller that should be used to present the interstitial ad.
+*/
+- (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
 
 @end
