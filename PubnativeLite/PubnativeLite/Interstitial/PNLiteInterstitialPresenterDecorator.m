@@ -46,6 +46,10 @@
     [self.interstitialPresenter show];
 }
 
+- (void)showFromViewController:(UIViewController *)viewController {
+    [self.interstitialPresenter showFromViewController:viewController];
+}
+
 - (void)hide {
     [self.interstitialPresenter hide];
 }

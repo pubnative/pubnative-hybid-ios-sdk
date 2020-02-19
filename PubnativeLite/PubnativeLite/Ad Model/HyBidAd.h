@@ -32,6 +32,7 @@
 @property (nonatomic, readonly) NSString *htmlData;
 @property (nonatomic, readonly) NSString *link;
 @property (nonatomic, readonly) NSString *impressionID;
+@property (nonatomic, readonly) NSString *creativeID;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
 @property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;

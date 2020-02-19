@@ -39,10 +39,15 @@
 @implementation HyBidInterstitialAd
 
 - (void)dealloc {
+    self.ad = nil;
     self.zoneID = nil;
     self.delegate = nil;
     self.interstitialPresenter = nil;
     self.interstitialAdRequest = nil;
+}
+
+- (void)cleanUp {
+    self.ad = nil;
 }
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
@@ -56,6 +61,7 @@
 }
 
 - (void)load {
+    [self cleanUp];
     if (!self.zoneID || self.zoneID.length == 0) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
     } else {
@@ -68,6 +74,14 @@
 - (void)show {
     if (self.isReady) {
         [self.interstitialPresenter show];
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Interstitial not ready."];
+    }
+}
+
+- (void)showFromViewController:(UIViewController *)viewController {
+    if (self.isReady) {
+        [self.interstitialPresenter showFromViewController:viewController];
     } else {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Interstitial not ready."];
     }
@@ -131,6 +145,7 @@
     if (!ad) {
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
     } else {
+        self.ad = ad;
         [self renderAd:ad];
     }
 }

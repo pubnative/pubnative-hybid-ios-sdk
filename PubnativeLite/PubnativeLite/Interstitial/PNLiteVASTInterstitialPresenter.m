@@ -52,11 +52,16 @@
 
 - (void)load {
     self.vastViewController = [PNLiteVASTPlayerInterstitialViewController new];
+    [self.vastViewController setModalPresentationStyle: UIModalPresentationFullScreen];
     [self.vastViewController loadFullScreenPlayerWithPresenter:self withAd:self.adModel];
 }
 
 - (void)show {
     [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
+}
+
+- (void)showFromViewController:(UIViewController *)viewController {
+    [viewController presentViewController:self.vastViewController animated:NO completion:nil];
 }
 
 - (void)hide {
