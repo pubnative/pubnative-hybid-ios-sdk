@@ -65,6 +65,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.f;
         
+        self.hidden = YES;
         self.isOpen = NO;
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [self addGestureRecognizer:self.tapRecognizer];
@@ -140,7 +141,6 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 }
 
 - (void)layoutSubviews {
-    self.hidden = YES;
     
     if(!self.iconImage) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

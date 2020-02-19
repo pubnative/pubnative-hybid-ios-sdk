@@ -104,6 +104,9 @@
     if (![newMetaFields containsObject:PNLiteMeta.points]) {
         [newMetaFields addObject:PNLiteMeta.points];
     }
+    if (![newMetaFields containsObject:PNLiteMeta.creativeId]) {
+        [newMetaFields addObject:PNLiteMeta.creativeId];
+    }
     adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
 }
 

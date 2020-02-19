@@ -36,6 +36,10 @@
     // Do nothing, this method should be overriden
 }
 
+- (void)showFromViewController:(UIViewController *)viewController {
+    // Do nothing, this method should be overriden
+}
+
 - (void)hide {
     // Do nothing, this method should be overriden
 }

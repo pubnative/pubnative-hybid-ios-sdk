@@ -410,6 +410,12 @@ typedef enum {
     [self expand:nil];
 }
 
+- (void)showAsInterstitialFromViewController:(UIViewController *)viewController {
+    [self setRootViewController:viewController];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
+    [self expand:nil];
+}
+
 - (void)hide {
     [self close];
 }
@@ -417,7 +423,7 @@ typedef enum {
 #pragma mark - HyBidContentInfoViewDelegate
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width {
-    contentInfoViewContainer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
+    contentInfoViewContainer.layer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
 }
 
 #pragma mark - JavaScript --> native support

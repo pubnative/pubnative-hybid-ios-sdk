@@ -72,6 +72,10 @@
     [self.mraidView showAsInterstitial];
 }
 
+- (void)showFromViewController:(UIViewController *)viewController {
+    [self.mraidView showAsInterstitialFromViewController:viewController];
+}
+
 - (void)hide {
     [self.mraidView hide];
 }

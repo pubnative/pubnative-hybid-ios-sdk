@@ -26,8 +26,8 @@
 
 typedef void(^PNLiteConsentPageViewControllerCompletion)(BOOL success, NSError *error);
 
-NSString *const PNLiteConsentAccept = @"https://pubnative.net/personalize-experience-yes/";
-NSString *const PNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
+NSString *const PNLiteConsentAccept = @"https://cdn.pubnative.net/static/consent/GDPR-consent-dialog-accept.html";
+NSString *const PNLiteConsentReject = @"https://cdn.pubnative.net/static/consent/GDPR-consent-dialog-reject.html";
 NSString *const PNLiteConsentClose = @"https://pubnative.net/";
 
 @interface PNLiteConsentPageViewController () <WKUIDelegate, WKNavigationDelegate>
