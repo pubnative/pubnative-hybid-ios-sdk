@@ -68,6 +68,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidViewabilityManager.h>
 #import <HyBid/HyBidLogger.h>
 #import <HyBid/HyBidIntegrationType.h>
+#import <HyBid/HyBidAdSize.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
