@@ -66,8 +66,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     return self;
 }
 
-- (NSString *)adSize {
-    return nil;
+- (HyBidAdSize)adSize {
+    return SIZE_320x50;
 }
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {

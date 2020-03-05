@@ -31,7 +31,7 @@
 @implementation PNLiteAdFactory
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(NSString *)adSize
+                                      andWithAdSize:(HyBidAdSize)adSize
                              andWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
@@ -48,8 +48,15 @@
         adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
     }
     adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
-    if (adSize) {
-        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize;
+    if (![adSize.adLayoutSize isEqualToString:@"native"]) {
+        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.adLayoutSize;
+        
+        if (adSize.width != 0) {
+            adRequestModel.requestParameters[HyBidRequestParameter.width] = [@(adSize.width) stringValue];
+        }
+        if (adSize.height != 0) {
+            adRequestModel.requestParameters[HyBidRequestParameter.height] = [@(adSize.height) stringValue];
+        }
     } else {
         [self setDefaultAssetFields:adRequestModel];
     }

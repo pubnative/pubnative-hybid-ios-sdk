@@ -42,6 +42,7 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, weak) NSObject <HyBidAdViewDelegate> *delegate;
 @property (nonatomic, assign) BOOL isMediation;
+@property (nonatomic, assign) HyBidAdSize adSize;
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)setupAdView:(UIView *)adView;

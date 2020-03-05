@@ -50,5 +50,7 @@
 + (NSString *)bundleId;
 + (NSString *)displayManager;
 + (NSString *)displayManagerVersion;
++ (NSString *)width;
++ (NSString *)height;
 
 @end

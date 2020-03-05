@@ -43,7 +43,4 @@ extern HyBidAdSize const SIZE_300x600;
 extern HyBidAdSize const SIZE_320x100;
 extern HyBidAdSize const SIZE_480x320;
 extern HyBidAdSize const SIZE_INTERSTITIAL;
-
-extern NSInteger WidthFromHyBidAdSize(HyBidAdSize size);
-extern NSInteger HeightFromHyBidAdSize(HyBidAdSize size);
-extern NSString* AdLayoutSizeFromHyBidAdSize(HyBidAdSize size);
+extern HyBidAdSize const SIZE_NATIVE;

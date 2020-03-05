@@ -24,8 +24,8 @@
 
 @implementation HyBidInterstitialAdRequest
 
-- (NSString *)adSize {
-    return @"l";
+- (HyBidAdSize)adSize {
+    return SIZE_INTERSTITIAL;
 }
 
 @end

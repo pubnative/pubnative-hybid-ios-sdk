@@ -59,6 +59,7 @@
         }
     } else {
         [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
+        self.adRequest.adSize = self.adSize;
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }
 }

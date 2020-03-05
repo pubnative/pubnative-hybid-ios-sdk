@@ -35,15 +35,4 @@ HyBidAdSize const SIZE_300x600 = {300, 600, @"l"};
 HyBidAdSize const SIZE_320x100 = {320, 100, @"s"};
 HyBidAdSize const SIZE_480x320 = {480, 320, @"l"};
 HyBidAdSize const SIZE_INTERSTITIAL = {0, 0, @"l"};
-
-NSInteger WidthFromHyBidAdSize(HyBidAdSize size) {
-    return size.width;
-}
-
-NSInteger HeightFromHyBidAdSize(HyBidAdSize size){
-    return size.height;
-}
-
-NSString* AdLayoutSizeFromHyBidAdSize(HyBidAdSize size) {
-    return size.adLayoutSize;
-}
+HyBidAdSize const SIZE_NATIVE = {-1, -1, @"native"};
