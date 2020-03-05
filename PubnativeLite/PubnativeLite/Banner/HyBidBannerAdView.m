@@ -21,7 +21,6 @@
 //
 
 #import "HyBidBannerAdView.h"
-#import "HyBidBannerPresenterFactory.h"
 
 @implementation HyBidBannerAdView
 
@@ -52,11 +51,6 @@
 
 - (HyBidAdRequest *)adRequest {
     return self.bannerAdRequest;
-}
-
-- (HyBidAdPresenter *)createAdPresenter {
-    HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-    return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end

@@ -21,7 +21,6 @@
 //
 
 #import "HyBidMRectAdView.h"
-#import "HyBidMRectPresenterFactory.h"
 
 @implementation HyBidMRectAdView
 
@@ -52,11 +51,6 @@
 
 - (HyBidAdRequest *)adRequest {
     return self.mRectAdRequest;
-}
-
-- (HyBidAdPresenter *)createAdPresenter {
-    HyBidMRectPresenterFactory *mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-    return [mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end

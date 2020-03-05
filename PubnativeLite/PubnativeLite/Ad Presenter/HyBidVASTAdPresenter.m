@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteVASTMRectPresenter.h"
+#import "HyBidVASTAdPresenter.h"
 #import "PNLiteVASTPlayerViewController.h"
 
 CGFloat const PNLiteVASTMRectWidth = 300.0f;
 CGFloat const PNLiteVASTMRectHeight = 250.0f;
 
-@interface PNLiteVASTMRectPresenter () <PNLiteVASTPlayerViewControllerDelegate>
+@interface HyBidVASTAdPresenter () <PNLiteVASTPlayerViewControllerDelegate>
 
 @property (nonatomic, strong) HyBidAd *adModel;
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
@@ -34,7 +34,7 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 
 @end
 
-@implementation PNLiteVASTMRectPresenter
+@implementation HyBidVASTAdPresenter
 
 - (void)dealloc {
     self.adModel = nil;

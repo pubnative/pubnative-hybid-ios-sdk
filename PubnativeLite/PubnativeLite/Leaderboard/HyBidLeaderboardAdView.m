@@ -21,7 +21,6 @@
 //
 
 #import "HyBidLeaderboardAdView.h"
-#import "HyBidLeaderboardPresenterFactory.h"
 
 @implementation HyBidLeaderboardAdView
 
@@ -52,11 +51,6 @@
 
 - (HyBidAdRequest *)adRequest {
     return self.leaderboardAdRequest;
-}
-
-- (HyBidAdPresenter *)createAdPresenter {
-    HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
-    return [leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end

@@ -22,7 +22,7 @@
 
 #import "HyBidAdPresenter.h"
 
-@interface PNLiteMRAIDMRectPresenter : HyBidAdPresenter
+@interface HyBidVASTAdPresenter : HyBidAdPresenter
 
 - (instancetype)initWithAd:(HyBidAd *)ad;
 

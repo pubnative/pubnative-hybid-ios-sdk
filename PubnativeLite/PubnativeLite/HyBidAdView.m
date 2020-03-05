@@ -23,6 +23,7 @@
 #import "HyBidAdView.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidBannerPresenterFactory.h"
 
 @interface HyBidAdView()
 
@@ -95,7 +96,8 @@
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
-    return nil;
+    HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
+    return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 #pragma mark HyBidAdRequestDelegate
