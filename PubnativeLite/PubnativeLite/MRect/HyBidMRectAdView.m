@@ -33,16 +33,8 @@
     self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
-    }
-    return self;
-}
-
 - (instancetype)init {
-    self = [super initWithFrame:CGRectMake(0, 0, 300, 250)];
+    self = [super initWithSize:SIZE_300x250];
     if (self) {
         self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     }

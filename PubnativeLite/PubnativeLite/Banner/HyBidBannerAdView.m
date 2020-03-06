@@ -33,16 +33,8 @@
     self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
-    }
-    return self;
-}
-
 - (instancetype)init {
-    self = [super initWithFrame:CGRectMake(0, 0, 320, 50)];
+    self = [super initWithSize:SIZE_320x50];
     if (self) {
         self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     }

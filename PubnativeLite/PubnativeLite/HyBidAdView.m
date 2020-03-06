@@ -37,6 +37,21 @@
     self.ad = nil;
     self.delegate = nil;
     self.adPresenter = nil;
+    self.adRequest = nil;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.adRequest = [[HyBidAdRequest alloc] init];
+}
+
+- (instancetype)initWithSize:(HyBidAdSize)adSize {
+    self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
+    if (self) {
+        self.adRequest = [[HyBidAdRequest alloc] init];
+        self.adSize = adSize;
+    }
+    return self;
 }
 
 - (void)cleanUp {

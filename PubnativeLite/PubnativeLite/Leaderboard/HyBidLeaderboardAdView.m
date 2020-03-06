@@ -33,16 +33,9 @@
     self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
-    }
-    return self;
-}
-
 - (instancetype)init {
-    self = [super initWithFrame:CGRectMake(0, 0, 728, 90)];
+    self = [super initWithSize:SIZE_728x90];
+
     if (self) {
         self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
     }
