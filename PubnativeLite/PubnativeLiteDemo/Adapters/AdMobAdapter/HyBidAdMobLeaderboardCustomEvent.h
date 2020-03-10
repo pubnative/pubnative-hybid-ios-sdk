@@ -20,11 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
+#import "HyBidAdMobBannerCustomEvent.h"
 
-@import GoogleMobileAds;
-
-@interface HyBidAdMobLeaderboardCustomEvent : NSObject <GADCustomEventBanner>
+/// This class is kept for backwards compatibility.
+@interface HyBidAdMobLeaderboardCustomEvent : HyBidAdMobBannerCustomEvent
 
 @end

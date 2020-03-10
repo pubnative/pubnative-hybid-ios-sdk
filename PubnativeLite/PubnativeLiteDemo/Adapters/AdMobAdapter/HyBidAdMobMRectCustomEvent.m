@@ -21,69 +21,11 @@
 //
 
 #import "HyBidAdMobMRectCustomEvent.h"
-#import "HyBidAdMobUtils.h"
-
-@interface HyBidAdMobMRectCustomEvent() <HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidMRectAdView *mRectAdView;
-
-@end
 
 @implementation HyBidAdMobMRectCustomEvent
 
-@synthesize delegate;
-
-- (void)dealloc {
-    self.mRectAdView = nil;
-}
-
-- (void)requestBannerAd:(GADAdSize)adSize
-              parameter:(NSString * _Nullable)serverParameter
-                  label:(NSString * _Nullable)serverLabel
-                request:(nonnull GADCustomEventRequest *)request {
-    if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if (CGSizeEqualToSize(kGADAdSizeMediumRectangle.size, adSize.size)) {
-            if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.mRectAdView = [[HyBidMRectAdView alloc] init];
-                self.mRectAdView.isMediation = YES;
-                [self.mRectAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
-            } else {
-                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
-                return;
-            }
-        } else {
-            [self invokeFailWithMessage:@"Wrong ad size."];
-            return;
-        }
-    } else {
-        [self invokeFailWithMessage:@"Failed mRect ad fetch. Missing required server extras."];
-        return;
-    }
-}
-
-
-- (void)invokeFailWithMessage:(NSString *)message {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
-}
-
-#pragma mark - HyBidAdViewDelegate
-
-- (void)adViewDidLoad:(HyBidAdView *)adView {
-    [self.delegate customEventBanner:self didReceiveAd:adView];
-}
-
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:error.localizedDescription];
-}
-
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
-    
-}
-
-- (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    [self.delegate customEventBannerWasClicked:self];
-    [self.delegate customEventBannerWillLeaveApplication:self];
+- (HyBidAdSize)adSize {
+    return SIZE_300x250;
 }
 
 @end

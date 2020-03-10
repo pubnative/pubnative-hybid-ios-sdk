@@ -24,7 +24,7 @@
 
 @implementation HyBidMoPubMediationLeaderboardCustomEvent
 
--(HyBidAdSize)adSize {
+- (HyBidAdSize)adSize {
     return SIZE_728x90;
 }
 
