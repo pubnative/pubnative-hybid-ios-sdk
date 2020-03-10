@@ -21,24 +21,7 @@
 //
 
 #import "HyBidLeaderboardPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
-#import "HyBidMRAIDLeaderboardPresenter.h"
-#import "HyBidLogger.h"
 
 @implementation HyBidLeaderboardPresenterFactory
-
-- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
-    switch (ad.assetGroupID.integerValue) {
-        case MRAID_LEADERBOARD: {
-            HyBidMRAIDLeaderboardPresenter *mraidLeaderboardPresenter = [[HyBidMRAIDLeaderboardPresenter alloc] initWithAd:ad];
-            return mraidLeaderboardPresenter;
-            break;
-        }
-        default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for leaderboard ad format.", ad.assetGroupID]];
-            return nil;
-            break;
-    }
-}
 
 @end

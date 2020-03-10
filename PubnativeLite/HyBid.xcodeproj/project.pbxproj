@@ -22,8 +22,6 @@
 		5A20DBE0203B0CB400EF2B3C /* PNLiteAssetGroupType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */; };
 		5A262DCD218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DCB218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A262DCE218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DCC218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m */; };
-		5A262DD1218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DCF218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h */; };
-		5A262DD2218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DD0218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.m */; };
 		5A262DD5218B3395001A29E2 /* HyBidLeaderboardAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DD3218B3395001A29E2 /* HyBidLeaderboardAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A262DD6218B3395001A29E2 /* HyBidLeaderboardAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DD4218B3395001A29E2 /* HyBidLeaderboardAdView.m */; };
 		5A262DD9218B394C001A29E2 /* HyBidLeaderboardAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -65,8 +63,6 @@
 		5A40351B23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */; };
 		5A404B4A204E991200BEE041 /* HyBidAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */; };
 		5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */; };
-		5A449B53203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */; };
-		5A449B54203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */; };
 		5A453D9E219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */; };
 		5A453DA1219B16E2002F6406 /* HyBidMoPubLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453DA0219B16E2002F6406 /* HyBidMoPubLeaderboardCustomEvent.m */; };
 		5A4FF06420AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */; };
@@ -682,8 +678,8 @@
 		5AF3B66A23F40D0B007DC36F /* MPConsoleLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF3B58223F40D0A007DC36F /* MPConsoleLogger.m */; };
 		5AF3B66C23F40D0B007DC36F /* MPBaseAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF3B58A23F40D0A007DC36F /* MPBaseAdapterConfiguration.m */; };
 		5AF3B66D23F40D0B007DC36F /* MPConsentChangedNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF3B58B23F40D0A007DC36F /* MPConsentChangedNotification.m */; };
-		5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */; };
-		5AF93B4420C1807800214AB1 /* PNLiteVASTMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */; };
+		5AF93B4320C1807800214AB1 /* HyBidVASTAdPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AF93B4120C1807800214AB1 /* HyBidVASTAdPresenter.h */; };
+		5AF93B4420C1807800214AB1 /* HyBidVASTAdPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF93B4220C1807800214AB1 /* HyBidVASTAdPresenter.m */; };
 		5AFDAFEC212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFDAFEB212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.m */; };
 		5AFDAFEF212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFDAFEE212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.m */; };
 		5AFDAFF1212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AFDAFF0212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib */; };
@@ -746,8 +742,6 @@
 		5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAssetGroupType.m; sourceTree = "<group>"; };
 		5A262DCB218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardPresenterFactory.h; sourceTree = "<group>"; };
 		5A262DCC218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardPresenterFactory.m; sourceTree = "<group>"; };
-		5A262DCF218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMRAIDLeaderboardPresenter.h; sourceTree = "<group>"; };
-		5A262DD0218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMRAIDLeaderboardPresenter.m; sourceTree = "<group>"; };
 		5A262DD3218B3395001A29E2 /* HyBidLeaderboardAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardAdView.h; sourceTree = "<group>"; };
 		5A262DD4218B3395001A29E2 /* HyBidLeaderboardAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardAdView.m; sourceTree = "<group>"; };
 		5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardAdRequest.h; sourceTree = "<group>"; };
@@ -795,8 +789,6 @@
 		5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdTrackerRequest.h; sourceTree = "<group>"; };
 		5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequest.m; sourceTree = "<group>"; };
-		5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDMRectPresenter.h; sourceTree = "<group>"; };
-		5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDMRectPresenter.m; sourceTree = "<group>"; };
 		5A453D9C219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubLeaderboardViewController.h; sourceTree = "<group>"; };
 		5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A453D9F219B16E2002F6406 /* HyBidMoPubLeaderboardCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubLeaderboardCustomEvent.h; sourceTree = "<group>"; };
@@ -1716,8 +1708,8 @@
 		5AF3B58A23F40D0A007DC36F /* MPBaseAdapterConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPBaseAdapterConfiguration.m; sourceTree = "<group>"; };
 		5AF3B58B23F40D0A007DC36F /* MPConsentChangedNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPConsentChangedNotification.m; sourceTree = "<group>"; };
 		5AF3B58C23F40D0A007DC36F /* MPInterstitialAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPInterstitialAdController.h; sourceTree = "<group>"; };
-		5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTMRectPresenter.h; sourceTree = "<group>"; };
-		5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTMRectPresenter.m; sourceTree = "<group>"; };
+		5AF93B4120C1807800214AB1 /* HyBidVASTAdPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTAdPresenter.h; sourceTree = "<group>"; };
+		5AF93B4220C1807800214AB1 /* HyBidVASTAdPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTAdPresenter.m; sourceTree = "<group>"; };
 		5AFDAFEA212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationNativeViewController.h; sourceTree = "<group>"; };
 		5AFDAFEB212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationNativeViewController.m; sourceTree = "<group>"; };
 		5AFDAFED212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationNativeView.h; sourceTree = "<group>"; };
@@ -1853,8 +1845,6 @@
 			children = (
 				5A262DCB218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h */,
 				5A262DCC218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m */,
-				5A262DCF218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h */,
-				5A262DD0218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.m */,
 				5A262DD3218B3395001A29E2 /* HyBidLeaderboardAdView.h */,
 				5A262DD4218B3395001A29E2 /* HyBidLeaderboardAdView.m */,
 			);
@@ -1962,10 +1952,6 @@
 			children = (
 				5ADF9E89214952780081355E /* HyBidMRectPresenterFactory.h */,
 				5ADF9E8A214952780081355E /* HyBidMRectPresenterFactory.m */,
-				5A449B51203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h */,
-				5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */,
-				5AF93B4120C1807800214AB1 /* PNLiteVASTMRectPresenter.h */,
-				5AF93B4220C1807800214AB1 /* PNLiteVASTMRectPresenter.m */,
 				5ADF9EB9214972940081355E /* HyBidMRectAdView.h */,
 				5ADF9EBA214972940081355E /* HyBidMRectAdView.m */,
 			);
@@ -2035,6 +2021,8 @@
 			children = (
 				5ADF9E7121493DF00081355E /* HyBidAdPresenter.h */,
 				5ADF9E7221493DF00081355E /* HyBidAdPresenter.m */,
+				5AF93B4120C1807800214AB1 /* HyBidVASTAdPresenter.h */,
+				5AF93B4220C1807800214AB1 /* HyBidVASTAdPresenter.m */,
 				5A3657CB203C2E75004B4347 /* PNLiteAdPresenterDecorator.h */,
 				5A3657CC203C2E75004B4347 /* PNLiteAdPresenterDecorator.m */,
 				5A64B3FB21E78A3E00160235 /* HyBidAdPresenterFactory.h */,
@@ -3593,10 +3581,9 @@
 				5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */,
 				5A9B66E220BD8FF70067964E /* PNLiteVASTEventProcessor.h in Headers */,
 				5ADACD08202C617A00617734 /* PNLiteResponseModel.h in Headers */,
-				5A449B53203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.h in Headers */,
 				5A3657CD203C2E75004B4347 /* PNLiteAdPresenterDecorator.h in Headers */,
 				5A91E65720BFF76900527BAA /* PNLiteUserConsentModel.h in Headers */,
-				5AF93B4320C1807800214AB1 /* PNLiteVASTMRectPresenter.h in Headers */,
+				5AF93B4320C1807800214AB1 /* HyBidVASTAdPresenter.h in Headers */,
 				5A9B66CF20BD66080067964E /* PNLiteVASTSchema.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
 				5A8D7DC420C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h in Headers */,
@@ -3626,7 +3613,6 @@
 				5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */,
 				5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */,
 				5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */,
-				5A262DD1218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.h in Headers */,
 				5ADACD1B202CB88A00617734 /* PNLiteData.h in Headers */,
 				5ACC74E6203595250001CDC3 /* PNLiteMRAIDModalViewController.h in Headers */,
 				5A2633542034AB480005EA39 /* PNLiteMRAIDOrientationProperties.h in Headers */,
@@ -4160,12 +4146,10 @@
 				5A8F110F2089E4D20098E337 /* PNLite_KSCrashSentry_Deadlock.m in Sources */,
 				5A8F11102089E4D20098E337 /* PNLite_KSCrashSentry_MachException.c in Sources */,
 				5A8F110A2089E4D20098E337 /* PNLite_KSCrashSentry_User.c in Sources */,
-				5A449B54203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m in Sources */,
 				5AC35B3D214A6B5B001F0ED3 /* HyBidNativeAd.m in Sources */,
 				5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */,
 				5A8F10BE2089E4D20098E337 /* PNLiteMetaData.m in Sources */,
 				5ADF9EA4214962340081355E /* HyBidAdModel.m in Sources */,
-				5A262DD2218B1AF1001A29E2 /* HyBidMRAIDLeaderboardPresenter.m in Sources */,
 				5A91E65C20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.m in Sources */,
 				5A8F11182089E4D20098E337 /* PNLite_KSSystemInfo.m in Sources */,
 				5A8F11232089E4D20098E337 /* PNLiteCollections.m in Sources */,
@@ -4176,7 +4160,7 @@
 				5A8D7DC520C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m in Sources */,
 				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
 				5A91E66020BFFF1000527BAA /* PNLiteUserConsentResponseModel.m in Sources */,
-				5AF93B4420C1807800214AB1 /* PNLiteVASTMRectPresenter.m in Sources */,
+				5AF93B4420C1807800214AB1 /* HyBidVASTAdPresenter.m in Sources */,
 				5A9B66EC20BD9DD80067964E /* PNLiteProgressLabel.m in Sources */,
 				5AA3D5E620319B8A002BFDA3 /* PNLiteAdFactory.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,

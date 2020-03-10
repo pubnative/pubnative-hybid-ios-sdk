@@ -29,5 +29,7 @@
 + (NSString *)number { return @"number"; }
 + (NSString *)url { return @"url"; }
 + (NSString *)html { return @"html"; }
++ (NSString *)width {return @"w";}
++ (NSString *)height {return @"h";}
 
 @end

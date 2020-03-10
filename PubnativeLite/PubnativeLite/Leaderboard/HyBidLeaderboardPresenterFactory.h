@@ -21,8 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidAdPresenterFactory.h"
+#import "HyBidBannerPresenterFactory.h"
 
-@interface HyBidLeaderboardPresenterFactory : HyBidAdPresenterFactory
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidBannerPresenterFactory instead.")
+
+@interface HyBidLeaderboardPresenterFactory : HyBidBannerPresenterFactory
 
 @end
