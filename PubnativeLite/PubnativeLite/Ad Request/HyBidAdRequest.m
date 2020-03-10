@@ -66,10 +66,6 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     return self;
 }
 
-- (HyBidAdSize)adSize {
-    return SIZE_320x50;
-}
-
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     self.zoneID = zoneID;
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];

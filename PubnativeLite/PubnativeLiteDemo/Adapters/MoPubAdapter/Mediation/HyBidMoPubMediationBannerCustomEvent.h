@@ -30,4 +30,6 @@
 
 @interface HyBidMoPubMediationBannerCustomEvent : MPBannerCustomEvent
 
+@property (nonatomic, assign) HyBidAdSize adSize;
+
 @end
