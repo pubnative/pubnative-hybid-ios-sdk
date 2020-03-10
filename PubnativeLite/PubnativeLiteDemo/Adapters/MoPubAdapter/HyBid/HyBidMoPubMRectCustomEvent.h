@@ -20,14 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#else
-#import "MPBannerCustomEvent.h"
-#endif
+#import "HyBidMoPubBannerCustomEvent.h"
 
-#import <HyBid/HyBid.h>
-
-@interface HyBidMoPubMRectCustomEvent : MPBannerCustomEvent
+/// This class is kept for backwards compatibility.
+@interface HyBidMoPubMRectCustomEvent : HyBidMoPubBannerCustomEvent
 
 @end
