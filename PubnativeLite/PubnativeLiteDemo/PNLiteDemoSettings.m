@@ -107,8 +107,26 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         self.adMobMediationInterstitialAdUnitID = PNLiteDemoAdMobMediationInterstitialAdUnitID;
         self.targetingModel = [[HyBidTargetingModel alloc] init];
         self.apiURL = PNLiteDemoAPIURL;
+        [self createBannerSizeArray];
     }
     return self;
+}
+
+- (void)createBannerSizeArray {
+    NSValue *value320x50 = [NSValue valueWithBytes:&SIZE_320x50 objCType:@encode(HyBidAdSize)];
+    NSValue *value300x250 = [NSValue valueWithBytes:&SIZE_300x250 objCType:@encode(HyBidAdSize)];
+    NSValue *value300x50 = [NSValue valueWithBytes:&SIZE_300x50 objCType:@encode(HyBidAdSize)];
+    NSValue *value320x480 = [NSValue valueWithBytes:&SIZE_320x480 objCType:@encode(HyBidAdSize)];
+    NSValue *value1024x768 = [NSValue valueWithBytes:&SIZE_1024x768 objCType:@encode(HyBidAdSize)];
+    NSValue *value768x1024 = [NSValue valueWithBytes:&SIZE_768x1024 objCType:@encode(HyBidAdSize)];
+    NSValue *value728x90 = [NSValue valueWithBytes:&SIZE_728x90 objCType:@encode(HyBidAdSize)];
+    NSValue *value160x600 = [NSValue valueWithBytes:&SIZE_160x600 objCType:@encode(HyBidAdSize)];
+    NSValue *value250x250 = [NSValue valueWithBytes:&SIZE_250x250 objCType:@encode(HyBidAdSize)];
+    NSValue *value300x600 = [NSValue valueWithBytes:&SIZE_300x600 objCType:@encode(HyBidAdSize)];
+    NSValue *value320x100 = [NSValue valueWithBytes:&SIZE_320x100 objCType:@encode(HyBidAdSize)];
+    NSValue *value480x320 = [NSValue valueWithBytes:&SIZE_480x320 objCType:@encode(HyBidAdSize)];
+    
+    self.bannerSizesArray = [NSMutableArray arrayWithObjects:@"Choose Banner Size", value320x50, value300x250, value300x50, value320x480, value1024x768, value768x1024, value728x90, value160x600, value250x250, value300x600, value320x100, value480x320, nil];
 }
 
 @end
