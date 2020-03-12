@@ -52,6 +52,8 @@
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.bannerAdView.hidden = YES;
+    self.bannerHeightConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.height;
+    self.bannerWidthConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.width;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdView.adSize = [PNLiteDemoSettings sharedInstance].adSize;
@@ -112,9 +114,6 @@
         NSValue *value = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
         [value getValue:&structValue];
         [PNLiteDemoSettings sharedInstance].adSize = structValue;
-        
-        self.bannerHeightConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.height;
-        self.bannerWidthConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.width;
     }
 }
 
