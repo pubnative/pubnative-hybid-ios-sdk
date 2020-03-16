@@ -228,8 +228,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="d76-vU-2LO"/>
                                         <exclude reference="0TL-NS-zp5"/>
+                                        <include reference="d76-vU-2LO"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -259,8 +259,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="rCP-yw-kGI"/>
                                         <exclude reference="H3Q-YN-Yfe"/>
+                                        <include reference="rCP-yw-kGI"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -354,36 +354,8 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VhV-ao-LpX" userLabel="Native Button">
-                                <rect key="frame" x="16" y="37" width="343" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="nativeButton" label="Native Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="85W-YH-F69"/>
-                                    <constraint firstAttribute="height" constant="33" id="b18-ey-FNx"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Native">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="b18-ey-FNx"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="85W-YH-F69"/>
-                                        <include reference="b18-ey-FNx"/>
-                                    </mask>
-                                </variation>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qF-Pl-kmC" userLabel="Leaderboard Button">
-                                <rect key="frame" x="16" y="78" width="343" height="33"/>
+                                <rect key="frame" x="16" y="37" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
                                 <constraints>
@@ -414,7 +386,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJV-kw-2y1" userLabel="Banner Button">
-                                <rect key="frame" x="16" y="119" width="343" height="33"/>
+                                <rect key="frame" x="16" y="78" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
                                 <constraints>
@@ -436,8 +408,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="k92-HG-sdc"/>
                                         <exclude reference="3W2-t4-OdI"/>
+                                        <include reference="k92-HG-sdc"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -445,7 +417,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiG-Rv-FNC" userLabel="MRect Button">
-                                <rect key="frame" x="16" y="160" width="343" height="33"/>
+                                <rect key="frame" x="16" y="119" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
                                 <constraints>
@@ -467,8 +439,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="V89-K7-fNU"/>
                                         <exclude reference="9jv-fD-kYg"/>
+                                        <include reference="V89-K7-fNU"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -476,7 +448,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igf-bn-OvZ" userLabel="Interstitial Button">
-                                <rect key="frame" x="16" y="201" width="343" height="33"/>
+                                <rect key="frame" x="16" y="160" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
                                 <constraints>
@@ -498,8 +470,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="NMd-fN-WH1"/>
                                         <include reference="Ejh-px-Sdv"/>
+                                        <exclude reference="NMd-fN-WH1"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -510,9 +482,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="XiG-Rv-FNC" firstAttribute="top" secondItem="dJV-kw-2y1" secondAttribute="bottom" constant="8" id="0FS-x6-ahs"/>
-                            <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="VhV-ao-LpX" secondAttribute="trailing" constant="16" id="1Ri-ot-FDf"/>
                             <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="Igf-bn-OvZ" secondAttribute="trailing" constant="16" id="326-E8-4fK"/>
-                            <constraint firstItem="VhV-ao-LpX" firstAttribute="top" secondItem="rLn-xw-477" secondAttribute="bottom" constant="8" id="6f3-nJ-0D6"/>
+                            <constraint firstItem="9qF-Pl-kmC" firstAttribute="top" secondItem="rLn-xw-477" secondAttribute="bottom" constant="8" id="5Z5-Br-9gc"/>
                             <constraint firstItem="rLn-xw-477" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="7t4-Cj-2H0"/>
                             <constraint firstItem="rLn-xw-477" firstAttribute="top" secondItem="Gab-qh-UWJ" secondAttribute="bottom" constant="8" id="EhM-Ji-98c"/>
                             <constraint firstItem="Igf-bn-OvZ" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="Fz4-bn-1YO"/>
@@ -522,9 +493,7 @@
                             <constraint firstItem="Igf-bn-OvZ" firstAttribute="top" secondItem="XiG-Rv-FNC" secondAttribute="bottom" constant="8" id="MIG-is-vbH"/>
                             <constraint firstItem="dJV-kw-2y1" firstAttribute="top" secondItem="9qF-Pl-kmC" secondAttribute="bottom" constant="8" id="baf-0S-2tp"/>
                             <constraint firstAttribute="trailing" secondItem="XiG-Rv-FNC" secondAttribute="trailing" constant="16" id="cem-L0-zdW"/>
-                            <constraint firstItem="VhV-ao-LpX" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="hKf-dW-P61"/>
                             <constraint firstAttribute="trailing" secondItem="dJV-kw-2y1" secondAttribute="trailing" constant="16" id="n0u-1J-RNl"/>
-                            <constraint firstItem="9qF-Pl-kmC" firstAttribute="top" secondItem="VhV-ao-LpX" secondAttribute="bottom" constant="8" id="oUV-NA-C6E"/>
                             <constraint firstAttribute="trailing" secondItem="9qF-Pl-kmC" secondAttribute="trailing" constant="16" id="uLT-t1-6JY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wHs-Ph-8zc"/>
@@ -1354,6 +1323,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5Kq-gI-hiP"/>
+        <segue reference="T0i-LW-GmB"/>
     </inferredMetricsTieBreakers>
 </document>
