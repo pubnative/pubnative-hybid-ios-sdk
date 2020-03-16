@@ -26,7 +26,6 @@
 		5A262DD6218B3395001A29E2 /* HyBidLeaderboardAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DD4218B3395001A29E2 /* HyBidLeaderboardAdView.m */; };
 		5A262DD9218B394C001A29E2 /* HyBidLeaderboardAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A262DDA218B394C001A29E2 /* HyBidLeaderboardAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A262DD8218B394C001A29E2 /* HyBidLeaderboardAdRequest.m */; };
-		5A262DDD218B4B3F001A29E2 /* Leaderboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A262DDB218B4720001A29E2 /* Leaderboard.storyboard */; };
 		5A2633542034AB480005EA39 /* PNLiteMRAIDOrientationProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633502034AB470005EA39 /* PNLiteMRAIDOrientationProperties.h */; };
 		5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */; };
 		5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */; };
@@ -315,7 +314,6 @@
 		5A9B66ED20BD9DD80067964E /* PNLiteProgressLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */; };
 		5A9B66F020BDA15D0067964E /* PNLitePropertyAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9B66EE20BDA15B0067964E /* PNLitePropertyAnimation.m */; };
 		5A9B66F120BDA15D0067964E /* PNLitePropertyAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A9B66EF20BDA15C0067964E /* PNLitePropertyAnimation.h */; };
-		5A9CC60A2121C7F600A3C45E /* Native.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9CC6092121C7F600A3C45E /* Native.storyboard */; };
 		5A9CC60D2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CC60C2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.m */; };
 		5AA284CC233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */; };
 		5AA284CD233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */; };
@@ -327,9 +325,6 @@
 		5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5F02031CA96002BFDA3 /* PNLiteReachability.m */; };
 		5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA3D5F32031CEC1002BFDA3 /* PNLiteHttpRequest.h */; };
 		5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */; };
-		5AA7EC5F20E4D57800277E2B /* Banner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC5E20E4D57800277E2B /* Banner.storyboard */; };
-		5AA7EC6120E4D59800277E2B /* MRect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6020E4D59800277E2B /* MRect.storyboard */; };
-		5AA7EC6320E4D5AB00277E2B /* Interstitial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */; };
 		5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */; };
 		5AA7EC6820E4E28F00277E2B /* PNLiteDemoMoPubMediationInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6720E4E28F00277E2B /* PNLiteDemoMoPubMediationInterstitialViewController.m */; };
 		5AB6D21822575FF200AB9C8F /* HyBidViewabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB6D21622575FF200AB9C8F /* HyBidViewabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -747,7 +742,6 @@
 		5A262DD4218B3395001A29E2 /* HyBidLeaderboardAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardAdView.m; sourceTree = "<group>"; };
 		5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardAdRequest.h; sourceTree = "<group>"; };
 		5A262DD8218B394C001A29E2 /* HyBidLeaderboardAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLeaderboardAdRequest.m; sourceTree = "<group>"; };
-		5A262DDB218B4720001A29E2 /* Leaderboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Leaderboard.storyboard; sourceTree = "<group>"; };
 		5A2633502034AB470005EA39 /* PNLiteMRAIDOrientationProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDOrientationProperties.h; sourceTree = "<group>"; };
 		5A2633512034AB470005EA39 /* PNLiteMRAIDResizeProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDResizeProperties.m; sourceTree = "<group>"; };
 		5A2633522034AB470005EA39 /* PNLiteMRAIDResizeProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDResizeProperties.h; sourceTree = "<group>"; };
@@ -1065,7 +1059,6 @@
 		5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteProgressLabel.h; sourceTree = "<group>"; };
 		5A9B66EE20BDA15B0067964E /* PNLitePropertyAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLitePropertyAnimation.m; sourceTree = "<group>"; };
 		5A9B66EF20BDA15C0067964E /* PNLitePropertyAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLitePropertyAnimation.h; sourceTree = "<group>"; };
-		5A9CC6092121C7F600A3C45E /* Native.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Native.storyboard; sourceTree = "<group>"; };
 		5A9CC60B2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteNativeAdViewController.h; sourceTree = "<group>"; };
 		5A9CC60C2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteNativeAdViewController.m; sourceTree = "<group>"; };
 		5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidWebBrowserUserAgentInfo.h; sourceTree = "<group>"; };
@@ -1078,9 +1071,6 @@
 		5AA3D5F02031CA96002BFDA3 /* PNLiteReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteReachability.m; sourceTree = "<group>"; };
 		5AA3D5F32031CEC1002BFDA3 /* PNLiteHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteHttpRequest.h; sourceTree = "<group>"; };
 		5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequest.m; sourceTree = "<group>"; };
-		5AA7EC5E20E4D57800277E2B /* Banner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Banner.storyboard; sourceTree = "<group>"; };
-		5AA7EC6020E4D59800277E2B /* MRect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MRect.storyboard; sourceTree = "<group>"; };
-		5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interstitial.storyboard; sourceTree = "<group>"; };
 		5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		5AA7EC6620E4E28F00277E2B /* PNLiteDemoMoPubMediationInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationInterstitialViewController.h; sourceTree = "<group>"; };
 		5AA7EC6720E4E28F00277E2B /* PNLiteDemoMoPubMediationInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationInterstitialViewController.m; sourceTree = "<group>"; };
@@ -2554,11 +2544,6 @@
 			isa = PBXGroup;
 			children = (
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
-				5A9CC6092121C7F600A3C45E /* Native.storyboard */,
-				5A262DDB218B4720001A29E2 /* Leaderboard.storyboard */,
-				5AA7EC5E20E4D57800277E2B /* Banner.storyboard */,
-				5AA7EC6020E4D59800277E2B /* MRect.storyboard */,
-				5AA7EC6220E4D5AB00277E2B /* Interstitial.storyboard */,
 				5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */,
 				5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */,
 				5AD07C0722FAD27E001BF4A1 /* Markup.storyboard */,
@@ -3779,7 +3764,6 @@
 			files = (
 				5AF3B5C423F40D0B007DC36F /* MPCloseBtn@3x.png in Resources */,
 				5AF3B5C223F40D0B007DC36F /* MPPlayBtn@2x.png in Resources */,
-				5A262DDD218B4B3F001A29E2 /* Leaderboard.storyboard in Resources */,
 				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
 				5A91E299234354B700CDF595 /* OpenMeasurement-LICENSE in Resources */,
 				5AF3B5C823F40D0B007DC36F /* MPCloseButtonX@2x.png in Resources */,
@@ -3788,7 +3772,6 @@
 				5AF3B5BF23F40D0B007DC36F /* MRAID.bundle in Resources */,
 				5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */,
 				5AF3B5D023F40D0B007DC36F /* MPMutedBtn@2x.png in Resources */,
-				5AA7EC5F20E4D57800277E2B /* Banner.storyboard in Resources */,
 				5AF3B5D123F40D0B007DC36F /* MPDAAIcon@2x.png in Resources */,
 				5AF3B5C023F40D0B007DC36F /* MPDAAIcon.png in Resources */,
 				5AF3B5CC23F40D0B007DC36F /* MPDAAIcon@3x.png in Resources */,
@@ -3799,12 +3782,9 @@
 				5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */,
 				5AF3B5CD23F40D0B007DC36F /* MPMutedBtn@3x.png in Resources */,
 				5AF3B5C723F40D0B007DC36F /* MPUnmutedBtn@2x.png in Resources */,
-				5AA7EC6320E4D5AB00277E2B /* Interstitial.storyboard in Resources */,
 				5A91E298234354B700CDF595 /* NanoPB-LICENSE in Resources */,
-				5AA7EC6120E4D59800277E2B /* MRect.storyboard in Resources */,
 				5AF3B5CF23F40D0B007DC36F /* MPMutedBtn.png in Resources */,
 				5A8E0E6C241A86A500F378E9 /* HeaderBidding.storyboard in Resources */,
-				5A9CC60A2121C7F600A3C45E /* Native.storyboard in Resources */,
 				5AF3B5C323F40D0B007DC36F /* MPCloseBtn@2x.png in Resources */,
 				5AF3B5C523F40D0B007DC36F /* MPCloseBtn.png in Resources */,
 				5AF3B5CE23F40D0B007DC36F /* MPPlayBtn.png in Resources */,
