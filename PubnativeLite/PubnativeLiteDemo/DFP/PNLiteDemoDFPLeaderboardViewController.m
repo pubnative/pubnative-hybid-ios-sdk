@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpLeaderboard;
-@property (nonatomic, strong) HyBidLeaderboardAdRequest *leaderboardAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *leaderboardAdRequest;
 
 @end
 
@@ -65,7 +65,8 @@
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
-    self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+    self.leaderboardAdRequest = [[HyBidAdRequest alloc] init];
+    self.leaderboardAdRequest.adSize = SIZE_728x90;
     [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
