@@ -176,7 +176,7 @@
                                     <action selector="requestBannerTouchUpInside:" destination="dy8-WN-4R0" eventType="touchUpInside" id="9NQ-X2-oLw"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HK4-3W-Moc" userLabel="HyBid Banner Ad View" customClass="HyBidAdView">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HK4-3W-Moc" userLabel="HyBid Ad View" customClass="HyBidAdView">
                                 <rect key="frame" x="27.5" y="270" width="320" height="50"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerAdView" label="Banner Ad View">
                                     <bool key="isElement" value="YES"/>
@@ -215,6 +215,9 @@
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mUH-wn-Do7">
                                 <rect key="frame" x="16" y="8" width="343" height="216"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerSizePickerView" label="Banner Size PickerView">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <connections>
                                     <outlet property="dataSource" destination="dy8-WN-4R0" id="xiZ-j5-V1t"/>
                                     <outlet property="delegate" destination="dy8-WN-4R0" id="pMe-a9-pJt"/>
