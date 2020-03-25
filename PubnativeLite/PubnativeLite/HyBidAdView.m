@@ -80,6 +80,14 @@
     }
 }
 
+- (void)loadWithDelegate: (NSObject<HyBidAdViewDelegate> *)delegate {
+    [self cleanUp];
+    self.delegate = delegate;
+    self.adRequest.adSize = self.adSize;
+    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE];
+    [self.adRequest requestAdWithDelegate:self];
+}
+
 - (void)setupAdView:(UIView *)adView {
     [self addSubview:adView];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {

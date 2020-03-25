@@ -688,6 +688,15 @@
 		E7218DDE2428C6D400968314 /* VrvResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DDC2428C6D400968314 /* VrvResponseModel.m */; };
 		E7956153242B6CAB0052693A /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E7956151242B6CAB0052693A /* XMLDictionary.h */; };
 		E7956154242B6CAB0052693A /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* XMLDictionary.m */; };
+		E7956185242BB2190052693A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956184242BB2190052693A /* AppDelegate.m */; };
+		E7956188242BB2190052693A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956187242BB2190052693A /* SceneDelegate.m */; };
+		E795618B242BB2190052693A /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618A242BB2190052693A /* FirstViewController.m */; };
+		E795618E242BB2190052693A /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618D242BB2190052693A /* SecondViewController.m */; };
+		E7956191242BB2190052693A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E795618F242BB2190052693A /* Main.storyboard */; };
+		E7956193242BB21C0052693A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7956192242BB21C0052693A /* Assets.xcassets */; };
+		E7956196242BB21C0052693A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7956194242BB21C0052693A /* LaunchScreen.storyboard */; };
+		E7956199242BB21C0052693A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956198242BB21C0052693A /* main.m */; };
+		E79561A1242BC2EC0052693A /* AdSdkDemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E79561A0242BC2EC0052693A /* AdSdkDemoSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -704,6 +713,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
+		};
+		E795619D242BB2630052693A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
+			remoteInfo = HyBid;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1719,6 +1735,22 @@
 		E7218DDC2428C6D400968314 /* VrvResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvResponseModel.m; sourceTree = "<group>"; };
 		E7956151242B6CAB0052693A /* XMLDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
 		E7956152242B6CAB0052693A /* XMLDictionary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
+		E7956181242BB2190052693A /* AdSDK Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AdSDK Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7956183242BB2190052693A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E7956184242BB2190052693A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E7956186242BB2190052693A /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		E7956187242BB2190052693A /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		E7956189242BB2190052693A /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		E795618A242BB2190052693A /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		E795618C242BB2190052693A /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		E795618D242BB2190052693A /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		E7956190242BB2190052693A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E7956192242BB21C0052693A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E7956195242BB21C0052693A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E7956197242BB21C0052693A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7956198242BB21C0052693A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E795619F242BC2EC0052693A /* AdSdkDemoSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdSdkDemoSettings.h; sourceTree = "<group>"; };
+		E79561A0242BC2EC0052693A /* AdSdkDemoSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdSdkDemoSettings.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1767,6 +1799,13 @@
 				5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */,
 				5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */,
 				5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E795617E242BB2190052693A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2071,6 +2110,7 @@
 				5A6CD0222029CD060022E206 /* PubnativeLite */,
 				5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */,
 				5A969A3E206523F800C3B74A /* PubnativeLiteTests */,
+				E7956182242BB2190052693A /* AdSDK Demo */,
 				5A6CD0212029CD060022E206 /* Products */,
 				5A8903CF203DE1D400D86051 /* Frameworks */,
 			);
@@ -2082,6 +2122,7 @@
 				5A6CD0202029CD060022E206 /* HyBid.framework */,
 				5A32CEB92029F79B0003B450 /* HyBidDemo.app */,
 				5A969A3D206523F800C3B74A /* HyBidTests.xctest */,
+				E7956181242BB2190052693A /* AdSDK Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3488,6 +3529,28 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
+		E7956182242BB2190052693A /* AdSDK Demo */ = {
+			isa = PBXGroup;
+			children = (
+				E7956183242BB2190052693A /* AppDelegate.h */,
+				E7956184242BB2190052693A /* AppDelegate.m */,
+				E7956186242BB2190052693A /* SceneDelegate.h */,
+				E7956187242BB2190052693A /* SceneDelegate.m */,
+				E7956189242BB2190052693A /* FirstViewController.h */,
+				E795618A242BB2190052693A /* FirstViewController.m */,
+				E795618C242BB2190052693A /* SecondViewController.h */,
+				E795618D242BB2190052693A /* SecondViewController.m */,
+				E795618F242BB2190052693A /* Main.storyboard */,
+				E7956192242BB21C0052693A /* Assets.xcassets */,
+				E7956194242BB21C0052693A /* LaunchScreen.storyboard */,
+				E7956197242BB21C0052693A /* Info.plist */,
+				E7956198242BB21C0052693A /* main.m */,
+				E795619F242BC2EC0052693A /* AdSdkDemoSettings.h */,
+				E79561A0242BC2EC0052693A /* AdSdkDemoSettings.m */,
+			);
+			path = "AdSDK Demo";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -3733,6 +3796,24 @@
 			productReference = 5A969A3D206523F800C3B74A /* HyBidTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E7956180242BB2190052693A /* AdSDK Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E795619A242BB21C0052693A /* Build configuration list for PBXNativeTarget "AdSDK Demo" */;
+			buildPhases = (
+				E795617D242BB2190052693A /* Sources */,
+				E795617E242BB2190052693A /* Frameworks */,
+				E795617F242BB2190052693A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E795619E242BB2630052693A /* PBXTargetDependency */,
+			);
+			name = "AdSDK Demo";
+			productName = "AdSDK Demo";
+			productReference = E7956181242BB2190052693A /* AdSDK Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3754,6 +3835,10 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
 					};
+					E7956180242BB2190052693A = {
+						CreatedOnToolsVersion = 11.4;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "HyBid" */;
@@ -3772,6 +3857,7 @@
 				5A6CD01F2029CD060022E206 /* HyBid */,
 				5A32CEB82029F79B0003B450 /* HyBidDemo */,
 				5A969A3C206523F800C3B74A /* HyBidTests */,
+				E7956180242BB2190052693A /* AdSDK Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -3847,6 +3933,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E795617F242BB2190052693A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7956196242BB21C0052693A /* LaunchScreen.storyboard in Resources */,
+				E7956193242BB21C0052693A /* Assets.xcassets in Resources */,
+				E7956191242BB2190052693A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4298,6 +4394,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E795617D242BB2190052693A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7956199242BB21C0052693A /* main.m in Sources */,
+				E79561A1242BC2EC0052693A /* AdSdkDemoSettings.m in Sources */,
+				E795618E242BB2190052693A /* SecondViewController.m in Sources */,
+				E7956185242BB2190052693A /* AppDelegate.m in Sources */,
+				E795618B242BB2190052693A /* FirstViewController.m in Sources */,
+				E7956188242BB2190052693A /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4311,6 +4420,11 @@
 			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
 		};
+		E795619E242BB2630052693A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A6CD01F2029CD060022E206 /* HyBid */;
+			targetProxy = E795619D242BB2630052693A /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -4320,6 +4434,22 @@
 				5A32CEC22029F79B0003B450 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E795618F242BB2190052693A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E7956190242BB2190052693A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E7956194242BB21C0052693A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E7956195242BB21C0052693A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -4612,6 +4742,45 @@
 			};
 			name = Release;
 		};
+		E795619B242BB21C0052693A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TN65BQ22T6;
+				INFOPLIST_FILE = "AdSDK Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pubnative.AdSDK.demo.AdSDK-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E795619C242BB21C0052693A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TN65BQ22T6;
+				INFOPLIST_FILE = "AdSDK Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pubnative.AdSDK.demo.AdSDK-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4647,6 +4816,15 @@
 			buildConfigurations = (
 				5A969A45206523F800C3B74A /* Debug */,
 				5A969A46206523F800C3B74A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E795619A242BB21C0052693A /* Build configuration list for PBXNativeTarget "AdSDK Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E795619B242BB21C0052693A /* Debug */,
+				E795619C242BB21C0052693A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

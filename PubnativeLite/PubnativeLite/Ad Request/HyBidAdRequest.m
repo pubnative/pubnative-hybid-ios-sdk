@@ -92,6 +92,22 @@ NSInteger const kDefaultBannerZoneId = 2;
     self.isSetIntegrationTypeCalled = YES;
 }
 
+- (void)setIntegrationType: (IntegrationType)integrationType {
+    
+    // This should be improved
+    if ((self.adSize.width == 320 && self.adSize.height == 50) || (self.adSize.width == 320 && self.adSize.height == 100)) {
+        self.zoneID = [@(kDefaultBannerZoneId) stringValue];
+    } else if ((self.adSize.width == 300 && self.adSize.height == 250) || (self.adSize.width == 728 && self.adSize.height == 90)) {
+        self.zoneID = [@(kDefaultMRectZoneId) stringValue];
+    } else {
+        self.zoneID = [@(kDefaultBannerZoneId) stringValue];
+    }
+    
+    self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
+    self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModelWithIntegrationType:integrationType]];
+    self.isSetIntegrationTypeCalled = YES;
+}
+
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
     if (self.isRunning) {
         NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
