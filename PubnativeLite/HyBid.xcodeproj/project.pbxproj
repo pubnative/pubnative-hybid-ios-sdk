@@ -370,6 +370,8 @@
 		5AD07C0B22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C0A22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m */; };
 		5AD07C0F22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C0E22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m */; };
 		5AD07C1222FB02F2001BF4A1 /* Markup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C1122FB02F2001BF4A1 /* Markup.m */; };
+		5AD10C6B242BD02700A7DA14 /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
+		5AD10C6C242BD02700A7DA14 /* HyBid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD140482065292A0018845E /* OCMockitoIOS.framework */; };
 		5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */; };
 		5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD05202C617A00617734 /* PNLiteResponseModel.m */; };
@@ -714,7 +716,7 @@
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
 		};
-		E795619D242BB2630052693A /* PBXContainerItemProxy */ = {
+		5AD10C6D242BD02700A7DA14 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
 			proxyType = 1;
@@ -731,6 +733,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AD10C6F242BD02700A7DA14 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5AD10C6C242BD02700A7DA14 /* HyBid.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1806,6 +1819,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AD10C6B242BD02700A7DA14 /* HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3803,11 +3817,12 @@
 				E795617D242BB2190052693A /* Sources */,
 				E795617E242BB2190052693A /* Frameworks */,
 				E795617F242BB2190052693A /* Resources */,
+				5AD10C6F242BD02700A7DA14 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				E795619E242BB2630052693A /* PBXTargetDependency */,
+				5AD10C6E242BD02700A7DA14 /* PBXTargetDependency */,
 			);
 			name = "AdSDK Demo";
 			productName = "AdSDK Demo";
@@ -4420,10 +4435,10 @@
 			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
 		};
-		E795619E242BB2630052693A /* PBXTargetDependency */ = {
+		5AD10C6E242BD02700A7DA14 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5A6CD01F2029CD060022E206 /* HyBid */;
-			targetProxy = E795619D242BB2630052693A /* PBXContainerItemProxy */;
+			targetProxy = 5AD10C6D242BD02700A7DA14 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4750,7 +4765,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TN65BQ22T6;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
 				INFOPLIST_FILE = "AdSDK Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -4770,7 +4785,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TN65BQ22T6;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
 				INFOPLIST_FILE = "AdSDK Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
