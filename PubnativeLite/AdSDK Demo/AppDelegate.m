@@ -23,6 +23,10 @@
             NSLog(@"HyBid initialisation completed");
         }
     }];
+    HyBidTargetingModel *targetingModel = [[HyBidTargetingModel alloc] init];
+    targetingModel.age = [NSNumber numberWithInt:29];
+    targetingModel.gender = @"m";
+    [HyBid setTargeting: targetingModel];
     return YES;
 }
 
