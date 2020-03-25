@@ -34,7 +34,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken withPartnerKeyword: [PNLiteDemoSettings sharedInstance].partnerKeyword completion:^(BOOL success) {
         if (success) {
             [HyBidLogger setLogLevel:HyBidLogLevelDebug];
             NSLog(@"HyBid initialisation completed");

@@ -33,7 +33,6 @@ NSInteger const MAX_RETRIES = 1;
 @interface PNLiteHttpRequest ()
 
 @property (nonatomic, strong) NSObject<PNLiteHttpRequestDelegate> *delegate;
-@property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *method;
 @property (nonatomic, assign) NSInteger retryCount;
 

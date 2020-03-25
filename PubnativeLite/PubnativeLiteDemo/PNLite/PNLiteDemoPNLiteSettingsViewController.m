@@ -121,7 +121,7 @@
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
     [PNLiteDemoSettings sharedInstance].apiURL = self.apiURLTextField.text;
     
-    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken withPartnerKeyword:[PNLiteDemoSettings sharedInstance].partnerKeyword completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }

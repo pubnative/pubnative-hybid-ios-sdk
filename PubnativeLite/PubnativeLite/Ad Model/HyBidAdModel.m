@@ -39,9 +39,9 @@
     if (self) {
         self.link = dictionary[@"link"];
         self.assetgroupid = dictionary[@"assetgroupid"];
-        self.assets = [HyBidDataModel parseArrayValues:dictionary[@"assets"]];
-        self.meta = [HyBidDataModel parseArrayValues:dictionary[@"meta"]];
-        self.beacons = [HyBidDataModel parseArrayValues:dictionary[@"beacons"]];;
+        self.assets = [NSMutableArray arrayWithArray:[HyBidDataModel parseArrayValues:dictionary[@"assets"]]];
+        self.meta = [NSMutableArray arrayWithArray:[HyBidDataModel parseArrayValues:dictionary[@"meta"]]];
+        self.beacons = [NSMutableArray arrayWithArray:[HyBidDataModel parseArrayValues:dictionary[@"beacons"]]];
     }
     return self;
 }

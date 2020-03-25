@@ -23,6 +23,7 @@
 #import "PNLiteDemoSettings.h"
 
 NSString *const PNLiteDemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
+NSString *const PNLiteDemoPartnerKeyword = @"adsdkexample";
 NSString *const PNLiteDemoZoneID;
 NSString *const PNLiteDemoMoPubLeaderboardAdUnitID = @"990b5957b0374238a4ce6fcf451c8e89";
 NSString *const PNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
@@ -49,6 +50,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
 - (void)dealloc {
     self.appToken = nil;
+    self.partnerKeyword = nil;
     self.zoneID = nil;
     self.moPubLeaderboardAdUnitID = nil;
     self.moPubBannerAdUnitID = nil;
@@ -86,6 +88,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
     self = [super init];
     if (self) {
         self.appToken = PNLiteDemoAppToken;
+        self.partnerKeyword = PNLiteDemoPartnerKeyword;
         self.zoneID = PNLiteDemoZoneID;
         self.moPubLeaderboardAdUnitID = PNLiteDemoMoPubLeaderboardAdUnitID;
         self.moPubBannerAdUnitID = PNLiteDemoMoPubBannerAdUnitID;

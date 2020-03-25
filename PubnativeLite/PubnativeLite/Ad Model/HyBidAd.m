@@ -24,6 +24,7 @@
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
 #import "HyBidContentInfoView.h"
+#import "PNLiteAssetGroupType.h"
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -48,6 +49,41 @@ NSString *const kImpressionQuerryParameter = @"t";
     self = [super init];
     if (self) {
         self.data = data;
+    }
+    return self;
+}
+
+- (instancetype)initWithVrvXml:(NSDictionary *)xml {
+    self = [super init];
+    if (self) {
+        HyBidAdModel *model = [[HyBidAdModel alloc] init];
+        self.assetGroupID = [NSNumber numberWithInt:MRAID_300x50];
+        NSString *apiAsset = PNLiteAsset.htmlBanner;
+        NSMutableArray *assets = [[NSMutableArray alloc] init];
+        
+        NSDictionary *rawResponse = [xml valueForKey:@"rawResponse"];
+        
+        if (rawResponse && [rawResponse valueForKey:@"useRawResponse"] && [[rawResponse valueForKey:@"useRawResponse"] boolValue]) {
+                NSString *html = [[rawResponse valueForKey:@"response"] stringValue];
+                HyBidDataModel *data = [[HyBidDataModel alloc] initWithHtmlAsset:apiAsset withValue:html];
+                [assets addObject:data];
+        } else {
+            // TODO https://wiki.vervemobile.com/confluence/display/CDOC/AdCel+API#AdCelAPI-AdRequests
+            NSDictionary *media = [xml valueForKey:@"media"];
+            NSDictionary *clickthrough = [xml valueForKey:@"clickthrough"];
+            NSDictionary *copy = [xml valueForKey:@"copy"];
+            
+            NSString *bannerImage = [[media valueForKey:@"image_url"] stringValue];
+            NSString *clickThroughUrl = [[clickthrough valueForKey:@"url"] stringValue];
+            NSString *text = [[copy valueForKey:@"leadin"] stringValue];
+            
+            NSString *html = [NSString stringWithFormat:@"<html><body><a href=\"%@\">%@<img src=\"%@\"/></a></body></html>", clickThroughUrl, text, bannerImage];
+            HyBidDataModel *data = [[HyBidDataModel alloc] initWithHtmlAsset:apiAsset withValue:html];
+            [assets addObject:data];
+        }
+        
+        model.assets = assets;
+        self.data = model;
     }
     return self;
 }
