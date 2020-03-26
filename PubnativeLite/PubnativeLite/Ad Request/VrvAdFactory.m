@@ -14,10 +14,12 @@
 - (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize)adSize {
     VrvAdRequestModel *adRequestModel = [[VrvAdRequestModel alloc] init];
     // Portal keyword
-    NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"apad" : @"anap";
+    NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
     adRequestModel.requestParameters[@"p"] = portalKeyword;
     // Category: Default News and Information (97)
     adRequestModel.requestParameters[@"c"] = @"97";
+    // Remove iframe wrapping
+    adRequestModel.requestParameters[@"iframe"] = @"false";
     // Partner keyword
     adRequestModel.requestParameters[@"b"] = [HyBidSettings sharedInstance].partnerKeyword;
     
