@@ -57,16 +57,15 @@ NSString *const kImpressionQuerryParameter = @"t";
     self = [super init];
     if (self) {
         HyBidAdModel *model = [[HyBidAdModel alloc] init];
-        self.assetGroupID = [NSNumber numberWithInt:MRAID_300x50];
         NSString *apiAsset = PNLiteAsset.htmlBanner;
         NSMutableArray *assets = [[NSMutableArray alloc] init];
         
         NSDictionary *rawResponse = [xml valueForKey:@"rawResponse"];
         
         if (rawResponse && [rawResponse valueForKey:@"useRawResponse"] && [[rawResponse valueForKey:@"useRawResponse"] boolValue]) {
-                NSString *html = [[rawResponse valueForKey:@"response"] stringValue];
-                HyBidDataModel *data = [[HyBidDataModel alloc] initWithHtmlAsset:apiAsset withValue:html];
-                [assets addObject:data];
+            NSString *html = [rawResponse valueForKey:@"response"];
+            HyBidDataModel *data = [[HyBidDataModel alloc] initWithHtmlAsset:apiAsset withValue:html];
+            [assets addObject:data];
         } else {
             // TODO https://wiki.vervemobile.com/confluence/display/CDOC/AdCel+API#AdCelAPI-AdRequests
             NSDictionary *media = [xml valueForKey:@"media"];
@@ -83,6 +82,7 @@ NSString *const kImpressionQuerryParameter = @"t";
         }
         
         model.assets = assets;
+        model.assetgroupid = [NSNumber numberWithInt:MRAID_320x50];
         self.data = model;
     }
     return self;

@@ -38,6 +38,7 @@
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
 NSInteger const PNLiteResponseStatusOK = 200;
+NSInteger const PNLiteResponseStatusVrvOK = 204;
 NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 NSInteger const kRequestBothPending = 3000;
@@ -247,6 +248,7 @@ NSInteger const kDefaultBannerZoneId = 2;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:&parseError];
+
     if (parseError) {
         [self invokeDidFail:parseError];
         return nil;
@@ -378,7 +380,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                 }
             }
         } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
+            NSString *errorMessage = @"HyBidAdRequest - An error has ocurred fetching the ad";
             NSError *responseError = [NSError errorWithDomain:errorMessage
                                                          code:0
                                                      userInfo:nil];
@@ -427,9 +429,9 @@ NSInteger const kDefaultBannerZoneId = 2;
         }
     } else if (request.urlString == self.vrvRequestURL.absoluteString) {
         // Repeat this condition because Adcel API has different response codes
-        if(PNLiteResponseStatusOK == statusCode || PNLiteResponseStatusRequestMalformed == statusCode) {
+        if(PNLiteResponseStatusOK == statusCode || PNLiteResponseStatusVrvOK == statusCode || PNLiteResponseStatusRequestMalformed == statusCode) {
             NSString *responseString;
-            if ([self createDictionaryFromData:data]) {
+            if ([self createXmlFromData:data]) {
                 responseString = [NSString stringWithFormat:@"%@",[self createXmlFromData:data]];
             } else {
                 responseString = [NSString stringWithFormat:@"Error while creating a XML Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];

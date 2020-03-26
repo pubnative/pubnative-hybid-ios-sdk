@@ -13,14 +13,12 @@
 - (void)dealloc {
     self.dictionary = nil;
     self.status = nil;
-    self.errorMessage = nil;
     self.ads = nil;
 }
 
 - (instancetype)initWithXml:(NSDictionary *)dictionary {
     if (self) {
-        self.status = dictionary[@"status"];
-        self.errorMessage = dictionary[@"error_message"];
+        self.status = @"ok";
     }
     return self;
 }

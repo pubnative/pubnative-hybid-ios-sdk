@@ -13,7 +13,6 @@
 @property (nonatomic, strong) NSDictionary *dictionary;
 
 @property (nonatomic, strong) NSString *status;
-@property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) NSArray *ads;
 
 - (instancetype)initWithXml:(NSDictionary *)dictionary;
