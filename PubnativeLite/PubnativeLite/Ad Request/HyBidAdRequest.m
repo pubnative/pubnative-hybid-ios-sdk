@@ -268,7 +268,16 @@ NSInteger const kDefaultBannerZoneId = 2;
             NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
                                                  code:0
                                              userInfo:nil];
-            [self invokeDidFail:error];
+            if (self.requestStatus == kRequestWinnerPicked) {
+                NSLog(@"PApi has failure but VAPI was faster.");
+                return;
+            }
+
+            if (self.requestStatus == kRequestBothPending) {
+                self.requestStatus = kRequestPubNativeResponded;
+            } else {
+                [self invokeDidFail:error];
+            }
         } else if ([PNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in response.ads) {
@@ -277,19 +286,44 @@ NSInteger const kDefaultBannerZoneId = 2;
                 [responseAdArray addObject:ad];
             }
             if (responseAdArray.count > 0) {
+                if (self.requestStatus == kRequestWinnerPicked) {
+                    NSLog(@"PAPI responded but VAPI was faster.");
+                    return;
+                }
+                
+                self.requestStatus = kRequestWinnerPicked;
+                
                 [self invokeDidLoad:responseAdArray.firstObject];
             } else {
                 NSError *error = [NSError errorWithDomain:@"No fill"
                                                      code:0
                                                  userInfo:nil];
-                [self invokeDidFail:error];
+                if (self.requestStatus == kRequestWinnerPicked) {
+                    NSLog(@"PApi did not fill but VAPI was faster.");
+                    return;
+                }
+
+                if (self.requestStatus == kRequestBothPending) {
+                    self.requestStatus = kRequestPubNativeResponded;
+                } else {
+                    [self invokeDidFail:error];
+                }
             }
         } else {
             NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
             NSError *responseError = [NSError errorWithDomain:errorMessage
                                                          code:0
                                                      userInfo:nil];
-            [self invokeDidFail:responseError];
+            if (self.requestStatus == kRequestWinnerPicked) {
+                NSLog(@"PApi has failure but VAPI was faster.");
+                return;
+            }
+
+            if (self.requestStatus == kRequestBothPending) {
+                self.requestStatus = kRequestPubNativeResponded;
+            } else {
+                [self invokeDidFail:responseError];
+            }
         }
     }
 }
@@ -302,7 +336,16 @@ NSInteger const kDefaultBannerZoneId = 2;
             NSError *error = [NSError errorWithDomain:@"Can't parse XML from server"
                                                  code:0
                                              userInfo:nil];
-            [self invokeDidFail:error];
+            if (self.requestStatus == kRequestWinnerPicked) {
+                NSLog(@"VAPI has failure but PAPI was faster.");
+                return;
+            }
+
+            if (self.requestStatus == kRequestBothPending) {
+                self.requestStatus = kRequestVerveResponded;
+            } else {
+                [self invokeDidFail:error];
+            }
         } else if ([PNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             
@@ -311,19 +354,44 @@ NSInteger const kDefaultBannerZoneId = 2;
             [responseAdArray addObject:ad];
             
             if (responseAdArray.count > 0) {
+                if (self.requestStatus == kRequestWinnerPicked) {
+                    NSLog(@"VAPI has response but PAPI was faster.");
+                    return;
+                }
+                
+                self.requestStatus = kRequestWinnerPicked;
+                
                 [self invokeDidLoad:responseAdArray.firstObject];
             } else {
                 NSError *error = [NSError errorWithDomain:@"No fill"
                                                      code:0
                                                  userInfo:nil];
-                [self invokeDidFail:error];
+                if (self.requestStatus == kRequestWinnerPicked) {
+                    NSLog(@"VAPI did not fill but PAPI was faster.");
+                    return;
+                }
+
+                if (self.requestStatus == kRequestBothPending) {
+                    self.requestStatus = kRequestVerveResponded;
+                } else {
+                    [self invokeDidFail:error];
+                }
             }
         } else {
             NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
             NSError *responseError = [NSError errorWithDomain:errorMessage
                                                          code:0
                                                      userInfo:nil];
-            [self invokeDidFail:responseError];
+            if (self.requestStatus == kRequestWinnerPicked) {
+                NSLog(@"VAPI has failure but PAPI was faster.");
+                return;
+            }
+
+            if (self.requestStatus == kRequestBothPending) {
+                self.requestStatus = kRequestVerveResponded;
+            } else {
+                [self invokeDidFail:responseError];
+            }
         }
     }
 }
@@ -333,13 +401,6 @@ NSInteger const kDefaultBannerZoneId = 2;
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     if (request.urlString == self.requestURL.absoluteString) {
         if(PNLiteResponseStatusOK == statusCode || PNLiteResponseStatusRequestMalformed == statusCode) {
-        
-            if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"PAPI responded but VAPI was faster.");
-                return;
-            }
-            
-            self.requestStatus = kRequestWinnerPicked;
             NSString *responseString;
             if ([self createDictionaryFromData:data]) {
                 responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
@@ -367,13 +428,6 @@ NSInteger const kDefaultBannerZoneId = 2;
     } else if (request.urlString == self.vrvRequestURL.absoluteString) {
         // Repeat this condition because Adcel API has different response codes
         if(PNLiteResponseStatusOK == statusCode || PNLiteResponseStatusRequestMalformed == statusCode) {
-            if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"VAPI has response but PAPI was faster.");
-                return;
-            }
-            
-            self.requestStatus = kRequestWinnerPicked;
-            
             NSString *responseString;
             if ([self createDictionaryFromData:data]) {
                 responseString = [NSString stringWithFormat:@"%@",[self createXmlFromData:data]];
