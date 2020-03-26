@@ -195,7 +195,6 @@ typedef enum {
         _isViewable = NO;
         useCustomClose = NO;
         
-        
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
         
