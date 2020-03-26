@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "PNLiteAdRequestModel.h"
 #import "HyBidIntegrationType.h"
-#import "HyBidAdSize.h"
+#import "HyBidAdSizeStruct.h"
 
 @interface PNLiteAdFactory : NSObject
 
