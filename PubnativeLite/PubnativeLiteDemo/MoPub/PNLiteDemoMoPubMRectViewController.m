@@ -65,7 +65,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[HyBidAdRequest alloc] init];
-    self.mRectAdRequest.adSize = SIZE_300x250;
+    self.mRectAdRequest.adSize = HyBidAdSize.SIZE_300x250;
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 

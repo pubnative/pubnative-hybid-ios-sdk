@@ -56,6 +56,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     self.requestURL = nil;
     self.delegate = nil;
     self.adFactory = nil;
+    self.adSize = nil;
 }
 
 - (instancetype)init {

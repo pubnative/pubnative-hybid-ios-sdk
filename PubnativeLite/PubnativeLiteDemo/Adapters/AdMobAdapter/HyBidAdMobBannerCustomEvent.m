@@ -35,6 +35,7 @@
 
 - (void)dealloc {
     self.bannerAdView = nil;
+    self.adSize = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
@@ -61,8 +62,8 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-- (HyBidAdSize)adSize {
-    return SIZE_320x50;
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_320x50;
 }
 
 #pragma mark - HyBidAdViewDelegate

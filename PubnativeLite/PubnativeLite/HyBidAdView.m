@@ -38,6 +38,7 @@
     self.delegate = nil;
     self.adPresenter = nil;
     self.adRequest = nil;
+    self.adSize = nil;
 }
 
 - (void)awakeFromNib {

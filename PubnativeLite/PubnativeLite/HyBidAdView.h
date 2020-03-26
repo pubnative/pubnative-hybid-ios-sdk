@@ -42,7 +42,7 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, weak) NSObject <HyBidAdViewDelegate> *delegate;
 @property (nonatomic, assign) BOOL isMediation;
-@property (nonatomic, assign) HyBidAdSize* adSize;
+@property (nonatomic, strong) HyBidAdSize *adSize;
 
 - (instancetype)initWithSize:(HyBidAdSize*)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;

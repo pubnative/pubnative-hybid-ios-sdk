@@ -54,7 +54,7 @@
     return  [[HyBidAdSize alloc]initWithWidth:768 height:1024 adLayoutSize:@"l"];
 }
 +(HyBidAdSize *)SIZE_728x90 {
-    return  [[HyBidAdSize alloc]initWithWidth:768 height:90 adLayoutSize:@"s"];
+    return  [[HyBidAdSize alloc]initWithWidth:728 height:90 adLayoutSize:@"s"];
 }
 +(HyBidAdSize *)SIZE_160x600 {
     return  [[HyBidAdSize alloc]initWithWidth:160 height:600 adLayoutSize:@"m"];

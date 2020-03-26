@@ -82,10 +82,8 @@
     if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
         [pickerLabel setText:[NSString stringWithFormat:@"%@",[PNLiteDemoSettings sharedInstance].bannerSizesArray[row]]];
     } else {
-        HyBidAdSize structValue;
-        NSValue *value = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
-        [value getValue:&structValue];
-        [pickerLabel setText:[NSString stringWithFormat:@"%ldx%ld",structValue.width, structValue.height]];
+        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
+        [pickerLabel setText:[NSString stringWithFormat:@"%ldx%ld",adSize.width, adSize.height]];
     }
     return pickerLabel;
 }
@@ -94,10 +92,8 @@
     if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
         return [NSString stringWithFormat:@"%@",[PNLiteDemoSettings sharedInstance].bannerSizesArray[row]];
     } else {
-        HyBidAdSize structValue;
-        NSValue *value = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
-        [value getValue:&structValue];
-        return [NSString stringWithFormat:@"%ldx%ld",structValue.width, structValue.height];
+        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
+        return [NSString stringWithFormat:@"%ldx%ld",adSize.width, adSize.height];
     }
 }
 
@@ -110,10 +106,8 @@
         self.loadAdButton.hidden = NO;
         self.bannerAdView.hidden = NO;
         
-        HyBidAdSize structValue;
-        NSValue *value = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
-        [value getValue:&structValue];
-        [PNLiteDemoSettings sharedInstance].adSize = structValue;
+        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
+        [PNLiteDemoSettings sharedInstance].adSize = adSize;
     }
 }
 

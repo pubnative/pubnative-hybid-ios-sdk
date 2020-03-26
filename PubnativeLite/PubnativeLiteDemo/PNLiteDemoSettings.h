@@ -50,7 +50,7 @@
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, assign) BOOL testMode;
 @property (nonatomic, assign) BOOL coppaMode;
-@property (nonatomic, assign) HyBidAdSize adSize;
+@property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, strong) NSMutableArray *bannerSizesArray;
 
 + (PNLiteDemoSettings *)sharedInstance;
