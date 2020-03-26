@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdSizeStruct.h"
+#import "HyBidAdSize.h"
 
 HyBidAdSize const SIZE_320x50 = {320,50, @"s"};
 HyBidAdSize const SIZE_300x250 = {300, 250, @"m"};

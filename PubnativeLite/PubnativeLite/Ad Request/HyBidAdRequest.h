@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
 #import "HyBidIntegrationType.h"
-#import "HyBidAdSizeStruct.h"
+#import "HyBidAdSize.h"
 
 @class HyBidAdRequest;
 

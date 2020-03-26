@@ -22,9 +22,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef struct HyBidAdSizeStruct HyBidAdSize;
+typedef struct HyBidAdSize HyBidAdSize;
 
-struct HyBidAdSizeStruct {
+struct HyBidAdSize {
     NSInteger width;            ///< The ad width. Don't modify this value directly.
     NSInteger height;           ///< The ad height. Don't modify this value directly.
     NSString *adLayoutSize;     ///< The ad layout. Don't modify this value directly
