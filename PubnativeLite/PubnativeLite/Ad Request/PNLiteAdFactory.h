@@ -28,7 +28,7 @@
 @interface PNLiteAdFactory : NSObject
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(HyBidAdSize)adSize
+                                      andWithAdSize:(HyBidAdSize*)adSize
                              andWithIntegrationType:(IntegrationType)integrationType;
 
 @end

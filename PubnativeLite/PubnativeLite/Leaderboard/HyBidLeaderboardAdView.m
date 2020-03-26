@@ -34,7 +34,7 @@
 }
 
 - (instancetype)init {
-    self = [super initWithSize:SIZE_728x90];
+    self = [super initWithSize:HyBidAdSize.SIZE_728x90];
 
     if (self) {
         self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];

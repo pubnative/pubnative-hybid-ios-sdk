@@ -62,7 +62,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     self = [super init];
     if (self) {
         self.adFactory = [[PNLiteAdFactory alloc] init];
-        self.adSize = SIZE_320x50;
+        self.adSize = HyBidAdSize.SIZE_320x50;
     }
     return self;
 }

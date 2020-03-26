@@ -22,17 +22,73 @@
 
 #import "HyBidAdSize.h"
 
-HyBidAdSize const SIZE_320x50 = {320,50, @"s"};
-HyBidAdSize const SIZE_300x250 = {300, 250, @"m"};
-HyBidAdSize const SIZE_300x50 = {300, 50, @"s"};
-HyBidAdSize const SIZE_320x480 = {320, 480, @"l"};
-HyBidAdSize const SIZE_1024x768 = {1024, 768, @"l"};
-HyBidAdSize const SIZE_768x1024 = {768, 1024, @"l"};
-HyBidAdSize const SIZE_728x90 = {728, 90, @"s"};
-HyBidAdSize const SIZE_160x600 = {160, 600, @"m"};
-HyBidAdSize const SIZE_250x250 = {250, 250, @"m"};
-HyBidAdSize const SIZE_300x600 = {300, 600, @"l"};
-HyBidAdSize const SIZE_320x100 = {320, 100, @"s"};
-HyBidAdSize const SIZE_480x320 = {480, 320, @"l"};
-HyBidAdSize const SIZE_INTERSTITIAL = {0, 0, @"l"};
-HyBidAdSize const SIZE_NATIVE = {-1, -1, @"native"};
+@implementation HyBidAdSize
+
+-(id)initWithWidth:(NSInteger)width height:(NSInteger)height adLayoutSize: (NSString*)adLayoutSize
+{
+     self = [super init];
+     if (self) {
+         self.width = width;
+         self.height = height;
+         self.adLayoutSize = adLayoutSize;
+     }
+     return self;
+}
+
++(HyBidAdSize *)SIZE_320x50 {
+    return  [[HyBidAdSize alloc]initWithWidth:320 height:50 adLayoutSize:@"s"];
+}
++(HyBidAdSize *)SIZE_300x250 {
+    return  [[HyBidAdSize alloc]initWithWidth:300 height:250 adLayoutSize:@"m"];
+}
++(HyBidAdSize *)SIZE_300x50 {
+    return  [[HyBidAdSize alloc]initWithWidth:300 height:50 adLayoutSize:@"s"];
+}
++(HyBidAdSize *)SIZE_320x480 {
+    return  [[HyBidAdSize alloc]initWithWidth:320 height:480 adLayoutSize:@"l"];
+}
++(HyBidAdSize *)SIZE_1024x768 {
+    return  [[HyBidAdSize alloc]initWithWidth:1024 height:768 adLayoutSize:@"l"];
+}
++(HyBidAdSize *)SIZE_768x1024 {
+    return  [[HyBidAdSize alloc]initWithWidth:768 height:1024 adLayoutSize:@"l"];
+}
++(HyBidAdSize *)SIZE_728x90 {
+    return  [[HyBidAdSize alloc]initWithWidth:768 height:90 adLayoutSize:@"s"];
+}
++(HyBidAdSize *)SIZE_160x600 {
+    return  [[HyBidAdSize alloc]initWithWidth:160 height:600 adLayoutSize:@"m"];
+}
++(HyBidAdSize *)SIZE_250x250 {
+    return  [[HyBidAdSize alloc]initWithWidth:250 height:250 adLayoutSize:@"m"];
+}
++(HyBidAdSize *)SIZE_300x600 {
+    return  [[HyBidAdSize alloc]initWithWidth:300 height:600 adLayoutSize:@"l"];
+}
++(HyBidAdSize *)SIZE_320x100 {
+    return  [[HyBidAdSize alloc]initWithWidth:320 height:100 adLayoutSize:@"s"];
+}
++(HyBidAdSize *)SIZE_480x320 {
+    return  [[HyBidAdSize alloc]initWithWidth:480 height:320 adLayoutSize:@"l"];
+}
++(HyBidAdSize *)SIZE_INTERSTITIAL {
+    return  [[HyBidAdSize alloc]initWithWidth:0 height:0 adLayoutSize:@"l"];
+}
++(HyBidAdSize *)SIZE_NATIVE {
+    return  [[HyBidAdSize alloc]initWithWidth:-1 height:-1 adLayoutSize:@"native"];
+}
+@end
+//
+//const HyBidAdSize *SIZE_300x250 = {300, 250, @"m"};
+//const HyBidAdSize *SIZE_300x50 = {300, 50, @"s"};
+//const HyBidAdSize *SIZE_320x480 = {320, 480, @"l"};
+//const HyBidAdSize *SIZE_1024x768 = {1024, 768, @"l"};
+//const HyBidAdSize *SIZE_768x1024 = {768, 1024, @"l"};
+//const HyBidAdSize *SIZE_728x90 = {728, 90, @"s"};
+//const HyBidAdSize *SIZE_160x600 = {160, 600, @"m"};
+//const HyBidAdSize *SIZE_250x250 = {250, 250, @"m"};
+//const HyBidAdSize *SIZE_300x600 = {300, 600, @"l"};
+//const HyBidAdSize *SIZE_320x100 = {320, 100, @"s"};
+//const HyBidAdSize *SIZE_480x320 = {480, 320, @"l"};
+//const HyBidAdSize *SIZE_INTERSTITIAL = {0, 0, @"l"};
+//const HyBidAdSize *SIZE_NATIVE = {-1, -1, @"native"};

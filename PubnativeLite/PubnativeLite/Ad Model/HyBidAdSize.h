@@ -22,25 +22,28 @@
 
 #import <Foundation/Foundation.h>
 
-typedef struct HyBidAdSize HyBidAdSize;
+@interface HyBidAdSize: NSObject
 
-struct HyBidAdSize {
-    NSInteger width;            ///< The ad width. Don't modify this value directly.
-    NSInteger height;           ///< The ad height. Don't modify this value directly.
-    NSString *adLayoutSize;     ///< The ad layout. Don't modify this value directly
-};
+@property (nonatomic, assign) NSInteger width;///< The ad width. Don't modify this value directly.
+@property (nonatomic, assign) NSInteger height;///< The ad height. Don't modify this value directly.
+@property (nonatomic, strong) NSString *adLayoutSize;///< The ad layout. Don't modify this value directly
 
-extern HyBidAdSize const SIZE_320x50;
-extern HyBidAdSize const SIZE_300x250;
-extern HyBidAdSize const SIZE_300x50;
-extern HyBidAdSize const SIZE_320x480;
-extern HyBidAdSize const SIZE_1024x768;
-extern HyBidAdSize const SIZE_768x1024;
-extern HyBidAdSize const SIZE_728x90;
-extern HyBidAdSize const SIZE_160x600;
-extern HyBidAdSize const SIZE_250x250;
-extern HyBidAdSize const SIZE_300x600;
-extern HyBidAdSize const SIZE_320x100;
-extern HyBidAdSize const SIZE_480x320;
-extern HyBidAdSize const SIZE_INTERSTITIAL;
-extern HyBidAdSize const SIZE_NATIVE;
+-(id)initWithWidth:(NSInteger)width height:(NSInteger)height adLayoutSize: (NSString*)adLayoutSize;
+
++(HyBidAdSize *)SIZE_320x50;
++(HyBidAdSize *)SIZE_300x250;
++(HyBidAdSize *)SIZE_300x50;
++(HyBidAdSize *)SIZE_320x480;
++(HyBidAdSize *)SIZE_1024x768;
++(HyBidAdSize *)SIZE_768x1024;
++(HyBidAdSize *)SIZE_728x90;
++(HyBidAdSize *)SIZE_160x600;
++(HyBidAdSize *)SIZE_250x250;
++(HyBidAdSize *)SIZE_300x600;
++(HyBidAdSize *)SIZE_320x100;
++(HyBidAdSize *)SIZE_480x320;
++(HyBidAdSize *)SIZE_INTERSTITIAL;
++(HyBidAdSize *)SIZE_NATIVE;
+
+@end
+

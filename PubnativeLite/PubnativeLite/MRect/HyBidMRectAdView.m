@@ -34,7 +34,7 @@
 }
 
 - (instancetype)init {
-    self = [super initWithSize:SIZE_300x250];
+    self = [super initWithSize:HyBidAdSize.SIZE_300x250];
     if (self) {
         self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
     }

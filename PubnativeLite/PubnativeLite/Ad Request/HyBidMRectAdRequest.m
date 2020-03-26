@@ -24,8 +24,8 @@
 
 @implementation HyBidMRectAdRequest
 
-- (HyBidAdSize)adSize {
-    return SIZE_300x250;
+- (HyBidAdSize*)adSize {
+    return HyBidAdSize.SIZE_300x250;
 }
 
 @end

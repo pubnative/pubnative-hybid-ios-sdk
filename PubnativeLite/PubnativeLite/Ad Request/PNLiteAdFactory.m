@@ -31,7 +31,7 @@
 @implementation PNLiteAdFactory
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(HyBidAdSize)adSize
+                                      andWithAdSize:(HyBidAdSize*)adSize
                              andWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;

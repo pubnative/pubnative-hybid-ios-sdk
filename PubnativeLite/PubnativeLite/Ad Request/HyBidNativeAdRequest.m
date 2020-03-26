@@ -24,8 +24,8 @@
 
 @implementation HyBidNativeAdRequest
 
-- (HyBidAdSize)adSize {
-    return SIZE_NATIVE;
+- (HyBidAdSize*)adSize {
+    return HyBidAdSize.SIZE_NATIVE;
 }
 
 @end
