@@ -24,7 +24,7 @@
 
 @implementation HyBidInterstitialAdRequest
 
-- (HyBidAdSize*)adSize {
+- (HyBidAdSize *)adSize {
     return HyBidAdSize.SIZE_INTERSTITIAL;
 }
 

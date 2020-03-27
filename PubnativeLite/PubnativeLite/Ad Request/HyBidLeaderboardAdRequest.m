@@ -24,7 +24,7 @@
 
 @implementation HyBidLeaderboardAdRequest
 
-- (HyBidAdSize*)adSize {
+- (HyBidAdSize *)adSize {
     return HyBidAdSize.SIZE_728x90;
 }
 

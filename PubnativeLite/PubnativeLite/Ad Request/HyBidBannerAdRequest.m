@@ -24,7 +24,7 @@
 
 @implementation HyBidBannerAdRequest
 
-- (HyBidAdSize*)adSize {
+- (HyBidAdSize *)adSize {
     return HyBidAdSize.SIZE_320x50;
 }
 

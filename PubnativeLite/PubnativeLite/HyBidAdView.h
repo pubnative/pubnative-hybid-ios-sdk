@@ -44,7 +44,7 @@
 @property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 
-- (instancetype)initWithSize:(HyBidAdSize*)adSize NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 //- (instancetype)init NS_UNAVAILABLE;

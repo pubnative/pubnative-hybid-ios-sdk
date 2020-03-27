@@ -46,7 +46,7 @@
     self.adRequest = [[HyBidAdRequest alloc] init];
 }
 
-- (instancetype)initWithSize:(HyBidAdSize*)adSize {
+- (instancetype)initWithSize:(HyBidAdSize *)adSize {
     self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
     if (self) {
         self.adRequest = [[HyBidAdRequest alloc] init];
