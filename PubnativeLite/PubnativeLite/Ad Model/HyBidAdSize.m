@@ -22,23 +22,32 @@
 
 #import "HyBidAdSize.h"
 
+@interface HyBidAdSize()
+
+@property (nonatomic, assign) NSInteger adWidth;
+@property (nonatomic, assign) NSInteger adHeight;
+@property (nonatomic, strong) NSString *adLayoutSize;
+
+@end
+
 @implementation HyBidAdSize
 
 - (void)dealloc {
     self.adLayoutSize = nil;
 }
 
-- (id)initWithWidth:(NSInteger)width height:(NSInteger)height adLayoutSize: (NSString*)adLayoutSize
-{
+- (id)initWithWidth:(NSInteger)width height:(NSInteger)height adLayoutSize: (NSString*)adLayoutSize {
      self = [super init];
      if (self) {
-         self.width = width;
-         self.height = height;
+         self.adWidth = width;
+         self.adHeight = height;
          self.adLayoutSize = adLayoutSize;
      }
      return self;
 }
-
+- (NSInteger)width { return self.adWidth; }
+- (NSInteger)height { return self.adHeight; }
+- (NSString *)layoutSize {return self.adLayoutSize; }
 + (HyBidAdSize *)SIZE_320x50 { return [[HyBidAdSize alloc] initWithWidth:320 height:50 adLayoutSize:@"s"]; }
 + (HyBidAdSize *)SIZE_300x250 { return [[HyBidAdSize alloc] initWithWidth:300 height:250 adLayoutSize:@"m"]; }
 + (HyBidAdSize *)SIZE_300x50 { return [[HyBidAdSize alloc] initWithWidth:300 height:50 adLayoutSize:@"s"]; }

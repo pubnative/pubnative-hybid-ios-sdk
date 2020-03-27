@@ -24,9 +24,9 @@
 
 @interface HyBidAdSize: NSObject
 
-@property (nonatomic, assign) NSInteger width;///< The ad width. Don't modify this value directly.
-@property (nonatomic, assign) NSInteger height;///< The ad height. Don't modify this value directly.
-@property (nonatomic, strong) NSString *adLayoutSize;///< The ad layout. Don't modify this value directly
+@property (nonatomic, assign, readonly) NSInteger width;
+@property (nonatomic, assign, readonly) NSInteger height;
+@property (nonatomic, strong, readonly) NSString *layoutSize;
 
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_320x50;
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_300x250;
