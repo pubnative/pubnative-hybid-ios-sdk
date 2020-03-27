@@ -66,7 +66,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
     self.leaderboardAdRequest = [[HyBidAdRequest alloc] init];
-    self.leaderboardAdRequest.adSize = SIZE_728x90;
+    self.leaderboardAdRequest.adSize = HyBidAdSize.SIZE_728x90;
     [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 

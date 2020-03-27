@@ -36,6 +36,7 @@
 
 - (void)dealloc {
     self.bannerAdView = nil;
+    self.adSize = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
@@ -67,8 +68,8 @@
     return NO;
 }
 
-- (HyBidAdSize)adSize {
-    return SIZE_320x50;
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_320x50;
 }
 
 #pragma mark - HyBidAdViewDelegate

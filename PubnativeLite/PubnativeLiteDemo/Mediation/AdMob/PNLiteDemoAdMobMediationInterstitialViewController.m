@@ -69,6 +69,7 @@
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     NSLog(@"interstitialDidReceiveAd");
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     if (self.adMobInterstitial.isReady) {
         [self.adMobInterstitial presentFromRootViewController:self];
@@ -79,6 +80,7 @@
 
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }

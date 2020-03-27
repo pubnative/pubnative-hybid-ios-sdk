@@ -74,6 +74,7 @@ NSInteger const kDefaultBannerZoneId = 2;
     self.delegate = nil;
     self.adFactory = nil;
     self.vrvAdFactory = nil;
+    self.adSize = nil;
 }
 
 - (instancetype)init {
@@ -81,7 +82,7 @@ NSInteger const kDefaultBannerZoneId = 2;
     if (self) {
         self.adFactory = [[PNLiteAdFactory alloc] init];
         self.vrvAdFactory = [[VrvAdFactory alloc] init];
-        self.adSize = SIZE_320x50;
+        self.adSize = HyBidAdSize.SIZE_320x50;
     }
     return self;
 }

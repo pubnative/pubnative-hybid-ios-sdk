@@ -37,7 +37,7 @@
 
 @interface HyBidAdRequest : NSObject
 
-@property (nonatomic, assign) HyBidAdSize adSize;
+@property (nonatomic, strong) HyBidAdSize *adSize;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)setIntegrationType:(IntegrationType)integrationType;

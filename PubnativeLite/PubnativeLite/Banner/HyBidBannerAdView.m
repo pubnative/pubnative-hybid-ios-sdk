@@ -34,7 +34,7 @@
 }
 
 - (instancetype)init {
-    self = [super initWithSize:SIZE_320x50];
+    self = [super initWithSize:HyBidAdSize.SIZE_320x50];
     if (self) {
         self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
     }
