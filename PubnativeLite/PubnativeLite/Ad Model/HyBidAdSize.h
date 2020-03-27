@@ -30,20 +30,20 @@
 
 - (id)initWithWidth:(NSInteger)width height:(NSInteger)height adLayoutSize: (NSString*)adLayoutSize;
 
-+ (HyBidAdSize *)SIZE_320x50;
-+ (HyBidAdSize *)SIZE_300x250;
-+ (HyBidAdSize *)SIZE_300x50;
-+ (HyBidAdSize *)SIZE_320x480;
-+ (HyBidAdSize *)SIZE_1024x768;
-+ (HyBidAdSize *)SIZE_768x1024;
-+ (HyBidAdSize *)SIZE_728x90;
-+ (HyBidAdSize *)SIZE_160x600;
-+ (HyBidAdSize *)SIZE_250x250;
-+ (HyBidAdSize *)SIZE_300x600;
-+ (HyBidAdSize *)SIZE_320x100;
-+ (HyBidAdSize *)SIZE_480x320;
-+ (HyBidAdSize *)SIZE_INTERSTITIAL;
-+ (HyBidAdSize *)SIZE_NATIVE;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_320x50;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_300x250;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_300x50;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_320x480;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_1024x768;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_768x1024;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_728x90;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_160x600;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_250x250;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_300x600;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_320x100;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_480x320;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_INTERSTITIAL;
+@property (class, nonatomic, readonly) HyBidAdSize *SIZE_NATIVE;
 
 @end
 

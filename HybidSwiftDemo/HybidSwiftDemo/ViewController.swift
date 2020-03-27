@@ -14,8 +14,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let view = HyBidAdView(size: HyBidAdSize.size_300x50())
-        
+        let view = HyBidAdView(size: HyBidAdSize.size_320x50)
+        let adRequest = HyBidAdRequest()
+        adRequest.adSize = HyBidAdSize.size_320x50
     }
 
 

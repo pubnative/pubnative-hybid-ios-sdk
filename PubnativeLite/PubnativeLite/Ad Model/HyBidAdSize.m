@@ -39,61 +39,21 @@
      return self;
 }
 
-+ (HyBidAdSize *)SIZE_320x50 {
-    return [[HyBidAdSize alloc]initWithWidth:320 height:50 adLayoutSize:@"s"];
-}
++ (HyBidAdSize *)SIZE_320x50 { return [[HyBidAdSize alloc] initWithWidth:320 height:50 adLayoutSize:@"s"]; }
++ (HyBidAdSize *)SIZE_300x250 { return [[HyBidAdSize alloc] initWithWidth:300 height:250 adLayoutSize:@"m"]; }
++ (HyBidAdSize *)SIZE_300x50 { return [[HyBidAdSize alloc] initWithWidth:300 height:50 adLayoutSize:@"s"]; }
++ (HyBidAdSize *)SIZE_320x480 { return [[HyBidAdSize alloc] initWithWidth:320 height:480 adLayoutSize:@"l"]; }
++ (HyBidAdSize *)SIZE_1024x768 { return [[HyBidAdSize alloc] initWithWidth:1024 height:768 adLayoutSize:@"l"]; }
++ (HyBidAdSize *)SIZE_768x1024 { return [[HyBidAdSize alloc] initWithWidth:768 height:1024 adLayoutSize:@"l"]; }
++ (HyBidAdSize *)SIZE_728x90 { return [[HyBidAdSize alloc] initWithWidth:728 height:90 adLayoutSize:@"s"]; }
++ (HyBidAdSize *)SIZE_160x600 { return [[HyBidAdSize alloc] initWithWidth:160 height:600 adLayoutSize:@"m"]; }
++ (HyBidAdSize *)SIZE_250x250 { return [[HyBidAdSize alloc] initWithWidth:250 height:250 adLayoutSize:@"m"]; }
++ (HyBidAdSize *)SIZE_300x600 { return [[HyBidAdSize alloc] initWithWidth:300 height:600 adLayoutSize:@"l"]; }
++ (HyBidAdSize *)SIZE_320x100 { return [[HyBidAdSize alloc] initWithWidth:320 height:100 adLayoutSize:@"s"]; }
++ (HyBidAdSize *)SIZE_480x320 { return [[HyBidAdSize alloc] initWithWidth:480 height:320 adLayoutSize:@"l"]; }
++ (HyBidAdSize *)SIZE_INTERSTITIAL { return [[HyBidAdSize alloc] initWithWidth:0 height:0 adLayoutSize:@"l"]; }
++ (HyBidAdSize *)SIZE_NATIVE { return [[HyBidAdSize alloc] initWithWidth:-1 height:-1 adLayoutSize:@"native"]; }
 
-+ (HyBidAdSize *)SIZE_300x250 {
-    return [[HyBidAdSize alloc]initWithWidth:300 height:250 adLayoutSize:@"m"];
-}
-
-+ (HyBidAdSize *)SIZE_300x50 {
-    return [[HyBidAdSize alloc]initWithWidth:300 height:50 adLayoutSize:@"s"];
-}
-
-+ (HyBidAdSize *)SIZE_320x480 {
-    return [[HyBidAdSize alloc]initWithWidth:320 height:480 adLayoutSize:@"l"];
-}
-
-+ (HyBidAdSize *)SIZE_1024x768 {
-    return [[HyBidAdSize alloc]initWithWidth:1024 height:768 adLayoutSize:@"l"];
-}
-
-+ (HyBidAdSize *)SIZE_768x1024 {
-    return [[HyBidAdSize alloc]initWithWidth:768 height:1024 adLayoutSize:@"l"];
-}
-
-+ (HyBidAdSize *)SIZE_728x90 {
-    return [[HyBidAdSize alloc]initWithWidth:728 height:90 adLayoutSize:@"s"];
-}
-
-+ (HyBidAdSize *)SIZE_160x600 {
-    return [[HyBidAdSize alloc]initWithWidth:160 height:600 adLayoutSize:@"m"];
-}
-
-+ (HyBidAdSize *)SIZE_250x250 {
-    return [[HyBidAdSize alloc]initWithWidth:250 height:250 adLayoutSize:@"m"];
-}
-
-+ (HyBidAdSize *)SIZE_300x600 {
-    return [[HyBidAdSize alloc]initWithWidth:300 height:600 adLayoutSize:@"l"];
-}
-
-+ (HyBidAdSize *)SIZE_320x100 {
-    return [[HyBidAdSize alloc]initWithWidth:320 height:100 adLayoutSize:@"s"];
-}
-
-+ (HyBidAdSize *)SIZE_480x320 {
-    return [[HyBidAdSize alloc]initWithWidth:480 height:320 adLayoutSize:@"l"];
-}
-
-+ (HyBidAdSize *)SIZE_INTERSTITIAL {
-    return [[HyBidAdSize alloc]initWithWidth:0 height:0 adLayoutSize:@"l"];
-}
-
-+ (HyBidAdSize *)SIZE_NATIVE {
-    return [[HyBidAdSize alloc]initWithWidth:-1 height:-1 adLayoutSize:@"native"];
-}
 @end
 
 //
