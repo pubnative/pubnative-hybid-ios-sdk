@@ -24,6 +24,10 @@
 
 @implementation HyBidAdSize
 
+- (void)dealloc {
+    self.adLayoutSize = nil;
+}
+
 - (id)initWithWidth:(NSInteger)width height:(NSInteger)height adLayoutSize: (NSString*)adLayoutSize
 {
      self = [super init];
