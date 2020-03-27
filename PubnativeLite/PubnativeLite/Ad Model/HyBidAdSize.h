@@ -28,8 +28,6 @@
 @property (nonatomic, assign) NSInteger height;///< The ad height. Don't modify this value directly.
 @property (nonatomic, strong) NSString *adLayoutSize;///< The ad layout. Don't modify this value directly
 
-- (id)initWithWidth:(NSInteger)width height:(NSInteger)height adLayoutSize: (NSString*)adLayoutSize;
-
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_320x50;
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_300x250;
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_300x50;
