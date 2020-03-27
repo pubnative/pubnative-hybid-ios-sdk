@@ -51,6 +51,7 @@
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
+    [adView show];
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
