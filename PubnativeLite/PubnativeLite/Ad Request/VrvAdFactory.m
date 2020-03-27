@@ -11,7 +11,7 @@
 
 @implementation VrvAdFactory
 
-- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize)adSize {
+- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *) zoneID withAdSize:(HyBidAdSize*) adSize {
     VrvAdRequestModel *adRequestModel = [[VrvAdRequestModel alloc] init];
     // Portal keyword
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
@@ -33,7 +33,7 @@
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
     }
     
-    if (![adSize.adLayoutSize isEqualToString:@"native"]) {
+    if (![adSize.layoutSize isEqualToString:@"native"]) {
         if (adSize.width != 0 && adSize.height != 0) {
             adRequestModel.requestParameters[@"size"] = [NSString stringWithFormat:@"%ldx%ld", adSize.width, adSize.height];
         }

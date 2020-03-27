@@ -12,7 +12,7 @@
 
 @interface VrvAdFactory : NSObject
 
-- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *)zoneID
-         withAdSize:(HyBidAdSize)adSize;
+- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *) zoneID
+         withAdSize:(HyBidAdSize*) adSize;
 
 @end
