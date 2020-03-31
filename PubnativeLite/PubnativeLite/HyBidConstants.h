@@ -24,6 +24,6 @@
 #define HyBidConstants_h
 
 #define HYBID_SDK_NAME @"HyBid"
-#define HYBID_SDK_VERSION @"1.4.1"
+#define HYBID_SDK_VERSION @"1.4.4"
 
 #endif
