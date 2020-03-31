@@ -66,7 +66,11 @@
 
 - (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
     [self.delegate customEventInterstitialWillPresent:self];
-    [self.interstitialPresenter show];
+    if ([self.interstitialPresenter respondsToSelector:@selector(showFromViewController:)]) {
+        [self.interstitialPresenter showFromViewController:rootViewController];
+    } else {
+        [self.interstitialPresenter show];
+    }
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {

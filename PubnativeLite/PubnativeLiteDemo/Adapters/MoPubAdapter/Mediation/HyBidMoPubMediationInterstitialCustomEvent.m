@@ -56,7 +56,11 @@
 
 - (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
     [self.delegate interstitialCustomEventWillAppear:self];
-    [self.interstitialAd show];
+    if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
+        [self.interstitialAd showFromViewController:rootViewController];
+    } else {
+        [self.interstitialAd show];
+    }
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
