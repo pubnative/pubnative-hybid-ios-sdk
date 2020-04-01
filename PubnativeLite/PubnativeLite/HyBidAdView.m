@@ -81,7 +81,7 @@
     }
 }
 
-- (void)loadWithDelegate: (NSObject<HyBidAdViewDelegate> *)delegate {
+- (void)loadWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
     self.adRequest.adSize = self.adSize;

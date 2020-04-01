@@ -41,6 +41,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (void)dealloc {
     self.data = nil;
     self.contentInfoView = nil;
+    self.assetGroupID = nil;
 }
 
 #pragma mark HyBidAd
@@ -59,7 +60,7 @@ NSString *const kImpressionQuerryParameter = @"t";
         HyBidAdModel *model = [[HyBidAdModel alloc] init];
         NSString *apiAsset = PNLiteAsset.htmlBanner;
         NSMutableArray *assets = [[NSMutableArray alloc] init];
-        
+
         NSDictionary *rawResponse = [xml valueForKey:@"rawResponse"];
         
         if (rawResponse && [rawResponse valueForKey:@"useRawResponse"] && [[rawResponse valueForKey:@"useRawResponse"] boolValue]) {

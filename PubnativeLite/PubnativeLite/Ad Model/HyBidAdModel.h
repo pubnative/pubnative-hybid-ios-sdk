@@ -29,8 +29,8 @@
 @property (nonatomic, strong) NSString *link;
 @property (nonatomic, strong) NSNumber *assetgroupid;
 @property (nonatomic, strong) NSMutableArray<HyBidDataModel*> *assets;
-@property (nonatomic, strong) NSMutableArray<HyBidDataModel*> *beacons;
-@property (nonatomic, strong) NSMutableArray<HyBidDataModel*> *meta;
+@property (nonatomic, strong) NSArray<HyBidDataModel*> *beacons;
+@property (nonatomic, strong) NSArray<HyBidDataModel*> *meta;
 
 - (HyBidDataModel *)assetWithType:(NSString *)type;
 - (HyBidDataModel *)metaWithType:(NSString *)type;
