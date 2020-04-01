@@ -46,8 +46,8 @@ NSInteger const kRequestVerveResponded = 3001;
 NSInteger const kRequestPubNativeResponded = 3002;
 NSInteger const kRequestWinnerPicked = 3003;
 
-NSInteger const kDefaultMRectZoneId = 5;
-NSInteger const kDefaultBannerZoneId = 2;
+NSInteger const kDefaultMRectZoneID = 5;
+NSInteger const kDefaultBannerZoneID = 2;
 
 @interface HyBidAdRequest () <PNLiteHttpRequestDelegate>
 
@@ -87,26 +87,27 @@ NSInteger const kDefaultBannerZoneId = 2;
     return self;
 }
 
+- (NSString *)determineZoneIDForAdSize:(HyBidAdSize *)adSize {
+    if (self.adSize == HyBidAdSize.SIZE_320x50 || self.adSize == HyBidAdSize.SIZE_320x100) {
+        return [@(kDefaultBannerZoneID) stringValue];
+    } else if (self.adSize == HyBidAdSize.SIZE_300x250 || self.adSize == HyBidAdSize.SIZE_728x90){
+        return [@(kDefaultMRectZoneID) stringValue];
+    } else {
+        return [@(kDefaultMRectZoneID) stringValue];
+    }
+}
+
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     self.zoneID = zoneID;
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
-    self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModelWithIntegrationType:integrationType]];
+    self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModel]];
     self.isSetIntegrationTypeCalled = YES;
 }
 
-- (void)setIntegrationType: (IntegrationType)integrationType {
-    
-    // This should be improved
-    if ((self.adSize.width == 320 && self.adSize.height == 50) || (self.adSize.width == 320 && self.adSize.height == 100)) {
-        self.zoneID = [@(kDefaultBannerZoneId) stringValue];
-    } else if ((self.adSize.width == 300 && self.adSize.height == 250) || (self.adSize.width == 728 && self.adSize.height == 90)) {
-        self.zoneID = [@(kDefaultMRectZoneId) stringValue];
-    } else {
-        self.zoneID = [@(kDefaultBannerZoneId) stringValue];
-    }
-    
+- (void)setIntegrationType:(IntegrationType)integrationType {
+    self.zoneID = [self determineZoneIDForAdSize:self.adSize];
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
-    self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModelWithIntegrationType:integrationType]];
+    self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModel]];
     self.isSetIntegrationTypeCalled = YES;
 }
 
@@ -148,15 +149,7 @@ NSInteger const kDefaultBannerZoneId = 2;
     else {
         self.startTime = [NSDate date];
         self.delegate = delegate;
-        // This should be improved
-        if ((self.adSize.width == 320 && self.adSize.height == 50) || (self.adSize.width == 320 && self.adSize.height == 100)) {
-            self.zoneID = [@(kDefaultBannerZoneId) stringValue];
-        } else if ((self.adSize.width == 300 && self.adSize.height == 250) || (self.adSize.width == 728 && self.adSize.height == 90)) {
-            self.zoneID = [@(kDefaultMRectZoneId) stringValue];
-        } else {
-            self.zoneID = [@(kDefaultBannerZoneId) stringValue];
-        }
-        
+        self.zoneID = [self determineZoneIDForAdSize:self.adSize];
         self.isRunning = YES;
         [self invokeDidStart];
         
@@ -180,9 +173,9 @@ NSInteger const kDefaultBannerZoneId = 2;
                               andWithIntegrationType:integrationType];
 }
 
-- (VrvAdRequestModel *)createVrvAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
+- (VrvAdRequestModel *)createVrvAdRequestModel {
     VrvAdRequestModel *vrvRequestModel = [self.vrvAdFactory createVrvAdRequestWithZoneID:self.zoneID
-    withAdSize:[self adSize]];
+                                                                              withAdSize:[self adSize]];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vrvRequestURLFromAdRequestModel: vrvRequestModel].absoluteString]];
     return vrvRequestModel;
 }
@@ -272,7 +265,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                                                  code:0
                                              userInfo:nil];
             if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"PApi has failure but VAPI was faster.");
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
 
@@ -290,7 +283,7 @@ NSInteger const kDefaultBannerZoneId = 2;
             }
             if (responseAdArray.count > 0) {
                 if (self.requestStatus == kRequestWinnerPicked) {
-                    NSLog(@"PAPI responded but VAPI was faster.");
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI responded but VAPI was faster."];
                     return;
                 }
                 
@@ -302,7 +295,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                                                      code:0
                                                  userInfo:nil];
                 if (self.requestStatus == kRequestWinnerPicked) {
-                    NSLog(@"PApi did not fill but VAPI was faster.");
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI did not fill but VAPI was faster."];
                     return;
                 }
 
@@ -318,7 +311,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                                                          code:0
                                                      userInfo:nil];
             if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"PApi has failure but VAPI was faster.");
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
 
@@ -340,7 +333,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                                                  code:0
                                              userInfo:nil];
             if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"VAPI has failure but PAPI was faster.");
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
 
@@ -358,7 +351,7 @@ NSInteger const kDefaultBannerZoneId = 2;
             
             if (responseAdArray.count > 0) {
                 if (self.requestStatus == kRequestWinnerPicked) {
-                    NSLog(@"VAPI has response but PAPI was faster.");
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has response but PAPI was faster."];
                     return;
                 }
                 
@@ -370,7 +363,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                                                      code:0
                                                  userInfo:nil];
                 if (self.requestStatus == kRequestWinnerPicked) {
-                    NSLog(@"VAPI did not fill but PAPI was faster.");
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI did not fill but PAPI was faster."];
                     return;
                 }
 
@@ -386,7 +379,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                                                          code:0
                                                      userInfo:nil];
             if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"VAPI has failure but PAPI was faster.");
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
 
@@ -418,7 +411,7 @@ NSInteger const kDefaultBannerZoneId = 2;
         } else {
             NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
             if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"PApi has failure but VAPI was faster.");
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
 
@@ -442,7 +435,7 @@ NSInteger const kDefaultBannerZoneId = 2;
         } else {
             NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
             if (self.requestStatus == kRequestWinnerPicked) {
-                NSLog(@"VAPI has failure but PAPI was faster.");
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
 
@@ -461,7 +454,7 @@ NSInteger const kDefaultBannerZoneId = 2;
                                                                withResponse:error.localizedDescription
                                                                 withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
         if (self.requestStatus == kRequestWinnerPicked) {
-            NSLog(@"PApi has failure but VAPI was faster.");
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
             return;
         }
 
@@ -472,7 +465,7 @@ NSInteger const kDefaultBannerZoneId = 2;
         }
     } else if (request.urlString == self.vrvRequestURL.absoluteString) {
         if (self.requestStatus == kRequestWinnerPicked) {
-            NSLog(@"VAPI has failure but PAPI was faster.");
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
             return;
         }
 

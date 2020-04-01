@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <HyBid/HyBid.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface AdSdkDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *appToken;
@@ -19,5 +17,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (AdSdkDemoSettings *)sharedInstance;
 
 @end
-
-NS_ASSUME_NONNULL_END
