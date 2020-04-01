@@ -49,7 +49,7 @@
     
     if (![adSize.layoutSize isEqualToString:@"native"]) {
         if (adSize.width != 0 && adSize.height != 0) {
-            adRequestModel.requestParameters[@"size"] = [NSString stringWithFormat:@"%ldx%ld", adSize.width, adSize.height];
+            adRequestModel.requestParameters[@"size"] = [NSString stringWithFormat:@"%ldx%ld", (long)adSize.width, (long)adSize.height];
         }
     }
 
