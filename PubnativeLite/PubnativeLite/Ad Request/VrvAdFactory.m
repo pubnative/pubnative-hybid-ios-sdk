@@ -45,6 +45,12 @@
     if (![HyBidSettings sharedInstance].coppa) {
         adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
+        
+        NSString* lat = [NSString stringWithFormat:@"%f", [HyBidSettings sharedInstance].location.coordinate.latitude];
+        NSString* longi = [NSString stringWithFormat:@"%f", [HyBidSettings sharedInstance].location.coordinate.longitude];
+        
+        adRequestModel.requestParameters[@"lat"] = lat;
+        adRequestModel.requestParameters[@"long"] = longi;
     }
     
     if (![adSize.layoutSize isEqualToString:@"native"]) {
@@ -52,7 +58,7 @@
             adRequestModel.requestParameters[@"size"] = [NSString stringWithFormat:@"%ldx%ld", (long)adSize.width, (long)adSize.height];
         }
     }
-
+    
     return adRequestModel;
 }
 

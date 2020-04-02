@@ -18,9 +18,11 @@
 
 @implementation FirstViewController
 
+CLLocationManager *locationManager;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self requestLocation];
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
@@ -30,6 +32,12 @@
 - (void)requestAd {
     self.bannerAdView.adSize = HyBidAdSize.SIZE_320x50;
     [self.bannerAdView loadWithDelegate:self];
+}
+
+-(void)requestLocation {
+    locationManager = [[CLLocationManager alloc] init];
+    [locationManager requestWhenInUseAuthorization];
+    [locationManager startUpdatingLocation];
 }
 
 - (void)showAlertControllerWithMessage:(NSString *)message {
