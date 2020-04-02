@@ -27,13 +27,19 @@
 
 @property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
 @property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
+@property (nonatomic,strong)CLLocationManager *locationManager;
 
 @end
 
 @implementation BannerViewController
 
+- (void)dealloc {
+    self.locationManager = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self requestLocation];
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
@@ -43,6 +49,14 @@
 - (void)requestAd {
     self.bannerAdView.adSize = HyBidAdSize.SIZE_320x50;
     [self.bannerAdView loadWithDelegate:self];
+}
+
+- (void)requestLocation {
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self.locationManager startUpdatingLocation];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (void)showAlertControllerWithMessage:(NSString *)message {
