@@ -45,6 +45,11 @@
      }
      return self;
 }
+
+- (BOOL)isEqualTo:(HyBidAdSize *)hyBidAdSize {
+    return (self.adHeight == hyBidAdSize.adHeight && self.adWidth == hyBidAdSize.adWidth && [self.adLayoutSize isEqualToString:hyBidAdSize.adLayoutSize]);
+}
+
 - (NSInteger)width { return self.adWidth; }
 - (NSInteger)height { return self.adHeight; }
 - (NSString *)layoutSize {return self.adLayoutSize; }
@@ -64,18 +69,3 @@
 + (HyBidAdSize *)SIZE_NATIVE { return [[HyBidAdSize alloc] initWithWidth:-1 height:-1 adLayoutSize:@"native"]; }
 
 @end
-
-//
-//const HyBidAdSize *SIZE_300x250 = {300, 250, @"m"};
-//const HyBidAdSize *SIZE_300x50 = {300, 50, @"s"};
-//const HyBidAdSize *SIZE_320x480 = {320, 480, @"l"};
-//const HyBidAdSize *SIZE_1024x768 = {1024, 768, @"l"};
-//const HyBidAdSize *SIZE_768x1024 = {768, 1024, @"l"};
-//const HyBidAdSize *SIZE_728x90 = {728, 90, @"s"};
-//const HyBidAdSize *SIZE_160x600 = {160, 600, @"m"};
-//const HyBidAdSize *SIZE_250x250 = {250, 250, @"m"};
-//const HyBidAdSize *SIZE_300x600 = {300, 600, @"l"};
-//const HyBidAdSize *SIZE_320x100 = {320, 100, @"s"};
-//const HyBidAdSize *SIZE_480x320 = {480, 320, @"l"};
-//const HyBidAdSize *SIZE_INTERSTITIAL = {0, 0, @"l"};
-//const HyBidAdSize *SIZE_NATIVE = {-1, -1, @"native"};

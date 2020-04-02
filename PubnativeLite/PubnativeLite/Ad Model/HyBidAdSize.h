@@ -43,5 +43,7 @@
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_INTERSTITIAL;
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_NATIVE;
 
+- (BOOL)isEqualTo:(HyBidAdSize *)hyBidAdSize;
+
 @end
 

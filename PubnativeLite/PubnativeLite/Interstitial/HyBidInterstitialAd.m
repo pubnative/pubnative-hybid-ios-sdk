@@ -50,6 +50,16 @@
     self.ad = nil;
 }
 
+- (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
+    self = [super init];
+    if (self) {
+        self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+        self.interstitialAdRequest.adSize = HyBidAdSize.SIZE_INTERSTITIAL;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
     self = [super init];
     if (self) {
@@ -62,13 +72,10 @@
 
 - (void)load {
     [self cleanUp];
-    if (!self.zoneID || self.zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
-    } else {
-        self.isReady = NO;
-        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-        [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
-    }
+    self.isReady = NO;
+    [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+    
 }
 
 - (void)show {

@@ -25,7 +25,7 @@
 
 @implementation VrvAdFactory
 
-- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *) zoneID withAdSize:(HyBidAdSize*) adSize {
+- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize*)adSize {
     VrvAdRequestModel *adRequestModel = [[VrvAdRequestModel alloc] init];
     // Portal keyword
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
@@ -50,10 +50,21 @@
     if (![adSize.layoutSize isEqualToString:@"native"]) {
         if (adSize.width != 0 && adSize.height != 0) {
             adRequestModel.requestParameters[@"size"] = [NSString stringWithFormat:@"%ldx%ld", (long)adSize.width, (long)adSize.height];
+        } else {
+            adRequestModel.requestParameters[@"size"] = @"320x416";
+            [self setInterstitialParameterForAdRequestModel:adRequestModel];
         }
     }
 
     return adRequestModel;
+}
+
+- (void)setInterstitialParameterForAdRequestModel:(VrvAdRequestModel *)adRequestModel {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        adRequestModel.requestParameters[@"adunit"] = @"tinter";
+    } else {
+        adRequestModel.requestParameters[@"adunit"] = @"inter";
+    }
 }
 
 - (void)setIDFA:(VrvAdRequestModel *)adRequestModel {

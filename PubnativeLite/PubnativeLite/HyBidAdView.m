@@ -85,8 +85,8 @@
     [self cleanUp];
     self.delegate = delegate;
     self.adRequest.adSize = self.adSize;
-    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE];
-    [self.adRequest requestAdWithDelegate:self];
+    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:nil];
+    [self.adRequest requestAdWithDelegate:self withZoneID:nil];
 }
 
 - (void) show {

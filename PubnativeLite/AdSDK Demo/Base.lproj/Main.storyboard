@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,7 +11,7 @@
         <!--Banner-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="FirstViewController" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" customClass="BannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -43,19 +44,19 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Banner" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Banner" image="b.square.fill" catalog="system" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="bannerAdView" destination="gmO-hN-8it" id="PZb-S2-LEE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-320"/>
+            <point key="canvasLocation" x="1274" y="-639"/>
         </scene>
         <!--MRect-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" customClass="MRectViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -88,14 +89,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="MRect" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="MRect" image="m.square.fill" catalog="system" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="bannerAdView" destination="VUA-iL-pRI" id="TvA-FK-hZ4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="360"/>
+            <point key="canvasLocation" x="1297" y="19"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -109,15 +110,50 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="kWO-0A-xte" kind="relationship" relationship="viewControllers" id="SDO-1y-ga9"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
+        <!--Interstitial-->
+        <scene sceneID="LcL-bh-SvF">
+            <objects>
+                <viewController id="kWO-0A-xte" userLabel="Interstitial" customClass="InterstitialViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AHw-SJ-6BX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aY0-90-EVZ">
+                                <rect key="frame" x="20" y="64" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Load Interstitial"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="TV4-LI-6XH"/>
+                                    <action selector="requestInterstitialTouchUpInside:" destination="kWO-0A-xte" eventType="touchUpInside" id="d2r-zN-S4q"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="w1h-2C-7oY" firstAttribute="trailing" secondItem="aY0-90-EVZ" secondAttribute="trailing" constant="20" id="1BM-8F-VZX"/>
+                            <constraint firstItem="aY0-90-EVZ" firstAttribute="leading" secondItem="w1h-2C-7oY" secondAttribute="leading" constant="20" id="1lO-51-CU1"/>
+                            <constraint firstItem="aY0-90-EVZ" firstAttribute="centerX" secondItem="AHw-SJ-6BX" secondAttribute="centerX" id="6fK-Wx-H28"/>
+                            <constraint firstItem="aY0-90-EVZ" firstAttribute="top" secondItem="w1h-2C-7oY" secondAttribute="top" constant="20" id="Z3f-uc-shh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="w1h-2C-7oY"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Interstitial" image="i.square.fill" catalog="system" id="ltg-N4-Fyo" userLabel="Interstitial"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1bh-Rf-Ygg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1295.6521739130435" y="758.70535714285711"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="b.square.fill" catalog="system" width="64" height="56"/>
+        <image name="i.square.fill" catalog="system" width="64" height="56"/>
+        <image name="m.square.fill" catalog="system" width="64" height="56"/>
     </resources>
 </document>
