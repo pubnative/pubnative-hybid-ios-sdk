@@ -22,6 +22,7 @@
 
 #import "VrvAdFactory.h"
 #import "HyBidSettings.h"
+#import "LocationEncoding.h"
 
 @implementation VrvAdFactory
 
@@ -45,6 +46,16 @@
     if (![HyBidSettings sharedInstance].coppa) {
         adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
+        
+        //location params
+        CLLocation* location = [HyBidSettings sharedInstance].location;
+        NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+        NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        
+        adRequestModel.requestParameters[@"lat"] = lat;
+        adRequestModel.requestParameters[@"long"] = longi;
+        adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
+        adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
     }
     
     if (![adSize.layoutSize isEqualToString:@"native"]) {
@@ -52,7 +63,7 @@
             adRequestModel.requestParameters[@"size"] = [NSString stringWithFormat:@"%ldx%ld", (long)adSize.width, (long)adSize.height];
         }
     }
-
+    
     return adRequestModel;
 }
 
