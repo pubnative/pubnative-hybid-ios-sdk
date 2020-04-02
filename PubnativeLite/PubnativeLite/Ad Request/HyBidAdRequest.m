@@ -134,7 +134,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
         [self invokeDidStart];
         
         if (!self.isSetIntegrationTypeCalled) {
-            [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
+            [self setIntegrationType:HEADER_BIDDING withZoneID:self.zoneID];
         }
 
         self.requestStatus = kRequestBothPending;
