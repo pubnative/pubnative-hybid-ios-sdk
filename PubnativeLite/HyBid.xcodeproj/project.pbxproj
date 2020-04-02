@@ -682,6 +682,8 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
+		7E2DA6EF2436234F0013841B /* LocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* LocationEncoding.h */; };
+		7E2DA6F02436234F0013841B /* LocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* LocationEncoding.m */; };
 		E7218DD52428C3D500968314 /* VrvAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VrvAdRequestModel.h */; };
 		E7218DD62428C3D500968314 /* VrvAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VrvAdRequestModel.m */; };
 		E7218DD92428C69F00968314 /* VrvAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VrvAdFactory.h */; };
@@ -1740,6 +1742,8 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
+		7E2DA6ED2436234E0013841B /* LocationEncoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationEncoding.h; sourceTree = "<group>"; };
+		7E2DA6EE2436234E0013841B /* LocationEncoding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationEncoding.m; sourceTree = "<group>"; };
 		E7218DD32428C3D500968314 /* VrvAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdRequestModel.h; sourceTree = "<group>"; };
 		E7218DD42428C3D500968314 /* VrvAdRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvAdRequestModel.m; sourceTree = "<group>"; };
 		E7218DD72428C69F00968314 /* VrvAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdFactory.h; sourceTree = "<group>"; };
@@ -1834,6 +1838,8 @@
 				5ADB0FB420AF0B77005BDAF5 /* Country */,
 				E7956151242B6CAB0052693A /* XMLDictionary.h */,
 				E7956152242B6CAB0052693A /* XMLDictionary.m */,
+				7E2DA6ED2436234E0013841B /* LocationEncoding.h */,
+				7E2DA6EE2436234E0013841B /* LocationEncoding.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3598,6 +3604,7 @@
 				5A8F10E22089E4D20098E337 /* NSDictionary+PNLite_Merge.h in Headers */,
 				5A8F11012089E4D20098E337 /* PNLite_KSSystemCapabilities.h in Headers */,
 				5A8F10C12089E4D20098E337 /* PNLiteBreadcrumb.h in Headers */,
+				7E2DA6EF2436234F0013841B /* LocationEncoding.h in Headers */,
 				5AC35B3C214A6B5B001F0ED3 /* HyBidNativeAd.h in Headers */,
 				5A8F10D22089E4D20098E337 /* PNLite_KSFileUtils.h in Headers */,
 				5A8F10B52089E4D20098E337 /* PNLiteKeys.h in Headers */,
@@ -4344,6 +4351,7 @@
 				5A8F10F12089E4D20098E337 /* PNLite_KSZombie.c in Sources */,
 				5ADF9E94214956FF0081355E /* HyBidAdCache.m in Sources */,
 				5A8F11162089E4D20098E337 /* PNLite_KSCrashReport.c in Sources */,
+				7E2DA6F02436234F0013841B /* LocationEncoding.m in Sources */,
 				5A8F10AF2089E4D20098E337 /* PNLiteUser.m in Sources */,
 				5ADF9EA8214966880081355E /* HyBidDataModel.m in Sources */,
 				5A9B66DE20BD8BE00067964E /* PNLiteVASTParser.m in Sources */,
