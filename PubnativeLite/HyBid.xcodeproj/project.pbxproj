@@ -81,6 +81,7 @@
 		5A6923CD2405365F001868A3 /* HyBidAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6923CB2405365F001868A3 /* HyBidAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6923CC2405365F001868A3 /* HyBidAdSize.m */; };
 		5A6CD0252029CD060022E206 /* HyBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* HyBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A6D1DB924362BC8003C85D4 /* InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D1DB824362BC8003C85D4 /* InterstitialViewController.m */; };
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
 		5A71309E20690463000B83D9 /* HyBidAdTrackerRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */; };
 		5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */; };
@@ -694,8 +695,8 @@
 		E7956154242B6CAB0052693A /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* XMLDictionary.m */; };
 		E7956185242BB2190052693A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956184242BB2190052693A /* AppDelegate.m */; };
 		E7956188242BB2190052693A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956187242BB2190052693A /* SceneDelegate.m */; };
-		E795618B242BB2190052693A /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618A242BB2190052693A /* FirstViewController.m */; };
-		E795618E242BB2190052693A /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618D242BB2190052693A /* SecondViewController.m */; };
+		E795618B242BB2190052693A /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618A242BB2190052693A /* BannerViewController.m */; };
+		E795618E242BB2190052693A /* MRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618D242BB2190052693A /* MRectViewController.m */; };
 		E7956191242BB2190052693A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E795618F242BB2190052693A /* Main.storyboard */; };
 		E7956193242BB21C0052693A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7956192242BB21C0052693A /* Assets.xcassets */; };
 		E7956196242BB21C0052693A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7956194242BB21C0052693A /* LaunchScreen.storyboard */; };
@@ -851,6 +852,8 @@
 		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* HyBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBid.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A6D1DB724362BC8003C85D4 /* InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterstitialViewController.h; sourceTree = "<group>"; };
+		5A6D1DB824362BC8003C85D4 /* InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterstitialViewController.m; sourceTree = "<group>"; };
 		5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequestTest.m; sourceTree = "<group>"; };
 		5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequestTest.m; sourceTree = "<group>"; };
 		5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdRequestTest.m; sourceTree = "<group>"; };
@@ -1757,10 +1760,10 @@
 		E7956184242BB2190052693A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E7956186242BB2190052693A /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		E7956187242BB2190052693A /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		E7956189242BB2190052693A /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		E795618A242BB2190052693A /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		E795618C242BB2190052693A /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		E795618D242BB2190052693A /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		E7956189242BB2190052693A /* BannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerViewController.h; sourceTree = "<group>"; };
+		E795618A242BB2190052693A /* BannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerViewController.m; sourceTree = "<group>"; };
+		E795618C242BB2190052693A /* MRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRectViewController.h; sourceTree = "<group>"; };
+		E795618D242BB2190052693A /* MRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRectViewController.m; sourceTree = "<group>"; };
 		E7956190242BB2190052693A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E7956192242BB21C0052693A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7956195242BB21C0052693A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -3556,10 +3559,12 @@
 				E7956184242BB2190052693A /* AppDelegate.m */,
 				E7956186242BB2190052693A /* SceneDelegate.h */,
 				E7956187242BB2190052693A /* SceneDelegate.m */,
-				E7956189242BB2190052693A /* FirstViewController.h */,
-				E795618A242BB2190052693A /* FirstViewController.m */,
-				E795618C242BB2190052693A /* SecondViewController.h */,
-				E795618D242BB2190052693A /* SecondViewController.m */,
+				E7956189242BB2190052693A /* BannerViewController.h */,
+				E795618A242BB2190052693A /* BannerViewController.m */,
+				E795618C242BB2190052693A /* MRectViewController.h */,
+				E795618D242BB2190052693A /* MRectViewController.m */,
+				5A6D1DB724362BC8003C85D4 /* InterstitialViewController.h */,
+				5A6D1DB824362BC8003C85D4 /* InterstitialViewController.m */,
 				E795618F242BB2190052693A /* Main.storyboard */,
 				E7956192242BB21C0052693A /* Assets.xcassets */,
 				E7956194242BB21C0052693A /* LaunchScreen.storyboard */,
@@ -4423,9 +4428,10 @@
 			files = (
 				E7956199242BB21C0052693A /* main.m in Sources */,
 				E79561A1242BC2EC0052693A /* AdSdkDemoSettings.m in Sources */,
-				E795618E242BB2190052693A /* SecondViewController.m in Sources */,
+				E795618E242BB2190052693A /* MRectViewController.m in Sources */,
 				E7956185242BB2190052693A /* AppDelegate.m in Sources */,
-				E795618B242BB2190052693A /* FirstViewController.m in Sources */,
+				5A6D1DB924362BC8003C85D4 /* InterstitialViewController.m in Sources */,
+				E795618B242BB2190052693A /* BannerViewController.m in Sources */,
 				E7956188242BB2190052693A /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

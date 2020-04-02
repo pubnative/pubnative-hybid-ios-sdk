@@ -39,6 +39,7 @@
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
 
+- (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;
 

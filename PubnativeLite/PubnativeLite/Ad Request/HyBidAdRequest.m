@@ -48,6 +48,9 @@ NSInteger const kRequestWinnerPicked = 3003;
 
 NSInteger const kDefaultMRectZoneID = 5;
 NSInteger const kDefaultBannerZoneID = 2;
+NSInteger const kDefaultLeaderboardZoneID = 8;
+NSInteger const kDefaultInterstitialZoneID = 4;
+NSInteger const kDefaultCanopyZoneID = 2;
 
 @interface HyBidAdRequest () <PNLiteHttpRequestDelegate>
 
@@ -88,24 +91,26 @@ NSInteger const kDefaultBannerZoneID = 2;
 }
 
 - (NSString *)determineZoneIDForAdSize:(HyBidAdSize *)adSize {
-    if (self.adSize == HyBidAdSize.SIZE_320x50 || self.adSize == HyBidAdSize.SIZE_320x100) {
+    
+    if ([adSize isEqualTo:HyBidAdSize.SIZE_320x50]) {
         return [@(kDefaultBannerZoneID) stringValue];
-    } else if (self.adSize == HyBidAdSize.SIZE_300x250 || self.adSize == HyBidAdSize.SIZE_728x90){
+    } else if ([adSize isEqualTo:HyBidAdSize.SIZE_320x100]) {
+        return [@(kDefaultCanopyZoneID) stringValue];
+    } else if ([adSize isEqualTo:HyBidAdSize.SIZE_300x250]) {
         return [@(kDefaultMRectZoneID) stringValue];
+    } else if ([adSize isEqualTo:HyBidAdSize.SIZE_728x90]) {
+        return [@(kDefaultLeaderboardZoneID) stringValue];
     } else {
-        return [@(kDefaultMRectZoneID) stringValue];
+        return [@(kDefaultInterstitialZoneID) stringValue];
     }
 }
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
-    self.zoneID = zoneID;
-    self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
-    self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModel]];
-    self.isSetIntegrationTypeCalled = YES;
-}
-
-- (void)setIntegrationType:(IntegrationType)integrationType {
-    self.zoneID = [self determineZoneIDForAdSize:self.adSize];
+    if (!zoneID || zoneID.length == 0) {
+        self.zoneID = [self determineZoneIDForAdSize:self.adSize];
+    } else {
+        self.zoneID = zoneID;
+    }
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
     self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModel]];
     self.isSetIntegrationTypeCalled = YES;
@@ -117,39 +122,14 @@ NSInteger const kDefaultBannerZoneID = 2;
         [self invokeDidFail:runningError];
     } else if(!delegate) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
-    } else if(!zoneID || zoneID.length == 0) {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Zone ID nil or empty, droping this call."];
-    }
-    else {
+    } else {
         self.startTime = [NSDate date];
         self.delegate = delegate;
-        self.zoneID = zoneID;
-        self.isRunning = YES;
-        [self invokeDidStart];
-        
-        if (!self.isSetIntegrationTypeCalled) {
-            [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
+        if (!zoneID || zoneID.length == 0) {
+            self.zoneID = [self determineZoneIDForAdSize:self.adSize];
+        } else {
+            self.zoneID = zoneID;
         }
-
-        self.requestStatus = kRequestBothPending;
-        [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
-        
-        [[PNLiteHttpRequest alloc] startWithUrlString:self.vrvRequestURL.absoluteString withMethod:@"GET" delegate:self];
-    }
-}
-
-- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate {
-    if (self.isRunning) {
-        NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
-        [self invokeDidFail:runningError];
-    } else if(!delegate) {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
-    }
-    
-    else {
-        self.startTime = [NSDate date];
-        self.delegate = delegate;
-        self.zoneID = [self determineZoneIDForAdSize:self.adSize];
         self.isRunning = YES;
         [self invokeDidStart];
         
@@ -159,7 +139,6 @@ NSInteger const kDefaultBannerZoneID = 2;
 
         self.requestStatus = kRequestBothPending;
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
-        
         [[PNLiteHttpRequest alloc] startWithUrlString:self.vrvRequestURL.absoluteString withMethod:@"GET" delegate:self];
     }
 }
