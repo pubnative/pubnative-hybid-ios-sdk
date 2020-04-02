@@ -56,20 +56,25 @@
     [request requestAdWithDelegate:nil withZoneID:@"validZoneID"];
 }
 
+//This test is closed for IQV SDK
+/*
 - (void)test_requestAdWithDelegate_withValidDelegateAndNilZoneID_shouldPass
 {
     NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     [request requestAdWithDelegate:delegate withZoneID:nil];
 }
+*/
 
+//This test is closed for IQV SDK
+/*
 - (void)test_requestAdWithDelegate_withValidDelegateAndEmptyZoneID_shouldPass
 {
     NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     [request requestAdWithDelegate:delegate withZoneID:@""];
 }
-
+*/
 - (void)test_requestAdWithDelegate_withValidDelegateAndValidZoneID_shouldPass
 {
     [HyBidSettings sharedInstance].apiURL = @"validAPIURL";
