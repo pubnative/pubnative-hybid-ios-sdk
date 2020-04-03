@@ -1118,6 +1118,7 @@ typedef enum {
             [self fireReadyEvent];
             
             if ([self.delegate respondsToSelector:@selector(mraidViewAdReady:)]) {
+                self.isViewable = YES;
                 [self.delegate mraidViewAdReady:self];
             }
             
