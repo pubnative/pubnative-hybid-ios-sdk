@@ -56,7 +56,7 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
     }
 }
 
-+ (void)reConfigure:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion {
++ (void)reconfigure:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion {
     [self initWithAppToken:appToken withPartnerKeyword:partnerKeyword completion:completion];
 }
 @end

@@ -78,5 +78,5 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
 + (void)initWithAppToken:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion;
-+ (void)reConfigure:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion;
++ (void)reconfigure:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion;
 @end
