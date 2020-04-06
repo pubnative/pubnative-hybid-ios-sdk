@@ -301,7 +301,22 @@ NSInteger const kDefaultCanopyZoneID = 2;
             }
         }
     } else {
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil. Droping this call."];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil."];
+        
+        NSString *errorMessage = @"HyBidAdRequest - Dictionary that is created from the response data is nil.";
+        NSError *responseError = [NSError errorWithDomain:errorMessage
+                                                     code:0
+                                                 userInfo:nil];
+        if (self.requestStatus == kRequestWinnerPicked) {
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
+            return;
+        }
+
+        if (self.requestStatus == kRequestBothPending) {
+            self.requestStatus = kRequestPubNativeResponded;
+        } else {
+            [self invokeDidFail:responseError];
+        }
     }
 }
 
@@ -371,7 +386,22 @@ NSInteger const kDefaultCanopyZoneID = 2;
             }
         }
     } else {
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil. Droping this call."];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil."];
+        
+        NSString *errorMessage = @"HyBidAdRequest - Dictionary that is created from the response data is nil.";
+        NSError *responseError = [NSError errorWithDomain:errorMessage
+                                                     code:0
+                                                 userInfo:nil];
+        if (self.requestStatus == kRequestWinnerPicked) {
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
+            return;
+        }
+
+        if (self.requestStatus == kRequestBothPending) {
+            self.requestStatus = kRequestVerveResponded;
+        } else {
+            [self invokeDidFail:responseError];
+        }
     }
 }
 
