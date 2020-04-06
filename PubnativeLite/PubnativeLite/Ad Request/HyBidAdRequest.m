@@ -300,6 +300,8 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [self invokeDidFail:responseError];
             }
         }
+    } else {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil. Droping this call."];
     }
 }
 
@@ -368,6 +370,8 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [self invokeDidFail:responseError];
             }
         }
+    } else {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil. Droping this call."];
     }
 }
 
