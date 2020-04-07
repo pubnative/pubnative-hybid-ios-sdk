@@ -12,8 +12,9 @@
 
 #import <CoreLocation/CoreLocation.h>
 #import "VWContentCategory.h"
-#import "HyBidAdSize.h"
 #import "VWAdRequest.h"
+#import "HyBidAdSize.h"
+#import "HyBidAdView.h"
 
 extern NSString * _Nonnull const VWFullScreenAdImpressionNotification;
 extern NSString * _Nonnull const VWAdvertErrorDomain;
@@ -117,7 +118,7 @@ typedef void (^VWRequestBoundsCompletionHandler)(BOOL completed, CGRect availabl
  * The VWAdvertView class represents an ad view. You can insert this view directly into your view hierarchy.
  *
  */
-@interface VWAdvertView : NSObject
+@interface VWAdvertView : NSObject<HyBidAdViewDelegate>
 
 /*!
  * Size of an ad in the advert view. Changing this will not affect current ad, rather it will be
@@ -164,6 +165,8 @@ typedef void (^VWRequestBoundsCompletionHandler)(BOOL completed, CGRect availabl
  */
 @property (nonatomic, weak, nullable) UIView *expandedLayout;
 
+
+@property (nonatomic, weak, nullable) HyBidAdView *adView;
 
 /*!
  * Creates new advert view for given size with origin in (0,0).
