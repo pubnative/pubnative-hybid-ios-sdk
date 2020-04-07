@@ -685,6 +685,10 @@
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		7E2DA6EF2436234F0013841B /* LocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* LocationEncoding.h */; };
 		7E2DA6F02436234F0013841B /* LocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* LocationEncoding.m */; };
+		7E2DA6FC243CCCC80013841B /* VWAdvertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6FB243CCCC80013841B /* VWAdvertView.m */; };
+		7E2DA6FE243CD4430013841B /* VWAdvertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6FD243CCCDA0013841B /* VWAdvertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E2DA701243CD72A0013841B /* VWAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA700243CD72A0013841B /* VWAdRequest.h */; };
+		7E2DA703243CD7580013841B /* VWAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA702243CD7580013841B /* VWAdRequest.m */; };
 		E7218DD52428C3D500968314 /* VrvAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VrvAdRequestModel.h */; };
 		E7218DD62428C3D500968314 /* VrvAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VrvAdRequestModel.m */; };
 		E7218DD92428C69F00968314 /* VrvAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VrvAdFactory.h */; };
@@ -1747,6 +1751,11 @@
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
 		7E2DA6ED2436234E0013841B /* LocationEncoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationEncoding.h; sourceTree = "<group>"; };
 		7E2DA6EE2436234E0013841B /* LocationEncoding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationEncoding.m; sourceTree = "<group>"; };
+		7E2DA6FB243CCCC80013841B /* VWAdvertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdvertView.m; sourceTree = "<group>"; };
+		7E2DA6FD243CCCDA0013841B /* VWAdvertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdvertView.h; sourceTree = "<group>"; };
+		7E2DA6FF243CD63F0013841B /* VWContentCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWContentCategory.h; sourceTree = "<group>"; };
+		7E2DA700243CD72A0013841B /* VWAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdRequest.h; sourceTree = "<group>"; };
+		7E2DA702243CD7580013841B /* VWAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdRequest.m; sourceTree = "<group>"; };
 		E7218DD32428C3D500968314 /* VrvAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdRequestModel.h; sourceTree = "<group>"; };
 		E7218DD42428C3D500968314 /* VrvAdRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvAdRequestModel.m; sourceTree = "<group>"; };
 		E7218DD72428C69F00968314 /* VrvAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdFactory.h; sourceTree = "<group>"; };
@@ -2173,6 +2182,7 @@
 				5A52BFDE2034580A00C4B7C5 /* HyBidLogger.m */,
 				5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */,
 				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
+				7E2DA6F8243CC3FC0013841B /* Verve */,
 				5A22C18C225F41EC0077B4ED /* Viewability */,
 				5A0779F321341E9100EBD0E7 /* Request Inspector */,
 				5A9A885B21087C43006A081D /* Tracking */,
@@ -3552,6 +3562,18 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
+		7E2DA6F8243CC3FC0013841B /* Verve */ = {
+			isa = PBXGroup;
+			children = (
+				7E2DA6FD243CCCDA0013841B /* VWAdvertView.h */,
+				7E2DA6FB243CCCC80013841B /* VWAdvertView.m */,
+				7E2DA6FF243CD63F0013841B /* VWContentCategory.h */,
+				7E2DA700243CD72A0013841B /* VWAdRequest.h */,
+				7E2DA702243CD7580013841B /* VWAdRequest.m */,
+			);
+			path = Verve;
+			sourceTree = "<group>";
+		};
 		E7956182242BB2190052693A /* AdSDK Demo */ = {
 			isa = PBXGroup;
 			children = (
@@ -3700,6 +3722,7 @@
 				5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */,
 				5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */,
 				5ACC74E7203595250001CDC3 /* PNLitemraidjs.h in Headers */,
+				7E2DA6FE243CD4430013841B /* VWAdvertView.h in Headers */,
 				5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */,
 				5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */,
 				5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */,
@@ -3752,6 +3775,7 @@
 				5ADF9E8721494F730081355E /* HyBidBannerPresenterFactory.h in Headers */,
 				5A52BFDF2034580A00C4B7C5 /* HyBidLogger.h in Headers */,
 				5AC35B44214A7727001F0ED3 /* HyBidStarRatingView.h in Headers */,
+				7E2DA701243CD72A0013841B /* VWAdRequest.h in Headers */,
 				5A6923CD2405365F001868A3 /* HyBidAdSize.h in Headers */,
 				5A8F10FA2089E4D20098E337 /* PNLite_KSCrashC.h in Headers */,
 				5A8F10D32089E4D20098E337 /* PNLite_KSSignalInfo.h in Headers */,
@@ -4386,6 +4410,7 @@
 				5ADF9E4E21490E8E0081355E /* HyBidTargetingModel.m in Sources */,
 				5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */,
 				5ADF9EB8214970430081355E /* HyBidInterstitialAd.m in Sources */,
+				7E2DA6FC243CCCC80013841B /* VWAdvertView.m in Sources */,
 				5A8F112E2089E4D20098E337 /* PNLiteBreadcrumb.m in Sources */,
 				5A3EDD5023747F8000493EF2 /* HyBidVerificationScriptResource.m in Sources */,
 				5A262DCE218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m in Sources */,
@@ -4395,6 +4420,7 @@
 				5A8F10F22089E4D20098E337 /* PNLite_KSLogger.m in Sources */,
 				5A8F111B2089E4D20098E337 /* PNLiteSession.m in Sources */,
 				5A91E65020BFF1F300527BAA /* PNLiteConsentEndpoints.m in Sources */,
+				7E2DA703243CD7580013841B /* VWAdRequest.m in Sources */,
 				5AC35B45214A7727001F0ED3 /* HyBidStarRatingView.m in Sources */,
 				5A8F10CB2089E4D20098E337 /* PNLite_KSMach_x86_32.c in Sources */,
 				5A9B66C820BD62640067964E /* PNLiteVASTXMLUtil.m in Sources */,

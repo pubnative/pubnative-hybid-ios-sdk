@@ -25,7 +25,7 @@
 
 @interface BannerViewController () <HyBidAdViewDelegate>
 
-@property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
+@property (weak, nonatomic) IBOutlet VWAdVertView *bannerAdView;
 @property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
 @property (nonatomic,strong)CLLocationManager *locationManager;
 
