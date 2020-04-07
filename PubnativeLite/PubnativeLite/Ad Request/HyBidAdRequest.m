@@ -341,7 +341,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
         } else if ([PNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             
-            HyBidAd *ad = [[HyBidAd alloc] initWithVrvXml:xmlDictonary];
+            HyBidAd *ad = [[HyBidAd alloc] initWithVrvXml:xmlDictonary andWithAdSize:self.adSize];
             [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
             [responseAdArray addObject:ad];
             

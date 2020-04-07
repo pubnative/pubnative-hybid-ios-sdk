@@ -9,7 +9,7 @@
 #import "AdSdkDemoSettings.h"
 
 NSString *const DemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
-NSString *const DemoPartnerKeyword = @"adsdkexample";
+NSString *const DemoPartnerKeyword = @"adsdksponsor";
 
 
 @implementation AdSdkDemoSettings

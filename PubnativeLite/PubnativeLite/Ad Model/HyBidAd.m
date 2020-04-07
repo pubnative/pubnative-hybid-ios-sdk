@@ -54,7 +54,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self;
 }
 
-- (instancetype)initWithVrvXml:(NSDictionary *)xml {
+- (instancetype)initWithVrvXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize {
     self = [super init];
     if (self) {
         HyBidAdModel *model = [[HyBidAdModel alloc] init];
@@ -83,7 +83,11 @@ NSString *const kImpressionQuerryParameter = @"t";
         }
         
         model.assets = assets;
-        model.assetgroupid = [NSNumber numberWithInt:MRAID_320x50];
+        if ([adSize isEqualTo:HyBidAdSize.SIZE_INTERSTITIAL]) {
+            model.assetgroupid = [NSNumber numberWithInt:MRAID_320x480];
+        } else {
+            model.assetgroupid = [NSNumber numberWithInt:MRAID_320x50];
+        }
         self.data = model;
     }
     return self;
