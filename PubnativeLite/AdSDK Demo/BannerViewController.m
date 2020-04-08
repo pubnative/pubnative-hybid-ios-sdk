@@ -47,7 +47,8 @@
 }
 
 - (void)requestAd {
-    self.bannerAdView.delegate = self;
+    self.bannerAdView.delegateVerve = self;
+    self.bannerAdView.adSize = HyBidAdSize.SIZE_320x50;
     [self.bannerAdView loadRequest: [VWAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation]];
 
 }
@@ -79,7 +80,7 @@
 
 - (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView {
     NSLog(@"Banner Ad View did load:");
-//    [adView show];
+    [adView show];
 }
 
 - (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error {

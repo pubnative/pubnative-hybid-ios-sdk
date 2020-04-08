@@ -24,15 +24,11 @@
 
 @end
 
-@interface VWAdvertView : UIView<HyBidAdViewDelegate>
+@interface VWAdvertView : HyBidAdView<HyBidAdViewDelegate>
 
-@property (nonatomic, assign) HyBidAdSize* _Nullable adSize;
-
-@property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegate;
+@property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegateVerve;
 
 @property (nonatomic, assign, readonly) BOOL adLoaded;
-
-@property (nonatomic, weak, nullable) HyBidAdView *adView;
 
 - (nonnull instancetype)initWithSize:(HyBidAdSize*_Nonnull)size;
 

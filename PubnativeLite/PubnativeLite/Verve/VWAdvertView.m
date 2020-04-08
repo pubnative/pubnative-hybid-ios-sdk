@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "VWAdvertView.h"
 
+
 @implementation VWAdvertView
 
 - (nonnull instancetype)initWithSize:(HyBidAdSize*_Nonnull)size {
     
     _adLoaded = false;
 
-    HyBidAdView* adView = [[HyBidAdView alloc]initWithSize:size];
-    self.adView = adView;
+    self.adSize = size;
     
     return self;
 }
@@ -25,34 +25,32 @@
     
     _adLoaded = false;
     
-    HyBidAdView* adView = [[HyBidAdView alloc]initWithSize:size];
-    CGRect frame = adView.frame;
+    self.adSize = size;
+
+    CGRect frame = self.frame;
     frame.origin = origin;
-    adView.frame = frame;
-    self.adView = adView;
+    self.frame = frame;
     
     return self;
 }
 
 - (void)loadRequest:(nonnull VWAdRequest *)request {
-    [_adView loadWithDelegate:self];
+   [self loadWithDelegate:self];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    return [_adView sizeThatFits:size];
+    return [self sizeThatFits:size];
 }
 
 // HybidAdDelegate
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    self.adView = adView;
     _adLoaded = false;
-    [_delegate advertView:self didFailToReceiveAdWithError:error];
+    [self.delegateVerve advertView:self didFailToReceiveAdWithError:error];
 }
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     _adLoaded = true;
-    self.adView = adView;
-    [_delegate advertViewDidReceiveAd:self];
+    [self.delegateVerve advertViewDidReceiveAd:self];
 }
 
 // TODO
