@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                                     <action selector="requestBannerTouchUpInside:" destination="9pv-A4-QxB" eventType="touchUpInside" id="0fB-RM-931"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmO-hN-8it" customClass="HyBidAdView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmO-hN-8it" customClass="VWAdvertView">
                                 <rect key="frame" x="47" y="106" width="320" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -47,6 +47,7 @@
                     <tabBarItem key="tabBarItem" title="Banner" image="b.square.fill" catalog="system" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="bannerAdView" destination="gmO-hN-8it" id="PZb-S2-LEE"/>
+                        <outlet property="loadAdButton" destination="eT5-JV-bko" id="IAs-oB-BXM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -152,8 +153,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="b.square.fill" catalog="system" width="64" height="56"/>
-        <image name="i.square.fill" catalog="system" width="64" height="56"/>
-        <image name="m.square.fill" catalog="system" width="64" height="56"/>
+        <image name="b.square.fill" catalog="system" width="128" height="114"/>
+        <image name="i.square.fill" catalog="system" width="128" height="114"/>
+        <image name="m.square.fill" catalog="system" width="128" height="114"/>
     </resources>
 </document>
