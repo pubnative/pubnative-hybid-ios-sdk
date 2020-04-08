@@ -2041,6 +2041,8 @@
 				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
 				5AC35B32214A5F80001F0ED3 /* HyBidBannerAdView.h */,
 				5AC35B33214A5F80001F0ED3 /* HyBidBannerAdView.m */,
+				7E2DA6FD243CCCDA0013841B /* VWAdvertView.h */,
+				7E2DA6FB243CCCC80013841B /* VWAdvertView.m */,
 			);
 			path = Banner;
 			sourceTree = "<group>";
@@ -2183,7 +2185,6 @@
 				5A52BFDE2034580A00C4B7C5 /* HyBidLogger.m */,
 				5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */,
 				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
-				7E2DA6F8243CC3FC0013841B /* Verve */,
 				5A22C18C225F41EC0077B4ED /* Viewability */,
 				5A0779F321341E9100EBD0E7 /* Request Inspector */,
 				5A9A885B21087C43006A081D /* Tracking */,
@@ -2715,6 +2716,9 @@
 				5A6923CC2405365F001868A3 /* HyBidAdSize.m */,
 				E7218DDB2428C6D400968314 /* VrvResponseModel.h */,
 				E7218DDC2428C6D400968314 /* VrvResponseModel.m */,
+				7E2DA6FF243CD63F0013841B /* VWContentCategory.h */,
+				7E2DA700243CD72A0013841B /* VWAdRequest.h */,
+				7E2DA702243CD7580013841B /* VWAdRequest.m */,
 			);
 			path = "Ad Model";
 			sourceTree = "<group>";
@@ -3561,18 +3565,6 @@
 				5ADF9EAE21496C400081355E /* HyBidNativeAdRenderer.m */,
 			);
 			path = Native;
-			sourceTree = "<group>";
-		};
-		7E2DA6F8243CC3FC0013841B /* Verve */ = {
-			isa = PBXGroup;
-			children = (
-				7E2DA6FD243CCCDA0013841B /* VWAdvertView.h */,
-				7E2DA6FB243CCCC80013841B /* VWAdvertView.m */,
-				7E2DA6FF243CD63F0013841B /* VWContentCategory.h */,
-				7E2DA700243CD72A0013841B /* VWAdRequest.h */,
-				7E2DA702243CD7580013841B /* VWAdRequest.m */,
-			);
-			path = Verve;
 			sourceTree = "<group>";
 		};
 		E7956182242BB2190052693A /* AdSDK Demo */ = {
