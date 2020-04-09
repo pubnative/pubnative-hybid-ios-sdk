@@ -80,7 +80,6 @@
 
 - (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView {
     NSLog(@"Banner Ad View did load:");
-    [_bannerAdView show];
 }
 
 - (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error {

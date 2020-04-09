@@ -54,7 +54,5 @@
 
 - (CGSize)sizeThatFits:(CGSize)size;
 
-- (void)show;
-
 @end
 

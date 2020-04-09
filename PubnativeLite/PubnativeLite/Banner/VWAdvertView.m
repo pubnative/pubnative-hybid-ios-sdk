@@ -67,10 +67,6 @@ HyBidAdView * _Nonnull adView;
     return [self sizeThatFits:size];
 }
 
-- (void) show {
-    [adView show];
-}
-
 // utils
 - (HyBidAdSize*) mapSizes:(VWAdSize) size {
     
@@ -99,6 +95,7 @@ HyBidAdView * _Nonnull adView;
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     _adLoaded = true;
     [self.delegate advertViewDidReceiveAd:self];
+    [adView show];
 }
 
 // TODO
