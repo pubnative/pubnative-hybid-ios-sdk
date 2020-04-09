@@ -33,6 +33,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 @property (nonatomic, strong)HyBidAdModel *data;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
+@property (nonatomic, strong)HyBidAdSize *adSize;
 
 @end
 
@@ -42,6 +43,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     self.data = nil;
     self.contentInfoView = nil;
     self.assetGroupID = nil;
+    self.adSize = nil;
 }
 
 #pragma mark HyBidAd
@@ -58,9 +60,10 @@ NSString *const kImpressionQuerryParameter = @"t";
     self = [super init];
     if (self) {
         HyBidAdModel *model = [[HyBidAdModel alloc] init];
+        self.adSize = adSize;
         NSString *apiAsset = PNLiteAsset.htmlBanner;
         NSMutableArray *assets = [[NSMutableArray alloc] init];
-
+        
         NSDictionary *rawResponse = [xml valueForKey:@"rawResponse"];
         
         if (rawResponse && [rawResponse valueForKey:@"useRawResponse"] && [[rawResponse valueForKey:@"useRawResponse"] boolValue]) {
@@ -180,7 +183,11 @@ NSString *const kImpressionQuerryParameter = @"t";
     NSNumber *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
-        result = data.width;
+        if (data.width) {
+            result = data.width;
+        } else {
+            result = [NSNumber numberWithInteger:self.adSize.width];
+        }
     }
     return result;
 }
@@ -189,7 +196,11 @@ NSString *const kImpressionQuerryParameter = @"t";
     NSNumber *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
-        result = data.height;
+        if (data.height) {
+            result = data.height;
+        } else {
+            result = [NSNumber numberWithInteger:self.adSize.height];
+        }
     }
     return result;
 }
