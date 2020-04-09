@@ -52,6 +52,8 @@
 		5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */; };
 		5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; };
 		5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
+		5A3D94BE243CC1DA00D5C424 /* VWInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3D94BC243CC1DA00D5C424 /* VWInterstitialAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A3D94BF243CC1DA00D5C424 /* VWInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D94BD243CC1DA00D5C424 /* VWInterstitialAd.m */; };
 		5A3EDD4F23747F8000493EF2 /* HyBidVerificationScriptResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3EDD4D23747F8000493EF2 /* HyBidVerificationScriptResource.h */; };
 		5A3EDD5023747F8000493EF2 /* HyBidVerificationScriptResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3EDD4E23747F8000493EF2 /* HyBidVerificationScriptResource.m */; };
 		5A40351823322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */; };
@@ -815,6 +817,8 @@
 		5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDBannerPresenter.m; sourceTree = "<group>"; };
 		5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+PNLiteTopViewController.h"; sourceTree = "<group>"; };
 		5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+PNLiteTopViewController.m"; sourceTree = "<group>"; };
+		5A3D94BC243CC1DA00D5C424 /* VWInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWInterstitialAd.h; sourceTree = "<group>"; };
+		5A3D94BD243CC1DA00D5C424 /* VWInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWInterstitialAd.m; sourceTree = "<group>"; };
 		5A3EDD4D23747F8000493EF2 /* HyBidVerificationScriptResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVerificationScriptResource.h; sourceTree = "<group>"; };
 		5A3EDD4E23747F8000493EF2 /* HyBidVerificationScriptResource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVerificationScriptResource.m; sourceTree = "<group>"; };
 		5A40351623322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationMRectViewController.h; sourceTree = "<group>"; };
@@ -2874,6 +2878,8 @@
 				5A8D7DC320C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m */,
 				5ADF9EB5214970430081355E /* HyBidInterstitialAd.h */,
 				5ADF9EB6214970430081355E /* HyBidInterstitialAd.m */,
+				5A3D94BC243CC1DA00D5C424 /* VWInterstitialAd.h */,
+				5A3D94BD243CC1DA00D5C424 /* VWInterstitialAd.m */,
 			);
 			path = Interstitial;
 			sourceTree = "<group>";
@@ -3622,6 +3628,7 @@
 				5A8F10EE2089E4D20098E337 /* PNLite_KSJSONCodec.h in Headers */,
 				5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */,
 				5A8F11042089E4D20098E337 /* PNLite_KSCrashAdvanced.h in Headers */,
+				5A3D94BE243CC1DA00D5C424 /* VWInterstitialAd.h in Headers */,
 				5ADF9E9721495A710081355E /* HyBidPrebidUtils.h in Headers */,
 				5ADF9EBB214972940081355E /* HyBidMRectAdView.h in Headers */,
 				5A8F10C42089E4D20098E337 /* PNLiteConnectivity.h in Headers */,
@@ -4305,6 +4312,7 @@
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5A8F112B2089E4D20098E337 /* PNLiteSessionTracker.m in Sources */,
 				5A9A885E21088024006A081D /* PNLiteTrackingManager.m in Sources */,
+				5A3D94BF243CC1DA00D5C424 /* VWInterstitialAd.m in Sources */,
 				5A8D7DC520C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m in Sources */,
 				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
 				5A91E66020BFFF1000527BAA /* PNLiteUserConsentResponseModel.m in Sources */,
