@@ -109,8 +109,9 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Vuj-sx-P1S" kind="relationship" relationship="viewControllers" id="i6d-P1-fZw"/>
-                        <segue destination="hTY-fY-CV5" kind="relationship" relationship="viewControllers" id="vNi-bq-OCu"/>
+                        <segue destination="J5l-0w-DFr" kind="relationship" relationship="viewControllers" id="hFU-s8-Rg7"/>
+                        <segue destination="Vuj-sx-P1S" kind="relationship" relationship="viewControllers" id="A2q-l2-Y98"/>
+                        <segue destination="hTY-fY-CV5" kind="relationship" relationship="viewControllers" id="eXB-lx-sXL"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D3Z-Da-Xnj" sceneMemberID="firstResponder"/>

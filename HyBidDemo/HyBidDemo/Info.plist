@@ -20,6 +20,17 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>The app uses your location to show you local content like weather, news and sports.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The app uses your location to show you local content like weather, news and sports.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The app uses your location to show you local content like weather, news and sports.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

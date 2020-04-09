@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7E2DA71F243F6C020013841B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA71E243F6C020013841B /* AppDelegate.swift */; };
 		7E2DA721243F6C020013841B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA720243F6C020013841B /* SceneDelegate.swift */; };
-		7E2DA723243F6C020013841B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA722243F6C020013841B /* ViewController.swift */; };
 		7E2DA726243F6C020013841B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA724243F6C020013841B /* Main.storyboard */; };
 		7E2DA728243F6C070013841B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA727243F6C070013841B /* Assets.xcassets */; };
 		7E2DA72B243F6C070013841B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA729243F6C070013841B /* LaunchScreen.storyboard */; };
@@ -23,13 +22,16 @@
 		7E2DA75A243F6FF30013841B /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA759243F6FF30013841B /* BannerViewController.m */; };
 		7E2DA75D243F70060013841B /* MRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA75C243F70060013841B /* MRectViewController.m */; };
 		7E2DA762243F70430013841B /* InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA761243F70430013841B /* InterstitialViewController.m */; };
+		7E2DA764243F73890013841B /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA763243F73890013841B /* BannerViewController.swift */; };
+		7E2DA768243F73E50013841B /* MRectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA767243F73E50013841B /* MRectViewController.swift */; };
+		7E2DA76A243F73F40013841B /* InterstitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA769243F73F40013841B /* InterstitialViewController.swift */; };
+		7E2DA76C243F740A0013841B /* AdSdkDemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7E2DA71B243F6C020013841B /* HyBidDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E2DA71B243F6C020013841B /* HyBidDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E2DA71E243F6C020013841B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E2DA720243F6C020013841B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7E2DA722243F6C020013841B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7E2DA725243F6C020013841B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7E2DA727243F6C070013841B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7E2DA72A243F6C070013841B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -52,6 +54,10 @@
 		7E2DA75C243F70060013841B /* MRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRectViewController.m; sourceTree = "<group>"; };
 		7E2DA760243F70430013841B /* InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterstitialViewController.h; sourceTree = "<group>"; };
 		7E2DA761243F70430013841B /* InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterstitialViewController.m; sourceTree = "<group>"; };
+		7E2DA763243F73890013841B /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
+		7E2DA767243F73E50013841B /* MRectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRectViewController.swift; sourceTree = "<group>"; };
+		7E2DA769243F73F40013841B /* InterstitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialViewController.swift; sourceTree = "<group>"; };
+		7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSdkDemoSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +90,7 @@
 		7E2DA71C243F6C020013841B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7E2DA71B243F6C020013841B /* HyBidDemo.app */,
+				7E2DA71B243F6C020013841B /* HyBidDemoSwift.app */,
 				7E2DA73C243F6DEF0013841B /* HyBidDemoObjc.app */,
 			);
 			name = Products;
@@ -95,7 +101,8 @@
 			children = (
 				7E2DA71E243F6C020013841B /* AppDelegate.swift */,
 				7E2DA720243F6C020013841B /* SceneDelegate.swift */,
-				7E2DA722243F6C020013841B /* ViewController.swift */,
+				7E2DA765243F738C0013841B /* Constants */,
+				7E2DA766243F73950013841B /* Controllers */,
 				7E2DA724243F6C020013841B /* Main.storyboard */,
 				7E2DA727243F6C070013841B /* Assets.xcassets */,
 				7E2DA729243F6C070013841B /* LaunchScreen.storyboard */,
@@ -144,12 +151,30 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		7E2DA765243F738C0013841B /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		7E2DA766243F73950013841B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7E2DA763243F73890013841B /* BannerViewController.swift */,
+				7E2DA767243F73E50013841B /* MRectViewController.swift */,
+				7E2DA769243F73F40013841B /* InterstitialViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7E2DA71A243F6C020013841B /* HyBidDemo */ = {
+		7E2DA71A243F6C020013841B /* HyBidDemoSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7E2DA72F243F6C070013841B /* Build configuration list for PBXNativeTarget "HyBidDemo" */;
+			buildConfigurationList = 7E2DA72F243F6C070013841B /* Build configuration list for PBXNativeTarget "HyBidDemoSwift" */;
 			buildPhases = (
 				7E2DA717243F6C020013841B /* Sources */,
 				7E2DA718243F6C020013841B /* Frameworks */,
@@ -159,9 +184,9 @@
 			);
 			dependencies = (
 			);
-			name = HyBidDemo;
+			name = HyBidDemoSwift;
 			productName = HyBidDemo;
-			productReference = 7E2DA71B243F6C020013841B /* HyBidDemo.app */;
+			productReference = 7E2DA71B243F6C020013841B /* HyBidDemoSwift.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7E2DA73B243F6DEF0013841B /* HyBidDemoObjc */ = {
@@ -212,7 +237,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7E2DA71A243F6C020013841B /* HyBidDemo */,
+				7E2DA71A243F6C020013841B /* HyBidDemoSwift */,
 				7E2DA73B243F6DEF0013841B /* HyBidDemoObjc */,
 			);
 		};
@@ -246,9 +271,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E2DA723243F6C020013841B /* ViewController.swift in Sources */,
 				7E2DA71F243F6C020013841B /* AppDelegate.swift in Sources */,
+				7E2DA764243F73890013841B /* BannerViewController.swift in Sources */,
+				7E2DA768243F73E50013841B /* MRectViewController.swift in Sources */,
 				7E2DA721243F6C020013841B /* SceneDelegate.swift in Sources */,
+				7E2DA76A243F73F40013841B /* InterstitialViewController.swift in Sources */,
+				7E2DA76C243F740A0013841B /* AdSdkDemoSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,8 +458,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBidDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoSwift;
+				PRODUCT_NAME = HyBidDemoSwift;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -449,8 +477,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBidDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoSwift;
+				PRODUCT_NAME = HyBidDemoSwift;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -468,7 +496,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBidDemoObjc;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoObjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -486,7 +514,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBidDemoObjc;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoObjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -504,7 +532,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E2DA72F243F6C070013841B /* Build configuration list for PBXNativeTarget "HyBidDemo" */ = {
+		7E2DA72F243F6C070013841B /* Build configuration list for PBXNativeTarget "HyBidDemoSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E2DA730243F6C070013841B /* Debug */,
