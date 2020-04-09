@@ -25,7 +25,6 @@
 
 #import <CoreLocation/CoreLocation.h>
 #import "VWAdRequest.h"
-#import "HyBidAdSize.h"
 #import "HyBidAdView.h"
 #import "VWAdSize.h"
 
@@ -40,8 +39,6 @@
 @end
 
 @interface VWAdvertView : UIView<HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidAdView * _Nonnull adView;
 
 @property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegate;
 

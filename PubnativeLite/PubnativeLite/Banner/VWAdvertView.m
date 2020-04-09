@@ -25,20 +25,22 @@
 
 @implementation VWAdvertView
 
+HyBidAdView * _Nonnull adView;
+
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _adView = [[HyBidAdView alloc]initWithSize:HyBidAdSize.SIZE_320x50];
-    [self addSubview:self.adView];
+    adView = [[HyBidAdView alloc]initWithSize:HyBidAdSize.SIZE_320x50];
+    [self addSubview: adView];
 }
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size {
     
     _adLoaded = false;
-
-    _adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
-
-    [self addSubview:self.adView];
-
+    
+    adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
+    
+    [self addSubview: adView];
+    
     return self;
 }
 
@@ -46,27 +48,27 @@
     
     _adLoaded = false;
     
-    _adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
-
-    CGRect frame = _adView.frame;
+    adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
+    
+    CGRect frame = adView.frame;
     frame.origin = origin;
     self.frame = frame;
     
-    [self addSubview:self.adView];
+    [self addSubview: adView];
     
     return self;
 }
 
 - (void)loadRequest:(nonnull VWAdRequest *)request {
-    [self.adView loadWithDelegate:self];
+    [adView loadWithDelegate:self];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
     return [self sizeThatFits:size];
 }
 
--(void) show {
-    [_adView show];
+- (void) show {
+    [adView show];
 }
 
 // utils
@@ -85,7 +87,7 @@
     }
     
     return HyBidAdSize.SIZE_320x50;
-
+    
 }
 
 // HybidAdDelegate
