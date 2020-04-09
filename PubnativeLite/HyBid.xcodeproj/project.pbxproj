@@ -690,6 +690,8 @@
 		7E2DA701243CD72A0013841B /* VWAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA700243CD72A0013841B /* VWAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E2DA703243CD7580013841B /* VWAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA702243CD7580013841B /* VWAdRequest.m */; };
 		7E2DA708243DD1230013841B /* VWContentCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6FF243CD63F0013841B /* VWContentCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E2DA70C243F14790013841B /* VWAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA70B243F14790013841B /* VWAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E2DA710243F206F0013841B /* VWAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA70F243F206F0013841B /* VWAdSize.m */; };
 		E7218DD52428C3D500968314 /* VrvAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VrvAdRequestModel.h */; };
 		E7218DD62428C3D500968314 /* VrvAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VrvAdRequestModel.m */; };
 		E7218DD92428C69F00968314 /* VrvAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VrvAdFactory.h */; };
@@ -1757,6 +1759,8 @@
 		7E2DA6FF243CD63F0013841B /* VWContentCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWContentCategory.h; sourceTree = "<group>"; };
 		7E2DA700243CD72A0013841B /* VWAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdRequest.h; sourceTree = "<group>"; };
 		7E2DA702243CD7580013841B /* VWAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdRequest.m; sourceTree = "<group>"; };
+		7E2DA70B243F14790013841B /* VWAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdSize.h; sourceTree = "<group>"; };
+		7E2DA70F243F206F0013841B /* VWAdSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdSize.m; sourceTree = "<group>"; };
 		E7218DD32428C3D500968314 /* VrvAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdRequestModel.h; sourceTree = "<group>"; };
 		E7218DD42428C3D500968314 /* VrvAdRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvAdRequestModel.m; sourceTree = "<group>"; };
 		E7218DD72428C69F00968314 /* VrvAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdFactory.h; sourceTree = "<group>"; };
@@ -2719,6 +2723,8 @@
 				5A6923CC2405365F001868A3 /* HyBidAdSize.m */,
 				E7218DDB2428C6D400968314 /* VrvResponseModel.h */,
 				E7218DDC2428C6D400968314 /* VrvResponseModel.m */,
+				7E2DA70B243F14790013841B /* VWAdSize.h */,
+				7E2DA70F243F206F0013841B /* VWAdSize.m */,
 			);
 			path = "Ad Model";
 			sourceTree = "<group>";
@@ -3711,6 +3717,7 @@
 				5A9B66ED20BD9DD80067964E /* PNLiteProgressLabel.h in Headers */,
 				5A9B66DF20BD8BE00067964E /* PNLiteVASTParser.h in Headers */,
 				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
+				7E2DA70C243F14790013841B /* VWAdSize.h in Headers */,
 				5A91E65F20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h in Headers */,
 				5A9B66C920BD62640067964E /* PNLiteVASTXMLUtil.h in Headers */,
 				5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */,
@@ -4268,6 +4275,7 @@
 				5A8F110D2089E4D20098E337 /* PNLite_KSCrashSentry_Signal.c in Sources */,
 				5A8F10F82089E4D20098E337 /* PNLite_KSCrashReportStore.m in Sources */,
 				5A8F10BB2089E4D20098E337 /* PNLiteApiClient.m in Sources */,
+				7E2DA710243F206F0013841B /* VWAdSize.m in Sources */,
 				5ADF9E8C214952780081355E /* HyBidMRectPresenterFactory.m in Sources */,
 				5ADF9E5E21491F940081355E /* HyBidMRAIDServiceProvider.m in Sources */,
 				5A52BFE02034580A00C4B7C5 /* HyBidLogger.m in Sources */,

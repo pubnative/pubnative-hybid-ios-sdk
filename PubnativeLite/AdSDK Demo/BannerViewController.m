@@ -25,7 +25,7 @@
 
 @interface BannerViewController () <VWAdvertViewDelegate>
 
-@property (strong, nonatomic) IBOutlet VWAdvertView *bannerAdView;
+@property (weak, nonatomic) IBOutlet VWAdvertView *bannerAdView;
 @property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
 @property (nonatomic,strong)CLLocationManager *locationManager;
 
@@ -47,8 +47,8 @@
 }
 
 - (void)requestAd {
-    self.bannerAdView.delegateVerve = self;
-    self.bannerAdView.adSize = HyBidAdSize.SIZE_320x50;
+    self.bannerAdView.delegate = self;
+    self.bannerAdView.adSize = kVWAdSizeBanner;
     [self.bannerAdView loadRequest: [VWAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation]];
 
 }
@@ -80,7 +80,7 @@
 
 - (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView {
     NSLog(@"Banner Ad View did load:");
-    [adView show];
+    [_bannerAdView show];
 }
 
 - (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error {

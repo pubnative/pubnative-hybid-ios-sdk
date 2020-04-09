@@ -23,48 +23,80 @@
 #import <Foundation/Foundation.h>
 #import "VWAdvertView.h"
 
-
 @implementation VWAdvertView
 
-- (nonnull instancetype)initWithSize:(HyBidAdSize*_Nonnull)size {
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    _adView = [[HyBidAdView alloc]initWithSize:HyBidAdSize.SIZE_320x50];
+    [self addSubview:self.adView];
+}
+
+- (nonnull instancetype)initWithSize:(VWAdSize)size {
     
     _adLoaded = false;
 
-    self.adSize = size;
-    
+    _adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
+
+    [self addSubview:self.adView];
+
     return self;
 }
 
-- (nonnull instancetype)initWithSize:(HyBidAdSize*_Nonnull)size origin:(CGPoint)origin {
+- (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin {
     
     _adLoaded = false;
     
-    self.adSize = size;
+    _adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
 
-    CGRect frame = self.frame;
+    CGRect frame = _adView.frame;
     frame.origin = origin;
     self.frame = frame;
+    
+    [self addSubview:self.adView];
     
     return self;
 }
 
 - (void)loadRequest:(nonnull VWAdRequest *)request {
-   [self loadWithDelegate:self];
+    [self.adView loadWithDelegate:self];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
     return [self sizeThatFits:size];
 }
 
+-(void) show {
+    [_adView show];
+}
+
+// utils
+- (HyBidAdSize*) mapSizes:(VWAdSize) size {
+    
+    if (size.flags == kVWAdSizeBanner.flags) {
+        return HyBidAdSize.SIZE_320x50;
+    }
+    
+    if (size.flags == kVWAdSizeMediumRectangle.flags) {
+        return HyBidAdSize.SIZE_300x250;
+    }
+    
+    if (size.flags == kVWAdSizeLeaderboard.flags) {
+        return HyBidAdSize.SIZE_728x90;
+    }
+    
+    return HyBidAdSize.SIZE_320x50;
+
+}
+
 // HybidAdDelegate
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     _adLoaded = false;
-    [self.delegateVerve advertView:self didFailToReceiveAdWithError:error];
+    [self.delegate advertView:self didFailToReceiveAdWithError:error];
 }
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     _adLoaded = true;
-    [self.delegateVerve advertViewDidReceiveAd:self];
+    [self.delegate advertViewDidReceiveAd:self];
 }
 
 // TODO

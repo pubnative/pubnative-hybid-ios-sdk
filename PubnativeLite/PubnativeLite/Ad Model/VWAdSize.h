@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,44 +20,27 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <CoreLocation/CoreLocation.h>
-#import "VWAdRequest.h"
-#import "HyBidAdSize.h"
-#import "HyBidAdView.h"
-#import "VWAdSize.h"
+/// You should consider this struct as an opaque type.
+/// Never, ever, rely on size property of this struct - instead use
+/// CGSizeFromVWAdSize and other methods defined below.
+typedef struct {
+  CGSize size;
+  NSUInteger flags;
+} VWAdSize;
 
-@class VWAdvertView;
 
-@protocol VWAdvertViewDelegate
+#pragma mark Standard Sizes
 
-- (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView;
+/// 320 x 50 or device-width x 50
+extern VWAdSize const kVWAdSizeBanner;
 
-- (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error;
+/// 300 x 250
+extern VWAdSize const kVWAdSizeMediumRectangle;
 
-@end
+/// 728 x 90
+extern VWAdSize const kVWAdSizeLeaderboard;
 
-@interface VWAdvertView : UIView<HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidAdView * _Nonnull adView;
-
-@property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegate;
-
-@property (nonatomic, assign, readonly) BOOL adLoaded;
-
-@property (nonatomic, assign) VWAdSize adSize;
-
-- (nonnull instancetype)initWithSize:(VWAdSize)size;
-
-- (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin;
-
-- (void)loadRequest:(nonnull VWAdRequest *)request;
-
-- (CGSize)sizeThatFits:(CGSize)size;
-
-- (void)show;
-
-@end
-
+/// Undefined
+extern VWAdSize const kVWAdSizeUndefined;

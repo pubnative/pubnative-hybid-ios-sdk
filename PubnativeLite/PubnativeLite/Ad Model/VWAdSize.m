@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,44 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
-#import <CoreLocation/CoreLocation.h>
-#import "VWAdRequest.h"
-#import "HyBidAdSize.h"
-#import "HyBidAdView.h"
 #import "VWAdSize.h"
 
-@class VWAdvertView;
-
-@protocol VWAdvertViewDelegate
-
-- (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView;
-
-- (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error;
-
-@end
-
-@interface VWAdvertView : UIView<HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidAdView * _Nonnull adView;
-
-@property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegate;
-
-@property (nonatomic, assign, readonly) BOOL adLoaded;
-
-@property (nonatomic, assign) VWAdSize adSize;
-
-- (nonnull instancetype)initWithSize:(VWAdSize)size;
-
-- (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin;
-
-- (void)loadRequest:(nonnull VWAdRequest *)request;
-
-- (CGSize)sizeThatFits:(CGSize)size;
-
-- (void)show;
-
-@end
-
+VWAdSize const kVWAdSizeBanner = {{0, 0}, 0x1};
+VWAdSize const kVWAdSizeMediumRectangle = {{300, 250}, 0x2};
+VWAdSize const kVWAdSizeLeaderboard = {{728, 90}, 0x4};
+VWAdSize const kVWAdSizeUndefined = {{0, 0}, 0x20};
