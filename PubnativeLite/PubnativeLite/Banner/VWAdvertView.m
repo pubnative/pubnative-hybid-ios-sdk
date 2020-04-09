@@ -25,7 +25,11 @@
 
 @implementation VWAdvertView
 
-HyBidAdView * _Nonnull adView;
+HyBidAdView * adView;
+
+- (void)dealloc {
+    adView = nil;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
