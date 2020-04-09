@@ -7,14 +7,24 @@
 //
 
 import UIKit
+import HyBid
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        HyBid.initWithAppToken(AdSdkDemoSettings.appToken, withPartnerKeyword: AdSdkDemoSettings.partnerKeyword) { (success) in
+            
+            guard success else {return}
+            HyBidLogger.setLogLevel(HyBidLogLevelDebug)
+            print("HyBid initialisation completed")
+        }
+        
+        let targetingModel = HyBidTargetingModel()
+        targetingModel.age = 29
+        targetingModel.gender = "m"
+        HyBid.setTargeting(targetingModel)
         return true
     }
 

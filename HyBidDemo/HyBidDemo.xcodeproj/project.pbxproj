@@ -81,7 +81,7 @@
 		7E2DA712243F6C020013841B = {
 			isa = PBXGroup;
 			children = (
-				7E2DA71D243F6C020013841B /* HyBidDemo */,
+				7E2DA71D243F6C020013841B /* HyBidDemoSwift */,
 				7E2DA73D243F6DEF0013841B /* HyBidDemoObjc */,
 				7E2DA71C243F6C020013841B /* Products */,
 			);
@@ -96,7 +96,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7E2DA71D243F6C020013841B /* HyBidDemo */ = {
+		7E2DA71D243F6C020013841B /* HyBidDemoSwift */ = {
 			isa = PBXGroup;
 			children = (
 				7E2DA71E243F6C020013841B /* AppDelegate.swift */,
@@ -108,7 +108,7 @@
 				7E2DA729243F6C070013841B /* LaunchScreen.storyboard */,
 				7E2DA72C243F6C070013841B /* Info.plist */,
 			);
-			path = HyBidDemo;
+			path = HyBidDemoSwift;
 			sourceTree = "<group>";
 		};
 		7E2DA73D243F6DEF0013841B /* HyBidDemoObjc */ = {
@@ -452,7 +452,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TL55SBB4FM;
-				INFOPLIST_FILE = HyBidDemo/Info.plist;
+				INFOPLIST_FILE = HyBidDemoSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -471,7 +471,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TL55SBB4FM;
-				INFOPLIST_FILE = HyBidDemo/Info.plist;
+				INFOPLIST_FILE = HyBidDemoSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
