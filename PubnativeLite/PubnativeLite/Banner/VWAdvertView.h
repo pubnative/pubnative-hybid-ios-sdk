@@ -33,7 +33,6 @@
 @protocol VWAdvertViewDelegate
 
 - (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView;
-
 - (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error;
 
 @end
@@ -41,17 +40,12 @@
 @interface VWAdvertView : UIView<HyBidAdViewDelegate>
 
 @property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegate;
-
 @property (nonatomic, assign, readonly) BOOL adLoaded;
-
 @property (nonatomic, assign) VWAdSize adSize;
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size;
-
 - (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin;
-
 - (void)loadRequest:(nonnull VWAdRequest *)request;
-
 - (CGSize)sizeThatFits:(CGSize)size;
 
 @end

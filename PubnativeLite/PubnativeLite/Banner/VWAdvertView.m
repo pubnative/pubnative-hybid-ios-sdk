@@ -23,56 +23,51 @@
 #import <Foundation/Foundation.h>
 #import "VWAdvertView.h"
 
+@interface VWAdvertView ()
+
+@property (nonatomic, strong)HyBidAdView *adView;
+
+@end
+
 @implementation VWAdvertView
 
-HyBidAdView * adView;
-
 - (void)dealloc {
-    adView = nil;
+    self.adView = nil;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    adView = [[HyBidAdView alloc]initWithSize:HyBidAdSize.SIZE_320x50];
-    [self addSubview: adView];
+    self.adView = [[HyBidAdView alloc]initWithSize:HyBidAdSize.SIZE_320x50];
+    [self addSubview: self.adView];
 }
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size {
-    
     _adLoaded = false;
-    
-    adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
-    
-    [self addSubview: adView];
-    
+    self.adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
+    [self addSubview: self.adView];
     return self;
 }
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin {
     
     _adLoaded = false;
-    
-    adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
-    
-    CGRect frame = adView.frame;
+    self.adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
+    CGRect frame = self.adView.frame;
     frame.origin = origin;
     self.frame = frame;
-    
-    [self addSubview: adView];
-    
+    [self addSubview: self.adView];
     return self;
 }
 
 - (void)loadRequest:(nonnull VWAdRequest *)request {
-    [adView loadWithDelegate:self];
+    [self.adView loadWithDelegate:self];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
     return [self sizeThatFits:size];
 }
 
-// utils
-- (HyBidAdSize*) mapSizes:(VWAdSize) size {
+- (HyBidAdSize*)mapSizes:(VWAdSize)size {
     
     if (size.flags == kVWAdSizeBanner.flags) {
         return HyBidAdSize.SIZE_320x50;
@@ -87,10 +82,9 @@ HyBidAdView * adView;
     }
     
     return HyBidAdSize.SIZE_320x50;
-    
 }
 
-// HybidAdDelegate
+#pragma mark HyBidAdViewDelegate
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     _adLoaded = false;
     [self.delegate advertView:self didFailToReceiveAdWithError:error];
