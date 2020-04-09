@@ -83,7 +83,6 @@
 		5A6923CD2405365F001868A3 /* HyBidAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6923CB2405365F001868A3 /* HyBidAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6923CC2405365F001868A3 /* HyBidAdSize.m */; };
 		5A6CD0252029CD060022E206 /* HyBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* HyBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5A6D1DB924362BC8003C85D4 /* InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D1DB824362BC8003C85D4 /* InterstitialViewController.m */; };
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
 		5A71309E20690463000B83D9 /* HyBidAdTrackerRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */; };
 		5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */; };
@@ -373,8 +372,6 @@
 		5AD07C0B22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C0A22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m */; };
 		5AD07C0F22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C0E22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m */; };
 		5AD07C1222FB02F2001BF4A1 /* Markup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD07C1122FB02F2001BF4A1 /* Markup.m */; };
-		5AD10C6B242BD02700A7DA14 /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
-		5AD10C6C242BD02700A7DA14 /* HyBid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD140482065292A0018845E /* OCMockitoIOS.framework */; };
 		5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */; };
 		5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD05202C617A00617734 /* PNLiteResponseModel.m */; };
@@ -702,15 +699,6 @@
 		E7218DDE2428C6D400968314 /* VrvResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DDC2428C6D400968314 /* VrvResponseModel.m */; };
 		E7956153242B6CAB0052693A /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E7956151242B6CAB0052693A /* XMLDictionary.h */; };
 		E7956154242B6CAB0052693A /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* XMLDictionary.m */; };
-		E7956185242BB2190052693A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956184242BB2190052693A /* AppDelegate.m */; };
-		E7956188242BB2190052693A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956187242BB2190052693A /* SceneDelegate.m */; };
-		E795618B242BB2190052693A /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618A242BB2190052693A /* BannerViewController.m */; };
-		E795618E242BB2190052693A /* MRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795618D242BB2190052693A /* MRectViewController.m */; };
-		E7956191242BB2190052693A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E795618F242BB2190052693A /* Main.storyboard */; };
-		E7956193242BB21C0052693A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7956192242BB21C0052693A /* Assets.xcassets */; };
-		E7956196242BB21C0052693A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7956194242BB21C0052693A /* LaunchScreen.storyboard */; };
-		E7956199242BB21C0052693A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956198242BB21C0052693A /* main.m */; };
-		E79561A1242BC2EC0052693A /* AdSdkDemoSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E79561A0242BC2EC0052693A /* AdSdkDemoSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -728,13 +716,6 @@
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
 		};
-		5AD10C6D242BD02700A7DA14 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
-			remoteInfo = HyBid;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -745,17 +726,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5AD10C6F242BD02700A7DA14 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5AD10C6C242BD02700A7DA14 /* HyBid.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -863,8 +833,6 @@
 		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* HyBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBid.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5A6D1DB724362BC8003C85D4 /* InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterstitialViewController.h; sourceTree = "<group>"; };
-		5A6D1DB824362BC8003C85D4 /* InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterstitialViewController.m; sourceTree = "<group>"; };
 		5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequestTest.m; sourceTree = "<group>"; };
 		5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequestTest.m; sourceTree = "<group>"; };
 		5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdRequestTest.m; sourceTree = "<group>"; };
@@ -1773,22 +1741,6 @@
 		E7218DDC2428C6D400968314 /* VrvResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvResponseModel.m; sourceTree = "<group>"; };
 		E7956151242B6CAB0052693A /* XMLDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
 		E7956152242B6CAB0052693A /* XMLDictionary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
-		E7956181242BB2190052693A /* AdSDK Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AdSDK Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7956183242BB2190052693A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E7956184242BB2190052693A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E7956186242BB2190052693A /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		E7956187242BB2190052693A /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		E7956189242BB2190052693A /* BannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerViewController.h; sourceTree = "<group>"; };
-		E795618A242BB2190052693A /* BannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerViewController.m; sourceTree = "<group>"; };
-		E795618C242BB2190052693A /* MRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRectViewController.h; sourceTree = "<group>"; };
-		E795618D242BB2190052693A /* MRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRectViewController.m; sourceTree = "<group>"; };
-		E7956190242BB2190052693A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E7956192242BB21C0052693A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E7956195242BB21C0052693A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		E7956197242BB21C0052693A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E7956198242BB21C0052693A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E795619F242BC2EC0052693A /* AdSdkDemoSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdSdkDemoSettings.h; sourceTree = "<group>"; };
-		E79561A0242BC2EC0052693A /* AdSdkDemoSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdSdkDemoSettings.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1837,14 +1789,6 @@
 				5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */,
 				5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */,
 				5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E795617E242BB2190052693A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5AD10C6B242BD02700A7DA14 /* HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2153,7 +2097,6 @@
 				5A6CD0222029CD060022E206 /* PubnativeLite */,
 				5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */,
 				5A969A3E206523F800C3B74A /* PubnativeLiteTests */,
-				E7956182242BB2190052693A /* AdSDK Demo */,
 				5A6CD0212029CD060022E206 /* Products */,
 				5A8903CF203DE1D400D86051 /* Frameworks */,
 			);
@@ -2165,7 +2108,6 @@
 				5A6CD0202029CD060022E206 /* HyBid.framework */,
 				5A32CEB92029F79B0003B450 /* HyBidDemo.app */,
 				5A969A3D206523F800C3B74A /* HyBidTests.xctest */,
-				E7956181242BB2190052693A /* AdSDK Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3579,30 +3521,6 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
-		E7956182242BB2190052693A /* AdSDK Demo */ = {
-			isa = PBXGroup;
-			children = (
-				E7956183242BB2190052693A /* AppDelegate.h */,
-				E7956184242BB2190052693A /* AppDelegate.m */,
-				E7956186242BB2190052693A /* SceneDelegate.h */,
-				E7956187242BB2190052693A /* SceneDelegate.m */,
-				E7956189242BB2190052693A /* BannerViewController.h */,
-				E795618A242BB2190052693A /* BannerViewController.m */,
-				E795618C242BB2190052693A /* MRectViewController.h */,
-				E795618D242BB2190052693A /* MRectViewController.m */,
-				5A6D1DB724362BC8003C85D4 /* InterstitialViewController.h */,
-				5A6D1DB824362BC8003C85D4 /* InterstitialViewController.m */,
-				E795618F242BB2190052693A /* Main.storyboard */,
-				E7956192242BB21C0052693A /* Assets.xcassets */,
-				E7956194242BB21C0052693A /* LaunchScreen.storyboard */,
-				E7956197242BB21C0052693A /* Info.plist */,
-				E7956198242BB21C0052693A /* main.m */,
-				E795619F242BC2EC0052693A /* AdSdkDemoSettings.h */,
-				E79561A0242BC2EC0052693A /* AdSdkDemoSettings.m */,
-			);
-			path = "AdSDK Demo";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -3854,25 +3772,6 @@
 			productReference = 5A969A3D206523F800C3B74A /* HyBidTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		E7956180242BB2190052693A /* AdSDK Demo */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E795619A242BB21C0052693A /* Build configuration list for PBXNativeTarget "AdSDK Demo" */;
-			buildPhases = (
-				E795617D242BB2190052693A /* Sources */,
-				E795617E242BB2190052693A /* Frameworks */,
-				E795617F242BB2190052693A /* Resources */,
-				5AD10C6F242BD02700A7DA14 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5AD10C6E242BD02700A7DA14 /* PBXTargetDependency */,
-			);
-			name = "AdSDK Demo";
-			productName = "AdSDK Demo";
-			productReference = E7956181242BB2190052693A /* AdSDK Demo.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3894,10 +3793,6 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
 					};
-					E7956180242BB2190052693A = {
-						CreatedOnToolsVersion = 11.4;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 5A6CD01A2029CD060022E206 /* Build configuration list for PBXProject "HyBid" */;
@@ -3916,7 +3811,6 @@
 				5A6CD01F2029CD060022E206 /* HyBid */,
 				5A32CEB82029F79B0003B450 /* HyBidDemo */,
 				5A969A3C206523F800C3B74A /* HyBidTests */,
-				E7956180242BB2190052693A /* AdSDK Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -3992,16 +3886,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E795617F242BB2190052693A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E7956196242BB21C0052693A /* LaunchScreen.storyboard in Resources */,
-				E7956193242BB21C0052693A /* Assets.xcassets in Resources */,
-				E7956191242BB2190052693A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4458,20 +4342,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E795617D242BB2190052693A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E7956199242BB21C0052693A /* main.m in Sources */,
-				E79561A1242BC2EC0052693A /* AdSdkDemoSettings.m in Sources */,
-				E795618E242BB2190052693A /* MRectViewController.m in Sources */,
-				E7956185242BB2190052693A /* AppDelegate.m in Sources */,
-				5A6D1DB924362BC8003C85D4 /* InterstitialViewController.m in Sources */,
-				E795618B242BB2190052693A /* BannerViewController.m in Sources */,
-				E7956188242BB2190052693A /* SceneDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4485,11 +4355,6 @@
 			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
 		};
-		5AD10C6E242BD02700A7DA14 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5A6CD01F2029CD060022E206 /* HyBid */;
-			targetProxy = 5AD10C6D242BD02700A7DA14 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -4499,22 +4364,6 @@
 				5A32CEC22029F79B0003B450 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		E795618F242BB2190052693A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E7956190242BB2190052693A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		E7956194242BB21C0052693A /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E7956195242BB21C0052693A /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -4809,47 +4658,6 @@
 			};
 			name = Release;
 		};
-		E795619B242BB21C0052693A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TL55SBB4FM;
-				INFOPLIST_FILE = "AdSDK Demo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.AdSDK.demo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		E795619C242BB21C0052693A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TL55SBB4FM;
-				INFOPLIST_FILE = "AdSDK Demo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.AdSDK.demo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4885,15 +4693,6 @@
 			buildConfigurations = (
 				5A969A45206523F800C3B74A /* Debug */,
 				5A969A46206523F800C3B74A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E795619A242BB21C0052693A /* Build configuration list for PBXNativeTarget "AdSDK Demo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E795619B242BB21C0052693A /* Debug */,
-				E795619C242BB21C0052693A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
