@@ -111,8 +111,11 @@ NSInteger const kDefaultCanopyZoneID = 2;
     } else {
         self.zoneID = zoneID;
     }
+    // Verve request will be created only if partner keyword is set
+    if ([HyBidSettings sharedInstance].partnerKeyword != nil) {
+        self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModel]];
+    }
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
-    self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModel]];
     self.isSetIntegrationTypeCalled = YES;
 }
 
