@@ -1,9 +1,9 @@
 //
 //  AppDelegate.m
-//  AdSDK Demo
+//  HyBidDemoObjc
 //
-//  Created by Eros Garcia Ponte on 25.03.20.
-//  Copyright © 2020 Can Soykarafakili. All rights reserved.
+//  Created by Fares Ben Hamouda on 09.04.20.
+//  Copyright © 2020 Fares Ben Hamouda. All rights reserved.
 //
 
 #import "AppDelegate.h"

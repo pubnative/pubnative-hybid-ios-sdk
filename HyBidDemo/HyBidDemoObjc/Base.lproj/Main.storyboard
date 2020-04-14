@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ea2-Wo-AX5">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Banner-->
+        <scene sceneID="iXU-Mq-zNW">
+            <objects>
+                <viewController id="J5l-0w-DFr" customClass="BannerViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="owx-2u-Rio">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYP-Pk-wcY">
+                                <rect key="frame" x="20" y="64" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Load Banner"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="J5l-0w-DFr" eventType="touchUpInside" id="hgb-Ol-bie"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Weg-QD-ag5" customClass="VWAdvertView">
+                                <rect key="frame" x="47" y="106" width="320" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="81A-ts-9RH"/>
+                                    <constraint firstAttribute="width" constant="320" id="t0v-H6-UF4"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Weg-QD-ag5" firstAttribute="centerX" secondItem="owx-2u-Rio" secondAttribute="centerX" id="1fe-1w-hRi"/>
+                            <constraint firstItem="pYP-Pk-wcY" firstAttribute="top" secondItem="CLW-jc-8pr" secondAttribute="top" constant="20" id="9W1-Vq-y22"/>
+                            <constraint firstItem="CLW-jc-8pr" firstAttribute="trailing" secondItem="pYP-Pk-wcY" secondAttribute="trailing" constant="20" id="R2q-Nx-OYf"/>
+                            <constraint firstItem="pYP-Pk-wcY" firstAttribute="centerX" secondItem="owx-2u-Rio" secondAttribute="centerX" id="YeU-OV-kFq"/>
+                            <constraint firstItem="Weg-QD-ag5" firstAttribute="top" secondItem="pYP-Pk-wcY" secondAttribute="bottom" constant="8" id="qW1-bk-DUr"/>
+                            <constraint firstItem="pYP-Pk-wcY" firstAttribute="leading" secondItem="CLW-jc-8pr" secondAttribute="leading" constant="20" id="uBG-MM-5DB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="CLW-jc-8pr"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Banner" image="b.square.fill" catalog="system" id="CuE-xP-tFd"/>
+                    <connections>
+                        <outlet property="bannerAdView" destination="Weg-QD-ag5" id="Zhi-c8-mzS"/>
+                        <outlet property="loadAdButton" destination="pYP-Pk-wcY" id="jqm-Xy-x8J"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L87-0t-7Qs" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1274" y="-639"/>
+        </scene>
+        <!--MRect-->
+        <scene sceneID="eCF-CI-QRE">
+            <objects>
+                <viewController id="Vuj-sx-P1S" customClass="MRectViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Uzt-rx-NdG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z8L-PU-A5y">
+                                <rect key="frame" x="20" y="64" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Load MRect"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="Vuj-sx-P1S" eventType="touchUpInside" id="PkS-pZ-DHR"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lfr-fh-NgO" customClass="HyBidAdView">
+                                <rect key="frame" x="57" y="106" width="300" height="250"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="94k-gk-7If"/>
+                                    <constraint firstAttribute="height" constant="250" id="yi0-Xg-xXj"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Z8L-PU-A5y" firstAttribute="leading" secondItem="4ii-SB-OJF" secondAttribute="leading" constant="20" id="DCW-ny-h99"/>
+                            <constraint firstItem="Z8L-PU-A5y" firstAttribute="top" secondItem="4ii-SB-OJF" secondAttribute="top" constant="20" id="IcK-NA-bwD"/>
+                            <constraint firstItem="Lfr-fh-NgO" firstAttribute="centerX" secondItem="Uzt-rx-NdG" secondAttribute="centerX" id="YQ0-8Q-j5K"/>
+                            <constraint firstItem="Z8L-PU-A5y" firstAttribute="centerX" secondItem="Uzt-rx-NdG" secondAttribute="centerX" id="j0R-aB-gDl"/>
+                            <constraint firstItem="4ii-SB-OJF" firstAttribute="trailing" secondItem="Z8L-PU-A5y" secondAttribute="trailing" constant="20" id="npY-gD-nkG"/>
+                            <constraint firstItem="Lfr-fh-NgO" firstAttribute="top" secondItem="Z8L-PU-A5y" secondAttribute="bottom" constant="8" id="q45-Zo-Jrc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4ii-SB-OJF"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="MRect" image="m.square.fill" catalog="system" id="JW5-dv-kMC"/>
+                    <connections>
+                        <outlet property="bannerAdView" destination="Lfr-fh-NgO" id="fKn-wA-zhO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J4N-J5-OGO" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1297" y="19"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="EkC-EC-Qbl">
+            <objects>
+                <tabBarController id="Ea2-Wo-AX5" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="HmJ-a5-Fni">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="J5l-0w-DFr" kind="relationship" relationship="viewControllers" id="hFU-s8-Rg7"/>
+                        <segue destination="Vuj-sx-P1S" kind="relationship" relationship="viewControllers" id="A2q-l2-Y98"/>
+                        <segue destination="hTY-fY-CV5" kind="relationship" relationship="viewControllers" id="eXB-lx-sXL"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D3Z-Da-Xnj" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+        <!--Interstitial-->
+        <scene sceneID="WID-Qn-0g9">
+            <objects>
+                <viewController id="hTY-fY-CV5" userLabel="Interstitial" customClass="InterstitialViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xK1-hb-taC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1yu-SM-Dry">
+                                <rect key="frame" x="20" y="64" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Load Interstitial"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="Vuj-sx-P1S" eventType="touchUpInside" id="WXA-an-S99"/>
+                                    <action selector="requestInterstitialTouchUpInside:" destination="hTY-fY-CV5" eventType="touchUpInside" id="htY-RW-Dl6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="1yu-SM-Dry" firstAttribute="leading" secondItem="NpW-2a-zgV" secondAttribute="leading" constant="20" id="81Q-Gb-ept"/>
+                            <constraint firstItem="NpW-2a-zgV" firstAttribute="trailing" secondItem="1yu-SM-Dry" secondAttribute="trailing" constant="20" id="KgD-Pl-hdy"/>
+                            <constraint firstItem="1yu-SM-Dry" firstAttribute="top" secondItem="NpW-2a-zgV" secondAttribute="top" constant="20" id="rAn-F1-COV"/>
+                            <constraint firstItem="1yu-SM-Dry" firstAttribute="centerX" secondItem="xK1-hb-taC" secondAttribute="centerX" id="uEr-pb-isX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NpW-2a-zgV"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Interstitial" image="i.square.fill" catalog="system" id="jRW-1Y-Jj5" userLabel="Interstitial"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ua7-Us-8xV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1295.6521739130435" y="758.70535714285711"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="b.square.fill" catalog="system" width="128" height="114"/>
+        <image name="i.square.fill" catalog="system" width="128" height="114"/>
+        <image name="m.square.fill" catalog="system" width="128" height="114"/>
+    </resources>
+</document>

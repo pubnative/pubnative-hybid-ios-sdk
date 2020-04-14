@@ -15,6 +15,9 @@
       </FileRef>
    </Group>
    <FileRef
+      location = "group:PubnativeLite/../HyBidDemo/HyBidDemo.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:PubnativeLite/HyBid.xcodeproj">
    </FileRef>
 </Workspace>
