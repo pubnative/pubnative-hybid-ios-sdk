@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E2C07302445B952008E439C /* HyBid.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7E2C07312445B956008E439C /* HyBid.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E2DA71F243F6C020013841B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA71E243F6C020013841B /* AppDelegate.swift */; };
 		7E2DA721243F6C020013841B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA720243F6C020013841B /* SceneDelegate.swift */; };
 		7E2DA726243F6C020013841B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA724243F6C020013841B /* Main.storyboard */; };
@@ -28,7 +30,57 @@
 		7E2DA76C243F740A0013841B /* AdSdkDemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7E2C07272445B8DB008E439C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2C07212445B8DB008E439C /* HyBid.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A6CD0202029CD060022E206;
+			remoteInfo = HyBid;
+		};
+		7E2C07292445B8DB008E439C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2C07212445B8DB008E439C /* HyBid.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A32CEB92029F79B0003B450;
+			remoteInfo = HyBidDemo;
+		};
+		7E2C072B2445B8DB008E439C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2C07212445B8DB008E439C /* HyBid.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A969A3D206523F800C3B74A;
+			remoteInfo = HyBidTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7E2C072D2445B8EC008E439C /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7E2C07302445B952008E439C /* HyBid.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E2C072F2445B906008E439C /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7E2C07312445B956008E439C /* HyBid.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		7E2C07212445B8DB008E439C /* HyBid.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HyBid.xcodeproj; path = ../../../PubnativeLite/HyBid.xcodeproj; sourceTree = "<group>"; };
 		7E2DA71B243F6C020013841B /* HyBidDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E2DA71E243F6C020013841B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E2DA720243F6C020013841B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +130,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7E2C07202445B86B008E439C /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				7E2C07212445B8DB008E439C /* HyBid.xcodeproj */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		7E2C07222445B8DB008E439C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7E2C07282445B8DB008E439C /* HyBid.framework */,
+				7E2C072A2445B8DB008E439C /* HyBidDemo.app */,
+				7E2C072C2445B8DB008E439C /* HyBidTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7E2DA712243F6C020013841B = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +169,7 @@
 		7E2DA71D243F6C020013841B /* HyBidDemoSwift */ = {
 			isa = PBXGroup;
 			children = (
+				7E2C07202445B86B008E439C /* Dependencies */,
 				7E2DA71E243F6C020013841B /* AppDelegate.swift */,
 				7E2DA720243F6C020013841B /* SceneDelegate.swift */,
 				7E2DA765243F738C0013841B /* Constants */,
@@ -179,6 +250,7 @@
 				7E2DA717243F6C020013841B /* Sources */,
 				7E2DA718243F6C020013841B /* Frameworks */,
 				7E2DA719243F6C020013841B /* Resources */,
+				7E2C072D2445B8EC008E439C /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,6 +268,7 @@
 				7E2DA738243F6DEF0013841B /* Sources */,
 				7E2DA739243F6DEF0013841B /* Frameworks */,
 				7E2DA73A243F6DEF0013841B /* Resources */,
+				7E2C072F2445B906008E439C /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -235,6 +308,12 @@
 			mainGroup = 7E2DA712243F6C020013841B;
 			productRefGroup = 7E2DA71C243F6C020013841B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 7E2C07222445B8DB008E439C /* Products */;
+					ProjectRef = 7E2C07212445B8DB008E439C /* HyBid.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				7E2DA71A243F6C020013841B /* HyBidDemoSwift */,
@@ -242,6 +321,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		7E2C07282445B8DB008E439C /* HyBid.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HyBid.framework;
+			remoteRef = 7E2C07272445B8DB008E439C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7E2C072A2445B8DB008E439C /* HyBidDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = HyBidDemo.app;
+			remoteRef = 7E2C07292445B8DB008E439C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7E2C072C2445B8DB008E439C /* HyBidTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = HyBidTests.xctest;
+			remoteRef = 7E2C072B2445B8DB008E439C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		7E2DA719243F6C020013841B /* Resources */ = {
