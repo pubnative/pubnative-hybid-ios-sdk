@@ -23,16 +23,17 @@
 #import "PNLiteHttpRequest.h"
 #import "PNLiteReachability.h"
 #import "PNLiteCryptoUtils.h"
+#import "HyBidLogger.h"
+#import "HyBidWebBrowserUserAgentInfo.h"
 
-NSTimeInterval const kPNLiteHttpRequestDefaultTimeout = 60;
-NSURLRequestCachePolicy const kPNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
+NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
+NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
 NSInteger const MAX_RETRIES = 1;
 
 @interface PNLiteHttpRequest ()
 
 @property (nonatomic, strong) NSObject<PNLiteHttpRequestDelegate> *delegate;
 @property (nonatomic, strong) NSString *urlString;
-@property (nonatomic, strong) NSString *userAgent;
 @property (nonatomic, strong) NSString *method;
 @property (nonatomic, assign) NSInteger retryCount;
 
@@ -44,7 +45,6 @@ NSInteger const MAX_RETRIES = 1;
 {
     self.delegate = nil;
     self.urlString = nil;
-    self.userAgent = nil;
     self.method = nil;
     self.header = nil;
     self.body = nil;
@@ -56,16 +56,16 @@ NSInteger const MAX_RETRIES = 1;
     self.urlString = urlString;
     self.method = method;
     
-    if (self.delegate == nil) {
-        NSLog(@"PNLiteHttpRequest - Delegate is nil, dropping the call.");
-    } else if(self.urlString == nil || self.urlString.length <= 0) {
-        [self invokeFailWithMessage:@"URL is nil or empty" andAttemptRetry:NO];
+    if (!self.delegate) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Delegate is nil, dropping the call."];
+    } else if(!self.urlString || self.urlString.length <= 0) {
+        [self invokeFailWithMessage:@"URL is nil or empty." andAttemptRetry:NO];
     } else if(![self.method isEqualToString:@"GET"] && ![self.method isEqualToString:@"POST"] && ![self.method isEqualToString:@"DELETE"]) {
         [self invokeFailWithMessage:@"Unsupported HTTP method, dropping the call." andAttemptRetry:NO];
     } else {
         PNLiteReachability *reachability = [PNLiteReachability reachabilityForInternetConnection];
         [reachability startNotifier];
-        if([reachability currentReachabilityStatus] == PNLiteNetworkStatus_NotReachable){
+        if([reachability currentReachabilityStatus] == PNLiteNetworkStatus_NotReachable) {
             [reachability stopNotifier];
             [self invokeFailWithMessage:@"Internet is not available." andAttemptRetry:YES];
         } else {
@@ -78,10 +78,6 @@ NSInteger const MAX_RETRIES = 1;
 - (void)executeAsyncRequest
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.userAgent == nil){
-            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-            self.userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self makeRequest];
         });
@@ -91,21 +87,21 @@ NSInteger const MAX_RETRIES = 1;
 - (void)makeRequest
 {
     NSURL *url = [NSURL URLWithString:self.urlString];
-    if (url == nil) {
+    if (!url) {
         NSString *message = [NSString stringWithFormat:@"URL cannot be parsed: %@", self.urlString];
         [self invokeFailWithMessage:message andAttemptRetry:NO];
     } else {
         NSURLSession *session = [NSURLSession sharedSession];
-        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": self.userAgent};
+        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.userAgent};
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:url];
-        [request setCachePolicy:kPNLiteHttpRequestDefaultCachePolicy];
-        [request setTimeoutInterval:kPNLiteHttpRequestDefaultTimeout];
+        [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];
+        [request setTimeoutInterval:PNLiteHttpRequestDefaultTimeout];
         [request setHTTPMethod:self.method];
         if (self.header && self.header.count > 0) {
             for (NSString *key in self.header) {
                 id value = self.header[key];
-                NSLog(@"Value: %@ for key: %@", value, key);
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Value: %@ for key: %@", value, key]];
                 [request setValue:value forHTTPHeaderField:key];
             }
         }
@@ -145,6 +141,8 @@ NSInteger const MAX_RETRIES = 1;
 
 - (void)invokeFailWithError:(NSError *)error andAttemptRetry:(BOOL)retry
 {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"HTTP Request failed with error: %@", error.localizedDescription]];
+
     if (self.shouldRetry && self.retryCount < MAX_RETRIES && retry) {
         self.retryCount++;
         [self executeAsyncRequest];

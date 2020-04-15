@@ -37,28 +37,29 @@
 
 @implementation PNLiteDemoMoPubMRectViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubMrect = nil;
     self.mRectAdRequest = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"MoPub MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID
-                                                    size:MOPUB_MEDIUM_RECT_SIZE];
+    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID];
+    [self.moPubMrect setFrame:CGRectMake(0, 0, self.mRectContainer.frame.size.width, self.mRectContainer.frame.size.height)];
     self.moPubMrect.delegate = self;
     [self.moPubMrect stopAutomaticallyRefreshingContents];
     [self.mRectContainer addSubview:self.moPubMrect];
 }
 
-- (IBAction)requestMRectTouchUpInside:(id)sender
-{
+- (IBAction)requestMRectTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -67,31 +68,13 @@
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestMRectTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - MPAdViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
+- (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
     NSLog(@"adViewDidLoadAd");
     if (self.moPubMrect == view) {
         self.mRectContainer.hidden = NO;
@@ -99,8 +82,7 @@
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
-{
+- (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubMrect == view) {
         [self.mRectLoaderIndicator stopAnimating];
@@ -108,30 +90,25 @@
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
-{
+- (void)willPresentModalViewForAd:(MPAdView *)view {
     NSLog(@"willPresentModalViewForAd");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
-{
+- (void)didDismissModalViewForAd:(MPAdView *)view {
     NSLog(@"didDismissModalViewForAd");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
-{
+- (void)willLeaveApplicationFromAd:(MPAdView *)view {
     NSLog(@"willLeaveApplicationFromAd");
 }
 
 #pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.mRectAdRequest) {
@@ -141,8 +118,7 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
      if (request == self.mRectAdRequest) {

@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerPresenter.h"
+#import "HyBidAdPresenter.h"
 
-@interface PNLiteMRAIDBannerPresenter : HyBidBannerPresenter
+@interface PNLiteMRAIDBannerPresenter : HyBidAdPresenter
 
 - (instancetype)initWithAd:(HyBidAd *)ad;
 

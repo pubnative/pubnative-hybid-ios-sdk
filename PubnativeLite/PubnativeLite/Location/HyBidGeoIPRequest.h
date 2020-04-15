@@ -21,14 +21,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteGeoIPModel.h"
 
 @class HyBidGeoIPRequest;
 
 @protocol HyBidGeoIPRequestDelegate <NSObject>
 
 - (void)requestDidStart:(HyBidGeoIPRequest *)request;
-- (void)request:(HyBidGeoIPRequest *)request didLoadWithGeoIP:(PNLiteGeoIPModel *)geoIP;
+- (void)request:(HyBidGeoIPRequest *)request didLoadWithCountryCode:(NSString *)countryCode;
 - (void)request:(HyBidGeoIPRequest *)request didFailWithError:(NSError *)error;
 
 @end

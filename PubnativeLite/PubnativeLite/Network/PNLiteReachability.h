@@ -20,7 +20,7 @@ typedef enum : NSInteger {
 //Reachability fully support IPv6.  For full details, see ReadMe.md.
 
 
-extern NSString *kPNLiteReachabilityChangedNotification;
+extern NSString *PNLiteReachabilityChangedNotification;
 
 
 @interface PNLiteReachability : NSObject

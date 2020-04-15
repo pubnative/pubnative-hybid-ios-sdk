@@ -24,13 +24,11 @@
 
 @implementation PNLiteRequestInspector
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.lastInspectedRequest = nil;
 }
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static PNLiteRequestInspector * _instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -39,8 +37,7 @@
     return _instance;
 }
 
-- (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency
-{
+- (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency {
     self.lastInspectedRequest = [[PNLiteRequestInspectorModel alloc] initWithURL:url withResponse:response withLatency:latency];
 }
 

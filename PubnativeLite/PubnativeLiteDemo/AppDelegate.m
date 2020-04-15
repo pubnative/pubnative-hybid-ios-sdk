@@ -22,9 +22,9 @@
 
 #import "AppDelegate.h"
 #import "PNLiteDemoSettings.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import "MoPub.h"
+
+@import GoogleMobileAds;
 
 @interface AppDelegate ()
 
@@ -36,12 +36,13 @@
     // Override point for customization after application launch.
     [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
+            [HyBidLogger setLogLevel:HyBidLogLevelDebug];
             NSLog(@"HyBid initialisation completed");
         }
     }];
     MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
-    [Fabric with:@[[Crashlytics class]]];
+    [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     return YES;
 }
 
@@ -71,6 +72,5 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
 
 @end

@@ -24,14 +24,12 @@
 
 @implementation UIApplication (PNLiteTopViewController)
 
-- (UIViewController *)topViewController
-{
+- (UIViewController *)topViewController {
     return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
 }
 
-- (UIViewController *)topViewController:(UIViewController *)rootViewController
-{
-    if (rootViewController.presentedViewController == nil) {
+- (UIViewController *)topViewController:(UIViewController *)rootViewController {
+    if (!rootViewController.presentedViewController) {
         return rootViewController;
     }
     

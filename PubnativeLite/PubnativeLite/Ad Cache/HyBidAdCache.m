@@ -29,8 +29,7 @@
     self.adCache = nil;
 }
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static HyBidAdCache *_sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -40,13 +39,11 @@
     return _sharedInstance;
 }
 
-- (void)putAdToCache:(HyBidAd *)ad withZoneID:(NSString *)zoneID
-{
+- (void)putAdToCache:(HyBidAd *)ad withZoneID:(NSString *)zoneID {
     [[HyBidAdCache sharedInstance].adCache setObject:ad forKey:zoneID];
 }
 
-- (HyBidAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID
-{
+- (HyBidAd *)retrieveAdFromCacheWithZoneID:(NSString *)zoneID {
     HyBidAd *cachedAd = [[HyBidAdCache sharedInstance].adCache objectForKey:zoneID];
     [[HyBidAdCache sharedInstance].adCache removeObjectForKey:zoneID];
     return cachedAd;

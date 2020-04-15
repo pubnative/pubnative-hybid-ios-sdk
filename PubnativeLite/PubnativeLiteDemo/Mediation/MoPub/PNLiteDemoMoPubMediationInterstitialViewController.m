@@ -34,87 +34,66 @@
 
 @implementation PNLiteDemoMoPubMediationInterstitialViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubInterstitial = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
-    
-    if(self.moPubInterstitial == nil) {
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID];
-        self.moPubInterstitial.delegate = self;
-    }
 }
 
-- (IBAction)requestInterstitialTouchUpInside:(id)sender
-{
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
+    self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID];
+    self.moPubInterstitial.delegate = self;
     [self.moPubInterstitial loadAd];
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
 
-- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.moPubInterstitial showFromViewController:self];
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidFailToLoadAd");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:@"MoPub Interstitial did fail to load."
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestInterstitialTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
 
-- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillAppear");
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidAppear");
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillDisappear");
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidDisappear");
 }
 
-- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidExpire");
 }
 
-- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial
-{
+- (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidReceiveTapEvent");
 }
 

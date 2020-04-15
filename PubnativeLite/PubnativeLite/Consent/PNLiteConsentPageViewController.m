@@ -22,16 +22,17 @@
 
 #import "PNLiteConsentPageViewController.h"
 #import "HyBidUserDataManager.h"
+#import <WebKit/WebKit.h>
 
 typedef void(^PNLiteConsentPageViewControllerCompletion)(BOOL success, NSError *error);
 
-NSString *const kPNLiteConsentAccept = @"https://pubnative.net/personalize-experience-yes/";
-NSString *const kPNLiteConsentReject = @"https://pubnative.net/personalize-experience-no/";
-NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
+NSString *const PNLiteConsentAccept = @"https://cdn.pubnative.net/static/consent/GDPR-consent-dialog-accept.html";
+NSString *const PNLiteConsentReject = @"https://cdn.pubnative.net/static/consent/GDPR-consent-dialog-reject.html";
+NSString *const PNLiteConsentClose = @"https://pubnative.net/";
 
-@interface PNLiteConsentPageViewController () <UIWebViewDelegate>
+@interface PNLiteConsentPageViewController () <WKUIDelegate, WKNavigationDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, assign) BOOL finishedInitialLoad;
 @property (nonatomic, copy) PNLiteConsentPageViewControllerCompletion didLoadCompletionBlock;
 @property (nonatomic, copy) NSString *consentPageURL;
@@ -42,8 +43,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
 
 #pragma mark - Initialization
 
-- (instancetype)initWithConsentPageURL:(NSString *)consentPageURL
-{
+- (instancetype)initWithConsentPageURL:(NSString *)consentPageURL {
     if (self = [super initWithNibName:nil bundle:nil]) {
         _consentPageURL = consentPageURL;
         [self setUpWebView];
@@ -51,15 +51,13 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     [self layoutWebView];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     if ([self.delegate respondsToSelector:@selector(consentPageViewControllerWillDisappear:)]) {
@@ -67,17 +65,16 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     }
 }
 
-- (void)setUpWebView
-{
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    self.webView.delegate = self;
+- (void)setUpWebView {
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+    self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     self.webView.scrollView.bounces = NO;
     self.webView.backgroundColor = [UIColor whiteColor];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
-- (void)layoutWebView
-{
+- (void)layoutWebView {
     self.webView.frame = self.view.bounds;
     [self.view addSubview:self.webView];
     
@@ -93,15 +90,13 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     }
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
 #pragma mark - Load Consent Page
 
-- (void)loadConsentPageWithCompletion:(PNLiteConsentPageViewControllerCompletion)completion
-{
+- (void)loadConsentPageWithCompletion:(PNLiteConsentPageViewControllerCompletion)completion {
     self.finishedInitialLoad = NO;
     self.didLoadCompletionBlock = completion;
     NSURL *url = [NSURL URLWithString:self.consentPageURL];
@@ -109,10 +104,9 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
     [self.webView loadRequest:urlRequest];
 }
 
-#pragma mark UIWebViewDelegate
+#pragma mark WKNavigationDelegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if (!self.finishedInitialLoad) {
         self.finishedInitialLoad = YES;
         
@@ -122,9 +116,7 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
         }
     }
 }
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     if (!self.finishedInitialLoad) {
         self.finishedInitialLoad = YES;
         
@@ -134,26 +126,26 @@ NSString *const kPNLiteConsentClose = @"https://pubnative.net/";
         }
     }
 }
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    NSURL *url = [request URL];
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSURL *url = [navigationAction.request URL];
     NSString *absoluteUrlString = [url absoluteString];
     
-    if ([absoluteUrlString isEqualToString:kPNLiteConsentAccept]) {
+    if ([absoluteUrlString isEqualToString:PNLiteConsentAccept]) {
         [[HyBidUserDataManager sharedInstance] grantConsent];
-    } else if ([absoluteUrlString isEqualToString:kPNLiteConsentReject]) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    } else if ([absoluteUrlString isEqualToString:PNLiteConsentReject]) {
         [[HyBidUserDataManager sharedInstance] denyConsent];
-    } else if ([absoluteUrlString isEqualToString:kPNLiteConsentClose]) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    } else if ([absoluteUrlString isEqualToString:PNLiteConsentClose]) {
         [self dismissViewControllerAnimated:YES completion:^{
             if ([self.delegate respondsToSelector:@selector(consentPageViewControllerDidDismiss:)]) {
                 [self.delegate consentPageViewControllerDidDismiss:self];
             }
         }];
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
     } else {
-        return YES;
+        decisionHandler(WKNavigationActionPolicyAllow);
     }
-    return YES;
 }
+
 @end

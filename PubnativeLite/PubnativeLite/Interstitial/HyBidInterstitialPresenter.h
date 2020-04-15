@@ -39,10 +39,19 @@
 @interface HyBidInterstitialPresenter : NSObject
 
 @property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, strong) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
 
 - (void)load;
+
+/// Presents the interstitial ad modally from the current view controller.
 - (void)show;
+
+/**
+ * Presents the interstitial ad modally from the specified view controller.
+ *
+ * @param viewController The view controller that should be used to present the interstitial ad.
+ */
+- (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
 
 @end

@@ -24,13 +24,11 @@
 
 @implementation HyBidBaseModel
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.dictionary = nil;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary
-{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
         self.dictionary = dictionary;
@@ -38,8 +36,7 @@
     return self;
 }
 
-+ (NSArray *)parseArrayValues:(NSArray *)array
-{
++ (NSArray *)parseArrayValues:(NSArray *)array {
     NSMutableArray *result;
     if(array) {
         result = [NSMutableArray array];

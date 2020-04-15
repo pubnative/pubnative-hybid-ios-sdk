@@ -25,5 +25,7 @@
 @interface PNLiteDemoBaseViewController : UIViewController
 
 - (void)clearLastInspectedRequest;
+- (void)requestAd;
+- (void)showAlertControllerWithMessage:(NSString *)message;
 
 @end

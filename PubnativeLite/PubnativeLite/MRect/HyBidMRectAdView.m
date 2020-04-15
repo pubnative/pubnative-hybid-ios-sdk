@@ -21,85 +21,42 @@
 //
 
 #import "HyBidMRectAdView.h"
-#import "HyBidMRectPresenter.h"
 #import "HyBidMRectPresenterFactory.h"
-#import "HyBidMRectAdRequest.h"
-
-@interface HyBidMRectAdView() <HyBidMRectPresenterDelegate>
-
-@property (nonatomic, strong) HyBidMRectPresenter *mRectPresenter;
-
-@end
 
 @implementation HyBidMRectAdView
 
-- (void)dealloc
-{
-    self.mRectPresenter = nil;
+- (void)dealloc {
+    self.mRectAdRequest = nil;
 }
 
-- (instancetype)init
-{
-    return [super initWithFrame:CGRectMake(0, 0, 300, 250)];
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
 }
 
-- (HyBidAdRequest *)adRequest
-{
-    HyBidMRectAdRequest *mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
-    return mRectAdRequest;
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+    }
+    return self;
 }
 
-- (void)renderAd
-{
+- (instancetype)init {
+    self = [super initWithFrame:CGRectMake(0, 0, 300, 250)];
+    if (self) {
+        self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+    }
+    return self;
+}
+
+- (HyBidAdRequest *)adRequest {
+    return self.mRectAdRequest;
+}
+
+- (HyBidAdPresenter *)createAdPresenter {
     HyBidMRectPresenterFactory *mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-    self.mRectPresenter = [mRectPresenterFactory createMRectPresenterWithAd:self.ad withDelegate:self];
-    if (self.mRectPresenter == nil) {
-        NSLog(@"HyBid - Error: Could not create valid mRect presenter");
-        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
-        return;
-    } else {
-        [self.mRectPresenter load];
-    }
-}
-
-- (void)startTracking
-{
-    [self.mRectPresenter startTracking];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
-        [self.delegate adViewDidTrackImpression:self];
-    }
-}
-
-- (void)stopTracking
-{
-    [self.mRectPresenter stopTracking];
-}
-
-#pragma mark - HyBidMRectPresenterDelegate
-
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didLoadWithMRect:(UIView *)mRect
-{
-    if (mRect == nil) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
-        }
-    } else {
-        [self setupAdView:mRect];
-    }
-}
-
-- (void)mRectPresenter:(HyBidMRectPresenter *)mRectPresenter didFailWithError:(NSError *)error
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-        [self.delegate adView:self didFailWithError:error];
-    }
-}
-
-- (void)mRectPresenterDidClick:(HyBidMRectPresenter *)mRectPresenter
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
-        [self.delegate adViewDidTrackClick:self];
-    }
+    return [mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end

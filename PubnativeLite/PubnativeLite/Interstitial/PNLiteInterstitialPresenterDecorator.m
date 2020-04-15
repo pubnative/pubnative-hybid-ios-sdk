@@ -26,38 +26,37 @@
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, strong) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
+@property (nonatomic, weak) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
 
 @end
 
 @implementation PNLiteInterstitialPresenterDecorator
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.interstitialPresenter = nil;
     self.adTracker = nil;
     self.interstitialPresenterDelegate = nil;
 }
 
-- (void)load
-{
+- (void)load {
     [self.interstitialPresenter load];
 }
 
-- (void)show
-{
+- (void)show {
     [self.interstitialPresenter show];
 }
 
-- (void)hide
-{
+- (void)showFromViewController:(UIViewController *)viewController {
+    [self.interstitialPresenter showFromViewController:viewController];
+}
+
+- (void)hide {
     [self.interstitialPresenter hide];
 }
 
 - (instancetype)initWithInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
                                 withAdTracker:(HyBidAdTracker *)adTracker
-                                 withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate
-{
+                                 withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate {
     self = [super init];
     if (self) {
         self.interstitialPresenter = interstitialPresenter;
@@ -69,31 +68,36 @@
 
 #pragma mark HyBidInterstitialPresenterDelegate
 
-- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter
-{
-    [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
+        [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
+    }
 }
 
-- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter
-{
-    [self.adTracker trackImpression];
-    [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
+- (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)]) {
+        [self.adTracker trackImpression];
+        [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
+    }
 }
 
-- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter
-{
-    [self.adTracker trackClick];
-    [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
+- (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidClick:)]) {
+        [self.adTracker trackClick];
+        [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
+    }
 }
 
-- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter
-{
-    [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
+- (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidDismiss:)]) {
+        [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
+    }
 }
 
-- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error
-{
-    [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
+- (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenter:didFailWithError:)]) {
+        [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
+    }
 }
 
 @end

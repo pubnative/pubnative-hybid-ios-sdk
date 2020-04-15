@@ -35,26 +35,27 @@
 
 @implementation PNLiteDemoMoPubMediationLeaderboardViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubLeaderboard = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"MoPub Mediation Leaderboard";
     [self.leaderboardLoaderIndicator stopAnimating];
-    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID
-                                                     size:MOPUB_LEADERBOARD_SIZE];
+    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID];
+    [self.moPubLeaderboard setFrame:CGRectMake(0, 0, self.leaderboardContainer.frame.size.width, self.leaderboardContainer.frame.size.height)];
     self.moPubLeaderboard.delegate = self;
     [self.moPubLeaderboard stopAutomaticallyRefreshingContents];
     [self.leaderboardContainer addSubview:self.moPubLeaderboard];
 }
 
-- (IBAction)requestLeaderboardTouchUpInside:(id)sender
-{
+- (IBAction)requestLeaderboardTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -64,13 +65,11 @@
 
 #pragma mark - MPAdViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
+- (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
     NSLog(@"adViewDidLoadAd");
     if (self.moPubLeaderboard == view) {
         self.leaderboardContainer.hidden = NO;
@@ -79,39 +78,24 @@
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
-{
+- (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubLeaderboard == view) {
         self.inspectRequestButton.hidden = NO;
         [self.leaderboardLoaderIndicator stopAnimating];
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                              message:@"MoPub Leaderboard did fail to load."
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-        UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self requestLeaderboardTouchUpInside:nil];
-        }];
-        [alertController addAction:dismissAction];
-        [alertController addAction:retryAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self showAlertControllerWithMessage:@"MoPub Leaderboard did fail to load."];
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
-{
+- (void)willPresentModalViewForAd:(MPAdView *)view {
     NSLog(@"willPresentModalViewForAd");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
-{
+- (void)didDismissModalViewForAd:(MPAdView *)view {
     NSLog(@"didDismissModalViewForAd");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
-{
+- (void)willLeaveApplicationFromAd:(MPAdView *)view {
     NSLog(@"willLeaveApplicationFromAd");
 }
 

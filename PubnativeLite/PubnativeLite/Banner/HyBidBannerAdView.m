@@ -21,85 +21,42 @@
 //
 
 #import "HyBidBannerAdView.h"
-#import "HyBidBannerPresenter.h"
 #import "HyBidBannerPresenterFactory.h"
-#import "HyBidBannerAdRequest.h"
-
-@interface HyBidBannerAdView() <HyBidBannerPresenterDelegate>
-
-@property (nonatomic, strong) HyBidBannerPresenter *bannerPresenter;
-
-@end
 
 @implementation HyBidBannerAdView
 
-- (void)dealloc
-{
-    self.bannerPresenter = nil;
+- (void)dealloc {
+    self.bannerAdRequest = nil;
 }
 
-- (instancetype)init
-{
-    return [super initWithFrame:CGRectMake(0, 0, 320, 50)];
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
 }
 
-- (HyBidAdRequest *)adRequest
-{
-    HyBidBannerAdRequest *bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
-    return bannerAdRequest;
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+    }
+    return self;
 }
 
-- (void)renderAd
-{
+- (instancetype)init {
+    self = [super initWithFrame:CGRectMake(0, 0, 320, 50)];
+    if (self) {
+        self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+    }
+    return self;
+}
+
+- (HyBidAdRequest *)adRequest {
+    return self.bannerAdRequest;
+}
+
+- (HyBidAdPresenter *)createAdPresenter {
     HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-    self.bannerPresenter = [bannerPresenterFactory createBannerPresenterWithAd:self.ad withDelegate:self];
-    if (self.bannerPresenter == nil) {
-        NSLog(@"HyBid - Error: Could not create valid banner presenter");
-        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset" code:0 userInfo:nil]];
-        return;
-    } else {
-        [self.bannerPresenter load];
-    }
-}
-
-- (void)startTracking
-{
-    [self.bannerPresenter startTracking];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
-        [self.delegate adViewDidTrackImpression:self];
-    }
-}
-
-- (void)stopTracking
-{
-    [self.bannerPresenter stopTracking];
-}
-
-#pragma mark - HyBidBannerPresenterDelegate
-
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didLoadWithBanner:(UIView *)banner
-{
-    if (banner == nil) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad" code:0 userInfo:nil]];
-        }
-    } else {
-        [self setupAdView:banner];
-    }
-}
-
-- (void)bannerPresenter:(HyBidBannerPresenter *)bannerPresenter didFailWithError:(NSError *)error
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-        [self.delegate adView:self didFailWithError:error];
-    }
-}
-
-- (void)bannerPresenterDidClick:(HyBidBannerPresenter *)bannerPresenter
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
-        [self.delegate adViewDidTrackClick:self];
-    }
+    return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end

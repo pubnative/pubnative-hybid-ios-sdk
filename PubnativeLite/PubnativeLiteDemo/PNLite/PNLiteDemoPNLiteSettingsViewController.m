@@ -28,11 +28,13 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *appTokenTextField;
 @property (weak, nonatomic) IBOutlet UITextField *ageTextField;
+@property (weak, nonatomic) IBOutlet UITextField *apiURLTextField;
 @property (weak, nonatomic) IBOutlet UIButton *testModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *coppaModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *notSetButton;
 @property (weak, nonatomic) IBOutlet UIButton *maleButton;
 @property (weak, nonatomic) IBOutlet UIButton *femaleButton;
+@property (weak, nonatomic) IBOutlet UISwitch *viewabilitySwitch;
 @property (nonatomic, assign) BOOL testModeSelected;
 @property (nonatomic, assign) BOOL coppaModeSelected;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
@@ -41,14 +43,12 @@
 
 @implementation PNLiteDemoPNLiteSettingsViewController
 
--(void)dealloc
-{
+- (void)dealloc {
     self.targetingModel = nil;
     self.gender = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Settings";
     self.appTokenTextField.text = [PNLiteDemoSettings sharedInstance].appToken;
@@ -56,6 +56,7 @@
     self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
+    self.apiURLTextField.text = [PNLiteDemoSettings sharedInstance].apiURL;
     [self setInitialStateForModeButtons];
     [self setInitialStateForGenderButtons];
     if (self.targetingModel.age.integerValue > 0) {
@@ -63,11 +64,10 @@
     }
 }
 
-- (void)setInitialStateForModeButtons
-{
+- (void)setInitialStateForModeButtons {
     if (self.testModeSelected) {
         self.testModeButton.selected = YES;
-        [self.testModeButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.testModeButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         self.testModeButton.selected = NO;
         [self.testModeButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
@@ -75,21 +75,20 @@
     
     if (self.coppaModeSelected) {
         self.coppaModeButton.selected = YES;
-        [self.coppaModeButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.coppaModeButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         self.coppaModeButton.selected = NO;
         [self.coppaModeButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
 }
 
-- (void)setInitialStateForGenderButtons
-{
+- (void)setInitialStateForGenderButtons {
     if ([self.targetingModel.gender isEqualToString:@"m"]) {
         self.notSetButton.selected = NO;
         self.maleButton.selected = YES;
         self.femaleButton.selected = NO;
         [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-        [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
         [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     } else if ([self.targetingModel.gender isEqualToString:@"f"]) {
         self.notSetButton.selected = NO;
@@ -97,38 +96,37 @@
         self.femaleButton.selected = YES;
         [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
         [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-        [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         self.notSetButton.selected = YES;
         self.maleButton.selected = NO;
         self.femaleButton.selected = NO;
-        [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
         [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
         [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
 }
 
-- (IBAction)handleTap:(UIGestureRecognizer *)recognizer
-{
+- (IBAction)handleTap:(UIGestureRecognizer *)recognizer {
     if (!([self.ageTextField.text length] > 0)) {
         self.ageTextField.text = nil;
         [self.ageTextField resignFirstResponder];
     }
 }
 
-- (IBAction)savePNLiteSettingsTouchUpInside:(UIButton *)sender
-{
+- (IBAction)savePNLiteSettingsTouchUpInside:(UIButton *)sender {
     [PNLiteDemoSettings sharedInstance].appToken = self.appTokenTextField.text;
     [PNLiteDemoSettings sharedInstance].targetingModel = [self configureTargetingModel];
     [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
+    [PNLiteDemoSettings sharedInstance].apiURL = self.apiURLTextField.text;
     
     [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
     }];
-
+    [HyBidSettings sharedInstance].apiURL = [PNLiteDemoSettings sharedInstance].apiURL;
     [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
         [HyBid setTestMode:YES];
@@ -143,8 +141,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (HyBidTargetingModel *)configureTargetingModel
-{
+- (HyBidTargetingModel *)configureTargetingModel {
     if (([self.ageTextField.text length] > 0) && (self.ageTextField.text.integerValue > 0)) {
         self.targetingModel.age = [NSNumber numberWithInt:[self.ageTextField.text intValue]];
     }
@@ -153,75 +150,71 @@
     return self.targetingModel;
 }
 
-- (IBAction)notSetTouchUpInside:(UIButton *)sender
-{
+- (IBAction)notSetTouchUpInside:(UIButton *)sender {
     self.notSetButton.selected = YES;
     self.maleButton.selected = NO;
     self.femaleButton.selected = NO;
-    [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+    [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     self.gender = nil;
 }
 
-- (IBAction)maleTouchUpInside:(UIButton *)sender
-{
+- (IBAction)maleTouchUpInside:(UIButton *)sender {
     self.notSetButton.selected = NO;
     self.maleButton.selected = YES;
     self.femaleButton.selected = NO;
     [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+    [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     self.gender = @"m";
 }
 
-- (IBAction)femaleTouchUpInside:(UIButton *)sender
-{
+- (IBAction)femaleTouchUpInside:(UIButton *)sender {
     self.notSetButton.selected = NO;
     self.maleButton.selected = NO;
     self.femaleButton.selected = YES;
     [self.notSetButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.maleButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+    [self.femaleButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     self.gender = @"f";
 }
 
-- (IBAction)testingModeTouchUpInside:(UIButton *)sender
-{
+- (IBAction)testingModeTouchUpInside:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (sender.selected) {
-        [sender setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [sender setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         [sender setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
     self.testModeSelected = sender.selected;
 }
 
-- (IBAction)coppaModeTouchUpInside:(UIButton *)sender
-{
+- (IBAction)coppaModeTouchUpInside:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (sender.selected) {
-        [sender setBackgroundColor:[UIColor colorWithRed:0.33 green:0.59 blue:0.23 alpha:1.00]];
+        [sender setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     } else {
         [sender setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     }
     self.coppaModeSelected = sender.selected;
 }
 
+- (IBAction)viewabilitySwitchValueChanged:(UISwitch *)sender {
+    [HyBidViewabilityManager sharedInstance].viewabilityMeasurementEnabled = sender.on;
+}
+
 #pragma mark UITextFieldDelegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField becomeFirstResponder];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     [textField resignFirstResponder];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField endEditing:YES];
     return YES;
 }

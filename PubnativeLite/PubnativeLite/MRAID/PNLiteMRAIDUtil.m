@@ -24,8 +24,7 @@
 
 @implementation PNLiteMRAIDUtil
 
-+ (NSString *)processRawHtml:(NSString *)rawHtml
-{
++ (NSString *)processRawHtml:(NSString *)rawHtml {
     NSString *processedHtml = rawHtml;
     NSRange range;
     

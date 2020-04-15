@@ -25,14 +25,12 @@
 
 @implementation HyBidSettings
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.targeting = nil;
     self.appToken = nil;
 }
 
-+ (HyBidSettings *)sharedInstance
-{
++ (HyBidSettings *)sharedInstance {
     static HyBidSettings *_instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -41,19 +39,17 @@
     return _instance;
 }
 
-- (NSString *)advertisingId
-{
+- (NSString *)advertisingId {
     NSString *result = nil;
-    if(!self.coppa && NSClassFromString(@"ASIdentifierManager")){
-        if([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]){
+    if(!self.coppa && NSClassFromString(@"ASIdentifierManager")) {
+        if([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
             result = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
         }
     }
     return result;
 }
 
-- (CLLocation *)location
-{
+- (CLLocation *)location {
     CLLocation *result = nil;
     if(!self.coppa) {
         result = [PNLiteLocationManager getLocation];
@@ -61,36 +57,30 @@
     return result;
 }
 
-- (NSString *)os
-{
+- (NSString *)os {
     UIDevice *currentDevice = [UIDevice currentDevice];
     return currentDevice.systemName;
 }
 
-- (NSString *)osVersion
-{
+- (NSString *)osVersion {
     UIDevice *currentDevice = [UIDevice currentDevice];
     return currentDevice.systemVersion;
 }
 
-- (NSString *)deviceName
-{
+- (NSString *)deviceName {
     UIDevice *currentDevice = [UIDevice currentDevice];
     return currentDevice.model;
 }
 
-- (NSString *)locale
-{
+- (NSString *)locale {
     return [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
 }
 
-- (NSString *)appVersion
-{
+- (NSString *)appVersion {
     return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 }
 
-- (NSString *)appBundleID
-{
+- (NSString *)appBundleID {
     return [[NSBundle mainBundle] bundleIdentifier];
 }
 

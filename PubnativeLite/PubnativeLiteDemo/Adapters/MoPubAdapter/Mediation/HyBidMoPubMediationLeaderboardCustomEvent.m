@@ -34,71 +34,59 @@
 
 @implementation HyBidMoPubMediationLeaderboardCustomEvent
 
-- (void)dealloc
-{
-    [self.leaderboardAdView stopTracking];
+- (void)dealloc {
     self.leaderboardAdView = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
-{
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if (CGSizeEqualToSize(MOPUB_LEADERBOARD_SIZE, size)) {
+        if (size.height == kMPPresetMaxAdSize90Height.height && size.width >= 728.0f) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
+                self.leaderboardAdView.isMediation = YES;
                 [self.leaderboardAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             } else {
-                [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
+                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
             }
         } else {
-            [self invokeFailWithMessage:@"HyBid - Error: Wrong ad size."];
+            [self invokeFailWithMessage:@"Wrong ad size."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed leaderboard ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed leaderboard ad fetch. Missing required server extras."];
         return;
     }
 }
 
-- (void)invokeFailWithMessage:(NSString *)message
-{
-    MPLogError(message);
+- (void)invokeFailWithMessage:(NSString *)message {
+    MPLogError(@"%@", message);
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate bannerCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
                                                      userInfo:nil]];
 }
 
-- (BOOL)enableAutomaticImpressionAndClickTracking
-{
+- (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
-}
-
-- (void)didDisplayAd
-{
-    [self.leaderboardAdView startTracking];
 }
 
 #pragma mark - HyBidAdViewDelegate
 
-- (void)adViewDidLoad:(HyBidAdView *)adView
-{
+- (void)adViewDidLoad:(HyBidAdView *)adView {
     [self.delegate bannerCustomEvent:self didLoadAd:self.leaderboardAdView];
 }
 
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error
-{
-    [self invokeFailWithMessage:[NSString stringWithFormat:@"HyBid - Internal Error: %@", error.localizedDescription]];
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     [self.delegate trackImpression];
 }
 
-- (void)adViewDidTrackClick:(HyBidAdView *)adView
-{
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
     [self.delegate trackClick];
     [self.delegate bannerCustomEventWillLeaveApplication:self];
 }

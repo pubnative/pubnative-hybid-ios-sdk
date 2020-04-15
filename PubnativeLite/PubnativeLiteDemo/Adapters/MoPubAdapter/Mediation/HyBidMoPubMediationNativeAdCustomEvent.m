@@ -34,30 +34,29 @@
 
 @implementation HyBidMoPubMediationNativeAdCustomEvent
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.nativeAdLoader = nil;
 }
 
-- (void)requestAdWithCustomEventInfo:(NSDictionary *)info
-{
+- (void)requestAdWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
+            self.nativeAdLoader.isMediation = YES;
             [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[HyBidMoPubUtils zoneID:info]];
         } else {
-            [self invokeFailWithMessage:@"HyBid - The provided app token doesn't match the one used to initialise HyBid."];
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"HyBid - Error: Failed native ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed native ad fetch. Missing required server extras."];
         return;
     }
 }
 
-- (void)invokeFailWithMessage:(NSString*)message
-{
-    MPLogError(message);
+- (void)invokeFailWithMessage:(NSString*)message {
+    MPLogError(@"%@", message);
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate nativeCustomEvent:self
             didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                          code:0
@@ -66,8 +65,7 @@
 
 #pragma mark - HyBidNativeAdLoaderDelegate
 
-- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
-{
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     __block HyBidMoPubMediationNativeAdCustomEvent *strongSelf = self;
     __block HyBidNativeAd *blockAd = nativeAd;
     NSString *bannerURLString = nativeAd.bannerUrl;
@@ -78,7 +76,7 @@
     
     [self precacheImagesWithURLs:@[bannerURL, iconURL] completionBlock:^(NSArray *errors) {
         if(errors && errors.count > 0) {
-            [self invokeFailWithMessage:@"HyBid - Error: error caching resources"];
+            [self invokeFailWithMessage:@"Error caching resources."];
         } else {
             HyBidMoPubMediationNativeAdAdapter *adapter = [[HyBidMoPubMediationNativeAdAdapter alloc] initWithNativeAd:blockAd];
             MPNativeAd* result = [[MPNativeAd alloc] initWithAdAdapter:adapter];
@@ -89,8 +87,7 @@
     }];
 }
 
-- (void)nativeLoaderDidFailWithError:(NSError *)error
-{
+- (void)nativeLoaderDidFailWithError:(NSError *)error {
     [self invokeFailWithMessage:error.localizedDescription];
 }
 

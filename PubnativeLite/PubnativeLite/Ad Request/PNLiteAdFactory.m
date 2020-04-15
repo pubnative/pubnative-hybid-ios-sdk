@@ -26,11 +26,13 @@
 #import "PNLiteCryptoUtils.h"
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
+#import "HyBidConstants.h"
 
 @implementation PNLiteAdFactory
 
-- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID andWithAdSize:(NSString *)adSize
-{
+- (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
+                                      andWithAdSize:(NSString *)adSize
+                             andWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
     adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
@@ -52,13 +54,18 @@
         [self setDefaultAssetFields:adRequestModel];
     }
     [self setDefaultMetaFields:adRequestModel];
+    [self setDisplayManager:adRequestModel withIntegrationType:integrationType];
     return adRequestModel;
 }
 
-- (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel
-{
+- (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = HYBID_SDK_NAME;
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [NSString stringWithFormat:@"%@_%@_%@", @"sdkios", [HyBidIntegrationType getIntegrationTypeCodeFromIntegrationType:integrationType] ,HYBID_SDK_VERSION];
+}
+
+- (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {
     NSString *advertisingId = [HyBidSettings sharedInstance].advertisingId;
-    if (advertisingId == nil || advertisingId.length == 0) {
+    if (!advertisingId || advertisingId.length == 0) {
         adRequestModel.requestParameters[HyBidRequestParameter.dnt] = @"1";
     } else {
         adRequestModel.requestParameters[HyBidRequestParameter.idfa] = advertisingId;
@@ -67,10 +74,9 @@
     }
 }
 
-- (void)setDefaultAssetFields:(PNLiteAdRequestModel *)adRequestModel
-{
-    if (adRequestModel.requestParameters[HyBidRequestParameter.assetsField] == nil
-        && adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] == nil) {
+- (void)setDefaultAssetFields:(PNLiteAdRequestModel *)adRequestModel {
+    if (!adRequestModel.requestParameters[HyBidRequestParameter.assetsField]
+        && !adRequestModel.requestParameters[HyBidRequestParameter.assetLayout]) {
         
         NSArray *assets = @[PNLiteAsset.title,
                             PNLiteAsset.body,
@@ -83,8 +89,7 @@
     }
 }
 
-- (void)setDefaultMetaFields:(PNLiteAdRequestModel *)adRequestModel
-{
+- (void)setDefaultMetaFields:(PNLiteAdRequestModel *)adRequestModel {
     NSString *metaFieldsString = adRequestModel.requestParameters[HyBidRequestParameter.metaField];
     NSMutableArray *newMetaFields = [NSMutableArray array];
     if (metaFieldsString && metaFieldsString.length > 0) {
@@ -98,6 +103,9 @@
     }
     if (![newMetaFields containsObject:PNLiteMeta.points]) {
         [newMetaFields addObject:PNLiteMeta.points];
+    }
+    if (![newMetaFields containsObject:PNLiteMeta.creativeId]) {
+        [newMetaFields addObject:PNLiteMeta.creativeId];
     }
     adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
 }

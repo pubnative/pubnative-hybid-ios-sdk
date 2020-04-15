@@ -30,13 +30,12 @@
 
 #pragma mark - error/warning callback functions
 
-void documentParserErrorCallback(void *ctx, const char *msg, ...)
-{
+void documentParserErrorCallback(void *ctx, const char *msg, ...) {
     va_list args;
     va_start (args, msg);
     char *s = va_arg(args, char*);
     NSString *errMsg;
-    if(s){
+    if(s) {
         errMsg = [[NSString stringWithCString:s encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
     if ([errMsg length] > 0) {
@@ -45,8 +44,7 @@ void documentParserErrorCallback(void *ctx, const char *msg, ...)
     va_end(args);
 }
 
-void schemaParserErrorCallback(void *ctx, const char *msg, ...)
-{
+void schemaParserErrorCallback(void *ctx, const char *msg, ...) {
     va_list args;
 	va_start (args, msg);
     char *s = va_arg(args, char*);
@@ -57,8 +55,7 @@ void schemaParserErrorCallback(void *ctx, const char *msg, ...)
     va_end(args);
 }
 
-void schemaParserWarningCallback(void *ctx, const char *msg, ...)
-{
+void schemaParserWarningCallback(void *ctx, const char *msg, ...) {
     va_list args;
 	va_start (args, msg);
     char *s = va_arg(args, char*);
@@ -69,8 +66,7 @@ void schemaParserWarningCallback(void *ctx, const char *msg, ...)
     va_end(args);
 }
 
-void schemaValidationErrorCallback(void *ctx, const char *msg, ...)
-{
+void schemaValidationErrorCallback(void *ctx, const char *msg, ...) {
     va_list args;
 	va_start (args, msg);
     char *s = va_arg(args, char*);
@@ -81,8 +77,7 @@ void schemaValidationErrorCallback(void *ctx, const char *msg, ...)
     va_end(args);
 }
 
-void schemaValidationWarningCallback(void *ctx, const char *msg, ...)
-{
+void schemaValidationWarningCallback(void *ctx, const char *msg, ...) {
     va_list args;
 	va_start (args, msg);
     char *s = va_arg(args, char*);
@@ -95,8 +90,7 @@ void schemaValidationWarningCallback(void *ctx, const char *msg, ...)
 
 #pragma mark - internal helper functions
 
-NSDictionary *dictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *parentResult)
-{
+NSDictionary *dictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *parentResult) {
 	NSMutableDictionary *resultForNode = [NSMutableDictionary dictionary];
 	
 	if (currentNode->name) {
@@ -172,8 +166,7 @@ NSDictionary *dictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *par
 	return resultForNode;
 }
 
-NSArray *performXPathQuery(xmlDocPtr doc, NSString *query)
-{
+NSArray *performXPathQuery(xmlDocPtr doc, NSString *query) {
     xmlXPathContextPtr xpathCtx;
     xmlXPathObjectPtr xpathObj;
     
@@ -214,8 +207,7 @@ NSArray *performXPathQuery(xmlDocPtr doc, NSString *query)
 
 #pragma mark - "public" API
 
-BOOL validateXMLDocSyntax(NSData *document)
-{
+BOOL validateXMLDocSyntax(NSData *document) {
     BOOL retval = YES;
     xmlSetGenericErrorFunc(NULL, (xmlGenericErrorFunc)documentParserErrorCallback);
 	xmlDocPtr doc = xmlReadMemory([document bytes], (int)[document length], "", NULL, 0); // XML_PARSE_RECOVER);
@@ -229,8 +221,7 @@ BOOL validateXMLDocSyntax(NSData *document)
     return retval;
 }
 
-BOOL validateXMLDocAgainstSchema(NSData *document, NSData *schemaData)
-{
+BOOL validateXMLDocAgainstSchema(NSData *document, NSData *schemaData) {
     xmlSetGenericErrorFunc(NULL, (xmlGenericErrorFunc)documentParserErrorCallback);
     
     // load XML document
@@ -284,8 +275,7 @@ BOOL validateXMLDocAgainstSchema(NSData *document, NSData *schemaData)
     return (ret == 0);
 }
 
-NSArray *performXMLXPathQuery(NSData *document, NSString *query)
-{
+NSArray *performXMLXPathQuery(NSData *document, NSString *query) {
     xmlDocPtr doc;
 	doc = xmlReadMemory([document bytes], (int)[document length], "", NULL, 0); // XML_PARSE_RECOVER);
     if (doc == NULL) {

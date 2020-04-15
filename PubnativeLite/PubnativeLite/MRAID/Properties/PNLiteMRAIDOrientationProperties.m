@@ -24,8 +24,7 @@
 
 @implementation PNLiteMRAIDOrientationProperties
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         _allowOrientationChange = YES;
@@ -34,8 +33,7 @@
     return self;
 }
 
-+ (PNLiteMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s
-{
++ (PNLiteMRAIDForceOrientation)MRAIDForceOrientationFromString:(NSString *)s {
     NSArray *names = @[ @"portrait", @"landscape", @"none" ];
     NSUInteger i = [names indexOfObject:s];
     if (i != NSNotFound) {

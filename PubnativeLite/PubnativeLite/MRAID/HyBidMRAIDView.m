@@ -28,13 +28,15 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
+#import "HyBidViewabilityManager.h"
 
-#import "PNLiteLogger.h"
+#import "HyBidLogger.h"
 
 #import "PNLitemraidjs.h"
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
+#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -50,11 +52,14 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate>
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
     BOOL isInterstitial;
+    BOOL isAdSessionCreated;
+    
+    OMIDPubnativenetAdSession *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
@@ -68,6 +73,7 @@ typedef enum {
     PNLiteMRAIDModalViewController *modalVC;
     
     NSString *mraidjs;
+    NSString *omSDKjs;
     
     NSURL *baseURL;
     
@@ -112,8 +118,8 @@ typedef enum {
 - (void)fireViewableChangeEvent;
 // setters
 - (void)setDefaultPosition;
--(void)setMaxSize;
--(void)setScreenSize;
+- (void)setMaxSize;
+- (void)setScreenSize;
 
 // internal helper methods
 - (void)initWebView:(WKWebView *)wv;
@@ -133,16 +139,14 @@ typedef enum {
     return nil;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:@"-initWithFrame is not a valid initializer for the class MRAIDView"
                                  userInfo:nil];
     return nil;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:@"-initWithCoder is not a valid initializer for the class MRAIDView"
                                  userInfo:nil];
@@ -157,8 +161,7 @@ typedef enum {
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(HyBidContentInfoView *)contentInfo
-{
+        contentInfo:(HyBidContentInfoView *)contentInfo {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
                    withBaseURL:bsURL
@@ -179,8 +182,7 @@ typedef enum {
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(HyBidContentInfoView *)contentInfo
-{
+        contentInfo:(HyBidContentInfoView *)contentInfo {
     self = [super initWithFrame:frame];
     if (self) {
         [self setUpTapGestureRecognizer];
@@ -209,7 +211,7 @@ typedef enum {
                           PNLiteMRAIDSupportsInlineVideo,
                           ];
         
-        if([self isValidFeatureSet:currentFeatures] && serviceDelegate){
+        if([self isValidFeatureSet:currentFeatures] && serviceDelegate) {
             supportedFeatures=currentFeatures;
         }
         
@@ -236,7 +238,12 @@ typedef enum {
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
         }
-        
+        /*
+        omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
+        if (omSDKjs) {
+            [self injectJavaScript:omSDKjs];
+        }
+        */
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
@@ -255,41 +262,37 @@ typedef enum {
     return self;
 }
 
-- (void)htmlFromUrl:(NSURL *)url handler:(void (^)(NSString *html, NSError *error))handler
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+- (void)htmlFromUrl:(NSURL *)url handler:(void (^)(NSString *html, NSError *error))handler {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         NSError *error;
         NSString *html = [NSString stringWithContentsOfURL:url encoding:NSASCIIStringEncoding error:&error];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
             if (handler)
                 handler(html, error);
         });
     });
 }
 
-- (void)loadHTMLData:(NSString *)htmlData
-{
+- (void)loadHTMLData:(NSString *)htmlData {
     if (htmlData) {
         [currentWebView loadHTMLString:htmlData baseURL:baseURL];
     } else {
-        [PNLiteLogger error:@"MRAID - View" withMessage:@"Ad HTML is invalid, cannot load"];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad HTML is invalid, cannot load."];
         if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
             [self.delegate mraidViewAdFailed:self];
         }
     }
 }
 
-- (void)cancel
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:@"cancel"];
+- (void)cancel {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"cancel"];
     [currentWebView stopLoading];
     currentWebView = nil;
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
 
-- (void)dealloc
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+- (void)dealloc {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     
     [self removeObserver:self forKeyPath:@"self.frame"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -320,8 +323,7 @@ typedef enum {
     self.serviceDelegate =nil;
 }
 
-- (BOOL)isValidFeatureSet:(NSArray *)features
-{
+- (BOOL)isValidFeatureSet:(NSArray *)features {
     NSArray *kFeatures = @[
                            PNLiteMRAIDSupportsSMS,
                            PNLiteMRAIDSupportsTel,
@@ -333,39 +335,35 @@ typedef enum {
     // Validate the features set by the user
     for (id feature in features) {
         if (![kFeatures containsObject:feature]) {
-            [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"feature %@ is unknown, no supports set", feature]];
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"feature %@ is unknown, no supports set.", feature]];
             return NO;
         }
     }
     return YES;
 }
 
-- (void)setIsViewable:(BOOL)newIsViewable
-{
-    if(newIsViewable!=_isViewable){
+- (void)setIsViewable:(BOOL)newIsViewable {
+    if(newIsViewable!=_isViewable) {
         _isViewable=newIsViewable;
         [self fireViewableChangeEvent];
     }
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"isViewable: %@", _isViewable?@"YES":@"NO"]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"isViewable: %@", _isViewable?@"YES":@"NO"]];
 }
 
-- (BOOL)isViewable
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+- (BOOL)isViewable {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     return _isViewable;
 }
 
-- (void)setRootViewController:(UIViewController *)newRootViewController
-{
+- (void)setRootViewController:(UIViewController *)newRootViewController {
     if(newRootViewController!=_rootViewController) {
         _rootViewController=newRootViewController;
     }
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"setRootViewController: %@", _rootViewController]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"setRootViewController: %@", _rootViewController]];
 }
 
-- (void)deviceOrientationDidChange:(NSNotification *)notification
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     @synchronized (self) {
         [self setScreenSize];
         [self setMaxSize];
@@ -378,7 +376,7 @@ typedef enum {
         return;
     }
     
-    [PNLiteLogger debug:@"MRAID - View" withMessage:@"self.frame has changed"];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"self.frame has changed."];
     
     CGRect oldFrame = CGRectNull;
     CGRect newFrame = CGRectNull;
@@ -389,8 +387,8 @@ typedef enum {
         newFrame = [[object valueForKeyPath:keyPath] CGRectValue];
     }
     
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"old %@", NSStringFromCGRect(oldFrame)]];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"new %@", NSStringFromCGRect(newFrame)]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"old %@", NSStringFromCGRect(oldFrame)]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"new %@", NSStringFromCGRect(newFrame)]];
     
     if (state == PNLiteMRAIDStateResized) {
         [self setResizeViewPosition];
@@ -400,30 +398,32 @@ typedef enum {
     [self fireSizeChangeEvent];
 }
 
--(void)setBackgroundColor:(UIColor *)backgroundColor
-{
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
     [super setBackgroundColor:backgroundColor];
     currentWebView.backgroundColor = backgroundColor;
 }
 
 #pragma mark - interstitial support
 
-- (void)showAsInterstitial
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
+- (void)showAsInterstitial {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     [self expand:nil];
 }
 
-- (void)hide
-{
+- (void)showAsInterstitialFromViewController:(UIViewController *)viewController {
+    [self setRootViewController:viewController];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
+    [self expand:nil];
+}
+
+- (void)hide {
     [self close];
 }
 
 #pragma mark - HyBidContentInfoViewDelegate
 
-- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
-{
-    contentInfoViewContainer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width {
+    contentInfoViewContainer.layer.frame = CGRectMake(contentInfoViewContainer.frame.origin.x, contentInfoViewContainer.frame.origin.y, [width floatValue], contentInfoViewContainer.frame.size.height);
 }
 
 #pragma mark - JavaScript --> native support
@@ -431,9 +431,8 @@ typedef enum {
 // These methods are (indirectly) called by JavaScript code.
 // They provide the means for JavaScript code to talk to native code
 
-- (void)close
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+- (void)close {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
     
     if (state == PNLiteMRAIDStateLoading ||
         (state == PNLiteMRAIDStateDefault && !isInterstitial) ||
@@ -468,6 +467,7 @@ typedef enum {
     if (webViewPart2) {
         // Clean up webViewPart2 if returning from 2-part expansion.
         webViewPart2.navigationDelegate = nil;
+        webViewPart2.UIDelegate = nil;
         currentWebView = webView;
         webViewPart2 = nil;
     } else {
@@ -497,9 +497,8 @@ typedef enum {
 }
 
 // This is a helper method which is not part of the official MRAID API.
-- (void)closeFromResize
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback helper %@", NSStringFromSelector(_cmd)]];
+- (void)closeFromResize {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback helper %@", NSStringFromSelector(_cmd)]];
     [self removeResizeCloseRegion];
     state = PNLiteMRAIDStateDefault;
     [self fireStateChangeEvent];
@@ -514,34 +513,32 @@ typedef enum {
     }
 }
 
-- (void)createCalendarEvent:(NSString *)eventJSON
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.createCalendarEvent() when no UI touch event exists."];
+- (void)createCalendarEvent:(NSString *)eventJSON {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.createCalendarEvent() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
     eventJSON=[eventJSON stringByRemovingPercentEncoding];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), eventJSON]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), eventJSON]];
     
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsCalendar]) {
         if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceCreateCalendarEventWithEventJSON:)]) {
             [self.serviceDelegate mraidServiceCreateCalendarEventWithEventJSON:eventJSON];
         }
     } else {
-        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"No calendar support has been included."]];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"No calendar support has been included."]];
     }
 }
 
 // Note: This method is also used to present an interstitial ad.
-- (void)expand:(NSString *)urlString
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.expand() when no UI touch event exists."];
+- (void)expand:(NSString *)urlString {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.expand() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (urlString ? urlString : @"1-part")]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (urlString ? urlString : @"1-part")]];
     
     // The only time it is valid to call expand is when the ad is currently in either default or resized state.
     if (state != PNLiteMRAIDStateDefault && state != PNLiteMRAIDStateResized) {
@@ -568,7 +565,11 @@ typedef enum {
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
         }
-        
+        /*
+        if (omSDKjs) {
+            [self injectJavaScript:omSDKjs];
+        }
+        */
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
         urlString = [urlString stringByRemovingPercentEncoding];
@@ -586,9 +587,10 @@ typedef enum {
             [webViewPart2 loadHTMLString:content baseURL:baseURL];
         } else {
             // Error! Clean up and return.
-            [PNLiteLogger error:@"MRAID - View" withMessage:[NSString stringWithFormat:@"Could not load part 2 expanded content for URL: %@" ,urlString]];
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Could not load part 2 expanded content for URL: %@" ,urlString]];
             currentWebView = webView;
             webViewPart2.navigationDelegate = nil;
+            webViewPart2.UIDelegate = nil;
             webViewPart2 = nil;
             modalVC = nil;
             return;
@@ -633,15 +635,14 @@ typedef enum {
     self.isViewable = YES;
 }
 
-- (void)open:(NSString *)urlString
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.open() when no UI touch event exists."];
+- (void)open:(NSString *)urlString {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.open() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
     urlString = [urlString stringByRemovingPercentEncoding];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
     // Notify the callers
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
@@ -649,56 +650,52 @@ typedef enum {
     }
 }
 
-- (void)playVideo:(NSString *)urlString
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.playVideo() when no UI touch event exists."];
+- (void)playVideo:(NSString *)urlString {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.playVideo() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
     urlString = [urlString stringByRemovingPercentEncoding];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServicePlayVideoWithUrlString:)]) {
         [self.serviceDelegate mraidServicePlayVideoWithUrlString:urlString];
     }
 }
 
-- (void)sendSMS:(NSString *)urlString
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.sendSMS() when no UI touch event exists."];
+- (void)sendSMS:(NSString *)urlString {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.sendSMS() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
     urlString = [urlString stringByRemovingPercentEncoding];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceSendSMSWithUrlString:)]) {
         [self.serviceDelegate mraidServiceSendSMSWithUrlString:urlString];
     }
 }
 
-- (void)callNumber:(NSString *)urlString
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.callNumber() when no UI touch event exists."];
+- (void)callNumber:(NSString *)urlString {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.callNumber() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
     urlString = [urlString stringByRemovingPercentEncoding];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceCallNumberWithUrlString:)]) {
         [self.serviceDelegate mraidServiceCallNumberWithUrlString:urlString];
     }
 }
 
-- (void)resize
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.resize when no UI touch event exists."];
+- (void)resize {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.resize when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
     // If our delegate doesn't respond to the mraidViewShouldResizeToPosition:allowOffscreen: message,
     // then we can't do anything. We need help from the app here.
     if (![self.delegate respondsToSelector:@selector(mraidViewShouldResize:toPosition:allowOffscreen:)]) {
@@ -732,25 +729,23 @@ typedef enum {
     [self fireSizeChangeEvent];
 }
 
-- (void)setOrientationProperties:(NSDictionary *)properties;
-{
+- (void)setOrientationProperties:(NSDictionary *)properties; {
     BOOL allowOrientationChange = [[properties valueForKey:@"allowOrientationChange"] boolValue];
     NSString *forceOrientation = [properties valueForKey:@"forceOrientation"];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@ %@", NSStringFromSelector(_cmd), (allowOrientationChange ? @"YES" : @"NO"), forceOrientation]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@ %@", NSStringFromSelector(_cmd), (allowOrientationChange ? @"YES" : @"NO"), forceOrientation]];
     orientationProperties.allowOrientationChange = allowOrientationChange;
     orientationProperties.forceOrientation = [PNLiteMRAIDOrientationProperties MRAIDForceOrientationFromString:forceOrientation];
     [modalVC forceToOrientation:orientationProperties];
 }
 
-- (void)setResizeProperties:(NSDictionary *)properties;
-{
+- (void)setResizeProperties:(NSDictionary *)properties; {
     int width = [[properties valueForKey:@"width"] intValue];
     int height = [[properties valueForKey:@"height"] intValue];
     int offsetX = [[properties valueForKey:@"offsetX"] intValue];
     int offsetY = [[properties valueForKey:@"offsetY"] intValue];
     NSString *customClosePosition = [properties valueForKey:@"customClosePosition"];
     BOOL allowOffscreen = [[properties valueForKey:@"allowOffscreen"] boolValue];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %d %d %d %d %@ %@", NSStringFromSelector(_cmd), width, height, offsetX, offsetY, customClosePosition, (allowOffscreen ? @"YES" : @"NO")]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %d %d %d %d %@ %@", NSStringFromSelector(_cmd), width, height, offsetX, offsetY, customClosePosition, (allowOffscreen ? @"YES" : @"NO")]];
     resizeProperties.width = width;
     resizeProperties.height = height;
     resizeProperties.offsetX = offsetX;
@@ -759,38 +754,37 @@ typedef enum {
     resizeProperties.allowOffscreen = allowOffscreen;
 }
 
--(void)storePicture:(NSString *)urlString
-{
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
-        [PNLiteLogger info:@"MRAID - View" withMessage:@"Suppressing an attempt to programmatically call mraid.storePicture when no UI touch event exists."];
+- (void)storePicture:(NSString *)urlString {
+    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.storePicture when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
     }
     
     urlString=[urlString stringByRemovingPercentEncoding];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsStorePicture]) {
         if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceStorePictureWithUrlString:)]) {
             [self.serviceDelegate mraidServiceStorePictureWithUrlString:urlString];
         }
     } else {
-        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"No PNLiteMRAIDSupportsStorePicture feature has been included"]];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"No PNLiteMRAIDSupportsStorePicture feature has been included"]];
     }
 }
 
-- (void)useCustomClose:(NSString *)isCustomCloseString
-{
+- (void)useCustomClose:(NSString *)isCustomCloseString {
     BOOL isCustomClose = [isCustomCloseString boolValue];
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (isCustomClose ? @"YES" : @"NO")]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (isCustomClose ? @"YES" : @"NO")]];
     useCustomClose = isCustomClose;
 }
 
 #pragma mark - JavaScript --> native support helpers
 
 // These methods are helper methods for the ones above.
-- (void)addContentInfoViewToView:(UIView *)view
-{
+- (void)addContentInfoViewToView:(UIView *)view {
     contentInfoViewContainer = [[UIView alloc] init];
+    [contentInfoViewContainer setAccessibilityLabel:@"Content Info Container View"];
+    [contentInfoViewContainer setAccessibilityIdentifier:@"contentInfoContainerView"];
     contentInfoView.delegate = self;
     [view addSubview:contentInfoViewContainer];
     [contentInfoViewContainer addSubview:contentInfoView];
@@ -857,8 +851,7 @@ typedef enum {
     }
 }
 
-- (void)addCloseEventRegion
-{
+- (void)addCloseEventRegion {
     closeEventRegion = [UIButton buttonWithType:UIButtonTypeCustom];
     closeEventRegion.backgroundColor = [UIColor clearColor];
     [closeEventRegion addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
@@ -885,8 +878,7 @@ typedef enum {
     [modalVC.view addSubview:closeEventRegion];
 }
 
-- (void)showResizeCloseRegion
-{
+- (void)showResizeCloseRegion {
     if (!resizeCloseRegion) {
         resizeCloseRegion = [UIButton buttonWithType:UIButtonTypeCustom];
         resizeCloseRegion.frame = CGRectMake(0, 0, kCloseEventRegionSize, kCloseEventRegionSize);
@@ -942,17 +934,15 @@ typedef enum {
     resizeCloseRegion.autoresizingMask = autoresizingMask;
 }
 
-- (void)removeResizeCloseRegion
-{
+- (void)removeResizeCloseRegion {
     if (resizeCloseRegion) {
         [resizeCloseRegion removeFromSuperview];
         resizeCloseRegion = nil;
     }
 }
 
-- (void)setResizeViewPosition
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
+- (void)setResizeViewPosition {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     CGRect oldResizeFrame = resizeView.frame;
     CGRect newResizeFrame = CGRectMake(resizeProperties.offsetX, resizeProperties.offsetY, resizeProperties.width, resizeProperties.height);
     // The offset of the resize frame is relative to the origin of the default banner.
@@ -966,25 +956,21 @@ typedef enum {
 
 #pragma mark - native -->  JavaScript support
 
-- (void)injectJavaScript:(NSString *)js
-{
+- (void)injectJavaScript:(NSString *)js {
     [currentWebView evaluateJavaScript:js completionHandler:^(id result, NSError *error) {}];
 }
 
 // convenience methods
-- (void)fireErrorEventWithAction:(NSString *)action message:(NSString *)message
-{
+- (void)fireErrorEventWithAction:(NSString *)action message:(NSString *)message {
     [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireErrorEvent('%@','%@');", message, action]];
 }
 
-- (void)fireReadyEvent
-{
+- (void)fireReadyEvent {
     [self injectJavaScript:@"mraid.fireReadyEvent()"];
 }
 
-- (void)fireSizeChangeEvent
-{
-    @synchronized(self){
+- (void)fireSizeChangeEvent {
+    @synchronized(self) {
         int x;
         int y;
         int width;
@@ -1011,14 +997,12 @@ typedef enum {
         
         UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
         BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
-        // [PNLiteLogger debug:[NSString stringWithFormat:@"orientation is %@", (isLandscape ?  @"landscape" : @"portrait")]];
         BOOL adjustOrientationForIOS8 = isInterstitial &&  isLandscape && !SYSTEM_VERSION_LESS_THAN(@"8.0");
         [self injectJavaScript:[NSString stringWithFormat:@"mraid.setCurrentPosition(%d,%d,%d,%d);", x, y, adjustOrientationForIOS8?height:width, adjustOrientationForIOS8?width:height]];
     }
 }
 
-- (void)fireStateChangeEvent
-{
+- (void)fireStateChangeEvent {
     @synchronized(self) {
         NSArray *stateNames = @[
                                 @"loading",
@@ -1033,13 +1017,11 @@ typedef enum {
     }
 }
 
-- (void)fireViewableChangeEvent
-{
+- (void)fireViewableChangeEvent {
     [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireViewableChangeEvent(%@);", (self.isViewable ? @"true" : @"false")]];
 }
 
-- (void)setDefaultPosition
-{
+- (void)setDefaultPosition {
     if (isInterstitial) {
         // For interstitials, we define defaultPosition to be the same as screen size, so set the value there.
         return;
@@ -1053,8 +1035,7 @@ typedef enum {
     }
 }
 
--(void)setMaxSize
-{
+- (void)setMaxSize {
     if (isInterstitial) {
         // For interstitials, we define maxSize to be the same as screen size, so set the value there.
         return;
@@ -1068,14 +1049,12 @@ typedef enum {
     }
 }
 
--(void)setScreenSize
-{
+- (void)setScreenSize {
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     // screenSize is ALWAYS for portrait orientation, so we need to figure out the
     // actual interface orientation to get the correct current screenRect.
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
     BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
-    // [PNLiteLogger debug:[NSString stringWithFormat:@"orientation is %@", (isLandscape ?  @"landscape" : @"portrait")]];
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
         screenSize = CGSizeMake(screenSize.width, screenSize.height);
@@ -1100,8 +1079,7 @@ typedef enum {
     }
 }
 
--(void)setSupports:(NSArray *)currentFeatures
-{
+- (void)setSupports:(NSArray *)currentFeatures {
     for (id aFeature in mraidFeatures) {
         [self injectJavaScript:[NSString stringWithFormat:@"mraid.setSupports('%@',%@);", aFeature,[currentFeatures containsObject:aFeature]?@"true":@"false"]];
     }
@@ -1109,15 +1087,13 @@ typedef enum {
 
 #pragma mark - WKNavigationDelegate
 
-- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     @synchronized(self) {
-        [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
         
         // If wv is webViewPart2, that means the part 2 expanded web view has just loaded.
         // In this case, state should already be PNLiteMRAIDStateExpanded and should not be changed.
@@ -1143,6 +1119,7 @@ typedef enum {
             [self fireReadyEvent];
             
             if ([self.delegate respondsToSelector:@selector(mraidViewAdReady:)]) {
+                self.isViewable = YES;
                 [self.delegate mraidViewAdReady:self];
             }
             
@@ -1160,13 +1137,11 @@ typedef enum {
     }
 }
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
 }
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
-{
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     NSURL *url = [navigationAction.request URL];
     NSString *scheme = [url scheme];
     NSString *absUrlString = [url absoluteString];
@@ -1175,16 +1150,16 @@ typedef enum {
         [self parseCommandUrl:absUrlString];
         
     } else if ([scheme isEqualToString:@"console-log"]) {
-        [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS console: %@",
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS console: %@",
                                                          [[absUrlString substringFromIndex:14] stringByRemovingPercentEncoding ]]];
     } else {
-        [PNLiteLogger info:@"MRAID - View" withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationAction.navigationType)]];
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationAction.navigationType)]];
         
         // Links, Form submissions
         if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
             // For banner views
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
-                [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat:@"JS webview load: %@",
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
                                                                  [absUrlString stringByRemovingPercentEncoding]]];
                 [self.delegate mraidViewNavigate:self withURL:url];
             }
@@ -1198,19 +1173,66 @@ typedef enum {
     return;
 }
 
+#pragma mark - OM SDK Viewability
+
+- (void)startAdSession {
+    /*
+    if (!isAdSessionCreated) {
+        adSession = [[HyBidViewabilityManager sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
+        if (contentInfoView) {
+            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession];
+            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession];
+        }
+        if (isInterstitial) {
+            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession];
+        }
+        [[HyBidViewabilityManager sharedInstance] startOMIDAdSession:adSession];
+        isAdSessionCreated = YES;
+        [[HyBidViewabilityManager sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
+    }
+     */
+}
+
+- (void)stopAdSession {
+    /*
+    if (isAdSessionCreated) {
+        [[HyBidViewabilityManager sharedInstance] stopOMIDAdSession:adSession];
+        isAdSessionCreated = NO;
+    }
+     */
+}
+
+#pragma mark - WKUIDelegate
+
+- (WKWebView *)webView:(WKWebView *)webView
+createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+   forNavigationAction:(WKNavigationAction *)navigationAction
+        windowFeatures:(WKWindowFeatures *)windowFeatures {
+    // Open any links to new windows in the current WKWebView rather than create a new one
+    if (!navigationAction.targetFrame.isMainFrame) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [[UIApplication sharedApplication] openURL:[navigationAction.request URL]];
+        if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
+                                                                                                                              [[[navigationAction.request URL] absoluteString] stringByRemovingPercentEncoding]]];
+            [self.delegate mraidViewNavigate:self withURL:[navigationAction.request URL]];
+        }
+    }
+    
+    return nil;
+}
+
 #pragma mark - MRAIDModalViewControllerDelegate
 
-- (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController
-{
-    [PNLiteLogger debug:@"MRAID - View" withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
+- (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     [self setScreenSize];
     [self fireSizeChangeEvent];
 }
 
 #pragma mark - internal helper methods
 
-- (WKWebViewConfiguration *)createConfiguration
-{
+- (WKWebViewConfiguration *)createConfiguration {
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
 
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
@@ -1219,15 +1241,15 @@ typedef enum {
     } else {
         webConfiguration.allowsInlineMediaPlayback = NO;
         webConfiguration.requiresUserActionForMediaPlayback = YES;
-        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"No inline video support has been included, videos will play full screen without autoplay."]];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"No inline video support has been included, videos will play full screen without autoplay."]];
     }
     
     return webConfiguration;
 }
 
-- (void)initWebView:(WKWebView *)wv
-{
+- (void)initWebView:(WKWebView *)wv {
     wv.navigationDelegate = self;
+    wv.UIDelegate = self;
     wv.opaque = NO;
     wv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight |
     UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
@@ -1237,10 +1259,8 @@ typedef enum {
     // disable scrolling
     UIScrollView *scrollView;
     if ([wv respondsToSelector:@selector(scrollView)]) {
-        // UIWebView has a scrollView property in iOS 5+.
         scrollView = [wv scrollView];
     } else {
-        // We have to look for the UIWebView's scrollView in iOS 4.
         for (id subview in [self subviews]) {
             if ([subview isKindOfClass:[UIScrollView class]]) {
                 scrollView = subview;
@@ -1259,11 +1279,10 @@ typedef enum {
         [wv evaluateJavaScript:@"function alert(){}; function prompt(){}; function confirm(){}" completionHandler:^(id result, NSError *error) {}];
 }
 
-- (void)parseCommandUrl:(NSString *)commandUrlString
-{
+- (void)parseCommandUrl:(NSString *)commandUrlString {
     NSDictionary *commandDict = [mraidParser parseCommandUrl:commandUrlString];
     if (!commandDict) {
-        [PNLiteLogger warning:@"MRAID - View" withMessage:[NSString stringWithFormat:@"invalid command URL: %@", commandUrlString]];
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"invalid command URL: %@", commandUrlString]];
         return;
     }
     
@@ -1283,9 +1302,8 @@ typedef enum {
 
 #pragma mark - Gesture Methods
 
--(void)setUpTapGestureRecognizer
-{
-    if(!PNLite_SUPPRESS_BANNER_AUTO_REDIRECT){
+- (void)setUpTapGestureRecognizer {
+    if(!PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
         return;  // return without adding the GestureRecognizer if the feature is not enabled
     }
     // One finger, one tap
@@ -1301,24 +1319,22 @@ typedef enum {
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;   // required to allow UIWebview to work correctly, see  http://stackoverflow.com/questions/2909807/does-uigesturerecognizer-work-on-a-uiwebview
+    return YES;
 }
 
--(void)oneFingerOneTap
-{
+- (void)oneFingerOneTap {
     bonafideTapObserved=YES;
     tapGestureRecognizer.delegate=nil;
     tapGestureRecognizer=nil;
-    [PNLiteLogger debug:@"MRAID - View" withMessage:@"tapGesture oneFingerTap observed"];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"tapGesture oneFingerTap observed"];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    if (touch.view == resizeCloseRegion || touch.view == closeEventRegion){
-        [PNLiteLogger debug:@"MRAID - View" withMessage:@"tapGesture 'shouldReceiveTouch'=NO"];
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if (touch.view == resizeCloseRegion || touch.view == closeEventRegion) {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"tapGesture 'shouldReceiveTouch'=NO"];
         return NO;
     }
-    [PNLiteLogger debug:@"MRAID - View" withMessage:@"tapGesture 'shouldReceiveTouch'=YES"];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"tapGesture 'shouldReceiveTouch'=YES"];
     return YES;
 }
 

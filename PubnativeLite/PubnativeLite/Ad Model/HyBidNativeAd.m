@@ -25,9 +25,11 @@
 #import "HyBidDataModel.h"
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
+#import "HyBidLogger.h"
+#import <WebKit/WebKit.h>
 
-NSString * const kPNLiteNativeAdBeaconImpression = @"impression";
-NSString * const kPNLiteNativeAdBeaconClick = @"click";
+NSString * const PNLiteNativeAdBeaconImpression = @"impression";
+NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 @interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate>
 
@@ -48,8 +50,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 @implementation HyBidNativeAd
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.ad = nil;
     self.renderer = nil;
     self.trackingExtras = nil;
@@ -63,12 +64,13 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     [self.impressionTracker clear];
     self.impressionTracker = nil;
     self.bannerImageView = nil;
+    self.delegate = nil;
+    self.fetchDelegate = nil;
 }
 
 #pragma mark HyBidNativeAd
 
-- (instancetype)initWithAd:(HyBidAd *)ad
-{
+- (instancetype)initWithAd:(HyBidAd *)ad {
     self = [super init];
     if (self) {
         self.ad = ad;
@@ -76,8 +78,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return self;
 }
 
-- (NSString *)title
-{
+- (NSString *)title {
     NSString *result = nil;
     HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.title];
     if (data) {
@@ -86,8 +87,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (NSString *)body
-{
+- (NSString *)body {
     NSString *result = nil;
     HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.body];
     if (data) {
@@ -96,8 +96,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (NSString *)callToActionTitle
-{
+- (NSString *)callToActionTitle {
     NSString *result = nil;
     HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.callToAction];
     if (data) {
@@ -106,8 +105,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (NSString *)iconUrl
-{
+- (NSString *)iconUrl {
     NSString *result = nil;
     HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.icon];
     if (data) {
@@ -116,8 +114,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (NSString *)bannerUrl
-{
+- (NSString *)bannerUrl {
     NSString *result = nil;
     HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.banner];
     if (data) {
@@ -126,8 +123,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (NSString *)clickUrl
-{
+- (NSString *)clickUrl {
     NSString *result = nil;
     NSString *URLString = self.ad.link;
     if (URLString) {
@@ -137,8 +133,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (NSNumber *)rating
-{
+- (NSNumber *)rating {
     NSNumber *result = nil;
     HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.rating];
     if (data) {
@@ -147,9 +142,8 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (UIView *)banner
-{
-    if (self.bannerImageView == nil) {
+- (UIView *)banner {
+    if (!self.bannerImageView) {
         if(self.bannerUrl && self.bannerUrl.length > 0) {
             NSData *bannerData = self.fetchedAssets[[NSURL URLWithString:self.bannerUrl]];
             if(bannerData && bannerData.length > 0) {
@@ -164,8 +158,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return self.bannerImageView;
 }
 
-- (UIImage *)icon
-{
+- (UIImage *)icon {
     UIImage *result = nil;
     if(self.iconUrl && self.iconUrl.length > 0) {
         NSData *imageData = self.fetchedAssets[[NSURL URLWithString:self.iconUrl]];
@@ -176,8 +169,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
-- (HyBidContentInfoView *)contentInfo
-{
+- (HyBidContentInfoView *)contentInfo {
     HyBidContentInfoView *result = nil;
     if (self.ad) {
         result = self.ad.contentInfo;
@@ -187,32 +179,28 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 #pragma mark Tracking & Clicking
 
-- (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate
-{
+- (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
     [self startTrackingView:view withClickableViews:nil withDelegate:delegate];
 }
 
-- (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate
-{
+- (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
     [self startTrackingView:view withClickableViews:clickableViews withTrackingExtras:nil withDelegate:delegate];
 }
 
-- (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withTrackingExtras:(NSDictionary *)trackingExtras withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate
-{
+- (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withTrackingExtras:(NSDictionary *)trackingExtras withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
     self.trackingExtras = trackingExtras;
     self.delegate = delegate;
     [self startTrackingImpressionWithView:view];
     [self startTrackingClicksWithView:view withClickableViews:clickableViews];
 }
 
-- (void)startTrackingImpressionWithView:(UIView *)view
-{
-    if (view == nil) {
-        NSLog(@"HyBidNativeAd - startTrackingImpression - Ad view is nil, cannot start tracking");
+- (void)startTrackingImpressionWithView:(UIView *)view {
+    if (!view) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad view is nil, cannot start tracking."];
     } else if (self.isImpressionConfirmed) {
-        NSLog(@"HyBidNativeAd - startTrackingImpression - Impression is already confirmed, dropping impression tracking");
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression is already confirmed, dropping impression tracking."];
     } else {
-        if(self.impressionTracker == nil) {
+        if(!self.impressionTracker) {
             self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
             self.impressionTracker.delegate = self;
         }
@@ -220,18 +208,17 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (void)startTrackingClicksWithView:(UIView*)view withClickableViews:(NSArray*)clickableViews
-{
-    if (view == nil && clickableViews == nil) {
-        NSLog(@"HyBidNativeAd - startTrackingClicks - Error: click view is nil, clicks won't be tracked");
+- (void)startTrackingClicksWithView:(UIView*)view withClickableViews:(NSArray*)clickableViews {
+    if (!view && !clickableViews) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Click view is nil, clicks won't be tracked."];
     } else if (!self.clickUrl || self.clickUrl.length == 0) {
-        NSLog(@"HyBidNativeAd - startTrackingClicks - Error: clickUrl is empty, clicks won't be tracked");
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Click URL is empty, clicks won't be tracked."];
     } else {
         self.clickableViews = [clickableViews mutableCopy];
-        if(self.clickableViews == nil) {
+        if(!self.clickableViews) {
             self.clickableViews = [NSArray arrayWithObjects:view, nil];
         }
-        if(self.tapRecognizer == nil) {
+        if(!self.tapRecognizer) {
             self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         }
         for (UIView *clickableView in self.clickableViews) {
@@ -241,41 +228,35 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (void)stopTracking
-{
+- (void)stopTracking {
     [self stopTrackingImpression];
     [self stopTrackingClicks];
 }
 
-- (void)stopTrackingImpression
-{
+- (void)stopTrackingImpression {
     [self.impressionTracker clear];
     self.impressionTracker = nil;
 }
 
-- (void)stopTrackingClicks
-{
+- (void)stopTrackingClicks {
     for (UIView *view in self.clickableViews) {
         [view removeGestureRecognizer:self.tapRecognizer];
     }
 }
 
-- (void)handleTap:(UITapGestureRecognizer *)sender
-{
-    if (sender.state == UIGestureRecognizerStateEnded)
-    {
+- (void)handleTap:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
         [self invokeDidClick];
-        [self confirmBeaconsWithType:kPNLiteNativeAdBeaconClick];
+        [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
     }
 }
 
 #pragma Confirm Beacons
 
-- (void)confirmBeaconsWithType:(NSString *)type
-{
-    if (self.ad == nil || self.ad.beacons == nil || self.ad.beacons.count == 0) {
-        NSLog(@"HyBidNativeAd - confirmBeaconsWithType: %@ - Ad beacons not found", type);
+- (void)confirmBeaconsWithType:(NSString *)type {
+    if (!self.ad || !self.ad.beacons || self.ad.beacons.count == 0) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad beacons not found for type: %@", type]];
     } else {
         for (HyBidDataModel *beacon in self.ad.beacons) {
             if ([beacon.type isEqualToString:type]) {
@@ -287,10 +268,18 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
                 } else if (beaconJs && beaconJs.length > 0) {
                     __block NSString *beaconJsBlock = [beacon stringFieldWithKey:@"js"];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIWebView *webView = [[UIWebView alloc] init];
-                        webView.scalesPageToFit = YES;
+                        NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
+                        WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+                        WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+                        [wkUController addUserScript:wkUScript];
+                        WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
+                        wkWebConfig.userContentController = wkUController;
+
+                        WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
                         webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-                        [webView stringByEvaluatingJavaScriptFromString:beaconJsBlock];
+//                        [webView evaluateJavaScript:beaconJsBlock completionHandler:nil];
+                        [webView evaluateJavaScript:beaconJsBlock completionHandler:^(id result, NSError *error) {}];
+
                     });
                 }
             }
@@ -298,12 +287,11 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (NSURL*)injectExtrasWithUrl:(NSURL*)url
-{
+- (NSURL*)injectExtrasWithUrl:(NSURL*)url {
     NSURL *result = url;
     if (self.trackingExtras != nil) {
         NSString *query = result.query;
-        if(query == nil) {
+        if(!query) {
             query = @"";
         }
         for (NSString *key in self.trackingExtras) {
@@ -319,8 +307,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 #pragma mark Ad Rendering
 
-- (void)renderAd:(HyBidNativeAdRenderer *)renderer
-{
+- (void)renderAd:(HyBidNativeAdRenderer *)renderer {
     self.renderer = renderer;
     
     if(self.renderer.titleView) {
@@ -363,8 +350,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 #pragma mark Asset Fetching
 
-- (void)fetchNativeAdAssetsWithDelegate:(NSObject<HyBidNativeAdFetchDelegate> *)delegate
-{
+- (void)fetchNativeAdAssetsWithDelegate:(NSObject<HyBidNativeAdFetchDelegate> *)delegate {
     NSMutableArray *assets = [NSMutableArray array];
     if (self.bannerUrl) {
         [assets addObject:self.bannerUrl];
@@ -376,24 +362,22 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
         self.fetchDelegate = delegate;
         [self fetchAssets:assets];
     } else {
-        NSLog(@"HyBidNativeAd - Error: Fetch asssets with delegate nil, dropping this call");
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Fetch asssets with delegate nil, dropping this call."];
     }
 }
 
-- (void)fetchAssets:(NSArray<NSString *> *)assets
-{
+- (void)fetchAssets:(NSArray<NSString *> *)assets {
     if(assets && assets.count > 0) {
         self.remainingFetchableAssets = assets.count;
         for (NSString *assetURLString in assets) {
             [self fetchAsset:assetURLString];
         }
     } else {
-        [self invokeFetchDidFailWithError:[NSError errorWithDomain:@"No assets to fetch" code:0 userInfo:nil]];
+        [self invokeFetchDidFailWithError:[NSError errorWithDomain:@"No assets to fetch." code:0 userInfo:nil]];
     }
 }
 
-- (void)fetchAsset:(NSString *)assetURLString
-{
+- (void)fetchAsset:(NSString *)assetURLString {
     if (assetURLString && assetURLString.length > 0) {
         __block NSURL *url = [NSURL URLWithString:assetURLString];
         __block HyBidNativeAd *strongSelf = self;
@@ -411,15 +395,14 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
             strongSelf = nil;
         });
     } else {
-        [self invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset URL is nil or empty"
+        [self invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset URL is nil or empty."
                                                               code:0
                                                           userInfo:nil]];
     }
 }
 
-- (void)cacheFetchedAssetData:(NSData *)data withURL:(NSURL*)url
-{
-    if (self.fetchedAssets == nil) {
+- (void)cacheFetchedAssetData:(NSData *)data withURL:(NSURL*)url {
+    if (!self.fetchedAssets) {
         self.fetchedAssets = [NSMutableDictionary dictionary];
     }
     
@@ -428,8 +411,7 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (void)checkFetchProgress
-{
+- (void)checkFetchProgress {
     self.remainingFetchableAssets --;
     if (self.remainingFetchableAssets == 0) {
         [self invokeFetchDidFinish];
@@ -438,23 +420,20 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
 
 #pragma mark HyBidContentInfoViewDelegate
 
-- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width
-{
-    self.renderer.contentInfoView.frame = CGRectMake(self.renderer.contentInfoView.frame.origin.x, self.renderer.contentInfoView.frame.origin.y, [width floatValue], self.renderer.contentInfoView.frame.size.height);
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width {
+    self.renderer.contentInfoView.layer.frame = CGRectMake(self.renderer.contentInfoView.frame.origin.x, self.renderer.contentInfoView.frame.origin.y, [width floatValue], self.renderer.contentInfoView.frame.size.height);
 }
 
 #pragma mark PNLiteImpressionTrackerDelegate
 
-- (void)impressionDetectedWithView:(UIView *)view
-{
-    [self confirmBeaconsWithType:kPNLiteNativeAdBeaconImpression];
+- (void)impressionDetectedWithView:(UIView *)view {
+    [self confirmBeaconsWithType:PNLiteNativeAdBeaconImpression];
     [self invokeImpressionConfirmedWithView:view];
 }
 
 #pragma mark Callback Helpers
 
-- (void)invokeFetchDidFinish
-{
+- (void)invokeFetchDidFinish {
     __block NSObject<HyBidNativeAdFetchDelegate> *delegate = self.fetchDelegate;
     __block HyBidNativeAd *strongSelf = self;
     self.fetchDelegate = nil;
@@ -469,12 +448,12 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (void)invokeFetchDidFailWithError:(NSError *)error
-{
+- (void)invokeFetchDidFailWithError:(NSError *)error {
     __block NSError *blockError = error;
     __block HyBidNativeAd *strongSelf = self;
     __block NSObject<HyBidNativeAdFetchDelegate> *delegate = self.fetchDelegate;
     self.fetchDelegate = nil;
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
     if (delegate) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (delegate && [delegate respondsToSelector:@selector(nativeAd:didFailFetchingWithError:)]) {
@@ -487,15 +466,13 @@ NSString * const kPNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (void)invokeImpressionConfirmedWithView:(UIView *)view
-{
+- (void)invokeImpressionConfirmedWithView:(UIView *)view {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAd:impressionConfirmedWithView:)]) {
         [self.delegate nativeAd:self impressionConfirmedWithView:view];
     }
 }
 
-- (void)invokeDidClick
-{
+- (void)invokeDidClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidClick:)]) {
         [self.delegate nativeAdDidClick:self];
     }

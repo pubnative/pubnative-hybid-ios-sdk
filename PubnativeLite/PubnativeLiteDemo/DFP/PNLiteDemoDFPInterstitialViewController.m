@@ -37,22 +37,23 @@
 
 @implementation PNLiteDemoDFPInterstitialViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.dfpInterstitial = nil;
     self.interstitialAdRequest = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"DFP Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
-    self.dfpInterstitial = [self createAndLoadInterstitial];
 }
 
-- (IBAction)requestInterstitialTouchUpInside:(id)sender
-{
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    self.dfpInterstitial = [self createAndLoadInterstitial];
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -60,24 +61,7 @@
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestInterstitialTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (DFPInterstitial *)createAndLoadInterstitial
-{
+- (DFPInterstitial *)createAndLoadInterstitial {
     DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID];
     interstitial.delegate = self;
     return interstitial;
@@ -85,8 +69,7 @@
 
 #pragma mark GADInterstitialDelegate
 
-- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
-{
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     NSLog(@"interstitialDidReceiveAd");
     [self.interstitialLoaderIndicator stopAnimating];
     if (self.dfpInterstitial.isReady) {
@@ -96,42 +79,35 @@
     }
 }
 
-- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error
-{
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
-- (void)interstitialWillPresentScreen:(GADInterstitial *)ad
-{
+- (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
     NSLog(@"interstitialWillPresentScreen");
 }
 
-- (void)interstitialWillDismissScreen:(GADInterstitial *)ad
-{
+- (void)interstitialWillDismissScreen:(GADInterstitial *)ad {
     NSLog(@"interstitialWillDismissScreen");
 }
 
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad
-{
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
     NSLog(@"interstitialDidDismissScreen");
 }
 
-- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad
-{
+- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad {
     NSLog(@"interstitialWillLeaveApplication");
 }
 
 #pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
@@ -141,8 +117,7 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;

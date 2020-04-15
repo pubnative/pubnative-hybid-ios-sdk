@@ -21,12 +21,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidLeaderboardPresenter.h"
-#import "HyBidAd.h"
+#import "HyBidAdPresenterFactory.h"
 
-@interface HyBidLeaderboardPresenterFactory : NSObject
-
-- (HyBidLeaderboardPresenter *)createLeaderboardPresenterWithAd:(HyBidAd *)ad
-                                                   withDelegate:(NSObject<HyBidLeaderboardPresenterDelegate> *)delegate;
+@interface HyBidLeaderboardPresenterFactory : HyBidAdPresenterFactory
 
 @end

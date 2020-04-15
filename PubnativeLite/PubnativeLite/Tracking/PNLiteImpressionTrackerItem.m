@@ -24,8 +24,7 @@
 
 @implementation PNLiteImpressionTrackerItem
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.view = nil;
 }
 

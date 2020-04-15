@@ -30,14 +30,13 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 @property (nonatomic, readonly) BOOL isConsentPageLoaded;
 
 + (instancetype)sharedInstance;
-- (void)createUserDataManagerWithAppToken:(NSString *)appToken
-                               completion:(UserDataManagerCompletionBlock)completion;
+- (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock _Nonnull)completion;
 
 - (void)loadConsentPageWithCompletion:(void (^ _Nullable)(NSError * _Nullable error))completion;
 - (void)showConsentPage:(void (^ _Nullable)(void))didShow didDismiss:(void (^ _Nullable)(void))didDismiss;
-- (NSString *)privacyPolicyLink;
-- (NSString *)vendorListLink;
-- (NSString *)consentPageLink;
+- (NSString * _Nonnull)privacyPolicyLink;
+- (NSString * _Nonnull)vendorListLink;
+- (NSString *_Nonnull)consentPageLink;
 - (BOOL)canCollectData;
 - (BOOL)shouldAskConsent;
 - (void)grantConsent;

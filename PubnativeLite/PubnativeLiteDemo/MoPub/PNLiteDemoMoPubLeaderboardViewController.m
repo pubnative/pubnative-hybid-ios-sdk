@@ -37,28 +37,29 @@
 
 @implementation PNLiteDemoMoPubLeaderboardViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.moPubLeaderboard = nil;
     self.leaderboardAdRequest = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"MoPub Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
-    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID
-                                                          size:MOPUB_LEADERBOARD_SIZE];
+    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID];
+    [self.moPubLeaderboard setFrame:CGRectMake(0, 0, self.leaderboardContainer.frame.size.width, self.leaderboardContainer.frame.size.height)];
     self.moPubLeaderboard.delegate = self;
     [self.moPubLeaderboard stopAutomaticallyRefreshingContents];
     [self.leaderboardContainer addSubview:self.moPubLeaderboard];
 }
 
-- (IBAction)requestLeaderboardTouchUpInside:(id)sender
-{
+- (IBAction)requestLeaderboardTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearLastInspectedRequest];
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -67,31 +68,13 @@
     [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
-- (void)showAlertControllerWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self requestLeaderboardTouchUpInside:nil];
-    }];
-    [alertController addAction:dismissAction];
-    [alertController addAction:retryAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - MPAdViewDelegate
 
-- (UIViewController *)viewControllerForPresentingModalView
-{
+- (UIViewController *)viewControllerForPresentingModalView {
     return self;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view
-{
+- (void)adViewDidLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidLoadAd");
     if (self.moPubLeaderboard == view) {
         self.leaderboardContainer.hidden = NO;
@@ -99,8 +82,7 @@
     }
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view
-{
+- (void)adViewDidFailToLoadAd:(MPAdView *)view {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubLeaderboard == view) {
         [self.leaderboardLoaderIndicator stopAnimating];
@@ -108,30 +90,25 @@
     }
 }
 
-- (void)willPresentModalViewForAd:(MPAdView *)view
-{
+- (void)willPresentModalViewForAd:(MPAdView *)view {
     NSLog(@"willPresentModalViewForAd");
 }
 
-- (void)didDismissModalViewForAd:(MPAdView *)view
-{
+- (void)didDismissModalViewForAd:(MPAdView *)view {
     NSLog(@"didDismissModalViewForAd");
 }
 
-- (void)willLeaveApplicationFromAd:(MPAdView *)view
-{
+- (void)willLeaveApplicationFromAd:(MPAdView *)view {
     NSLog(@"willLeaveApplicationFromAd");
 }
 
 #pragma mark - HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request
-{
+- (void)requestDidStart:(HyBidAdRequest *)request {
     NSLog(@"Request %@ started:",request);
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad
-{
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     
     if (request == self.leaderboardAdRequest) {
@@ -141,8 +118,7 @@
     }
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error
-{
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.leaderboardAdRequest) {

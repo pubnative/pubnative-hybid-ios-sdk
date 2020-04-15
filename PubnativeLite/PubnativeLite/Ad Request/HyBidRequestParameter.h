@@ -48,5 +48,7 @@
 + (NSString *)coppa;
 + (NSString *)assetLayout;
 + (NSString *)bundleId;
++ (NSString *)displayManager;
++ (NSString *)displayManagerVersion;
 
 @end

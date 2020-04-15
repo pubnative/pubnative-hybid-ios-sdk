@@ -33,28 +33,24 @@
 
 @implementation PNLiteDemoKeywordsViewController
 
-- (void)dealloc
-{
+- (void)dealloc {
     self.newlyAddedKeyword = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Keywords";
     self.allKeywordsTextView.text = [PNLiteDemoSettings sharedInstance].keywords;
 }
 
-- (IBAction)handleTap:(UIGestureRecognizer *)recognizer
-{
+- (IBAction)handleTap:(UIGestureRecognizer *)recognizer {
     if (!([self.keywordTextField.text length] > 0)) {
         self.keywordTextField.text = nil;
         [self.keywordTextField resignFirstResponder];
     }
 }
 
-- (IBAction)addKeywordTouchUpInside:(UIButton *)sender
-{
+- (IBAction)addKeywordTouchUpInside:(UIButton *)sender {
     [self.keywordTextField resignFirstResponder];
     if ([self.newlyAddedKeyword length] > 0) {
         if ([self.allKeywordsTextView.text length] > 0) {
@@ -66,13 +62,11 @@
     }
 }
 
-- (IBAction)clearKeywordsTouchUpInside:(UIButton *)sender
-{
+- (IBAction)clearKeywordsTouchUpInside:(UIButton *)sender {
     self.allKeywordsTextView.text = @"";
 }
 
-- (IBAction)saveKeywordsTouchUpInside:(UIButton *)sender
-{
+- (IBAction)saveKeywordsTouchUpInside:(UIButton *)sender {
     if ([self.allKeywordsTextView.text length] > 0) {
         [PNLiteDemoSettings sharedInstance].keywords = self.allKeywordsTextView.text;
     } else {
@@ -83,19 +77,16 @@
 
 #pragma mark UITextFieldDelegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField becomeFirstResponder];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     [textField resignFirstResponder];
     self.newlyAddedKeyword = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField endEditing:YES];
     return YES;
 }
