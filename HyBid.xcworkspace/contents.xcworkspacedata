@@ -13,9 +13,6 @@
       <FileRef
          location = "group:generate.sh">
       </FileRef>
-      <FileRef
-         location = "group:static_universal.sh">
-      </FileRef>
    </Group>
    <FileRef
       location = "group:PubnativeLite/../HyBidDemo/HyBidDemo.xcodeproj">

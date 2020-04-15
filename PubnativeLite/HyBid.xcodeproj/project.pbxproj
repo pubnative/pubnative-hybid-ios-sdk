@@ -14,6 +14,8 @@
 				E7BAC76E24475196009160A3 /* ShellScript */,
 			);
 			dependencies = (
+				7E598C1924475F3C00BEA734 /* PBXTargetDependency */,
+				7E598C1724475F2E00BEA734 /* PBXTargetDependency */,
 			);
 			name = HyBidStaticUniversal;
 			productName = HyBidStaticUniversal;
@@ -705,6 +707,24 @@
 		7E2DA708243DD1230013841B /* VWContentCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6FF243CD63F0013841B /* VWContentCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E2DA70C243F14790013841B /* VWAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA70B243F14790013841B /* VWAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E2DA710243F206F0013841B /* VWAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA70F243F206F0013841B /* VWAdSize.m */; };
+		7E598C1A24475FE000BEA734 /* PNLiteExternalLink.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B320BD57E90067964E /* PNLiteExternalLink.png */; };
+		7E598C1B24475FE000BEA734 /* PNLiteExternalLink@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66BA20BD57ED0067964E /* PNLiteExternalLink@2x.png */; };
+		7E598C1C24475FE000BEA734 /* PNLiteFullScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B720BD57EB0067964E /* PNLiteFullScreen.png */; };
+		7E598C1D24475FE000BEA734 /* PNLiteFullScreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B920BD57EC0067964E /* PNLiteFullScreen@2x.png */; };
+		7E598C1E24475FE000BEA734 /* PNLiteMute.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B420BD57EA0067964E /* PNLiteMute.png */; };
+		7E598C1F24475FE000BEA734 /* PNLiteMute@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B220BD57E90067964E /* PNLiteMute@2x.png */; };
+		7E598C2024475FE000BEA734 /* PNLitePlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B120BD57E80067964E /* PNLitePlay.png */; };
+		7E598C2124475FE000BEA734 /* PNLitePlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */; };
+		7E598C2224475FE000BEA734 /* PNLiteUnmute.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B520BD57EA0067964E /* PNLiteUnmute.png */; };
+		7E598C2324475FE000BEA734 /* PNLiteUnmute@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */; };
+		7E598C2424475FE000BEA734 /* PNLiteClose.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33D20C83DA3000F9747 /* PNLiteClose.png */; };
+		7E598C2524475FE000BEA734 /* PNLiteClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33C20C83DA2000F9747 /* PNLiteClose@2x.png */; };
+		7E598C2624475FE000BEA734 /* PNLiteClose@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33E20C83DA5000F9747 /* PNLiteClose@3x.png */; };
+		7E598C2724475FE000BEA734 /* PNLiteVASTPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */; };
+		7E598C2824475FE000BEA734 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */; };
+		7E598C2924475FE000BEA734 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */; };
+		7E598C2A24475FED00BEA734 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 5AC0EC69237193E70090B842 /* omsdk.js */; };
+		7E598C2B2447602E00BEA734 /* PNLiteCloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACC74E0203595240001CDC3 /* PNLiteCloseButton.png */; };
 		E7218DD52428C3D500968314 /* VrvAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VrvAdRequestModel.h */; };
 		E7218DD62428C3D500968314 /* VrvAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VrvAdRequestModel.m */; };
 		E7218DD92428C69F00968314 /* VrvAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VrvAdFactory.h */; };
@@ -1097,6 +1117,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
+		};
+		7E598C1624475F2E00BEA734 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7E598C0F24475EE000BEA734;
+			remoteInfo = HyBidResources;
+		};
+		7E598C1824475F3C00BEA734 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E7BAC43B24474474009160A3;
+			remoteInfo = HyBidStatic;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -2124,6 +2158,8 @@
 		7E2DA702243CD7580013841B /* VWAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdRequest.m; sourceTree = "<group>"; };
 		7E2DA70B243F14790013841B /* VWAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdSize.h; sourceTree = "<group>"; };
 		7E2DA70F243F206F0013841B /* VWAdSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdSize.m; sourceTree = "<group>"; };
+		7E598C1024475EE000BEA734 /* HyBidResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E598C1224475EE000BEA734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7218DD32428C3D500968314 /* VrvAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdRequestModel.h; sourceTree = "<group>"; };
 		E7218DD42428C3D500968314 /* VrvAdRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvAdRequestModel.m; sourceTree = "<group>"; };
 		E7218DD72428C69F00968314 /* VrvAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdFactory.h; sourceTree = "<group>"; };
@@ -2183,6 +2219,13 @@
 				5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */,
 				5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */,
 				5AD140492065292A0018845E /* OCMockitoIOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E598C0D24475EE000BEA734 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2501,6 +2544,7 @@
 				5A6CD0222029CD060022E206 /* PubnativeLite */,
 				5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */,
 				5A969A3E206523F800C3B74A /* PubnativeLiteTests */,
+				7E598C1124475EE000BEA734 /* HyBidResources */,
 				5A6CD0212029CD060022E206 /* Products */,
 				5A8903CF203DE1D400D86051 /* Frameworks */,
 			);
@@ -2513,6 +2557,7 @@
 				5A32CEB92029F79B0003B450 /* HyBidDemo.app */,
 				5A969A3D206523F800C3B74A /* HyBidTests.xctest */,
 				E7BAC43C24474474009160A3 /* libHyBidStatic.a */,
+				7E598C1024475EE000BEA734 /* HyBidResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3928,6 +3973,14 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
+		7E598C1124475EE000BEA734 /* HyBidResources */ = {
+			isa = PBXGroup;
+			children = (
+				7E598C1224475EE000BEA734 /* Info.plist */,
+			);
+			path = HyBidResources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4369,6 +4422,23 @@
 			productReference = 5A969A3D206523F800C3B74A /* HyBidTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		7E598C0F24475EE000BEA734 /* HyBidResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E598C1324475EE000BEA734 /* Build configuration list for PBXNativeTarget "HyBidResources" */;
+			buildPhases = (
+				7E598C0C24475EE000BEA734 /* Sources */,
+				7E598C0D24475EE000BEA734 /* Frameworks */,
+				7E598C0E24475EE000BEA734 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HyBidResources;
+			productName = HyBidResources;
+			productReference = 7E598C1024475EE000BEA734 /* HyBidResources.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		E7BAC43B24474474009160A3 /* HyBidStatic */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7BAC44424474475009160A3 /* Build configuration list for PBXNativeTarget "HyBidStatic" */;
@@ -4409,6 +4479,10 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
 					};
+					7E598C0F24475EE000BEA734 = {
+						CreatedOnToolsVersion = 11.4;
+						ProvisioningStyle = Automatic;
+					};
 					E7BAC43B24474474009160A3 = {
 						CreatedOnToolsVersion = 11.4;
 						ProvisioningStyle = Automatic;
@@ -4437,6 +4511,7 @@
 				5A969A3C206523F800C3B74A /* HyBidTests */,
 				E7BAC43B24474474009160A3 /* HyBidStatic */,
 				E7BAC76A2447516D009160A3 /* HyBidStaticUniversal */,
+				7E598C0F24475EE000BEA734 /* HyBidResources */,
 			);
 		};
 /* End PBXProject section */
@@ -4487,7 +4562,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
 				5A2EC33F20C83DA5000F9747 /* PNLiteClose@2x.png in Resources */,
 				5A9B66BE20BD57ED0067964E /* PNLiteMute.png in Resources */,
 				5A9B66BB20BD57ED0067964E /* PNLitePlay.png in Resources */,
@@ -4502,9 +4576,10 @@
 				5A9B66C420BD57ED0067964E /* PNLiteExternalLink@2x.png in Resources */,
 				5A9B66C220BD57ED0067964E /* PNLitePlay@2x.png in Resources */,
 				5A9B66BD20BD57ED0067964E /* PNLiteExternalLink.png in Resources */,
-				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 				5ACC74EE203595250001CDC3 /* PNLiteCloseButton.png in Resources */,
 				5A9B66BF20BD57ED0067964E /* PNLiteUnmute.png in Resources */,
+				5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
+				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4512,6 +4587,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E598C0E24475EE000BEA734 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E598C2B2447602E00BEA734 /* PNLiteCloseButton.png in Resources */,
+				7E598C2A24475FED00BEA734 /* omsdk.js in Resources */,
+				7E598C1A24475FE000BEA734 /* PNLiteExternalLink.png in Resources */,
+				7E598C1B24475FE000BEA734 /* PNLiteExternalLink@2x.png in Resources */,
+				7E598C1C24475FE000BEA734 /* PNLiteFullScreen.png in Resources */,
+				7E598C1D24475FE000BEA734 /* PNLiteFullScreen@2x.png in Resources */,
+				7E598C1E24475FE000BEA734 /* PNLiteMute.png in Resources */,
+				7E598C1F24475FE000BEA734 /* PNLiteMute@2x.png in Resources */,
+				7E598C2024475FE000BEA734 /* PNLitePlay.png in Resources */,
+				7E598C2124475FE000BEA734 /* PNLitePlay@2x.png in Resources */,
+				7E598C2224475FE000BEA734 /* PNLiteUnmute.png in Resources */,
+				7E598C2324475FE000BEA734 /* PNLiteUnmute@2x.png in Resources */,
+				7E598C2424475FE000BEA734 /* PNLiteClose.png in Resources */,
+				7E598C2524475FE000BEA734 /* PNLiteClose@2x.png in Resources */,
+				7E598C2624475FE000BEA734 /* PNLiteClose@3x.png in Resources */,
+				7E598C2724475FE000BEA734 /* PNLiteVASTPlayerViewController.xib in Resources */,
+				7E598C2824475FE000BEA734 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
+				7E598C2924475FE000BEA734 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4558,7 +4658,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\nFRAMEWORK_NAME=HyBidStatic\n \n# Step 1. Build Device and Simulator versions\nxcodebuild -project HyBid.xcodeproj -scheme HyBidStatic ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\nxcodebuild -project HyBid.xcodeproj -scheme HyBidStatic -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 -arch x86_64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n \n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n \n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${FRAMEWORK_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${FRAMEWORK_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${FRAMEWORK_NAME}.a\"\n \n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n";
+			shellScript = "# If we're already inside this script then die\nif [ -n \"$BUILD_IN_PROGRESS\" ]; then\nexit 0\nfi\nexport BUILD_IN_PROGRESS=1\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\nFRAMEWORK_NAME=HyBidStatic\n \n# Step 1. Build Device and Simulator versions\nxcodebuild -project HyBid.xcodeproj -scheme HyBidStatic ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\nxcodebuild -project HyBid.xcodeproj -scheme HyBidStatic -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 -arch x86_64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n \n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n \n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${FRAMEWORK_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${FRAMEWORK_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${FRAMEWORK_NAME}.a\"\n \n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -5013,6 +5113,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7E598C0C24475EE000BEA734 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E7BAC43824474474009160A3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5196,6 +5303,16 @@
 			isa = PBXTargetDependency;
 			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
+		};
+		7E598C1724475F2E00BEA734 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7E598C0F24475EE000BEA734 /* HyBidResources */;
+			targetProxy = 7E598C1624475F2E00BEA734 /* PBXContainerItemProxy */;
+		};
+		7E598C1924475F3C00BEA734 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E7BAC43B24474474009160A3 /* HyBidStatic */;
+			targetProxy = 7E598C1824475F3C00BEA734 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -5500,6 +5617,51 @@
 			};
 			name = Release;
 		};
+		7E598C1424475EE000BEA734 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = HyBidResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		7E598C1524475EE000BEA734 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = HyBidResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		E7BAC44224474475009160A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5596,6 +5758,15 @@
 			buildConfigurations = (
 				5A969A45206523F800C3B74A /* Debug */,
 				5A969A46206523F800C3B74A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E598C1324475EE000BEA734 /* Build configuration list for PBXNativeTarget "HyBidResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E598C1424475EE000BEA734 /* Debug */,
+				7E598C1524475EE000BEA734 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
