@@ -35,14 +35,10 @@
 		7E598C3F2447610300BEA734 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E598C3E2447610300BEA734 /* Assets.xcassets */; };
 		7E598C422447610300BEA734 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E598C402447610300BEA734 /* LaunchScreen.storyboard */; };
 		7E598C452447610300BEA734 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E598C442447610300BEA734 /* main.m */; };
-		7EEB00D5244777E9000C4126 /* HyBidStatic.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB00D3244777E9000C4126 /* HyBidStatic.bundle */; };
-		7EEB00D6244777E9000C4126 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB00D4244777E9000C4126 /* HyBidStatic.framework */; };
 		7EEB010124478292000C4126 /* OMSDK-1.2.20 in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB00FA24478292000C4126 /* OMSDK-1.2.20 */; };
-		7EEB0103244782A5000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB0102244782A5000C4126 /* OMSDK_Pubnativenet.framework */; };
-		7EEB012624478469000C4126 /* libc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB012524478469000C4126 /* libc.tbd */; };
-		7EEB01272447847B000C4126 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB011F2447845A000C4126 /* libxml2.2.tbd */; };
-		7EEB01282447847B000C4126 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB01202447845A000C4126 /* libxml2.tbd */; };
-		7EEB01292447848D000C4126 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB012324478461000C4126 /* libc++.tbd */; };
+		7EEB012C244786CA000C4126 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB012A244786CA000C4126 /* HyBidStatic.framework */; };
+		7EEB012D244786CA000C4126 /* HyBidStatic.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB012B244786CA000C4126 /* HyBidStatic.bundle */; };
+		7EEB012E2447870A000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB0102244782A5000C4126 /* OMSDK_Pubnativenet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,14 +157,14 @@
 		7E598C432447610300BEA734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E598C442447610300BEA734 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7E598C8C2447681B00BEA734 /* HyBidResources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HyBidResources; path = ../PubnativeLite/HyBidResources; sourceTree = "<group>"; };
-		7EEB00D3244777E9000C4126 /* HyBidStatic.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HyBidStatic.bundle; sourceTree = "<group>"; };
-		7EEB00D4244777E9000C4126 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyBidStatic.framework; sourceTree = "<group>"; };
 		7EEB00FA24478292000C4126 /* OMSDK-1.2.20 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "OMSDK-1.2.20"; sourceTree = "<group>"; };
 		7EEB0102244782A5000C4126 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OMSDK_Pubnativenet.framework; path = "HyBidDemoStatic/HyBidStatic/OMSDK-1.2.20/OMSDK_Pubnativenet.framework"; sourceTree = "<group>"; };
 		7EEB011F2447845A000C4126 /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		7EEB01202447845A000C4126 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		7EEB012324478461000C4126 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		7EEB012524478469000C4126 /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
+		7EEB012A244786CA000C4126 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyBidStatic.framework; path = ../../../PubnativeLite/Frameworks/static/HyBidStatic.framework; sourceTree = "<group>"; };
+		7EEB012B244786CA000C4126 /* HyBidStatic.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = HyBidStatic.bundle; path = ../../../PubnativeLite/Frameworks/static/HyBidStatic.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,12 +186,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EEB01292447848D000C4126 /* libc++.tbd in Frameworks */,
-				7EEB01272447847B000C4126 /* libxml2.2.tbd in Frameworks */,
-				7EEB01282447847B000C4126 /* libxml2.tbd in Frameworks */,
-				7EEB012624478469000C4126 /* libc.tbd in Frameworks */,
-				7EEB0103244782A5000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */,
-				7EEB00D6244777E9000C4126 /* HyBidStatic.framework in Frameworks */,
+				7EEB012C244786CA000C4126 /* HyBidStatic.framework in Frameworks */,
+				7EEB012E2447870A000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,9 +344,9 @@
 		7EEB00D7244777EB000C4126 /* HyBidStatic */ = {
 			isa = PBXGroup;
 			children = (
+				7EEB012B244786CA000C4126 /* HyBidStatic.bundle */,
+				7EEB012A244786CA000C4126 /* HyBidStatic.framework */,
 				7EEB00FA24478292000C4126 /* OMSDK-1.2.20 */,
-				7EEB00D3244777E9000C4126 /* HyBidStatic.bundle */,
-				7EEB00D4244777E9000C4126 /* HyBidStatic.framework */,
 			);
 			path = HyBidStatic;
 			sourceTree = "<group>";
@@ -527,8 +519,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E598C422447610300BEA734 /* LaunchScreen.storyboard in Resources */,
+				7EEB012D244786CA000C4126 /* HyBidStatic.bundle in Resources */,
 				7E598C3F2447610300BEA734 /* Assets.xcassets in Resources */,
-				7EEB00D5244777E9000C4126 /* HyBidStatic.bundle in Resources */,
 				7EEB010124478292000C4126 /* OMSDK-1.2.20 in Resources */,
 				7E598C3D244760FF00BEA734 /* Main.storyboard in Resources */,
 			);

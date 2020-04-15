@@ -22,7 +22,6 @@
 
 #import "HyBid.h"
 #import "HyBidSettings.h"
-#import "PNLiteCrashTracker.h"
 #import "HyBidUserDataManager.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
@@ -53,7 +52,6 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
         [HyBidSettings sharedInstance].partnerKeyword = partnerKeyword;
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidViewabilityManager sharedInstance];
-        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
         [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
             completion(success);
         }];
