@@ -28,6 +28,15 @@
 		7E2DA768243F73E50013841B /* MRectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA767243F73E50013841B /* MRectViewController.swift */; };
 		7E2DA76A243F73F40013841B /* InterstitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA769243F73F40013841B /* InterstitialViewController.swift */; };
 		7E2DA76C243F740A0013841B /* AdSdkDemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */; };
+		7E598C34244760FF00BEA734 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E598C33244760FF00BEA734 /* AppDelegate.m */; };
+		7E598C37244760FF00BEA734 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E598C36244760FF00BEA734 /* SceneDelegate.m */; };
+		7E598C3A244760FF00BEA734 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E598C39244760FF00BEA734 /* ViewController.m */; };
+		7E598C3D244760FF00BEA734 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E598C3B244760FF00BEA734 /* Main.storyboard */; };
+		7E598C3F2447610300BEA734 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E598C3E2447610300BEA734 /* Assets.xcassets */; };
+		7E598C422447610300BEA734 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E598C402447610300BEA734 /* LaunchScreen.storyboard */; };
+		7E598C452447610300BEA734 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E598C442447610300BEA734 /* main.m */; };
+		7EEB00D5244777E9000C4126 /* HyBidStatic.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB00D3244777E9000C4126 /* HyBidStatic.bundle */; };
+		7EEB00D6244777E9000C4126 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB00D4244777E9000C4126 /* HyBidStatic.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +61,20 @@
 			remoteGlobalIDString = 5A969A3D206523F800C3B74A;
 			remoteInfo = HyBidTests;
 		};
+		7E598C4E2447610300BEA734 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2C07212445B8DB008E439C /* HyBid.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E7BAC43C24474474009160A3;
+			remoteInfo = HyBidStatic;
+		};
+		7E598C502447610300BEA734 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E2C07212445B8DB008E439C /* HyBid.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7E598C1024475EE000BEA734;
+			remoteInfo = HyBidResources;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -75,6 +98,15 @@
 				7E2C07312445B956008E439C /* HyBid.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EEB00D2244777D2000C4126 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -110,6 +142,21 @@
 		7E2DA767243F73E50013841B /* MRectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRectViewController.swift; sourceTree = "<group>"; };
 		7E2DA769243F73F40013841B /* InterstitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialViewController.swift; sourceTree = "<group>"; };
 		7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSdkDemoSettings.swift; sourceTree = "<group>"; };
+		7E598C30244760FF00BEA734 /* HyBidDemoStatic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemoStatic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E598C32244760FF00BEA734 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7E598C33244760FF00BEA734 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7E598C35244760FF00BEA734 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		7E598C36244760FF00BEA734 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		7E598C38244760FF00BEA734 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		7E598C39244760FF00BEA734 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7E598C3C244760FF00BEA734 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7E598C3E2447610300BEA734 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7E598C412447610300BEA734 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7E598C432447610300BEA734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7E598C442447610300BEA734 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7E598C8C2447681B00BEA734 /* HyBidResources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HyBidResources; path = ../PubnativeLite/HyBidResources; sourceTree = "<group>"; };
+		7EEB00D3244777E9000C4126 /* HyBidStatic.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HyBidStatic.bundle; sourceTree = "<group>"; };
+		7EEB00D4244777E9000C4126 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyBidStatic.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +171,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E598C2D244760FF00BEA734 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EEB00D6244777E9000C4126 /* HyBidStatic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +199,8 @@
 				7E2C07282445B8DB008E439C /* HyBid.framework */,
 				7E2C072A2445B8DB008E439C /* HyBidDemo.app */,
 				7E2C072C2445B8DB008E439C /* HyBidTests.xctest */,
+				7E598C4F2447610300BEA734 /* libHyBidStatic.a */,
+				7E598C512447610300BEA734 /* HyBidStatic.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -153,7 +210,9 @@
 			children = (
 				7E2DA71D243F6C020013841B /* HyBidDemoSwift */,
 				7E2DA73D243F6DEF0013841B /* HyBidDemoObjc */,
+				7E598C31244760FF00BEA734 /* HyBidDemoStatic */,
 				7E2DA71C243F6C020013841B /* Products */,
+				7E598C532447611500BEA734 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -162,6 +221,7 @@
 			children = (
 				7E2DA71B243F6C020013841B /* HyBidDemoSwift.app */,
 				7E2DA73C243F6DEF0013841B /* HyBidDemoObjc.app */,
+				7E598C30244760FF00BEA734 /* HyBidDemoStatic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -240,6 +300,42 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		7E598C31244760FF00BEA734 /* HyBidDemoStatic */ = {
+			isa = PBXGroup;
+			children = (
+				7EEB00D7244777EB000C4126 /* HyBidStatic */,
+				7E598C32244760FF00BEA734 /* AppDelegate.h */,
+				7E598C33244760FF00BEA734 /* AppDelegate.m */,
+				7E598C35244760FF00BEA734 /* SceneDelegate.h */,
+				7E598C36244760FF00BEA734 /* SceneDelegate.m */,
+				7E598C38244760FF00BEA734 /* ViewController.h */,
+				7E598C39244760FF00BEA734 /* ViewController.m */,
+				7E598C3B244760FF00BEA734 /* Main.storyboard */,
+				7E598C3E2447610300BEA734 /* Assets.xcassets */,
+				7E598C402447610300BEA734 /* LaunchScreen.storyboard */,
+				7E598C432447610300BEA734 /* Info.plist */,
+				7E598C442447610300BEA734 /* main.m */,
+			);
+			path = HyBidDemoStatic;
+			sourceTree = "<group>";
+		};
+		7E598C532447611500BEA734 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7E598C8C2447681B00BEA734 /* HyBidResources */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7EEB00D7244777EB000C4126 /* HyBidStatic */ = {
+			isa = PBXGroup;
+			children = (
+				7EEB00D3244777E9000C4126 /* HyBidStatic.bundle */,
+				7EEB00D4244777E9000C4126 /* HyBidStatic.framework */,
+			);
+			path = HyBidStatic;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -279,6 +375,24 @@
 			productReference = 7E2DA73C243F6DEF0013841B /* HyBidDemoObjc.app */;
 			productType = "com.apple.product-type.application";
 		};
+		7E598C2F244760FF00BEA734 /* HyBidDemoStatic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E598C522447610300BEA734 /* Build configuration list for PBXNativeTarget "HyBidDemoStatic" */;
+			buildPhases = (
+				7E598C2C244760FF00BEA734 /* Sources */,
+				7E598C2D244760FF00BEA734 /* Frameworks */,
+				7E598C2E244760FF00BEA734 /* Resources */,
+				7EEB00D2244777D2000C4126 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HyBidDemoStatic;
+			productName = HyBidDemoStatic;
+			productReference = 7E598C30244760FF00BEA734 /* HyBidDemoStatic.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -293,6 +407,9 @@
 						CreatedOnToolsVersion = 11.4;
 					};
 					7E2DA73B243F6DEF0013841B = {
+						CreatedOnToolsVersion = 11.4;
+					};
+					7E598C2F244760FF00BEA734 = {
 						CreatedOnToolsVersion = 11.4;
 					};
 				};
@@ -318,6 +435,7 @@
 			targets = (
 				7E2DA71A243F6C020013841B /* HyBidDemoSwift */,
 				7E2DA73B243F6DEF0013841B /* HyBidDemoObjc */,
+				7E598C2F244760FF00BEA734 /* HyBidDemoStatic */,
 			);
 		};
 /* End PBXProject section */
@@ -344,6 +462,20 @@
 			remoteRef = 7E2C072B2445B8DB008E439C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7E598C4F2447610300BEA734 /* libHyBidStatic.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libHyBidStatic.a;
+			remoteRef = 7E598C4E2447610300BEA734 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7E598C512447610300BEA734 /* HyBidStatic.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = HyBidStatic.bundle;
+			remoteRef = 7E598C502447610300BEA734 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -364,6 +496,17 @@
 				7E2DA74E243F6DF20013841B /* LaunchScreen.storyboard in Resources */,
 				7E2DA74B243F6DF20013841B /* Assets.xcassets in Resources */,
 				7E2DA749243F6DEF0013841B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E598C2E244760FF00BEA734 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E598C422447610300BEA734 /* LaunchScreen.storyboard in Resources */,
+				7E598C3F2447610300BEA734 /* Assets.xcassets in Resources */,
+				7EEB00D5244777E9000C4126 /* HyBidStatic.bundle in Resources */,
+				7E598C3D244760FF00BEA734 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +537,17 @@
 				7E2DA762243F70430013841B /* InterstitialViewController.m in Sources */,
 				7E2DA751243F6DF20013841B /* main.m in Sources */,
 				7E2DA743243F6DEF0013841B /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E598C2C244760FF00BEA734 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E598C3A244760FF00BEA734 /* ViewController.m in Sources */,
+				7E598C34244760FF00BEA734 /* AppDelegate.m in Sources */,
+				7E598C452447610300BEA734 /* main.m in Sources */,
+				7E598C37244760FF00BEA734 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +582,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				7E2DA74D243F6DF20013841B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		7E598C3B244760FF00BEA734 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E598C3C244760FF00BEA734 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7E598C402447610300BEA734 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E598C412447610300BEA734 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -623,6 +793,50 @@
 			};
 			name = Release;
 		};
+		7E598C462447610300BEA734 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HyBidDemoStatic",
+				);
+				INFOPLIST_FILE = HyBidDemoStatic/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoStatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "${TARGET_BUILD_DIR}/ProjectCore";
+			};
+			name = Debug;
+		};
+		7E598C472447610300BEA734 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TL55SBB4FM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HyBidDemoStatic",
+				);
+				INFOPLIST_FILE = HyBidDemoStatic/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoStatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "${TARGET_BUILD_DIR}/ProjectCore";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -649,6 +863,15 @@
 			buildConfigurations = (
 				7E2DA753243F6DF20013841B /* Debug */,
 				7E2DA754243F6DF20013841B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E598C522447610300BEA734 /* Build configuration list for PBXNativeTarget "HyBidDemoStatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E598C462447610300BEA734 /* Debug */,
+				7E598C472447610300BEA734 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

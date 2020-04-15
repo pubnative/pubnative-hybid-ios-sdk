@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		E7BAC76A2447516D009160A3 /* HyBidStaticUniversal */ = {
+		E7BAC76A2447516D009160A3 /* Hybid */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "HyBidStaticUniversal" */;
+			buildConfigurationList = E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "Hybid" */;
 			buildPhases = (
 				E7BAC76E24475196009160A3 /* ShellScript */,
 			);
 			dependencies = (
-				7E598C1924475F3C00BEA734 /* PBXTargetDependency */,
 				7E598C1724475F2E00BEA734 /* PBXTargetDependency */,
+				7E598C1924475F3C00BEA734 /* PBXTargetDependency */,
 			);
-			name = HyBidStaticUniversal;
+			name = Hybid;
 			productName = HyBidStaticUniversal;
 		};
 /* End PBXAggregateTarget section */
@@ -736,24 +736,6 @@
 		E7BAC447244744DF009160A3 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E7BAC445244744DF009160A3 /* libxml2.tbd */; };
 		E7BAC448244744E0009160A3 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E7BAC446244744DF009160A3 /* libxml2.2.tbd */; };
 		E7BAC449244744EC009160A3 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEC48B923703C13009641F1 /* OMSDK_Pubnativenet.framework */; };
-		E7BAC5FC244748CA009160A3 /* PNLiteExternalLink.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B320BD57E90067964E /* PNLiteExternalLink.png */; };
-		E7BAC5FD244748CA009160A3 /* PNLiteExternalLink@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66BA20BD57ED0067964E /* PNLiteExternalLink@2x.png */; };
-		E7BAC5FE244748CA009160A3 /* PNLiteFullScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B720BD57EB0067964E /* PNLiteFullScreen.png */; };
-		E7BAC5FF244748CA009160A3 /* PNLiteFullScreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B920BD57EC0067964E /* PNLiteFullScreen@2x.png */; };
-		E7BAC600244748CA009160A3 /* PNLiteMute.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B420BD57EA0067964E /* PNLiteMute.png */; };
-		E7BAC601244748CA009160A3 /* PNLiteMute@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B220BD57E90067964E /* PNLiteMute@2x.png */; };
-		E7BAC602244748CA009160A3 /* PNLitePlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B120BD57E80067964E /* PNLitePlay.png */; };
-		E7BAC603244748CA009160A3 /* PNLitePlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */; };
-		E7BAC604244748CA009160A3 /* PNLiteUnmute.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B520BD57EA0067964E /* PNLiteUnmute.png */; };
-		E7BAC605244748CA009160A3 /* PNLiteUnmute@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */; };
-		E7BAC606244748CA009160A3 /* PNLiteClose.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33D20C83DA3000F9747 /* PNLiteClose.png */; };
-		E7BAC607244748CA009160A3 /* PNLiteClose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33C20C83DA2000F9747 /* PNLiteClose@2x.png */; };
-		E7BAC608244748CA009160A3 /* PNLiteClose@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33E20C83DA5000F9747 /* PNLiteClose@3x.png */; };
-		E7BAC609244748CA009160A3 /* PNLiteVASTPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */; };
-		E7BAC60A244748CA009160A3 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */; };
-		E7BAC60B244748CA009160A3 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */; };
-		E7BAC60C244748CA009160A3 /* PNLiteCloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACC74E0203595240001CDC3 /* PNLiteCloseButton.png */; };
-		E7BAC60D244748DF009160A3 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 5AC0EC69237193E70090B842 /* omsdk.js */; };
 		E7BAC60F244749CC009160A3 /* HyBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* HyBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7BAC610244749CC009160A3 /* HyBidAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AC35B36214A6392001F0ED3 /* HyBidAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7BAC611244749F2009160A3 /* HyBidConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AEC48BB237067F4009641F1 /* HyBidConstants.h */; };
@@ -1144,15 +1126,6 @@
 				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E7BAC43A24474474009160A3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -2158,7 +2131,7 @@
 		7E2DA702243CD7580013841B /* VWAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdRequest.m; sourceTree = "<group>"; };
 		7E2DA70B243F14790013841B /* VWAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdSize.h; sourceTree = "<group>"; };
 		7E2DA70F243F206F0013841B /* VWAdSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdSize.m; sourceTree = "<group>"; };
-		7E598C1024475EE000BEA734 /* HyBidResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E598C1024475EE000BEA734 /* HyBidStatic.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidStatic.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E598C1224475EE000BEA734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7218DD32428C3D500968314 /* VrvAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdRequestModel.h; sourceTree = "<group>"; };
 		E7218DD42428C3D500968314 /* VrvAdRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvAdRequestModel.m; sourceTree = "<group>"; };
@@ -2557,7 +2530,7 @@
 				5A32CEB92029F79B0003B450 /* HyBidDemo.app */,
 				5A969A3D206523F800C3B74A /* HyBidTests.xctest */,
 				E7BAC43C24474474009160A3 /* libHyBidStatic.a */,
-				7E598C1024475EE000BEA734 /* HyBidResources.bundle */,
+				7E598C1024475EE000BEA734 /* HyBidStatic.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4436,7 +4409,7 @@
 			);
 			name = HyBidResources;
 			productName = HyBidResources;
-			productReference = 7E598C1024475EE000BEA734 /* HyBidResources.bundle */;
+			productReference = 7E598C1024475EE000BEA734 /* HyBidStatic.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		E7BAC43B24474474009160A3 /* HyBidStatic */ = {
@@ -4446,8 +4419,7 @@
 				E7BAC43824474474009160A3 /* Sources */,
 				E7BAC43924474474009160A3 /* Frameworks */,
 				E7BAC60E244748E5009160A3 /* Headers */,
-				E7BAC5FB2447488B009160A3 /* Resources */,
-				E7BAC43A24474474009160A3 /* CopyFiles */,
+				7E598C8F24476D1F00BEA734 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4510,7 +4482,7 @@
 				5A32CEB82029F79B0003B450 /* HyBidDemo */,
 				5A969A3C206523F800C3B74A /* HyBidTests */,
 				E7BAC43B24474474009160A3 /* HyBidStatic */,
-				E7BAC76A2447516D009160A3 /* HyBidStaticUniversal */,
+				E7BAC76A2447516D009160A3 /* Hybid */,
 				7E598C0F24475EE000BEA734 /* HyBidResources */,
 			);
 		};
@@ -4615,34 +4587,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E7BAC5FB2447488B009160A3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E7BAC60D244748DF009160A3 /* omsdk.js in Resources */,
-				E7BAC5FC244748CA009160A3 /* PNLiteExternalLink.png in Resources */,
-				E7BAC5FD244748CA009160A3 /* PNLiteExternalLink@2x.png in Resources */,
-				E7BAC5FE244748CA009160A3 /* PNLiteFullScreen.png in Resources */,
-				E7BAC5FF244748CA009160A3 /* PNLiteFullScreen@2x.png in Resources */,
-				E7BAC600244748CA009160A3 /* PNLiteMute.png in Resources */,
-				E7BAC601244748CA009160A3 /* PNLiteMute@2x.png in Resources */,
-				E7BAC602244748CA009160A3 /* PNLitePlay.png in Resources */,
-				E7BAC603244748CA009160A3 /* PNLitePlay@2x.png in Resources */,
-				E7BAC604244748CA009160A3 /* PNLiteUnmute.png in Resources */,
-				E7BAC605244748CA009160A3 /* PNLiteUnmute@2x.png in Resources */,
-				E7BAC606244748CA009160A3 /* PNLiteClose.png in Resources */,
-				E7BAC607244748CA009160A3 /* PNLiteClose@2x.png in Resources */,
-				E7BAC608244748CA009160A3 /* PNLiteClose@3x.png in Resources */,
-				E7BAC609244748CA009160A3 /* PNLiteVASTPlayerViewController.xib in Resources */,
-				E7BAC60A244748CA009160A3 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
-				E7BAC60B244748CA009160A3 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
-				E7BAC60C244748CA009160A3 /* PNLiteCloseButton.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7E598C8F24476D1F00BEA734 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nexport FRAMEWORK_LOCN=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework\"\n\n# Create the path to the real Headers dir\nmkdir -p \"${FRAMEWORK_LOCN}/Versions/A/Headers\"\n\n# Create the required symlinks\n/bin/ln -sfh A \"${FRAMEWORK_LOCN}/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${FRAMEWORK_LOCN}/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \\\n\"${FRAMEWORK_LOCN}/${PRODUCT_NAME}\"\n\n# Copy the public headers into the framework\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \\\n\"${FRAMEWORK_LOCN}/Versions/A/Headers\"\n";
+		};
 		E7BAC76E24475196009160A3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4658,7 +4622,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# If we're already inside this script then die\nif [ -n \"$BUILD_IN_PROGRESS\" ]; then\nexit 0\nfi\nexport BUILD_IN_PROGRESS=1\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\nFRAMEWORK_NAME=HyBidStatic\n \n# Step 1. Build Device and Simulator versions\nxcodebuild -project HyBid.xcodeproj -scheme HyBidStatic ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\nxcodebuild -project HyBid.xcodeproj -scheme HyBidStatic -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 -arch x86_64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n \n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n \n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${FRAMEWORK_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${FRAMEWORK_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${FRAMEWORK_NAME}.a\"\n \n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n";
+			shellScript = "set -e\n\n# If we're already inside this script then die\nif [ -n \"$RW_MULTIPLATFORM_BUILD_IN_PROGRESS\" ]; then\nexit 0\nfi\nexport RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1\n\nRW_FRAMEWORK_NAME=\"${PROJECT_NAME}Static\"\nRW_INPUT_STATIC_LIB=\"lib${PROJECT_NAME}Static.a\"\nRW_FRAMEWORK_LOCATION=\"${BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework\"\n\nfunction build_static_library {\n    # Will rebuild the static library as specified\n    #     build_static_library sdk\n    xcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" \\\n    -target \"${TARGET_NAME}\" \\\n    -configuration \"${CONFIGURATION}\" \\\n    -sdk \"${1}\" \\\n    ONLY_ACTIVE_ARCH=NO \\\n    BUILD_DIR=\"${BUILD_DIR}\" \\\n    OBJROOT=\"${OBJROOT}/DependantBuilds\" \\\n    BUILD_ROOT=\"${BUILD_ROOT}\" \\\n    SYMROOT=\"${SYMROOT}\" $ACTION\n}\n\nfunction make_fat_library {\n    # Will smash 2 static libs together\n    #     make_fat_library in1 in2 out\n    xcrun lipo -create \"${1}\" \"${2}\" -output \"${3}\"\n}\n\n# Extract the platform (iphoneos/iphonesimulator) from the SDK name\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]; then\nRW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Extract the version from the SDK\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]; then\nRW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Determine the other platform\nif [ \"$RW_SDK_PLATFORM\" == \"iphoneos\" ]; then\nRW_OTHER_PLATFORM=iphonesimulator\nelse\nRW_OTHER_PLATFORM=iphoneos\nfi\n\n# Find the build directory\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$RW_SDK_PLATFORM$ ]]; then\nRW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${RW_OTHER_PLATFORM}\"\nelse\necho \"Could not find other platform build directory.\"\nexit 1\nfi\n\n\n# Build the other platform.\nbuild_static_library \"${RW_OTHER_PLATFORM}${RW_SDK_VERSION}\"\n\n# If we're currently building for iphonesimulator, then need to rebuild\n#   to ensure that we get both i386 and x86_64\nif [ \"$RW_SDK_PLATFORM\" == \"iphonesimulator\" ]; then\nbuild_static_library \"${SDK_NAME}\"\nfi\n\n# Join the 2 static libs into 1 and push into the .framework\nmake_fat_library \"${BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n\n# Ensure that the framework is present in both platorm's build directories\ncp -a \"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n# Copy the framework to the project directory\nditto \"${RW_FRAMEWORK_LOCATION}\" \"${SRCROOT}/Frameworks/static/${RW_FRAMEWORK_NAME}.framework\"\n\n# Copy the resources bundle to the user's desktop\nditto \"${BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.bundle\" \\\n\"${SRCROOT}/Frameworks/static/${RW_FRAMEWORK_NAME}.bundle\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -5633,7 +5597,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidResources;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = HyBidStatic;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -5655,7 +5619,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidResources;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = HyBidStatic;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -5674,11 +5638,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -5696,10 +5661,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -5780,7 +5746,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "HyBidStaticUniversal" */ = {
+		E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "Hybid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E7BAC76C2447516D009160A3 /* Debug */,
