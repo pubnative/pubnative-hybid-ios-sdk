@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A6CD01F2029CD060022E206"
-               BuildableName = "HyBid.framework"
-               BlueprintName = "HyBid"
+               BlueprintIdentifier = "E7BAC76A2447516D009160A3"
+               BuildableName = "HybidFramework"
+               BlueprintName = "HybidFramework"
                ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A6CD01F2029CD060022E206"
-            BuildableName = "HyBid.framework"
-            BlueprintName = "HyBid"
+            BlueprintIdentifier = "E7BAC76A2447516D009160A3"
+            BuildableName = "HybidFramework"
+            BlueprintName = "HybidFramework"
             ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
