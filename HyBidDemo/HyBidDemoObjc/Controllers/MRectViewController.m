@@ -21,7 +21,7 @@
 //
 
 #import "MRectViewController.h"
-#import <HyBid/HyBid.h>
+#import <HyBidStatic/HyBidStatic.h>
 
 @interface MRectViewController () <HyBidAdViewDelegate>
 

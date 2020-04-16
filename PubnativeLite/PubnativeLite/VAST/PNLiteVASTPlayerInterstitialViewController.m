@@ -43,8 +43,8 @@
 
 - (instancetype)init {
     NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
-    self = [super initWithNibName:NSStringFromClass([self class]) bundle:currentBundle];
-    self.view = [currentBundle loadNibNamed:NSStringFromClass([self class])
+    self = [super initWithNibName:@"HyBidStatic.bundle/PNLiteVASTPlayerViewController" bundle:currentBundle];
+    self.view = [currentBundle loadNibNamed:@"HyBidStatic.bundle/PNLiteVASTPlayerViewController"
                                       owner:self
                                     options:nil][0];;
     return self;

@@ -31,11 +31,11 @@
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
-NSString * const PNLiteVASTPlayerMuteImageName         = @"PNLiteMute";
-NSString * const PNLiteVASTPlayerUnMuteImageName       = @"PNLiteUnmute";
-NSString * const PNLiteVASTPlayerFullScreenImageName   = @"PNLiteFullScreen";
-NSString * const PNLiteVASTPlayerOpenImageName         = @"PNLiteExternalLink";
-NSString * const PNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
+NSString * const PNLiteVASTPlayerMuteImageName         = @"HyBidStatic.bundle/PNLiteMute";
+NSString * const PNLiteVASTPlayerUnMuteImageName       = @"HyBidStatic.bundle/PNLiteUnmute";
+NSString * const PNLiteVASTPlayerFullScreenImageName   = @"HyBidStatic.bundle/PNLiteFullScreen";
+NSString * const PNLiteVASTPlayerOpenImageName         = @"HyBidStatic.bundle/PNLiteExternalLink";
+NSString * const PNLiteVASTPlayerCloseImageName        = @"HyBidStatic.bundle/PNLiteClose";
 
 
 NSTimeInterval const PNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
@@ -122,9 +122,9 @@ typedef enum : NSUInteger {
 
 - (instancetype)init {
     if (self.isInterstitial) {
-        self = [super initWithNibName:@"PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
+        self = [super initWithNibName:@"HyBidStatic.bundle/PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
     } else {
-        self = [super initWithNibName:NSStringFromClass([self class]) bundle:[self getBundle]];
+        self = [super initWithNibName:@"HyBidStatic.bundle/PNLiteVASTPlayerViewController" bundle:[self getBundle]];
     }
     if (self) {
         self.state = PNLiteVASTPlayerState_IDLE;

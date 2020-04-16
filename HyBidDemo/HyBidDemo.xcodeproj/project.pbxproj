@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7E2C07302445B952008E439C /* HyBid.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		7E2C07312445B956008E439C /* HyBid.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E2DA71F243F6C020013841B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA71E243F6C020013841B /* AppDelegate.swift */; };
 		7E2DA721243F6C020013841B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA720243F6C020013841B /* SceneDelegate.swift */; };
 		7E2DA726243F6C020013841B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA724243F6C020013841B /* Main.storyboard */; };
@@ -36,9 +35,12 @@
 		7E598C422447610300BEA734 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E598C402447610300BEA734 /* LaunchScreen.storyboard */; };
 		7E598C452447610300BEA734 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E598C442447610300BEA734 /* main.m */; };
 		7EEB010124478292000C4126 /* OMSDK-1.2.20 in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB00FA24478292000C4126 /* OMSDK-1.2.20 */; };
-		7EEB012E2447870A000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB0102244782A5000C4126 /* OMSDK_Pubnativenet.framework */; };
 		7EEB016B24485576000C4126 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB016924485576000C4126 /* HyBidStatic.framework */; };
 		7EEB016C24485576000C4126 /* HyBidStatic.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB016A24485576000C4126 /* HyBidStatic.bundle */; };
+		7EEB01B124486C8D000C4126 /* HyBidStatic.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB016A24485576000C4126 /* HyBidStatic.bundle */; };
+		7EEB01B224486DF4000C4126 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB016924485576000C4126 /* HyBidStatic.framework */; };
+		7EEB01B524486DF8000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */; };
+		7EEB01C024487012000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,17 +89,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				7E2C07302445B952008E439C /* HyBid.framework in Copy Frameworks */,
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7E2C072F2445B906008E439C /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				7E2C07312445B956008E439C /* HyBid.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +156,7 @@
 		7EEB012524478469000C4126 /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
 		7EEB016924485576000C4126 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyBidStatic.framework; path = ../../../PubnativeLite/Frameworks/static/HyBidStatic.framework; sourceTree = "<group>"; };
 		7EEB016A24485576000C4126 /* HyBidStatic.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = HyBidStatic.bundle; path = ../../../PubnativeLite/Frameworks/static/HyBidStatic.bundle; sourceTree = "<group>"; };
+		7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OMSDK_Pubnativenet.framework; path = "HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20/OMSDK_Pubnativenet.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +171,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EEB01B524486DF8000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */,
+				7EEB01B224486DF4000C4126 /* HyBidStatic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +180,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EEB012E2447870A000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */,
+				7EEB01C024487012000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */,
 				7EEB016B24485576000C4126 /* HyBidStatic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,6 +248,7 @@
 		7E2DA73D243F6DEF0013841B /* HyBidDemoObjc */ = {
 			isa = PBXGroup;
 			children = (
+				7EEB00D7244777EB000C4126 /* HyBidStatic */,
 				7E2DA73E243F6DEF0013841B /* AppDelegate.h */,
 				7E2DA73F243F6DEF0013841B /* AppDelegate.m */,
 				7E2DA741243F6DEF0013841B /* SceneDelegate.h */,
@@ -312,7 +307,6 @@
 		7E598C31244760FF00BEA734 /* HyBidDemoStatic */ = {
 			isa = PBXGroup;
 			children = (
-				7EEB00D7244777EB000C4126 /* HyBidStatic */,
 				7E598C32244760FF00BEA734 /* AppDelegate.h */,
 				7E598C33244760FF00BEA734 /* AppDelegate.m */,
 				7E598C35244760FF00BEA734 /* SceneDelegate.h */,
@@ -332,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				7EEB012524478469000C4126 /* libc.tbd */,
+				7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */,
 				7EEB012324478461000C4126 /* libc++.tbd */,
 				7EEB011F2447845A000C4126 /* libxml2.2.tbd */,
 				7EEB01202447845A000C4126 /* libxml2.tbd */,
@@ -379,7 +374,6 @@
 				7E2DA738243F6DEF0013841B /* Sources */,
 				7E2DA739243F6DEF0013841B /* Frameworks */,
 				7E2DA73A243F6DEF0013841B /* Resources */,
-				7E2C072F2445B906008E439C /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -509,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E2DA74E243F6DF20013841B /* LaunchScreen.storyboard in Resources */,
+				7EEB01B124486C8D000C4126 /* HyBidStatic.bundle in Resources */,
 				7E2DA74B243F6DF20013841B /* Assets.xcassets in Resources */,
 				7E2DA749243F6DEF0013841B /* Main.storyboard in Resources */,
 			);
@@ -779,12 +774,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TL55SBB4FM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
+				);
 				INFOPLIST_FILE = HyBidDemoObjc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = " -all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoObjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -797,12 +797,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TL55SBB4FM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
+				);
 				INFOPLIST_FILE = HyBidDemoObjc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = " -all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoObjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -819,12 +824,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HyBidDemoStatic",
 					"$(PROJECT_DIR)/HyBidDemoStatic/HyBidStatic/OMSDK-1.2.20",
+					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
 				);
 				INFOPLIST_FILE = HyBidDemoStatic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoStatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -842,12 +849,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HyBidDemoStatic",
 					"$(PROJECT_DIR)/HyBidDemoStatic/HyBidStatic/OMSDK-1.2.20",
+					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
 				);
 				INFOPLIST_FILE = HyBidDemoStatic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidDemoStatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

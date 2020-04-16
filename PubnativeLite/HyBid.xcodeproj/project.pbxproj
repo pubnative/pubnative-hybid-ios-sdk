@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		E7BAC76A2447516D009160A3 /* Hybid */ = {
+		E7BAC76A2447516D009160A3 /* HybidFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "Hybid" */;
+			buildConfigurationList = E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "HybidFramework" */;
 			buildPhases = (
 				E7BAC76E24475196009160A3 /* ShellScript */,
 			);
@@ -17,7 +17,7 @@
 				7E598C1724475F2E00BEA734 /* PBXTargetDependency */,
 				7E598C1924475F3C00BEA734 /* PBXTargetDependency */,
 			);
-			name = Hybid;
+			name = HybidFramework;
 			productName = HyBidStaticUniversal;
 		};
 /* End PBXAggregateTarget section */
@@ -855,6 +855,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = E7BAC43B24474474009160A3;
 			remoteInfo = HyBidStatic;
+		};
+		7EEB01C624487EFF000C4126 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7E598C0F24475EE000BEA734;
+			remoteInfo = HyBidResources;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -3698,6 +3705,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7EEB01C724487EFF000C4126 /* PBXTargetDependency */,
 			);
 			name = HyBidStatic;
 			productName = HyBidStatic;
@@ -3756,7 +3764,7 @@
 				5A32CEB82029F79B0003B450 /* HyBidDemo */,
 				5A969A3C206523F800C3B74A /* HyBidTests */,
 				E7BAC43B24474474009160A3 /* HyBidStatic */,
-				E7BAC76A2447516D009160A3 /* Hybid */,
+				E7BAC76A2447516D009160A3 /* HybidFramework */,
 				7E598C0F24475EE000BEA734 /* HyBidResources */,
 			);
 		};
@@ -4436,6 +4444,11 @@
 			target = E7BAC43B24474474009160A3 /* HyBidStatic */;
 			targetProxy = 7E598C1824475F3C00BEA734 /* PBXContainerItemProxy */;
 		};
+		7EEB01C724487EFF000C4126 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7E598C0F24475EE000BEA734 /* HyBidResources */;
+			targetProxy = 7EEB01C624487EFF000C4126 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -4904,7 +4917,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "Hybid" */ = {
+		E7BAC76B2447516D009160A3 /* Build configuration list for PBXAggregateTarget "HybidFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E7BAC76C2447516D009160A3 /* Debug */,

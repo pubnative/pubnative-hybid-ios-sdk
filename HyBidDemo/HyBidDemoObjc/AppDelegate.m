@@ -22,6 +22,7 @@
 
 #import "AppDelegate.h"
 #import "AdSdkDemoSettings.h"
+#import <HyBidStatic/HyBidStatic.h>
 
 @interface AppDelegate ()
 
