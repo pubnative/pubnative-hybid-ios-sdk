@@ -21,7 +21,12 @@
 //
 
 #import "InterstitialViewController.h"
-#import <HyBidStatic/HyBidStatic.h>
+
+#ifdef STATIC_LIB
+    #import <HyBidStatic/HyBidStatic.h>
+#else
+    #import <HyBid/HyBid.h>
+#endif
 
 @interface InterstitialViewController () <HyBidInterstitialAdDelegate>
 
