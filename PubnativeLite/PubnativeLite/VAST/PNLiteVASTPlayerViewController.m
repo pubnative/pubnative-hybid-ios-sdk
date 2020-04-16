@@ -31,11 +31,11 @@
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
-NSString * const PNLiteVASTPlayerMuteImageName         = @"HyBidStatic.bundle/PNLiteMute";
-NSString * const PNLiteVASTPlayerUnMuteImageName       = @"HyBidStatic.bundle/PNLiteUnmute";
-NSString * const PNLiteVASTPlayerFullScreenImageName   = @"HyBidStatic.bundle/PNLiteFullScreen";
-NSString * const PNLiteVASTPlayerOpenImageName         = @"HyBidStatic.bundle/PNLiteExternalLink";
-NSString * const PNLiteVASTPlayerCloseImageName        = @"HyBidStatic.bundle/PNLiteClose";
+NSString * const PNLiteVASTPlayerMuteImageName         = @"PNLiteMute";
+NSString * const PNLiteVASTPlayerUnMuteImageName       = @"PNLiteUnmute";
+NSString * const PNLiteVASTPlayerFullScreenImageName   = @"PNLiteFullScreen";
+NSString * const PNLiteVASTPlayerOpenImageName         = @"PNLiteExternalLink";
+NSString * const PNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
 
 
 NSTimeInterval const PNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
@@ -122,9 +122,9 @@ typedef enum : NSUInteger {
 
 - (instancetype)init {
     if (self.isInterstitial) {
-        self = [super initWithNibName:@"HyBidStatic.bundle/PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
+        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerFullScreenViewController": @"nib"] bundle:[self getBundle]];
     } else {
-        self = [super initWithNibName:@"HyBidStatic.bundle/PNLiteVASTPlayerViewController" bundle:[self getBundle]];
+        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerViewController": @"nib"] bundle:[self getBundle]];
     }
     if (self) {
         self.state = PNLiteVASTPlayerState_IDLE;
@@ -229,11 +229,12 @@ typedef enum : NSUInteger {
 - (UIImage*)bundledImageNamed:(NSString*)name {
     NSBundle *bundle = [self getBundle];
     // Try getting the regular PNG
-    NSString *imagePath = [bundle pathForResource:name ofType:@"png"];
+    NSString *imagePath = [bundle pathForResource:[self nameForResource:name :@"png"] ofType:@"png"];
     // If nil, let's try to get the combined TIFF, JIC it's enabled
     if(!imagePath) {
-        imagePath = [bundle pathForResource:name ofType:@"tiff"];
+        imagePath = [bundle pathForResource:[self nameForResource:name :@"tiff"] ofType:@"tiff"];
     }
+
     return [UIImage imageWithContentsOfFile:imagePath];
 }
 
@@ -759,6 +760,17 @@ typedef enum : NSUInteger {
     self.contentInfoViewWidthConstraint.constant = [width floatValue];
     [self setConstraintsForPlayerElementsInFullscreen:self.fullScreen];
     [self.view layoutIfNeeded];
+}
+
+#pragma mark - Utils: check for bundle resource existance.
+
+- (NSString*)nameForResource:(NSString*)name :(NSString*)type {
+    NSString* resourceName = [NSString stringWithFormat:@"HyBidStatic.bundle/%@", name];
+    NSString *path = [[self getBundle]pathForResource:resourceName ofType:type];
+    if (!path) {
+        resourceName = name;
+    }
+    return resourceName;
 }
 
 @end
