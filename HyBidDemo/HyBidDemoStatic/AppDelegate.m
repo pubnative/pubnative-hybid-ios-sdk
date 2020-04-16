@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <HyBidStatic/HyBid.h>
+#import <HyBidStatic/HyBidStatic.h>
 
 @interface AppDelegate ()
 
