@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1140"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E7BAC76A2447516D009160A3"
-               BuildableName = "Hybid"
-               BlueprintName = "Hybid"
+               BlueprintIdentifier = "5A6CD01F2029CD060022E206"
+               BuildableName = "HyBid.framework"
+               BlueprintName = "HyBid"
                ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,8 +26,38 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5A6CD01F2029CD060022E206"
+            BuildableName = "HyBid.framework"
+            BlueprintName = "HyBid"
+            ReferencedContainer = "container:HyBid.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5A969A3C206523F800C3B74A"
+            BuildableName = "HyBidTests.xctest"
+            BlueprintName = "HyBidTests"
+            ReferencedContainer = "container:HyBid.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5A969A3C206523F800C3B74A"
+               BuildableName = "HyBidTests.xctest"
+               BlueprintName = "HyBidTests"
+               ReferencedContainer = "container:HyBid.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -40,6 +70,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5A6CD01F2029CD060022E206"
+            BuildableName = "HyBid.framework"
+            BlueprintName = "HyBid"
+            ReferencedContainer = "container:HyBid.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -50,9 +89,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E7BAC76A2447516D009160A3"
-            BuildableName = "Hybid"
-            BlueprintName = "Hybid"
+            BlueprintIdentifier = "5A6CD01F2029CD060022E206"
+            BuildableName = "HyBid.framework"
+            BlueprintName = "HyBid"
             ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
