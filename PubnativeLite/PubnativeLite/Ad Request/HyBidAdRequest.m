@@ -139,7 +139,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
         if (!self.isSetIntegrationTypeCalled) {
             [self setIntegrationType:HEADER_BIDDING withZoneID:self.zoneID];
         }
-
+        
         self.requestStatus = kRequestBothPending;
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
         [[PNLiteHttpRequest alloc] startWithUrlString:self.vwRequestURL.absoluteString withMethod:@"GET" delegate:self];
@@ -157,7 +157,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
 
 - (VWAdRequestModel *)createVWAdRequestModel {
     VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWAdRequestWithZoneID:self.zoneID
-                                                                              withAdSize:[self adSize]];
+                                                                          withAdSize:[self adSize]];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
     return vwRequestModel;
 }
@@ -224,7 +224,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:&parseError];
-
+    
     if (parseError) {
         [self invokeDidFail:parseError];
         return nil;
@@ -250,7 +250,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestPubNativeResponded;
             } else {
@@ -280,7 +280,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI did not fill but VAPI was faster."];
                     return;
                 }
-
+                
                 if (self.requestStatus == kRequestBothPending) {
                     self.requestStatus = kRequestPubNativeResponded;
                 } else {
@@ -296,7 +296,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestPubNativeResponded;
             } else {
@@ -314,7 +314,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
             return;
         }
-
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestPubNativeResponded;
         } else {
@@ -335,7 +335,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestVerveResponded;
             } else {
@@ -365,7 +365,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI did not fill but PAPI was faster."];
                     return;
                 }
-
+                
                 if (self.requestStatus == kRequestBothPending) {
                     self.requestStatus = kRequestVerveResponded;
                 } else {
@@ -381,7 +381,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestVerveResponded;
             } else {
@@ -399,7 +399,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
             return;
         }
-
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestVerveResponded;
         } else {
@@ -419,10 +419,10 @@ NSInteger const kDefaultCanopyZoneID = 2;
             } else {
                 responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
             }
-        
+            
             [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                                   withResponse:responseString
-                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                       withResponse:responseString
+                                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
             [self processResponseWithData:data];
         } else {
             NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
@@ -430,7 +430,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestPubNativeResponded;
             } else {
@@ -454,7 +454,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestVerveResponded;
             } else {
@@ -467,13 +467,13 @@ NSInteger const kDefaultCanopyZoneID = 2;
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     if (request.urlString == self.requestURL.absoluteString) {
         [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                               withResponse:error.localizedDescription
-                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                   withResponse:error.localizedDescription
+                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
         if (self.requestStatus == kRequestWinnerPicked) {
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
             return;
         }
-
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestPubNativeResponded;
         } else {
@@ -484,7 +484,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
             return;
         }
-
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestVerveResponded;
         } else {
