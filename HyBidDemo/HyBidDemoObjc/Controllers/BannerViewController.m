@@ -21,7 +21,12 @@
 //
 
 #import "BannerViewController.h"
-#import <HyBid/HyBid.h>
+
+#ifdef STATIC_LIB
+    #import <HyBidStatic/HyBidStatic.h>
+#else
+    #import <HyBid/HyBid.h>
+#endif
 
 @interface BannerViewController () <VWAdvertViewDelegate>
 

@@ -21,7 +21,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
 
 @interface AdSdkDemoSettings : NSObject
 

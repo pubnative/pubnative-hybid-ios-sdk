@@ -43,8 +43,8 @@
 
 - (instancetype)init {
     NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
-    self = [super initWithNibName:NSStringFromClass([self class]) bundle:currentBundle];
-    self.view = [currentBundle loadNibNamed:NSStringFromClass([self class])
+    self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerInterstitialViewController": @"nib"] bundle:currentBundle];
+    self.view = [currentBundle loadNibNamed:[self nameForResource:@"PNLiteVASTPlayerInterstitialViewController":@"nib"]
                                       owner:self
                                     options:nil][0];;
     return self;
@@ -106,6 +106,17 @@
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter hide];
     [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
+}
+
+#pragma mark - Utils: check for bundle resource existance.
+
+- (NSString*)nameForResource:(NSString*)name :(NSString*)type {
+    NSString* resourceName = [NSString stringWithFormat:@"HyBidStatic.bundle/%@", name];
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:resourceName ofType:type];
+    if (!path) {
+        resourceName = name;
+    }
+    return resourceName;
 }
 
 @end
