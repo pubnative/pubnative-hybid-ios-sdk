@@ -29,4 +29,7 @@
 - (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *) zoneID
                                        withAdSize:(HyBidAdSize*) adSize;
 
+- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *) zoneID
+                                            withAdSize:(HyBidAdSize*) adSize;
+
 @end

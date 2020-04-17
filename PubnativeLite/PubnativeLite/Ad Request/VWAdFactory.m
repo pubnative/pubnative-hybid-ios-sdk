@@ -28,16 +28,11 @@
 
 - (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize*)adSize {
     VWAdRequestModel *adRequestModel = [[VWAdRequestModel alloc] init];
-    // Portal keyword
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
     adRequestModel.requestParameters[@"p"] = portalKeyword;
-    // Category: Default News and Information (97)
     adRequestModel.requestParameters[@"c"] = @"97";
-    // Remove iframe wrapping
     adRequestModel.requestParameters[@"iframe"] = @"false";
-    // Partner keyword
     adRequestModel.requestParameters[@"b"] = [HyBidSettings sharedInstance].partnerKeyword;
-    
     adRequestModel.requestParameters[@"model"] = [HyBidSettings sharedInstance].deviceName;
     adRequestModel.requestParameters[@"appid"] = [HyBidSettings sharedInstance].appBundleID;
     
@@ -47,7 +42,6 @@
         adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
         
-        //location params
         CLLocation* location = [HyBidSettings sharedInstance].location;
         NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
         NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
@@ -64,6 +58,47 @@
         } else {
             adRequestModel.requestParameters[@"size"] = @"320x416";
             [self setInterstitialParameterForAdRequestModel:adRequestModel];
+        }
+    }
+    
+    return adRequestModel;
+}
+
+- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize *)adSize {
+    VWAdRequestModel *adRequestModel = [[VWAdRequestModel alloc] init];
+    NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
+    adRequestModel.requestParameters[@"p"] = portalKeyword;
+    adRequestModel.requestParameters[@"c"] = @"97";
+    adRequestModel.requestParameters[@"b"] = [HyBidSettings sharedInstance].partnerKeyword;
+    adRequestModel.requestParameters[@"appid"] = [HyBidSettings sharedInstance].appBundleID;
+    adRequestModel.requestParameters[@"cc"] = @"vast2.0";
+    adRequestModel.requestParameters[@"adunit"] = @"vastlinear";
+    adRequestModel.requestParameters[@"videoPlacement"] = @"floating";
+    adRequestModel.requestParameters[@"deliveryType"] = @"progressive";
+    adRequestModel.requestParameters[@"skip"] = @"false";
+    adRequestModel.requestParameters[@"autoPlay"] = @"true";
+    adRequestModel.requestParameters[@"audioOnStart"] = @"false";
+    
+    [self setIDFA:adRequestModel];
+
+    if (![HyBidSettings sharedInstance].coppa) {
+        CLLocation* location = [HyBidSettings sharedInstance].location;
+        NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+        NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        
+        adRequestModel.requestParameters[@"lat"] = lat;
+        adRequestModel.requestParameters[@"long"] = longi;
+        adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
+        adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
+    }
+    
+    if (![adSize.layoutSize isEqualToString:@"native"]) {
+        if (adSize.width != 0 && adSize.height != 0) {
+            adRequestModel.requestParameters[@"vpw"] = [NSString stringWithFormat:@"%ld", (long)adSize.width];
+            adRequestModel.requestParameters[@"vph"] = [NSString stringWithFormat:@"%ld", (long)adSize.height];
+        } else {
+            adRequestModel.requestParameters[@"vpw"] = [NSString stringWithFormat:@"%ld", (long)[[UIScreen mainScreen] bounds].size.width];
+            adRequestModel.requestParameters[@"vph"] = [NSString stringWithFormat:@"%ld", (long)[[UIScreen mainScreen] bounds].size.height];
         }
     }
     
