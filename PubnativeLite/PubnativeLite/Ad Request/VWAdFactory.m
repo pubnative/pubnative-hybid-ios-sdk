@@ -20,14 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "VrvAdFactory.h"
+#import "VWAdFactory.h"
 #import "HyBidSettings.h"
 #import "LocationEncoding.h"
 
-@implementation VrvAdFactory
+@implementation VWAdFactory
 
-- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize*)adSize {
-    VrvAdRequestModel *adRequestModel = [[VrvAdRequestModel alloc] init];
+- (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize*)adSize {
+    VWAdRequestModel *adRequestModel = [[VWAdRequestModel alloc] init];
     // Portal keyword
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
     adRequestModel.requestParameters[@"p"] = portalKeyword;
@@ -70,7 +70,7 @@
     return adRequestModel;
 }
 
-- (void)setInterstitialParameterForAdRequestModel:(VrvAdRequestModel *)adRequestModel {
+- (void)setInterstitialParameterForAdRequestModel:(VWAdRequestModel *)adRequestModel {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         adRequestModel.requestParameters[@"adunit"] = @"tinter";
     } else {
@@ -78,7 +78,7 @@
     }
 }
 
-- (void)setIDFA:(VrvAdRequestModel *)adRequestModel {
+- (void)setIDFA:(VWAdRequestModel *)adRequestModel {
     NSString *advertisingId = [HyBidSettings sharedInstance].advertisingId;
     if (!advertisingId || advertisingId.length == 0) {
         
