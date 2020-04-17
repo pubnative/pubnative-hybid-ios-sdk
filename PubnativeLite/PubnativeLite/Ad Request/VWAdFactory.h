@@ -21,11 +21,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "VWAdRequestModel.h"
+#import "HyBidAdSize.h"
 
-@interface VrvResponseModel : NSObject
+@interface VWAdFactory : NSObject
 
-@property (nonatomic, strong) NSString *status;
+- (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *) zoneID
+                                       withAdSize:(HyBidAdSize*) adSize;
 
-- (instancetype)initWithXml:(NSDictionary *)dictionary;
+- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *) zoneID
+                                            withAdSize:(HyBidAdSize*) adSize;
 
 @end

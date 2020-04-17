@@ -20,19 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "VrvResponseModel.h"
+#import <Foundation/Foundation.h>
 
-@implementation VrvResponseModel
+@interface VWResponseModel : NSObject
 
-- (void)dealloc {
-    self.status = nil;
-}
+@property (nonatomic, strong) NSString *status;
 
-- (instancetype)initWithXml:(NSDictionary *)dictionary {
-    if (self) {
-        self.status = @"ok";
-    }
-    return self;
-}
+- (instancetype)initWithXml:(NSDictionary *)dictionary;
 
 @end

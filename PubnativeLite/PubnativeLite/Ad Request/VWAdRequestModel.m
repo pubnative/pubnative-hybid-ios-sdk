@@ -20,10 +20,20 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "VWAdRequestModel.h"
 
-@interface VrvAdRequestModel : NSObject
+@implementation VWAdRequestModel
 
-@property (nonatomic, strong) NSMutableDictionary *requestParameters;
+- (void)dealloc {
+    self.requestParameters = nil;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.requestParameters = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
 
 @end

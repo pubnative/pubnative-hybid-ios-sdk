@@ -598,12 +598,12 @@
 		7EEB015F244853E1000C4126 /* HyBidStatic.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EEB015D244853E1000C4126 /* HyBidStatic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7EEB0160244853E1000C4126 /* HyBidStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEB015E244853E1000C4126 /* HyBidStatic.m */; };
 		7EEB0162244853F3000C4126 /* HyBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A540258202B129E005D80E6 /* HyBid.m */; };
-		E7218DD52428C3D500968314 /* VrvAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VrvAdRequestModel.h */; };
-		E7218DD62428C3D500968314 /* VrvAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VrvAdRequestModel.m */; };
-		E7218DD92428C69F00968314 /* VrvAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VrvAdFactory.h */; };
-		E7218DDA2428C69F00968314 /* VrvAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD82428C69F00968314 /* VrvAdFactory.m */; };
-		E7218DDD2428C6D400968314 /* VrvResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DDB2428C6D400968314 /* VrvResponseModel.h */; };
-		E7218DDE2428C6D400968314 /* VrvResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DDC2428C6D400968314 /* VrvResponseModel.m */; };
+		E7218DD52428C3D500968314 /* VWAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VWAdRequestModel.h */; };
+		E7218DD62428C3D500968314 /* VWAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VWAdRequestModel.m */; };
+		E7218DD92428C69F00968314 /* VWAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VWAdFactory.h */; };
+		E7218DDA2428C69F00968314 /* VWAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD82428C69F00968314 /* VWAdFactory.m */; };
+		E7218DDD2428C6D400968314 /* VWResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DDB2428C6D400968314 /* VWResponseModel.h */; };
+		E7218DDE2428C6D400968314 /* VWResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DDC2428C6D400968314 /* VWResponseModel.m */; };
 		E7956153242B6CAB0052693A /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E7956151242B6CAB0052693A /* XMLDictionary.h */; };
 		E7956154242B6CAB0052693A /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* XMLDictionary.m */; };
 		E7BAC447244744DF009160A3 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E7BAC445244744DF009160A3 /* libxml2.tbd */; };
@@ -696,8 +696,8 @@
 		E7BAC66524474C6E009160A3 /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		E7BAC66624474C71009160A3 /* HyBidAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6923CB2405365F001868A3 /* HyBidAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7BAC66724474C76009160A3 /* HyBidAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6923CC2405365F001868A3 /* HyBidAdSize.m */; };
-		E7BAC66824474C79009160A3 /* VrvResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DDB2428C6D400968314 /* VrvResponseModel.h */; };
-		E7BAC66924474C7C009160A3 /* VrvResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DDC2428C6D400968314 /* VrvResponseModel.m */; };
+		E7BAC66824474C79009160A3 /* VWResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DDB2428C6D400968314 /* VWResponseModel.h */; };
+		E7BAC66924474C7C009160A3 /* VWResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DDC2428C6D400968314 /* VWResponseModel.m */; };
 		E7BAC66A24474C7F009160A3 /* VWAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA70B243F14790013841B /* VWAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7BAC66B24474C85009160A3 /* VWAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA70F243F206F0013841B /* VWAdSize.m */; };
 		E7BAC66C24474D06009160A3 /* HyBidRequestParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E4721490B9A0081355E /* HyBidRequestParameter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -718,10 +718,10 @@
 		E7BAC67B24474D44009160A3 /* HyBidInterstitialAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E6E21493B6D0081355E /* HyBidInterstitialAdRequest.m */; };
 		E7BAC67C24474D47009160A3 /* HyBidNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */; };
 		E7BAC67D24474D4A009160A3 /* HyBidNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */; };
-		E7BAC67E24474D4D009160A3 /* VrvAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VrvAdRequestModel.h */; };
-		E7BAC67F24474D4F009160A3 /* VrvAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VrvAdRequestModel.m */; };
-		E7BAC68024474D51009160A3 /* VrvAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VrvAdFactory.h */; };
-		E7BAC68124474D53009160A3 /* VrvAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD82428C69F00968314 /* VrvAdFactory.m */; };
+		E7BAC67E24474D4D009160A3 /* VWAdRequestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD32428C3D500968314 /* VWAdRequestModel.h */; };
+		E7BAC67F24474D4F009160A3 /* VWAdRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD42428C3D500968314 /* VWAdRequestModel.m */; };
+		E7BAC68024474D51009160A3 /* VWAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DD72428C69F00968314 /* VWAdFactory.h */; };
+		E7BAC68124474D53009160A3 /* VWAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD82428C69F00968314 /* VWAdFactory.m */; };
 		E7BAC68224474D55009160A3 /* VWContentCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6FF243CD63F0013841B /* VWContentCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7BAC68324474D59009160A3 /* VWAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA700243CD72A0013841B /* VWAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7BAC68424474D5F009160A3 /* VWAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA702243CD7580013841B /* VWAdRequest.m */; };
@@ -1755,12 +1755,12 @@
 		7E598C1224475EE000BEA734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EEB015D244853E1000C4126 /* HyBidStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidStatic.h; sourceTree = "<group>"; };
 		7EEB015E244853E1000C4126 /* HyBidStatic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidStatic.m; sourceTree = "<group>"; };
-		E7218DD32428C3D500968314 /* VrvAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdRequestModel.h; sourceTree = "<group>"; };
-		E7218DD42428C3D500968314 /* VrvAdRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvAdRequestModel.m; sourceTree = "<group>"; };
-		E7218DD72428C69F00968314 /* VrvAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvAdFactory.h; sourceTree = "<group>"; };
-		E7218DD82428C69F00968314 /* VrvAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvAdFactory.m; sourceTree = "<group>"; };
-		E7218DDB2428C6D400968314 /* VrvResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VrvResponseModel.h; sourceTree = "<group>"; };
-		E7218DDC2428C6D400968314 /* VrvResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VrvResponseModel.m; sourceTree = "<group>"; };
+		E7218DD32428C3D500968314 /* VWAdRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdRequestModel.h; sourceTree = "<group>"; };
+		E7218DD42428C3D500968314 /* VWAdRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdRequestModel.m; sourceTree = "<group>"; };
+		E7218DD72428C69F00968314 /* VWAdFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdFactory.h; sourceTree = "<group>"; };
+		E7218DD82428C69F00968314 /* VWAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdFactory.m; sourceTree = "<group>"; };
+		E7218DDB2428C6D400968314 /* VWResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWResponseModel.h; sourceTree = "<group>"; };
+		E7218DDC2428C6D400968314 /* VWResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWResponseModel.m; sourceTree = "<group>"; };
 		E7956151242B6CAB0052693A /* XMLDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
 		E7956152242B6CAB0052693A /* XMLDictionary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
 		E7BAC43C24474474009160A3 /* libHyBidStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHyBidStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2468,10 +2468,10 @@
 				5ADF9E6E21493B6D0081355E /* HyBidInterstitialAdRequest.m */,
 				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
 				5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */,
-				E7218DD32428C3D500968314 /* VrvAdRequestModel.h */,
-				E7218DD42428C3D500968314 /* VrvAdRequestModel.m */,
-				E7218DD72428C69F00968314 /* VrvAdFactory.h */,
-				E7218DD82428C69F00968314 /* VrvAdFactory.m */,
+				E7218DD32428C3D500968314 /* VWAdRequestModel.h */,
+				E7218DD42428C3D500968314 /* VWAdRequestModel.m */,
+				E7218DD72428C69F00968314 /* VWAdFactory.h */,
+				E7218DD82428C69F00968314 /* VWAdFactory.m */,
 				7E2DA6FF243CD63F0013841B /* VWContentCategory.h */,
 				7E2DA700243CD72A0013841B /* VWAdRequest.h */,
 				7E2DA702243CD7580013841B /* VWAdRequest.m */,
@@ -2515,8 +2515,8 @@
 				5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */,
 				5A6923CB2405365F001868A3 /* HyBidAdSize.h */,
 				5A6923CC2405365F001868A3 /* HyBidAdSize.m */,
-				E7218DDB2428C6D400968314 /* VrvResponseModel.h */,
-				E7218DDC2428C6D400968314 /* VrvResponseModel.m */,
+				E7218DDB2428C6D400968314 /* VWResponseModel.h */,
+				E7218DDC2428C6D400968314 /* VWResponseModel.m */,
 				7E2DA70B243F14790013841B /* VWAdSize.h */,
 				7E2DA70F243F206F0013841B /* VWAdSize.m */,
 			);
@@ -3387,7 +3387,7 @@
 				5AC35B34214A5F80001F0ED3 /* HyBidBannerAdView.h in Headers */,
 				5AA3D5E520319B8A002BFDA3 /* PNLiteAdFactory.h in Headers */,
 				5ADF9E6F21493B6D0081355E /* HyBidInterstitialAdRequest.h in Headers */,
-				E7218DD52428C3D500968314 /* VrvAdRequestModel.h in Headers */,
+				E7218DD52428C3D500968314 /* VWAdRequestModel.h in Headers */,
 				5ADF9EA3214962340081355E /* HyBidAdModel.h in Headers */,
 				5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */,
 				5A3D94BE243CC1DA00D5C424 /* VWInterstitialAd.h in Headers */,
@@ -3443,7 +3443,7 @@
 				5A9B66E720BD97530067964E /* PNLiteVASTPlayerViewController.h in Headers */,
 				5A2EC33720C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */,
 				5ADF9E772149426B0081355E /* HyBidAdTracker.h in Headers */,
-				E7218DDD2428C6D400968314 /* VrvResponseModel.h in Headers */,
+				E7218DDD2428C6D400968314 /* VWResponseModel.h in Headers */,
 				5A3657D1203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h in Headers */,
 				5A9B66D620BD6E680067964E /* PNLiteVASTMediaFile.h in Headers */,
 				5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */,
@@ -3471,7 +3471,7 @@
 				5ADF9EB7214970430081355E /* HyBidInterstitialAd.h in Headers */,
 				5A54025C202B192C005D80E6 /* PNLiteLocationManager.h in Headers */,
 				5ADB0FB220AF0B30005BDAF5 /* PNLiteCountryUtils.h in Headers */,
-				E7218DD92428C69F00968314 /* VrvAdFactory.h in Headers */,
+				E7218DD92428C69F00968314 /* VWAdFactory.h in Headers */,
 				5ADF9E5D21491F940081355E /* HyBidMRAIDServiceProvider.h in Headers */,
 				5ADF9E8B214952780081355E /* HyBidMRectPresenterFactory.h in Headers */,
 				5AA284CC233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.h in Headers */,
@@ -3522,7 +3522,7 @@
 				E7BAC6E024474EE0009160A3 /* PNLiteMRAIDModalViewController.h in Headers */,
 				E7BAC6C724474E89009160A3 /* PNLiteVASTParser.h in Headers */,
 				E7BAC6A524474DE7009160A3 /* HyBidInterstitialPresenterFactory.h in Headers */,
-				E7BAC68024474D51009160A3 /* VrvAdFactory.h in Headers */,
+				E7BAC68024474D51009160A3 /* VWAdFactory.h in Headers */,
 				E7BAC69324474DA4009160A3 /* HyBidLeaderboardPresenterFactory.h in Headers */,
 				E7BAC67224474D22009160A3 /* HyBidAdRequest.h in Headers */,
 				E7BAC6D424474EB4009160A3 /* PNLiteVASTXMLUtil.h in Headers */,
@@ -3574,7 +3574,7 @@
 				E7BAC62224474B62009160A3 /* HyBidViewabilityManager.h in Headers */,
 				E7BAC68D24474D8F009160A3 /* HyBidVASTAdPresenter.h in Headers */,
 				E7BAC63E24474BC0009160A3 /* PNLiteUserConsentResponseModel.h in Headers */,
-				E7BAC67E24474D4D009160A3 /* VrvAdRequestModel.h in Headers */,
+				E7BAC67E24474D4D009160A3 /* VWAdRequestModel.h in Headers */,
 				E7BAC67C24474D47009160A3 /* HyBidNativeAdRequest.h in Headers */,
 				E7BAC65C24474C4A009160A3 /* PNLiteResponseModel.h in Headers */,
 				E7BAC63824474BB0009160A3 /* PNLiteUserConsentResponseStatus.h in Headers */,
@@ -3607,7 +3607,7 @@
 				E7BAC6A124474DD7009160A3 /* HyBidMRectAdView.h in Headers */,
 				E7BAC67624474D30009160A3 /* HyBidBannerAdRequest.h in Headers */,
 				E7BAC69724474DB5009160A3 /* HyBidBannerPresenterFactory.h in Headers */,
-				E7BAC66824474C79009160A3 /* VrvResponseModel.h in Headers */,
+				E7BAC66824474C79009160A3 /* VWResponseModel.h in Headers */,
 				E7BAC64824474BF1009160A3 /* PNLiteLocationManager.h in Headers */,
 				E7BAC68F24474D94009160A3 /* PNLiteAdPresenterDecorator.h in Headers */,
 				7EEB015F244853E1000C4126 /* HyBidStatic.h in Headers */,
@@ -4206,7 +4206,7 @@
 				5AC35B39214A6392001F0ED3 /* HyBidAdView.m in Sources */,
 				5A9B66D720BD6E680067964E /* PNLiteVASTMediaFile.m in Sources */,
 				5A0779F221340FFA00EBD0E7 /* PNLiteRequestInspector.m in Sources */,
-				E7218DDA2428C69F00968314 /* VrvAdFactory.m in Sources */,
+				E7218DDA2428C69F00968314 /* VWAdFactory.m in Sources */,
 				5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */,
 				5A64B3FE21E78A3E00160235 /* HyBidAdPresenterFactory.m in Sources */,
 				5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */,
@@ -4215,13 +4215,13 @@
 				5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */,
 				5A2633572034AB480005EA39 /* PNLiteMRAIDOrientationProperties.m in Sources */,
 				5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */,
-				E7218DDE2428C6D400968314 /* VrvResponseModel.m in Sources */,
+				E7218DDE2428C6D400968314 /* VWResponseModel.m in Sources */,
 				5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */,
 				5A262DD6218B3395001A29E2 /* HyBidLeaderboardAdView.m in Sources */,
 				5ADF9EBC214972940081355E /* HyBidMRectAdView.m in Sources */,
 				5AA3D5EA20319D82002BFDA3 /* PNLiteAdRequestModel.m in Sources */,
 				5ADF9EA021495FFB0081355E /* HyBidUserDataManager.m in Sources */,
-				E7218DD62428C3D500968314 /* VrvAdRequestModel.m in Sources */,
+				E7218DD62428C3D500968314 /* VWAdRequestModel.m in Sources */,
 				5A0779EE2134061100EBD0E7 /* PNLiteRequestInspectorModel.m in Sources */,
 				5ADF9E90214954A40081355E /* HyBidInterstitialPresenterFactory.m in Sources */,
 				5A262DDA218B394C001A29E2 /* HyBidLeaderboardAdRequest.m in Sources */,
@@ -4318,7 +4318,7 @@
 				E7BAC61F24474B4F009160A3 /* HyBidLogger.m in Sources */,
 				E7BAC6BA24474E38009160A3 /* LocationEncoding.m in Sources */,
 				E7BAC62B24474B8B009160A3 /* PNLiteImpressionTracker.m in Sources */,
-				E7BAC67F24474D4F009160A3 /* VrvAdRequestModel.m in Sources */,
+				E7BAC67F24474D4F009160A3 /* VWAdRequestModel.m in Sources */,
 				E7BAC68824474D7F009160A3 /* HyBidAdTracker.m in Sources */,
 				E7BAC64F24474C08009160A3 /* PNLiteHttpRequest.m in Sources */,
 				E7BAC69224474D9F009160A3 /* HyBidAdPresenterFactory.m in Sources */,
@@ -4358,7 +4358,7 @@
 				E7BAC69624474DB0009160A3 /* HyBidLeaderboardAdView.m in Sources */,
 				E7BAC62724474B7C009160A3 /* PNLiteRequestInspector.m in Sources */,
 				E7BAC66B24474C85009160A3 /* VWAdSize.m in Sources */,
-				E7BAC68124474D53009160A3 /* VrvAdFactory.m in Sources */,
+				E7BAC68124474D53009160A3 /* VWAdFactory.m in Sources */,
 				E7BAC65F24474C55009160A3 /* HyBidAd.m in Sources */,
 				E7BAC61D24474B43009160A3 /* HyBidStarRatingView.m in Sources */,
 				E7BAC62924474B82009160A3 /* PNLiteRequestInspectorModel.m in Sources */,
@@ -4390,7 +4390,7 @@
 				E7BAC6B624474E2C009160A3 /* UIApplication+PNLiteTopViewController.m in Sources */,
 				E7BAC68E24474D92009160A3 /* HyBidVASTAdPresenter.m in Sources */,
 				E7BAC6A024474DD5009160A3 /* HyBidMRectPresenterFactory.m in Sources */,
-				E7BAC66924474C7C009160A3 /* VrvResponseModel.m in Sources */,
+				E7BAC66924474C7C009160A3 /* VWResponseModel.m in Sources */,
 				E7BAC66F24474D1A009160A3 /* PNLiteAdFactory.m in Sources */,
 				E7BAC69824474DBB009160A3 /* HyBidBannerPresenterFactory.m in Sources */,
 				E7BAC6D924474EC9009160A3 /* PNLiteMRAIDOrientationProperties.m in Sources */,

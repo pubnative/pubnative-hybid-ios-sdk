@@ -43,7 +43,7 @@
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
 - (instancetype)initWithData:(HyBidAdModel *)data;
-- (instancetype)initWithVrvXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize;
+- (instancetype)initWithVWXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize;
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;

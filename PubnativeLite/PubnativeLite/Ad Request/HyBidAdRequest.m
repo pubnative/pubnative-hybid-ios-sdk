@@ -23,11 +23,11 @@
 #import "HyBidAdRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "PNLiteAdFactory.h"
-#import "VrvAdFactory.h"
+#import "VWAdFactory.h"
 #import "PNLiteAdRequestModel.h"
-#import "VrvAdRequestModel.h"
+#import "VWAdRequestModel.h"
 #import "PNLiteResponseModel.h"
-#import "VrvResponseModel.h"
+#import "VWResponseModel.h"
 #import "HyBidAdModel.h"
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
@@ -38,7 +38,7 @@
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
 NSInteger const PNLiteResponseStatusOK = 200;
-NSInteger const PNLiteResponseStatusVrvOK = 204;
+NSInteger const PNLiteResponseStatusVWOK = 204;
 NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 NSInteger const kRequestBothPending = 3000;
@@ -59,10 +59,11 @@ NSInteger const kDefaultCanopyZoneID = 2;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSURL *requestURL;
-@property (nonatomic, strong) NSURL *vrvRequestURL;
+@property (nonatomic, strong) NSURL *vwRequestURL;
+@property (nonatomic, strong) NSURL *vwVideoAdRequestURL;
 @property (nonatomic, assign) BOOL isSetIntegrationTypeCalled;
 @property (nonatomic, strong) PNLiteAdFactory *adFactory;
-@property (nonatomic, strong) VrvAdFactory *vrvAdFactory;
+@property (nonatomic, strong) VWAdFactory *vwAdFactory;
 @property (nonatomic, assign) NSInteger requestStatus;
 
 @end
@@ -73,10 +74,11 @@ NSInteger const kDefaultCanopyZoneID = 2;
     self.zoneID = nil;
     self.startTime = nil;
     self.requestURL = nil;
-    self.vrvRequestURL = nil;
+    self.vwRequestURL = nil;
+    self.vwVideoAdRequestURL = nil;
     self.delegate = nil;
     self.adFactory = nil;
-    self.vrvAdFactory = nil;
+    self.vwAdFactory = nil;
     self.adSize = nil;
 }
 
@@ -84,7 +86,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
     self = [super init];
     if (self) {
         self.adFactory = [[PNLiteAdFactory alloc] init];
-        self.vrvAdFactory = [[VrvAdFactory alloc] init];
+        self.vwAdFactory = [[VWAdFactory alloc] init];
         self.adSize = HyBidAdSize.SIZE_320x50;
     }
     return self;
@@ -113,7 +115,8 @@ NSInteger const kDefaultCanopyZoneID = 2;
     }
     // Verve request will be created only if partner keyword is set
     if ([HyBidSettings sharedInstance].partnerKeyword != nil) {
-        self.vrvRequestURL = [self vrvRequestURLFromAdRequestModel:[self createVrvAdRequestModel]];
+        self.vwRequestURL = [self vwRequestURLFromAdRequestModel:[self createVWAdRequestModel]];
+        self.vwVideoAdRequestURL = [self vwVideoAdRequestURLFromAdRequestModel:[self createVWVideoAdRequestModel]];
     }
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
     self.isSetIntegrationTypeCalled = YES;
@@ -139,10 +142,11 @@ NSInteger const kDefaultCanopyZoneID = 2;
         if (!self.isSetIntegrationTypeCalled) {
             [self setIntegrationType:HEADER_BIDDING withZoneID:self.zoneID];
         }
-
+        
         self.requestStatus = kRequestBothPending;
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
-        [[PNLiteHttpRequest alloc] startWithUrlString:self.vrvRequestURL.absoluteString withMethod:@"GET" delegate:self];
+        [[PNLiteHttpRequest alloc] startWithUrlString:self.vwRequestURL.absoluteString withMethod:@"GET" delegate:self];
+        [[PNLiteHttpRequest alloc] startWithUrlString:self.vwVideoAdRequestURL.absoluteString withMethod:@"GET" delegate:self];
     }
 }
 
@@ -155,11 +159,18 @@ NSInteger const kDefaultCanopyZoneID = 2;
                               andWithIntegrationType:integrationType];
 }
 
-- (VrvAdRequestModel *)createVrvAdRequestModel {
-    VrvAdRequestModel *vrvRequestModel = [self.vrvAdFactory createVrvAdRequestWithZoneID:self.zoneID
-                                                                              withAdSize:[self adSize]];
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vrvRequestURLFromAdRequestModel: vrvRequestModel].absoluteString]];
-    return vrvRequestModel;
+- (VWAdRequestModel *)createVWAdRequestModel {
+    VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWAdRequestWithZoneID:self.zoneID
+                                                                          withAdSize:[self adSize]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
+    return vwRequestModel;
+}
+
+- (VWAdRequestModel *)createVWVideoAdRequestModel {
+    VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWVideoAdRequestWithZoneID:self.zoneID
+                                                                               withAdSize:[self adSize]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwVideoAdRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
+    return vwRequestModel;
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
@@ -176,9 +187,23 @@ NSInteger const kDefaultCanopyZoneID = 2;
     return components.URL;
 }
 
-- (NSURL*)vrvRequestURLFromAdRequestModel:(VrvAdRequestModel *)adRequestModel {
+- (NSURL*)vwRequestURLFromAdRequestModel:(VWAdRequestModel *)adRequestModel {
     NSURLComponents *components = [NSURLComponents componentsWithString:@"https://adcel.vrvm.com"];
     components.path = @"/banner";
+    if (adRequestModel.requestParameters) {
+        NSMutableArray *query = [NSMutableArray array];
+        NSDictionary *parametersDictionary = adRequestModel.requestParameters;
+        for (id key in parametersDictionary) {
+            [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
+        }
+        components.queryItems = query;
+    }
+    return components.URL;
+}
+
+- (NSURL*)vwVideoAdRequestURLFromAdRequestModel:(VWAdRequestModel *)adRequestModel {
+    NSURLComponents *components = [NSURLComponents componentsWithString:@"https://adcel.vrvm.com"];
+    components.path = @"/vast";
     if (adRequestModel.requestParameters) {
         NSMutableArray *query = [NSMutableArray array];
         NSDictionary *parametersDictionary = adRequestModel.requestParameters;
@@ -224,7 +249,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:&parseError];
-
+    
     if (parseError) {
         [self invokeDidFail:parseError];
         return nil;
@@ -250,7 +275,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestPubNativeResponded;
             } else {
@@ -280,7 +305,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI did not fill but VAPI was faster."];
                     return;
                 }
-
+                
                 if (self.requestStatus == kRequestBothPending) {
                     self.requestStatus = kRequestPubNativeResponded;
                 } else {
@@ -296,7 +321,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestPubNativeResponded;
             } else {
@@ -314,7 +339,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
             return;
         }
-
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestPubNativeResponded;
         } else {
@@ -326,7 +351,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
 - (void)processXmlResponseWithData:(NSData *)data {
     NSDictionary *xmlDictonary = [self createXmlFromData:data];
     if (xmlDictonary) {
-        VrvResponseModel *response = [[VrvResponseModel alloc] initWithXml:xmlDictonary];
+        VWResponseModel *response = [[VWResponseModel alloc] initWithXml:xmlDictonary];
         if(!response) {
             NSError *error = [NSError errorWithDomain:@"Can't parse XML from server"
                                                  code:0
@@ -335,7 +360,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestVerveResponded;
             } else {
@@ -344,7 +369,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
         } else if ([PNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             
-            HyBidAd *ad = [[HyBidAd alloc] initWithVrvXml:xmlDictonary andWithAdSize:self.adSize];
+            HyBidAd *ad = [[HyBidAd alloc] initWithVWXml:xmlDictonary andWithAdSize:self.adSize];
             [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
             [responseAdArray addObject:ad];
             
@@ -365,7 +390,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI did not fill but PAPI was faster."];
                     return;
                 }
-
+                
                 if (self.requestStatus == kRequestBothPending) {
                     self.requestStatus = kRequestVerveResponded;
                 } else {
@@ -381,7 +406,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestVerveResponded;
             } else {
@@ -399,7 +424,7 @@ NSInteger const kDefaultCanopyZoneID = 2;
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
             return;
         }
-
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestVerveResponded;
         } else {
@@ -419,10 +444,10 @@ NSInteger const kDefaultCanopyZoneID = 2;
             } else {
                 responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
             }
-        
+            
             [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                                   withResponse:responseString
-                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                       withResponse:responseString
+                                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
             [self processResponseWithData:data];
         } else {
             NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
@@ -430,16 +455,16 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                 return;
             }
-
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestPubNativeResponded;
             } else {
                 [self invokeDidFail:statusError];
             }
         }
-    } else if (request.urlString == self.vrvRequestURL.absoluteString) {
+    } else if (request.urlString == self.vwRequestURL.absoluteString) {
         // Repeat this condition because Adcel API has different response codes
-        if(PNLiteResponseStatusOK == statusCode || PNLiteResponseStatusVrvOK == statusCode || PNLiteResponseStatusRequestMalformed == statusCode) {
+        if(PNLiteResponseStatusOK == statusCode || PNLiteResponseStatusVWOK == statusCode || PNLiteResponseStatusRequestMalformed == statusCode) {
             NSString *responseString;
             if ([self createXmlFromData:data]) {
                 responseString = [NSString stringWithFormat:@"%@",[self createXmlFromData:data]];
@@ -454,7 +479,30 @@ NSInteger const kDefaultCanopyZoneID = 2;
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
                 return;
             }
-
+            
+            if (self.requestStatus == kRequestBothPending) {
+                self.requestStatus = kRequestVerveResponded;
+            } else {
+                [self invokeDidFail:statusError];
+            }
+        }
+    } else if (request.urlString == self.vwVideoAdRequestURL.absoluteString) {
+        if(PNLiteResponseStatusOK == statusCode || PNLiteResponseStatusVWOK == statusCode || PNLiteResponseStatusRequestMalformed == statusCode) {
+            NSString *responseString;
+            if ([self createXmlFromData:data]) {
+                responseString = [NSString stringWithFormat:@"%@",[self createXmlFromData:data]];
+            } else {
+                responseString = [NSString stringWithFormat:@"Error while creating a XML Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+            }
+            
+            [self processXmlResponseWithData:data];
+        } else {
+            NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
+            if (self.requestStatus == kRequestWinnerPicked) {
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
+                return;
+            }
+            
             if (self.requestStatus == kRequestBothPending) {
                 self.requestStatus = kRequestVerveResponded;
             } else {
@@ -467,24 +515,35 @@ NSInteger const kDefaultCanopyZoneID = 2;
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     if (request.urlString == self.requestURL.absoluteString) {
         [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                               withResponse:error.localizedDescription
-                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                   withResponse:error.localizedDescription
+                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
         if (self.requestStatus == kRequestWinnerPicked) {
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
             return;
         }
-
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestPubNativeResponded;
         } else {
             [self invokeDidFail:error];
         }
-    } else if (request.urlString == self.vrvRequestURL.absoluteString) {
+    } else if (request.urlString == self.vwRequestURL.absoluteString) {
         if (self.requestStatus == kRequestWinnerPicked) {
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
             return;
         }
-
+        
+        if (self.requestStatus == kRequestBothPending) {
+            self.requestStatus = kRequestVerveResponded;
+        } else {
+            [self invokeDidFail:error];
+        }
+    } else if (request.urlString == self.vwVideoAdRequestURL.absoluteString) {
+        if (self.requestStatus == kRequestWinnerPicked) {
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
+            return;
+        }
+        
         if (self.requestStatus == kRequestBothPending) {
             self.requestStatus = kRequestVerveResponded;
         } else {

@@ -56,7 +56,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self;
 }
 
-- (instancetype)initWithVrvXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize {
+- (instancetype)initWithVWXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize {
     self = [super init];
     if (self) {
         HyBidAdModel *model = [[HyBidAdModel alloc] init];

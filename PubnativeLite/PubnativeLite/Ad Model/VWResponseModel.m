@@ -20,13 +20,19 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "VrvAdRequestModel.h"
-#import "HyBidAdSize.h"
+#import "VWResponseModel.h"
 
-@interface VrvAdFactory : NSObject
+@implementation VWResponseModel
 
-- (VrvAdRequestModel *)createVrvAdRequestWithZoneID:(NSString *) zoneID
-                                         withAdSize:(HyBidAdSize*) adSize;
+- (void)dealloc {
+    self.status = nil;
+}
+
+- (instancetype)initWithXml:(NSDictionary *)dictionary {
+    if (self) {
+        self.status = @"ok";
+    }
+    return self;
+}
 
 @end
