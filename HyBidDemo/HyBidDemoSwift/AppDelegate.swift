@@ -39,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         targetingModel.age = 29
         targetingModel.gender = "m"
         HyBid.setTargeting(targetingModel)
+        
+        VWAdLibrary.shared().setIABUSPrivacyString("1YYN")
+
         return true
     }
 
