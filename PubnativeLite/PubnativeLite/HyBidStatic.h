@@ -74,6 +74,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBidStatic/VWContentCategory.h>
 #import <HyBidStatic/VWAdSize.h>
 #import <HyBidStatic/VWInterstitialAd.h>
+#import <HyBidStatic/VWAdLibrary.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
