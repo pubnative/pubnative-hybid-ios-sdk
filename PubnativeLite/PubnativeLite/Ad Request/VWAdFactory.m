@@ -23,6 +23,7 @@
 #import "VWAdFactory.h"
 #import "HyBidSettings.h"
 #import "LocationEncoding.h"
+#import "VWAdLibrary.h"
 
 @implementation VWAdFactory
 
@@ -59,6 +60,11 @@
             adRequestModel.requestParameters[@"size"] = @"320x416";
             [self setInterstitialParameterForAdRequestModel:adRequestModel];
         }
+    }
+    
+    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    if (![privacyString isEqualToString:@""]) {
+        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
     return adRequestModel;
@@ -100,6 +106,11 @@
             adRequestModel.requestParameters[@"vpw"] = [NSString stringWithFormat:@"%ld", (long)[[UIScreen mainScreen] bounds].size.width];
             adRequestModel.requestParameters[@"vph"] = [NSString stringWithFormat:@"%ld", (long)[[UIScreen mainScreen] bounds].size.height];
         }
+    }
+    
+    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    if (![privacyString isEqualToString:@""]) {
+        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
     return adRequestModel;
