@@ -46,10 +46,12 @@ NSInteger const kRequestVerveResponded = 3001;
 NSInteger const kRequestPubNativeResponded = 3002;
 NSInteger const kRequestWinnerPicked = 3003;
 
-NSInteger const kDefaultMRectZoneID = 5;
+NSInteger const kDefaultMRectZoneID = 3;
+NSInteger const kDefaultVASTMRectZoneID = 5;
 NSInteger const kDefaultBannerZoneID = 2;
 NSInteger const kDefaultLeaderboardZoneID = 8;
 NSInteger const kDefaultInterstitialZoneID = 4;
+NSInteger const kDefaultVASTInterstitialZoneID = 6;
 NSInteger const kDefaultCanopyZoneID = 2;
 NSInteger const kDefaultInterstitialIPadPortraitZoneID = 23;
 NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
@@ -116,6 +118,15 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
     }
 }
 
+- (NSString *)determineZoneIDForVASTForAdSize:(HyBidAdSize *)adSize {
+    
+    if ([adSize isEqualTo:HyBidAdSize.SIZE_300x250]) {
+        return [@(kDefaultVASTMRectZoneID) stringValue];
+    } else {
+        return [@(kDefaultVASTInterstitialZoneID) stringValue];
+    }
+}
+
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     if (!zoneID || zoneID.length == 0) {
         self.zoneID = [self determineZoneIDForAdSize:self.adSize];
@@ -155,6 +166,32 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
         self.requestStatus = kRequestBothPending;
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
         [[PNLiteHttpRequest alloc] startWithUrlString:self.vwRequestURL.absoluteString withMethod:@"GET" delegate:self];
+    }
+}
+
+- (void)requestVideoAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
+    if (self.isRunning) {
+        NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
+        [self invokeDidFail:runningError];
+    } else if(!delegate) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
+    } else {
+        self.startTime = [NSDate date];
+        self.delegate = delegate;
+        if (!zoneID || zoneID.length == 0) {
+            self.zoneID = [self determineZoneIDForVASTForAdSize:self.adSize];
+        } else {
+            self.zoneID = zoneID;
+        }
+        self.isRunning = YES;
+        [self invokeDidStart];
+        
+        if (!self.isSetIntegrationTypeCalled) {
+            [self setIntegrationType:HEADER_BIDDING withZoneID:self.zoneID];
+        }
+        
+        self.requestStatus = kRequestBothPending;
+        [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
         [[PNLiteHttpRequest alloc] startWithUrlString:self.vwVideoAdRequestURL.absoluteString withMethod:@"GET" delegate:self];
     }
 }
@@ -442,6 +479,91 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
     }
 }
 
+- (void)processVASTXmlResponseWithData:(NSData *)data {
+    NSDictionary *xmlDictonary = [self createXmlFromData:data];
+    if (xmlDictonary) {
+        VWResponseModel *response = [[VWResponseModel alloc] initWithXml:xmlDictonary];
+        if(!response) {
+            NSError *error = [NSError errorWithDomain:@"Can't parse XML from server"
+                                                 code:0
+                                             userInfo:nil];
+            if (self.requestStatus == kRequestWinnerPicked) {
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
+                return;
+            }
+            
+            if (self.requestStatus == kRequestBothPending) {
+                self.requestStatus = kRequestVerveResponded;
+            } else {
+                [self invokeDidFail:error];
+            }
+        } else if ([PNLiteResponseOK isEqualToString:response.status]) {
+            NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
+            HyBidAd *ad = [[HyBidAd alloc] initWithVWVASTXml:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] andWithAdSize:self.adSize];
+            [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
+            [responseAdArray addObject:ad];
+            
+            if (responseAdArray.count > 0) {
+                if (self.requestStatus == kRequestWinnerPicked) {
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has response but PAPI was faster."];
+                    return;
+                }
+                
+                self.requestStatus = kRequestWinnerPicked;
+                
+                [self invokeDidLoad:responseAdArray.firstObject];
+            } else {
+                NSError *error = [NSError errorWithDomain:@"No fill"
+                                                     code:0
+                                                 userInfo:nil];
+                if (self.requestStatus == kRequestWinnerPicked) {
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI did not fill but PAPI was faster."];
+                    return;
+                }
+                
+                if (self.requestStatus == kRequestBothPending) {
+                    self.requestStatus = kRequestVerveResponded;
+                } else {
+                    [self invokeDidFail:error];
+                }
+            }
+        } else {
+            NSString *errorMessage = @"HyBidAdRequest - An error has ocurred fetching the ad";
+            NSError *responseError = [NSError errorWithDomain:errorMessage
+                                                         code:0
+                                                     userInfo:nil];
+            if (self.requestStatus == kRequestWinnerPicked) {
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
+                return;
+            }
+            
+            if (self.requestStatus == kRequestBothPending) {
+                self.requestStatus = kRequestVerveResponded;
+            } else {
+                [self invokeDidFail:responseError];
+            }
+        }
+    } else {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil."];
+        
+        NSString *errorMessage = @"HyBidAdRequest - Dictionary that is created from the response data is nil.";
+        NSError *responseError = [NSError errorWithDomain:errorMessage
+                                                     code:0
+                                                 userInfo:nil];
+        if (self.requestStatus == kRequestWinnerPicked) {
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAPI has failure but PAPI was faster."];
+            return;
+        }
+        
+        if (self.requestStatus == kRequestBothPending) {
+            self.requestStatus = kRequestVerveResponded;
+        } else {
+            [self invokeDidFail:responseError];
+        }
+    }
+}
+
+
 #pragma mark PNLiteHttpRequestDelegate
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
@@ -504,7 +626,7 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
                 responseString = [NSString stringWithFormat:@"Error while creating a XML Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
             }
             
-            [self processXmlResponseWithData:data];
+            [self processVASTXmlResponseWithData:data];
         } else {
             NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
             if (self.requestStatus == kRequestWinnerPicked) {

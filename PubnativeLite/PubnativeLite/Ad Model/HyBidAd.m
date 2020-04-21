@@ -96,6 +96,26 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self;
 }
 
+- (instancetype)initWithVWVASTXml:(NSString *)xml andWithAdSize:(HyBidAdSize *)adSize {
+    self = [super init];
+    if (self) {
+        HyBidAdModel *model = [[HyBidAdModel alloc] init];
+        self.adSize = adSize;
+        NSString *apiAsset = PNLiteAsset.vast;
+        NSMutableArray *assets = [[NSMutableArray alloc] init];
+        HyBidDataModel *data = [[HyBidDataModel alloc] initWithVASTAsset:apiAsset withValue:xml];
+        [assets addObject:data];
+        model.assets = assets;
+        if ([adSize isEqualTo:HyBidAdSize.SIZE_INTERSTITIAL]) {
+            model.assetgroupid = [NSNumber numberWithInt:VAST_INTERSTITIAL];
+        } else {
+            model.assetgroupid = [NSNumber numberWithInt:VAST_MRECT];
+        }
+        self.data = model;
+    }
+    return self;
+}
+
 - (NSString *)vast {
     NSString *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.vast];
