@@ -51,6 +51,8 @@ NSInteger const kDefaultBannerZoneID = 2;
 NSInteger const kDefaultLeaderboardZoneID = 8;
 NSInteger const kDefaultInterstitialZoneID = 4;
 NSInteger const kDefaultCanopyZoneID = 2;
+NSInteger const kDefaultInterstitialIPadPortraitZoneID = 23;
+NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
 
 @interface HyBidAdRequest () <PNLiteHttpRequestDelegate>
 
@@ -103,6 +105,13 @@ NSInteger const kDefaultCanopyZoneID = 2;
     } else if ([adSize isEqualTo:HyBidAdSize.SIZE_728x90]) {
         return [@(kDefaultLeaderboardZoneID) stringValue];
     } else {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+            {
+                return [@(kDefaultInterstitialIPadPortraitZoneID) stringValue];
+            }
+            return [@(kDefaultInterstitialIPadLandscapeZoneID) stringValue];
+        }
         return [@(kDefaultInterstitialZoneID) stringValue];
     }
 }
