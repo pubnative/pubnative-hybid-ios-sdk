@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,36 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VWContentCategory.h"
 
-@interface VWAdRequest : NSObject
+#define kUSPrivacyKey @"IABUSPrivacy_String"
 
-+ (nonnull instancetype)request;
-+ (nonnull instancetype)requestWithContentCategoryID:(VWContentCategory)contentCategory;
-+ (nonnull instancetype)requestWithContentCategoryIDs:(nullable NSArray *)contentCategoryIDs;
-+ (nonnull instancetype)requestWithContentCategoryID:(VWContentCategory)contentCategory displayBlockID:(NSInteger)displayBlock;
-+ (nonnull instancetype)requestWithContentCategoryIDs:(nullable NSArray *)contentCategoryIDs displayBlockID:(NSInteger)displayBlock;
-+ (nonnull instancetype)requestWithContentCategoryID:(VWContentCategory)contentCategory displayBlockID:(NSInteger)displayBlock partnerModuleID:(NSInteger)partnerModule;
-+ (nonnull instancetype)requestWithContentCategoryIDs:(nullable NSArray *)contentCategoryIDs displayBlockID:(NSInteger)displayBlock partnerModuleID:(NSInteger)partnerModule;
-- (BOOL)setCustomParameterForKey:(nonnull NSString *)key value:(nullable NSString *)value;
+@interface VWAdLibrary : NSObject
+
+/*!
+ * Returns version number of the library.
+ */
++ (nonnull NSString *)sdkVersion;
+
+/*!
+ * Shared instance.
+ */
++ (nonnull VWAdLibrary *)shared;
+
+/*!
+ * Set U.S. Privacy String per IAB specification
+ * https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf
+ */
+- (void)setIABUSPrivacyString:(NSString *_Nullable)privacyString;
+
+/*!
+ * Read the stored value of U.S. Privacy String as last set with setIABUSPrivacyString method.
+ * It returns nil if there is no privacy string set.
+ */
+- (NSString *_Nullable)getIABUSPrivacyString;
+
+/*!
+ * Remove U.S. Privacy String
+ */
+- (void)removeIABUSPrivacyString;
 
 @end
-
