@@ -44,7 +44,7 @@
 
 - (instancetype)initWithData:(HyBidAdModel *)data;
 - (instancetype)initWithVWXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize;
-- (instancetype)initWithVWVASTXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize;
+- (instancetype)initWithVWVASTXml:(NSString *)xml andWithAdSize:(HyBidAdSize *)adSize;
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;
