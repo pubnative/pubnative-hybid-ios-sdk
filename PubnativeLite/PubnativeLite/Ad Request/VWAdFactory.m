@@ -62,8 +62,8 @@
         }
     }
     
-    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
-    if (![privacyString isEqualToString:@""]) {
+    if (![[VWAdLibrary shared]usPrivacyOptOut]) {
+        NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
@@ -108,8 +108,8 @@
         }
     }
     
-    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
-    if (![privacyString isEqualToString:@""]) {
+    if (![[VWAdLibrary shared]usPrivacyOptOut]) {
+        NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     

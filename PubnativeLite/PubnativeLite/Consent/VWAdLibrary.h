@@ -53,4 +53,7 @@
  */
 - (void)removeIABUSPrivacyString;
 
+// check for opt out
+- (BOOL)usPrivacyOptOut;
+
 @end

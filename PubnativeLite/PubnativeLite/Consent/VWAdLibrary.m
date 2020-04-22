@@ -88,4 +88,21 @@ static VWAdLibrary *instance = nil;
     return privacyString;
 }
 
+- (BOOL)usPrivacyOptOut
+{
+    NSString *privacyString = [self getFormattedIABUSPrivacyString];
+    
+    if ([privacyString length] >= 3) {
+        NSString *thirdComponent = [privacyString substringWithRange:NSMakeRange(2, 1)];
+        if ([[thirdComponent uppercaseString] isEqualToString:@"Y"]) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else {
+        // There is no valid privacy string set, assuming there is no opt out
+        return  NO;
+    }
+}
+
 @end
