@@ -4821,6 +4821,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
 				);
+				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -4844,6 +4845,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
 				);
+				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
