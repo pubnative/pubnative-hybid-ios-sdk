@@ -39,9 +39,9 @@
 		7EEB01E42448A57E000C4126 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA74C243F6DF20013841B /* LaunchScreen.storyboard */; };
 		7EEB01E52448A57E000C4126 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA74A243F6DF20013841B /* Assets.xcassets */; };
 		7EEB01E62448A57E000C4126 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA747243F6DEF0013841B /* Main.storyboard */; };
-		7EEB01F52448A5F3000C4126 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB016924485576000C4126 /* HyBidStatic.framework */; };
 		7EEB01F82448A5F7000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */; };
-		7EEB022324504E9C000C4126 /* iqv.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB021B24504E84000C4126 /* iqv.bundle */; };
+		7EEB023824508A52000C4126 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB023624508A52000C4126 /* HyBidStatic.framework */; };
+		7EEB023924508A52000C4126 /* iqv.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7EEB023724508A52000C4126 /* iqv.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,11 +144,11 @@
 		7EEB01202447845A000C4126 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		7EEB012324478461000C4126 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		7EEB012524478469000C4126 /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
-		7EEB016924485576000C4126 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyBidStatic.framework; path = ../../../PubnativeLite/Frameworks/static/HyBidStatic.framework; sourceTree = "<group>"; };
 		7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OMSDK_Pubnativenet.framework; path = "HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20/OMSDK_Pubnativenet.framework"; sourceTree = "<group>"; };
 		7EEB01EC2448A57E000C4126 /* HyBidDemoObjcStatic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemoObjcStatic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EEB01ED2448A57E000C4126 /* HyBidDemoObjcStatic-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "HyBidDemoObjcStatic-Info.plist"; path = "/Users/faresbenhamouda/pubnative-hybid-ios-sdk/HyBidDemo/HyBidDemoObjcStatic-Info.plist"; sourceTree = "<absolute>"; };
-		7EEB021B24504E84000C4126 /* iqv.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = iqv.bundle; path = ../../../PubnativeLite/Frameworks/static/iqv.bundle; sourceTree = "<group>"; };
+		7EEB023624508A52000C4126 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyBidStatic.framework; sourceTree = "<group>"; };
+		7EEB023724508A52000C4126 /* iqv.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iqv.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,7 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EEB01F82448A5F7000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */,
-				7EEB01F52448A5F3000C4126 /* HyBidStatic.framework in Frameworks */,
+				7EEB023824508A52000C4126 /* HyBidStatic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,8 +311,8 @@
 		7EEB00D7244777EB000C4126 /* HyBidStatic */ = {
 			isa = PBXGroup;
 			children = (
-				7EEB021B24504E84000C4126 /* iqv.bundle */,
-				7EEB016924485576000C4126 /* HyBidStatic.framework */,
+				7EEB023624508A52000C4126 /* HyBidStatic.framework */,
+				7EEB023724508A52000C4126 /* iqv.bundle */,
 				7EEB00FA24478292000C4126 /* OMSDK-1.2.20 */,
 			);
 			path = HyBidStatic;
@@ -481,9 +481,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EEB022324504E9C000C4126 /* iqv.bundle in Resources */,
 				7EEB01E42448A57E000C4126 /* LaunchScreen.storyboard in Resources */,
 				7EEB01E52448A57E000C4126 /* Assets.xcassets in Resources */,
+				7EEB023924508A52000C4126 /* iqv.bundle in Resources */,
 				7EEB01E62448A57E000C4126 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -777,6 +777,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
+					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = STATIC_LIB;
 				INFOPLIST_FILE = "HyBidDemoObjcStatic-Info.plist";
@@ -801,6 +802,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
+					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = STATIC_LIB;
 				INFOPLIST_FILE = "HyBidDemoObjcStatic-Info.plist";
