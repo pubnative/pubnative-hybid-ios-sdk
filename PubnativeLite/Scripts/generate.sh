@@ -1,3 +1,6 @@
+export LIBXML2_CFLAGS=`xml2-config --cflags`
+export LIBXML2_LIBS=`xml2-config --libs`
+
 # Variable Declarations
 BASE_DIR=/tmp/circleci-artifacts
 PRODUCT_NAME=HyBid
