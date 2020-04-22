@@ -24,6 +24,7 @@
 #import "HyBidSettings.h"
 #import "LocationEncoding.h"
 #import "VWAdLibrary.h"
+#import "HyBidUserDataManager.h"
 
 @implementation VWAdFactory
 
@@ -39,7 +40,7 @@
     
     [self setIDFA:adRequestModel];
     
-    if (![HyBidSettings sharedInstance].coppa) {
+    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut]) {
         adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
         
@@ -62,7 +63,7 @@
         }
     }
     
-    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
     if (![[VWAdLibrary shared]usPrivacyOptOut] && !([privacyString length] == 0)) {
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
@@ -87,7 +88,7 @@
     
     [self setIDFA:adRequestModel];
 
-    if (![HyBidSettings sharedInstance].coppa) {
+    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut]) {
         CLLocation* location = [HyBidSettings sharedInstance].location;
         NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
         NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
@@ -108,7 +109,7 @@
         }
     }
     
-    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
     if (![[VWAdLibrary shared]usPrivacyOptOut] && !([privacyString length] == 0)) {
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
