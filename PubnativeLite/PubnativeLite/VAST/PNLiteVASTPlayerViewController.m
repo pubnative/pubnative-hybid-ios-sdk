@@ -765,7 +765,7 @@ typedef enum : NSUInteger {
 #pragma mark - Utils: check for bundle resource existance.
 
 - (NSString*)nameForResource:(NSString*)name :(NSString*)type {
-    NSString* resourceName = [NSString stringWithFormat:@"HyBidStatic.bundle/%@", name];
+    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
     NSString *path = [[self getBundle]pathForResource:resourceName ofType:type];
     if (!path) {
         resourceName = name;

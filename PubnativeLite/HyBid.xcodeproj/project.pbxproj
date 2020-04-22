@@ -1755,7 +1755,7 @@
 		7E2DA702243CD7580013841B /* VWAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdRequest.m; sourceTree = "<group>"; };
 		7E2DA70B243F14790013841B /* VWAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdSize.h; sourceTree = "<group>"; };
 		7E2DA70F243F206F0013841B /* VWAdSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdSize.m; sourceTree = "<group>"; };
-		7E598C1024475EE000BEA734 /* HyBidStatic.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidStatic.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E598C1024475EE000BEA734 /* iqv.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iqv.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E598C1224475EE000BEA734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EEB015D244853E1000C4126 /* HyBidStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidStatic.h; sourceTree = "<group>"; };
 		7EEB015E244853E1000C4126 /* HyBidStatic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidStatic.m; sourceTree = "<group>"; };
@@ -2160,7 +2160,7 @@
 				5A32CEB92029F79B0003B450 /* HyBidDemo.app */,
 				5A969A3D206523F800C3B74A /* HyBidTests.xctest */,
 				E7BAC43C24474474009160A3 /* libHyBidStatic.a */,
-				7E598C1024475EE000BEA734 /* HyBidStatic.bundle */,
+				7E598C1024475EE000BEA734 /* iqv.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3686,9 +3686,9 @@
 			productReference = 5A969A3D206523F800C3B74A /* HyBidTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		7E598C0F24475EE000BEA734 /* HyBidResources */ = {
+		7E598C0F24475EE000BEA734 /* iqv */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7E598C1324475EE000BEA734 /* Build configuration list for PBXNativeTarget "HyBidResources" */;
+			buildConfigurationList = 7E598C1324475EE000BEA734 /* Build configuration list for PBXNativeTarget "iqv" */;
 			buildPhases = (
 				7E598C0C24475EE000BEA734 /* Sources */,
 				7E598C0D24475EE000BEA734 /* Frameworks */,
@@ -3698,9 +3698,9 @@
 			);
 			dependencies = (
 			);
-			name = HyBidResources;
+			name = iqv;
 			productName = HyBidResources;
-			productReference = 7E598C1024475EE000BEA734 /* HyBidStatic.bundle */;
+			productReference = 7E598C1024475EE000BEA734 /* iqv.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		E7BAC43B24474474009160A3 /* HyBidStatic */ = {
@@ -3775,7 +3775,7 @@
 				5A969A3C206523F800C3B74A /* HyBidTests */,
 				E7BAC43B24474474009160A3 /* HyBidStatic */,
 				E7BAC76A2447516D009160A3 /* HybidFramework */,
-				7E598C0F24475EE000BEA734 /* HyBidResources */,
+				7E598C0F24475EE000BEA734 /* iqv */,
 			);
 		};
 /* End PBXProject section */
@@ -3914,7 +3914,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\n# If we're already inside this script then die\nif [ -n \"$RW_MULTIPLATFORM_BUILD_IN_PROGRESS\" ]; then\nexit 0\nfi\nexport RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1\n\nRW_FRAMEWORK_NAME=\"${PROJECT_NAME}Static\"\nRW_INPUT_STATIC_LIB=\"lib${PROJECT_NAME}Static.a\"\nRW_FRAMEWORK_LOCATION=\"${BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework\"\n\nfunction build_static_library {\n    # Will rebuild the static library as specified\n    #     build_static_library sdk\n    xcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" \\\n    -target \"${TARGET_NAME}\" \\\n    -configuration \"${CONFIGURATION}\" \\\n    -sdk \"${1}\" \\\n    ONLY_ACTIVE_ARCH=NO \\\n    BUILD_DIR=\"${BUILD_DIR}\" \\\n    OBJROOT=\"${OBJROOT}/DependantBuilds\" \\\n    BUILD_ROOT=\"${BUILD_ROOT}\" \\\n    SYMROOT=\"${SYMROOT}\" $ACTION\n}\n\nfunction make_fat_library {\n    # Will smash 2 static libs together\n    #     make_fat_library in1 in2 out\n    xcrun lipo -create \"${1}\" \"${2}\" -output \"${3}\"\n}\n\n# Extract the platform (iphoneos/iphonesimulator) from the SDK name\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]; then\nRW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Extract the version from the SDK\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]; then\nRW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Determine the other platform\nif [ \"$RW_SDK_PLATFORM\" == \"iphoneos\" ]; then\nRW_OTHER_PLATFORM=iphonesimulator\nelse\nRW_OTHER_PLATFORM=iphoneos\nfi\n\n# Find the build directory\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$RW_SDK_PLATFORM$ ]]; then\nRW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${RW_OTHER_PLATFORM}\"\nelse\necho \"Could not find other platform build directory.\"\nexit 1\nfi\n\n\n# Build the other platform.\nbuild_static_library \"${RW_OTHER_PLATFORM}${RW_SDK_VERSION}\"\n\n# If we're currently building for iphonesimulator, then need to rebuild\n#   to ensure that we get both i386 and x86_64\nif [ \"$RW_SDK_PLATFORM\" == \"iphonesimulator\" ]; then\nbuild_static_library \"${SDK_NAME}\"\nfi\n\n# Join the 2 static libs into 1 and push into the .framework\nmake_fat_library \"${BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n\n# Ensure that the framework is present in both platorm's build directories\ncp -a \"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n# Copy the framework to the project directory\nditto \"${RW_FRAMEWORK_LOCATION}\" \"${SRCROOT}/Frameworks/static/${RW_FRAMEWORK_NAME}.framework\"\n\n# Copy the resources bundle to the user's desktop\nditto \"${BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.bundle\" \\\n\"${SRCROOT}/Frameworks/static/${RW_FRAMEWORK_NAME}.bundle\"\n";
+			shellScript = "set -e\n\n# If we're already inside this script then die\nif [ -n \"$RW_MULTIPLATFORM_BUILD_IN_PROGRESS\" ]; then\nexit 0\nfi\nexport RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1\n\nRW_FRAMEWORK_NAME=\"${PROJECT_NAME}Static\"\nRW_BUNDLE_NAME=\"iqv\"\nRW_INPUT_STATIC_LIB=\"lib${PROJECT_NAME}Static.a\"\nRW_FRAMEWORK_LOCATION=\"${BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework\"\n\nfunction build_static_library {\n    # Will rebuild the static library as specified\n    #     build_static_library sdk\n    xcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" \\\n    -target \"${TARGET_NAME}\" \\\n    -configuration \"${CONFIGURATION}\" \\\n    -sdk \"${1}\" \\\n    ONLY_ACTIVE_ARCH=NO \\\n    BUILD_DIR=\"${BUILD_DIR}\" \\\n    OBJROOT=\"${OBJROOT}/DependantBuilds\" \\\n    BUILD_ROOT=\"${BUILD_ROOT}\" \\\n    SYMROOT=\"${SYMROOT}\" $ACTION\n}\n\nfunction make_fat_library {\n    # Will smash 2 static libs together\n    #     make_fat_library in1 in2 out\n    xcrun lipo -create \"${1}\" \"${2}\" -output \"${3}\"\n}\n\n# Extract the platform (iphoneos/iphonesimulator) from the SDK name\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]; then\nRW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Extract the version from the SDK\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]; then\nRW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Determine the other platform\nif [ \"$RW_SDK_PLATFORM\" == \"iphoneos\" ]; then\nRW_OTHER_PLATFORM=iphonesimulator\nelse\nRW_OTHER_PLATFORM=iphoneos\nfi\n\n# Find the build directory\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$RW_SDK_PLATFORM$ ]]; then\nRW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${RW_OTHER_PLATFORM}\"\nelse\necho \"Could not find other platform build directory.\"\nexit 1\nfi\n\n\n# Build the other platform.\nbuild_static_library \"${RW_OTHER_PLATFORM}${RW_SDK_VERSION}\"\n\n# If we're currently building for iphonesimulator, then need to rebuild\n#   to ensure that we get both i386 and x86_64\nif [ \"$RW_SDK_PLATFORM\" == \"iphonesimulator\" ]; then\nbuild_static_library \"${SDK_NAME}\"\nfi\n\n# Join the 2 static libs into 1 and push into the .framework\nmake_fat_library \"${BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n\n# Ensure that the framework is present in both platorm's build directories\ncp -a \"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n# Copy the framework to the project directory\nditto \"${RW_FRAMEWORK_LOCATION}\" \"${SRCROOT}/Frameworks/static/${RW_FRAMEWORK_NAME}.framework\"\n\n# Copy the resources bundle to the user's desktop\nditto \"${BUILT_PRODUCTS_DIR}/${RW_BUNDLE_NAME}.bundle\" \\\n\"${SRCROOT}/Frameworks/static/${RW_BUNDLE_NAME}.bundle\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4448,7 +4448,7 @@
 		};
 		7E598C1724475F2E00BEA734 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7E598C0F24475EE000BEA734 /* HyBidResources */;
+			target = 7E598C0F24475EE000BEA734 /* iqv */;
 			targetProxy = 7E598C1624475F2E00BEA734 /* PBXContainerItemProxy */;
 		};
 		7E598C1924475F3C00BEA734 /* PBXTargetDependency */ = {
@@ -4458,7 +4458,7 @@
 		};
 		7EEB01C724487EFF000C4126 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7E598C0F24475EE000BEA734 /* HyBidResources */;
+			target = 7E598C0F24475EE000BEA734 /* iqv */;
 			targetProxy = 7EEB01C624487EFF000C4126 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -4780,7 +4780,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidResources;
-				PRODUCT_NAME = HyBidStatic;
+				PRODUCT_NAME = iqv;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -4802,7 +4802,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.HyBidResources;
-				PRODUCT_NAME = HyBidStatic;
+				PRODUCT_NAME = iqv;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -4911,7 +4911,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E598C1324475EE000BEA734 /* Build configuration list for PBXNativeTarget "HyBidResources" */ = {
+		7E598C1324475EE000BEA734 /* Build configuration list for PBXNativeTarget "iqv" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E598C1424475EE000BEA734 /* Debug */,

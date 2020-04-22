@@ -111,7 +111,7 @@
 #pragma mark - Utils: check for bundle resource existance.
 
 - (NSString*)nameForResource:(NSString*)name :(NSString*)type {
-    NSString* resourceName = [NSString stringWithFormat:@"HyBidStatic.bundle/%@", name];
+    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:resourceName ofType:type];
     if (!path) {
         resourceName = name;
