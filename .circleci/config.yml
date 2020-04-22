@@ -55,7 +55,7 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-genericAdSizes" ] || [ "${CIRCLE_BRANCH}" == "development-iqv_sdk" ]; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-genericAdSizes" ] || [ "${CIRCLE_BRANCH}" == "development-iqv_sdk" ]  || [ "${CIRCLE_BRANCH}" == "development-iqv-staticlib-ci" ]; then
                       PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
