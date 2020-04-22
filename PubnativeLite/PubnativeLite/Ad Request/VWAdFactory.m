@@ -40,7 +40,12 @@
     
     [self setIDFA:adRequestModel];
     
-    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut]) {
+    NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
+    if (![[VWAdLibrary shared] usPrivacyOptOut] && !([privacyString length] == 0)) {
+        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
+    }
+    
+    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut] && !([privacyString length] == 0)) {
         adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
         
@@ -63,11 +68,6 @@
         }
     }
     
-    NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
-    if (![[VWAdLibrary shared]usPrivacyOptOut] && !([privacyString length] == 0)) {
-        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
-    }
-    
     return adRequestModel;
 }
 
@@ -87,8 +87,13 @@
     adRequestModel.requestParameters[@"audioOnStart"] = @"false";
     
     [self setIDFA:adRequestModel];
-
-    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut]) {
+    
+    NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
+    if (![[VWAdLibrary shared] usPrivacyOptOut] && !([privacyString length] == 0)) {
+        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
+    }
+    
+    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut] && !([privacyString length] == 0)) {
         CLLocation* location = [HyBidSettings sharedInstance].location;
         NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
         NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
@@ -107,11 +112,6 @@
             adRequestModel.requestParameters[@"vpw"] = [NSString stringWithFormat:@"%ld", (long)[[UIScreen mainScreen] bounds].size.width];
             adRequestModel.requestParameters[@"vph"] = [NSString stringWithFormat:@"%ld", (long)[[UIScreen mainScreen] bounds].size.height];
         }
-    }
-    
-    NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
-    if (![[VWAdLibrary shared]usPrivacyOptOut] && !([privacyString length] == 0)) {
-        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
     return adRequestModel;
