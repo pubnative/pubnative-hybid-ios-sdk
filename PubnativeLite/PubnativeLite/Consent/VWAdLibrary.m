@@ -71,12 +71,12 @@ static VWAdLibrary *instance = nil;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSPrivacyKey];
 }
 
-- (NSString *)getFormattedIABUSPrivacyString
+- (NSString *)getFormattedAndPercentEncodedIABUSPrivacyString
 {
     return [[self getFormattedIABUSPrivacyString] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];;
 }
 
-- (NSString *)getFormattedAndPercentEncodedIABUSPrivacyString
+- (NSString *)getFormattedIABUSPrivacyString
 {
     NSString *privacyString = [self getIABUSPrivacyString];
     privacyString = [privacyString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

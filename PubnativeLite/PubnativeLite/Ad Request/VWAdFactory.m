@@ -62,8 +62,8 @@
         }
     }
     
-    if (![[VWAdLibrary shared]usPrivacyOptOut]) {
-        NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    if (![[VWAdLibrary shared]usPrivacyOptOut] && !([privacyString length] == 0)) {
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
@@ -108,8 +108,8 @@
         }
     }
     
-    if (![[VWAdLibrary shared]usPrivacyOptOut]) {
-        NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    NSString* privacyString =  [[VWAdLibrary shared]getIABUSPrivacyString];
+    if (![[VWAdLibrary shared]usPrivacyOptOut] && !([privacyString length] == 0)) {
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
