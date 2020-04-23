@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "BannerViewController.h"
+#import "VideoInterstitialViewController.h"
 
 #ifdef STATIC_LIB
     #import <HyBidStatic/HyBidStatic.h>
@@ -28,41 +28,35 @@
     #import <HyBid/HyBid.h>
 #endif
 
-@interface BannerViewController () <VWAdvertViewDelegate>
+@interface VideoInterstitialViewController () <VWInterstitialVideoAdDelegate>
 
-@property (weak, nonatomic) IBOutlet VWAdvertView *bannerAdView;
-@property (nonatomic,strong)CLLocationManager *locationManager;
+@property (nonatomic, strong) VWInterstitialVideoAd *videoInterstitialAd;
 
 @end
 
-@implementation BannerViewController
+@implementation VideoInterstitialViewController
 
 - (void)dealloc {
-    self.locationManager = nil;
+    self.videoInterstitialAd = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self requestLocation];
 }
 
-- (IBAction)requestBannerTouchUpInside:(id)sender {
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
     [self requestAd];
 }
 
 - (void)requestAd {
-    self.bannerAdView.delegate = self;
-    self.bannerAdView.adSize = kVWAdSizeBanner;
-    [self.bannerAdView loadRequest: [VWAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation]];
-
-}
-
-- (void)requestLocation {
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self.locationManager startUpdatingLocation];
-    [self.locationManager requestWhenInUseAuthorization];
+    self.videoInterstitialAd = [VWInterstitialVideoAd new];
+    self.videoInterstitialAd.allowAutoPlay = YES;
+    self.videoInterstitialAd.allowAudioOnStart = YES;
+    self.videoInterstitialAd.delegate = self;
+    VWVideoAdRequest * adRequest = [VWVideoAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation];
+    adRequest.minDuration = @(10);
+    adRequest.maxDuration = @(90);
+    [self.videoInterstitialAd loadRequest:adRequest];
 }
 
 - (void)showAlertControllerWithMessage:(NSString *)message {
@@ -80,15 +74,28 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-#pragma mark - VWAdvertViewDelegate
+#pragma mark - VWInterstitialVideoAdDelegate
 
-- (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView {
-    NSLog(@"Banner Ad View did load:");
+- (void)interstitialVideoAdReceiveAd:(VWInterstitialVideoAd *)interstitialVideoAd {
+    NSLog(@"Video Interstitial Ad did load:");
+    [interstitialVideoAd presentFromViewController:self];
 }
 
-- (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error {
-    NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
-    [self showAlertControllerWithMessage:error.localizedDescription];
+- (void)interstitialVideoAd:(VWInterstitialVideoAd *)interstitialVideoAd didFailToReceiveAdWithError:(NSError *)error {
+    NSLog(@"Video Interstitial Ad did fail with error: %@",error.localizedDescription);
+       [self showAlertControllerWithMessage:error.localizedDescription];
+}
+
+- (void)interstitialVideoAdWillPresentAd:(VWInterstitialVideoAd *)interstitialVideoAd {
+    NSLog(@"Video Interstitial Ad will present:");
+}
+
+- (void)interstitialVideoAdWillDismissAd:(VWInterstitialVideoAd *)interstitialVideoAd {
+    NSLog(@"Video Interstitial Ad will dismiss:");
+}
+
+- (void)interstitialVideoAdDidDismissAd:(VWInterstitialVideoAd *)interstitialVideoAd {
+    NSLog(@"Video Interstitial Ad did dismiss:");
 }
 
 @end

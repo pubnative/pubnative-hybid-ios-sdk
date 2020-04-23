@@ -31,7 +31,6 @@
 @interface InterstitialViewController () <HyBidInterstitialAdDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
-@property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
 
 @end
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A9E6E022451D67600B8FC7D /* VideoInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9E6E012451D67600B8FC7D /* VideoInterstitialViewController.m */; };
+		5A9E6E032451D67600B8FC7D /* VideoInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9E6E012451D67600B8FC7D /* VideoInterstitialViewController.m */; };
 		7E2C07302445B952008E439C /* HyBid.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E2DA71F243F6C020013841B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA71E243F6C020013841B /* AppDelegate.swift */; };
 		7E2DA721243F6C020013841B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA720243F6C020013841B /* SceneDelegate.swift */; };
@@ -108,6 +110,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5A9E6E002451D67600B8FC7D /* VideoInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoInterstitialViewController.h; sourceTree = "<group>"; };
+		5A9E6E012451D67600B8FC7D /* VideoInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoInterstitialViewController.m; sourceTree = "<group>"; };
 		7E2C07212445B8DB008E439C /* HyBid.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HyBid.xcodeproj; path = ../../../PubnativeLite/HyBid.xcodeproj; sourceTree = "<group>"; };
 		7E2DA71B243F6C020013841B /* HyBidDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E2DA71E243F6C020013841B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -259,6 +263,8 @@
 				7E2DA75C243F70060013841B /* MRectViewController.m */,
 				7E2DA760243F70430013841B /* InterstitialViewController.h */,
 				7E2DA761243F70430013841B /* InterstitialViewController.m */,
+				5A9E6E002451D67600B8FC7D /* VideoInterstitialViewController.h */,
+				5A9E6E012451D67600B8FC7D /* VideoInterstitialViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -500,6 +506,7 @@
 			files = (
 				7E2DA75D243F70060013841B /* MRectViewController.m in Sources */,
 				7E2DA740243F6DEF0013841B /* AppDelegate.m in Sources */,
+				5A9E6E022451D67600B8FC7D /* VideoInterstitialViewController.m in Sources */,
 				7E2DA75A243F6FF30013841B /* BannerViewController.m in Sources */,
 				7E2DA757243F6FB80013841B /* AdSdkDemoSettings.m in Sources */,
 				7E2DA762243F70430013841B /* InterstitialViewController.m in Sources */,
@@ -514,6 +521,7 @@
 			files = (
 				7EEB01DA2448A57E000C4126 /* MRectViewController.m in Sources */,
 				7EEB01DB2448A57E000C4126 /* AppDelegate.m in Sources */,
+				5A9E6E032451D67600B8FC7D /* VideoInterstitialViewController.m in Sources */,
 				7EEB01DC2448A57E000C4126 /* BannerViewController.m in Sources */,
 				7EEB01DD2448A57E000C4126 /* AdSdkDemoSettings.m in Sources */,
 				7EEB01DE2448A57E000C4126 /* InterstitialViewController.m in Sources */,

@@ -74,11 +74,12 @@
 - (void)load {
     [self cleanUp];
     self.isReady = NO;
-    [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
     
     if ([self.delegate isKindOfClass:[VWInterstitialVideoAd class]]) {
+        [self.interstitialAdRequest setVideoIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
         [self.interstitialAdRequest requestVideoAdWithDelegate:self withZoneID:self.zoneID];
     } else {
+        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
 }
