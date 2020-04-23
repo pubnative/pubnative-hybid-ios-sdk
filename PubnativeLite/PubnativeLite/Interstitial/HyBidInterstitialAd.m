@@ -71,11 +71,21 @@
 }
 
 - (void)load {
+    NSString *sourceString = [[NSThread callStackSymbols] objectAtIndex:1];
+    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString  componentsSeparatedByCharactersInSet:separatorSet]];
+    [array removeObject:@""];
+    NSString *callerClass = [array objectAtIndex:3];
+    
     [self cleanUp];
     self.isReady = NO;
     [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     
+    if ([callerClass isEqualToString:@"VWInterstitialVideoAd"]) {
+        [self.interstitialAdRequest requestVideoAdWithDelegate:self withZoneID:self.zoneID];
+    } else {
+        [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+    }
 }
 
 - (void)show {
