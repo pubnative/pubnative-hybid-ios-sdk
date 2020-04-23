@@ -6,7 +6,7 @@
 	<dict>
 		<key>Info.plist</key>
 		<data>
-		64khL0ipB/cwyKaRR5wgYYJucKQ=
+		yMbKf0jIQI6RBLZPrtHoDqWnRPQ=
 		</data>
 		<key>PNLiteClose.tiff</key>
 		<data>
@@ -38,23 +38,35 @@
 		</data>
 		<key>PNLiteVASTPlayerFullScreenViewController.nib/objects-11.0+.nib</key>
 		<data>
-		X99rOOSGFJdW/1VopsESxhesQz4=
+		A2+zhM4BsMkRSP+JSAmVqVN6KlA=
+		</data>
+		<key>PNLiteVASTPlayerFullScreenViewController.nib/objects-13.0+.nib</key>
+		<data>
+		7IbNnKtWYCUekrXOJvIqMzoKGuk=
 		</data>
 		<key>PNLiteVASTPlayerFullScreenViewController.nib/runtime.nib</key>
 		<data>
-		0oI6xGzrBOnkJGeiqcxJ/6gAbSk=
+		AKGcudIZxzPsF3TBPeJS8hZfFE0=
 		</data>
-		<key>PNLiteVASTPlayerInterstitialViewController.nib</key>
+		<key>PNLiteVASTPlayerInterstitialViewController.nib/objects-13.0+.nib</key>
 		<data>
-		hiNB+ZaqO/558LjH0myaWayji88=
+		NAQwH4fux1upj9MZUstBrIovIOQ=
+		</data>
+		<key>PNLiteVASTPlayerInterstitialViewController.nib/runtime.nib</key>
+		<data>
+		wcfDHhzkqiRuwKGGnpGVHxQfgeQ=
 		</data>
 		<key>PNLiteVASTPlayerViewController.nib/objects-11.0+.nib</key>
 		<data>
-		OpfBGRmZpfTdfpJGn9/CCKf4bJY=
+		i1+p/S7HKnp7/HUPk9wRp6E0AJA=
+		</data>
+		<key>PNLiteVASTPlayerViewController.nib/objects-13.0+.nib</key>
+		<data>
+		0ZSqT14hs/KYeNd5Cz7PFkrP8lA=
 		</data>
 		<key>PNLiteVASTPlayerViewController.nib/runtime.nib</key>
 		<data>
-		xLIpEYngpN8Lb7hmuIxAsLmIZX0=
+		VRE6LziDFz6Gym1uRDvv7xtWrUo=
 		</data>
 		<key>omsdk.js</key>
 		<data>
@@ -144,55 +156,88 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			X99rOOSGFJdW/1VopsESxhesQz4=
+			A2+zhM4BsMkRSP+JSAmVqVN6KlA=
 			</data>
 			<key>hash2</key>
 			<data>
-			VdSLy5yP3djuzqIpwK+Eqdg6Ga8Ep3UptRGVbdBHGl0=
+			mlY2vu7x87R4xSqw/USzQsaShjZEmVpPiTsuTT8C/rw=
+			</data>
+		</dict>
+		<key>PNLiteVASTPlayerFullScreenViewController.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7IbNnKtWYCUekrXOJvIqMzoKGuk=
+			</data>
+			<key>hash2</key>
+			<data>
+			L0SQXOjPCyfiMP/epSuEw/jvoejsXEFOogJYEXbmJTo=
 			</data>
 		</dict>
 		<key>PNLiteVASTPlayerFullScreenViewController.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0oI6xGzrBOnkJGeiqcxJ/6gAbSk=
+			AKGcudIZxzPsF3TBPeJS8hZfFE0=
 			</data>
 			<key>hash2</key>
 			<data>
-			WgVZPDco0p4EWC6pEfMg7YdN+LdFfq3e86k2LIWa3g0=
+			MLUQj514HTYX4gNzk1T+h4R1dqLuxUZbIvIs2eFwGnk=
 			</data>
 		</dict>
-		<key>PNLiteVASTPlayerInterstitialViewController.nib</key>
+		<key>PNLiteVASTPlayerInterstitialViewController.nib/objects-13.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			hiNB+ZaqO/558LjH0myaWayji88=
+			NAQwH4fux1upj9MZUstBrIovIOQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			fSVZEbYCo136GGAW0YiHxP2ax8vz6Ty99QPYeiMxowE=
+			yMKle3wQmjqUJivVH4dPpchF/qE7TnTMVnGVreXRti8=
+			</data>
+		</dict>
+		<key>PNLiteVASTPlayerInterstitialViewController.nib/runtime.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			wcfDHhzkqiRuwKGGnpGVHxQfgeQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			S3SUsl2ZsDeg/sx3yN2F1SSLiVTObrtnBXrmgDQRB04=
 			</data>
 		</dict>
 		<key>PNLiteVASTPlayerViewController.nib/objects-11.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OpfBGRmZpfTdfpJGn9/CCKf4bJY=
+			i1+p/S7HKnp7/HUPk9wRp6E0AJA=
 			</data>
 			<key>hash2</key>
 			<data>
-			bppw3NfdZGTYFq9f8jfiIA3BkrGOEgtwTY5xYvygtFs=
+			86/UCUFh75B5h+uoXJvOTSt9K1VI1q2HBDg8qf6WCJc=
+			</data>
+		</dict>
+		<key>PNLiteVASTPlayerViewController.nib/objects-13.0+.nib</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0ZSqT14hs/KYeNd5Cz7PFkrP8lA=
+			</data>
+			<key>hash2</key>
+			<data>
+			7S9IGNqque70/3NMjIup7vY3IAyjYk03cPwfvE+mGTk=
 			</data>
 		</dict>
 		<key>PNLiteVASTPlayerViewController.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			xLIpEYngpN8Lb7hmuIxAsLmIZX0=
+			VRE6LziDFz6Gym1uRDvv7xtWrUo=
 			</data>
 			<key>hash2</key>
 			<data>
-			WXEigosu5ZkEgPKMrVxLynBwLBM6GQmaWbKCSaK5IDs=
+			BjxHIlfd6U7VnBh/eFPkXF9w1PcCXt6mxdJMjFWgDMs=
 			</data>
 		</dict>
 		<key>omsdk.js</key>
