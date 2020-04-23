@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "HyBidAd.h"
-#import "HyBidIntegrationType.h"
-#import "HyBidAdSize.h"
+#import "VWVideoAdRequest.h"
 
-@class HyBidAdRequest;
-
-@protocol HyBidAdRequestDelegate <NSObject>
-
-- (void)requestDidStart:(HyBidAdRequest *)request;
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad;
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error;
-
-@end
-
-@interface HyBidAdRequest : NSObject
-
-@property (nonatomic, strong) HyBidAdSize *adSize;
-
-- (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
-- (void)setVideoIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
-- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
-- (void)requestVideoAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
+@implementation VWVideoAdRequest
 
 @end

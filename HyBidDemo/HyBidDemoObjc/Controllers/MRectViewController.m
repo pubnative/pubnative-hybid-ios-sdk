@@ -31,7 +31,6 @@
 @interface MRectViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
-@property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
 @end
 
 @implementation MRectViewController

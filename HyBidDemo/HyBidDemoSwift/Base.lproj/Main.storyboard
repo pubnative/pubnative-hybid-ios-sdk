@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rQF-yw-VS6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rQF-yw-VS6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,7 +21,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Load Interstitial"/>
                                 <connections>
-                                    <action selector="requestBannerTouchUpInside:" destination="Ogk-my-dxl" eventType="touchUpInside" id="Rej-wT-OrC"/>
                                     <action selector="requestInterstitialTouchUpInside:" destination="mvZ-s6-YcS" eventType="touchUpInside" id="0Vv-n5-o9G"/>
                                 </connections>
                             </button>
@@ -80,12 +79,43 @@
                     <tabBarItem key="tabBarItem" title="Banner" image="b.square.fill" catalog="system" id="2uA-8V-BJR"/>
                     <connections>
                         <outlet property="bannerAdView" destination="D4g-BY-7bc" id="jqF-9g-wNM"/>
-                        <outlet property="loadAdButton" destination="Iu1-D8-Wu9" id="F1d-lw-GpR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D16-6M-XbS" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1274" y="-639"/>
+        </scene>
+        <!--Video Interstitial-->
+        <scene sceneID="hdI-EL-5Ah">
+            <objects>
+                <viewController id="euL-4s-XAr" customClass="VideoInterstitialViewController" customModule="HyBidDemoSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bzX-st-Jhc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UmF-5C-hCO">
+                                <rect key="frame" x="20" y="64" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Load Video Interstitial"/>
+                                <connections>
+                                    <action selector="requestVideoInterstitialTouchUpInside:" destination="euL-4s-XAr" eventType="touchUpInside" id="n1V-6C-YYg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="UmF-5C-hCO" firstAttribute="top" secondItem="mTp-rX-FS4" secondAttribute="top" constant="20" id="00H-PT-DkY"/>
+                            <constraint firstItem="UmF-5C-hCO" firstAttribute="leading" secondItem="mTp-rX-FS4" secondAttribute="leading" constant="20" id="W7w-pg-klk"/>
+                            <constraint firstItem="UmF-5C-hCO" firstAttribute="centerX" secondItem="bzX-st-Jhc" secondAttribute="centerX" id="iJP-gi-JWq"/>
+                            <constraint firstItem="mTp-rX-FS4" firstAttribute="trailing" secondItem="UmF-5C-hCO" secondAttribute="trailing" constant="20" id="jc9-C2-TVW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="mTp-rX-FS4"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Video Interstitial" image="v.square.fill" catalog="system" id="nm1-Cj-p0R"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Csb-cb-Tja" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1296" y="1424"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="c8w-3r-cf0">
@@ -100,6 +130,7 @@
                         <segue destination="f8l-zO-n64" kind="relationship" relationship="viewControllers" id="mj0-zW-QT7"/>
                         <segue destination="Ogk-my-dxl" kind="relationship" relationship="viewControllers" id="Mrb-Hs-Lhl"/>
                         <segue destination="mvZ-s6-YcS" kind="relationship" relationship="viewControllers" id="6ci-nV-4M6"/>
+                        <segue destination="euL-4s-XAr" kind="relationship" relationship="viewControllers" id="x0t-aE-Cc6"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxA-XS-mC8" sceneMemberID="firstResponder"/>
@@ -153,8 +184,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="b.square.fill" catalog="system" width="128" height="114"/>
-        <image name="i.square.fill" catalog="system" width="128" height="114"/>
-        <image name="m.square.fill" catalog="system" width="128" height="114"/>
+        <image name="b.square.fill" catalog="system" width="64" height="56"/>
+        <image name="i.square.fill" catalog="system" width="64" height="56"/>
+        <image name="m.square.fill" catalog="system" width="64" height="56"/>
+        <image name="v.square.fill" catalog="system" width="64" height="56"/>
     </resources>
 </document>

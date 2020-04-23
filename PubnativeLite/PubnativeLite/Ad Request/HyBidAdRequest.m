@@ -136,6 +136,19 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
     // Verve request will be created only if partner keyword is set
     if ([HyBidSettings sharedInstance].partnerKeyword != nil) {
         self.vwRequestURL = [self vwRequestURLFromAdRequestModel:[self createVWAdRequestModel]];
+    }
+    self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
+    self.isSetIntegrationTypeCalled = YES;
+}
+
+- (void)setVideoIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
+    if (!zoneID || zoneID.length == 0) {
+        self.zoneID = [self determineZoneIDForVASTForAdSize:self.adSize];
+    } else {
+        self.zoneID = zoneID;
+    }
+    // Verve request will be created only if partner keyword is set
+    if ([HyBidSettings sharedInstance].partnerKeyword != nil) {
         self.vwVideoAdRequestURL = [self vwVideoAdRequestURLFromAdRequestModel:[self createVWVideoAdRequestModel]];
     }
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];

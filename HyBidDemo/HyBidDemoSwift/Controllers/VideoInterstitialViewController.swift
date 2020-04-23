@@ -22,34 +22,28 @@
 
 import UIKit
 import HyBid
-import CoreLocation
 
-class BannerViewController: UIViewController {
+class VideoInterstitialViewController: UIViewController {
 
-    @IBOutlet weak var bannerAdView: VWAdvertView!
-    
-    var locationManager = CLLocationManager()
-    
+    var videoInterstitial: VWInterstitialVideoAd?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.requestLocation()
-    }
-    
-    @IBAction func loadAdButtonClicked(_ sender: Any) {
-        requestAd()
     }
     
     func requestAd() {
-        bannerAdView.delegate = self
-        bannerAdView.adSize = kVWAdSizeBanner
-        bannerAdView.load(VWAdRequest(contentCategoryID: .artsAndEntertainment))
+        videoInterstitial = VWInterstitialVideoAd()
+        videoInterstitial?.allowAudioOnStart = true
+        videoInterstitial?.allowAutoPlay = true
+        videoInterstitial?.delegate = self
+        let adRequest = VWVideoAdRequest(contentCategoryID: VWContentCategory.newsAndInformation)
+        adRequest.minDuration = 10
+        adRequest.maxDuration = 90
+        videoInterstitial?.load(adRequest)
     }
     
-    func requestLocation() {
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-        locationManager.requestWhenInUseAuthorization()
+    @IBAction func requestVideoInterstitialTouchUpInside(_ sender: UIButton) {
+        requestAd()
     }
     
     func showAlertControllerWithMessage(for error: String) {
@@ -62,19 +56,30 @@ class BannerViewController: UIViewController {
         alertController.addAction(retryAction)
         self.present(alertController, animated: true, completion: nil)
     }
-    
+
 }
 
-extension BannerViewController: VWAdvertViewDelegate {
-    
-    func advertViewDidReceiveAd(_ adView: VWAdvertView) {
-        print("Banner Ad View did load:")
+extension VideoInterstitialViewController : VWInterstitialVideoAdDelegate {
+    func interstitialVideoAdReceive(_ interstitialVideoAd: VWInterstitialVideoAd) {
+        print("Video Interstitial did load")
+        interstitialVideoAd.present(from: self)
     }
     
-    func advertView(_ adView: VWAdvertView, didFailToReceiveAdWithError error: Error?) {
-        print("Banner Ad View did fail with error: ", error?.localizedDescription ?? "")
-        showAlertControllerWithMessage(for: error?.localizedDescription ?? "")
+    func interstitialVideoAd(_ interstitialVideoAd: VWInterstitialVideoAd, didFailToReceiveAdWithError error: Error?) {
+        print("Video Interstitial did fail with error: ",error?.localizedDescription)
+        showAlertControllerWithMessage(for: error?.localizedDescription ?? "Something went wrong.")
     }
-    
+      
+    func interstitialVideoAdWillPresent(_ interstitialVideoAd: VWInterstitialVideoAd) {
+        print("Video Interstitial will present")
+    }
+      
+    func interstitialAdWillDismiss(_ interstitialAd: VWInterstitialAd) {
+        print("Video Interstitial will dismiss")
+    }
+      
+    func interstitialVideoAdDidDismiss(_ interstitialVideoAd: VWInterstitialVideoAd) {
+        print("Video Interstitial did dismiss")
+    }
     
 }
