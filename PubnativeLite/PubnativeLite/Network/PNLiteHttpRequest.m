@@ -91,7 +91,7 @@ NSInteger const MAX_RETRIES = 1;
         [self invokeFailWithMessage:message andAttemptRetry:NO];
     } else {
         NSURLSession *session = [NSURLSession sharedSession];
-        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.userAgent};
+        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.hyBidUserAgent};
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:url];
         [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];
