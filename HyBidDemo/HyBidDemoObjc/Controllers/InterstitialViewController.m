@@ -31,7 +31,6 @@
 @interface InterstitialViewController () <HyBidInterstitialAdDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
-@property (strong, nonatomic) VWInterstitialVideoAd *videoInterstitial;
 @property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
 
 @end
@@ -51,14 +50,8 @@
 }
 
 - (void)requestAd {
-//    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithDelegate:self];
-//    [self.interstitialAd load];
-    
-    self.videoInterstitial = [VWInterstitialVideoAd new];
-    VWVideoAdRequest * adRequest = [VWVideoAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation];
-    adRequest.minDuration = @(10);
-    adRequest.maxDuration = @(90);
-    [self.videoInterstitial loadRequest:adRequest];
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithDelegate:self];
+    [self.interstitialAd load];
 }
 
 - (void)showAlertControllerWithMessage:(NSString *)message {

@@ -26,6 +26,7 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "VWInterstitialVideoAd.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -71,17 +72,11 @@
 }
 
 - (void)load {
-    NSString *sourceString = [[NSThread callStackSymbols] objectAtIndex:1];
-    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
-    NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString  componentsSeparatedByCharactersInSet:separatorSet]];
-    [array removeObject:@""];
-    NSString *callerClass = [array objectAtIndex:3];
-    
     [self cleanUp];
     self.isReady = NO;
     [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
     
-    if ([callerClass isEqualToString:@"VWInterstitialVideoAd"]) {
+    if ([self.delegate isKindOfClass:[VWInterstitialVideoAd class]]) {
         [self.interstitialAdRequest requestVideoAdWithDelegate:self withZoneID:self.zoneID];
     } else {
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
