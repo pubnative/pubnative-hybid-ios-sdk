@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5A9E6E022451D67600B8FC7D /* VideoInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9E6E012451D67600B8FC7D /* VideoInterstitialViewController.m */; };
 		5A9E6E032451D67600B8FC7D /* VideoInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9E6E012451D67600B8FC7D /* VideoInterstitialViewController.m */; };
+		5A9E6E0B2451DEEB00B8FC7D /* VideoInterstitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9E6E0A2451DEEB00B8FC7D /* VideoInterstitialViewController.swift */; };
 		7E2C07302445B952008E439C /* HyBid.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E2DA71F243F6C020013841B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA71E243F6C020013841B /* AppDelegate.swift */; };
 		7E2DA721243F6C020013841B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA720243F6C020013841B /* SceneDelegate.swift */; };
@@ -112,6 +113,7 @@
 /* Begin PBXFileReference section */
 		5A9E6E002451D67600B8FC7D /* VideoInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoInterstitialViewController.h; sourceTree = "<group>"; };
 		5A9E6E012451D67600B8FC7D /* VideoInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoInterstitialViewController.m; sourceTree = "<group>"; };
+		5A9E6E0A2451DEEB00B8FC7D /* VideoInterstitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInterstitialViewController.swift; sourceTree = "<group>"; };
 		7E2C07212445B8DB008E439C /* HyBid.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HyBid.xcodeproj; path = ../../../PubnativeLite/HyBid.xcodeproj; sourceTree = "<group>"; };
 		7E2DA71B243F6C020013841B /* HyBidDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E2DA71E243F6C020013841B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				7E2DA763243F73890013841B /* BannerViewController.swift */,
 				7E2DA767243F73E50013841B /* MRectViewController.swift */,
 				7E2DA769243F73F40013841B /* InterstitialViewController.swift */,
+				5A9E6E0A2451DEEB00B8FC7D /* VideoInterstitialViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				7E2DA721243F6C020013841B /* SceneDelegate.swift in Sources */,
 				7E2DA76A243F73F40013841B /* InterstitialViewController.swift in Sources */,
 				7E2DA76C243F740A0013841B /* AdSdkDemoSettings.swift in Sources */,
+				5A9E6E0B2451DEEB00B8FC7D /* VideoInterstitialViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
