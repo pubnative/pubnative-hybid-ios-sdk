@@ -1768,7 +1768,7 @@
 		7E2DA70B243F14790013841B /* VWAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdSize.h; sourceTree = "<group>"; };
 		7E2DA70F243F206F0013841B /* VWAdSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdSize.m; sourceTree = "<group>"; };
 		7E598C1024475EE000BEA734 /* iqv.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iqv.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E598C1224475EE000BEA734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7ED8F0372451F28300CBC399 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EEB015D244853E1000C4126 /* HyBidStatic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidStatic.h; sourceTree = "<group>"; };
 		7EEB015E244853E1000C4126 /* HyBidStatic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidStatic.m; sourceTree = "<group>"; };
 		7EEB0208244DCD39000C4126 /* VWAdLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdLibrary.h; sourceTree = "<group>"; };
@@ -2159,7 +2159,7 @@
 				5A6CD0222029CD060022E206 /* PubnativeLite */,
 				5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */,
 				5A969A3E206523F800C3B74A /* PubnativeLiteTests */,
-				7E598C1124475EE000BEA734 /* HyBidResources */,
+				7ED8F0362451F26700CBC399 /* iqv */,
 				5A6CD0212029CD060022E206 /* Products */,
 				5A8903CF203DE1D400D86051 /* Frameworks */,
 			);
@@ -3393,12 +3393,12 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
-		7E598C1124475EE000BEA734 /* HyBidResources */ = {
+		7ED8F0362451F26700CBC399 /* iqv */ = {
 			isa = PBXGroup;
 			children = (
-				7E598C1224475EE000BEA734 /* Info.plist */,
+				7ED8F0372451F28300CBC399 /* Info.plist */,
 			);
-			path = HyBidResources;
+			path = iqv;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -4798,7 +4798,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = HyBidResources/Info.plist;
+				INFOPLIST_FILE = iqv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -4821,7 +4821,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = HyBidResources/Info.plist;
+				INFOPLIST_FILE = iqv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_FAST_MATH = YES;
