@@ -19,8 +19,8 @@ IPHONESIMULATOR_PRODUCT=$IPHONESIMULATOR_FRAMEWORK/$PRODUCT_NAME
 IPHONESIMULATOR_ZIP_PATH=$BASE_DIR/HyBid.iphonesimulator.framework.zip
 
 # Generate Frameworks
-xcodebuild -project PubnativeLite/HyBid.xcodeproj -scheme HyBid -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
-xcodebuild -project PubnativeLite/HyBid.xcodeproj -scheme HyBid -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
+xcodebuild -project PubnativeLite/HyBid.xcodeproj -scheme HyBid -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH  OTHER_CFLAGS="-fembed-bitcode"| xcpretty -c
+xcodebuild -project PubnativeLite/HyBid.xcodeproj -scheme HyBid -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH  OTHER_CFLAGS="-fembed-bitcode"| xcpretty -c
 
 # Merge Frameworks and .zip them
 cp -rf $IPHONEOS_FRAMEWORK $FAT_FRAMEWORK
@@ -31,4 +31,4 @@ zip -r $IPHONEOS_ZIP_PATH $IPHONEOS_FRAMEWORK
 zip -r $IPHONESIMULATOR_ZIP_PATH $IPHONESIMULATOR_FRAMEWORK
 
 # Generate Static framework + bundle resrource. a zip file will be generated at /tmp/circle-ci-artifact
-xcodebuild -workspace HyBid.xcworkspace -scheme HybidFramework -sdk iphonesimulator -configuration Release clean build | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HybidFramework -sdk iphonesimulator -configuration Release clean build  OTHER_CFLAGS="-fembed-bitcode"| xcpretty -c
