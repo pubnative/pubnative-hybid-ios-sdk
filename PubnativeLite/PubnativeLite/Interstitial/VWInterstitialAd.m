@@ -55,6 +55,11 @@
     [self.interstitialAd load];
 }
 
+- (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request {
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:zoneID andWithDelegate:self];
+    [self.interstitialAd load];
+}
+
 - (void)presentFromViewController:(UIViewController *)viewController {
     [self.interstitialAd showFromViewController:viewController];
 }
