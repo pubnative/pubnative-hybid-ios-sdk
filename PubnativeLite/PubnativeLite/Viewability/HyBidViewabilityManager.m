@@ -52,10 +52,9 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     if (self) {
         self.viewabilityMeasurementEnabled = YES;
         NSError *error;
-
+        
         if (!OMIDPubnativenetSDK.sharedInstance.isActive) {
-            [[OMIDPubnativenetSDK sharedInstance] activateWithOMIDAPIVersion:OMIDSDKAPIVersionString
-                                                                       error:&error];
+            [[OMIDPubnativenetSDK sharedInstance] activate];
             self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidViewabilityPartnerName versionString:HYBID_SDK_VERSION];
         } else {
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Viewability Manager couldn't initialized properly with error: %@", error.debugDescription]];
@@ -102,15 +101,17 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     
     NSError *contextError;
     NSString *customReferenceID = @"";
+    NSString *contentUrl = @"";
     
     OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:self.partner
                                                                                                   webView:webView
+                                                                                               contentUrl:contentUrl
                                                                                 customReferenceIdentifier:customReferenceID
                                                                                                     error:&contextError];
     OMIDOwner impressionOwner = (videoAd) ? OMIDJavaScriptOwner : OMIDNativeOwner;
-    OMIDOwner videoEventsOwner = (videoAd) ? OMIDJavaScriptOwner : OMIDNoneOwner;
+    OMIDOwner mediaEventsOwner = (videoAd) ? OMIDJavaScriptOwner : OMIDNoneOwner;
     
-    return [self initialseOMIDAdSessionForView:webView withSessionContext:context andImpressionOwner:impressionOwner andVideoEventsOwner:videoEventsOwner];
+    return [self initialseOMIDAdSessionForView:webView withSessionContext:context andImpressionOwner:impressionOwner andMediaEventsOwner:mediaEventsOwner isVideoAd:videoAd];
 }
 
 - (OMIDPubnativenetAdSession *)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts {
@@ -118,25 +119,32 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
         return nil;
     
     NSError *contextError;
+    
     OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:self.partner
                                                                                                    script:self.getOMIDJS
                                                                                                 resources:scripts
+                                                                                               contentUrl:nil
                                                                                 customReferenceIdentifier:nil
                                                                                                     error:&contextError];
     
-    return [self initialseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andVideoEventsOwner:OMIDNoneOwner];
+    return [self initialseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andMediaEventsOwner:OMIDNoneOwner isVideoAd:NO];
 }
 
 - (OMIDPubnativenetAdSession *)initialseOMIDAdSessionForView:(id)view
                                           withSessionContext:(OMIDPubnativenetAdSessionContext*)context
                                           andImpressionOwner:(OMIDOwner)impressionOwner
-                                         andVideoEventsOwner:(OMIDOwner)videoEventsOwner {
+                                         andMediaEventsOwner:(OMIDOwner)mediaEventsOwner
+                                                   isVideoAd:(BOOL)videoAd{
     NSError *configurationError;
-    OMIDPubnativenetAdSessionConfiguration *config = [[OMIDPubnativenetAdSessionConfiguration alloc]
-                                                  initWithImpressionOwner:impressionOwner
-                                                      videoEventsOwner:videoEventsOwner
-                                                      isolateVerificationScripts:NO
-                                                      error:&configurationError];
+    OMIDCreativeType creativeType = (videoAd) ? OMIDCreativeTypeDefinedByJavaScript : OMIDCreativeTypeHtmlDisplay;
+    OMIDImpressionType impressionType = (videoAd) ? OMIDImpressionTypeDefinedByJavaScript : OMIDImpressionTypeBeginToRender;
+    
+    OMIDPubnativenetAdSessionConfiguration *config = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithCreativeType:creativeType
+                                                                                                           impressionType:impressionType
+                                                                                                          impressionOwner:impressionOwner
+                                                                                                         mediaEventsOwner:mediaEventsOwner
+                                                                                               isolateVerificationScripts:NO
+                                                                                                                    error:&configurationError];
     NSError *sessionError;
     OMIDPubnativenetAdSession *omidAdSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:config
                                                                                        adSessionContext:context
@@ -178,12 +186,23 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     }
 }
 
-- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession {
+- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession isInterstitial:(BOOL)isInterstitial {
     if(!self.isViewabilityMeasurementActivated)
         return;
     
     if(omidAdSession != nil){
-        [omidAdSession addFriendlyObstruction:view];
+        NSError *addFriendlyObstructionError;
+        if (isInterstitial) {
+            [omidAdSession addFriendlyObstruction:view
+                                          purpose:OMIDFriendlyObstructionCloseAd
+                                   detailedReason:nil
+                                            error:&addFriendlyObstructionError];
+        } else {
+            [omidAdSession addFriendlyObstruction:view
+                                          purpose:OMIDFriendlyObstructionOther
+                                   detailedReason:@"This view is related to Content Info"
+                                            error:&addFriendlyObstructionError];
+        }
     }
 }
 
