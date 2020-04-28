@@ -63,6 +63,10 @@
     [self.adView loadWithDelegate:self];
 }
 
+- (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request {
+    [self.adView loadWithZoneID:zoneID andWithDelegate:self];
+}
+
 - (CGSize)sizeThatFits:(CGSize)size {
     return [self sizeThatFits:size];
 }
