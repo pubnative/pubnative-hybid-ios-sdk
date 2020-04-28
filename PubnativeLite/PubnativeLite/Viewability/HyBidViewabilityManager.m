@@ -186,7 +186,7 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     }
 }
 
-- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession isInterstitial:(BOOL)isInterstitial {
+- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial {
     if(!self.isViewabilityMeasurementActivated)
         return;
     
@@ -195,12 +195,12 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
         if (isInterstitial) {
             [omidAdSession addFriendlyObstruction:view
                                           purpose:OMIDFriendlyObstructionCloseAd
-                                   detailedReason:nil
+                                   detailedReason:reasonForFriendlyObstruction
                                             error:&addFriendlyObstructionError];
         } else {
             [omidAdSession addFriendlyObstruction:view
                                           purpose:OMIDFriendlyObstructionOther
-                                   detailedReason:@"This view is related to Content Info"
+                                   detailedReason:reasonForFriendlyObstruction
                                             error:&addFriendlyObstructionError];
         }
     }

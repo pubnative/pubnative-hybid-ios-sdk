@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
 - (void)stopOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
 - (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)addFriendlyObstruction:(UIView *) view toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession isInterstitial:(BOOL)isInterstitial;
+- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial;
 - (NSString *)getOMIDJS;
 
 @end
