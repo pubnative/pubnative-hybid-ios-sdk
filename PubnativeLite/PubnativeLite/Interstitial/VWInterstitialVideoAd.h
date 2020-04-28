@@ -54,6 +54,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL allowAudioOnStart;
 
 - (void)loadRequest:(nonnull VWVideoAdRequest *)request;
+- (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWVideoAdRequest *)request;
 - (void)presentFromViewController:(nonnull UIViewController *)viewController;
 
 @end
