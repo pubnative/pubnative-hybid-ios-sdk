@@ -5,7 +5,7 @@
 ## Build generated
 build/
 DerivedData/
-
+PubnativeLite/Frameworks/
 ## Various settings
 *.pbxuser
 !default.pbxuser
