@@ -49,7 +49,6 @@
 }
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin {
-    
     _adLoaded = false;
     self.adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
     CGRect frame = self.adView.frame;
@@ -57,10 +56,6 @@
     self.frame = frame;
     [self addSubview: self.adView];
     return self;
-}
-
-- (void)loadRequest:(nonnull VWAdRequest *)request {
-    [self.adView loadWithDelegate:self];
 }
 
 - (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request {

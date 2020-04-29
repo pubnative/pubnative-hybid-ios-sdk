@@ -45,7 +45,7 @@
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size;
 - (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin;
-- (void)loadRequest:(nonnull VWAdRequest *)request;
+- (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request;
 - (CGSize)sizeThatFits:(CGSize)size;
 
 @end

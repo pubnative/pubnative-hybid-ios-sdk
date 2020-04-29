@@ -29,7 +29,7 @@ class InterstitialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interstitialAd = HyBidInterstitialAd(delegate: self)
+        interstitialAd = HyBidInterstitialAd(zoneID: "4", andWith: self)
     }
 
     func requestAd() {

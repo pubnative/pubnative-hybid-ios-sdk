@@ -53,7 +53,8 @@
 - (void)requestAd {
     self.bannerAdView.delegate = self;
     self.bannerAdView.adSize = kVWAdSizeBanner;
-    [self.bannerAdView loadRequest: [VWAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation]];
+    VWAdRequest* adRequest = [VWAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation];
+    [self.bannerAdView loadRequestWithZoneID:@"2" andWithRequest: adRequest];
 
 }
 

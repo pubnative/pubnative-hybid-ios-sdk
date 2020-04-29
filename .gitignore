@@ -5,7 +5,8 @@
 ## Build generated
 build/
 DerivedData/
-PubnativeLite/Frameworks/
+HyBidStatic.framework
+iqv.bundle
 ## Various settings
 *.pbxuser
 !default.pbxuser

@@ -41,11 +41,6 @@
   return self;
 }
 
-- (void)loadRequest:(VWVideoAdRequest *)request {
-    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithDelegate:self];
-    [self.interstitialAd load];
-}
-
 - (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWVideoAdRequest *)request {
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:zoneID andWithDelegate:self];
     [self.interstitialAd load];

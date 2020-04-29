@@ -56,7 +56,7 @@
     VWVideoAdRequest * adRequest = [VWVideoAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation];
     adRequest.minDuration = @(10);
     adRequest.maxDuration = @(90);
-    [self.videoInterstitialAd loadRequest:adRequest];
+    [self.videoInterstitialAd loadRequestWithZoneID:@"6" andWithRequest:adRequest];
 }
 
 - (void)showAlertControllerWithMessage:(NSString *)message {

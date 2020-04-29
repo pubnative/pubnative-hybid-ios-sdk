@@ -34,6 +34,7 @@
 #import "HyBidLogger.h"
 #import "HyBidSettings.h"
 #import "XMLDictionary.h"
+#import "HyBidError.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -45,16 +46,6 @@ NSInteger const kRequestBothPending = 3000;
 NSInteger const kRequestVerveResponded = 3001;
 NSInteger const kRequestPubNativeResponded = 3002;
 NSInteger const kRequestWinnerPicked = 3003;
-
-NSInteger const kDefaultMRectZoneID = 3;
-NSInteger const kDefaultVASTMRectZoneID = 5;
-NSInteger const kDefaultBannerZoneID = 2;
-NSInteger const kDefaultLeaderboardZoneID = 8;
-NSInteger const kDefaultInterstitialZoneID = 4;
-NSInteger const kDefaultVASTInterstitialZoneID = 6;
-NSInteger const kDefaultCanopyZoneID = 2;
-NSInteger const kDefaultInterstitialIPadPortraitZoneID = 23;
-NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
 
 @interface HyBidAdRequest () <PNLiteHttpRequestDelegate>
 
@@ -96,40 +87,9 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
     return self;
 }
 
-- (NSString *)determineZoneIDForAdSize:(HyBidAdSize *)adSize {
-    
-    if ([adSize isEqualTo:HyBidAdSize.SIZE_320x50]) {
-        return [@(kDefaultBannerZoneID) stringValue];
-    } else if ([adSize isEqualTo:HyBidAdSize.SIZE_320x100]) {
-        return [@(kDefaultCanopyZoneID) stringValue];
-    } else if ([adSize isEqualTo:HyBidAdSize.SIZE_300x250]) {
-        return [@(kDefaultMRectZoneID) stringValue];
-    } else if ([adSize isEqualTo:HyBidAdSize.SIZE_728x90]) {
-        return [@(kDefaultLeaderboardZoneID) stringValue];
-    } else {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
-            {
-                return [@(kDefaultInterstitialIPadPortraitZoneID) stringValue];
-            }
-            return [@(kDefaultInterstitialIPadLandscapeZoneID) stringValue];
-        }
-        return [@(kDefaultInterstitialZoneID) stringValue];
-    }
-}
-
-- (NSString *)determineZoneIDForVASTForAdSize:(HyBidAdSize *)adSize {
-    
-    if ([adSize isEqualTo:HyBidAdSize.SIZE_300x250]) {
-        return [@(kDefaultVASTMRectZoneID) stringValue];
-    } else {
-        return [@(kDefaultVASTInterstitialZoneID) stringValue];
-    }
-}
-
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     if (!zoneID || zoneID.length == 0) {
-        self.zoneID = [self determineZoneIDForAdSize:self.adSize];
+        [self.delegate request:self didFailWithError: [HyBidError errorWithCode:INVALID_ZONE_ID]];
     } else {
         self.zoneID = zoneID;
     }
@@ -143,7 +103,7 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
 
 - (void)setVideoIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     if (!zoneID || zoneID.length == 0) {
-        self.zoneID = [self determineZoneIDForVASTForAdSize:self.adSize];
+        [self.delegate request:self didFailWithError: [HyBidError errorWithCode:REQUEST_ALREADY_RUNNING]];
     } else {
         self.zoneID = zoneID;
     }
@@ -157,7 +117,8 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
 
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
     if (self.isRunning) {
-        NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
+        NSError* runningError = [HyBidError errorWithCode:REQUEST_ALREADY_RUNNING];
+        [self.delegate request:self didFailWithError: runningError];
         [self invokeDidFail:runningError];
     } else if(!delegate) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
@@ -165,7 +126,9 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
         self.startTime = [NSDate date];
         self.delegate = delegate;
         if (!zoneID || zoneID.length == 0) {
-            self.zoneID = [self determineZoneIDForAdSize:self.adSize];
+            NSError* invalidZoneIDError = [HyBidError errorWithCode:INVALID_ZONE_ID];
+            [self.delegate request:self didFailWithError: invalidZoneIDError];
+            [self invokeDidFail:invalidZoneIDError];
         } else {
             self.zoneID = zoneID;
         }
@@ -184,7 +147,8 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
 
 - (void)requestVideoAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
     if (self.isRunning) {
-        NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
+        NSError* runningError = [HyBidError errorWithCode:REQUEST_ALREADY_RUNNING];
+        [self.delegate request:self didFailWithError: runningError];
         [self invokeDidFail:runningError];
     } else if(!delegate) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
@@ -192,7 +156,9 @@ NSInteger const kDefaultInterstitialIPadLandscapeZoneID = 22;
         self.startTime = [NSDate date];
         self.delegate = delegate;
         if (!zoneID || zoneID.length == 0) {
-            self.zoneID = [self determineZoneIDForVASTForAdSize:self.adSize];
+            NSError* invalidZoneIDError = [HyBidError errorWithCode:INVALID_ZONE_ID];
+            [self.delegate request:self didFailWithError: invalidZoneIDError];
+            [self invokeDidFail:invalidZoneIDError];
         } else {
             self.zoneID = zoneID;
         }

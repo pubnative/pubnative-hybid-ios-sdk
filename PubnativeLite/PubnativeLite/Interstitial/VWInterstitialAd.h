@@ -52,7 +52,6 @@ typedef enum : NSUInteger {
 
 - (nonnull instancetype)init;
 - (nonnull instancetype)initWithSize:(VWInterstitialAdSize)size;
-- (void)loadRequest:(nonnull VWAdRequest *)adRequest;
 - (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request;
 - (void)presentFromViewController:(nonnull UIViewController *)viewController;
 

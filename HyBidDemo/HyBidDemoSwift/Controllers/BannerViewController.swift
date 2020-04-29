@@ -42,7 +42,8 @@ class BannerViewController: UIViewController {
     func requestAd() {
         bannerAdView.delegate = self
         bannerAdView.adSize = kVWAdSizeBanner
-        bannerAdView.load(VWAdRequest(contentCategoryID: .artsAndEntertainment))
+        let adRequest = VWAdRequest(contentCategoryID: .artsAndEntertainment)
+        bannerAdView.loadRequest(withZoneID: "2", andWith: adRequest)
     }
     
     func requestLocation() {
@@ -72,9 +73,9 @@ extension BannerViewController: VWAdvertViewDelegate {
     }
     
     func advertView(_ adView: VWAdvertView, didFailToReceiveAdWithError error: Error?) {
-        print("Banner Ad View did fail with error: ", error?.localizedDescription ?? "")
-        showAlertControllerWithMessage(for: error?.localizedDescription ?? "")
+        guard let `error` = error else {return}
+        print("Banner Ad View did fail with error: ", error.localizedDescription)
+        showAlertControllerWithMessage(for: error.localizedDescription)
     }
-    
     
 }

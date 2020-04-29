@@ -39,7 +39,7 @@ class VideoInterstitialViewController: UIViewController {
         let adRequest = VWVideoAdRequest(contentCategoryID: VWContentCategory.newsAndInformation)
         adRequest.minDuration = 10
         adRequest.maxDuration = 90
-        videoInterstitial?.load(adRequest)
+        videoInterstitial?.loadRequest(withZoneID: "6", andWith: adRequest)
     }
     
     @IBAction func requestVideoInterstitialTouchUpInside(_ sender: UIButton) {

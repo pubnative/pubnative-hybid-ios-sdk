@@ -21,32 +21,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-#import <CoreLocation/CoreLocation.h>
-#import "VWAdRequest.h"
-#import "HyBidAdView.h"
-#import "VWAdSize.h"
+typedef NS_ENUM(NSInteger, HyBidErrorType) {
+    INVALID_ZONE_ID,
+    REQUEST_ALREADY_RUNNING
+};
 
-@class VWAdvertView;
+@interface HyBidError : NSError {
+}
 
-@protocol VWAdvertViewDelegate
-
-- (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView;
-- (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error;
-
-@end
-
-@interface VWAdvertView : UIView<HyBidAdViewDelegate>
-
-@property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegate;
-@property (nonatomic, assign, readonly) BOOL adLoaded;
-@property (nonatomic, assign) VWAdSize adSize;
-
-- (nonnull instancetype)initWithSize:(VWAdSize)size;
-- (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin;
-- (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request;
-- (CGSize)sizeThatFits:(CGSize)size;
++ (NSError *)errorWithCode:(HyBidErrorType)aCode;
 
 @end
 

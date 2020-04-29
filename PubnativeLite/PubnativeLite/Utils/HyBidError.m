@@ -20,33 +20,31 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "HyBidError.h"
 
-#import <CoreLocation/CoreLocation.h>
-#import "VWAdRequest.h"
-#import "HyBidAdView.h"
-#import "VWAdSize.h"
+NSString * const hybidErrorDomain = @"net.pubnative.PubnativeLite";
 
-@class VWAdvertView;
+@implementation HyBidError
 
-@protocol VWAdvertViewDelegate
+#pragma mark Error Generation
++ (NSError *)errorWithCode:(HyBidErrorType)aCode
+{
+    return [NSError errorWithDomain: hybidErrorDomain
+        code: aCode
+    userInfo:@{NSLocalizedDescriptionKey : NSLocalizedString([self errorDescription:aCode], nil)}];
+}
 
-- (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView;
-- (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error;
-
++ (NSString*) errorDescription:(HyBidErrorType)aCode {
+    
+    switch (aCode) {
+        case INVALID_ZONE_ID:
+            return @"Invalid zone ID";
+        case REQUEST_ALREADY_RUNNING:
+            return @"Request is currently running, droping this call.";
+        default:
+            return @"No Description";
+    }
+    
+    
+}
 @end
-
-@interface VWAdvertView : UIView<HyBidAdViewDelegate>
-
-@property (nonatomic, weak, nullable) id <VWAdvertViewDelegate, NSObject> delegate;
-@property (nonatomic, assign, readonly) BOOL adLoaded;
-@property (nonatomic, assign) VWAdSize adSize;
-
-- (nonnull instancetype)initWithSize:(VWAdSize)size;
-- (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin;
-- (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request;
-- (CGSize)sizeThatFits:(CGSize)size;
-
-@end
-
