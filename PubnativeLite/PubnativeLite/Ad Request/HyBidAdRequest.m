@@ -103,7 +103,7 @@ NSInteger const kRequestWinnerPicked = 3003;
 
 - (void)setVideoIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     if (!zoneID || zoneID.length == 0) {
-        [self.delegate request:self didFailWithError: [HyBidError errorWithCode:REQUEST_ALREADY_RUNNING]];
+        [self.delegate request:self didFailWithError: [HyBidError errorWithCode:INVALID_ZONE_ID]];
     } else {
         self.zoneID = zoneID;
     }
