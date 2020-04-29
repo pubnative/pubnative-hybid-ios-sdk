@@ -30,8 +30,9 @@
 		7E2DA768243F73E50013841B /* MRectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA767243F73E50013841B /* MRectViewController.swift */; };
 		7E2DA76A243F73F40013841B /* InterstitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA769243F73F40013841B /* InterstitialViewController.swift */; };
 		7E2DA76C243F740A0013841B /* AdSdkDemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */; };
-		7ED8F02A2451965700CBC399 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED8F0282451965700CBC399 /* HyBidStatic.framework */; };
-		7ED8F02B2451965700CBC399 /* iqv.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7ED8F0292451965700CBC399 /* iqv.bundle */; };
+		7ED8F089245868E000CBC399 /* HyBidStatic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED8F087245868E000CBC399 /* HyBidStatic.framework */; };
+		7ED8F08A245868E000CBC399 /* iqv.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7ED8F088245868E000CBC399 /* iqv.bundle */; };
+		7ED8F08B2458696200CBC399 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED8F085245868BB00CBC399 /* OMSDK_Pubnativenet.framework */; };
 		7EEB01D12448A4CE000C4126 /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; };
 		7EEB01D22448A4CE000C4126 /* HyBid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2C07282445B8DB008E439C /* HyBid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7EEB01DA2448A57E000C4126 /* MRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA75C243F70060013841B /* MRectViewController.m */; };
@@ -44,7 +45,6 @@
 		7EEB01E42448A57E000C4126 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA74C243F6DF20013841B /* LaunchScreen.storyboard */; };
 		7EEB01E52448A57E000C4126 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA74A243F6DF20013841B /* Assets.xcassets */; };
 		7EEB01E62448A57E000C4126 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2DA747243F6DEF0013841B /* Main.storyboard */; };
-		7EEB01F82448A5F7000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,9 +144,10 @@
 		7E2DA767243F73E50013841B /* MRectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRectViewController.swift; sourceTree = "<group>"; };
 		7E2DA769243F73F40013841B /* InterstitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialViewController.swift; sourceTree = "<group>"; };
 		7E2DA76B243F740A0013841B /* AdSdkDemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSdkDemoSettings.swift; sourceTree = "<group>"; };
-		7ED8F0282451965700CBC399 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HyBidStatic.framework; sourceTree = "<group>"; };
-		7ED8F0292451965700CBC399 /* iqv.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iqv.bundle; sourceTree = "<group>"; };
-		7EEB00FA24478292000C4126 /* OMSDK-1.2.20 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "OMSDK-1.2.20"; sourceTree = "<group>"; };
+		7ED8F084245868BB00CBC399 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
+		7ED8F085245868BB00CBC399 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
+		7ED8F087245868E000CBC399 /* HyBidStatic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HyBidStatic.framework; path = ../../PubnativeLite/Frameworks/HyBidStatic.framework; sourceTree = "<group>"; };
+		7ED8F088245868E000CBC399 /* iqv.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = iqv.bundle; path = ../../PubnativeLite/Frameworks/iqv.bundle; sourceTree = "<group>"; };
 		7EEB01AD24486C81000C4126 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OMSDK_Pubnativenet.framework; path = "HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20/OMSDK_Pubnativenet.framework"; sourceTree = "<group>"; };
 		7EEB01EC2448A57E000C4126 /* HyBidDemoObjcStatic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemoObjcStatic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EEB01ED2448A57E000C4126 /* HyBidDemoObjcStatic-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "HyBidDemoObjcStatic-Info.plist"; path = "/Users/faresbenhamouda/pubnative-hybid-ios-sdk/HyBidDemo/HyBidDemoObjcStatic-Info.plist"; sourceTree = "<absolute>"; };
@@ -172,8 +173,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EEB01F82448A5F7000C4126 /* OMSDK_Pubnativenet.framework in Frameworks */,
-				7ED8F02A2451965700CBC399 /* HyBidStatic.framework in Frameworks */,
+				7ED8F08B2458696200CBC399 /* OMSDK_Pubnativenet.framework in Frameworks */,
+				7ED8F089245868E000CBC399 /* HyBidStatic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,7 +241,9 @@
 		7E2DA73D243F6DEF0013841B /* HyBidDemoObjc */ = {
 			isa = PBXGroup;
 			children = (
-				7EEB00D7244777EB000C4126 /* HyBidStatic */,
+				7ED8F087245868E000CBC399 /* HyBidStatic.framework */,
+				7ED8F088245868E000CBC399 /* iqv.bundle */,
+				7ED8F086245868BB00CBC399 /* OMSDK-1.2.20 */,
 				7E2DA73E243F6DEF0013841B /* AppDelegate.h */,
 				7E2DA73F243F6DEF0013841B /* AppDelegate.m */,
 				7E2DA741243F6DEF0013841B /* SceneDelegate.h */,
@@ -307,14 +310,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7EEB00D7244777EB000C4126 /* HyBidStatic */ = {
+		7ED8F086245868BB00CBC399 /* OMSDK-1.2.20 */ = {
 			isa = PBXGroup;
 			children = (
-				7ED8F0282451965700CBC399 /* HyBidStatic.framework */,
-				7ED8F0292451965700CBC399 /* iqv.bundle */,
-				7EEB00FA24478292000C4126 /* OMSDK-1.2.20 */,
+				7ED8F084245868BB00CBC399 /* omsdk.js */,
+				7ED8F085245868BB00CBC399 /* OMSDK_Pubnativenet.framework */,
 			);
-			path = HyBidStatic;
+			name = "OMSDK-1.2.20";
+			path = "../../PubnativeLite/PubnativeLite/OMSDK-1.2.20";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -482,7 +485,7 @@
 			files = (
 				7EEB01E42448A57E000C4126 /* LaunchScreen.storyboard in Resources */,
 				7EEB01E52448A57E000C4126 /* Assets.xcassets in Resources */,
-				7ED8F02B2451965700CBC399 /* iqv.bundle in Resources */,
+				7ED8F08A245868E000CBC399 /* iqv.bundle in Resources */,
 				7EEB01E62448A57E000C4126 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -778,8 +781,7 @@
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
-					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic",
+					"\"$(SRCROOT)/../PubnativeLite/PubnativeLite/OMSDK-1.2.20/\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = STATIC_LIB;
 				INFOPLIST_FILE = "HyBidDemoObjcStatic-Info.plist";
@@ -806,8 +808,7 @@
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic/OMSDK-1.2.20",
-					"$(PROJECT_DIR)/HyBidDemoObjc/HyBidStatic",
+					"\"$(SRCROOT)/../PubnativeLite/PubnativeLite/OMSDK-1.2.20/\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = STATIC_LIB;
 				INFOPLIST_FILE = "HyBidDemoObjcStatic-Info.plist";
