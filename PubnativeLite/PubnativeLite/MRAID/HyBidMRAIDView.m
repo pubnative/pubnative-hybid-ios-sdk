@@ -565,11 +565,11 @@ typedef enum {
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
         }
-        /*
+        
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        */
+        
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
         urlString = [urlString stringByRemovingPercentEncoding];
