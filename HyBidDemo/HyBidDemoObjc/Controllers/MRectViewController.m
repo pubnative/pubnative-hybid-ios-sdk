@@ -45,7 +45,7 @@
 
 - (void)requestAd {
     self.bannerAdView.adSize = HyBidAdSize.SIZE_300x250;
-    [self.bannerAdView loadWithDelegate:self];
+    [self.bannerAdView loadWithZoneID:@"3" andWithDelegate:self];
 }
 
 - (void)showAlertControllerWithMessage:(NSString *)message {

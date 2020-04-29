@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,31 @@
 //  THE SOFTWARE.
 //
 
-@class OMIDPubnativenetAdSession;
+#import "HyBidError.h"
 
-#import <Foundation/Foundation.h>
-#import <WebKit/WebKit.h>
+NSString * const hybidErrorDomain = @"net.pubnative.PubnativeLite";
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation HyBidError
 
-@interface HyBidViewabilityManager : NSObject
+#pragma mark Error Generation
++ (NSError *)errorWithCode:(HyBidErrorType)aCode
+{
+    return [NSError errorWithDomain: hybidErrorDomain
+        code: aCode
+    userInfo:@{NSLocalizedDescriptionKey : NSLocalizedString([self errorDescription:aCode], nil)}];
+}
 
-@property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
-
-+ (instancetype)sharedInstance;
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd;
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
-- (void)startOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)addFriendlyObstruction:(UIView *) view toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
-- (NSString *)getOMIDJS;
-
++ (NSString*) errorDescription:(HyBidErrorType)aCode {
+    
+    switch (aCode) {
+        case INVALID_ZONE_ID:
+            return @"Invalid zone ID";
+        case REQUEST_ALREADY_RUNNING:
+            return @"Request is currently running, droping this call.";
+        default:
+            return @"No Description";
+    }
+    
+    
+}
 @end
-
-NS_ASSUME_NONNULL_END

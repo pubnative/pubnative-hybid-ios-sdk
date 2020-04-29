@@ -50,8 +50,8 @@
     return self;
 }
 
-- (void)loadRequest:(VWAdRequest *)adRequest {
-    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithDelegate:self];
+- (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request {
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:zoneID andWithDelegate:self];
     [self.interstitialAd load];
 }
 
