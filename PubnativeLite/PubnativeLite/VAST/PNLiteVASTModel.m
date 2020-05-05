@@ -24,6 +24,7 @@
 #import "PNLiteVASTMediaFile.h"
 #import "PNLiteVASTXMLUtil.h"
 #import "HyBidLogger.h"
+#import <OMSDK_Pubnativenet/OMIDVerificationScriptResource.h>
 
 @interface PNLiteVASTModel ()
 
@@ -205,6 +206,59 @@
     }
     
     return mediaFileArray;
+}
+
+- (NSArray *)scriptResources {
+    NSMutableArray *scriptResourcesArray;
+    NSString *query = @"//AdVerifications";
+    for (NSData *document in self.vastDocumentArray) {
+        NSArray *results = performXMLXPathQuery(document, query);
+        for (NSDictionary *result in results) {
+            // use lazy initialization
+            if (!scriptResourcesArray) {
+                scriptResourcesArray = [NSMutableArray array];
+            }
+            NSArray *verifications = result[@"nodeChildArray"];
+            for (NSDictionary *verification in verifications) {
+                NSString *vendor;
+                NSString *params;
+                NSString *url;
+                NSArray *attributes = verification[@"nodeAttributeArray"];
+                for (NSDictionary *attribute in attributes) {
+                    NSString *name = attribute[@"attributeName"];
+                    NSString *content = attribute[@"nodeContent"];
+                    if ([name isEqualToString:@"vendor"]) {
+                        vendor = content;
+                    }
+                }
+                
+                NSArray *verificationChildren = verification[@"nodeChildArray"];
+                for (NSDictionary *verificationChild in verificationChildren) {
+                    NSString *name = verificationChild[@"nodeName"];
+                    if ([name isEqualToString:@"JavaScriptResource"]) {
+                        NSArray *javaScriptResourceChildren = verificationChild[@"nodeChildArray"];
+                        for (NSDictionary *javaScriptResourceChild in javaScriptResourceChildren) {
+                            NSString *content = javaScriptResourceChild[@"nodeContent"];
+                            url = content;
+                        }
+                    } else if ([name isEqualToString:@"VerificationParameters"]) {
+                        NSArray *verificationPartnerChildren = verificationChild[@"nodeChildArray"];
+                        for (NSDictionary *verificationPartnerChild in verificationPartnerChildren) {
+                            NSString *content = verificationPartnerChild[@"nodeContent"];
+                            params = content;
+                        }
+                    }
+                }
+                
+                OMIDPubnativenetVerificationScriptResource *scriptResource = [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:[url stringByReplacingOccurrencesOfString:@" " withString:@""]]
+                                                                                                                                   vendorKey:vendor
+                                                                                                                                  parameters:[params stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                [scriptResourcesArray addObject:scriptResource];
+            }
+           
+        }
+    }
+    return scriptResourcesArray;
 }
 
 #pragma mark - helper methods

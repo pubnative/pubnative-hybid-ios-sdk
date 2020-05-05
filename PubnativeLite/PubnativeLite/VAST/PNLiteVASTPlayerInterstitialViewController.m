@@ -71,7 +71,9 @@
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:YES];
     self.player.delegate = self;
-    [self.player loadWithVastString:self.adModel.vast];
+//    [self.player loadWithVastString:self.adModel.vast];
+    [self.player loadWithVastString:@"<VAST version=\"2.0\"> <Ad id=\"preroll-1\"> <InLine> <AdSystem>2.0</AdSystem> <AdTitle>5748406</AdTitle> <Extensions> <Extension type=\"AdVerifications\"> <AdVerifications> <Verification vendor=\"company.com-omid\"> <JavaScriptResource apiFramework=\"omid\" browserOptional=\"true\"> <![CDATA[ https://company.com/omid.js ]]> </JavaScriptResource> <TrackingEvents> <Tracking event=\"verificationNotExecuted\"> <![CDATA[ https://company.com/pixel.jpg?error=[REASON] ]]> </Tracking> </TrackingEvents> <VerificationParameters> <![CDATA[ parameter1=value1&parameter2=value2&parameter3=value3 ]]> </VerificationParameters> </Verification> </AdVerifications> </Extension> </Extensions> </InLine> </Ad> </VAST>"];
+    
 }
 
 #pragma mark PNLiteVASTPlayerViewControllerDelegate

@@ -46,4 +46,7 @@
 // returns an array of VASTMediaFile objects
 - (NSArray *)mediaFiles;
 
+// returns an array of OMVerificationScriptResource objects
+- (NSArray *)scriptResources;
+
 @end
