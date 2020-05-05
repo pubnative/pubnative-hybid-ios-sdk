@@ -174,6 +174,18 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     }
 }
 
+- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
+    if(!self.isViewabilityMeasurementActivated)
+    return;
+    
+    if(omidAdSession != nil){
+        NSError *adEventsError;
+        OMIDPubnativenetAdEvents *adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSession error:&adEventsError];
+        NSError *loadedError;
+        [adEvents loadedWithError:&loadedError];
+    }
+}
+
 - (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession *)omidAdSession {
     if(!self.isViewabilityMeasurementActivated)
         return;

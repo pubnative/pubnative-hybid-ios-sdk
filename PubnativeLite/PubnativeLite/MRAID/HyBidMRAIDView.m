@@ -1188,6 +1188,7 @@ typedef enum {
         }
         [[HyBidViewabilityManager sharedInstance] startOMIDAdSession:adSession];
         isAdSessionCreated = YES;
+        [[HyBidViewabilityManager sharedInstance] fireOMIDAdLoadEvent:adSession];
         [[HyBidViewabilityManager sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
     }
      
