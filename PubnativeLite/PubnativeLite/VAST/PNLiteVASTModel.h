@@ -47,6 +47,6 @@
 - (NSArray *)mediaFiles;
 
 // returns an array of OMVerificationScriptResource objects
-- (NSArray *)scriptResources;
+- (NSMutableArray *)scriptResources;
 
 @end

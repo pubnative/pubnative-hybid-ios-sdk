@@ -23,6 +23,7 @@
 #import "PNLiteVASTEventProcessor.h"
 #import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidVideoViewabilityManager.h"
 
 @interface PNLiteVASTEventProcessor()
 
@@ -50,14 +51,36 @@
 - (void)trackEvent:(PNLiteVASTEvent)event {
     NSString *eventString = nil;
     switch (event) {
-        case PNLiteVASTEvent_Start:           eventString = @"start";           break;
-        case PNLiteVASTEvent_FirstQuartile:   eventString = @"firstQuartile";   break;
-        case PNLiteVASTEvent_Midpoint:        eventString = @"midpoint";        break;
-        case PNLiteVASTEvent_ThirdQuartile:   eventString = @"thirdQuartile";   break;
-        case PNLiteVASTEvent_Complete:        eventString = @"complete";        break;
-        case PNLiteVASTEvent_Close:           eventString = @"close";           break;
-        case PNLiteVASTEvent_Pause:           eventString = @"pause";           break;
-        case PNLiteVASTEvent_Resume:          eventString = @"resume";          break;
+        case PNLiteVASTEvent_Start:
+            eventString = @"start";
+            break;
+        case PNLiteVASTEvent_FirstQuartile:
+            eventString = @"firstQuartile";
+            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDFirstQuartileEvent];
+            break;
+        case PNLiteVASTEvent_Midpoint:
+            eventString = @"midpoint";
+            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDMidpointEvent];
+            break;
+        case PNLiteVASTEvent_ThirdQuartile:
+            eventString = @"thirdQuartile";
+            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDThirdQuartileEvent];
+            break;
+        case PNLiteVASTEvent_Complete:
+            eventString = @"complete";
+            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDCompleteEvent];
+            break;
+        case PNLiteVASTEvent_Close:
+            eventString = @"close";
+            break;
+        case PNLiteVASTEvent_Pause:
+            eventString = @"pause";
+            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDPauseEvent];
+            break;
+        case PNLiteVASTEvent_Resume:
+            eventString = @"resume";
+            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDResumeEvent];
+            break;
         default: break;
     }
     [self invokeDidTrackEvent:event];

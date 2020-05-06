@@ -207,8 +207,7 @@
     
     return mediaFileArray;
 }
-
-- (NSArray *)scriptResources {
+- (NSMutableArray *)scriptResources {
     NSMutableArray *scriptResourcesArray;
     NSString *query = @"//AdVerifications";
     for (NSData *document in self.vastDocumentArray) {
