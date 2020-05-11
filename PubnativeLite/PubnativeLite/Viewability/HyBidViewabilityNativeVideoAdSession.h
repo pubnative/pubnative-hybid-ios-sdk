@@ -22,22 +22,11 @@
 
 @class OMIDPubnativenetAdSession;
 
-#import <Foundation/Foundation.h>
-#import <WebKit/WebKit.h>
+#import "HyBidViewabilityAdSession.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@interface HyBidViewabilityNativeVideoAdSession : HyBidViewabilityAdSession
 
-@interface HyBidVideoViewabilityManager : NSObject
-
-@property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
-
-+ (instancetype)sharedInstance;
-- (NSString *)getOMIDJS;
 - (OMIDPubnativenetAdSession*)createOMIDAdSessionforNativeVideo:(UIView *)view withScript:(NSMutableArray *)scripts;
-- (void)startOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
-- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
-- (void)fireOMIDAdLoadEvent;
-- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
 - (void)fireOMIDStartEventWithDuration:(CGFloat)duration withVolume:(CGFloat)volume;
 - (void)fireOMIDFirstQuartileEvent;
 - (void)fireOMIDMidpointEvent;
@@ -50,7 +39,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)fireOMIDVolumeChangeEventWithVolume:(CGFloat)volume;
 - (void)fireOMIDSkippedEvent;
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen;
-- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial;
-@end
 
-NS_ASSUME_NONNULL_END
+@end

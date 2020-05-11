@@ -28,7 +28,7 @@
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidLogger.h"
-#import "HyBidVideoViewabilityManager.h"
+#import "HyBidViewabilityNativeVideoAdSession.h"
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
@@ -211,28 +211,28 @@ typedef enum : NSUInteger {
 
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {
-        self.adSession = [[HyBidVideoViewabilityManager sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:[self.vastModel scriptResources]];
+        self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:[self.vastModel scriptResources]];
         if (self.contentInfoView) {
-            [[HyBidVideoViewabilityManager sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
-            [[HyBidVideoViewabilityManager sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
         }
         if (self.isInterstitial) {
-            [[HyBidVideoViewabilityManager sharedInstance] addFriendlyObstruction:self.btnClose toOMIDAdSession:self.adSession withReason:@"" isInterstitial:self.isInterstitial];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnClose toOMIDAdSession:self.adSession withReason:@"" isInterstitial:self.isInterstitial];
         } else {
-            [[HyBidVideoViewabilityManager sharedInstance] addFriendlyObstruction:self.btnFullscreen toOMIDAdSession:self.adSession withReason:@"This view is related to fullscreen button" isInterstitial:self.isInterstitial];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnFullscreen toOMIDAdSession:self.adSession withReason:@"This view is related to fullscreen button" isInterstitial:self.isInterstitial];
         }
-        [[HyBidVideoViewabilityManager sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:self.isInterstitial];
-        [[HyBidVideoViewabilityManager sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:self.isInterstitial];
-        [[HyBidVideoViewabilityManager sharedInstance] startOMIDAdSession:self.adSession];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:self.isInterstitial];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:self.isInterstitial];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] startOMIDAdSession:self.adSession];
         self.isAdSessionCreated = YES;
-        [[HyBidVideoViewabilityManager sharedInstance] fireOMIDAdLoadEvent];
-        [[HyBidVideoViewabilityManager sharedInstance] fireOMIDImpressionOccuredEvent:self.adSession];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDAdLoadEvent:self.adSession];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDImpressionOccuredEvent:self.adSession];
     }
 }
 
  - (void)stopAdSession {
      if (self.isAdSessionCreated) {
-         [[HyBidVideoViewabilityManager sharedInstance] stopOMIDAdSession:self.adSession];
+         [[HyBidViewabilityNativeVideoAdSession sharedInstance] stopOMIDAdSession:self.adSession];
          self.isAdSessionCreated = NO;
      }
  }
@@ -402,7 +402,7 @@ typedef enum : NSUInteger {
     [self.btnMute setImage:newImage forState:UIControlStateNormal];
     CGFloat newVolume = self.muted?0.0f:1.0f;
     self.player.volume = newVolume;
-    [[HyBidVideoViewabilityManager sharedInstance] fireOMIDVolumeChangeEventWithVolume:newVolume];
+    [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDVolumeChangeEventWithVolume:newVolume];
 }
 
 - (IBAction)btnClosePush:(id)sender {
@@ -422,7 +422,7 @@ typedef enum : NSUInteger {
     
     self.fullScreen = !self.fullScreen;
     self.contentInfoViewContainer.hidden = self.fullScreen;
-    [[HyBidVideoViewabilityManager sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:self.fullScreen];
+    [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:self.fullScreen];
     if (self.fullScreen) {
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];
@@ -733,10 +733,10 @@ typedef enum : NSUInteger {
         [self.eventProcessor trackEvent:PNLiteVASTEvent_Resume];
     } else {
         [self.eventProcessor trackEvent:PNLiteVASTEvent_Start];
-        [[HyBidVideoViewabilityManager sharedInstance] fireOMIDStartEventWithDuration:[self duration] withVolume:self.player.volume];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDStartEventWithDuration:[self duration] withVolume:self.player.volume];
     }
     if (self.isInterstitial) {
-        [[HyBidVideoViewabilityManager sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:YES];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:YES];
     }
     [self invokeDidStartPlaying];
 }

@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,11 @@
 //  THE SOFTWARE.
 //
 
-@class OMIDPubnativenetPartner;
+#import "HyBidViewabilityAdSession.h"
 
-#import <Foundation/Foundation.h>
+@interface HyBidViewabilityNativeAdSession : HyBidViewabilityAdSession
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HyBidViewabilityManager : NSObject
-
-@property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
-@property (nonatomic, assign) BOOL isViewabilityMeasurementActivated;
-@property (nonatomic, strong) OMIDPubnativenetPartner *partner;
-
-+ (instancetype)sharedInstance;
-- (NSString *)getOMIDJS;
+- (OMIDPubnativenetAdSession*)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
 
 @end
 
-NS_ASSUME_NONNULL_END

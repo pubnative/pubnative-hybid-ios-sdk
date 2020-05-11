@@ -20,19 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidVideoViewabilityManager.h"
-#import <OMSDK_Pubnativenet/OMIDImports.h>
-#import "HyBidLogger.h"
-#import "HyBidConstants.h"
+#import "HyBidViewabilityNativeVideoAdSession.h"
 
-static NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
-static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
+@interface HyBidViewabilityNativeVideoAdSession()
 
-@interface HyBidVideoViewabilityManager()
-
-@property (nonatomic, assign) BOOL isViewabilityMeasurementActivated;
-@property (nonatomic, readwrite, strong) NSString* omidJSString;
-@property (nonatomic, strong) OMIDPubnativenetPartner *partner;
 @property (nonatomic, strong) OMIDPubnativenetAdEvents *omidAdEvents;
 @property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
 
@@ -44,86 +35,37 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 
 @end
 
-@implementation HyBidVideoViewabilityManager
+@implementation HyBidViewabilityNativeVideoAdSession
 
 + (instancetype)sharedInstance {
-    static HyBidVideoViewabilityManager *sharedInstance = nil;
+    static HyBidViewabilityNativeVideoAdSession *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[HyBidVideoViewabilityManager alloc] init];
+        sharedInstance = [[HyBidViewabilityNativeVideoAdSession alloc] init];
     });
     return sharedInstance;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.viewabilityMeasurementEnabled = YES;
-        NSError *error;
-        
-        if (!OMIDPubnativenetSDK.sharedInstance.isActive) {
-            [[OMIDPubnativenetSDK sharedInstance] activate];
-            self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidViewabilityPartnerName versionString:HYBID_SDK_VERSION];
-        } else {
-            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Viewability Manager couldn't initialized properly with error: %@", error.debugDescription]];
-        }
-        
-        if(!self.omidJSString){
-            [self fetchOMIDJS];
-        }
-    }
-    return self;
-}
-
-- (void)fetchOMIDJS {
-    if(!self.isViewabilityMeasurementActivated)
-        return;
-    
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *omSdkJSPath = [bundle pathForResource:HyBidOMIDSDKJSFilename ofType:@"js"];
-    if (!omSdkJSPath) {
-        return;
-    }
-    NSData *omSdkJsData = [NSData dataWithContentsOfFile:omSdkJSPath];
-    self.omidJSString = [[NSString alloc] initWithData:omSdkJsData encoding:NSUTF8StringEncoding];
-}
-
-- (NSString *)getOMIDJS {
-    if(!self.isViewabilityMeasurementActivated)
-        return nil;
-    
-    NSString *scriptContent  = nil;
-    @synchronized (self) {
-        scriptContent  = self.omidJSString;
-        if (!scriptContent) {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Script Content is nil."];
-            scriptContent=  @"";
-        }
-    }
-    return scriptContent;
-}
-
 - (OMIDPubnativenetAdSession *)createOMIDAdSessionforNativeVideo:(UIView *)view withScript:(NSMutableArray *)scripts {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
         return nil;
     
     NSError *contextError;
     
-    OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:self.partner
-                                                                                                   script:self.getOMIDJS
+    OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:[HyBidViewabilityManager sharedInstance].partner
+                                                                                                   script:[[HyBidViewabilityManager sharedInstance] getOMIDJS]
                                                                                                 resources:scripts
                                                                                                contentUrl:nil
                                                                                 customReferenceIdentifier:nil
                                                                                                     error:&contextError];
     
-    return [self initialseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andMediaEventsOwner:OMIDNativeOwner isVideoAd:YES];
+    return [self initialseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andMediaEventsOwner:OMIDNativeOwner];
 }
 
 - (OMIDPubnativenetAdSession *)initialseOMIDAdSessionForView:(id)view
                                           withSessionContext:(OMIDPubnativenetAdSessionContext*)context
                                           andImpressionOwner:(OMIDOwner)impressionOwner
-                                         andMediaEventsOwner:(OMIDOwner)mediaEventsOwner
-                                                   isVideoAd:(BOOL)videoAd{
+                                         andMediaEventsOwner:(OMIDOwner)mediaEventsOwner{
     NSError *configurationError;
     
     OMIDPubnativenetAdSessionConfiguration *config = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithCreativeType:OMIDCreativeTypeVideo
@@ -154,27 +96,12 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     self.omidMediaEvents = [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:omidAdSession error:&mediaEventsError];
 }
 
-- (void)startOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    if(!self.isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession){
-        [omidAdSession start];
-    }
-}
-
-- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    if(!self.isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession){
-        [omidAdSession finish];
-        omidAdSession = nil;
-    }
+- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
+    [self fireOMIDAdLoadEvent];
 }
 
 - (void)fireOMIDAdLoadEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     NSError *vastPropertiesError;
@@ -182,20 +109,9 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     [self.omidAdEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
 }
 
-- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession *)omidAdSession {
-    if(!self.isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession != nil){
-        NSError *adEventsError;
-        OMIDPubnativenetAdEvents *adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSession error:&adEventsError];
-        NSError *impressionError;
-        [adEvents impressionOccurredWithError:&impressionError];
-    }
-}
 
 - (void)fireOMIDStartEventWithDuration:(CGFloat)duration withVolume:(CGFloat)volume {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     if (!self.isStartEventFired) {
@@ -205,7 +121,7 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)fireOMIDFirstQuartileEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     if (!self.isFirstQuartileEventFired) {
@@ -215,7 +131,7 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)fireOMIDMidpointEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     if (!self.isMidpointEventFired) {
@@ -225,7 +141,7 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)fireOMIDThirdQuartileEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     if (!self.isThirdQuartileEventFired) {
@@ -235,7 +151,7 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)fireOMIDCompleteEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     if (!self.isCompleteEventFired) {
@@ -245,49 +161,49 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)fireOMIDPauseEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     [self.omidMediaEvents pause];
 }
 
 - (void)fireOMIDResumeEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     [self.omidMediaEvents resume];
 }
 
 - (void)fireOMIDBufferStartEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     [self.omidMediaEvents bufferStart];
 }
 
 - (void)fireOMIDBufferFinishEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     [self.omidMediaEvents bufferFinish];
 }
 
 - (void)fireOMIDVolumeChangeEventWithVolume:(CGFloat)volume {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     [self.omidMediaEvents volumeChangeTo:volume];
 }
 
 - (void)fireOMIDSkippedEvent {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
     
     [self.omidMediaEvents skipped];
 }
 
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen {
-    if(!self.isViewabilityMeasurementActivated)
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
     return;
     
     if (isFullScreen) {
@@ -295,30 +211,6 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     } else {
         [self.omidMediaEvents playerStateChangeTo:OMIDPlayerStateNormal];
     }
-}
-
-- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial {
-    if(!self.isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession != nil){
-        NSError *addFriendlyObstructionError;
-        if (isInterstitial) {
-            [omidAdSession addFriendlyObstruction:view
-                                          purpose:OMIDFriendlyObstructionCloseAd
-                                   detailedReason:reasonForFriendlyObstruction
-                                            error:&addFriendlyObstructionError];
-        } else {
-            [omidAdSession addFriendlyObstruction:view
-                                          purpose:OMIDFriendlyObstructionOther
-                                   detailedReason:reasonForFriendlyObstruction
-                                            error:&addFriendlyObstructionError];
-        }
-    }
-}
-
-- (BOOL)isViewabilityMeasurementActivated {
-    return OMIDPubnativenetSDK.sharedInstance.isActive && self.viewabilityMeasurementEnabled;
 }
 
 @end

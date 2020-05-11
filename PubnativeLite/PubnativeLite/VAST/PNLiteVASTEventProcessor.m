@@ -23,7 +23,7 @@
 #import "PNLiteVASTEventProcessor.h"
 #import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
-#import "HyBidVideoViewabilityManager.h"
+#import "HyBidViewabilityNativeVideoAdSession.h"
 
 @interface PNLiteVASTEventProcessor()
 
@@ -56,30 +56,30 @@
             break;
         case PNLiteVASTEvent_FirstQuartile:
             eventString = @"firstQuartile";
-            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDFirstQuartileEvent];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDFirstQuartileEvent];
             break;
         case PNLiteVASTEvent_Midpoint:
             eventString = @"midpoint";
-            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDMidpointEvent];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDMidpointEvent];
             break;
         case PNLiteVASTEvent_ThirdQuartile:
             eventString = @"thirdQuartile";
-            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDThirdQuartileEvent];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDThirdQuartileEvent];
             break;
         case PNLiteVASTEvent_Complete:
             eventString = @"complete";
-            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDCompleteEvent];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDCompleteEvent];
             break;
         case PNLiteVASTEvent_Close:
             eventString = @"close";
             break;
         case PNLiteVASTEvent_Pause:
             eventString = @"pause";
-            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDPauseEvent];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPauseEvent];
             break;
         case PNLiteVASTEvent_Resume:
             eventString = @"resume";
-            [[HyBidVideoViewabilityManager sharedInstance] fireOMIDResumeEvent];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDResumeEvent];
             break;
         default: break;
     }

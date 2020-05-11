@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,21 @@
 //  THE SOFTWARE.
 //
 
-@class OMIDPubnativenetPartner;
-
+#import <OMSDK_Pubnativenet/OMIDImports.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "HyBidViewabilityManager.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HyBidViewabilityManager : NSObject
-
-@property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
-@property (nonatomic, assign) BOOL isViewabilityMeasurementActivated;
-@property (nonatomic, strong) OMIDPubnativenetPartner *partner;
+@interface HyBidViewabilityAdSession : NSObject
 
 + (instancetype)sharedInstance;
-- (NSString *)getOMIDJS;
 
+- (void)startOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
+- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
+- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
+- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession*)omidAdSession;
+- (void)addFriendlyObstruction:(UIView *)view
+               toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession
+                    withReason:(NSString *)reasonForFriendlyObstruction
+                isInterstitial:(BOOL)isInterstitial;
 @end
-
-NS_ASSUME_NONNULL_END
