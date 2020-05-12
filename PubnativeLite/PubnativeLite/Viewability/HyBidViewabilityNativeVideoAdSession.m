@@ -51,12 +51,14 @@
         return nil;
     
     NSError *contextError;
+    NSString *customReferenceID = @"";
+    NSString *contentUrl = @"";
     
     OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:[HyBidViewabilityManager sharedInstance].partner
                                                                                                    script:[[HyBidViewabilityManager sharedInstance] getOMIDJS]
                                                                                                 resources:scripts
-                                                                                               contentUrl:nil
-                                                                                customReferenceIdentifier:nil
+                                                                                               contentUrl:contentUrl
+                                                                                customReferenceIdentifier:customReferenceID
                                                                                                     error:&contextError];
     
     return [self initialseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andMediaEventsOwner:OMIDNativeOwner];

@@ -647,7 +647,6 @@ typedef enum : NSUInteger {
                                                       userInfo:nil];
                 [weakSelf invokeDidFailLoadingWithError:parseError];
             } else {
-                NSArray *scriptTestArray = [NSArray arrayWithArray:[model scriptResources]];
                 weakSelf.eventProcessor = [[PNLiteVASTEventProcessor alloc] initWithEvents:[model trackingEvents] delegate:self];
                 NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[model mediaFiles]].url;
                 if(!mediaUrl) {

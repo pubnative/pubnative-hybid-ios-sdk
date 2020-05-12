@@ -28,7 +28,6 @@
 @interface HyBidViewabilityAdSession : NSObject
 
 + (instancetype)sharedInstance;
-
 - (void)startOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
 - (void)stopOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
 - (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
