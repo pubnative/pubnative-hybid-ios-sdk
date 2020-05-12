@@ -71,7 +71,14 @@
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:YES];
     self.player.delegate = self;
-    [self.player loadWithVastString:self.adModel.vast];
+    
+//    VAST Verification Test Script
+    /*
+    NSString *vastString = self.adModel.vast;
+    vastString = [vastString stringByReplacingOccurrencesOfString:@"</InLine></Ad></VAST>" withString:@"<Extensions> <Extension type=\"AdVerifications\"> <AdVerifications> <Verification vendor=\"company.com-omid\"> <JavaScriptResource apiFramework=\"omid\" browserOptional=\"true\"> <![CDATA[ https://company.com/omid.js ]]> </JavaScriptResource> <TrackingEvents> <Tracking event=\"verificationNotExecuted\"> <![CDATA[ https://company.com/pixel.jpg?error=[REASON] ]]> </Tracking> </TrackingEvents> <VerificationParameters> <![CDATA[ parameter1=value1&parameter2=value2&parameter3=value3 ]]> </VerificationParameters> </Verification> <Verification vendor=\"company.com-can\"> <JavaScriptResource apiFramework=\"omid\" browserOptional=\"true\"> <![CDATA[ https://company.com/can.js ]]> </JavaScriptResource> <TrackingEvents> <Tracking event=\"verificationNotExecuted\"> <![CDATA[ https://company.com/pixel.jpg?error=[REASON] ]]> </Tracking> </TrackingEvents> <VerificationParameters> <![CDATA[ parameter4=value4&parameter5=value5&parameter6=value6 ]]> </VerificationParameters> </Verification> </AdVerifications> </Extension> </Extensions> </InLine> </Ad> </VAST>"];
+    [self.player loadWithVastString:vastString];
+    */
+    [self.player loadWithVastString:self.adModel.vast];    
 }
 
 #pragma mark PNLiteVASTPlayerViewControllerDelegate

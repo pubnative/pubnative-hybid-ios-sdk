@@ -20,24 +20,19 @@
 //  THE SOFTWARE.
 //
 
-@class OMIDPubnativenetAdSession;
+@class OMIDPubnativenetPartner;
 
 #import <Foundation/Foundation.h>
-#import <WebKit/WebKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HyBidViewabilityManager : NSObject
 
 @property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
+@property (nonatomic, assign) BOOL isViewabilityMeasurementActivated;
+@property (nonatomic, strong) OMIDPubnativenetPartner *partner;
 
 + (instancetype)sharedInstance;
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd;
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
-- (void)startOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial;
 - (NSString *)getOMIDJS;
 
 @end

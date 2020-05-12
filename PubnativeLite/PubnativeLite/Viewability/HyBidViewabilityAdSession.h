@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,33 +20,20 @@
 //  THE SOFTWARE.
 //
 
+#import <OMSDK_Pubnativenet/OMIDImports.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "HyBidViewabilityManager.h"
 
-@interface PNLiteVASTModel : NSObject
+@interface HyBidViewabilityAdSession : NSObject
 
-// returns the version of the VAST document 
-- (NSString *)vastVersion;
-
-// returns an array of VASTUrlWithId objects (although the id will always be nil)
-- (NSArray<NSString*> *)errors;
-
-// returns an array of VASTUrlWithId objects
-- (NSArray<NSString*> *)impressions;
-
-// returns the ClickThrough URL
-- (NSString*)clickThrough;
-
-// returns an array of VASTUrlWithId objects
-- (NSArray<NSString*> *)clickTracking;
-
-// returns a dictionary whose keys are the names of the event ("start", "midpoint", etc.)
-// and whose values are arrays of NSURL objects
-- (NSDictionary *)trackingEvents;
-
-// returns an array of VASTMediaFile objects
-- (NSArray *)mediaFiles;
-
-// returns an array of OMVerificationScriptResource objects
-- (NSMutableArray *)scriptResources;
-
++ (instancetype)sharedInstance;
+- (void)startOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
+- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
+- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
+- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession*)omidAdSession;
+- (void)addFriendlyObstruction:(UIView *)view
+               toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession
+                    withReason:(NSString *)reasonForFriendlyObstruction
+                isInterstitial:(BOOL)isInterstitial;
 @end

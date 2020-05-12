@@ -29,7 +29,7 @@
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
 #import "HyBidViewabilityManager.h"
-
+#import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
 
 #import "PNLitemraidjs.h"
@@ -1178,17 +1178,19 @@ typedef enum {
 - (void)startAdSession {
     
     if (!isAdSessionCreated) {
-        adSession = [[HyBidViewabilityManager sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
+        
+        adSession = [[HyBidViewabilityWebAdSession sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
         if (contentInfoView) {
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
         }
         if (isInterstitial) {
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
         }
-        [[HyBidViewabilityManager sharedInstance] startOMIDAdSession:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] startOMIDAdSession:adSession];
         isAdSessionCreated = YES;
-        [[HyBidViewabilityManager sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] fireOMIDAdLoadEvent:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
     }
      
 }
@@ -1196,7 +1198,7 @@ typedef enum {
 - (void)stopAdSession {
     
     if (isAdSessionCreated) {
-        [[HyBidViewabilityManager sharedInstance] stopOMIDAdSession:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] stopOMIDAdSession:adSession];
         isAdSessionCreated = NO;
     }
      
