@@ -22,6 +22,7 @@
 
 #import "VWInterstitialAd.h"
 #import "HyBidInterstitialAd.h"
+#import "VWAdRequest.h"
 
 @interface VWInterstitialAd ()<HyBidInterstitialAdDelegate>
 @property (nonatomic, strong) HyBidInterstitialAd* interstitialAd;
@@ -52,6 +53,7 @@
 
 - (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request {
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:zoneID andWithDelegate:self];
+    self.interstitialAd.contentCategoryIDs = request.contentCategoryIDs;
     [self.interstitialAd load];
 }
 

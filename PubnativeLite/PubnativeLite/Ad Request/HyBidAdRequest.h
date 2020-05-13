@@ -38,6 +38,7 @@
 @interface HyBidAdRequest : NSObject
 
 @property (nonatomic, strong) HyBidAdSize *adSize;
+@property (nonatomic, strong) NSMutableArray *contentCategoryIDs;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)setVideoIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;

@@ -75,6 +75,7 @@ NSInteger const kRequestWinnerPicked = 3003;
     self.adFactory = nil;
     self.vwAdFactory = nil;
     self.adSize = nil;
+    self.contentCategoryIDs = nil;
 }
 
 - (instancetype)init {
@@ -186,14 +187,16 @@ NSInteger const kRequestWinnerPicked = 3003;
 
 - (VWAdRequestModel *)createVWAdRequestModel {
     VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWAdRequestWithZoneID:self.zoneID
-                                                                          withAdSize:[self adSize]];
+                                                                          withAdSize:[self adSize]
+                                                              withContentCategoryIDs:self.contentCategoryIDs];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
     return vwRequestModel;
 }
 
 - (VWAdRequestModel *)createVWVideoAdRequestModel {
     VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWVideoAdRequestWithZoneID:self.zoneID
-                                                                               withAdSize:[self adSize]];
+                                                                               withAdSize:[self adSize]
+                                                                   withContentCategoryIDs:self.contentCategoryIDs];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwVideoAdRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
     return vwRequestModel;
 }

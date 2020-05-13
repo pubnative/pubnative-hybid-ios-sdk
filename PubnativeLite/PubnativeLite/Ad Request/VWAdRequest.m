@@ -29,27 +29,29 @@
 }
 
 + (nonnull instancetype)requestWithContentCategoryID:(VWContentCategory)contentCategory {
-    return [[[self class] alloc] init];
+    return [[self class] requestWithContentCategoryIDs:@[@(contentCategory)] displayBlockID:0 partnerModuleID:0];
 }
 
 + (nonnull instancetype)requestWithContentCategoryIDs:(nullable NSArray *)contentCategoryIDs {
-    return [[[self class] alloc] init];
+    return [[self class] requestWithContentCategoryIDs:contentCategoryIDs displayBlockID:0 partnerModuleID:0];
 }
 
 + (nonnull instancetype)requestWithContentCategoryID:(VWContentCategory)contentCategory displayBlockID:(NSInteger)displayBlock {
-    return [[[self class] alloc] init];
+  return [[self class] requestWithContentCategoryIDs:@[@(contentCategory)] displayBlockID:displayBlock partnerModuleID:0];
 }
 
 + (nonnull instancetype)requestWithContentCategoryIDs:(nullable NSArray *)contentCategoryIDs displayBlockID:(NSInteger)displayBlock {
-    return [[[self class] alloc] init];
+    return [[self class] requestWithContentCategoryIDs:contentCategoryIDs displayBlockID:displayBlock partnerModuleID:0];
 }
 
 + (nonnull instancetype)requestWithContentCategoryID:(VWContentCategory)contentCategory displayBlockID:(NSInteger)displayBlock partnerModuleID:(NSInteger)partnerModule {
-    return [[[self class] alloc] init];
+     return [[self class] requestWithContentCategoryIDs:@[@(contentCategory)] displayBlockID:displayBlock partnerModuleID:partnerModule];
 }
 
 + (nonnull instancetype)requestWithContentCategoryIDs:(nullable NSArray *)contentCategoryIDs displayBlockID:(NSInteger)displayBlock partnerModuleID:(NSInteger)partnerModule {
-    return [[[self class] alloc] init];
+    VWAdRequest *request = [[self class] request];
+    request.contentCategoryIDs = [contentCategoryIDs mutableCopy];
+    return request;
 }
 
 - (BOOL)setCustomParameterForKey:(nonnull NSString *)key value:(nullable NSString *)value {

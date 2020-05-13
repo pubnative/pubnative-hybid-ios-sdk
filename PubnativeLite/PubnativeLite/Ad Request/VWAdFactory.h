@@ -26,10 +26,12 @@
 
 @interface VWAdFactory : NSObject
 
-- (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *) zoneID
-                                       withAdSize:(HyBidAdSize*) adSize;
+- (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID
+                                       withAdSize:(HyBidAdSize *)adSize
+                           withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs;
 
-- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *) zoneID
-                                            withAdSize:(HyBidAdSize*) adSize;
+- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *)zoneID
+                                            withAdSize:(HyBidAdSize *)adSize
+                                withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs;
 
 @end
