@@ -28,16 +28,16 @@
 
 @implementation VWAdFactory
 
-- (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize*)adSize {
+-(VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize *)adSize withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs {
     VWAdRequestModel *adRequestModel = [[VWAdRequestModel alloc] init];
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
     adRequestModel.requestParameters[@"p"] = portalKeyword;
-    adRequestModel.requestParameters[@"c"] = @"97";
     adRequestModel.requestParameters[@"iframe"] = @"false";
     adRequestModel.requestParameters[@"b"] = [HyBidSettings sharedInstance].partnerKeyword;
     adRequestModel.requestParameters[@"model"] = [HyBidSettings sharedInstance].deviceName;
     adRequestModel.requestParameters[@"appid"] = [HyBidSettings sharedInstance].appBundleID;
     
+    [self setContentCategoryIDsForAdRequestModel:adRequestModel withContentCategoryIDs:contentCategoryIDs];
     [self setIDFA:adRequestModel];
     
     NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
@@ -71,11 +71,10 @@
     return adRequestModel;
 }
 
-- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize *)adSize {
+- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize *)adSize withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs {
     VWAdRequestModel *adRequestModel = [[VWAdRequestModel alloc] init];
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
     adRequestModel.requestParameters[@"p"] = portalKeyword;
-    adRequestModel.requestParameters[@"c"] = @"97";
     adRequestModel.requestParameters[@"b"] = [HyBidSettings sharedInstance].partnerKeyword;
     adRequestModel.requestParameters[@"appid"] = [HyBidSettings sharedInstance].appBundleID;
     adRequestModel.requestParameters[@"cc"] = @"vast2.0";
@@ -86,6 +85,7 @@
     adRequestModel.requestParameters[@"autoPlay"] = @"true";
     adRequestModel.requestParameters[@"audioOnStart"] = @"false";
     
+    [self setContentCategoryIDsForAdRequestModel:adRequestModel withContentCategoryIDs:contentCategoryIDs];
     [self setIDFA:adRequestModel];
     
     NSString* privacyString =  [[VWAdLibrary shared] getIABUSPrivacyString];
@@ -133,6 +133,23 @@
         adRequestModel.requestParameters[@"ui"] = advertisingId;
         adRequestModel.requestParameters[@"uis"] = @"a";
     }
+}
+
+- (void)setContentCategoryIDsForAdRequestModel:(VWAdRequestModel *)adRequestModel withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs {
+    NSMutableString *contentCategoryIDsString = [NSMutableString new];
+    if (contentCategoryIDs.count) {
+      [contentCategoryIDs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSInteger catID = [obj integerValue] ?: 97;
+        if (idx == 0) {
+          [contentCategoryIDsString appendFormat:@"&c=%ld", (long)catID];
+        } else {
+          [contentCategoryIDsString appendFormat:@"%%2C%ld", (long)catID];
+        }
+      }];
+    } else { /* Default to "News and Information". */
+      [contentCategoryIDsString appendString:@"&c=97"];
+    }
+    adRequestModel.requestParameters[@"c"] = contentCategoryIDsString;
 }
 
 @end

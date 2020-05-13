@@ -39,6 +39,7 @@
     self.adPresenter = nil;
     self.adRequest = nil;
     self.adSize = nil;
+    self.contentCategoryIDs = nil;
 }
 
 - (void)awakeFromNib {
@@ -76,6 +77,7 @@
         }
     } else {
         self.adRequest.adSize = self.adSize;
+        self.adRequest.contentCategoryIDs = self.contentCategoryIDs;
         [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }
@@ -85,6 +87,7 @@
     [self cleanUp];
     self.delegate = delegate;
     self.adRequest.adSize = self.adSize;
+    self.adRequest.contentCategoryIDs = self.contentCategoryIDs;
     [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:nil];
     [self.adRequest requestAdWithDelegate:self withZoneID:nil];
 }

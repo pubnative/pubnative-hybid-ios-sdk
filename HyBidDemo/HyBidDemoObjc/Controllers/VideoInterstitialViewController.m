@@ -53,7 +53,7 @@
     self.videoInterstitialAd.allowAutoPlay = YES;
     self.videoInterstitialAd.allowAudioOnStart = YES;
     self.videoInterstitialAd.delegate = self;
-    VWVideoAdRequest * adRequest = [VWVideoAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation];
+    VWVideoAdRequest * adRequest = [VWVideoAdRequest requestWithContentCategoryIDs:@[@(VWContentCategoryPets), @(VWContentCategoryMusic), @(VWContentCategorySports)]];
     adRequest.minDuration = @(10);
     adRequest.maxDuration = @(90);
     [self.videoInterstitialAd loadRequestWithZoneID:@"6" andWithRequest:adRequest];

@@ -25,6 +25,8 @@
 
 @interface VWAdRequest : NSObject
 
+@property (nonatomic, strong, nullable) NSMutableArray *contentCategoryIDs;
+
 + (nonnull instancetype)request;
 + (nonnull instancetype)requestWithContentCategoryID:(VWContentCategory)contentCategory;
 + (nonnull instancetype)requestWithContentCategoryIDs:(nullable NSArray *)contentCategoryIDs;

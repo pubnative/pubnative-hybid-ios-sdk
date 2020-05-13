@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "VWAdvertView.h"
+#import "VWAdRequest.h"
 
 @interface VWAdvertView ()
 
@@ -59,6 +60,7 @@
 }
 
 - (void)loadRequestWithZoneID:(NSString *_Nonnull)zoneID andWithRequest:(nonnull VWAdRequest *)request {
+    self.adView.contentCategoryIDs = request.contentCategoryIDs;
     [self.adView loadWithZoneID:zoneID andWithDelegate:self];
 }
 

@@ -45,6 +45,7 @@
     self.delegate = nil;
     self.interstitialPresenter = nil;
     self.interstitialAdRequest = nil;
+    self.contentCategoryIDs = nil;
 }
 
 - (void)cleanUp {
@@ -75,6 +76,7 @@
     [self cleanUp];
     self.isReady = NO;
     
+    self.interstitialAdRequest.contentCategoryIDs = self.contentCategoryIDs;
     if ([self.delegate isKindOfClass:[VWInterstitialVideoAd class]]) {
         [self.interstitialAdRequest setVideoIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
         [self.interstitialAdRequest requestVideoAdWithDelegate:self withZoneID:self.zoneID];
