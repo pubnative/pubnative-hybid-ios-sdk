@@ -39,6 +39,7 @@
 
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, strong) NSMutableArray *contentCategoryIDs;
+@property (nonatomic, strong) NSString *partnerKeyword;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)setVideoIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
