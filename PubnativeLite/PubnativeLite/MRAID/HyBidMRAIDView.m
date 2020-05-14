@@ -97,6 +97,8 @@ typedef enum {
     
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved;
+    
+    BOOL centeringInterstitial;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -209,6 +211,8 @@ typedef enum {
                           PNLiteMRAIDSupportsStorePicture,
                           PNLiteMRAIDSupportsInlineVideo,
                           ];
+        
+        centeringInterstitial = false;
         
         if([self isValidFeatureSet:currentFeatures] && serviceDelegate) {
             supportedFeatures=currentFeatures;
@@ -552,7 +556,14 @@ typedef enum {
     
     if (!urlString) {
         // 1-part expansion
-        webView.frame = frame;
+        CGFloat height = 480;
+        CGFloat width = 320;
+        
+        if (centeringInterstitial) {
+            webView.frame = CGRectMake(frame.size.width/2 - width/2, frame.size.height/2 - height/2, width, height);
+        } else {
+            webView.frame = frame;
+        }
         [webView removeFromSuperview];
     } else {
         // 2-part expansion
