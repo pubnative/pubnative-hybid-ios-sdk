@@ -556,10 +556,9 @@ typedef enum {
     
     if (!urlString) {
         // 1-part expansion
-        CGFloat height = 480;
-        CGFloat width = 320;
-        
         if (centeringInterstitial) {
+            CGFloat height = 480;
+            CGFloat width = 320;
             webView.frame = CGRectMake(frame.size.width/2 - width/2, frame.size.height/2 - height/2, width, height);
         } else {
             webView.frame = frame;
