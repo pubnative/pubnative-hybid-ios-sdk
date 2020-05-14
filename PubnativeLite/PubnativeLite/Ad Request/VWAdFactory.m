@@ -28,12 +28,15 @@
 
 @implementation VWAdFactory
 
--(VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize *)adSize withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs {
+-(VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID
+                                      withAdSize:(HyBidAdSize *)adSize
+                          withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs
+                              withPartnerKeyword:(NSString *)partnerKeyword {
     VWAdRequestModel *adRequestModel = [[VWAdRequestModel alloc] init];
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
     adRequestModel.requestParameters[@"p"] = portalKeyword;
     adRequestModel.requestParameters[@"iframe"] = @"false";
-    adRequestModel.requestParameters[@"b"] = [HyBidSettings sharedInstance].partnerKeyword;
+    adRequestModel.requestParameters[@"b"] = partnerKeyword;
     adRequestModel.requestParameters[@"model"] = [HyBidSettings sharedInstance].deviceName;
     adRequestModel.requestParameters[@"appid"] = [HyBidSettings sharedInstance].appBundleID;
     
@@ -71,11 +74,14 @@
     return adRequestModel;
 }
 
-- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *)zoneID withAdSize:(HyBidAdSize *)adSize withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs {
+- (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *)zoneID
+                                            withAdSize:(HyBidAdSize *)adSize
+                                withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs
+                                    withPartnerKeyword:(NSString *)partnerKeyword {
     VWAdRequestModel *adRequestModel = [[VWAdRequestModel alloc] init];
     NSString *portalKeyword = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"ipad" : @"iphn";
     adRequestModel.requestParameters[@"p"] = portalKeyword;
-    adRequestModel.requestParameters[@"b"] = [HyBidSettings sharedInstance].partnerKeyword;
+    adRequestModel.requestParameters[@"b"] = partnerKeyword;
     adRequestModel.requestParameters[@"appid"] = [HyBidSettings sharedInstance].appBundleID;
     adRequestModel.requestParameters[@"cc"] = @"vast2.0";
     adRequestModel.requestParameters[@"adunit"] = @"vastlinear";

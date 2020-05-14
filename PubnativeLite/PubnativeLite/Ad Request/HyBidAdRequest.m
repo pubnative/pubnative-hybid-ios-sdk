@@ -76,6 +76,7 @@ NSInteger const kRequestWinnerPicked = 3003;
     self.vwAdFactory = nil;
     self.adSize = nil;
     self.contentCategoryIDs = nil;
+    self.partnerKeyword = nil;
 }
 
 - (instancetype)init {
@@ -88,6 +89,14 @@ NSInteger const kRequestWinnerPicked = 3003;
     return self;
 }
 
+- (NSString *)partnerKeyword {
+    if (!_partnerKeyword || _partnerKeyword.length == 0) {
+        return [HyBidSettings sharedInstance].partnerKeyword;
+    } else {
+        return _partnerKeyword;
+    }
+}
+
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     if (!zoneID || zoneID.length == 0) {
         [self.delegate request:self didFailWithError: [HyBidError errorWithCode:INVALID_ZONE_ID]];
@@ -95,7 +104,7 @@ NSInteger const kRequestWinnerPicked = 3003;
         self.zoneID = zoneID;
     }
     // Verve request will be created only if partner keyword is set
-    if ([HyBidSettings sharedInstance].partnerKeyword != nil) {
+    if (self.partnerKeyword != nil) {
         self.vwRequestURL = [self vwRequestURLFromAdRequestModel:[self createVWAdRequestModel]];
     }
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
@@ -109,7 +118,7 @@ NSInteger const kRequestWinnerPicked = 3003;
         self.zoneID = zoneID;
     }
     // Verve request will be created only if partner keyword is set
-    if ([HyBidSettings sharedInstance].partnerKeyword != nil) {
+    if (self.partnerKeyword != nil) {
         self.vwVideoAdRequestURL = [self vwVideoAdRequestURLFromAdRequestModel:[self createVWVideoAdRequestModel]];
     }
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
@@ -188,7 +197,8 @@ NSInteger const kRequestWinnerPicked = 3003;
 - (VWAdRequestModel *)createVWAdRequestModel {
     VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWAdRequestWithZoneID:self.zoneID
                                                                           withAdSize:[self adSize]
-                                                              withContentCategoryIDs:self.contentCategoryIDs];
+                                                              withContentCategoryIDs:self.contentCategoryIDs
+                                                                  withPartnerKeyword:self.partnerKeyword];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
     return vwRequestModel;
 }
@@ -196,7 +206,8 @@ NSInteger const kRequestWinnerPicked = 3003;
 - (VWAdRequestModel *)createVWVideoAdRequestModel {
     VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWVideoAdRequestWithZoneID:self.zoneID
                                                                                withAdSize:[self adSize]
-                                                                   withContentCategoryIDs:self.contentCategoryIDs];
+                                                                   withContentCategoryIDs:self.contentCategoryIDs
+                                                                       withPartnerKeyword:self.partnerKeyword];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwVideoAdRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
     return vwRequestModel;
 }

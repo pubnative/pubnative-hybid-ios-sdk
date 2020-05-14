@@ -28,10 +28,12 @@
 
 - (VWAdRequestModel *)createVWAdRequestWithZoneID:(NSString *)zoneID
                                        withAdSize:(HyBidAdSize *)adSize
-                           withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs;
+                           withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs
+                               withPartnerKeyword:(NSString *)partnerKeyword;
 
 - (VWAdRequestModel *)createVWVideoAdRequestWithZoneID:(NSString *)zoneID
                                             withAdSize:(HyBidAdSize *)adSize
-                                withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs;
+                                withContentCategoryIDs:(NSMutableArray *)contentCategoryIDs
+                                    withPartnerKeyword:(NSString *)partnerKeyword;
 
 @end
