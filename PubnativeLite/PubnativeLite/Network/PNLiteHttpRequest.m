@@ -91,11 +91,11 @@ NSInteger const MAX_RETRIES = 1;
         [self invokeFailWithMessage:message andAttemptRetry:NO];
     } else {
         NSURLSession *session = [NSURLSession sharedSession];
-        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.hyBidUserAgent};
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:url];
         [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];
         [request setTimeoutInterval:PNLiteHttpRequestDefaultTimeout];
+        [request setValue: HyBidWebBrowserUserAgentInfo.hyBidUserAgent forHTTPHeaderField:@"User-Agent"];
         [request setHTTPMethod:self.method];
         if (self.header && self.header.count > 0) {
             for (NSString *key in self.header) {
