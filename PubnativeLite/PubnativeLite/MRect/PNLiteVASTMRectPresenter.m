@@ -22,6 +22,7 @@
 
 #import "PNLiteVASTMRectPresenter.h"
 #import "PNLiteVASTPlayerViewController.h"
+#import "HyBidVideoAdCache.h"
 
 CGFloat const PNLiteVASTMRectWidth = 300.0f;
 CGFloat const PNLiteVASTMRectHeight = 250.0f;
@@ -57,7 +58,9 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 - (void)load {
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:NO];
     self.player.delegate = self;
-    [self.player loadWithVastString:self.adModel.vast];
+    if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
+        [self.player loadWithVideoAdCacheItem:[[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID]];
+    }
 }
 
 - (void)startTracking {

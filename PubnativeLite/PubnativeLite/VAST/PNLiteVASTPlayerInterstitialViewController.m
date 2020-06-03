@@ -22,6 +22,7 @@
 
 #import "PNLiteVASTPlayerInterstitialViewController.h"
 #import "PNLiteVASTPlayerViewController.h"
+#import "HyBidVideoAdCache.h"
 
 @interface PNLiteVASTPlayerInterstitialViewController () <PNLiteVASTPlayerViewControllerDelegate>
 
@@ -71,7 +72,9 @@
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:YES];
     self.player.delegate = self;
-    [self.player loadWithVastString:self.adModel.vast];
+    if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
+        [self.player loadWithVideoAdCacheItem:[[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID]];
+       }
 }
 
 #pragma mark PNLiteVASTPlayerViewControllerDelegate
