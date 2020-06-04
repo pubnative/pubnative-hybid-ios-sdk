@@ -99,7 +99,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         if (!self.isSetIntegrationTypeCalled) {
             [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
         }
-
+        
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
     }
 }
@@ -214,6 +214,13 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                         }
                         break;
                 }
+            }
+            
+            if (responseAdArray.count <= 0) {
+                NSError *error = [NSError errorWithDomain:@"No fill"
+                                                     code:0
+                                                 userInfo:nil];
+                [self invokeDidFail:error];
             }
             
         } else {
