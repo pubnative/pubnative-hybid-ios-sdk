@@ -70,8 +70,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL isAdSessionCreated;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
 @property (nonatomic, assign) PNLiteVASTPlaybackState playback;
-@property (nonatomic, strong) NSURL *vastUrl;
-@property (nonatomic, strong) NSString *vastString;
 @property (nonatomic, strong) PNLiteVASTModel *vastModel;
 @property (nonatomic, strong) PNLiteVASTParser *parser;
 @property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
@@ -172,20 +170,6 @@ typedef enum : NSUInteger {
 
 #pragma mark - PUBLIC -
 
-- (void)loadWithVastUrl:(NSURL*)url {
-    @synchronized (self) {
-        self.vastUrl = url;
-        [self setState:PNLiteVASTPlayerState_LOAD];
-    }
-}
-
-- (void)loadWithVastString:(NSString *)vast {
-    @synchronized (self) {
-        self.vastString = vast;
-        [self setState:PNLiteVASTPlayerState_LOAD];
-    }
-}
-
 - (void)loadWithVideoAdCacheItem:(HyBidVideoAdCacheItem *)videoAdCacheItem {
     @synchronized (self) {
         self.videoAdCacheItem = videoAdCacheItem;
@@ -258,8 +242,6 @@ typedef enum : NSUInteger {
         self.layer = nil;
         self.playerItem = nil;
         self.player = nil;
-        self.vastUrl = nil;
-        self.vastString = nil;
         self.vastModel = nil;
         self.parser = nil;
         self.eventProcessor = nil;
