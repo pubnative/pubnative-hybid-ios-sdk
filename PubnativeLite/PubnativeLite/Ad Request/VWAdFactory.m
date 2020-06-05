@@ -101,7 +101,7 @@
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
-    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut] && !([privacyString length] == 0)) {
+    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut]) {
         adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
         
