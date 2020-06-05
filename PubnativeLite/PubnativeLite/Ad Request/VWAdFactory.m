@@ -48,18 +48,20 @@
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
-    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut] && !([privacyString length] == 0)) {
+    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut]) {
         adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
         
         CLLocation* location = [HyBidSettings sharedInstance].location;
-        NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
-        NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        if (location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
+            NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+            NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
         
-        adRequestModel.requestParameters[@"lat"] = lat;
-        adRequestModel.requestParameters[@"long"] = longi;
-        adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
-        adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
+            adRequestModel.requestParameters[@"lat"] = lat;
+            adRequestModel.requestParameters[@"long"] = longi;
+            adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
+            adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
+        }
     }
     
     if (![adSize.layoutSize isEqualToString:@"native"]) {
@@ -100,14 +102,19 @@
     }
     
     if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[VWAdLibrary shared] usPrivacyOptOut] && !([privacyString length] == 0)) {
-        CLLocation* location = [HyBidSettings sharedInstance].location;
-        NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
-        NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        adRequestModel.requestParameters[@"age"] = [[HyBidSettings sharedInstance].targeting.age stringValue];
+        adRequestModel.requestParameters[@"gender"] = [HyBidSettings sharedInstance].targeting.gender;
         
-        adRequestModel.requestParameters[@"lat"] = lat;
-        adRequestModel.requestParameters[@"long"] = longi;
-        adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
-        adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
+        CLLocation* location = [HyBidSettings sharedInstance].location;
+        if (location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
+            NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+            NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        
+            adRequestModel.requestParameters[@"lat"] = lat;
+            adRequestModel.requestParameters[@"long"] = longi;
+            adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
+            adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
+        }
     }
     
     if (![adSize.layoutSize isEqualToString:@"native"]) {

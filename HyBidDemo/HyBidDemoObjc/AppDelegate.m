@@ -41,6 +41,7 @@
         if (success) {
             [HyBidLogger setLogLevel:HyBidLogLevelDebug];
             NSLog(@"HyBid initialisation completed");
+            [[HyBidUserDataManager sharedInstance] grantConsent];
         }
     }];
     HyBidTargetingModel *targetingModel = [[HyBidTargetingModel alloc] init];
