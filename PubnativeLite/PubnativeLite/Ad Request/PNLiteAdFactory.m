@@ -46,6 +46,15 @@
         adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
         adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
+        
+        CLLocation* location = [HyBidSettings sharedInstance].location;
+        if (location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
+            NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+            NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+
+            adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
+            adRequestModel.requestParameters[HyBidRequestParameter.lon] = longi;
+        }
     }
     adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
     if (adSize) {
