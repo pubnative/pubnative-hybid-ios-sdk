@@ -147,13 +147,13 @@
       [contentCategoryIDs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSInteger catID = [obj integerValue] ?: 97;
         if (idx == 0) {
-          [contentCategoryIDsString appendFormat:@"&c=%ld", (long)catID];
+          [contentCategoryIDsString appendFormat:@"%ld", (long)catID];
         } else {
           [contentCategoryIDsString appendFormat:@"%%2C%ld", (long)catID];
         }
       }];
     } else { /* Default to "News and Information". */
-      [contentCategoryIDsString appendString:@"&c=97"];
+      [contentCategoryIDsString appendString:@"97"];
     }
     adRequestModel.requestParameters[@"c"] = contentCategoryIDsString;
 }
