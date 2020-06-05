@@ -42,12 +42,14 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, weak) NSObject <HyBidAdViewDelegate> *delegate;
 @property (nonatomic, assign) BOOL isMediation;
+@property (nonatomic, assign) BOOL autoShowOnLoad;
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)setupAdView:(UIView *)adView;
 - (void)renderAd;
 - (void)startTracking;
 - (void)stopTracking;
+- (void)show;
 - (HyBidAdPresenter *)createAdPresenter;
 
 @end
