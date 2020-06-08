@@ -50,6 +50,8 @@
 
 - (instancetype)initPlayerWithContentInfo:(HyBidContentInfoView *)contentInfo
                             isInterstital:(BOOL)isInterstitial;
+- (void)loadWithVastUrl:(NSURL*)url;
+- (void)loadWithVastString:(NSString*)vast;
 - (void)loadWithVideoAdCacheItem:(HyBidVideoAdCacheItem*)videoAdCacheItem;
 - (void)play;
 - (void)pause;

@@ -23,6 +23,7 @@
 #import "PNLiteVASTPlayerInterstitialViewController.h"
 #import "PNLiteVASTPlayerViewController.h"
 #import "HyBidVideoAdCache.h"
+#import "HyBidVideoAdCacheItem.h"
 
 @interface PNLiteVASTPlayerInterstitialViewController () <PNLiteVASTPlayerViewControllerDelegate>
 
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
 @property (nonatomic, strong) HyBidInterstitialPresenter *presenter;
 @property (nonatomic, strong) HyBidAd *adModel;
+@property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
 
 @end
 
@@ -40,6 +42,7 @@
     self.player = nil;
     self.presenter = nil;
     self.adModel = nil;
+    self.videoAdCacheItem = nil;
 }
 
 - (instancetype)init {
@@ -73,8 +76,15 @@
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:YES];
     self.player.delegate = self;
     if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
-        [self.player loadWithVideoAdCacheItem:[[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID]];
-       }
+        self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];
+        if (!self.videoAdCacheItem) {
+            [self.player loadWithVastString:self.adModel.vast];
+        } else {
+            [self.player loadWithVideoAdCacheItem:self.videoAdCacheItem];
+        }
+    } else {
+        [self.player loadWithVastString:self.adModel.vast];
+    }
 }
 
 #pragma mark PNLiteVASTPlayerViewControllerDelegate
