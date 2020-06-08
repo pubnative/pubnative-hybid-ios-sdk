@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,32 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "HyBidAdModel.h"
-#import "HyBidContentInfoView.h"
+#import "HyBidVideoAdCache.h"
 
-@interface HyBidAd : NSObject
+@implementation HyBidVideoAdCache
 
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSString *htmlUrl;
-@property (nonatomic, readonly) NSString *htmlData;
-@property (nonatomic, readonly) NSString *link;
-@property (nonatomic, readonly) NSString *impressionID;
-@property (nonatomic, readonly) NSString *creativeID;
-@property (nonatomic, readonly) NSString *zoneID;
-@property (nonatomic, readonly) NSNumber *assetGroupID;
-@property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;
-@property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
+- (void)dealloc {
+    self.videoAdCache = nil;
+}
 
-- (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
-- (HyBidDataModel *)assetDataWithType:(NSString *)type;
-- (HyBidDataModel *)metaDataWithType:(NSString *)type;
-- (NSArray *)beaconsDataWithType:(NSString *)type;
++ (instancetype)sharedInstance {
+    static HyBidVideoAdCache *_sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedInstance = [[HyBidVideoAdCache alloc] init];
+        _sharedInstance.videoAdCache = [[NSMutableDictionary alloc] init];
+    });
+    return _sharedInstance;
+}
+
+- (void)putVideoAdCacheItemToCache:(HyBidVideoAdCacheItem *)videoAdCacheItem withZoneID:(NSString *)zoneID {
+    [[HyBidVideoAdCache sharedInstance].videoAdCache setObject:videoAdCacheItem forKey:zoneID];
+}
+
+- (HyBidVideoAdCacheItem *)retrieveVideoAdCacheItemFromCacheWithZoneID:(NSString *)zoneID {
+    HyBidVideoAdCacheItem *cachedVideoAdItem = [[HyBidVideoAdCache sharedInstance].videoAdCache objectForKey:zoneID];
+    [[HyBidVideoAdCache sharedInstance].videoAdCache removeObjectForKey:zoneID];
+    return cachedVideoAdItem;
+}
 
 @end
