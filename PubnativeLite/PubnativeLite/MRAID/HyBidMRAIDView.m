@@ -98,7 +98,8 @@ typedef enum {
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved;
     
-    BOOL centeringInterstitial;
+    CGFloat adWidth;
+    CGFloat adHeight;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -189,6 +190,8 @@ typedef enum {
     if (self) {
         [self setUpTapGestureRecognizer];
         isInterstitial = isInter;
+        adWidth = frame.size.width;
+        adHeight = frame.size.height;
         _delegate = delegate;
         _serviceDelegate = serviceDelegate;
         _rootViewController = rootViewController;
@@ -212,7 +215,6 @@ typedef enum {
                           PNLiteMRAIDSupportsInlineVideo,
                           ];
         
-        centeringInterstitial = true;
         
         if([self isValidFeatureSet:currentFeatures] && serviceDelegate) {
             supportedFeatures=currentFeatures;
@@ -556,13 +558,7 @@ typedef enum {
     
     if (!urlString) {
         // 1-part expansion
-        if (centeringInterstitial) {
-            CGFloat height = 480;
-            CGFloat width = 320;
-            webView.frame = CGRectMake(frame.size.width/2 - width/2, frame.size.height/2 - height/2, width, height);
-        } else {
-            webView.frame = frame;
-        }
+        webView.frame = CGRectMake(frame.size.width/2 - adWidth/2, frame.size.height/2 - adHeight/2, adWidth, adHeight);
         [webView removeFromSuperview];
     } else {
         // 2-part expansion
