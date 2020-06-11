@@ -22,6 +22,8 @@
 
 #import "HyBidVASTAdPresenter.h"
 #import "PNLiteVASTPlayerViewController.h"
+#import "HyBidVideoAdCache.h"
+#import "HyBidVideoAdCacheItem.h"
 
 CGFloat const PNLiteVASTMRectWidth = 300.0f;
 CGFloat const PNLiteVASTMRectHeight = 250.0f;
@@ -31,6 +33,7 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 @property (nonatomic, strong) HyBidAd *adModel;
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
 @property (nonatomic, assign) BOOL isLoaded;
+@property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
 
 @end
 
@@ -39,6 +42,7 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 - (void)dealloc {
     self.adModel = nil;
     self.player = nil;
+    self.videoAdCacheItem = nil;
 }
 
 - (instancetype)initWithAd:(HyBidAd *)ad {
@@ -57,7 +61,17 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 - (void)load {
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:NO];
     self.player.delegate = self;
-    [self.player loadWithVastString:self.adModel.vast];
+    if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
+        self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];
+        if (!self.videoAdCacheItem) {
+            [self.player loadWithVastString:self.adModel.vast];
+        } else {
+            [self.player loadWithVideoAdCacheItem:self.videoAdCacheItem];
+        }
+    } else {
+        [self.player loadWithVastString:self.adModel.vast];
+    }
+
 }
 
 - (void)startTracking {
