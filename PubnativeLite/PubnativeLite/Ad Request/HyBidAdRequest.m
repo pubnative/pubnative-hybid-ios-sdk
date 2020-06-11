@@ -330,33 +330,6 @@ NSInteger const kRequestWinnerPicked = 3003;
                 HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
-                switch (ad.assetGroupID.integerValue) {
-                    case VAST_INTERSTITIAL:
-                    case VAST_MRECT: {
-                        HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-                        [videoAdProcessor processVASTString:ad.vast completion:^(PNLiteVASTModel *vastModel, NSError *error) {
-                            if (!vastModel) {
-                                [self invokeDidFail:error];
-                            } else {
-                                HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
-                                videoAdCacheItem.vastModel = vastModel;
-                                [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
-                                [self invokeDidLoad:ad];
-                            }
-                        }];
-                        break;
-                    }
-                    default:
-                        if (responseAdArray.count > 0) {
-                            [self invokeDidLoad:responseAdArray.firstObject];
-                        } else {
-                            NSError *error = [NSError errorWithDomain:@"No fill"
-                                                                 code:0
-                                                             userInfo:nil];
-                            [self invokeDidFail:error];
-                        }
-                        break;
-                }
             }
             if (responseAdArray.count > 0) {
                 if (self.requestStatus == kRequestWinnerPicked) {
