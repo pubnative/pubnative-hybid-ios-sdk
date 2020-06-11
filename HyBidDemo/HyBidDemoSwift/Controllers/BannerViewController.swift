@@ -73,9 +73,8 @@ extension BannerViewController: VWAdvertViewDelegate {
     }
     
     func advertView(_ adView: VWAdvertView, didFailToReceiveAdWithError error: Error?) {
-        guard let `error` = error else {return}
-        print("Banner Ad View did fail with error: ", error.localizedDescription)
-        showAlertControllerWithMessage(for: error.localizedDescription)
+        print("Banner Ad View did fail with error: ", error?.localizedDescription ?? "Generic Error")
+        showAlertControllerWithMessage(for: error?.localizedDescription ?? "Generic Error")
     }
     
 }
