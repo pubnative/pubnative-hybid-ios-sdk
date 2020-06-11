@@ -613,7 +613,6 @@
 		7E598C2724475FE000BEA734 /* PNLiteVASTPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */; };
 		7E598C2824475FE000BEA734 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */; };
 		7E598C2924475FE000BEA734 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */; };
-		7E598C2A24475FED00BEA734 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		7E598C2B2447602E00BEA734 /* PNLiteCloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACC74E0203595240001CDC3 /* PNLiteCloseButton.png */; };
 		7ED8F0972459881700CBC399 /* HyBidError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED8F0952459881700CBC399 /* HyBidError.h */; };
 		7ED8F0982459881700CBC399 /* HyBidError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED8F0952459881700CBC399 /* HyBidError.h */; };
@@ -3953,7 +3952,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E598C2B2447602E00BEA734 /* PNLiteCloseButton.png in Resources */,
-				7E598C2A24475FED00BEA734 /* (null) in Resources */,
 				7E598C1A24475FE000BEA734 /* PNLiteExternalLink.png in Resources */,
 				7E598C1B24475FE000BEA734 /* PNLiteExternalLink@2x.png in Resources */,
 				7E598C1C24475FE000BEA734 /* PNLiteFullScreen.png in Resources */,
