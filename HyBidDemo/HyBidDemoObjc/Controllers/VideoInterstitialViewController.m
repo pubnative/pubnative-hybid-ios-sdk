@@ -83,7 +83,7 @@
 
 - (void)interstitialVideoAd:(VWInterstitialVideoAd *)interstitialVideoAd didFailToReceiveAdWithError:(NSError *)error {
     NSLog(@"Video Interstitial Ad did fail with error: %@",error.localizedDescription);
-       [self showAlertControllerWithMessage:error.localizedDescription];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
 - (void)interstitialVideoAdWillPresentAd:(VWInterstitialVideoAd *)interstitialVideoAd {
