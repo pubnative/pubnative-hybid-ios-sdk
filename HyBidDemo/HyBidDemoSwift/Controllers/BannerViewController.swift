@@ -26,8 +26,8 @@ import CoreLocation
 
 class BannerViewController: UIViewController {
 
-    @IBOutlet weak var bannerAdView: VWAdvertView!
-    
+    @IBOutlet weak var bannerAdView: HyBidAdView!
+
     var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -40,10 +40,9 @@ class BannerViewController: UIViewController {
     }
     
     func requestAd() {
-        bannerAdView.delegate = self
-        bannerAdView.adSize = kVWAdSizeBanner
-        let adRequest = VWAdRequest(contentCategoryID: .artsAndEntertainment)
-        bannerAdView.loadRequest(withZoneID: "2", andWith: adRequest)
+        bannerAdView.adSize = HyBidAdSize.size_320x50
+        bannerAdView.load(withZoneID:
+        "2", andWith: self)
     }
     
     func requestLocation() {
@@ -66,15 +65,24 @@ class BannerViewController: UIViewController {
     
 }
 
-extension BannerViewController: VWAdvertViewDelegate {
+extension BannerViewController: HyBidAdViewDelegate {
     
-    func advertViewDidReceiveAd(_ adView: VWAdvertView) {
+    func adViewDidLoad(_ adView: HyBidAdView!) {
         print("Banner Ad View did load:")
+        adView.show()
     }
     
-    func advertView(_ adView: VWAdvertView, didFailToReceiveAdWithError error: Error?) {
-        print("Banner Ad View did fail with error: ", error?.localizedDescription ?? "Generic Error")
-        showAlertControllerWithMessage(for: error?.localizedDescription ?? "Generic Error")
+    func adView(_ adView: HyBidAdView!, didFailWithError error: Error!) {
+        print("Banner Ad View did fail with error: ",error.localizedDescription)
+        showAlertControllerWithMessage(for: error.localizedDescription)
+    }
+    
+    func adViewDidTrackImpression(_ adView: HyBidAdView!) {
+        print("Banner Ad View did track click:");
+    }
+    
+    func adViewDidTrackClick(_ adView: HyBidAdView!) {
+        print("Banner Ad View did track impression:");
     }
     
 }

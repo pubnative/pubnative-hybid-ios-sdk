@@ -74,5 +74,4 @@ extension MRectViewController: HyBidAdViewDelegate {
         print("Banner Ad View did track impression:");
     }
     
-    
 }

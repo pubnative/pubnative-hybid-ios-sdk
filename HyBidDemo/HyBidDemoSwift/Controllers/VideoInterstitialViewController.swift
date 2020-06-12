@@ -74,7 +74,7 @@ extension VideoInterstitialViewController : VWInterstitialVideoAdDelegate {
         print("Video Interstitial will present")
     }
       
-    func interstitialAdWillDismiss(_ interstitialAd: VWInterstitialAd) {
+    func interstitialVideoAdWillDismiss(_ interstitialVideoAd: VWInterstitialVideoAd) {
         print("Video Interstitial will dismiss")
     }
       

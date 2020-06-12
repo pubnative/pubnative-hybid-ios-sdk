@@ -28,9 +28,9 @@
     #import <HyBid/HyBid.h>
 #endif
 
-@interface BannerViewController () <VWAdvertViewDelegate>
+@interface BannerViewController () <HyBidAdViewDelegate>
 
-@property (weak, nonatomic) IBOutlet VWAdvertView *bannerAdView;
+@property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
 @property (nonatomic,strong)CLLocationManager *locationManager;
 
 @end
@@ -51,11 +51,8 @@
 }
 
 - (void)requestAd {
-    self.bannerAdView.delegate = self;
-    self.bannerAdView.adSize = kVWAdSizeBanner;
-    VWAdRequest* adRequest = [VWAdRequest requestWithContentCategoryID:VWContentCategoryNewsAndInformation];
-    [self.bannerAdView loadRequestWithZoneID:@"2" andWithRequest: adRequest];
-
+    self.bannerAdView.adSize = HyBidAdSize.SIZE_320x50;
+    [self.bannerAdView loadWithZoneID:@"2" andWithDelegate:self];
 }
 
 - (void)requestLocation {
@@ -81,15 +78,24 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-#pragma mark - VWAdvertViewDelegate
+#pragma mark - HyBidAdViewDelegate
 
-- (void)advertViewDidReceiveAd:(nonnull VWAdvertView *)adView {
+- (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
+    [adView show];
 }
 
-- (void)advertView:(nonnull VWAdvertView *)adView didFailToReceiveAdWithError:(nullable NSError *)error {
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     [self showAlertControllerWithMessage:error.localizedDescription];
+}
+
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
+    NSLog(@"Banner Ad View did track click:");
+}
+
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
+    NSLog(@"Banner Ad View did track impression:");
 }
 
 @end

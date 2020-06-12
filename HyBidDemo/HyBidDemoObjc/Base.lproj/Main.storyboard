@@ -24,7 +24,7 @@
                                     <action selector="requestBannerTouchUpInside:" destination="J5l-0w-DFr" eventType="touchUpInside" id="hgb-Ol-bie"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Weg-QD-ag5" customClass="VWAdvertView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Weg-QD-ag5" customClass="HyBidAdView">
                                 <rect key="frame" x="47" y="106" width="320" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
