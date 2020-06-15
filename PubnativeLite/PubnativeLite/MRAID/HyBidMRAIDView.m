@@ -28,7 +28,6 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
-#import "HyBidViewabilityManager.h"
 
 #import "HyBidLogger.h"
 
@@ -36,7 +35,6 @@
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
-#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -59,7 +57,7 @@ typedef enum {
     BOOL isInterstitial;
     BOOL isAdSessionCreated;
     
-    OMIDPubnativenetAdSession *adSession;
+    // OMIDPubnativenetAdSession *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
