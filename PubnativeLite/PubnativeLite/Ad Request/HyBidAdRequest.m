@@ -35,6 +35,10 @@
 #import "HyBidSettings.h"
 #import "XMLDictionary.h"
 #import "HyBidError.h"
+#import "PNLiteAssetGroupType.h"
+#import "HyBidVideoAdProcessor.h"
+#import "HyBidVideoAdCacheItem.h"
+#import "HyBidVideoAdCache.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -323,7 +327,7 @@ NSInteger const kRequestWinnerPicked = 3003;
         } else if ([PNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in response.ads) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel];
+                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
             }
@@ -337,36 +341,39 @@ NSInteger const kRequestWinnerPicked = 3003;
                 
                 [self invokeDidLoad:responseAdArray.firstObject];
             } else {
-                NSError *error = [NSError errorWithDomain:@"No fill"
-                                                     code:0
-                                                 userInfo:nil];
+                
+                if (responseAdArray.count <= 0) {
+                    NSError *error = [NSError errorWithDomain:@"No fill"
+                                                         code:0
+                                                     userInfo:nil];
+                    if (self.requestStatus == kRequestWinnerPicked) {
+                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI did not fill but VAPI was faster."];
+                        return;
+                    }
+                    
+                    if (self.requestStatus == kRequestBothPending) {
+                        self.requestStatus = kRequestPubNativeResponded;
+                    } else {
+                        [self invokeDidFail:error];
+                    }
+                }
+                
+            }} else {
+                NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
+                NSError *responseError = [NSError errorWithDomain:errorMessage
+                                                             code:0
+                                                         userInfo:nil];
                 if (self.requestStatus == kRequestWinnerPicked) {
-                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI did not fill but VAPI was faster."];
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
                     return;
                 }
                 
                 if (self.requestStatus == kRequestBothPending) {
                     self.requestStatus = kRequestPubNativeResponded;
                 } else {
-                    [self invokeDidFail:error];
+                    [self invokeDidFail:responseError];
                 }
             }
-        } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
-            NSError *responseError = [NSError errorWithDomain:errorMessage
-                                                         code:0
-                                                     userInfo:nil];
-            if (self.requestStatus == kRequestWinnerPicked) {
-                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"PAPI has failure but VAPI was faster."];
-                return;
-            }
-            
-            if (self.requestStatus == kRequestBothPending) {
-                self.requestStatus = kRequestPubNativeResponded;
-            } else {
-                [self invokeDidFail:responseError];
-            }
-        }
     } else {
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Dictionary that is created from data is nil."];
         
