@@ -564,7 +564,6 @@
 		5AC10CB1249910B600D1806E /* MPLogEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC10BCB249910B500D1806E /* MPLogEvent.m */; };
 		5AC10CB2249910B600D1806E /* MPLogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC10BCE249910B500D1806E /* MPLogManager.m */; };
 		5AC10CB3249910B600D1806E /* MPConsoleLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC10BCF249910B500D1806E /* MPConsoleLogger.m */; };
-		5AC10CB4249910B600D1806E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5AC10BD6249910B500D1806E /* Info.plist */; };
 		5AC10CB5249910B600D1806E /* MPBaseAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC10BD7249910B500D1806E /* MPBaseAdapterConfiguration.m */; };
 		5AC10CB6249910B600D1806E /* MPConsentChangedNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC10BD8249910B500D1806E /* MPConsentChangedNotification.m */; };
 		5AC35B34214A5F80001F0ED3 /* HyBidBannerAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AC35B32214A5F80001F0ED3 /* HyBidBannerAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3835,7 +3834,6 @@
 				5AC10C13249910B600D1806E /* MPMutedBtn@3x.png in Resources */,
 				5A91E298234354B700CDF595 /* NanoPB-LICENSE in Resources */,
 				5AA7EC6120E4D59800277E2B /* MRect.storyboard in Resources */,
-				5AC10CB4249910B600D1806E /* Info.plist in Resources */,
 				5AC10C07249910B600D1806E /* MPAssets.xcassets in Resources */,
 				5A9CC60A2121C7F600A3C45E /* Native.storyboard in Resources */,
 				5AD07C0822FAD27E001BF4A1 /* Markup.storyboard in Resources */,

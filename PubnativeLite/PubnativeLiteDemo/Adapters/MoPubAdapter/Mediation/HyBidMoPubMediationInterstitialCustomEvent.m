@@ -55,7 +55,7 @@
 }
 
 - (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [self.delegate interstitialCustomEventWillAppear:self];
+    [self.delegate fullscreenAdAdapterAdWillAppear:self];
     if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
         [self.interstitialAd showFromViewController:rootViewController];
     } else {
@@ -66,9 +66,9 @@
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
-                                                                                             code:0
-                                                                                         userInfo:nil]];
+    [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
+                                                                                         code:0
+                                                                                     userInfo:nil]];
 }
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
@@ -78,7 +78,7 @@
 #pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad {
-    [self.delegate interstitialCustomEvent:self didLoadAd:nil];
+    [self.delegate fullscreenAdAdapterDidLoadAd:self];
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
@@ -86,18 +86,18 @@
 }
 
 - (void)interstitialDidTrackClick {
-    [self.delegate trackClick];
-    [self.delegate interstitialCustomEventWillLeaveApplication:self];
+    [self.delegate fullscreenAdAdapterDidTrackClick:self];
+    [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
 }
 
 - (void)interstitialDidTrackImpression {
-    [self.delegate trackImpression];
-    [self.delegate interstitialCustomEventDidAppear:self];
+    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
+    [self.delegate fullscreenAdAdapterAdDidAppear:self];
 }
 
 - (void)interstitialDidDismiss {
-    [self.delegate interstitialCustomEventWillDisappear:self];
-    [self.delegate interstitialCustomEventDidDisappear:self];
+    [self.delegate fullscreenAdAdapterAdWillDisappear:self];
+    [self.delegate fullscreenAdAdapterAdDidDisappear:self];
 }
 
 @end
