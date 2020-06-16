@@ -30,6 +30,10 @@
 #import "PNLiteRequestInspector.h"
 #import "HyBidLogger.h"
 #import "HyBidSettings.h"
+#import "PNLiteAssetGroupType.h"
+#import "HyBidVideoAdProcessor.h"
+#import "HyBidVideoAdCacheItem.h"
+#import "HyBidVideoAdCache.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -95,7 +99,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         if (!self.isSetIntegrationTypeCalled) {
             [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
         }
-
+        
         [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
     }
 }
@@ -177,18 +181,48 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         } else if ([PNLiteResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in response.ads) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel];
+                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
+                switch (ad.assetGroupID.integerValue) {
+                    case VAST_INTERSTITIAL_1:
+                    case VAST_INTERSTITIAL_2:
+                    case VAST_INTERSTITIAL_3:
+                    case VAST_INTERSTITIAL_4:
+                    case VAST_MRECT: {
+                        HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
+                        [videoAdProcessor processVASTString:ad.vast completion:^(PNLiteVASTModel *vastModel, NSError *error) {
+                            if (!vastModel) {
+                                [self invokeDidFail:error];
+                            } else {
+                                HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
+                                videoAdCacheItem.vastModel = vastModel;
+                                [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
+                                [self invokeDidLoad:ad];
+                            }
+                        }];
+                        break;
+                    }
+                    default:
+                        if (responseAdArray.count > 0) {
+                            [self invokeDidLoad:responseAdArray.firstObject];
+                        } else {
+                            NSError *error = [NSError errorWithDomain:@"No fill"
+                                                                 code:0
+                                                             userInfo:nil];
+                            [self invokeDidFail:error];
+                        }
+                        break;
+                }
             }
-            if (responseAdArray.count > 0) {
-                [self invokeDidLoad:responseAdArray.firstObject];
-            } else {
+            
+            if (responseAdArray.count <= 0) {
                 NSError *error = [NSError errorWithDomain:@"No fill"
                                                      code:0
                                                  userInfo:nil];
                 [self invokeDidFail:error];
             }
+            
         } else {
             NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
             NSError *responseError = [NSError errorWithDomain:errorMessage

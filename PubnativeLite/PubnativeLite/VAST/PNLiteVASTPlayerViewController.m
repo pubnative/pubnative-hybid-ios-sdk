@@ -28,6 +28,8 @@
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidLogger.h"
+#import "HyBidViewabilityNativeVideoAdSession.h"
+#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -65,6 +67,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL muted;
 @property (nonatomic, assign) BOOL fullScreen;
 @property (nonatomic, assign) BOOL isInterstitial;
+@property (nonatomic, assign) BOOL isAdSessionCreated;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
 @property (nonatomic, assign) PNLiteVASTPlaybackState playback;
 @property (nonatomic, strong) NSURL *vastUrl;
@@ -73,6 +76,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) PNLiteVASTParser *parser;
 @property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
+@property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
@@ -182,8 +186,16 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)loadWithVideoAdCacheItem:(HyBidVideoAdCacheItem *)videoAdCacheItem {
+    @synchronized (self) {
+        self.videoAdCacheItem = videoAdCacheItem;
+        [self setState:PNLiteVASTPlayerState_LOAD];
+    }
+}
+
 - (void)play {
     @synchronized (self) {
+        [self startAdSession];
         [self setState:PNLiteVASTPlayerState_PLAY];
     }
 }
@@ -196,11 +208,41 @@ typedef enum : NSUInteger {
 
 - (void)stop {
     @synchronized (self) {
+        [self stopAdSession];
         [self setState:PNLiteVASTPlayerState_IDLE];
     }
 }
 
 #pragma mark - PRIVATE -
+
+
+- (void)startAdSession {
+    if (!self.isAdSessionCreated) {
+        self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:[self.vastModel scriptResources]];
+        if (self.contentInfoView) {
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
+        }
+        if (self.isInterstitial) {
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnClose toOMIDAdSession:self.adSession withReason:@"" isInterstitial:self.isInterstitial];
+        } else {
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnFullscreen toOMIDAdSession:self.adSession withReason:@"This view is related to fullscreen button" isInterstitial:self.isInterstitial];
+        }
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:self.isInterstitial];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:self.isInterstitial];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] startOMIDAdSession:self.adSession];
+        self.isAdSessionCreated = YES;
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDAdLoadEvent:self.adSession];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDImpressionOccuredEvent:self.adSession];
+    }
+}
+
+ - (void)stopAdSession {
+     if (self.isAdSessionCreated) {
+         [[HyBidViewabilityNativeVideoAdSession sharedInstance] stopOMIDAdSession:self.adSession];
+         self.isAdSessionCreated = NO;
+     }
+ }
 
 - (void)close {
     @synchronized (self) {
@@ -223,6 +265,7 @@ typedef enum : NSUInteger {
         self.eventProcessor = nil;
         self.viewContainer = nil;
         self.contentInfoView = nil;
+        self.videoAdCacheItem = nil;
     }
 }
 
@@ -367,6 +410,7 @@ typedef enum : NSUInteger {
     [self.btnMute setImage:newImage forState:UIControlStateNormal];
     CGFloat newVolume = self.muted?0.0f:1.0f;
     self.player.volume = newVolume;
+    [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDVolumeChangeEventWithVolume:newVolume];
 }
 
 - (IBAction)btnClosePush:(id)sender {
@@ -386,6 +430,7 @@ typedef enum : NSUInteger {
     
     self.fullScreen = !self.fullScreen;
     self.contentInfoViewContainer.hidden = self.fullScreen;
+    [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:self.fullScreen];
     if (self.fullScreen) {
         self.viewContainer = self.view.superview;
         [self.view removeFromSuperview];
@@ -590,18 +635,22 @@ typedef enum : NSUInteger {
     self.wantsToPlay = NO;
     [self.loadingSpin startAnimating];
     
-    if (!self.vastUrl && !self.vastString) {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST is nil and required."];
-        [self setState:PNLiteVASTPlayerState_IDLE];
-        
-    } else {
-        
+    if (self.videoAdCacheItem.vastModel) {
+        self.eventProcessor = [[PNLiteVASTEventProcessor alloc] initWithEvents:[self.videoAdCacheItem.vastModel trackingEvents] delegate:self];
+        NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[self.videoAdCacheItem.vastModel mediaFiles]].url;
+        if(!mediaUrl) {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
+            NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:0 userInfo:nil];
+            [self invokeDidFailLoadingWithError:mediaNotFoundError];
+        } else {
+            self.vastModel = self.videoAdCacheItem.vastModel;
+            [self createVideoPlayerWithVideoUrl:mediaUrl];
+        }
+    } else if (self.vastUrl || self.vastString) {
         if (!self.parser) {
             self.parser = [[PNLiteVASTParser alloc] init];
         }
-        
         [self startLoadTimeoutTimer];
-        
         __weak PNLiteVASTPlayerViewController *weakSelf = self;
         vastParserCompletionBlock completion = ^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
             if (!model) {
@@ -622,7 +671,6 @@ typedef enum : NSUInteger {
                 }
             }
         };
-        
         if (self.vastUrl != nil) {
             [self.parser parseWithUrl:self.vastUrl
                            completion:completion];
@@ -633,6 +681,9 @@ typedef enum : NSUInteger {
             NSError *unexpectedError = [NSError errorWithDomain:@"Unexpected Error." code:0 userInfo:nil];
             [self invokeDidFailLoadingWithError:unexpectedError];
         }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST is nil and required."];
+        [self setState:PNLiteVASTPlayerState_IDLE];
     }
 }
 
@@ -695,6 +746,10 @@ typedef enum : NSUInteger {
         [self.eventProcessor trackEvent:PNLiteVASTEvent_Resume];
     } else {
         [self.eventProcessor trackEvent:PNLiteVASTEvent_Start];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDStartEventWithDuration:[self duration] withVolume:self.player.volume];
+    }
+    if (self.isInterstitial) {
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:YES];
     }
     [self invokeDidStartPlaying];
 }
