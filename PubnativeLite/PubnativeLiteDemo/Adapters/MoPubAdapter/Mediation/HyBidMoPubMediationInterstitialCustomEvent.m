@@ -54,10 +54,14 @@
     }
 }
 
-- (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
+- (BOOL)isRewardExpected {
+    return NO;
+}
+
+-(void)presentAdFromViewController:(UIViewController *)viewController {
     [self.delegate fullscreenAdAdapterAdWillAppear:self];
     if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
-        [self.interstitialAd showFromViewController:rootViewController];
+        [self.interstitialAd showFromViewController:viewController];
     } else {
         [self.interstitialAd show];
     }
