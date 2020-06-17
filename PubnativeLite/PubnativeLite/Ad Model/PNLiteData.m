@@ -28,6 +28,7 @@
 + (NSString *)vast { return @"vast2"; }
 + (NSString *)number { return @"number"; }
 + (NSString *)url { return @"url"; }
++ (NSString *)js { return @"js"; }
 + (NSString *)html { return @"html"; }
 
 @end
