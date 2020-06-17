@@ -215,10 +215,13 @@ typedef enum : NSUInteger {
 
 #pragma mark - PRIVATE -
 
-
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {
-        self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:[self.vastModel scriptResources]];
+        NSMutableArray* verificationScripts = [self.vastModel scriptResources];
+        [verificationScripts addObject: [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:@"https://s3-us-west-2.amazonaws.com/omsdk-files/compliance-js/omid-validation-verification-script-v1-ssl.js"]
+         vendorKey:@"iabtechlab.com-omid"
+        parameters:@"iabtechlab-Pubnativenet"]];
+        self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript: verificationScripts];
         if (self.contentInfoView) {
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
