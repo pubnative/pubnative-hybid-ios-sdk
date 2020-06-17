@@ -60,6 +60,10 @@
     return [self stringFieldWithKey:PNLiteData.url];
 }
 
+- (NSString *)js {
+    return [self stringFieldWithKey:PNLiteData.js];
+}
+
 - (NSString *)html {
     return [self stringFieldWithKey:PNLiteData.html];
 }

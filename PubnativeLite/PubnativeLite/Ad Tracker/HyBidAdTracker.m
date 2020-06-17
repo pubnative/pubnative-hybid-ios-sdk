@@ -23,12 +23,14 @@
 #import "HyBidAdTracker.h"
 #import "HyBidDataModel.h"
 #import "HyBidLogger.h"
+#import <WebKit/WebKit.h>
 
 NSString *const PNLiteAdTrackerClick = @"click";
 NSString *const PNLiteAdTrackerImpression = @"impression";
 
 @interface HyBidAdTracker() <HyBidAdTrackerRequestDelegate>
 
+@property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) HyBidAdTrackerRequest *adTrackerRequest;
 @property (nonatomic, strong) NSArray *impressionURLs;
 @property (nonatomic, strong) NSArray *clickURLs;
@@ -43,6 +45,7 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
     self.adTrackerRequest = nil;
     self.impressionURLs = nil;
     self.clickURLs = nil;
+    self.wkWebView = nil;
 }
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
@@ -59,6 +62,7 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
         self.adTrackerRequest = adTrackerRequest;
         self.impressionURLs = impressionURLs;
         self.clickURLs = clickURLs;
+        self.wkWebView = [[WKWebView alloc]initWithFrame:CGRectZero];
     }
     return self;
 }
@@ -84,8 +88,13 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 - (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType {
     if (URLs != nil) {
         for (HyBidDataModel *dataModel in URLs) {
-            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
-            [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
+            if (dataModel.url != nil) {
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
+                [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
+            } else if (dataModel.js != nil) {
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with JS Beacon: %@",trackType, dataModel.js]];
+                [self.wkWebView evaluateJavaScript:dataModel.js completionHandler:^(id _Nullable success, NSError * _Nullable error) {}];
+            }
         }
     }
 }
