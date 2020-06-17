@@ -42,7 +42,7 @@
     self.ad = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
+- (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         if (size.height == kMPPresetMaxAdSize250Height.height && size.width >= 300.0f) {
             self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
@@ -71,10 +71,9 @@
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate bannerCustomEvent:self
-            didFailToLoadAdWithError:[NSError errorWithDomain:message
-                                                         code:0
-                                                     userInfo:nil]];
+    [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
+                                                                                     code:0
+                                                                                 userInfo:nil]];
 }
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
@@ -84,8 +83,8 @@
 #pragma mark - HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:adView];
+    [self.delegate inlineAdAdapterDidTrackImpression:self];
+    [self.delegate inlineAdAdapter:self didLoadAdWithAdView:adView];
     [self.mRectPresenter startTracking];
 }
 
@@ -94,8 +93,8 @@
 }
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
-    [self.delegate trackClick];
-    [self.delegate bannerCustomEventWillLeaveApplication:self];
+    [self.delegate inlineAdAdapterDidTrackClick:self];
+    [self.delegate inlineAdAdapterWillLeaveApplication:self];
 }
 
 @end

@@ -37,7 +37,7 @@
     self.interstitialAd = nil;
 }
 
-- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
+- (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
@@ -54,10 +54,14 @@
     }
 }
 
-- (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [self.delegate interstitialCustomEventWillAppear:self];
+- (BOOL)isRewardExpected {
+    return NO;
+}
+
+-(void)presentAdFromViewController:(UIViewController *)viewController {
+    [self.delegate fullscreenAdAdapterAdWillAppear:self];
     if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
-        [self.interstitialAd showFromViewController:rootViewController];
+        [self.interstitialAd showFromViewController:viewController];
     } else {
         [self.interstitialAd show];
     }
@@ -66,9 +70,9 @@
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:[NSError errorWithDomain:message
-                                                                                             code:0
-                                                                                         userInfo:nil]];
+    [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
+                                                                                         code:0
+                                                                                     userInfo:nil]];
 }
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
@@ -78,7 +82,7 @@
 #pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad {
-    [self.delegate interstitialCustomEvent:self didLoadAd:nil];
+    [self.delegate fullscreenAdAdapterDidLoadAd:self];
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
@@ -86,18 +90,18 @@
 }
 
 - (void)interstitialDidTrackClick {
-    [self.delegate trackClick];
-    [self.delegate interstitialCustomEventWillLeaveApplication:self];
+    [self.delegate fullscreenAdAdapterDidTrackClick:self];
+    [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
 }
 
 - (void)interstitialDidTrackImpression {
-    [self.delegate trackImpression];
-    [self.delegate interstitialCustomEventDidAppear:self];
+    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
+    [self.delegate fullscreenAdAdapterAdDidAppear:self];
 }
 
 - (void)interstitialDidDismiss {
-    [self.delegate interstitialCustomEventWillDisappear:self];
-    [self.delegate interstitialCustomEventDidDisappear:self];
+    [self.delegate fullscreenAdAdapterAdWillDisappear:self];
+    [self.delegate fullscreenAdAdapterAdDidDisappear:self];
 }
 
 @end
