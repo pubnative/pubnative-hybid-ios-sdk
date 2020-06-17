@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
-    <device id="ipad9_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,11 +16,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Emv-ng-H1T"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Rak-bh-dB1">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwu-Kj-qga" userLabel="PNLite Settings Button">
-                                <rect key="frame" x="16" y="130" width="736" height="33"/>
+                                <rect key="frame" x="16" y="104" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.49019607843137253" green="0.039215686274509803" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="settingsButton" label="Settings Button"/>
                                 <constraints>
@@ -50,7 +48,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zone ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfZ-6R-g6D">
-                                <rect key="frame" x="16" y="171" width="48" height="21"/>
+                                <rect key="frame" x="16" y="145" width="48" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="zoneIDLabel" label="ZoneID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="CPe-yh-cjh"/>
@@ -65,30 +63,29 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a Zone ID" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ypJ-Ju-ZDX" userLabel="Zone ID Text Field">
-                                <rect key="frame" x="16" y="200" width="736" height="30"/>
+                                <rect key="frame" x="16" y="174" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="zoneIDTextField" label="ZoneID TextField"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Iro-jV-3R9"/>
                                 </constraints>
-                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="dIX-wM-j9j" id="Neg-IL-f2s"/>
                                 </connections>
                             </textField>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctb-Dy-s2W" userLabel="Native Button">
-                                <rect key="frame" x="16" y="860" width="736" height="33"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctb-Dy-s2W" userLabel="Standalone Button">
+                                <rect key="frame" x="16" y="544" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="nativeButton" label="Native Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="standaloneButton" label="Standalone Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="1NJ-rI-Zcx"/>
                                     <constraint firstAttribute="height" constant="33" id="kNc-LB-xQf"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Native">
+                                <state key="normal" title="Standalone">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <state key="selected">
@@ -107,20 +104,20 @@
                                 </variation>
                                 <connections>
                                     <action selector="chooseAdFormatTouchUpInside:" destination="dIX-wM-j9j" eventType="touchUpInside" id="y6h-5r-Paq"/>
-                                    <segue destination="Pix-Nk-NTM" kind="show" id="oas-bW-ILe"/>
+                                    <segue destination="OWp-6z-FPf" kind="show" id="W1Y-Ep-K3W"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62G-RC-7fB" userLabel="Banner Button">
-                                <rect key="frame" x="16" y="901" width="736" height="33"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62G-RC-7fB" userLabel="Header Bidding Button">
+                                <rect key="frame" x="16" y="585" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="headerBiddingButton" label="Header Bidding Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="AJ8-WH-qdB"/>
                                     <constraint firstAttribute="height" constant="33" id="Aao-Yb-Z1j"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Banner">
+                                <state key="normal" title="Header Bidding">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <state key="selected">
@@ -139,52 +136,20 @@
                                 </variation>
                                 <connections>
                                     <action selector="chooseAdFormatTouchUpInside:" destination="dIX-wM-j9j" eventType="touchUpInside" id="yar-z5-QN7"/>
-                                    <segue destination="YoW-uB-ss5" kind="show" id="9me-nC-BOd"/>
+                                    <segue destination="pnb-xc-EzR" kind="show" id="MVo-rm-QpU"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76S-IN-LYP" userLabel="MRect Button">
-                                <rect key="frame" x="16" y="942" width="736" height="33"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hcb-bJ-YfG" userLabel="Mediation Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="EbS-yZ-sYg"/>
-                                    <constraint firstAttribute="height" constant="33" id="UOl-Gk-h4H"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="MRect">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="EbS-yZ-sYg"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="EbS-yZ-sYg"/>
-                                        <exclude reference="UOl-Gk-h4H"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="chooseAdFormatTouchUpInside:" destination="dIX-wM-j9j" eventType="touchUpInside" id="N0R-UA-PfI"/>
-                                    <segue destination="51k-GU-5c7" kind="show" id="At1-p9-RGu"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hcb-bJ-YfG" userLabel="Interstitial Button">
-                                <rect key="frame" x="16" y="983" width="736" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mediationButton" label="Mediation Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="4YI-jt-bNU"/>
                                     <constraint firstAttribute="height" constant="33" id="uAi-sE-qLt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Interstitial">
+                                <state key="normal" title="Mediation">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <state key="selected">
@@ -203,40 +168,7 @@
                                 </variation>
                                 <connections>
                                     <action selector="chooseAdFormatTouchUpInside:" destination="dIX-wM-j9j" eventType="touchUpInside" id="iep-xf-0Cd"/>
-                                    <segue destination="pI9-Yl-MrE" kind="show" id="yMS-tx-lWa"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKT-fo-m5g" userLabel="Leaderboard Button">
-                                <rect key="frame" x="16" y="819" width="736" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="16T-lP-XYY"/>
-                                    <constraint firstAttribute="height" constant="33" id="ror-C0-why"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Leaderboard">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="16T-lP-XYY"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="16T-lP-XYY"/>
-                                        <exclude reference="ror-C0-why"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=regular" hidden="YES"/>
-                                <connections>
-                                    <action selector="chooseAdFormatTouchUpInside:" destination="dIX-wM-j9j" eventType="touchUpInside" id="qj7-0t-Jbf"/>
-                                    <segue destination="ult-tY-bRz" kind="show" id="bnR-Ze-5yw"/>
+                                    <segue destination="Ig7-18-ull" kind="show" id="Fcv-zT-Kqs"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -244,60 +176,32 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="gfZ-6R-g6D" firstAttribute="top" secondItem="kwu-Kj-qga" secondAttribute="bottom" constant="8" id="2fP-Dj-YRd"/>
-                            <constraint firstItem="Hcb-bJ-YfG" firstAttribute="top" secondItem="76S-IN-LYP" secondAttribute="bottom" constant="8" id="3K0-hn-koY"/>
-                            <constraint firstAttribute="trailing" secondItem="76S-IN-LYP" secondAttribute="trailing" constant="16" id="7sm-Tm-zgf"/>
+                            <constraint firstItem="Hcb-bJ-YfG" firstAttribute="top" secondItem="62G-RC-7fB" secondAttribute="bottom" constant="8" id="7oe-I7-mzY"/>
                             <constraint firstItem="kwu-Kj-qga" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="8vC-2y-c5q"/>
                             <constraint firstItem="ctb-Dy-s2W" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="ANu-i5-amr"/>
-                            <constraint firstItem="76S-IN-LYP" firstAttribute="top" secondItem="62G-RC-7fB" secondAttribute="bottom" constant="8" id="DmY-CV-2Ht"/>
                             <constraint firstItem="kwu-Kj-qga" firstAttribute="top" secondItem="10S-oZ-WAa" secondAttribute="bottom" constant="8" id="I6v-KL-B78"/>
                             <constraint firstItem="62G-RC-7fB" firstAttribute="top" secondItem="ctb-Dy-s2W" secondAttribute="bottom" constant="8" id="IlC-xz-EHW"/>
                             <constraint firstItem="gfZ-6R-g6D" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="MHv-xW-VR2"/>
                             <constraint firstAttribute="trailing" secondItem="ypJ-Ju-ZDX" secondAttribute="trailing" constant="16" id="QbA-Xz-9S7"/>
                             <constraint firstItem="Emv-ng-H1T" firstAttribute="top" secondItem="Hcb-bJ-YfG" secondAttribute="bottom" constant="8" id="RB8-LR-C92"/>
                             <constraint firstItem="62G-RC-7fB" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="S83-dx-DGV"/>
-                            <constraint firstItem="zKT-fo-m5g" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="UGB-lh-doQ"/>
                             <constraint firstItem="Hcb-bJ-YfG" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="bpT-2E-9AP"/>
                             <constraint firstAttribute="trailing" secondItem="kwu-Kj-qga" secondAttribute="trailing" constant="16" id="bqO-xf-R3h"/>
-                            <constraint firstAttribute="trailing" secondItem="zKT-fo-m5g" secondAttribute="trailing" constant="16" id="car-DU-ubl"/>
                             <constraint firstAttribute="trailing" secondItem="Hcb-bJ-YfG" secondAttribute="trailing" constant="16" id="ees-8Z-OdF"/>
                             <constraint firstItem="ypJ-Ju-ZDX" firstAttribute="top" secondItem="gfZ-6R-g6D" secondAttribute="bottom" constant="8" id="mb8-QT-xKp"/>
                             <constraint firstItem="ypJ-Ju-ZDX" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="mpt-xA-whp"/>
                             <constraint firstAttribute="trailing" secondItem="62G-RC-7fB" secondAttribute="trailing" constant="16" id="qNZ-BR-kyY"/>
-                            <constraint firstItem="ctb-Dy-s2W" firstAttribute="top" secondItem="zKT-fo-m5g" secondAttribute="bottom" constant="8" id="tdS-3e-ACB"/>
-                            <constraint firstItem="76S-IN-LYP" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="xW7-ZC-4hd"/>
                             <constraint firstAttribute="trailing" secondItem="ctb-Dy-s2W" secondAttribute="trailing" constant="16" id="zGv-r0-XOz"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="zKT-fo-m5g"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="tdS-3e-ACB"/>
-                                <exclude reference="UGB-lh-doQ"/>
-                                <exclude reference="car-DU-ubl"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="subviews">
-                                <include reference="zKT-fo-m5g"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="tdS-3e-ACB"/>
-                                <include reference="UGB-lh-doQ"/>
-                                <include reference="car-DU-ubl"/>
-                            </mask>
-                        </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="S6C-z2-jku" appends="YES" id="dY7-eG-4gv"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="HyBid Demo" id="0pE-n5-Vvz"/>
                     <connections>
-                        <outlet property="bannerButton" destination="62G-RC-7fB" id="uLD-8V-Vaj"/>
-                        <outlet property="interstitialButton" destination="Hcb-bJ-YfG" id="VwJ-nf-MG4"/>
-                        <outlet property="leaderboardButton" destination="zKT-fo-m5g" id="pXd-jb-SNe"/>
-                        <outlet property="mRectButton" destination="76S-IN-LYP" id="bnH-po-FKX"/>
-                        <outlet property="nativeButton" destination="ctb-Dy-s2W" id="Y5w-Gg-Nuj"/>
+                        <outlet property="headerBiddingButton" destination="62G-RC-7fB" id="uLD-8V-Vaj"/>
+                        <outlet property="mediationButton" destination="Hcb-bJ-YfG" id="VwJ-nf-MG4"/>
+                        <outlet property="standaloneButton" destination="ctb-Dy-s2W" id="Y5w-Gg-Nuj"/>
                         <outlet property="zoneIDTextField" destination="ypJ-Ju-ZDX" id="dhJ-Fl-wRo"/>
                     </connections>
                 </viewController>
@@ -316,47 +220,37 @@
                 <viewControllerPlaceholder storyboardName="Settings" id="dAN-m6-vfe" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v0T-vf-o4D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2684" y="-441"/>
+            <point key="canvasLocation" x="-2599" y="-463"/>
         </scene>
-        <!--Banner-->
-        <scene sceneID="Yo6-YC-7Sz">
+        <!--Standalone-->
+        <scene sceneID="hdO-BC-xY1">
             <objects>
-                <viewControllerPlaceholder storyboardName="Banner" id="YoW-uB-ss5" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YOr-zM-n4R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Standalone" id="OWp-6z-FPf" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="rbf-g5-QVk"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AHU-oU-0dA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2033" y="-442"/>
+            <point key="canvasLocation" x="-2385" y="-463"/>
         </scene>
-        <!--MRect-->
-        <scene sceneID="DDa-92-RjB">
+        <!--HeaderBidding-->
+        <scene sceneID="plR-MY-xvs">
             <objects>
-                <viewControllerPlaceholder storyboardName="MRect" id="51k-GU-5c7" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Qd-Vt-GPL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="HeaderBidding" id="pnb-xc-EzR" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Xnt-1r-uHD"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CMC-ur-fC3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1833" y="-442"/>
+            <point key="canvasLocation" x="-2162" y="-463"/>
         </scene>
-        <!--Leaderboard-->
-        <scene sceneID="Tby-sA-vYa">
+        <!--Mediation-->
+        <scene sceneID="WDu-S4-O5b">
             <objects>
-                <viewControllerPlaceholder storyboardName="Leaderboard" id="ult-tY-bRz" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xy6-mk-Kb2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Mediation" id="Ig7-18-ull" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Nx6-lh-Bgl"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="guF-bO-v6c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2473" y="-442"/>
-        </scene>
-        <!--Interstitial-->
-        <scene sceneID="goK-T0-OjZ">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Interstitial" id="pI9-Yl-MrE" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kmK-w3-Met" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1614" y="-442"/>
-        </scene>
-        <!--Native-->
-        <scene sceneID="3oG-8p-3l7">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Native" id="Pix-Nk-NTM" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6A2-BA-zpc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2246" y="-442"/>
+            <point key="canvasLocation" x="-1917" y="-463"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="73D-iB-nYb">
@@ -364,7 +258,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JCl-qa-lcV" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="lqw-hV-VTW">
-                        <rect key="frame" x="0.0" y="20" width="768" height="102"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">

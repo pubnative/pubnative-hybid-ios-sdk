@@ -26,6 +26,7 @@
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *appToken;
+@property (nonatomic, strong) NSString *partnerKeyword;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSString *moPubLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *moPubBannerAdUnitID;
@@ -50,6 +51,8 @@
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, assign) BOOL testMode;
 @property (nonatomic, assign) BOOL coppaMode;
+@property (nonatomic, strong) HyBidAdSize *adSize;
+@property (nonatomic, strong) NSMutableArray *bannerSizesArray;
 
 + (PNLiteDemoSettings *)sharedInstance;
 

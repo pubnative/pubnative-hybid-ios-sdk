@@ -24,11 +24,15 @@
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 
-@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate>
+@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (weak, nonatomic) IBOutlet HyBidBannerAdView *bannerAdView;
+@property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerWidthConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
+@property (weak, nonatomic) IBOutlet UIPickerView *bannerSizePickerView;
 
 @end
 
@@ -48,9 +52,63 @@
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.bannerAdView.hidden = YES;
+    self.bannerHeightConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.height;
+    self.bannerWidthConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.width;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
+    self.bannerAdView.adSize = [PNLiteDemoSettings sharedInstance].adSize;
     [self.bannerAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
+}
+
+#pragma mark UIPickerViewDataSource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [PNLiteDemoSettings sharedInstance].bannerSizesArray.count;
+}
+
+#pragma mark UIPickerViewDelegate
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    UILabel* pickerLabel = (UILabel*)view;
+    if (!pickerLabel) {
+        pickerLabel = [[UILabel alloc] init];
+        pickerLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16];
+        pickerLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
+        [pickerLabel setText:[NSString stringWithFormat:@"%@",[PNLiteDemoSettings sharedInstance].bannerSizesArray[row]]];
+    } else {
+        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
+        [pickerLabel setText:[NSString stringWithFormat:@"%ldx%ld",adSize.width, adSize.height]];
+    }
+    return pickerLabel;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
+        return [NSString stringWithFormat:@"%@",[PNLiteDemoSettings sharedInstance].bannerSizesArray[row]];
+    } else {
+        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
+        return [NSString stringWithFormat:@"%ldx%ld",adSize.width, adSize.height];
+    }
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
+    if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
+        self.loadAdButton.hidden = YES;
+        self.bannerAdView.hidden = YES;
+    } else {
+        self.loadAdButton.hidden = NO;
+        self.bannerAdView.hidden = NO;
+        
+        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
+        [PNLiteDemoSettings sharedInstance].adSize = adSize;
+    }
 }
 
 #pragma mark - HyBidAdViewDelegate

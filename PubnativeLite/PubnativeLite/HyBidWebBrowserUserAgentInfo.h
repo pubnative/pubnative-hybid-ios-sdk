@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  The current user agent as determined by @c WKWebView.
  @returns The user agent.
 */
-+ (NSString *)userAgent;
++ (NSString *)hyBidUserAgent;
 
 @end
 

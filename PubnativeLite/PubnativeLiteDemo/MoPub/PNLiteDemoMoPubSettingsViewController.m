@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"MoPub Settings";
+    self.navigationItem.title = @"MoPub Header Bidding Settings";
     self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID;
     self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID;
     self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID;

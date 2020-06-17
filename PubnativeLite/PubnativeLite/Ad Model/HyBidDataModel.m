@@ -42,6 +42,24 @@
     return self;
 }
 
+- (instancetype)initWithHtmlAsset:(NSString *)assetName withValue:(NSString*) value {
+    self = [super initWithDictionary:[NSDictionary dictionary]];
+    if (self) {
+        self.type = assetName;
+        self.data = [NSDictionary dictionaryWithObjectsAndKeys:value, @"html", nil];
+    }
+    return self;
+}
+
+- (instancetype)initWithVASTAsset:(NSString *)assetName withValue:(NSString *)value {
+    self = [super initWithDictionary:[NSDictionary dictionary]];
+    if (self) {
+        self.type = assetName;
+        self.data = [NSDictionary dictionaryWithObjectsAndKeys:value, @"vast2", nil];
+    }
+    return self;
+}
+
 #pragma mark HyBidDataModel
 
 - (NSString *)text {
@@ -70,6 +88,14 @@
 
 - (NSNumber *)eCPM {
     return [self numberFieldWithKey:PNLiteData.number];
+}
+
+- (NSNumber *)width {
+    return [self numberFieldWithKey:PNLiteData.width];
+}
+
+- (NSNumber *)height {
+    return [self numberFieldWithKey:PNLiteData.height];
 }
 
 - (NSString *)stringFieldWithKey:(NSString *)key {

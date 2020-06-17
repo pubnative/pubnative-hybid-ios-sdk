@@ -21,74 +21,11 @@
 //
 
 #import "HyBidMoPubMediationLeaderboardCustomEvent.h"
-#import "HyBidMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPConstants.h"
-#import "MPError.h"
-
-@interface HyBidMoPubMediationLeaderboardCustomEvent()  <HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidLeaderboardAdView *leaderboardAdView;
-
-@end
 
 @implementation HyBidMoPubMediationLeaderboardCustomEvent
 
-- (void)dealloc {
-    self.leaderboardAdView = nil;
-}
-
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
-    if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if (size.height == kMPPresetMaxAdSize90Height.height && size.width >= 728.0f) {
-            if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
-                self.leaderboardAdView.isMediation = YES;
-                [self.leaderboardAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
-            } else {
-                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
-                return;
-            }
-        } else {
-            [self invokeFailWithMessage:@"Wrong ad size."];
-            return;
-        }
-    } else {
-        [self invokeFailWithMessage:@"Failed leaderboard ad fetch. Missing required server extras."];
-        return;
-    }
-}
-
-- (void)invokeFailWithMessage:(NSString *)message {
-    MPLogError(@"%@", message);
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate bannerCustomEvent:self
-            didFailToLoadAdWithError:[NSError errorWithDomain:message
-                                                         code:0
-                                                     userInfo:nil]];
-}
-
-- (BOOL)enableAutomaticImpressionAndClickTracking {
-    return NO;
-}
-
-#pragma mark - HyBidAdViewDelegate
-
-- (void)adViewDidLoad:(HyBidAdView *)adView {
-    [self.delegate bannerCustomEvent:self didLoadAd:self.leaderboardAdView];
-}
-
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:error.localizedDescription];
-}
-
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
-    [self.delegate trackImpression];
-}
-
-- (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    [self.delegate trackClick];
-    [self.delegate bannerCustomEventWillLeaveApplication:self];
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_728x90;
 }
 
 @end

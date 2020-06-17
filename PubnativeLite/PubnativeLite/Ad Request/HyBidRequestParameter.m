@@ -49,5 +49,7 @@
 + (NSString *)assetLayout    { return @"al"; }
 + (NSString *)bundleId       { return @"bundleid"; }
 + (NSString *)displayManager { return @"displaymanager"; }
-+(NSString *)displayManagerVersion {return @"displaymanagerver"; }
++ (NSString *)displayManagerVersion {return @"displaymanagerver"; }
++ (NSString *)width          { return @"w"; }
++ (NSString *)height         {return @"h"; }
 @end

@@ -23,6 +23,7 @@
 #import "PNLiteDemoSettings.h"
 
 NSString *const PNLiteDemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
+NSString *const PNLiteDemoPartnerKeyword = @"adsdkexample";
 NSString *const PNLiteDemoZoneID;
 NSString *const PNLiteDemoMoPubLeaderboardAdUnitID = @"990b5957b0374238a4ce6fcf451c8e89";
 NSString *const PNLiteDemoMoPubBannerAdUnitID = @"a4eac931d95444f0a95adc77093a22ab";
@@ -49,6 +50,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
 - (void)dealloc {
     self.appToken = nil;
+    self.partnerKeyword = nil;
     self.zoneID = nil;
     self.moPubLeaderboardAdUnitID = nil;
     self.moPubBannerAdUnitID = nil;
@@ -71,6 +73,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
     self.keywords = nil;
     self.targetingModel = nil;
     self.apiURL = nil;
+    self.adSize = nil;
 }
 
 + (PNLiteDemoSettings *)sharedInstance {
@@ -86,6 +89,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
     self = [super init];
     if (self) {
         self.appToken = PNLiteDemoAppToken;
+        self.partnerKeyword = PNLiteDemoPartnerKeyword;
         self.zoneID = PNLiteDemoZoneID;
         self.moPubLeaderboardAdUnitID = PNLiteDemoMoPubLeaderboardAdUnitID;
         self.moPubBannerAdUnitID = PNLiteDemoMoPubBannerAdUnitID;
@@ -107,8 +111,14 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         self.adMobMediationInterstitialAdUnitID = PNLiteDemoAdMobMediationInterstitialAdUnitID;
         self.targetingModel = [[HyBidTargetingModel alloc] init];
         self.apiURL = PNLiteDemoAPIURL;
+        [self createBannerSizeArray];
     }
     return self;
+}
+
+- (void)createBannerSizeArray {
+    
+    self.bannerSizesArray = [NSMutableArray arrayWithObjects:@"Choose Banner Size", HyBidAdSize.SIZE_320x50, HyBidAdSize.SIZE_300x250, HyBidAdSize.SIZE_300x50, HyBidAdSize.SIZE_320x480, HyBidAdSize.SIZE_1024x768, HyBidAdSize.SIZE_768x1024, HyBidAdSize.SIZE_728x90, HyBidAdSize.SIZE_160x600, HyBidAdSize.SIZE_250x250, HyBidAdSize.SIZE_300x600, HyBidAdSize.SIZE_320x100, HyBidAdSize.SIZE_480x320, nil];
 }
 
 @end

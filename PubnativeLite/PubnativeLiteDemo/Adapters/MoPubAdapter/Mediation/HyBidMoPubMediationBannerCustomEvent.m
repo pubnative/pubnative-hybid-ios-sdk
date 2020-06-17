@@ -28,7 +28,7 @@
 
 @interface HyBidMoPubMediationBannerCustomEvent() <HyBidAdViewDelegate>
 
-@property (nonatomic, strong) HyBidBannerAdView *bannerAdView;
+@property (nonatomic, strong) HyBidAdView *bannerAdView;
 
 @end
 
@@ -36,21 +36,17 @@
 
 - (void)dealloc {
     self.bannerAdView = nil;
+    self.adSize = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if (size.height == kMPPresetMaxAdSize50Height.height && size.width >= 320.0f) {
-            if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.bannerAdView = [[HyBidBannerAdView alloc] init];
-                self.bannerAdView.isMediation = YES;
-                [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
-            } else {
-                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
-                return;
-            }
+        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
+            self.bannerAdView.isMediation = YES;
+            [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
         } else {
-            [self invokeFailWithMessage:@"Wrong ad size."];
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
     } else {
@@ -70,6 +66,10 @@
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
+}
+
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_320x50;
 }
 
 #pragma mark - HyBidAdViewDelegate

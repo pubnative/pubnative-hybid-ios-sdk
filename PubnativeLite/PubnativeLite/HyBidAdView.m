@@ -23,6 +23,7 @@
 #import "HyBidAdView.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidBannerPresenterFactory.h"
 
 @interface HyBidAdView()
 
@@ -36,6 +37,24 @@
     self.ad = nil;
     self.delegate = nil;
     self.adPresenter = nil;
+    self.adRequest = nil;
+    self.adSize = nil;
+    self.contentCategoryIDs = nil;
+    self.partnerKeyword = nil;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.adRequest = [[HyBidAdRequest alloc] init];
+}
+
+- (instancetype)initWithSize:(HyBidAdSize *)adSize {
+    self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
+    if (self) {
+        self.adRequest = [[HyBidAdRequest alloc] init];
+        self.adSize = adSize;
+    }
+    return self;
 }
 
 - (void)cleanUp {
@@ -58,15 +77,35 @@
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
+        self.adRequest.adSize = self.adSize;
+        self.adRequest.contentCategoryIDs = self.contentCategoryIDs;
+        self.adRequest.partnerKeyword = self.partnerKeyword;
         [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }
 }
 
+- (void)loadWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self cleanUp];
+    self.delegate = delegate;
+    self.adRequest.adSize = self.adSize;
+    self.adRequest.contentCategoryIDs = self.contentCategoryIDs;
+    self.adRequest.partnerKeyword = self.partnerKeyword;
+    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:nil];
+    [self.adRequest requestAdWithDelegate:self withZoneID:nil];
+}
+
+- (void) show {
+    [self renderAd];
+}
+
 - (void)setupAdView:(UIView *)adView {
     [self addSubview:adView];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
-        [self.delegate adViewDidLoad:self];
+    
+    if (self.autoShowOnLoad) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+            [self.delegate adViewDidLoad:self];
+        }
     }
     [self startTracking];
 }
@@ -94,7 +133,8 @@
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
-    return nil;
+    HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
+    return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 #pragma mark HyBidAdRequestDelegate
@@ -111,7 +151,13 @@
         }
     } else {
         self.ad = ad;
-        [self renderAd];
+        if (self.autoShowOnLoad) {
+            [self renderAd];
+        } else {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+                [self.delegate adViewDidLoad:self];
+            }
+        }
     }
 }
 

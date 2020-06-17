@@ -27,4 +27,6 @@
 
 @interface HyBidAdMobBannerCustomEvent : NSObject <GADCustomEventBanner>
 
+@property (nonatomic, strong) HyBidAdSize *adSize;
+
 @end

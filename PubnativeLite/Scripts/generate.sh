@@ -1,3 +1,6 @@
+export LIBXML2_CFLAGS=`xml2-config --cflags`
+export LIBXML2_LIBS=`xml2-config --libs`
+
 # Variable Declarations
 BASE_DIR=/tmp/circleci-artifacts
 PRODUCT_NAME=HyBid
@@ -26,3 +29,6 @@ lipo -create $IPHONEOS_PRODUCT $IPHONESIMULATOR_PRODUCT -output $FAT_PRODUCT
 zip -r $FAT_ZIP_PATH $FAT_FRAMEWORK
 zip -r $IPHONEOS_ZIP_PATH $IPHONEOS_FRAMEWORK
 zip -r $IPHONESIMULATOR_ZIP_PATH $IPHONESIMULATOR_FRAMEWORK
+
+# Generate Static framework + bundle resrource. a zip file will be generated at /tmp/circle-ci-artifact
+xcodebuild -workspace HyBid.xcworkspace -scheme HybidFramework -sdk iphonesimulator -configuration Release clean build | xcpretty -c

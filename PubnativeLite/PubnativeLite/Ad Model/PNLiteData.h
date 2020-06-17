@@ -30,5 +30,7 @@
 + (NSString *)url;
 + (NSString *)js;
 + (NSString *)html;
++ (NSString *)width;
++ (NSString *)height;
 
 @end

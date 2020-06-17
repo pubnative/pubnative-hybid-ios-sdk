@@ -21,30 +21,7 @@
 //
 
 #import "HyBidMRectPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
-#import "PNLiteMRAIDMRectPresenter.h"
-#import "PNLiteVASTMRectPresenter.h"
-#import "HyBidLogger.h"
 
 @implementation HyBidMRectPresenterFactory
-
-- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
-    switch (ad.assetGroupID.integerValue) {
-        case MRAID_MRECT: {
-            PNLiteMRAIDMRectPresenter *mraidMRectPresenter = [[PNLiteMRAIDMRectPresenter alloc] initWithAd:ad];
-            return mraidMRectPresenter;
-            break;
-        }
-        case VAST_MRECT: {
-            PNLiteVASTMRectPresenter *vastMRectPresenter = [[PNLiteVASTMRectPresenter alloc] initWithAd:ad];
-            return vastMRectPresenter;
-            break;
-        }
-        default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for MRect ad format.", ad.assetGroupID]];
-            return nil;
-            break;
-    }
-}
 
 @end
