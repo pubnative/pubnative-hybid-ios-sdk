@@ -74,6 +74,7 @@ typedef enum {
     
     NSString *mraidjs;
     NSString *omSDKjs;
+    NSString *omSDKVerificationJS;
     
     NSURL *baseURL;
     
@@ -242,6 +243,11 @@ typedef enum {
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
+        }
+        
+        omSDKVerificationJS = [[HyBidViewabilityManager sharedInstance] getOMIDVerificationJS];
+        if (omSDKVerificationJS) {
+            [self injectJavaScript:omSDKVerificationJS];
         }
         
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
