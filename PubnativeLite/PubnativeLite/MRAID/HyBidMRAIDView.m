@@ -576,6 +576,10 @@ typedef enum {
             [self injectJavaScript:omSDKjs];
         }
         
+        if (omSDKVerificationJS) {
+            [self injectJavaScript:omSDKVerificationJS];
+        }
+        
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
         urlString = [urlString stringByRemovingPercentEncoding];
