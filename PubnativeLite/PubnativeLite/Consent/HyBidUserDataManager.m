@@ -174,6 +174,51 @@ NSInteger const PNLiteConsentStateDenied = 0;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark - U.S. Privacy String
+
+- (void)setIABUSPrivacyString:(NSString *)privacyString {
+    [[NSUserDefaults standardUserDefaults] setObject:privacyString forKey:kUSPrivacyKey];
+}
+
+- (NSString *)getIABUSPrivacyString {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kUSPrivacyKey];
+}
+
+- (void)removeIABUSPrivacyString {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUSPrivacyKey];
+}
+
+- (NSString *)getFormattedAndPercentEncodedIABUSPrivacyString {
+    return [[self getFormattedIABUSPrivacyString] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];;
+}
+
+- (NSString *)getFormattedIABUSPrivacyString {
+    NSString *privacyString = [self getIABUSPrivacyString];
+    privacyString = [privacyString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([privacyString isEqualToString:@"null"]) {
+        privacyString = @"";
+    }
+    
+    return privacyString;
+}
+
+- (BOOL)isCCPAOptOut {
+    NSString *privacyString = [self getFormattedIABUSPrivacyString];
+    
+    if ([privacyString length] >= 3) {
+        NSString *thirdComponent = [privacyString substringWithRange:NSMakeRange(2, 1)];
+        if ([[thirdComponent uppercaseString] isEqualToString:@"Y"]) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else {
+        // There is no valid privacy string set, assuming there is no opt out
+        return  NO;
+    }
+}
+
 #pragma mark Consent Dialog
 
 - (BOOL)isConsentPageLoaded {
