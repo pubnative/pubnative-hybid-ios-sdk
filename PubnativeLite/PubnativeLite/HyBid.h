@@ -77,5 +77,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
++ (void)setLocationUpdates:(BOOL)enabled;
 
 @end
