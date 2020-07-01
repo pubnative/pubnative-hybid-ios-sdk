@@ -45,7 +45,7 @@
     adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
     
     NSString* privacyString =  [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
-    if (![[HyBidUserDataManager sharedInstance] isCCPAOptOut] && !([privacyString length] == 0)) {
+    if (!([privacyString length] == 0)) {
         adRequestModel.requestParameters[@"usprivacy"] = privacyString;
     }
     
