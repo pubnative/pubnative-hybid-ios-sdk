@@ -27,6 +27,7 @@
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
 #import "HyBidConstants.h"
+#import "HyBidUserDataManager.h"
 
 @implementation PNLiteAdFactory
 
@@ -42,7 +43,13 @@
     adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
     [self setIDFA:adRequestModel];
     adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
-    if (![HyBidSettings sharedInstance].coppa) {
+    
+    NSString* privacyString =  [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
+    if (!([privacyString length] == 0)) {
+        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
+    }
+    
+    if (![HyBidSettings sharedInstance].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut]) {
         adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
         adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
@@ -65,7 +72,7 @@
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {
     NSString *advertisingId = [HyBidSettings sharedInstance].advertisingId;
-    if (!advertisingId || advertisingId.length == 0) {
+    if ([HyBidSettings sharedInstance].coppa || !advertisingId || advertisingId.length == 0 || [[HyBidUserDataManager sharedInstance] isCCPAOptOut]) {
         adRequestModel.requestParameters[HyBidRequestParameter.dnt] = @"1";
     } else {
         adRequestModel.requestParameters[HyBidRequestParameter.idfa] = advertisingId;
