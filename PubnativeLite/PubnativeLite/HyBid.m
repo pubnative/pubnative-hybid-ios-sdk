@@ -24,6 +24,7 @@
 #import "HyBidSettings.h"
 #import "PNLiteCrashTracker.h"
 #import "HyBidUserDataManager.h"
+#import "PNLiteLocationManager.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 
@@ -53,6 +54,10 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
             completion(success);
         }];
     }
+}
+
++ (void) setLocationUpdates:(BOOL)enabled {
+    PNLiteLocationManager.locationUpdatesEnabled = enabled;
 }
 
 @end

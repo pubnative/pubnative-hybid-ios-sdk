@@ -48,6 +48,18 @@
     return self;
 }
 
+static BOOL locationUpdatesEnabled;
++ (BOOL) locationUpdatesEnabled {
+    @synchronized(self) { return locationUpdatesEnabled; }
+}
+
++ (void)setLocationUpdatesEnabled:(BOOL)enabled {
+    @synchronized(self) { locationUpdatesEnabled = enabled; }
+    if (locationUpdatesEnabled) {
+        [[[PNLiteLocationManager sharedInstance]manager]startUpdatingLocation];
+    }
+}
+
 #pragma mark PNLiteLocationManager
 
 + (instancetype)sharedInstance {
