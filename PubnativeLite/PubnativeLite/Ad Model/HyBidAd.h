@@ -36,6 +36,9 @@
 @property (nonatomic, readonly) NSString *zoneID;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
+@property (nonatomic, readonly) NSNumber *width;
+@property (nonatomic, readonly) NSNumber *height;
+
 @property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
