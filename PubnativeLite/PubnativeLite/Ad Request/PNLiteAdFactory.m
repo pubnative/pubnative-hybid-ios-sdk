@@ -55,7 +55,7 @@
         adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
         
         CLLocation* location = [HyBidSettings sharedInstance].location;
-        if (location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
+        if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
             NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
             NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
         
