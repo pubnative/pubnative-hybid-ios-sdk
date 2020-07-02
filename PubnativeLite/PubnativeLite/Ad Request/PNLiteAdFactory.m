@@ -46,13 +46,22 @@
     
     NSString* privacyString =  [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
     if (!([privacyString length] == 0)) {
-        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
+        adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
-    if (![HyBidSettings sharedInstance].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut]) {
+    if (![HyBidSettings sharedInstance].coppa && [[HyBidUserDataManager sharedInstance] canCollectData] && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut]) {
         adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
         adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
+        
+        CLLocation* location = [HyBidSettings sharedInstance].location;
+        if (location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
+            NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+            NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        
+            adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
+            adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+        }
     }
     adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
     if (adSize) {
