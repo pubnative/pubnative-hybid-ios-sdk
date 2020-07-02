@@ -142,6 +142,24 @@ NSString *const kImpressionQuerryParameter = @"t";
     return result;
 }
 
+- (NSNumber *)width {
+    NSNumber *result = nil;
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+    if (data) {
+        result = data.width;
+    }
+    return result;
+}
+
+- (NSNumber *)height {
+    NSNumber *result = nil;
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+    if (data) {
+        result = data.height;
+    }
+    return result;
+}
+
 - (NSArray<HyBidDataModel *> *)beacons {
     if (self.data) {
         return self.data.beacons;

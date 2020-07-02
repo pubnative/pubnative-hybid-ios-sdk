@@ -34,6 +34,8 @@
 @property (nonatomic, readonly) NSString *js;
 @property (nonatomic, readonly) NSString *html;
 @property (nonatomic, readonly) NSNumber *eCPM;
+@property (nonatomic, readonly) NSNumber *width;
+@property (nonatomic, readonly) NSNumber *height;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (NSString *)stringFieldWithKey:(NSString *)key;
