@@ -70,5 +70,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>location is used for testing purposes.</string>
 </dict>
 </plist>

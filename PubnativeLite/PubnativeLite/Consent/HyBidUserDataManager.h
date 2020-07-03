@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#define kUSPrivacyKey @"IABUSPrivacy_String"
+
 typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
 @interface HyBidUserDataManager : NSObject
@@ -41,5 +43,10 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 - (BOOL)shouldAskConsent;
 - (void)grantConsent;
 - (void)denyConsent;
+
+- (void)setIABUSPrivacyString:(NSString *_Nullable)privacyString;
+- (NSString *_Nullable)getIABUSPrivacyString;
+- (void)removeIABUSPrivacyString;
+- (BOOL)isCCPAOptOut;
 
 @end

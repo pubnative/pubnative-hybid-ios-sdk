@@ -23,6 +23,7 @@
 #import "AppDelegate.h"
 #import "PNLiteDemoSettings.h"
 #import "MoPub.h"
+#import <CoreLocation/CoreLocation.h>
 
 @import GoogleMobileAds;
 
@@ -32,8 +33,17 @@
 
 @implementation AppDelegate
 
+CLLocationManager *locationManager;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    locationManager = [[CLLocationManager alloc] init];
+    [locationManager requestWhenInUseAuthorization];
+    
+    // setLocationUpdates: Allowing SDK to update location , default is false.
+    [HyBid setLocationUpdates:NO];
+    
     [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
             [HyBidLogger setLogLevel:HyBidLogLevelDebug];

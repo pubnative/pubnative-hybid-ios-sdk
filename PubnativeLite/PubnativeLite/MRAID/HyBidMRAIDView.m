@@ -29,7 +29,7 @@
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
 #import "HyBidViewabilityManager.h"
-
+#import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
 
 #import "PNLitemraidjs.h"
@@ -97,6 +97,9 @@ typedef enum {
     
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved;
+    
+    CGFloat adWidth;
+    CGFloat adHeight;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -187,6 +190,8 @@ typedef enum {
     if (self) {
         [self setUpTapGestureRecognizer];
         isInterstitial = isInter;
+        adWidth = frame.size.width;
+        adHeight = frame.size.height;
         _delegate = delegate;
         _serviceDelegate = serviceDelegate;
         _rootViewController = rootViewController;
@@ -238,12 +243,12 @@ typedef enum {
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
         }
-        /*
+        
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        */
+        
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
@@ -553,7 +558,7 @@ typedef enum {
     
     if (!urlString) {
         // 1-part expansion
-        webView.frame = frame;
+        webView.frame = CGRectMake(frame.size.width/2 - adWidth/2, frame.size.height/2 - adHeight/2, adWidth, adHeight);
         [webView removeFromSuperview];
     } else {
         // 2-part expansion
@@ -565,11 +570,11 @@ typedef enum {
         if (mraidjs) {
             [self injectJavaScript:mraidjs];
         }
-        /*
+        
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        */
+        
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
         urlString = [urlString stringByRemovingPercentEncoding];
@@ -1176,30 +1181,32 @@ typedef enum {
 #pragma mark - OM SDK Viewability
 
 - (void)startAdSession {
-    /*
+    
     if (!isAdSessionCreated) {
-        adSession = [[HyBidViewabilityManager sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
+        
+        adSession = [[HyBidViewabilityWebAdSession sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
         if (contentInfoView) {
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession];
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
         }
         if (isInterstitial) {
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
         }
-        [[HyBidViewabilityManager sharedInstance] startOMIDAdSession:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] startOMIDAdSession:adSession];
         isAdSessionCreated = YES;
-        [[HyBidViewabilityManager sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] fireOMIDAdLoadEvent:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
     }
-     */
+     
 }
 
 - (void)stopAdSession {
-    /*
+    
     if (isAdSessionCreated) {
-        [[HyBidViewabilityManager sharedInstance] stopOMIDAdSession:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] stopOMIDAdSession:adSession];
         isAdSessionCreated = NO;
     }
-     */
+     
 }
 
 #pragma mark - WKUIDelegate
@@ -1233,7 +1240,12 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 #pragma mark - internal helper methods
 
 - (WKWebViewConfiguration *)createConfiguration {
+    NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
+    WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+    [wkUController addUserScript:wkUScript];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
+    webConfiguration.userContentController = wkUController;
 
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
         webConfiguration.allowsInlineMediaPlayback = YES;
