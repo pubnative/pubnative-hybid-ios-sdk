@@ -50,5 +50,6 @@
 + (NSString *)bundleId;
 + (NSString *)displayManager;
 + (NSString *)displayManagerVersion;
++ (NSString *)usprivacy;
 
 @end

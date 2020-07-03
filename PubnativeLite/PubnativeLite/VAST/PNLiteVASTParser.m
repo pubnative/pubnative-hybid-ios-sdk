@@ -128,7 +128,8 @@ BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
                 url = ((NSDictionary *)childArray[0])[@"nodeContent"];
             }
         }
-        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+        
+        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]]];
         return [self parseRecursivelyWithData:vastData depth:(depth + 1)];
     }
     

@@ -56,7 +56,7 @@
 
 - (void)load {
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
-    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
+    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [self.adModel.width floatValue], [self.adModel.height floatValue])
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                           supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
