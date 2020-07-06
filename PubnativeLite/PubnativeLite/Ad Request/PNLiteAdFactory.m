@@ -46,7 +46,7 @@
     
     NSString* privacyString =  [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
     if (!([privacyString length] == 0)) {
-        adRequestModel.requestParameters[@"usprivacy"] = privacyString;
+        adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
     if (![HyBidSettings sharedInstance].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut]) {
