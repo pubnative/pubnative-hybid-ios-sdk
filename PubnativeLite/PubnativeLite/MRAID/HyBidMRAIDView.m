@@ -97,6 +97,9 @@ typedef enum {
     
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved;
+    
+    CGFloat adWidth;
+    CGFloat adHeight;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -187,6 +190,8 @@ typedef enum {
     if (self) {
         [self setUpTapGestureRecognizer];
         isInterstitial = isInter;
+        adWidth = frame.size.width;
+        adHeight = frame.size.height;
         _delegate = delegate;
         _serviceDelegate = serviceDelegate;
         _rootViewController = rootViewController;
@@ -553,7 +558,7 @@ typedef enum {
     
     if (!urlString) {
         // 1-part expansion
-        webView.frame = frame;
+        webView.frame = CGRectMake(frame.size.width/2 - adWidth/2, frame.size.height/2 - adHeight/2, adWidth, adHeight);
         [webView removeFromSuperview];
     } else {
         // 2-part expansion
@@ -1235,7 +1240,12 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 #pragma mark - internal helper methods
 
 - (WKWebViewConfiguration *)createConfiguration {
+    NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
+    WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+    [wkUController addUserScript:wkUScript];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
+    webConfiguration.userContentController = wkUController;
 
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
         webConfiguration.allowsInlineMediaPlayback = YES;

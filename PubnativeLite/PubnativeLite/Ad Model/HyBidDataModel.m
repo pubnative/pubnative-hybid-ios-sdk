@@ -72,6 +72,14 @@
     return [self numberFieldWithKey:PNLiteData.number];
 }
 
+- (NSNumber *)width {
+    return [self numberFieldWithKey:PNLiteData.width];
+}
+
+- (NSNumber *)height {
+    return [self numberFieldWithKey:PNLiteData.height];
+}
+
 - (NSString *)stringFieldWithKey:(NSString *)key {
     return (NSString *) [self dataWithKey:key];
 }
