@@ -54,7 +54,6 @@ NSString *const HyBidAdapterConfigurationAppTokenKey = @"pubnative_appToken";
         [HyBid initWithAppToken:appToken completion:^(BOOL success) {
             if (success) {
                 [HyBidLogger setLogLevel:HyBidLogLevelDebug];
-                NSLog(@"HyBid initialisation completed.");
             }
             complete(nil);
         }];
