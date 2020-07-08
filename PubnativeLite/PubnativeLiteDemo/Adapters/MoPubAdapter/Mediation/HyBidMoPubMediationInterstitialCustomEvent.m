@@ -57,24 +57,20 @@
 
 - (BOOL)isRewardExpected {
     return NO;
-- (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [self.delegate interstitialCustomEventWillAppear:self];
-    [self.interstitialAd show];
-    MPLogEvent([MPLogEvent adShowAttemptForAdapter:NSStringFromClass([self class])]);
 }
 
--(void)presentAdFromViewController:(UIViewController *)viewController {
+- (void)presentAdFromViewController:(UIViewController *)viewController {
     [self.delegate fullscreenAdAdapterAdWillAppear:self];
     if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
         [self.interstitialAd showFromViewController:viewController];
     } else {
         [self.interstitialAd show];
     }
+    MPLogEvent([MPLogEvent adShowAttemptForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogInfo(@"%@", message);
-    MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                          code:0
@@ -98,16 +94,16 @@
 }
 
 - (void)interstitialDidTrackClick {
-    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterDidTrackClick:self];
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
 }
 
 - (void)interstitialDidTrackImpression {
-    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
-    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterAdDidAppear:self];
     MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
+    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)interstitialDidDismiss {

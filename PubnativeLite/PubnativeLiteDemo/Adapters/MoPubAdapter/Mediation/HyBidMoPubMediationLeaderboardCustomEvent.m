@@ -62,7 +62,6 @@
 
 - (void)invokeFailWithMessage:(NSString *)message {
     MPLogInfo(@"%@", message);
-    MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                      code:0
@@ -91,8 +90,8 @@
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate inlineAdAdapterDidTrackClick:self];
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate inlineAdAdapterWillLeaveApplication:self];
 }
 
