@@ -33,4 +33,3 @@
 extern NSString * const HyBidAdapterConfigurationAppTokenKey;
 
 @end
-
