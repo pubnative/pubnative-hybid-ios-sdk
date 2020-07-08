@@ -43,6 +43,7 @@
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             self.interstitialAd.isMediation = YES;
             [self.interstitialAd load];
+            MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
@@ -58,17 +59,18 @@
     return NO;
 }
 
--(void)presentAdFromViewController:(UIViewController *)viewController {
+- (void)presentAdFromViewController:(UIViewController *)viewController {
     [self.delegate fullscreenAdAdapterAdWillAppear:self];
     if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
         [self.interstitialAd showFromViewController:viewController];
     } else {
         [self.interstitialAd show];
     }
+    MPLogEvent([MPLogEvent adShowAttemptForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    MPLogError(@"%@", message);
+    MPLogInfo(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
                                                                                          code:0
@@ -83,25 +85,32 @@
 
 - (void)interstitialDidLoad {
     [self.delegate fullscreenAdAdapterDidLoadAd:self];
+    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
+    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)interstitialDidTrackClick {
     [self.delegate fullscreenAdAdapterDidTrackClick:self];
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
 }
 
 - (void)interstitialDidTrackImpression {
-    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
     [self.delegate fullscreenAdAdapterAdDidAppear:self];
+    MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
+    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)interstitialDidDismiss {
     [self.delegate fullscreenAdAdapterAdWillDisappear:self];
+    MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterAdDidDisappear:self];
+    MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
 }
 
 @end
