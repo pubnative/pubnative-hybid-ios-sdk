@@ -57,6 +57,7 @@
                 return;
             } else {
                 [self.bannerPresenter load];
+                MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
             }
         } else {
             [self invokeFailWithMessage:@"Wrong ad size."];
@@ -69,6 +70,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
+    MPLogInfo(@"%@", message);
     MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
@@ -83,16 +85,20 @@
 #pragma mark - HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    [self.delegate inlineAdAdapterDidTrackImpression:self];
     [self.delegate inlineAdAdapter:self didLoadAdWithAdView:adView];
+    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
+    [self.delegate inlineAdAdapterDidTrackImpression:self];
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
     [self.bannerPresenter startTracking];
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
+    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate inlineAdAdapterDidTrackClick:self];
     [self.delegate inlineAdAdapterWillLeaveApplication:self];
 }

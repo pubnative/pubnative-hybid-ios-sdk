@@ -24,6 +24,7 @@
 #import "PNLiteDemoSettings.h"
 #import "MoPub.h"
 #import <CoreLocation/CoreLocation.h>
+#import "PNLiteDemoMoPubManager.h"
 
 @import GoogleMobileAds;
 
@@ -37,21 +38,12 @@ CLLocationManager *locationManager;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
     locationManager = [[CLLocationManager alloc] init];
     [locationManager requestWhenInUseAuthorization];
     
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
-    
-    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
-        if (success) {
-            [HyBidLogger setLogLevel:HyBidLogLevelDebug];
-            NSLog(@"HyBid initialisation completed");
-        }
-    }];
-    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
-    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
+    [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[PNLiteDemoSettings sharedInstance].appToken withAdUnitID:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     return YES;
 }

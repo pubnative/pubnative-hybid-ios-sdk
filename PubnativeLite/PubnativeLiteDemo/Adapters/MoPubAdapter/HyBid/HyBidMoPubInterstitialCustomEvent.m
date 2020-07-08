@@ -55,6 +55,7 @@
             return;
         } else {
             [self.interstitialPresenter load];
+            MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         }
     } else {
         [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
@@ -64,6 +65,10 @@
 
 - (BOOL)isRewardExpected {
     return NO;
+- (void)showInterstitialFromRootViewController:(UIViewController *)rootViewController {
+    [self.delegate interstitialCustomEventWillAppear:self];
+    [self.interstitialPresenter show];
+    MPLogEvent([MPLogEvent adShowAttemptForAdapter:NSStringFromClass([self class])]);
 }
 
 -(void)presentAdFromViewController:(UIViewController *)viewController {
@@ -76,6 +81,7 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
+    MPLogInfo(@"%@", message);
     MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
@@ -91,24 +97,31 @@
 
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.delegate fullscreenAdAdapterDidLoadAd:self];
+    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
     [self.delegate fullscreenAdAdapterAdDidAppear:self];
+    MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
+    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterDidTrackClick:self];
     [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
 }
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.delegate fullscreenAdAdapterAdWillDisappear:self];
+    MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterAdDidDisappear:self];
+    MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
+    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
