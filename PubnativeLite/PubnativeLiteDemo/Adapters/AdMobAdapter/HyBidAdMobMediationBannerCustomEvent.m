@@ -20,21 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobLeaderboardCustomEvent.h"
+#import "HyBidAdMobMediationBannerCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobLeaderboardCustomEvent() <HyBidAdViewDelegate>
+@interface HyBidAdMobMediationBannerCustomEvent() <HyBidAdViewDelegate>
 
-@property (nonatomic, strong) HyBidLeaderboardAdView *leaderboardAdView;
+@property (nonatomic, strong) HyBidBannerAdView *bannerAdView;
 
 @end
 
-@implementation HyBidAdMobLeaderboardCustomEvent
+@implementation HyBidAdMobMediationBannerCustomEvent
 
 @synthesize delegate;
 
 - (void)dealloc {
-    self.leaderboardAdView = nil;
+    self.bannerAdView = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
@@ -42,11 +42,11 @@
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if (CGSizeEqualToSize(kGADAdSizeLeaderboard.size, adSize.size)) {
+        if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
             if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
-                self.leaderboardAdView.isMediation = YES;
-                [self.leaderboardAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
+                self.bannerAdView = [[HyBidBannerAdView alloc] init];
+                self.bannerAdView.isMediation = YES;
+                [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
@@ -56,7 +56,7 @@
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"Failed leaderboard ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
         return;
     }
 }
@@ -73,7 +73,7 @@
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    [self invokeFailWithMessage:error.localizedDescription];
+     [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {

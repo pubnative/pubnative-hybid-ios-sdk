@@ -20,16 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobInterstitialCustomEvent.h"
+#import "HyBidAdMobMediationInterstitialCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobInterstitialCustomEvent() <HyBidInterstitialAdDelegate>
+@interface HyBidAdMobMediationInterstitialCustomEvent() <HyBidInterstitialAdDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
 @end
 
-@implementation HyBidAdMobInterstitialCustomEvent
+@implementation HyBidAdMobMediationInterstitialCustomEvent
 
 @synthesize delegate;
 

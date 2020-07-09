@@ -20,21 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobMRectCustomEvent.h"
+#import "HyBidAdMobMediationLeaderboardCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobMRectCustomEvent() <HyBidAdViewDelegate>
+@interface HyBidAdMobMediationLeaderboardCustomEvent() <HyBidAdViewDelegate>
 
-@property (nonatomic, strong) HyBidMRectAdView *mRectAdView;
+@property (nonatomic, strong) HyBidLeaderboardAdView *leaderboardAdView;
 
 @end
 
-@implementation HyBidAdMobMRectCustomEvent
+@implementation HyBidAdMobMediationLeaderboardCustomEvent
 
 @synthesize delegate;
 
 - (void)dealloc {
-    self.mRectAdView = nil;
+    self.leaderboardAdView = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
@@ -42,11 +42,11 @@
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if (CGSizeEqualToSize(kGADAdSizeMediumRectangle.size, adSize.size)) {
+        if (CGSizeEqualToSize(kGADAdSizeLeaderboard.size, adSize.size)) {
             if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.mRectAdView = [[HyBidMRectAdView alloc] init];
-                self.mRectAdView.isMediation = YES;
-                [self.mRectAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
+                self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
+                self.leaderboardAdView.isMediation = YES;
+                [self.leaderboardAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
@@ -56,11 +56,10 @@
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"Failed mRect ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed leaderboard ad fetch. Missing required server extras."];
         return;
     }
 }
-
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];

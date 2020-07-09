@@ -20,21 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobBannerCustomEvent.h"
+#import "HyBidAdMobMediationMRectCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobBannerCustomEvent() <HyBidAdViewDelegate>
+@interface HyBidAdMobMediationMRectCustomEvent() <HyBidAdViewDelegate>
 
-@property (nonatomic, strong) HyBidBannerAdView *bannerAdView;
+@property (nonatomic, strong) HyBidMRectAdView *mRectAdView;
 
 @end
 
-@implementation HyBidAdMobBannerCustomEvent
+@implementation HyBidAdMobMediationMRectCustomEvent
 
 @synthesize delegate;
 
 - (void)dealloc {
-    self.bannerAdView = nil;
+    self.mRectAdView = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
@@ -42,11 +42,11 @@
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
+        if (CGSizeEqualToSize(kGADAdSizeMediumRectangle.size, adSize.size)) {
             if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.bannerAdView = [[HyBidBannerAdView alloc] init];
-                self.bannerAdView.isMediation = YES;
-                [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
+                self.mRectAdView = [[HyBidMRectAdView alloc] init];
+                self.mRectAdView.isMediation = YES;
+                [self.mRectAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
@@ -56,10 +56,11 @@
             return;
         }
     } else {
-        [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
+        [self invokeFailWithMessage:@"Failed mRect ad fetch. Missing required server extras."];
         return;
     }
 }
+
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
@@ -73,7 +74,7 @@
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-     [self invokeFailWithMessage:error.localizedDescription];
+    [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {

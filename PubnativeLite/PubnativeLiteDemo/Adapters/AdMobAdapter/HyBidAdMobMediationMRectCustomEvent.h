@@ -25,6 +25,6 @@
 
 @import GoogleMobileAds;
 
-@interface HyBidAdMobInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
+@interface HyBidAdMobMediationMRectCustomEvent : NSObject <GADCustomEventBanner>
 
 @end
