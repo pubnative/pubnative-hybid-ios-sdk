@@ -20,12 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubInterstitialCustomEvent.h"
+#import "HyBidMoPubHeaderBiddingInterstitialCustomEvent.h"
 #import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPError.h"
 
-@interface HyBidMoPubInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
+@interface HyBidMoPubHeaderBiddingInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialPresenterFactory *interstitalPresenterFactory;
@@ -33,7 +33,7 @@
 
 @end
 
-@implementation HyBidMoPubInterstitialCustomEvent
+@implementation HyBidMoPubHeaderBiddingInterstitialCustomEvent
 
 - (void)dealloc {
     self.interstitialPresenter = nil;

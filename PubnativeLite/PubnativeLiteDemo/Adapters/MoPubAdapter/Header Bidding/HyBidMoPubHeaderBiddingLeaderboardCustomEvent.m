@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubLeaderboardCustomEvent.h"
+#import "HyBidMoPubHeaderBiddingLeaderboardCustomEvent.h"
 #import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubLeaderboardCustomEvent () <HyBidAdPresenterDelegate>
+@interface HyBidMoPubHeaderBiddingLeaderboardCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, strong) HyBidAdPresenter *leaderboardPresenter;
 @property (nonatomic, strong) HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory;
@@ -34,7 +34,7 @@
 
 @end
 
-@implementation HyBidMoPubLeaderboardCustomEvent
+@implementation HyBidMoPubHeaderBiddingLeaderboardCustomEvent
 
 - (void)dealloc {
     self.leaderboardPresenter = nil;

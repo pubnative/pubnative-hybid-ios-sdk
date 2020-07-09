@@ -23,11 +23,11 @@
 #if __has_include(<MoPub/MoPub.h>)
 #import <MoPub/MoPub.h>
 #else
-#import "MPFullscreenAdAdapter.h"
+#import "MPInlineAdAdapter.h"
 #endif
 
 #import <HyBid/HyBid.h>
 
-@interface HyBidMoPubInterstitialCustomEvent : MPFullscreenAdAdapter
+@interface HyBidMoPubHeaderBiddingLeaderboardCustomEvent : MPInlineAdAdapter
 
 @end

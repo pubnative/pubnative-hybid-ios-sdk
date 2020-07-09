@@ -28,6 +28,6 @@
 
 #import <HyBid/HyBid.h>
 
-@interface HyBidMoPubMRectCustomEvent : MPInlineAdAdapter
+@interface HyBidMoPubHeaderBiddingBannerCustomEvent : MPInlineAdAdapter
 
 @end
