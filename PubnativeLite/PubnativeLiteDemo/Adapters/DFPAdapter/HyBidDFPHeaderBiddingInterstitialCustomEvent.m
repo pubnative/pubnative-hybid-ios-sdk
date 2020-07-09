@@ -20,10 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPInterstitialCustomEvent.h"
+#import "HyBidDFPHeaderBiddingInterstitialCustomEvent.h"
 #import "HyBidDFPUtils.h"
 
-@interface HyBidDFPInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
+@interface HyBidDFPHeaderBiddingInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialPresenterFactory *interstitalPresenterFactory;
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation HyBidDFPInterstitialCustomEvent
+@implementation HyBidDFPHeaderBiddingInterstitialCustomEvent
 
 @synthesize delegate;
 

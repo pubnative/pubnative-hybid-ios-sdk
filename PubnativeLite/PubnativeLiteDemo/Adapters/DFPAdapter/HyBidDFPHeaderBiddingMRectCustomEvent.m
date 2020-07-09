@@ -20,10 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPMRectCustomEvent.h"
+#import "HyBidDFPHeaderBiddingMRectCustomEvent.h"
 #import "HyBidDFPUtils.h"
 
-@interface HyBidDFPMRectCustomEvent () <HyBidAdPresenterDelegate>
+@interface HyBidDFPHeaderBiddingMRectCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidAdPresenter *mRectPresenter;
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation HyBidDFPMRectCustomEvent
+@implementation HyBidDFPHeaderBiddingMRectCustomEvent
 
 @synthesize delegate;
 
