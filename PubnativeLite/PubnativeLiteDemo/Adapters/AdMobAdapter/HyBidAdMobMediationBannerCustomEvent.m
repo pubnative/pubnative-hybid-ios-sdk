@@ -20,16 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobBannerCustomEvent.h"
+#import "HyBidAdMobMediationBannerCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobBannerCustomEvent() <HyBidAdViewDelegate>
+@interface HyBidAdMobMediationBannerCustomEvent() <HyBidAdViewDelegate>
 
 @property (nonatomic, strong) HyBidBannerAdView *bannerAdView;
 
 @end
 
-@implementation HyBidAdMobBannerCustomEvent
+@implementation HyBidAdMobMediationBannerCustomEvent
 
 @synthesize delegate;
 

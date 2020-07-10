@@ -20,12 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubInterstitialCustomEvent.h"
-#import "HyBidMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPError.h"
+#import "HyBidDFPHeaderBiddingInterstitialCustomEvent.h"
+#import "HyBidDFPUtils.h"
 
-@interface HyBidMoPubInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
+@interface HyBidDFPHeaderBiddingInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialPresenterFactory *interstitalPresenterFactory;
@@ -33,7 +31,9 @@
 
 @end
 
-@implementation HyBidMoPubInterstitialCustomEvent
+@implementation HyBidDFPHeaderBiddingInterstitialCustomEvent
+
+@synthesize delegate;
 
 - (void)dealloc {
     self.interstitialPresenter = nil;
@@ -41,11 +41,13 @@
     self.ad = nil;
 }
 
-- (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
-    if ([HyBidMoPubUtils isZoneIDValid:info]) {
-        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
+- (void)requestInterstitialAdWithParameter:(NSString * _Nullable)serverParameter
+                                     label:(NSString * _Nullable)serverLabel
+                                   request:(nonnull GADCustomEventRequest *)request {
+    if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
+        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
         if (!self.ad) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
@@ -55,7 +57,6 @@
             return;
         } else {
             [self.interstitialPresenter load];
-            MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         }
     } else {
         [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
@@ -63,60 +64,41 @@
     }
 }
 
-- (BOOL)isRewardExpected {
-    return NO;
-}
-
-- (void)presentAdFromViewController:(UIViewController *)viewController {
-    [self.delegate fullscreenAdAdapterAdWillAppear:self];
+- (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
+    [self.delegate customEventInterstitialWillPresent:self];
     if ([self.interstitialPresenter respondsToSelector:@selector(showFromViewController:)]) {
-        [self.interstitialPresenter showFromViewController:viewController];
+        [self.interstitialPresenter showFromViewController:rootViewController];
     } else {
         [self.interstitialPresenter show];
     }
-    MPLogEvent([MPLogEvent adShowAttemptForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    MPLogInfo(@"%@", message);
-    [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
-                                                                                         code:0
-                                                                                     userInfo:nil]];
-}
-
-- (BOOL)enableAutomaticImpressionAndClickTracking {
-    return NO;
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - HyBidInterstitialPresenterDelegate
 
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.delegate fullscreenAdAdapterDidLoadAd:self];
-    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
+    [self.delegate customEventInterstitialDidReceiveAd:self];
 }
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.delegate fullscreenAdAdapterAdDidAppear:self];
-    MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
-    [self.delegate fullscreenAdAdapterDidTrackImpression:self];
-    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
+    
 }
 
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.delegate fullscreenAdAdapterDidTrackClick:self];
-    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
-    [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
+    [self.delegate customEventInterstitialWasClicked:self];
+    [self.delegate customEventInterstitialWillLeaveApplication:self];
 }
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.delegate fullscreenAdAdapterAdWillDisappear:self];
-    MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
-    [self.delegate fullscreenAdAdapterAdDidDisappear:self];
-    MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
+    [self.delegate customEventInterstitialWillDismiss:self];
+    [self.delegate customEventInterstitialDidDismiss:self];
 }
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
-    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 

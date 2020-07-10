@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2019 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,46 +20,36 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPMRectCustomEvent.h"
-#import "HyBidDFPUtils.h"
+#import "HyBidAdMobMediationMRectCustomEvent.h"
+#import "HyBidAdMobUtils.h"
 
-@interface HyBidDFPMRectCustomEvent () <HyBidAdPresenterDelegate>
+@interface HyBidAdMobMediationMRectCustomEvent() <HyBidAdViewDelegate>
 
-@property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) HyBidAdPresenter *mRectPresenter;
-@property (nonatomic, strong) HyBidMRectPresenterFactory *mRectPresenterFactory;
-@property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, strong) HyBidMRectAdView *mRectAdView;
 
 @end
 
-@implementation HyBidDFPMRectCustomEvent
+@implementation HyBidAdMobMediationMRectCustomEvent
 
 @synthesize delegate;
 
 - (void)dealloc {
-    self.mRectPresenter = nil;
-    self.mRectPresenterFactory = nil;
-    self.ad = nil;
+    self.mRectAdView = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
               parameter:(NSString * _Nullable)serverParameter
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
-    if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
+    if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeMediumRectangle.size, adSize.size)) {
-            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
-            if (!self.ad) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
-                return;
-            }
-            self.mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-            self.mRectPresenter = [self.mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-            if (!self.mRectPresenter) {
-                [self invokeFailWithMessage:@"Could not create valid mRect presenter."];
-                return;
+            if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+                self.mRectAdView = [[HyBidMRectAdView alloc] init];
+                self.mRectAdView.isMediation = YES;
+                [self.mRectAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             } else {
-                [self.mRectPresenter load];
+                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
+                return;
             }
         } else {
             [self invokeFailWithMessage:@"Wrong ad size."];
@@ -71,23 +61,27 @@
     }
 }
 
+
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - HyBidAdPresenterDelegate
+#pragma mark - HyBidAdViewDelegate
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
+- (void)adViewDidLoad:(HyBidAdView *)adView {
     [self.delegate customEventBanner:self didReceiveAd:adView];
-    [self.mRectPresenter startTracking];
 }
 
-- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
-- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
+    
+}
+
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];
 }

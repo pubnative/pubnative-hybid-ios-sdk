@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPInlineAdAdapter.h"
+#endif
+
 #import <HyBid/HyBid.h>
 
-@import GoogleMobileAds;
-
-@interface HyBidAdMobInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
+@interface HyBidMoPubHeaderBiddingMRectCustomEvent : MPInlineAdAdapter
 
 @end

@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +20,46 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobLeaderboardCustomEvent.h"
-#import "HyBidAdMobUtils.h"
+#import "HyBidDFPHeaderBiddingLeaderboardCustomEvent.h"
+#import "HyBidDFPUtils.h"
 
-@interface HyBidAdMobLeaderboardCustomEvent() <HyBidAdViewDelegate>
+@interface HyBidDFPHeaderBiddingLeaderboardCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidLeaderboardAdView *leaderboardAdView;
+@property (nonatomic, assign) CGSize size;
+@property (nonatomic, strong) HyBidAdPresenter *leaderboardPresenter;
+@property (nonatomic, strong) HyBidLeaderboardPresenterFactory *leaderboardPresenterFactory;
+@property (nonatomic, strong) HyBidAd *ad;
 
 @end
 
-@implementation HyBidAdMobLeaderboardCustomEvent
+@implementation HyBidDFPHeaderBiddingLeaderboardCustomEvent
 
 @synthesize delegate;
 
 - (void)dealloc {
-    self.leaderboardAdView = nil;
+    self.leaderboardPresenter = nil;
+    self.leaderboardPresenterFactory = nil;
+    self.ad = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
               parameter:(NSString * _Nullable)serverParameter
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
-    if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
+    if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
         if (CGSizeEqualToSize(kGADAdSizeLeaderboard.size, adSize.size)) {
-            if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-                self.leaderboardAdView = [[HyBidLeaderboardAdView alloc] init];
-                self.leaderboardAdView.isMediation = YES;
-                [self.leaderboardAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
-            } else {
-                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
+            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
+            if (!self.ad) {
+                [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
                 return;
+            }
+            self.leaderboardPresenterFactory = [[HyBidLeaderboardPresenterFactory alloc] init];
+            self.leaderboardPresenter = [self.leaderboardPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
+            if (!self.leaderboardPresenter) {
+                [self invokeFailWithMessage:@"Could not create valid leaderboard presenter."];
+                return;
+            } else {
+                [self.leaderboardPresenter load];
             }
         } else {
             [self invokeFailWithMessage:@"Wrong ad size."];
@@ -66,21 +76,18 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-#pragma mark - HyBidAdViewDelegate
+#pragma mark - HyBidAdPresenterDelegate
 
-- (void)adViewDidLoad:(HyBidAdView *)adView {
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     [self.delegate customEventBanner:self didReceiveAd:adView];
+    [self.leaderboardPresenter startTracking];
 }
 
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
+- (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
-    
-}
-
-- (void)adViewDidTrackClick:(HyBidAdView *)adView {
+- (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     [self.delegate customEventBannerWasClicked:self];
     [self.delegate customEventBannerWillLeaveApplication:self];
 }
