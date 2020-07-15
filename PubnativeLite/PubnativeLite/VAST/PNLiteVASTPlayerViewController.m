@@ -217,7 +217,7 @@ typedef enum : NSUInteger {
 
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {
-        NSMutableArray* verificationScripts = [self.vastModel scriptResources];
+        NSMutableArray* verificationScripts = [[NSMutableArray alloc]init];
         [verificationScripts addObject: [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:@"https://s3-us-west-2.amazonaws.com/omsdk-files/compliance-js/omid-validation-verification-script-v1-ssl.js"]
          vendorKey:@"iabtechlab.com-omid"
         parameters:@"iabtechlab-Pubnativenet"]];
