@@ -27,10 +27,12 @@
 
 static NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
 static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
+static NSString *const HyBidOMIDSDKVerificationJSFilename = @"omsdkverification";
 
 @interface HyBidViewabilityManager()
 
 @property (nonatomic, readwrite, strong) NSString* omidJSString;
+@property (nonatomic, readwrite, strong) NSString* omidVerificationJSString;
 
 @end
 
@@ -61,6 +63,10 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
         if(!self.omidJSString){
             [self fetchOMIDJS];
         }
+        
+        if(!self.omidVerificationJSString){
+            [self fetchOMIDVerificationJS];
+        }
     }
     return self;
 }
@@ -78,6 +84,19 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     self.omidJSString = [[NSString alloc] initWithData:omSdkJsData encoding:NSUTF8StringEncoding];
 }
 
+- (void)fetchOMIDVerificationJS {
+    if(!self.isViewabilityMeasurementActivated)
+        return;
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *omSdkVerificationJSPath = [bundle pathForResource:HyBidOMIDSDKVerificationJSFilename ofType:@"js"];
+    if (!omSdkVerificationJSPath) {
+        return;
+    }
+    NSData *omSdkVerificationJsData = [NSData dataWithContentsOfFile:omSdkVerificationJSPath];
+    self.omidVerificationJSString = [[NSString alloc] initWithData:omSdkVerificationJsData encoding:NSUTF8StringEncoding];
+}
+
 - (NSString *)getOMIDJS {
     if(!self.isViewabilityMeasurementActivated)
         return nil;
@@ -85,6 +104,21 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     NSString *scriptContent  = nil;
     @synchronized (self) {
         scriptContent  = self.omidJSString;
+        if (!scriptContent) {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Script Content is nil."];
+            scriptContent=  @"";
+        }
+    }
+    return scriptContent;
+}
+
+- (NSString *)getOMIDVerificationJS {
+    if(!self.isViewabilityMeasurementActivated)
+        return nil;
+    
+    NSString *scriptContent  = nil;
+    @synchronized (self) {
+        scriptContent  = self.omidVerificationJSString;
         if (!scriptContent) {
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Script Content is nil."];
             scriptContent=  @"";
