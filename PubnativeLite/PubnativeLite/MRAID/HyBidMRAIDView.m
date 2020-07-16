@@ -793,6 +793,9 @@ typedef enum {
     contentInfoView.delegate = self;
     [view addSubview:contentInfoViewContainer];
     [contentInfoViewContainer addSubview:contentInfoView];
+    
+    [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
+
     if (@available(iOS 11.0, *)) {
         contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
         [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
@@ -1185,10 +1188,7 @@ typedef enum {
     if (!isAdSessionCreated) {
         
         adSession = [[HyBidViewabilityWebAdSession sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
-        if (contentInfoView) {
-            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
-            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
-        }
+
         if (isInterstitial) {
             [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
         }
