@@ -30,12 +30,12 @@
 #define kHyBidMoPubHeaderBiddingMRectAdUnitIDKey @"moPubHeaderBiddingMRectAdUnitID"
 #define kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey @"moPubHeaderBiddingInterstitialAdUnitID"
 #define kHyBidMoPubMediationNativeAdUnitIDKey @"moPubMediationNativeAdUnitID"
+#define kHyBidMoPubMediationLeaderboardAdUnitIDKey @"moPubMediationLeaderboardAdUnitID"
 
 
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *zoneID;
-@property (nonatomic, strong) NSString *moPubMediationLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationBannerAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationMRectAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationInterstitialAdUnitID;
