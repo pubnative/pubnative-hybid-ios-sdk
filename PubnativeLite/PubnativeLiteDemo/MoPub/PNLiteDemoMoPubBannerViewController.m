@@ -48,7 +48,7 @@
     self.navigationItem.title = @"MoPub Banner";
 
     [self.bannerLoaderIndicator stopAnimating];
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] objectForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
+    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [self.moPubBanner setFrame:CGRectMake(0, 0, self.bannerContainer.frame.size.width, self.bannerContainer.frame.size.height)];
     self.moPubBanner.delegate = self;
     [self.moPubBanner stopAutomaticallyRefreshingContents];

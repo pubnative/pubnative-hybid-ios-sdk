@@ -25,6 +25,8 @@
 #import "MoPub.h"
 #import <CoreLocation/CoreLocation.h>
 
+#define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
+
 @import GoogleMobileAds;
 
 @interface AppDelegate ()
@@ -40,17 +42,20 @@ CLLocationManager *locationManager;
     
     locationManager = [[CLLocationManager alloc] init];
     [locationManager requestWhenInUseAuthorization];
-    [PNLiteDemoSettings sharedInstance];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:kIsAppLaunchedPreviouslyKey]) {
+        [PNLiteDemoSettings sharedInstance];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
+    }
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
     
-    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
+    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
             [HyBidLogger setLogLevel:HyBidLogLevelDebug];
             NSLog(@"HyBid initialisation completed");
         }
     }];
-    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[[NSUserDefaults standardUserDefaults] objectForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
+    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     return YES;

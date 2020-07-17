@@ -51,7 +51,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Settings";
-    self.appTokenTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDemoAppTokenKey];
+    self.appTokenTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey];
     self.testModeSelected = [PNLiteDemoSettings sharedInstance].testMode;
     self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
@@ -121,7 +121,7 @@
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
     [PNLiteDemoSettings sharedInstance].apiURL = self.apiURLTextField.text;
     
-    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
+    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
