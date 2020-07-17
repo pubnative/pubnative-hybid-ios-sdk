@@ -28,9 +28,9 @@
 #define kHyBidMoPubHeaderBiddingBannerAdUnitID @"a4eac931d95444f0a95adc77093a22ab"
 #define kHyBidMoPubHeaderBiddingMRectAdUnitID @"7f797ff5c287480cbf15e9f1735fb8d7"
 #define kHyBidMoPubHeaderBiddingInterstitialAdUnitID @"a91bc5a72fd54888ac248e7656b69b2e"
+#define kHyBidMoPubMediationNativeAdUnitID @"823d7538cf714f2ab344436b2027f8ea"
 
 NSString *const PNLiteDemoZoneID;
-NSString *const PNLiteDemoMoPubMediationNativeAdUnitID = @"823d7538cf714f2ab344436b2027f8ea";
 NSString *const PNLiteDemoMoPubMediationLeaderboardAdUnitID = @"8c18da9010144ebabeb85eead8141bf6";
 NSString *const PNLiteDemoMoPubMediationBannerAdUnitID = @"8ba4f63a03da4c1ba84653c4bc66d11e";
 NSString *const PNLiteDemoMoPubMediationMRectAdUnitID = @"038dfd33ec4d4391aee61557ffd3ed8b";
@@ -51,7 +51,6 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
 - (void)dealloc {
     self.zoneID = nil;
-    self.moPubMediationNativeAdUnitID = nil;
     self.moPubMediationLeaderboardAdUnitID = nil;
     self.moPubMediationBannerAdUnitID = nil;
     self.moPubMediationMRectAdUnitID = nil;
@@ -88,7 +87,8 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingBannerAdUnitID forKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingMRectAdUnitID forKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingInterstitialAdUnitID forKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
-        self.moPubMediationNativeAdUnitID = PNLiteDemoMoPubMediationNativeAdUnitID;
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationNativeAdUnitID forKey:kHyBidMoPubMediationNativeAdUnitIDKey];
+
         self.moPubMediationLeaderboardAdUnitID = PNLiteDemoMoPubMediationLeaderboardAdUnitID;
         self.moPubMediationBannerAdUnitID = PNLiteDemoMoPubMediationBannerAdUnitID;
         self.moPubMediationMRectAdUnitID = PNLiteDemoMoPubMediationMRectAdUnitID;

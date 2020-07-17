@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Settings";
-    self.nativeAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID;
+    self.nativeAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationNativeAdUnitIDKey];
     self.leaderboardAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID;
     self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID;
     self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID;
@@ -45,7 +45,7 @@
 }
 - (IBAction)saveMoPubMediationSettingsTouchUpInside:(UIButton *)sender
 {
-    [PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID = self.nativeAdUnitIDTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.nativeAdUnitIDTextField.text forKey:kHyBidMoPubMediationNativeAdUnitIDKey];
     [PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID = self.leaderboardAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID = self.bannerAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID = self.mRectAdUnitIDTextField.text;
