@@ -40,14 +40,14 @@
     self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID;
     self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID;
     self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID;
-    self.leaderboardAdUnitTextField.text = [PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID;
+    self.leaderboardAdUnitTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
 }
 
 - (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender {
     [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID = self.bannerAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID = self.mRectAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID = self.leaderboardAdUnitTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.leaderboardAdUnitTextField.text forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
