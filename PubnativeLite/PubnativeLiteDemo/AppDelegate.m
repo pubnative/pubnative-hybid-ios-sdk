@@ -50,7 +50,7 @@ CLLocationManager *locationManager;
             NSLog(@"HyBid initialisation completed");
         }
     }];
-    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
+    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[[NSUserDefaults standardUserDefaults] objectForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     return YES;

@@ -26,12 +26,12 @@
 #define kHyBidDemoAppTokenKey @"appToken"
 
 #define kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey @"moPubHeaderBiddingLeaderboardAdUnitID"
+#define kHyBidMoPubHeaderBiddingBannerAdUnitIDKey @"moPubHeaderBiddingBannerAdUnitID"
 
 
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *zoneID;
-@property (nonatomic, strong) NSString *moPubBannerAdUnitID;
 @property (nonatomic, strong) NSString *moPubMRectAdUnitID;
 @property (nonatomic, strong) NSString *moPubInterstitialAdUnitID;
 @property (nonatomic, strong) NSString *moPubMediationNativeAdUnitID;
