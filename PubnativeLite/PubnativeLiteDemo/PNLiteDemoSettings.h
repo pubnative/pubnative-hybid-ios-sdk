@@ -23,9 +23,10 @@
 #import <Foundation/Foundation.h>
 #import <HyBid/HyBid.h>
 
+#define kHyBidDemoAppTokenKey @"appToken"
+
 @interface PNLiteDemoSettings : NSObject
 
-@property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSString *moPubLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *moPubBannerAdUnitID;

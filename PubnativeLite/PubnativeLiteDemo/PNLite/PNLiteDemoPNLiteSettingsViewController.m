@@ -51,7 +51,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Settings";
-    self.appTokenTextField.text = [PNLiteDemoSettings sharedInstance].appToken;
+    self.appTokenTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDemoAppTokenKey];
     self.testModeSelected = [PNLiteDemoSettings sharedInstance].testMode;
     self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
@@ -115,13 +115,13 @@
 }
 
 - (IBAction)savePNLiteSettingsTouchUpInside:(UIButton *)sender {
-    [PNLiteDemoSettings sharedInstance].appToken = self.appTokenTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.appTokenTextField.text forKey:kHyBidDemoAppTokenKey];
     [PNLiteDemoSettings sharedInstance].targetingModel = [self configureTargetingModel];
     [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
     [PNLiteDemoSettings sharedInstance].apiURL = self.apiURLTextField.text;
     
-    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
