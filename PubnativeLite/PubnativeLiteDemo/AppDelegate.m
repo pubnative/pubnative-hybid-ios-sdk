@@ -40,7 +40,7 @@ CLLocationManager *locationManager;
     
     locationManager = [[CLLocationManager alloc] init];
     [locationManager requestWhenInUseAuthorization];
-    
+    [PNLiteDemoSettings sharedInstance];
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
     
