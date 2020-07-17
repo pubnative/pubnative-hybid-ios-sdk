@@ -51,5 +51,6 @@
 + (NSString *)displayManager;
 + (NSString *)displayManagerVersion;
 + (NSString *)usprivacy;
++ (NSString *)userconsent;
 
 @end
