@@ -38,14 +38,15 @@
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Settings";
     self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
-    self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID;
+    self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
     self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID;
     self.leaderboardAdUnitTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
 }
 
 - (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender {
     [[NSUserDefaults standardUserDefaults] setObject:self.bannerAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
-    [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID = self.mRectAdUnitIDTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.mRectAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
+
     [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
     [[NSUserDefaults standardUserDefaults] setObject:self.leaderboardAdUnitTextField.text forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];
