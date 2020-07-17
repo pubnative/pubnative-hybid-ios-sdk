@@ -32,10 +32,10 @@
 #define kHyBidMoPubMediationLeaderboardAdUnitID @"8c18da9010144ebabeb85eead8141bf6"
 #define kHyBidMoPubMediationBannerAdUnitID @"8ba4f63a03da4c1ba84653c4bc66d11e"
 #define kHyBidMoPubMediationMRectAdUnitID @"038dfd33ec4d4391aee61557ffd3ed8b"
+#define kHyBidMoPubMediationInterstitialAdUnitID @"a50d6ad8b2b84ea0af8049b8dfd32126"
 
 
 NSString *const PNLiteDemoZoneID;
-NSString *const PNLiteDemoMoPubMediationInterstitialAdUnitID = @"a50d6ad8b2b84ea0af8049b8dfd32126";
 NSString *const PNLiteDemoDFPLeaderboardAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPBannerAdUnitID = @"/6499/example/banner";
 NSString *const PNLiteDemoDFPMRectAdUnitID = @"/6499/example/banner";
@@ -52,7 +52,6 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
 - (void)dealloc {
     self.zoneID = nil;
-    self.moPubMediationInterstitialAdUnitID = nil;
     self.dfpLeaderboardAdUnitID = nil;
     self.dfpBannerAdUnitID = nil;
     self.dfpMRectAdUnitID = nil;
@@ -89,7 +88,8 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationLeaderboardAdUnitID forKey:kHyBidMoPubMediationLeaderboardAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationBannerAdUnitID forKey:kHyBidMoPubMediationBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationMRectAdUnitID forKey:kHyBidMoPubMediationMRectAdUnitIDKey];
-        self.moPubMediationInterstitialAdUnitID = PNLiteDemoMoPubMediationInterstitialAdUnitID;
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationInterstitialAdUnitID forKey:kHyBidMoPubMediationInterstitialAdUnitIDKey];
+
         self.dfpLeaderboardAdUnitID = PNLiteDemoDFPLeaderboardAdUnitID;
         self.dfpBannerAdUnitID = PNLiteDemoDFPBannerAdUnitID;
         self.dfpMRectAdUnitID = PNLiteDemoDFPMRectAdUnitID;
