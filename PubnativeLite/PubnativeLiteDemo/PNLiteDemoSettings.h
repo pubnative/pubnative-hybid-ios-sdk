@@ -39,6 +39,8 @@
 #define kHyBidDFPHeaderBiddingMRectAdUnitIDKey @"dfpHeaderBiddingMRectAdUnitID"
 #define kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey @"dfpHeaderBiddingInterstitialAdUnitID"
 
+#define kHyBidDemoAppAPIURLKey @"apiURL"
+
 
 @interface PNLiteDemoSettings : NSObject
 
@@ -49,7 +51,6 @@
 @property (nonatomic, strong) NSString *adMobMediationLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *adMobMediationInterstitialAdUnitID;
 @property (nonatomic, strong) NSString *keywords;
-@property (nonatomic, strong) NSString *apiURL;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, assign) BOOL testMode;
 @property (nonatomic, assign) BOOL coppaMode;

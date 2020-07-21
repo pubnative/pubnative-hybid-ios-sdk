@@ -38,6 +38,7 @@
 #define kHyBidDFPHeaderBiddingMRectAdUnitID @"/6499/example/banner"
 #define kHyBidDFPHeaderBiddingInterstitialAdUnitID @"/6499/example/interstitial"
 
+#define kHyBidDemoAppAPIURL @"https://api.pubnative.net"
 
 NSString *const PNLiteDemoZoneID;
 NSString *const PNLiteDemoAdMobMediationAppID = @"ca-app-pub-2576283444991206~5819414108";
@@ -45,8 +46,6 @@ NSString *const PNLiteDemoAdMobMediationBannerAdUnitID = @"ca-app-pub-2576283444
 NSString *const PNLiteDemoAdMobMediationMRectAdUnitID = @"ca-app-pub-2576283444991206/1943393054";
 NSString *const PNLiteDemoAdMobMediationLeaderboardAdUnitID = @"ca-app-pub-2576283444991206/2969889488";
 NSString *const PNLiteDemoAdMobMediationInterstitialAdUnitID = @"ca-app-pub-2576283444991206/1852248931";
-
-NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 
 @implementation PNLiteDemoSettings
 
@@ -59,7 +58,6 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
     self.adMobMediationInterstitialAdUnitID = nil;
     self.keywords = nil;
     self.targetingModel = nil;
-    self.apiURL = nil;
 }
 
 + (PNLiteDemoSettings *)sharedInstance {
@@ -89,7 +87,7 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingBannerAdUnitID forKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingMRectAdUnitID forKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingInterstitialAdUnitID forKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
-        
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAppAPIURL forKey:kHyBidDemoAppAPIURLKey];
 
         self.adMobMediationAppID = PNLiteDemoAdMobMediationAppID;
         self.adMobMediationBannerAdUnitID = PNLiteDemoAdMobMediationBannerAdUnitID;
@@ -97,7 +95,6 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         self.adMobMediationLeaderboardAdUnitID = PNLiteDemoAdMobMediationLeaderboardAdUnitID;
         self.adMobMediationInterstitialAdUnitID = PNLiteDemoAdMobMediationInterstitialAdUnitID;
         self.targetingModel = [[HyBidTargetingModel alloc] init];
-        self.apiURL = PNLiteDemoAPIURL;
     }
     return self;
 }
