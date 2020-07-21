@@ -37,12 +37,12 @@
 #define kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey @"dfpHeaderBiddingLeaderboardAdUnitID"
 #define kHyBidDFPHeaderBiddingBannerAdUnitIDKey @"dfpHeaderBiddingBannerAdUnitID"
 #define kHyBidDFPHeaderBiddingMRectAdUnitIDKey @"dfpHeaderBiddingMRectAdUnitID"
+#define kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey @"dfpHeaderBiddingInterstitialAdUnitID"
 
 
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *zoneID;
-@property (nonatomic, strong) NSString *dfpInterstitialAdUnitID;
 @property (nonatomic, strong) NSString *adMobMediationAppID;
 @property (nonatomic, strong) NSString *adMobMediationBannerAdUnitID;
 @property (nonatomic, strong) NSString *adMobMediationMRectAdUnitID;

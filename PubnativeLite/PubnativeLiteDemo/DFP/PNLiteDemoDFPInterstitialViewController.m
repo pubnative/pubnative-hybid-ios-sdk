@@ -62,7 +62,7 @@
 }
 
 - (DFPInterstitial *)createAndLoadInterstitial {
-    DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID];
+    DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey]];
     interstitial.delegate = self;
     return interstitial;
 }
