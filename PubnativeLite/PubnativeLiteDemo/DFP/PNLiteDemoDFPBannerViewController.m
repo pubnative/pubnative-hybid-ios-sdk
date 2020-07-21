@@ -51,7 +51,7 @@
     [self.bannerLoaderIndicator stopAnimating];
     self.dfpBanner = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     self.dfpBanner.delegate = self;
-    self.dfpBanner.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
+    self.dfpBanner.adUnitID = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
     self.dfpBanner.rootViewController = self;
     [self.bannerContainer addSubview:self.dfpBanner];
 }
