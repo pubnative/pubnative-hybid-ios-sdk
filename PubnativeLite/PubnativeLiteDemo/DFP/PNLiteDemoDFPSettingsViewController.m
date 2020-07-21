@@ -37,10 +37,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"DFP Settings";
-    self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
-    self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
-    self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
-    self.leaderboardAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey];
+    self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
+    self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
+    self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
+    self.leaderboardAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey];
 }
 
 - (IBAction)saveDFPSettingsTouchUpInside:(UIButton *)sender {

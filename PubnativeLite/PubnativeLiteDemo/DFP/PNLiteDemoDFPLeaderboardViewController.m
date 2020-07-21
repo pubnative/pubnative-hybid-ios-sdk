@@ -51,7 +51,7 @@
     [self.leaderboardLoaderIndicator stopAnimating];
     self.dfpLeaderboard = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
     self.dfpLeaderboard.delegate = self;
-    self.dfpLeaderboard.adUnitID = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey];
+    self.dfpLeaderboard.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey];
     self.dfpLeaderboard.rootViewController = self;
     [self.leaderboardContainer addSubview:self.dfpLeaderboard];
 }
