@@ -701,6 +701,8 @@
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
 		7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCDD24BDFE84005D2B64 /* omsdk.js */; };
+		7EC5DCEF24C19D16005D2B64 /* ad.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCEE24C19D16005D2B64 /* ad.txt */; };
+		7EC5DCF024C19ED6005D2B64 /* ad.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCEE24C19D16005D2B64 /* ad.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1745,6 +1747,7 @@
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
 		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
 		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
+		7EC5DCEE24C19D16005D2B64 /* ad.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2805,6 +2808,7 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
+				7EC5DCEE24C19D16005D2B64 /* ad.txt */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
 				5A6CD0232029CD060022E206 /* HyBid.h */,
 				5A540258202B129E005D80E6 /* HyBid.m */,
@@ -3785,7 +3789,7 @@
 				TargetAttributes = {
 					5A32CEB82029F79B0003B450 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					5A6CD01F2029CD060022E206 = {
 						CreatedOnToolsVersion = 9.2;
@@ -3822,6 +3826,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EC5DCF024C19ED6005D2B64 /* ad.txt in Resources */,
 				5A262DDD218B4B3F001A29E2 /* Leaderboard.storyboard in Resources */,
 				5A374B2324B6199000AF96BD /* MPMutedBtn.png in Resources */,
 				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
@@ -3881,6 +3886,7 @@
 				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 				5ACC74EE203595250001CDC3 /* PNLiteCloseButton.png in Resources */,
 				5A9B66BF20BD57ED0067964E /* PNLiteUnmute.png in Resources */,
+				7EC5DCEF24C19D16005D2B64 /* ad.txt in Resources */,
 				7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4382,9 +4388,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				ENABLE_BITCODE = NO;
@@ -4400,7 +4406,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.pubnative.HyBid.demo";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

@@ -27,17 +27,27 @@
 + (NSString *)processRawHtml:(NSString *)rawHtml {
     NSString *processedHtml = rawHtml;
     NSRange range;
-    
-    // Remove the mraid.js script tag.
-    // We expect the tag to look like this:
-    // <script src='mraid.js'></script>
-    // But we should also be to handle additional attributes and whitespace like this:
-    // <script  type = 'text/javascript'  src = 'mraid.js' > </script>
-    
-    NSString *pattern = @"<script\\s+[^>]*\\bsrc\\s*=\\s*([\\\"\\\'])mraid\\.js\\1[^>]*>\\s*</script>\\n*";
     NSError *error = NULL;
-    
+
+    // Remove <useRawResponse> tag coming from Verve ads.
+    NSString* pattern  = [[NSString alloc] initWithFormat:@"%@.*?%@", @"<useRawResponse>", @"</useRawResponse>"];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                      options:NSRegularExpressionCaseInsensitive
+                                                        error:&error];
+    
+    processedHtml = [regex stringByReplacingMatchesInString:processedHtml
+                                                    options:0
+                                                      range:NSMakeRange(0, [processedHtml length])
+                                               withTemplate:@""];
+//     Remove the mraid.js script tag.
+//     We expect the tag to look like this:
+//     <script src='mraid.js'></script>
+//     But we should also be to handle additional attributes and whitespace like this:
+//     <script  type = 'text/javascript'  src = 'mraid.js' > </script>
+//
+    pattern = @"<script\\s+[^>]*\\bsrc\\s*=\\s*([\\\"\\\'])mraid\\.js\\1[^>]*>\\s*</script>\\n*";
+
+    regex = [NSRegularExpression regularExpressionWithPattern:pattern
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
     processedHtml = [regex stringByReplacingMatchesInString:processedHtml
