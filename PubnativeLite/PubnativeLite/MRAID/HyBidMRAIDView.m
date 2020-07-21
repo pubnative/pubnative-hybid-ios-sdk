@@ -1175,8 +1175,8 @@ typedef enum {
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
                                                                  [absUrlString stringByRemovingPercentEncoding]]];
-                if ([absUrlString containsString:@"utm_source%3DVerve"]
-                    && [absUrlString containsString:@"expandedUrl"]
+                if ([absUrlString containsString:@"tags-prod.vrvm.com"]
+                    && [absUrlString containsString:@"type=expandable"]
                     && self.isViewable) {
                     [self expand:absUrlString supportVerve:YES];
                 } else {

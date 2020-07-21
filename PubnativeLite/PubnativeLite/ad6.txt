@@ -1,0 +1,55 @@
+<ad>
+    <media>
+        <image_url />
+        <image_alt />
+    </media>
+    <tracking>
+        <tracking_image_url />
+    </tracking>
+    <copy>
+        <leadin />
+    </copy>
+    <clickthrough>
+        <url />
+    </clickthrough>
+    <rawResponse>
+        <useRawResponse>true</useRawResponse>
+        <response>
+            <![CDATA[<html><head><meta name="HandheldFriendly" content="true" /> <meta name="MobileOptimized" content="width" /> <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no" /></head> <body style="margin: 0; padding: 0"><div class="vrvWrap" style="width: 100%; height: 100%;"><img style="display: none;" onerror="(function(w, d, i) { var tagElement = i.parentNode;
+            var c = {
+            'creativeParams': {
+            'variant': 'cabletime',
+            'landingPageUrl': 'https://cabletimetv.com/mobile-display-2?sl_track_id=c65323342638bbc1d507de13490b263beede3ffa7c25b3f5d9b70dfde63caf34',
+            'segmentId': '25482'
+            },
+            'trackImp': '',
+            'trackClick': '',
+            'type': 'expandable',
+            'width': '320',
+            'height': '50',
+            'bannerUrl': 'https://ad.vrvm.com/creative/custom/sproutloud/ENT-875/expandable-ttm-contact-us/banner.html',
+            'panelUrl': 'https://ad.vrvm.com/creative/custom/sproutloud/ENT-875/expandable-ttm-contact-us/panel.html',
+            'expandedUrl': 'https://tags-prod.vrvm.com/tags/d1wP4N/expanded.html?tagjs_version=1.6.0',
+            'transition': 'fade'
+            };
+            'function'!=typeof Object.assign&amp;&amp;!function(){Object.assign=function(n){'use strict';if(void 0===n||null===n)throw new TypeError('Cannot convert undefined or null to object');for(var t=Object(n),r=1;r<arguments.length;r++){var e=arguments[r];if(void 0!==e&amp;&amp;null!==e)for(var o in e)e.hasOwnProperty(o)&amp;&amp;(t[o]=e[o])}return t}}();
+            var d = {
+            'trackBase': 'http%3A%2F%2Fgo.vrvm.com%2Ft%3Fc%3D2792027%26f%3D1%26adnet%3D54%26paid%3D5723%26poid%3D38%26r%3D0000010f5ee7b34d4a5b09171aa2f312%26uis%3Di%26countryCode%3DUS',
+            'appmw': 'app',
+            'latitude': '32.95',
+            'longitude': '-117.22',
+            'flightId': '1',
+            'creativeId': '2792027',
+            'requestId': '0000010f5ee7b34d4a5b09171aa2f312',
+            'adnetId': '54',
+            'dfpUrl': ''
+            };
+            Object.assign(c, d);
+            var script = document.createElement('script'); script.src = 'https://creative-platform.vrvm.com/tagjs/tag.1.6.0.js'; script.onload = function() { Verve.controllers.factories.AdFactory.makeAd(tagElement, c); }; tagElement.appendChild(script); })(window, document, this);" src="data:image/png,vrvm" /></div>
+            <div style="position:absolute; z-index:-9999; display:none;">
+            <!-- DELETE THIS LINE AND ADD ALL THIRD PARTY TRACKERS HERE -->
+            </div>
+            </body></html><img src="http://go.vrvm.com/t?r=0000010f5ee7b34d4a5b09171aa2f312&amp;e=AdImpInternal&amp;adnet=54&amp;countryCode=US&amp;paid=5723&amp;poid=38&amp;uis=I&amp;f=1&amp;c=2792027&amp;ah=p-east-adcel-dmz-g181" width="1" height="1" style="display:none;"/>]]>
+        </response>
+    </rawResponse>
+</ad>
