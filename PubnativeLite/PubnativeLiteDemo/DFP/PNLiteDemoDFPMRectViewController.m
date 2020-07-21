@@ -51,7 +51,7 @@
     [self.mRectLoaderIndicator stopAnimating];
     self.dfpMrect = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
     self.dfpMrect.delegate = self;
-    self.dfpMrect.adUnitID = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
+    self.dfpMrect.adUnitID = [[NSUserDefaults standardUserDefaults] objectForKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
     self.dfpMrect.rootViewController = self;
     [self.mRectContainer addSubview:self.dfpMrect];
 }
