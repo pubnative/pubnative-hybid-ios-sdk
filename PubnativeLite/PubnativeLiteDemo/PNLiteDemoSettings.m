@@ -43,7 +43,7 @@
 #define kHyBidAdMobMediationLeaderboardAdUnitID @"ca-app-pub-2576283444991206/2969889488"
 #define kHyBidAdMobMediationInterstitialAdUnitID @"ca-app-pub-2576283444991206/1852248931"
 
-#define kHyBidDemoAppAPIURL @"https://api.pubnative.net"
+#define kHyBidDemoAPIURL @"https://api.pubnative.net"
 
 @implementation PNLiteDemoSettings
 
@@ -79,7 +79,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingBannerAdUnitID forKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingMRectAdUnitID forKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingInterstitialAdUnitID forKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAppAPIURL forKey:kHyBidDemoAppAPIURLKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAPIURL forKey:kHyBidDemoAPIURLKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationAppID forKey:kHyBidAdMobMediationAppIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationBannerAdUnitID forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationMRectAdUnitID forKey:kHyBidAdMobMediationMRectAdUnitIDKey];

@@ -56,7 +56,7 @@
     self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
-    self.apiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppAPIURLKey];
+    self.apiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
     [self setInitialStateForModeButtons];
     [self setInitialStateForGenderButtons];
     if (self.targetingModel.age.integerValue > 0) {
@@ -119,14 +119,14 @@
     [PNLiteDemoSettings sharedInstance].targetingModel = [self configureTargetingModel];
     [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
     [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
-    [[NSUserDefaults standardUserDefaults] setObject:self.apiURLTextField.text forKey:kHyBidDemoAppAPIURLKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.apiURLTextField.text forKey:kHyBidDemoAPIURLKey];
     
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
     }];
-    [HyBidSettings sharedInstance].apiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppAPIURLKey];
+    [HyBidSettings sharedInstance].apiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
     [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
         [HyBid setTestMode:YES];
