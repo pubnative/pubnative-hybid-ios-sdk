@@ -41,7 +41,7 @@
     self.leaderboardAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationLeaderboardAdUnitIDKey];
     self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationBannerAdUnitIDKey];
     self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationMRectAdUnitIDKey];
-    self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].adMobMediationInterstitialAdUnitID;
+    self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationInterstitialAdUnitIDKey];
 }
 - (IBAction)saveMoPubMediationSettingsTouchUpInside:(UIButton *)sender
 {
@@ -49,7 +49,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.leaderboardAdUnitIDTextField.text forKey:kHyBidAdMobMediationLeaderboardAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.bannerAdUnitIDTextField.text forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.mRectAdUnitIDTextField.text forKey:kHyBidAdMobMediationMRectAdUnitIDKey];
-    [PNLiteDemoSettings sharedInstance].adMobMediationInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.interstitialAdUnitIDTextField.text forKey:kHyBidAdMobMediationInterstitialAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
