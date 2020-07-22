@@ -83,16 +83,6 @@ NSString *const kImpressionQuerryParameter = @"t";
     if (data) {
         result = data.html;
     }
-    
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"ad8" ofType:@"txt"];
-//    NSError *error;
-//    NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-//
-//    if (error)
-//        NSLog(@"Error reading file: %@", error.localizedDescription);
-//
-//    NSLog(@"contents: %@", content);
-//    return content
     return result;
 }
 
