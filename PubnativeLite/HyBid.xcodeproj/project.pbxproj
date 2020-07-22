@@ -701,22 +701,6 @@
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
 		7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCDD24BDFE84005D2B64 /* omsdk.js */; };
-		7EC5DCEF24C19D16005D2B64 /* ad1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCEE24C19D16005D2B64 /* ad1.txt */; };
-		7EC5DCF024C19ED6005D2B64 /* ad1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCEE24C19D16005D2B64 /* ad1.txt */; };
-		7EC5DCF924C73D81005D2B64 /* ad2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCF824C73D81005D2B64 /* ad2.txt */; };
-		7EC5DCFA24C77CA5005D2B64 /* ad2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCF824C73D81005D2B64 /* ad2.txt */; };
-		7EC5DCFC24C77D1D005D2B64 /* ad3.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCFB24C77D1D005D2B64 /* ad3.txt */; };
-		7EC5DCFD24C77D1D005D2B64 /* ad3.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCFB24C77D1D005D2B64 /* ad3.txt */; };
-		7EC5DCFF24C77F07005D2B64 /* ad4.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCFE24C77F07005D2B64 /* ad4.txt */; };
-		7EC5DD0024C77F07005D2B64 /* ad4.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCFE24C77F07005D2B64 /* ad4.txt */; };
-		7EC5DD0224C79879005D2B64 /* ad5.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0124C79879005D2B64 /* ad5.txt */; };
-		7EC5DD0324C79879005D2B64 /* ad5.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0124C79879005D2B64 /* ad5.txt */; };
-		7EC5DD0524C798D6005D2B64 /* ad6.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0424C798D6005D2B64 /* ad6.txt */; };
-		7EC5DD0624C798D6005D2B64 /* ad6.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0424C798D6005D2B64 /* ad6.txt */; };
-		7EC5DD0824C79A14005D2B64 /* ad7.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0724C79A14005D2B64 /* ad7.txt */; };
-		7EC5DD0924C79A14005D2B64 /* ad7.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0724C79A14005D2B64 /* ad7.txt */; };
-		7EC5DD0B24C79ABD005D2B64 /* ad8.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0A24C79ABD005D2B64 /* ad8.txt */; };
-		7EC5DD0C24C79ABD005D2B64 /* ad8.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DD0A24C79ABD005D2B64 /* ad8.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1761,14 +1745,6 @@
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
 		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
 		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
-		7EC5DCEE24C19D16005D2B64 /* ad1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad1.txt; sourceTree = "<group>"; };
-		7EC5DCF824C73D81005D2B64 /* ad2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad2.txt; sourceTree = "<group>"; };
-		7EC5DCFB24C77D1D005D2B64 /* ad3.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad3.txt; sourceTree = "<group>"; };
-		7EC5DCFE24C77F07005D2B64 /* ad4.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad4.txt; sourceTree = "<group>"; };
-		7EC5DD0124C79879005D2B64 /* ad5.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad5.txt; sourceTree = "<group>"; };
-		7EC5DD0424C798D6005D2B64 /* ad6.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad6.txt; sourceTree = "<group>"; };
-		7EC5DD0724C79A14005D2B64 /* ad7.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad7.txt; sourceTree = "<group>"; };
-		7EC5DD0A24C79ABD005D2B64 /* ad8.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ad8.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2829,7 +2805,6 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
-				7EC5DD0D24C79C21005D2B64 /* Test Creatives */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
 				5A6CD0232029CD060022E206 /* HyBid.h */,
 				5A540258202B129E005D80E6 /* HyBid.m */,
@@ -3550,21 +3525,6 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
-		7EC5DD0D24C79C21005D2B64 /* Test Creatives */ = {
-			isa = PBXGroup;
-			children = (
-				7EC5DCEE24C19D16005D2B64 /* ad1.txt */,
-				7EC5DCF824C73D81005D2B64 /* ad2.txt */,
-				7EC5DCFB24C77D1D005D2B64 /* ad3.txt */,
-				7EC5DCFE24C77F07005D2B64 /* ad4.txt */,
-				7EC5DD0124C79879005D2B64 /* ad5.txt */,
-				7EC5DD0424C798D6005D2B64 /* ad6.txt */,
-				7EC5DD0724C79A14005D2B64 /* ad7.txt */,
-				7EC5DD0A24C79ABD005D2B64 /* ad8.txt */,
-			);
-			path = "Test Creatives";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -3862,8 +3822,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EC5DD0C24C79ABD005D2B64 /* ad8.txt in Resources */,
-				7EC5DCF024C19ED6005D2B64 /* ad1.txt in Resources */,
 				5A262DDD218B4B3F001A29E2 /* Leaderboard.storyboard in Resources */,
 				5A374B2324B6199000AF96BD /* MPMutedBtn.png in Resources */,
 				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
@@ -3890,19 +3848,13 @@
 				5A374B1F24B6199000AF96BD /* MPAdapters.plist in Resources */,
 				5A374B6324B6199100AF96BD /* LICENSE in Resources */,
 				5A374B1424B6199000AF96BD /* MPUnmutedBtn.png in Resources */,
-				7EC5DCFD24C77D1D005D2B64 /* ad3.txt in Resources */,
-				7EC5DCFA24C77CA5005D2B64 /* ad2.txt in Resources */,
 				5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */,
 				5A374B1924B6199000AF96BD /* MPPlayBtn@2x.png in Resources */,
-				7EC5DD0624C798D6005D2B64 /* ad6.txt in Resources */,
-				7EC5DD0324C79879005D2B64 /* ad5.txt in Resources */,
 				5A374B1E24B6199000AF96BD /* MPUnmutedBtn@2x.png in Resources */,
 				5A374B2424B6199000AF96BD /* MPMutedBtn@2x.png in Resources */,
-				7EC5DD0024C77F07005D2B64 /* ad4.txt in Resources */,
 				5A374B2224B6199000AF96BD /* MPPlayBtn.png in Resources */,
 				5AFDAFF1212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib in Resources */,
 				5A374B1D24B6199000AF96BD /* MPPlayBtn@3x.png in Resources */,
-				7EC5DD0924C79A14005D2B64 /* ad7.txt in Resources */,
 				5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */,
 				5A374B1624B6199000AF96BD /* MRAID.bundle in Resources */,
 			);
@@ -3912,23 +3864,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EC5DD0524C798D6005D2B64 /* ad6.txt in Resources */,
 				5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
 				5A2EC33F20C83DA5000F9747 /* PNLiteClose@2x.png in Resources */,
 				5A9B66BE20BD57ED0067964E /* PNLiteMute.png in Resources */,
 				5A9B66BB20BD57ED0067964E /* PNLitePlay.png in Resources */,
-				7EC5DCF924C73D81005D2B64 /* ad2.txt in Resources */,
 				5A9B66C020BD57ED0067964E /* PNLiteUnmute@2x.png in Resources */,
-				7EC5DCFC24C77D1D005D2B64 /* ad3.txt in Resources */,
-				7EC5DD0B24C79ABD005D2B64 /* ad8.txt in Resources */,
-				7EC5DD0824C79A14005D2B64 /* ad7.txt in Resources */,
 				5A9B66BC20BD57ED0067964E /* PNLiteMute@2x.png in Resources */,
 				5A9B66C320BD57ED0067964E /* PNLiteFullScreen@2x.png in Resources */,
 				5A9B66C120BD57ED0067964E /* PNLiteFullScreen.png in Resources */,
-				7EC5DCFF24C77F07005D2B64 /* ad4.txt in Resources */,
 				5A2EC34120C83DA5000F9747 /* PNLiteClose@3x.png in Resources */,
 				5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */,
-				7EC5DD0224C79879005D2B64 /* ad5.txt in Resources */,
 				5A2EC34020C83DA5000F9747 /* PNLiteClose.png in Resources */,
 				5A9B66C420BD57ED0067964E /* PNLiteExternalLink@2x.png in Resources */,
 				5A9B66C220BD57ED0067964E /* PNLitePlay@2x.png in Resources */,
@@ -3936,7 +3881,6 @@
 				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 				5ACC74EE203595250001CDC3 /* PNLiteCloseButton.png in Resources */,
 				5A9B66BF20BD57ED0067964E /* PNLiteUnmute.png in Resources */,
-				7EC5DCEF24C19D16005D2B64 /* ad1.txt in Resources */,
 				7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
