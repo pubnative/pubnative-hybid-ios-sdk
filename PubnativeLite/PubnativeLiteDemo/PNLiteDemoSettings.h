@@ -24,7 +24,7 @@
 #import <HyBid/HyBid.h>
 
 #define kHyBidDemoAppTokenKey @"appToken"
-
+#define kHyBidDemoZoneIDKey @"zoneID"
 #define kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey @"moPubHeaderBiddingLeaderboardAdUnitID"
 #define kHyBidMoPubHeaderBiddingBannerAdUnitIDKey @"moPubHeaderBiddingBannerAdUnitID"
 #define kHyBidMoPubHeaderBiddingMRectAdUnitIDKey @"moPubHeaderBiddingMRectAdUnitID"
@@ -49,7 +49,6 @@
 
 @interface PNLiteDemoSettings : NSObject
 
-@property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSString *keywords;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, assign) BOOL testMode;

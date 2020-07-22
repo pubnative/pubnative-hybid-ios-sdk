@@ -65,7 +65,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
-    [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - HyBidNativeAdLoaderDelegate

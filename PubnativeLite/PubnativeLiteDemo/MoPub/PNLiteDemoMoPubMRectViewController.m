@@ -65,7 +65,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - MPAdViewDelegate

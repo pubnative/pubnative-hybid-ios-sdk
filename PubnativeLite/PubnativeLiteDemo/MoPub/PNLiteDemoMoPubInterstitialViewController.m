@@ -56,7 +56,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
