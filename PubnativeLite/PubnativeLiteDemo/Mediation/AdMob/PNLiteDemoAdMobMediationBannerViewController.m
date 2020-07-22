@@ -49,7 +49,7 @@
     [self.bannerLoaderIndicator stopAnimating];
     self.adMobBanner = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     self.adMobBanner.delegate = self;
-    self.adMobBanner.adUnitID = [PNLiteDemoSettings sharedInstance].adMobMediationBannerAdUnitID;
+    self.adMobBanner.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationBannerAdUnitIDKey];
     self.adMobBanner.rootViewController = self;
     [self.bannerContainer addSubview:self.adMobBanner];
 }

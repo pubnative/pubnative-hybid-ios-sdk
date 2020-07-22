@@ -39,7 +39,7 @@
     self.navigationItem.title = @"AdMob Mediation Settings";
     self.appIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationAppIDKey];
     self.leaderboardAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].adMobMediationLeaderboardAdUnitID;
-    self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].adMobMediationBannerAdUnitID;
+    self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationBannerAdUnitIDKey];
     self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].adMobMediationMRectAdUnitID;
     self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].adMobMediationInterstitialAdUnitID;
 }
@@ -47,7 +47,7 @@
 {
     [[NSUserDefaults standardUserDefaults] setObject:self.appIDTextField.text forKey:kHyBidAdMobMediationAppIDKey];
     [PNLiteDemoSettings sharedInstance].adMobMediationLeaderboardAdUnitID = self.leaderboardAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].adMobMediationBannerAdUnitID = self.bannerAdUnitIDTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.bannerAdUnitIDTextField.text forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
     [PNLiteDemoSettings sharedInstance].adMobMediationMRectAdUnitID = self.mRectAdUnitIDTextField.text;
     [PNLiteDemoSettings sharedInstance].adMobMediationInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
     [self.navigationController popViewControllerAnimated:YES];

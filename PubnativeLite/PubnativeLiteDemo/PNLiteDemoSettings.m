@@ -38,11 +38,11 @@
 #define kHyBidDFPHeaderBiddingMRectAdUnitID @"/6499/example/banner"
 #define kHyBidDFPHeaderBiddingInterstitialAdUnitID @"/6499/example/interstitial"
 #define kHyBidAdMobMediationAppID @"ca-app-pub-2576283444991206~5819414108"
+#define kHyBidAdMobMediationBannerAdUnitID @"ca-app-pub-2576283444991206/7675421252"
 
 #define kHyBidDemoAppAPIURL @"https://api.pubnative.net"
 
 NSString *const PNLiteDemoZoneID;
-NSString *const PNLiteDemoAdMobMediationBannerAdUnitID = @"ca-app-pub-2576283444991206/7675421252";
 NSString *const PNLiteDemoAdMobMediationMRectAdUnitID = @"ca-app-pub-2576283444991206/1943393054";
 NSString *const PNLiteDemoAdMobMediationLeaderboardAdUnitID = @"ca-app-pub-2576283444991206/2969889488";
 NSString *const PNLiteDemoAdMobMediationInterstitialAdUnitID = @"ca-app-pub-2576283444991206/1852248931";
@@ -51,7 +51,6 @@ NSString *const PNLiteDemoAdMobMediationInterstitialAdUnitID = @"ca-app-pub-2576
 
 - (void)dealloc {
     self.zoneID = nil;
-    self.adMobMediationBannerAdUnitID = nil;
     self.adMobMediationMRectAdUnitID = nil;
     self.adMobMediationLeaderboardAdUnitID = nil;
     self.adMobMediationInterstitialAdUnitID = nil;
@@ -88,8 +87,8 @@ NSString *const PNLiteDemoAdMobMediationInterstitialAdUnitID = @"ca-app-pub-2576
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingInterstitialAdUnitID forKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAppAPIURL forKey:kHyBidDemoAppAPIURLKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationAppID forKey:kHyBidAdMobMediationAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationBannerAdUnitID forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
 
-        self.adMobMediationBannerAdUnitID = PNLiteDemoAdMobMediationBannerAdUnitID;
         self.adMobMediationMRectAdUnitID = PNLiteDemoAdMobMediationMRectAdUnitID;
         self.adMobMediationLeaderboardAdUnitID = PNLiteDemoAdMobMediationLeaderboardAdUnitID;
         self.adMobMediationInterstitialAdUnitID = PNLiteDemoAdMobMediationInterstitialAdUnitID;
