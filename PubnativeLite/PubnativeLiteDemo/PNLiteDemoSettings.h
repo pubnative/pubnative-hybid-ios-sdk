@@ -41,6 +41,7 @@
 #define kHyBidAdMobMediationAppIDKey @"adMobMediationAppID"
 #define kHyBidAdMobMediationBannerAdUnitIDKey @"adMobMediationBannerAdUnitID"
 #define kHyBidAdMobMediationMRectAdUnitIDKey @"adMobMediationMRectAdUnitID"
+#define kHyBidAdMobMediationLeaderboardAdUnitIDKey @"adMobMediationLeaderboardAdUnitID"
 
 #define kHyBidDemoAppAPIURLKey @"apiURL"
 
@@ -48,7 +49,6 @@
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *zoneID;
-@property (nonatomic, strong) NSString *adMobMediationLeaderboardAdUnitID;
 @property (nonatomic, strong) NSString *adMobMediationInterstitialAdUnitID;
 @property (nonatomic, strong) NSString *keywords;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
