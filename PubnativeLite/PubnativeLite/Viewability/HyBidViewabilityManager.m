@@ -97,11 +97,11 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 - (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession {
     if (omidAdSession != self.omidAdSession) {
         NSError *adEventsError;
-        _omidAdSession = omidAdSession;
-        _adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:_omidAdSession error:&adEventsError];
+        self.omidAdSession = omidAdSession;
+        self.adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:self.omidAdSession error:&adEventsError];
     }
     
-    return _adEvents;
+    return self.adEvents;
 }
 
 
