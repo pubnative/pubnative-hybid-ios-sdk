@@ -21,6 +21,8 @@
 //
 
 @class OMIDPubnativenetPartner;
+@class OMIDPubnativenetAdEvents;
+@class OMIDPubnativenetAdSession;
 
 #import <Foundation/Foundation.h>
 
@@ -31,10 +33,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
 @property (nonatomic, assign) BOOL isViewabilityMeasurementActivated;
 @property (nonatomic, strong) OMIDPubnativenetPartner *partner;
+@property (nonatomic, strong) OMIDPubnativenetAdSession *omidAdSession;
+@property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
 
 + (instancetype)sharedInstance;
 - (NSString *)getOMIDJS;
-
+- (NSString *)getOMIDVerificationJS;
+- (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession;
 @end
 
 NS_ASSUME_NONNULL_END
