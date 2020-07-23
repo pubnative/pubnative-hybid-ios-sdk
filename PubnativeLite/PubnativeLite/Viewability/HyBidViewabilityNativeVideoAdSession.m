@@ -89,7 +89,7 @@
 }
 
 - (void)createAdEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    _adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
+    self.adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
 }
 
 - (void)createMediaEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
@@ -107,7 +107,7 @@
     
     NSError *vastPropertiesError;
     OMIDPubnativenetVASTProperties *vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
-    [_adEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
+    [self.adEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
 }
 
 
