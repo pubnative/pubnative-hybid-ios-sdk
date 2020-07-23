@@ -25,8 +25,6 @@
 #import "MoPub.h"
 #import <CoreLocation/CoreLocation.h>
 
-#define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
-
 @import GoogleMobileAds;
 
 @interface AppDelegate ()
@@ -40,12 +38,9 @@ CLLocationManager *locationManager;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    [PNLiteDemoSettings sharedInstance];
     locationManager = [[CLLocationManager alloc] init];
     [locationManager requestWhenInUseAuthorization];
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:kIsAppLaunchedPreviouslyKey]) {
-        [PNLiteDemoSettings sharedInstance];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
-    }
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
     

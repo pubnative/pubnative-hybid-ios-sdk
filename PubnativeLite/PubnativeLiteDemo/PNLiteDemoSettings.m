@@ -42,8 +42,8 @@
 #define kHyBidAdMobMediationMRectAdUnitID @"ca-app-pub-2576283444991206/1943393054"
 #define kHyBidAdMobMediationLeaderboardAdUnitID @"ca-app-pub-2576283444991206/2969889488"
 #define kHyBidAdMobMediationInterstitialAdUnitID @"ca-app-pub-2576283444991206/1852248931"
-
 #define kHyBidDemoAPIURL @"https://api.pubnative.net"
+#define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
 
 @implementation PNLiteDemoSettings
 
@@ -63,6 +63,14 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.targetingModel = [[HyBidTargetingModel alloc] init];
+        [self setInitialValuesForUserDefaults];
+    }
+    return self;
+}
+
+- (void)setInitialValuesForUserDefaults {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:kIsAppLaunchedPreviouslyKey]) {
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAppToken forKey:kHyBidDemoAppTokenKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoZoneID forKey:kHyBidDemoZoneIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingLeaderboardAdUnitID forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
@@ -84,9 +92,8 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationMRectAdUnitID forKey:kHyBidAdMobMediationMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationLeaderboardAdUnitID forKey:kHyBidAdMobMediationLeaderboardAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationInterstitialAdUnitID forKey:kHyBidAdMobMediationInterstitialAdUnitIDKey];
-        self.targetingModel = [[HyBidTargetingModel alloc] init];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
     }
-    return self;
 }
 
 @end
