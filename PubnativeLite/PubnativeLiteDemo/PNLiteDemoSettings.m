@@ -48,7 +48,6 @@
 @implementation PNLiteDemoSettings
 
 - (void)dealloc {
-    self.keywords = nil;
     self.targetingModel = nil;
 }
 

@@ -25,6 +25,7 @@
 
 #define kHyBidDemoAppTokenKey @"appToken"
 #define kHyBidDemoZoneIDKey @"zoneID"
+#define kHyBidDemoKeywordsKey @"keywords"
 #define kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey @"moPubHeaderBiddingLeaderboardAdUnitID"
 #define kHyBidMoPubHeaderBiddingBannerAdUnitIDKey @"moPubHeaderBiddingBannerAdUnitID"
 #define kHyBidMoPubHeaderBiddingMRectAdUnitIDKey @"moPubHeaderBiddingMRectAdUnitID"
@@ -49,7 +50,6 @@
 
 @interface PNLiteDemoSettings : NSObject
 
-@property (nonatomic, strong) NSString *keywords;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, assign) BOOL testMode;
 @property (nonatomic, assign) BOOL coppaMode;
