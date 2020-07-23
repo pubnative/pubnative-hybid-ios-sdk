@@ -26,6 +26,8 @@
 #define kHyBidDemoAppTokenKey @"appToken"
 #define kHyBidDemoZoneIDKey @"zoneID"
 #define kHyBidDemoKeywordsKey @"keywords"
+#define kHyBidDemoTestModeKey @"testMode"
+#define kHyBidDemoCOPPAModeKey @"coppaMode"
 #define kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey @"moPubHeaderBiddingLeaderboardAdUnitID"
 #define kHyBidMoPubHeaderBiddingBannerAdUnitIDKey @"moPubHeaderBiddingBannerAdUnitID"
 #define kHyBidMoPubHeaderBiddingMRectAdUnitIDKey @"moPubHeaderBiddingMRectAdUnitID"
@@ -44,15 +46,11 @@
 #define kHyBidAdMobMediationMRectAdUnitIDKey @"adMobMediationMRectAdUnitID"
 #define kHyBidAdMobMediationLeaderboardAdUnitIDKey @"adMobMediationLeaderboardAdUnitID"
 #define kHyBidAdMobMediationInterstitialAdUnitIDKey @"adMobMediationInterstitialAdUnitID"
-
 #define kHyBidDemoAPIURLKey @"apiURL"
-
 
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
-@property (nonatomic, assign) BOOL testMode;
-@property (nonatomic, assign) BOOL coppaMode;
 
 + (PNLiteDemoSettings *)sharedInstance;
 

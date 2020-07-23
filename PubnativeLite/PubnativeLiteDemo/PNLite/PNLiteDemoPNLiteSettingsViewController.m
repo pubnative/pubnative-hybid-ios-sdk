@@ -52,8 +52,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Settings";
     self.appTokenTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey];
-    self.testModeSelected = [PNLiteDemoSettings sharedInstance].testMode;
-    self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;
+    self.testModeSelected = [[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoTestModeKey];
+    self.coppaModeSelected = [[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoCOPPAModeKey];
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
     self.apiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
@@ -117,8 +117,8 @@
 - (IBAction)savePNLiteSettingsTouchUpInside:(UIButton *)sender {
     [[NSUserDefaults standardUserDefaults] setObject:self.appTokenTextField.text forKey:kHyBidDemoAppTokenKey];
     [PNLiteDemoSettings sharedInstance].targetingModel = [self configureTargetingModel];
-    [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
-    [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
+    [[NSUserDefaults standardUserDefaults] setBool:self.testModeSelected forKey:kHyBidDemoTestModeKey];
+    [[NSUserDefaults standardUserDefaults] setBool:self.coppaModeSelected forKey:kHyBidDemoCOPPAModeKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.apiURLTextField.text forKey:kHyBidDemoAPIURLKey];
     
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
