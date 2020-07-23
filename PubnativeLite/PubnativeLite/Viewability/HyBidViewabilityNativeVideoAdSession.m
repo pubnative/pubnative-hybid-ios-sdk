@@ -24,7 +24,6 @@
 
 @interface HyBidViewabilityNativeVideoAdSession()
 
-@property (nonatomic, strong) OMIDPubnativenetAdEvents *omidAdEvents;
 @property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
 
 @property (nonatomic, assign) BOOL isStartEventFired;
@@ -89,8 +88,10 @@
 }
 
 - (void)createAdEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    NSError *adEventsError;
-    self.omidAdEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSession error:&adEventsError];
+    if ([HyBidViewabilityManager sharedInstance].adEvents == nil) {
+        NSError *adEventsError;
+        [HyBidViewabilityManager sharedInstance].adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSession error:&adEventsError];
+    }
 }
 
 - (void)createMediaEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
@@ -108,7 +109,7 @@
     
     NSError *vastPropertiesError;
     OMIDPubnativenetVASTProperties *vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
-    [self.omidAdEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
+    [[HyBidViewabilityManager sharedInstance].adEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
 }
 
 
