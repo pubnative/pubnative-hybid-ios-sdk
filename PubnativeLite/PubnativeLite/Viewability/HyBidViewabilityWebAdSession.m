@@ -83,12 +83,10 @@
     return;
     
     if(omidAdSession != nil){
-        if ([HyBidViewabilityManager sharedInstance].adEvents == nil) {
-            NSError *adEventsError;
-            [HyBidViewabilityManager sharedInstance].adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSession error:&adEventsError];
-        }
+        OMIDPubnativenetAdEvents* adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
+        
         NSError *loadedError;
-        [[HyBidViewabilityManager sharedInstance].adEvents loadedWithError:&loadedError];
+        [adEvents loadedWithError:&loadedError];
     }
 }
 

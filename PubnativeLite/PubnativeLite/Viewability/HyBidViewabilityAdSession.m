@@ -52,14 +52,9 @@
         return;
     
     if(omidAdSession != nil){
-        if ([HyBidViewabilityManager sharedInstance].adEvents == nil) {
-            NSError *adEventsError;
-            [HyBidViewabilityManager sharedInstance].adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSession error:&adEventsError];
-        }
-
+        OMIDPubnativenetAdEvents* adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
         NSError *impressionError;
-        [[HyBidViewabilityManager sharedInstance].adEvents impressionOccurredWithError:&impressionError];
-        
+        [adEvents impressionOccurredWithError:&impressionError];
     }
 }
 
