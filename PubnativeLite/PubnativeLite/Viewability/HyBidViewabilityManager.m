@@ -127,6 +127,17 @@ static NSString *const HyBidOMIDSDKVerificationJSFilename = @"omsdkverification"
     return scriptContent;
 }
 
+- (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession {
+    if (omidAdSession != self.omidAdSession) {
+        NSError *adEventsError;
+        _omidAdSession = omidAdSession;
+        _adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:_omidAdSession error:&adEventsError];
+    }
+    
+    return _adEvents;
+}
+
+
 - (BOOL)isViewabilityMeasurementActivated {
     return OMIDPubnativenetSDK.sharedInstance.isActive && self.viewabilityMeasurementEnabled;
 }
