@@ -49,6 +49,11 @@
         adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
+    NSString* consentString =  [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
+    if (!([consentString length] == 0)) {
+        adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
+    }
+    
     if (![HyBidSettings sharedInstance].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut]) {
         adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
         adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;

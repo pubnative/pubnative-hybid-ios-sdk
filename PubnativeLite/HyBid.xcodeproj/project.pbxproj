@@ -302,6 +302,7 @@
 		5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */; };
 		5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */; };
 		5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */; };
+		5A54619D24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54619C24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m */; };
 		5A580DA421A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A580DA321A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m */; };
 		5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */; };
 		5A59DBBF2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */; };
@@ -313,6 +314,7 @@
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
 		5A71309E20690463000B83D9 /* HyBidAdTrackerRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */; };
 		5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */; };
+		5A73BC2324C0CEA3002E1E9D /* Consent.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A73BC2224C0CEA3002E1E9D /* Consent.storyboard */; };
 		5A81B48F2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81B48E2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m */; };
 		5A81B4922333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81B4912333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m */; };
 		5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */; };
@@ -491,7 +493,7 @@
 		5A91E66820C008E900527BAA /* PNLiteCheckConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66620C008E900527BAA /* PNLiteCheckConsentRequest.m */; };
 		5A91E66B20C01E5000527BAA /* PNLiteUserConsentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E66920C01E5000527BAA /* PNLiteUserConsentRequest.h */; };
 		5A91E66C20C01E5000527BAA /* PNLiteUserConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */; };
-		5A91E67320C0381400527BAA /* PNLiteDemoConsentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */; };
+		5A91E67320C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E67220C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m */; };
 		5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
 		5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */; };
 		5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */; };
@@ -1297,6 +1299,8 @@
 		5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteLocationManager.m; sourceTree = "<group>"; };
 		5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMeta.m; sourceTree = "<group>"; };
 		5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMeta.h; sourceTree = "<group>"; };
+		5A54619B24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoConsentStringsViewController.h; sourceTree = "<group>"; };
+		5A54619C24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoConsentStringsViewController.m; sourceTree = "<group>"; };
 		5A580DA221A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDFPHeaderBiddingLeaderboardCustomEvent.h; sourceTree = "<group>"; };
 		5A580DA321A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDFPHeaderBiddingLeaderboardCustomEvent.m; sourceTree = "<group>"; };
 		5A59DBBA2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteSettingsViewController.h; sourceTree = "<group>"; };
@@ -1316,6 +1320,7 @@
 		5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequestTest.m; sourceTree = "<group>"; };
 		5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequestTest.m; sourceTree = "<group>"; };
 		5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdRequestTest.m; sourceTree = "<group>"; };
+		5A73BC2224C0CEA3002E1E9D /* Consent.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Consent.storyboard; sourceTree = "<group>"; };
 		5A81B48D2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationInterstitialViewController.h; sourceTree = "<group>"; };
 		5A81B48E2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationInterstitialViewController.m; sourceTree = "<group>"; };
 		5A81B4902333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationSettingsViewController.h; sourceTree = "<group>"; };
@@ -1504,8 +1509,8 @@
 		5A91E66620C008E900527BAA /* PNLiteCheckConsentRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteCheckConsentRequest.m; sourceTree = "<group>"; };
 		5A91E66920C01E5000527BAA /* PNLiteUserConsentRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserConsentRequest.h; sourceTree = "<group>"; };
 		5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteUserConsentRequest.m; sourceTree = "<group>"; };
-		5A91E67120C0381400527BAA /* PNLiteDemoConsentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoConsentViewController.h; sourceTree = "<group>"; };
-		5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoConsentViewController.m; sourceTree = "<group>"; };
+		5A91E67120C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoConsentManagementProviderViewController.h; sourceTree = "<group>"; };
+		5A91E67220C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoConsentManagementProviderViewController.m; sourceTree = "<group>"; };
 		5A969A3D206523F800C3B74A /* HyBidTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A969A41206523F800C3B74A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -1946,10 +1951,9 @@
 				5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */,
 				5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */,
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
-				5A91E67120C0381400527BAA /* PNLiteDemoConsentViewController.h */,
-				5A91E67220C0381400527BAA /* PNLiteDemoConsentViewController.m */,
 				5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */,
 				5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */,
+				5A54619A24C0D41E00B49550 /* Consent */,
 				5AE206C220E288D5000E770C /* Mediation */,
 				5A4FF06520AD92C700B81B3D /* PNLite */,
 				5A6354D52076506B00D47E1B /* MoPub */,
@@ -2715,6 +2719,17 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		5A54619A24C0D41E00B49550 /* Consent */ = {
+			isa = PBXGroup;
+			children = (
+				5A91E67120C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.h */,
+				5A91E67220C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m */,
+				5A54619B24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.h */,
+				5A54619C24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m */,
+			);
+			path = Consent;
+			sourceTree = "<group>";
+		};
 		5A6354D52076506B00D47E1B /* MoPub */ = {
 			isa = PBXGroup;
 			children = (
@@ -3283,6 +3298,7 @@
 				5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */,
 				5AD07C0722FAD27E001BF4A1 /* Markup.storyboard */,
 				5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */,
+				5A73BC2224C0CEA3002E1E9D /* Consent.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -3785,7 +3801,7 @@
 				TargetAttributes = {
 					5A32CEB82029F79B0003B450 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					5A6CD01F2029CD060022E206 = {
 						CreatedOnToolsVersion = 9.2;
@@ -3829,6 +3845,7 @@
 				5A374B2024B6199000AF96BD /* MPDAAIcon@3x.png in Resources */,
 				5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */,
 				5AA7EC5F20E4D57800277E2B /* Banner.storyboard in Resources */,
+				5A73BC2324C0CEA3002E1E9D /* Consent.storyboard in Resources */,
 				5A374B0F24B6199000AF96BD /* MoPubSDK.xcconfig in Resources */,
 				5A374B1B24B6199000AF96BD /* MPCloseBtn@3x.png in Resources */,
 				5A91E29A234354B700CDF595 /* GoogleUtilities-LICENSE in Resources */,
@@ -3966,6 +3983,7 @@
 				5AC35B5A214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m in Sources */,
 				5A374B4424B6199000AF96BD /* MPInlineAdAdapter+MPAdAdapter.m in Sources */,
 				5A40351B23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m in Sources */,
+				5A54619D24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m in Sources */,
 				5A374B8024B6199100AF96BD /* MPIdentityProvider.m in Sources */,
 				5A374B7B24B6199100AF96BD /* MPReachability.m in Sources */,
 				5A374B0724B6199000AF96BD /* MPNativeAdRenderingImageLoader.m in Sources */,
@@ -4115,6 +4133,7 @@
 				5A374B5824B6199100AF96BD /* MPRateLimitConfiguration.m in Sources */,
 				5AC35B66214AA104001F0ED3 /* HyBidDFPHeaderBiddingBannerCustomEvent.m in Sources */,
 				5A90B4F820E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m in Sources */,
+				5A91E67320C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m in Sources */,
 				5A374BB224B6199100AF96BD /* MOPUBNativeVideoAdConfigValues.m in Sources */,
 				5A374BB024B6199100AF96BD /* MOPUBPlayerViewController.m in Sources */,
 				5A374B9624B6199100AF96BD /* MPVASTMediaFile.m in Sources */,
@@ -4384,7 +4403,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				ENABLE_BITCODE = NO;
@@ -4400,7 +4419,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.pubnative.HyBid.demo";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

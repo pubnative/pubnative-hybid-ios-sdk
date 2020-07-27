@@ -20,10 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoConsentViewController.h"
+#import "PNLiteDemoConsentManagementProviderViewController.h"
 #import <HyBid/HyBid.h>
 
-@interface PNLiteDemoConsentViewController ()
+@interface PNLiteDemoConsentManagementProviderViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *privacyPolicyURLButton;
 @property (weak, nonatomic) IBOutlet UIButton *vendorListURLButton;
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation PNLiteDemoConsentViewController
+@implementation PNLiteDemoConsentManagementProviderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

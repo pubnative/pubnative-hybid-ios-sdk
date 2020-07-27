@@ -20,37 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface HyBidRequestParameter : NSObject
-
-+ (NSString *)appToken;
-+ (NSString *)os;
-+ (NSString *)osVersion;
-+ (NSString *)deviceModel;
-+ (NSString *)dnt;
-+ (NSString *)locale;
-+ (NSString *)adCount;
-+ (NSString *)zoneId;
-+ (NSString *)lat;
-+ (NSString *)lon;
-+ (NSString *)gender;
-+ (NSString *)age;
-+ (NSString *)keywords;
-+ (NSString *)appVersion;
-+ (NSString *)test;
-+ (NSString *)video;
-+ (NSString *)metaField;
-+ (NSString *)assetsField;
-+ (NSString *)idfa;
-+ (NSString *)idfamd5;
-+ (NSString *)idfasha1;
-+ (NSString *)coppa;
-+ (NSString *)assetLayout;
-+ (NSString *)bundleId;
-+ (NSString *)displayManager;
-+ (NSString *)displayManagerVersion;
-+ (NSString *)usprivacy;
-+ (NSString *)userconsent;
+@interface PNLiteDemoConsentManagementProviderViewController : UIViewController
 
 @end

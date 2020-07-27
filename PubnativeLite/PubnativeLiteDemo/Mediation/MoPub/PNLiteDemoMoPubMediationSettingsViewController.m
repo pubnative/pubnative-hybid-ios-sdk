@@ -37,19 +37,19 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Mediation Settings";
-    self.nativeAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID;
-    self.leaderboardAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID;
-    self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID;
-    self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID;
-    self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID;
+    self.nativeAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationNativeAdUnitIDKey];
+    self.leaderboardAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationLeaderboardAdUnitIDKey];
+    self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationBannerAdUnitIDKey];
+    self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationMRectAdUnitIDKey];
+    self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationInterstitialAdUnitIDKey];
 }
 - (IBAction)saveMoPubMediationSettingsTouchUpInside:(UIButton *)sender
 {
-    [PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID = self.nativeAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].moPubMediationLeaderboardAdUnitID = self.leaderboardAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].moPubMediationBannerAdUnitID = self.bannerAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].moPubMediationMRectAdUnitID = self.mRectAdUnitIDTextField.text;
-    [PNLiteDemoSettings sharedInstance].moPubMediationInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.nativeAdUnitIDTextField.text forKey:kHyBidMoPubMediationNativeAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.leaderboardAdUnitIDTextField.text forKey:kHyBidMoPubMediationLeaderboardAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.bannerAdUnitIDTextField.text forKey:kHyBidMoPubMediationBannerAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.mRectAdUnitIDTextField.text forKey:kHyBidMoPubMediationMRectAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.interstitialAdUnitIDTextField.text forKey:kHyBidMoPubMediationInterstitialAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
