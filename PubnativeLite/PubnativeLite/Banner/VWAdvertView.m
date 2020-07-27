@@ -39,23 +39,31 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.adView = [[HyBidAdView alloc]initWithSize:HyBidAdSize.SIZE_320x50];
-    [self addSubview: self.adView];
 }
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size {
-    _adLoaded = false;
-    self.adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
-    [self addSubview: self.adView];
+    self = [super initWithFrame:CGRectMake(0, 0, size.size.width, size.size.height)];
+    if (self) {
+        _adLoaded = false;
+        self.adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
+        self.adSize = size;
+        [self addSubview: self.adView];
+    }
     return self;
 }
 
 - (nonnull instancetype)initWithSize:(VWAdSize)size origin:(CGPoint)origin {
-    _adLoaded = false;
-    self.adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
-    CGRect frame = self.adView.frame;
-    frame.origin = origin;
-    self.frame = frame;
-    [self addSubview: self.adView];
+    self = [super initWithFrame:CGRectMake(0, 0, size.size.width, size.size.height)];
+    if (self) {
+        _adLoaded = false;
+        self.adView = [[HyBidAdView alloc]initWithSize: [self mapSizes:size]];
+        self.adSize = size;
+        CGRect frame = self.adView.frame;
+        frame.origin = origin;
+        self.frame = frame;
+        [self addSubview: self.adView];
+        
+    }
     return self;
 }
 

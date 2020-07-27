@@ -22,7 +22,7 @@
 
 #import "VWAdSize.h"
 
-VWAdSize const kVWAdSizeBanner = {{0, 0}, 0x1};
+VWAdSize const kVWAdSizeBanner = {{320, 50}, 0x1};
 VWAdSize const kVWAdSizeMediumRectangle = {{300, 250}, 0x2};
 VWAdSize const kVWAdSizeLeaderboard = {{728, 90}, 0x4};
 VWAdSize const kVWAdSizeUndefined = {{0, 0}, 0x20};
