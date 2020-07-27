@@ -50,7 +50,7 @@
     self.mRectAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    [self.mRectAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
+    [self.mRectAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
 }
 
 #pragma mark - HyBidAdViewDelegate
