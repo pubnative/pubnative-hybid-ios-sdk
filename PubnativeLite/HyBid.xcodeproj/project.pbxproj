@@ -493,7 +493,6 @@
 		5A91E66820C008E900527BAA /* PNLiteCheckConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66620C008E900527BAA /* PNLiteCheckConsentRequest.m */; };
 		5A91E66B20C01E5000527BAA /* PNLiteUserConsentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E66920C01E5000527BAA /* PNLiteUserConsentRequest.h */; };
 		5A91E66C20C01E5000527BAA /* PNLiteUserConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */; };
-		5A91E67320C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E67220C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m */; };
 		5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
 		5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */; };
 		5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */; };
@@ -4133,13 +4132,11 @@
 				5A374B5824B6199100AF96BD /* MPRateLimitConfiguration.m in Sources */,
 				5AC35B66214AA104001F0ED3 /* HyBidDFPHeaderBiddingBannerCustomEvent.m in Sources */,
 				5A90B4F820E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m in Sources */,
-				5A91E67320C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m in Sources */,
 				5A374BB224B6199100AF96BD /* MOPUBNativeVideoAdConfigValues.m in Sources */,
 				5A374BB024B6199100AF96BD /* MOPUBPlayerViewController.m in Sources */,
 				5A374B9624B6199100AF96BD /* MPVASTMediaFile.m in Sources */,
 				5A374B7E24B6199100AF96BD /* MPStopwatch.m in Sources */,
 				5A374B4524B6199000AF96BD /* MPInlineAdAdapter+MPInlineAdAdapterDelegate.m in Sources */,
-				5A91E67320C0381400527BAA /* PNLiteDemoConsentViewController.m in Sources */,
 				5A374B3124B6199000AF96BD /* MPAdServerKeys.m in Sources */,
 				5A374B1324B6199000AF96BD /* MPConstants.m in Sources */,
 				5A374BBC24B6199100AF96BD /* MoPub.m in Sources */,
