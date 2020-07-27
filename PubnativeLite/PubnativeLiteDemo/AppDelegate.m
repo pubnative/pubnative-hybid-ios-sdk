@@ -43,7 +43,8 @@ CLLocationManager *locationManager;
     [locationManager requestWhenInUseAuthorization];
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
-    [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[PNLiteDemoSettings sharedInstance].appToken withAdUnitID:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
+    [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
+                                        withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     return YES;
 }

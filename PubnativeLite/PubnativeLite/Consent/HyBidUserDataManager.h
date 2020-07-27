@@ -23,8 +23,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define kUSPrivacyKey @"IABUSPrivacy_String"
-
 typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
 @interface HyBidUserDataManager : NSObject
