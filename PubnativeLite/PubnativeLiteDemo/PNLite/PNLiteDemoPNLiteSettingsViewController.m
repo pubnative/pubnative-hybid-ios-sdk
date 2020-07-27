@@ -51,12 +51,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Settings";
-    self.appTokenTextField.text = [PNLiteDemoSettings sharedInstance].appToken;
-    self.testModeSelected = [PNLiteDemoSettings sharedInstance].testMode;
-    self.coppaModeSelected = [PNLiteDemoSettings sharedInstance].coppaMode;
+    self.appTokenTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey];
+    self.testModeSelected = [[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoTestModeKey];
+    self.coppaModeSelected = [[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoCOPPAModeKey];
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
-    self.apiURLTextField.text = [PNLiteDemoSettings sharedInstance].apiURL;
+    self.apiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
     [self setInitialStateForModeButtons];
     [self setInitialStateForGenderButtons];
     if (self.targetingModel.age.integerValue > 0) {
@@ -115,18 +115,18 @@
 }
 
 - (IBAction)savePNLiteSettingsTouchUpInside:(UIButton *)sender {
-    [PNLiteDemoSettings sharedInstance].appToken = self.appTokenTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.appTokenTextField.text forKey:kHyBidDemoAppTokenKey];
     [PNLiteDemoSettings sharedInstance].targetingModel = [self configureTargetingModel];
-    [PNLiteDemoSettings sharedInstance].testMode = self.testModeSelected;
-    [PNLiteDemoSettings sharedInstance].coppaMode = self.coppaModeSelected;
-    [PNLiteDemoSettings sharedInstance].apiURL = self.apiURLTextField.text;
+    [[NSUserDefaults standardUserDefaults] setBool:self.testModeSelected forKey:kHyBidDemoTestModeKey];
+    [[NSUserDefaults standardUserDefaults] setBool:self.coppaModeSelected forKey:kHyBidDemoCOPPAModeKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.apiURLTextField.text forKey:kHyBidDemoAPIURLKey];
     
-    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
     }];
-    [HyBidSettings sharedInstance].apiURL = [PNLiteDemoSettings sharedInstance].apiURL;
+    [HyBidSettings sharedInstance].apiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
     [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
         [HyBid setTestMode:YES];
@@ -146,7 +146,7 @@
         self.targetingModel.age = [NSNumber numberWithInt:[self.ageTextField.text intValue]];
     }
     self.targetingModel.gender = self.gender;
-    self.targetingModel.interests = [[PNLiteDemoSettings sharedInstance].keywords componentsSeparatedByString:@","];
+    self.targetingModel.interests = [[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoKeywordsKey] componentsSeparatedByString:@","];
     return self.targetingModel;
 }
 

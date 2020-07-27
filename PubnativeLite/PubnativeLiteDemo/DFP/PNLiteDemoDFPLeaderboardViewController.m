@@ -51,7 +51,7 @@
     [self.leaderboardLoaderIndicator stopAnimating];
     self.dfpLeaderboard = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
     self.dfpLeaderboard.delegate = self;
-    self.dfpLeaderboard.adUnitID = [PNLiteDemoSettings sharedInstance].dfpLeaderboardAdUnitID;
+    self.dfpLeaderboard.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey];
     self.dfpLeaderboard.rootViewController = self;
     [self.leaderboardContainer addSubview:self.dfpLeaderboard];
 }
@@ -66,7 +66,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
     self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
-    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - GADBannerViewDelegate

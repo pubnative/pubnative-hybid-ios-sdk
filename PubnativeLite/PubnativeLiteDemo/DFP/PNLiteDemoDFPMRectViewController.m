@@ -51,7 +51,7 @@
     [self.mRectLoaderIndicator stopAnimating];
     self.dfpMrect = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
     self.dfpMrect.delegate = self;
-    self.dfpMrect.adUnitID = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
+    self.dfpMrect.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
     self.dfpMrect.rootViewController = self;
     [self.mRectContainer addSubview:self.dfpMrect];
 }
@@ -66,7 +66,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - GADBannerViewDelegate

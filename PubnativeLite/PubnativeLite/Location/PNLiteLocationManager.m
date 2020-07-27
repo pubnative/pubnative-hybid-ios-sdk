@@ -53,7 +53,7 @@ static BOOL locationUpdatesEnabled;
     @synchronized(self) { return locationUpdatesEnabled; }
 }
 
-+ (void) setLocationUpdatesEnabled:(BOOL)enabled {
++ (void)setLocationUpdatesEnabled:(BOOL)enabled {
     @synchronized(self) { locationUpdatesEnabled = enabled; }
     if (locationUpdatesEnabled) {
         [[[PNLiteLocationManager sharedInstance]manager]startUpdatingLocation];

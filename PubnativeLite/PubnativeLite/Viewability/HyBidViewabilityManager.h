@@ -38,7 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 - (NSString *)getOMIDJS;
-- (NSString *)getOMIDVerificationJS;
 - (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession;
 @end
 

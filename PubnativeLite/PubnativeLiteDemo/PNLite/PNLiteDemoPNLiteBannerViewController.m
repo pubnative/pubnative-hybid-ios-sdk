@@ -50,7 +50,7 @@
     self.bannerAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    [self.bannerAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
+    [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
 }
 
 #pragma mark - HyBidAdViewDelegate
