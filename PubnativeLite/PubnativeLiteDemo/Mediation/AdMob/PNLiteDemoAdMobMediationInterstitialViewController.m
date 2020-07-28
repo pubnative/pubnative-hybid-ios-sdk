@@ -60,7 +60,7 @@
 }
 
 - (GADInterstitial *)createAndLoadInterstitial {
-    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].adMobMediationInterstitialAdUnitID];
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationInterstitialAdUnitIDKey]];
     interstitial.delegate = self;
     return interstitial;
 }

@@ -412,13 +412,13 @@ typedef enum {
 
 - (void)showAsInterstitial {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
-    [self expand:nil];
+    [self expand:nil supportVerve:NO];
 }
 
 - (void)showAsInterstitialFromViewController:(UIViewController *)viewController {
     [self setRootViewController:viewController];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
-    [self expand:nil];
+    [self expand:nil supportVerve:NO];
 }
 
 - (void)hide {
@@ -537,7 +537,7 @@ typedef enum {
 }
 
 // Note: This method is also used to present an interstitial ad.
-- (void)expand:(NSString *)urlString {
+- (void)expand:(NSString *)urlString supportVerve:(BOOL)supportVerve{
     if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.expand() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
@@ -577,19 +577,25 @@ typedef enum {
         
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
-        urlString = [urlString stringByRemovingPercentEncoding];
-        if (![[NSURL URLWithString:urlString] scheme]) {
-            // relative URL
-            urlString = [[[baseURL absoluteString] stringByRemovingPercentEncoding] stringByAppendingString:urlString];
+        if (!supportVerve) {
+            urlString = [urlString stringByRemovingPercentEncoding];
+            if (![[NSURL URLWithString:urlString] scheme]) {
+                // relative URL
+                urlString = [[[baseURL absoluteString] stringByRemovingPercentEncoding] stringByAppendingString:urlString];
+            }
+
+            // Need to escape characters which are URL specific
+            urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
         }
-        
-        // Need to escape characters which are URL specific
-        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
-        
+
         NSError *error;
         NSString *content = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
-            [webViewPart2 loadHTMLString:content baseURL:baseURL];
+            if (!supportVerve) {
+                [webViewPart2 loadHTMLString:content baseURL:baseURL];
+            } else {
+                [webViewPart2 loadRequest:[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]]];
+            }
         } else {
             // Error! Clean up and return.
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Could not load part 2 expanded content for URL: %@" ,urlString]];
@@ -793,6 +799,9 @@ typedef enum {
     contentInfoView.delegate = self;
     [view addSubview:contentInfoViewContainer];
     [contentInfoViewContainer addSubview:contentInfoView];
+    
+    [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
+
     if (@available(iOS 11.0, *)) {
         contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
         [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
@@ -1166,7 +1175,13 @@ typedef enum {
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
                                                                  [absUrlString stringByRemovingPercentEncoding]]];
-                [self.delegate mraidViewNavigate:self withURL:url];
+                if ([absUrlString containsString:@"tags-prod.vrvm.com"]
+                    && [absUrlString containsString:@"type=expandable"]
+                    && self.isViewable) {
+                    [self expand:absUrlString supportVerve:YES];
+                } else {
+                    [self.delegate mraidViewNavigate:self withURL:url];
+                }
             }
         } else {
             // Need to let browser to handle rendering and other things
@@ -1185,10 +1200,7 @@ typedef enum {
     if (!isAdSessionCreated) {
         
         adSession = [[HyBidViewabilityWebAdSession sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
-        if (contentInfoView) {
-            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
-            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
-        }
+
         if (isInterstitial) {
             [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
         }

@@ -49,7 +49,7 @@
     [self.mRectLoaderIndicator stopAnimating];
     self.adMobMRect = [[GADBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
     self.adMobMRect.delegate = self;
-    self.adMobMRect.adUnitID = [PNLiteDemoSettings sharedInstance].adMobMediationMRectAdUnitID;
+    self.adMobMRect.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationMRectAdUnitIDKey];
     self.adMobMRect.rootViewController = self;
     [self.mRectContainer addSubview:self.adMobMRect];
 }
