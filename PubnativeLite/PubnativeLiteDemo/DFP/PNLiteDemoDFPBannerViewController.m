@@ -51,7 +51,7 @@
     [self.bannerLoaderIndicator stopAnimating];
     self.dfpBanner = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     self.dfpBanner.delegate = self;
-    self.dfpBanner.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
+    self.dfpBanner.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
     self.dfpBanner.rootViewController = self;
     [self.bannerContainer addSubview:self.dfpBanner];
 }
@@ -66,7 +66,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - GADBannerViewDelegate

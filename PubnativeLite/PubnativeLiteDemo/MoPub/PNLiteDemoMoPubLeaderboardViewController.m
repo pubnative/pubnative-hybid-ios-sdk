@@ -48,7 +48,7 @@
     self.navigationItem.title = @"MoPub Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
-    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID];
+    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey]];
     [self.moPubLeaderboard setFrame:CGRectMake(0, 0, self.leaderboardContainer.frame.size.width, self.leaderboardContainer.frame.size.height)];
     self.moPubLeaderboard.delegate = self;
     [self.moPubLeaderboard stopAutomaticallyRefreshingContents];
@@ -65,7 +65,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
     self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
-    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - MPAdViewDelegate
