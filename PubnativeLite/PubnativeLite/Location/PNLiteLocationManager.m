@@ -56,7 +56,7 @@ static BOOL locationUpdatesEnabled;
 + (void)setLocationUpdatesEnabled:(BOOL)enabled {
     @synchronized(self) { locationUpdatesEnabled = enabled; }
     if (locationUpdatesEnabled) {
-        [[[PNLiteLocationManager sharedInstance]manager]startUpdatingLocation];
+        [[PNLiteLocationManager sharedInstance].manager startUpdatingLocation];
     }
 }
 
@@ -98,6 +98,7 @@ static BOOL locationUpdatesEnabled;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     self.lastKnownLocation = locations.lastObject;
+    [[PNLiteLocationManager sharedInstance].manager stopUpdatingLocation];
 }
 
 @end
