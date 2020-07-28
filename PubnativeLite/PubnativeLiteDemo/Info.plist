@@ -72,5 +72,7 @@
 	<string>Light</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>location is used for testing purposes.</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Tracking is used for testing purposes.</string>
 </dict>
 </plist>

@@ -22,6 +22,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AdSupport/AdSupport.h>
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import <CoreLocation/CoreLocation.h>
 #import "HyBidTargetingModel.h"
 

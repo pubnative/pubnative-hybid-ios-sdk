@@ -44,6 +44,27 @@ CLLocationManager *locationManager;
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
     
+    if (@available(iOS 14, *)) {
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler: ^(ATTrackingManagerAuthorizationStatus status) {
+            switch (status) {
+                case ATTrackingManagerAuthorizationStatusAuthorized:
+                    NSLog(@"IDFA Tracking authorized.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusDenied:
+                    NSLog(@"IDFA Tracking denied.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusRestricted:
+                    NSLog(@"IDFA Tracking restricted.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusNotDetermined:
+                    NSLog(@"IDFA Tracking permission not determined.");
+                    break;
+                default:
+                    break;
+            }
+        }];
+    }
+    
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
             [HyBidLogger setLogLevel:HyBidLogLevelDebug];
