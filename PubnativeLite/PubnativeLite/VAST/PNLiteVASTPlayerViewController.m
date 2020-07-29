@@ -536,6 +536,11 @@ typedef enum : NSUInteger {
                                                  name: UIApplicationDidBecomeActiveNotification
                                                object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidEnterBackground:)
+                                                 name: UIApplicationDidEnterBackgroundNotification
+                                               object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayBackDidFinish:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
@@ -551,9 +556,16 @@ typedef enum : NSUInteger {
     [[NSNotificationCenter defaultCenter] removeObserver:self];;
 }
 
-- (void)applicationDidBecomeActive:(NSNotification*)notification {
+- (void)applicationDidEnterBackground:(NSNotification*)notification {
     if(self.currentState == PNLiteVASTPlayerState_PLAY) {
-        [self.player play];
+        [self pause];
+    }
+}
+
+- (void)applicationDidBecomeActive:(NSNotification*)notification {
+    if(self.currentState == PNLiteVASTPlayerState_PLAY ||
+       self.currentState == PNLiteVASTPlayerState_PAUSE) {
+        [self play];
     }
 }
 
