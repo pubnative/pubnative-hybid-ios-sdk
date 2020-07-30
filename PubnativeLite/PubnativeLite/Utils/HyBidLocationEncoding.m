@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "LocationEncoding.h"
+#import "HyBidLocationEncoding.h"
 
-@implementation LocationEncoding
+@implementation HyBidLocationEncoding
 
 unsigned char translateEncodedChar(unsigned char c) {
     if (c >= '?') {
