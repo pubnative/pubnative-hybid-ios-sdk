@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef NS_ENUM(NSInteger, XMLDictionaryAttributesMode)
+typedef NS_ENUM(NSInteger, HyBidXMLDictionaryAttributesMode)
 {
     XMLDictionaryAttributesModePrefixed = 0, //default
     XMLDictionaryAttributesModeDictionary,
@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, XMLDictionaryAttributesMode)
 };
 
 
-typedef NS_ENUM(NSInteger, XMLDictionaryNodeNameMode)
+typedef NS_ENUM(NSInteger, HyBidXMLDictionaryNodeNameMode)
 {
     XMLDictionaryNodeNameModeRootOnly = 0, //default
     XMLDictionaryNodeNameModeAlways,
@@ -38,9 +38,9 @@ static NSString *const XMLDictionaryNodeNameKey     = @"__name";
 static NSString *const XMLDictionaryAttributePrefix = @"_";
 
 
-@interface XMLDictionaryParser : NSObject <NSCopying>
+@interface HyBidXMLDictionaryParser : NSObject <NSCopying>
 
-+ (XMLDictionaryParser *)sharedInstance;
++ (HyBidXMLDictionaryParser *)sharedInstance;
 
 @property (nonatomic, assign) BOOL collapseTextNodes; // defaults to YES
 @property (nonatomic, assign) BOOL stripEmptyNodes;   // defaults to YES
@@ -49,8 +49,8 @@ static NSString *const XMLDictionaryAttributePrefix = @"_";
 @property (nonatomic, assign) BOOL preserveComments;  // defaults to NO
 @property (nonatomic, assign) BOOL wrapRootNode;      // defaults to NO
 
-@property (nonatomic, assign) XMLDictionaryAttributesMode attributesMode;
-@property (nonatomic, assign) XMLDictionaryNodeNameMode nodeNameMode;
+@property (nonatomic, assign) HyBidXMLDictionaryAttributesMode attributesMode;
+@property (nonatomic, assign) HyBidXMLDictionaryNodeNameMode nodeNameMode;
 
 - (nullable NSDictionary<NSString *, id> *)dictionaryWithParser:(NSXMLParser *)parser;
 - (nullable NSDictionary<NSString *, id> *)dictionaryWithData:(NSData *)data;
@@ -82,7 +82,7 @@ static NSString *const XMLDictionaryAttributePrefix = @"_";
 @end
 
 
-@interface NSString (XMLDictionary)
+@interface NSString (HyBidXMLDictionary)
 
 @property (nonatomic, readonly, copy) NSString *XMLEncodedString;
 

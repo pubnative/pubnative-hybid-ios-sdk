@@ -22,7 +22,7 @@
 #endif
 
 
-@interface XMLDictionaryParser () <NSXMLParserDelegate>
+@interface HyBidXMLDictionaryParser () <NSXMLParserDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, id> *root;
 @property (nonatomic, strong) NSMutableArray *stack;
@@ -31,15 +31,15 @@
 @end
 
 
-@implementation XMLDictionaryParser
+@implementation HyBidXMLDictionaryParser
 
-+ (XMLDictionaryParser *)sharedInstance
++ (HyBidXMLDictionaryParser *)sharedInstance
 {
     static dispatch_once_t once;
-    static XMLDictionaryParser *sharedInstance;
+    static HyBidXMLDictionaryParser *sharedInstance;
     dispatch_once(&once, ^{
         
-        sharedInstance = [[XMLDictionaryParser alloc] init];
+        sharedInstance = [[HyBidXMLDictionaryParser alloc] init];
     });
     return sharedInstance;
 }
@@ -60,7 +60,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    XMLDictionaryParser *copy = [[[self class] allocWithZone:zone] init];
+    HyBidXMLDictionaryParser *copy = [[[self class] allocWithZone:zone] init];
     copy.collapseTextNodes = _collapseTextNodes;
     copy.stripEmptyNodes = _stripEmptyNodes;
     copy.trimWhiteSpace = _trimWhiteSpace;
@@ -370,22 +370,22 @@
 
 + (NSDictionary<NSString *, id> *)dictionaryWithXMLParser:(NSXMLParser *)parser
 {
-    return [[[XMLDictionaryParser sharedInstance] copy] dictionaryWithParser:parser];
+    return [[[HyBidXMLDictionaryParser sharedInstance] copy] dictionaryWithParser:parser];
 }
 
 + (NSDictionary<NSString *, id> *)dictionaryWithXMLData:(NSData *)data
 {
-    return [[[XMLDictionaryParser sharedInstance] copy] dictionaryWithData:data];
+    return [[[HyBidXMLDictionaryParser sharedInstance] copy] dictionaryWithData:data];
 }
 
 + (NSDictionary<NSString *, id> *)dictionaryWithXMLString:(NSString *)string
 {
-    return [[[XMLDictionaryParser sharedInstance] copy] dictionaryWithString:string];
+    return [[[HyBidXMLDictionaryParser sharedInstance] copy] dictionaryWithString:string];
 }
 
 + (NSDictionary<NSString *, id> *)dictionaryWithXMLFile:(NSString *)path
 {
-    return [[[XMLDictionaryParser sharedInstance] copy] dictionaryWithFile:path];
+    return [[[HyBidXMLDictionaryParser sharedInstance] copy] dictionaryWithFile:path];
 }
 
 - (nullable NSDictionary<NSString *, NSString *> *)attributes
@@ -461,7 +461,7 @@
     NSDictionary *childNodes = [self childNodes];
     for (NSString *key in childNodes)
     {
-        [nodes addObject:[XMLDictionaryParser XMLStringForNode:childNodes[key] withNodeName:key]];
+        [nodes addObject:[HyBidXMLDictionaryParser XMLStringForNode:childNodes[key] withNodeName:key]];
     }
     
     NSString *text = [self innerText];
@@ -482,7 +482,7 @@
     }
     else
     {
-        return [XMLDictionaryParser XMLStringForNode:self withNodeName:[self nodeName] ?: @"root"];
+        return [HyBidXMLDictionaryParser XMLStringForNode:self withNodeName:[self nodeName] ?: @"root"];
     }
 }
 
@@ -527,7 +527,7 @@
 @end
 
 
-@implementation NSString (XMLDictionary)
+@implementation NSString (HyBidXMLDictionary)
 
 - (NSString *)XMLEncodedString
 {
