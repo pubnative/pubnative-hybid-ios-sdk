@@ -25,7 +25,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LocationEncoding : NSObject
+@interface HyBidLocationEncoding : NSObject
 
 + (CLLocation *)decodeLocation:(NSString *)enc;
 + (NSString *)encodeLocation:(CLLocation *)loc;

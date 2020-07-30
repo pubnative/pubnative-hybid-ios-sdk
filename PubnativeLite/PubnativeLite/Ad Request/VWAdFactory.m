@@ -22,7 +22,7 @@
 
 #import "VWAdFactory.h"
 #import "HyBidSettings.h"
-#import "LocationEncoding.h"
+#import "HyBidLocationEncoding.h"
 #import "VWAdLibrary.h"
 #import "HyBidUserDataManager.h"
 
@@ -60,7 +60,7 @@
             adRequestModel.requestParameters[@"lat"] = lat;
             adRequestModel.requestParameters[@"long"] = longi;
             adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
-            adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
+            adRequestModel.requestParameters[@"ll"] =  [HyBidLocationEncoding encodeLocation: location];
         }
     }
     
@@ -113,7 +113,7 @@
             adRequestModel.requestParameters[@"lat"] = lat;
             adRequestModel.requestParameters[@"long"] = longi;
             adRequestModel.requestParameters[@"latlong"] = [NSString stringWithFormat:@"%@,%@", lat, longi];
-            adRequestModel.requestParameters[@"ll"] =  [LocationEncoding encodeLocation: location];
+            adRequestModel.requestParameters[@"ll"] =  [HyBidLocationEncoding encodeLocation: location];
         }
     }
     

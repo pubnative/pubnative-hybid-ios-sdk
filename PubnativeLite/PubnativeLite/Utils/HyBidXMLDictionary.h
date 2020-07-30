@@ -60,7 +60,7 @@ static NSString *const XMLDictionaryAttributePrefix = @"_";
 @end
 
 
-@interface NSDictionary (XMLDictionary)
+@interface NSDictionary (HyBidXMLDictionary)
 
 + (nullable NSDictionary<NSString *, id> *)dictionaryWithXMLParser:(NSXMLParser *)parser;
 + (nullable NSDictionary<NSString *, id> *)dictionaryWithXMLData:(NSData *)data;

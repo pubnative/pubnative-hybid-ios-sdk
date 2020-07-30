@@ -33,7 +33,7 @@
 #import "PNLiteRequestInspector.h"
 #import "HyBidLogger.h"
 #import "HyBidSettings.h"
-#import "XMLDictionary.h"
+#import "HyBidXMLDictionary.h"
 #import "HyBidError.h"
 #import "PNLiteAssetGroupType.h"
 #import "HyBidVideoAdProcessor.h"

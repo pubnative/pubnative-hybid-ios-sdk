@@ -588,8 +588,8 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
-		7E2DA6EF2436234F0013841B /* LocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* LocationEncoding.h */; };
-		7E2DA6F02436234F0013841B /* LocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* LocationEncoding.m */; };
+		7E2DA6EF2436234F0013841B /* HyBidLocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* HyBidLocationEncoding.h */; };
+		7E2DA6F02436234F0013841B /* HyBidLocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* HyBidLocationEncoding.m */; };
 		7E2DA6FC243CCCC80013841B /* VWAdvertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6FB243CCCC80013841B /* VWAdvertView.m */; };
 		7E2DA6FE243CD4430013841B /* VWAdvertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6FD243CCCDA0013841B /* VWAdvertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E2DA701243CD72A0013841B /* VWAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA700243CD72A0013841B /* VWAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -644,8 +644,8 @@
 		E7218DDA2428C69F00968314 /* VWAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DD82428C69F00968314 /* VWAdFactory.m */; };
 		E7218DDD2428C6D400968314 /* VWResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7218DDB2428C6D400968314 /* VWResponseModel.h */; };
 		E7218DDE2428C6D400968314 /* VWResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7218DDC2428C6D400968314 /* VWResponseModel.m */; };
-		E7956153242B6CAB0052693A /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E7956151242B6CAB0052693A /* XMLDictionary.h */; };
-		E7956154242B6CAB0052693A /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* XMLDictionary.m */; };
+		E7956153242B6CAB0052693A /* HyBidXMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E7956151242B6CAB0052693A /* HyBidXMLDictionary.h */; };
+		E7956154242B6CAB0052693A /* HyBidXMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* HyBidXMLDictionary.m */; };
 		E7BAC447244744DF009160A3 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E7BAC445244744DF009160A3 /* libxml2.tbd */; };
 		E7BAC448244744E0009160A3 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E7BAC446244744DF009160A3 /* libxml2.2.tbd */; };
 		E7BAC449244744EC009160A3 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
@@ -815,10 +815,10 @@
 		E7BAC6B424474E1A009160A3 /* HyBidNativeAdRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9EAE21496C400081355E /* HyBidNativeAdRenderer.m */; };
 		E7BAC6B524474E29009160A3 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; };
 		E7BAC6B624474E2C009160A3 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
-		E7BAC6B724474E30009160A3 /* XMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E7956151242B6CAB0052693A /* XMLDictionary.h */; };
-		E7BAC6B824474E33009160A3 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* XMLDictionary.m */; };
-		E7BAC6B924474E36009160A3 /* LocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* LocationEncoding.h */; };
-		E7BAC6BA24474E38009160A3 /* LocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* LocationEncoding.m */; };
+		E7BAC6B724474E30009160A3 /* HyBidXMLDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = E7956151242B6CAB0052693A /* HyBidXMLDictionary.h */; };
+		E7BAC6B824474E33009160A3 /* HyBidXMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = E7956152242B6CAB0052693A /* HyBidXMLDictionary.m */; };
+		E7BAC6B924474E36009160A3 /* HyBidLocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* HyBidLocationEncoding.h */; };
+		E7BAC6BA24474E38009160A3 /* HyBidLocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* HyBidLocationEncoding.m */; };
 		E7BAC6BB24474E3E009160A3 /* PNLiteCountryUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB020AF0B30005BDAF5 /* PNLiteCountryUtils.h */; };
 		E7BAC6BC24474E41009160A3 /* PNLiteCountryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */; };
 		E7BAC6BD24474E48009160A3 /* HyBidPrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E9521495A710081355E /* HyBidPrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1800,8 +1800,8 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
-		7E2DA6ED2436234E0013841B /* LocationEncoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationEncoding.h; sourceTree = "<group>"; };
-		7E2DA6EE2436234E0013841B /* LocationEncoding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationEncoding.m; sourceTree = "<group>"; };
+		7E2DA6ED2436234E0013841B /* HyBidLocationEncoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLocationEncoding.h; sourceTree = "<group>"; };
+		7E2DA6EE2436234E0013841B /* HyBidLocationEncoding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidLocationEncoding.m; sourceTree = "<group>"; };
 		7E2DA6FB243CCCC80013841B /* VWAdvertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdvertView.m; sourceTree = "<group>"; };
 		7E2DA6FD243CCCDA0013841B /* VWAdvertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWAdvertView.h; sourceTree = "<group>"; };
 		7E2DA6FF243CD63F0013841B /* VWContentCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWContentCategory.h; sourceTree = "<group>"; };
@@ -1823,8 +1823,8 @@
 		E7218DD82428C69F00968314 /* VWAdFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWAdFactory.m; sourceTree = "<group>"; };
 		E7218DDB2428C6D400968314 /* VWResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VWResponseModel.h; sourceTree = "<group>"; };
 		E7218DDC2428C6D400968314 /* VWResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VWResponseModel.m; sourceTree = "<group>"; };
-		E7956151242B6CAB0052693A /* XMLDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
-		E7956152242B6CAB0052693A /* XMLDictionary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
+		E7956151242B6CAB0052693A /* HyBidXMLDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidXMLDictionary.h; sourceTree = "<group>"; };
+		E7956152242B6CAB0052693A /* HyBidXMLDictionary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidXMLDictionary.m; sourceTree = "<group>"; };
 		E7BAC43C24474474009160A3 /* libHyBidStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHyBidStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7BAC445244744DF009160A3 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libxml2.tbd; sourceTree = DEVELOPER_DIR; };
 		E7BAC446244744DF009160A3 /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libxml2.2.tbd; sourceTree = DEVELOPER_DIR; };
@@ -1899,10 +1899,10 @@
 				5A064993203DC55D00CDF925 /* Crypto */,
 				5A064994203DC56800CDF925 /* Prebid */,
 				5ADB0FB420AF0B77005BDAF5 /* Country */,
-				E7956151242B6CAB0052693A /* XMLDictionary.h */,
-				E7956152242B6CAB0052693A /* XMLDictionary.m */,
-				7E2DA6ED2436234E0013841B /* LocationEncoding.h */,
-				7E2DA6EE2436234E0013841B /* LocationEncoding.m */,
+				E7956151242B6CAB0052693A /* HyBidXMLDictionary.h */,
+				E7956152242B6CAB0052693A /* HyBidXMLDictionary.m */,
+				7E2DA6ED2436234E0013841B /* HyBidLocationEncoding.h */,
+				7E2DA6EE2436234E0013841B /* HyBidLocationEncoding.m */,
 				7ED8F0952459881700CBC399 /* HyBidError.h */,
 				7ED8F0962459881700CBC399 /* HyBidError.m */,
 			);
@@ -3472,7 +3472,7 @@
 				5A3D94BE243CC1DA00D5C424 /* VWInterstitialAd.h in Headers */,
 				5ADF9E9721495A710081355E /* HyBidPrebidUtils.h in Headers */,
 				5ADF9EBB214972940081355E /* HyBidMRectAdView.h in Headers */,
-				7E2DA6EF2436234F0013841B /* LocationEncoding.h in Headers */,
+				7E2DA6EF2436234F0013841B /* HyBidLocationEncoding.h in Headers */,
 				5AC35B3C214A6B5B001F0ED3 /* HyBidNativeAd.h in Headers */,
 				5ADF9E93214956FF0081355E /* HyBidAdCache.h in Headers */,
 				5ADF9E8F214954A40081355E /* HyBidInterstitialPresenterFactory.h in Headers */,
@@ -3563,7 +3563,7 @@
 				5A3EDD4F23747F8000493EF2 /* HyBidVerificationScriptResource.h in Headers */,
 				5ADF9E7F2149492B0081355E /* HyBidInterstitialPresenter.h in Headers */,
 				5ADF9E7321493DF00081355E /* HyBidAdPresenter.h in Headers */,
-				E7956153242B6CAB0052693A /* XMLDictionary.h in Headers */,
+				E7956153242B6CAB0052693A /* HyBidXMLDictionary.h in Headers */,
 				5AB2C129248696BA00AFB4A5 /* HyBidVideoAdCacheItem.h in Headers */,
 				5ADF9E602149216E0081355E /* HyBidMRAIDServiceDelegate.h in Headers */,
 				5ADF9EAB214969ED0081355E /* HyBidBaseModel.h in Headers */,
@@ -3593,13 +3593,13 @@
 				E7BAC65A24474C42009160A3 /* HyBidAdModel.h in Headers */,
 				7EE4A58124925B1B00764338 /* HyBidViewabilityNativeVideoAdSession.h in Headers */,
 				E7BAC69F24474DD1009160A3 /* HyBidMRectPresenterFactory.h in Headers */,
-				E7BAC6B724474E30009160A3 /* XMLDictionary.h in Headers */,
+				E7BAC6B724474E30009160A3 /* HyBidXMLDictionary.h in Headers */,
 				E7BAC6DD24474ED9009160A3 /* PNLitemraidjs.h in Headers */,
 				E7BAC66224474C61009160A3 /* PNLiteAssetGroupType.h in Headers */,
 				7EEB020B244DCD39000C4126 /* VWAdLibrary.h in Headers */,
 				E7BAC68924474D82009160A3 /* HyBidAdTrackerRequest.h in Headers */,
 				E7BAC61724474B26009160A3 /* HyBidContentInfoView.h in Headers */,
-				E7BAC6B924474E36009160A3 /* LocationEncoding.h in Headers */,
+				E7BAC6B924474E36009160A3 /* HyBidLocationEncoding.h in Headers */,
 				E7BAC62424474B6A009160A3 /* HyBidVerificationScriptResource.h in Headers */,
 				E7BAC66024474C58009160A3 /* HyBidNativeAd.h in Headers */,
 				E7BAC6D824474EC6009160A3 /* PNLiteMRAIDOrientationProperties.h in Headers */,
@@ -4350,11 +4350,11 @@
 				5ADF9E4A21490B9A0081355E /* HyBidRequestParameter.m in Sources */,
 				5AC35B41214A7055001F0ED3 /* HyBidAd.m in Sources */,
 				5ADF9E94214956FF0081355E /* HyBidAdCache.m in Sources */,
-				7E2DA6F02436234F0013841B /* LocationEncoding.m in Sources */,
+				7E2DA6F02436234F0013841B /* HyBidLocationEncoding.m in Sources */,
 				5ADF9EA8214966880081355E /* HyBidDataModel.m in Sources */,
 				5A9B66DE20BD8BE00067964E /* PNLiteVASTParser.m in Sources */,
 				5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */,
-				E7956154242B6CAB0052693A /* XMLDictionary.m in Sources */,
+				E7956154242B6CAB0052693A /* HyBidXMLDictionary.m in Sources */,
 				5A9B66D220BD6BF60067964E /* PNLiteVASTMediaFilePicker.m in Sources */,
 				5A9B66E320BD8FF70067964E /* PNLiteVASTEventProcessor.m in Sources */,
 				5A9B66E820BD97530067964E /* PNLiteVASTPlayerViewController.m in Sources */,
@@ -4415,7 +4415,7 @@
 				E7BAC6AA24474DF8009160A3 /* PNLiteMRAIDInterstitialPresenter.m in Sources */,
 				E7BAC64524474BD5009160A3 /* HyBidUserDataManager.m in Sources */,
 				E7BAC61F24474B4F009160A3 /* HyBidLogger.m in Sources */,
-				E7BAC6BA24474E38009160A3 /* LocationEncoding.m in Sources */,
+				E7BAC6BA24474E38009160A3 /* HyBidLocationEncoding.m in Sources */,
 				E7BAC62B24474B8B009160A3 /* PNLiteImpressionTracker.m in Sources */,
 				7EE4A58024925B1500764338 /* HyBidViewabilityNativeAdSession.m in Sources */,
 				E7BAC67F24474D4F009160A3 /* VWAdRequestModel.m in Sources */,
@@ -4433,7 +4433,7 @@
 				E7BAC6A224474DDB009160A3 /* HyBidMRectAdView.m in Sources */,
 				E7BAC61B24474B3B009160A3 /* HyBidAdView.m in Sources */,
 				E7BAC64724474BDC009160A3 /* PNLiteConsentPageViewController.m in Sources */,
-				E7BAC6B824474E33009160A3 /* XMLDictionary.m in Sources */,
+				E7BAC6B824474E33009160A3 /* HyBidXMLDictionary.m in Sources */,
 				E7BAC63524474BA4009160A3 /* PNLiteVisibilityTrackerItem.m in Sources */,
 				E7BAC62124474B55009160A3 /* HyBidWebBrowserUserAgentInfo.m in Sources */,
 				7EEB020D244DCD39000C4126 /* VWAdLibrary.m in Sources */,

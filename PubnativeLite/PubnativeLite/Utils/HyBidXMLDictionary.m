@@ -6,7 +6,7 @@
 //  Copyright © 2020 Can Soykarafakili. All rights reserved.
 //
 
-#import "XMLDictionary.h"
+#import "HyBidXMLDictionary.h"
 
 
 #pragma GCC diagnostic ignored "-Wobjc-missing-property-synthesis"
@@ -366,7 +366,7 @@
 @end
 
 
-@implementation NSDictionary(XMLDictionary)
+@implementation NSDictionary(HyBidXMLDictionary)
 
 + (NSDictionary<NSString *, id> *)dictionaryWithXMLParser:(NSXMLParser *)parser
 {
