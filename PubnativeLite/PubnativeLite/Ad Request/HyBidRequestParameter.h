@@ -30,6 +30,7 @@
 + (NSString *)deviceModel;
 + (NSString *)deviceWidth;
 + (NSString *)deviceHeight;
++ (NSString *)orientation;
 + (NSString *)dnt;
 + (NSString *)locale;
 + (NSString *)adCount;
