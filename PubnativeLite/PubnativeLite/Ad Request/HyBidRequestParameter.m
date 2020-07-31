@@ -28,6 +28,8 @@
 + (NSString *)os                        { return @"os"; }
 + (NSString *)osVersion                 { return @"osver"; }
 + (NSString *)deviceModel               { return @"devicemodel"; }
++ (NSString *)deviceWidth               { return @"dw"; }
++ (NSString *)deviceHeight              { return @"dh"; }
 + (NSString *)dnt                       { return @"dnt"; }
 + (NSString *)locale                    { return @"locale"; }
 + (NSString *)adCount                   { return @"adcount"; }

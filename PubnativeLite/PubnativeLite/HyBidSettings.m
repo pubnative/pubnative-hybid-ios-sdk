@@ -72,6 +72,21 @@
     return currentDevice.model;
 }
 
+- (CGSize) getOrientationIndependentScreenSize {
+    return CGSizeMake(MIN([UIScreen mainScreen].bounds.size.width,
+                          [UIScreen mainScreen].bounds.size.height),
+                      MAX([UIScreen mainScreen].bounds.size.width,
+                          [UIScreen mainScreen].bounds.size.height));
+}
+
+- (NSString *)deviceWidth {
+    return [NSString stringWithFormat:@"%.0f", [self getOrientationIndependentScreenSize].width];
+}
+
+- (NSString *)deviceHeight {
+    return [NSString stringWithFormat:@"%.0f", [self getOrientationIndependentScreenSize].height];
+}
+
 - (NSString *)locale {
     return [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
 }
