@@ -41,6 +41,7 @@
 @property (readonly) NSString *deviceName;
 @property (readonly) NSString *deviceWidth;
 @property (readonly) NSString *deviceHeight;
+@property (readonly) NSString *orientation;
 @property (readonly) NSString *locale;
 @property (readonly) NSString *sdkVersion;
 @property (readonly) NSString *appBundleID;

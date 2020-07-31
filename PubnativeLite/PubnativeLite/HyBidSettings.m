@@ -87,6 +87,23 @@
     return [NSString stringWithFormat:@"%.0f", [self getOrientationIndependentScreenSize].height];
 }
 
+- (NSString *)orientation {
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return @"portrait";
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            return @"landscape";
+            break;
+        default:
+            return @"none";
+            break;
+    }
+}
+
 - (NSString *)locale {
     return [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
 }
