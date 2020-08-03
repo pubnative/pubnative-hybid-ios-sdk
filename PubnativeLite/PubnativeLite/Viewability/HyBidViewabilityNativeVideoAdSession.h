@@ -36,6 +36,7 @@
 - (void)fireOMIDResumeEvent;
 - (void)fireOMIDBufferStartEvent;
 - (void)fireOMIDBufferFinishEvent;
+- (void)fireOMIDClikedEvent;
 - (void)fireOMIDVolumeChangeEventWithVolume:(CGFloat)volume;
 - (void)fireOMIDSkippedEvent;
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen;
