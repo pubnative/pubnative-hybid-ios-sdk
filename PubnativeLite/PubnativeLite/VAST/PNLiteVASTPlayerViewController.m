@@ -429,6 +429,7 @@ typedef enum : NSUInteger {
         [self.eventProcessor sendVASTUrls:clickTrackingUrls];
     }
     [self invokeDidClickOffer];
+    [self.eventProcessor trackEvent:PNLiteVASTEvent_Click];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
 }
 
