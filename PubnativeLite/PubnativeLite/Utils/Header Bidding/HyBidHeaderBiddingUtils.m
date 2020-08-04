@@ -20,41 +20,41 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidPrebidUtils.h"
+#import "HyBidHeaderBiddingUtils.h"
 
 NSString *const PNLiteKeyPN_BID = @"pn_bid";
 double const kECPMPointsDivider = 1000.0;
 
-@implementation HyBidPrebidUtils
+@implementation HyBidHeaderBiddingUtils
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad {
-    return [HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withZoneID:nil];
++ (NSString *)createHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad {
+    return [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad withZoneID:nil];
 }
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID {
-    return [HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad withKeywordMode:THREE_DECIMAL_PLACES];
++ (NSString *)createHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID {
+    return [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad withKeywordMode:THREE_DECIMAL_PLACES];
 }
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
++ (NSString *)createHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
     NSMutableString *prebidString = [[NSMutableString alloc] init];
     [prebidString appendString:PNLiteKeyPN_BID];
     [prebidString appendString:@":"];
-    [prebidString appendString:[HyBidPrebidUtils eCPMFromAd:ad withDecimalPlaces:keywordMode]];
+    [prebidString appendString:[HyBidHeaderBiddingUtils eCPMFromAd:ad withDecimalPlaces:keywordMode]];
     
     return [NSString stringWithString:prebidString];
 }
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad {
-    return [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withZoneID:nil];
++ (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad {
+    return [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad withZoneID:nil];
 }
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID {
-    return [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad withKeywordMode:THREE_DECIMAL_PLACES];
++ (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID {
+    return [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad withKeywordMode:THREE_DECIMAL_PLACES];
 }
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
++ (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode {
     NSMutableDictionary *prebidDictionary = [NSMutableDictionary dictionary];
-    [prebidDictionary setValue:[HyBidPrebidUtils eCPMFromAd:ad withDecimalPlaces:keywordMode] forKey:PNLiteKeyPN_BID];
+    [prebidDictionary setValue:[HyBidHeaderBiddingUtils eCPMFromAd:ad withDecimalPlaces:keywordMode] forKey:PNLiteKeyPN_BID];
     return prebidDictionary;
 }
 

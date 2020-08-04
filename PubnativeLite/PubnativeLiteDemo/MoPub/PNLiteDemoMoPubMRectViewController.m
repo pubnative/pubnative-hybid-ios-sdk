@@ -113,7 +113,7 @@
     
     if (request == self.mRectAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubMrect setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
+        [self.moPubMrect setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubMrect loadAd];
     }
 }

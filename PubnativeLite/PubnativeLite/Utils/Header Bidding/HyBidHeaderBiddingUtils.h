@@ -28,14 +28,14 @@ typedef enum {
     THREE_DECIMAL_PLACES,
 } HyBidKeywordMode;
 
-@interface HyBidPrebidUtils : NSObject
+@interface HyBidHeaderBiddingUtils : NSObject
 
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad;
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
-+ (NSString *)createPrebidKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
++ (NSString *)createHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad;
++ (NSString *)createHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
++ (NSString *)createHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
 
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad;
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
-+ (NSMutableDictionary *)createPrebidKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
++ (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad;
++ (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
++ (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
 
 @end
