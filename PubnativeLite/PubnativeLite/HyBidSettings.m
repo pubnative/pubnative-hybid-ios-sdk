@@ -22,6 +22,7 @@
 
 #import "HyBidSettings.h"
 #import "PNLiteLocationManager.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation HyBidSettings
 
@@ -101,6 +102,17 @@
         default:
             return @"none";
             break;
+    }
+}
+
+- (NSString *)deviceSound {
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    if ([AVAudioSession sharedInstance].outputVolume == 0) {
+        [[AVAudioSession sharedInstance] setActive:NO error:nil];
+        return @"0";
+    } else {
+        [[AVAudioSession sharedInstance] setActive:NO error:nil];
+        return @"1";
     }
 }
 
