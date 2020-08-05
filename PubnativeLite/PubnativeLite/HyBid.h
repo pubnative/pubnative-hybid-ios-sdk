@@ -50,6 +50,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidInterstitialPresenterFactory.h>
 #import <HyBid/HyBidAdCache.h>
 #import <HyBid/HyBidHeaderBiddingUtils.h>
+#import <HyBid/HyBidPrebidUtils.h>
 #import <HyBid/HyBidContentInfoView.h>
 #import <HyBid/HyBidUserDataManager.h>
 #import <HyBid/HyBidBaseModel.h>
