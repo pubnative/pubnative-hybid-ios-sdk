@@ -700,6 +700,8 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
+		7E7CC36524D9ECDE00F3A476 /* Quote.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7CC36424D9ECDE00F3A476 /* Quote.m */; };
+		7E7CC36824D9F0E700F3A476 /* QuoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7CC36724D9F0E700F3A476 /* QuoteTableViewCell.m */; };
 		7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
 		7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCDD24BDFE84005D2B64 /* omsdk.js */; };
 /* End PBXBuildFile section */
@@ -1747,6 +1749,10 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
+		7E7CC36324D9ECDE00F3A476 /* Quote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quote.h; sourceTree = "<group>"; };
+		7E7CC36424D9ECDE00F3A476 /* Quote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Quote.m; sourceTree = "<group>"; };
+		7E7CC36624D9F0E700F3A476 /* QuoteTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuoteTableViewCell.h; sourceTree = "<group>"; };
+		7E7CC36724D9F0E700F3A476 /* QuoteTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuoteTableViewCell.m; sourceTree = "<group>"; };
 		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
 		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2693,14 +2699,13 @@
 		5A4FF06520AD92C700B81B3D /* PNLite */ = {
 			isa = PBXGroup;
 			children = (
+				7E7CC36224D9ECC000F3A476 /* MRect */,
 				5A9CC60B2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.h */,
 				5A9CC60C2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.m */,
 				5A262DDE218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.h */,
 				5A262DDF218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.m */,
 				5A4FF06220AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.h */,
 				5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */,
-				5A4FF06620ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.h */,
-				5A4FF06720ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m */,
 				5A4FF06920ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.h */,
 				5A4FF06A20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m */,
 				5A59DBBA2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.h */,
@@ -3540,6 +3545,19 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
+		7E7CC36224D9ECC000F3A476 /* MRect */ = {
+			isa = PBXGroup;
+			children = (
+				7E7CC36324D9ECDE00F3A476 /* Quote.h */,
+				7E7CC36424D9ECDE00F3A476 /* Quote.m */,
+				7E7CC36624D9F0E700F3A476 /* QuoteTableViewCell.h */,
+				7E7CC36724D9F0E700F3A476 /* QuoteTableViewCell.m */,
+				5A4FF06620ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.h */,
+				5A4FF06720ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m */,
+			);
+			path = MRect;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4011,6 +4029,7 @@
 				5A374B6E24B6199100AF96BD /* MPFullscreenAdViewController+Web.m in Sources */,
 				5A374B2924B6199000AF96BD /* MPInterstitialAdController.m in Sources */,
 				5A374B8C24B6199100AF96BD /* NSHTTPURLResponse+MPAdditions.m in Sources */,
+				7E7CC36524D9ECDE00F3A476 /* Quote.m in Sources */,
 				5A374B7C24B6199100AF96BD /* MPUserInteractionGestureRecognizer.m in Sources */,
 				5A374B7D24B6199100AF96BD /* MPAnalyticsTracker.m in Sources */,
 				5A374B6524B6199100AF96BD /* MRProperty.m in Sources */,
@@ -4156,6 +4175,7 @@
 				5A374B8624B6199100AF96BD /* UIColor+MPAdditions.m in Sources */,
 				5A374B0D24B6199000AF96BD /* MPImpressionData.m in Sources */,
 				5A374AFD24B6199000AF96BD /* MPNativeAdSourceQueue.m in Sources */,
+				7E7CC36824D9F0E700F3A476 /* QuoteTableViewCell.m in Sources */,
 				5A374B6924B6199100AF96BD /* MRBundleManager.m in Sources */,
 				5A374BB724B6199100AF96BD /* MPRewardedVideoAdManager.m in Sources */,
 				5A374B6B24B6199100AF96BD /* MPFullscreenAdViewController+MRAIDWeb.m in Sources */,
