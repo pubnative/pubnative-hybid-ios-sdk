@@ -290,6 +290,8 @@
 		5A449B54203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A449B52203D86EB00CEB630 /* PNLiteMRAIDMRectPresenter.m */; };
 		5A453D9E219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */; };
 		5A453DA1219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453DA0219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m */; };
+		5A4B95DE24D9D3CD00028939 /* HyBidPrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A4B95DC24D9D3CD00028939 /* HyBidPrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A4B95DF24D9D3CD00028939 /* HyBidPrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B95DD24D9D3CD00028939 /* HyBidPrebidUtils.m */; };
 		5A4FF06420AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */; };
 		5A4FF06820ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06720ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m */; };
 		5A4FF06B20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06A20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m */; };
@@ -655,8 +657,8 @@
 		5ADF9E90214954A40081355E /* HyBidInterstitialPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E8E214954A40081355E /* HyBidInterstitialPresenterFactory.m */; };
 		5ADF9E93214956FF0081355E /* HyBidAdCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E91214956FF0081355E /* HyBidAdCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ADF9E94214956FF0081355E /* HyBidAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E92214956FF0081355E /* HyBidAdCache.m */; };
-		5ADF9E9721495A710081355E /* HyBidPrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E9521495A710081355E /* HyBidPrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5ADF9E9821495A710081355E /* HyBidPrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E9621495A710081355E /* HyBidPrebidUtils.m */; };
+		5ADF9E9721495A710081355E /* HyBidHeaderBiddingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E9521495A710081355E /* HyBidHeaderBiddingUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5ADF9E9821495A710081355E /* HyBidHeaderBiddingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E9621495A710081355E /* HyBidHeaderBiddingUtils.m */; };
 		5ADF9E9B21495C500081355E /* HyBidContentInfoView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E9921495C500081355E /* HyBidContentInfoView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5ADF9E9C21495C500081355E /* HyBidContentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E9A21495C500081355E /* HyBidContentInfoView.m */; };
 		5ADF9E9F21495FFB0081355E /* HyBidUserDataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E9D21495FFB0081355E /* HyBidUserDataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1285,6 +1287,8 @@
 		5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A453D9F219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubHeaderBiddingLeaderboardCustomEvent.h; sourceTree = "<group>"; };
 		5A453DA0219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m; sourceTree = "<group>"; };
+		5A4B95DC24D9D3CD00028939 /* HyBidPrebidUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidPrebidUtils.h; sourceTree = "<group>"; };
+		5A4B95DD24D9D3CD00028939 /* HyBidPrebidUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidPrebidUtils.m; sourceTree = "<group>"; };
 		5A4FF06220AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteBannerViewController.h; sourceTree = "<group>"; };
 		5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteBannerViewController.m; sourceTree = "<group>"; };
 		5A4FF06620ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteMRectViewController.h; sourceTree = "<group>"; };
@@ -1699,8 +1703,8 @@
 		5ADF9E8E214954A40081355E /* HyBidInterstitialPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidInterstitialPresenterFactory.m; sourceTree = "<group>"; };
 		5ADF9E91214956FF0081355E /* HyBidAdCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdCache.h; sourceTree = "<group>"; };
 		5ADF9E92214956FF0081355E /* HyBidAdCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdCache.m; sourceTree = "<group>"; };
-		5ADF9E9521495A710081355E /* HyBidPrebidUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidPrebidUtils.h; sourceTree = "<group>"; };
-		5ADF9E9621495A710081355E /* HyBidPrebidUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidPrebidUtils.m; sourceTree = "<group>"; };
+		5ADF9E9521495A710081355E /* HyBidHeaderBiddingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidHeaderBiddingUtils.h; sourceTree = "<group>"; };
+		5ADF9E9621495A710081355E /* HyBidHeaderBiddingUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidHeaderBiddingUtils.m; sourceTree = "<group>"; };
 		5ADF9E9921495C500081355E /* HyBidContentInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidContentInfoView.h; sourceTree = "<group>"; };
 		5ADF9E9A21495C500081355E /* HyBidContentInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidContentInfoView.m; sourceTree = "<group>"; };
 		5ADF9E9D21495FFB0081355E /* HyBidUserDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidUserDataManager.h; sourceTree = "<group>"; };
@@ -1811,7 +1815,7 @@
 			isa = PBXGroup;
 			children = (
 				5A064993203DC55D00CDF925 /* Crypto */,
-				5A064994203DC56800CDF925 /* Prebid */,
+				5A064994203DC56800CDF925 /* Header Bidding */,
 				5ADB0FB420AF0B77005BDAF5 /* Country */,
 			);
 			path = Utils;
@@ -1826,13 +1830,15 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
-		5A064994203DC56800CDF925 /* Prebid */ = {
+		5A064994203DC56800CDF925 /* Header Bidding */ = {
 			isa = PBXGroup;
 			children = (
-				5ADF9E9521495A710081355E /* HyBidPrebidUtils.h */,
-				5ADF9E9621495A710081355E /* HyBidPrebidUtils.m */,
+				5ADF9E9521495A710081355E /* HyBidHeaderBiddingUtils.h */,
+				5ADF9E9621495A710081355E /* HyBidHeaderBiddingUtils.m */,
+				5A4B95DC24D9D3CD00028939 /* HyBidPrebidUtils.h */,
+				5A4B95DD24D9D3CD00028939 /* HyBidPrebidUtils.m */,
 			);
-			path = Prebid;
+			path = "Header Bidding";
 			sourceTree = "<group>";
 		};
 		5A0779F321341E9100EBD0E7 /* Request Inspector */ = {
@@ -3582,7 +3588,7 @@
 				5A8F10EE2089E4D20098E337 /* PNLite_KSJSONCodec.h in Headers */,
 				5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */,
 				5A8F11042089E4D20098E337 /* PNLite_KSCrashAdvanced.h in Headers */,
-				5ADF9E9721495A710081355E /* HyBidPrebidUtils.h in Headers */,
+				5ADF9E9721495A710081355E /* HyBidHeaderBiddingUtils.h in Headers */,
 				5ADF9EBB214972940081355E /* HyBidMRectAdView.h in Headers */,
 				5A8F10C42089E4D20098E337 /* PNLiteConnectivity.h in Headers */,
 				5AB2C13124869E4300AFB4A5 /* HyBidVideoAdProcessor.h in Headers */,
@@ -3636,6 +3642,7 @@
 				5A8F10FE2089E4D20098E337 /* PNLite_KSCrashDoctor.h in Headers */,
 				5A8F10EC2089E4D20098E337 /* PNLite_KSObjCApple.h in Headers */,
 				5AEC48BC237067F4009641F1 /* HyBidConstants.h in Headers */,
+				5A4B95DE24D9D3CD00028939 /* HyBidPrebidUtils.h in Headers */,
 				5A8F10E82089E4D20098E337 /* PNLite_KSCrashCallCompletion.h in Headers */,
 				5A8F10FB2089E4D20098E337 /* PNLite_KSSystemInfo.h in Headers */,
 				5ADF9EAF21496C400081355E /* HyBidNativeAdRenderer.h in Headers */,
@@ -4224,7 +4231,7 @@
 				5A8F10DE2089E4D20098E337 /* PNLite_RFC3339DateTool.m in Sources */,
 				5AEC316D24698D0E008FD8BD /* HyBidViewabilityAdSession.m in Sources */,
 				5ADF9E6C214939C40081355E /* HyBidMRectAdRequest.m in Sources */,
-				5ADF9E9821495A710081355E /* HyBidPrebidUtils.m in Sources */,
+				5ADF9E9821495A710081355E /* HyBidHeaderBiddingUtils.m in Sources */,
 				5A8F110F2089E4D20098E337 /* PNLite_KSCrashSentry_Deadlock.m in Sources */,
 				5A8F11102089E4D20098E337 /* PNLite_KSCrashSentry_MachException.c in Sources */,
 				5A8F110A2089E4D20098E337 /* PNLite_KSCrashSentry_User.c in Sources */,
@@ -4321,6 +4328,7 @@
 				5A8F11162089E4D20098E337 /* PNLite_KSCrashReport.c in Sources */,
 				5A8F10AF2089E4D20098E337 /* PNLiteUser.m in Sources */,
 				5ADF9EA8214966880081355E /* HyBidDataModel.m in Sources */,
+				5A4B95DF24D9D3CD00028939 /* HyBidPrebidUtils.m in Sources */,
 				5A9B66DE20BD8BE00067964E /* PNLiteVASTParser.m in Sources */,
 				5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */,
 				5A9B66D220BD6BF60067964E /* PNLiteVASTMediaFilePicker.m in Sources */,
