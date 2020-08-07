@@ -37,7 +37,7 @@
 
 @implementation PNLiteDemoPNLiteMRectViewController
 
-NSArray *quotes;
+NSArray *quotesMRect;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -94,7 +94,7 @@ NSArray *quotes;
     QuoteTableViewCell *cell = (QuoteTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"quoteCell"];
     
     NSInteger row = indexPath.row;
-    Quote *quote = quotes[row];
+    Quote *quote = quotesMRect[row];
     
     cell.quoteTextLabel.text = quote.quoteText;
     cell.quoteAutorLabel.text = quote.quoteAuthor;
@@ -107,7 +107,7 @@ NSArray *quotes;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return quotes.count;
+    return quotesMRect.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -118,7 +118,7 @@ NSArray *quotes;
 #pragma mark - Utils
 
 - (void)populateQuotes {
-    quotes = [[NSArray alloc]initWithObjects:
+    quotesMRect = [[NSArray alloc]initWithObjects:
                        [[Quote alloc]initWithText:@"Our world is built on biology and once we begin to understand it, it then becomes a technology" andAuthor:@"Ryan Bethencourt"],
                        [[Quote alloc]initWithText:@"Happiness is not an ideal of reason but of imagination" andAuthor:@"Immanuel Kant"],
                        [[Quote alloc]initWithText:@"Science and technology revolutionize our lives, but memory, tradition and myth frame our response." andAuthor:@"Arthur M. Schlesinger"],

@@ -2705,7 +2705,9 @@
 		5A4FF06520AD92C700B81B3D /* PNLite */ = {
 			isa = PBXGroup;
 			children = (
-				7E7CC36224D9ECC000F3A476 /* MRect */,
+				7E7CC39724DD64B600F3A476 /* TableView */,
+				5A4FF06620ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.h */,
+				5A4FF06720ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m */,
 				5A9CC60B2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.h */,
 				5A9CC60C2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.m */,
 				5A262DDE218B4BC5001A29E2 /* PNLiteDemoHyBidLeaderboardViewController.h */,
@@ -3551,17 +3553,15 @@
 			path = Native;
 			sourceTree = "<group>";
 		};
-		7E7CC36224D9ECC000F3A476 /* MRect */ = {
+		7E7CC39724DD64B600F3A476 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
 				7E7CC36324D9ECDE00F3A476 /* Quote.h */,
 				7E7CC36424D9ECDE00F3A476 /* Quote.m */,
 				7E7CC36624D9F0E700F3A476 /* QuoteTableViewCell.h */,
 				7E7CC36724D9F0E700F3A476 /* QuoteTableViewCell.m */,
-				5A4FF06620ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.h */,
-				5A4FF06720ADAF1300B81B3D /* PNLiteDemoPNLiteMRectViewController.m */,
 			);
-			path = MRect;
+			path = TableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
