@@ -28,6 +28,10 @@
 + (NSString *)os;
 + (NSString *)osVersion;
 + (NSString *)deviceModel;
++ (NSString *)deviceWidth;
++ (NSString *)deviceHeight;
++ (NSString *)orientation;
++ (NSString *)deviceSound;
 + (NSString *)dnt;
 + (NSString *)locale;
 + (NSString *)adCount;

@@ -115,7 +115,7 @@
     if (request == self.bannerAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad];
+        request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
         [self.dfpBanner loadRequest:request];
     }
 }

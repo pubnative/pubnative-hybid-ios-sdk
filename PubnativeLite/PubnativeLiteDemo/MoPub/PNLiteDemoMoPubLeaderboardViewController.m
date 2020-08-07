@@ -113,7 +113,7 @@
     
     if (request == self.leaderboardAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubLeaderboard setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
+        [self.moPubLeaderboard setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubLeaderboard loadAd];
     }
 }

@@ -22,6 +22,13 @@
 
 #import "HyBidViewabilityWebAdSession.h"
 
+@interface HyBidViewabilityWebAdSession()
+
+@property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
+@property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
+
+@end
+
 @implementation HyBidViewabilityWebAdSession
 
 + (instancetype)sharedInstance {
@@ -83,10 +90,10 @@
     return;
     
     if(omidAdSession != nil){
-        OMIDPubnativenetAdEvents* adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
+        self.adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
         
         NSError *loadedError;
-        [adEvents loadedWithError:&loadedError];
+        [self.adEvents loadedWithError:&loadedError];
     }
 }
 
