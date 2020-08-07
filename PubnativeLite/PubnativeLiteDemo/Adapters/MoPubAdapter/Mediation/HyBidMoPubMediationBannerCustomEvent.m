@@ -38,13 +38,14 @@
     self.bannerAdView = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
+- (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if (size.height == kMPPresetMaxAdSize50Height.height && size.width >= 320.0f) {
             if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
                 self.bannerAdView = [[HyBidBannerAdView alloc] init];
                 self.bannerAdView.isMediation = YES;
                 [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
+                MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
             } else {
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
@@ -60,12 +61,10 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
-    MPLogError(@"%@", message);
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate bannerCustomEvent:self
-            didFailToLoadAdWithError:[NSError errorWithDomain:message
-                                                         code:0
-                                                     userInfo:nil]];
+    MPLogInfo(@"%@", message);
+    [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
+                                                                                     code:0
+                                                                                 userInfo:nil]];
 }
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
@@ -75,20 +74,24 @@
 #pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
-    [self.delegate bannerCustomEvent:self didLoadAd:self.bannerAdView];
+    [self.delegate inlineAdAdapter:self didLoadAdWithAdView:self.bannerAdView];
+    MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
+    MPLogEvent([MPLogEvent adLoadFailedForAdapter:NSStringFromClass([self class]) error:error]);
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
-    [self.delegate trackImpression];
+    [self.delegate inlineAdAdapterDidTrackImpression:self];
+    MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    [self.delegate trackClick];
-    [self.delegate bannerCustomEventWillLeaveApplication:self];
+    [self.delegate inlineAdAdapterDidTrackClick:self];
+    MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
+    [self.delegate inlineAdAdapterWillLeaveApplication:self];
 }
 
 @end

@@ -109,7 +109,7 @@
         self.inspectRequestButton.hidden = NO;
         self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey]];
         self.moPubInterstitial.delegate = self;
-        [self.moPubInterstitial setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
+        [self.moPubInterstitial setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubInterstitial loadAd];
     }
 }
