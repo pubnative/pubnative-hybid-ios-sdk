@@ -231,12 +231,10 @@ typedef enum {
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
         
-        // Get mraid.js as binary data
-        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
-                                                   length:__PNLite_MRAID_mraid_js_len
-                                             freeWhenDone:NO];
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *mraidJSPath = [bundle pathForResource:@"hybidmraidscaling" ofType:@"js"];
+        NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
         mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
-        mraidJSData = nil;
         
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
@@ -250,7 +248,6 @@ typedef enum {
             [self injectJavaScript:omSDKjs];
         }
         
-        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
         NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
         NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
         scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
