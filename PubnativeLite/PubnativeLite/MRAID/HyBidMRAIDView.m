@@ -74,6 +74,7 @@ typedef enum {
     
     NSString *mraidjs;
     NSString *omSDKjs;
+    NSString *scalingjs;
     
     NSURL *baseURL;
     
@@ -248,6 +249,12 @@ typedef enum {
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
+        
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
+        NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
+        scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
+        [self injectJavaScript:scalingjs];
         
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
