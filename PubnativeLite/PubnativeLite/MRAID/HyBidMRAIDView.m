@@ -32,7 +32,7 @@
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
 
-#import "PNLitemraidjs.h"
+//#import "PNLitemraidjs.h"
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
@@ -232,16 +232,23 @@ typedef enum {
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
         
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        NSString *mraidJSPath = [bundle pathForResource:@"hybidmraidscaling" ofType:@"js"];
+        /*NSString *mraidJSPath = [bundle pathForResource:@"hybidmraidscaling" ofType:@"js"];
         NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
+        mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];*/
+        
+        // Get mraid.js as binary data
+        /*NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
+                                                   length:__PNLite_MRAID_mraid_js_len
+                                             freeWhenDone:NO];
         mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
+        mraidJSData = nil;*/
         
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
         
-        if (mraidjs) {
+        /*if (mraidjs) {
             [self injectJavaScript:mraidjs];
-        }
+        }*/
         
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
@@ -1085,6 +1092,7 @@ typedef enum {
         [self injectJavaScript:[NSString stringWithFormat:@"mraid.setScreenSize(%d,%d);",
                                 (int)screenSize.width,
                                 (int)screenSize.height]];
+        [self injectJavaScript:[NSString stringWithFormat:@"updateCreativeSize(%d,%d);", (int)screenSize.width, (int)screenSize.height]];
         previousScreenSize = CGSizeMake(screenSize.width, screenSize.height);
         if (isInterstitial) {
             [self injectJavaScript:[NSString stringWithFormat:@"mraid.setMaxSize(%d,%d);",
