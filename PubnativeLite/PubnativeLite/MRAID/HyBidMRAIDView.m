@@ -32,7 +32,7 @@
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
 
-//#import "PNLitemraidjs.h"
+#import "PNLitemraidjs.h"
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
@@ -74,7 +74,7 @@ typedef enum {
     
     NSString *mraidjs;
     NSString *omSDKjs;
-    NSString *scalingjs;
+    //NSString *scalingjs;
     
     NSURL *baseURL;
     
@@ -232,33 +232,30 @@ typedef enum {
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
         
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        /*NSString *mraidJSPath = [bundle pathForResource:@"hybidmraidscaling" ofType:@"js"];
-        NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
-        mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];*/
         
         // Get mraid.js as binary data
-        /*NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
+        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
                                                    length:__PNLite_MRAID_mraid_js_len
                                              freeWhenDone:NO];
         mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
-        mraidJSData = nil;*/
+        mraidJSData = nil;
         
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
         
-        /*if (mraidjs) {
+        if (mraidjs) {
             [self injectJavaScript:mraidjs];
-        }*/
+        }
         
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
         
-        NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
+        /*NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
         NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
         scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
-        [self injectJavaScript:scalingjs];
+        [self injectJavaScript:scalingjs];*/
         
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
@@ -1264,10 +1261,10 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 #pragma mark - internal helper methods
 
 - (WKWebViewConfiguration *)createConfiguration {
-    NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
-    WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    /*NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";*/
+    /*WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];*/
     WKUserContentController *wkUController = [[WKUserContentController alloc] init];
-    [wkUController addUserScript:wkUScript];
+    //[wkUController addUserScript:wkUScript];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
     webConfiguration.userContentController = wkUController;
 

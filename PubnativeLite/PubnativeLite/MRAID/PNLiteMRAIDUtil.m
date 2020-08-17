@@ -21,7 +21,6 @@
 //
 
 #import "PNLiteMRAIDUtil.h"
-#import "PNLitemraidjs.h"
 
 @implementation PNLiteMRAIDUtil
 
@@ -62,14 +61,6 @@
     
     if (!hasHtmlTag) {
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        /*NSString *mraidJSPath = [bundle pathForResource:@"hybidmraidscaling" ofType:@"js"];
-        NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
-        NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];*/
-        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
-                                                   length:__PNLite_MRAID_mraid_js_len
-                                             freeWhenDone:NO];
-        NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
-        mraidJSData = nil;
         
         NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
         NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
@@ -79,7 +70,6 @@
                          @"<html>\n"
                          "<head>\n"
                          "<script>%@</script>"
-                         "<script>%@</script>"
                          "</head>\n"
                          "<body>\n"
                          "<div id='hybid-ad' align='center'>\n"
@@ -87,7 +77,6 @@
                          "</div>\n"
                          "</body>\n"
                          "</html>",
-                         mraidjs,
                          scalingjs,
                          processedHtml
                          ];
