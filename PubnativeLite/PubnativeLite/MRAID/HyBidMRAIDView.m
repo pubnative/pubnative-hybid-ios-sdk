@@ -244,7 +244,7 @@ typedef enum {
         state = PNLiteMRAIDStateLoading;
         
         if (mraidjs) {
-            [self injectJavaScript:mraidjs];
+            //[self injectJavaScript:mraidjs];
         }
         
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
@@ -576,7 +576,7 @@ typedef enum {
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
         
         if (mraidjs) {
-            [self injectJavaScript:mraidjs];
+            //[self injectJavaScript:mraidjs];
         }
         
         if (omSDKjs) {
@@ -1089,7 +1089,7 @@ typedef enum {
         [self injectJavaScript:[NSString stringWithFormat:@"mraid.setScreenSize(%d,%d);",
                                 (int)screenSize.width,
                                 (int)screenSize.height]];
-        [self injectJavaScript:[NSString stringWithFormat:@"updateCreativeSize(%d,%d);", (int)screenSize.width, (int)screenSize.height]];
+        //[self injectJavaScript:[NSString stringWithFormat:@"updateCreativeSize(%d,%d);", (int)screenSize.width, (int)screenSize.height]];
         previousScreenSize = CGSizeMake(screenSize.width, screenSize.height);
         if (isInterstitial) {
             [self injectJavaScript:[NSString stringWithFormat:@"mraid.setMaxSize(%d,%d);",
