@@ -32,7 +32,6 @@
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
 
-#import "PNLitemraidjs.h"
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
@@ -72,9 +71,7 @@ typedef enum {
     PNLiteMRAIDParser *mraidParser;
     PNLiteMRAIDModalViewController *modalVC;
     
-    NSString *mraidjs;
     NSString *omSDKjs;
-    //NSString *scalingjs;
     
     NSURL *baseURL;
     
@@ -233,29 +230,13 @@ typedef enum {
         
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
         
-        // Get mraid.js as binary data
-        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
-                                                   length:__PNLite_MRAID_mraid_js_len
-                                             freeWhenDone:NO];
-        mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
-        mraidJSData = nil;
-        
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
-        
-        if (mraidjs) {
-            //[self injectJavaScript:mraidjs];
-        }
         
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        
-        /*NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
-        NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
-        scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
-        [self injectJavaScript:scalingjs];*/
         
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
@@ -574,10 +555,6 @@ typedef enum {
         [self initWebView:webViewPart2];
         currentWebView = webViewPart2;
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
-        
-        if (mraidjs) {
-            //[self injectJavaScript:mraidjs];
-        }
         
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
@@ -1089,7 +1066,6 @@ typedef enum {
         [self injectJavaScript:[NSString stringWithFormat:@"mraid.setScreenSize(%d,%d);",
                                 (int)screenSize.width,
                                 (int)screenSize.height]];
-        //[self injectJavaScript:[NSString stringWithFormat:@"updateCreativeSize(%d,%d);", (int)screenSize.width, (int)screenSize.height]];
         previousScreenSize = CGSizeMake(screenSize.width, screenSize.height);
         if (isInterstitial) {
             [self injectJavaScript:[NSString stringWithFormat:@"mraid.setMaxSize(%d,%d);",
