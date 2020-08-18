@@ -19,6 +19,7 @@ const creativeResize = function (parent_width, parent_height, element) {
         let parent_aspect = parent_width / parent_height;
         let child_aspect = child_width / child_height;
         let scale_factor = 1;
+        let scale_factor_y = 1;
 
         if (parent_aspect > child_aspect) {
             scale_factor = (parent_height / child_height);
@@ -26,6 +27,7 @@ const creativeResize = function (parent_width, parent_height, element) {
             aspect_height = parent_height;
         } else {
             scale_factor = (parent_width / child_width);
+            scale_factor_y = (parent_height / child_height);
             aspect_width = parent_width;
             aspect_height = child_height * (scale_factor);
         }
@@ -39,7 +41,7 @@ const creativeResize = function (parent_width, parent_height, element) {
             child_div.style.transform += "translate(0px," + translationPixels + ")";
         }
 
-        child_div.style.transform += "scale(" + scale_factor + "," + scale_factor + ")";
+        child_div.style.transform += "scale(" + scale_factor + "," + scale_factor_y + ")";
     }
 };
 
