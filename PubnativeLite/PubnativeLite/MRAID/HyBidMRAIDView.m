@@ -32,7 +32,6 @@
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
 
-#import "PNLitemraidjs.h"
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
@@ -72,7 +71,6 @@ typedef enum {
     PNLiteMRAIDParser *mraidParser;
     PNLiteMRAIDModalViewController *modalVC;
     
-    NSString *mraidjs;
     NSString *omSDKjs;
     
     NSURL *baseURL;
@@ -230,19 +228,8 @@ typedef enum {
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
         
-        // Get mraid.js as binary data
-        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
-                                                   length:__PNLite_MRAID_mraid_js_len
-                                             freeWhenDone:NO];
-        mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
-        mraidJSData = nil;
-        
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
-        
-        if (mraidjs) {
-            [self injectJavaScript:mraidjs];
-        }
         
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
@@ -566,10 +553,6 @@ typedef enum {
         [self initWebView:webViewPart2];
         currentWebView = webViewPart2;
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
-        
-        if (mraidjs) {
-            [self injectJavaScript:mraidjs];
-        }
         
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
@@ -1252,10 +1235,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 #pragma mark - internal helper methods
 
 - (WKWebViewConfiguration *)createConfiguration {
-    NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
-    WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
     WKUserContentController *wkUController = [[WKUserContentController alloc] init];
-    [wkUController addUserScript:wkUScript];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
     webConfiguration.userContentController = wkUController;
 

@@ -23,8 +23,8 @@
 #import "HyBidAdapterConfiguration.h"
 
 NSString *const HyBidAdapterConfigurationNetworkName = @"pubnative";
-NSString *const HyBidAdapterConfigurationAdapterVersion = @"1.4.9.0";
-NSString *const HyBidAdapterConfigurationNetworkSDKVersion = @"1.4.9";
+NSString *const HyBidAdapterConfigurationAdapterVersion = @"1.5.0.0";
+NSString *const HyBidAdapterConfigurationNetworkSDKVersion = @"1.5.0";
 NSString *const HyBidAdapterConfigurationAppTokenKey = @"pubnative_appToken";
 
 @implementation HyBidAdapterConfiguration
