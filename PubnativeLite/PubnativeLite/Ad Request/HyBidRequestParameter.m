@@ -24,30 +24,37 @@
 
 @implementation HyBidRequestParameter
 
-+ (NSString *)appToken       { return @"apptoken"; }
-+ (NSString *)os             { return @"os"; }
-+ (NSString *)osVersion      { return @"osver"; }
-+ (NSString *)deviceModel    { return @"devicemodel"; }
-+ (NSString *)dnt            { return @"dnt"; }
-+ (NSString *)locale         { return @"locale"; }
-+ (NSString *)adCount        { return @"adcount"; }
-+ (NSString *)zoneId         { return @"zoneid"; }
-+ (NSString *)lat            { return @"lat"; }
-+ (NSString *)lon            { return @"long"; }
-+ (NSString *)gender         { return @"gender"; }
-+ (NSString *)age            { return @"age"; }
-+ (NSString *)keywords       { return @"keywords"; }
-+ (NSString *)appVersion     { return @"appver"; }
-+ (NSString *)test           { return @"test"; }
-+ (NSString *)video          { return @"video"; }
-+ (NSString *)metaField      { return @"mf"; }
-+ (NSString *)assetsField    { return @"af"; }
-+ (NSString *)idfa           { return @"idfa"; }
-+ (NSString *)idfamd5        { return @"idfamd5"; }
-+ (NSString *)idfasha1       { return @"idfasha1"; }
-+ (NSString *)coppa          { return @"coppa"; }
-+ (NSString *)assetLayout    { return @"al"; }
-+ (NSString *)bundleId       { return @"bundleid"; }
-+ (NSString *)displayManager { return @"displaymanager"; }
-+(NSString *)displayManagerVersion {return @"displaymanagerver"; }
++ (NSString *)appToken                  { return @"apptoken"; }
++ (NSString *)os                        { return @"os"; }
++ (NSString *)osVersion                 { return @"osver"; }
++ (NSString *)deviceModel               { return @"devicemodel"; }
++ (NSString *)deviceWidth               { return @"dw"; }
++ (NSString *)deviceHeight              { return @"dh"; }
++ (NSString *)orientation               { return @"scro"; }
++ (NSString *)deviceSound               { return @"aud"; }
++ (NSString *)dnt                       { return @"dnt"; }
++ (NSString *)locale                    { return @"locale"; }
++ (NSString *)adCount                   { return @"adcount"; }
++ (NSString *)zoneId                    { return @"zoneid"; }
++ (NSString *)lat                       { return @"lat"; }
++ (NSString *)lon                       { return @"long"; }
++ (NSString *)gender                    { return @"gender"; }
++ (NSString *)age                       { return @"age"; }
++ (NSString *)keywords                  { return @"keywords"; }
++ (NSString *)appVersion                { return @"appver"; }
++ (NSString *)test                      { return @"test"; }
++ (NSString *)video                     { return @"video"; }
++ (NSString *)metaField                 { return @"mf"; }
++ (NSString *)assetsField               { return @"af"; }
++ (NSString *)idfa                      { return @"idfa"; }
++ (NSString *)idfamd5                   { return @"idfamd5"; }
++ (NSString *)idfasha1                  { return @"idfasha1"; }
++ (NSString *)coppa                     { return @"coppa"; }
++ (NSString *)assetLayout               { return @"al"; }
++ (NSString *)bundleId                  { return @"bundleid"; }
++ (NSString *)displayManager            { return @"displaymanager"; }
++ (NSString *)displayManagerVersion     {return @"displaymanagerver"; }
++ (NSString *)usprivacy                 {return @"usprivacy"; }
++ (NSString *)userconsent               {return @"userconsent";}
+
 @end

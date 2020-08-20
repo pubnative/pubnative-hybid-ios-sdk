@@ -48,7 +48,7 @@
     self.navigationItem.title = @"MoPub Banner";
 
     [self.bannerLoaderIndicator stopAnimating];
-    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
+    self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [self.moPubBanner setFrame:CGRectMake(0, 0, self.bannerContainer.frame.size.width, self.bannerContainer.frame.size.height)];
     self.moPubBanner.delegate = self;
     [self.moPubBanner stopAutomaticallyRefreshingContents];
@@ -65,7 +65,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -113,7 +113,7 @@
     
     if (request == self.bannerAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubBanner setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
+        [self.moPubBanner setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubBanner loadAd];
     }
 }

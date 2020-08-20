@@ -81,6 +81,10 @@
             eventString = @"resume";
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDResumeEvent];
             break;
+        case PNLiteVASTEvent_Click:
+            eventString = @"click";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClikedEvent];
+            break;
         default: break;
     }
     [self invokeDidTrackEvent:event];

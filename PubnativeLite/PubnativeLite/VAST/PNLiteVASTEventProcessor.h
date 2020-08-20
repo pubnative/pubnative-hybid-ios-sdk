@@ -33,6 +33,7 @@ typedef enum : NSInteger {
     PNLiteVASTEvent_Close,
     PNLiteVASTEvent_Pause,
     PNLiteVASTEvent_Resume,
+    PNLiteVASTEvent_Click,
     PNLiteVASTEvent_Unknown
 } PNLiteVASTEvent;
 
