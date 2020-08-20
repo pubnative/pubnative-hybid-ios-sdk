@@ -32,12 +32,14 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+    self.autoShowOnLoad = YES;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+        self.autoShowOnLoad = YES;
     }
     return self;
 }
@@ -46,6 +48,7 @@
     self = [super initWithFrame:CGRectMake(0, 0, 320, 50)];
     if (self) {
         self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+        self.autoShowOnLoad = YES;
     }
     return self;
 }
