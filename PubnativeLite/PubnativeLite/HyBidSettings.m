@@ -106,12 +106,9 @@
 }
 
 - (NSString *)deviceSound {
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
     if ([AVAudioSession sharedInstance].outputVolume == 0) {
-        [[AVAudioSession sharedInstance] setActive:NO error:nil];
         return @"0";
     } else {
-        [[AVAudioSession sharedInstance] setActive:NO error:nil];
         return @"1";
     }
 }
