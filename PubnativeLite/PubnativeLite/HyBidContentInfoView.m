@@ -107,13 +107,6 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
                                                            multiplier:1.f
                                                              constant:0.f],
                                [NSLayoutConstraint constraintWithItem:self.textView
-                                                            attribute:NSLayoutAttributeHeight
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:nil
-                                                            attribute:NSLayoutAttributeNotAnAttribute
-                                                           multiplier:1.f
-                                                             constant:PNLiteContentViewHeight],
-                               [NSLayoutConstraint constraintWithItem:self.textView
                                                             attribute:NSLayoutAttributeLeading
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:self.iconView
@@ -121,17 +114,10 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
                                                            multiplier:1.f
                                                              constant:0.f],
                                [NSLayoutConstraint constraintWithItem:self.textView
-                                                            attribute:NSLayoutAttributeTrailing
+                                                            attribute:NSLayoutAttributeCenterY
                                                             relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeTrailing
-                                                           multiplier:1.f
-                                                             constant:0.f],
-                               [NSLayoutConstraint constraintWithItem:self.textView
-                                                            attribute:NSLayoutAttributeTop
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeTop
+                                                               toItem:self.iconView
+                                                            attribute:NSLayoutAttributeCenterY
                                                            multiplier:1.f
                                                              constant:0.f]]];
         
