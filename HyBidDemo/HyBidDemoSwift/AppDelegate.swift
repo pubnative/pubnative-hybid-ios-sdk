@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        HyBid.initWithAppToken(AdSdkDemoSettings.appToken, withPartnerKeyword: AdSdkDemoSettings.partnerKeyword) { (success) in
+        HyBid.initWithAppToken(AdSdkDemoSettings.appToken) { (success) in
             
             guard success else {return}
             HyBidLogger.setLogLevel(HyBidLogLevelDebug)
