@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpLeaderboard;
-@property (nonatomic, strong) HyBidLeaderboardAdRequest *leaderboardAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *leaderboardAdRequest;
 
 @end
 
@@ -51,7 +51,7 @@
     [self.leaderboardLoaderIndicator stopAnimating];
     self.dfpLeaderboard = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
     self.dfpLeaderboard.delegate = self;
-    self.dfpLeaderboard.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey];
+    self.dfpLeaderboard.adUnitID = [PNLiteDemoSettings sharedInstance].dfpLeaderboardAdUnitID;
     self.dfpLeaderboard.rootViewController = self;
     [self.leaderboardContainer addSubview:self.dfpLeaderboard];
 }
@@ -65,8 +65,9 @@
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
-    self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
-    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
+    self.leaderboardAdRequest = [[HyBidAdRequest alloc] init];
+    self.leaderboardAdRequest.adSize = HyBidAdSize.SIZE_728x90;
+    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - GADBannerViewDelegate
@@ -115,7 +116,7 @@
     if (request == self.leaderboardAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
+        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad];
         [self.dfpLeaderboard loadRequest:request];
     }
 }

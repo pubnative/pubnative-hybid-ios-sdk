@@ -21,16 +21,6 @@
 //
 
 #import "HyBidMoPubMediationLeaderboardCustomEvent.h"
-#import "HyBidMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPConstants.h"
-#import "MPError.h"
-
-@interface HyBidMoPubMediationLeaderboardCustomEvent()  <HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidLeaderboardAdView *leaderboardAdView;
-
-@end
 
 @implementation HyBidMoPubMediationLeaderboardCustomEvent
 
@@ -92,6 +82,8 @@
     [self.delegate inlineAdAdapterDidTrackClick:self];
     MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate inlineAdAdapterWillLeaveApplication:self];
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_728x90;
 }
 
 @end

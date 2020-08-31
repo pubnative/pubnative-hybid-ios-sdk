@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpMrect;
-@property (nonatomic, strong) HyBidMRectAdRequest *mRectAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *mRectAdRequest;
 
 @end
 
@@ -51,7 +51,7 @@
     [self.mRectLoaderIndicator stopAnimating];
     self.dfpMrect = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
     self.dfpMrect.delegate = self;
-    self.dfpMrect.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
+    self.dfpMrect.adUnitID = [PNLiteDemoSettings sharedInstance].dfpMRectAdUnitID;
     self.dfpMrect.rootViewController = self;
     [self.mRectContainer addSubview:self.dfpMrect];
 }
@@ -65,8 +65,9 @@
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
+    self.mRectAdRequest = [[HyBidAdRequest alloc] init];
+    self.mRectAdRequest.adSize = HyBidAdSize.SIZE_300x250;
+    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - GADBannerViewDelegate
@@ -116,7 +117,7 @@
     if (request == self.mRectAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
+        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad];
         [self.dfpMrect loadRequest:request];
     }
 }

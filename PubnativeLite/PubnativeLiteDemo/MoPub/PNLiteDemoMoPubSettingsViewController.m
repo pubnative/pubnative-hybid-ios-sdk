@@ -36,18 +36,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"MoPub Settings";
-    self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
-    self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
-    self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
-    self.leaderboardAdUnitTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
+    self.navigationItem.title = @"MoPub Header Bidding Settings";
+    self.bannerAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID;
+    self.mRectAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID;
+    self.interstitialAdUnitIDTextField.text = [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID;
+    self.leaderboardAdUnitTextField.text = [PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID;
 }
 
 - (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender {
-    [[NSUserDefaults standardUserDefaults] setObject:self.bannerAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
-    [[NSUserDefaults standardUserDefaults] setObject:self.mRectAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
-    [[NSUserDefaults standardUserDefaults] setObject:self.interstitialAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
-    [[NSUserDefaults standardUserDefaults] setObject:self.leaderboardAdUnitTextField.text forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
+    [PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID = self.bannerAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID = self.mRectAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID = self.interstitialAdUnitIDTextField.text;
+    [PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID = self.leaderboardAdUnitTextField.text;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

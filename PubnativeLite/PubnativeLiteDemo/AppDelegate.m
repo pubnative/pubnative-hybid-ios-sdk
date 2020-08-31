@@ -45,6 +45,14 @@ CLLocationManager *locationManager;
     [HyBid setLocationUpdates:NO];
     [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
                                         withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
+    [HyBid initWithAppToken:[PNLiteDemoSettings sharedInstance].appToken completion:^(BOOL success) {
+        if (success) {
+            [HyBidLogger setLogLevel:HyBidLogLevelDebug];
+            NSLog(@"HyBid initialisation completed");
+        }
+    }];
+    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[PNLiteDemoSettings sharedInstance].moPubBannerAdUnitID];
+    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:nil];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     return YES;
 }

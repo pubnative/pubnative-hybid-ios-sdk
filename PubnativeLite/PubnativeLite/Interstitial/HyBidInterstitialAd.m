@@ -26,6 +26,7 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "VWInterstitialVideoAd.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -44,10 +45,22 @@
     self.delegate = nil;
     self.interstitialPresenter = nil;
     self.interstitialAdRequest = nil;
+    self.contentCategoryIDs = nil;
+    self.partnerKeyword = nil;
 }
 
 - (void)cleanUp {
     self.ad = nil;
+}
+
+- (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
+    self = [super init];
+    if (self) {
+        self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+        self.interstitialAdRequest.adSize = HyBidAdSize.SIZE_INTERSTITIAL;
+        self.delegate = delegate;
+    }
+    return self;
 }
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
@@ -62,10 +75,14 @@
 
 - (void)load {
     [self cleanUp];
-    if (!self.zoneID || self.zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
+    self.isReady = NO;
+    
+    self.interstitialAdRequest.contentCategoryIDs = self.contentCategoryIDs;
+    self.interstitialAdRequest.partnerKeyword = self.partnerKeyword;
+    if ([self.delegate isKindOfClass:[VWInterstitialVideoAd class]]) {
+        [self.interstitialAdRequest setVideoIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+        [self.interstitialAdRequest requestVideoAdWithDelegate:self withZoneID:self.zoneID];
     } else {
-        self.isReady = NO;
         [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }

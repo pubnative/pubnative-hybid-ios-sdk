@@ -30,4 +30,6 @@
 
 @interface HyBidMoPubMediationBannerCustomEvent : MPInlineAdAdapter
 
+@property (nonatomic, strong) HyBidAdSize *adSize;
+
 @end

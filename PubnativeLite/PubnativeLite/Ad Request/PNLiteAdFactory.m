@@ -32,7 +32,7 @@
 @implementation PNLiteAdFactory
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(NSString *)adSize
+                                      andWithAdSize:(HyBidAdSize *)adSize
                              andWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
@@ -71,11 +71,24 @@
         
             adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
             adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+        if (location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
+            NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+            NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        
+            adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
+            adRequestModel.requestParameters[HyBidRequestParameter.lon] = longi;
         }
     }
     adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
-    if (adSize) {
-        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize;
+    if (![adSize.layoutSize isEqualToString:@"native"]) {
+        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
+        
+        if (adSize.width != 0) {
+            adRequestModel.requestParameters[HyBidRequestParameter.width] = [@(adSize.width) stringValue];
+        }
+        if (adSize.height != 0) {
+            adRequestModel.requestParameters[HyBidRequestParameter.height] = [@(adSize.height) stringValue];
+        }
     } else {
         [self setDefaultAssetFields:adRequestModel];
     }

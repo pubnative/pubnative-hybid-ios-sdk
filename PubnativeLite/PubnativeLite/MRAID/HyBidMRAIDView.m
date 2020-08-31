@@ -1235,7 +1235,10 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 #pragma mark - internal helper methods
 
 - (WKWebViewConfiguration *)createConfiguration {
+    NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
+    WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
     WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+    [wkUController addUserScript:wkUScript];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
     webConfiguration.userContentController = wkUController;
 

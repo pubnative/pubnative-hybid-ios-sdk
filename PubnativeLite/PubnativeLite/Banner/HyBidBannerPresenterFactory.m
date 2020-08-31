@@ -24,22 +24,34 @@
 #import "PNLiteAssetGroupType.h"
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "HyBidLogger.h"
+#import "HyBidVASTAdPresenter.h"
 
 @implementation HyBidBannerPresenterFactory
 
 - (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
-        case MRAID_BANNER_1:
-        case MRAID_BANNER_2: {
+        case MRAID_160x600:
+        case MRAID_250x250:
+        case MRAID_300x50:
+        case MRAID_300x250:
+        case MRAID_300x600:
+        case MRAID_320x50:
+        case MRAID_320x100:
+        case MRAID_320x480:
+        case MRAID_480x320:
+        case MRAID_728x90:
+        case MRAID_768x1024:
+        case MRAID_1024x768: {
             PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
             return mraidBannerPresenter;
-            break;
+        }
+        case VAST_MRECT: {
+            HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
+            return vastAdPresenter;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
             return nil;
-            break;
     }
 }
-
 @end

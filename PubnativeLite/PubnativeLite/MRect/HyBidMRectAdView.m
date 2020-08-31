@@ -21,7 +21,6 @@
 //
 
 #import "HyBidMRectAdView.h"
-#import "HyBidMRectPresenterFactory.h"
 
 @implementation HyBidMRectAdView
 
@@ -45,7 +44,7 @@
 }
 
 - (instancetype)init {
-    self = [super initWithFrame:CGRectMake(0, 0, 300, 250)];
+    self = [super initWithSize:HyBidAdSize.SIZE_300x250];
     if (self) {
         self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
         self.autoShowOnLoad = YES;
@@ -55,11 +54,6 @@
 
 - (HyBidAdRequest *)adRequest {
     return self.mRectAdRequest;
-}
-
-- (HyBidAdPresenter *)createAdPresenter {
-    HyBidMRectPresenterFactory *mRectPresenterFactory = [[HyBidMRectPresenterFactory alloc] init];
-    return [mRectPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end

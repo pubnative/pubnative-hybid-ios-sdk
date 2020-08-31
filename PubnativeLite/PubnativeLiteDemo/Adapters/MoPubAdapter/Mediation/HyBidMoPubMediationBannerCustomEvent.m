@@ -28,7 +28,7 @@
 
 @interface HyBidMoPubMediationBannerCustomEvent() <HyBidAdViewDelegate>
 
-@property (nonatomic, strong) HyBidBannerAdView *bannerAdView;
+@property (nonatomic, strong) HyBidAdView *bannerAdView;
 
 @end
 
@@ -36,6 +36,7 @@
 
 - (void)dealloc {
     self.bannerAdView = nil;
+    self.adSize = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
@@ -50,8 +51,12 @@
                 [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
                 return;
             }
+        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
+            self.bannerAdView.isMediation = YES;
+            [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
         } else {
-            [self invokeFailWithMessage:@"Wrong ad size."];
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
     } else {
@@ -69,6 +74,10 @@
 
 - (BOOL)enableAutomaticImpressionAndClickTracking {
     return NO;
+}
+
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_320x50;
 }
 
 #pragma mark - HyBidAdViewDelegate

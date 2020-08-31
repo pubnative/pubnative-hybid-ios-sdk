@@ -56,5 +56,7 @@
 + (NSString *)displayManagerVersion;
 + (NSString *)usprivacy;
 + (NSString *)userconsent;
++ (NSString *)width;
++ (NSString *)height;
 
 @end

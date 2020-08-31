@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpBanner;
-@property (nonatomic, strong) HyBidBannerAdRequest *bannerAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *bannerAdRequest;
 
 @end
 
@@ -51,7 +51,7 @@
     [self.bannerLoaderIndicator stopAnimating];
     self.dfpBanner = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     self.dfpBanner.delegate = self;
-    self.dfpBanner.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
+    self.dfpBanner.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
     self.dfpBanner.rootViewController = self;
     [self.bannerContainer addSubview:self.dfpBanner];
 }
@@ -65,8 +65,9 @@
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
+    self.bannerAdRequest = [[HyBidAdRequest alloc] init];
+    self.bannerAdRequest.adSize = HyBidAdSize.SIZE_320x50;
+    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - GADBannerViewDelegate
@@ -115,7 +116,7 @@
     if (request == self.bannerAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
+        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad];
         [self.dfpBanner loadRequest:request];
     }
 }

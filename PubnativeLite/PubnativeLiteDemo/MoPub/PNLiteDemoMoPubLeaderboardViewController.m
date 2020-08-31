@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubLeaderboard;
-@property (nonatomic, strong) HyBidLeaderboardAdRequest *leaderboardAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *leaderboardAdRequest;
 
 @end
 
@@ -48,7 +48,7 @@
     self.navigationItem.title = @"MoPub Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
-    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey]];
+    self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubLeaderboardAdUnitID];
     [self.moPubLeaderboard setFrame:CGRectMake(0, 0, self.leaderboardContainer.frame.size.width, self.leaderboardContainer.frame.size.height)];
     self.moPubLeaderboard.delegate = self;
     [self.moPubLeaderboard stopAutomaticallyRefreshingContents];
@@ -64,8 +64,9 @@
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
-    self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
-    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
+    self.leaderboardAdRequest = [[HyBidAdRequest alloc] init];
+    self.leaderboardAdRequest.adSize = HyBidAdSize.SIZE_728x90;
+    [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -113,7 +114,7 @@
     
     if (request == self.leaderboardAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubLeaderboard setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
+        [self.moPubLeaderboard setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
         [self.moPubLeaderboard loadAd];
     }
 }

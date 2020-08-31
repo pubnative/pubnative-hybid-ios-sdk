@@ -29,5 +29,9 @@
 #import <HyBid/HyBid.h>
 
 @interface HyBidMoPubMediationLeaderboardCustomEvent : MPInlineAdAdapter
+#import "HyBidMoPubMediationBannerCustomEvent.h"
+
+/// This class is kept for backwards compatibility.
+@interface HyBidMoPubMediationLeaderboardCustomEvent : HyBidMoPubMediationBannerCustomEvent
 
 @end

@@ -36,6 +36,7 @@
 
 @property (nonatomic, strong) NSDictionary *header;
 @property (nonatomic, strong) NSData *body;
+@property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, assign) BOOL shouldRetry;
 
 - (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;

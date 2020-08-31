@@ -21,10 +21,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
+#import "HyBidDFPBannerCustomEvent.h"
 
 @import GoogleMobileAds;
 
 @interface HyBidDFPHeaderBiddingInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
+/// This class is kept for backwards compatibility.
+@interface HyBidDFPLeaderboardCustomEvent : HyBidDFPBannerCustomEvent
 
 @end
