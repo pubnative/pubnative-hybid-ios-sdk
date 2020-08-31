@@ -33,7 +33,6 @@
 @property (nonatomic, strong) HyBidAd *ad;
 
 @end
-#import "HyBidMoPubLeaderboardCustomEvent.h"
 
 @implementation HyBidMoPubHeaderBiddingLeaderboardCustomEvent
 

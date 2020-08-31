@@ -28,7 +28,7 @@
 
 @interface HyBidMoPubHeaderBiddingBannerCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidAdPresenter *adPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -37,7 +37,7 @@
 @implementation HyBidMoPubHeaderBiddingBannerCustomEvent
 
 - (void)dealloc {
-    self.adPresenter = nil;
+    self.bannerPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
 }
@@ -61,20 +61,8 @@
             }
         } else {
             [self invokeFailWithMessage:@"Wrong ad size."];
-        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
-        if (!self.ad) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
             return;
         }
-        self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-        self.adPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-        if (!self.adPresenter) {
-            [self invokeFailWithMessage:@"Could not create valid banner presenter."];
-            return;
-        } else {
-            [self.adPresenter load];
-        }
-        
     } else {
         [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
         return;
@@ -100,9 +88,6 @@
     [self.delegate inlineAdAdapterDidTrackImpression:self];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
     [self.bannerPresenter startTracking];
-    [self.delegate trackImpression];
-    [self.delegate bannerCustomEvent:self didLoadAd:adView];
-    [self.adPresenter startTracking];
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {

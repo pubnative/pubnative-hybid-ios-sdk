@@ -71,6 +71,7 @@
         
             adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
             adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+        }
         if (location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
             NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
             NSString* longi = [NSString stringWithFormat:@"%f", location.coordinate.longitude];

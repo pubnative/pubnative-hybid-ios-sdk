@@ -71,9 +71,6 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 @implementation PNLiteDemoSettings
 
 - (void)dealloc {
-<<<<<<< HEAD
-    self.targetingModel = nil;
-=======
     self.appToken = nil;
     self.partnerKeyword = nil;
     self.zoneID = nil;
@@ -99,7 +96,6 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
     self.targetingModel = nil;
     self.apiURL = nil;
     self.adSize = nil;
->>>>>>> update-iqv
 }
 
 + (PNLiteDemoSettings *)sharedInstance {
@@ -114,10 +110,8 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
 - (instancetype)init {
     self = [super init];
     if (self) {
-<<<<<<< HEAD
         self.targetingModel = [[HyBidTargetingModel alloc] init];
         [self setInitialValuesForUserDefaults];
-=======
         self.appToken = PNLiteDemoAppToken;
         self.partnerKeyword = PNLiteDemoPartnerKeyword;
         self.zoneID = PNLiteDemoZoneID;
@@ -139,15 +133,12 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         self.adMobMediationMRectAdUnitID = PNLiteDemoAdMobMediationMRectAdUnitID;
         self.adMobMediationLeaderboardAdUnitID = PNLiteDemoAdMobMediationLeaderboardAdUnitID;
         self.adMobMediationInterstitialAdUnitID = PNLiteDemoAdMobMediationInterstitialAdUnitID;
-        self.targetingModel = [[HyBidTargetingModel alloc] init];
         self.apiURL = PNLiteDemoAPIURL;
         [self createBannerSizeArray];
->>>>>>> update-iqv
     }
     return self;
 }
 
-<<<<<<< HEAD
 - (void)setInitialValuesForUserDefaults {
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kIsAppLaunchedPreviouslyKey]) {
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAppToken forKey:kHyBidDemoAppTokenKey];
@@ -173,11 +164,10 @@ NSString *const PNLiteDemoAPIURL = @"https://api.pubnative.net";
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationInterstitialAdUnitID forKey:kHyBidAdMobMediationInterstitialAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
     }
-=======
-- (void)createBannerSizeArray {
-    
-    self.bannerSizesArray = [NSMutableArray arrayWithObjects:@"Choose Banner Size", HyBidAdSize.SIZE_320x50, HyBidAdSize.SIZE_300x250, HyBidAdSize.SIZE_300x50, HyBidAdSize.SIZE_320x480, HyBidAdSize.SIZE_1024x768, HyBidAdSize.SIZE_768x1024, HyBidAdSize.SIZE_728x90, HyBidAdSize.SIZE_160x600, HyBidAdSize.SIZE_250x250, HyBidAdSize.SIZE_300x600, HyBidAdSize.SIZE_320x100, HyBidAdSize.SIZE_480x320, nil];
->>>>>>> update-iqv
 }
+
+    - (void)createBannerSizeArray {
+        self.bannerSizesArray = [NSMutableArray arrayWithObjects:@"Choose Banner Size", HyBidAdSize.SIZE_320x50, HyBidAdSize.SIZE_300x250, HyBidAdSize.SIZE_300x50, HyBidAdSize.SIZE_320x480, HyBidAdSize.SIZE_1024x768, HyBidAdSize.SIZE_768x1024, HyBidAdSize.SIZE_728x90, HyBidAdSize.SIZE_160x600, HyBidAdSize.SIZE_250x250, HyBidAdSize.SIZE_300x600, HyBidAdSize.SIZE_320x100, HyBidAdSize.SIZE_480x320, nil];
+    }
 
 @end

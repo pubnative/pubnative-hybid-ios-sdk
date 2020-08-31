@@ -20,12 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubMediationLeaderboardCustomEvent.h"
+#import "HyBidAdPresenter.h"
 
-@implementation HyBidMoPubMediationLeaderboardCustomEvent
+@interface PNLiteMRAIDMRectPresenter : HyBidAdPresenter
 
-- (HyBidAdSize *)adSize {
-    return HyBidAdSize.SIZE_728x90;
-}
+- (instancetype)initWithAd:(HyBidAd *)ad;
 
 @end
