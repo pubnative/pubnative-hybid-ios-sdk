@@ -586,6 +586,7 @@
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		7E1B1A2724FD2BFC004E4BF8 /* PNLiteMRAIDMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1B1A2624FD2BFC004E4BF8 /* PNLiteMRAIDMRectPresenter.h */; };
 		7E1B1A2924FD2C34004E4BF8 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1A2824FD2C34004E4BF8 /* PNLiteMRAIDMRectPresenter.m */; };
+		7E1B1A2B24FE6071004E4BF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
 		7E2DA6EF2436234F0013841B /* HyBidLocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* HyBidLocationEncoding.h */; };
 		7E2DA6F02436234F0013841B /* HyBidLocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* HyBidLocationEncoding.m */; };
 		7E2DA6FC243CCCC80013841B /* VWAdvertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6FB243CCCC80013841B /* VWAdvertView.m */; };
@@ -4018,6 +4019,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E1B1A2B24FE6071004E4BF8 /* Main.storyboard in Resources */,
 				5A374B2324B6199000AF96BD /* MPMutedBtn.png in Resources */,
 				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
 				5A91E299234354B700CDF595 /* OpenMeasurement-LICENSE in Resources */,
