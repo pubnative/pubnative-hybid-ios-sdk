@@ -107,10 +107,7 @@ NSInteger const kRequestWinnerPicked = 3003;
     } else {
         self.zoneID = zoneID;
     }
-    // Verve request will be created only if partner keyword is set
-    if (self.partnerKeyword != nil) {
-        self.vwRequestURL = [self vwRequestURLFromAdRequestModel:[self createVWAdRequestModel]];
-    }
+
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
     self.isSetIntegrationTypeCalled = YES;
 }
@@ -121,10 +118,7 @@ NSInteger const kRequestWinnerPicked = 3003;
     } else {
         self.zoneID = zoneID;
     }
-    // Verve request will be created only if partner keyword is set
-    if (self.partnerKeyword != nil) {
-        self.vwVideoAdRequestURL = [self vwVideoAdRequestURLFromAdRequestModel:[self createVWVideoAdRequestModel]];
-    }
+
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
     self.isSetIntegrationTypeCalled = YES;
 }
@@ -198,55 +192,9 @@ NSInteger const kRequestWinnerPicked = 3003;
                               andWithIntegrationType:integrationType];
 }
 
-- (VWAdRequestModel *)createVWAdRequestModel {
-    VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWAdRequestWithZoneID:self.zoneID
-                                                                          withAdSize:[self adSize]
-                                                              withContentCategoryIDs:self.contentCategoryIDs
-                                                                  withPartnerKeyword:self.partnerKeyword];
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
-    return vwRequestModel;
-}
-
-- (VWAdRequestModel *)createVWVideoAdRequestModel {
-    VWAdRequestModel *vwRequestModel = [self.vwAdFactory createVWVideoAdRequestWithZoneID:self.zoneID
-                                                                               withAdSize:[self adSize]
-                                                                   withContentCategoryIDs:self.contentCategoryIDs
-                                                                       withPartnerKeyword:self.partnerKeyword];
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self vwVideoAdRequestURLFromAdRequestModel: vwRequestModel].absoluteString]];
-    return vwRequestModel;
-}
-
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
     NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].apiURL];
     components.path = @"/api/v3/native";
-    if (adRequestModel.requestParameters) {
-        NSMutableArray *query = [NSMutableArray array];
-        NSDictionary *parametersDictionary = adRequestModel.requestParameters;
-        for (id key in parametersDictionary) {
-            [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
-        }
-        components.queryItems = query;
-    }
-    return components.URL;
-}
-
-- (NSURL*)vwRequestURLFromAdRequestModel:(VWAdRequestModel *)adRequestModel {
-    NSURLComponents *components = [NSURLComponents componentsWithString:@"https://adcel.vrvm.com"];
-    components.path = @"/banner";
-    if (adRequestModel.requestParameters) {
-        NSMutableArray *query = [NSMutableArray array];
-        NSDictionary *parametersDictionary = adRequestModel.requestParameters;
-        for (id key in parametersDictionary) {
-            [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
-        }
-        components.queryItems = query;
-    }
-    return components.URL;
-}
-
-- (NSURL*)vwVideoAdRequestURLFromAdRequestModel:(VWAdRequestModel *)adRequestModel {
-    NSURLComponents *components = [NSURLComponents componentsWithString:@"https://adcel.vrvm.com"];
-    components.path = @"/vast";
     if (adRequestModel.requestParameters) {
         NSMutableArray *query = [NSMutableArray array];
         NSDictionary *parametersDictionary = adRequestModel.requestParameters;
