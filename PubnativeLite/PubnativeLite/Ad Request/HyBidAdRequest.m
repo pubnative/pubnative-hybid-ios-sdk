@@ -183,10 +183,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
                 switch (ad.assetGroupID.integerValue) {
-                    case VAST_INTERSTITIAL_1:
-                    case VAST_INTERSTITIAL_2:
-                    case VAST_INTERSTITIAL_3:
-                    case VAST_INTERSTITIAL_4:
+                    case VAST_INTERSTITIAL:
                     case VAST_MRECT: {
                         HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
                         [videoAdProcessor processVASTString:ad.vast completion:^(PNLiteVASTModel *vastModel, NSError *error) {

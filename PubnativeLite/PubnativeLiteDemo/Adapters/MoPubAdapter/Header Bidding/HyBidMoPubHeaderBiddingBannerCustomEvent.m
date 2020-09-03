@@ -28,7 +28,7 @@
 
 @interface HyBidMoPubHeaderBiddingBannerCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -37,7 +37,7 @@
 @implementation HyBidMoPubHeaderBiddingBannerCustomEvent
 
 - (void)dealloc {
-    self.bannerPresenter = nil;
+    self.adPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
 }
@@ -82,7 +82,7 @@
     MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate inlineAdAdapterDidTrackImpression:self];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
-    [self.bannerPresenter startTracking];
+    [self.adPresenter startTracking];
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
