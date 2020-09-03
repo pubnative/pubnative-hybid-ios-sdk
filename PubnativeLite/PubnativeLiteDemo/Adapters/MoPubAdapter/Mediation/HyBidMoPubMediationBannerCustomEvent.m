@@ -41,16 +41,11 @@
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if (size.height == kMPPresetMaxAdSize50Height.height && size.width >= 320.0f) {
-            if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
             self.bannerAdView.isMediation = YES;
             [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
-                MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
-            } else {
-                [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
-                return;
-            }
+            MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
