@@ -587,6 +587,7 @@
 		7E1B1A2724FD2BFC004E4BF8 /* PNLiteMRAIDMRectPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1B1A2624FD2BFC004E4BF8 /* PNLiteMRAIDMRectPresenter.h */; };
 		7E1B1A2924FD2C34004E4BF8 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1A2824FD2C34004E4BF8 /* PNLiteMRAIDMRectPresenter.m */; };
 		7E1B1A2B24FE6071004E4BF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
+		7E1B1A2C2500EEFD004E4BF8 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
 		7E2DA6EF2436234F0013841B /* HyBidLocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* HyBidLocationEncoding.h */; };
 		7E2DA6F02436234F0013841B /* HyBidLocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* HyBidLocationEncoding.m */; };
 		7E2DA6FC243CCCC80013841B /* VWAdvertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6FB243CCCC80013841B /* VWAdvertView.m */; };
@@ -621,7 +622,6 @@
 		7ED8F0982459881700CBC399 /* HyBidError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED8F0952459881700CBC399 /* HyBidError.h */; };
 		7ED8F0992459881700CBC399 /* HyBidError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED8F0962459881700CBC399 /* HyBidError.m */; };
 		7ED8F09A2459881700CBC399 /* HyBidError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED8F0962459881700CBC399 /* HyBidError.m */; };
-		7EE4A5652492582000764338 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		7EE4A57624925A4E00764338 /* HyBidVideoAdCacheItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB2C127248696BA00AFB4A5 /* HyBidVideoAdCacheItem.h */; };
 		7EE4A57824925A5C00764338 /* HyBidVideoAdCacheItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB2C128248696BA00AFB4A5 /* HyBidVideoAdCacheItem.m */; };
 		7EE4A57924925A6600764338 /* HyBidVideoAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB2C12C2486981100AFB4A5 /* HyBidVideoAdCache.m */; };
@@ -1948,7 +1948,7 @@
 			files = (
 				E7BAC447244744DF009160A3 /* libxml2.tbd in Frameworks */,
 				E7BAC448244744E0009160A3 /* libxml2.2.tbd in Frameworks */,
-				7EE4A5652492582000764338 /* (null) in Frameworks */,
+				7E1B1A2C2500EEFD004E4BF8 /* OMSDK_Pubnativenet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5088,6 +5088,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.4",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -5115,6 +5116,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
 					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.4",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
