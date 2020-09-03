@@ -20,21 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPBannerCustomEvent.h"
-#import "HyBidDFPUtils.h"
+#import "HyBidMoPubHeaderBiddingBannerCustomEvent.h"
+#import "HyBidMoPubUtils.h"
+#import "MPLogging.h"
+#import "MPConstants.h"
+#import "MPError.h"
 
-@interface HyBidDFPBannerCustomEvent () <HyBidAdPresenterDelegate>
+@interface HyBidMoPubHeaderBiddingBannerCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
 @end
 
-@implementation HyBidDFPBannerCustomEvent
-
-@synthesize delegate;
+@implementation HyBidMoPubHeaderBiddingBannerCustomEvent
 
 - (void)dealloc {
     self.adPresenter = nil;
@@ -42,14 +42,11 @@
     self.ad = nil;
 }
 
-- (void)requestBannerAd:(GADAdSize)adSize
-              parameter:(NSString * _Nullable)serverParameter
-                  label:(NSString * _Nullable)serverLabel
-                request:(nonnull GADCustomEventRequest *)request {
-    if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
-        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
+    if ([HyBidMoPubUtils isZoneIDValid:info]) {
+        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
         if (!self.ad) {
-            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
             return;
         }
         self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
@@ -68,14 +65,23 @@
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
+    MPLogError(@"%@", message);
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
+    [self.delegate bannerCustomEvent:self
+            didFailToLoadAdWithError:[NSError errorWithDomain:message
+                                                         code:0
+                                                     userInfo:nil]];
+}
+
+- (BOOL)enableAutomaticImpressionAndClickTracking {
+    return NO;
 }
 
 #pragma mark - HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    [self.delegate customEventBanner:self didReceiveAd:adView];
+    [self.delegate trackImpression];
+    [self.delegate bannerCustomEvent:self didLoadAd:adView];
     [self.adPresenter startTracking];
 }
 
@@ -84,8 +90,8 @@
 }
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
-    [self.delegate customEventBannerWasClicked:self];
-    [self.delegate customEventBannerWillLeaveApplication:self];
+    [self.delegate trackClick];
+    [self.delegate bannerCustomEventWillLeaveApplication:self];
 }
 
 @end

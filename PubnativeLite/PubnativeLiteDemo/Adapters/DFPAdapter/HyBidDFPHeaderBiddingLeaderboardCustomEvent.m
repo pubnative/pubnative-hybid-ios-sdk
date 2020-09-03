@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPMRectCustomEvent.h"
+#import "HyBidDFPHeaderBiddingLeaderboardCustomEvent.h"
 
-@implementation HyBidDFPMRectCustomEvent
+@implementation HyBidDFPHeaderBiddingLeaderboardCustomEvent
 
 @end

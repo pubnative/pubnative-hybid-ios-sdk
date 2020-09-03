@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
+#import "HyBidDFPHeaderBiddingBannerCustomEvent.h"
 
 @import GoogleMobileAds;
 
-@interface HyBidAdMobInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
+/// This class is kept for backwards compatibility.
+@interface HyBidDFPHeaderBiddingLeaderboardCustomEvent : HyBidDFPHeaderBiddingBannerCustomEvent
 
 @end

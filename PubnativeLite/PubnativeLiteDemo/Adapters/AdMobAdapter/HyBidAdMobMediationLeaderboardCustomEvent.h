@@ -20,9 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobBannerCustomEvent.h"
+#import "HyBidAdMobMediationBannerCustomEvent.h"
 
 /// This class is kept for backwards compatibility.
-@interface HyBidAdMobMRectCustomEvent : HyBidAdMobBannerCustomEvent
+@interface HyBidAdMobMediationLeaderboardCustomEvent : HyBidAdMobMediationBannerCustomEvent
 
 @end

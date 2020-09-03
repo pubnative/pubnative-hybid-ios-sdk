@@ -20,8 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubMRectCustomEvent.h"
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPInterstitialCustomEvent.h"
+#endif
 
-@implementation HyBidMoPubMRectCustomEvent
+#import <HyBid/HyBid.h>
+
+@interface HyBidMoPubHeaderBiddingInterstitialCustomEvent : MPInterstitialCustomEvent
 
 @end

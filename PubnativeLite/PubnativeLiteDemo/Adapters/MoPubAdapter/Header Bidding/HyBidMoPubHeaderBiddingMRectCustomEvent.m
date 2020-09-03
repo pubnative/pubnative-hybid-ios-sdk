@@ -20,9 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidMoPubBannerCustomEvent.h"
+#import "HyBidMoPubHeaderBiddingMRectCustomEvent.h"
 
-/// This class is kept for backwards compatibility.
-@interface HyBidMoPubLeaderboardCustomEvent : HyBidMoPubBannerCustomEvent
+@implementation HyBidMoPubHeaderBiddingMRectCustomEvent
 
 @end

@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdMobMRectCustomEvent.h"
+#import <Foundation/Foundation.h>
+#import <HyBid/HyBid.h>
 
-@implementation HyBidAdMobMRectCustomEvent
+@import GoogleMobileAds;
 
-- (HyBidAdSize *)adSize {
-    return HyBidAdSize.SIZE_300x250;
-}
+@interface HyBidDFPHeaderBiddingBannerCustomEvent : NSObject <GADCustomEventBanner>
 
 @end

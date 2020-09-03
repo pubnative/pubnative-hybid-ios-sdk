@@ -20,11 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#else
+#import "MPBannerCustomEvent.h"
+#endif
+
 #import <HyBid/HyBid.h>
 
-@import GoogleMobileAds;
-
-@interface HyBidDFPBannerCustomEvent : NSObject <GADCustomEventBanner>
+@interface HyBidMoPubHeaderBiddingBannerCustomEvent : MPBannerCustomEvent
 
 @end

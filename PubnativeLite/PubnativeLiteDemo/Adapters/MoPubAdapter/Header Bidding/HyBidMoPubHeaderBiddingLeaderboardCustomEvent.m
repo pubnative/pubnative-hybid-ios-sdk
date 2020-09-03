@@ -20,11 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
+#import "HyBidMoPubHeaderBiddingLeaderboardCustomEvent.h"
 
-@import GoogleMobileAds;
-
-@interface HyBidDFPInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
+@implementation HyBidMoPubHeaderBiddingLeaderboardCustomEvent
 
 @end
