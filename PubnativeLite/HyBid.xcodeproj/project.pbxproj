@@ -588,6 +588,7 @@
 		7E1B1A2924FD2C34004E4BF8 /* PNLiteMRAIDMRectPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1A2824FD2C34004E4BF8 /* PNLiteMRAIDMRectPresenter.m */; };
 		7E1B1A2B24FE6071004E4BF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
 		7E1B1A2C2500EEFD004E4BF8 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
+		7E1B1A2D2500EFF9004E4BF8 /* HyBidPrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A4B95DC24D9D3CD00028939 /* HyBidPrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E2DA6EF2436234F0013841B /* HyBidLocationEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DA6ED2436234E0013841B /* HyBidLocationEncoding.h */; };
 		7E2DA6F02436234F0013841B /* HyBidLocationEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6EE2436234E0013841B /* HyBidLocationEncoding.m */; };
 		7E2DA6FC243CCCC80013841B /* VWAdvertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DA6FB243CCCC80013841B /* VWAdvertView.m */; };
@@ -3829,6 +3830,7 @@
 				E7BAC6DC24474ED3009160A3 /* PNLiteCloseButton.h in Headers */,
 				E7BAC62624474B79009160A3 /* PNLiteRequestInspector.h in Headers */,
 				E7BAC6BF24474E50009160A3 /* PNLiteCryptoUtils.h in Headers */,
+				7E1B1A2D2500EFF9004E4BF8 /* HyBidPrebidUtils.h in Headers */,
 				E7BAC61924474B2E009160A3 /* PNLiteOrientationManager.h in Headers */,
 				E7BAC63424474BA2009160A3 /* PNLiteVisibilityTrackerItem.h in Headers */,
 				E7BAC69924474DBD009160A3 /* PNLiteMRAIDBannerPresenter.h in Headers */,
