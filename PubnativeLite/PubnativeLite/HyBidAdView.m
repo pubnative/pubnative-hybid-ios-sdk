@@ -44,6 +44,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.adRequest = [[HyBidAdRequest alloc] init];
+    self.autoShowOnLoad = true;
 }
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize {
@@ -51,6 +52,7 @@
     if (self) {
         self.adRequest = [[HyBidAdRequest alloc] init];
         self.adSize = adSize;
+        self.autoShowOnLoad = true;
     }
     return self;
 }
