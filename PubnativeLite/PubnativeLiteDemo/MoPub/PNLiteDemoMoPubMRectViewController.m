@@ -48,7 +48,7 @@
     self.navigationItem.title = @"MoPub MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[PNLiteDemoSettings sharedInstance].moPubMRectAdUnitID];
+    self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey]];
     [self.moPubMrect setFrame:CGRectMake(0, 0, self.mRectContainer.frame.size.width, self.mRectContainer.frame.size.height)];
     self.moPubMrect.delegate = self;
     [self.moPubMrect stopAutomaticallyRefreshingContents];
@@ -66,7 +66,7 @@
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[HyBidAdRequest alloc] init];
     self.mRectAdRequest.adSize = HyBidAdSize.SIZE_300x250;
-    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - MPAdViewDelegate
@@ -114,7 +114,7 @@
     
     if (request == self.mRectAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        [self.moPubMrect setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
+        [self.moPubMrect setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubMrect loadAd];
     }
 }

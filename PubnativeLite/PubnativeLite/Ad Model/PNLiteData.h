@@ -28,6 +28,7 @@
 + (NSString *)vast;
 + (NSString *)number;
 + (NSString *)url;
++ (NSString *)js;
 + (NSString *)html;
 + (NSString *)width;
 + (NSString *)height;

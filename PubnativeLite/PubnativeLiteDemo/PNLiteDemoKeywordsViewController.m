@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Keywords";
-    self.allKeywordsTextView.text = [PNLiteDemoSettings sharedInstance].keywords;
+    self.allKeywordsTextView.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoKeywordsKey];
 }
 
 - (IBAction)handleTap:(UIGestureRecognizer *)recognizer {
@@ -68,9 +68,9 @@
 
 - (IBAction)saveKeywordsTouchUpInside:(UIButton *)sender {
     if ([self.allKeywordsTextView.text length] > 0) {
-        [PNLiteDemoSettings sharedInstance].keywords = self.allKeywordsTextView.text;
+        [[NSUserDefaults standardUserDefaults] setObject:self.allKeywordsTextView.text forKey:kHyBidDemoKeywordsKey];
     } else {
-        [PNLiteDemoSettings sharedInstance].keywords = nil;
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kHyBidDemoKeywordsKey];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

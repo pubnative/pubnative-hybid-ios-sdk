@@ -78,7 +78,7 @@
     MPNativeAdRendererConfiguration *config = [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
     config.supportedCustomEvents = @[@"HyBidMoPubMediationNativeAdCustomEvent"];
     
-    self.request = [MPNativeAdRequest requestWithAdUnitIdentifier:[PNLiteDemoSettings sharedInstance].moPubMediationNativeAdUnitID
+    self.request = [MPNativeAdRequest requestWithAdUnitIdentifier:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationNativeAdUnitIDKey]
                                            rendererConfigurations:@[config]];
     
     MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];

@@ -20,25 +20,29 @@
 //  THE SOFTWARE.
 //
 
+@class OMIDPubnativenetPartner;
+@class OMIDPubnativenetAdEvents;
 @class OMIDPubnativenetAdSession;
+@class OMIDPubnativenetMediaEvents;
 
 #import <Foundation/Foundation.h>
-#import <WebKit/WebKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HyBidViewabilityManager : NSObject
 
 @property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
+@property (nonatomic, assign) BOOL isViewabilityMeasurementActivated;
+@property (nonatomic, strong) OMIDPubnativenetPartner *partner;
+@property (nonatomic, strong) OMIDPubnativenetAdSession *omidAdSession;
+@property (nonatomic, strong) OMIDPubnativenetAdSession *omidMediaAdSession;
+@property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
+@property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
 
 + (instancetype)sharedInstance;
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd;
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
-- (void)startOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)addFriendlyObstruction:(UIView *) view toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession;
 - (NSString *)getOMIDJS;
+- (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession;
+- (OMIDPubnativenetMediaEvents *)getMediaEvents:(OMIDPubnativenetAdSession*)omidAdSession;
 
 @end
 

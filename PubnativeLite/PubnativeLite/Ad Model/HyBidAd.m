@@ -32,6 +32,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 @property (nonatomic, strong)HyBidAdModel *data;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
+@property (nonatomic, strong)NSString *_zoneID;
 
 @end
 
@@ -40,16 +41,22 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (void)dealloc {
     self.data = nil;
     self.contentInfoView = nil;
+    self._zoneID = nil;
 }
 
 #pragma mark HyBidAd
 
-- (instancetype)initWithData:(HyBidAdModel *)data {
+- (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID {
     self = [super init];
     if (self) {
         self.data = data;
+        self._zoneID = zoneID;
     }
     return self;
+}
+
+- (NSString *)zoneID {
+    return self._zoneID;
 }
 
 - (NSString *)vast {

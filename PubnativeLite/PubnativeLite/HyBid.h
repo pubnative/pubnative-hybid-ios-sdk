@@ -49,6 +49,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidMRectPresenterFactory.h>
 #import <HyBid/HyBidInterstitialPresenterFactory.h>
 #import <HyBid/HyBidAdCache.h>
+#import <HyBid/HyBidHeaderBiddingUtils.h>
 #import <HyBid/HyBidPrebidUtils.h>
 #import <HyBid/HyBidContentInfoView.h>
 #import <HyBid/HyBidUserDataManager.h>
@@ -78,5 +79,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
++ (void)setLocationUpdates:(BOOL)enabled;
 
 @end

@@ -32,6 +32,11 @@
 #import "PNLiteCheckConsentRequest.h"
 #import "HyBidLogger.h"
 
+#define kCCPAPrivacyKey @"CCPA_Privacy"
+#define kGDPRConsentKey @"GDPR_Consent"
+#define kCCPAPublicPrivacyKey @"IABUSPrivacy_String"
+#define kGDPRPublicConsentKey @"IABConsent_ConsentString"
+
 NSString *const PNLiteDeviceIDType = @"idfa";
 NSString *const PNLiteGDPRConsentStateKey = @"gdpr_consent_state";
 NSString *const PNLiteGDPRAdvertisingIDKey = @"gdpr_advertising_id";
@@ -58,6 +63,12 @@ NSInteger const PNLiteConsentStateDenied = 0;
     if (self) {
         self.inGDPRZone = NO;
         self.consentState = PNLiteConsentStateDenied;
+        [[NSUserDefaults standardUserDefaults] addObserver:self
+                                                forKeyPath:kCCPAPublicPrivacyKey options:NSKeyValueObservingOptionNew
+                                                   context:NULL];
+        [[NSUserDefaults standardUserDefaults] addObserver:self
+                                                forKeyPath:kGDPRPublicConsentKey options:NSKeyValueObservingOptionNew
+                                                   context:NULL];
     }
     return self;
 }
@@ -69,6 +80,36 @@ NSInteger const PNLiteConsentStateDenied = 0;
         sharedInstance = [[HyBidUserDataManager alloc] init];
     });
     return sharedInstance;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    NSDictionary *safeChange = [NSDictionary dictionaryWithDictionary:change];
+    if ([keyPath isEqualToString:kCCPAPublicPrivacyKey]) {
+        if ([[safeChange objectForKey:NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
+            return;
+        } else {
+            NSString *privacyString = [safeChange objectForKey:@"new"];
+            if (privacyString.length != 0) {
+                [self setIABUSPrivacyString:privacyString];
+            } else {
+                [self removeIABUSPrivacyString];
+            }
+        }
+    } else if ([keyPath isEqualToString:kGDPRPublicConsentKey]) {
+        if ([[safeChange objectForKey:NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
+            return;
+        } else {
+            NSString *consentString = [safeChange objectForKey:@"new"];
+            if (consentString.length != 0) {
+                [self setIABGDPRConsentString:consentString];
+            } else {
+                [self removeIABGDPRConsentString];
+            }
+        }
+    }
 }
 
 - (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock)completion {
@@ -172,6 +213,73 @@ NSInteger const PNLiteConsentStateDenied = 0;
     [[NSUserDefaults standardUserDefaults] setInteger:self.consentState forKey:PNLiteGDPRConsentStateKey];
     [[NSUserDefaults standardUserDefaults] setObject:[HyBidSettings sharedInstance].advertisingId forKey:PNLiteGDPRAdvertisingIDKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - GDPR Consent String
+
+- (void)setIABGDPRConsentString:(NSString *)privacyString {
+    [[NSUserDefaults standardUserDefaults] setObject:privacyString forKey:kGDPRConsentKey];
+}
+
+- (NSString *)getIABGDPRConsentString {
+    NSString *consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRConsentKey];
+    if (!consentString || consentString.length == 0) {
+        consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey];
+    }
+    return consentString;
+}
+
+- (void)removeIABGDPRConsentString {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kGDPRConsentKey];
+}
+
+#pragma mark - U.S. Privacy String (CCPA)
+
+- (void)setIABUSPrivacyString:(NSString *)privacyString {
+    [[NSUserDefaults standardUserDefaults] setObject:privacyString forKey:kCCPAPrivacyKey];
+}
+
+- (NSString *)getIABUSPrivacyString {
+    NSString *privacyString = [[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPrivacyKey];
+    if (!privacyString || privacyString.length == 0) {
+        privacyString = [[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey];
+    }
+    return privacyString;
+}
+
+- (void)removeIABUSPrivacyString {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCCPAPrivacyKey];
+}
+
+- (NSString *)getFormattedAndPercentEncodedIABUSPrivacyString {
+    return [[self getFormattedIABUSPrivacyString] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];;
+}
+
+- (NSString *)getFormattedIABUSPrivacyString {
+    NSString *privacyString = [self getIABUSPrivacyString];
+    privacyString = [privacyString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([privacyString isEqualToString:@"null"]) {
+        privacyString = @"";
+    }
+    
+    return privacyString;
+}
+
+- (BOOL)isCCPAOptOut {
+    NSString *privacyString = [self getFormattedIABUSPrivacyString];
+    
+    if ([privacyString length] >= 3) {
+        NSString *thirdComponent = [privacyString substringWithRange:NSMakeRange(2, 1)];
+        if ([[thirdComponent uppercaseString] isEqualToString:@"Y"]) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else {
+        // There is no valid privacy string set, assuming there is no opt out
+        return  NO;
+    }
 }
 
 #pragma mark Consent Dialog

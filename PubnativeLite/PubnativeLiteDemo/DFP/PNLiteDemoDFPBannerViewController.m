@@ -51,7 +51,7 @@
     [self.bannerLoaderIndicator stopAnimating];
     self.dfpBanner = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     self.dfpBanner.delegate = self;
-    self.dfpBanner.adUnitID = [PNLiteDemoSettings sharedInstance].dfpBannerAdUnitID;
+    self.dfpBanner.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
     self.dfpBanner.rootViewController = self;
     [self.bannerContainer addSubview:self.dfpBanner];
 }
@@ -67,7 +67,7 @@
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[HyBidAdRequest alloc] init];
     self.bannerAdRequest.adSize = HyBidAdSize.SIZE_320x50;
-    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - GADBannerViewDelegate
@@ -116,7 +116,7 @@
     if (request == self.bannerAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad];
+        request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
         [self.dfpBanner loadRequest:request];
     }
 }

@@ -31,12 +31,23 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+    self.autoShowOnLoad = YES;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+        self.autoShowOnLoad = YES;
+    }
+    return self;
 }
 
 - (instancetype)init {
     self = [super initWithSize:HyBidAdSize.SIZE_300x250];
     if (self) {
         self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+        self.autoShowOnLoad = YES;
     }
     return self;
 }

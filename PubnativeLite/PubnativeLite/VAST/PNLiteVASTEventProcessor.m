@@ -23,6 +23,7 @@
 #import "PNLiteVASTEventProcessor.h"
 #import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidViewabilityNativeVideoAdSession.h"
 
 @interface PNLiteVASTEventProcessor()
 
@@ -50,14 +51,40 @@
 - (void)trackEvent:(PNLiteVASTEvent)event {
     NSString *eventString = nil;
     switch (event) {
-        case PNLiteVASTEvent_Start:           eventString = @"start";           break;
-        case PNLiteVASTEvent_FirstQuartile:   eventString = @"firstQuartile";   break;
-        case PNLiteVASTEvent_Midpoint:        eventString = @"midpoint";        break;
-        case PNLiteVASTEvent_ThirdQuartile:   eventString = @"thirdQuartile";   break;
-        case PNLiteVASTEvent_Complete:        eventString = @"complete";        break;
-        case PNLiteVASTEvent_Close:           eventString = @"close";           break;
-        case PNLiteVASTEvent_Pause:           eventString = @"pause";           break;
-        case PNLiteVASTEvent_Resume:          eventString = @"resume";          break;
+        case PNLiteVASTEvent_Start:
+            eventString = @"start";
+            break;
+        case PNLiteVASTEvent_FirstQuartile:
+            eventString = @"firstQuartile";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDFirstQuartileEvent];
+            break;
+        case PNLiteVASTEvent_Midpoint:
+            eventString = @"midpoint";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDMidpointEvent];
+            break;
+        case PNLiteVASTEvent_ThirdQuartile:
+            eventString = @"thirdQuartile";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDThirdQuartileEvent];
+            break;
+        case PNLiteVASTEvent_Complete:
+            eventString = @"complete";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDCompleteEvent];
+            break;
+        case PNLiteVASTEvent_Close:
+            eventString = @"close";
+            break;
+        case PNLiteVASTEvent_Pause:
+            eventString = @"pause";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPauseEvent];
+            break;
+        case PNLiteVASTEvent_Resume:
+            eventString = @"resume";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDResumeEvent];
+            break;
+        case PNLiteVASTEvent_Click:
+            eventString = @"click";
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClikedEvent];
+            break;
         default: break;
     }
     [self invokeDidTrackEvent:event];

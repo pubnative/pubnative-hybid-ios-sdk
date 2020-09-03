@@ -49,7 +49,7 @@
     [self.leaderboardLoaderIndicator stopAnimating];
     self.adMobLeaderboard = [[GADBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
     self.adMobLeaderboard.delegate = self;
-    self.adMobLeaderboard.adUnitID = [PNLiteDemoSettings sharedInstance].adMobMediationLeaderboardAdUnitID;
+    self.adMobLeaderboard.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationLeaderboardAdUnitIDKey];
     self.adMobLeaderboard.rootViewController = self;
     [self.leaderboardContainer addSubview:self.adMobLeaderboard];
 }

@@ -39,7 +39,7 @@
 }
 
 - (IBAction)chooseAdFormatTouchUpInside:(UIButton *)sender {
-    [PNLiteDemoSettings sharedInstance].zoneID = self.zoneIDTextField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:self.zoneIDTextField.text forKey:kHyBidDemoZoneIDKey];
 }
 
 - (IBAction)handleTap:(UIGestureRecognizer *)recognizer {

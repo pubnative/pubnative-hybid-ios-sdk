@@ -33,15 +33,15 @@
 @property (nonatomic, readonly) NSString *link;
 @property (nonatomic, readonly) NSString *impressionID;
 @property (nonatomic, readonly) NSString *creativeID;
+@property (nonatomic, readonly) NSString *zoneID;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
 @property (nonatomic, readonly) NSNumber *width;
 @property (nonatomic, readonly) NSNumber *height;
-
 @property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
-- (instancetype)initWithData:(HyBidAdModel *)data;
+- (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;

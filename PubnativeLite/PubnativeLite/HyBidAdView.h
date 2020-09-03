@@ -43,6 +43,7 @@
 @property (nonatomic, weak) NSObject <HyBidAdViewDelegate> *delegate;
 @property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, strong) HyBidAdSize *adSize;
+@property (nonatomic, assign) BOOL autoShowOnLoad;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
@@ -53,6 +54,7 @@
 - (void)renderAd;
 - (void)startTracking;
 - (void)stopTracking;
+- (void)show;
 - (HyBidAdPresenter *)createAdPresenter;
 
 @end

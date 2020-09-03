@@ -113,8 +113,8 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 - (void)scheduleVisibilityCheck {
     if(self.isValid && !self.isVisibilityScheduled) {
         self.isVisibilityScheduled = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, PNLiteVisibilityTrackerPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [self checkVisibility];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, PNLiteVisibilityTrackerPeriod * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+          [self checkVisibility];
         });
     }
 }

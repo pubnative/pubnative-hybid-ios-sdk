@@ -81,10 +81,16 @@
     }
 }
 
+- (void) show {
+    [self renderAd];
+}
+
 - (void)setupAdView:(UIView *)adView {
     [self addSubview:adView];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
-        [self.delegate adViewDidLoad:self];
+    if (self.autoShowOnLoad) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+            [self.delegate adViewDidLoad:self];
+        }
     }
     [self startTracking];
 }
@@ -130,7 +136,13 @@
         }
     } else {
         self.ad = ad;
-        [self renderAd];
+        if (self.autoShowOnLoad) {
+            [self renderAd];
+        } else {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+                [self.delegate adViewDidLoad:self];
+            }
+        }
     }
 }
 

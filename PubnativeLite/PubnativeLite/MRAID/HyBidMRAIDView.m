@@ -29,10 +29,9 @@
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
 #import "HyBidViewabilityManager.h"
-
+#import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
 
-#import "PNLitemraidjs.h"
 #import "PNLiteCloseButton.h"
 
 #import <WebKit/WebKit.h>
@@ -72,7 +71,6 @@ typedef enum {
     PNLiteMRAIDParser *mraidParser;
     PNLiteMRAIDModalViewController *modalVC;
     
-    NSString *mraidjs;
     NSString *omSDKjs;
     
     NSURL *baseURL;
@@ -97,6 +95,9 @@ typedef enum {
     
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved;
+    
+    CGFloat adWidth;
+    CGFloat adHeight;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -187,6 +188,8 @@ typedef enum {
     if (self) {
         [self setUpTapGestureRecognizer];
         isInterstitial = isInter;
+        adWidth = frame.size.width;
+        adHeight = frame.size.height;
         _delegate = delegate;
         _serviceDelegate = serviceDelegate;
         _rootViewController = rootViewController;
@@ -225,25 +228,14 @@ typedef enum {
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
         
-        // Get mraid.js as binary data
-        NSData* mraidJSData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_mraid_js
-                                                   length:__PNLite_MRAID_mraid_js_len
-                                             freeWhenDone:NO];
-        mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
-        mraidJSData = nil;
-        
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
         
-        if (mraidjs) {
-            [self injectJavaScript:mraidjs];
-        }
-        /*
         omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        */
+        
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
@@ -407,13 +399,13 @@ typedef enum {
 
 - (void)showAsInterstitial {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
-    [self expand:nil];
+    [self expand:nil supportVerve:NO];
 }
 
 - (void)showAsInterstitialFromViewController:(UIViewController *)viewController {
     [self setRootViewController:viewController];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
-    [self expand:nil];
+    [self expand:nil supportVerve:NO];
 }
 
 - (void)hide {
@@ -532,7 +524,7 @@ typedef enum {
 }
 
 // Note: This method is also used to present an interstitial ad.
-- (void)expand:(NSString *)urlString {
+- (void)expand:(NSString *)urlString supportVerve:(BOOL)supportVerve{
     if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.expand() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
@@ -553,7 +545,7 @@ typedef enum {
     
     if (!urlString) {
         // 1-part expansion
-        webView.frame = frame;
+        webView.frame = CGRectMake(frame.size.width/2 - adWidth/2, frame.size.height/2 - adHeight/2, adWidth, adHeight);
         [webView removeFromSuperview];
     } else {
         // 2-part expansion
@@ -562,29 +554,31 @@ typedef enum {
         currentWebView = webViewPart2;
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
         
-        if (mraidjs) {
-            [self injectJavaScript:mraidjs];
-        }
-        /*
         if (omSDKjs) {
             [self injectJavaScript:omSDKjs];
         }
-        */
+        
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
-        urlString = [urlString stringByRemovingPercentEncoding];
-        if (![[NSURL URLWithString:urlString] scheme]) {
-            // relative URL
-            urlString = [[[baseURL absoluteString] stringByRemovingPercentEncoding] stringByAppendingString:urlString];
+        if (!supportVerve) {
+            urlString = [urlString stringByRemovingPercentEncoding];
+            if (![[NSURL URLWithString:urlString] scheme]) {
+                // relative URL
+                urlString = [[[baseURL absoluteString] stringByRemovingPercentEncoding] stringByAppendingString:urlString];
+            }
+
+            // Need to escape characters which are URL specific
+            urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
         }
-        
-        // Need to escape characters which are URL specific
-        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
-        
+
         NSError *error;
         NSString *content = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
-            [webViewPart2 loadHTMLString:content baseURL:baseURL];
+            if (!supportVerve) {
+                [webViewPart2 loadHTMLString:content baseURL:baseURL];
+            } else {
+                [webViewPart2 loadRequest:[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]]];
+            }
         } else {
             // Error! Clean up and return.
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Could not load part 2 expanded content for URL: %@" ,urlString]];
@@ -788,6 +782,9 @@ typedef enum {
     contentInfoView.delegate = self;
     [view addSubview:contentInfoViewContainer];
     [contentInfoViewContainer addSubview:contentInfoView];
+    
+    [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession withReason:@"This view is related to Content Info" isInterstitial:isInterstitial];
+
     if (@available(iOS 11.0, *)) {
         contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
         [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
@@ -1161,7 +1158,13 @@ typedef enum {
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
                                                                  [absUrlString stringByRemovingPercentEncoding]]];
-                [self.delegate mraidViewNavigate:self withURL:url];
+                if ([absUrlString containsString:@"tags-prod.vrvm.com"]
+                    && [absUrlString containsString:@"type=expandable"]
+                    && self.isViewable) {
+                    [self expand:absUrlString supportVerve:YES];
+                } else {
+                    [self.delegate mraidViewNavigate:self withURL:url];
+                }
             }
         } else {
             // Need to let browser to handle rendering and other things
@@ -1176,30 +1179,29 @@ typedef enum {
 #pragma mark - OM SDK Viewability
 
 - (void)startAdSession {
-    /*
+    
     if (!isAdSessionCreated) {
-        adSession = [[HyBidViewabilityManager sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
-        if (contentInfoView) {
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoView toOMIDAdSession:adSession];
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:contentInfoViewContainer toOMIDAdSession:adSession];
-        }
+        
+        adSession = [[HyBidViewabilityWebAdSession sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
+
         if (isInterstitial) {
-            [[HyBidViewabilityManager sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
         }
-        [[HyBidViewabilityManager sharedInstance] startOMIDAdSession:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] startOMIDAdSession:adSession];
         isAdSessionCreated = YES;
-        [[HyBidViewabilityManager sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] fireOMIDAdLoadEvent:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] fireOMIDImpressionOccuredEvent:adSession];
     }
-     */
+     
 }
 
 - (void)stopAdSession {
-    /*
+    
     if (isAdSessionCreated) {
-        [[HyBidViewabilityManager sharedInstance] stopOMIDAdSession:adSession];
+        [[HyBidViewabilityWebAdSession sharedInstance] stopOMIDAdSession:adSession];
         isAdSessionCreated = NO;
     }
-     */
+     
 }
 
 #pragma mark - WKUIDelegate
@@ -1233,7 +1235,9 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 #pragma mark - internal helper methods
 
 - (WKWebViewConfiguration *)createConfiguration {
+    WKUserContentController *wkUController = [[WKUserContentController alloc] init];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
+    webConfiguration.userContentController = wkUController;
 
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
         webConfiguration.allowsInlineMediaPlayback = YES;

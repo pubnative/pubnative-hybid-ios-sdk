@@ -31,6 +31,16 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+    self.autoShowOnLoad = YES;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+        self.autoShowOnLoad = YES;
+    }
+    return self;
 }
 
 - (instancetype)init {
@@ -38,6 +48,7 @@
 
     if (self) {
         self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+        self.autoShowOnLoad = YES;
     }
     return self;
 }
