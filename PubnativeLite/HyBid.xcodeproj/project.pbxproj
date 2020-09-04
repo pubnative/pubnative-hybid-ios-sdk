@@ -620,6 +620,10 @@
 		7E4CC8CF25029B5A003A3425 /* HyBidMRectAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9EB9214972940081355E /* HyBidMRectAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8D025029B6B003A3425 /* HyBidInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9EB5214970430081355E /* HyBidInterstitialAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8D725029D25003A3425 /* HyBidHeaderBiddingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E9521495A710081355E /* HyBidHeaderBiddingUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E4CC8D825029F2A003A3425 /* HyBidConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AEC48BB237067F4009641F1 /* HyBidConstants.h */; };
+		7E4CC8D925029F37003A3425 /* HyBidTargetingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E4C21490E8E0081355E /* HyBidTargetingModel.m */; };
+		7E4CC8DA25029F3D003A3425 /* HyBidSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9EB221496E140081355E /* HyBidSettings.m */; };
+		7E4CC8DB2502A007003A3425 /* HyBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A540258202B129E005D80E6 /* HyBid.m */; };
 		7E7CC36524D9ECDE00F3A476 /* Quote.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7CC36424D9ECDE00F3A476 /* Quote.m */; };
 		7E7CC36824D9F0E700F3A476 /* QuoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7CC36724D9F0E700F3A476 /* QuoteTableViewCell.m */; };
 		7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
@@ -3329,6 +3333,7 @@
 				7E4CC8BD25029A49003A3425 /* HyBidViewabilityManager.h in Headers */,
 				7E4CC8BF25029A63003A3425 /* HyBidNativeAdRenderer.h in Headers */,
 				7E4CC8C125029AA9003A3425 /* HyBidLeaderboardAdView.h in Headers */,
+				7E4CC8D825029F2A003A3425 /* HyBidConstants.h in Headers */,
 				7E4CC8AB25029939003A3425 /* HyBidTargetingModel.h in Headers */,
 				7E4CC8AA2502991C003A3425 /* HyBidRequestParameter.h in Headers */,
 			);
@@ -3895,6 +3900,7 @@
 				5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */,
 				5ADF9EA4214962340081355E /* HyBidAdModel.m in Sources */,
 				5A91E65C20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.m in Sources */,
+				7E4CC8DB2502A007003A3425 /* HyBid.m in Sources */,
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5A9A885E21088024006A081D /* PNLiteTrackingManager.m in Sources */,
 				5A8D7DC520C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m in Sources */,
@@ -4005,7 +4011,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E4CC8D925029F37003A3425 /* HyBidTargetingModel.m in Sources */,
 				7E4CC8A8250298C6003A3425 /* HyBidStatic.m in Sources */,
+				7E4CC8DA25029F3D003A3425 /* HyBidSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4402,8 +4410,7 @@
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.4",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -4429,8 +4436,7 @@
 				DEVELOPMENT_TEAM = TL55SBB4FM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.2.20",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.4",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
