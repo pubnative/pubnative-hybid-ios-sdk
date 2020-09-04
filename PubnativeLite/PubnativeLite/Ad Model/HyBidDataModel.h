@@ -38,6 +38,8 @@
 @property (nonatomic, readonly) NSNumber *height;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithHtmlAsset:(NSString *)assetName withValue:(NSString*) value;
+- (instancetype)initWithVASTAsset:(NSString *)assetName withValue:(NSString*) value;
 - (NSString *)stringFieldWithKey:(NSString *)key;
 - (NSNumber *)numberFieldWithKey:(NSString *)key;
 

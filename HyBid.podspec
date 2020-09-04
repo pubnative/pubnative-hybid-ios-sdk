@@ -35,6 +35,7 @@ Pod::Spec.new do |s|
     SOFTWARE.
       LICENSE
     }
+
   s.authors      = { "Can Soykarafakili" => "can.soykarafakili@pubnative.net", "Eros Garcia Ponte" => "eros.ponte@pubnative.net", "Fares Ben Hamouda" => "fares.ben.hamouda@pubnative.net" }
   s.platform     = :ios
   s.ios.deployment_target = "9.0"

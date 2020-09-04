@@ -44,18 +44,14 @@
         case MRAID_1024x768: {
             PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
             return mraidBannerPresenter;
-            break;
         }
         case VAST_MRECT: {
             HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
             return vastAdPresenter;
-            break;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
             return nil;
-            break;
     }
 }
-
 @end
