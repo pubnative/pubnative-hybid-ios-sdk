@@ -56,7 +56,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
@@ -107,9 +107,9 @@
     NSLog(@"Request loaded with ad: %@",ad);
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
-        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[PNLiteDemoSettings sharedInstance].moPubInterstitialAdUnitID];
+        self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey]];
         self.moPubInterstitial.delegate = self;
-        [self.moPubInterstitial setKeywords:[HyBidPrebidUtils createPrebidKeywordsStringWithAd:ad]];
+        [self.moPubInterstitial setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubInterstitial loadAd];
     }
 }

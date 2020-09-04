@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7E598C0F24475EE000BEA734"
-               BuildableName = "iqv.bundle"
+               BuildableName = "iqv"
                BlueprintName = "iqv"
                ReferencedContainer = "container:HyBid.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7E598C0F24475EE000BEA734"
-            BuildableName = "iqv.bundle"
+            BuildableName = "iqv"
             BlueprintName = "iqv"
             ReferencedContainer = "container:HyBid.xcodeproj">
          </BuildableReference>

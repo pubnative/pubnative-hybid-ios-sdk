@@ -44,8 +44,6 @@
 @property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, assign) BOOL autoShowOnLoad;
-@property (nonatomic, strong) NSMutableArray *contentCategoryIDs;
-@property (nonatomic, strong) NSString *partnerKeyword;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;

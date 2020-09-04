@@ -31,7 +31,6 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
 + (instancetype)sharedInstance;
 - (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock _Nonnull)completion;
-
 - (void)loadConsentPageWithCompletion:(void (^ _Nullable)(NSError * _Nullable error))completion;
 - (void)showConsentPage:(void (^ _Nullable)(void))didShow didDismiss:(void (^ _Nullable)(void))didDismiss;
 - (NSString * _Nonnull)privacyPolicyLink;
@@ -42,4 +41,12 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 - (void)grantConsent;
 - (void)denyConsent;
 
+- (void)setIABUSPrivacyString:(NSString *_Nullable)privacyString;
+- (NSString *_Nullable)getIABUSPrivacyString;
+- (void)removeIABUSPrivacyString;
+- (BOOL)isCCPAOptOut;
+
+- (void)setIABGDPRConsentString:(NSString *_Nullable)privacyString;
+- (NSString *_Nullable)getIABGDPRConsentString;
+- (void)removeIABGDPRConsentString;
 @end

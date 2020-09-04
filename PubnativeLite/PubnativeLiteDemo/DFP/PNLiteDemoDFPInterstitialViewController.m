@@ -58,11 +58,11 @@
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[PNLiteDemoSettings sharedInstance].zoneID];
+    [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
 - (DFPInterstitial *)createAndLoadInterstitial {
-    DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[PNLiteDemoSettings sharedInstance].dfpInterstitialAdUnitID];
+    DFPInterstitial *interstitial = [[DFPInterstitial alloc] initWithAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey]];
     interstitial.delegate = self;
     return interstitial;
 }
@@ -112,7 +112,7 @@
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];
-        request.customTargeting = [HyBidPrebidUtils createPrebidKeywordsDictionaryWithAd:ad];
+        request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
         [self.dfpInterstitial loadRequest:request];
     }
 }

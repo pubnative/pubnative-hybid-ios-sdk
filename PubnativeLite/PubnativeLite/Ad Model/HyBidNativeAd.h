@@ -53,6 +53,7 @@
 @property (nonatomic, readonly) NSNumber *rating;
 @property (nonatomic, readonly) UIView *banner;
 @property (nonatomic, readonly) UIImage *icon;
+@property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
 - (instancetype)initWithAd:(HyBidAd *)ad;

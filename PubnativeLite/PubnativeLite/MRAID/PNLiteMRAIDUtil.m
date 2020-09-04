@@ -27,16 +27,16 @@
 + (NSString *)processRawHtml:(NSString *)rawHtml {
     NSString *processedHtml = rawHtml;
     NSRange range;
-    
-    // Remove the mraid.js script tag.
-    // We expect the tag to look like this:
-    // <script src='mraid.js'></script>
-    // But we should also be to handle additional attributes and whitespace like this:
-    // <script  type = 'text/javascript'  src = 'mraid.js' > </script>
-    
-    NSString *pattern = @"<script\\s+[^>]*\\bsrc\\s*=\\s*([\\\"\\\'])mraid\\.js\\1[^>]*>\\s*</script>\\n*";
     NSError *error = NULL;
-    
+
+//     Remove the mraid.js script tag.
+//     We expect the tag to look like this:
+//     <script src='mraid.js'></script>
+//     But we should also be to handle additional attributes and whitespace like this:
+//     <script  type = 'text/javascript'  src = 'mraid.js' > </script>
+//
+    NSString *pattern = @"<script\\s+[^>]*\\bsrc\\s*=\\s*([\\\"\\\'])mraid\\.js\\1[^>]*>\\s*</script>\\n*";
+
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
@@ -60,16 +60,30 @@
     }
     
     if (!hasHtmlTag) {
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        
+        NSString *mraidJSPath = [bundle pathForResource:@"hybidmraidscaling" ofType:@"js"];
+        NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
+        NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
+        
+        NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
+        NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
+        NSString *scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
+        
         processedHtml = [NSString stringWithFormat:
                          @"<html>\n"
                          "<head>\n"
+                         "<script>%@</script>"
+                         "<script>%@</script>"
                          "</head>\n"
                          "<body>\n"
-                         "<div align='center'>\n"
+                         "<div id='hybid-ad' align='center'>\n"
                          "%@"
                          "</div>\n"
                          "</body>\n"
                          "</html>",
+                         mraidjs,
+                         scalingjs,
                          processedHtml
                          ];
     } else if (!hasHeadTag) {

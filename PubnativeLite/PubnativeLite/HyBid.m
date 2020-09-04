@@ -23,6 +23,7 @@
 #import "HyBid.h"
 #import "HyBidSettings.h"
 #import "HyBidUserDataManager.h"
+#import "PNLiteLocationManager.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 
@@ -58,7 +59,8 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
     }
 }
 
-+ (void)reconfigure:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion {
-    [self initWithAppToken:appToken withPartnerKeyword:partnerKeyword completion:completion];
++ (void) setLocationUpdates:(BOOL)enabled {
+    PNLiteLocationManager.locationUpdatesEnabled = enabled;
 }
+
 @end

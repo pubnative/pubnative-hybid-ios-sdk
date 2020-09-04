@@ -24,8 +24,8 @@
 
 @interface HyBidViewabilityNativeVideoAdSession()
 
-@property (nonatomic, strong) OMIDPubnativenetAdEvents *omidAdEvents;
 @property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
+@property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
 
 @property (nonatomic, assign) BOOL isStartEventFired;
 @property (nonatomic, assign) BOOL isFirstQuartileEventFired;
@@ -89,13 +89,11 @@
 }
 
 - (void)createAdEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    NSError *adEventsError;
-    self.omidAdEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSession error:&adEventsError];
+    self.adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
 }
 
 - (void)createMediaEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    NSError *mediaEventsError;
-    self.omidMediaEvents = [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:omidAdSession error:&mediaEventsError];
+    self.omidMediaEvents = [[HyBidViewabilityManager sharedInstance]getMediaEvents:omidAdSession];
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
@@ -108,9 +106,8 @@
     
     NSError *vastPropertiesError;
     OMIDPubnativenetVASTProperties *vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
-    [self.omidAdEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
+    [self.adEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
 }
-
 
 - (void)fireOMIDStartEventWithDuration:(CGFloat)duration withVolume:(CGFloat)volume {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
@@ -202,6 +199,13 @@
        return;
     
     [self.omidMediaEvents skipped];
+}
+
+- (void)fireOMIDClikedEvent {
+    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
+       return;
+    NSLog(@"media events %@", self.omidMediaEvents);
+    [self.omidMediaEvents adUserInteractionWithType:OMIDInteractionTypeClick];
 }
 
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen {

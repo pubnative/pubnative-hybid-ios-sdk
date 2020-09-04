@@ -46,6 +46,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.adRequest = [[HyBidAdRequest alloc] init];
+    self.autoShowOnLoad = true;
 }
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize {
@@ -53,6 +54,7 @@
     if (self) {
         self.adRequest = [[HyBidAdRequest alloc] init];
         self.adSize = adSize;
+        self.autoShowOnLoad = true;
     }
     return self;
 }
@@ -85,23 +87,12 @@
     }
 }
 
-- (void)loadWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
-    [self cleanUp];
-    self.delegate = delegate;
-    self.adRequest.adSize = self.adSize;
-    self.adRequest.contentCategoryIDs = self.contentCategoryIDs;
-    self.adRequest.partnerKeyword = self.partnerKeyword;
-    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:nil];
-    [self.adRequest requestAdWithDelegate:self withZoneID:nil];
-}
-
 - (void) show {
     [self renderAd];
 }
 
 - (void)setupAdView:(UIView *)adView {
     [self addSubview:adView];
-    
     if (self.autoShowOnLoad) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
             [self.delegate adViewDidLoad:self];

@@ -33,7 +33,6 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 @interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate>
 
-@property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) NSDictionary *trackingExtras;
 @property (nonatomic, strong) NSMutableDictionary *fetchedAssets;

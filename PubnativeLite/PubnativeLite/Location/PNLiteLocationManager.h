@@ -25,6 +25,9 @@
 
 @interface PNLiteLocationManager : NSObject
 
++ (BOOL) locationUpdatesEnabled;
+// setLocationUpdates: Allowing SDK to update location , default is false.
++ (void) setLocationUpdatesEnabled:(BOOL)enabled;
 + (CLLocation *)getLocation;
 
 @end

@@ -93,6 +93,26 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     return scriptContent;
 }
 
+
+- (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession {
+    if (omidAdSession != self.omidAdSession) {
+        NSError *adEventsError;
+        self.omidAdSession = omidAdSession;
+        self.adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:self.omidAdSession error:&adEventsError];
+    }
+    return self.adEvents;
+}
+
+- (OMIDPubnativenetMediaEvents *)getMediaEvents:(OMIDPubnativenetAdSession*)omidAdSession {
+    if (omidAdSession != self.omidMediaAdSession) {
+        NSError *mediaEventsError;
+        self.omidMediaAdSession = omidAdSession;
+        self.omidMediaEvents = [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:self.omidMediaAdSession error:&mediaEventsError];
+    }
+    NSLog(@"media events: %@", self.omidMediaEvents);
+    return self.omidMediaEvents;
+}
+
 - (BOOL)isViewabilityMeasurementActivated {
     return OMIDPubnativenetSDK.sharedInstance.isActive && self.viewabilityMeasurementEnabled;
 }
