@@ -27,54 +27,54 @@
 /**
  Global variable for holding the user agent string.
  */
-NSString *gHyBidUserAgent = nil;
+NSString *gUserAgent = nil;
 
 /**
  Global variable for keeping `WKWebView` alive until the async call for user agent finishes.
  Note: JavaScript evaluation will fail if the `WKWebView` is deallocated before completion.
  */
-WKWebView *gHyBidWkWebView = nil;
+WKWebView *gWkWebView = nil;
 
 /**
  The `UserDefaults` key for accessing the cached user agent value.
  */
-NSString * const kUserDefaultsHyBidUserAgentKey = @"com.pubnative.hybid-ios-sdk.user-agent";
+NSString * const kUserDefaultsUserAgentKey = @"com.pubnative.hybid-ios-sdk.user-agent";
 
 @implementation HyBidWebBrowserUserAgentInfo
 
 + (void)load {
     // No need for "dispatch once" since `load` is called only once during app launch.
-    [self obtainHyBidUserAgentFromWebView];
+    [self obtainUserAgentFromWebView];
 }
 
-+ (void)obtainHyBidUserAgentFromWebView {
-    NSString *cachedUserAgent = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsHyBidUserAgentKey];
++ (void)obtainUserAgentFromWebView {
+    NSString *cachedUserAgent = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsUserAgentKey];
     if (cachedUserAgent.length > 0) {
         // Use the cached value before the async JavaScript evaluation is successful.
-        gHyBidUserAgent = cachedUserAgent;
+        gUserAgent = cachedUserAgent;
     } else {
         NSString *systemVersion = [[UIDevice currentDevice].systemVersion stringByReplacingOccurrencesOfString:@"." withString:@"_"];
         NSString *deviceType = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
-        gHyBidUserAgent = [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU %@ OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+        gUserAgent = [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU %@ OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
                       deviceType, deviceType, systemVersion];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        gHyBidWkWebView = [WKWebView new]; // `WKWebView` must be created in main thread
-        [gHyBidWkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        gWkWebView = [WKWebView new]; // `WKWebView` must be created in main thread
+        [gWkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
             if (error != nil) {
                 
                 [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
             } else if ([result isKindOfClass:NSString.class]) {
-                gHyBidUserAgent = result;
-                [NSUserDefaults.standardUserDefaults setValue:result forKeyPath:kUserDefaultsHyBidUserAgentKey];
+                gUserAgent = result;
+                [NSUserDefaults.standardUserDefaults setValue:result forKeyPath:kUserDefaultsUserAgentKey];
             }
-            gHyBidWkWebView = nil;
+            gWkWebView = nil;
         }];
     });
 }
 
-+ (NSString *)hyBidUserAgent {
-    return gHyBidUserAgent;
++ (NSString *)userAgent {
+    return gUserAgent;
 }
 
 @end

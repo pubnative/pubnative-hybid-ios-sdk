@@ -33,6 +33,7 @@ NSInteger const MAX_RETRIES = 1;
 @interface PNLiteHttpRequest ()
 
 @property (nonatomic, strong) NSObject<PNLiteHttpRequestDelegate> *delegate;
+@property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *method;
 @property (nonatomic, assign) NSInteger retryCount;
 
@@ -96,7 +97,6 @@ NSInteger const MAX_RETRIES = 1;
         [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];
         [request setValue: HyBidWebBrowserUserAgentInfo.userAgent forHTTPHeaderField:@"User-Agent"];
         [request setTimeoutInterval:PNLiteHttpRequestDefaultTimeout];
-        [request setValue: HyBidWebBrowserUserAgentInfo.hyBidUserAgent forHTTPHeaderField:@"User-Agent"];
         [request setHTTPMethod:self.method];
         if (self.header && self.header.count > 0) {
             for (NSString *key in self.header) {

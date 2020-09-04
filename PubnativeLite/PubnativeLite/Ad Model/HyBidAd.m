@@ -24,7 +24,6 @@
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
 #import "HyBidContentInfoView.h"
-#import "PNLiteAssetGroupType.h"
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -33,7 +32,6 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 @property (nonatomic, strong)HyBidAdModel *data;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
-@property (nonatomic, strong)HyBidAdSize *adSize;
 @property (nonatomic, strong)NSString *_zoneID;
 
 @end
@@ -43,8 +41,6 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (void)dealloc {
     self.data = nil;
     self.contentInfoView = nil;
-    self.assetGroupID = nil;
-    self.adSize = nil;
     self._zoneID = nil;
 }
 
@@ -55,66 +51,6 @@ NSString *const kImpressionQuerryParameter = @"t";
     if (self) {
         self.data = data;
         self._zoneID = zoneID;
-    }
-    return self;
-}
-
-- (instancetype)initWithVWXml:(NSDictionary *)xml andWithAdSize:(HyBidAdSize *)adSize {
-    self = [super init];
-    if (self) {
-        HyBidAdModel *model = [[HyBidAdModel alloc] init];
-        self.adSize = adSize;
-        NSString *apiAsset = PNLiteAsset.htmlBanner;
-        NSMutableArray *assets = [[NSMutableArray alloc] init];
-        
-        NSDictionary *rawResponse = [xml valueForKey:@"rawResponse"];
-        
-        if (rawResponse && [rawResponse valueForKey:@"useRawResponse"] && [[rawResponse valueForKey:@"useRawResponse"] boolValue]) {
-            NSString *html = [rawResponse valueForKey:@"response"];
-            HyBidDataModel *data = [[HyBidDataModel alloc] initWithHtmlAsset:apiAsset withValue:html];
-            [assets addObject:data];
-        } else {
-            // TODO https://wiki.vervemobile.com/confluence/display/CDOC/AdCel+API#AdCelAPI-AdRequests
-            NSDictionary *media = [xml valueForKey:@"media"];
-            NSDictionary *clickthrough = [xml valueForKey:@"clickthrough"];
-            NSDictionary *copy = [xml valueForKey:@"copy"];
-            
-            NSString *bannerImage = [[media valueForKey:@"image_url"] stringValue];
-            NSString *clickThroughUrl = [[clickthrough valueForKey:@"url"] stringValue];
-            NSString *text = [[copy valueForKey:@"leadin"] stringValue];
-            
-            NSString *html = [NSString stringWithFormat:@"<html><body><a href=\"%@\">%@<img src=\"%@\"/></a></body></html>", clickThroughUrl, text, bannerImage];
-            HyBidDataModel *data = [[HyBidDataModel alloc] initWithHtmlAsset:apiAsset withValue:html];
-            [assets addObject:data];
-        }
-        
-        model.assets = assets;
-        if ([adSize isEqualTo:HyBidAdSize.SIZE_INTERSTITIAL]) {
-            model.assetgroupid = [NSNumber numberWithInt:MRAID_320x480];
-        } else {
-            model.assetgroupid = [NSNumber numberWithInt:MRAID_320x50];
-        }
-        self.data = model;
-    }
-    return self;
-}
-
-- (instancetype)initWithVWVASTXml:(NSString *)xml andWithAdSize:(HyBidAdSize *)adSize {
-    self = [super init];
-    if (self) {
-        HyBidAdModel *model = [[HyBidAdModel alloc] init];
-        self.adSize = adSize;
-        NSString *apiAsset = PNLiteAsset.vast;
-        NSMutableArray *assets = [[NSMutableArray alloc] init];
-        HyBidDataModel *data = [[HyBidDataModel alloc] initWithVASTAsset:apiAsset withValue:xml];
-        [assets addObject:data];
-        model.assets = assets;
-        if ([adSize isEqualTo:HyBidAdSize.SIZE_INTERSTITIAL]) {
-            model.assetgroupid = [NSNumber numberWithInt:VAST_INTERSTITIAL];
-        } else {
-            model.assetgroupid = [NSNumber numberWithInt:VAST_MRECT];
-        }
-        self.data = model;
     }
     return self;
 }
@@ -210,11 +146,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     NSNumber *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
-        if (data.width) {
-            result = data.width;
-        } else {
-            result = [NSNumber numberWithInteger:self.adSize.width];
-        }
+        result = data.width;
     }
     return result;
 }
@@ -223,11 +155,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     NSNumber *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
-        if (data.height) {
-            result = data.height;
-        } else {
-            result = [NSNumber numberWithInteger:self.adSize.height];
-        }
+        result = data.height;
     }
     return result;
 }

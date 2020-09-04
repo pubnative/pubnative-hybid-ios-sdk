@@ -39,8 +39,6 @@
     self.adPresenter = nil;
     self.adRequest = nil;
     self.adSize = nil;
-    self.contentCategoryIDs = nil;
-    self.partnerKeyword = nil;
 }
 
 - (void)awakeFromNib {
@@ -80,8 +78,6 @@
         }
     } else {
         self.adRequest.adSize = self.adSize;
-        self.adRequest.contentCategoryIDs = self.contentCategoryIDs;
-        self.adRequest.partnerKeyword = self.partnerKeyword;
         [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }

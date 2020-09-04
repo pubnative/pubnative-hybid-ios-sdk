@@ -38,15 +38,12 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
-@property (nonatomic, strong) NSMutableArray *contentCategoryIDs;
-@property (nonatomic, strong) NSString *partnerKeyword;
 
-- (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;
 
 /// Presents the interstitial ad modally from the current view controller.
-/// 
+///
 /// This method will do nothing if the interstitial ad has not been loaded (i.e. the value of its `isReady` property is NO).
 - (void)show;
 

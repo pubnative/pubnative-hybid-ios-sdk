@@ -50,7 +50,6 @@
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 //- (instancetype)init NS_UNAVAILABLE;
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
-- (void)loadWithDelegate: (NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)setupAdView:(UIView *)adView;
 - (void)renderAd;
 - (void)startTracking;
