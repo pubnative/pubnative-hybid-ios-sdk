@@ -22,14 +22,12 @@
 #import "AdSdkDemoSettings.h"
 
 NSString *const DemoAppToken = @"543027b8e954474cbcd9a98481622a3b";
-NSString *const DemoPartnerKeyword = @"adsdksponsor";
 
 @implementation AdSdkDemoSettings
 
 - (void)dealloc
 {
     self.appToken = nil;
-    self.partnerKeyword = nil;
 }
 
 + (AdSdkDemoSettings *)sharedInstance {
@@ -45,7 +43,6 @@ NSString *const DemoPartnerKeyword = @"adsdksponsor";
     self = [super init];
     if (self) {
         self.appToken = DemoAppToken;
-        self.partnerKeyword = DemoPartnerKeyword;
     }
     return self;
 }

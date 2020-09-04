@@ -25,7 +25,6 @@
 @interface AdSdkDemoSettings : NSObject
 
 @property (nonatomic, strong) NSString *appToken;
-@property (nonatomic, strong) NSString *partnerKeyword;
 
 + (AdSdkDemoSettings *)sharedInstance;
 

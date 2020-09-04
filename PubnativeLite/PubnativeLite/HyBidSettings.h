@@ -32,7 +32,6 @@
 @property (nonatomic, assign) BOOL coppa;
 @property (nonatomic, strong) HyBidTargetingModel *targeting;
 @property (nonatomic, strong) NSString *appToken;
-@property (nonatomic, strong) NSString *partnerKeyword;
 @property (nonatomic, strong) NSString *apiURL;
 
 // COMMON PARAMETERS

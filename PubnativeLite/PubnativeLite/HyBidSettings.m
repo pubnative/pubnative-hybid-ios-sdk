@@ -29,7 +29,6 @@
 - (void)dealloc {
     self.targeting = nil;
     self.appToken = nil;
-    self.partnerKeyword = nil;
 }
 
 + (HyBidSettings *)sharedInstance {
