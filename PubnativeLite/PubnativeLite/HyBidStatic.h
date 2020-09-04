@@ -49,6 +49,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBidStatic/HyBidMRectPresenterFactory.h>
 #import <HyBidStatic/HyBidInterstitialPresenterFactory.h>
 #import <HyBidStatic/HyBidAdCache.h>
+#import <HyBidStatic/HyBidHeaderBiddingUtils.h>
 #import <HyBidStatic/HyBidPrebidUtils.h>
 #import <HyBidStatic/HyBidContentInfoView.h>
 #import <HyBidStatic/HyBidUserDataManager.h>
@@ -69,14 +70,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBidStatic/HyBidLogger.h>
 #import <HyBidStatic/HyBidIntegrationType.h>
 #import <HyBidStatic/HyBidAdSize.h>
-#import <HyBidStatic/VWAdvertView.h>
-#import <HyBidStatic/VWAdRequest.h>
-#import <HyBidStatic/VWContentCategory.h>
-#import <HyBidStatic/VWAdSize.h>
-#import <HyBidStatic/VWInterstitialAd.h>
-#import <HyBidStatic/VWAdLibrary.h>
-#import <HyBidStatic/VWInterstitialVideoAd.h>
-#import <HyBidStatic/VWVideoAdRequest.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
@@ -86,6 +79,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
-+ (void)initWithAppToken:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion;
-+ (void)reconfigure:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion;
++ (void)setLocationUpdates:(BOOL)enabled;
+
 @end
