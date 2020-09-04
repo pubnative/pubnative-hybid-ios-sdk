@@ -22,6 +22,7 @@
 
 #import "HyBid.h"
 #import "HyBidSettings.h"
+#import "PNLiteCrashTracker.h"
 #import "HyBidUserDataManager.h"
 #import "PNLiteLocationManager.h"
 
@@ -42,17 +43,13 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 }
 
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
-    [self initWithAppToken:appToken withPartnerKeyword:nil completion:completion];
-}
-
-+ (void)initWithAppToken:(NSString *)appToken withPartnerKeyword:(NSString*) partnerKeyword completion:(HyBidCompletionBlock)completion {
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
-        [HyBidSettings sharedInstance].partnerKeyword = partnerKeyword;
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidViewabilityManager sharedInstance];
+        [PNLiteCrashTracker startPNLiteCrashTrackerWithApiKey:@"07efad4c0a722959dd14de963bf409ce"];
         [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
             completion(success);
         }];
