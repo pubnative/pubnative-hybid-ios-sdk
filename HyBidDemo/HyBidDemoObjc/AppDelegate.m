@@ -37,7 +37,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [HyBid initWithAppToken:[AdSdkDemoSettings sharedInstance].appToken withPartnerKeyword: [AdSdkDemoSettings sharedInstance].partnerKeyword completion:^(BOOL success) {
+    [HyBid initWithAppToken:[AdSdkDemoSettings sharedInstance].appToken completion:^(BOOL success) {
         if (success) {
             [HyBidLogger setLogLevel:HyBidLogLevelDebug];
             NSLog(@"HyBid initialisation completed");

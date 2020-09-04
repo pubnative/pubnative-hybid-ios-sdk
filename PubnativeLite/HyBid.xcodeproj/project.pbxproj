@@ -583,7 +583,7 @@
 		7E4CC8AA2502991C003A3425 /* HyBidRequestParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E4721490B9A0081355E /* HyBidRequestParameter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8AB25029939003A3425 /* HyBidTargetingModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E4B21490E8E0081355E /* HyBidTargetingModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8AC25029960003A3425 /* HyBidAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E4F214911A90081355E /* HyBidAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7E4CC8AD25029970003A3425 /* HyBidMRAIDServiceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E5B21491F940081355E /* HyBidMRAIDServiceProvider.h */; };
+		7E4CC8AD25029970003A3425 /* HyBidMRAIDServiceProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E5B21491F940081355E /* HyBidMRAIDServiceProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8AE250299A7003A3425 /* HyBidMRAIDView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E61214924C30081355E /* HyBidMRAIDView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8AF250299B8003A3425 /* HyBidMRAIDServiceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E5F2149216E0081355E /* HyBidMRAIDServiceDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8B0250299C6003A3425 /* HyBidLeaderboardAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
