@@ -277,7 +277,6 @@ typedef enum : NSUInteger {
     if(!imagePath) {
         imagePath = [bundle pathForResource:[self nameForResource:name :@"tiff"] ofType:@"tiff"];
     }
-
     return [UIImage imageWithContentsOfFile:imagePath];
 }
 
@@ -649,18 +648,22 @@ typedef enum : NSUInteger {
     self.wantsToPlay = NO;
     [self.loadingSpin startAnimating];
     
-    if (!self.vastUrl && !self.vastString) {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST is nil and required."];
-        [self setState:PNLiteVASTPlayerState_IDLE];
-        
-    } else {
-        
+    if (self.videoAdCacheItem.vastModel) {
+        self.eventProcessor = [[PNLiteVASTEventProcessor alloc] initWithEvents:[self.videoAdCacheItem.vastModel trackingEvents] delegate:self];
+        NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[self.videoAdCacheItem.vastModel mediaFiles]].url;
+        if(!mediaUrl) {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
+            NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:0 userInfo:nil];
+            [self invokeDidFailLoadingWithError:mediaNotFoundError];
+        } else {
+            self.vastModel = self.videoAdCacheItem.vastModel;
+            [self createVideoPlayerWithVideoUrl:mediaUrl];
+        }
+    } else if (self.vastUrl || self.vastString) {
         if (!self.parser) {
             self.parser = [[PNLiteVASTParser alloc] init];
         }
-        
         [self startLoadTimeoutTimer];
-        
         __weak PNLiteVASTPlayerViewController *weakSelf = self;
         vastParserCompletionBlock completion = ^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
             if (!model) {
@@ -681,7 +684,6 @@ typedef enum : NSUInteger {
                 }
             }
         };
-        
         if (self.vastUrl != nil) {
             [self.parser parseWithUrl:self.vastUrl
                            completion:completion];
@@ -692,6 +694,9 @@ typedef enum : NSUInteger {
             NSError *unexpectedError = [NSError errorWithDomain:@"Unexpected Error." code:0 userInfo:nil];
             [self invokeDidFailLoadingWithError:unexpectedError];
         }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST is nil and required."];
+        [self setState:PNLiteVASTPlayerState_IDLE];
     }
 }
 
