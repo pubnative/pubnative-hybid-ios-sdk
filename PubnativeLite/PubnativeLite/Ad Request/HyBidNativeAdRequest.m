@@ -28,4 +28,8 @@
     return HyBidAdSize.SIZE_NATIVE;
 }
 
+- (NSArray<NSString *> *)supportedAPIFrameworks {
+    return nil;
+}
+
 @end

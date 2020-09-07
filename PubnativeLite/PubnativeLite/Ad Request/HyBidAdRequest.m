@@ -72,6 +72,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     return self;
 }
 
+- (NSArray<NSString *> *)supportedAPIFrameworks {
+    return [NSArray arrayWithObjects:@"5", @"7", nil];
+}
+
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     self.zoneID = zoneID;
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
@@ -105,9 +109,11 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
                                                                                                                                                                                                                       andWithAdSize:[self adSize]
+                                                                                                                                                                                                      andWithSupportedAPIFrameworks:[self supportedAPIFrameworks]
                                                                                                                                                                                                              andWithIntegrationType:integrationType]].absoluteString]];
     return [self.adFactory createAdRequestWithZoneID:self.zoneID
                                        andWithAdSize:[self adSize]
+                       andWithSupportedAPIFrameworks:[self supportedAPIFrameworks]
                               andWithIntegrationType:integrationType];
 }
 
