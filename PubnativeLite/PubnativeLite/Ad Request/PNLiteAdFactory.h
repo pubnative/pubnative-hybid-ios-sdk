@@ -29,6 +29,7 @@
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
                                       andWithAdSize:(HyBidAdSize *)adSize
+                      andWithSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                              andWithIntegrationType:(IntegrationType)integrationType;
 
 @end

@@ -58,5 +58,8 @@
 + (NSString *)height;
 + (NSString *)usprivacy;
 + (NSString *)userconsent;
++ (NSString *)supportedAPIFrameworks;
++ (NSString *)identifierOfOMSDKIntegration;
++ (NSString *)versionOfOMSDKIntegration;
 
 @end
