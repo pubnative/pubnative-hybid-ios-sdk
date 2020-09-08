@@ -42,7 +42,7 @@
     self.ad = nil;
 }
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
+- (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
         if (!self.ad) {
