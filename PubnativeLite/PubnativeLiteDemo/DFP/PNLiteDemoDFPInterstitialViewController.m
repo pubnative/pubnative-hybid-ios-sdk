@@ -44,7 +44,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"DFP Interstitial";
+    self.navigationItem.title = @"DFP Header Bidding Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
 }
 

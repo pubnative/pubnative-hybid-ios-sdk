@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub Leaderboard";
+    self.navigationItem.title = @"MoPub Header Bidding Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
     self.moPubLeaderboard = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey]];

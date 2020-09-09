@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub Banner";
+    self.navigationItem.title = @"MoPub Header Bidding Banner";
 
     [self.bannerLoaderIndicator stopAnimating];
     self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];

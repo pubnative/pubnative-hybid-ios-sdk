@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub MRect";
+    self.navigationItem.title = @"MoPub Header Bidding MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
     self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey]];

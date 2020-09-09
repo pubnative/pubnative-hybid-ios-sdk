@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"DFP Leaderboard";
+    self.navigationItem.title = @"DFP Header Bidding Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
     self.dfpLeaderboard = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];

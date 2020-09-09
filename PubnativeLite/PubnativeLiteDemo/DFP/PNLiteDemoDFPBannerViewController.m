@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"DFP Banner";
+    self.navigationItem.title = @"DFP Header Bidding Banner";
     
     [self.bannerLoaderIndicator stopAnimating];
     self.dfpBanner = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];

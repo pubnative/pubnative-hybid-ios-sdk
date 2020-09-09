@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -153,7 +153,7 @@
         <!--PNLite Banner View Controller-->
         <scene sceneID="Lrb-uX-g0J">
             <objects>
-                <viewController title="HyBid Banner" id="dy8-WN-4R0" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerViewController" sceneMemberID="viewController">
+                <viewController title="HyBid Banner" id="dy8-WN-4R0" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerSizeSelectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PWA-X6-522"/>
                         <viewControllerLayoutGuide type="bottom" id="LCe-zN-GUJ"/>
@@ -162,55 +162,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-dg-hyD">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-dg-hyD" userLabel="Continue Button">
                                 <rect key="frame" x="16" y="232" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="continueButton" label="Continue Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pG5-rR-TGH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Load Ad"/>
+                                <state key="normal" title="Continue"/>
                                 <connections>
-                                    <action selector="requestBannerTouchUpInside:" destination="dy8-WN-4R0" eventType="touchUpInside" id="9NQ-X2-oLw"/>
-                                </connections>
-                            </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HK4-3W-Moc" userLabel="HyBid Ad View" customClass="HyBidAdView">
-                                <rect key="frame" x="27.5" y="270" width="320" height="50"/>
-                                <accessibility key="accessibilityConfiguration" identifier="bannerAdView" label="Banner Ad View">
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="0fP-FB-dMJ"/>
-                                    <constraint firstAttribute="width" constant="320" id="3mq-r3-Fan"/>
-                                </constraints>
-                            </view>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ZrU-Zr-qYh">
-                                <rect key="frame" x="169" y="278" width="37" height="37"/>
-                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zlv-By-g5l" userLabel="Inspect Request Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
-                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="26c-9I-DnO"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="26c-9I-DnO"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <segue destination="z3R-UO-haC" kind="popoverPresentation" popoverAnchorView="Zlv-By-g5l" id="pHN-V8-Hdq">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
+                                    <segue destination="Mxb-wD-K8I" kind="show" id="LXw-gP-oMy"/>
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mUH-wn-Do7">
@@ -226,32 +189,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ZrU-Zr-qYh" firstAttribute="top" secondItem="UVp-dg-hyD" secondAttribute="bottom" constant="16" id="EgV-9s-YDT"/>
-                            <constraint firstItem="HK4-3W-Moc" firstAttribute="centerX" secondItem="X6a-4Y-Wjb" secondAttribute="centerX" id="KKd-W7-ctE"/>
-                            <constraint firstItem="KHy-gW-2gA" firstAttribute="trailing" secondItem="Zlv-By-g5l" secondAttribute="trailing" constant="16" id="L7j-L7-I4o"/>
                             <constraint firstAttribute="trailingMargin" secondItem="UVp-dg-hyD" secondAttribute="trailing" id="NI7-YV-FZb"/>
                             <constraint firstItem="UVp-dg-hyD" firstAttribute="top" secondItem="mUH-wn-Do7" secondAttribute="bottom" constant="8" id="OTT-K1-v7p"/>
                             <constraint firstItem="UVp-dg-hyD" firstAttribute="leading" secondItem="X6a-4Y-Wjb" secondAttribute="leadingMargin" id="PRB-I2-NfU"/>
-                            <constraint firstItem="Zlv-By-g5l" firstAttribute="leading" secondItem="KHy-gW-2gA" secondAttribute="leading" constant="16" id="Q4M-MY-Y7y"/>
-                            <constraint firstItem="Zlv-By-g5l" firstAttribute="centerX" secondItem="X6a-4Y-Wjb" secondAttribute="centerX" id="SMk-KA-rLb"/>
                             <constraint firstItem="mUH-wn-Do7" firstAttribute="leading" secondItem="KHy-gW-2gA" secondAttribute="leading" constant="16" id="SfE-Su-bxP"/>
                             <constraint firstItem="mUH-wn-Do7" firstAttribute="top" secondItem="PWA-X6-522" secondAttribute="bottom" constant="8" id="WBD-TU-0nh"/>
                             <constraint firstItem="KHy-gW-2gA" firstAttribute="trailing" secondItem="mUH-wn-Do7" secondAttribute="trailing" constant="16" id="XwS-bk-9YW"/>
-                            <constraint firstItem="HK4-3W-Moc" firstAttribute="top" secondItem="UVp-dg-hyD" secondAttribute="bottom" constant="8" id="bFC-I1-N6r"/>
-                            <constraint firstItem="LCe-zN-GUJ" firstAttribute="top" secondItem="Zlv-By-g5l" secondAttribute="bottom" constant="8" id="liA-Xn-b0i"/>
-                            <constraint firstItem="ZrU-Zr-qYh" firstAttribute="centerX" secondItem="X6a-4Y-Wjb" secondAttribute="centerX" id="ssd-Ov-1hI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KHy-gW-2gA"/>
                     </view>
                     <navigationItem key="navigationItem" id="jeM-oH-nPR"/>
                     <connections>
-                        <outlet property="bannerAdView" destination="HK4-3W-Moc" id="PLJ-x2-dez"/>
-                        <outlet property="bannerHeightConstraint" destination="0fP-FB-dMJ" id="oXg-s2-fln"/>
-                        <outlet property="bannerLoaderIndicator" destination="ZrU-Zr-qYh" id="RDA-C4-AP1"/>
-                        <outlet property="bannerSizePickerView" destination="mUH-wn-Do7" id="LfX-ke-LMC"/>
-                        <outlet property="bannerWidthConstraint" destination="3mq-r3-Fan" id="vU2-zj-Va4"/>
-                        <outlet property="inspectRequestButton" destination="Zlv-By-g5l" id="K2F-Ge-hge"/>
-                        <outlet property="loadAdButton" destination="UVp-dg-hyD" id="bIF-sL-kXM"/>
+                        <outlet property="bannerSizePickerView" destination="mUH-wn-Do7" id="y2N-sV-UpP"/>
+                        <outlet property="continueButton" destination="UVp-dg-hyD" id="7vg-7P-8Vg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOC-Mj-grD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -264,7 +214,7 @@
                 <viewControllerPlaceholder storyboardName="RequestInspector" id="z3R-UO-haC" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="od4-8a-Q57" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4459" y="850"/>
+            <point key="canvasLocation" x="-4424" y="1603"/>
         </scene>
         <!--PNLite Interstitial View Controller-->
         <scene sceneID="uZM-CO-wza">
@@ -558,8 +508,167 @@
             </objects>
             <point key="canvasLocation" x="-5193" y="340"/>
         </scene>
+        <!--PNLite Banner View Controller-->
+        <scene sceneID="LEf-Vg-QNe">
+            <objects>
+                <viewController title="HyBid Banner" id="Mxb-wD-K8I" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ruO-I9-oJq"/>
+                        <viewControllerLayoutGuide type="bottom" id="eYu-jO-v0r"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8HZ-a2-ZqI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-Dg-4lH">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="zl9-TX-zS1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="Mxb-wD-K8I" eventType="touchUpInside" id="WE2-H0-8xT"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OeX-Df-uUY">
+                                <rect key="frame" x="16" y="54" width="343" height="536"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="quoteCell" rowHeight="245" id="byB-XM-ADP" customClass="QuoteCell">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="245"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="byB-XM-ADP" id="yrg-ai-ZtN">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="245"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="p4U-TJ-I7M">
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="245"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A wizard is never late. Nor is he early. He arrives precisely when he means to." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1VF-Pm-jSg">
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="214.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gandalf" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njn-UM-Wew">
+                                                            <rect key="frame" x="0.0" y="224.5" width="343" height="20.5"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20.5" id="aJQ-Ge-6Xp"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="p4U-TJ-I7M" firstAttribute="top" secondItem="yrg-ai-ZtN" secondAttribute="top" id="Y6G-1s-FnC"/>
+                                                <constraint firstAttribute="bottom" secondItem="p4U-TJ-I7M" secondAttribute="bottom" id="dFr-3s-OZL"/>
+                                                <constraint firstItem="p4U-TJ-I7M" firstAttribute="leading" secondItem="yrg-ai-ZtN" secondAttribute="leading" id="f5d-sE-fXK"/>
+                                                <constraint firstAttribute="trailing" secondItem="p4U-TJ-I7M" secondAttribute="trailing" id="qws-BS-wfq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="quoteAutorLabel" destination="njn-UM-Wew" id="HnV-Fp-PON"/>
+                                            <outlet property="quoteTextLabel" destination="1VF-Pm-jSg" id="bh1-yh-QmD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="bannerAdViewCell" rowHeight="245" id="Tss-OX-0Xj" customClass="BannerAdViewCell">
+                                        <rect key="frame" x="0.0" y="273" width="343" height="245"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tss-OX-0Xj" id="4Tq-RI-hHu">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="245"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAv-ut-fk9">
+                                                    <rect key="frame" x="11.5" y="97.5" width="320" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="320" id="TFJ-9s-LxM"/>
+                                                        <constraint firstAttribute="height" constant="50" id="dYq-f4-o4h"/>
+                                                    </constraints>
+                                                </view>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Q83-SR-2DF">
+                                                    <rect key="frame" x="153" y="104" width="37" height="37"/>
+                                                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="RAv-ut-fk9" firstAttribute="centerY" secondItem="4Tq-RI-hHu" secondAttribute="centerY" id="52c-nx-XbE"/>
+                                                <constraint firstItem="Q83-SR-2DF" firstAttribute="centerX" secondItem="4Tq-RI-hHu" secondAttribute="centerX" id="92s-h8-O4g"/>
+                                                <constraint firstItem="Q83-SR-2DF" firstAttribute="centerY" secondItem="4Tq-RI-hHu" secondAttribute="centerY" id="oEI-Rn-OHP"/>
+                                                <constraint firstItem="RAv-ut-fk9" firstAttribute="centerX" secondItem="4Tq-RI-hHu" secondAttribute="centerX" id="tLY-Ya-WfZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="bannerAdContainerHeightConstraint" destination="dYq-f4-o4h" id="be6-lv-p6M"/>
+                                            <outlet property="bannerAdContainerWidthConstraint" destination="TFJ-9s-LxM" id="w1o-CK-Nuo"/>
+                                            <outlet property="bannerAdViewContainer" destination="RAv-ut-fk9" id="dtA-Jz-AAv"/>
+                                            <outlet property="bannerAdViewLoaderIndicator" destination="Q83-SR-2DF" id="ekc-eZ-PKA"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Mxb-wD-K8I" id="Zab-KQ-CtX"/>
+                                    <outlet property="delegate" destination="Mxb-wD-K8I" id="PpR-Bl-F5a"/>
+                                </connections>
+                            </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4hd-7W-ZkR" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="5PG-sn-sRX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="5PG-sn-sRX"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="z3R-UO-haC" kind="popoverPresentation" popoverAnchorView="4hd-7W-ZkR" id="EqL-tj-82v">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4hd-7W-ZkR" firstAttribute="top" secondItem="OeX-Df-uUY" secondAttribute="bottom" constant="16" id="12z-O1-nhy"/>
+                            <constraint firstItem="4hd-7W-ZkR" firstAttribute="leading" secondItem="nW6-xo-MsU" secondAttribute="leading" constant="16" id="9OQ-aP-0b1"/>
+                            <constraint firstItem="eYu-jO-v0r" firstAttribute="top" secondItem="4hd-7W-ZkR" secondAttribute="bottom" constant="8" id="BDR-kD-crz"/>
+                            <constraint firstAttribute="trailing" secondItem="OeX-Df-uUY" secondAttribute="trailing" constant="16" id="MBu-DY-JOd"/>
+                            <constraint firstItem="OeX-Df-uUY" firstAttribute="leading" secondItem="8HZ-a2-ZqI" secondAttribute="leading" constant="16" id="W3M-6K-5q8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="j1X-Dg-4lH" secondAttribute="trailing" id="aTh-ve-p8e"/>
+                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="leading" secondItem="8HZ-a2-ZqI" secondAttribute="leadingMargin" id="d4G-HO-7o2"/>
+                            <constraint firstItem="4hd-7W-ZkR" firstAttribute="centerX" secondItem="8HZ-a2-ZqI" secondAttribute="centerX" id="eXW-Zp-jPQ"/>
+                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="ruO-I9-oJq" secondAttribute="bottom" constant="8" id="hrc-qO-kVw"/>
+                            <constraint firstItem="OeX-Df-uUY" firstAttribute="top" secondItem="j1X-Dg-4lH" secondAttribute="bottom" constant="16" id="izx-I7-ymA"/>
+                            <constraint firstItem="nW6-xo-MsU" firstAttribute="trailing" secondItem="4hd-7W-ZkR" secondAttribute="trailing" constant="16" id="rLc-Fm-jFX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="nW6-xo-MsU"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Bcq-YC-Ywe"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="4hd-7W-ZkR" id="Uze-kp-hDi"/>
+                        <outlet property="tableView" destination="OeX-Df-uUY" id="GJ7-IP-gll"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oz6-th-FOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4458" y="1272"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pHN-V8-Hdq"/>
+        <segue reference="EqL-tj-82v"/>
     </inferredMetricsTieBreakers>
 </document>

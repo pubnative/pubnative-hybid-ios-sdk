@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"DFP MRect";
+    self.navigationItem.title = @"DFP Header Bidding MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
     self.dfpMrect = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
