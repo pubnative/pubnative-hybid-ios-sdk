@@ -215,6 +215,9 @@ typedef enum : NSUInteger {
 
 #pragma mark - PRIVATE -
 
+- (IBAction)videoTapped:(UITapGestureRecognizer *)sender {
+    [self btnOpenOfferPush:nil];
+}
 
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {

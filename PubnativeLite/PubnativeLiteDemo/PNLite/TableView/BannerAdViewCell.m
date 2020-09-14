@@ -20,19 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "QuoteTableViewCell.h"
+#import "BannerAdViewCell.h"
 
-@implementation QuoteTableViewCell
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
+@implementation BannerAdViewCell
 
 @end

@@ -24,34 +24,36 @@
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
 #import "Quote.h"
-#import "QuoteTableViewCell.h"
+#import "QuoteCell.h"
+#import "BannerAdViewCell.h"
 
-@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (weak, nonatomic) IBOutlet UITableView *quotesTableView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerWidthConstraint;
-@property (weak, nonatomic) IBOutlet UIButton *loadAdButton;
-@property (weak, nonatomic) IBOutlet UIPickerView *bannerSizePickerView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic, strong) HyBidAdView *bannerAdView;
+@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) UIActivityIndicatorView *bannerLoaderIndicator;
 
 @end
 
 @implementation PNLiteDemoPNLiteBannerViewController
 
-NSArray *quotesBanner;
+- (void)dealloc {
+    self.bannerAdView = nil;
+    self.dataSource = nil;
+    self.bannerLoaderIndicator = nil;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"HyBid Banner";
     
-    [self populateQuotes];
-
-    self.quotesTableView.delegate = self;
-    self.quotesTableView.dataSource = self;
+    [self populateDataSource];
+    self.bannerAdView = [[HyBidAdView alloc] initWithSize:[PNLiteDemoSettings sharedInstance].adSize];
+    [self.dataSource addObject:self.bannerAdView];
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
@@ -61,63 +63,9 @@ NSArray *quotesBanner;
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.bannerAdView.hidden = YES;
-    self.bannerHeightConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.height;
-    self.bannerWidthConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.width;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdView.adSize = [PNLiteDemoSettings sharedInstance].adSize;
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-}
-
-#pragma mark UIPickerViewDataSource
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [PNLiteDemoSettings sharedInstance].bannerSizesArray.count;
-}
-
-#pragma mark UIPickerViewDelegate
-
-- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
-    UILabel* pickerLabel = (UILabel*)view;
-    if (!pickerLabel) {
-        pickerLabel = [[UILabel alloc] init];
-        pickerLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16];
-        pickerLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
-        [pickerLabel setText:[NSString stringWithFormat:@"%@",[PNLiteDemoSettings sharedInstance].bannerSizesArray[row]]];
-    } else {
-        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
-        [pickerLabel setText:[NSString stringWithFormat:@"%ldx%ld",adSize.width, adSize.height]];
-    }
-    return pickerLabel;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
-        return [NSString stringWithFormat:@"%@",[PNLiteDemoSettings sharedInstance].bannerSizesArray[row]];
-    } else {
-        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
-        return [NSString stringWithFormat:@"%ldx%ld",adSize.width, adSize.height];
-    }
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    
-    if ([[[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row] isKindOfClass:[NSString class]]) {
-        self.loadAdButton.hidden = YES;
-        self.bannerAdView.hidden = YES;
-    } else {
-        self.loadAdButton.hidden = NO;
-        self.bannerAdView.hidden = NO;
-        
-        HyBidAdSize *adSize = [[PNLiteDemoSettings sharedInstance].bannerSizesArray objectAtIndex:row];
-        [PNLiteDemoSettings sharedInstance].adSize = adSize;
-    }
 }
 
 #pragma mark - HyBidAdViewDelegate
@@ -148,23 +96,32 @@ NSArray *quotesBanner;
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
-    QuoteTableViewCell *cell = (QuoteTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"quoteCell"];
-    
-    NSInteger row = indexPath.row;
-    Quote *quote = quotesBanner[row];
-    
-    cell.quoteTextLabel.text = quote.quoteText;
-    cell.quoteAutorLabel.text = quote.quoteAuthor;
-    
-    return cell;
+    if ([[self.dataSource objectAtIndex:indexPath.row] isKindOfClass:[Quote class]]) {
+        QuoteCell *quoteCell = (QuoteCell *)[tableView dequeueReusableCellWithIdentifier:@"quoteCell"];
+        Quote *quote = self.dataSource[indexPath.row];
+        quoteCell.quoteTextLabel.text = quote.quoteText;
+        quoteCell.quoteAutorLabel.text = quote.quoteAuthor;
+        return quoteCell;
+    } else {
+        BannerAdViewCell *bannerAdViewCell = [tableView dequeueReusableCellWithIdentifier:@"bannerAdViewCell" forIndexPath:indexPath];
+        self.bannerLoaderIndicator = bannerAdViewCell.bannerAdViewLoaderIndicator;
+        [bannerAdViewCell.bannerAdViewContainer addSubview:self.bannerAdView];
+        bannerAdViewCell.bannerAdContainerWidthConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.width;
+        bannerAdViewCell.bannerAdContainerHeightConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.height;
+        return bannerAdViewCell;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    if ([[self.dataSource objectAtIndex:indexPath.row] isKindOfClass:[Quote class]]) {
+        return 100;
+    } else {
+        return [PNLiteDemoSettings sharedInstance].adSize.height + 40;
+    }
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return quotesBanner.count;
+    return self.dataSource.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -173,8 +130,8 @@ NSArray *quotesBanner;
 
 #pragma mark - Utils
 
-- (void)populateQuotes {
-    quotesBanner = [[NSArray alloc]initWithObjects:
+- (void)populateDataSource {
+    self.dataSource = [[NSMutableArray alloc]initWithObjects:
                        [[Quote alloc]initWithText:@"Our world is built on biology and once we begin to understand it, it then becomes a technology" andAuthor:@"Ryan Bethencourt"],
                        [[Quote alloc]initWithText:@"Happiness is not an ideal of reason but of imagination" andAuthor:@"Immanuel Kant"],
                        [[Quote alloc]initWithText:@"Science and technology revolutionize our lives, but memory, tradition and myth frame our response." andAuthor:@"Arthur M. Schlesinger"],

@@ -22,13 +22,6 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface QuoteTableViewCell : UITableViewCell
-
-@property (weak, nonatomic) IBOutlet UILabel *quoteTextLabel;
-@property (weak, nonatomic) IBOutlet UILabel *quoteAutorLabel;
+@interface PNLiteDemoPNLiteBannerSizeSelectionViewController : UIViewController
 
 @end
-
-NS_ASSUME_NONNULL_END
