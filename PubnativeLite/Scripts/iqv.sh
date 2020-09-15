@@ -9,10 +9,9 @@ declare -a arr=("HyBid,IQV"
                 "PNLite,IQVY"
                 "PubnativeLite,IQVZ"
                 "Hybid,iqvx"
-		"hyBid,iqvw"
-                "OMIDPubnativenet,OMIDIqzone"
+                "hyBid,iqvw"
+                "Pubnativenet,Iqzone"
                 )
-                # only include this replacement if you want to link against a different OMID framework for OMSDK:
 
 for i in "${arr[@]}"
 do
