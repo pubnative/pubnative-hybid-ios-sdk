@@ -54,12 +54,24 @@
 //    adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     
-    NSString* privacyString =  [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
+    NSString *requiredOSVersion = @"14.0";
+    NSComparisonResult result = [[[UIDevice currentDevice] systemVersion] compare:requiredOSVersion options:NSNumericSearch];
+    
+    switch (result) {
+        case NSOrderedSame:
+            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
+            break;
+        case NSOrderedAscending:
+            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
+        case NSOrderedDescending: break;
+    }
+    
+    NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
     if (!([privacyString length] == 0)) {
         adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
-    NSString* consentString =  [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
+    NSString* consentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
     if (!([consentString length] == 0)) {
         adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
     }
@@ -79,7 +91,7 @@
             adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
         }
     }
-    adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
+    adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSettings sharedInstance].test ? @"1" : @"0";
     if (![adSize.layoutSize isEqualToString:@"native"]) {
         adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
         

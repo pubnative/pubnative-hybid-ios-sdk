@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17124"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -35,7 +36,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCy-Ce-81X" userLabel="Native Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCy-Ce-81X" userLabel="Native Button">
                                 <rect key="frame" x="16" y="37" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="nativeButton" label="Native Button"/>
@@ -66,7 +67,7 @@
                                     <segue destination="PB1-bo-RNK" kind="show" id="1Um-22-Nva"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jhc-wd-Wtp" userLabel="Banner Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jhc-wd-Wtp" userLabel="Banner Button">
                                 <rect key="frame" x="16" y="78" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
@@ -97,7 +98,7 @@
                                     <segue destination="dy8-WN-4R0" kind="show" id="JS2-N3-eTa"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nq-Ka-aeK" userLabel="Interstitial Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nq-Ka-aeK" userLabel="Interstitial Button">
                                 <rect key="frame" x="16" y="119" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
@@ -129,6 +130,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Zub-Yy-ymj"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wCy-Ce-81X" firstAttribute="leading" secondItem="Nf0-uC-D50" secondAttribute="leading" constant="16" id="20W-bw-Ghv"/>
@@ -143,7 +145,6 @@
                             <constraint firstAttribute="trailing" secondItem="Jhc-wd-Wtp" secondAttribute="trailing" constant="16" id="xXr-Of-QbE"/>
                             <constraint firstItem="Mpy-mT-cGa" firstAttribute="leading" secondItem="Nf0-uC-D50" secondAttribute="leading" constant="16" id="ya4-Zi-3WY"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Zub-Yy-ymj"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Smd-AQ-Yqg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -162,7 +163,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-dg-hyD" userLabel="Continue Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-dg-hyD" userLabel="Continue Button">
                                 <rect key="frame" x="16" y="232" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="continueButton" label="Continue Button"/>
@@ -187,6 +188,7 @@
                                 </connections>
                             </pickerView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="KHy-gW-2gA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="UVp-dg-hyD" secondAttribute="trailing" id="NI7-YV-FZb"/>
@@ -196,7 +198,6 @@
                             <constraint firstItem="mUH-wn-Do7" firstAttribute="top" secondItem="PWA-X6-522" secondAttribute="bottom" constant="8" id="WBD-TU-0nh"/>
                             <constraint firstItem="KHy-gW-2gA" firstAttribute="trailing" secondItem="mUH-wn-Do7" secondAttribute="trailing" constant="16" id="XwS-bk-9YW"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="KHy-gW-2gA"/>
                     </view>
                     <navigationItem key="navigationItem" id="jeM-oH-nPR"/>
                     <connections>
@@ -228,7 +229,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgG-hR-A7h">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgG-hR-A7h">
                                 <rect key="frame" x="16" y="8" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
@@ -246,7 +247,7 @@
                                 <rect key="frame" x="169" y="305" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAz-vi-3qm" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAz-vi-3qm" userLabel="Inspect Request Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
@@ -270,6 +271,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Q26-K3-rKZ"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="JgG-hR-A7h" secondAttribute="trailing" id="2EM-QI-pzy"/>
@@ -282,7 +284,6 @@
                             <constraint firstItem="JgG-hR-A7h" firstAttribute="leading" secondItem="1CX-c0-XXe" secondAttribute="leadingMargin" id="jHI-XF-9c0"/>
                             <constraint firstItem="JgG-hR-A7h" firstAttribute="top" secondItem="07K-wE-4uG" secondAttribute="bottom" constant="8" id="pZl-2m-eHf"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Q26-K3-rKZ"/>
                     </view>
                     <navigationItem key="navigationItem" id="Z7i-fU-OJg"/>
                     <connections>
@@ -306,7 +307,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-GM-DvE">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-GM-DvE">
                                 <rect key="frame" x="16" y="8" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
@@ -382,7 +383,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzK-Ut-i3F" userLabel="Ad Call To Action Button">
+                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzK-Ut-i3F" userLabel="Ad Call To Action Button">
                                                 <rect key="frame" x="8" y="188" width="311" height="30"/>
                                                 <color key="backgroundColor" red="0.15686274510000001" green="0.44705882349999998" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="adCallToActionButton" label="Ad Call To Action Button"/>
@@ -450,7 +451,7 @@
                                 <rect key="frame" x="169" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2U-LB-h2a" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2U-LB-h2a" userLabel="Inspect Request Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
@@ -474,6 +475,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="A3j-fl-sse"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="oi7-S5-HsA" firstAttribute="top" secondItem="a0W-GM-DvE" secondAttribute="bottom" constant="114" id="4Bf-7s-hqU"/>
@@ -488,7 +490,6 @@
                             <constraint firstItem="ve6-Tb-stk" firstAttribute="top" secondItem="a0W-GM-DvE" secondAttribute="bottom" constant="8" id="uwz-ec-gdb"/>
                             <constraint firstItem="a0W-GM-DvE" firstAttribute="top" secondItem="3fp-Fc-2CN" secondAttribute="bottom" constant="8" id="wne-J6-jaT"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="A3j-fl-sse"/>
                     </view>
                     <navigationItem key="navigationItem" id="Izn-co-fdB"/>
                     <connections>
@@ -520,7 +521,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-Dg-4lH">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-Dg-4lH">
                                 <rect key="frame" x="16" y="8" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
@@ -536,7 +537,7 @@
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OeX-Df-uUY">
                                 <rect key="frame" x="16" y="54" width="343" height="536"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="quoteCell" rowHeight="245" id="byB-XM-ADP" customClass="QuoteCell">
                                         <rect key="frame" x="0.0" y="28" width="343" height="245"/>
@@ -617,7 +618,7 @@
                                     <outlet property="delegate" destination="Mxb-wD-K8I" id="PpR-Bl-F5a"/>
                                 </connections>
                             </tableView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4hd-7W-ZkR" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4hd-7W-ZkR" userLabel="Inspect Request Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
@@ -641,6 +642,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="nW6-xo-MsU"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="top" secondItem="OeX-Df-uUY" secondAttribute="bottom" constant="16" id="12z-O1-nhy"/>
@@ -655,7 +657,6 @@
                             <constraint firstItem="OeX-Df-uUY" firstAttribute="top" secondItem="j1X-Dg-4lH" secondAttribute="bottom" constant="16" id="izx-I7-ymA"/>
                             <constraint firstItem="nW6-xo-MsU" firstAttribute="trailing" secondItem="4hd-7W-ZkR" secondAttribute="trailing" constant="16" id="rLc-Fm-jFX"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="nW6-xo-MsU"/>
                     </view>
                     <navigationItem key="navigationItem" id="Bcq-YC-Ywe"/>
                     <connections>
@@ -668,7 +669,17 @@
             <point key="canvasLocation" x="-4458" y="1272"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="yuJ-gp-1ek">
+            <size key="intrinsicContentSize" width="240" height="44"/>
+        </designable>
+    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="EqL-tj-82v"/>
     </inferredMetricsTieBreakers>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
