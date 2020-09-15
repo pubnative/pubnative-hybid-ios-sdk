@@ -33,6 +33,7 @@ class MRectViewController: UIViewController {
     
     func requestAd() {
         bannerAdView.adSize = HyBidAdSize.size_300x250
+        bannerAdView.autoShowOnLoad = false
         bannerAdView.load(withZoneID:
         "3", andWith: self)
     }
