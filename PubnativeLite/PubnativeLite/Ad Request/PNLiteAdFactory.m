@@ -54,22 +54,26 @@
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     
     if ([HyBidSettings sharedInstance].appID != NULL) {
-        [self setAppStoreAppID:adRequestModel withAppID:[HyBidSettings sharedInstance].appID];
-        
-        NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
-        adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
-        
-        NSString *requiredOSVersion = @"14.0";
-        NSComparisonResult result = [[[UIDevice currentDevice] systemVersion] compare:requiredOSVersion options:NSNumericSearch];
-        
-        switch (result) {
-            case NSOrderedSame:
-            case NSOrderedAscending:
-                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
-                break;
-            case NSOrderedDescending:
-                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
-                break;
+        if ([[HyBidSettings sharedInstance].appID length] > 0) {
+            [self setAppStoreAppID:adRequestModel withAppID:[HyBidSettings sharedInstance].appID];
+            
+            NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
+            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
+            
+            NSString *requiredOSVersion = @"14.0";
+            NSComparisonResult result = [[[UIDevice currentDevice] systemVersion] compare:requiredOSVersion options:NSNumericSearch];
+            
+            switch (result) {
+                case NSOrderedSame:
+                case NSOrderedAscending:
+                    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
+                    break;
+                case NSOrderedDescending:
+                    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
+                    break;
+            }
+        } else {
+            NSLog(@"HyBid AppID parameter cannot be empty. Please assign the actual AppStore app ID to this parameter and try again.");
         }
     }
     
@@ -174,8 +178,12 @@
 
 -(NSString *)getSKAdNetworkIDs:(PNLiteAdRequestModel *)adRequestModel {
     NSArray *networkItems = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SKAdNetworkItems"];
-    NSMutableArray *adIDs = [[NSMutableArray alloc] init];
     
+    if (networkItems == NULL) {
+        NSLog(@"The key `SKAdNetworkItems` could not be found in `info.plist` file of the app. Please add the required item and try again.");
+    }
+    
+    NSMutableArray *adIDs = [[NSMutableArray alloc] init];
     for (int i = 0; i < [networkItems count]; i++) {
         NSDictionary *dict = networkItems[i];
         NSString *value = dict[@"SKAdNetworkIdentifier"];
@@ -183,6 +191,9 @@
     }
     
     NSString *idsAsString = [adIDs componentsJoinedByString:@","];
+    if ([idsAsString length] == 0) {
+        NSLog(@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again.");
+    }
     return idsAsString;
 }
 
