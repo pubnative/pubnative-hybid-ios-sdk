@@ -135,5 +135,4 @@
     NSLog(@"willLeaveApplicationFromNativeAd");
 }
 
-
 @end

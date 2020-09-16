@@ -23,6 +23,7 @@
 #import "HyBidAdView.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidBannerPresenterFactory.h"
 
 @interface HyBidAdView()
 
@@ -36,6 +37,24 @@
     self.ad = nil;
     self.delegate = nil;
     self.adPresenter = nil;
+    self.adRequest = nil;
+    self.adSize = nil;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.adRequest = [[HyBidAdRequest alloc] init];
+    self.autoShowOnLoad = true;
+}
+
+- (instancetype)initWithSize:(HyBidAdSize *)adSize {
+    self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
+    if (self) {
+        self.adRequest = [[HyBidAdRequest alloc] init];
+        self.adSize = adSize;
+        self.autoShowOnLoad = true;
+    }
+    return self;
 }
 
 - (void)cleanUp {
@@ -58,6 +77,7 @@
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
+        self.adRequest.adSize = self.adSize;
         [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
         [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
     }
@@ -100,7 +120,8 @@
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
-    return nil;
+    HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
+    return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 #pragma mark HyBidAdRequestDelegate

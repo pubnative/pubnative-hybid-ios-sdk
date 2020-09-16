@@ -198,7 +198,6 @@ typedef enum {
         _isViewable = NO;
         useCustomClose = NO;
         
-        
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
         
@@ -213,6 +212,7 @@ typedef enum {
                           PNLiteMRAIDSupportsStorePicture,
                           PNLiteMRAIDSupportsInlineVideo,
                           ];
+        
         
         if([self isValidFeatureSet:currentFeatures] && serviceDelegate) {
             supportedFeatures=currentFeatures;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1N-JO-wkO" userLabel="MoPub Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1N-JO-wkO" userLabel="Consent Management Provider Button">
                                 <rect key="frame" x="16" y="8" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentManagementProviderButton" label="Consent Management Provider Button"/>
@@ -39,15 +39,15 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="N9X-Nn-yeJ"/>
                                         <exclude reference="3Af-za-PmX"/>
+                                        <include reference="N9X-Nn-yeJ"/>
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="PSx-2u-yE7" kind="show" id="gLT-65-i1f"/>
+                                    <segue destination="PSx-2u-yE7" kind="show" id="CYR-M5-bLf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Hw-uu-zd1" userLabel="MoPub Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Hw-uu-zd1" userLabel="Consent Strings Button">
                                 <rect key="frame" x="16" y="49" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentStringsButton" label="Consent Strings Button"/>
@@ -131,8 +131,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="oi8-hQ-Wfl"/>
                                         <include reference="mmE-Co-xJO"/>
+                                        <exclude reference="oi8-hQ-Wfl"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -162,8 +162,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="qcc-JV-q3F"/>
                                         <exclude reference="Uk0-s7-eMg"/>
+                                        <include reference="qcc-JV-q3F"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -207,9 +207,9 @@
                                         </variation>
                                         <variation key="heightClass=compact">
                                             <mask key="constraints">
-                                                <include reference="Jfa-sX-ita"/>
                                                 <exclude reference="5UC-c7-1R7"/>
                                                 <exclude reference="DQx-t4-6L7"/>
+                                                <include reference="Jfa-sX-ita"/>
                                                 <include reference="UaO-3N-Rhd"/>
                                             </mask>
                                         </variation>

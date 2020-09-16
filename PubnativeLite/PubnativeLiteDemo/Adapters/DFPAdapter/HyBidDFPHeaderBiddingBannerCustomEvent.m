@@ -26,7 +26,7 @@
 @interface HyBidDFPHeaderBiddingBannerCustomEvent () <HyBidAdPresenterDelegate>
 
 @property (nonatomic, assign) CGSize size;
-@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -37,7 +37,7 @@
 @synthesize delegate;
 
 - (void)dealloc {
-    self.bannerPresenter = nil;
+    self.adPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
 }
@@ -47,24 +47,20 @@
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidDFPUtils areExtrasValid:serverParameter]) {
-        if (CGSizeEqualToSize(kGADAdSizeBanner.size, adSize.size)) {
-            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
-            if (!self.ad) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
-                return;
-            }
-            self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-            self.bannerPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-            if (!self.bannerPresenter) {
-                [self invokeFailWithMessage:@"Could not create valid banner presenter."];
-                return;
-            } else {
-                [self.bannerPresenter load];
-            }
-        } else {
-            [self invokeFailWithMessage:@"Wrong ad size."];
+        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidDFPUtils zoneID:serverParameter]];
+        if (!self.ad) {
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidDFPUtils zoneID:serverParameter]]];
             return;
         }
+        self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
+        self.adPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
+        if (!self.adPresenter) {
+            [self invokeFailWithMessage:@"Could not create valid banner presenter."];
+            return;
+        } else {
+            [self.adPresenter load];
+        }
+        
     } else {
         [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
         return;
@@ -80,7 +76,7 @@
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     [self.delegate customEventBanner:self didReceiveAd:adView];
-    [self.bannerPresenter startTracking];
+    [self.adPresenter startTracking];
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {

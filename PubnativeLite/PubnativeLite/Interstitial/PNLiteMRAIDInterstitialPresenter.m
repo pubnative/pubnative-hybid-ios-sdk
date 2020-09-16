@@ -57,14 +57,14 @@
 - (void)load {
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
-                                               withHtmlData:self.adModel.htmlData
-                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
-                                              isInterstital:YES
-                                                   delegate:self
-                                            serviceDelegate:self
-                                         rootViewController:[UIApplication sharedApplication].topViewController
-                                                contentInfo:self.adModel.contentInfo];
+                                              withHtmlData:self.adModel.htmlData
+                                               withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
+                                             isInterstital:YES
+                                                  delegate:self
+                                           serviceDelegate:self
+                                        rootViewController:[UIApplication sharedApplication].topViewController
+                                               contentInfo:self.adModel.contentInfo];
 
 }
 

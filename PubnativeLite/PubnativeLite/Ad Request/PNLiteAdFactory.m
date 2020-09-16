@@ -32,7 +32,8 @@
 @implementation PNLiteAdFactory
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(NSString *)adSize
+                                      andWithAdSize:(HyBidAdSize *)adSize
+                      andWithSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                              andWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
@@ -47,6 +48,10 @@
     adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
     [self setIDFA:adRequestModel];
     adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
+    
+    adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
+    adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
+//    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     
     NSString* privacyString =  [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
     if (!([privacyString length] == 0)) {
@@ -64,18 +69,25 @@
         adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
         
         CLLocation* location = [HyBidSettings sharedInstance].location;
-
+        
         if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
             NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
             NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
-        
+            
             adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
             adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
         }
     }
     adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
-    if (adSize) {
-        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize;
+    if (![adSize.layoutSize isEqualToString:@"native"]) {
+        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
+        
+        if (adSize.width != 0) {
+            adRequestModel.requestParameters[HyBidRequestParameter.width] = [@(adSize.width) stringValue];
+        }
+        if (adSize.height != 0) {
+            adRequestModel.requestParameters[HyBidRequestParameter.height] = [@(adSize.height) stringValue];
+        }
     } else {
         [self setDefaultAssetFields:adRequestModel];
     }

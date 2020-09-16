@@ -24,7 +24,11 @@
 
 @implementation HyBidNativeAdRequest
 
-- (NSString *)adSize {
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_NATIVE;
+}
+
+- (NSArray<NSString *> *)supportedAPIFrameworks {
     return nil;
 }
 

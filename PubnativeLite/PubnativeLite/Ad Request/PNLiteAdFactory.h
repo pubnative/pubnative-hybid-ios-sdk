@@ -23,11 +23,13 @@
 #import <Foundation/Foundation.h>
 #import "PNLiteAdRequestModel.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidAdSize.h"
 
 @interface PNLiteAdFactory : NSObject
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(NSString *)adSize
+                                      andWithAdSize:(HyBidAdSize *)adSize
+                      andWithSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                              andWithIntegrationType:(IntegrationType)integrationType;
 
 @end

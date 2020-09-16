@@ -51,6 +51,8 @@
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
+@property (nonatomic, strong) HyBidAdSize *adSize;
+@property (nonatomic, strong) NSMutableArray *bannerSizesArray;
 
 + (PNLiteDemoSettings *)sharedInstance;
 

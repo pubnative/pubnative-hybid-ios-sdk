@@ -28,7 +28,7 @@
 
 @interface HyBidMoPubHeaderBiddingBannerCustomEvent () <HyBidAdPresenterDelegate>
 
-@property (nonatomic, strong) HyBidAdPresenter *bannerPresenter;
+@property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
 
@@ -37,31 +37,26 @@
 @implementation HyBidMoPubHeaderBiddingBannerCustomEvent
 
 - (void)dealloc {
-    self.bannerPresenter = nil;
+    self.adPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils isZoneIDValid:info]) {
-        if (size.height == kMPPresetMaxAdSize50Height.height && size.width >= 320.0f) {
-            self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
-            if (!self.ad) {
-                [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
-                return;
-            }
-            self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-            self.bannerPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-            if (!self.bannerPresenter) {
-                [self invokeFailWithMessage:@"Could not create valid banner presenter."];
-                return;
-            } else {
-                [self.bannerPresenter load];
-                MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
-            }
-        } else {
-            [self invokeFailWithMessage:@"Wrong ad size."];
+        self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
+        if (!self.ad) {
+            [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
             return;
+        }
+        self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
+        self.adPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
+        if (!self.adPresenter) {
+            [self invokeFailWithMessage:@"Could not create valid banner presenter."];
+            return;
+        } else {
+            [self.adPresenter load];
+                MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         }
     } else {
         [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
@@ -87,7 +82,7 @@
     MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([self class])]);
     [self.delegate inlineAdAdapterDidTrackImpression:self];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
-    [self.bannerPresenter startTracking];
+    [self.adPresenter startTracking];
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {

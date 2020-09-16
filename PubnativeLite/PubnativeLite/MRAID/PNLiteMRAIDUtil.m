@@ -61,12 +61,12 @@
     
     if (!hasHtmlTag) {
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        
-        NSString *mraidJSPath = [bundle pathForResource:@"hybidmraidscaling" ofType:@"js"];
+       
+        NSString *mraidJSPath = [bundle pathForResource: [self nameForResource:@"hybidmraidscaling" :@"js"] ofType:@"js"];
         NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
         NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
         
-        NSString *scalingJSPath = [bundle pathForResource:@"hybidscaling" ofType:@"js"];
+        NSString *scalingJSPath = [bundle pathForResource: [self nameForResource:@"hybidscaling" :@"js"] ofType:@"js"];
         NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
         NSString *scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
         
@@ -120,6 +120,17 @@
                                                withTemplate:[NSString stringWithFormat:@"$0\n%@\n%@", metaTag, styleTag]];
     
     return processedHtml;
+}
+
+#pragma mark - Utils: check for bundle resource existance.
+
++ (NSString*)nameForResource:(NSString*)name :(NSString*)type {
+    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
+    NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:resourceName ofType:type];
+    if (!path) {
+        resourceName = name;
+    }
+    return resourceName;
 }
 
 @end

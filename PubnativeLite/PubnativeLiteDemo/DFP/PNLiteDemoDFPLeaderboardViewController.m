@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpLeaderboard;
-@property (nonatomic, strong) HyBidLeaderboardAdRequest *leaderboardAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *leaderboardAdRequest;
 
 @end
 
@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"DFP Leaderboard";
+    self.navigationItem.title = @"DFP Header Bidding Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
     self.dfpLeaderboard = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
@@ -65,7 +65,8 @@
     self.leaderboardContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
-    self.leaderboardAdRequest = [[HyBidLeaderboardAdRequest alloc] init];
+    self.leaderboardAdRequest = [[HyBidAdRequest alloc] init];
+    self.leaderboardAdRequest.adSize = HyBidAdSize.SIZE_728x90;
     [self.leaderboardAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 

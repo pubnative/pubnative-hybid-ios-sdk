@@ -23,6 +23,8 @@
 #import "HyBidAdView.h"
 #import "HyBidBannerAdRequest.h"
 
+DEPRECATED_MSG_ATTRIBUTE("Use HyBidAdView instead.")
+
 @interface HyBidBannerAdView : HyBidAdView
 
 @property (nonatomic, strong) HyBidBannerAdRequest *bannerAdRequest;
