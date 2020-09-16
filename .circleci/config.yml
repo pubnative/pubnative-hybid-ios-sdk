@@ -4,9 +4,12 @@ jobs:
         working_directory: ~/pubnative/pubnative-hybid-ios-sdk
         shell: /bin/bash --login -o pipefail
         macos:
-            xcode: "11.2.0"
+            xcode: "12.0.0"
         steps:
             - checkout
+            - run:
+                name: Bundler Update
+                command: gem install bundler --version 1.16.3
             - restore_cache:
                 key: 1-gems-{{ checksum "Gemfile.lock" }}
             - run:
@@ -42,9 +45,9 @@ jobs:
             - run:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
-                            -workspace HyBid.xcworkspace
+                            -project PubnativeLite/HyBid.xcodeproj
                             -scheme HyBid
-                            -destination 'platform=iOS Simulator,OS=12.2,name=iPhone 8'
+                            -destination 'platform=iOS Simulator,OS=14.0,name=iPhone 8'
                             clean test
                             | tee /tmp/circleci-artifacts/test_xcodebuild.log
                             | xcpretty
@@ -55,13 +58,13 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-genericAdSizes" ] || [ "${CIRCLE_BRANCH}" == "development-iqv_sdk" ]; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-iOS14Support" ]; then
                       PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
                 name: Publish to Firebase
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-genericAdSizes" ]; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-iOS14Support" ]; then
                       PubnativeLite/Scripts/publish.sh
                     fi
             - store_test_results:

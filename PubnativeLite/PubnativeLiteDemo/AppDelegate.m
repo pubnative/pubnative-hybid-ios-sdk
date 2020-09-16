@@ -24,6 +24,7 @@
 #import "PNLiteDemoSettings.h"
 #import "MoPub.h"
 #import <CoreLocation/CoreLocation.h>
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"
 
 @import GoogleMobileAds;
@@ -43,6 +44,28 @@ CLLocationManager *locationManager;
     [locationManager requestWhenInUseAuthorization];
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
+    /*
+    if (@available(iOS 14, *)) {
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler: ^(ATTrackingManagerAuthorizationStatus status) {
+            switch (status) {
+                case ATTrackingManagerAuthorizationStatusAuthorized:
+                    NSLog(@"IDFA Tracking authorized.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusDenied:
+                    NSLog(@"IDFA Tracking denied.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusRestricted:
+                    NSLog(@"IDFA Tracking restricted.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusNotDetermined:
+                    NSLog(@"IDFA Tracking permission not determined.");
+                    break;
+                default:
+                    break;
+            }
+        }];
+    }
+    */
     [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
                                         withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
