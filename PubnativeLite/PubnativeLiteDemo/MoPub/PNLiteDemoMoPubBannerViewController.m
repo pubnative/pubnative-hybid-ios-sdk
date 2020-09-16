@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubBanner;
-@property (nonatomic, strong) HyBidBannerAdRequest *bannerAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *bannerAdRequest;
 
 @end
 
@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub Banner";
+    self.navigationItem.title = @"MoPub Header Bidding Banner";
 
     [self.bannerLoaderIndicator stopAnimating];
     self.moPubBanner = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
@@ -64,7 +64,8 @@
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+    self.bannerAdRequest = [[HyBidAdRequest alloc] init];
+    self.bannerAdRequest.adSize = HyBidAdSize.SIZE_320x50;
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 

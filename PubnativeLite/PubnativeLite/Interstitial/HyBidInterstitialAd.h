@@ -43,7 +43,7 @@
 - (void)load;
 
 /// Presents the interstitial ad modally from the current view controller.
-/// 
+///
 /// This method will do nothing if the interstitial ad has not been loaded (i.e. the value of its `isReady` property is NO).
 - (void)show;
 

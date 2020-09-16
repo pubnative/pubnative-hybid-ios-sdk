@@ -20,14 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#else
-#import "MPInlineAdAdapter.h"
-#endif
+#import "HyBidMoPubMediationBannerCustomEvent.h"
 
-#import <HyBid/HyBid.h>
-
-@interface HyBidMoPubMediationMRectCustomEvent : MPInlineAdAdapter
+/// This class is kept for backwards compatibility.
+@interface HyBidMoPubMediationMRectCustomEvent : HyBidMoPubMediationBannerCustomEvent
 
 @end

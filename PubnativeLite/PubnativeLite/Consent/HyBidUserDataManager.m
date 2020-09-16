@@ -36,6 +36,7 @@
 #define kGDPRConsentKey @"GDPR_Consent"
 #define kCCPAPublicPrivacyKey @"IABUSPrivacy_String"
 #define kGDPRPublicConsentKey @"IABConsent_ConsentString"
+#define kGDPRPublicConsentV2Key @"IABTCF_TCString"
 
 NSString *const PNLiteDeviceIDType = @"idfa";
 NSString *const PNLiteGDPRConsentStateKey = @"gdpr_consent_state";
@@ -99,6 +100,17 @@ NSInteger const PNLiteConsentStateDenied = 0;
             }
         }
     } else if ([keyPath isEqualToString:kGDPRPublicConsentKey]) {
+        if ([[safeChange objectForKey:NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
+            return;
+        } else {
+            NSString *consentString = [safeChange objectForKey:@"new"];
+            if (consentString.length != 0) {
+                [self setIABGDPRConsentString:consentString];
+            } else {
+                [self removeIABGDPRConsentString];
+            }
+        }
+    } else if ([keyPath isEqualToString:kGDPRPublicConsentV2Key]) {
         if ([[safeChange objectForKey:NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
             return;
         } else {
@@ -224,7 +236,10 @@ NSInteger const PNLiteConsentStateDenied = 0;
 - (NSString *)getIABGDPRConsentString {
     NSString *consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRConsentKey];
     if (!consentString || consentString.length == 0) {
-        consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey];
+        consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key];
+        if (!consentString || consentString.length == 0) {
+            consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey];
+        }
     }
     return consentString;
 }

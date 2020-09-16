@@ -21,7 +21,6 @@
 //
 
 #import "HyBidBannerAdView.h"
-#import "HyBidBannerPresenterFactory.h"
 
 @implementation HyBidBannerAdView
 
@@ -45,7 +44,7 @@
 }
 
 - (instancetype)init {
-    self = [super initWithFrame:CGRectMake(0, 0, 320, 50)];
+    self = [super initWithSize:HyBidAdSize.SIZE_320x50];
     if (self) {
         self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
         self.autoShowOnLoad = YES;
@@ -55,11 +54,6 @@
 
 - (HyBidAdRequest *)adRequest {
     return self.bannerAdRequest;
-}
-
-- (HyBidAdPresenter *)createAdPresenter {
-    HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-    return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 @end

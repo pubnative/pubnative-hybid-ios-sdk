@@ -26,11 +26,9 @@
 @interface PNLiteDemoMainViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *zoneIDTextField;
-@property (weak, nonatomic) IBOutlet UIButton *leaderboardButton;
-@property (weak, nonatomic) IBOutlet UIButton *nativeButton;
-@property (weak, nonatomic) IBOutlet UIButton *bannerButton;
-@property (weak, nonatomic) IBOutlet UIButton *mRectButton;
-@property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
+@property (weak, nonatomic) IBOutlet UIButton *standaloneButton;
+@property (weak, nonatomic) IBOutlet UIButton *headerBiddingButton;
+@property (weak, nonatomic) IBOutlet UIButton *mediationButton;
 
 @end
 
@@ -60,17 +58,13 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [textField resignFirstResponder];
     if (textField.text.length) {
-        self.leaderboardButton.hidden = NO;
-        self.nativeButton.hidden = NO;
-        self.bannerButton.hidden = NO;
-        self.mRectButton.hidden = NO;
-        self.interstitialButton.hidden = NO;
+        self.standaloneButton.hidden = NO;
+        self.headerBiddingButton.hidden = NO;
+        self.mediationButton.hidden = NO;
     } else {
-        self.leaderboardButton.hidden = YES;
-        self.nativeButton.hidden = YES;
-        self.bannerButton.hidden = YES;
-        self.mRectButton.hidden = YES;
-        self.interstitialButton.hidden = YES;
+        self.standaloneButton.hidden = YES;
+        self.headerBiddingButton.hidden = YES;
+        self.mediationButton.hidden = YES;
     }
 }
 

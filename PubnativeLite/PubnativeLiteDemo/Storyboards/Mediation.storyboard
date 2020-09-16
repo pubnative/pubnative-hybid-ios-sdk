@@ -1,0 +1,1328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oCm-84-z79">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Mediation-->
+        <scene sceneID="bCT-Es-K5u">
+            <objects>
+                <viewController title="Mediation" id="oCm-84-z79" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gSG-4j-6xa"/>
+                        <viewControllerLayoutGuide type="bottom" id="u5Z-OG-p7a"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rq6-rV-hag">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FB7-B2-kQt">
+                                <rect key="frame" x="16" y="8" width="53" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="networkLabel" label="Network Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Q9H-QR-1zY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Q9H-QR-1zY"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E6y-3h-hbU" userLabel="MoPub Button">
+                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="moPubButton" label="MoPub Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="U8w-Lf-0WL"/>
+                                    <constraint firstAttribute="height" constant="33" id="mFm-IY-Nzf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="MoPub">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="mFm-IY-Nzf"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="U8w-Lf-0WL"/>
+                                        <include reference="mFm-IY-Nzf"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qyv-5Y-zm8" kind="show" id="n8X-vu-cy3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Now-D3-gFm" userLabel="AdMob Button">
+                                <rect key="frame" x="16" y="78" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="adMobButton" label="AdMob Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="8lG-Tp-DvO"/>
+                                    <constraint firstAttribute="height" constant="33" id="ouK-yq-bR6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="AdMob">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="8lG-Tp-DvO"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="8lG-Tp-DvO"/>
+                                        <exclude reference="ouK-yq-bR6"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="xKk-V9-smz" kind="show" id="JMW-MV-NV9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="FB7-B2-kQt" firstAttribute="top" secondItem="gSG-4j-6xa" secondAttribute="bottom" constant="8" id="7aZ-8h-cKT"/>
+                            <constraint firstItem="Now-D3-gFm" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="7n4-hM-hdG"/>
+                            <constraint firstItem="E6y-3h-hbU" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="Fua-VP-4JG"/>
+                            <constraint firstAttribute="trailing" secondItem="E6y-3h-hbU" secondAttribute="trailing" constant="16" id="Jhe-dE-TqM"/>
+                            <constraint firstItem="Now-D3-gFm" firstAttribute="top" secondItem="E6y-3h-hbU" secondAttribute="bottom" constant="8" id="KEM-wj-AX9"/>
+                            <constraint firstItem="E6y-3h-hbU" firstAttribute="top" secondItem="FB7-B2-kQt" secondAttribute="bottom" constant="8" id="Led-Rn-4Sm"/>
+                            <constraint firstItem="FB7-B2-kQt" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="Sur-i6-GOB"/>
+                            <constraint firstAttribute="trailing" secondItem="Now-D3-gFm" secondAttribute="trailing" constant="16" id="ULy-HI-xsh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="QcE-sN-vMO"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dBA-cv-bF1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3930" y="-578"/>
+        </scene>
+        <!--MoPub Mediation-->
+        <scene sceneID="RTR-hb-NR6">
+            <objects>
+                <viewController title="MoPub Mediation" id="qyv-5Y-zm8" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ccZ-4o-zbw"/>
+                        <viewControllerLayoutGuide type="bottom" id="v2S-Lv-3Zh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="E7t-mK-DMV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2zI-ML-LrH" userLabel="Format">
+                                <rect key="frame" x="16" y="8" width="42.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="1JW-G0-Xbg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="1JW-G0-Xbg"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ld2-BM-hcT" userLabel="Native Button">
+                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nativeButton" label="Native Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="2rx-AR-Bdn"/>
+                                    <constraint firstAttribute="height" constant="33" id="7vI-Dg-Mb5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Native">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="7vI-Dg-Mb5"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="2rx-AR-Bdn"/>
+                                        <include reference="7vI-Dg-Mb5"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="gM4-hG-7JN" kind="show" id="V4J-4j-pSz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpO-3n-F0N" userLabel="Leaderboard Button">
+                                <rect key="frame" x="16" y="78" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="8n1-mT-TOV"/>
+                                    <constraint firstAttribute="height" constant="33" id="eg2-lj-8Ph"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Leaderboard">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="8n1-mT-TOV"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="8n1-mT-TOV"/>
+                                        <exclude reference="eg2-lj-8Ph"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="EhZ-Kf-kHZ" kind="show" id="Eun-OR-RPa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zi-Cd-YPJ" userLabel="Banner Button">
+                                <rect key="frame" x="16" y="119" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="0TL-NS-zp5"/>
+                                    <constraint firstAttribute="height" constant="33" id="d76-vU-2LO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Banner">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="d76-vU-2LO"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="0TL-NS-zp5"/>
+                                        <include reference="d76-vU-2LO"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="dCw-e2-mKW" kind="show" id="a4R-kJ-IjM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59H-wC-Uf0" userLabel="MRect Button">
+                                <rect key="frame" x="16" y="160" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="H3Q-YN-Yfe"/>
+                                    <constraint firstAttribute="height" constant="33" id="rCP-yw-kGI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="MRect">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="rCP-yw-kGI"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="H3Q-YN-Yfe"/>
+                                        <include reference="rCP-yw-kGI"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="dOS-kE-AS0" kind="show" id="qgy-in-FDY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PnG-11-tWy" userLabel="Interstitial Button">
+                                <rect key="frame" x="16" y="201" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="RKm-Cv-tTl"/>
+                                    <constraint firstAttribute="height" constant="33" id="aZb-61-2rE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Interstitial">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="aZb-61-2rE"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="RKm-Cv-tTl"/>
+                                        <include reference="aZb-61-2rE"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="fwd-Eb-xHm" kind="show" id="jWj-GL-w4K"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="wpO-3n-F0N" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="4Mf-6P-YrQ"/>
+                            <constraint firstItem="2zI-ML-LrH" firstAttribute="top" secondItem="ccZ-4o-zbw" secondAttribute="bottom" constant="8" id="6rZ-1b-X9U"/>
+                            <constraint firstAttribute="trailing" secondItem="59H-wC-Uf0" secondAttribute="trailing" constant="16" id="8Ny-Qm-xpM"/>
+                            <constraint firstItem="4zi-Cd-YPJ" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="Apb-xl-slu"/>
+                            <constraint firstItem="PnG-11-tWy" firstAttribute="top" secondItem="59H-wC-Uf0" secondAttribute="bottom" constant="8" id="JMO-A2-mT4"/>
+                            <constraint firstAttribute="trailing" secondItem="wpO-3n-F0N" secondAttribute="trailing" constant="16" id="LSe-Xl-Q4F"/>
+                            <constraint firstItem="ld2-BM-hcT" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="NWc-Z6-zxC"/>
+                            <constraint firstItem="wpO-3n-F0N" firstAttribute="top" secondItem="ld2-BM-hcT" secondAttribute="bottom" constant="8" id="YBn-6s-1VS"/>
+                            <constraint firstItem="59H-wC-Uf0" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="ah3-7L-9eM"/>
+                            <constraint firstItem="2zI-ML-LrH" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="b7e-jp-QqY"/>
+                            <constraint firstItem="PnG-11-tWy" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="dUs-K0-dgv"/>
+                            <constraint firstItem="4zi-Cd-YPJ" firstAttribute="top" secondItem="wpO-3n-F0N" secondAttribute="bottom" constant="8" id="jEy-lw-hIf"/>
+                            <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="PnG-11-tWy" secondAttribute="trailing" constant="16" id="kqT-8Z-qk8"/>
+                            <constraint firstItem="59H-wC-Uf0" firstAttribute="top" secondItem="4zi-Cd-YPJ" secondAttribute="bottom" constant="8" id="rH2-gY-7Ng"/>
+                            <constraint firstAttribute="trailing" secondItem="4zi-Cd-YPJ" secondAttribute="trailing" constant="16" id="rkn-LZ-WzX"/>
+                            <constraint firstItem="ld2-BM-hcT" firstAttribute="top" secondItem="2zI-ML-LrH" secondAttribute="bottom" constant="8" id="tdh-hv-67L"/>
+                            <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="ld2-BM-hcT" secondAttribute="trailing" constant="16" id="zsb-x3-pDO"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ef4-ib-mhr"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="MoPub Mediation" id="Kcu-FR-CKB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nx-Hi-og6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5863" y="217"/>
+        </scene>
+        <!--AdMob Mediation-->
+        <scene sceneID="1fi-Gt-Xxj">
+            <objects>
+                <viewController title="AdMob Mediation" id="xKk-V9-smz" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Gab-qh-UWJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="hSI-k6-beJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xap-3b-dq3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLn-xw-477" userLabel="Format">
+                                <rect key="frame" x="16" y="8" width="42.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Pvu-66-SCC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Pvu-66-SCC"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qF-Pl-kmC" userLabel="Leaderboard Button">
+                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="H35-Iz-Qph"/>
+                                    <constraint firstAttribute="height" constant="33" id="Tfr-O7-J9z"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Leaderboard">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="H35-Iz-Qph"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="H35-Iz-Qph"/>
+                                        <exclude reference="Tfr-O7-J9z"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="eWL-wQ-gWx" kind="show" id="dUf-GL-WD0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJV-kw-2y1" userLabel="Banner Button">
+                                <rect key="frame" x="16" y="78" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="3W2-t4-OdI"/>
+                                    <constraint firstAttribute="height" constant="33" id="k92-HG-sdc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Banner">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="k92-HG-sdc"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="3W2-t4-OdI"/>
+                                        <include reference="k92-HG-sdc"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="mDA-ZE-JA6" kind="show" id="utQ-X0-djS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiG-Rv-FNC" userLabel="MRect Button">
+                                <rect key="frame" x="16" y="119" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="9jv-fD-kYg"/>
+                                    <constraint firstAttribute="height" constant="33" id="V89-K7-fNU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="MRect">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="V89-K7-fNU"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="9jv-fD-kYg"/>
+                                        <include reference="V89-K7-fNU"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="BsK-py-hNc" kind="show" id="smv-vY-jKk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igf-bn-OvZ" userLabel="Interstitial Button">
+                                <rect key="frame" x="16" y="160" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Ejh-px-Sdv"/>
+                                    <constraint firstAttribute="height" constant="33" id="NMd-fN-WH1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Interstitial">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Ejh-px-Sdv"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="Ejh-px-Sdv"/>
+                                        <exclude reference="NMd-fN-WH1"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="WBU-S6-hFl" kind="show" id="Tbf-TN-RZC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="XiG-Rv-FNC" firstAttribute="top" secondItem="dJV-kw-2y1" secondAttribute="bottom" constant="8" id="0FS-x6-ahs"/>
+                            <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="Igf-bn-OvZ" secondAttribute="trailing" constant="16" id="326-E8-4fK"/>
+                            <constraint firstItem="9qF-Pl-kmC" firstAttribute="top" secondItem="rLn-xw-477" secondAttribute="bottom" constant="8" id="5Z5-Br-9gc"/>
+                            <constraint firstItem="rLn-xw-477" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="7t4-Cj-2H0"/>
+                            <constraint firstItem="rLn-xw-477" firstAttribute="top" secondItem="Gab-qh-UWJ" secondAttribute="bottom" constant="8" id="EhM-Ji-98c"/>
+                            <constraint firstItem="Igf-bn-OvZ" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="Fz4-bn-1YO"/>
+                            <constraint firstItem="XiG-Rv-FNC" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="HOT-gN-1Wx"/>
+                            <constraint firstItem="dJV-kw-2y1" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="JW5-yn-5cw"/>
+                            <constraint firstItem="9qF-Pl-kmC" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="JfU-5z-8cV"/>
+                            <constraint firstItem="Igf-bn-OvZ" firstAttribute="top" secondItem="XiG-Rv-FNC" secondAttribute="bottom" constant="8" id="MIG-is-vbH"/>
+                            <constraint firstItem="dJV-kw-2y1" firstAttribute="top" secondItem="9qF-Pl-kmC" secondAttribute="bottom" constant="8" id="baf-0S-2tp"/>
+                            <constraint firstAttribute="trailing" secondItem="XiG-Rv-FNC" secondAttribute="trailing" constant="16" id="cem-L0-zdW"/>
+                            <constraint firstAttribute="trailing" secondItem="dJV-kw-2y1" secondAttribute="trailing" constant="16" id="n0u-1J-RNl"/>
+                            <constraint firstAttribute="trailing" secondItem="9qF-Pl-kmC" secondAttribute="trailing" constant="16" id="uLT-t1-6JY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wHs-Ph-8zc"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="AdMob Mediation" id="ow2-gy-cjg"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b4k-d5-Bkr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1839" y="218"/>
+        </scene>
+        <!--MoPub Mediation Native View Controller-->
+        <scene sceneID="SG8-CE-XYT">
+            <objects>
+                <viewController title="MoPub Mediation Banner" id="gM4-hG-7JN" userLabel="MoPub Mediation Native View Controller" customClass="PNLiteDemoMoPubMediationNativeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LIy-2k-v9L"/>
+                        <viewControllerLayoutGuide type="bottom" id="RA7-hu-aGc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wWJ-S9-2rx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NFS-w7-teZ">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Z4h-IJ-PUm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestNativeAdTouchUpInside:" destination="gM4-hG-7JN" eventType="touchUpInside" id="LoZ-fn-5Wf"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1c6-vF-Zlj" userLabel="Native Ad Background">
+                                <rect key="frame" x="16" y="46" width="343" height="242"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UdH-DJ-h67" userLabel="Native Ad Container View">
+                                        <rect key="frame" x="8" y="8" width="327" height="226"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="nativeAdContainerView" label="Native Ad Container View">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="327" id="igb-fI-2Fw"/>
+                                            <constraint firstAttribute="height" constant="226" id="o1h-qi-vWj"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nativeAdBackgroundView" label="Native Ad Background View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="242" id="6jb-gB-x8o"/>
+                                    <constraint firstItem="UdH-DJ-h67" firstAttribute="centerX" secondItem="1c6-vF-Zlj" secondAttribute="centerX" id="frZ-6q-RCF"/>
+                                    <constraint firstAttribute="width" constant="343" id="nIR-z0-Ccx"/>
+                                    <constraint firstItem="UdH-DJ-h67" firstAttribute="centerY" secondItem="1c6-vF-Zlj" secondAttribute="centerY" id="vxJ-gF-jYP"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ky0-LA-wDo" userLabel="Native Ad Loader Indicator">
+                                <rect key="frame" x="169" y="152" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-xv-Rt1" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="faW-vR-qZZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="faW-vR-qZZ"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="W1m-xv-Rt1" id="5Kq-gI-hiP">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1c6-vF-Zlj" firstAttribute="top" secondItem="NFS-w7-teZ" secondAttribute="bottom" constant="8" id="7hS-Np-pcz"/>
+                            <constraint firstItem="6vj-c4-Cew" firstAttribute="trailing" secondItem="W1m-xv-Rt1" secondAttribute="trailing" constant="16" id="A4v-D0-X7g"/>
+                            <constraint firstItem="1c6-vF-Zlj" firstAttribute="centerX" secondItem="wWJ-S9-2rx" secondAttribute="centerX" id="C58-6t-wme"/>
+                            <constraint firstItem="ky0-LA-wDo" firstAttribute="top" secondItem="NFS-w7-teZ" secondAttribute="bottom" constant="114" id="Kxb-O2-5j7"/>
+                            <constraint firstItem="W1m-xv-Rt1" firstAttribute="centerX" secondItem="wWJ-S9-2rx" secondAttribute="centerX" id="PpW-MH-kfS"/>
+                            <constraint firstItem="NFS-w7-teZ" firstAttribute="leading" secondItem="wWJ-S9-2rx" secondAttribute="leadingMargin" id="TRs-gv-ZE2"/>
+                            <constraint firstItem="ky0-LA-wDo" firstAttribute="centerX" secondItem="wWJ-S9-2rx" secondAttribute="centerX" id="UQn-1x-YvK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NFS-w7-teZ" secondAttribute="trailing" id="Zpa-tJ-4dl"/>
+                            <constraint firstItem="RA7-hu-aGc" firstAttribute="top" secondItem="W1m-xv-Rt1" secondAttribute="bottom" constant="8" id="hvn-b7-fFa"/>
+                            <constraint firstItem="W1m-xv-Rt1" firstAttribute="leading" secondItem="6vj-c4-Cew" secondAttribute="leading" constant="16" id="kVz-nW-MqH"/>
+                            <constraint firstItem="NFS-w7-teZ" firstAttribute="top" secondItem="LIy-2k-v9L" secondAttribute="bottom" constant="8" id="nV2-VD-FaB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6vj-c4-Cew"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="USZ-Pl-yjO"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="W1m-xv-Rt1" id="Euq-vz-BDQ"/>
+                        <outlet property="nativeAdContainer" destination="UdH-DJ-h67" id="835-bL-Ong"/>
+                        <outlet property="nativeAdLoaderIndicator" destination="ky0-LA-wDo" id="FCa-1H-N1z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Amq-bo-hnP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6612" y="1044"/>
+        </scene>
+        <!--MoPub Mediation Leaderboard View Controller-->
+        <scene sceneID="ull-ft-eSo">
+            <objects>
+                <viewController title="MoPub Mediation Leaderboard" id="EhZ-Kf-kHZ" userLabel="MoPub Mediation Leaderboard View Controller" customClass="PNLiteDemoMoPubMediationLeaderboardViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8UW-FZ-Dyb"/>
+                        <viewControllerLayoutGuide type="bottom" id="3dp-Yo-MbR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="z3s-rE-fSl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yH-8p-wGK">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="emh-kD-4dg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestLeaderboardTouchUpInside:" destination="EhZ-Kf-kHZ" eventType="touchUpInside" id="WSG-Md-5Ev"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Dj-I2-y7R" userLabel="Leaderboard Container">
+                                <rect key="frame" x="-176.5" y="46" width="728" height="90"/>
+                                <accessibility key="accessibilityConfiguration" identifier="leaderboardContainerView" label="Leaderboard Container View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="Dwh-jL-Wza"/>
+                                    <constraint firstAttribute="width" constant="728" id="fSb-YL-EyD"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="iVN-93-XKw" userLabel="Leaderboard Loader Indicator">
+                                <rect key="frame" x="169" y="70" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVr-Fh-lES" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="e6b-Hp-3OR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="e6b-Hp-3OR"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="wVr-Fh-lES" id="PLx-74-seh">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iVN-93-XKw" firstAttribute="top" secondItem="4yH-8p-wGK" secondAttribute="bottom" constant="32" id="0pv-Hd-sWS"/>
+                            <constraint firstItem="4yH-8p-wGK" firstAttribute="top" secondItem="8UW-FZ-Dyb" secondAttribute="bottom" constant="8" id="JL6-Kt-lwL"/>
+                            <constraint firstItem="5Dj-I2-y7R" firstAttribute="top" secondItem="4yH-8p-wGK" secondAttribute="bottom" constant="8" id="JyA-vV-VHZ"/>
+                            <constraint firstItem="4yH-8p-wGK" firstAttribute="leading" secondItem="z3s-rE-fSl" secondAttribute="leadingMargin" id="OY9-Vy-8AV"/>
+                            <constraint firstItem="wVr-Fh-lES" firstAttribute="centerX" secondItem="z3s-rE-fSl" secondAttribute="centerX" id="PSk-EV-TbE"/>
+                            <constraint firstItem="3dp-Yo-MbR" firstAttribute="top" secondItem="wVr-Fh-lES" secondAttribute="bottom" constant="8" id="TnX-H8-Q2d"/>
+                            <constraint firstItem="5Dj-I2-y7R" firstAttribute="centerX" secondItem="z3s-rE-fSl" secondAttribute="centerX" id="gZn-bD-eog"/>
+                            <constraint firstItem="wVr-Fh-lES" firstAttribute="leading" secondItem="bxF-ao-bAh" secondAttribute="leading" constant="16" id="jaK-0r-jf7"/>
+                            <constraint firstItem="iVN-93-XKw" firstAttribute="centerX" secondItem="z3s-rE-fSl" secondAttribute="centerX" id="npC-Jg-9zT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4yH-8p-wGK" secondAttribute="trailing" id="rn7-VM-dEk"/>
+                            <constraint firstItem="bxF-ao-bAh" firstAttribute="trailing" secondItem="wVr-Fh-lES" secondAttribute="trailing" constant="16" id="xbm-FG-0an"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bxF-ao-bAh"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="9UJ-QK-CLF"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="wVr-Fh-lES" id="wQc-tZ-Gr4"/>
+                        <outlet property="leaderboardContainer" destination="5Dj-I2-y7R" id="Jhh-Rs-jfH"/>
+                        <outlet property="leaderboardLoaderIndicator" destination="iVN-93-XKw" id="iGJ-Zc-Zb2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5BI-3L-AI1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5863" y="1044"/>
+        </scene>
+        <!--AdMob Mediation Leaderboard View Controller-->
+        <scene sceneID="TCt-bV-U2Q">
+            <objects>
+                <viewController title="AdMob Mediation Leaderboard" id="eWL-wQ-gWx" userLabel="AdMob Mediation Leaderboard View Controller" customClass="PNLiteDemoAdMobMediationLeaderboardViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ptg-HF-Xmn"/>
+                        <viewControllerLayoutGuide type="bottom" id="h5j-zg-g9V"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LtQ-Wb-Ozz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbT-xD-K7e">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="gQa-8G-Ava"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestLeaderboardTouchUpInside:" destination="eWL-wQ-gWx" eventType="touchUpInside" id="EG9-Yu-eHg"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fWD-Nb-cGY" userLabel="Leaderboard Container">
+                                <rect key="frame" x="-176.5" y="46" width="728" height="90"/>
+                                <accessibility key="accessibilityConfiguration" identifier="leaderboardContainerView" label="Leaderboard Container View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="728" id="OGj-4q-KAR"/>
+                                    <constraint firstAttribute="height" constant="90" id="xjA-y9-1ng"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bOB-GG-n2S" userLabel="Leaderboard Loader Indicator">
+                                <rect key="frame" x="169" y="70" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiV-Xl-L6b" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Qus-sT-7P1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Qus-sT-7P1"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="MiV-Xl-L6b" id="1FG-Cz-VXB">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bOB-GG-n2S" firstAttribute="centerX" secondItem="LtQ-Wb-Ozz" secondAttribute="centerX" id="B1o-Yo-Bfe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="pbT-xD-K7e" secondAttribute="trailing" id="I9l-lv-RQv"/>
+                            <constraint firstItem="pbT-xD-K7e" firstAttribute="leading" secondItem="LtQ-Wb-Ozz" secondAttribute="leadingMargin" id="LgP-F8-dpO"/>
+                            <constraint firstItem="fWD-Nb-cGY" firstAttribute="top" secondItem="pbT-xD-K7e" secondAttribute="bottom" constant="8" id="Nen-yX-L2a"/>
+                            <constraint firstItem="bOB-GG-n2S" firstAttribute="top" secondItem="pbT-xD-K7e" secondAttribute="bottom" constant="32" id="P2q-I8-W2r"/>
+                            <constraint firstItem="pbT-xD-K7e" firstAttribute="top" secondItem="ptg-HF-Xmn" secondAttribute="bottom" constant="8" id="UuY-NZ-USw"/>
+                            <constraint firstItem="MiV-Xl-L6b" firstAttribute="leading" secondItem="tMV-Cd-g9g" secondAttribute="leading" constant="16" id="ees-ps-f9D"/>
+                            <constraint firstItem="fWD-Nb-cGY" firstAttribute="centerX" secondItem="LtQ-Wb-Ozz" secondAttribute="centerX" id="tKO-ug-VeF"/>
+                            <constraint firstItem="h5j-zg-g9V" firstAttribute="top" secondItem="MiV-Xl-L6b" secondAttribute="bottom" constant="8" id="yb0-tO-HQs"/>
+                            <constraint firstItem="MiV-Xl-L6b" firstAttribute="centerX" secondItem="LtQ-Wb-Ozz" secondAttribute="centerX" id="yfo-XC-0nO"/>
+                            <constraint firstItem="tMV-Cd-g9g" firstAttribute="trailing" secondItem="MiV-Xl-L6b" secondAttribute="trailing" constant="16" id="zsx-bm-j3v"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tMV-Cd-g9g"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="yxU-z6-M6e"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="MiV-Xl-L6b" id="AIM-YA-uSd"/>
+                        <outlet property="leaderboardContainer" destination="fWD-Nb-cGY" id="jd6-IV-vNc"/>
+                        <outlet property="leaderboardLoaderIndicator" destination="bOB-GG-n2S" id="tcg-Vb-nwe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SfF-jI-jUH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2574" y="1044"/>
+        </scene>
+        <!--MoPub Mediation Banner View Controller-->
+        <scene sceneID="hvb-wq-Clb">
+            <objects>
+                <viewController title="MoPub Mediation Banner" id="dCw-e2-mKW" userLabel="MoPub Mediation Banner View Controller" customClass="PNLiteDemoMoPubMediationBannerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="10b-3J-cnV"/>
+                        <viewControllerLayoutGuide type="bottom" id="K1d-3l-Xne"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="W70-eO-eci">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9je-4S-GbN">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="zLN-GL-ShA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="dCw-e2-mKW" eventType="touchUpInside" id="19e-3t-mNI"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qlv-ES-8tZ">
+                                <rect key="frame" x="27.5" y="46" width="320" height="50"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerContainerView" label="Banner Container View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Ge8-cV-JPZ"/>
+                                    <constraint firstAttribute="width" constant="320" id="rok-u2-9Mp"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="URX-ya-iLK">
+                                <rect key="frame" x="169" y="54" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owG-oh-uMy" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Viv-4u-CWF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Viv-4u-CWF"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="owG-oh-uMy" id="jZ4-Pf-7wF">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="URX-ya-iLK" firstAttribute="centerX" secondItem="W70-eO-eci" secondAttribute="centerX" id="B4k-rA-4jo"/>
+                            <constraint firstItem="owG-oh-uMy" firstAttribute="centerX" secondItem="W70-eO-eci" secondAttribute="centerX" id="IUh-ME-WXD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9je-4S-GbN" secondAttribute="trailing" id="TDL-xW-2rh"/>
+                            <constraint firstItem="K1d-3l-Xne" firstAttribute="top" secondItem="owG-oh-uMy" secondAttribute="bottom" constant="8" id="VWk-bS-RAS"/>
+                            <constraint firstItem="owG-oh-uMy" firstAttribute="leading" secondItem="xYn-6Q-pOP" secondAttribute="leading" constant="16" id="WKw-Cc-Jj5"/>
+                            <constraint firstItem="URX-ya-iLK" firstAttribute="top" secondItem="9je-4S-GbN" secondAttribute="bottom" constant="16" id="Wkb-wf-gY0"/>
+                            <constraint firstItem="9je-4S-GbN" firstAttribute="top" secondItem="10b-3J-cnV" secondAttribute="bottom" constant="8" id="ckd-5l-hfB"/>
+                            <constraint firstItem="Qlv-ES-8tZ" firstAttribute="centerX" secondItem="W70-eO-eci" secondAttribute="centerX" id="eeh-nx-Jse"/>
+                            <constraint firstItem="9je-4S-GbN" firstAttribute="leading" secondItem="W70-eO-eci" secondAttribute="leadingMargin" id="f0R-DF-wtm"/>
+                            <constraint firstItem="xYn-6Q-pOP" firstAttribute="trailing" secondItem="owG-oh-uMy" secondAttribute="trailing" constant="16" id="n5e-RT-MmC"/>
+                            <constraint firstItem="Qlv-ES-8tZ" firstAttribute="top" secondItem="9je-4S-GbN" secondAttribute="bottom" constant="8" id="ulc-vU-jgp"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="xYn-6Q-pOP"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="g1s-L7-lzm"/>
+                    <connections>
+                        <outlet property="bannerContainer" destination="Qlv-ES-8tZ" id="12f-4g-fYY"/>
+                        <outlet property="bannerLoaderIndicator" destination="URX-ya-iLK" id="NkE-Vw-5Ix"/>
+                        <outlet property="inspectRequestButton" destination="owG-oh-uMy" id="J8g-u5-5vT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L8g-I9-4Th" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5137" y="1044"/>
+        </scene>
+        <!--AdMob Mediation Banner View Controller-->
+        <scene sceneID="cOf-uf-5UW">
+            <objects>
+                <viewController title="AdMob Mediation Banner" id="mDA-ZE-JA6" userLabel="AdMob Mediation Banner View Controller" customClass="PNLiteDemoAdMobMediationBannerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MSL-65-9jR"/>
+                        <viewControllerLayoutGuide type="bottom" id="JKO-Rt-z9Y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1W2-Pr-ITC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTh-0H-Plp">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Y9g-OB-EMZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestBannerTouchUpInside:" destination="mDA-ZE-JA6" eventType="touchUpInside" id="CmO-hS-tEK"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sbH-VL-EqQ">
+                                <rect key="frame" x="27.5" y="46" width="320" height="50"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerContainerView" label="Banner Container View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="QaN-lV-YAY"/>
+                                    <constraint firstAttribute="width" constant="320" id="zHv-Hv-xxp"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="vZp-S8-Sbq">
+                                <rect key="frame" x="169" y="54" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEE-X9-lhe" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="BKv-FQ-M6g"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="BKv-FQ-M6g"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="CEE-X9-lhe" id="4gH-Xz-C6u">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CEE-X9-lhe" firstAttribute="leading" secondItem="EdY-hr-lpG" secondAttribute="leading" constant="16" id="9RU-e6-hrJ"/>
+                            <constraint firstItem="sbH-VL-EqQ" firstAttribute="centerX" secondItem="1W2-Pr-ITC" secondAttribute="centerX" id="MNq-pC-yhK"/>
+                            <constraint firstItem="JKO-Rt-z9Y" firstAttribute="top" secondItem="CEE-X9-lhe" secondAttribute="bottom" constant="8" id="Uf0-Rn-WSf"/>
+                            <constraint firstItem="EdY-hr-lpG" firstAttribute="trailing" secondItem="CEE-X9-lhe" secondAttribute="trailing" constant="16" id="X0z-Qq-Bkp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sTh-0H-Plp" secondAttribute="trailing" id="Zl1-8v-ztm"/>
+                            <constraint firstItem="vZp-S8-Sbq" firstAttribute="centerX" secondItem="1W2-Pr-ITC" secondAttribute="centerX" id="csM-Gv-8Xc"/>
+                            <constraint firstItem="vZp-S8-Sbq" firstAttribute="top" secondItem="sTh-0H-Plp" secondAttribute="bottom" constant="16" id="dGX-O9-pnv"/>
+                            <constraint firstItem="sTh-0H-Plp" firstAttribute="top" secondItem="MSL-65-9jR" secondAttribute="bottom" constant="8" id="gJO-rN-h6X"/>
+                            <constraint firstItem="sbH-VL-EqQ" firstAttribute="top" secondItem="sTh-0H-Plp" secondAttribute="bottom" constant="8" id="oSH-2l-zQE"/>
+                            <constraint firstItem="sTh-0H-Plp" firstAttribute="leading" secondItem="1W2-Pr-ITC" secondAttribute="leadingMargin" id="ovx-zl-wVf"/>
+                            <constraint firstItem="CEE-X9-lhe" firstAttribute="centerX" secondItem="1W2-Pr-ITC" secondAttribute="centerX" id="xsz-pH-9sa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="EdY-hr-lpG"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="UR2-QX-Uba"/>
+                    <connections>
+                        <outlet property="bannerContainer" destination="sbH-VL-EqQ" id="z2p-8R-ZkX"/>
+                        <outlet property="bannerLoaderIndicator" destination="vZp-S8-Sbq" id="zbk-Lh-NOv"/>
+                        <outlet property="inspectRequestButton" destination="CEE-X9-lhe" id="QXh-Jm-zlo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rxc-Ec-E8G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1838" y="1044"/>
+        </scene>
+        <!--MoPub Mediation MRect-->
+        <scene sceneID="7uh-CF-mRi">
+            <objects>
+                <viewController title="MoPub Mediation MRect" id="dOS-kE-AS0" customClass="PNLiteDemoMoPubMediationMRectViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eEb-ej-cYW"/>
+                        <viewControllerLayoutGuide type="bottom" id="ETm-r0-MSV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="u9b-SY-3to">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qCv-1h-Soy">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="C4e-ym-OHD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestMRectTouchUpInside:" destination="dOS-kE-AS0" eventType="touchUpInside" id="3hJ-3r-dPt"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KmS-m4-rOv">
+                                <rect key="frame" x="37.5" y="46" width="300" height="250"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mRectContainerView" label="MRect Container View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="89j-ys-tcO"/>
+                                    <constraint firstAttribute="height" constant="250" id="PVn-ty-fGX"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="FtZ-Vp-lag">
+                                <rect key="frame" x="169" y="152" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2T-Sa-VCA" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="gfE-hx-a5s"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="gfE-hx-a5s"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="F2T-Sa-VCA" id="rBj-ay-tL0">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="F2T-Sa-VCA" secondAttribute="trailing" constant="16" id="0Fd-eJ-9yX"/>
+                            <constraint firstItem="F2T-Sa-VCA" firstAttribute="centerX" secondItem="u9b-SY-3to" secondAttribute="centerX" id="4dV-Wb-b1a"/>
+                            <constraint firstItem="qCv-1h-Soy" firstAttribute="leading" secondItem="u9b-SY-3to" secondAttribute="leading" constant="16" id="Bus-3a-82O"/>
+                            <constraint firstItem="FtZ-Vp-lag" firstAttribute="top" secondItem="qCv-1h-Soy" secondAttribute="bottom" constant="114" id="CNW-mu-fKG"/>
+                            <constraint firstItem="KmS-m4-rOv" firstAttribute="centerX" secondItem="u9b-SY-3to" secondAttribute="centerX" id="GbU-cN-7H9"/>
+                            <constraint firstAttribute="trailing" secondItem="qCv-1h-Soy" secondAttribute="trailing" constant="16" id="KUy-8N-lNk"/>
+                            <constraint firstItem="FtZ-Vp-lag" firstAttribute="centerX" secondItem="u9b-SY-3to" secondAttribute="centerX" id="R5i-nF-ECO"/>
+                            <constraint firstItem="F2T-Sa-VCA" firstAttribute="leading" secondItem="dYl-Mb-mCV" secondAttribute="leading" constant="16" id="YNi-BF-QJ4"/>
+                            <constraint firstItem="qCv-1h-Soy" firstAttribute="top" secondItem="eEb-ej-cYW" secondAttribute="bottom" constant="8" id="kqO-1b-rGV"/>
+                            <constraint firstItem="KmS-m4-rOv" firstAttribute="top" secondItem="qCv-1h-Soy" secondAttribute="bottom" constant="8" id="tdO-Mw-etR"/>
+                            <constraint firstItem="ETm-r0-MSV" firstAttribute="top" secondItem="F2T-Sa-VCA" secondAttribute="bottom" constant="8" id="xIv-5I-kSC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dYl-Mb-mCV"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hXV-iZ-A7t"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="F2T-Sa-VCA" id="uw8-vJ-cKT"/>
+                        <outlet property="mRectContainer" destination="KmS-m4-rOv" id="Yr9-x5-Ww4"/>
+                        <outlet property="mRectLoaderIndicator" destination="FtZ-Vp-lag" id="mGX-4S-eFB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CwA-eb-d96" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4407" y="1044"/>
+        </scene>
+        <!--AdMob Mediation MRect-->
+        <scene sceneID="mCf-zB-Rx8">
+            <objects>
+                <viewController title="AdMob Mediation MRect" id="BsK-py-hNc" customClass="PNLiteDemoAdMobMediationMRectViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jfs-pq-gxm"/>
+                        <viewControllerLayoutGuide type="bottom" id="F0e-GV-iUM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MiE-ud-158">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlb-ow-jeZ">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="yoF-m1-zk3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestMRectTouchUpInside:" destination="BsK-py-hNc" eventType="touchUpInside" id="Oju-cv-pg4"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROb-wq-zxQ">
+                                <rect key="frame" x="37.5" y="46" width="300" height="250"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mRectContainerView" label="MRect Container View">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="2yb-28-QUV"/>
+                                    <constraint firstAttribute="height" constant="250" id="hn3-sv-NYq"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="5HG-ee-g2W">
+                                <rect key="frame" x="169" y="152" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KH-lB-aei" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="lgP-T7-EwL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="lgP-T7-EwL"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="1KH-lB-aei" id="rYU-ji-wHa">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="1KH-lB-aei" firstAttribute="centerX" secondItem="MiE-ud-158" secondAttribute="centerX" id="2iP-Fi-LV0"/>
+                            <constraint firstAttribute="trailing" secondItem="1KH-lB-aei" secondAttribute="trailing" constant="16" id="HVL-Xu-jez"/>
+                            <constraint firstItem="5HG-ee-g2W" firstAttribute="centerX" secondItem="MiE-ud-158" secondAttribute="centerX" id="J0D-dx-ah5"/>
+                            <constraint firstItem="ROb-wq-zxQ" firstAttribute="centerX" secondItem="MiE-ud-158" secondAttribute="centerX" id="Qej-zn-ntW"/>
+                            <constraint firstAttribute="trailing" secondItem="hlb-ow-jeZ" secondAttribute="trailing" constant="16" id="VCv-Kg-Dbv"/>
+                            <constraint firstItem="hlb-ow-jeZ" firstAttribute="top" secondItem="jfs-pq-gxm" secondAttribute="bottom" constant="8" id="ZsB-hl-4Mw"/>
+                            <constraint firstItem="5HG-ee-g2W" firstAttribute="top" secondItem="hlb-ow-jeZ" secondAttribute="bottom" constant="114" id="aIj-tH-ZRW"/>
+                            <constraint firstItem="ROb-wq-zxQ" firstAttribute="top" secondItem="hlb-ow-jeZ" secondAttribute="bottom" constant="8" id="fjK-80-CEQ"/>
+                            <constraint firstItem="F0e-GV-iUM" firstAttribute="top" secondItem="1KH-lB-aei" secondAttribute="bottom" constant="8" id="jJh-HO-4BR"/>
+                            <constraint firstItem="1KH-lB-aei" firstAttribute="leading" secondItem="UMu-Gh-aNO" secondAttribute="leading" constant="16" id="lW0-6I-t5S"/>
+                            <constraint firstItem="hlb-ow-jeZ" firstAttribute="leading" secondItem="MiE-ud-158" secondAttribute="leading" constant="16" id="rC1-ye-u0U"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="UMu-Gh-aNO"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="cLz-du-Py3"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="1KH-lB-aei" id="8A3-lI-Fyk"/>
+                        <outlet property="mRectContainer" destination="ROb-wq-zxQ" id="IYO-nO-ith"/>
+                        <outlet property="mRectLoaderIndicator" destination="5HG-ee-g2W" id="pOd-1w-Da1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h37-vL-fQN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1079" y="1044"/>
+        </scene>
+        <!--MoPub Interstitial View Controller-->
+        <scene sceneID="5W6-xE-VJh">
+            <objects>
+                <viewController title="MoPub Mediation Interstitial" id="fwd-Eb-xHm" userLabel="MoPub Interstitial View Controller" customClass="PNLiteDemoMoPubMediationInterstitialViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fsW-Ly-kNb"/>
+                        <viewControllerLayoutGuide type="bottom" id="ocZ-oO-yh2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7Li-I7-Pta">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98c-Wy-drM">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1Pt-Jg-Zjc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestInterstitialTouchUpInside:" destination="fwd-Eb-xHm" eventType="touchUpInside" id="Per-jJ-dXp"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="TWF-7x-L1v">
+                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qg-pD-6h6" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="m72-xg-Li3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="m72-xg-Li3"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="1qg-pD-6h6" id="T0i-LW-GmB">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="B3P-GQ-qeG" firstAttribute="trailing" secondItem="1qg-pD-6h6" secondAttribute="trailing" constant="16" id="6Z7-0Y-tZO"/>
+                            <constraint firstItem="98c-Wy-drM" firstAttribute="top" secondItem="fsW-Ly-kNb" secondAttribute="bottom" constant="8" id="7hk-sV-mKx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="98c-Wy-drM" secondAttribute="trailing" id="Hhd-ux-RK2"/>
+                            <constraint firstItem="TWF-7x-L1v" firstAttribute="centerX" secondItem="7Li-I7-Pta" secondAttribute="centerX" id="K0e-bC-UFv"/>
+                            <constraint firstItem="1qg-pD-6h6" firstAttribute="leading" secondItem="7Li-I7-Pta" secondAttribute="leading" constant="16" id="PGv-Bt-6pp"/>
+                            <constraint firstItem="ocZ-oO-yh2" firstAttribute="top" secondItem="1qg-pD-6h6" secondAttribute="bottom" constant="8" id="RHU-Or-YPP"/>
+                            <constraint firstItem="98c-Wy-drM" firstAttribute="leading" secondItem="7Li-I7-Pta" secondAttribute="leadingMargin" id="etg-AZ-Ppz"/>
+                            <constraint firstItem="TWF-7x-L1v" firstAttribute="centerY" secondItem="7Li-I7-Pta" secondAttribute="centerY" id="nN9-mF-Esv"/>
+                            <constraint firstItem="1qg-pD-6h6" firstAttribute="centerX" secondItem="7Li-I7-Pta" secondAttribute="centerX" id="tsm-n6-J6H"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="B3P-GQ-qeG"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zpb-Rt-dKW"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="1qg-pD-6h6" id="WSC-59-YTS"/>
+                        <outlet property="interstitialLoaderIndicator" destination="TWF-7x-L1v" id="2FW-S0-WEr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kZ3-6c-FfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3687" y="1044"/>
+        </scene>
+        <!--AdMob Interstitial View Controller-->
+        <scene sceneID="D7n-3x-Aod">
+            <objects>
+                <viewController title="AdMob Mediation Interstitial" id="WBU-S6-hFl" userLabel="AdMob Interstitial View Controller" customClass="PNLiteDemoAdMobMediationInterstitialViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uqB-WG-ffP"/>
+                        <viewControllerLayoutGuide type="bottom" id="oeO-VS-w0n"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="x3O-45-Lah">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YQP-yC-Dxu">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ZGl-c4-B1t"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestInterstitialTouchUpInside:" destination="WBU-S6-hFl" eventType="touchUpInside" id="8KA-uL-7pQ"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tgx-d1-eNI">
+                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kc7-lt-WWO" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="ZlB-ac-V0g"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="ZlB-ac-V0g"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="Kc7-lt-WWO" id="cQ2-xi-bQK">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Kc7-lt-WWO" firstAttribute="centerX" secondItem="x3O-45-Lah" secondAttribute="centerX" id="0QV-PM-ZF2"/>
+                            <constraint firstItem="tgx-d1-eNI" firstAttribute="centerX" secondItem="x3O-45-Lah" secondAttribute="centerX" id="3xH-1y-sGl"/>
+                            <constraint firstItem="UVj-nM-Xry" firstAttribute="trailing" secondItem="Kc7-lt-WWO" secondAttribute="trailing" constant="16" id="HSD-eN-1de"/>
+                            <constraint firstItem="Kc7-lt-WWO" firstAttribute="leading" secondItem="x3O-45-Lah" secondAttribute="leading" constant="16" id="cfH-qc-b89"/>
+                            <constraint firstItem="oeO-VS-w0n" firstAttribute="top" secondItem="Kc7-lt-WWO" secondAttribute="bottom" constant="8" id="iZg-qa-nxc"/>
+                            <constraint firstItem="YQP-yC-Dxu" firstAttribute="top" secondItem="uqB-WG-ffP" secondAttribute="bottom" constant="8" id="ilA-jl-WIq"/>
+                            <constraint firstItem="tgx-d1-eNI" firstAttribute="centerY" secondItem="x3O-45-Lah" secondAttribute="centerY" id="kjI-d8-NjH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YQP-yC-Dxu" secondAttribute="trailing" id="uWN-KG-Tfx"/>
+                            <constraint firstItem="YQP-yC-Dxu" firstAttribute="leading" secondItem="x3O-45-Lah" secondAttribute="leadingMargin" id="y9V-qa-50B"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="UVj-nM-Xry"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="URy-Mk-WsJ"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="Kc7-lt-WWO" id="JVi-wi-M0b"/>
+                        <outlet property="interstitialLoaderIndicator" destination="tgx-d1-eNI" id="7WV-sH-pjH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ftq-NB-eyr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-378" y="1044"/>
+        </scene>
+        <!--RequestInspector-->
+        <scene sceneID="DD4-QI-Yfr">
+            <objects>
+                <viewControllerPlaceholder storyboardName="RequestInspector" id="qhe-R0-zhi" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6FU-x4-9ZR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3078" y="1822"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="cQ2-xi-bQK"/>
+    </inferredMetricsTieBreakers>
+</document>

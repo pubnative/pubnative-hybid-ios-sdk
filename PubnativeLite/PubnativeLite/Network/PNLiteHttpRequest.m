@@ -95,7 +95,7 @@ NSInteger const MAX_RETRIES = 1;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:url];
         [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];
-        [request setValue: HyBidWebBrowserUserAgentInfo.userAgent forHTTPHeaderField:@"User-Agent"];
+        [request setValue: HyBidWebBrowserUserAgentInfo.hyBidUserAgent forHTTPHeaderField:@"User-Agent"];
         [request setTimeoutInterval:PNLiteHttpRequestDefaultTimeout];
         [request setHTTPMethod:self.method];
         if (self.header && self.header.count > 0) {

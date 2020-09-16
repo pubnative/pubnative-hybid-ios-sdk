@@ -60,18 +60,20 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     self.requestURL = nil;
     self.delegate = nil;
     self.adFactory = nil;
+    self.adSize = nil;
 }
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         self.adFactory = [[PNLiteAdFactory alloc] init];
+        self.adSize = HyBidAdSize.SIZE_320x50;
     }
     return self;
 }
 
-- (NSString *)adSize {
-    return nil;
+- (NSArray<NSString *> *)supportedAPIFrameworks {
+    return [NSArray arrayWithObjects:@"5", @"7", nil];
 }
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
@@ -107,9 +109,11 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
                                                                                                                                                                                                                       andWithAdSize:[self adSize]
+                                                                                                                                                                                                      andWithSupportedAPIFrameworks:[self supportedAPIFrameworks]
                                                                                                                                                                                                              andWithIntegrationType:integrationType]].absoluteString]];
     return [self.adFactory createAdRequestWithZoneID:self.zoneID
                                        andWithAdSize:[self adSize]
+                       andWithSupportedAPIFrameworks:[self supportedAPIFrameworks]
                               andWithIntegrationType:integrationType];
 }
 
@@ -185,10 +189,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
                 switch (ad.assetGroupID.integerValue) {
-                    case VAST_INTERSTITIAL_1:
-                    case VAST_INTERSTITIAL_2:
-                    case VAST_INTERSTITIAL_3:
-                    case VAST_INTERSTITIAL_4:
+                    case VAST_INTERSTITIAL:
                     case VAST_MRECT: {
                         HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
                         [videoAdProcessor processVASTString:ad.vast completion:^(PNLiteVASTModel *vastModel, NSError *error) {

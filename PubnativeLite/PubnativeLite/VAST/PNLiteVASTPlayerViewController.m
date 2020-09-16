@@ -126,9 +126,9 @@ typedef enum : NSUInteger {
 
 - (instancetype)init {
     if (self.isInterstitial) {
-        self = [super initWithNibName:@"PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
+        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerFullScreenViewController": @"nib"] bundle:[self getBundle]];
     } else {
-        self = [super initWithNibName:NSStringFromClass([self class]) bundle:[self getBundle]];
+        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerViewController": @"nib"] bundle:[self getBundle]];
     }
     if (self) {
         self.state = PNLiteVASTPlayerState_IDLE;
@@ -215,6 +215,9 @@ typedef enum : NSUInteger {
 
 #pragma mark - PRIVATE -
 
+- (IBAction)videoTapped:(UITapGestureRecognizer *)sender {
+    [self btnOpenOfferPush:nil];
+}
 
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {
@@ -272,10 +275,10 @@ typedef enum : NSUInteger {
 - (UIImage*)bundledImageNamed:(NSString*)name {
     NSBundle *bundle = [self getBundle];
     // Try getting the regular PNG
-    NSString *imagePath = [bundle pathForResource:name ofType:@"png"];
+    NSString *imagePath = [bundle pathForResource:[self nameForResource:name :@"png"] ofType:@"png"];
     // If nil, let's try to get the combined TIFF, JIC it's enabled
     if(!imagePath) {
-        imagePath = [bundle pathForResource:name ofType:@"tiff"];
+        imagePath = [bundle pathForResource:[self nameForResource:name :@"tiff"] ofType:@"tiff"];
     }
     return [UIImage imageWithContentsOfFile:imagePath];
 }
@@ -827,6 +830,17 @@ typedef enum : NSUInteger {
     self.contentInfoViewWidthConstraint.constant = [width floatValue];
     [self setConstraintsForPlayerElementsInFullscreen:self.fullScreen];
     [self.view layoutIfNeeded];
+}
+
+#pragma mark - Utils: check for bundle resource existance.
+
+- (NSString*)nameForResource:(NSString*)name :(NSString*)type {
+    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
+    NSString *path = [[self getBundle]pathForResource:resourceName ofType:type];
+    if (!path) {
+        resourceName = name;
+    }
+    return resourceName;
 }
 
 @end

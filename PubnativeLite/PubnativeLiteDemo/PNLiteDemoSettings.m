@@ -49,6 +49,7 @@
 
 - (void)dealloc {
     self.targetingModel = nil;
+    self.adSize = nil;
 }
 
 + (PNLiteDemoSettings *)sharedInstance {
@@ -64,9 +65,15 @@
     self = [super init];
     if (self) {
         self.targetingModel = [[HyBidTargetingModel alloc] init];
+        [self createBannerSizeArray];
         [self setInitialValuesForUserDefaults];
     }
     return self;
+}
+
+- (void)createBannerSizeArray {
+    
+    self.bannerSizesArray = [NSMutableArray arrayWithObjects:@"Choose Banner Size", HyBidAdSize.SIZE_320x50, HyBidAdSize.SIZE_300x250, HyBidAdSize.SIZE_300x50, HyBidAdSize.SIZE_320x480, HyBidAdSize.SIZE_1024x768, HyBidAdSize.SIZE_768x1024, HyBidAdSize.SIZE_728x90, HyBidAdSize.SIZE_160x600, HyBidAdSize.SIZE_250x250, HyBidAdSize.SIZE_300x600, HyBidAdSize.SIZE_320x100, HyBidAdSize.SIZE_480x320, nil];
 }
 
 - (void)setInitialValuesForUserDefaults {

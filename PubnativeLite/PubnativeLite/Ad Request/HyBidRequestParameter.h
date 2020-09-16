@@ -54,7 +54,12 @@
 + (NSString *)bundleId;
 + (NSString *)displayManager;
 + (NSString *)displayManagerVersion;
++ (NSString *)width;
++ (NSString *)height;
 + (NSString *)usprivacy;
 + (NSString *)userconsent;
++ (NSString *)supportedAPIFrameworks;
++ (NSString *)identifierOfOMSDKIntegration;
++ (NSString *)versionOfOMSDKIntegration;
 
 @end

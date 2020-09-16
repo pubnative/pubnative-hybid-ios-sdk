@@ -23,31 +23,22 @@
 #import "PNLiteDemoPNLiteMRectViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
-#import "Quote.h"
-#import "QuoteTableViewCell.h"
 
-@interface PNLiteDemoPNLiteMRectViewController () <HyBidAdViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface PNLiteDemoPNLiteMRectViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (weak, nonatomic) IBOutlet HyBidMRectAdView *mRectAdView;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (weak, nonatomic) IBOutlet UITableView *quotesTableView;
 
 @end
 
 @implementation PNLiteDemoPNLiteMRectViewController
 
-NSArray *quotesMRect;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"HyBid MRect";
-    
-    [self populateQuotes];
-
-    self.quotesTableView.delegate = self;
-    self.quotesTableView.dataSource = self;
+    [self.mRectLoaderIndicator stopAnimating];
 }
 
 - (IBAction)requestMRectTouchUpInside:(id)sender {
@@ -59,7 +50,7 @@ NSArray *quotesMRect;
     self.mRectAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    [self.mRectAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+    [self.mRectAdView loadWithZoneID:[PNLiteDemoSettings sharedInstance].zoneID andWithDelegate:self];
 }
 
 #pragma mark - HyBidAdViewDelegate
@@ -69,7 +60,6 @@ NSArray *quotesMRect;
     self.mRectAdView.hidden = NO;
     self.inspectRequestButton.hidden = NO;
     [self.mRectLoaderIndicator stopAnimating];
-    [self.quotesTableView reloadData];
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
@@ -85,54 +75,6 @@ NSArray *quotesMRect;
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"MRect Ad View did track impression:");
-}
-
-#pragma mark - UITableViewDatasource
-
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
-    QuoteTableViewCell *cell = (QuoteTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"quoteCell"];
-    
-    NSInteger row = indexPath.row;
-    Quote *quote = quotesMRect[row];
-    
-    cell.quoteTextLabel.text = quote.quoteText;
-    cell.quoteAutorLabel.text = quote.quoteAuthor;
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
-}
-
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return quotesMRect.count;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-
-#pragma mark - Utils
-
-- (void)populateQuotes {
-    quotesMRect = [[NSArray alloc]initWithObjects:
-                       [[Quote alloc]initWithText:@"Our world is built on biology and once we begin to understand it, it then becomes a technology" andAuthor:@"Ryan Bethencourt"],
-                       [[Quote alloc]initWithText:@"Happiness is not an ideal of reason but of imagination" andAuthor:@"Immanuel Kant"],
-                       [[Quote alloc]initWithText:@"Science and technology revolutionize our lives, but memory, tradition and myth frame our response." andAuthor:@"Arthur M. Schlesinger"],
-                       [[Quote alloc]initWithText:@"It's not a faith in technology. It's faith in people" andAuthor:@"Steve Jobs"],
-                       [[Quote alloc]initWithText:@"We can't blame the technology when we make mistakes." andAuthor:@"Tim Berners-Lee"],
-                       [[Quote alloc]initWithText:@"Life must be understood backward. But it must be lived forward." andAuthor:@"Søren Kierkegaard"],
-                       [[Quote alloc]initWithText:@"Happiness can be found, even in the darkest of times, if one only remembers to turn on the light." andAuthor:@"Albus Dumbledore"],
-                       [[Quote alloc]initWithText:@"To live a creative life, we must lose our fear of being wrong." andAuthor:@"Joseph Chilton Pearce"],
-                       [[Quote alloc]initWithText:@"It is undesirable to believe a proposition when there is no ground whatever for supposing it true." andAuthor:@"Bertrand Russell"],
-                       [[Quote alloc]initWithText:@"There's always a bigger fish." andAuthor:@"Qui-Gon Jinn"],
-                       [[Quote alloc]initWithText:@"A wizard is never late. Nor is he early. He arrives precisely when he means to." andAuthor:@"Gandalf"],
-                       [[Quote alloc]initWithText:@"Moonlight drowns out all but the brightest stars." andAuthor:@"J. R. R. Tolkien, The Lord of the Rings"],
-                       [[Quote alloc]initWithText:@"A hunted man sometimes wearies of distrust and longs for friendship." andAuthor:@"J. R. R. Tolkien, The Lord of the Rings"],
-                       nil];
 }
 
 @end

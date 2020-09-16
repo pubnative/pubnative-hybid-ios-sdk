@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) DFPBannerView *dfpBanner;
-@property (nonatomic, strong) HyBidBannerAdRequest *bannerAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *bannerAdRequest;
 
 @end
 
@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"DFP Banner";
+    self.navigationItem.title = @"DFP Header Bidding Banner";
     
     [self.bannerLoaderIndicator stopAnimating];
     self.dfpBanner = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
@@ -65,7 +65,8 @@
     self.bannerContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    self.bannerAdRequest = [[HyBidBannerAdRequest alloc] init];
+    self.bannerAdRequest = [[HyBidAdRequest alloc] init];
+    self.bannerAdRequest.adSize = HyBidAdSize.SIZE_320x50;
     [self.bannerAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 

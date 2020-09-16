@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (nonatomic, strong) MPAdView *moPubMrect;
-@property (nonatomic, strong) HyBidMRectAdRequest *mRectAdRequest;
+@property (nonatomic, strong) HyBidAdRequest *mRectAdRequest;
 
 @end
 
@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"MoPub MRect";
+    self.navigationItem.title = @"MoPub Header Bidding MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
     self.moPubMrect = [[MPAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey]];
@@ -64,7 +64,8 @@
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
-    self.mRectAdRequest = [[HyBidMRectAdRequest alloc] init];
+    self.mRectAdRequest = [[HyBidAdRequest alloc] init];
+    self.mRectAdRequest.adSize = HyBidAdSize.SIZE_300x250;
     [self.mRectAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 

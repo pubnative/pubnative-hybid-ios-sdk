@@ -24,8 +24,8 @@
 
 @implementation HyBidMRectAdRequest
 
-- (NSString *)adSize {
-    return @"m";
+- (HyBidAdSize *)adSize {
+    return HyBidAdSize.SIZE_300x250;
 }
 
 @end
