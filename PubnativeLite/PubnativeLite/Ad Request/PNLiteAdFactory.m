@@ -49,9 +49,8 @@
     [self setIDFA:adRequestModel];
     adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
     
-//    Commenting out the following 3 parameters for now since the backend is not supporting those yet.
-//    adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
-//    adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
+    adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
+    adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     
     if ([HyBidSettings sharedInstance].appID != NULL) {

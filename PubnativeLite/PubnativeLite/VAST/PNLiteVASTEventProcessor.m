@@ -119,7 +119,7 @@
         
         NSURLSession * session = [NSURLSession sharedSession];
             dispatch_async(dispatch_get_main_queue(), ^{
-                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.userAgent};
+                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.hyBidUserAgent};
                 NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                      timeoutInterval:1.0];

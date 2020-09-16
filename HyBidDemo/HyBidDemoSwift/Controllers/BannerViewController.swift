@@ -41,6 +41,7 @@ class BannerViewController: UIViewController {
     
     func requestAd() {
         bannerAdView.adSize = HyBidAdSize.size_320x50
+        bannerAdView.autoShowOnLoad = false
         bannerAdView.load(withZoneID:
         "2", andWith: self)
     }
