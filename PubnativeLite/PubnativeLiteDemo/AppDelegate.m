@@ -44,6 +44,7 @@ CLLocationManager *locationManager;
     [locationManager requestWhenInUseAuthorization];
     // setLocationUpdates: Allowing SDK to update location , default is false.
     [HyBid setLocationUpdates:NO];
+    /*
     if (@available(iOS 14, *)) {
         [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler: ^(ATTrackingManagerAuthorizationStatus status) {
             switch (status) {
@@ -64,6 +65,7 @@ CLLocationManager *locationManager;
             }
         }];
     }
+    */
     [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
                                         withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
