@@ -59,11 +59,12 @@
     
     switch (result) {
         case NSOrderedSame:
-            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
-            break;
         case NSOrderedAscending:
             adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
-        case NSOrderedDescending: break;
+            break;
+        case NSOrderedDescending:
+            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
+            break;
     }
     
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
