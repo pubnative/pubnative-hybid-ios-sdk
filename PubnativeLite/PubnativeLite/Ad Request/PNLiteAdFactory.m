@@ -161,4 +161,22 @@
     adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
 }
 
+-(void)setAppStoreAppID:(PNLiteAdRequestModel *)adRequestModel withAppID:(NSString *)appID {
+    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = appID;
+}
+
+-(NSString *)getSKAdNetworkIDs:(PNLiteAdRequestModel *)adRequestModel {
+    NSArray *networkItems = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SKAdNetworkItems"];
+    NSMutableArray *adIDs = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < [networkItems count]; i++) {
+        NSDictionary *dict = networkItems[i];
+        NSString *value = dict[@"SKAdNetworkIdentifier"];
+        [adIDs addObject:value];
+    }
+    
+    NSString *idsAsString = [adIDs componentsJoinedByString:@","];
+    return idsAsString;
+}
+
 @end
