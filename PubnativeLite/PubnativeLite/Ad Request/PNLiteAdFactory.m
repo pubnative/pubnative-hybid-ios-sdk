@@ -54,20 +54,24 @@
 //    adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     
-    NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
-    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
-    
-    NSString *requiredOSVersion = @"14.0";
-    NSComparisonResult result = [[[UIDevice currentDevice] systemVersion] compare:requiredOSVersion options:NSNumericSearch];
-    
-    switch (result) {
-        case NSOrderedSame:
-        case NSOrderedAscending:
-            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
-            break;
-        case NSOrderedDescending:
-            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
-            break;
+    if ([HyBidSettings sharedInstance].appID != NULL) {
+        [self setAppStoreAppID:adRequestModel withAppID:[HyBidSettings sharedInstance].appID];
+        
+        NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
+        adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
+        
+        NSString *requiredOSVersion = @"14.0";
+        NSComparisonResult result = [[[UIDevice currentDevice] systemVersion] compare:requiredOSVersion options:NSNumericSearch];
+        
+        switch (result) {
+            case NSOrderedSame:
+            case NSOrderedAscending:
+                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
+                break;
+            case NSOrderedDescending:
+                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
+                break;
+        }
     }
     
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
