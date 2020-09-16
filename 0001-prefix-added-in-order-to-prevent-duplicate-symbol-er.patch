@@ -1,0 +1,130 @@
+From 408fbfc1d092e35ef126dd3dbd148bf6d1909ecb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Can=20Soykarafak=C4=B1l=C4=B1?=
+ <can.soykarafakili@gmail.com>
+Date: Thu, 23 Apr 2020 13:46:19 +0200
+Subject: [PATCH] prefix added in order to prevent duplicate symbol error in
+ static lib.
+
+---
+ .../PubnativeLite/HyBidWebBrowserUserAgentInfo.h   |  2 +-
+ .../PubnativeLite/HyBidWebBrowserUserAgentInfo.m   | 30 +++++++++++-----------
+ .../PubnativeLite/Network/PNLiteHttpRequest.m      |  2 +-
+ .../PubnativeLite/VAST/PNLiteVASTEventProcessor.m  |  2 +-
+ 4 files changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.h b/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.h
+index 0f8becf8..b49946ad 100755
+--- a/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.h
++++ b/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.h
+@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
+  The current user agent as determined by @c WKWebView.
+  @returns The user agent.
+ */
+-+ (NSString *)userAgent;
+++ (NSString *)hyBidUserAgent;
+ 
+ @end
+ 
+diff --git a/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.m b/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.m
+index 79787912..ed16b021 100755
+--- a/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.m
++++ b/PubnativeLite/PubnativeLite/HyBidWebBrowserUserAgentInfo.m
+@@ -27,54 +27,54 @@
+ /**
+  Global variable for holding the user agent string.
+  */
+-NSString *gUserAgent = nil;
++NSString *gHyBidUserAgent = nil;
+ 
+ /**
+  Global variable for keeping `WKWebView` alive until the async call for user agent finishes.
+  Note: JavaScript evaluation will fail if the `WKWebView` is deallocated before completion.
+  */
+-WKWebView *gWkWebView = nil;
++WKWebView *gHyBidWkWebView = nil;
+ 
+ /**
+  The `UserDefaults` key for accessing the cached user agent value.
+  */
+-NSString * const kUserDefaultsUserAgentKey = @"com.pubnative.hybid-ios-sdk.user-agent";
++NSString * const kUserDefaultsHyBidUserAgentKey = @"com.pubnative.hybid-ios-sdk.user-agent";
+ 
+ @implementation HyBidWebBrowserUserAgentInfo
+ 
+ + (void)load {
+     // No need for "dispatch once" since `load` is called only once during app launch.
+-    [self obtainUserAgentFromWebView];
++    [self obtainHyBidUserAgentFromWebView];
+ }
+ 
+-+ (void)obtainUserAgentFromWebView {
+-    NSString *cachedUserAgent = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsUserAgentKey];
+++ (void)obtainHyBidUserAgentFromWebView {
++    NSString *cachedUserAgent = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsHyBidUserAgentKey];
+     if (cachedUserAgent.length > 0) {
+         // Use the cached value before the async JavaScript evaluation is successful.
+-        gUserAgent = cachedUserAgent;
++        gHyBidUserAgent = cachedUserAgent;
+     } else {
+         NSString *systemVersion = [[UIDevice currentDevice].systemVersion stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+         NSString *deviceType = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
+-        gUserAgent = [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU %@ OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
++        gHyBidUserAgent = [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU %@ OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+                       deviceType, deviceType, systemVersion];
+     }
+     dispatch_async(dispatch_get_main_queue(), ^{
+-        gWkWebView = [WKWebView new]; // `WKWebView` must be created in main thread
+-        [gWkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
++        gHyBidWkWebView = [WKWebView new]; // `WKWebView` must be created in main thread
++        [gHyBidWkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+             if (error != nil) {
+                 
+                 [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+             } else if ([result isKindOfClass:NSString.class]) {
+-                gUserAgent = result;
+-                [NSUserDefaults.standardUserDefaults setValue:result forKeyPath:kUserDefaultsUserAgentKey];
++                gHyBidUserAgent = result;
++                [NSUserDefaults.standardUserDefaults setValue:result forKeyPath:kUserDefaultsHyBidUserAgentKey];
+             }
+-            gWkWebView = nil;
++            gHyBidWkWebView = nil;
+         }];
+     });
+ }
+ 
+-+ (NSString *)userAgent {
+-    return gUserAgent;
+++ (NSString *)hyBidUserAgent {
++    return gHyBidUserAgent;
+ }
+ 
+ @end
+diff --git a/PubnativeLite/PubnativeLite/Network/PNLiteHttpRequest.m b/PubnativeLite/PubnativeLite/Network/PNLiteHttpRequest.m
+index 83141505..3ca72afc 100644
+--- a/PubnativeLite/PubnativeLite/Network/PNLiteHttpRequest.m
++++ b/PubnativeLite/PubnativeLite/Network/PNLiteHttpRequest.m
+@@ -91,7 +91,7 @@ NSInteger const MAX_RETRIES = 1;
+         [self invokeFailWithMessage:message andAttemptRetry:NO];
+     } else {
+         NSURLSession *session = [NSURLSession sharedSession];
+-        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.userAgent};
++        session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.hyBidUserAgent};
+         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+         [request setURL:url];
+         [request setCachePolicy:PNLiteHttpRequestDefaultCachePolicy];
+diff --git a/PubnativeLite/PubnativeLite/VAST/PNLiteVASTEventProcessor.m b/PubnativeLite/PubnativeLite/VAST/PNLiteVASTEventProcessor.m
+index 7bebf4d4..a503c741 100755
+--- a/PubnativeLite/PubnativeLite/VAST/PNLiteVASTEventProcessor.m
++++ b/PubnativeLite/PubnativeLite/VAST/PNLiteVASTEventProcessor.m
+@@ -92,7 +92,7 @@
+         
+         NSURLSession * session = [NSURLSession sharedSession];
+             dispatch_async(dispatch_get_main_queue(), ^{
+-                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.userAgent};
++                session.configuration.HTTPAdditionalHeaders = @{@"User-Agent": HyBidWebBrowserUserAgentInfo.hyBidUserAgent};
+                 NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
+                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                      timeoutInterval:1.0];
+-- 
+2.12.2
+
