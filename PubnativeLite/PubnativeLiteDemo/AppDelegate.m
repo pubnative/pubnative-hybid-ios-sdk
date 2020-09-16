@@ -47,7 +47,7 @@ CLLocationManager *locationManager;
                                         withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     
-    [HyBid setAppStoreAppID:@"1382171002"];
+    [HyBid setAppStoreAppID:kHyBidDemoAppID];
     
     return YES;
 }
