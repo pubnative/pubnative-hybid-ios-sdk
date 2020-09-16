@@ -54,6 +54,9 @@
 //    adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     
+    NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
+    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
+    
     NSString *requiredOSVersion = @"14.0";
     NSComparisonResult result = [[[UIDevice currentDevice] systemVersion] compare:requiredOSVersion options:NSNumericSearch];
     
