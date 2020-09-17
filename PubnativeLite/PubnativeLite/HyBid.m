@@ -33,6 +33,10 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
     [HyBidSettings sharedInstance].coppa = enabled;
 }
 
++ (void)setAppStoreAppID:(NSString *)appID {
+    [HyBidSettings sharedInstance].appID = appID;
+}
+
 + (void)setTargeting:(HyBidTargetingModel *)targeting {
     [HyBidSettings sharedInstance].targeting = targeting;
 }
