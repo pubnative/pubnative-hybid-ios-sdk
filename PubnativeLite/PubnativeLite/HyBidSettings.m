@@ -43,8 +43,15 @@
 - (NSString *)advertisingId {
     NSString *result = nil;
     if(!self.coppa && NSClassFromString(@"ASIdentifierManager")) {
-        if([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
-            result = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+        if (@available(iOS 14, *)) {
+            if (ATTrackingManager.trackingAuthorizationStatus == ATTrackingManagerAuthorizationStatusAuthorized
+                || ATTrackingManager.trackingAuthorizationStatus == ATTrackingManagerAuthorizationStatusNotDetermined) {
+                result = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+            }
+        } else {
+            if([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
+                result = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+            }
         }
     }
     return result;
