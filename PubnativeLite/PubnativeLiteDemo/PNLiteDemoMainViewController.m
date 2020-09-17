@@ -51,21 +51,11 @@
 
 #pragma mark UITextFieldDelegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [textField becomeFirstResponder];
-}
-
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [textField resignFirstResponder];
-    if (textField.text.length) {
-        self.standaloneButton.hidden = NO;
-        self.headerBiddingButton.hidden = NO;
-        self.mediationButton.hidden = NO;
-    } else {
-        self.standaloneButton.hidden = YES;
-        self.headerBiddingButton.hidden = YES;
-        self.mediationButton.hidden = YES;
-    }
+    self.standaloneButton.hidden = !textField.text.length;
+    self.headerBiddingButton.hidden = !textField.text.length;
+    self.mediationButton.hidden = !textField.text.length;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
