@@ -26,6 +26,7 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
 #import "HyBidLogger.h"
+#import "HyBidSkAdNetworkModel.h"
 #import <WebKit/WebKit.h>
 
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
@@ -176,6 +177,14 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad skAdNetwork];
+    }
+    return result;
+}
+
 #pragma mark Tracking & Clicking
 
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
@@ -247,7 +256,13 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if (sender.state == UIGestureRecognizerStateEnded) {
         [self invokeDidClick];
         [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+        
+        HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
+        if (skAdModel) {
+            NSLog(@"%@\n", skAdModel.itunesitem);
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+        }
     }
 }
 

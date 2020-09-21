@@ -186,11 +186,26 @@ NSString *const kImpressionQuerryParameter = @"t";
 - (HyBidSkAdNetworkModel *)skAdNetwork {
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
     if (data) {
-//        self.skAdNetworkModel = [[HyBidSkAdNetworkModel alloc] initWithDictionary:data];
-//        NSLog(@"%@\n", self.skAdNetworkModel);
+        //        self.skAdNetworkModel = [[HyBidSkAdNetworkModel alloc] initWithDictionary:data];
+        //        NSLog(@"%@\n", self.skAdNetworkModel);
         NSLog(@"%@\n", data);
     }
+    
+#if DEBUG
+    HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
+    model.campaign = @"20";
+    model.itunesitem = @"987654321";
+    model.network = @"5HUO92BLLQ.skadnetwork";
+    model.nonce = @"385c9n44-a9ik-28fd-8247-gjk2efoa56a9";
+    model.signature = @"MEQCIEQZRRyMyUXg==";
+    model.sourceapp = @"123456789";
+    model.timestamp = @"1225091839";
+    model.version = @"2.0";
+    
+    return model;
+#else
     return self.skAdNetworkModel;
+#endif
 }
 
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {
