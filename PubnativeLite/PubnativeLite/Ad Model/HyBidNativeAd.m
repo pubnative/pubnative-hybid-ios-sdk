@@ -28,6 +28,7 @@
 #import "HyBidLogger.h"
 #import "HyBidSkAdNetworkModel.h"
 #import <WebKit/WebKit.h>
+#import "SKAdNetworkViewController.h"
 
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
@@ -180,7 +181,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (HyBidSkAdNetworkModel *)skAdNetworkModel {
     HyBidSkAdNetworkModel *result = nil;
     if (self.ad) {
-        result = [self.ad skAdNetwork];
+        result = [self.ad getSkAdNetworkModel];
     }
     return result;
 }
@@ -258,8 +259,14 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
         
         HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
-        if (skAdModel) {
-            NSLog(@"%@\n", skAdModel.itunesitem);
+        NSDictionary *productParameters = skAdModel.productParameters;
+        
+        if (skAdModel && [productParameters count] != 0) {
+            // Call delegate method here
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                SKAdNetworkViewController *skAdnetworkViewController = [[SKAdNetworkViewController alloc] initWithProductParameters:productParameters];
+//                [self showViewController:skAdnetworkViewController sender:self];
+//            });
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
         }

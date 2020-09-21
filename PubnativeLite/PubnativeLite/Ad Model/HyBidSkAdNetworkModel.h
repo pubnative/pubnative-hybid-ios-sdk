@@ -13,14 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HyBidSkAdNetworkModel : HyBidBaseModel
 
-@property (nonatomic, strong) NSString *signature;
-@property (nonatomic, strong) NSString *network;
-@property (nonatomic, strong) NSString *version;
-@property (nonatomic, strong) NSString *campaign;
-@property (nonatomic, strong) NSString *itunesitem;
-@property (nonatomic, strong) NSString *nonce;
-@property (nonatomic, strong) NSString *sourceapp;
-@property (nonatomic, strong) NSString *timestamp;
+@property (nonatomic, strong) NSDictionary *productParameters;
 
 @end
 

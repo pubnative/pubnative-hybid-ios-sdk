@@ -46,6 +46,6 @@
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;
-- (HyBidSkAdNetworkModel *)skAdNetwork;
+- (HyBidSkAdNetworkModel *)getSkAdNetworkModel;
 
 @end

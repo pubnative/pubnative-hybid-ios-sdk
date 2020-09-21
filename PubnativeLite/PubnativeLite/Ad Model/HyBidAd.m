@@ -183,7 +183,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self.contentInfoView;
 }
 
-- (HyBidSkAdNetworkModel *)skAdNetwork {
+- (HyBidSkAdNetworkModel *)getSkAdNetworkModel {
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
     if (data) {
         //        self.skAdNetworkModel = [[HyBidSkAdNetworkModel alloc] initWithDictionary:data];
@@ -193,14 +193,15 @@ NSString *const kImpressionQuerryParameter = @"t";
     
 #if DEBUG
     HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
-    model.campaign = @"20";
-    model.itunesitem = @"987654321";
-    model.network = @"5HUO92BLLQ.skadnetwork";
-    model.nonce = @"385c9n44-a9ik-28fd-8247-gjk2efoa56a9";
-    model.signature = @"MEQCIEQZRRyMyUXg==";
-    model.sourceapp = @"123456789";
-    model.timestamp = @"1225091839";
-    model.version = @"2.0";
+    NSDictionary *dict = @{@"campaign": @"20",
+                           @"itunesitem": @"1382171002",
+                           @"network": @"TL55SBB4FM",
+                           @"nonce": @"e56e4ea5-da8b-413a-99be-9e65d8b597df",
+                           @"signature": @"MEUCIFeFCSuEHKefOT/KK6OysMMiq5PDbdOG+A82WYRNJwZ/AiEA6wxNUK7MTyGferxqGlC9KwksA51eFGfx0bacoea1TdA=",
+                           @"sourceapp": @"589250002",
+                           @"timestamp": @"1600680108236",
+                           @"version": @"2.0"};
+    model.productParameters = dict;
     
     return model;
 #else
