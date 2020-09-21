@@ -132,4 +132,12 @@
     return [[NSBundle mainBundle] bundleIdentifier];
 }
 
+- (NSString *)identifierForVendor {
+    NSString *result = nil;
+    if(!self.coppa) {
+        result = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    }
+    return result;
+}
+
 @end

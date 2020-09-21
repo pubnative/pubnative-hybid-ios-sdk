@@ -50,6 +50,7 @@
 @property (readonly) NSString *appBundleID;
 @property (readonly) NSString *appVersion;
 @property (readonly) CLLocation *location;
+@property (readonly) NSString *identifierForVendor;
 
 + (HyBidSettings *)sharedInstance;
 
