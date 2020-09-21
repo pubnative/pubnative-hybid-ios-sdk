@@ -24,6 +24,7 @@
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
 #import "HyBidContentInfoView.h"
+#import "HyBidSkAdNetworkModel.h"
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -32,6 +33,7 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 @property (nonatomic, strong)HyBidAdModel *data;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
+@property (nonatomic, strong)HyBidSkAdNetworkModel *skAdNetworkModel;
 @property (nonatomic, strong)NSString *_zoneID;
 
 @end
@@ -179,6 +181,16 @@ NSString *const kImpressionQuerryParameter = @"t";
         }
     }
     return self.contentInfoView;
+}
+
+- (HyBidSkAdNetworkModel *)skAdNetwork {
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
+    if (data) {
+//        self.skAdNetworkModel = [[HyBidSkAdNetworkModel alloc] initWithDictionary:data];
+//        NSLog(@"%@\n", self.skAdNetworkModel);
+        NSLog(@"%@\n", data);
+    }
+    return self.skAdNetworkModel;
 }
 
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {
