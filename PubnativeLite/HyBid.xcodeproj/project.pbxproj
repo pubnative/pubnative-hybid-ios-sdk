@@ -577,6 +577,10 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
+		6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6FD11E572514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; };
+		6FD11E582514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
+		6FD11E592514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
 		7E4CC8A8250298C6003A3425 /* HyBidStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CC8A6250298C5003A3425 /* HyBidStatic.m */; };
 		7E4CC8A9250298C6003A3425 /* HyBidStatic.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4CC8A7250298C5003A3425 /* HyBidStatic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8AA2502991C003A3425 /* HyBidRequestParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E4721490B9A0081355E /* HyBidRequestParameter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1756,6 +1760,8 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
+		6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSkAdNetworkModel.h; sourceTree = "<group>"; };
+		6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkAdNetworkModel.m; sourceTree = "<group>"; };
 		7E4CC8A6250298C5003A3425 /* HyBidStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidStatic.m; sourceTree = "<group>"; };
 		7E4CC8A7250298C5003A3425 /* HyBidStatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidStatic.h; sourceTree = "<group>"; };
 		7E4CCA592502A688003A3425 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -3197,6 +3203,8 @@
 				5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */,
 				5A6923CB2405365F001868A3 /* HyBidAdSize.h */,
 				5A6923CC2405365F001868A3 /* HyBidAdSize.m */,
+				6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */,
+				6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */,
 			);
 			path = "Ad Model";
 			sourceTree = "<group>";
@@ -3455,6 +3463,7 @@
 				5ADF9E772149426B0081355E /* HyBidAdTracker.h in Headers */,
 				5A3657D1203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h in Headers */,
 				5A9B66D620BD6E680067964E /* PNLiteVASTMediaFile.h in Headers */,
+				6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */,
 				5A2633562034AB480005EA39 /* PNLiteMRAIDResizeProperties.h in Headers */,
 				5A9A885A21087C13006A081D /* PNLiteTrackingManagerItem.h in Headers */,
 				5A91E64F20BFF1F300527BAA /* PNLiteConsentEndpoints.h in Headers */,
@@ -3572,6 +3581,7 @@
 				7E4CCA4F2502A604003A3425 /* UIApplication+PNLiteTopViewController.h in Headers */,
 				7E4CC9FA2502A58D003A3425 /* HyBidAdTrackerRequest.h in Headers */,
 				7E4CC9B72502A528003A3425 /* PNLiteTrackingManagerItem.h in Headers */,
+				6FD11E572514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */,
 				7E4CCA1A2502A5B9003A3425 /* PNLiteVASTParser.h in Headers */,
 				7E4CC8B925029A2B003A3425 /* HyBidContentInfoView.h in Headers */,
 				7E4CC9BB2502A534003A3425 /* PNLiteVisibilityTrackerItem.h in Headers */,
@@ -4253,6 +4263,7 @@
 				5A91E66820C008E900527BAA /* PNLiteCheckConsentRequest.m in Sources */,
 				5A91E65020BFF1F300527BAA /* PNLiteConsentEndpoints.m in Sources */,
 				5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */,
+				6FD11E582514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */,
 				5ADB0FB320AF0B30005BDAF5 /* PNLiteCountryUtils.m in Sources */,
 				5A54024B202B058A005D80E6 /* PNLiteCryptoUtils.m in Sources */,
 				5ADACD1C202CB88A00617734 /* PNLiteData.m in Sources */,
@@ -4377,6 +4388,7 @@
 				7E4CC9BE2502A53F003A3425 /* PNLiteConsentEndpoints.m in Sources */,
 				7E4CC9CD2502A564003A3425 /* PNLiteConsentPageViewController.m in Sources */,
 				7E4CCA562502A616003A3425 /* PNLiteCountryUtils.m in Sources */,
+				6FD11E592514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */,
 				7E4CCA522502A60C003A3425 /* PNLiteCryptoUtils.m in Sources */,
 				7E4CC9D92502A579003A3425 /* PNLiteData.m in Sources */,
 				7E4CC9D52502A573003A3425 /* PNLiteHttpRequest.m in Sources */,
