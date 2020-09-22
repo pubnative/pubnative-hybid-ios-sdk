@@ -25,6 +25,7 @@
 #import "HyBidAd.h"
 #import "HyBidNativeAdRenderer.h"
 #import "HyBidContentInfoView.h"
+#import "HyBidSkAdNetworkModel.h"
 
 @class HyBidNativeAd;
 
@@ -55,6 +56,7 @@
 @property (nonatomic, readonly) UIImage *icon;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
+@property (nonatomic, weak) NSObject <SKAdNetworkDelegate> *skAdNetworkDelegate;
 
 - (instancetype)initWithAd:(HyBidAd *)ad;
 - (void)renderAd:(HyBidNativeAdRenderer *)renderer;

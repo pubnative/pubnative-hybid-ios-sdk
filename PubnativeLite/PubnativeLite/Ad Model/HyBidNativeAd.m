@@ -263,10 +263,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         
         if (skAdModel && [productParameters count] != 0) {
             // Call delegate method here
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                SKAdNetworkViewController *skAdnetworkViewController = [[SKAdNetworkViewController alloc] initWithProductParameters:productParameters];
-//                [self showViewController:skAdnetworkViewController sender:self];
-//            });
+            [self.skAdNetworkDelegate displaySkAdNetworkViewController:productParameters];
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
         }

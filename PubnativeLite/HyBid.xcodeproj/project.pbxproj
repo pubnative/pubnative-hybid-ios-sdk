@@ -577,8 +577,7 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
-		6FB8ED312518E32600C28D5F /* SKAdNetworkViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB8ED2F2518E32600C28D5F /* SKAdNetworkViewController.h */; };
-		6FB8ED322518E32600C28D5F /* SKAdNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8ED302518E32600C28D5F /* SKAdNetworkViewController.m */; };
+		6F7B4D83251A06680011290C /* SKAdNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8ED302518E32600C28D5F /* SKAdNetworkViewController.m */; };
 		6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FD11E572514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; };
 		6FD11E582514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
@@ -1989,6 +1988,8 @@
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
 				5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */,
 				5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */,
+				6FB8ED2F2518E32600C28D5F /* SKAdNetworkViewController.h */,
+				6FB8ED302518E32600C28D5F /* SKAdNetworkViewController.m */,
 				5A54619A24C0D41E00B49550 /* Consent */,
 				5AE206C220E288D5000E770C /* Mediation */,
 				5A4FF06520AD92C700B81B3D /* PNLite */,
@@ -2897,8 +2898,6 @@
 				5A3657D7203C538A004B4347 /* Categories */,
 				5A064992203DBECC00CDF925 /* Utils */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
-				6FB8ED2F2518E32600C28D5F /* SKAdNetworkViewController.h */,
-				6FB8ED302518E32600C28D5F /* SKAdNetworkViewController.m */,
 			);
 			path = PubnativeLite;
 			sourceTree = "<group>";
@@ -3434,7 +3433,6 @@
 				5A4B95DE24D9D3CD00028939 /* HyBidPrebidUtils.h in Headers */,
 				5ADF9EAF21496C400081355E /* HyBidNativeAdRenderer.h in Headers */,
 				5ACC74EC203595250001CDC3 /* PNLiteMRAIDParser.h in Headers */,
-				6FB8ED312518E32600C28D5F /* SKAdNetworkViewController.h in Headers */,
 				5AEC317024698D4E008FD8BD /* HyBidViewabilityWebAdSession.h in Headers */,
 				5A9A88672108A82F006A081D /* HyBidVisibilityTracker.h in Headers */,
 				5A91E66B20C01E5000527BAA /* PNLiteUserConsentRequest.h in Headers */,
@@ -4036,6 +4034,7 @@
 				5A374B2724B6199000AF96BD /* MPImpressionTrackedNotification.m in Sources */,
 				5A374B4624B6199000AF96BD /* MPInlineAdAdapter+Internal.m in Sources */,
 				5A374B4424B6199000AF96BD /* MPInlineAdAdapter+MPAdAdapter.m in Sources */,
+				6F7B4D83251A06680011290C /* SKAdNetworkViewController.m in Sources */,
 				5A374B4524B6199000AF96BD /* MPInlineAdAdapter+MPInlineAdAdapterDelegate.m in Sources */,
 				5A374B2624B6199000AF96BD /* MPInlineAdAdapter.m in Sources */,
 				5AEA7C44250821DD00DBFC0E /* BannerAdViewCell.m in Sources */,
@@ -4285,7 +4284,6 @@
 				5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */,
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5ACC74E8203595250001CDC3 /* PNLiteMRAIDSettings.m in Sources */,
-				6FB8ED322518E32600C28D5F /* SKAdNetworkViewController.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
 				5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,

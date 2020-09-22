@@ -23,8 +23,9 @@
 #import "PNLiteDemoPNLiteNativeAdViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
+#import "SKAdNetworkViewController.h"
 
-@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate>
+@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate, SKAdNetworkDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContentInfo;
@@ -74,6 +75,7 @@
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.inspectRequestButton.hidden = NO;
     self.nativeAd = nativeAd;
+    self.nativeAd.skAdNetworkDelegate = self;
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
 
@@ -116,6 +118,14 @@
 
 - (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad did track click:");
+}
+
+- (void)displaySkAdNetworkViewController:(NSDictionary *)productParameters
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        SKAdNetworkViewController *skAdnetworkViewController = [[SKAdNetworkViewController alloc] initWithProductParameters:productParameters];
+        [self presentViewController:skAdnetworkViewController animated:true completion:nil];
+    });
 }
 
 @end
