@@ -26,6 +26,7 @@
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidLogger.h"
+#import "SKAdNetworkViewController.h"
 
 @interface PNLiteMRAIDBannerPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
@@ -100,9 +101,24 @@
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
 }
 
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.adModel) {
+        result = [self.adModel getSkAdNetworkModel];
+    }
+    return result;
+}
+
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
-    [self.serviceProvider openBrowser:url.absoluteString];
+    
+    HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
+    NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
+    
+    if (!(skAdModel && [productParameters count] != 0)) {
+        [self.serviceProvider openBrowser:url.absoluteString];
+    }
+    
     [self.delegate adPresenterDidClick:self];
 }
 

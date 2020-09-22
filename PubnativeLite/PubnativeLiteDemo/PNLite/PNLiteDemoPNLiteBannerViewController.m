@@ -26,8 +26,9 @@
 #import "Quote.h"
 #import "QuoteCell.h"
 #import "BannerAdViewCell.h"
+#import "SKAdNetworkViewController.h"
 
-@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, SKAdNetworkDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -53,6 +54,7 @@
     
     [self populateDataSource];
     self.bannerAdView = [[HyBidAdView alloc] initWithSize:[PNLiteDemoSettings sharedInstance].adSize];
+    self.bannerAdView.skAdNetworkDelegate = self;
     [self.dataSource addObject:self.bannerAdView];
 }
 
@@ -90,6 +92,14 @@
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did track impression:");
+}
+
+- (void)displaySkAdNetworkViewController:(NSDictionary *)productParameters
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        SKAdNetworkViewController *skAdnetworkViewController = [[SKAdNetworkViewController alloc] initWithProductParameters:productParameters];
+        [self presentViewController:skAdnetworkViewController animated:true completion:nil];
+    });
 }
 
 #pragma mark - UITableViewDatasource

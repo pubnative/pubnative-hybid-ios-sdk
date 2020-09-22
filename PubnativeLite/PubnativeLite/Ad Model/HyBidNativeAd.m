@@ -262,7 +262,6 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
         
         if (skAdModel && [productParameters count] != 0) {
-            // Call delegate method here
             [self.skAdNetworkDelegate displaySkAdNetworkViewController:productParameters];
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];

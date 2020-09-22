@@ -173,8 +173,23 @@
     }
 }
 
--  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getSkAdNetworkModel];
+    }
+    return result;
+}
+
+-  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
+        HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
+        NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
+        
+        if (skAdModel && [productParameters count] != 0) {
+            [self.skAdNetworkDelegate displaySkAdNetworkViewController:productParameters];
+        }
         [self.delegate adViewDidTrackClick:self];
     }
 }
