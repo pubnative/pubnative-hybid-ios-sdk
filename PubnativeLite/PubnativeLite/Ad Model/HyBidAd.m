@@ -196,10 +196,10 @@ NSString *const kImpressionQuerryParameter = @"t";
     NSDictionary *dict = @{@"campaign": @"20",
                            @"itunesitem": @"1382171002",
                            @"network": @"TL55SBB4FM",
-                           @"nonce": @"e56e4ea5-da8b-413a-99be-9e65d8b597df",
-                           @"signature": @"MEUCIFeFCSuEHKefOT/KK6OysMMiq5PDbdOG+A82WYRNJwZ/AiEA6wxNUK7MTyGferxqGlC9KwksA51eFGfx0bacoea1TdA=",
-                           @"sourceapp": @"589250002",
-                           @"timestamp": @"1600680108236",
+                           @"nonce": @"506aa0b8-92fb-4a1c-a9f2-34577736f667",
+                           @"signature": @"MEUCIQD1VsKd5RNLnKFn8mzx+b78rWSfg/HcqoOyrw9DSn7JggIgAxs2QgMPkdcqIT4tg+AvVpX1CObqMOt4BULWZfwnTsg=",
+                           @"sourceapp": @"1530210244",
+                           @"timestamp": @"1600777425567",
                            @"version": @"2.0"};
     model.productParameters = dict;
     

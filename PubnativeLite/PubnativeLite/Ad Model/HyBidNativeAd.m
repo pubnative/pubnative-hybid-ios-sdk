@@ -259,7 +259,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
         
         HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
-        NSDictionary *productParameters = skAdModel.productParameters;
+        NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
         
         if (skAdModel && [productParameters count] != 0) {
             // Call delegate method here

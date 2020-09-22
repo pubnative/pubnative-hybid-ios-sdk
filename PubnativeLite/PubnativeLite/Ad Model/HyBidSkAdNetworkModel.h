@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDictionary *productParameters;
 @property (nonatomic, weak) NSObject <SKAdNetworkDelegate> *delegate;
 
+- (NSDictionary *) getProductParameters:(NSDictionary *)dict;
+
 @end
 
 NS_ASSUME_NONNULL_END
