@@ -122,9 +122,23 @@
     }
 }
 
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getSkAdNetworkModel];
+    }
+    return result;
+}
+
 - (void)invokeDidTrackClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidTrackClick)]) {
         [self.delegate interstitialDidTrackClick];
+        
+        HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
+        NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
+        if (skAdModel && [productParameters count] != 0) {
+            [self.skAdNetworkDelegate displaySkAdNetworkViewController:productParameters];
+        }
     }
 }
 

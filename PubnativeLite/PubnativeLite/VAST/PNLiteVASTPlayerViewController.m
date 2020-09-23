@@ -30,6 +30,7 @@
 #import "HyBidLogger.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
+#import "HyBidAd.h"
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -76,6 +77,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) PNLiteVASTParser *parser;
 @property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
+@property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
@@ -113,12 +115,13 @@ typedef enum : NSUInteger {
 
 #pragma mark NSObject
 
-- (instancetype)initPlayerWithContentInfo:(HyBidContentInfoView *)contentInfo
+- (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
                             isInterstital:(BOOL)isInterstitial {
     self.isInterstitial = isInterstitial;
     self = [self init];
     if (self) {
-        self.contentInfoView = contentInfo;
+        self.contentInfoView = adModel.contentInfo;
+        self.skAdModel = adModel.getSkAdNetworkModel;
         self.contentInfoView.delegate = self;
     }
     return self;
@@ -427,7 +430,11 @@ typedef enum : NSUInteger {
     }
     [self invokeDidClickOffer];
     [self.eventProcessor trackEvent:PNLiteVASTEvent_Click];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
+    
+    NSDictionary *productParameters = [self.skAdModel getProductParameters:self.skAdModel.productParameters];
+    if (!(self.skAdModel && [productParameters count] != 0)) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
+    }
 }
 
 - (IBAction)btnFullscreenPush:(id)sender {
