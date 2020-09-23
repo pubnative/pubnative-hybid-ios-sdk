@@ -58,11 +58,11 @@
     }
     
     // Client side reward handling:
-    if (reward.isCurrencyTypeSpecified == NO) {
-        // Third party ad adapters do not have access to `MPAdConfiguration` and thus have no access
-        // to the selected reward. As a result, they might return an unspecified reward while the
-        // user actually selected one.
-        reward = self.configuration.selectedReward;
+    // Preference is given to the rewards from `MPAdConfiguration` if any are available.
+    // Otherwise, use the reward given to us by the adapter.
+    MPReward *mopubConfiguredReward = self.configuration.selectedReward;
+    if (mopubConfiguredReward != nil && mopubConfiguredReward.isCurrencyTypeSpecified) {
+        reward = mopubConfiguredReward;
     }
     
     MPLogInfo(@"MoPub user should be rewarded: %@", reward.debugDescription);
