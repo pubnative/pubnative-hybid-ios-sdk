@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -100,6 +100,16 @@
 		5A64B3FE21E78A3E00160235 /* HyBidAdPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A64B3FC21E78A3E00160235 /* HyBidAdPresenterFactory.m */; };
 		5A6923CD2405365F001868A3 /* HyBidAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6923CB2405365F001868A3 /* HyBidAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6923CC2405365F001868A3 /* HyBidAdSize.m */; };
+		5A695209251B9843003D44CE /* nanopb.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6951FE251B9843003D44CE /* nanopb.xcframework */; };
+		5A69520A251B9843003D44CE /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6951FF251B9843003D44CE /* GoogleAppMeasurement.framework */; };
+		5A69520B251B9843003D44CE /* Promises-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695201251B9843003D44CE /* Promises-LICENSE */; };
+		5A69520C251B9843003D44CE /* NanoPB-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695202251B9843003D44CE /* NanoPB-LICENSE */; };
+		5A69520D251B9843003D44CE /* OpenMeasurement-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695203251B9843003D44CE /* OpenMeasurement-LICENSE */; };
+		5A69520E251B9843003D44CE /* GoogleUtilities-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695204251B9843003D44CE /* GoogleUtilities-LICENSE */; };
+		5A69520F251B9843003D44CE /* PromisesObjC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695205251B9843003D44CE /* PromisesObjC.xcframework */; };
+		5A695210251B9843003D44CE /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695206251B9843003D44CE /* GoogleMobileAds.framework */; };
+		5A695211251B9843003D44CE /* UserMessagingPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695207251B9843003D44CE /* UserMessagingPlatform.framework */; };
+		5A695212251B9843003D44CE /* GoogleUtilities.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695208251B9843003D44CE /* GoogleUtilities.xcframework */; };
 		5A6CD0252029CD060022E206 /* HyBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* HyBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A6FDFA72501966C003B8C9F /* PNLiteDemoConsentManagementProviderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E67220C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m */; };
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
@@ -136,13 +146,6 @@
 		5A8E0E6C241A86A500F378E9 /* HeaderBidding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E0E6B241A86A500F378E9 /* HeaderBidding.storyboard */; };
 		5A90B4F820E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */; };
 		5A90B4FB20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A90B4FA20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m */; };
-		5A91E297234354B700CDF595 /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A91E28F234354B700CDF595 /* GoogleAppMeasurement.framework */; };
-		5A91E298234354B700CDF595 /* NanoPB-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A91E291234354B700CDF595 /* NanoPB-LICENSE */; };
-		5A91E299234354B700CDF595 /* OpenMeasurement-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A91E292234354B700CDF595 /* OpenMeasurement-LICENSE */; };
-		5A91E29A234354B700CDF595 /* GoogleUtilities-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A91E293234354B700CDF595 /* GoogleUtilities-LICENSE */; };
-		5A91E29B234354B700CDF595 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A91E294234354B700CDF595 /* GoogleUtilities.framework */; };
-		5A91E29C234354B700CDF595 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A91E295234354B700CDF595 /* nanopb.framework */; };
-		5A91E29D234354B700CDF595 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A91E296234354B700CDF595 /* GoogleMobileAds.framework */; };
 		5A91E64F20BFF1F300527BAA /* PNLiteConsentEndpoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E64D20BFF1F300527BAA /* PNLiteConsentEndpoints.h */; };
 		5A91E65020BFF1F300527BAA /* PNLiteConsentEndpoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E64E20BFF1F300527BAA /* PNLiteConsentEndpoints.m */; };
 		5A91E65320BFF61F00527BAA /* PNLiteUserConsentResponseStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E65120BFF61F00527BAA /* PNLiteUserConsentResponseStatus.h */; };
@@ -981,6 +984,16 @@
 		5A64B3FC21E78A3E00160235 /* HyBidAdPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdPresenterFactory.m; sourceTree = "<group>"; };
 		5A6923CB2405365F001868A3 /* HyBidAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdSize.h; sourceTree = "<group>"; };
 		5A6923CC2405365F001868A3 /* HyBidAdSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdSize.m; sourceTree = "<group>"; };
+		5A6951FE251B9843003D44CE /* nanopb.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = nanopb.xcframework; sourceTree = "<group>"; };
+		5A6951FF251B9843003D44CE /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppMeasurement.framework; sourceTree = "<group>"; };
+		5A695201251B9843003D44CE /* Promises-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Promises-LICENSE"; sourceTree = "<group>"; };
+		5A695202251B9843003D44CE /* NanoPB-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NanoPB-LICENSE"; sourceTree = "<group>"; };
+		5A695203251B9843003D44CE /* OpenMeasurement-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenMeasurement-LICENSE"; sourceTree = "<group>"; };
+		5A695204251B9843003D44CE /* GoogleUtilities-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GoogleUtilities-LICENSE"; sourceTree = "<group>"; };
+		5A695205251B9843003D44CE /* PromisesObjC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PromisesObjC.xcframework; sourceTree = "<group>"; };
+		5A695206251B9843003D44CE /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		5A695207251B9843003D44CE /* UserMessagingPlatform.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UserMessagingPlatform.framework; sourceTree = "<group>"; };
+		5A695208251B9843003D44CE /* GoogleUtilities.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GoogleUtilities.xcframework; sourceTree = "<group>"; };
 		5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyBid-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* HyBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBid.h; sourceTree = "<group>"; };
@@ -1028,13 +1041,6 @@
 		5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationBannerViewController.m; sourceTree = "<group>"; };
 		5A90B4F920E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationMRectViewController.h; sourceTree = "<group>"; };
 		5A90B4FA20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationMRectViewController.m; sourceTree = "<group>"; };
-		5A91E28F234354B700CDF595 /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppMeasurement.framework; sourceTree = "<group>"; };
-		5A91E291234354B700CDF595 /* NanoPB-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NanoPB-LICENSE"; sourceTree = "<group>"; };
-		5A91E292234354B700CDF595 /* OpenMeasurement-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenMeasurement-LICENSE"; sourceTree = "<group>"; };
-		5A91E293234354B700CDF595 /* GoogleUtilities-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GoogleUtilities-LICENSE"; sourceTree = "<group>"; };
-		5A91E294234354B700CDF595 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
-		5A91E295234354B700CDF595 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
-		5A91E296234354B700CDF595 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		5A91E64D20BFF1F300527BAA /* PNLiteConsentEndpoints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteConsentEndpoints.h; sourceTree = "<group>"; };
 		5A91E64E20BFF1F300527BAA /* PNLiteConsentEndpoints.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentEndpoints.m; sourceTree = "<group>"; };
 		5A91E65120BFF61F00527BAA /* PNLiteUserConsentResponseStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteUserConsentResponseStatus.h; sourceTree = "<group>"; };
@@ -1774,23 +1780,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A695210251B9843003D44CE /* GoogleMobileAds.framework in Frameworks */,
 				5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */,
+				5A695212251B9843003D44CE /* GoogleUtilities.xcframework in Frameworks */,
+				5A69520A251B9843003D44CE /* GoogleAppMeasurement.framework in Frameworks */,
 				5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */,
-				5A91E29C234354B700CDF595 /* nanopb.framework in Frameworks */,
-				5A91E297234354B700CDF595 /* GoogleAppMeasurement.framework in Frameworks */,
 				5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */,
-				5A91E29B234354B700CDF595 /* GoogleUtilities.framework in Frameworks */,
 				5A8903E5203DE22A00D86051 /* CoreMedia.framework in Frameworks */,
 				5A8903E3203DE22300D86051 /* CoreTelephony.framework in Frameworks */,
 				5A8903E1203DE21D00D86051 /* Foundation.framework in Frameworks */,
 				5A8903DF203DE21400D86051 /* MediaPlayer.framework in Frameworks */,
+				5A695209251B9843003D44CE /* nanopb.xcframework in Frameworks */,
+				5A69520F251B9843003D44CE /* PromisesObjC.xcframework in Frameworks */,
 				5A8903DD203DE20800D86051 /* MessageUI.framework in Frameworks */,
-				5A91E29D234354B700CDF595 /* GoogleMobileAds.framework in Frameworks */,
 				5A8903DB203DE1FC00D86051 /* QuartzCore.framework in Frameworks */,
 				5A8903D9203DE1F500D86051 /* SafariServices.framework in Frameworks */,
 				5A8903D7203DE1EC00D86051 /* StoreKit.framework in Frameworks */,
 				5A8903D5203DE1E100D86051 /* SystemConfiguration.framework in Frameworks */,
 				5A8903D3203DE1DA00D86051 /* UIKit.framework in Frameworks */,
+				5A695211251B9843003D44CE /* UserMessagingPlatform.framework in Frameworks */,
 				5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */,
 				5A32CECF2029F8530003B450 /* HyBid.framework in Frameworks */,
 			);
@@ -1962,7 +1970,7 @@
 		5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */ = {
 			isa = PBXGroup;
 			children = (
-				5A91E28E234354B700CDF595 /* GoogleMobileAdsSDK-7.50.0 */,
+				5A6951FD251B9843003D44CE /* GoogleMobileAdsSDK-7.65.0 */,
 				5ABBA64C251A4B2D0071A332 /* MoPubSDK-5.13.1 */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
@@ -2132,6 +2140,31 @@
 			path = Consent;
 			sourceTree = "<group>";
 		};
+		5A6951FD251B9843003D44CE /* GoogleMobileAdsSDK-7.65.0 */ = {
+			isa = PBXGroup;
+			children = (
+				5A6951FE251B9843003D44CE /* nanopb.xcframework */,
+				5A6951FF251B9843003D44CE /* GoogleAppMeasurement.framework */,
+				5A695200251B9843003D44CE /* Licenses */,
+				5A695205251B9843003D44CE /* PromisesObjC.xcframework */,
+				5A695206251B9843003D44CE /* GoogleMobileAds.framework */,
+				5A695207251B9843003D44CE /* UserMessagingPlatform.framework */,
+				5A695208251B9843003D44CE /* GoogleUtilities.xcframework */,
+			);
+			path = "GoogleMobileAdsSDK-7.65.0";
+			sourceTree = "<group>";
+		};
+		5A695200251B9843003D44CE /* Licenses */ = {
+			isa = PBXGroup;
+			children = (
+				5A695201251B9843003D44CE /* Promises-LICENSE */,
+				5A695202251B9843003D44CE /* NanoPB-LICENSE */,
+				5A695203251B9843003D44CE /* OpenMeasurement-LICENSE */,
+				5A695204251B9843003D44CE /* GoogleUtilities-LICENSE */,
+			);
+			path = Licenses;
+			sourceTree = "<group>";
+		};
 		5A6BBE79206262320079F8A5 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
@@ -2295,28 +2328,6 @@
 				5A2057DD2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m */,
 			);
 			path = AdMobAdapter;
-			sourceTree = "<group>";
-		};
-		5A91E28E234354B700CDF595 /* GoogleMobileAdsSDK-7.50.0 */ = {
-			isa = PBXGroup;
-			children = (
-				5A91E28F234354B700CDF595 /* GoogleAppMeasurement.framework */,
-				5A91E290234354B700CDF595 /* Licenses */,
-				5A91E294234354B700CDF595 /* GoogleUtilities.framework */,
-				5A91E295234354B700CDF595 /* nanopb.framework */,
-				5A91E296234354B700CDF595 /* GoogleMobileAds.framework */,
-			);
-			path = "GoogleMobileAdsSDK-7.50.0";
-			sourceTree = "<group>";
-		};
-		5A91E290234354B700CDF595 /* Licenses */ = {
-			isa = PBXGroup;
-			children = (
-				5A91E291234354B700CDF595 /* NanoPB-LICENSE */,
-				5A91E292234354B700CDF595 /* OpenMeasurement-LICENSE */,
-				5A91E293234354B700CDF595 /* GoogleUtilities-LICENSE */,
-			);
-			path = Licenses;
 			sourceTree = "<group>";
 		};
 		5A91EC6420D7C26300129798 /* Mediation */ = {
@@ -3777,9 +3788,9 @@
 				5ABBA86C251A4B2F0071A332 /* MPUnmutedBtn@3x.png in Resources */,
 				5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */,
 				5A73BC2324C0CEA3002E1E9D /* Consent.storyboard in Resources */,
-				5A91E29A234354B700CDF595 /* GoogleUtilities-LICENSE in Resources */,
 				5ABBA877251A4B2F0071A332 /* MPMutedBtn.png in Resources */,
 				5A8E0E6C241A86A500F378E9 /* HeaderBidding.storyboard in Resources */,
+				5A69520D251B9843003D44CE /* OpenMeasurement-LICENSE in Resources */,
 				5ABBA872251A4B2F0071A332 /* MPUnmutedBtn@2x.png in Resources */,
 				5ABBA871251A4B2F0071A332 /* MPPlayBtn@3x.png in Resources */,
 				5ABBA8B7251A4B2F0071A332 /* LICENSE in Resources */,
@@ -3792,9 +3803,10 @@
 				5ABBA878251A4B2F0071A332 /* MPMutedBtn@2x.png in Resources */,
 				5ABBA86D251A4B2F0071A332 /* MPPlayBtn@2x.png in Resources */,
 				5AC886E5241A9E68004E7D74 /* Mediation.storyboard in Resources */,
-				5A91E298234354B700CDF595 /* NanoPB-LICENSE in Resources */,
-				5A91E299234354B700CDF595 /* OpenMeasurement-LICENSE in Resources */,
+				5A69520E251B9843003D44CE /* GoogleUtilities-LICENSE in Resources */,
 				5ABBA86F251A4B2F0071A332 /* MPCloseBtn@3x.png in Resources */,
+				5A69520B251B9843003D44CE /* Promises-LICENSE in Resources */,
+				5A69520C251B9843003D44CE /* NanoPB-LICENSE in Resources */,
 				5AFDAFF1212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib in Resources */,
 				5ABBA86B251A4B2F0071A332 /* MPDAAIcon.png in Resources */,
 				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
@@ -4478,11 +4490,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.50.0",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
@@ -4507,11 +4522,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.50.0",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
@@ -4659,7 +4677,11 @@
 				INFOPLIST_FILE = PubnativeLite/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4694,7 +4716,11 @@
 				INFOPLIST_FILE = PubnativeLite/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4719,7 +4745,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLiteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4743,7 +4773,11 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLiteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
