@@ -33,7 +33,6 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 @property (nonatomic, strong)HyBidAdModel *data;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
-@property (nonatomic, strong)HyBidSkAdNetworkModel *skAdNetworkModel;
 @property (nonatomic, strong)NSString *_zoneID;
 
 @end
@@ -185,15 +184,10 @@ NSString *const kImpressionQuerryParameter = @"t";
 
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel {
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
-    if (data) {
-        //        self.skAdNetworkModel = [[HyBidSkAdNetworkModel alloc] initWithDictionary:data];
-        //        NSLog(@"%@\n", self.skAdNetworkModel);
-        NSLog(@"%@\n", data);
-    }
+    HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
     
 #if DEBUG
-    HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
-    NSDictionary *dict = @{@"campaign": @"20",
+    NSDictionary *testDict = @{@"campaign": @"20",
                            @"itunesitem": @"1382171002",
                            @"network": @"TL55SBB4FM",
                            @"nonce": @"506aa0b8-92fb-4a1c-a9f2-34577736f667",
@@ -201,12 +195,22 @@ NSString *const kImpressionQuerryParameter = @"t";
                            @"sourceapp": @"1530210244",
                            @"timestamp": @"1600777425567",
                            @"version": @"2.0"};
-    model.productParameters = dict;
-    
-    return model;
-#else
-    return self.skAdNetworkModel;
+    data = [[HyBidDataModel alloc] init];
+    data.data = testDict;
 #endif
+    
+    if (data) {
+        NSDictionary *dict = @{@"campaign": [data stringFieldWithKey:@"campaign"],
+                               @"itunesitem": [data stringFieldWithKey:@"itunesitem"],
+                               @"network": [data stringFieldWithKey:@"network"],
+                               @"nonce": [data stringFieldWithKey:@"nonce"],
+                               @"signature": [data stringFieldWithKey:@"signature"],
+                               @"sourceapp": [data stringFieldWithKey:@"sourceapp"],
+                               @"timestamp": [data stringFieldWithKey:@"timestamp"],
+                               @"version": [data stringFieldWithKey:@"version"]};
+        model.productParameters = dict;
+    }
+    return model;
 }
 
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {
