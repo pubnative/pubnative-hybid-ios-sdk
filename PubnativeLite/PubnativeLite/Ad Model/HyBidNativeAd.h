@@ -56,7 +56,7 @@
 @property (nonatomic, readonly) UIImage *icon;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
-@property (nonatomic, weak) NSObject <SKAdNetworkDelegate> *skAdNetworkDelegate;
+@property (nonatomic, weak) NSObject <HyBidSKAdNetworkDelegate> *skAdNetworkDelegate;
 
 - (instancetype)initWithAd:(HyBidAd *)ad;
 - (void)renderAd:(HyBidNativeAdRenderer *)renderer;

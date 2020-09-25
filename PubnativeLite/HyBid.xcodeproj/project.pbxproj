@@ -577,7 +577,7 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
-		6F7B4D83251A06680011290C /* SKAdNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8ED302518E32600C28D5F /* SKAdNetworkViewController.m */; };
+		6F7B4D83251A06680011290C /* HyBidSKAdNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */; };
 		6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FD11E572514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; };
 		6FD11E582514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
@@ -1761,8 +1761,8 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
-		6FB8ED2F2518E32600C28D5F /* SKAdNetworkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKAdNetworkViewController.h; sourceTree = "<group>"; };
-		6FB8ED302518E32600C28D5F /* SKAdNetworkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKAdNetworkViewController.m; sourceTree = "<group>"; };
+		6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSKAdNetworkViewController.h; sourceTree = "<group>"; };
+		6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSKAdNetworkViewController.m; sourceTree = "<group>"; };
 		6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSkAdNetworkModel.h; sourceTree = "<group>"; };
 		6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkAdNetworkModel.m; sourceTree = "<group>"; };
 		7E4CC8A6250298C5003A3425 /* HyBidStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidStatic.m; sourceTree = "<group>"; };
@@ -1988,8 +1988,8 @@
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
 				5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */,
 				5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */,
-				6FB8ED2F2518E32600C28D5F /* SKAdNetworkViewController.h */,
-				6FB8ED302518E32600C28D5F /* SKAdNetworkViewController.m */,
+				6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */,
+				6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */,
 				5A54619A24C0D41E00B49550 /* Consent */,
 				5AE206C220E288D5000E770C /* Mediation */,
 				5A4FF06520AD92C700B81B3D /* PNLite */,
@@ -4034,7 +4034,7 @@
 				5A374B2724B6199000AF96BD /* MPImpressionTrackedNotification.m in Sources */,
 				5A374B4624B6199000AF96BD /* MPInlineAdAdapter+Internal.m in Sources */,
 				5A374B4424B6199000AF96BD /* MPInlineAdAdapter+MPAdAdapter.m in Sources */,
-				6F7B4D83251A06680011290C /* SKAdNetworkViewController.m in Sources */,
+				6F7B4D83251A06680011290C /* HyBidSKAdNetworkViewController.m in Sources */,
 				5A374B4524B6199000AF96BD /* MPInlineAdAdapter+MPInlineAdAdapterDelegate.m in Sources */,
 				5A374B2624B6199000AF96BD /* MPInlineAdAdapter.m in Sources */,
 				5AEA7C44250821DD00DBFC0E /* BannerAdViewCell.m in Sources */,

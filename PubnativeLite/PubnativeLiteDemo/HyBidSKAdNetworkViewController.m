@@ -6,9 +6,9 @@
 //  Copyright © 2020 Can Soykarafakili. All rights reserved.
 //
 
-#import "SKAdNetworkViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
-@implementation SKAdNetworkViewController
+@implementation HyBidSKAdNetworkViewController
 
 - (id)initWithProductParameters:(NSDictionary*)data {
     self = [super init];

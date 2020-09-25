@@ -136,7 +136,7 @@
         
         HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
         NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
-        if (skAdModel && [productParameters count] != 0) {
+        if (skAdModel && [productParameters count] > 0) {
             [self.skAdNetworkDelegate displaySkAdNetworkViewController:productParameters];
         }
     }

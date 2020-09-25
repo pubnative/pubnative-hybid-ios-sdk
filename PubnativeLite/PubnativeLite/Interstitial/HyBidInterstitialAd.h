@@ -38,7 +38,7 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
-@property (nonatomic, weak) NSObject <SKAdNetworkDelegate> *skAdNetworkDelegate;
+@property (nonatomic, weak) NSObject <HyBidSKAdNetworkDelegate> *skAdNetworkDelegate;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;

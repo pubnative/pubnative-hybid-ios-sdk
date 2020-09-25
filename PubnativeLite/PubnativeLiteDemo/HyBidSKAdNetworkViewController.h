@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SKAdNetworkViewController : SKStoreProductViewController {
+@interface HyBidSKAdNetworkViewController : SKStoreProductViewController {
     NSDictionary* productParameters;
 }
 

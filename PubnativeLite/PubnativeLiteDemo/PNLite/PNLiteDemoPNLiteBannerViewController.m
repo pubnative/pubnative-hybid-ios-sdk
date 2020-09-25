@@ -26,9 +26,9 @@
 #import "Quote.h"
 #import "QuoteCell.h"
 #import "BannerAdViewCell.h"
-#import "SKAdNetworkViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
-@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, SKAdNetworkDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, HyBidSKAdNetworkDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -97,7 +97,7 @@
 - (void)displaySkAdNetworkViewController:(NSDictionary *)productParameters
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        SKAdNetworkViewController *skAdnetworkViewController = [[SKAdNetworkViewController alloc] initWithProductParameters:productParameters];
+        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParameters];
         [self presentViewController:skAdnetworkViewController animated:true completion:nil];
     });
 }

@@ -28,7 +28,7 @@
 #import "HyBidLogger.h"
 #import "HyBidSkAdNetworkModel.h"
 #import <WebKit/WebKit.h>
-#import "SKAdNetworkViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
@@ -261,7 +261,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
         NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
         
-        if (skAdModel && [productParameters count] != 0) {
+        if (skAdModel && [productParameters count] > 0) {
             [self.skAdNetworkDelegate displaySkAdNetworkViewController:productParameters];
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];

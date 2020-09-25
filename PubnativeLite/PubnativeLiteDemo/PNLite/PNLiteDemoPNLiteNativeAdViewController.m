@@ -23,9 +23,9 @@
 #import "PNLiteDemoPNLiteNativeAdViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
-#import "SKAdNetworkViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
-@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate, SKAdNetworkDelegate>
+@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate, HyBidSKAdNetworkDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContentInfo;
@@ -123,7 +123,7 @@
 - (void)displaySkAdNetworkViewController:(NSDictionary *)productParameters
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        SKAdNetworkViewController *skAdnetworkViewController = [[SKAdNetworkViewController alloc] initWithProductParameters:productParameters];
+        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParameters];
         [self presentViewController:skAdnetworkViewController animated:true completion:nil];
     });
 }

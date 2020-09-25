@@ -44,7 +44,7 @@
 @property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, assign) BOOL autoShowOnLoad;
-@property (nonatomic, weak) NSObject <SKAdNetworkDelegate> *skAdNetworkDelegate;
+@property (nonatomic, weak) NSObject <HyBidSKAdNetworkDelegate> *skAdNetworkDelegate;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;

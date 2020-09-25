@@ -432,7 +432,7 @@ typedef enum : NSUInteger {
     [self.eventProcessor trackEvent:PNLiteVASTEvent_Click];
     
     NSDictionary *productParameters = [self.skAdModel getProductParameters:self.skAdModel.productParameters];
-    if (!(self.skAdModel && [productParameters count] != 0)) {
+    if (!(self.skAdModel && [productParameters count] > 0)) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
     }
 }

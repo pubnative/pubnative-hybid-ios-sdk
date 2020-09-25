@@ -26,7 +26,7 @@
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidLogger.h"
-#import "SKAdNetworkViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 @interface PNLiteMRAIDBannerPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
 
@@ -115,7 +115,7 @@
     HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
     NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
     
-    if (!(skAdModel && [productParameters count] != 0)) {
+    if (!(skAdModel && [productParameters count] > 0)) {
         [self.serviceProvider openBrowser:url.absoluteString];
     }
     

@@ -27,7 +27,7 @@ NSString * const RESPONSE_NONCE_KEY = @"nonce";
 - (NSDictionary *) getProductParameters:(NSDictionary *)dict {
     NSMutableDictionary* productParameters = [[NSMutableDictionary alloc] init];
     
-    if (dict != nil) {
+    if ([self areProductParametersValid:dict]) {
         if (@available(iOS 11.3, *)) {
             [productParameters setObject:[dict objectForKey:RESPONSE_SIGNATURE_KEY] forKey:SKStoreProductParameterAdNetworkAttributionSignature];
             [productParameters setObject:[dict objectForKey:RESPONSE_AD_NETWORK_ID_KEY] forKey:SKStoreProductParameterAdNetworkIdentifier];
@@ -51,6 +51,41 @@ NSString * const RESPONSE_NONCE_KEY = @"nonce";
     }
     
     return productParameters;
+}
+
+- (BOOL) areProductParametersValid:(NSDictionary *)dict
+{
+    BOOL areBasicParametersValid = FALSE;
+    if (@available(iOS 11.3, *)) {
+        NSString *campaignID = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_CAMPAIGN_ID_KEY]]];
+        NSString *timestamp = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_TIMESTAMP_KEY]]];
+        NSString *nonce = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_NONCE_KEY]]];
+        
+        areBasicParametersValid = [dict objectForKey:RESPONSE_SIGNATURE_KEY] != nil &&
+        [(NSString *)[dict objectForKey:RESPONSE_SIGNATURE_KEY] length] > 0 &&
+        [dict objectForKey:RESPONSE_TARGET_APP_ID_KEY] != nil &&
+        [(NSString *)[dict objectForKey:RESPONSE_TARGET_APP_ID_KEY] length] > 0 &&
+        [dict objectForKey:RESPONSE_AD_NETWORK_ID_KEY] &&
+        [(NSString *)[dict objectForKey:RESPONSE_AD_NETWORK_ID_KEY] length] > 0 &&
+        [dict objectForKey:RESPONSE_CAMPAIGN_ID_KEY] &&
+        [campaignID length] > 0 &&
+        [dict objectForKey:RESPONSE_TIMESTAMP_KEY] &&
+        [timestamp length] > 0 &&
+        [dict objectForKey:RESPONSE_NONCE_KEY] &&
+        [nonce length] > 0;
+    }
+    
+    BOOL areV2ParametersValid = FALSE;
+    if (@available(iOS 14, *)) {
+        NSString *appStoreID = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_SOURCE_APP_ID_KEY]]];
+        
+        areV2ParametersValid = [dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY] &&
+        [(NSString *)[dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY] length] > 0 &&
+        [dict objectForKey:RESPONSE_SOURCE_APP_ID_KEY] &&
+        [appStoreID length] > 0;
+    }
+    
+    return areBasicParametersValid && areV2ParametersValid;
 }
 
 @end
