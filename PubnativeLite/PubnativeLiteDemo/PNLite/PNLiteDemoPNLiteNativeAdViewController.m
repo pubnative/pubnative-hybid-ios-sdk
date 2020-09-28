@@ -25,7 +25,7 @@
 #import "PNLiteDemoSettings.h"
 #import "HyBidSKAdNetworkViewController.h"
 
-@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate, HyBidSKAdNetworkDelegate>
+@interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContentInfo;
@@ -75,7 +75,6 @@
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.inspectRequestButton.hidden = NO;
     self.nativeAd = nativeAd;
-    self.nativeAd.skAdNetworkDelegate = self;
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
 

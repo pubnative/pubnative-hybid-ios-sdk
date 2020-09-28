@@ -23,9 +23,8 @@
 #import "PNLiteDemoPNLiteInterstitialViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
-#import "HyBidSKAdNetworkViewController.h"
 
-@interface PNLiteDemoPNLiteInterstitialViewController () <HyBidInterstitialAdDelegate, HyBidSKAdNetworkDelegate>
+@interface PNLiteDemoPNLiteInterstitialViewController () <HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
@@ -54,7 +53,6 @@
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-    self.interstitialAd.skAdNetworkDelegate = self;
     [self.interstitialAd load];
 }
 
@@ -84,18 +82,6 @@
 
 - (void)interstitialDidDismiss {
     NSLog(@"Interstitial did dismiss");
-}
-
-- (void)displaySkAdNetworkViewController:(NSDictionary *)productParameters
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParameters];
-        
-        UIViewController *navigationController = [UIApplication sharedApplication].keyWindow.rootViewController;
-        UIViewController *topViewController = ((UINavigationController*)navigationController).visibleViewController;
-
-        [topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-    });
 }
 
 @end

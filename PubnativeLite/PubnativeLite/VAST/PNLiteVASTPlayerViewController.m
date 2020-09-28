@@ -31,6 +31,7 @@
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -431,8 +432,18 @@ typedef enum : NSUInteger {
     [self invokeDidClickOffer];
     [self.eventProcessor trackEvent:PNLiteVASTEvent_Click];
     
-    NSDictionary *productParameters = [self.skAdModel getProductParameters:self.skAdModel.productParameters];
-    if (!(self.skAdModel && [productParameters count] > 0)) {
+    if (self.skAdModel) {
+        NSDictionary* productParams = [self.skAdModel getStoreKitParameters];
+        if ([productParams count] > 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+
+                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+            });
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
+        }
+    } else {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
     }
 }
