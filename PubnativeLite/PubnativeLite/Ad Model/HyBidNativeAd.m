@@ -266,7 +266,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
 
-                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                    UIViewController *navigationController = [UIApplication sharedApplication].keyWindow.rootViewController;
+                    UIViewController *topViewController = ((UINavigationController*)navigationController).visibleViewController;
+
+                    [topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
                 });
             } else {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
