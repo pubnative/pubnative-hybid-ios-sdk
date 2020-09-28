@@ -122,6 +122,14 @@
     }
 }
 
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getSkAdNetworkModel];
+    }
+    return result;
+}
+
 - (void)invokeDidTrackClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidTrackClick)]) {
         [self.delegate interstitialDidTrackClick];

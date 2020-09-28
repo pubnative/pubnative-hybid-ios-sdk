@@ -59,7 +59,7 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 }
 
 - (void)load {
-    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:NO];
+    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:NO];
     self.player.delegate = self;
     if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
         self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];

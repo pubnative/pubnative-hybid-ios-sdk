@@ -173,7 +173,16 @@
     }
 }
 
--  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getSkAdNetworkModel];
+    }
+    return result;
+}
+
+-  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];
     }

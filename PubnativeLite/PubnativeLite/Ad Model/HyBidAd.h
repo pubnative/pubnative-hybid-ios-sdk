@@ -24,6 +24,7 @@
 #import <UIKit/UIKit.h>
 #import "HyBidAdModel.h"
 #import "HyBidContentInfoView.h"
+#import "HyBidSkAdNetworkModel.h"
 
 @interface HyBidAd : NSObject
 
@@ -45,5 +46,6 @@
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;
+- (HyBidSkAdNetworkModel *)getSkAdNetworkModel;
 
 @end

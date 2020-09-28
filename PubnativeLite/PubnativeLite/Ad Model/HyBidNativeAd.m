@@ -26,7 +26,10 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
 #import "HyBidLogger.h"
+#import "HyBidSkAdNetworkModel.h"
+#import "UIApplication+PNLiteTopViewController.h"
 #import <WebKit/WebKit.h>
+#import "HyBidSKAdNetworkViewController.h"
 
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
@@ -176,6 +179,14 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     return result;
 }
 
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getSkAdNetworkModel];
+    }
+    return result;
+}
+
 #pragma mark Tracking & Clicking
 
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
@@ -247,7 +258,23 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if (sender.state == UIGestureRecognizerStateEnded) {
         [self invokeDidClick];
         [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+        
+        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+        
+        if (skAdNetworkModel) {
+            NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
+            if ([productParams count] > 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+
+                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                });
+            } else {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+            }
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+        }
     }
 }
 

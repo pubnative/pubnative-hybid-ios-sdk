@@ -73,7 +73,7 @@
 - (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad {
     self.presenter = interstitialPresenter;
     self.adModel = ad;
-    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:YES];
+    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:YES];
     self.player.delegate = self;
     if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
         self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];

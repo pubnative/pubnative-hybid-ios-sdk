@@ -23,6 +23,7 @@
 #import "PNLiteDemoPNLiteNativeAdViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 @interface PNLiteDemoPNLiteNativeAdViewController () <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate, HyBidNativeAdFetchDelegate>
 
@@ -116,6 +117,14 @@
 
 - (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad did track click:");
+}
+
+- (void)displaySkAdNetworkViewController:(NSDictionary *)productParameters
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParameters];
+        [self presentViewController:skAdnetworkViewController animated:true completion:nil];
+    });
 }
 
 @end
