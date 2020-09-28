@@ -112,14 +112,24 @@
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
     
-    HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
-    NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
+    [self.delegate adPresenterDidClick:self];
     
-    if (!(skAdModel && [productParameters count] > 0)) {
+    HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
+    
+    if (skAdNetworkModel) {
+        NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
+        if ([productParams count] > 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+
+                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+            });
+        } else {
+            [self.serviceProvider openBrowser:url.absoluteString];
+        }
+    } else {
         [self.serviceProvider openBrowser:url.absoluteString];
     }
-    
-    [self.delegate adPresenterDidClick:self];
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
@@ -142,7 +152,23 @@
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
     [self.delegate adPresenterDidClick:self];
-    [self.serviceProvider openBrowser:urlString];
+    
+    HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
+    
+    if (skAdNetworkModel) {
+        NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
+        if ([productParams count] > 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+
+                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+            });
+        } else {
+            [self.serviceProvider openBrowser:urlString];
+        }
+    } else {
+        [self.serviceProvider openBrowser:urlString];
+    }
 }
 
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {

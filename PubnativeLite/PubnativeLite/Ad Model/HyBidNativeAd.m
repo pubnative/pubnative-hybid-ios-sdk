@@ -258,11 +258,19 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self invokeDidClick];
         [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
         
-        HyBidSkAdNetworkModel *skAdModel = [self skAdNetworkModel];
-        NSDictionary *productParameters = [skAdModel getProductParameters:skAdModel.productParameters];
+        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
         
-        if (skAdModel && [productParameters count] > 0) {
-            [self.skAdNetworkDelegate displaySkAdNetworkViewController:productParameters];
+        if (skAdNetworkModel) {
+            NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
+            if ([productParams count] > 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+
+                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                });
+            } else {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+            }
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
         }

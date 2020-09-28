@@ -11,17 +11,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol HyBidSKAdNetworkDelegate<NSObject>
-    - (void)displaySkAdNetworkViewController:(NSDictionary *)productParameters;
-@end
-
 @interface HyBidSkAdNetworkModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSDictionary *productParameters;
-@property (nonatomic, weak) NSObject <HyBidSKAdNetworkDelegate> *delegate;
 
-- (NSDictionary *) getProductParameters:(NSDictionary *)dict;
-- (BOOL) areProductParametersValid:(NSDictionary *)dict;
+- (instancetype)initWithParameters:(NSDictionary *)productParams;
+- (NSDictionary *) getStoreKitParameters;
 
 @end
 
