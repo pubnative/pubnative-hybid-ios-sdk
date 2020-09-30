@@ -25,6 +25,9 @@
 #import "HyBidAdModel.h"
 #import "HyBidContentInfoView.h"
 
+#define kHyBidAdTypeHTML 0
+#define kHyBidAdTypeVideo 1
+
 @interface HyBidAd : NSObject
 
 @property (nonatomic, readonly) NSString *vast;
@@ -42,6 +45,7 @@
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 
 - (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
+- (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType;
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;
