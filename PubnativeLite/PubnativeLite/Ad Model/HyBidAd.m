@@ -209,7 +209,7 @@ NSString *const kImpressionQuerryParameter = @"t";
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
     HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
     
-#if DEBUG
+/*#if DEBUG
     NSDictionary *testDict = @{@"campaign": @"20",
                            @"itunesitem": @"1382171002",
                            @"network": @"TL55SBB4FM",
@@ -220,7 +220,7 @@ NSString *const kImpressionQuerryParameter = @"t";
                            @"version": @"2.0"};
     data = [[HyBidDataModel alloc] init];
     data.data = testDict;
-#endif
+#endif*/
     
     if (data) {
         NSDictionary *dict = @{@"campaign": [data stringFieldWithKey:@"campaign"],
