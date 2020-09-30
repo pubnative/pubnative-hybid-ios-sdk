@@ -42,7 +42,7 @@
     return self;
 }
 
-- (instancetype)initWithHtmlAsset:(NSString *)assetName withValue:(NSString*) value {
+- (instancetype)initWithHTMLAsset:(NSString *)assetName withValue:(NSString *)value {
     self = [super initWithDictionary:[NSDictionary dictionary]];
     if (self) {
         self.type = assetName;

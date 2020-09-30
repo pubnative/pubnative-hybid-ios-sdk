@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,26 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidBaseModel.h"
 
-@interface HyBidDataModel : HyBidBaseModel
+@interface HyBidMarkupUtils : NSObject
 
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSDictionary *data;
-@property (nonatomic, readonly) NSString *text;
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSNumber *number;
-@property (nonatomic, readonly) NSString *url;
-@property (nonatomic, readonly) NSString *js;
-@property (nonatomic, readonly) NSString *html;
-@property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) NSNumber *width;
-@property (nonatomic, readonly) NSNumber *height;
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
-- (instancetype)initWithHTMLAsset:(NSString *)assetName withValue:(NSString *)value;
-- (instancetype)initWithVASTAsset:(NSString *)assetName withValue:(NSString *)value;
-- (NSString *)stringFieldWithKey:(NSString *)key;
-- (NSNumber *)numberFieldWithKey:(NSString *)key;
++ (BOOL)isVastXml:(NSString*) adContent;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "HyBidBaseModel.h"
+#import "HyBidMarkupUtils.h"
 
-@interface HyBidDataModel : HyBidBaseModel
+@implementation HyBidMarkupUtils
 
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSDictionary *data;
-@property (nonatomic, readonly) NSString *text;
-@property (nonatomic, readonly) NSString *vast;
-@property (nonatomic, readonly) NSNumber *number;
-@property (nonatomic, readonly) NSString *url;
-@property (nonatomic, readonly) NSString *js;
-@property (nonatomic, readonly) NSString *html;
-@property (nonatomic, readonly) NSNumber *eCPM;
-@property (nonatomic, readonly) NSNumber *width;
-@property (nonatomic, readonly) NSNumber *height;
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
-- (instancetype)initWithHTMLAsset:(NSString *)assetName withValue:(NSString *)value;
-- (instancetype)initWithVASTAsset:(NSString *)assetName withValue:(NSString *)value;
-- (NSString *)stringFieldWithKey:(NSString *)key;
-- (NSNumber *)numberFieldWithKey:(NSString *)key;
-
++ (BOOL)isVastXml:(NSString*) adContent {
+    NSError* error = NULL;
+    NSRegularExpression* regexUppercase = [NSRegularExpression regularExpressionWithPattern:@"(<VAST[\\s\\S]*?>)[\\s\\S]*<\\/VAST>" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSRegularExpression* regexLowercase = [NSRegularExpression regularExpressionWithPattern:@"(<vast[\\s\\S]*?>)[\\s\\S]*<\\/vast>" options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    NSTextCheckingResult *upperCaseMatch = [regexUppercase firstMatchInString:adContent options:0 range:NSMakeRange(0, [adContent length])];
+    NSTextCheckingResult *lowerCaseMatch = [regexLowercase firstMatchInString:adContent options:0 range:NSMakeRange(0, [adContent length])];
+    
+    return upperCaseMatch || lowerCaseMatch;
+}
 @end

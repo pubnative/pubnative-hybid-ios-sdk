@@ -56,6 +56,29 @@ NSString *const kImpressionQuerryParameter = @"t";
     return self;
 }
 
+- (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType {
+    self = [super init];
+    if (self) {
+        HyBidAdModel *model = [[HyBidAdModel alloc] init];
+        NSString *apiAsset;
+        NSMutableArray *assets = [[NSMutableArray alloc] init];
+        HyBidDataModel *data;
+        if (adType == kHyBidAdTypeVideo) {
+            apiAsset = PNLiteAsset.vast;
+            data = [[HyBidDataModel alloc] initWithVASTAsset:apiAsset withValue:adContent];
+        } else {
+            apiAsset = PNLiteAsset.htmlBanner;
+            data = [[HyBidDataModel alloc] initWithHTMLAsset:apiAsset withValue:adContent];
+        }
+        [assets addObject:data];
+        
+        model.assets = assets;
+        model.assetgroupid = [NSNumber numberWithInteger: assetGroup];
+        self.data = model;
+    }
+    return self;
+}
+
 - (NSString *)zoneID {
     return self._zoneID;
 }

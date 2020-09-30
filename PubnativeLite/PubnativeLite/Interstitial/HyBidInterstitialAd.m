@@ -26,6 +26,8 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidAdCache.h"
+#import "HyBidMarkupUtils.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -60,6 +62,15 @@
     return self;
 }
 
+- (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
+    self = [super init];
+    if (self) {
+        self.zoneID = @"";
+        self.delegate = delegate;
+    }
+    return self;
+}
+
 - (void)load {
     [self cleanUp];
     if (!self.zoneID || self.zoneID.length == 0) {
@@ -68,6 +79,25 @@
         self.isReady = NO;
         [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+    }
+}
+
+- (void)prepareAdWithContent:(NSString *)adContent {
+    if (adContent && [adContent length] != 0) {
+        NSInteger assetGroup;
+        NSInteger adType;
+        if ([HyBidMarkupUtils isVastXml:adContent]) {
+            assetGroup = 15;
+            adType = kHyBidAdTypeVideo;
+        } else {
+            assetGroup = 21;
+            adType = kHyBidAdTypeHTML;
+        }
+        self.ad = [[HyBidAd alloc] initWithAssetGroup:assetGroup withAdContent:adContent withAdType:adType];
+        [self renderAd:self.ad];
+        
+    } else {
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an invalid ad asset" code:0 userInfo:nil]];
     }
 }
 
