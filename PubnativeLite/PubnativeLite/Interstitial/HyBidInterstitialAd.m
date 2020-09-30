@@ -26,8 +26,6 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
-#import "HyBidAdCache.h"
-#import "HyBidMarkupUtils.h"
 #import "PNLiteResponseModel.h"
 #import "PNLiteAssetGroupType.h"
 #import "HyBidVideoAdProcessor.h"
@@ -123,8 +121,7 @@ NSString *const HyBidSignalResponseForInterstitialOK = @"ok";
         } else if ([HyBidSignalResponseForInterstitialOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in response.ads) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
-                [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
+                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:nil];
                 [responseAdArray addObject:ad];
                 switch (ad.assetGroupID.integerValue) {
                     case VAST_INTERSTITIAL: {
