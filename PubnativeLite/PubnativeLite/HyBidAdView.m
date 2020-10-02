@@ -28,6 +28,7 @@
 @interface HyBidAdView()
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
+@property (nonatomic, strong) NSString *zoneID;
 
 @end
 
@@ -35,6 +36,7 @@
 
 - (void)dealloc {
     self.ad = nil;
+    self.zoneID = nil;
     self.delegate = nil;
     self.adPresenter = nil;
     self.adRequest = nil;
@@ -72,14 +74,15 @@
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
-    if (!zoneID || zoneID.length == 0) {
+    self.zoneID = zoneID;
+    if (!self.zoneID || self.zoneID.length == 0) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
         self.adRequest.adSize = self.adSize;
-        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
-        [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
+        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
+        [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
 }
 
@@ -121,7 +124,7 @@
 
 - (void)processAdContent:(NSString *)adContent {
     [HyBidSignalDataProcessor sharedInstance].delegate = self;
-    [[HyBidSignalDataProcessor sharedInstance] processSignalData:adContent withZoneID:nil];
+    [[HyBidSignalDataProcessor sharedInstance] processSignalData:adContent withZoneID:self.zoneID];
 }
 
 - (void)startTracking {
