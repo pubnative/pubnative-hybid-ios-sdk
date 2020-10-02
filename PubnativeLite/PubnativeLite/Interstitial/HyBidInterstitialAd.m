@@ -26,13 +26,6 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
-#import "PNLiteResponseModel.h"
-#import "PNLiteAssetGroupType.h"
-#import "HyBidVideoAdProcessor.h"
-#import "HyBidVideoAdCacheItem.h"
-#import "HyBidVideoAdCache.h"
-
-NSString *const HyBidSignalResponseForInterstitialOK = @"ok";
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -95,79 +88,9 @@ NSString *const HyBidSignalResponseForInterstitialOK = @"ok";
     }
 }
 
-- (NSDictionary *)createDictionaryFromData:(NSData *)data {
-    NSError *parseError;
-    NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:&parseError];
-    if (parseError) {
-        [self invokeDidFailWithError:parseError];
-        return nil;
-    } else {
-        return jsonDictonary;
-    }
-}
-
 - (void)processAdContent:(NSString *)adContent {
-    NSData *adContentData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDictonary = [self createDictionaryFromData:adContentData];
-    if (jsonDictonary) {
-        PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
-        if(!response) {
-            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
-                                                 code:0
-                                             userInfo:nil];
-            [self invokeDidFailWithError:error];
-        } else if ([HyBidSignalResponseForInterstitialOK isEqualToString:response.status]) {
-            NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
-            for (HyBidAdModel *adModel in response.ads) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:nil];
-                [responseAdArray addObject:ad];
-                switch (ad.assetGroupID.integerValue) {
-                    case VAST_INTERSTITIAL: {
-                        HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-                        [videoAdProcessor processVASTString:ad.vast completion:^(PNLiteVASTModel *vastModel, NSError *error) {
-                            if (!vastModel) {
-                                [self invokeDidFailWithError:error];
-                            } else {
-                                HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
-                                videoAdCacheItem.vastModel = vastModel;
-                                [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
-                                self.ad = [[HyBidAd alloc] initWithAssetGroup:ad.assetGroupID.integerValue withAdContent:adContent withAdType:kHyBidAdTypeVideo];
-                                [self renderAd:self.ad];
-                            }
-                        }];
-                        break;
-                    }
-                    default:
-                        if (responseAdArray.count > 0) {
-                            self.ad = [[HyBidAd alloc] initWithAssetGroup:ad.assetGroupID.integerValue withAdContent:adContent withAdType:kHyBidAdTypeHTML];
-                            [self renderAd:self.ad];
-                        } else {
-                            NSError *error = [NSError errorWithDomain:@"No fill"
-                                                                 code:0
-                                                             userInfo:nil];
-                            [self invokeDidFailWithError:error];
-                        }
-                        break;
-                }
-            }
-            
-            if (responseAdArray.count <= 0) {
-                NSError *error = [NSError errorWithDomain:@"No fill"
-                                                     code:0
-                                                 userInfo:nil];
-                [self invokeDidFailWithError:error];
-            }
-            
-        } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"HyBidInterstitialAd - %@", response.errorMessage];
-            NSError *responseError = [NSError errorWithDomain:errorMessage
-                                                         code:0
-                                                     userInfo:nil];
-            [self invokeDidFailWithError:responseError];
-        }
-    }
+    [HyBidSignalDataProcessor sharedInstance].delegate = self;
+    [[HyBidSignalDataProcessor sharedInstance] processSignalData:adContent withZoneID:self.zoneID];
 }
 
 - (void)show {
@@ -282,6 +205,17 @@ NSString *const HyBidSignalResponseForInterstitialOK = @"ok";
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self invokeDidDismiss];
+}
+
+#pragma mark - HyBidSignalDataProcessorDelegate
+
+- (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
+    self.ad = ad;
+    [self renderAd:self.ad];
+}
+
+- (void)signalDataDidFailWithError:(NSError *)error {
+    [self invokeDidFailWithError:error];
 }
 
 @end

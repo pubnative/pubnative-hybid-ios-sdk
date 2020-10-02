@@ -31,7 +31,18 @@
 
 NSString *const HyBidSignalDataResponseOK = @"ok";
 
+@interface HyBidSignalDataProcessor()
+
+@property (nonatomic, strong) HyBidAd *ad;
+
+@end
+
 @implementation HyBidSignalDataProcessor
+
+- (void)dealloc {
+    self.ad = nil;
+    self.delegate = nil;
+}
 
 + (instancetype)sharedInstance {
     static HyBidSignalDataProcessor *sharedInstance = nil;
@@ -82,9 +93,22 @@ NSString *const HyBidSignalDataResponseOK = @"ok";
                                 HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                                 videoAdCacheItem.vastModel = vastModel;
                                 [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
-                                [self invokeDidLoad:ad];
+                                self.ad = [[HyBidAd alloc] initWithAssetGroup:ad.assetGroupID.integerValue withAdContent:signalDataString withAdType:kHyBidAdTypeVideo];
+                                [self invokeDidLoad:self.ad];
                             }
                         }];
+                        break;
+                    }
+                    case MRAID_320x480: {
+                        if (responseAdArray.count > 0) {
+                            self.ad = [[HyBidAd alloc] initWithAssetGroup:ad.assetGroupID.integerValue withAdContent:signalDataString withAdType:kHyBidAdTypeHTML];
+                            [self invokeDidLoad:self.ad];
+                        } else {
+                            NSError *error = [NSError errorWithDomain:@"No fill"
+                                                                 code:0
+                                                             userInfo:nil];
+                            [self invokeDidFail:error];
+                        }
                         break;
                     }
                     default:
