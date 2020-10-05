@@ -46,6 +46,18 @@
     self.vastDocumentArray = nil;
 }
 
+- (NSInteger)getSkipSecondsFromString:(NSString *)dateString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    NSDate *date = [dateFormatter dateFromString:dateString];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:date];
+    
+    return [components second];
+}
+
 // We deliberately do not declare this method in the header file in order to hide it.
 // It should be used only be the VAST2Parser to build the model.
 // It should not be used by anybody else receiving the model object.
@@ -75,14 +87,15 @@
     return version;
 }
 
-- (NSString *)skipOffset
+- (NSInteger)skipOffsetInSeconds
 {
-    NSString *offset;
+    NSInteger offset = -1;
     NSString *query = @"//Linear/@skipoffset";
     NSArray *result = [self resultsForQuery:query];
     
     if ([result count] > 0) {
-        offset = result[0];
+        NSString *skipOffsetString = result[0];
+        offset = [self getSkipSecondsFromString:skipOffsetString];
     }
     return offset;
 }
