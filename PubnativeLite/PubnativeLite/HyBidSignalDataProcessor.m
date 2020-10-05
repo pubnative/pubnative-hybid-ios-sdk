@@ -23,7 +23,7 @@
 #import "HyBidSignalDataProcessor.h"
 #import "PNLiteResponseModel.h"
 #import "HyBidLogger.h"
-#import "HyBidAdCache.h"
+#import "HyBidAd.h"
 #import "PNLiteAssetGroupType.h"
 #import "HyBidVideoAdProcessor.h"
 #import "HyBidVideoAdCacheItem.h"
@@ -80,7 +80,6 @@ NSString *const HyBidSignalDataResponseOK = @"ok";
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in response.ads) {
                 HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:zoneID];
-                [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:zoneID];
                 [responseAdArray addObject:ad];
                 switch (ad.assetGroupID.integerValue) {
                     case VAST_INTERSTITIAL:
