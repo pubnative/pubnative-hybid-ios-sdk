@@ -75,6 +75,18 @@
     return version;
 }
 
+- (NSString *)skipOffset
+{
+    NSString *offset;
+    NSString *query = @"//Linear/@skipoffset";
+    NSArray *result = [self resultsForQuery:query];
+    
+    if ([result count] > 0) {
+        offset = result[0];
+    }
+    return offset;
+}
+
 - (NSArray<NSString*> *)errors {
     NSString *query = @"//Error";
     return [self resultsForQuery:query];
