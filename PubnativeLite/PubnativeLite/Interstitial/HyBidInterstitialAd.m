@@ -40,6 +40,7 @@ NSString *const HyBidSignalResponseForInterstitialOK = @"ok";
 @property (nonatomic, weak) NSObject<HyBidInterstitialAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic) NSInteger skipOffset;
 
 @end
 
