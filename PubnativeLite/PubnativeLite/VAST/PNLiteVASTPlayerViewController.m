@@ -80,7 +80,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
-@property (nonatomic, assign) NSInteger skipOffsetInSeconds;
+@property (nonatomic, assign) NSInteger skipOffsetFromServer;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
@@ -362,8 +362,12 @@ typedef enum : NSUInteger {
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
     
-    if (self.skipOffsetInSeconds != -1) { // -1 = is not skippable
-        if (currentPlaybackTime >= self.skipOffsetInSeconds) {
+    if (self.skipOffsetFromServer != -1) { // -1 = is not skippable
+        NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
+                                                                        ? self.skipOffset
+                                                                        : self.skipOffsetFromServer;
+        
+        if (currentPlaybackTime >= calculatedSkipOffset) {
             self.btnClose.hidden = NO;
         }
     }
@@ -688,7 +692,7 @@ typedef enum : NSUInteger {
             [self invokeDidFailLoadingWithError:mediaNotFoundError];
         } else {
             self.vastModel = self.videoAdCacheItem.vastModel;
-            self.skipOffsetInSeconds = [self.vastModel skipOffsetInSeconds];
+            self.skipOffsetFromServer = [self.vastModel skipOffsetInSeconds];
             
             [self createVideoPlayerWithVideoUrl:mediaUrl];
         }

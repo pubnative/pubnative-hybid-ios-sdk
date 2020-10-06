@@ -38,6 +38,7 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
+@property (nonatomic) NSInteger skipOffset;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
@@ -59,5 +60,7 @@
 */
 - (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
+
+- (void)setSkipOffset:(NSInteger)seconds;
 
 @end
