@@ -89,8 +89,8 @@
 }
 
 - (void)processAdContent:(NSString *)adContent {
-    [HyBidSignalDataProcessor sharedInstance].delegate = self;
-    [[HyBidSignalDataProcessor sharedInstance] processSignalData:adContent withZoneID:self.zoneID];
+    HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
+    [signalDataProcessor processSignalData:adContent withZoneID:self.zoneID];
 }
 
 - (void)show {

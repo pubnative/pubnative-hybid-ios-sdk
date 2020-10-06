@@ -44,15 +44,6 @@ NSString *const HyBidSignalDataResponseOK = @"ok";
     self.delegate = nil;
 }
 
-+ (instancetype)sharedInstance {
-    static HyBidSignalDataProcessor *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[HyBidSignalDataProcessor alloc] init];
-    });
-    return sharedInstance;
-}
-
 - (NSDictionary *)createDictionaryFromData:(NSData *)data {
     NSError *parseError;
     NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data

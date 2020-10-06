@@ -35,7 +35,6 @@
 
 @property (nonatomic, weak) NSObject <HyBidSignalDataProcessorDelegate> *delegate;
 
-+ (instancetype)sharedInstance;
 - (void)processSignalData:(NSString *)signalDataString withZoneID:(NSString *)zoneID;
 
 @end
