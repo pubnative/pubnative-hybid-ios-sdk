@@ -54,30 +54,25 @@
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     adRequestModel.requestParameters[HyBidRequestParameter.identifierForVendor] = [HyBidSettings sharedInstance].identifierForVendor;
     
-    if ([HyBidSettings sharedInstance].appID != NULL) {
-        if ([[HyBidSettings sharedInstance].appID length] > 0) {
-            NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
-            if ([adIDs length] > 0) {
-                [self setAppStoreAppID:adRequestModel withAppID:[HyBidSettings sharedInstance].appID];
-                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
-                
-                NSString *requiredOSVersion = @"14.0";
-                NSComparisonResult result = [[[UIDevice currentDevice] systemVersion] compare:requiredOSVersion options:NSNumericSearch];
-                
-                switch (result) {
-                    case NSOrderedSame:
-                    case NSOrderedAscending:
+    if (@available(iOS 11.3, *)) {
+        if ([HyBidSettings sharedInstance].appID != NULL) {
+            if ([[HyBidSettings sharedInstance].appID length] > 0) {
+                NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
+                if ([adIDs length] > 0) {
+                    [self setAppStoreAppID:adRequestModel withAppID:[HyBidSettings sharedInstance].appID];
+                    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
+                    
+                    if (@available(iOS 14, *)) {
                         adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
-                        break;
-                    case NSOrderedDescending:
+                    } else {
                         adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
-                        break;
+                    }
+                } else {
+                    NSLog(@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again.");
                 }
             } else {
-                NSLog(@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again.");
+                NSLog(@"HyBid AppID parameter cannot be empty. Please assign the actual AppStore app ID to this parameter and try again.");
             }
-        } else {
-            NSLog(@"HyBid AppID parameter cannot be empty. Please assign the actual AppStore app ID to this parameter and try again.");
         }
     }
     
