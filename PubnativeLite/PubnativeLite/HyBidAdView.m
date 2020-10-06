@@ -24,14 +24,11 @@
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidBannerPresenterFactory.h"
-#import "HyBidMarkupUtils.h"
-#import "PNLiteResponseModel.h"
-
-NSString *const HyBidSignalResponseOK = @"ok";
 
 @interface HyBidAdView()
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
+@property (nonatomic, strong) NSString *zoneID;
 
 @end
 
@@ -39,6 +36,7 @@ NSString *const HyBidSignalResponseOK = @"ok";
 
 - (void)dealloc {
     self.ad = nil;
+    self.zoneID = nil;
     self.delegate = nil;
     self.adPresenter = nil;
     self.adRequest = nil;
@@ -76,14 +74,15 @@ NSString *const HyBidSignalResponseOK = @"ok";
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
-    if (!zoneID || zoneID.length == 0) {
+    self.zoneID = zoneID;
+    if (!self.zoneID || self.zoneID.length == 0) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
         self.adRequest.adSize = self.adSize;
-        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
-        [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
+        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
+        [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
 }
 
@@ -123,52 +122,10 @@ NSString *const HyBidSignalResponseOK = @"ok";
     }
 }
 
-- (NSDictionary *)createDictionaryFromData:(NSData *)data {
-    NSError *parseError;
-    NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:&parseError];
-    if (parseError) {
-        [self.delegate adView:self didFailWithError:parseError];
-        return nil;
-    } else {
-        return jsonDictonary;
-    }
-}
-
 - (void)processAdContent:(NSString *)adContent {
-    NSData *adContentData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDictonary = [self createDictionaryFromData:adContentData];
-    if (jsonDictonary) {
-        PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
-        if(!response) {
-            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
-                                                 code:0
-                                             userInfo:nil];
-            [self.delegate adView:self didFailWithError:error];
-        } else if ([HyBidSignalResponseOK isEqualToString:response.status]) {
-            NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
-            for (HyBidAdModel *adModel in response.ads) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:nil];
-                [responseAdArray addObject:ad];
-            }
-            if (responseAdArray.count > 0) {
-                self.ad = responseAdArray.firstObject;
-                [self renderAd];
-            } else {
-                NSError *error = [NSError errorWithDomain:@"No fill"
-                                                     code:0
-                                                 userInfo:nil];
-                [self.delegate adView:self didFailWithError:error];
-            }
-        } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdView - %@", response.errorMessage];
-            NSError *responseError = [NSError errorWithDomain:errorMessage
-                                                         code:0
-                                                     userInfo:nil];
-            [self.delegate adView:self didFailWithError:responseError];
-        }
-    }
+    HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
+    signalDataProcessor.delegate = self;
+    [signalDataProcessor processSignalData:adContent withZoneID:self.zoneID];
 }
 
 - (void)startTracking {
@@ -249,6 +206,17 @@ NSString *const HyBidSignalResponseOK = @"ok";
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];
     }
+}
+
+#pragma mark - HyBidSignalDataProcessorDelegate
+
+- (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
+    self.ad = ad;
+    [self renderAd];
+}
+
+- (void)signalDataDidFailWithError:(NSError *)error {
+    [self.delegate adView:self didFailWithError:error];
 }
 
 @end

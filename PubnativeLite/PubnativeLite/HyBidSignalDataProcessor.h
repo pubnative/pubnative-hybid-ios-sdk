@@ -20,25 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidSKAdNetworkViewController.h"
+#import <Foundation/Foundation.h>
 
-@implementation HyBidSKAdNetworkViewController
+@class HyBidSignalDataProcessor, HyBidAd;
 
-- (id)initWithProductParameters:(NSDictionary*)data {
-    self = [super init];
-    self->productParameters = data;
-    
-    return self;
-}
+@protocol HyBidSignalDataProcessorDelegate<NSObject>
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self loadProductWithParameters:self->productParameters completionBlock:^(BOOL result, NSError * _Nullable error) {
-        if (error || !result){
-            NSLog(@"Loading the ad failed, try to load another ad or retry the current ad.");
-        }
-    }];
-}
+- (void)signalDataDidFinishWithAd:(HyBidAd *)ad;
+- (void)signalDataDidFailWithError:(NSError *)error;
+
+@end
+
+@interface HyBidSignalDataProcessor : NSObject
+
+@property (nonatomic, weak) NSObject <HyBidSignalDataProcessorDelegate> *delegate;
+
+- (void)processSignalData:(NSString *)signalDataString withZoneID:(NSString *)zoneID;
 
 @end

@@ -24,6 +24,7 @@
 #import "HyBidAd.h"
 #import "HyBidAdRequest.h"
 #import "HyBidAdPresenter.h"
+#import "HyBidSignalDataProcessor.h"
 
 @class HyBidAdView;
 
@@ -36,7 +37,7 @@
 
 @end
 
-@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate>
+@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) HyBidAd *ad;

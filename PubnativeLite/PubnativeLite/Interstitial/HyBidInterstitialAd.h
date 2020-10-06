@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
+#import "HyBidSignalDataProcessor.h"
 
 @protocol HyBidInterstitialAdDelegate<NSObject>
 
@@ -33,7 +34,7 @@
 
 @end
 
-@interface HyBidInterstitialAd : NSObject
+@interface HyBidInterstitialAd : NSObject <HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
