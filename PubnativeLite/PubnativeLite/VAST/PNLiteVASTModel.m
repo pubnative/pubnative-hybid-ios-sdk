@@ -87,7 +87,7 @@
     return version;
 }
 
-- (NSInteger)skipOffsetInSeconds
+- (NSInteger)skipOffsetFromServer
 {
     NSInteger offset = -1;
     NSString *query = @"//Linear/@skipoffset";
