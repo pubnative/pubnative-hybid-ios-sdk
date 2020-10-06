@@ -692,7 +692,7 @@ typedef enum : NSUInteger {
             [self invokeDidFailLoadingWithError:mediaNotFoundError];
         } else {
             self.vastModel = self.videoAdCacheItem.vastModel;
-            self.skipOffsetFromServer = [self.vastModel skipOffsetInSeconds];
+            self.skipOffsetFromServer = [self.vastModel skipOffsetFromServer];
             
             [self createVideoPlayerWithVideoUrl:mediaUrl];
         }
