@@ -80,6 +80,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
+@property (nonatomic, assign) NSInteger skipOffsetFromServer;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
@@ -161,6 +162,8 @@ typedef enum : NSUInteger {
     [self.btnFullscreen setImage:[self bundledImageNamed:PNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
     [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
     [self.contentInfoViewContainer addSubview:self.contentInfoView];
+    
+    self.btnClose.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -358,6 +361,16 @@ typedef enum : NSUInteger {
     Float64 currentDuration = [self duration];
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
+    
+    if (self.skipOffsetFromServer != -1 || self.skipOffset > 0) {
+        NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
+                                                                        ? self.skipOffset
+                                                                        : self.skipOffsetFromServer;
+        
+        if (currentPlaybackTime >= calculatedSkipOffset) {
+            self.btnClose.hidden = NO;
+        }
+    }
     
     [self.progressLabel setProgress:currentPlayedPercent];
     self.progressLabel.text = [NSString stringWithFormat:@"%.f", currentDuration - currentPlaybackTime];
@@ -600,6 +613,7 @@ typedef enum : NSUInteger {
     [self.playerItem seekToTime:kCMTimeZero];
     [self setState:PNLiteVASTPlayerState_READY];
     [self invokeDidComplete];
+    self.btnClose.hidden = NO;
 }
 
 #pragma mark - State Machine
@@ -678,6 +692,8 @@ typedef enum : NSUInteger {
             [self invokeDidFailLoadingWithError:mediaNotFoundError];
         } else {
             self.vastModel = self.videoAdCacheItem.vastModel;
+            self.skipOffsetFromServer = [self.vastModel skipOffsetFromServer];
+            
             [self createVideoPlayerWithVideoUrl:mediaUrl];
         }
     } else if (self.vastUrl || self.vastString) {
@@ -724,9 +740,6 @@ typedef enum : NSUInteger {
 - (void)setReadyState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
-    if (self.isInterstitial) {
-        self.btnClose.hidden = NO;
-    }
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -766,7 +779,6 @@ typedef enum : NSUInteger {
     self.btnOpenOffer.hidden = NO;
     if (self.isInterstitial) {
         self.btnFullscreen.hidden = YES;
-        self.btnClose.hidden = NO;
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }
@@ -794,7 +806,6 @@ typedef enum : NSUInteger {
     self.btnOpenOffer.hidden = NO;
     if (self.isInterstitial) {
         self.btnFullscreen.hidden = YES;
-        self.btnClose.hidden = NO;
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }

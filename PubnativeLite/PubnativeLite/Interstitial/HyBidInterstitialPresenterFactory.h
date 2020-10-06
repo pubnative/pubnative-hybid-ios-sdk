@@ -27,6 +27,7 @@
 @interface HyBidInterstitialPresenterFactory : NSObject
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
+                                                  withSkipOffset:(NSUInteger)skipOffset
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate;
 
 @end
