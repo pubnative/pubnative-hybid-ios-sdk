@@ -46,7 +46,19 @@
     self.vastDocumentArray = nil;
 }
 
-- (NSInteger)getSkipSecondsFromString:(NSString *)dateString
+- (NSInteger)getSkipSecondsFromString:(NSString *)dateString duration:(NSString *)durationString
+{
+    if ([dateString containsString:@"%"]) {
+        NSInteger percentage = [[dateString substringToIndex:[dateString length] - 1] integerValue];
+        NSInteger duration = [self getSecondsFromDateString:durationString];
+        
+        return (ceil)((ceil)((duration * percentage)) / 100);
+    } else {
+        return [self getSecondsFromDateString:dateString];
+    }
+}
+
+- (NSInteger)getSecondsFromDateString:(NSString *)dateString
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm:ss"];
@@ -90,12 +102,15 @@
 - (NSInteger)skipOffsetFromServer
 {
     NSInteger offset = -1;
-    NSString *query = @"//Linear/@skipoffset";
-    NSArray *result = [self resultsForQuery:query];
+    NSString *offsetQuery = @"//Linear/@skipoffset";
+    NSString *durationQuery = @"//Linear/Duration";
+    NSArray *offsetResult = [self resultsForQuery:offsetQuery];
+    NSArray *durationResult = [self resultsForQuery:durationQuery];
     
-    if ([result count] > 0) {
-        NSString *skipOffsetString = result[0];
-        offset = [self getSkipSecondsFromString:skipOffsetString];
+    if ([offsetResult count] > 0 && [durationResult count] > 0) {
+        NSString *skipOffsetString = offsetResult[0];
+        NSString *durationString = durationResult[0];
+        offset = [self getSkipSecondsFromString:skipOffsetString duration:durationString];
     }
     return offset;
 }
