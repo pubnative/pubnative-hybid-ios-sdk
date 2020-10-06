@@ -52,7 +52,7 @@
         NSInteger percentage = [[dateString substringToIndex:[dateString length] - 1] integerValue];
         NSInteger duration = [self getSecondsFromDateString:durationString];
         
-        return (ceil)((ceil)((duration * percentage)) / 100);
+        return (ceil)((ceil)(duration * percentage) / 100);
     } else {
         return [self getSecondsFromDateString:dateString];
     }

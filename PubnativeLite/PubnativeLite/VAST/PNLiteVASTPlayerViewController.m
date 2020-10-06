@@ -362,7 +362,7 @@ typedef enum : NSUInteger {
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
     
-    if (self.skipOffsetFromServer != -1) { // -1 = is not skippable
+    if (self.skipOffsetFromServer != -1 || self.skipOffset > 0) {
         NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
                                                                         ? self.skipOffset
                                                                         : self.skipOffsetFromServer;
