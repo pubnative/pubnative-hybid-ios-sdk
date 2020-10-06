@@ -4575,7 +4575,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.pubnative.HyBid.demo 1593620505";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.pubnative.HyBid.demo";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
