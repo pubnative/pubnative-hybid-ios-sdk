@@ -1,0 +1,29 @@
+//
+//  MoPubSDK.xcconfig
+//
+//  Copyright 2018-2020 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// Valid Architectures
+VALID_ARCHS = arm64 arm64e armv7 armv7s i386 x86_64
+VALID_ARCHS[sdk=iphoneos*] = arm64 arm64e armv7 armv7s
+VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
+
+// Starting with Xcode 12, Valid Architectures have been removed in build settings
+// in favor of using Excluded architectures. Mirroring the Valid architectures logic,
+// building for simulators requires that the device architectures be excluded, and
+// vice versa.
+EXCLUDED_ARCHS[sdk=iphoneos*] = i386 x86_64
+EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64 arm64e armv7 armv7s
+
+// Cause the object files built by a target to be prelinked using `ld -r` into a single object file,
+// and that object file will then be linked into the final product.
+// This is useful to force the linker to resolve symbols and link the object files into a single module
+// before building a static library. Also, a separate set of link flags can be applied to the prelink
+// allowing additional control over (for instance) exported symbols.
+GENERATE_MASTER_OBJECT_FILE = YES
