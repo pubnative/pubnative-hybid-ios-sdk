@@ -2652,6 +2652,15 @@
 			path = Internal;
 			sourceTree = "<group>";
 		};
+		5A049AD1252E130E0066B270 /* Header Bidding */ = {
+			isa = PBXGroup;
+			children = (
+				5A6354D52076506B00D47E1B /* MoPub */,
+				5A87F45B207BC48F005CC648 /* DFP */,
+			);
+			path = "Header Bidding";
+			sourceTree = "<group>";
+		};
 		5A064992203DBECC00CDF925 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -2808,9 +2817,8 @@
 				5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */,
 				5A54619A24C0D41E00B49550 /* Consent */,
 				5AE206C220E288D5000E770C /* Mediation */,
-				5A4FF06520AD92C700B81B3D /* PNLite */,
-				5A6354D52076506B00D47E1B /* MoPub */,
-				5A87F45B207BC48F005CC648 /* DFP */,
+				5A4FF06520AD92C700B81B3D /* Standalone */,
+				5A049AD1252E130E0066B270 /* Header Bidding */,
 				5AD07C0C22FADF60001BF4A1 /* Markup */,
 				5AA7EC5D20E4D54D00277E2B /* Storyboards */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
@@ -2864,7 +2872,7 @@
 			path = Banner;
 			sourceTree = "<group>";
 		};
-		5A4FF06520AD92C700B81B3D /* PNLite */ = {
+		5A4FF06520AD92C700B81B3D /* Standalone */ = {
 			isa = PBXGroup;
 			children = (
 				7E7CC39724DD64B600F3A476 /* TableView */,
@@ -2879,7 +2887,7 @@
 				5A5EEC432507D7AC008100AF /* PNLiteDemoPNLiteBannerSizeSelectionViewController.h */,
 				5A5EEC442507D7AC008100AF /* PNLiteDemoPNLiteBannerSizeSelectionViewController.m */,
 			);
-			path = PNLite;
+			path = Standalone;
 			sourceTree = "<group>";
 		};
 		5A52BFED20346B1A00C4B7C5 /* Helpers */ = {
