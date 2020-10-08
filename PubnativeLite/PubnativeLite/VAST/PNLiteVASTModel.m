@@ -46,6 +46,30 @@
     self.vastDocumentArray = nil;
 }
 
+- (NSInteger)getSkipSecondsFromString:(NSString *)dateString duration:(NSString *)durationString
+{
+    if ([dateString containsString:@"%"]) {
+        NSInteger percentage = [[dateString substringToIndex:[dateString length] - 1] integerValue];
+        NSInteger duration = [self getSecondsFromDateString:durationString];
+        
+        return (ceil)((ceil)(duration * percentage) / 100);
+    } else {
+        return [self getSecondsFromDateString:dateString];
+    }
+}
+
+- (NSInteger)getSecondsFromDateString:(NSString *)dateString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    NSDate *date = [dateFormatter dateFromString:dateString];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:date];
+    
+    return [components second];
+}
+
 // We deliberately do not declare this method in the header file in order to hide it.
 // It should be used only be the VAST2Parser to build the model.
 // It should not be used by anybody else receiving the model object.
@@ -73,6 +97,22 @@
         version = attribute[@"nodeContent"];
     }
     return version;
+}
+
+- (NSInteger)skipOffsetFromServer
+{
+    NSInteger offset = -1;
+    NSString *offsetQuery = @"//Linear/@skipoffset";
+    NSString *durationQuery = @"//Linear/Duration";
+    NSArray *offsetResult = [self resultsForQuery:offsetQuery];
+    NSArray *durationResult = [self resultsForQuery:durationQuery];
+    
+    if ([offsetResult count] > 0 && [durationResult count] > 0) {
+        NSString *skipOffsetString = offsetResult[0];
+        NSString *durationString = durationResult[0];
+        offset = [self getSkipSecondsFromString:skipOffsetString duration:durationString];
+    }
+    return offset;
 }
 
 - (NSArray<NSString*> *)errors {

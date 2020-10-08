@@ -31,4 +31,4 @@ zip -r $IPHONEOS_ZIP_PATH $IPHONEOS_FRAMEWORK
 zip -r $IPHONESIMULATOR_ZIP_PATH $IPHONESIMULATOR_FRAMEWORK
 
 # Generate Static framework + bundle resrource. a zip file will be generated at /tmp/circle-ci-artifact
-#xcodebuild -workspace HyBid.xcworkspace -scheme HybidFramework -sdk iphoneos -destination generic/platform=iOS -configuration Release clean build | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HybidFramework -sdk iphoneos -destination generic/platform=iOS -configuration Release clean build | xcpretty -c

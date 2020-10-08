@@ -38,7 +38,7 @@
 
 + (NSArray *)parseArrayValues:(NSArray *)array {
     NSMutableArray *result;
-    if(array) {
+    if(array && [array isKindOfClass: [NSArray class]]) {
         result = [NSMutableArray array];
         for (NSDictionary *valueDictionary in array) {
             NSObject *value = [[self alloc] initWithDictionary:valueDictionary];

@@ -24,6 +24,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "HyBidContentInfoView.h"
 #import "HyBidVideoAdCacheItem.h"
+#import "HyBidAd.h"
 
 @class PNLiteVASTPlayerViewController;
 
@@ -47,8 +48,9 @@
 @property (nonatomic, assign) BOOL canResize;
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 @property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
+@property (nonatomic, assign) NSInteger skipOffset;
 
-- (instancetype)initPlayerWithContentInfo:(HyBidContentInfoView *)contentInfo
+- (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
                             isInterstital:(BOOL)isInterstitial;
 - (void)loadWithVastUrl:(NSURL*)url;
 - (void)loadWithVastString:(NSString*)vast;

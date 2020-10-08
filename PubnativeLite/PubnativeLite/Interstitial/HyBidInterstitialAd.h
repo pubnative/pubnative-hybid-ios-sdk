@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
+#import "HyBidSignalDataProcessor.h"
 
 @protocol HyBidInterstitialAdDelegate<NSObject>
 
@@ -33,14 +34,16 @@
 
 @end
 
-@interface HyBidInterstitialAd : NSObject
+@interface HyBidInterstitialAd : NSObject <HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
+- (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;
+- (void)prepareAdWithContent:(NSString *)adContent;
 
 /// Presents the interstitial ad modally from the current view controller.
 ///
@@ -57,5 +60,7 @@
 */
 - (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
+
+- (void)setSkipOffset:(NSInteger)seconds;
 
 @end

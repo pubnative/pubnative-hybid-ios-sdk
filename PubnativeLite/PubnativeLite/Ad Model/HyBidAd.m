@@ -24,6 +24,7 @@
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
 #import "HyBidContentInfoView.h"
+#import "HyBidSkAdNetworkModel.h"
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -51,6 +52,29 @@ NSString *const kImpressionQuerryParameter = @"t";
     if (self) {
         self.data = data;
         self._zoneID = zoneID;
+    }
+    return self;
+}
+
+- (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType {
+    self = [super init];
+    if (self) {
+        HyBidAdModel *model = [[HyBidAdModel alloc] init];
+        NSString *apiAsset;
+        NSMutableArray *assets = [[NSMutableArray alloc] init];
+        HyBidDataModel *data;
+        if (adType == kHyBidAdTypeVideo) {
+            apiAsset = PNLiteAsset.vast;
+            data = [[HyBidDataModel alloc] initWithVASTAsset:apiAsset withValue:adContent];
+        } else {
+            apiAsset = PNLiteAsset.htmlBanner;
+            data = [[HyBidDataModel alloc] initWithHTMLAsset:apiAsset withValue:adContent];
+        }
+        [assets addObject:data];
+        
+        model.assets = assets;
+        model.assetgroupid = [NSNumber numberWithInteger: assetGroup];
+        self.data = model;
     }
     return self;
 }
@@ -179,6 +203,24 @@ NSString *const kImpressionQuerryParameter = @"t";
         }
     }
     return self.contentInfoView;
+}
+
+- (HyBidSkAdNetworkModel *)getSkAdNetworkModel {
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
+    HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
+    
+    if (data) {
+        NSDictionary *dict = @{@"campaign": [data stringFieldWithKey:@"campaign"],
+                               @"itunesitem": [data stringFieldWithKey:@"itunesitem"],
+                               @"network": [data stringFieldWithKey:@"network"],
+                               @"nonce": [data stringFieldWithKey:@"nonce"],
+                               @"signature": [data stringFieldWithKey:@"signature"],
+                               @"sourceapp": [data stringFieldWithKey:@"sourceapp"],
+                               @"timestamp": [data stringFieldWithKey:@"timestamp"],
+                               @"version": [data stringFieldWithKey:@"version"]};
+        model.productParameters = dict;
+    }
+    return model;
 }
 
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {

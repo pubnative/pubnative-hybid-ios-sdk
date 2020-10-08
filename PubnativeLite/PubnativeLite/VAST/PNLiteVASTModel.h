@@ -27,6 +27,9 @@
 // returns the version of the VAST document 
 - (NSString *)vastVersion;
 
+// returns the skip offset in seconds
+- (NSInteger)skipOffsetFromServer;
+
 // returns an array of VASTUrlWithId objects (although the id will always be nil)
 - (NSArray<NSString*> *)errors;
 

@@ -52,13 +52,36 @@
     adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
     adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
+    adRequestModel.requestParameters[HyBidRequestParameter.identifierForVendor] = [HyBidSettings sharedInstance].identifierForVendor;
     
-    NSString* privacyString =  [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
+    if (@available(iOS 11.3, *)) {
+        if ([HyBidSettings sharedInstance].appID != NULL) {
+            if ([[HyBidSettings sharedInstance].appID length] > 0) {
+                NSString *adIDs = [self getSKAdNetworkIDs:adRequestModel];
+                if ([adIDs length] > 0) {
+                    [self setAppStoreAppID:adRequestModel withAppID:[HyBidSettings sharedInstance].appID];
+                    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
+                    
+                    if (@available(iOS 14, *)) {
+                        adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"2.0";
+                    } else {
+                        adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = @"1.0";
+                    }
+                } else {
+                    NSLog(@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again.");
+                }
+            } else {
+                NSLog(@"HyBid AppID parameter cannot be empty. Please assign the actual AppStore app ID to this parameter and try again.");
+            }
+        }
+    }
+    
+    NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
     if (!([privacyString length] == 0)) {
         adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
-    NSString* consentString =  [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
+    NSString* consentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
     if (!([consentString length] == 0)) {
         adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
     }
@@ -78,7 +101,7 @@
             adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
         }
     }
-    adRequestModel.requestParameters[HyBidRequestParameter.test] =[HyBidSettings sharedInstance].test ? @"1" : @"0";
+    adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSettings sharedInstance].test ? @"1" : @"0";
     if (![adSize.layoutSize isEqualToString:@"native"]) {
         adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
         
@@ -146,6 +169,27 @@
         [newMetaFields addObject:PNLiteMeta.creativeId];
     }
     adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
+}
+
+-(void)setAppStoreAppID:(PNLiteAdRequestModel *)adRequestModel withAppID:(NSString *)appID {
+    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = appID;
+}
+
+-(NSString *)getSKAdNetworkIDs:(PNLiteAdRequestModel *)adRequestModel {
+    NSArray *networkItems = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SKAdNetworkItems"];
+    
+    if (networkItems == NULL) {
+        NSLog(@"The key `SKAdNetworkItems` could not be found in `info.plist` file of the app. Please add the required item and try again.");
+    }
+    
+    NSMutableArray *adIDs = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [networkItems count]; i++) {
+        NSDictionary *dict = networkItems[i];
+        NSString *value = dict[@"SKAdNetworkIdentifier"];
+        [adIDs addObject:value];
+    }
+    
+    return [adIDs componentsJoinedByString:@","];
 }
 
 @end

@@ -25,6 +25,7 @@
 #import "HyBidAd.h"
 #import "HyBidNativeAdRenderer.h"
 #import "HyBidContentInfoView.h"
+#import "HyBidSkAdNetworkModel.h"
 
 @class HyBidNativeAd;
 

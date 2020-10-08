@@ -61,5 +61,11 @@
 + (NSString *)supportedAPIFrameworks;
 + (NSString *)identifierOfOMSDKIntegration;
 + (NSString *)versionOfOMSDKIntegration;
++ (NSString *)identifierForVendor;
+
+#pragma mark - SKAdNetwork parameters
++ (NSString *)skAdNetworkVersion;
++ (NSString *)skAdNetworkAppID;
++ (NSString *)skAdNetworkAdNetworkIDs;
 
 @end

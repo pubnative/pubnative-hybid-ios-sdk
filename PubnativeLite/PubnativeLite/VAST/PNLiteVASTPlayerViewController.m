@@ -30,6 +30,8 @@
 #import "HyBidLogger.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
+#import "HyBidAd.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -76,7 +78,9 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) PNLiteVASTParser *parser;
 @property (nonatomic, strong) PNLiteVASTEventProcessor *eventProcessor;
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
+@property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
+@property (nonatomic, assign) NSInteger skipOffsetFromServer;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
@@ -113,12 +117,13 @@ typedef enum : NSUInteger {
 
 #pragma mark NSObject
 
-- (instancetype)initPlayerWithContentInfo:(HyBidContentInfoView *)contentInfo
+- (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
                             isInterstital:(BOOL)isInterstitial {
     self.isInterstitial = isInterstitial;
     self = [self init];
     if (self) {
-        self.contentInfoView = contentInfo;
+        self.contentInfoView = adModel.contentInfo;
+        self.skAdModel = adModel.getSkAdNetworkModel;
         self.contentInfoView.delegate = self;
     }
     return self;
@@ -157,6 +162,8 @@ typedef enum : NSUInteger {
     [self.btnFullscreen setImage:[self bundledImageNamed:PNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
     [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
     [self.contentInfoViewContainer addSubview:self.contentInfoView];
+    
+    self.btnClose.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -355,6 +362,16 @@ typedef enum : NSUInteger {
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
     
+    if (self.skipOffsetFromServer != -1 || self.skipOffset > 0) {
+        NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
+                                                                        ? self.skipOffset
+                                                                        : self.skipOffsetFromServer;
+        
+        if (currentPlaybackTime >= calculatedSkipOffset) {
+            self.btnClose.hidden = NO;
+        }
+    }
+    
     [self.progressLabel setProgress:currentPlayedPercent];
     self.progressLabel.text = [NSString stringWithFormat:@"%.f", currentDuration - currentPlaybackTime];
     
@@ -427,7 +444,21 @@ typedef enum : NSUInteger {
     }
     [self invokeDidClickOffer];
     [self.eventProcessor trackEvent:PNLiteVASTEvent_Click];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
+    
+    if (self.skAdModel) {
+        NSDictionary* productParams = [self.skAdModel getStoreKitParameters];
+        if ([productParams count] > 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+
+                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+            });
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
+        }
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self.vastModel clickThrough]]];
+    }
 }
 
 - (IBAction)btnFullscreenPush:(id)sender {
@@ -582,6 +613,7 @@ typedef enum : NSUInteger {
     [self.playerItem seekToTime:kCMTimeZero];
     [self setState:PNLiteVASTPlayerState_READY];
     [self invokeDidComplete];
+    self.btnClose.hidden = NO;
 }
 
 #pragma mark - State Machine
@@ -660,6 +692,8 @@ typedef enum : NSUInteger {
             [self invokeDidFailLoadingWithError:mediaNotFoundError];
         } else {
             self.vastModel = self.videoAdCacheItem.vastModel;
+            self.skipOffsetFromServer = [self.vastModel skipOffsetFromServer];
+            
             [self createVideoPlayerWithVideoUrl:mediaUrl];
         }
     } else if (self.vastUrl || self.vastString) {
@@ -706,9 +740,6 @@ typedef enum : NSUInteger {
 - (void)setReadyState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
-    if (self.isInterstitial) {
-        self.btnClose.hidden = NO;
-    }
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -748,7 +779,6 @@ typedef enum : NSUInteger {
     self.btnOpenOffer.hidden = NO;
     if (self.isInterstitial) {
         self.btnFullscreen.hidden = YES;
-        self.btnClose.hidden = NO;
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }
@@ -776,7 +806,6 @@ typedef enum : NSUInteger {
     self.btnOpenOffer.hidden = NO;
     if (self.isInterstitial) {
         self.btnFullscreen.hidden = YES;
-        self.btnClose.hidden = NO;
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }

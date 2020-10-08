@@ -31,8 +31,9 @@
 @implementation HyBidInterstitialPresenterFactory
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
+                                                    withSkipOffset:(NSUInteger)skipOffset
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate {
-    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad];
+    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad withSkipOffset:skipOffset];
     if (!interstitialPresenter) {
         return nil;
     }
@@ -43,7 +44,7 @@
     return interstitialPresenterDecorator;
 }
 
-- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad {
+- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withSkipOffset:(NSUInteger)skipOffset {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_300x600:
         case MRAID_320x480:
@@ -55,7 +56,7 @@
             break;
         }
         case VAST_INTERSTITIAL: {
-            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad];
+            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad withSkipOffset:skipOffset];
             return vastInterstitalPresenter;
         }
         default:
