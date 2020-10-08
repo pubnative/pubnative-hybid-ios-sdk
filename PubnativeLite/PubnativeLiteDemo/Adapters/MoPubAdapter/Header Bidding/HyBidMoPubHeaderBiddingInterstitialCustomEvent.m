@@ -49,7 +49,7 @@
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
-        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withDelegate:self];
+        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withSkipOffset:0 withDelegate:self];
         if (!self.interstitialPresenter) {
             [self invokeFailWithMessage:@"Could not create valid interstitial presenter."];
             return;

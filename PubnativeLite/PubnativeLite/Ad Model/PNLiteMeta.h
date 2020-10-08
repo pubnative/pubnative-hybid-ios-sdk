@@ -30,5 +30,6 @@
 + (NSString *)creativeId;
 + (NSString *)bundleId;
 + (NSString *)contentInfo;
++ (NSString *)skadnetwork;
 
 @end

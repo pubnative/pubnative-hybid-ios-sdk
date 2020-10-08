@@ -33,6 +33,7 @@
 @property (nonatomic, weak) NSObject<HyBidInterstitialAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic) NSInteger skipOffset;
 
 @end
 
@@ -60,6 +61,15 @@
     return self;
 }
 
+- (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
+    self = [super init];
+    if (self) {
+        self.zoneID = @"";
+        self.delegate = delegate;
+    }
+    return self;
+}
+
 - (void)load {
     [self cleanUp];
     if (!self.zoneID || self.zoneID.length == 0) {
@@ -69,6 +79,27 @@
         [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
         [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
+}
+
+- (void)setSkipOffset:(NSInteger)seconds
+{
+    if(seconds > 0) {
+        self->_skipOffset = seconds;
+    }
+}
+
+- (void)prepareAdWithContent:(NSString *)adContent {
+    if (adContent && [adContent length] != 0) {
+        [self processAdContent:adContent];
+    } else {
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an invalid ad asset" code:0 userInfo:nil]];
+    }
+}
+
+- (void)processAdContent:(NSString *)adContent {
+    HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
+    signalDataProcessor.delegate = self;
+    [signalDataProcessor processSignalData:adContent withZoneID:self.zoneID];
 }
 
 - (void)show {
@@ -93,7 +124,7 @@
 
 - (void)renderAd:(HyBidAd *)ad {
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
-    self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
+    self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withSkipOffset:self.skipOffset withDelegate:self];
     if (!self.interstitialPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid interstitial presenter."];
         [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];
@@ -120,6 +151,14 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidTrackImpression)]) {
         [self.delegate interstitialDidTrackImpression];
     }
+}
+
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getSkAdNetworkModel];
+    }
+    return result;
 }
 
 - (void)invokeDidTrackClick {
@@ -175,6 +214,17 @@
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self invokeDidDismiss];
+}
+
+#pragma mark - HyBidSignalDataProcessorDelegate
+
+- (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
+    self.ad = ad;
+    [self renderAd:self.ad];
+}
+
+- (void)signalDataDidFailWithError:(NSError *)error {
+    [self invokeDidFailWithError:error];
 }
 
 @end

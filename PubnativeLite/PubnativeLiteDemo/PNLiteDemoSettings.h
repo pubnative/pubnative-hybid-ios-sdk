@@ -47,6 +47,7 @@
 #define kHyBidAdMobMediationLeaderboardAdUnitIDKey @"adMobMediationLeaderboardAdUnitID"
 #define kHyBidAdMobMediationInterstitialAdUnitIDKey @"adMobMediationInterstitialAdUnitID"
 #define kHyBidDemoAPIURLKey @"apiURL"
+#define kHyBidDemoAppID @"1530210244"
 
 @interface PNLiteDemoSettings : NSObject
 

@@ -28,6 +28,7 @@
 @interface HyBidAdView()
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
+@property (nonatomic, strong) NSString *zoneID;
 
 @end
 
@@ -35,6 +36,7 @@
 
 - (void)dealloc {
     self.ad = nil;
+    self.zoneID = nil;
     self.delegate = nil;
     self.adPresenter = nil;
     self.adRequest = nil;
@@ -72,14 +74,15 @@
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
-    if (!zoneID || zoneID.length == 0) {
+    self.zoneID = zoneID;
+    if (!self.zoneID || self.zoneID.length == 0) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
         self.adRequest.adSize = self.adSize;
-        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
-        [self.adRequest requestAdWithDelegate:self withZoneID:zoneID];
+        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
+        [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
 }
 
@@ -106,6 +109,23 @@
     } else {
         [self.adPresenter load];
     }
+}
+
+- (void)renderAdWithContent:(NSString *)adContent withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self cleanUp];
+    self.delegate = delegate;
+    
+    if (adContent && [adContent length] != 0) {
+        [self processAdContent:adContent];
+    } else {
+        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an invalid ad asset." code:0 userInfo:nil]];
+    }
+}
+
+- (void)processAdContent:(NSString *)adContent {
+    HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
+    signalDataProcessor.delegate = self;
+    [signalDataProcessor processSignalData:adContent withZoneID:self.zoneID];
 }
 
 - (void)startTracking {
@@ -173,10 +193,30 @@
     }
 }
 
--  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
+- (HyBidSkAdNetworkModel *)skAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getSkAdNetworkModel];
+    }
+    return result;
+}
+
+-  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];
     }
+}
+
+#pragma mark - HyBidSignalDataProcessorDelegate
+
+- (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
+    self.ad = ad;
+    [self renderAd];
+}
+
+- (void)signalDataDidFailWithError:(NSError *)error {
+    [self.delegate adView:self didFailWithError:error];
 }
 
 @end

@@ -70,6 +70,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidLogger.h>
 #import <HyBid/HyBidIntegrationType.h>
 #import <HyBid/HyBidAdSize.h>
+#import <HyBid/HyBidSignalDataProcessor.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
@@ -80,5 +81,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setTestMode:(BOOL)enabled;
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
 + (void)setLocationUpdates:(BOOL)enabled;
++ (void)setAppStoreAppID:(NSString *)appID;
 
 @end

@@ -60,6 +60,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -70,11 +71,12 @@
     [self.player stop];
 }
 
-- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad {
+- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset {
     self.presenter = interstitialPresenter;
     self.adModel = ad;
-    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithContentInfo:self.adModel.contentInfo isInterstital:YES];
+    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:YES];
     self.player.delegate = self;
+    self.player.skipOffset = skipOffset;
     if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
         self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];
         if (!self.videoAdCacheItem) {

@@ -69,6 +69,9 @@ CLLocationManager *locationManager;
     [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
                                         withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+    
+    [HyBid setAppStoreAppID:kHyBidDemoAppID];
+    
     return YES;
 }
 
