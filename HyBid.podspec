@@ -38,6 +38,10 @@ Pod::Spec.new do |s|
 
   s.authors      = { "Can Soykarafakili" => "can.soykarafakili@pubnative.net", "Eros Garcia Ponte" => "eros.ponte@pubnative.net", "Fares Ben Hamouda" => "fares.ben.hamouda@pubnative.net" }
   s.platform     = :ios
+  s.pod_target_xcconfig = {
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
+  }
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.ios.deployment_target = "9.0"
   s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/2.1.0/HyBid.framework.zip" }
   s.ios.vendored_frameworks = 'HyBid.framework'
