@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,7 +33,7 @@
                                     <outlet property="delegate" destination="YdD-l3-WZK" id="vdf-y5-Y5N"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MNm-yr-2oJ" userLabel="Add Button">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MNm-yr-2oJ" userLabel="Add Button">
                                 <rect key="frame" x="299" y="8" width="60" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="addButton" label="Add Button"/>
@@ -95,7 +95,7 @@
                                     <outlet property="delegate" destination="YdD-l3-WZK" id="HIA-a1-6yo"/>
                                 </connections>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOs-Ai-roq" userLabel="Clear All Keywords Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOs-Ai-roq" userLabel="Clear All Keywords Button">
                                 <rect key="frame" x="16" y="565" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="clearAllKeywordsButton" label="Clear All Keywords Button"/>
@@ -126,7 +126,7 @@
                                     <action selector="clearKeywordsTouchUpInside:" destination="YdD-l3-WZK" eventType="touchUpInside" id="Vd8-kb-Hfn"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na1-8b-rxD" userLabel="Save Keywords Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na1-8b-rxD" userLabel="Save Keywords Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveKeywordsButton" label="Save Keywords Button"/>
@@ -148,6 +148,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="zKO-SB-b4y"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
@@ -170,7 +171,6 @@
                             <constraint firstItem="TOs-Ai-roq" firstAttribute="top" secondItem="xI6-1Y-VfZ" secondAttribute="bottom" constant="8" id="rSm-l3-kpt"/>
                             <constraint firstAttribute="trailing" secondItem="TOs-Ai-roq" secondAttribute="trailing" constant="16" id="tkx-UA-jls"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="zKO-SB-b4y"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="uBy-e7-ARw" appends="YES" id="R2j-31-aVD"/>
                         </connections>
@@ -329,7 +329,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fbY-PS-hjw" userLabel="Leaderboard Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="268" width="680" height="30"/>
+                                <rect key="frame" x="16" y="268" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDTextField" label="Leaderboard Ad Unit ID TextField"/>
                                 <constraints>
@@ -341,7 +341,7 @@
                                     <outlet property="delegate" destination="LCU-2E-ix7" id="Dng-3b-7ZI"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Db-uk-l66" userLabel="Save MoPub Settings Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Db-uk-l66" userLabel="Save MoPub Settings Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveMoPubSettingsButton" label="Save MoPub Settings Button"/>
@@ -363,6 +363,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="B9o-ep-w2v"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="WNd-bE-mq4" firstAttribute="top" secondItem="CRV-ib-Qx9" secondAttribute="bottom" constant="18" id="3Ib-WU-7Pu"/>
@@ -390,7 +391,6 @@
                             <constraint firstItem="B9o-ep-w2v" firstAttribute="trailing" secondItem="fbY-PS-hjw" secondAttribute="trailing" constant="16" id="xav-Fv-yWs"/>
                             <constraint firstItem="7Db-uk-l66" firstAttribute="centerX" secondItem="1Wn-p3-w6a" secondAttribute="centerX" id="xzo-gq-jpD"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="B9o-ep-w2v"/>
                     </view>
                     <navigationItem key="navigationItem" title="MoPub Settings" id="KlS-Jl-hca"/>
                     <connections>
@@ -454,7 +454,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="cFF-Hf-GKS">
                                 <rect key="frame" x="16" y="75" width="343" height="30"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooi-g1-RiV" userLabel="Testing Mode Button">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooi-g1-RiV" userLabel="Testing Mode Button">
                                         <rect key="frame" x="0.0" y="0.0" width="163.5" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="testingButton" label="Testing Button"/>
@@ -476,7 +476,7 @@
                                             <action selector="testingModeTouchUpInside:" destination="nGO-xg-xlE" eventType="touchUpInside" id="vRM-LO-uBQ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyo-Uw-H2v" userLabel="Coppa Mode Button">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyo-Uw-H2v" userLabel="Coppa Mode Button">
                                         <rect key="frame" x="179.5" y="0.0" width="163.5" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="coppaButton" label="Coppa Button"/>
@@ -560,7 +560,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="aAv-lb-I3F">
                                 <rect key="frame" x="16" y="173" width="343" height="30"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uhM-Na-pDc" userLabel="Not Set Button">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uhM-Na-pDc" userLabel="Not Set Button">
                                         <rect key="frame" x="0.0" y="0.0" width="103.5" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="notSetButton" label="Not Set Button"/>
@@ -588,7 +588,7 @@
                                             <action selector="notSetTouchUpInside:" destination="nGO-xg-xlE" eventType="touchUpInside" id="hGg-CD-wEy"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtx-LB-b3S" userLabel="Male Button">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtx-LB-b3S" userLabel="Male Button">
                                         <rect key="frame" x="119.5" y="0.0" width="104" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="maleButton" label="Male Button"/>
@@ -624,7 +624,7 @@
                                             <action selector="maleTouchUpInside:" destination="nGO-xg-xlE" eventType="touchUpInside" id="P9V-ba-T71"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nI-Vc-Eqn" userLabel="Female Button">
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nI-Vc-Eqn" userLabel="Female Button">
                                         <rect key="frame" x="239.5" y="0.0" width="103.5" height="30"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="femaleButton" label="Female Button"/>
@@ -654,7 +654,7 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwp-5P-1u0" userLabel="Keywords Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwp-5P-1u0" userLabel="Keywords Button">
                                 <rect key="frame" x="16" y="315" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="keywordsButton" label="Keywords Button"/>
@@ -685,7 +685,7 @@
                                     <segue destination="YdD-l3-WZK" kind="show" id="WMg-mR-5an"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMd-ox-EsH" userLabel="Save PNLite Settings Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMd-ox-EsH" userLabel="Save PNLite Settings Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveHyBidSettingsButton" label="Save HyBid Settings Button"/>
@@ -772,6 +772,7 @@
                                 </connections>
                             </textField>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="XR4-a4-G7L"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
@@ -810,7 +811,6 @@
                             <constraint firstAttribute="trailing" secondItem="WMd-ox-EsH" secondAttribute="trailing" constant="16" id="tjG-Vf-zC7"/>
                             <constraint firstItem="XR4-a4-G7L" firstAttribute="trailing" secondItem="cFF-Hf-GKS" secondAttribute="trailing" constant="16" id="zZB-2X-GVG"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="XR4-a4-G7L"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="KYq-nk-Sgg" appends="YES" id="2B9-gu-TSi"/>
                         </connections>
@@ -842,7 +842,7 @@
                 <viewControllerPlaceholder storyboardName="Markup" id="fQl-zg-cZw" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LYV-Xg-ycb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5902" y="178"/>
+            <point key="canvasLocation" x="-5888" y="-88"/>
         </scene>
         <!--Settings-->
         <scene sceneID="48s-uB-Snw">
@@ -871,7 +871,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LX0-th-QXm" userLabel="MoPub Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LX0-th-QXm" userLabel="MoPub Button">
                                 <rect key="frame" x="16" y="37" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="moPubButton" label="MoPub Button"/>
@@ -902,7 +902,7 @@
                                     <segue destination="LCU-2E-ix7" kind="show" id="rqR-Yt-qj7"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUN-x4-mNQ" userLabel="DFP Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUN-x4-mNQ" userLabel="DFP Button">
                                 <rect key="frame" x="16" y="78" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="dfpButton" label="DFP Button"/>
@@ -933,7 +933,7 @@
                                     <segue destination="8gd-Ri-fSt" kind="show" id="exd-Ak-SVE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hog-UA-hbL" userLabel="HyBid Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hog-UA-hbL" userLabel="HyBid Button">
                                 <rect key="frame" x="16" y="119" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="hyBidButton" label="HyBid Button"/>
@@ -964,7 +964,7 @@
                                     <segue destination="nGO-xg-xlE" kind="show" id="e6K-Ty-OD0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGy-Fy-cpz" userLabel="Mediation Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGy-Fy-cpz" userLabel="Mediation Button">
                                 <rect key="frame" x="16" y="160" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.49019607840000001" green="0.039215686270000001" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mediationButton" label="Mediation Button"/>
@@ -1010,7 +1010,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKU-y7-Uke" userLabel="Consent Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKU-y7-Uke" userLabel="Consent Button">
                                 <rect key="frame" x="16" y="230" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentButton" label="Consent Button"/>
@@ -1041,7 +1041,7 @@
                                     <segue destination="dHO-3z-kzd" kind="show" id="qzU-Uq-LWC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ca-Dr-k29" userLabel="Consent Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ca-Dr-k29" userLabel="Consent Button">
                                 <rect key="frame" x="16" y="271" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentButton" label="Consent Button"/>
@@ -1072,7 +1072,39 @@
                                     <segue destination="fQl-zg-cZw" kind="show" id="XQ1-vs-h1q"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXN-z5-dkM" userLabel="Consent Button">
+                                <rect key="frame" x="16" y="312" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="signalDataButton" label="Signal Data Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="5pW-AZ-lAp"/>
+                                    <constraint firstAttribute="height" constant="33" id="qxx-ZY-QWp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Signal Data Tester">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="5pW-AZ-lAp"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="qxx-ZY-QWp"/>
+                                        <include reference="5pW-AZ-lAp"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="oGd-IK-Oh4" kind="show" id="4rY-S3-lvX"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="xSV-Qn-i1c"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hog-UA-hbL" firstAttribute="leading" secondItem="tJp-tk-Bun" secondAttribute="leading" constant="16" id="101-QY-PtX"/>
@@ -1087,6 +1119,7 @@
                             <constraint firstItem="LX0-th-QXm" firstAttribute="leading" secondItem="tJp-tk-Bun" secondAttribute="leading" constant="16" id="Dry-cd-hsI"/>
                             <constraint firstItem="xSV-Qn-i1c" firstAttribute="trailing" secondItem="dKU-y7-Uke" secondAttribute="trailing" constant="16" id="LKr-Db-NN4"/>
                             <constraint firstItem="dKU-y7-Uke" firstAttribute="top" secondItem="Y0J-ig-HoA" secondAttribute="bottom" constant="8" id="XSu-bh-hre"/>
+                            <constraint firstItem="xSV-Qn-i1c" firstAttribute="trailing" secondItem="cXN-z5-dkM" secondAttribute="trailing" constant="16" id="Xlr-O5-rrd"/>
                             <constraint firstItem="LUN-x4-mNQ" firstAttribute="top" secondItem="LX0-th-QXm" secondAttribute="bottom" constant="8" id="Xre-DB-e8P"/>
                             <constraint firstItem="LUN-x4-mNQ" firstAttribute="leading" secondItem="tJp-tk-Bun" secondAttribute="leading" constant="16" id="Y5b-Re-oOf"/>
                             <constraint firstAttribute="trailing" secondItem="LX0-th-QXm" secondAttribute="trailing" constant="16" id="aa0-JO-NZb"/>
@@ -1094,11 +1127,12 @@
                             <constraint firstAttribute="trailing" secondItem="hog-UA-hbL" secondAttribute="trailing" constant="16" id="edY-qN-2Mo"/>
                             <constraint firstAttribute="trailing" secondItem="wGy-Fy-cpz" secondAttribute="trailing" constant="16" id="hr0-nk-sli"/>
                             <constraint firstItem="wks-dj-u9n" firstAttribute="top" secondItem="r1q-2c-1Zz" secondAttribute="bottom" constant="8" id="jSw-VV-NuX"/>
+                            <constraint firstItem="cXN-z5-dkM" firstAttribute="top" secondItem="9ca-Dr-k29" secondAttribute="bottom" constant="8" id="jfv-xq-vD3"/>
                             <constraint firstItem="dKU-y7-Uke" firstAttribute="leading" secondItem="xSV-Qn-i1c" secondAttribute="leading" constant="16" id="jiM-YL-eOT"/>
                             <constraint firstItem="xSV-Qn-i1c" firstAttribute="trailing" secondItem="9ca-Dr-k29" secondAttribute="trailing" constant="16" id="t0G-Ki-f6D"/>
+                            <constraint firstItem="cXN-z5-dkM" firstAttribute="leading" secondItem="xSV-Qn-i1c" secondAttribute="leading" constant="16" id="vgx-2b-JBS"/>
                             <constraint firstItem="LX0-th-QXm" firstAttribute="top" secondItem="wks-dj-u9n" secondAttribute="bottom" constant="8" id="zt2-xS-reA"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="xSV-Qn-i1c"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R93-IY-0zr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1113,7 +1147,17 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBy-W1-hMq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5919" y="-157"/>
+            <point key="canvasLocation" x="-5884" y="-138"/>
+        </scene>
+        <!--SignalData-->
+        <scene sceneID="hQI-xN-t3z">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SignalData" id="oGd-IK-Oh4" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Ftu-Fd-BbP"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dgq-Rr-0sN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5872" y="-39"/>
         </scene>
         <!--DFP Settings-->
         <scene sceneID="Sfu-oo-ocH">
@@ -1248,7 +1292,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your DFP Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JXI-Ng-Vdz" userLabel="Leaderboard Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="258" width="680" height="30"/>
+                                <rect key="frame" x="16" y="258" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDTextField" label="Leaderboard Ad Unit ID TextField"/>
                                 <constraints>
@@ -1260,7 +1304,7 @@
                                     <outlet property="delegate" destination="8gd-Ri-fSt" id="l7q-fB-QEN"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYg-PP-KVG" userLabel="Save DFP Settings Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYg-PP-KVG" userLabel="Save DFP Settings Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveDFPSettingsButton" label="Save DFP Settings Button"/>
@@ -1282,6 +1326,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="BzO-Db-lN4"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="1Mm-GM-ADE" firstAttribute="leading" secondItem="HiG-aM-Ue5" secondAttribute="leading" constant="16" id="6pV-QN-M9Z"/>
@@ -1309,7 +1354,6 @@
                             <constraint firstItem="XUO-bO-UmM" firstAttribute="top" secondItem="1Mm-GM-ADE" secondAttribute="bottom" constant="8" id="tye-9D-3r2"/>
                             <constraint firstItem="EBG-sd-1KD" firstAttribute="top" secondItem="jug-J3-FYD" secondAttribute="bottom" constant="8" id="yAn-cj-axY"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="BzO-Db-lN4"/>
                     </view>
                     <navigationItem key="navigationItem" title="DFP Settings" id="XB1-JR-94o"/>
                     <connections>
@@ -1350,7 +1394,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdk-iN-P1P" userLabel="MoPub Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdk-iN-P1P" userLabel="MoPub Button">
                                 <rect key="frame" x="16" y="37" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="moPubButton" label="MoPub Button"/>
@@ -1381,7 +1425,7 @@
                                     <segue destination="pUa-nI-1vi" kind="show" id="6yU-QL-cpP"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f9G-Mv-MkS" userLabel="MoPub Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f9G-Mv-MkS" userLabel="MoPub Button">
                                 <rect key="frame" x="16" y="78" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="adMobButton" label="AdMob Button"/>
@@ -1413,6 +1457,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="m76-9K-HKW"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="f9G-Mv-MkS" firstAttribute="leading" secondItem="m76-9K-HKW" secondAttribute="leading" constant="16" id="1ak-aQ-PUh"/>
@@ -1424,7 +1469,6 @@
                             <constraint firstItem="m76-9K-HKW" firstAttribute="trailing" secondItem="f9G-Mv-MkS" secondAttribute="trailing" constant="16" id="pp5-3e-K4X"/>
                             <constraint firstAttribute="trailing" secondItem="cdk-iN-P1P" secondAttribute="trailing" constant="16" id="qjs-zK-nam"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="m76-9K-HKW"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kL6-y1-eab" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1583,7 +1627,7 @@
                                     <outlet property="delegate" destination="pUa-nI-1vi" id="mQH-MZ-CTX"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zr-oL-H67" userLabel="Save MoPub Settings Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zr-oL-H67" userLabel="Save MoPub Settings Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveMoPubMediationSettingsButton" label="Save MoPub Mediation Settings Button"/>
@@ -1627,7 +1671,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dvZ-XJ-YVF" userLabel="Leaderboard Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="345" width="680" height="30"/>
+                                <rect key="frame" x="16" y="345" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDTextField" label="Leaderboard Ad Unit ID TextField"/>
                                 <constraints>
@@ -1640,6 +1684,7 @@
                                 </connections>
                             </textField>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="sgh-UY-4dA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="zjs-f9-j8i" firstAttribute="top" secondItem="bPo-ge-fBA" secondAttribute="bottom" constant="8" id="3Bb-Z9-Hco"/>
@@ -1672,7 +1717,6 @@
                             <constraint firstItem="dvZ-XJ-YVF" firstAttribute="top" secondItem="RLd-Q0-FWY" secondAttribute="bottom" constant="8" id="qrt-cf-qJS"/>
                             <constraint firstItem="x1z-iM-Svk" firstAttribute="top" secondItem="TMF-ll-pYd" secondAttribute="bottom" constant="18" id="z7V-hN-CCw"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="sgh-UY-4dA"/>
                     </view>
                     <navigationItem key="navigationItem" title="MoPub Mediation Settings" id="Bef-M6-rxp"/>
                     <connections>
@@ -1839,7 +1883,7 @@
                                     <outlet property="delegate" destination="FdI-pw-Xqn" id="L6v-Yv-BXF"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jvv-fz-YDZ" userLabel="Save MoPub Settings Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jvv-fz-YDZ" userLabel="Save MoPub Settings Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="saveMoPubMediationSettingsButton" label="Save MoPub Mediation Settings Button"/>
@@ -1883,7 +1927,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your AdMob Mediation Leaderboard Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Pra-Or-dFT" userLabel="Leaderboard Ad Unit ID Text Field">
-                                <rect key="frame" x="16" y="345" width="680" height="30"/>
+                                <rect key="frame" x="16" y="345" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardAdUnitIDTextField" label="Leaderboard Ad Unit ID TextField"/>
                                 <constraints>
@@ -1896,6 +1940,7 @@
                                 </connections>
                             </textField>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="tPm-1U-VsP"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Pra-Or-dFT" firstAttribute="leading" secondItem="tPm-1U-VsP" secondAttribute="leading" constant="16" id="1Ks-2F-Bro"/>
@@ -1928,7 +1973,6 @@
                             <constraint firstItem="3HY-ii-12N" firstAttribute="leading" secondItem="tPm-1U-VsP" secondAttribute="leading" constant="16" id="tKt-AY-nhQ"/>
                             <constraint firstItem="mfv-EV-D1B" firstAttribute="leading" secondItem="on7-Oo-dc7" secondAttribute="leading" constant="16" id="vx4-Ov-p4h"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="tPm-1U-VsP"/>
                     </view>
                     <navigationItem key="navigationItem" title="MoPub Mediation Settings" id="8Ww-5T-JUH"/>
                     <connections>

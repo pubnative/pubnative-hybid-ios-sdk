@@ -332,6 +332,8 @@
 		5A580DA421A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A580DA321A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m */; };
 		5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */; };
 		5A59DBBF2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */; };
+		5A5A9BD72530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5A9BD62530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m */; };
+		5A5A9BF02530CC94002C9168 /* SignalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5A9BEF2530CC94002C9168 /* SignalData.m */; };
 		5A5EEC452507D7AC008100AF /* PNLiteDemoPNLiteBannerSizeSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5EEC442507D7AC008100AF /* PNLiteDemoPNLiteBannerSizeSelectionViewController.m */; };
 		5A63F23B2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A63F23A2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m */; };
 		5A63F23E2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A63F23D2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m */; };
@@ -399,6 +401,8 @@
 		5A91E66820C008E900527BAA /* PNLiteCheckConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66620C008E900527BAA /* PNLiteCheckConsentRequest.m */; };
 		5A91E66B20C01E5000527BAA /* PNLiteUserConsentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E66920C01E5000527BAA /* PNLiteUserConsentRequest.h */; };
 		5A91E66C20C01E5000527BAA /* PNLiteUserConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */; };
+		5A921D432530B2B9006F1572 /* SignalData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A921D422530B2B9006F1572 /* SignalData.storyboard */; };
+		5A921D4B2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A921D4A2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m */; };
 		5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
 		5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */; };
 		5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */; };
@@ -1518,6 +1522,10 @@
 		5A59DBBB2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteSettingsViewController.m; sourceTree = "<group>"; };
 		5A59DBBD2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoKeywordsViewController.h; sourceTree = "<group>"; };
 		5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoKeywordsViewController.m; sourceTree = "<group>"; };
+		5A5A9BD52530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoSignalDataDetailViewController.h; sourceTree = "<group>"; };
+		5A5A9BD62530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoSignalDataDetailViewController.m; sourceTree = "<group>"; };
+		5A5A9BEE2530CC94002C9168 /* SignalData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignalData.h; sourceTree = "<group>"; };
+		5A5A9BEF2530CC94002C9168 /* SignalData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignalData.m; sourceTree = "<group>"; };
 		5A5EEC432507D7AC008100AF /* PNLiteDemoPNLiteBannerSizeSelectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteBannerSizeSelectionViewController.h; sourceTree = "<group>"; };
 		5A5EEC442507D7AC008100AF /* PNLiteDemoPNLiteBannerSizeSelectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteBannerSizeSelectionViewController.m; sourceTree = "<group>"; };
 		5A63F2392191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationLeaderboardViewController.h; sourceTree = "<group>"; };
@@ -1601,6 +1609,9 @@
 		5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteUserConsentRequest.m; sourceTree = "<group>"; };
 		5A91E67120C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoConsentManagementProviderViewController.h; sourceTree = "<group>"; };
 		5A91E67220C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoConsentManagementProviderViewController.m; sourceTree = "<group>"; };
+		5A921D422530B2B9006F1572 /* SignalData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignalData.storyboard; sourceTree = "<group>"; };
+		5A921D492530B605006F1572 /* HyBidDemoSignalDataMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoSignalDataMainViewController.h; sourceTree = "<group>"; };
+		5A921D4A2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoSignalDataMainViewController.m; sourceTree = "<group>"; };
 		5A969A3D206523F800C3B74A /* HyBidTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyBidTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A969A41206523F800C3B74A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -2820,6 +2831,7 @@
 				5A4FF06520AD92C700B81B3D /* Standalone */,
 				5A049AD1252E130E0066B270 /* Header Bidding */,
 				5AD07C0C22FADF60001BF4A1 /* Markup */,
+				5A921D3C2530B1D4006F1572 /* Signal Data */,
 				5AA7EC5D20E4D54D00277E2B /* Storyboards */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
@@ -3195,6 +3207,19 @@
 			path = "Header Bidding";
 			sourceTree = "<group>";
 		};
+		5A921D3C2530B1D4006F1572 /* Signal Data */ = {
+			isa = PBXGroup;
+			children = (
+				5A5A9BEE2530CC94002C9168 /* SignalData.h */,
+				5A5A9BEF2530CC94002C9168 /* SignalData.m */,
+				5A921D492530B605006F1572 /* HyBidDemoSignalDataMainViewController.h */,
+				5A921D4A2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m */,
+				5A5A9BD52530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.h */,
+				5A5A9BD62530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m */,
+			);
+			path = "Signal Data";
+			sourceTree = "<group>";
+		};
 		5A969A3E206523F800C3B74A /* PubnativeLiteTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -3285,6 +3310,7 @@
 				5A8E0E6B241A86A500F378E9 /* HeaderBidding.storyboard */,
 				5AC886E4241A9E68004E7D74 /* Mediation.storyboard */,
 				5A73BC2224C0CEA3002E1E9D /* Consent.storyboard */,
+				5A921D422530B2B9006F1572 /* SignalData.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -3959,6 +3985,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */,
+				5A921D432530B2B9006F1572 /* SignalData.storyboard in Resources */,
 				5A049A1C252E0D070066B270 /* MPMutedBtn.png in Resources */,
 				5A73BC2324C0CEA3002E1E9D /* Consent.storyboard in Resources */,
 				5A8E0E6C241A86A500F378E9 /* HeaderBidding.storyboard in Resources */,
@@ -4173,6 +4200,7 @@
 				5A049A06252E0D070066B270 /* MPEngineInfo.m in Sources */,
 				5A049A26252E0D070066B270 /* MPAdViewConstant.m in Sources */,
 				5A049A95252E0D070066B270 /* MPVASTAdVerifications.m in Sources */,
+				5A5A9BF02530CC94002C9168 /* SignalData.m in Sources */,
 				5AC35B51214A91D0001F0ED3 /* HyBidMoPubHeaderBiddingInterstitialCustomEvent.m in Sources */,
 				5A049AA6252E0D070066B270 /* MPVASTInline.m in Sources */,
 				5A453DA1219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m in Sources */,
@@ -4255,6 +4283,7 @@
 				5A049A31252E0D070066B270 /* MPOpenMeasurementTracker.m in Sources */,
 				5A54619D24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m in Sources */,
 				5A049A77252E0D070066B270 /* MPMoPubFullscreenAdAdapter.m in Sources */,
+				5A5A9BD72530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m in Sources */,
 				5A049A84252E0D070066B270 /* NSError+MPAdditions.m in Sources */,
 				5A049A28252E0D070066B270 /* MPURL.m in Sources */,
 				5A049A4B252E0D070066B270 /* MPAPIEndpoints.m in Sources */,
@@ -4311,6 +4340,7 @@
 				5A049A57252E0D070066B270 /* MPActivityViewControllerHelper+TweetShare.m in Sources */,
 				5A049A54252E0D070066B270 /* MPCountdownTimerView.m in Sources */,
 				5A049A86252E0D070066B270 /* UIColor+MPAdditions.m in Sources */,
+				5A921D4B2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m in Sources */,
 				5A049A6C252E0D070066B270 /* MRBundleManager.m in Sources */,
 				5A049AB0252E0D070066B270 /* MOPUBPlayerManager.m in Sources */,
 				5A049AB4252E0D070066B270 /* MOPUBFullscreenPlayerViewController.m in Sources */,

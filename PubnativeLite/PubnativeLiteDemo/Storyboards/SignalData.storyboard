@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JlX-Br-dQ5">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Signal Data Tester-->
+        <scene sceneID="nZ4-kh-ejc">
+            <objects>
+                <viewController title="Signal Data Tester" id="JlX-Br-dQ5" customClass="HyBidDemoSignalDataMainViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Mmj-9c-kGR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ali-lg-019" userLabel="Signal Data Text View">
+                                <rect key="frame" x="16" y="58" width="343" height="396"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="signalDataTextView" label="Signal Data Text View"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lcc-31-2dW" userLabel="Load Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadButton" label="Load Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="pd5-uG-SAu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="pd5-uG-SAu"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="loadSignalDataTouchUpInside:" destination="JlX-Br-dQ5" eventType="touchUpInside" id="tz4-A2-JFA"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your Signal Data down below and choose a placement" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbU-kT-Hxp">
+                                <rect key="frame" x="16" y="8" width="343" height="42"/>
+                                <accessibility key="accessibilityConfiguration" identifier="signalDataLabel" label="Signal Data Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="JVe-Cs-t3I"/>
+                                    <constraint firstAttribute="height" constant="21" id="Tft-1Q-70v"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Tft-1Q-70v"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="JVe-Cs-t3I"/>
+                                        <include reference="Tft-1Q-70v"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eex-ZJ-pCK">
+                                <rect key="frame" x="16" y="462" width="343" height="156"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E88-fx-Vuw" userLabel="Banner Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="cEP-Cf-c2w"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Banner">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="cEP-Cf-c2w"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="bannerTouchUpInside:" destination="JlX-Br-dQ5" eventType="touchUpInside" id="aXv-2q-xx8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-M7-h1h" userLabel="MRect Button">
+                                        <rect key="frame" x="0.0" y="41" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="foW-oe-qNM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="MRect">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="foW-oe-qNM"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="mRectTouchUpInside:" destination="JlX-Br-dQ5" eventType="touchUpInside" id="2rq-Rh-73m"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNQ-nq-zJe" userLabel="Leaderboard Button">
+                                        <rect key="frame" x="0.0" y="82" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="aka-eZ-L5B"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Leaderboard">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="aka-eZ-L5B"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="leaderboardTouchUpInside:" destination="JlX-Br-dQ5" eventType="touchUpInside" id="jVd-WM-M6h"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejG-MP-cSs" userLabel="Interstitial Button">
+                                        <rect key="frame" x="0.0" y="123" width="343" height="33"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="c3t-eY-hjQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Interstitial">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="c3t-eY-hjQ"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="interstitialTouchUpInside:" destination="JlX-Br-dQ5" eventType="touchUpInside" id="fr7-D0-DCL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="xIN-Qz-K5Y"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="PbU-kT-Hxp" firstAttribute="top" secondItem="xIN-Qz-K5Y" secondAttribute="top" constant="8" id="1VB-kz-MoG"/>
+                            <constraint firstItem="PbU-kT-Hxp" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="CAH-LS-OXX"/>
+                            <constraint firstItem="Lcc-31-2dW" firstAttribute="top" secondItem="eex-ZJ-pCK" secondAttribute="bottom" constant="8" id="Hxy-km-7nR"/>
+                            <constraint firstItem="Ali-lg-019" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="JbD-Lc-Qqt"/>
+                            <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="eex-ZJ-pCK" secondAttribute="trailing" constant="16" id="MQE-Ks-wMt"/>
+                            <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="Lcc-31-2dW" secondAttribute="trailing" constant="16" id="Quq-b5-OEh"/>
+                            <constraint firstItem="xIN-Qz-K5Y" firstAttribute="bottom" secondItem="Lcc-31-2dW" secondAttribute="bottom" constant="8" id="Rt5-eJ-jn8"/>
+                            <constraint firstItem="eex-ZJ-pCK" firstAttribute="top" secondItem="Ali-lg-019" secondAttribute="bottom" constant="8" id="dKM-qh-dNq"/>
+                            <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="Ali-lg-019" secondAttribute="trailing" constant="16" id="ndn-jn-O4m"/>
+                            <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="PbU-kT-Hxp" secondAttribute="trailing" constant="16" id="pMo-1E-vhJ"/>
+                            <constraint firstItem="Ali-lg-019" firstAttribute="top" secondItem="PbU-kT-Hxp" secondAttribute="bottom" constant="8" id="rGf-cB-2L8"/>
+                            <constraint firstItem="Lcc-31-2dW" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="tGy-AB-6bV"/>
+                            <constraint firstItem="eex-ZJ-pCK" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="xDO-w5-aKt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bannerButton" destination="E88-fx-Vuw" id="k4a-eC-sNX"/>
+                        <outlet property="interstitialButton" destination="ejG-MP-cSs" id="lI4-hj-zHZ"/>
+                        <outlet property="leaderboardButton" destination="cNQ-nq-zJe" id="5qS-vT-EQb"/>
+                        <outlet property="mRectButton" destination="bPf-M7-h1h" id="0Mt-QJ-L6d"/>
+                        <outlet property="signalDataTextView" destination="Ali-lg-019" id="iIe-4h-8Yf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XkY-2A-0O1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-167.19999999999999" y="149.77511244377811"/>
+        </scene>
+        <!--Hy Bid Demo Signal Data Detail View Controller-->
+        <scene sceneID="9av-rc-gaL">
+            <objects>
+                <viewController storyboardIdentifier="SignalDataDetailViewController" id="4Yy-Ys-vhp" customClass="HyBidDemoSignalDataDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gpG-Ut-CeR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Mi-vh-fIt" customClass="HyBidAdView">
+                                <rect key="frame" x="182.5" y="328.5" width="10" height="10"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="7PE-Mj-Ssa"/>
+                                    <constraint firstAttribute="height" constant="10" id="iI8-zJ-KCB"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t6A-UG-Wmt" userLabel="Dismiss Button">
+                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="dismissButton" label="Dismiss Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Eg0-Qt-PZm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Dismiss">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Eg0-Qt-PZm"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="dismissButtonTouchUpInside:" destination="4Yy-Ys-vhp" eventType="touchUpInside" id="rgc-pS-90f"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Based on the Signal Data that you've provided, your ad will look like this;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-Mn-Pf7">
+                                <rect key="frame" x="16" y="8" width="343" height="40"/>
+                                <accessibility key="accessibilityConfiguration" identifier="signalDataLabel" label="Signal Data Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="8JZ-nG-2fX"/>
+                                    <constraint firstAttribute="height" constant="40" id="vN6-Lf-WiM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="8JZ-nG-2fX"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="8JZ-nG-2fX"/>
+                                        <exclude reference="vN6-Lf-WiM"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="1dV-Nt-ZRe"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="1dV-Nt-ZRe" firstAttribute="bottom" secondItem="t6A-UG-Wmt" secondAttribute="bottom" constant="8" id="3rp-yh-D47"/>
+                            <constraint firstItem="gO9-Mn-Pf7" firstAttribute="top" secondItem="1dV-Nt-ZRe" secondAttribute="top" constant="8" id="8A4-Em-ejX"/>
+                            <constraint firstItem="gO9-Mn-Pf7" firstAttribute="leading" secondItem="1dV-Nt-ZRe" secondAttribute="leading" constant="16" id="8fC-pT-ITA"/>
+                            <constraint firstItem="0Mi-vh-fIt" firstAttribute="centerX" secondItem="gpG-Ut-CeR" secondAttribute="centerX" id="Aqn-kO-eJc"/>
+                            <constraint firstItem="1dV-Nt-ZRe" firstAttribute="trailing" secondItem="gO9-Mn-Pf7" secondAttribute="trailing" constant="16" id="Faa-IB-eor"/>
+                            <constraint firstItem="t6A-UG-Wmt" firstAttribute="centerX" secondItem="gpG-Ut-CeR" secondAttribute="centerX" id="RyY-0N-add"/>
+                            <constraint firstAttribute="trailing" secondItem="t6A-UG-Wmt" secondAttribute="trailing" constant="16" id="VnT-I0-Tex"/>
+                            <constraint firstItem="0Mi-vh-fIt" firstAttribute="centerY" secondItem="gpG-Ut-CeR" secondAttribute="centerY" id="jjH-fw-NEh"/>
+                            <constraint firstItem="t6A-UG-Wmt" firstAttribute="leading" secondItem="1dV-Nt-ZRe" secondAttribute="leading" constant="16" id="rQm-9b-qWh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bannerAdView" destination="0Mi-vh-fIt" id="LSQ-sa-jMc"/>
+                        <outlet property="bannerAdViewContainerHeightConstraint" destination="iI8-zJ-KCB" id="lAn-dw-vHb"/>
+                        <outlet property="bannerAdViewContainerWidthConstraint" destination="7PE-Mj-Ssa" id="cL4-93-OBM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EcM-8Q-WnJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="656.79999999999995" y="150"/>
+        </scene>
+    </scenes>
+</document>
