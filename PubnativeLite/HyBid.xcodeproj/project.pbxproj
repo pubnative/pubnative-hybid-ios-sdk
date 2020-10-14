@@ -361,6 +361,7 @@
 		5A81B4922333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81B4912333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m */; };
 		5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */; };
 		5A82190B219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */; };
+		5A82D4E92537630300AEA53F /* NSString+UnescapingString.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A82D4E82537630200AEA53F /* NSString+UnescapingString.m */; };
 		5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */; };
 		5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */; };
 		5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */; };
@@ -1562,6 +1563,8 @@
 		5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPInterstitialViewController.m; sourceTree = "<group>"; };
 		5A821909219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPLeaderboardViewController.h; sourceTree = "<group>"; };
 		5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPLeaderboardViewController.m; sourceTree = "<group>"; };
+		5A82D4E72537630100AEA53F /* NSString+UnescapingString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UnescapingString.h"; sourceTree = "<group>"; };
+		5A82D4E82537630200AEA53F /* NSString+UnescapingString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UnescapingString.m"; sourceTree = "<group>"; };
 		5A87F458207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPSettingsViewController.h; sourceTree = "<group>"; };
 		5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPSettingsViewController.m; sourceTree = "<group>"; };
 		5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidNativeAdRequest.h; sourceTree = "<group>"; };
@@ -2814,6 +2817,8 @@
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
 				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
+				5A82D4E72537630100AEA53F /* NSString+UnescapingString.h */,
+				5A82D4E82537630200AEA53F /* NSString+UnescapingString.m */,
 				5AEDEE50228AEC7C001F00BB /* PNLiteDemoMoPubManager.h */,
 				5AEDEE51228AEC7C001F00BB /* PNLiteDemoMoPubManager.m */,
 				5ADC023620514F120071DA20 /* PNLiteDemoSettings.h */,
@@ -4316,6 +4321,7 @@
 				5A049A93252E0D070066B270 /* MoPub+Utility.m in Sources */,
 				5ADC023B2051700F0071DA20 /* PNLiteDemoMainViewController.m in Sources */,
 				5A049AC5252E0D070066B270 /* MPReward.m in Sources */,
+				5A82D4E92537630300AEA53F /* NSString+UnescapingString.m in Sources */,
 				5A049A3B252E0D070066B270 /* MPVideoPlayerViewOverlay.m in Sources */,
 				5AC7B6D82302E9FF00BDB91F /* PNLiteDemoMarkupBaseViewController.m in Sources */,
 				5AD07C0F22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m in Sources */,

@@ -21,13 +21,14 @@
 //
 
 #import "SignalData.h"
+#import "NSString+UnescapingString.h"
 
 @implementation SignalData
 
 - (instancetype)initWithSignalDataText:(NSString *)signalDataText withAdPlacement:(NSNumber *)placement {
     self = [super init];
     if (self) {
-        self.text = signalDataText;
+        self.text = [signalDataText unescapeString:signalDataText];
         self.placement = placement;
     }
     return self;
