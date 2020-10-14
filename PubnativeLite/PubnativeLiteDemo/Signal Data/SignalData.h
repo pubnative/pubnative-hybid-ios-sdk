@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "Markup.h"
-#import "NSString+UnescapingString.h"
+#import <Foundation/Foundation.h>
 
-@implementation Markup
+@interface SignalData : NSObject
 
-- (instancetype)initWithMarkupText:(NSString *)markupText withAdPlacement:(NSNumber *)placement
-{
-    self = [super init];
-    if (self) {
-        self.text = [markupText unescapeString:markupText];
-        self.placement = placement;
-    }
-    return self;
-}
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSNumber *placement;
+
+- (instancetype)initWithSignalDataText:(NSString *)signalDataText withAdPlacement:(NSNumber *)placement;
 
 @end
