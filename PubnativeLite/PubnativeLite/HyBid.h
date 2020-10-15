@@ -82,5 +82,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
 + (void)setLocationUpdates:(BOOL)enabled;
 + (void)setAppStoreAppID:(NSString *)appID;
++ (NSString *)sdkVersion;
 
 @end
