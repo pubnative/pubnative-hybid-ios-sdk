@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNLiteVASTPlayerInterstitialViewController.h"
+#import "HyBidRewardedPresenter.h"
+#import "HyBidAd.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PNLiteVASTPlayerRewardedViewController : UIViewController
 
-- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad;
+- (void)loadFullScreenPlayerWithPresenter:(HyBidRewardedPresenter *)rewardedPresenter withAd:(HyBidAd *)ad;
 
 @end
 
