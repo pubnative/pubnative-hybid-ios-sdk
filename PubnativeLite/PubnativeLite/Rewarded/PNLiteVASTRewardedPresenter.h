@@ -10,8 +10,6 @@
 
 @interface PNLiteVASTRewardedPresenter : HyBidRewardedPresenter
 
-- (instancetype)initWithAd:(HyBidAd *)ad withSkipOffset: (NSInteger)skipOffset;
-
-@property (nonatomic, readwrite, assign) NSInteger skipOffset;
+- (instancetype)initWithAd:(HyBidAd *)ad;
 
 @end

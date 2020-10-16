@@ -19,7 +19,6 @@
 @property (nonatomic, weak) NSObject<HyBidRewardedAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidRewardedPresenter *rewardedPresenter;
 @property (nonatomic, strong) HyBidRewardedAdRequest *rewardedAdRequest;
-@property (nonatomic) NSInteger skipOffset;
 
 @end
 
@@ -67,13 +66,6 @@
     }
 }
 
-- (void)setSkipOffset:(NSInteger)seconds
-{
-    if(seconds > 0) {
-        self->_skipOffset = seconds;
-    }
-}
-
 - (void)prepareAdWithContent:(NSString *)adContent {
     if (adContent && [adContent length] != 0) {
         [self processAdContent:adContent];
@@ -110,7 +102,7 @@
 
 - (void)renderAd:(HyBidAd *)ad {
     HyBidRewardedPresenterFactory *interstitalPresenterFactory = [[HyBidRewardedPresenterFactory alloc] init];
-    self.rewardedPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withSkipOffset:self.skipOffset withDelegate:self];
+    self.rewardedPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
     if (!self.rewardedPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid rewarded presenter."];
         [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];

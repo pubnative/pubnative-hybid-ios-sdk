@@ -11,7 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PNLiteVASTPlayerRewardedViewController : PNLiteVASTPlayerInterstitialViewController
+@interface PNLiteVASTPlayerRewardedViewController : UIViewController
+
+- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad;
 
 @end
 

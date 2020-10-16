@@ -24,11 +24,10 @@
     self.vastViewController = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset {
+- (instancetype)initWithAd:(HyBidAd *)ad {
     self = [super init];
     if (self) {
         self.adModel = ad;
-        self.skipOffset = skipOffset;
     }
     return self;
 }
@@ -40,7 +39,7 @@
 - (void)load {
     self.vastViewController = [PNLiteVASTPlayerRewardedViewController new];
     [self.vastViewController setModalPresentationStyle: UIModalPresentationFullScreen];
-    [self.vastViewController loadFullScreenPlayerWithPresenter:self withAd:self.adModel withSkipOffset:self.skipOffset];
+    [self.vastViewController loadFullScreenPlayerWithPresenter:self withAd:self.adModel];
 }
 
 - (void)show {

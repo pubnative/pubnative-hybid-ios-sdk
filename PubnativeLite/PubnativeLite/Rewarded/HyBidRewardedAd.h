@@ -48,6 +48,4 @@
 - (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
 
-- (void)setSkipOffset:(NSInteger)seconds;
-
 @end

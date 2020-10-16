@@ -16,9 +16,8 @@
 @implementation HyBidRewardedPresenterFactory
 
 - (HyBidRewardedPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
-                                                    withSkipOffset:(NSUInteger)skipOffset
                                                     withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate {
-    HyBidRewardedPresenter *rewardedPresenter = [self createInterstitalPresenterFromAd:ad withSkipOffset:skipOffset];
+    HyBidRewardedPresenter *rewardedPresenter = [self createInterstitalPresenterFromAd:ad];
     if (!rewardedPresenter) {
         return nil;
     }
@@ -29,10 +28,10 @@
     return rewardedPresenterDecorator;
 }
 
-- (HyBidRewardedPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withSkipOffset:(NSUInteger)skipOffset {
+- (HyBidRewardedPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
         case VAST_REWARDED: {
-            PNLiteVASTRewardedPresenter *vastInterstitalPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad withSkipOffset:skipOffset];
+            PNLiteVASTRewardedPresenter *vastInterstitalPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad];
             return vastInterstitalPresenter;
         }
         default:

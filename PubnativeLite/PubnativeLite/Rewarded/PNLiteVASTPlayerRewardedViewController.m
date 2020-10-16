@@ -19,14 +19,21 @@
     // Do any additional setup after loading the view.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad {
+//    self.presenter = interstitialPresenter;
+//    self.adModel = ad;
+//    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:YES];
+//    self.player.delegate = self;
+//    if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
+//        self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];
+//        if (!self.videoAdCacheItem) {
+//            [self.player loadWithVastString:self.adModel.vast];
+//        } else {
+//            [self.player loadWithVideoAdCacheItem:self.videoAdCacheItem];
+//        }
+//    } else {
+//        [self.player loadWithVastString:self.adModel.vast];
+//    }
 }
-*/
 
 @end

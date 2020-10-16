@@ -13,7 +13,6 @@
 @interface HyBidRewardedPresenterFactory : NSObject
 
 - (HyBidRewardedPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
-                                                  withSkipOffset:(NSUInteger)skipOffset
                                                     withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate;
 
 @end
