@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "HyBidRewardedPresenter.h"
-#import "HyBidAd.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

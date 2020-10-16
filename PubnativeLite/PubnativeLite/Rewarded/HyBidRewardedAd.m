@@ -101,8 +101,8 @@
 }
 
 - (void)renderAd:(HyBidAd *)ad {
-    HyBidRewardedPresenterFactory *interstitalPresenterFactory = [[HyBidRewardedPresenterFactory alloc] init];
-    self.rewardedPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withDelegate:self];
+    HyBidRewardedPresenterFactory *rewardedPresenterFactory = [[HyBidRewardedPresenterFactory alloc] init];
+    self.rewardedPresenter = [rewardedPresenterFactory createRewardedPresenterWithAd:ad withDelegate:self];
     if (!self.rewardedPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid rewarded presenter."];
         [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];

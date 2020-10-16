@@ -15,9 +15,9 @@
 
 @implementation HyBidRewardedPresenterFactory
 
-- (HyBidRewardedPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
+- (HyBidRewardedPresenter *)createRewardedPresenterWithAd:(HyBidAd *)ad
                                                     withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate {
-    HyBidRewardedPresenter *rewardedPresenter = [self createInterstitalPresenterFromAd:ad];
+    HyBidRewardedPresenter *rewardedPresenter = [self createRewardedPresenterFromAd:ad];
     if (!rewardedPresenter) {
         return nil;
     }
@@ -28,11 +28,11 @@
     return rewardedPresenterDecorator;
 }
 
-- (HyBidRewardedPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad {
+- (HyBidRewardedPresenter *)createRewardedPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
         case VAST_REWARDED: {
-            PNLiteVASTRewardedPresenter *vastInterstitalPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad];
-            return vastInterstitalPresenter;
+            PNLiteVASTRewardedPresenter *vastRewardedPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad];
+            return vastRewardedPresenter;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Rewarded ad format.", ad.assetGroupID]];

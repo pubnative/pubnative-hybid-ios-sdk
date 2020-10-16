@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17124"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -270,15 +270,28 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Is rewarded?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18h-Ac-4Vd">
+                                <rect key="frame" x="16" y="46" width="97" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="caH-OB-EQq">
+                                <rect key="frame" x="308" y="41" width="51" height="31"/>
+                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Q26-K3-rKZ"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="JgG-hR-A7h" secondAttribute="trailing" id="2EM-QI-pzy"/>
                             <constraint firstItem="m82-D3-ifu" firstAttribute="centerX" secondItem="1CX-c0-XXe" secondAttribute="centerX" id="3To-Jl-GUL"/>
+                            <constraint firstItem="18h-Ac-4Vd" firstAttribute="leading" secondItem="Q26-K3-rKZ" secondAttribute="leading" constant="16" id="5Hh-XB-lYz"/>
+                            <constraint firstItem="Q26-K3-rKZ" firstAttribute="trailing" secondItem="caH-OB-EQq" secondAttribute="trailing" constant="18" id="DSP-mG-AYc"/>
                             <constraint firstItem="hAz-vi-3qm" firstAttribute="centerX" secondItem="1CX-c0-XXe" secondAttribute="centerX" id="M5H-Ln-DPL"/>
                             <constraint firstItem="Q26-K3-rKZ" firstAttribute="trailing" secondItem="hAz-vi-3qm" secondAttribute="trailing" constant="16" id="NWX-Bm-Ysa"/>
                             <constraint firstItem="m82-D3-ifu" firstAttribute="centerY" secondItem="1CX-c0-XXe" secondAttribute="centerY" id="QrY-ri-Lap"/>
+                            <constraint firstItem="18h-Ac-4Vd" firstAttribute="centerY" secondItem="caH-OB-EQq" secondAttribute="centerY" id="SNs-c2-4bN"/>
+                            <constraint firstItem="caH-OB-EQq" firstAttribute="top" secondItem="JgG-hR-A7h" secondAttribute="bottom" constant="3" id="UQl-jD-lWK"/>
                             <constraint firstItem="h8c-tb-bmh" firstAttribute="top" secondItem="hAz-vi-3qm" secondAttribute="bottom" constant="8" id="Yqj-p1-95r"/>
                             <constraint firstItem="hAz-vi-3qm" firstAttribute="leading" secondItem="Q26-K3-rKZ" secondAttribute="leading" constant="16" id="fIF-tE-Ltj"/>
                             <constraint firstItem="JgG-hR-A7h" firstAttribute="leading" secondItem="1CX-c0-XXe" secondAttribute="leadingMargin" id="jHI-XF-9c0"/>
@@ -289,6 +302,7 @@
                     <connections>
                         <outlet property="inspectRequestButton" destination="hAz-vi-3qm" id="hKA-kD-eTx"/>
                         <outlet property="interstitialLoaderIndicator" destination="m82-D3-ifu" id="7Ds-7N-tTT"/>
+                        <outlet property="isRewardedSwitch" destination="caH-OB-EQq" id="3T9-gG-EAI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2aE-8g-LNJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -666,7 +680,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oz6-th-FOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4458" y="1272"/>
+            <point key="canvasLocation" x="-4458" y="1104"/>
         </scene>
     </scenes>
     <designables>
@@ -675,7 +689,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="EqL-tj-82v"/>
+        <segue reference="Mz2-IO-UpD"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

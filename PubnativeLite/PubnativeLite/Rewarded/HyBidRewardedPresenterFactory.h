@@ -12,7 +12,7 @@
 
 @interface HyBidRewardedPresenterFactory : NSObject
 
-- (HyBidRewardedPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
+- (HyBidRewardedPresenter *)createRewardedPresenterWithAd:(HyBidAd *)ad
                                                     withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate;
 
 @end
