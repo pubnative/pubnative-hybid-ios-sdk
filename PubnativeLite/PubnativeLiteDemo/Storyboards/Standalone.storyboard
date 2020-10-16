@@ -129,17 +129,51 @@
                                     <segue destination="Q6h-xd-eET" kind="show" id="1QH-Qp-1ve"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HFm-hh-c49" userLabel="Interstitial Button">
+                                <rect key="frame" x="16" y="160" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="QzC-BW-kN2"/>
+                                    <constraint firstAttribute="height" constant="33" id="ysK-Hu-h1E"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Rewarded">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="QzC-BW-kN2"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="QzC-BW-kN2"/>
+                                        <exclude reference="ysK-Hu-h1E"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="YQ3-Ig-QgH" kind="show" id="duq-tC-XGn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Zub-Yy-ymj"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wCy-Ce-81X" firstAttribute="leading" secondItem="Nf0-uC-D50" secondAttribute="leading" constant="16" id="20W-bw-Ghv"/>
+                            <constraint firstItem="HFm-hh-c49" firstAttribute="leading" secondItem="Zub-Yy-ymj" secondAttribute="leading" constant="16" id="Riz-sw-pmx"/>
                             <constraint firstItem="Jhc-wd-Wtp" firstAttribute="leading" secondItem="Nf0-uC-D50" secondAttribute="leading" constant="16" id="SF2-pV-dSP"/>
                             <constraint firstItem="wCy-Ce-81X" firstAttribute="top" secondItem="Mpy-mT-cGa" secondAttribute="bottom" constant="8" id="Vob-j3-JDs"/>
                             <constraint firstAttribute="trailing" secondItem="wCy-Ce-81X" secondAttribute="trailing" constant="16" id="WZh-Cm-amS"/>
+                            <constraint firstItem="HFm-hh-c49" firstAttribute="top" secondItem="1nq-Ka-aeK" secondAttribute="bottom" constant="8" id="XsV-19-fXc"/>
                             <constraint firstItem="Jhc-wd-Wtp" firstAttribute="top" secondItem="wCy-Ce-81X" secondAttribute="bottom" constant="8" id="fe5-2X-5mG"/>
                             <constraint firstItem="Mpy-mT-cGa" firstAttribute="top" secondItem="MI4-Qv-KBw" secondAttribute="bottom" constant="8" id="hI9-bW-fru"/>
                             <constraint firstItem="1nq-Ka-aeK" firstAttribute="top" secondItem="Jhc-wd-Wtp" secondAttribute="bottom" constant="8" id="obN-pk-lNx"/>
+                            <constraint firstItem="Zub-Yy-ymj" firstAttribute="trailing" secondItem="HFm-hh-c49" secondAttribute="trailing" constant="16" id="uUk-oU-LNl"/>
                             <constraint firstAttribute="trailing" secondItem="1nq-Ka-aeK" secondAttribute="trailing" constant="16" id="v6W-2Z-dXb"/>
                             <constraint firstItem="1nq-Ka-aeK" firstAttribute="leading" secondItem="Nf0-uC-D50" secondAttribute="leading" constant="16" id="xX9-SP-Z8T"/>
                             <constraint firstAttribute="trailing" secondItem="Jhc-wd-Wtp" secondAttribute="trailing" constant="16" id="xXr-Of-QbE"/>
@@ -270,28 +304,15 @@
                                     </segue>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Is rewarded?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18h-Ac-4Vd">
-                                <rect key="frame" x="16" y="46" width="97" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="caH-OB-EQq">
-                                <rect key="frame" x="308" y="41" width="51" height="31"/>
-                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Q26-K3-rKZ"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="JgG-hR-A7h" secondAttribute="trailing" id="2EM-QI-pzy"/>
                             <constraint firstItem="m82-D3-ifu" firstAttribute="centerX" secondItem="1CX-c0-XXe" secondAttribute="centerX" id="3To-Jl-GUL"/>
-                            <constraint firstItem="18h-Ac-4Vd" firstAttribute="leading" secondItem="Q26-K3-rKZ" secondAttribute="leading" constant="16" id="5Hh-XB-lYz"/>
-                            <constraint firstItem="Q26-K3-rKZ" firstAttribute="trailing" secondItem="caH-OB-EQq" secondAttribute="trailing" constant="18" id="DSP-mG-AYc"/>
                             <constraint firstItem="hAz-vi-3qm" firstAttribute="centerX" secondItem="1CX-c0-XXe" secondAttribute="centerX" id="M5H-Ln-DPL"/>
                             <constraint firstItem="Q26-K3-rKZ" firstAttribute="trailing" secondItem="hAz-vi-3qm" secondAttribute="trailing" constant="16" id="NWX-Bm-Ysa"/>
                             <constraint firstItem="m82-D3-ifu" firstAttribute="centerY" secondItem="1CX-c0-XXe" secondAttribute="centerY" id="QrY-ri-Lap"/>
-                            <constraint firstItem="18h-Ac-4Vd" firstAttribute="centerY" secondItem="caH-OB-EQq" secondAttribute="centerY" id="SNs-c2-4bN"/>
-                            <constraint firstItem="caH-OB-EQq" firstAttribute="top" secondItem="JgG-hR-A7h" secondAttribute="bottom" constant="3" id="UQl-jD-lWK"/>
                             <constraint firstItem="h8c-tb-bmh" firstAttribute="top" secondItem="hAz-vi-3qm" secondAttribute="bottom" constant="8" id="Yqj-p1-95r"/>
                             <constraint firstItem="hAz-vi-3qm" firstAttribute="leading" secondItem="Q26-K3-rKZ" secondAttribute="leading" constant="16" id="fIF-tE-Ltj"/>
                             <constraint firstItem="JgG-hR-A7h" firstAttribute="leading" secondItem="1CX-c0-XXe" secondAttribute="leadingMargin" id="jHI-XF-9c0"/>
@@ -302,7 +323,6 @@
                     <connections>
                         <outlet property="inspectRequestButton" destination="hAz-vi-3qm" id="hKA-kD-eTx"/>
                         <outlet property="interstitialLoaderIndicator" destination="m82-D3-ifu" id="7Ds-7N-tTT"/>
-                        <outlet property="isRewardedSwitch" destination="caH-OB-EQq" id="3T9-gG-EAI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2aE-8g-LNJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -682,6 +702,84 @@
             </objects>
             <point key="canvasLocation" x="-4458" y="1104"/>
         </scene>
+        <!--PNLite Interstitial View Controller-->
+        <scene sceneID="O9F-b1-V9G">
+            <objects>
+                <viewController title="HyBid Interstitial" id="YQ3-Ig-QgH" userLabel="PNLite Interstitial View Controller" customClass="PNLiteDemoPNLiteRewardedViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="249-dJ-Www"/>
+                        <viewControllerLayoutGuide type="bottom" id="NPw-1R-vmF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CqV-vy-VAc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ad-e1-lpS">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="GAC-e7-QWc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestRewardedTouchUpInside:" destination="YQ3-Ig-QgH" eventType="touchUpInside" id="d7q-99-BZ4"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="znC-rO-N4o">
+                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1E-b3-YMA" userLabel="Inspect Request Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Lrr-Pj-ZTU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Inspect Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Lrr-Pj-ZTU"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="z3R-UO-haC" kind="popoverPresentation" popoverAnchorView="g1E-b3-YMA" id="JtS-Jd-WmC">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="kr9-NU-74d"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="znC-rO-N4o" firstAttribute="centerY" secondItem="CqV-vy-VAc" secondAttribute="centerY" id="5EL-JI-PMd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4Ad-e1-lpS" secondAttribute="trailing" id="8ks-n8-zG8"/>
+                            <constraint firstItem="znC-rO-N4o" firstAttribute="centerX" secondItem="CqV-vy-VAc" secondAttribute="centerX" id="KSJ-iw-E9w"/>
+                            <constraint firstItem="kr9-NU-74d" firstAttribute="trailing" secondItem="g1E-b3-YMA" secondAttribute="trailing" constant="16" id="OhF-Af-xsh"/>
+                            <constraint firstItem="g1E-b3-YMA" firstAttribute="centerX" secondItem="CqV-vy-VAc" secondAttribute="centerX" id="Qyn-tp-zs0"/>
+                            <constraint firstItem="NPw-1R-vmF" firstAttribute="top" secondItem="g1E-b3-YMA" secondAttribute="bottom" constant="8" id="Xml-B9-3kI"/>
+                            <constraint firstItem="4Ad-e1-lpS" firstAttribute="top" secondItem="249-dJ-Www" secondAttribute="bottom" constant="8" id="cFZ-eh-aes"/>
+                            <constraint firstItem="g1E-b3-YMA" firstAttribute="leading" secondItem="kr9-NU-74d" secondAttribute="leading" constant="16" id="fej-X4-JTe"/>
+                            <constraint firstItem="4Ad-e1-lpS" firstAttribute="leading" secondItem="CqV-vy-VAc" secondAttribute="leadingMargin" id="v51-GL-vgb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="LWA-7F-Sde"/>
+                    <connections>
+                        <outlet property="inspectRequestButton" destination="g1E-b3-YMA" id="tKY-3u-pET"/>
+                        <outlet property="rewardedLoaderIndicator" destination="znC-rO-N4o" id="BTg-hn-KSd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kpl-QB-XLk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2934" y="340"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="yuJ-gp-1ek">
@@ -689,7 +787,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="Mz2-IO-UpD"/>
+        <segue reference="JtS-Jd-WmC"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
