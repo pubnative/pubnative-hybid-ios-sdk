@@ -31,6 +31,7 @@
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
              didFailWithError:(NSError *)error;
 

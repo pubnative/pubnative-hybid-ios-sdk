@@ -173,6 +173,13 @@
     }
 }
 
+- (void)invokeDidFinish
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidFinish)]) {
+        [self.delegate interstitialDidFinish];
+    }
+}
+
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
@@ -214,6 +221,11 @@
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self invokeDidDismiss];
+}
+
+- (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter
+{
+    [self invokeDidFinish];
 }
 
 #pragma mark - HyBidSignalDataProcessorDelegate

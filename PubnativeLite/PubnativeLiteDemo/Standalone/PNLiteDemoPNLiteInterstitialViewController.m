@@ -85,4 +85,9 @@
     NSLog(@"Interstitial did dismiss");
 }
 
+- (void)interstitialDidFinish
+{
+    NSLog(@"Interstitial did finish.");
+}
+
 @end

@@ -94,6 +94,13 @@
     }
 }
 
+- (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter
+{
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidFinish:)]) {
+        [self.interstitialPresenterDelegate interstitialPresenterDidFinish:interstitialPresenter];
+    }
+}
+
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenter:didFailWithError:)]) {
         [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
