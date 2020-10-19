@@ -38,6 +38,7 @@ typedef NS_ENUM(int, AssetGroupType) {
 
     VAST_MRECT = 4,
     VAST_INTERSTITIAL = 15,
+    VAST_REWARDED = 15,
     
     NON_DEFINED = 0
 };
