@@ -145,6 +145,13 @@
     }
 }
 
+- (void)invokeOnReward
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(onReward)]) {
+        [self.delegate onReward];
+    }
+}
+
 - (void)invokeDidDismiss {
     if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedDidDismiss)]) {
         [self.delegate rewardedDidDismiss];
@@ -192,6 +199,11 @@
 
 - (void)rewardedPresenterDidDismiss:(HyBidRewardedPresenter *)rewardedPresenter {
     [self invokeDidDismiss];
+}
+
+- (void)rewardedPresenterDidFinish:(HyBidRewardedPresenter *)rewardedPresenter
+{
+    [self invokeOnReward];
 }
 
 #pragma mark - HyBidSignalDataProcessorDelegate

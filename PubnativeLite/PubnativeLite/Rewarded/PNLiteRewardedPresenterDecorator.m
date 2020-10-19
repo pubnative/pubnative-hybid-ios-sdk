@@ -80,6 +80,13 @@
     }
 }
 
+- (void)rewardedPresenterDidFinish:(HyBidRewardedPresenter *)rewardedPresenter
+{
+    if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidFinish:)]) {
+        [self.rewardedPresenterDelegate rewardedPresenterDidFinish:rewardedPresenter];
+    }
+}
+
 - (void)rewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter didFailWithError:(NSError *)error {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenter:didFailWithError:)]) {
         [self.rewardedPresenterDelegate rewardedPresenter:rewardedPresenter didFailWithError:error];

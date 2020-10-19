@@ -72,4 +72,9 @@
     NSLog(@"Rewarded did dismiss");
 }
 
+- (void)onReward
+{
+    NSLog(@"Rewarded.");
+}
+
 @end

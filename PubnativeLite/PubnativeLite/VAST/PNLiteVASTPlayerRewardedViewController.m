@@ -97,7 +97,7 @@
 }
 
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
-    
+    [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {

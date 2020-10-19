@@ -17,6 +17,7 @@
 - (void)rewardedPresenterDidShow:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDidClick:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDidDismiss:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenterDidFinish:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter
              didFailWithError:(NSError *)error;
 
