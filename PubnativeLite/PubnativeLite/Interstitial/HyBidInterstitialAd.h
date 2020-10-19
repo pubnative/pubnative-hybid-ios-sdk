@@ -31,7 +31,6 @@
 - (void)interstitialDidTrackImpression;
 - (void)interstitialDidTrackClick;
 - (void)interstitialDidDismiss;
-- (void)interstitialDidFinish;
 
 @end
 
