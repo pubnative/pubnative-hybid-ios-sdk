@@ -19,7 +19,6 @@
 - (void)rewardedPresenterDidDismiss:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter
              didFailWithError:(NSError *)error;
-- (void)onReward:(HyBidRewardedPresenter *)rewardedPresenter;
 
 @end
 

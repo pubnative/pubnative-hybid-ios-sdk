@@ -17,6 +17,7 @@
 - (void)rewardedDidTrackImpression;
 - (void)rewardedDidTrackClick;
 - (void)rewardedDidDismiss;
+- (void)onReward;
 
 @end
 
