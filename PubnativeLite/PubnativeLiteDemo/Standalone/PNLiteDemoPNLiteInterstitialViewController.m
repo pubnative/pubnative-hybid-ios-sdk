@@ -23,15 +23,12 @@
 #import "PNLiteDemoPNLiteInterstitialViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
-#import "HyBidRewardedAd.h"
 
-@interface PNLiteDemoPNLiteInterstitialViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
+@interface PNLiteDemoPNLiteInterstitialViewController () <HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
-@property (weak, nonatomic) IBOutlet UISwitch *isRewardedSwitch;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
-@property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 
 @end
 
@@ -56,13 +53,8 @@
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     
-    if (self.isRewardedSwitch.isOn) {
-        self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-        [self.rewardedAd load];
-    } else {
-        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-        [self.interstitialAd load];
-    }
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+    [self.interstitialAd load];
 }
 
 #pragma mark - HyBidInterstitialAdDelegate
@@ -90,34 +82,6 @@
 }
 
 - (void)interstitialDidDismiss {
-    NSLog(@"Interstitial did dismiss");
-}
-
-#pragma mark - HyBidRewardedAdDelegate
-
-- (void)rewardedDidLoad {
-    NSLog(@"Interstitial did load");
-    self.inspectRequestButton.hidden = NO;
-    [self.interstitialLoaderIndicator stopAnimating];
-    [self.rewardedAd show];
-}
-
-- (void)rewardedDidFailWithError:(NSError *)error {
-    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
-    self.inspectRequestButton.hidden = NO;
-    [self.interstitialLoaderIndicator stopAnimating];
-    [self showAlertControllerWithMessage:error.localizedDescription];
-}
-
-- (void)rewardedDidTrackClick {
-    NSLog(@"Interstitial did track click");
-}
-
-- (void)rewardedDidTrackImpression {
-    NSLog(@"Interstitial did track impression");
-}
-
-- (void)rewardedDidDismiss {
     NSLog(@"Interstitial did dismiss");
 }
 
