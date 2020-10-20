@@ -28,4 +28,7 @@
     return HyBidAdSize.SIZE_INTERSTITIAL;
 }
 
+- (BOOL)isRewarded {
+    return YES;
+}
 @end
