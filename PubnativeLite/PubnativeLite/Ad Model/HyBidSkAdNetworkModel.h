@@ -23,8 +23,6 @@
 #import <Foundation/Foundation.h>
 #import "HyBidBaseModel.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface HyBidSkAdNetworkModel : HyBidBaseModel
 
 @property (nonatomic, strong) NSDictionary *productParameters;
@@ -33,5 +31,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *) getStoreKitParameters;
 
 @end
-
-NS_ASSUME_NONNULL_END
