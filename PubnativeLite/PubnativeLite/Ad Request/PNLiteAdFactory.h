@@ -28,8 +28,9 @@
 @interface PNLiteAdFactory : NSObject
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(HyBidAdSize *)adSize
-                      andWithSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
-                             andWithIntegrationType:(IntegrationType)integrationType;
+                                         withAdSize:(HyBidAdSize *)adSize
+                         withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
+                                withIntegrationType:(IntegrationType)integrationType
+                                         isRewarded:(BOOL)isRewarded;
 
 @end

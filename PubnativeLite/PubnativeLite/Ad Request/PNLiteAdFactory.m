@@ -32,9 +32,10 @@
 @implementation PNLiteAdFactory
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
-                                      andWithAdSize:(HyBidAdSize *)adSize
-                      andWithSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
-                             andWithIntegrationType:(IntegrationType)integrationType {
+                                         withAdSize:(HyBidAdSize *)adSize
+                         withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
+                                withIntegrationType:(IntegrationType)integrationType
+                                         isRewarded:(BOOL)isRewarded {
     PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
     adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
     adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
@@ -101,6 +102,9 @@
             adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
         }
     }
+    
+    adRequestModel.requestParameters[HyBidRequestParameter.rewardedVideo] = isRewarded ? @"1" : @"0";
+    
     adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSettings sharedInstance].test ? @"1" : @"0";
     if (![adSize.layoutSize isEqualToString:@"native"]) {
         adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
