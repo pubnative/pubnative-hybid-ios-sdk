@@ -62,6 +62,7 @@
 + (NSString *)identifierOfOMSDKIntegration  { return @"omidpn"; }
 + (NSString *)versionOfOMSDKIntegration     { return @"omidpv"; }
 + (NSString *)identifierForVendor           { return @"ifv"; }
++ (NSString *)rewardedVideo                 { return @"rv"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion            { return @"skadn_version"; }

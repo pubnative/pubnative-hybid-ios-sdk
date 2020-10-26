@@ -27,8 +27,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface HyBidViewabilityManager : NSObject
 
 @property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
@@ -45,5 +43,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (OMIDPubnativenetMediaEvents *)getMediaEvents:(OMIDPubnativenetAdSession*)omidAdSession;
 
 @end
-
-NS_ASSUME_NONNULL_END
