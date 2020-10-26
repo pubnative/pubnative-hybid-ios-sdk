@@ -38,6 +38,7 @@
 @interface HyBidAdRequest : NSObject
 
 @property (nonatomic, strong) HyBidAdSize *adSize;
+@property (nonatomic, assign) BOOL isRewarded;
 @property (nonatomic, readonly) NSArray<NSString *> *supportedAPIFrameworks;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;

@@ -438,6 +438,15 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnOpenOfferPush:(id)sender {
+    if (self.isRewarded && [self currentPlaybackTime] != 0) {
+        if (self.player.rate != 0 && self.player.error == nil) { // isPlaying
+            [self.player pause];
+        } else {
+            [self.player play];
+        }
+        return;
+    }
+    
     NSArray *clickTrackingUrls = [self.vastModel clickTracking];
     if (clickTrackingUrls != nil && [clickTrackingUrls count] > 0) {
         [self.eventProcessor sendVASTUrls:clickTrackingUrls];
@@ -659,9 +668,7 @@ typedef enum : NSUInteger {
 - (void)setIdleState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
-    if (self.isInterstitial) {
-        self.btnClose.hidden = YES;
-    }
+    self.btnClose.hidden = self.isInterstitial;
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -674,9 +681,7 @@ typedef enum : NSUInteger {
 - (void)setLoadState {
     self.loadingSpin.hidden = NO;
     self.btnMute.hidden = YES;
-    if (self.isInterstitial) {
-        self.btnClose.hidden = YES;
-    }
+    self.btnClose.hidden = self.isInterstitial;
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
     self.viewProgress.hidden = YES;

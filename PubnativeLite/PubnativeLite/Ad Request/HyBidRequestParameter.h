@@ -62,6 +62,7 @@
 + (NSString *)identifierOfOMSDKIntegration;
 + (NSString *)versionOfOMSDKIntegration;
 + (NSString *)identifierForVendor;
++ (NSString *)rewardedVideo;
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion;

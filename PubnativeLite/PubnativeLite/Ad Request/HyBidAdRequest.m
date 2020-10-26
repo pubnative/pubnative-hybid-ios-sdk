@@ -108,13 +108,15 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                                                                                                                                                                                                      andWithAdSize:[self adSize]
-                                                                                                                                                                                                      andWithSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                                                                                                                                                                                                             andWithIntegrationType:integrationType]].absoluteString]];
+                                                                                                                                                                                                                         withAdSize:[self adSize]
+                                                                                                                                                                                                         withSupportedAPIFrameworks:[self supportedAPIFrameworks]
+                                                                                                                                                                                                                withIntegrationType:integrationType
+                                                                                                                                                                                                                         isRewarded:[self isRewarded]]].absoluteString]];
     return [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                       andWithAdSize:[self adSize]
-                       andWithSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                              andWithIntegrationType:integrationType];
+                                          withAdSize:[self adSize]
+                          withSupportedAPIFrameworks:[self supportedAPIFrameworks]
+                                 withIntegrationType:integrationType
+                                          isRewarded:[self isRewarded]];
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {

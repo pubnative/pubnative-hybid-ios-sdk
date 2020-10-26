@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,22 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteVASTPlayerInterstitialViewController.h"
+#import "PNLiteVASTPlayerRewardedViewController.h"
 #import "PNLiteVASTPlayerViewController.h"
 #import "HyBidVideoAdCache.h"
 #import "HyBidVideoAdCacheItem.h"
 
-@interface PNLiteVASTPlayerInterstitialViewController () <PNLiteVASTPlayerViewControllerDelegate>
+@interface PNLiteVASTPlayerRewardedViewController () <PNLiteVASTPlayerViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playerContainer;
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
-@property (nonatomic, strong) HyBidInterstitialPresenter *presenter;
+@property (nonatomic, strong) HyBidRewardedPresenter *presenter;
 @property (nonatomic, strong) HyBidAd *adModel;
 @property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
 
 @end
 
-@implementation PNLiteVASTPlayerInterstitialViewController
+@implementation PNLiteVASTPlayerRewardedViewController
 
 - (void)dealloc {
     [self.player stop];
@@ -47,8 +47,8 @@
 
 - (instancetype)init {
     NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
-    self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerInterstitialViewController": @"nib"] bundle:currentBundle];
-    self.view = [currentBundle loadNibNamed:[self nameForResource:@"PNLiteVASTPlayerInterstitialViewController":@"nib"]
+    self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerRewardedViewController": @"nib"] bundle:currentBundle];
+    self.view = [currentBundle loadNibNamed:[self nameForResource:@"PNLiteVASTPlayerRewardedViewController":@"nib"]
                                       owner:self
                                     options:nil][0];;
     return self;
@@ -71,12 +71,12 @@
     [self.player stop];
 }
 
-- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset {
-    self.presenter = interstitialPresenter;
+- (void)loadFullScreenPlayerWithPresenter:(HyBidRewardedPresenter *)rewardedPresenter withAd:(HyBidAd *)ad {
+    self.presenter = rewardedPresenter;
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:YES];
+    self.player.isRewarded = YES;
     self.player.delegate = self;
-    self.player.skipOffset = skipOffset;
     if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
         self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];
         if (!self.videoAdCacheItem) {
@@ -95,15 +95,15 @@
     self.player = vastPlayer;
     self.player.view.frame = self.playerContainer.bounds;
     [self.playerContainer addSubview:self.player.view];
-    [self.presenter.delegate interstitialPresenterDidLoad:self.presenter];
+    [self.presenter.delegate rewardedPresenterDidLoad:self.presenter];
 }
 
 - (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error {
-    [self.presenter.delegate interstitialPresenter:self.presenter didFailWithError:error];
+    [self.presenter.delegate rewardedPresenter:self.presenter didFailWithError:error];
 }
 
 - (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer {
-    [self.presenter.delegate interstitialPresenterDidShow:self.presenter];
+    [self.presenter.delegate rewardedPresenterDidShow:self.presenter];
 }
 
 - (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer {
@@ -111,15 +111,16 @@
 }
 
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
+    [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
-    [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
+    [self.presenter.delegate rewardedPresenterDidClick:self.presenter];
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter hide];
-    [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
+    [self.presenter.delegate rewardedPresenterDidDismiss:self.presenter];
 }
 
 #pragma mark - Utils: check for bundle resource existance.
