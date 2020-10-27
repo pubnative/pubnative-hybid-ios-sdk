@@ -129,10 +129,10 @@
                                     <segue destination="Q6h-xd-eET" kind="show" id="1QH-Qp-1ve"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HFm-hh-c49" userLabel="Interstitial Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HFm-hh-c49" userLabel="Rewarded Button">
                                 <rect key="frame" x="16" y="160" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedButton" label="Rewarded Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="QzC-BW-kN2"/>
                                     <constraint firstAttribute="height" constant="33" id="ysK-Hu-h1E"/>
@@ -758,7 +758,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azJ-lQ-mZi">
                                 <rect key="frame" x="16" y="46" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="F3J-PM-DX8"/>
                                 </constraints>
