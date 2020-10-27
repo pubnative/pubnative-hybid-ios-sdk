@@ -755,6 +755,20 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azJ-lQ-mZi">
+                                <rect key="frame" x="16" y="46" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="F3J-PM-DX8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Show Ad"/>
+                                <connections>
+                                    <action selector="showRewardedAdButtonTapped:" destination="YQ3-Ig-QgH" eventType="touchUpInside" id="7cW-UK-rJ2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kr9-NU-74d"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -766,8 +780,11 @@
                             <constraint firstItem="g1E-b3-YMA" firstAttribute="centerX" secondItem="CqV-vy-VAc" secondAttribute="centerX" id="Qyn-tp-zs0"/>
                             <constraint firstItem="NPw-1R-vmF" firstAttribute="top" secondItem="g1E-b3-YMA" secondAttribute="bottom" constant="8" id="Xml-B9-3kI"/>
                             <constraint firstItem="4Ad-e1-lpS" firstAttribute="top" secondItem="249-dJ-Www" secondAttribute="bottom" constant="8" id="cFZ-eh-aes"/>
+                            <constraint firstItem="azJ-lQ-mZi" firstAttribute="leading" secondItem="kr9-NU-74d" secondAttribute="leading" constant="16" id="cZS-gI-xq1"/>
                             <constraint firstItem="g1E-b3-YMA" firstAttribute="leading" secondItem="kr9-NU-74d" secondAttribute="leading" constant="16" id="fej-X4-JTe"/>
+                            <constraint firstItem="kr9-NU-74d" firstAttribute="trailing" secondItem="azJ-lQ-mZi" secondAttribute="trailing" constant="16" id="o20-WA-jTH"/>
                             <constraint firstItem="4Ad-e1-lpS" firstAttribute="leading" secondItem="CqV-vy-VAc" secondAttribute="leadingMargin" id="v51-GL-vgb"/>
+                            <constraint firstItem="azJ-lQ-mZi" firstAttribute="top" secondItem="4Ad-e1-lpS" secondAttribute="bottom" constant="8" id="zHo-Gk-nTt"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LWA-7F-Sde"/>

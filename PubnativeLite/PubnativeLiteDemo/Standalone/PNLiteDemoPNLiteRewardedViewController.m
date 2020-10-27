@@ -35,6 +35,12 @@
     [self requestAd];
 }
 
+- (IBAction)showRewardedAdButtonTapped:(id)sender {
+    if (self.rewardedAd.isReady) {
+        [self.rewardedAd show];
+    }
+}
+
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
@@ -50,7 +56,6 @@
     NSLog(@"Rewarded did load");
     self.inspectRequestButton.hidden = NO;
     [self.rewardedLoaderIndicator stopAnimating];
-    [self.rewardedAd show];
 }
 
 - (void)rewardedDidFailWithError:(NSError *)error {
