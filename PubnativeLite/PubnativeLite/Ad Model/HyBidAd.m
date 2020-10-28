@@ -29,6 +29,10 @@
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
 
+NSString *const ContentInfoViewText = @"Learn about this ad";
+NSString *const ContentInfoViewLink = @"https://pubnative.net/content-info";
+NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserver/contentinfo.png";
+
 @interface HyBidAd ()
 
 @property (nonatomic, strong)HyBidAdModel *data;
@@ -200,6 +204,12 @@ NSString *const kImpressionQuerryParameter = @"t";
             self.contentInfoView.text = data.text;
             self.contentInfoView.link = [data stringFieldWithKey:@"link"];
             self.contentInfoView.icon = [data stringFieldWithKey:@"icon"];
+        }
+    } else {
+        if (!self.contentInfoView) {
+            self.contentInfoView.text = ContentInfoViewText;
+            self.contentInfoView.link = ContentInfoViewLink;
+            self.contentInfoView.icon = ContentInfoViewIcon;
         }
     }
     return self.contentInfoView;
