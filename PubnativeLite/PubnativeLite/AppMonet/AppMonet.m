@@ -23,8 +23,6 @@
 #import "AppMonet.h"
 #import "HyBid.h"
 
-static BOOL testMode = NO;
-
 @implementation AppMonet
 
 + (void)init:(AppMonetConfigurations *)appMonetConfigurations {
@@ -40,8 +38,7 @@ static BOOL testMode = NO;
 }
 
 + (void)testMode {
-    testMode = !testMode;
-    testMode ? [HyBid setTestMode:YES] : [HyBid setTestMode:NO];
+    [HyBid setTestMode:YES];
 }
 
 @end
