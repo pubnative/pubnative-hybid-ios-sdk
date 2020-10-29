@@ -303,6 +303,10 @@
 		5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */; };
 		5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; };
 		5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
+		5A3B0439254B1C13005669FF /* AppMonet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0437254B1C13005669FF /* AppMonet.h */; };
+		5A3B043A254B1C13005669FF /* AppMonet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B0438254B1C13005669FF /* AppMonet.m */; };
+		5A3B0443254B1CFA005669FF /* AppMonetConfigurations.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0441254B1CFA005669FF /* AppMonetConfigurations.h */; };
+		5A3B0444254B1CFA005669FF /* AppMonetConfigurations.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B0442254B1CFA005669FF /* AppMonetConfigurations.m */; };
 		5A3DD0A625277A0300A72B03 /* HyBidSignalDataProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A3DD0A725277A0300A72B03 /* HyBidSignalDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */; };
 		5A3DD0B725278A6F00A72B03 /* HyBidSignalDataProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1513,6 +1517,10 @@
 		5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDBannerPresenter.m; sourceTree = "<group>"; };
 		5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+PNLiteTopViewController.h"; sourceTree = "<group>"; };
 		5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+PNLiteTopViewController.m"; sourceTree = "<group>"; };
+		5A3B0437254B1C13005669FF /* AppMonet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonet.h; sourceTree = "<group>"; };
+		5A3B0438254B1C13005669FF /* AppMonet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonet.m; sourceTree = "<group>"; };
+		5A3B0441254B1CFA005669FF /* AppMonetConfigurations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetConfigurations.h; sourceTree = "<group>"; };
+		5A3B0442254B1CFA005669FF /* AppMonetConfigurations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetConfigurations.m; sourceTree = "<group>"; };
 		5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSignalDataProcessor.h; sourceTree = "<group>"; };
 		5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSignalDataProcessor.m; sourceTree = "<group>"; };
 		5A3EDD4D23747F8000493EF2 /* HyBidVerificationScriptResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVerificationScriptResource.h; sourceTree = "<group>"; };
@@ -2901,6 +2909,17 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		5A3B0440254B1C2E005669FF /* AppMonet */ = {
+			isa = PBXGroup;
+			children = (
+				5A3B0437254B1C13005669FF /* AppMonet.h */,
+				5A3B0438254B1C13005669FF /* AppMonet.m */,
+				5A3B0441254B1CFA005669FF /* AppMonetConfigurations.h */,
+				5A3B0442254B1CFA005669FF /* AppMonetConfigurations.m */,
+			);
+			path = AppMonet;
+			sourceTree = "<group>";
+		};
 		5A404B47204E96C200BEE041 /* Ad Tracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -3094,6 +3113,7 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
+				5A3B0440254B1C2E005669FF /* AppMonet */,
 				7E4CC8A7250298C5003A3425 /* HyBidStatic.h */,
 				7E4CC8A6250298C5003A3425 /* HyBidStatic.m */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
@@ -3701,6 +3721,7 @@
 				5AEC48BC237067F4009641F1 /* HyBidConstants.h in Headers */,
 				5A4B95DE24D9D3CD00028939 /* HyBidPrebidUtils.h in Headers */,
 				5ADF9EAF21496C400081355E /* HyBidNativeAdRenderer.h in Headers */,
+				5A3B0443254B1CFA005669FF /* AppMonetConfigurations.h in Headers */,
 				5ACC74EC203595250001CDC3 /* PNLiteMRAIDParser.h in Headers */,
 				5AEC317024698D4E008FD8BD /* HyBidViewabilityWebAdSession.h in Headers */,
 				5A9A88672108A82F006A081D /* HyBidVisibilityTracker.h in Headers */,
@@ -3737,6 +3758,7 @@
 				5A2EC33720C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */,
 				5ADF9E772149426B0081355E /* HyBidAdTracker.h in Headers */,
 				5A3657D1203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h in Headers */,
+				5A3B0439254B1C13005669FF /* AppMonet.h in Headers */,
 				5A9B66D620BD6E680067964E /* PNLiteVASTMediaFile.h in Headers */,
 				6F8C11652539BC1300DC4151 /* HyBidRewardedPresenterFactory.h in Headers */,
 				6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */,
@@ -4564,6 +4586,7 @@
 				5AB2C12E2486981100AFB4A5 /* HyBidVideoAdCache.m in Sources */,
 				5AB2C12A248696BA00AFB4A5 /* HyBidVideoAdCacheItem.m in Sources */,
 				E7CD0E472522219E00F976D6 /* HyBidSKAdNetworkViewController.m in Sources */,
+				5A3B043A254B1C13005669FF /* AppMonet.m in Sources */,
 				5AFAF2C525223A900031581B /* HyBidMarkupUtils.m in Sources */,
 				5AB2C13224869E4300AFB4A5 /* HyBidVideoAdProcessor.m in Sources */,
 				5AEC316D24698D0E008FD8BD /* HyBidViewabilityAdSession.m in Sources */,
@@ -4627,6 +4650,7 @@
 				5A9B66E820BD97530067964E /* PNLiteVASTPlayerViewController.m in Sources */,
 				5A9B66C820BD62640067964E /* PNLiteVASTXMLUtil.m in Sources */,
 				5A9A88632108A4D1006A081D /* PNLiteVisibilityTrackerItem.m in Sources */,
+				5A3B0444254B1CFA005669FF /* AppMonetConfigurations.m in Sources */,
 				5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
