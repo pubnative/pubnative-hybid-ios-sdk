@@ -38,7 +38,8 @@
 }
 
 - (id)initWithAdUnitId:(NSString *)adUnitId {
-    [self initWithZoneID:adUnitId andWithDelegate:self];
+    self = [self initWithZoneID:adUnitId andWithDelegate:self];
+    return self;
 }
 
 - (BOOL)ready {
@@ -63,6 +64,7 @@
 
 - (UIView *)getInterstitialView {
 //    return [self.manager getInterstitialView];
+    return nil;
 }
 
 - (void)showFromViewController:(UIViewController *)controller {
