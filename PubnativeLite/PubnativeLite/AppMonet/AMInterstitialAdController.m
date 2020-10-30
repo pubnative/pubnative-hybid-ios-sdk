@@ -63,12 +63,40 @@
 }
 
 - (UIView *)getInterstitialView {
-//    return [self.manager getInterstitialView];
     return nil;
 }
 
 - (void)showFromViewController:(UIViewController *)controller {
     [super showFromViewController:controller];
+}
+
+#pragma mark HyBidInterstitialAdDelegate
+
+
+- (void)interstitialDidLoad {
+    [self.delegate interstitialDidLoadAd:self];
+}
+
+- (void)interstitialDidFailWithError:(NSError *)error {
+    [self.delegate interstitialDidFailToLoadAd:self withError:error];
+}
+
+- (void)interstitialDidTrackClick {
+    if ([self.delegate respondsToSelector:@selector(interstitialDidReceiveTapEvent:)]) {
+        [self.delegate interstitialDidReceiveTapEvent:self];
+    }
+}
+
+- (void)interstitialDidTrackImpression {
+    if ([self.delegate respondsToSelector:@selector(interstitialDidAppear:)]) {
+        [self.delegate interstitialDidAppear:self];
+    }
+}
+
+- (void)interstitialDidDismiss {
+    if ([self.delegate respondsToSelector:@selector(interstitialDidDisappear:)]) {
+        [self.delegate interstitialDidDisappear:self];
+    }
 }
 
 @end
