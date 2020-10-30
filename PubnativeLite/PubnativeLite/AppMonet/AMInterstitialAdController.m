@@ -72,13 +72,18 @@
 
 #pragma mark HyBidInterstitialAdDelegate
 
-
 - (void)interstitialDidLoad {
-    [self.delegate interstitialDidLoadAd:self];
+    if ([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
+        [self.delegate interstitialDidLoadAd:self];
+    }
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
-    [self.delegate interstitialDidFailToLoadAd:self withError:error];
+    if ([self.delegate respondsToSelector:@selector(interstitialDidFailToLoadAd:withError:)]) {
+        [self.delegate interstitialDidFailToLoadAd:self withError:error];
+    } else if ([self.delegate respondsToSelector:@selector(interstitialDidFailToLoadAd:)]) {
+        [self.delegate interstitialDidFailToLoadAd:self];
+    }
 }
 
 - (void)interstitialDidTrackClick {
