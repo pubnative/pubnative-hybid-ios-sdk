@@ -22,7 +22,7 @@
 
 #import "AMInterstitialAdController.h"
 
-@interface AMInterstitialAdController () <AMInterstitialAdControllerDelegate, HyBidInterstitialAdDelegate>
+@interface AMInterstitialAdController () <HyBidInterstitialAdDelegate>
 
 - (id)initWithAdUnitId:(NSString *)adUnitId;
 
