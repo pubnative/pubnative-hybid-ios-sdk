@@ -21,21 +21,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AppMonetBannerManagerDelegate.h"
 
-@class AppMonetBid;
-
-@interface AppMonetBannerManager : NSObject
-@property(nonatomic, weak) id <AppMonetBannerManagerDelegate> delegate;
-@property(nonatomic, weak) AppMonetBannerView *adView;
-@property(nonatomic, strong) NSString *adUnitId;
-
-- (id)initWithDelegate:(id <AppMonetBannerManagerDelegate>)delegate andAdView:(AppMonetBannerView *)adView;
-
-- (void)loadAd:(CGSize)size;
-
-- (void)makeRequest:(NSDictionary *)requestExtras withHandler:(void (^)(AppMonetBid *bid))handler;
-
-- (void)adViewContent:(UIView *)bannerView;
-
+@interface AMMonetBid : NSObject
+@property(nonatomic, strong) NSString *id;
+@property(nonatomic, strong) NSNumber *cpm;
 @end

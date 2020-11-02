@@ -20,62 +20,54 @@
 //  THE SOFTWARE.
 //
 
-#import "AppMonetBannerView.h"
-#import "AppMonetConstants.h"
-#import "AppMonetBannerManagerDelegate.h"
-#import "AppMonetBannerManager.h"
+#import "AMAppMonetAdView.h"
+#import "AMOConstants.h"
 //#import "AMOCustomEventBannerAdapter.h"
-#import "AppMonetBid.h"
+#import "AMMonetBid.h"
 
 CGSize const MONET_BANNER_SIZE = {.width = 320.0f, .height = 50.0f};
 CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 
-@interface AppMonetBannerView () <AppMonetBannerManagerDelegate>
-@property(nonatomic, strong) AppMonetBannerManager *adManager;
+@interface AMAppMonetAdView () <HyBidAdViewDelegate>
 @property(nonatomic) CGSize size;
 //@property(nonatomic, strong) AMOCustomEventBannerAdapter *customEventBannerAdapter;
 @end
 
-@implementation AppMonetBannerView
+@implementation AMAppMonetAdView
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = YES;
         self.adUnitId = adUnitId;
-        self.adManager = [[AppMonetBannerManager alloc] initWithDelegate:self andAdView:self];
 
         self.frame = ({
             CGRect frame = self.frame;
-            frame.size = [AppMonetBannerView sizeForContainer:self adSize:size adUnitId:adUnitId];
+            frame.size = [AMAppMonetAdView sizeForContainer:self adSize:size adUnitId:adUnitId];
             frame;
         });
-        self.adManager.adUnitId = adUnitId;
         self.size = size;
     }
     return self;
 }
 
 - (void)loadAd {
-    [self.adManager loadAd:self.size];
 }
 
-- (void)requestAds:(void (^)(AppMonetBid *bid))handler {
+- (void)requestAds:(void (^)(AMMonetBid *bid))handler {
     NSDictionary *requestExtras = @{
         kAMAdSizeKey: [NSValue valueWithCGSize:self.size]
     };
-    [self.adManager makeRequest:requestExtras withHandler:handler];
 }
 
-- (void)render:(AppMonetBid *)bid {
+- (void)render:(AMMonetBid *)bid {
     NSDictionary *requestExtras = @{
         kAMAdSizeKey: [NSValue valueWithCGSize:self.size],
         AMBidKey: bid.id
     };
-    [self.adManager makeRequest:requestExtras withHandler:nil];
 }
 
-- (void)loadCustomEventAdapter:(NSDictionary *)localExtras withHandler:(void (^)(AppMonetBid *bid))handler {
+- (void)loadCustomEventAdapter:(NSDictionary *)localExtras withHandler:(void (^)(AMMonetBid *bid))handler {
 //    if (self.customEventBannerAdapter != nil) {
 //        [self invalidateAdapter];
 //    }
@@ -111,13 +103,9 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)setAdView:(UIView *)bannerView {
-    if (self.adManager != nil) {
-        [_adManager adViewContent:bannerView];
-    }
 }
 
 - (void)dealloc {
-    self.adManager = nil;
 }
 
 + (CGSize)sizeForContainer:(UIView *_Nullable)container adSize:(CGSize)adSize adUnitId:(NSString *_Nullable)adUnitId {

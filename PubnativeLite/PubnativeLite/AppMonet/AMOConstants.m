@@ -20,18 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-@import UIKit;
+#import "AMOConstants.h"
 
-@interface AppMonetConstants : NSObject
+@implementation AMOConstants
 
 // DFP
-extern NSString *const kAMAdSizeKey;
-extern NSString *const kAMAdUnitKeywordKey;
+NSString *const kAMAdSizeKey = @"ad_size";
+NSString *const kAMAdUnitKeywordKey = @"__auid__";
 
 //Mopub
-extern NSString *const AMBidKey;
+NSString *const AMBidKey = @"bid";
 
-extern CGFloat const kAMFlexibleAdSize;
+CGFloat const kAMFlexibleAdSize = -1.0f;
 
 @end

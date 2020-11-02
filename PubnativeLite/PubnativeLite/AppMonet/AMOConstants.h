@@ -21,27 +21,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AppMonetBannerView.h"
-//#import "AMOAdView.h"
+@import UIKit;
 
-@protocol AppMonetBannerManagerDelegate <NSObject>
+@interface AMOConstants : NSObject
 
-- (NSString *)adUnitId;
-- (AppMonetBannerView *)banner;
-//- (id<AMOAdViewDelegate>)bannerDelegate;
-- (CGSize)containerSize;
-- (UIViewController *)viewControllerForPresentingModalView;
+// DFP
+extern NSString *const kAMAdSizeKey;
+extern NSString *const kAMAdUnitKeywordKey;
 
-/**
- * The latest ad targeting information for ad refresh and other scenarios.
- */
+//Mopub
+extern NSString *const AMBidKey;
 
-- (void)invalidateContentView;
-
-- (void)managerDidLoadAd:(UIView *)ad;
-- (void)managerDidFailToLoadAdWithError:(NSError *)error;
-- (void)userActionWillBegin;
-- (void)userActionDidFinish;
-- (void)userWillLeaveApplication;
+extern CGFloat const kAMFlexibleAdSize;
 
 @end
