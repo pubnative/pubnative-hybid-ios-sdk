@@ -20,13 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
+#import "AppMonetBid.h"
 
-@class AppMonetBannerView;
+@implementation AppMonetBid
 
-@protocol AMBannerAdDelegate <NSObject>
-- (void) wasClicked:(AppMonetBannerView *)bannerView;
-- (void) adLoaded:(AppMonetBannerView *)bannerView;
-- (void) adError:(NSError *)error withBannerView:(AppMonetBannerView *)bannerView;
 @end

@@ -21,12 +21,27 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
+#import "AppMonetBannerView.h"
+//#import "AMOAdView.h"
 
-@class AppMonetBannerView;
+@protocol AppMonetBannerManagerDelegate <NSObject>
 
-@protocol AMBannerAdDelegate <NSObject>
-- (void) wasClicked:(AppMonetBannerView *)bannerView;
-- (void) adLoaded:(AppMonetBannerView *)bannerView;
-- (void) adError:(NSError *)error withBannerView:(AppMonetBannerView *)bannerView;
+- (NSString *)adUnitId;
+- (AppMonetBannerView *)banner;
+//- (id<AMOAdViewDelegate>)bannerDelegate;
+- (CGSize)containerSize;
+- (UIViewController *)viewControllerForPresentingModalView;
+
+/**
+ * The latest ad targeting information for ad refresh and other scenarios.
+ */
+
+- (void)invalidateContentView;
+
+- (void)managerDidLoadAd:(UIView *)ad;
+- (void)managerDidFailToLoadAdWithError:(NSError *)error;
+- (void)userActionWillBegin;
+- (void)userActionDidFinish;
+- (void)userWillLeaveApplication;
+
 @end

@@ -20,13 +20,39 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
+#import "AppMonetBannerView.h"
+#import <UIKit/UIKit.h>
+#import "AMBannerAdDelegate.h"
+#import "AppMonetBid.h"
+#import "HyBidAdView.h"
 
-@class AppMonetBannerView;
+extern CGSize const MONET_BANNER_SIZE;
+extern CGSize const MONET_MEDIUM_RECT_SIZE;
 
-@protocol AMBannerAdDelegate <NSObject>
-- (void) wasClicked:(AppMonetBannerView *)bannerView;
-- (void) adLoaded:(AppMonetBannerView *)bannerView;
-- (void) adError:(NSError *)error withBannerView:(AppMonetBannerView *)bannerView;
+@protocol AMOBannerManagerDelegate;
+@protocol AMOAdViewDelegate;
+@protocol AMBannerAdDelegate;
+
+@interface AppMonetBannerView: HyBidAdView
+@property(nonatomic, strong) NSString *adUnitId;
+@property(nonatomic, weak) id <AMBannerAdDelegate> bannerDelegate;
+
+- (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size;
+
+- (void)loadAd;
+
+- (void)loadCustomEventAdapter:(NSDictionary *)localExtras withHandler:(void (^)(AppMonetBid *bid))handler;
+
+- (void)onBannerFailed:(NSError *)error;
+
+- (void)registerClick;
+
+- (void)adLoaded;
+
+- (void)setAdView:(UIView *)bannerView;
+
+- (void)requestAds:(void (^)(AppMonetBid *bid))handler;
+
+- (void)render:(AppMonetBid *)bid;
+
 @end

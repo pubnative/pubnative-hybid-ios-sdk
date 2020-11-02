@@ -21,12 +21,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIView.h>
+@import UIKit;
 
-@class AppMonetBannerView;
+@interface AppMonetConstants : NSObject
 
-@protocol AMBannerAdDelegate <NSObject>
-- (void) wasClicked:(AppMonetBannerView *)bannerView;
-- (void) adLoaded:(AppMonetBannerView *)bannerView;
-- (void) adError:(NSError *)error withBannerView:(AppMonetBannerView *)bannerView;
+// DFP
+extern NSString *const kAMAdSizeKey;
+extern NSString *const kAMAdUnitKeywordKey;
+
+//Mopub
+extern NSString *const AMBidKey;
+
+extern CGFloat const kAMFlexibleAdSize;
+
 @end

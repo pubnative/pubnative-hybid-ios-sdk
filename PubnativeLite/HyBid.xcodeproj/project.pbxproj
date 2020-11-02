@@ -614,6 +614,14 @@
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		6F09F74C255016B6006A266F /* AMBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F74A255016B6006A266F /* AMBannerAdDelegate.h */; };
+		6F09F764255018A9006A266F /* AppMonetBannerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F762255018A9006A266F /* AppMonetBannerView.h */; };
+		6F09F765255018A9006A266F /* AppMonetBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AppMonetBannerView.m */; };
+		6F09F76D25501975006A266F /* AppMonetBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F76B25501975006A266F /* AppMonetBid.h */; };
+		6F09F76E25501975006A266F /* AppMonetBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F76C25501975006A266F /* AppMonetBid.m */; };
+		6F09F77625501B29006A266F /* AppMonetConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AppMonetConstants.h */; };
+		6F09F77725501B29006A266F /* AppMonetConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AppMonetConstants.m */; };
+		6F09F78525501DC6006A266F /* AppMonetBannerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F78325501DC6006A266F /* AppMonetBannerManager.h */; };
+		6F09F78625501DC6006A266F /* AppMonetBannerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F78425501DC6006A266F /* AppMonetBannerManager.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -1901,6 +1909,15 @@
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
 		6F09F74A255016B6006A266F /* AMBannerAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMBannerAdDelegate.h; sourceTree = "<group>"; };
+		6F09F762255018A9006A266F /* AppMonetBannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetBannerView.h; sourceTree = "<group>"; };
+		6F09F763255018A9006A266F /* AppMonetBannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetBannerView.m; sourceTree = "<group>"; };
+		6F09F76B25501975006A266F /* AppMonetBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetBid.h; sourceTree = "<group>"; };
+		6F09F76C25501975006A266F /* AppMonetBid.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetBid.m; sourceTree = "<group>"; };
+		6F09F77425501B29006A266F /* AppMonetConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetConstants.h; sourceTree = "<group>"; };
+		6F09F77525501B29006A266F /* AppMonetConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetConstants.m; sourceTree = "<group>"; };
+		6F09F77D25501CC0006A266F /* AppMonetBannerManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetBannerManagerDelegate.h; sourceTree = "<group>"; };
+		6F09F78325501DC6006A266F /* AppMonetBannerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetBannerManager.h; sourceTree = "<group>"; };
+		6F09F78425501DC6006A266F /* AppMonetBannerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetBannerManager.m; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -2934,6 +2951,15 @@
 				5AA92BFD254C741F00AB2644 /* AMInterstitialAdController.m */,
 				5AA92C05254C748300AB2644 /* AMInterstitialAdControllerDelegate.h */,
 				6F09F74A255016B6006A266F /* AMBannerAdDelegate.h */,
+				6F09F762255018A9006A266F /* AppMonetBannerView.h */,
+				6F09F763255018A9006A266F /* AppMonetBannerView.m */,
+				6F09F76B25501975006A266F /* AppMonetBid.h */,
+				6F09F76C25501975006A266F /* AppMonetBid.m */,
+				6F09F77425501B29006A266F /* AppMonetConstants.h */,
+				6F09F77525501B29006A266F /* AppMonetConstants.m */,
+				6F09F77D25501CC0006A266F /* AppMonetBannerManagerDelegate.h */,
+				6F09F78325501DC6006A266F /* AppMonetBannerManager.h */,
+				6F09F78425501DC6006A266F /* AppMonetBannerManager.m */,
 			);
 			path = AppMonet;
 			sourceTree = "<group>";
@@ -3718,6 +3744,7 @@
 				5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */,
 				5ADF9E9721495A710081355E /* HyBidHeaderBiddingUtils.h in Headers */,
 				5ADF9EBB214972940081355E /* HyBidMRectAdView.h in Headers */,
+				6F09F76D25501975006A266F /* AppMonetBid.h in Headers */,
 				5AC35B3C214A6B5B001F0ED3 /* HyBidNativeAd.h in Headers */,
 				5ADF9E93214956FF0081355E /* HyBidAdCache.h in Headers */,
 				5ADF9E8F214954A40081355E /* HyBidInterstitialPresenterFactory.h in Headers */,
@@ -3772,8 +3799,10 @@
 				5AEC31782469AAD6008FD8BD /* HyBidViewabilityNativeAdSession.h in Headers */,
 				5ADACD1F202CBA9800617734 /* PNLiteAsset.h in Headers */,
 				5A9A885F21088024006A081D /* PNLiteTrackingManager.h in Headers */,
+				6F09F764255018A9006A266F /* AppMonetBannerView.h in Headers */,
 				5AEC317424698D8D008FD8BD /* HyBidViewabilityNativeVideoAdSession.h in Headers */,
 				5A9B66E720BD97530067964E /* PNLiteVASTPlayerViewController.h in Headers */,
+				6F09F78525501DC6006A266F /* AppMonetBannerManager.h in Headers */,
 				5A2EC33720C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */,
 				5ADF9E772149426B0081355E /* HyBidAdTracker.h in Headers */,
 				5A3657D1203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h in Headers */,
@@ -3799,6 +3828,7 @@
 				6F8C115A2539BABD00DC4151 /* HyBidRewardedPresenter.h in Headers */,
 				5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */,
 				5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */,
+				6F09F77625501B29006A266F /* AppMonetConstants.h in Headers */,
 				5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */,
 				5ADACD1B202CB88A00617734 /* PNLiteData.h in Headers */,
 				5A2633542034AB480005EA39 /* PNLiteMRAIDOrientationProperties.h in Headers */,
@@ -4601,6 +4631,7 @@
 				5A4B95DF24D9D3CD00028939 /* HyBidPrebidUtils.m in Sources */,
 				5ADF9E4A21490B9A0081355E /* HyBidRequestParameter.m in Sources */,
 				5ADF9EB421496E140081355E /* HyBidSettings.m in Sources */,
+				6F09F77725501B29006A266F /* AppMonetConstants.m in Sources */,
 				6FCBEE37254C125E005F301C /* AppMonetAdSize.m in Sources */,
 				5AC35B45214A7727001F0ED3 /* HyBidStarRatingView.m in Sources */,
 				5ADF9E4E21490E8E0081355E /* HyBidTargetingModel.m in Sources */,
@@ -4650,6 +4681,7 @@
 				5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,
 				5A9B66EC20BD9DD80067964E /* PNLiteProgressLabel.m in Sources */,
+				6F09F78625501DC6006A266F /* AppMonetBannerManager.m in Sources */,
 				6F8C11672539BC1300DC4151 /* HyBidRewardedPresenterFactory.m in Sources */,
 				5A9B66F020BDA15D0067964E /* PNLitePropertyAnimation.m in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
@@ -4661,7 +4693,9 @@
 				5A91E65820BFF76900527BAA /* PNLiteUserConsentModel.m in Sources */,
 				5A91E66C20C01E5000527BAA /* PNLiteUserConsentRequest.m in Sources */,
 				6F8C11722539BCCC00DC4151 /* PNLiteRewardedPresenterDecorator.m in Sources */,
+				6F09F765255018A9006A266F /* AppMonetBannerView.m in Sources */,
 				5A91E65C20BFFA5E00527BAA /* PNLiteUserConsentRequestModel.m in Sources */,
+				6F09F76E25501975006A266F /* AppMonetBid.m in Sources */,
 				5A91E66020BFFF1000527BAA /* PNLiteUserConsentResponseModel.m in Sources */,
 				5A91E65420BFF61F00527BAA /* PNLiteUserConsentResponseStatus.m in Sources */,
 				5A9B66E320BD8FF70067964E /* PNLiteVASTEventProcessor.m in Sources */,
