@@ -23,10 +23,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIView.h>
 
-@class AppMonetBannerView;
+@class AMAppMonetAdView;
 
 @protocol AMBannerAdDelegate <NSObject>
-- (void) wasClicked:(AppMonetBannerView *)bannerView;
-- (void) adLoaded:(AppMonetBannerView *)bannerView;
-- (void) adError:(NSError *)error withBannerView:(AppMonetBannerView *)bannerView;
+- (void) wasClicked:(AMAppMonetAdView *)adView;
+- (void) adLoaded:(AMAppMonetAdView *)adView;
+- (void) adError :(NSError *)error withAdView:(AMAppMonetAdView *)adView;
 @end

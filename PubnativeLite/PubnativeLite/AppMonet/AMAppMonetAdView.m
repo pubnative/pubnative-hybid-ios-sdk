@@ -30,7 +30,6 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 
 @interface AMAppMonetAdView () <HyBidAdViewDelegate>
 @property(nonatomic) CGSize size;
-//@property(nonatomic, strong) AMOCustomEventBannerAdapter *customEventBannerAdapter;
 @end
 
 @implementation AMAppMonetAdView
@@ -55,51 +54,24 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)requestAds:(void (^)(AMMonetBid *bid))handler {
-    NSDictionary *requestExtras = @{
-        kAMAdSizeKey: [NSValue valueWithCGSize:self.size]
-    };
 }
 
 - (void)render:(AMMonetBid *)bid {
-    NSDictionary *requestExtras = @{
-        kAMAdSizeKey: [NSValue valueWithCGSize:self.size],
-        AMBidKey: bid.id
-    };
 }
 
 - (void)loadCustomEventAdapter:(NSDictionary *)localExtras withHandler:(void (^)(AMMonetBid *bid))handler {
-//    if (self.customEventBannerAdapter != nil) {
-//        [self invalidateAdapter];
-//    }
-
-//    AMLogDebug(@"Custom event adapter creation and load");
-
-//    self.customEventBannerAdapter = [[AMOCustomEventBannerAdapter alloc] initWithAdView:self andLocalExtras:localExtras];
-//    [self.customEventBannerAdapter loadAd:handler];
 }
 
 - (void)invalidateAdapter {
-//    if (self.customEventBannerAdapter != nil) {
-//        [self.customEventBannerAdapter invalidate];
-//    }
 }
 
 - (void)registerClick {
-    if (_bannerDelegate) {
-        [_bannerDelegate wasClicked:self];
-    }
 }
 
 - (void)onBannerFailed:(NSError *)error {
-    if (_bannerDelegate) {
-        [_bannerDelegate adError:error withBannerView:self];
-    }
 }
 
 - (void)adLoaded {
-    if (_bannerDelegate) {
-        [_bannerDelegate adLoaded:self];
-    }
 }
 
 - (void)setAdView:(UIView *)bannerView {
@@ -129,6 +101,23 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
     }
 
     return hydratedAdSize;
+}
+
+#pragma mark HyBidAdViewDelegate
+
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
+    [self.bannerDelegate adError:error withAdView:self];
+}
+
+- (void)adViewDidLoad:(HyBidAdView *)adView {
+    [self.bannerDelegate adLoaded:self];
+}
+
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
+    [self.bannerDelegate wasClicked:self];
+}
+
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
 }
 
 @end
