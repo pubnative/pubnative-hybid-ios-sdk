@@ -45,7 +45,7 @@
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_NATIVE;
 
 - (BOOL)isEqualTo:(HyBidAdSize *)hyBidAdSize;
-- (HyBidAdSize *)convertSizeToHyBid:(CGSize)size;
+- (HyBidAdSize *)convertSizeToHyBidAdSize:(CGSize)size;
 
 @end
 

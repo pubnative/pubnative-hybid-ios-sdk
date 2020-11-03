@@ -50,7 +50,7 @@
     return (self.adHeight == hyBidAdSize.adHeight && self.adWidth == hyBidAdSize.adWidth && [self.adLayoutSize isEqualToString:hyBidAdSize.adLayoutSize]);
 }
 
-- (HyBidAdSize *)convertSizeToHyBid: (CGSize)size
+- (HyBidAdSize *)convertSizeToHyBidAdSize: (CGSize)size
 {
     HyBidAdSize *newSize = [[HyBidAdSize alloc] initWithWidth:size.width height:size.height adLayoutSize:[self layoutSize]];
     return newSize;
