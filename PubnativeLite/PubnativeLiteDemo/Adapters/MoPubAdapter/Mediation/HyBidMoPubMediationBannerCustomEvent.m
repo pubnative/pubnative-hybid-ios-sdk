@@ -36,13 +36,12 @@
 
 - (void)dealloc {
     self.bannerAdView = nil;
-    self.adSize = nil;
 }
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
+            self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:size]];
             self.bannerAdView.isMediation = YES;
             [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
@@ -67,7 +66,8 @@
     return NO;
 }
 
-- (HyBidAdSize *)adSize {
+- (HyBidAdSize *)getHyBidAdSizeFromSize:(CGSize)size {
+    NSLog(@"%ld",(long)HyBidAdSize.SIZE_320x50.width);
     return HyBidAdSize.SIZE_320x50;
 }
 
