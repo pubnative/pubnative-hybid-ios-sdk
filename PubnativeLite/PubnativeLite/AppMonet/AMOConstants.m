@@ -23,14 +23,4 @@
 #import "AMOConstants.h"
 
 @implementation AMOConstants
-
-// DFP
-NSString *const kAMAdSizeKey = @"ad_size";
-NSString *const kAMAdUnitKeywordKey = @"__auid__";
-
-//Mopub
-NSString *const AMBidKey = @"bid";
-
-CGFloat const kAMFlexibleAdSize = -1.0f;
-
 @end
