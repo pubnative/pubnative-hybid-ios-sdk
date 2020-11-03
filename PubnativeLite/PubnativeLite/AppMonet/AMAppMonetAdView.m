@@ -32,13 +32,14 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 @end
 
 @implementation AMAppMonetAdView
+
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = YES;
         self.adUnitId = adUnitId;
-
+        
         self.frame = ({
             CGRect frame = self.frame;
             frame.size = [AMAppMonetAdView sizeForContainer:self adSize:size adUnitId:adUnitId];
@@ -50,6 +51,9 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)loadAd {
+    if (self.adUnitId != NULL) {
+        [self loadWithZoneID:self.adUnitId andWithDelegate:self];
+    }
 }
 
 - (void)requestAds:(void (^)(AMMonetBid *bid))handler {
@@ -77,28 +81,29 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)dealloc {
+    self.bannerDelegate = nil;
 }
 
 + (CGSize)sizeForContainer:(UIView *_Nullable)container adSize:(CGSize)adSize adUnitId:(NSString *_Nullable)adUnitId {
     // Hydrating an ad size means resolving the `kMPFlexibleAdSize` value
     // into it's final size value based upon the container bounds.
     CGSize hydratedAdSize = adSize;
-
+    
     // Hydrate the width.
     if (adSize.width == kAMFlexibleAdSize) {
         // Frame hasn't been set, issue a warning.
         if (container.bounds.size.width == 0) {}
-
+        
         hydratedAdSize.width = container.bounds.size.width;
     }
-
+    
     if (adSize.height == kAMFlexibleAdSize) {
         // Frame hasn't been set, issue a warning.
         if (container.bounds.size.height == 0) {}
-
+        
         hydratedAdSize.height = container.bounds.size.height;
     }
-
+    
     return hydratedAdSize;
 }
 

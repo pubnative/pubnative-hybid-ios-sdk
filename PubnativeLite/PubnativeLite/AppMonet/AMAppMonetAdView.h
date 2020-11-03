@@ -20,7 +20,6 @@
 //  THE SOFTWARE.
 //
 
-#import "AMAppMonetAdView.h"
 #import <UIKit/UIKit.h>
 #import "AMBannerAdDelegate.h"
 #import "AMMonetBid.h"
@@ -29,8 +28,6 @@
 extern CGSize const MONET_BANNER_SIZE;
 extern CGSize const MONET_MEDIUM_RECT_SIZE;
 
-@protocol AMOBannerManagerDelegate;
-@protocol AMOAdViewDelegate;
 @protocol AMBannerAdDelegate;
 
 @interface AMAppMonetAdView: HyBidAdView
