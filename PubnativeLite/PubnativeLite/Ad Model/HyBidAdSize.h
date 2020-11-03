@@ -21,6 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface HyBidAdSize: NSObject
 
@@ -44,6 +45,7 @@
 @property (class, nonatomic, readonly) HyBidAdSize *SIZE_NATIVE;
 
 - (BOOL)isEqualTo:(HyBidAdSize *)hyBidAdSize;
+- (HyBidAdSize *)convertSizeToHyBid:(CGSize)size;
 
 @end
 

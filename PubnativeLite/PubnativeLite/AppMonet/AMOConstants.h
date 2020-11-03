@@ -24,14 +24,4 @@
 @import UIKit;
 
 @interface AMOConstants : NSObject
-
-// DFP
-extern NSString *const kAMAdSizeKey;
-extern NSString *const kAMAdUnitKeywordKey;
-
-//Mopub
-extern NSString *const AMBidKey;
-
-extern CGFloat const kAMFlexibleAdSize;
-
 @end
