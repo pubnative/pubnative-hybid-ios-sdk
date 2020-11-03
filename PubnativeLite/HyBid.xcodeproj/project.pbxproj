@@ -2962,13 +2962,13 @@
 			path = "AdMob Mediation Adapter";
 			sourceTree = "<group>";
 		};
-		5A3D581F2550701D00E024B2 /* MoPub Mediation Adatper */ = {
+		5A3D581F2550701D00E024B2 /* MoPub Mediation Adapter */ = {
 			isa = PBXGroup;
 			children = (
 				5A3D582C2550711800E024B2 /* AMCustomEventBanner.h */,
 				5A3D582D2550711800E024B2 /* AMCustomEventBanner.m */,
 			);
-			path = "MoPub Mediation Adatper";
+			path = "MoPub Mediation Adapter";
 			sourceTree = "<group>";
 		};
 		5A3D58202550703200E024B2 /* MoPub Header Bidding Adapter */ = {
@@ -2984,7 +2984,7 @@
 			isa = PBXGroup;
 			children = (
 				5A3D58202550703200E024B2 /* MoPub Header Bidding Adapter */,
-				5A3D581F2550701D00E024B2 /* MoPub Mediation Adatper */,
+				5A3D581F2550701D00E024B2 /* MoPub Mediation Adapter */,
 			);
 			path = "MoPub Adapters";
 			sourceTree = "<group>";
