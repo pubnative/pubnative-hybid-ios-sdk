@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "AMCustomEventBanner.h"
+#import "HyBidMoPubMediationNativeAdCustomEvent.h"
 
-@implementation AMCustomEventBanner
+@interface AMCustomEventNative : HyBidMoPubMediationNativeAdCustomEvent
 
 @end

@@ -20,12 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "AMCustomEventInterstitial.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface AMCustomEventBanner : NSObject
+@implementation AMCustomEventInterstitial
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -1537,8 +1537,6 @@
 		5A3D5824255070DB00E024B2 /* AMCustomEventBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventBanner.m; sourceTree = "<group>"; };
 		5A3D5825255070F200E024B2 /* AMCustomEventBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMCustomEventBanner.h; sourceTree = "<group>"; };
 		5A3D5826255070F200E024B2 /* AMCustomEventBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventBanner.m; sourceTree = "<group>"; };
-		5A3D582C2550711800E024B2 /* AMCustomEventBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMCustomEventBanner.h; sourceTree = "<group>"; };
-		5A3D582D2550711800E024B2 /* AMCustomEventBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventBanner.m; sourceTree = "<group>"; };
 		5A3D582E2550713100E024B2 /* AMCustomEventBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMCustomEventBanner.h; sourceTree = "<group>"; };
 		5A3D582F2550713100E024B2 /* AMCustomEventBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventBanner.m; sourceTree = "<group>"; };
 		5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSignalDataProcessor.h; sourceTree = "<group>"; };
@@ -1789,6 +1787,10 @@
 		5AC7B6D62302E9FF00BDB91F /* PNLiteDemoMarkupBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMarkupBaseViewController.h; sourceTree = "<group>"; };
 		5AC7B6D72302E9FF00BDB91F /* PNLiteDemoMarkupBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMarkupBaseViewController.m; sourceTree = "<group>"; };
 		5AC886E4241A9E68004E7D74 /* Mediation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Mediation.storyboard; sourceTree = "<group>"; };
+		5AC91DF12551C5BE0059FE87 /* AMCustomEventInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMCustomEventInterstitial.h; sourceTree = "<group>"; };
+		5AC91DF22551C5BE0059FE87 /* AMCustomEventInterstitial.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventInterstitial.m; sourceTree = "<group>"; };
+		5AC91DF32551C6050059FE87 /* AMCustomEventNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMCustomEventNative.h; sourceTree = "<group>"; };
+		5AC91DF42551C6050059FE87 /* AMCustomEventNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventNative.m; sourceTree = "<group>"; };
 		5ACC74D7203595220001CDC3 /* PNLiteMRAIDParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDParser.m; sourceTree = "<group>"; };
 		5ACC74D8203595230001CDC3 /* PNLiteMRAIDModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDModalViewController.h; sourceTree = "<group>"; };
 		5ACC74D9203595230001CDC3 /* PNLitemraidjs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLitemraidjs.h; sourceTree = "<group>"; };
@@ -2983,29 +2985,15 @@
 			path = "AdMob Mediation Adapter";
 			sourceTree = "<group>";
 		};
-		5A3D581F2550701D00E024B2 /* MoPub Mediation Adapter */ = {
-			isa = PBXGroup;
-			children = (
-				5A3D582C2550711800E024B2 /* AMCustomEventBanner.h */,
-				5A3D582D2550711800E024B2 /* AMCustomEventBanner.m */,
-			);
-			path = "MoPub Mediation Adapter";
-			sourceTree = "<group>";
-		};
-		5A3D58202550703200E024B2 /* MoPub Header Bidding Adapter */ = {
+		5A3D58212550704700E024B2 /* MoPub Adapters */ = {
 			isa = PBXGroup;
 			children = (
 				5A3D582E2550713100E024B2 /* AMCustomEventBanner.h */,
 				5A3D582F2550713100E024B2 /* AMCustomEventBanner.m */,
-			);
-			path = "MoPub Header Bidding Adapter";
-			sourceTree = "<group>";
-		};
-		5A3D58212550704700E024B2 /* MoPub Adapters */ = {
-			isa = PBXGroup;
-			children = (
-				5A3D58202550703200E024B2 /* MoPub Header Bidding Adapter */,
-				5A3D581F2550701D00E024B2 /* MoPub Mediation Adapter */,
+				5AC91DF12551C5BE0059FE87 /* AMCustomEventInterstitial.h */,
+				5AC91DF22551C5BE0059FE87 /* AMCustomEventInterstitial.m */,
+				5AC91DF32551C6050059FE87 /* AMCustomEventNative.h */,
+				5AC91DF42551C6050059FE87 /* AMCustomEventNative.m */,
 			);
 			path = "MoPub Adapters";
 			sourceTree = "<group>";
