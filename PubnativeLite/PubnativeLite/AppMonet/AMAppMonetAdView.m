@@ -22,7 +22,6 @@
 
 #import "AMAppMonetAdView.h"
 #import "AMOConstants.h"
-//#import "AMOCustomEventBannerAdapter.h"
 #import "AMMonetBid.h"
 
 CGSize const MONET_BANNER_SIZE = {.width = 320.0f, .height = 50.0f};
@@ -106,15 +105,21 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 #pragma mark HyBidAdViewDelegate
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    [self.bannerDelegate adError:error withAdView:self];
+    if ([self.bannerDelegate respondsToSelector:@selector(adError:withAdView:)]) {
+        [self.bannerDelegate adError:error withAdView:self];
+    }
 }
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
-    [self.bannerDelegate adLoaded:self];
+    if ([self.bannerDelegate respondsToSelector:@selector(adLoaded:)]) {
+        [self.bannerDelegate adLoaded:self];
+    }
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    [self.bannerDelegate wasClicked:self];
+    if ([self.bannerDelegate respondsToSelector:@selector(wasClicked:)]) {
+        [self.bannerDelegate wasClicked:self];
+    }
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
