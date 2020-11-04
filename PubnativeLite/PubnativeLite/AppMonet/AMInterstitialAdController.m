@@ -24,12 +24,17 @@
 
 @interface AMInterstitialAdController () <HyBidInterstitialAdDelegate>
 
-@property (nonatomic, strong) HyBidInterstitialAd *hybidInterstitialAd;
+@property (nonatomic, strong) HyBidInterstitialAd *hyBidInterstitialAd;
+
 - (id)initWithAdUnitId:(NSString *)adUnitId;
 
 @end
 
 @implementation AMInterstitialAdController
+
+-(void)dealloc {
+    self.hyBidInterstitialAd = nil;
+}
 
 + (AMInterstitialAdController *)interstitialAdControllerForAdUnitId:(NSString *)adUnitId {
     @synchronized (self) {
@@ -39,16 +44,16 @@
 }
 
 - (id)initWithAdUnitId:(NSString *)adUnitId {
-    self.hybidInterstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:adUnitId andWithDelegate:self];
+    self.hyBidInterstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:adUnitId andWithDelegate:self];
     return self;
 }
 
 - (BOOL)ready {
-    return self.hybidInterstitialAd.isReady;
+    return self.hyBidInterstitialAd.isReady;
 }
 
 - (void)loadAd {
-    [self.hybidInterstitialAd load];
+    [self.hyBidInterstitialAd load];
 }
 
 - (void)loadAd:(AMMonetBid *)bid {
@@ -68,7 +73,7 @@
 }
 
 - (void)showFromViewController:(UIViewController *)controller {
-    [self.hybidInterstitialAd showFromViewController:controller];
+    [self.hyBidInterstitialAd showFromViewController:controller];
 }
 
 #pragma mark HyBidInterstitialAdDelegate
