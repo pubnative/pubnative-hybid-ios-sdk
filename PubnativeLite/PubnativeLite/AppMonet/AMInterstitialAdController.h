@@ -27,7 +27,7 @@
 
 @class AMMonetBid;
 
-@interface AMInterstitialAdController : HyBidInterstitialAd
+@interface AMInterstitialAdController : NSObject
 
 /**
  * Returns an interstitial ad object matching the given ad unit ID.
