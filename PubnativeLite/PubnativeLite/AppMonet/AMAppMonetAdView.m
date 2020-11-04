@@ -36,11 +36,62 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 @implementation AMAppMonetAdView
 
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
-    HyBidAdSize *newSize = [[[HyBidAdSize alloc] init] convertSizeToHyBidAdSize:size];
+    HyBidAdSize *newSize = [self getHyBidAdSizeFromSize:size];
     self = [self initWithSize:newSize];
     self.adUnitId = adUnitId;
     self.size = size;
     return self;
+}
+
+- (HyBidAdSize *)getHyBidAdSizeFromSize:(CGSize)size {
+    if (size.width != 0 && size.height != 0) {
+        if (size.height >= 1024) {
+            if (size.width >= HyBidAdSize.SIZE_768x1024.width) {
+                return HyBidAdSize.SIZE_768x1024;
+            }
+        } else if (size.height >= 768) {
+            if (size.width >= HyBidAdSize.SIZE_1024x768.width) {
+                return HyBidAdSize.SIZE_1024x768;
+            }
+        } else if (size.height >= 600) {
+            if (size.width >= HyBidAdSize.SIZE_300x600.width) {
+                return HyBidAdSize.SIZE_300x600;
+            } else if (size.width >= HyBidAdSize.SIZE_160x600.width) {
+                return HyBidAdSize.SIZE_160x600;
+            }
+        } else if (size.height >= 480) {
+            if (size.width >= HyBidAdSize.SIZE_320x480.width) {
+                return HyBidAdSize.SIZE_320x480;
+            }
+        } else if (size.height >= 320) {
+            if (size.width >= HyBidAdSize.SIZE_480x320.width) {
+                return HyBidAdSize.SIZE_480x320;
+            }
+        } else if (size.height >= 250) {
+            if (size.width >= HyBidAdSize.SIZE_300x250.width) {
+                return HyBidAdSize.SIZE_300x250;
+            } else if (size.width >= HyBidAdSize.SIZE_250x250.width) {
+                return HyBidAdSize.SIZE_250x250;
+            }
+        } else if (size.height >= 100) {
+            if (size.width >= HyBidAdSize.SIZE_320x100.width) {
+                return HyBidAdSize.SIZE_320x100;
+            }
+        } else if (size.height >= 90) {
+            if (size.width >= HyBidAdSize.SIZE_728x90.width) {
+                return HyBidAdSize.SIZE_728x90;
+            }
+        } else if (size.height >= 50) {
+            if (size.width >= HyBidAdSize.SIZE_320x50.width) {
+                return HyBidAdSize.SIZE_320x50;
+            } else if (size.width >= HyBidAdSize.SIZE_300x50.width) {
+                return HyBidAdSize.SIZE_300x50;
+            }
+        } else {
+            return HyBidAdSize.SIZE_320x50;
+        }
+    }
+    return HyBidAdSize.SIZE_320x50;
 }
 
 - (void)loadAd {
