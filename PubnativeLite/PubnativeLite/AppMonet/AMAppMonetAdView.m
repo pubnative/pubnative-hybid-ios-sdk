@@ -35,10 +35,11 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 
 @implementation AMAppMonetAdView
 
-- (id)initWithAdUnitId:(NSString *)adUnitId size:(HyBidAdSize *)size {
-    self = [self initWithSize:size];
+- (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
+    HyBidAdSize *newSize = [[[HyBidAdSize alloc] init] convertSizeToHyBidAdSize:size];
+    self = [self initWithSize:newSize];
     self.adUnitId = adUnitId;
-    self.size = CGSizeMake(size.width, size.height);
+    self.size = size;
     return self;
 }
 
