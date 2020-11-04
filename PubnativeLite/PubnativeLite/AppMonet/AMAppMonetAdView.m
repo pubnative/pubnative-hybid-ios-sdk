@@ -22,26 +22,26 @@
 
 #import "AMAppMonetAdView.h"
 #import "AMOConstants.h"
-#import "AMMonetBid.h"
+#import "HyBidAdView.h"
 
 CGSize const MONET_BANNER_SIZE = {.width = 320.0f, .height = 50.0f};
 CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 
 @interface AMAppMonetAdView () <HyBidAdViewDelegate>
-@property(nonatomic) CGSize size;
+@property (nonatomic) CGSize size;
+@property (nonatomic, strong) HyBidAdView *hyBidAdView;
 @end
 
 @implementation AMAppMonetAdView
 
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
-    HyBidAdSize *newSize = [[[HyBidAdSize alloc] init] convertSizeToHyBidAdSize:size];
-    self = [self initWithSize:newSize];
+    self.hyBidAdView = [[HyBidAdView alloc] initWithSize:[[[HyBidAdSize alloc] init] convertSizeToHyBidAdSize:size]];
     return self;
 }
 
 - (void)loadAd {
     if (self.adUnitId != NULL) {
-        [self loadWithZoneID:self.adUnitId andWithDelegate:self];
+        [self.hyBidAdView loadWithZoneID:self.adUnitId andWithDelegate:self];
     }
 }
 
@@ -67,29 +67,31 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)setAdView:(UIView *)bannerView {
+
 }
 
 - (void)dealloc {
-    self.bannerDelegate = nil;
+    self.delegate = nil;
+    self.hyBidAdView = nil;
 }
 
 #pragma mark HyBidAdViewDelegate
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    if ([self.bannerDelegate respondsToSelector:@selector(adError:withAdView:)]) {
-        [self.bannerDelegate adError:error withAdView:self];
+    if ([self.delegate respondsToSelector:@selector(adError:withAdView:)]) {
+        [self.delegate adError:error withAdView:self];
     }
 }
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
-    if ([self.bannerDelegate respondsToSelector:@selector(adLoaded:)]) {
-        [self.bannerDelegate adLoaded:self];
+    if ([self.delegate respondsToSelector:@selector(adLoaded:)]) {
+        [self.delegate adLoaded:self];
     }
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    if ([self.bannerDelegate respondsToSelector:@selector(wasClicked:)]) {
-        [self.bannerDelegate wasClicked:self];
+    if ([self.delegate respondsToSelector:@selector(wasClicked:)]) {
+        [self.delegate wasClicked:self];
     }
 }
 
