@@ -25,4 +25,7 @@
 @interface AMMonetBid : NSObject
 @property(nonatomic, strong) NSString *id;
 @property(nonatomic, strong) NSNumber *cpm;
+
+- (instancetype)initWithCPM:(NSNumber*)cpm id:(NSString *)id;
+
 @end

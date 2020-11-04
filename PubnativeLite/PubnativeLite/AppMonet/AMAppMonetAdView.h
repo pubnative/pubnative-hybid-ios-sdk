@@ -35,6 +35,7 @@ extern CGSize const MONET_MEDIUM_RECT_SIZE;
 @property(nonatomic, weak) id <AMBannerAdDelegate> appMonetAdViewDelegate;
 
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size;
+
 - (void)loadAd;
 - (void)loadCustomEventAdapter:(NSDictionary *)localExtras withHandler:(void (^)(AMMonetBid *bid))handler;
 - (void)onBannerFailed:(NSError *)error;

@@ -620,6 +620,7 @@
 		6F09F76E25501975006A266F /* AMMonetBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F76C25501975006A266F /* AMMonetBid.m */; };
 		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F77725501B29006A266F /* AMOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AMOConstants.m */; };
+		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -4882,6 +4883,7 @@
 				7E4CCA442502A5F2003A3425 /* PNLiteMRAIDParser.m in Sources */,
 				7E4CCA4E2502A5FF003A3425 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				7E4CCA402502A5F2003A3425 /* PNLiteMRAIDSettings.m in Sources */,
+				6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */,
 				7E4CCA462502A5F2003A3425 /* PNLiteMRAIDUtil.m in Sources */,
 				7E4CC9D72502A579003A3425 /* PNLiteMeta.m in Sources */,
 				7E4CC99C2502A4CA003A3425 /* PNLiteOrientationManager.m in Sources */,
