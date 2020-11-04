@@ -71,6 +71,14 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBidStatic/HyBidIntegrationType.h>
 #import <HyBidStatic/HyBidAdSize.h>
 #import <HyBidStatic/HyBidSignalDataProcessor.h>
+#import <HyBid/AppMonet.h>
+#import <HyBid/AppMonetConfigurations.h>
+#import <HyBid/AppMonetAdSize.h>
+#import <HyBid/AMInterstitialAdController.h>
+#import <HyBid/AMInterstitialAdControllerDelegate.h>
+#import <HyBid/AMBannerAdDelegate.h>
+#import <HyBid/AMOConstants.h>
+#import <HyBid/AMMonetBid.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
