@@ -20,12 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import "AppMonet+MoPub.h"
+#import "AMNativeAdRenderer.h"
+#import "MPNativeAdRendererConfiguration.h"
+#import "MPStaticNativeAdRendererSettings.h"
 
-@implementation AppMonet (MoPub)
+@implementation AMNativeAdRenderer
 
-+ (void)addNativeBids:(id)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
-    onReadyBlock();
++ (MPNativeAdRendererConfiguration *)rendererConfigurationWithRendererSettings:(id <MPNativeAdRendererSettings>)rendererSettings {
+    MPNativeAdRendererConfiguration *config = [[MPNativeAdRendererConfiguration alloc] init];
+    config.rendererClass = [self class];
+    config.rendererSettings = rendererSettings;
+    config.supportedCustomEvents = @[@"AMCustomEventNative"];
+    return config;
 }
 
 @end

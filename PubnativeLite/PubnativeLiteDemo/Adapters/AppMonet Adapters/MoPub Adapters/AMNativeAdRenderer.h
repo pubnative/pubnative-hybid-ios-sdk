@@ -20,12 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "AppMonet+MoPub.h"
+#import <Foundation/Foundation.h>
 
-@implementation AppMonet (MoPub)
+@class MPNativeAdRendererConfiguration;
+@protocol MPNativeAdRendererSettings;
 
-+ (void)addNativeBids:(id)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
-    onReadyBlock();
-}
-
+@interface AMNativeAdRenderer : NSObject
++ (MPNativeAdRendererConfiguration *)rendererConfigurationWithRendererSettings:(id <MPNativeAdRendererSettings>)rendererSettings;
 @end
+

@@ -1894,6 +1894,8 @@
 		5ADF9EB6214970430081355E /* HyBidInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidInterstitialAd.m; sourceTree = "<group>"; };
 		5ADF9EB9214972940081355E /* HyBidMRectAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMRectAdView.h; sourceTree = "<group>"; };
 		5ADF9EBA214972940081355E /* HyBidMRectAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMRectAdView.m; sourceTree = "<group>"; };
+		5ADFEBA42552F62000013344 /* AMNativeAdRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMNativeAdRenderer.h; sourceTree = "<group>"; };
+		5ADFEBA52552F62000013344 /* AMNativeAdRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMNativeAdRenderer.m; sourceTree = "<group>"; };
 		5AE206C420E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationSettingsViewController.h; sourceTree = "<group>"; };
 		5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationSettingsViewController.m; sourceTree = "<group>"; };
 		5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDInterstitialPresenter.h; sourceTree = "<group>"; };
@@ -3006,6 +3008,8 @@
 				5AC91DF22551C5BE0059FE87 /* AMCustomEventInterstitial.m */,
 				5AC91DF32551C6050059FE87 /* AMCustomEventNative.h */,
 				5AC91DF42551C6050059FE87 /* AMCustomEventNative.m */,
+				5ADFEBA42552F62000013344 /* AMNativeAdRenderer.h */,
+				5ADFEBA52552F62000013344 /* AMNativeAdRenderer.m */,
 			);
 			path = "MoPub Adapters";
 			sourceTree = "<group>";
