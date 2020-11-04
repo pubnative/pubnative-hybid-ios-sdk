@@ -23,15 +23,16 @@
 #import <UIKit/UIKit.h>
 #import "AMBannerAdDelegate.h"
 #import "AMMonetBid.h"
+#import "HyBidAdView.h"
 
 extern CGSize const MONET_BANNER_SIZE;
 extern CGSize const MONET_MEDIUM_RECT_SIZE;
 
 @protocol AMBannerAdDelegate;
 
-@interface AMAppMonetAdView: NSObject
+@interface AMAppMonetAdView: HyBidAdView
 @property(nonatomic, strong) NSString *adUnitId;
-@property(nonatomic, weak) id <AMBannerAdDelegate> delegate;
+@property(nonatomic, weak) id <AMBannerAdDelegate> appMonetAdViewDelegate;
 
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size;
 - (void)loadAd;

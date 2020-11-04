@@ -22,26 +22,25 @@
 
 #import "AMAppMonetAdView.h"
 #import "AMOConstants.h"
-#import "HyBidAdView.h"
 
 CGSize const MONET_BANNER_SIZE = {.width = 320.0f, .height = 50.0f};
 CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 
 @interface AMAppMonetAdView () <HyBidAdViewDelegate>
 @property (nonatomic) CGSize size;
-@property (nonatomic, strong) HyBidAdView *hyBidAdView;
 @end
 
 @implementation AMAppMonetAdView
 
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
-    self.hyBidAdView = [[HyBidAdView alloc] initWithSize:[[[HyBidAdSize alloc] init] convertSizeToHyBidAdSize:size]];
+    HyBidAdSize *newSize = [[[HyBidAdSize alloc] init] convertSizeToHyBidAdSize:size];
+    self = [self initWithSize:newSize];
     return self;
 }
 
 - (void)loadAd {
     if (self.adUnitId != NULL) {
-        [self.hyBidAdView loadWithZoneID:self.adUnitId andWithDelegate:self];
+        [self loadWithZoneID:self.adUnitId andWithDelegate:self];
     }
 }
 
@@ -71,27 +70,26 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)dealloc {
-    self.delegate = nil;
-    self.hyBidAdView = nil;
+    self.appMonetAdViewDelegate = nil;
 }
 
 #pragma mark HyBidAdViewDelegate
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    if ([self.delegate respondsToSelector:@selector(adError:withAdView:)]) {
-        [self.delegate adError:error withAdView:self];
+    if ([self.appMonetAdViewDelegate respondsToSelector:@selector(adError:withAdView:)]) {
+        [self.appMonetAdViewDelegate adError:error withAdView:self];
     }
 }
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
-    if ([self.delegate respondsToSelector:@selector(adLoaded:)]) {
-        [self.delegate adLoaded:self];
+    if ([self.appMonetAdViewDelegate respondsToSelector:@selector(adLoaded:)]) {
+        [self.appMonetAdViewDelegate adLoaded:self];
     }
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    if ([self.delegate respondsToSelector:@selector(wasClicked:)]) {
-        [self.delegate wasClicked:self];
+    if ([self.appMonetAdViewDelegate respondsToSelector:@selector(wasClicked:)]) {
+        [self.appMonetAdViewDelegate wasClicked:self];
     }
 }
 
