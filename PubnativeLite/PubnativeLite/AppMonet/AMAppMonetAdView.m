@@ -22,12 +22,9 @@
 
 #import "AMAppMonetAdView.h"
 #import "AMOConstants.h"
-<<<<<<< HEAD
 #import "AMMonetBid.h"
 #import "HyBidLogger.h"
 #import "HyBidAdCache.h"
-=======
->>>>>>> development-HyBid-Extension
 
 CGSize const MONET_BANNER_SIZE = {.width = 320.0f, .height = 50.0f};
 CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
