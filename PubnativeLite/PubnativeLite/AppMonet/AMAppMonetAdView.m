@@ -22,15 +22,18 @@
 
 #import "AMAppMonetAdView.h"
 #import "AMOConstants.h"
+<<<<<<< HEAD
 #import "AMMonetBid.h"
 #import "HyBidLogger.h"
 #import "HyBidAdCache.h"
+=======
+>>>>>>> development-HyBid-Extension
 
 CGSize const MONET_BANNER_SIZE = {.width = 320.0f, .height = 50.0f};
 CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 
 @interface AMAppMonetAdView () <HyBidAdViewDelegate, HyBidAdRequestDelegate>
-@property(nonatomic) CGSize size;
+@property (nonatomic) CGSize size;
 @end
 
 @implementation AMAppMonetAdView
@@ -78,6 +81,7 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)setAdView:(UIView *)bannerView {
+
 }
 
 - (void)invokeDidFailWithError:(NSError *)error {
@@ -88,26 +92,26 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)dealloc {
-    self.bannerDelegate = nil;
+    self.appMonetAdViewDelegate = nil;
 }
 
 #pragma mark HyBidAdViewDelegate
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    if ([self.bannerDelegate respondsToSelector:@selector(adError:withAdView:)]) {
-        [self.bannerDelegate adError:error withAdView:self];
+    if ([self.appMonetAdViewDelegate respondsToSelector:@selector(adError:withAdView:)]) {
+        [self.appMonetAdViewDelegate adError:error withAdView:self];
     }
 }
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
-    if ([self.bannerDelegate respondsToSelector:@selector(adLoaded:)]) {
-        [self.bannerDelegate adLoaded:self];
+    if ([self.appMonetAdViewDelegate respondsToSelector:@selector(adLoaded:)]) {
+        [self.appMonetAdViewDelegate adLoaded:self];
     }
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    if ([self.bannerDelegate respondsToSelector:@selector(wasClicked:)]) {
-        [self.bannerDelegate wasClicked:self];
+    if ([self.appMonetAdViewDelegate respondsToSelector:@selector(wasClicked:)]) {
+        [self.appMonetAdViewDelegate wasClicked:self];
     }
 }
 

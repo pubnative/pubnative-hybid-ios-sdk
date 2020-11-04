@@ -303,9 +303,9 @@
 		5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */; };
 		5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */; };
 		5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */; };
-		5A3B0439254B1C13005669FF /* AppMonet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0437254B1C13005669FF /* AppMonet.h */; };
+		5A3B0439254B1C13005669FF /* AppMonet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0437254B1C13005669FF /* AppMonet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A3B043A254B1C13005669FF /* AppMonet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B0438254B1C13005669FF /* AppMonet.m */; };
-		5A3B0443254B1CFA005669FF /* AppMonetConfigurations.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0441254B1CFA005669FF /* AppMonetConfigurations.h */; };
+		5A3B0443254B1CFA005669FF /* AppMonetConfigurations.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0441254B1CFA005669FF /* AppMonetConfigurations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A3B0444254B1CFA005669FF /* AppMonetConfigurations.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B0442254B1CFA005669FF /* AppMonetConfigurations.m */; };
 		5A3DD0A625277A0300A72B03 /* HyBidSignalDataProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A3DD0A725277A0300A72B03 /* HyBidSignalDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */; };
@@ -467,9 +467,9 @@
 		5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D5F42031CEC1002BFDA3 /* PNLiteHttpRequest.m */; };
 		5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */; };
 		5AA7EC6820E4E28F00277E2B /* PNLiteDemoMoPubMediationInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA7EC6720E4E28F00277E2B /* PNLiteDemoMoPubMediationInterstitialViewController.m */; };
-		5AA92BFE254C741F00AB2644 /* AMInterstitialAdController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA92BFC254C741F00AB2644 /* AMInterstitialAdController.h */; };
+		5AA92BFE254C741F00AB2644 /* AMInterstitialAdController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA92BFC254C741F00AB2644 /* AMInterstitialAdController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AA92BFF254C741F00AB2644 /* AMInterstitialAdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA92BFD254C741F00AB2644 /* AMInterstitialAdController.m */; };
-		5AA92C06254C748300AB2644 /* AMInterstitialAdControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA92C05254C748300AB2644 /* AMInterstitialAdControllerDelegate.h */; };
+		5AA92C06254C748300AB2644 /* AMInterstitialAdControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA92C05254C748300AB2644 /* AMInterstitialAdControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AB2C129248696BA00AFB4A5 /* HyBidVideoAdCacheItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB2C127248696BA00AFB4A5 /* HyBidVideoAdCacheItem.h */; };
 		5AB2C12A248696BA00AFB4A5 /* HyBidVideoAdCacheItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB2C128248696BA00AFB4A5 /* HyBidVideoAdCacheItem.m */; };
 		5AB2C12E2486981100AFB4A5 /* HyBidVideoAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB2C12C2486981100AFB4A5 /* HyBidVideoAdCache.m */; };
@@ -613,12 +613,12 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
-		6F09F74C255016B6006A266F /* AMBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F74A255016B6006A266F /* AMBannerAdDelegate.h */; };
-		6F09F764255018A9006A266F /* AMAppMonetAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F762255018A9006A266F /* AMAppMonetAdView.h */; };
+		6F09F74C255016B6006A266F /* AMBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F74A255016B6006A266F /* AMBannerAdDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F09F764255018A9006A266F /* AMAppMonetAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F762255018A9006A266F /* AMAppMonetAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F765255018A9006A266F /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
-		6F09F76D25501975006A266F /* AMMonetBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F76B25501975006A266F /* AMMonetBid.h */; };
+		6F09F76D25501975006A266F /* AMMonetBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F76B25501975006A266F /* AMMonetBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F76E25501975006A266F /* AMMonetBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F76C25501975006A266F /* AMMonetBid.m */; };
-		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; };
+		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F77725501B29006A266F /* AMOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AMOConstants.m */; };
 		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
@@ -645,7 +645,7 @@
 		6F8C118D2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */; };
 		6F8C118E2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
 		6F8C118F2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
-		6FCBEE36254C125E005F301C /* AppMonetAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBEE34254C125E005F301C /* AppMonetAdSize.h */; };
+		6FCBEE36254C125E005F301C /* AppMonetAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBEE34254C125E005F301C /* AppMonetAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FCBEE37254C125E005F301C /* AppMonetAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBEE35254C125E005F301C /* AppMonetAdSize.m */; };
 		6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FD11E572514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; };
@@ -902,6 +902,14 @@
 		7E7CC36824D9F0E700F3A476 /* QuoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7CC36724D9F0E700F3A476 /* QuoteCell.m */; };
 		7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
 		7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCDD24BDFE84005D2B64 /* omsdk.js */; };
+		7EF360902552D7F50091CDCB /* AppMonet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0437254B1C13005669FF /* AppMonet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EF3609B2552D7FA0091CDCB /* AppMonetConfigurations.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3B0441254B1CFA005669FF /* AppMonetConfigurations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EF360A62552D7FF0091CDCB /* AppMonetAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBEE34254C125E005F301C /* AppMonetAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EF360B12552D8050091CDCB /* AMInterstitialAdController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA92BFC254C741F00AB2644 /* AMInterstitialAdController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EF360BC2552D80A0091CDCB /* AMInterstitialAdControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA92C05254C748300AB2644 /* AMInterstitialAdControllerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EF360C72552D80F0091CDCB /* AMAppMonetAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F762255018A9006A266F /* AMAppMonetAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EF360CD2552D8130091CDCB /* AMMonetBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F76B25501975006A266F /* AMMonetBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EF360D82552D8170091CDCB /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7CD0E472522219E00F976D6 /* HyBidSKAdNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */; };
 		E7CD0E4D252221A300F976D6 /* HyBidSKAdNetworkViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */; };
 		E7CD0E53252221AD00F976D6 /* HyBidSKAdNetworkViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */; };
@@ -1887,6 +1895,8 @@
 		5ADF9EB6214970430081355E /* HyBidInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidInterstitialAd.m; sourceTree = "<group>"; };
 		5ADF9EB9214972940081355E /* HyBidMRectAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMRectAdView.h; sourceTree = "<group>"; };
 		5ADF9EBA214972940081355E /* HyBidMRectAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMRectAdView.m; sourceTree = "<group>"; };
+		5ADFEBA42552F62000013344 /* AMNativeAdRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMNativeAdRenderer.h; sourceTree = "<group>"; };
+		5ADFEBA52552F62000013344 /* AMNativeAdRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMNativeAdRenderer.m; sourceTree = "<group>"; };
 		5AE206C420E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationSettingsViewController.h; sourceTree = "<group>"; };
 		5AE206C520E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationSettingsViewController.m; sourceTree = "<group>"; };
 		5AE7395320441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteMRAIDInterstitialPresenter.h; sourceTree = "<group>"; };
@@ -2999,6 +3009,8 @@
 				5AC91DF22551C5BE0059FE87 /* AMCustomEventInterstitial.m */,
 				5AC91DF32551C6050059FE87 /* AMCustomEventNative.h */,
 				5AC91DF42551C6050059FE87 /* AMCustomEventNative.m */,
+				5ADFEBA42552F62000013344 /* AMNativeAdRenderer.h */,
+				5ADFEBA52552F62000013344 /* AMNativeAdRenderer.m */,
 			);
 			path = "MoPub Adapters";
 			sourceTree = "<group>";
@@ -3921,6 +3933,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EF360C72552D80F0091CDCB /* AMAppMonetAdView.h in Headers */,
 				7E4CCA1E2502A5B9003A3425 /* PNLiteVASTPlayerViewController.h in Headers */,
 				7E4CC8B625029A0C003A3425 /* HyBidInterstitialPresenter.h in Headers */,
 				7E4CCA0C2502A5A9003A3425 /* PNLiteInterstitialPresenterDecorator.h in Headers */,
@@ -3947,11 +3960,13 @@
 				7E4CC9E82502A581003A3425 /* PNLiteAdFactory.h in Headers */,
 				7E4CC8CE25029B4D003A3425 /* HyBidBannerAdView.h in Headers */,
 				5A3DD0B725278A6F00A72B03 /* HyBidSignalDataProcessor.h in Headers */,
+				7EF360902552D7F50091CDCB /* AppMonet.h in Headers */,
 				7E4CC8BE25029A5F003A3425 /* HyBidNativeAdLoader.h in Headers */,
 				7E4CC9DF2502A57A003A3425 /* PNLiteResponseModel.h in Headers */,
 				7E4CC8AC25029960003A3425 /* HyBidAdRequest.h in Headers */,
 				7E4CCA1C2502A5B9003A3425 /* PNLiteVASTEventProcessor.h in Headers */,
 				7E4CC9A52502A4EB003A3425 /* HyBidViewabilityWebAdSession.h in Headers */,
+				7EF360CD2552D8130091CDCB /* AMMonetBid.h in Headers */,
 				7E4CC8C925029B23003A3425 /* HyBidDataModel.h in Headers */,
 				7E4CC8D025029B6B003A3425 /* HyBidInterstitialAd.h in Headers */,
 				7E4CC8CB25029B30003A3425 /* HyBidNativeAd.h in Headers */,
@@ -3961,22 +3976,26 @@
 				7E4CC9BD2502A53C003A3425 /* PNLiteConsentEndpoints.h in Headers */,
 				7E4CC9FD2502A593003A3425 /* PNLiteAdPresenterDecorator.h in Headers */,
 				6F8C118D2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */,
+				7EF360B12552D8050091CDCB /* AMInterstitialAdController.h in Headers */,
 				7E4CC8BB25029A36003A3425 /* HyBidStarRatingView.h in Headers */,
 				7E4CC8CD25029B3C003A3425 /* HyBidAdSize.h in Headers */,
 				7E4CC8C825029B0C003A3425 /* HyBidAdModel.h in Headers */,
 				7E4CC8CC25029B38003A3425 /* HyBidIntegrationType.h in Headers */,
 				7E4CC8AD25029970003A3425 /* HyBidMRAIDServiceProvider.h in Headers */,
+				7EF360A62552D7FF0091CDCB /* AppMonetAdSize.h in Headers */,
 				7E4CC9A72502A4F1003A3425 /* HyBidViewabilityNativeAdSession.h in Headers */,
 				6F8C115B2539BABD00DC4151 /* HyBidRewardedPresenter.h in Headers */,
 				7E4CC9AD2502A507003A3425 /* PNLiteRequestInspector.h in Headers */,
 				7E4CC99B2502A4C6003A3425 /* PNLiteOrientationManager.h in Headers */,
 				7E4CC9C52502A551003A3425 /* PNLiteUserConsentResponseModel.h in Headers */,
+				7EF3609B2552D7FA0091CDCB /* AppMonetConfigurations.h in Headers */,
 				7E4CC9D42502A573003A3425 /* PNLiteHttpRequest.h in Headers */,
 				6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */,
 				7E4CC8AE250299A7003A3425 /* HyBidMRAIDView.h in Headers */,
 				7E4CCA4B2502A5FF003A3425 /* PNLiteMRAIDOrientationProperties.h in Headers */,
 				7E4CC8B725029A10003A3425 /* HyBidInterstitialPresenterFactory.h in Headers */,
 				7E4CC8B825029A25003A3425 /* HyBidSettings.h in Headers */,
+				7EF360D82552D8170091CDCB /* AMOConstants.h in Headers */,
 				7E4CC9F82502A58D003A3425 /* HyBidAdTracker.h in Headers */,
 				7E4CCA372502A5E1003A3425 /* PNLiteVASTSchema.h in Headers */,
 				7E4CCA302502A5D3003A3425 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */,
@@ -4031,6 +4050,7 @@
 				7E4CC9B92502A52E003A3425 /* HyBidVisibilityTracker.h in Headers */,
 				7E4CCA162502A5B9003A3425 /* PNLitePropertyAnimation.h in Headers */,
 				7E4CC9A02502A4D8003A3425 /* HyBidWebBrowserUserAgentInfo.h in Headers */,
+				7EF360BC2552D80A0091CDCB /* AMInterstitialAdControllerDelegate.h in Headers */,
 				7E4CC9AF2502A50F003A3425 /* PNLiteRequestInspectorModel.h in Headers */,
 				7E4CC8D825029F2A003A3425 /* HyBidConstants.h in Headers */,
 				7E4CCA352502A5E0003A3425 /* PNLiteVASTMediaFilePicker.h in Headers */,

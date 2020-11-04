@@ -32,24 +32,17 @@ extern CGSize const MONET_MEDIUM_RECT_SIZE;
 
 @interface AMAppMonetAdView: HyBidAdView
 @property(nonatomic, strong) NSString *adUnitId;
-@property(nonatomic, weak) id <AMBannerAdDelegate> bannerDelegate;
+@property(nonatomic, weak) id <AMBannerAdDelegate> appMonetAdViewDelegate;
 
 - (id)initWithAdUnitId:(NSString *)adUnitId size:(HyBidAdSize *)size;
 
 - (void)loadAd;
-
 - (void)loadCustomEventAdapter:(NSDictionary *)localExtras withHandler:(void (^)(AMMonetBid *bid))handler;
-
 - (void)onBannerFailed:(NSError *)error;
-
 - (void)registerClick;
-
 - (void)adLoaded;
-
 - (void)setAdView:(UIView *)bannerView;
-
 - (void)requestAds:(void (^)(AMMonetBid *bid))handler;
-
 - (void)render:(AMMonetBid *)bid;
 
 @end
