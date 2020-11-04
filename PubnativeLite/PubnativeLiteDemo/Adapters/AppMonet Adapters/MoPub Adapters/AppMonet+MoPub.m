@@ -21,11 +21,16 @@
 //
 
 #import "AppMonet+MoPub.h"
+#import <HyBid/HyBid.h>
 
 @implementation AppMonet (MoPub)
 
 + (void)addNativeBids:(id)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
     onReadyBlock();
+}
+
++ (void)enableVerboseLogging:(BOOL)verboseLogging {
+    [HyBidLogger setLogLevel:HyBidLogLevelDebug];
 }
 
 @end

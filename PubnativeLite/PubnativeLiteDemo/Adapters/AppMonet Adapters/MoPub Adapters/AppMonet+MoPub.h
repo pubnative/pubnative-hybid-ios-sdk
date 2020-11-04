@@ -28,4 +28,6 @@
 
 + (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
 
++ (void)enableVerboseLogging:(BOOL)verboseLogging;
+
 @end
