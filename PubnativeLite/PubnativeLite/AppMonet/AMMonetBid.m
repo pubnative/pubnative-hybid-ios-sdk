@@ -24,4 +24,14 @@
 
 @implementation AMMonetBid
 
+- (instancetype)initWithCPM:(NSNumber*)cpm id:(NSString *)id
+{
+    self = [super init];
+    if (self) {
+        self.cpm = cpm;
+        self.id = id;
+    }
+    return self;
+}
+
 @end

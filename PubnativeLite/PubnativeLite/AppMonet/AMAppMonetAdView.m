@@ -23,19 +23,22 @@
 #import "AMAppMonetAdView.h"
 #import "AMOConstants.h"
 #import "AMMonetBid.h"
+#import "HyBidLogger.h"
+#import "HyBidAdCache.h"
 
 CGSize const MONET_BANNER_SIZE = {.width = 320.0f, .height = 50.0f};
 CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 
-@interface AMAppMonetAdView () <HyBidAdViewDelegate>
+@interface AMAppMonetAdView () <HyBidAdViewDelegate, HyBidAdRequestDelegate>
 @property(nonatomic) CGSize size;
 @end
 
 @implementation AMAppMonetAdView
 
-- (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
-    HyBidAdSize *newSize = [[[HyBidAdSize alloc] init] convertSizeToHyBidAdSize:size];
-    self = [self initWithSize:newSize];
+- (id)initWithAdUnitId:(NSString *)adUnitId size:(HyBidAdSize *)size {
+    self = [self initWithSize:size];
+    self.adUnitId = adUnitId;
+    self.size = CGSizeMake(size.width, size.height);
     return self;
 }
 
@@ -46,9 +49,17 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)requestAds:(void (^)(AMMonetBid *bid))handler {
+    [self.adRequest requestAdWithDelegate:self withZoneID:self.adUnitId];
 }
 
 - (void)render:(AMMonetBid *)bid {
+    if (bid != nil) {
+        HyBidAd *ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:bid.id];
+        self.ad = ad;
+        [self renderAd];
+    } else {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"The provided bid is invalid."]];
+    }
 }
 
 - (void)loadCustomEventAdapter:(NSDictionary *)localExtras withHandler:(void (^)(AMMonetBid *bid))handler {
@@ -67,6 +78,13 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)setAdView:(UIView *)bannerView {
+}
+
+- (void)invokeDidFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+        [self.delegate adView:self didFailWithError:error];
+    }
 }
 
 - (void)dealloc {
@@ -94,6 +112,29 @@ CGSize const MONET_MEDIUM_RECT_SIZE = {.width = 300.0f, .height = 250.0f};
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
+}
+
+#pragma mark HyBidAdRequestDelegate
+
+- (void)requestDidStart:(HyBidAdRequest *)request {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
+}
+
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
+    
+    if (!ad) {
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
+    } else {
+        AMMonetBid *bid = [[AMMonetBid alloc] initWithCPM:ad.eCPM id:self.adUnitId];
+        if (bid.cpm > [[NSDecimalNumber alloc] initWithDouble:1.0]) {
+            [self render:bid];
+        }
+    }
+}
+
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
+    [self invokeDidFailWithError:error];
 }
 
 @end

@@ -34,7 +34,7 @@ extern CGSize const MONET_MEDIUM_RECT_SIZE;
 @property(nonatomic, strong) NSString *adUnitId;
 @property(nonatomic, weak) id <AMBannerAdDelegate> bannerDelegate;
 
-- (id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size;
+- (id)initWithAdUnitId:(NSString *)adUnitId size:(HyBidAdSize *)size;
 
 - (void)loadAd;
 
