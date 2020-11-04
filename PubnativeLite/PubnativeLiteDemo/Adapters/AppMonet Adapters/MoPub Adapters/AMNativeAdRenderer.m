@@ -21,8 +21,6 @@
 //
 
 #import "AMNativeAdRenderer.h"
-#import "MPNativeAdRendererConfiguration.h"
-#import "MPStaticNativeAdRendererSettings.h"
 
 @implementation AMNativeAdRenderer
 

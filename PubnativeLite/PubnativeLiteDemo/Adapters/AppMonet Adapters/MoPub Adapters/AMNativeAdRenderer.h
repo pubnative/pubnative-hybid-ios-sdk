@@ -21,11 +21,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class MPNativeAdRendererConfiguration;
-@protocol MPNativeAdRendererSettings;
+#import "MPNativeAdRendererConfiguration.h"
+#import "MPStaticNativeAdRendererSettings.h"
 
 @interface AMNativeAdRenderer : NSObject
+
 + (MPNativeAdRendererConfiguration *)rendererConfigurationWithRendererSettings:(id <MPNativeAdRendererSettings>)rendererSettings;
+
 @end
 
