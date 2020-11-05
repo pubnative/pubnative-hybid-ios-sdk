@@ -35,7 +35,6 @@
 
 - (void)dealloc {
     self.bannerAdView = nil;
-    self.adSize = nil;
 }
 
 - (void)requestBannerAd:(GADAdSize)adSize
@@ -44,7 +43,7 @@
                 request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
         if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
+            self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:adSize]];
             self.bannerAdView.isMediation = YES;
             [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
         } else {
@@ -62,7 +61,7 @@
     [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
-- (HyBidAdSize *)adSize {
+- (HyBidAdSize *)getHyBidAdSizeFromSize:(GADAdSize)size {
     return HyBidAdSize.SIZE_320x50;
 }
 
