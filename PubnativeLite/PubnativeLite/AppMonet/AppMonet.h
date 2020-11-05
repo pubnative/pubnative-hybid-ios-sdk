@@ -23,10 +23,16 @@
 #import <Foundation/Foundation.h>
 #import "AppMonetConfigurations.h"
 
+@class MPNativeAdRequest;
+
 @interface AppMonet : NSObject
 
 + (void)init:(AppMonetConfigurations *)appMonetConfigurations;
 + (void)initialize:(AppMonetConfigurations *)appMonetConfigurations;
+
+//MoPub
++ (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
++ (void)enableVerboseLogging:(BOOL)verboseLogging;
 
 /**
  * This method allows the SDK to get test demand that always fills. Use it only during development.

@@ -41,4 +41,13 @@
     [HyBid setTestMode:YES];
 }
 
+//MoPub
++ (void)addNativeBids:(id)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
+    onReadyBlock();
+}
+
++ (void)enableVerboseLogging:(BOOL)verboseLogging {
+    [HyBidLogger setLogLevel:HyBidLogLevelDebug];
+}
+
 @end
