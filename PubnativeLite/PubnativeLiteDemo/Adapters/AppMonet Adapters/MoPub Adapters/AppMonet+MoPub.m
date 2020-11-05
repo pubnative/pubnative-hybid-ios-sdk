@@ -73,7 +73,7 @@
             AppMonet.mpAdView.keywords = bidKeywords;
         } else {
             NSString *currentKeywords = AppMonet.mpAdView.keywords;
-            AppMonet.mpAdView.keywords = [NSString stringWithFormat:@"%@,%@", currentKeywords, bidKeywords];
+            AppMonet.mpAdView.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
         }
     }
 }
@@ -82,5 +82,42 @@
     [self invokeDidFailWithError:error];
 }
 
+- (NSDictionary *)keywordsToDictionary:(NSString *)keywords
+{
+    NSMutableDictionary *dict;
+    NSArray *keyValueArray = [keywords componentsSeparatedByString:@","];
+    for (NSString *str in keyValueArray) {
+        NSArray *splittedKeywords = [str componentsSeparatedByString:@":"];
+        if ([splittedKeywords count] == 2) {
+            dict[splittedKeywords[0]] = splittedKeywords[1];
+        }
+    }
+    return dict;
+}
+
+- (NSString *)mergeKeywords:(NSString *)currentKeywords newKeywords:(NSString *)newKeywords
+{
+    NSDictionary *currentDict = [self keywordsToDictionary:currentKeywords];
+    NSDictionary *newDict = [self keywordsToDictionary:newKeywords];
+    
+    NSMutableDictionary *returnDict = [currentDict mutableCopy];
+    [returnDict addEntriesFromDictionary:newDict];
+    
+    return [self getKeywords:returnDict];
+}
+
+- (NSString *)getKeywords:(NSMutableDictionary *)keywords
+{
+    NSMutableString *str;
+    for (NSString *key in keywords.allKeys) {
+        [str appendString:key];
+        [str appendString:@":"];
+        
+        NSString *val = [keywords valueForKey:key];
+        [str appendString:val];
+        [str appendString:@","];
+    }
+    return str;
+}
 
 @end
