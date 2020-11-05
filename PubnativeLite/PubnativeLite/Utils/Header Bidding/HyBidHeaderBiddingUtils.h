@@ -38,4 +38,6 @@ typedef enum {
 + (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
 + (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
 
++ (NSString *)createAppMonetHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad;
+
 @end
