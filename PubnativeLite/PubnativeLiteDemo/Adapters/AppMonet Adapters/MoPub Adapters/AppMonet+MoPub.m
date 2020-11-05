@@ -22,6 +22,7 @@
 
 #import "AppMonet+MoPub.h"
 #import <HyBid/HyBid.h>
+#import "MPAdView.h"
 
 @interface AppMonet ()
 @property (class, nonatomic) MPAdView *mpAdView;
@@ -30,16 +31,11 @@
 @implementation AppMonet (MoPub)
 
 + (void)addBids:(MPAdView *)adView andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
-//    AMOSdkManager *manager = [AMOSdkManager get];
-//    if (manager == nil) {
-//        onReadyBlock();
-//        return;
-//    }
-//    [manager addBids:adView andAdUnitId:[adView adUnitId] andTimeout:timeout andOnReady:onReadyBlock];
-//    [AppMonet addBids:adView andAdUnitId:[adView adUnitId] andTimeout:timeout andOnReady:onReadyBlock];
-    
+    AppMonet.mpAdView = adView;
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
+    request.adSize = HyBidAdSize.SIZE_300x250;
     [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:adView.adUnitId];
+    
 }
 
 + (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
@@ -65,6 +61,16 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
+    
+    NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
+    if (bidKeywords.length != 0) {
+        if (AppMonet.mpAdView.keywords.length == 0) {
+            AppMonet.mpAdView.keywords = bidKeywords;
+        } else {
+            NSString *currentKeywords = AppMonet.mpAdView.keywords;
+            AppMonet.mpAdView.keywords = [NSString stringWithFormat:@"%@,%@", currentKeywords, bidKeywords];
+        }
+    }
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {

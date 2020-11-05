@@ -47,7 +47,7 @@
  * @param adView  {@code MPAdView} to attach bid to.
  * @return {@code MPAdView} with bids attached.
  */
-+ (MPAdView *)addBids:(MPAdView *)adView;
+//+ (MPAdView *)addBids:(MPAdView *)adView;
 
 + (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
 + (void)enableVerboseLogging:(BOOL)verboseLogging;
