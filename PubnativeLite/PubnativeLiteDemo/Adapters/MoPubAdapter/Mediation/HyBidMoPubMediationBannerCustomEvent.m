@@ -67,7 +67,6 @@
 }
 
 - (HyBidAdSize *)getHyBidAdSizeFromSize:(CGSize)size {
-    NSLog(@"%ld",(long)HyBidAdSize.SIZE_320x50.width);
     return HyBidAdSize.SIZE_320x50;
 }
 

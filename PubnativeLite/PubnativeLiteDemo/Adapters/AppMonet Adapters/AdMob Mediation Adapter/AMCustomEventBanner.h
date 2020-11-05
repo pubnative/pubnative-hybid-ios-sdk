@@ -20,12 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidAdMobMediationBannerCustomEvent.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface AMCustomEventBanner : NSObject
+@interface AMCustomEventBanner : HyBidAdMobMediationBannerCustomEvent
 
 @end
-
-NS_ASSUME_NONNULL_END

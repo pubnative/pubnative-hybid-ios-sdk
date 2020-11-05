@@ -24,4 +24,17 @@
 
 @implementation AMCustomEventBanner
 
+-(HyBidAdSize *)getHyBidAdSizeFromSize:(GADAdSize)size {
+    if (GADAdSizeEqualToSize(size, kGADAdSizeBanner)) {
+        return HyBidAdSize.SIZE_320x50;
+    } else if (GADAdSizeEqualToSize(size, kGADAdSizeLargeBanner)) {
+        return HyBidAdSize.SIZE_320x100;
+    } else if (GADAdSizeEqualToSize(size, kGADAdSizeLeaderboard)) {
+        return HyBidAdSize.SIZE_728x90;
+    } else if (GADAdSizeEqualToSize(size, kGADAdSizeMediumRectangle)) {
+        return HyBidAdSize.SIZE_300x250;
+    }
+    return [super getHyBidAdSizeFromSize:size];
+}
+
 @end
