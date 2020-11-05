@@ -35,7 +35,12 @@
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     request.adSize = HyBidAdSize.SIZE_300x250;
     [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:adView.adUnitId];
-    
+}
+
++ (MPAdView *)addBids:(MPAdView *)adView
+{
+    // This has been left empty because we don't support any synchronous API.
+    return nil;
 }
 
 + (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
