@@ -20,17 +20,24 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "AppMonet+DFP.h"
+#import <HyBid/HyBid.h>
 #import "AppMonetConfigurations.h"
 
-@interface AppMonet : NSObject
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations;
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(NSError *)error ;
-+ (void)initialize:(AppMonetConfigurations *)appMonetConfigurations;
+@implementation AppMonet (DFP)
 
-/**
- * This method allows the SDK to get test demand that always fills. Use it only during development.
- */
-+ (void)testMode;
++ (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block {
+    [AppMonet initialize:appMonetConfigurations withBlock:block];
+}
+
++ (void)initialize:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block {
+    AppMonetConfigurations *internalConfigurations = appMonetConfigurations;
+    if (appMonetConfigurations == nil) {
+        internalConfigurations = [AppMonetConfigurations configurationWithBlock:^(AppMonetConfigurations *builder) {
+            // do nothing
+        }];
+    }
+    [AMOSdkManager initializeSdk:internalConfigurations andAdServerWrapper:[[AMODFPAdServerWrapper alloc] init] andBlock:block];
+}
 
 @end

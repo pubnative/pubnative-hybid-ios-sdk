@@ -1968,6 +1968,10 @@
 		7E7CC36724D9F0E700F3A476 /* QuoteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuoteCell.m; sourceTree = "<group>"; };
 		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
 		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
+		7EF4BE2F255447FC004558D5 /* AppMonet+DFP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppMonet+DFP.h"; sourceTree = "<group>"; };
+		7EF4BE30255447FC004558D5 /* AppMonet+DFP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppMonet+DFP.m"; sourceTree = "<group>"; };
+		7EF4BE5F25545438004558D5 /* AMCustomEventInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMCustomEventInterstitial.h; sourceTree = "<group>"; };
+		7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventInterstitial.m; sourceTree = "<group>"; };
 		E7F24F1524E41E2F00160097 /* hybidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidscaling.js; sourceTree = "<group>"; };
 		E7F24F1724E4224000160097 /* hybidmraidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidmraidscaling.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3018,8 +3022,12 @@
 		5A3D58222550706A00E024B2 /* DFP Header Bidding Adapter */ = {
 			isa = PBXGroup;
 			children = (
+				7EF4BE2F255447FC004558D5 /* AppMonet+DFP.h */,
+				7EF4BE30255447FC004558D5 /* AppMonet+DFP.m */,
 				5A3D5825255070F200E024B2 /* AMCustomEventBanner.h */,
 				5A3D5826255070F200E024B2 /* AMCustomEventBanner.m */,
+				7EF4BE5F25545438004558D5 /* AMCustomEventInterstitial.h */,
+				7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */,
 			);
 			path = "DFP Header Bidding Adapter";
 			sourceTree = "<group>";
