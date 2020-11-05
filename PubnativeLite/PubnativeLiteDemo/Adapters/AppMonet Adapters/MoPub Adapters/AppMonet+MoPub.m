@@ -23,14 +23,53 @@
 #import "AppMonet+MoPub.h"
 #import <HyBid/HyBid.h>
 
+@interface AppMonet ()
+@property (class, nonatomic) MPAdView *mpAdView;
+@end
+
 @implementation AppMonet (MoPub)
 
-+ (void)addNativeBids:(id)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
++ (void)addBids:(MPAdView *)adView andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
+//    AMOSdkManager *manager = [AMOSdkManager get];
+//    if (manager == nil) {
+//        onReadyBlock();
+//        return;
+//    }
+//    [manager addBids:adView andAdUnitId:[adView adUnitId] andTimeout:timeout andOnReady:onReadyBlock];
+//    [AppMonet addBids:adView andAdUnitId:[adView adUnitId] andTimeout:timeout andOnReady:onReadyBlock];
+    
+    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
+    [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:adView.adUnitId];
+}
+
++ (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
     onReadyBlock();
 }
 
 + (void)enableVerboseLogging:(BOOL)verboseLogging {
     [HyBidLogger setLogLevel:HyBidLogLevelDebug];
 }
+
+- (void)invokeDidFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+//        [self.delegate adView:self didFailWithError:error];
+//    }
+}
+
+#pragma mark HyBidAdRequestDelegate
+
+- (void)requestDidStart:(HyBidAdRequest *)request {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
+}
+
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
+}
+
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
+    [self invokeDidFailWithError:error];
+}
+
 
 @end

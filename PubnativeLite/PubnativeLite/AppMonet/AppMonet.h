@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AppMonetConfigurations.h"
+#import "HyBidAdRequest.h"
 
 @interface AppMonet : NSObject
 

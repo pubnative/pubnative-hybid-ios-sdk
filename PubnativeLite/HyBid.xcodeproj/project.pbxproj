@@ -645,6 +645,10 @@
 		6F8C118D2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */; };
 		6F8C118E2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
 		6F8C118F2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
+		6FCA5A8F2554019E007D1721 /* AppMonet+MoPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91E1C2551F9350059FE87 /* AppMonet+MoPub.m */; };
+		6FCA5A95255401A1007D1721 /* AppMonet+MoPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91E1C2551F9350059FE87 /* AppMonet+MoPub.m */; };
+		6FCA5A9B255401A2007D1721 /* AppMonet+MoPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91E1C2551F9350059FE87 /* AppMonet+MoPub.m */; };
+		6FCA5AA1255401A7007D1721 /* AppMonet+MoPub.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AC91E1B2551F9350059FE87 /* AppMonet+MoPub.h */; };
 		6FCBEE36254C125E005F301C /* AppMonetAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCBEE34254C125E005F301C /* AppMonetAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FCBEE37254C125E005F301C /* AppMonetAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCBEE35254C125E005F301C /* AppMonetAdSize.m */; };
 		6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3919,6 +3923,7 @@
 				5A64B3FD21E78A3E00160235 /* HyBidAdPresenterFactory.h in Headers */,
 				5AEC316C24698D0E008FD8BD /* HyBidViewabilityAdSession.h in Headers */,
 				5ADF9E8721494F730081355E /* HyBidBannerPresenterFactory.h in Headers */,
+				6FCA5AA1255401A7007D1721 /* AppMonet+MoPub.h in Headers */,
 				5A52BFDF2034580A00C4B7C5 /* HyBidLogger.h in Headers */,
 				5AC35B44214A7727001F0ED3 /* HyBidStarRatingView.h in Headers */,
 				5A6923CD2405365F001868A3 /* HyBidAdSize.h in Headers */,
@@ -4642,6 +4647,7 @@
 				5A049A25252E0D070066B270 /* MPAdContainerView.m in Sources */,
 				5A0779F82134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m in Sources */,
 				5A049ABE252E0D070066B270 /* MPRewardedVideoConnection.m in Sources */,
+				6FCA5A95255401A1007D1721 /* AppMonet+MoPub.m in Sources */,
 				5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */,
 				7E7CC36524D9ECDE00F3A476 /* Quote.m in Sources */,
 				7E7CC36824D9F0E700F3A476 /* QuoteCell.m in Sources */,
@@ -4667,6 +4673,7 @@
 				5ADF9E52214911A90081355E /* HyBidAdRequest.m in Sources */,
 				5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */,
 				5ADF9E782149426B0081355E /* HyBidAdTracker.m in Sources */,
+				6FCA5A8F2554019E007D1721 /* AppMonet+MoPub.m in Sources */,
 				5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */,
 				5AC35B39214A6392001F0ED3 /* HyBidAdView.m in Sources */,
 				5ADF9E682149377D0081355E /* HyBidBannerAdRequest.m in Sources */,
@@ -4787,6 +4794,7 @@
 				5A71309E20690463000B83D9 /* HyBidAdTrackerRequestTest.m in Sources */,
 				5A2A76FE206A44F100B5643C /* HyBidAdTrackerTest.m in Sources */,
 				5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */,
+				6FCA5A9B255401A2007D1721 /* AppMonet+MoPub.m in Sources */,
 				5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */,
 				5A2A7701206A4D1A00B5643C /* PNLiteTestUtil.m in Sources */,
 			);
