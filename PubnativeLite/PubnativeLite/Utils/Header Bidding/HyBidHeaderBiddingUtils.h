@@ -39,5 +39,6 @@ typedef enum {
 + (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
 
 + (NSString *)createAppMonetHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad;
++ (NSString *)createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:(HyBidAd *)ad;
 
 @end
