@@ -25,16 +25,23 @@
 #import "MPAdView.h"
 
 @interface AppMonet ()
-@property (class, nonatomic) MPAdView *mpAdView;
+typedef struct { MPAdView *adView; void (^onReadyBlock)(void); } AppMonetAdStruct;
+@property (class, nonatomic) NSMutableDictionary *dict;
 @end
 
 @implementation AppMonet (MoPub)
 
-+ (void)addBids:(MPAdView *)adView andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
-    AppMonet.mpAdView = adView;
++ (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
+    AppMonetAdStruct appMonetStruct;
+    appMonetStruct.adView = adView;
+    appMonetStruct.onReadyBlock = onReadyBlock;
+    [AppMonet.dict setObject:
+                      [NSValue valueWithPointer:&appMonetStruct]
+                      forKey:appMonetAdUinitId];
+    
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     request.adSize = HyBidAdSize.SIZE_300x250;
-    [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:adView.adUnitId];
+    [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUinitId];
 }
 
 + (MPAdView *)addBids:(MPAdView *)adView
@@ -53,9 +60,6 @@
 
 - (void)invokeDidFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-//        [self.delegate adView:self didFailWithError:error];
-//    }
 }
 
 #pragma mark HyBidAdRequestDelegate
@@ -69,12 +73,19 @@
     
     NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
     if (bidKeywords.length != 0) {
-        if (AppMonet.mpAdView.keywords.length == 0) {
-            AppMonet.mpAdView.keywords = bidKeywords;
+        AppMonetAdStruct *adStruct = (__bridge AppMonetAdStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
+        
+        if (adStruct->adView.keywords.length == 0) {
+            adStruct->adView.keywords = bidKeywords;
         } else {
-            NSString *currentKeywords = AppMonet.mpAdView.keywords;
-            AppMonet.mpAdView.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
+            NSString *currentKeywords = adStruct->adView.keywords;
+            adStruct->adView.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
         }
+        adStruct->onReadyBlock();
+        
+        [AppMonet.dict setObject:
+                          [NSValue valueWithPointer:&adStruct]
+                          forKey:ad.zoneID];
     }
 }
 

@@ -28,25 +28,8 @@
 
 @interface AppMonet (MoPub) <HyBidAdRequestDelegate>
 
-/**
- * This method allows you to attach bids to {@code MPAdView} instance.
- * Bids will only get attached if they associated with the view's ad unit id, If no bids are locally cached it will try
- * to get some within the timeout period provided. If no bids return you will not have anything attached on {@code MPAdView}.
- * <p/>
- *
- * @param adView The {@code MPAdView} you are trying to load an ad on.
- * @param timeout  The wait time in milliseconds for a bid response.
- * @param onReadyBlock The block notifying that addBids completed.
- */
-+ (void)addBids:(MPAdView *)adView andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
 
-/**
- * This method allows you to get back a modified {@code MPAdView} instance that has bids attached to it.
- * Bids will only get attached if they associated with the view's ad unit id, and are locally cached. IF bids are not
- * cached, nothing will be attached to {@code MPAdView}.
- * @param adView  {@code MPAdView} to attach bid to.
- * @return {@code MPAdView} with bids attached.
- */
++ (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
 + (MPAdView *)addBids:(MPAdView *)adView;
 
 + (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
