@@ -106,7 +106,7 @@ double const kECPMPointsDivider = 1000.0;
         keywordSuffix = @"mm_gte_10d:";
     }
     
-    NSString *body = (eCPM.integerValue >= 5000) ? @"true" : [NSString stringWithFormat:@"%.02f", ad.eCPM.doubleValue];
+    NSString *body = (eCPM.integerValue >= 10000) ? @"true" : [NSString stringWithFormat:@"%.02f", ad.eCPM.doubleValue];
     [keywords appendString:keywordSuffix];
     [keywords appendString:body];
     
