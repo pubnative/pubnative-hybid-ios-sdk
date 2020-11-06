@@ -25,12 +25,6 @@
 #import "MPLogging.h"
 #import "MPError.h"
 
-@interface HyBidMoPubMediationInterstitialCustomEvent() <HyBidInterstitialAdDelegate>
-
-@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
-
-@end
-
 @implementation HyBidMoPubMediationInterstitialCustomEvent
 
 - (void)dealloc {

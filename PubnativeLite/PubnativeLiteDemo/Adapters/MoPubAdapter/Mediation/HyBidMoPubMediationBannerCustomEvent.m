@@ -26,12 +26,6 @@
 #import "MPConstants.h"
 #import "MPError.h"
 
-@interface HyBidMoPubMediationBannerCustomEvent() <HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidAdView *bannerAdView;
-
-@end
-
 @implementation HyBidMoPubMediationBannerCustomEvent
 
 - (void)dealloc {

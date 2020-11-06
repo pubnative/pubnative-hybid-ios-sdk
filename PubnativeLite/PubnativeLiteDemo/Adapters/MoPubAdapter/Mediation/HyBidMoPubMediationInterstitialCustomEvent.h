@@ -28,6 +28,8 @@
 
 #import <HyBid/HyBid.h>
 
-@interface HyBidMoPubMediationInterstitialCustomEvent : MPFullscreenAdAdapter
+@interface HyBidMoPubMediationInterstitialCustomEvent : MPFullscreenAdAdapter <HyBidInterstitialAdDelegate>
+
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
 @end

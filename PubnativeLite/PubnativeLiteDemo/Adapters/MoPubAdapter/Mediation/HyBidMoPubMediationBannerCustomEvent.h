@@ -28,7 +28,9 @@
 
 #import <HyBid/HyBid.h>
 
-@interface HyBidMoPubMediationBannerCustomEvent : MPInlineAdAdapter
+@interface HyBidMoPubMediationBannerCustomEvent : MPInlineAdAdapter <HyBidAdViewDelegate>
+
+@property (nonatomic, strong) HyBidAdView *bannerAdView;
 
 - (HyBidAdSize *)getHyBidAdSizeFromSize:(CGSize)size;
 

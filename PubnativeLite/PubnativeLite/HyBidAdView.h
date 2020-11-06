@@ -54,6 +54,7 @@
 - (void)setupAdView:(UIView *)adView;
 - (void)renderAd;
 - (void)renderAdWithContent:(NSString *)adContent withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
+- (void)renderAdWithAd:(HyBidAd *)ad withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)startTracking;
 - (void)stopTracking;
 - (void)show;
