@@ -100,7 +100,7 @@ double const kECPMPointsDivider = 1000.0;
         keywordSuffix = @"mm_10:";
     } else if (eCPM.integerValue < 2000) {
         keywordSuffix = @"mm_50:";
-    } else if (eCPM.integerValue < 5000) {
+    } else if (eCPM.integerValue < 10000) {
         keywordSuffix = @"mm_1d:";
     } else {
         keywordSuffix = @"mm_gte_10d:";
