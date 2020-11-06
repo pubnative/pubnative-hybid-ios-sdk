@@ -122,6 +122,17 @@
     }
 }
 
+- (void)renderAdWithAd:(HyBidAd *)ad withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    if (ad) {
+        [self cleanUp];
+        self.delegate = delegate;
+        self.ad = ad;
+        [self renderAd];
+    } else {
+        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The provided ad is invalid." code:0 userInfo:nil]];
+    }
+}
+
 - (void)processAdContent:(NSString *)adContent {
     HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
     signalDataProcessor.delegate = self;
