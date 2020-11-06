@@ -21,6 +21,8 @@
 //
 
 #import "AppMonet.h"
+#import "HyBidAdRequest.h"
+#import <HyBid/HyBid.h>
 
 @class DFPRequest;
 @class DFPBannerView;
