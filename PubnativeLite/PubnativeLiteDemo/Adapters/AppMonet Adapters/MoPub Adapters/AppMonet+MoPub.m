@@ -22,16 +22,23 @@
 
 #import "AppMonet+MoPub.h"
 #import <HyBid/HyBid.h>
-#import "MPAdView.h"
 
 @interface AppMonet ()
+
 typedef struct { MPAdView *adView; void (^onReadyBlock)(void); } AppMonetAdStruct;
+typedef struct { MPInterstitialAdController *interstitial; void (^onReadyBlock)(void); } AppMonetInterstitialAdStruct;
+
 @property (class, nonatomic) NSMutableDictionary *dict;
+@property (class, nonatomic) NSMutableDictionary *interstitialDict;
+@property (class, nonatomic, strong) HyBidAdRequest *adRequest;
+@property (class, nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+
 @end
 
 @implementation AppMonet (MoPub)
 
-+ (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock {
++ (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock
+{
     AppMonetAdStruct appMonetStruct;
     appMonetStruct.adView = adView;
     appMonetStruct.onReadyBlock = onReadyBlock;
@@ -42,6 +49,19 @@ typedef struct { MPAdView *adView; void (^onReadyBlock)(void); } AppMonetAdStruc
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
     request.adSize = HyBidAdSize.SIZE_300x250;
     [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUinitId];
+}
+
++ (void)addInterstitialBids:(MPInterstitialAdController *)interstitial andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock __attribute__((deprecated))
+{
+    AppMonetInterstitialAdStruct appMonetInterstitialStruct;
+    appMonetInterstitialStruct.interstitial = interstitial;
+    appMonetInterstitialStruct.onReadyBlock = onReadyBlock;
+    [AppMonet.interstitialDict setObject:
+     [NSValue valueWithPointer:&appMonetInterstitialStruct]
+                      forKey:appMonetAdUinitId];
+    
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUinitId];
 }
 
 + (MPAdView *)addBids:(MPAdView *)adView
@@ -71,21 +91,40 @@ typedef struct { MPAdView *adView; void (^onReadyBlock)(void); } AppMonetAdStruc
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     
-    NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
-    if (bidKeywords.length != 0) {
-        AppMonetAdStruct *adStruct = (__bridge AppMonetAdStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
-        
-        if (adStruct->adView.keywords.length == 0) {
-            adStruct->adView.keywords = bidKeywords;
-        } else {
-            NSString *currentKeywords = adStruct->adView.keywords;
-            adStruct->adView.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
+    if (request == AppMonet.interstitialAdRequest) {
+        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
+        if (bidKeywords.length != 0) {
+            AppMonetInterstitialAdStruct *interstitialAdStruct = (__bridge AppMonetInterstitialAdStruct *)([AppMonet.interstitialDict objectForKey:ad.zoneID]);
+            
+            if (interstitialAdStruct->interstitial.keywords.length == 0) {
+                interstitialAdStruct->interstitial.keywords = bidKeywords;
+            } else {
+                NSString *currentKeywords = interstitialAdStruct->interstitial.keywords;
+                interstitialAdStruct->interstitial.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
+            }
+            interstitialAdStruct->onReadyBlock();
+            
+            [AppMonet.interstitialDict setObject:
+             [NSValue valueWithPointer:&interstitialAdStruct]
+                              forKey:ad.zoneID];
         }
-        adStruct->onReadyBlock();
-        
-        [AppMonet.dict setObject:
-                          [NSValue valueWithPointer:&adStruct]
-                          forKey:ad.zoneID];
+    } else {
+        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
+        if (bidKeywords.length != 0) {
+            AppMonetAdStruct *adStruct = (__bridge AppMonetAdStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
+            
+            if (adStruct->adView.keywords.length == 0) {
+                adStruct->adView.keywords = bidKeywords;
+            } else {
+                NSString *currentKeywords = adStruct->adView.keywords;
+                adStruct->adView.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
+            }
+            adStruct->onReadyBlock();
+            
+            [AppMonet.dict setObject:
+             [NSValue valueWithPointer:&adStruct]
+                              forKey:ad.zoneID];
+        }
     }
 }
 
