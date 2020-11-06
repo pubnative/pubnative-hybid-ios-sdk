@@ -67,4 +67,50 @@ double const kECPMPointsDivider = 1000.0;
     }
 }
 
++ (NSString *)createAppMonetHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad
+{
+    NSNumber *eCPM = (ad.eCPM != nil) ? ad.eCPM : 0;
+    NSMutableString *keywords;
+    NSString *keywordSuffix;
+    
+    if (eCPM.integerValue < 1000) {
+        keywordSuffix = @"mm_10:";
+    } else if (eCPM.integerValue < 2000) {
+        keywordSuffix = @"mm_50:";
+    } else if (eCPM.integerValue < 5000) {
+        keywordSuffix = @"mm_1d:";
+    } else {
+        keywordSuffix = @"mm_gte_5d:";
+    }
+    
+    NSString *body = (eCPM.integerValue >= 5000) ? @"true" : [NSString stringWithFormat:@"%.02f", ad.eCPM.doubleValue];
+    [keywords appendString:keywordSuffix];
+    [keywords appendString:body];
+    
+    return keywords;
+}
+
++ (NSString *)createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:(HyBidAd *)ad
+{
+    NSNumber *eCPM = (ad.eCPM != nil) ? ad.eCPM : 0;
+    NSMutableString *keywords;
+    NSString *keywordSuffix;
+    
+    if (eCPM.integerValue < 1000) {
+        keywordSuffix = @"mm_10:";
+    } else if (eCPM.integerValue < 2000) {
+        keywordSuffix = @"mm_50:";
+    } else if (eCPM.integerValue < 10000) {
+        keywordSuffix = @"mm_1d:";
+    } else {
+        keywordSuffix = @"mm_gte_10d:";
+    }
+    
+    NSString *body = (eCPM.integerValue >= 10000) ? @"true" : [NSString stringWithFormat:@"%.02f", ad.eCPM.doubleValue];
+    [keywords appendString:keywordSuffix];
+    [keywords appendString:body];
+    
+    return keywords;
+}
+
 @end

@@ -21,10 +21,18 @@
 //
 
 #import "AppMonet.h"
+#import "MPAdView.h"
+#import "HyBidAdRequest.h"
+#import "MPInterstitialAdController.h"
 
 @class MPNativeAdRequest;
 
-@interface AppMonet (MoPub)
+@interface AppMonet (MoPub) <HyBidAdRequestDelegate>
+
+
++ (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
++ (void)addInterstitialBids:(MPInterstitialAdController *)interstitial andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock __attribute__((deprecated));
++ (MPAdView *)addBids:(MPAdView *)adView;
 
 + (void)addNativeBids:(MPNativeAdRequest *)adRequest andAdUnitId:(NSString *)adUnitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;
 + (void)enableVerboseLogging:(BOOL)verboseLogging;
