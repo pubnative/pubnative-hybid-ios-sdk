@@ -31,48 +31,38 @@
 
 @interface AppMonet (DFP) <HyBidAdRequestDelegate>
 
-+ (void) addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout
-andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
++ (void)addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
 
-//+ (void)    addBids:(DFPBannerView *)adView andDfpAdRequest:(DFPRequest *)adRequest
-//andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
-// andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
-//
-//+ (DFPRequest *)addBids:(DFPBannerView *)adView andDfpAdRequest:(DFPRequest *)adRequest;
-//
-//+ (void)   addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
-//andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
-//
-//+ (DFPRequest *)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId;
-//
-//+ (void)    addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
-//andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
-// andGadRequestBlock:(void (^)(GADRequest *gadRequest))gadRequestBlock;
-//
-//+ (GADRequest *)addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
-//    andAppMonetAdUnitId:(NSString *)appMonetAdUnitId;
-//
-//+ (void)    addBids:(GADBannerView *)adView andDfpRequest:(DFPRequest *)adRequest
-//andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
-// andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
-//
-//+ (DFPRequest *)addBids:(GADBannerView *)adView andDfpRequest:(DFPRequest *)adRequest
-//    andAppMonetAdUnitId:(NSString *)appMonetAdUnitId;
-//
-//+ (void)addInterstitialBids:(DFPInterstitial *)interstitial
-//            andDfpAdRequest:(DFPRequest *)adRequest
-//                 andTimeout:(NSNumber *)timeout
-//                  withBlock:(void (^)(DFPRequest *completeRequest))requestBlock;
-//
-//+ (void)addInterstitialBids:(DFPInterstitial *)interstitial
-//        andAppMonetAdUnitId:(NSString *)appmonetAdUnitID
-//            andDfpAdRequest:(DFPRequest *)adRequest
-//                 andTimeout:(NSNumber *)timeout
-//                  withBlock:(void (^)(DFPRequest *completeRequest))requestBlock;
-//
-//+(void)addInterstitialBids:(GADInterstitial *)interstitial
-//              andAdRequest:(GADRequest *)adRequest
-//                andTimeout:(NSNumber *)timeout
-//                 withBlock:(void (^)(GADRequest *))requestBlock;
++ (DFPRequest *)addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest;
+
++ (void)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
+
++ (DFPRequest *)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId;
+
++ (void)addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
+andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
+ andGadRequestBlock:(void (^)(GADRequest *gadRequest))gadRequestBlock;
+
++ (GADRequest *)addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
+    andAppMonetAdUnitId:(NSString *)appMonetAdUnitId;
+
++ (void)addBids:(GADBannerView *)adView andDfpRequest:(DFPRequest *)adRequest
+andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
+ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
+
++ (DFPRequest *)addBids:(GADBannerView *)adView andDfpRequest:(DFPRequest *)adRequest
+    andAppMonetAdUnitId:(NSString *)appMonetAdUnitId;
+
++ (void)addInterstitialBids:(DFPInterstitial *)interstitial
+        andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
+            andDfpAdRequest:(DFPRequest *)adRequest
+                 andTimeout:(NSNumber *)timeout
+                  withBlock:(void (^)(DFPRequest *completeRequest))requestBlock;
+
++(void)addInterstitialBids:(GADInterstitial *)interstitial
+       andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
+              andAdRequest:(GADRequest *)adRequest
+                andTimeout:(NSNumber *)timeout
+                 withBlock:(void (^)(GADRequest *))requestBlock;
 
 @end
