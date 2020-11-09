@@ -27,7 +27,7 @@
 
 @class MPNativeAdRequest;
 
-@interface AppMonet (MoPub) <HyBidAdRequestDelegate>
+@interface AppMonet (MoPub)
 
 
 + (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock;

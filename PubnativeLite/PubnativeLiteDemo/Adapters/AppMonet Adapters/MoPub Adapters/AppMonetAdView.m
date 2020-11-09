@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "AppMonetInterstitialAdViewClass.h"
+#import "AppMonetAdView.h"
 
-@implementation AppMonetInterstitialAdViewClass
+@implementation AppMonetAdView
 
 @end

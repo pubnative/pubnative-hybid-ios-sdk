@@ -22,10 +22,10 @@
 
 #import "AppMonet+MoPub.h"
 #import <HyBid/HyBid.h>
-#import "AppMonetInterstitialAdViewClass.h"
-#import "AppMonetAdViewClass.h"
+#import "AppMonetInterstitialAdView.h"
+#import "AppMonetAdView.h"
 
-@interface AppMonet ()
+@interface AppMonet () <HyBidAdRequestDelegate>
 
 @end
 
@@ -65,11 +65,11 @@ static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
 
 + (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock
 {
-    AppMonetAdViewClass *appMonetAdViewClass = [[AppMonetAdViewClass alloc]init];
-    appMonetAdViewClass.adView = adView;
-    appMonetAdViewClass.onReadyBlock = onReadyBlock;
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc]init];
+    appMonetAdView.adView = adView;
+    appMonetAdView.onReadyBlock = onReadyBlock;
 
-    [AppMonet.dict setObject:appMonetAdViewClass forKey:appMonetAdUinitId];
+    [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUinitId];
 
     self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
     [self.adRequest requestAdWithDelegate:AppMonet.self withZoneID:appMonetAdUinitId];
@@ -77,11 +77,11 @@ static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
 
 + (void)addInterstitialBids:(MPInterstitialAdController *)interstitial andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock __attribute__((deprecated))
 {
-    AppMonetInterstitialAdViewClass *appMonetInterstitialAdViewClass = [[AppMonetInterstitialAdViewClass alloc]init];
-    appMonetInterstitialAdViewClass.interstitial = interstitial;
-    appMonetInterstitialAdViewClass.onReadyBlock = onReadyBlock;
+    AppMonetInterstitialAdView *appMonetInterstitialAdView = [[AppMonetInterstitialAdView alloc]init];
+    appMonetInterstitialAdView.interstitial = interstitial;
+    appMonetInterstitialAdView.onReadyBlock = onReadyBlock;
     
-    [AppMonet.interstitialDict setObject:appMonetInterstitialAdViewClass forKey:appMonetAdUinitId];
+    [AppMonet.interstitialDict setObject:appMonetInterstitialAdView forKey:appMonetAdUinitId];
 
     [self.interstitialAdRequest requestAdWithDelegate:AppMonet.self withZoneID:appMonetAdUinitId];
 }
@@ -118,17 +118,17 @@ static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
         
         if (bidKeywords.length != 0) {
             
-            AppMonetInterstitialAdViewClass *appMonetInterstitialAdViewClass = (AppMonetInterstitialAdViewClass*)[AppMonet.interstitialDict objectForKey:ad.zoneID];
+            AppMonetInterstitialAdView *appMonetInterstitialAdView = (AppMonetInterstitialAdView*)[AppMonet.interstitialDict objectForKey:ad.zoneID];
 
-            if (appMonetInterstitialAdViewClass.interstitial.keywords.length == 0) {
-                [appMonetInterstitialAdViewClass.interstitial setKeywords:bidKeywords];
+            if (appMonetInterstitialAdView.interstitial.keywords.length == 0) {
+                [appMonetInterstitialAdView.interstitial setKeywords:bidKeywords];
             } else {
-                NSString *currentKeywords = appMonetInterstitialAdViewClass.interstitial.keywords;
-                appMonetInterstitialAdViewClass.interstitial.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
+                NSString *currentKeywords = appMonetInterstitialAdView.interstitial.keywords;
+                appMonetInterstitialAdView.interstitial.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
             }
-            appMonetInterstitialAdViewClass.onReadyBlock();
+            appMonetInterstitialAdView.onReadyBlock();
             
-            [AppMonet.interstitialDict setObject:appMonetInterstitialAdViewClass forKey:ad.zoneID];
+            [AppMonet.interstitialDict setObject:appMonetInterstitialAdView forKey:ad.zoneID];
 
 
         }
@@ -136,17 +136,17 @@ static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
         NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
         if (bidKeywords.length != 0) {
             
-            AppMonetAdViewClass *appMonetAdViewClass = (AppMonetAdViewClass*)[AppMonet.dict objectForKey:ad.zoneID];
+            AppMonetAdView *appMonetAdView = (AppMonetAdView*)[AppMonet.dict objectForKey:ad.zoneID];
 
-            if (appMonetAdViewClass.adView.keywords.length == 0) {
-                appMonetAdViewClass.adView.keywords = bidKeywords;
+            if (appMonetAdView.adView.keywords.length == 0) {
+                appMonetAdView.adView.keywords = bidKeywords;
             } else {
-                NSString *currentKeywords = appMonetAdViewClass.adView.keywords;
-                appMonetAdViewClass.adView.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
+                NSString *currentKeywords = appMonetAdView.adView.keywords;
+                appMonetAdView.adView.keywords = [self mergeKeywords:currentKeywords newKeywords:bidKeywords];
             }
-            appMonetAdViewClass.onReadyBlock();
+            appMonetAdView.onReadyBlock();
             
-            [AppMonet.dict setObject:appMonetAdViewClass forKey:ad.zoneID];
+            [AppMonet.dict setObject:appMonetAdView forKey:ad.zoneID];
             
         }
     }

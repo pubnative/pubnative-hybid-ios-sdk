@@ -24,7 +24,7 @@
 
 @class MPInterstitialAdController;
 
-@interface AppMonetInterstitialAdViewClass : NSObject
+@interface AppMonetInterstitialAdView : NSObject
 
 @property (nonatomic, strong) MPInterstitialAdController *interstitial;
 @property void (^onReadyBlock)(void);

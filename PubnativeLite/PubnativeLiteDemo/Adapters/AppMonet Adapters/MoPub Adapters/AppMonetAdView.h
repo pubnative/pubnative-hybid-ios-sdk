@@ -24,7 +24,7 @@
 
 @class MPAdView;
 
-@interface AppMonetAdViewClass : NSObject
+@interface AppMonetAdView : NSObject
 
 @property (nonatomic, strong) MPAdView *adView;
 @property void (^onReadyBlock)(void);
