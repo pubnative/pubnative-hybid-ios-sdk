@@ -70,7 +70,7 @@ double const kECPMPointsDivider = 1000.0;
 + (NSString *)createAppMonetHeaderBiddingKeywordsStringWithAd:(HyBidAd *)ad
 {
     NSNumber *eCPM = (ad.eCPM != nil) ? ad.eCPM : 0;
-    NSMutableString *keywords;
+    NSMutableString *keywords = [[NSMutableString alloc]init];
     NSString *keywordSuffix;
     
     if (eCPM.integerValue < 1000) {
@@ -93,7 +93,7 @@ double const kECPMPointsDivider = 1000.0;
 + (NSString *)createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:(HyBidAd *)ad
 {
     NSNumber *eCPM = (ad.eCPM != nil) ? ad.eCPM : 0;
-    NSMutableString *keywords;
+    NSMutableString *keywords = [[NSMutableString alloc]init];
     NSString *keywordSuffix;
     
     if (eCPM.integerValue < 1000) {

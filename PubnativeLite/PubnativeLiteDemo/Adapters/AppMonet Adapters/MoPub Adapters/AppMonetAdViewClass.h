@@ -21,16 +21,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AppMonetConfigurations.h"
 
-@interface AppMonet : NSObject
+@class MPAdView;
 
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations;
-+ (void)initialize:(AppMonetConfigurations *)appMonetConfigurations;
+@interface AppMonetAdViewClass : NSObject
 
-/**
- * This method allows the SDK to get test demand that always fills. Use it only during development.
- */
-+ (void)testMode;
+@property (nonatomic, strong) MPAdView *adView;
+@property void (^onReadyBlock)(void);
 
 @end
