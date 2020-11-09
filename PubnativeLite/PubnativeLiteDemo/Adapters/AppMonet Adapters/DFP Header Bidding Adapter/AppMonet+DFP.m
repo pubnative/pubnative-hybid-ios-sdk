@@ -40,7 +40,8 @@
             // do nothing
         }];
     }
-    [AMOSdkManager initializeSdk:internalConfigurations andAdServerWrapper:[[AMODFPAdServerWrapper alloc] init] andBlock:block];
+//    [AMOSdkManager initializeSdk:internalConfigurations andAdServerWrapper:[[AMODFPAdServerWrapper alloc] init] andBlock:block];
+}
 
 + (void) addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout
 andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
