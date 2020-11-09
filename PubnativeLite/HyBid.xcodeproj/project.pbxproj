@@ -1972,6 +1972,10 @@
 		7E7CC36724D9F0E700F3A476 /* QuoteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuoteCell.m; sourceTree = "<group>"; };
 		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
 		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
+		7EF4BF2025595FA0004558D5 /* AppMonetInterstitialAdViewClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetInterstitialAdViewClass.h; sourceTree = "<group>"; };
+		7EF4BF2125595FA0004558D5 /* AppMonetInterstitialAdViewClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetInterstitialAdViewClass.m; sourceTree = "<group>"; };
+		7EF4BF2225595FB8004558D5 /* AppMonetAdViewClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetAdViewClass.h; sourceTree = "<group>"; };
+		7EF4BF2325595FB8004558D5 /* AppMonetAdViewClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetAdViewClass.m; sourceTree = "<group>"; };
 		E7F24F1524E41E2F00160097 /* hybidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidscaling.js; sourceTree = "<group>"; };
 		E7F24F1724E4224000160097 /* hybidmraidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidmraidscaling.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3015,6 +3019,10 @@
 				5AC91DF42551C6050059FE87 /* AMCustomEventNative.m */,
 				5ADFEBA42552F62000013344 /* AMNativeAdRenderer.h */,
 				5ADFEBA52552F62000013344 /* AMNativeAdRenderer.m */,
+				7EF4BF2025595FA0004558D5 /* AppMonetInterstitialAdViewClass.h */,
+				7EF4BF2125595FA0004558D5 /* AppMonetInterstitialAdViewClass.m */,
+				7EF4BF2225595FB8004558D5 /* AppMonetAdViewClass.h */,
+				7EF4BF2325595FB8004558D5 /* AppMonetAdViewClass.m */,
 			);
 			path = "MoPub Adapters";
 			sourceTree = "<group>";
