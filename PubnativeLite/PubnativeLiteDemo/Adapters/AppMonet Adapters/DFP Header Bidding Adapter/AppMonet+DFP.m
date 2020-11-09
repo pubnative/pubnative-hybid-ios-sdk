@@ -27,6 +27,13 @@
 
 @import GoogleMobileAds;
 
+@interface AppMonet ()
+
+@property (class, nonatomic, strong) HyBidAdRequest *adRequest;
+@property (class, nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+
+@end
+
 @implementation AppMonet (DFP)
 
 + (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block {
@@ -40,15 +47,14 @@
             // do nothing
         }];
     }
-//    [AMOSdkManager initializeSdk:internalConfigurations andAdServerWrapper:[[AMODFPAdServerWrapper alloc] init] andBlock:block];
 }
 
 + (void) addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout
 andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
-    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
-    request.adSize = [self getAdSize:adView.adSize];
-    [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    self.adRequest = [[HyBidAdRequest alloc] init];
+    self.adRequest.adSize = [self getAdSize:adView.adSize];
+    [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (DFPRequest *)addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest
@@ -59,9 +65,9 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 
 + (void)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
-    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
-    request.adSize = HyBidAdSize.SIZE_300x250;
-    [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    self.adRequest = [[HyBidAdRequest alloc] init];
+    self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
+    [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (DFPRequest *)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
@@ -74,18 +80,18 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
  andGadRequestBlock:(void (^)(GADRequest *gadRequest))gadRequestBlock
 {
-    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
-    request.adSize = HyBidAdSize.SIZE_300x250;
-    [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    self.adRequest = [[HyBidAdRequest alloc] init];
+    self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
+    [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (void)addBids:(GADBannerView *)adView andDfpRequest:(DFPRequest *)adRequest
 andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
  andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
-    HyBidAdRequest *request = [[HyBidAdRequest alloc] init];
-    request.adSize = [self getAdSize:adView.adSize];
-    [request requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    self.adRequest = [[HyBidAdRequest alloc] init];
+    self.adRequest.adSize = [self getAdSize:adView.adSize];
+    [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (GADRequest *)addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
@@ -108,8 +114,8 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
                  andTimeout:(NSNumber *)timeout
                   withBlock:(void (^)(DFPRequest *completeRequest))requestBlock
 {
-    HyBidInterstitialAdRequest *interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 +(void)addInterstitialBids:(GADInterstitial *)interstitial
@@ -118,8 +124,8 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
                 andTimeout:(NSNumber *)timeout
                  withBlock:(void (^)(GADRequest *))requestBlock
 {
-    HyBidInterstitialAdRequest *interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (HyBidAdSize *)getAdSize:(GADAdSize)adSize
@@ -145,10 +151,31 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
+    
+    if (request == AppMonet.interstitialAdRequest) {
+        
+    } else {
+        
+    }
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+}
+
++ (void)enableVerboseLogging:(BOOL)verboseLogging
+{
+    
+}
+
++ (void)preload:(NSArray<NSString *> *)adUnitIDs
+{
+    
+}
+
++ (void)clearAdUnit:(NSString *)adUnitID
+{
+    
 }
 
 @end
