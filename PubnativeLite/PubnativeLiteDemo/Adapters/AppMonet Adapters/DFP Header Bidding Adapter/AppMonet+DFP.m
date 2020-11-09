@@ -32,11 +32,17 @@
 @property (class, nonatomic, strong) HyBidAdRequest *adRequest;
 @property (class, nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 @property (class, nonatomic) NSMutableDictionary *dict;
+@property (class, nonatomic) NSMutableDictionary *interstitialDict;
 
 typedef struct {
     DFPRequest *dfpRequest;
-    void (^onReadyBlock)(DFPRequest *dfpRequest); }
-AppMonetDFPStruct;
+    void (^onReadyBlock)(DFPRequest *dfpRequest);
+} AppMonetDFPStruct;
+
+typedef struct {
+    GADRequest *gadRequest;
+    void (^onReadyBlock)(GADRequest *gadRequest);
+} AppMonetGADStruct;
 
 @end
 
@@ -55,6 +61,8 @@ AppMonetDFPStruct;
     }
 }
 
+#pragma mark DFP Add Bids methods
+
 + (void) addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout
 andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
@@ -68,17 +76,31 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
-+ (DFPRequest *)addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest
-{
-    // This will be left empty because there's no synchronous API supported for this.
-    return adRequest;
-}
-
 + (void)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
+    AppMonetDFPStruct dfpStruct;
+    dfpStruct.dfpRequest = adRequest;
+    dfpStruct.onReadyBlock = dfpRequestBlock;
+    [AppMonet.dict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    
     self.adRequest = [[HyBidAdRequest alloc] init];
     self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+}
+
++ (void)addInterstitialBids:(DFPInterstitial *)interstitial
+        andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
+            andDfpAdRequest:(DFPRequest *)adRequest
+                 andTimeout:(NSNumber *)timeout
+                  withBlock:(void (^)(DFPRequest *completeRequest))requestBlock
+{
+    AppMonetDFPStruct dfpStruct;
+    dfpStruct.dfpRequest = adRequest;
+    dfpStruct.onReadyBlock = requestBlock;
+    [AppMonet.interstitialDict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (DFPRequest *)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
@@ -87,10 +109,23 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
     return adRequest;
 }
 
++ (DFPRequest *)addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest
+{
+    // This will be left empty because there's no synchronous API supported for this.
+    return adRequest;
+}
+
+#pragma mark GAD Add Bids methods
+
 + (void)addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
 andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
  andGadRequestBlock:(void (^)(GADRequest *gadRequest))gadRequestBlock
 {
+    AppMonetGADStruct gadStruct;
+    gadStruct.gadRequest = adRequest;
+    gadStruct.onReadyBlock = gadRequestBlock;
+    [AppMonet.dict setObject:[NSValue valueWithPointer:&gadStruct] forKey:appMonetAdUnitId];
+    
     self.adRequest = [[HyBidAdRequest alloc] init];
     self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
@@ -100,9 +135,29 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
  andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
+    AppMonetDFPStruct dfpStruct;
+    dfpStruct.dfpRequest = adRequest;
+    dfpStruct.onReadyBlock = dfpRequestBlock;
+    [AppMonet.dict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    
     self.adRequest = [[HyBidAdRequest alloc] init];
     self.adRequest.adSize = [self getAdSize:adView.adSize];
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+}
+
++(void)addInterstitialBids:(GADInterstitial *)interstitial
+       andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
+              andAdRequest:(GADRequest *)adRequest
+                andTimeout:(NSNumber *)timeout
+                 withBlock:(void (^)(GADRequest *))requestBlock
+{
+    AppMonetGADStruct gadStruct;
+    gadStruct.gadRequest = adRequest;
+    gadStruct.onReadyBlock = requestBlock;
+    [AppMonet.dict setObject:[NSValue valueWithPointer:&gadStruct] forKey:appMonetAdUnitId];
+    
+    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (GADRequest *)addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
@@ -117,26 +172,6 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 {
     // This will be left empty because there's no synchronous API supported for this.
     return adRequest;
-}
-
-+ (void)addInterstitialBids:(DFPInterstitial *)interstitial
-        andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
-            andDfpAdRequest:(DFPRequest *)adRequest
-                 andTimeout:(NSNumber *)timeout
-                  withBlock:(void (^)(DFPRequest *completeRequest))requestBlock
-{
-    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
-}
-
-+(void)addInterstitialBids:(GADInterstitial *)interstitial
-       andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
-              andAdRequest:(GADRequest *)adRequest
-                andTimeout:(NSNumber *)timeout
-                 withBlock:(void (^)(GADRequest *))requestBlock
-{
-    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
 + (HyBidAdSize *)getAdSize:(GADAdSize)adSize
