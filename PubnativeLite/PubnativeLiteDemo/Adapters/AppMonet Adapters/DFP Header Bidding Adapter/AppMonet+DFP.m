@@ -31,6 +31,12 @@
 
 @property (class, nonatomic, strong) HyBidAdRequest *adRequest;
 @property (class, nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+@property (class, nonatomic) NSMutableDictionary *dict;
+
+typedef struct {
+    DFPRequest *dfpRequest;
+    void (^onReadyBlock)(DFPRequest *dfpRequest); }
+AppMonetDFPStruct;
 
 @end
 
@@ -52,6 +58,11 @@
 + (void) addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout
 andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
+    AppMonetDFPStruct dfpStruct;
+    dfpStruct.dfpRequest = adRequest;
+    dfpStruct.onReadyBlock = dfpRequestBlock;
+    [AppMonet.dict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    
     self.adRequest = [[HyBidAdRequest alloc] init];
     self.adRequest.adSize = [self getAdSize:adView.adSize];
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
@@ -152,14 +163,18 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     
+    AppMonetDFPStruct *dfpStruct = (__bridge AppMonetDFPStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
+    NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
+    
     if (request == AppMonet.interstitialAdRequest) {
+        bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
+    }
         
+    if (bidKeywords.length != 0) {
+        DFPRequest *request = [self addDFPKeywords:dfpStruct->dfpRequest withBidKeywords:bidKeywords];
+        dfpStruct->onReadyBlock(request);
     } else {
-        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
-        if (bidKeywords.length != 0) {
-            DFPRequest *request = [[DFPRequest alloc] init];
-        } else {
-        }
+        dfpStruct->onReadyBlock(dfpStruct->dfpRequest);
     }
 }
 
