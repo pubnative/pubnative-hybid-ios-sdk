@@ -21,8 +21,41 @@
 //
 
 #import "AMCustomEventBanner.h"
+#import "HyBidMoPubUtils.h"
+#import "MPLogging.h"
+#import "MPConstants.h"
+#import "MPError.h"
 
 @implementation AMCustomEventBanner
+
+- (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
+    if ([HyBidMoPubUtils areExtrasValid:info]) {
+        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:size]];
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidMoPubUtils zoneID:info]]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
+                [self.bannerAdView renderAdWithAd:cachedAd withDelegate:self];
+            } else {
+                self.bannerAdView.isMediation = YES;
+                [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
+            }
+            MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
+        } else {
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
+            return;
+        }
+    } else {
+        [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
+        return;
+    }
+}
+
+- (void)invokeFailWithMessage:(NSString *)message {
+    MPLogInfo(@"%@", message);
+    [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:[NSError errorWithDomain:message
+                                                                                     code:0
+                                                                                 userInfo:nil]];
+}
 
 - (HyBidAdSize *)getHyBidAdSizeFromSize:(CGSize)size {
     if (size.width != 0 && size.height != 0) {
