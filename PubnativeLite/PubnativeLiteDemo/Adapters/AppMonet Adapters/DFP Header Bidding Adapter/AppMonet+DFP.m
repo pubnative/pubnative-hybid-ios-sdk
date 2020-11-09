@@ -212,12 +212,12 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     
     if (AppMonet.isDFP) {
-        AppMonetDFPStruct *dfpStruct = (__bridge AppMonetDFPStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
-        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
+        NSDictionary *tempDict = (request == AppMonet.adRequest) ? AppMonet.dict : AppMonet.interstitialDict;
+        AppMonetDFPStruct *dfpStruct = (__bridge AppMonetDFPStruct *)([tempDict objectForKey:ad.zoneID]);
         
-        if (request == AppMonet.interstitialAdRequest) {
-            bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
-        }
+        NSString *bidKeywords = (request == AppMonet.adRequest) ?
+                [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad] :
+                [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
         
         if (bidKeywords.length != 0) {
             DFPRequest *request = [self addDFPKeywords:dfpStruct->dfpRequest withBidKeywords:bidKeywords];
@@ -226,12 +226,12 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
             dfpStruct->onReadyBlock(dfpStruct->dfpRequest);
         }
     } else {
-        AppMonetGADStruct *gadStruct = (__bridge AppMonetGADStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
-        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
+        NSDictionary *tempDict = (request == AppMonet.adRequest) ? AppMonet.dict : AppMonet.interstitialDict;
+        AppMonetGADStruct *gadStruct = (__bridge AppMonetGADStruct *)([tempDict objectForKey:ad.zoneID]);
         
-        if (request == AppMonet.interstitialAdRequest) {
-            bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
-        }
+        NSString *bidKeywords = (request == AppMonet.adRequest) ?
+                [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad] :
+                [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
         
         if (bidKeywords.length != 0) {
             GADRequest *request = [self addGADKeywords:gadStruct->gadRequest withBidKeywords:bidKeywords];
