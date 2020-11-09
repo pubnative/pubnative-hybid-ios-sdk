@@ -155,8 +155,42 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     if (request == AppMonet.interstitialAdRequest) {
         
     } else {
-        
+        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
+        if (bidKeywords.length != 0) {
+            DFPRequest *request = [[DFPRequest alloc] init];
+        } else {
+        }
     }
+}
+
+- (DFPRequest *)addDFPKeywords:(DFPRequest *)adRequest withBidKeywords:(NSString *)bidKeywords
+{
+    DFPRequest *request = [[DFPRequest alloc] init];
+    if (adRequest.contentURL.length != 0) {
+        request.contentURL = adRequest.contentURL;
+    }
+    if (bidKeywords.length != 0) {
+        NSArray *newArray = [request.keywords arrayByAddingObject:bidKeywords];
+        [request setKeywords:newArray];
+        
+        NSArray *params = [bidKeywords componentsSeparatedByString:@":"];
+        NSDictionary *customTargetDict = @{ params[0]: params[1] };
+        [request setCustomTargeting:customTargetDict];
+    }
+    
+    NSMutableArray *newKeywords;
+    for (NSString *keyword in adRequest.keywords) {
+        [newKeywords addObject:keyword];
+    }
+    [request setKeywords:newKeywords];
+    
+    for (NSString *key in adRequest.customTargeting.allKeys) {
+        NSMutableDictionary *dict = [request.customTargeting mutableCopy];
+        [dict setObject:[adRequest.customTargeting objectForKey:key] forKey:key];
+        [request setCustomTargeting:dict];
+    }
+    
+    return request;
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
