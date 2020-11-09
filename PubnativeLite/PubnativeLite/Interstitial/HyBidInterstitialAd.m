@@ -96,6 +96,15 @@
     }
 }
 
+- (void)prepareAdWithAd:(HyBidAd *)ad {
+    if (ad) {
+        self.ad = ad;
+        [self renderAd:self.ad];
+    } else {
+        [self invokeDidFailWithError:[NSError errorWithDomain:@"The provided ad is invalid." code:0 userInfo:nil]];
+    }
+}
+
 - (void)processAdContent:(NSString *)adContent {
     HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
     signalDataProcessor.delegate = self;

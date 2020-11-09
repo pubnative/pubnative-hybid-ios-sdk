@@ -621,6 +621,8 @@
 		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F77725501B29006A266F /* AMOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AMOConstants.m */; };
 		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
+		6F22E8752555818D00FA210E /* AppMonet+DFP.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F22E84C2555778B00FA210E /* AppMonet+DFP.m */; };
+		6F22E88B2555AA9800FA210E /* AppMonet+DFP.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F22E84B2555778B00FA210E /* AppMonet+DFP.h */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -1616,6 +1618,7 @@
 		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* HyBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBid.h; sourceTree = "<group>"; };
 		5A6CD0242029CD060022E206 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A6F595D2555C160008DA32E /* HyBid-AppMonet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HyBid-AppMonet-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteHttpRequestTest.m; sourceTree = "<group>"; };
 		5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequestTest.m; sourceTree = "<group>"; };
 		5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdRequestTest.m; sourceTree = "<group>"; };
@@ -1936,6 +1939,8 @@
 		6F09F76C25501975006A266F /* AMMonetBid.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMMonetBid.m; sourceTree = "<group>"; };
 		6F09F77425501B29006A266F /* AMOConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMOConstants.h; sourceTree = "<group>"; };
 		6F09F77525501B29006A266F /* AMOConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMOConstants.m; sourceTree = "<group>"; };
+		6F22E84B2555778B00FA210E /* AppMonet+DFP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppMonet+DFP.h"; sourceTree = "<group>"; };
+		6F22E84C2555778B00FA210E /* AppMonet+DFP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppMonet+DFP.m"; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -2989,6 +2994,7 @@
 				5A3D58212550704700E024B2 /* MoPub Adapters */,
 				5A3D581E25506FF600E024B2 /* AdMob Mediation Adapter */,
 				5A3D58222550706A00E024B2 /* DFP Header Bidding Adapter */,
+				5A6F595D2555C160008DA32E /* HyBid-AppMonet-Bridging-Header.h */,
 			);
 			path = "AppMonet Adapters";
 			sourceTree = "<group>";
@@ -3028,6 +3034,8 @@
 				5A3D5826255070F200E024B2 /* AMCustomEventBanner.m */,
 				7EF4BE5F25545438004558D5 /* AMCustomEventInterstitial.h */,
 				7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */,
+				6F22E84B2555778B00FA210E /* AppMonet+DFP.h */,
+				6F22E84C2555778B00FA210E /* AppMonet+DFP.m */,
 			);
 			path = "DFP Header Bidding Adapter";
 			sourceTree = "<group>";
@@ -3892,6 +3900,7 @@
 				5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */,
 				6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */,
 				5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */,
+				6F22E88B2555AA9800FA210E /* AppMonet+DFP.h in Headers */,
 				5ACC74E7203595250001CDC3 /* PNLitemraidjs.h in Headers */,
 				6F8C115A2539BABD00DC4151 /* HyBidRewardedPresenter.h in Headers */,
 				5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */,
@@ -4524,6 +4533,7 @@
 				5A6FDFA72501966C003B8C9F /* PNLiteDemoConsentManagementProviderViewController.m in Sources */,
 				5A049A31252E0D070066B270 /* MPOpenMeasurementTracker.m in Sources */,
 				5A54619D24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m in Sources */,
+				6F22E8752555818D00FA210E /* AppMonet+DFP.m in Sources */,
 				5A049A77252E0D070066B270 /* MPMoPubFullscreenAdAdapter.m in Sources */,
 				5A5A9BD72530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m in Sources */,
 				5A049A84252E0D070066B270 /* NSError+MPAdditions.m in Sources */,

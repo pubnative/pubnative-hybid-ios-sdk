@@ -24,8 +24,7 @@
 
 @implementation HyBidAdMobMediationLeaderboardCustomEvent
 
-- (HyBidAdSize *)adSize {
+- (HyBidAdSize *)getHyBidAdSizeFromSize:(GADAdSize)size {
     return HyBidAdSize.SIZE_728x90;
 }
-
 @end
