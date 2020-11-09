@@ -33,6 +33,7 @@
 @property (class, nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 @property (class, nonatomic) NSMutableDictionary *dict;
 @property (class, nonatomic) NSMutableDictionary *interstitialDict;
+@property (class, nonatomic, assign) BOOL isDFP;
 
 typedef struct {
     DFPRequest *dfpRequest;
@@ -66,6 +67,8 @@ typedef struct {
 + (void) addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout
 andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
+    self.isDFP = YES;
+    
     AppMonetDFPStruct dfpStruct;
     dfpStruct.dfpRequest = adRequest;
     dfpStruct.onReadyBlock = dfpRequestBlock;
@@ -78,6 +81,8 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 
 + (void)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
+    self.isDFP = YES;
+    
     AppMonetDFPStruct dfpStruct;
     dfpStruct.dfpRequest = adRequest;
     dfpStruct.onReadyBlock = dfpRequestBlock;
@@ -94,6 +99,8 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
                  andTimeout:(NSNumber *)timeout
                   withBlock:(void (^)(DFPRequest *completeRequest))requestBlock
 {
+    self.isDFP = YES;
+    
     AppMonetDFPStruct dfpStruct;
     dfpStruct.dfpRequest = adRequest;
     dfpStruct.onReadyBlock = requestBlock;
@@ -121,6 +128,8 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
  andGadRequestBlock:(void (^)(GADRequest *gadRequest))gadRequestBlock
 {
+    self.isDFP = NO;
+    
     AppMonetGADStruct gadStruct;
     gadStruct.gadRequest = adRequest;
     gadStruct.onReadyBlock = gadRequestBlock;
@@ -135,6 +144,8 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
  andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
+    self.isDFP = NO;
+    
     AppMonetDFPStruct dfpStruct;
     dfpStruct.dfpRequest = adRequest;
     dfpStruct.onReadyBlock = dfpRequestBlock;
@@ -151,6 +162,8 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
                 andTimeout:(NSNumber *)timeout
                  withBlock:(void (^)(GADRequest *))requestBlock
 {
+    self.isDFP = NO;
+    
     AppMonetGADStruct gadStruct;
     gadStruct.gadRequest = adRequest;
     gadStruct.onReadyBlock = requestBlock;
@@ -198,18 +211,34 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     
-    AppMonetDFPStruct *dfpStruct = (__bridge AppMonetDFPStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
-    NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
-    
-    if (request == AppMonet.interstitialAdRequest) {
-        bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
-    }
+    if (AppMonet.isDFP) {
+        AppMonetDFPStruct *dfpStruct = (__bridge AppMonetDFPStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
+        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
         
-    if (bidKeywords.length != 0) {
-        DFPRequest *request = [self addDFPKeywords:dfpStruct->dfpRequest withBidKeywords:bidKeywords];
-        dfpStruct->onReadyBlock(request);
+        if (request == AppMonet.interstitialAdRequest) {
+            bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
+        }
+        
+        if (bidKeywords.length != 0) {
+            DFPRequest *request = [self addDFPKeywords:dfpStruct->dfpRequest withBidKeywords:bidKeywords];
+            dfpStruct->onReadyBlock(request);
+        } else {
+            dfpStruct->onReadyBlock(dfpStruct->dfpRequest);
+        }
     } else {
-        dfpStruct->onReadyBlock(dfpStruct->dfpRequest);
+        AppMonetGADStruct *gadStruct = (__bridge AppMonetGADStruct *)([AppMonet.dict objectForKey:ad.zoneID]);
+        NSString *bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad];
+        
+        if (request == AppMonet.interstitialAdRequest) {
+            bidKeywords = [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
+        }
+        
+        if (bidKeywords.length != 0) {
+            GADRequest *request = [self addGADKeywords:gadStruct->gadRequest withBidKeywords:bidKeywords];
+            gadStruct->onReadyBlock(request);
+        } else {
+            gadStruct->onReadyBlock(gadStruct->gadRequest);
+        }
     }
 }
 
@@ -239,6 +268,25 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
         [dict setObject:[adRequest.customTargeting objectForKey:key] forKey:key];
         [request setCustomTargeting:dict];
     }
+    
+    return request;
+}
+- (GADRequest *)addGADKeywords:(GADRequest *)adRequest withBidKeywords:(NSString *)bidKeywords
+{
+    GADRequest *request = [[GADRequest alloc] init];
+    if (adRequest.contentURL.length != 0) {
+        request.contentURL = adRequest.contentURL;
+    }
+    if (bidKeywords.length != 0) {
+        NSArray *newArray = [request.keywords arrayByAddingObject:bidKeywords];
+        [request setKeywords:newArray];
+    }
+    
+    NSMutableArray *newKeywords;
+    for (NSString *keyword in adRequest.keywords) {
+        [newKeywords addObject:keyword];
+    }
+    [request setKeywords:newKeywords];
     
     return request;
 }
