@@ -31,7 +31,7 @@
 @class DFPInterstitial;
 @class GADInterstitial;
 
-@interface AppMonet (DFP) <HyBidAdRequestDelegate>
+@interface AppMonet (DFP)
 
 + (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block;
 + (void)initialize:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block;
