@@ -20,17 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "AppMonetConfigurations.h"
+#import "AppMonetInterstitialAdView.h"
 
-@interface AppMonet : NSObject
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations;
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(NSError *)error ;
-+ (void)initialize:(AppMonetConfigurations *)appMonetConfigurations;
-
-/**
- * This method allows the SDK to get test demand that always fills. Use it only during development.
- */
-+ (void)testMode;
+@implementation AppMonetInterstitialAdView
 
 @end

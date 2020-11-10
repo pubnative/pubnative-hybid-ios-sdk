@@ -8,3 +8,5 @@
 #import "AMCustomEventInterstitial.h"
 #import "AMCustomEventNative.h"
 #import "AMNativeAdRenderer.h"
+#import "AppMonetInterstitialAdView.h"
+#import "AppMonetAdView.h"

@@ -24,6 +24,10 @@
 
 @implementation AMNativeAdRenderer
 
+- (instancetype)initWithRendererSettings:(id <MPNativeAdRendererSettings>)rendererSettings {
+    return self;
+}
+
 + (MPNativeAdRendererConfiguration *)rendererConfigurationWithRendererSettings:(id <MPNativeAdRendererSettings>)rendererSettings {
     MPNativeAdRendererConfiguration *config = [[MPNativeAdRendererConfiguration alloc] init];
     config.rendererClass = [self class];
