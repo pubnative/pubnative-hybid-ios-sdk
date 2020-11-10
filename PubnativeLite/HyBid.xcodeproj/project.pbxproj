@@ -621,7 +621,6 @@
 		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F77725501B29006A266F /* AMOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AMOConstants.m */; };
 		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
-		6F776D5D255AABB600951905 /* AppMonet+DFP.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF4BE30255447FC004558D5 /* AppMonet+DFP.m */; };
 		6F776DB7255AB65900951905 /* AppMonet+DFP.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F22E84C2555778B00FA210E /* AppMonet+DFP.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
@@ -1975,8 +1974,6 @@
 		7E7CC36724D9F0E700F3A476 /* QuoteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuoteCell.m; sourceTree = "<group>"; };
 		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
 		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
-		7EF4BE2F255447FC004558D5 /* AppMonet+DFP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppMonet+DFP.h"; sourceTree = "<group>"; };
-		7EF4BE30255447FC004558D5 /* AppMonet+DFP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppMonet+DFP.m"; sourceTree = "<group>"; };
 		7EF4BE5F25545438004558D5 /* AMCustomEventInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMCustomEventInterstitial.h; sourceTree = "<group>"; };
 		7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMCustomEventInterstitial.m; sourceTree = "<group>"; };
 		7EF4BF2025595FA0004558D5 /* AppMonetInterstitialAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetInterstitialAdView.h; sourceTree = "<group>"; };
@@ -3038,8 +3035,6 @@
 		5A3D58222550706A00E024B2 /* DFP Header Bidding Adapter */ = {
 			isa = PBXGroup;
 			children = (
-				7EF4BE2F255447FC004558D5 /* AppMonet+DFP.h */,
-				7EF4BE30255447FC004558D5 /* AppMonet+DFP.m */,
 				5A3D5825255070F200E024B2 /* AMCustomEventBanner.h */,
 				5A3D5826255070F200E024B2 /* AMCustomEventBanner.m */,
 				7EF4BE5F25545438004558D5 /* AMCustomEventInterstitial.h */,
@@ -4689,7 +4684,6 @@
 				5AC35B41214A7055001F0ED3 /* HyBidAd.m in Sources */,
 				5ADF9E94214956FF0081355E /* HyBidAdCache.m in Sources */,
 				5ADF9EA4214962340081355E /* HyBidAdModel.m in Sources */,
-				6F776D5D255AABB600951905 /* AppMonet+DFP.m in Sources */,
 				5A3DD0A725277A0300A72B03 /* HyBidSignalDataProcessor.m in Sources */,
 				6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */,
 				5ADF9E7421493DF00081355E /* HyBidAdPresenter.m in Sources */,
