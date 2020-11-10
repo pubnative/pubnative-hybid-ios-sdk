@@ -92,7 +92,7 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
     
     [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
 
-//    self.adRequest.adSize = [self getAdSize:adView.adSize];
+    self.adRequest.adSize = [self getAdSize:adView.adSize];
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
@@ -169,7 +169,7 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     
     [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
     
-//    self.adRequest.adSize = [self getAdSize:adView.adSize];
+    self.adRequest.adSize = [self getAdSize:adView.adSize];
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
@@ -314,17 +314,15 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 
 + (void)enableVerboseLogging:(BOOL)verboseLogging
 {
-    
+    [HyBidLogger setLogLevel:HyBidLogLevelDebug];
 }
 
 + (void)preload:(NSArray<NSString *> *)adUnitIDs
 {
-    
 }
 
 + (void)clearAdUnit:(NSString *)adUnitID
 {
-    
 }
 
 @end
