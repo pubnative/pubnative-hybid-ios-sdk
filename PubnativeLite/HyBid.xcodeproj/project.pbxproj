@@ -3201,10 +3201,7 @@
 			isa = PBXGroup;
 			children = (
 				5A3D581D25506FE400E024B2 /* AppMonet Adapters */,
-				5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */,
-				5A8D5D84232B8E2C00BB8AE3 /* AdMobAdapter */,
-				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
-				5AE4C6DD20752A4A00A2A8C5 /* DFPAdapter */,
+				5A8C6184255AF7A900FDDFBC /* HyBid Adapters */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -3350,6 +3347,17 @@
 				5A8903D0203DE1D400D86051 /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5A8C6184255AF7A900FDDFBC /* HyBid Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */,
+				5A8D5D84232B8E2C00BB8AE3 /* AdMobAdapter */,
+				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
+				5AE4C6DD20752A4A00A2A8C5 /* DFPAdapter */,
+			);
+			path = "HyBid Adapters";
 			sourceTree = "<group>";
 		};
 		5A8D5D84232B8E2C00BB8AE3 /* AdMobAdapter */ = {
