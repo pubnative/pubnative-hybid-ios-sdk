@@ -21,7 +21,47 @@
 //
 
 #import "AMCustomEventBanner.h"
+#import "HyBidAdMobUtils.h"
 
 @implementation AMCustomEventBanner
+
+- (void)requestBannerAd:(GADAdSize)adSize parameter:(NSString *)serverParameter label:(NSString *)serverLabel request:(GADCustomEventRequest *)request {
+    if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
+        if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:adSize]];
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidAdMobUtils zoneID:serverParameter]]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidAdMobUtils zoneID:serverParameter]];
+                [self.bannerAdView renderAdWithAd:cachedAd withDelegate:self];
+            } else {
+                self.bannerAdView.isMediation = YES;
+                [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
+            }
+        } else {
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
+            return;
+        }
+    } else {
+        [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
+        return;
+    }
+}
+
+- (void)invokeFailWithMessage:(NSString *)message {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
+}
+
+-(HyBidAdSize *)getHyBidAdSizeFromSize:(GADAdSize)size {
+    if (GADAdSizeEqualToSize(size, kGADAdSizeBanner)) {
+        return HyBidAdSize.SIZE_320x50;
+    } else if (GADAdSizeEqualToSize(size, kGADAdSizeLargeBanner)) {
+        return HyBidAdSize.SIZE_320x100;
+    } else if (GADAdSizeEqualToSize(size, kGADAdSizeLeaderboard)) {
+        return HyBidAdSize.SIZE_728x90;
+    } else if (GADAdSizeEqualToSize(size, kGADAdSizeMediumRectangle)) {
+        return HyBidAdSize.SIZE_300x250;
+    }
+    return [super getHyBidAdSizeFromSize:size];
+}
 
 @end

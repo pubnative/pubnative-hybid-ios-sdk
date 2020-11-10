@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidAdMobMediationInterstitialCustomEvent.h"
 
-@interface AMCustomEventInterstitial : NSObject
+@interface AMCustomEventInterstitial : HyBidAdMobMediationInterstitialCustomEvent
 
 @end

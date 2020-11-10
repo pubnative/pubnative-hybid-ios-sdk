@@ -25,6 +25,8 @@
 
 @import GoogleMobileAds;
 
-@interface HyBidAdMobMediationInterstitialCustomEvent : NSObject <GADCustomEventInterstitial>
+@interface HyBidAdMobMediationInterstitialCustomEvent : NSObject <GADCustomEventInterstitial, HyBidInterstitialAdDelegate>
+
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
 @end

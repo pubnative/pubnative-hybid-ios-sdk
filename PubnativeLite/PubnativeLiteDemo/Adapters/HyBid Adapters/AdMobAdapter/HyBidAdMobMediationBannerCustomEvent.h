@@ -25,7 +25,9 @@
 
 @import GoogleMobileAds;
 
-@interface HyBidAdMobMediationBannerCustomEvent : NSObject <GADCustomEventBanner>
+@interface HyBidAdMobMediationBannerCustomEvent : NSObject <GADCustomEventBanner, HyBidAdViewDelegate>
+
+@property (nonatomic, strong) HyBidAdView *bannerAdView;
 
 - (HyBidAdSize *)getHyBidAdSizeFromSize:(GADAdSize)size;
 
