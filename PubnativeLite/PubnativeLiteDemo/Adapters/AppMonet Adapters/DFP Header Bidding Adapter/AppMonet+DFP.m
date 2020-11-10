@@ -150,7 +150,6 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
     appMonetAdView.gadRequest = adRequest;
     appMonetAdView.onReadyGADBlock = gadRequestBlock;
-    
     [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
     
     self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
@@ -161,7 +160,7 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
  andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
-    self.isDFP = NO;
+    self.isDFP = YES;
     
     AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
     appMonetAdView.dfpRequest = adRequest;
