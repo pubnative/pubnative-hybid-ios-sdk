@@ -230,31 +230,31 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     
     if (AppMonet.isDFP) {
         NSDictionary *tempDict = (request == AppMonet.adRequest) ? AppMonet.dict : AppMonet.interstitialDict;
-        AppMonetDFPStruct *dfpStruct = (__bridge AppMonetDFPStruct *)([tempDict objectForKey:ad.zoneID]);
+        AppMonetAdView *appMonetAdView = [tempDict objectForKey:ad.zoneID];
         
         NSString *bidKeywords = (request == AppMonet.adRequest) ?
                 [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad] :
                 [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
         
         if (bidKeywords.length != 0) {
-            DFPRequest *request = [self addDFPKeywords:dfpStruct->dfpRequest withBidKeywords:bidKeywords];
-            dfpStruct->onReadyBlock(request);
+            DFPRequest *request = [self addDFPKeywords:appMonetAdView.dfpRequest withBidKeywords:bidKeywords];
+            appMonetAdView.onReadyDFPBlock(request);
         } else {
-            dfpStruct->onReadyBlock(dfpStruct->dfpRequest);
+            appMonetAdView.onReadyDFPBlock(appMonetAdView.dfpRequest);
         }
     } else {
         NSDictionary *tempDict = (request == AppMonet.adRequest) ? AppMonet.dict : AppMonet.interstitialDict;
-        AppMonetGADStruct *gadStruct = (__bridge AppMonetGADStruct *)([tempDict objectForKey:ad.zoneID]);
+        AppMonetAdView *appMonetAdView = [tempDict objectForKey:ad.zoneID];
         
         NSString *bidKeywords = (request == AppMonet.adRequest) ?
                 [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingKeywordsStringWithAd:ad] :
                 [HyBidHeaderBiddingUtils createAppMonetHeaderBiddingInterstitialKeywordsStringWithAd:ad];
         
         if (bidKeywords.length != 0) {
-            GADRequest *request = [self addGADKeywords:gadStruct->gadRequest withBidKeywords:bidKeywords];
-            gadStruct->onReadyBlock(request);
+            GADRequest *request = [self addGADKeywords:appMonetAdView.gadRequest withBidKeywords:bidKeywords];
+            appMonetAdView.onReadyGADBlock(request);
         } else {
-            gadStruct->onReadyBlock(gadStruct->gadRequest);
+            appMonetAdView.onReadyGADBlock(appMonetAdView.gadRequest);
         }
     }
 }

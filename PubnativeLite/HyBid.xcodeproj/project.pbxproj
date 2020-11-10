@@ -621,7 +621,6 @@
 		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F77725501B29006A266F /* AMOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AMOConstants.m */; };
 		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
-		6F776DB7255AB65900951905 /* AppMonet+DFP.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F22E84C2555778B00FA210E /* AppMonet+DFP.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -4539,7 +4538,6 @@
 				5A6FDFA72501966C003B8C9F /* PNLiteDemoConsentManagementProviderViewController.m in Sources */,
 				5A049A31252E0D070066B270 /* MPOpenMeasurementTracker.m in Sources */,
 				5A54619D24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m in Sources */,
-				6F776DB7255AB65900951905 /* AppMonet+DFP.m in Sources */,
 				5A049A77252E0D070066B270 /* MPMoPubFullscreenAdAdapter.m in Sources */,
 				5A5A9BD72530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m in Sources */,
 				5A049A84252E0D070066B270 /* NSError+MPAdditions.m in Sources */,
