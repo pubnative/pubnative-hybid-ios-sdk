@@ -383,8 +383,6 @@
 		5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903E6203DE23200D86051 /* CoreGraphics.framework */; };
 		5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903E8203DE23A00D86051 /* AVFoundation.framework */; };
 		5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903EA203DE24500D86051 /* AdSupport.framework */; };
-		5A8C618A255B0C3500FDDFBC /* AMCustomEventBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D5826255070F200E024B2 /* AMCustomEventBanner.m */; };
-		5A8C6190255B0C3800FDDFBC /* AMCustomEventInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */; };
 		5A8D5D83232B8E1D00BB8AE3 /* HyBidAdMobUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D5D82232B8E1D00BB8AE3 /* HyBidAdMobUtils.m */; };
 		5A8D5D87232B99B100BB8AE3 /* HyBidAdMobMediationBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D5D86232B99B100BB8AE3 /* HyBidAdMobMediationBannerCustomEvent.m */; };
 		5A8D5D8A232BD29500BB8AE3 /* HyBidAdMobMediationMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8D5D89232BD29500BB8AE3 /* HyBidAdMobMediationMRectCustomEvent.m */; };
@@ -4490,7 +4488,6 @@
 				5A0499EC252E0D070066B270 /* MPNativeAdSource.m in Sources */,
 				5A049AA9252E0D070066B270 /* MPVASTResponse.m in Sources */,
 				5A049A37252E0D070066B270 /* MPVideoPlayerView.m in Sources */,
-				5A8C6190255B0C3800FDDFBC /* AMCustomEventInterstitial.m in Sources */,
 				5A049AA4252E0D070066B270 /* MPVideoEvent.m in Sources */,
 				5A049A1F252E0D070066B270 /* MPInlineAdAdapter.m in Sources */,
 				5A049A83252E0D070066B270 /* MPNativeCache.m in Sources */,
@@ -4657,7 +4654,6 @@
 				5A049A51252E0D070066B270 /* MPProgressOverlayView.m in Sources */,
 				5A049A08252E0D070066B270 /* MPAdView.m in Sources */,
 				5A049AB5252E0D070066B270 /* MOPUBActivityIndicatorView.m in Sources */,
-				5A8C618A255B0C3500FDDFBC /* AMCustomEventBanner.m in Sources */,
 				5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */,
 				5A049A65252E0D070066B270 /* MRVideoPlayerManager.m in Sources */,
 				5A049A3F252E0D070066B270 /* MPDeviceInformation.m in Sources */,
