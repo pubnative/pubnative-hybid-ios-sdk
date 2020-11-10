@@ -24,14 +24,20 @@
 #import "HyBidAdRequest.h"
 #import <HyBid/HyBid.h>
 
-@class DFPRequest;
 @class DFPBannerView;
-@class GADRequest;
+@class DFPRequest;
 @class GADBannerView;
+@class GADRequest;
 @class DFPInterstitial;
 @class GADInterstitial;
 
-@interface AppMonet (DFP) <HyBidAdRequestDelegate>
+@interface AppMonet (DFP)
+
++ (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block;
++ (void)initialize:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block;
++ (void)enableVerboseLogging:(BOOL)verboseLogging;
++ (void)preload:(NSArray<NSString *> *)adUnitIDs;
++ (void)clearAdUnit:(NSString *)adUnitID;
 
 + (void)addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock;
 

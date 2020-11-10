@@ -21,16 +21,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AppMonetConfigurations.h"
 
-@interface AppMonet : NSObject
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations;
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(NSError *)error ;
-+ (void)initialize:(AppMonetConfigurations *)appMonetConfigurations;
+@class DFPRequest;
+@class GADRequest;
 
-/**
- * This method allows the SDK to get test demand that always fills. Use it only during development.
- */
-+ (void)testMode;
+@interface AppMonetAdView : NSObject
+
+@property (nonatomic, strong) DFPRequest *dfpRequest;
+@property (nonatomic, strong) GADRequest *gadRequest;
+@property void (^onReadyDFPBlock)(DFPRequest *dfpRequest);
+@property void (^onReadyGADBlock)(GADRequest *gadRequest);
 
 @end
