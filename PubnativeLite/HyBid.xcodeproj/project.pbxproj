@@ -623,6 +623,7 @@
 		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
 		6F22E8752555818D00FA210E /* AppMonet+DFP.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F22E84C2555778B00FA210E /* AppMonet+DFP.m */; };
 		6F22E88B2555AA9800FA210E /* AppMonet+DFP.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F22E84B2555778B00FA210E /* AppMonet+DFP.h */; };
+		6F776D57255AA6BA00951905 /* AppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F776D56255AA6BA00951905 /* AppMonetAdView.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -1941,6 +1942,8 @@
 		6F09F77525501B29006A266F /* AMOConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMOConstants.m; sourceTree = "<group>"; };
 		6F22E84B2555778B00FA210E /* AppMonet+DFP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppMonet+DFP.h"; sourceTree = "<group>"; };
 		6F22E84C2555778B00FA210E /* AppMonet+DFP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppMonet+DFP.m"; sourceTree = "<group>"; };
+		6F776D55255AA6BA00951905 /* AppMonetAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetAdView.h; sourceTree = "<group>"; };
+		6F776D56255AA6BA00951905 /* AppMonetAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetAdView.m; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -3044,6 +3047,8 @@
 				7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */,
 				6F22E84B2555778B00FA210E /* AppMonet+DFP.h */,
 				6F22E84C2555778B00FA210E /* AppMonet+DFP.m */,
+				6F776D55255AA6BA00951905 /* AppMonetAdView.h */,
+				6F776D56255AA6BA00951905 /* AppMonetAdView.m */,
 			);
 			path = "DFP Header Bidding Adapter";
 			sourceTree = "<group>";
@@ -4645,6 +4650,7 @@
 				5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */,
 				5A049A88252E0D070066B270 /* UIImage+MPAdditions.m in Sources */,
 				5A4FF06420AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m in Sources */,
+				6F776D57255AA6BA00951905 /* AppMonetAdView.m in Sources */,
 				5A4FF06B20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m in Sources */,
 				5A9CC60D2121D00D00A3C45E /* PNLiteDemoPNLiteNativeAdViewController.m in Sources */,
 				5A049A51252E0D070066B270 /* MPProgressOverlayView.m in Sources */,

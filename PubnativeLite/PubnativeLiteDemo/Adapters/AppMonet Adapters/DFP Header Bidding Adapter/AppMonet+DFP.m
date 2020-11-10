@@ -27,27 +27,42 @@
 
 @import GoogleMobileAds;
 
-@interface AppMonet ()
-
-@property (class, nonatomic, strong) HyBidAdRequest *adRequest;
-@property (class, nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
-@property (class, nonatomic) NSMutableDictionary *dict;
-@property (class, nonatomic) NSMutableDictionary *interstitialDict;
-@property (class, nonatomic, assign) BOOL isDFP;
-
-typedef struct {
-    DFPRequest *dfpRequest;
-    void (^onReadyBlock)(DFPRequest *dfpRequest);
-} AppMonetDFPStruct;
-
-typedef struct {
-    GADRequest *gadRequest;
-    void (^onReadyBlock)(GADRequest *gadRequest);
-} AppMonetGADStruct;
-
+@interface AppMonet () <HyBidAdRequestDelegate>
 @end
 
 @implementation AppMonet (DFP)
+
+static NSMutableDictionary *_dict=nil;
++ (NSMutableDictionary *)dict {
+  if (_dict == nil) {
+    _dict = [[NSMutableDictionary alloc] init];
+  }
+  return _dict;
+}
+
+static NSMutableDictionary *_interstitialDict=nil;
++ (NSMutableDictionary *)interstitialDict {
+  if (_interstitialDict == nil) {
+      _interstitialDict = [[NSMutableDictionary alloc] init];
+  }
+  return _interstitialDict;
+}
+
+static HyBidAdRequest *_adRequest=nil;
++ (HyBidAdRequest *)adRequest {
+  if (_adRequest == nil) {
+      _adRequest = [[HyBidAdRequest alloc] init];
+  }
+  return _adRequest;
+}
+
+static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
++ (HyBidInterstitialAdRequest *)interstitialAdRequest {
+  if (_interstitialAdRequest == nil) {
+      _interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+  }
+  return _interstitialAdRequest;
+}
 
 + (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block {
     [AppMonet initialize:appMonetConfigurations withBlock:block];
