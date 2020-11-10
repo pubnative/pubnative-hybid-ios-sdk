@@ -29,7 +29,7 @@
 
 @property (nonatomic, strong) DFPRequest *dfpRequest;
 @property (nonatomic, strong) GADRequest *gadRequest;
-@property void (^onReadyBlock)(DFPRequest *dfpRequest);
-@property (nonatomic, assign) BOOL isDFP;
+@property void (^onReadyDFPBlock)(DFPRequest *dfpRequest);
+@property void (^onReadyGADBlock)(GADRequest *gadRequest);
 
 @end

@@ -65,7 +65,7 @@ static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
 
 + (void)addBids:(MPAdView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUinitId andTimeout:(NSNumber *)timeout :(void (^)(void))onReadyBlock
 {
-    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc]init];
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
     appMonetAdView.adView = adView;
     appMonetAdView.onReadyBlock = onReadyBlock;
 

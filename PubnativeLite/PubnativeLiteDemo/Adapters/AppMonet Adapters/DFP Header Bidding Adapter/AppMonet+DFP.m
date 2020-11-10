@@ -24,10 +24,12 @@
 #import <HyBid/HyBid.h>
 #import "AppMonetConfigurations.h"
 #import "HyBidLogger.h"
+#import "AppMonetAdView.h"
 
 @import GoogleMobileAds;
 
 @interface AppMonet () <HyBidAdRequestDelegate>
+@property (class, nonatomic, assign) BOOL isDFP;
 @end
 
 @implementation AppMonet (DFP)
@@ -84,13 +86,13 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
     self.isDFP = YES;
     
-    AppMonetDFPStruct dfpStruct;
-    dfpStruct.dfpRequest = adRequest;
-    dfpStruct.onReadyBlock = dfpRequestBlock;
-    [AppMonet.dict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
+    appMonetAdView.dfpRequest = adRequest;
+    appMonetAdView.onReadyDFPBlock = dfpRequestBlock;
     
-    self.adRequest = [[HyBidAdRequest alloc] init];
-    self.adRequest.adSize = [self getAdSize:adView.adSize];
+    [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
+
+//    self.adRequest.adSize = [self getAdSize:adView.adSize];
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
@@ -98,12 +100,12 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
     self.isDFP = YES;
     
-    AppMonetDFPStruct dfpStruct;
-    dfpStruct.dfpRequest = adRequest;
-    dfpStruct.onReadyBlock = dfpRequestBlock;
-    [AppMonet.dict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
+    appMonetAdView.dfpRequest = adRequest;
+    appMonetAdView.onReadyDFPBlock = dfpRequestBlock;
     
-    self.adRequest = [[HyBidAdRequest alloc] init];
+    [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
+    
     self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
@@ -116,12 +118,12 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
     self.isDFP = YES;
     
-    AppMonetDFPStruct dfpStruct;
-    dfpStruct.dfpRequest = adRequest;
-    dfpStruct.onReadyBlock = requestBlock;
-    [AppMonet.interstitialDict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
+    appMonetAdView.dfpRequest = adRequest;
+    appMonetAdView.onReadyDFPBlock = requestBlock;
     
-    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [AppMonet.interstitialDict setObject:appMonetAdView forKey:appMonetAdUnitId];
+    
     [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
@@ -145,12 +147,12 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 {
     self.isDFP = NO;
     
-    AppMonetGADStruct gadStruct;
-    gadStruct.gadRequest = adRequest;
-    gadStruct.onReadyBlock = gadRequestBlock;
-    [AppMonet.dict setObject:[NSValue valueWithPointer:&gadStruct] forKey:appMonetAdUnitId];
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
+    appMonetAdView.gadRequest = adRequest;
+    appMonetAdView.onReadyGADBlock = gadRequestBlock;
     
-    self.adRequest = [[HyBidAdRequest alloc] init];
+    [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
+    
     self.adRequest.adSize = HyBidAdSize.SIZE_300x250;
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
@@ -161,13 +163,13 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 {
     self.isDFP = NO;
     
-    AppMonetDFPStruct dfpStruct;
-    dfpStruct.dfpRequest = adRequest;
-    dfpStruct.onReadyBlock = dfpRequestBlock;
-    [AppMonet.dict setObject:[NSValue valueWithPointer:&dfpStruct] forKey:appMonetAdUnitId];
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
+    appMonetAdView.dfpRequest = adRequest;
+    appMonetAdView.onReadyDFPBlock = dfpRequestBlock;
     
-    self.adRequest = [[HyBidAdRequest alloc] init];
-    self.adRequest.adSize = [self getAdSize:adView.adSize];
+    [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
+    
+//    self.adRequest.adSize = [self getAdSize:adView.adSize];
     [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
@@ -179,12 +181,12 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 {
     self.isDFP = NO;
     
-    AppMonetGADStruct gadStruct;
-    gadStruct.gadRequest = adRequest;
-    gadStruct.onReadyBlock = requestBlock;
-    [AppMonet.dict setObject:[NSValue valueWithPointer:&gadStruct] forKey:appMonetAdUnitId];
+    AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
+    appMonetAdView.gadRequest = adRequest;
+    appMonetAdView.onReadyGADBlock = requestBlock;
     
-    self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [AppMonet.interstitialDict setObject:appMonetAdView forKey:appMonetAdUnitId];
+    
     [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
 }
 
