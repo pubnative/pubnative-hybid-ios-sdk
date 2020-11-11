@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "AppMonet.h"
-#import "HyBidAdRequest.h"
+#import <HyBid/AppMonet.h>
+#import <HyBid/HyBidAdRequest.h>
 #import <HyBid/HyBid.h>
 
 @class DFPBannerView;
