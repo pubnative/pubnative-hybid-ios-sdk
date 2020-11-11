@@ -23,12 +23,6 @@
 #import "HyBidAdMobMediationBannerCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobMediationBannerCustomEvent() <HyBidAdViewDelegate>
-
-@property (nonatomic, strong) HyBidAdView *bannerAdView;
-
-@end
-
 @implementation HyBidAdMobMediationBannerCustomEvent
 
 @synthesize delegate;

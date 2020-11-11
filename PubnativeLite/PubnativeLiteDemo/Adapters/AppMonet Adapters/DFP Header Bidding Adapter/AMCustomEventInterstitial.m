@@ -21,7 +21,35 @@
 //
 
 #import "AMCustomEventInterstitial.h"
+#import "HyBidAdMobUtils.h"
 
 @implementation AMCustomEventInterstitial
+
+- (void)requestInterstitialAdWithParameter:(NSString *)serverParameter label:(NSString *)serverLabel request:(GADCustomEventRequest *)request {
+    if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
+        if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidAdMobUtils zoneID:serverParameter]]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidAdMobUtils zoneID:serverParameter]];
+                [self.interstitialAd prepareAdWithAd:cachedAd];
+            } else {
+                self.interstitialAd.isMediation = YES;
+                [self.interstitialAd load];
+            }
+        } else {
+            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
+            return;
+        }
+        
+    } else {
+        [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
+        return;
+    }
+}
+
+- (void)invokeFailWithMessage:(NSString *)message {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
+}
 
 @end
