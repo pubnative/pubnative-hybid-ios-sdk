@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "AppMonet+DFP.h"
+#import "AppMonet+GAM.h"
 #import <HyBid/HyBid.h>
 #import <HyBid/AppMonetConfigurations.h>
 #import <HyBid/HyBidLogger.h>

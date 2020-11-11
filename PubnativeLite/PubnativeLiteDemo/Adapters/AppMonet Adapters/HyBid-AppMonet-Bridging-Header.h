@@ -3,7 +3,7 @@
 //
 
 #import "AppMonet+MoPub.h"
-#import "AppMonet+DFP.h"
+#import "AppMonet+GAM.h"
 #import "AMCustomEventBanner.h"
 #import "AMCustomEventInterstitial.h"
 #import "AMCustomEventNative.h"
