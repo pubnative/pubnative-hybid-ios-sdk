@@ -25,7 +25,6 @@
 
 @interface AppMonet : NSObject
 + (void)init:(AppMonetConfigurations *)appMonetConfigurations;
-+ (void)init:(AppMonetConfigurations *)appMonetConfigurations withBlock:(NSError *)error ;
 + (void)initialize:(AppMonetConfigurations *)appMonetConfigurations;
 
 /**
