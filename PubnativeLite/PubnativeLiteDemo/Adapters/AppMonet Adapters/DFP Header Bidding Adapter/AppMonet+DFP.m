@@ -22,17 +22,25 @@
 
 #import "AppMonet+DFP.h"
 #import <HyBid/HyBid.h>
-#import "AppMonetConfigurations.h"
-#import "HyBidLogger.h"
+#import <HyBid/AppMonetConfigurations.h>
+#import <HyBid/HyBidLogger.h>
 #import "AppMonetAdView.h"
 
 @import GoogleMobileAds;
 
 @interface AppMonet () <HyBidAdRequestDelegate>
-@property (class, nonatomic, assign) BOOL isDFP;
 @end
 
 @implementation AppMonet (DFP)
+
+static BOOL _isDFP;
++ (BOOL)isDFP; {
+    return _isDFP;
+}
+
++ (void)setIsDFP:(BOOL)value; {
+    _isDFP = value;
+}
 
 static NSMutableDictionary *_dict=nil;
 + (NSMutableDictionary *)dict {
@@ -71,12 +79,12 @@ static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
 }
 
 + (void)initialize:(AppMonetConfigurations *)appMonetConfigurations withBlock:(void (^)(NSError *))block {
-    AppMonetConfigurations *internalConfigurations = appMonetConfigurations;
-    if (appMonetConfigurations == nil) {
-        internalConfigurations = [AppMonetConfigurations configurationWithBlock:^(AppMonetConfigurations *builder) {
-            // do nothing
-        }];
-    }
+    [HyBid initWithAppToken:appMonetConfigurations.applicationId completion:^(BOOL success) {
+
+        if (success) {
+            [HyBidLogger setLogLevel:HyBidLogLevelDebug];
+        }
+    }];
 }
 
 #pragma mark DFP Add Bids methods
@@ -84,7 +92,7 @@ static HyBidInterstitialAdRequest *_interstitialAdRequest=nil;
 + (void) addBids:(DFPBannerView *)adView andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andDfpAdRequest:(DFPRequest *)adRequest andTimeout:(NSNumber *)timeout
 andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
 {
-    self.isDFP = YES;
+    AppMonet.isDFP = YES;
     
     AppMonetAdView *appMonetAdView = [[AppMonetAdView alloc] init];
     appMonetAdView.dfpRequest = adRequest;
@@ -124,7 +132,7 @@ andDfpRequestBlock:(void (^)(DFPRequest *dfpRequest))dfpRequestBlock
     
     [AppMonet.interstitialDict setObject:appMonetAdView forKey:appMonetAdUnitId];
     
-    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    [self.interstitialAdRequest requestAdWithDelegate:AppMonet.self withZoneID:appMonetAdUnitId];
 }
 
 + (DFPRequest *)addBids:(DFPRequest *)adRequest andAppMonetAdUnitId:(NSString *)appMonetAdUnitId
@@ -169,7 +177,7 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     [AppMonet.dict setObject:appMonetAdView forKey:appMonetAdUnitId];
     
     self.adRequest.adSize = [self getAdSize:adView.adSize];
-    [self.adRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    [self.adRequest requestAdWithDelegate:AppMonet.self withZoneID:appMonetAdUnitId];
 }
 
 +(void)addInterstitialBids:(GADInterstitial *)interstitial
@@ -186,7 +194,7 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     
     [AppMonet.interstitialDict setObject:appMonetAdView forKey:appMonetAdUnitId];
     
-    [self.interstitialAdRequest requestAdWithDelegate:(id<HyBidAdRequestDelegate>)self withZoneID:appMonetAdUnitId];
+    [self.interstitialAdRequest requestAdWithDelegate:AppMonet.self withZoneID:appMonetAdUnitId];
 }
 
 + (GADRequest *)addBids:(GADBannerView *)adView andGadRequest:(GADRequest *)adRequest
@@ -220,11 +228,11 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
 
 #pragma mark HyBidAdRequestDelegate
 
-- (void)requestDidStart:(HyBidAdRequest *)request {
++ (void)requestDidStart:(HyBidAdRequest *)request {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
 }
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
++ (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     
     if (AppMonet.isDFP) {
@@ -258,7 +266,7 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     }
 }
 
-- (DFPRequest *)addDFPKeywords:(DFPRequest *)adRequest withBidKeywords:(NSString *)bidKeywords
++ (DFPRequest *)addDFPKeywords:(DFPRequest *)adRequest withBidKeywords:(NSString *)bidKeywords
 {
     DFPRequest *request = [[DFPRequest alloc] init];
     if (adRequest.contentURL.length != 0) {
@@ -287,7 +295,7 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     
     return request;
 }
-- (GADRequest *)addGADKeywords:(GADRequest *)adRequest withBidKeywords:(NSString *)bidKeywords
++ (GADRequest *)addGADKeywords:(GADRequest *)adRequest withBidKeywords:(NSString *)bidKeywords
 {
     GADRequest *request = [[GADRequest alloc] init];
     if (adRequest.contentURL.length != 0) {
@@ -307,7 +315,7 @@ andAppMonetAdUnitId:(NSString *)appMonetAdUnitId andTimeout:(NSNumber *)timeout
     return request;
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
++ (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
 }
 
