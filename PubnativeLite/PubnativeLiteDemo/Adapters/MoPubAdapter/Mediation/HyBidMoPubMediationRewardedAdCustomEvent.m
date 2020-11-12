@@ -21,7 +21,6 @@
 //
 
 #import "HyBidMoPubMediationRewardedAdCustomEvent.h"
-#import "HyBidRewardedAd.h"
 #import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPError.h"
