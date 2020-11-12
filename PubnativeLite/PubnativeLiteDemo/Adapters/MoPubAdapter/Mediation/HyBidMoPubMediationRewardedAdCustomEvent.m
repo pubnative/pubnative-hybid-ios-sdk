@@ -74,6 +74,8 @@
 #pragma mark - HyBidRewardedAdDelegate
 
 - (void)onReward {
+    MPReward *reward = [[MPReward alloc] initWithCurrencyType:@"hybid_reward" amount:0];
+    MPLogEvent([MPLogEvent adShouldRewardUserWithReward:reward]);
 }
 
 - (void)rewardedDidDismiss {
