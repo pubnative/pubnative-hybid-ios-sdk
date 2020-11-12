@@ -33,6 +33,7 @@
 #define kHyBidMoPubMediationBannerAdUnitID @"8ba4f63a03da4c1ba84653c4bc66d11e"
 #define kHyBidMoPubMediationMRectAdUnitID @"038dfd33ec4d4391aee61557ffd3ed8b"
 #define kHyBidMoPubMediationInterstitialAdUnitID @"a50d6ad8b2b84ea0af8049b8dfd32126"
+#define kHyBidMoPubMediationRewardedAdUnitID @"b514d9fc570742a4b974e59d33aee494"
 #define kHyBidDFPHeaderBiddingLeaderboardAdUnitID @"/6499/example/banner"
 #define kHyBidDFPHeaderBiddingBannerAdUnitID @"/6499/example/banner"
 #define kHyBidDFPHeaderBiddingMRectAdUnitID @"/6499/example/banner"

@@ -37,6 +37,7 @@
 #define kHyBidMoPubMediationBannerAdUnitIDKey @"moPubMediationBannerAdUnitID"
 #define kHyBidMoPubMediationMRectAdUnitIDKey @"moPubMediationMRectAdUnitID"
 #define kHyBidMoPubMediationInterstitialAdUnitIDKey @"moPubMediationInterstitialAdUnitID"
+#define kHyBidMoPubMediationRewardedAdUnitIDKey @"moPubMediationRewardedAdUnitID"
 #define kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey @"dfpHeaderBiddingLeaderboardAdUnitID"
 #define kHyBidDFPHeaderBiddingBannerAdUnitIDKey @"dfpHeaderBiddingBannerAdUnitID"
 #define kHyBidDFPHeaderBiddingMRectAdUnitIDKey @"dfpHeaderBiddingMRectAdUnitID"
