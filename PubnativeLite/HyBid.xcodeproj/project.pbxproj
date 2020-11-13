@@ -636,6 +636,7 @@
 		6FD11E592514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
 		6FE01B27255D5A57006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE01AD9255D5302006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m */; };
 		6FE01B3C255D646F006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE01B2E255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m */; };
+		6FED0A7C255EBDB600434977 /* HyBidAdMobMediationRewardedCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */; };
 		6FEFC84C2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */; };
 		6FEFC84D2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */; };
 		6FEFC84E2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */; };
@@ -1905,6 +1906,8 @@
 		6FE01AD9255D5302006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationRewardedAdCustomEvent.m; sourceTree = "<group>"; };
 		6FE01B2D255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationRewardedViewController.h; sourceTree = "<group>"; };
 		6FE01B2E255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationRewardedViewController.m; sourceTree = "<group>"; };
+		6FED0A69255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationRewardedCustomEvent.h; sourceTree = "<group>"; };
+		6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationRewardedCustomEvent.m; sourceTree = "<group>"; };
 		6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTPlayerRewardedViewController.h; sourceTree = "<group>"; };
 		6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTPlayerRewardedViewController.m; sourceTree = "<group>"; };
 		6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteVASTPlayerRewardedViewController.xib; sourceTree = "<group>"; };
@@ -3230,6 +3233,8 @@
 				5A2057DA232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.m */,
 				5A2057DC2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.h */,
 				5A2057DD2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m */,
+				6FED0A69255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.h */,
+				6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */,
 			);
 			path = AdMobAdapter;
 			sourceTree = "<group>";
@@ -4310,6 +4315,7 @@
 				5A049A04252E0D070066B270 /* MPClientAdPositioning.m in Sources */,
 				5A049AAF252E0D070066B270 /* MOPUBNativeVideoAdRendererSettings.m in Sources */,
 				5AC35B4E214A90AA001F0ED3 /* HyBidMoPubHeaderBiddingMRectCustomEvent.m in Sources */,
+				6FED0A7C255EBDB600434977 /* HyBidAdMobMediationRewardedCustomEvent.m in Sources */,
 				5AC35B5A214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m in Sources */,
 				5A049A9F252E0D070066B270 /* MPVASTWrapper.m in Sources */,
 				5AC35B60214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m in Sources */,
