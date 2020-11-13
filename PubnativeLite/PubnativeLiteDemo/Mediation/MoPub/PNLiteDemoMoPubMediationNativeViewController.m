@@ -33,7 +33,6 @@
 #import "MPNativeAdRequestTargeting.h"
 #import "MPNativeAdConstants.h"
 
-
 @interface PNLiteDemoMoPubMediationNativeViewController () <MPNativeAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;

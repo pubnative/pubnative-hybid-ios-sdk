@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *mRectAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *interstitialAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *leaderboardAdUnitTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rewardedAdUnitTextField;
 
 @end
 
@@ -41,6 +42,7 @@
     self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
     self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
     self.leaderboardAdUnitTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
+    self.rewardedAdUnitTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationRewardedAdUnitIDKey];
 }
 
 - (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender {
@@ -48,6 +50,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.mRectAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.interstitialAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.leaderboardAdUnitTextField.text forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.rewardedAdUnitTextField.text forKey:kHyBidMoPubMediationRewardedAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
