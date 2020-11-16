@@ -29,19 +29,17 @@
 
 @implementation HyBidAdMobMediationRewardedCustomEvent
 
-@synthesize delegate;
-
 - (void)dealloc {
     self.rewardedAd = nil;
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
+//    [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 - (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
-    [self.delegate customEventInterstitialWillPresent:self];
+//    [self.delegate customEventInterstitialWillPresent:self];
     if ([self.rewardedAd respondsToSelector:@selector(showFromViewController:)]) {
         [self.rewardedAd showFromViewController:rootViewController];
     } else {
@@ -74,8 +72,9 @@
 }
 
 - (void)rewardedDidDismiss {
-    [self.delegate customEventInterstitialWillDismiss:self];
-    [self.delegate customEventInterstitialDidDismiss:self];
+    NSLog(@"rewardedDidDismiss");
+//    [self.delegate customEventInterstitialWillDismiss:self];
+//    [self.delegate customEventInterstitialDidDismiss:self];
 }
 
 - (void)rewardedDidFailWithError:(NSError *)error {
@@ -83,16 +82,22 @@
 }
 
 - (void)rewardedDidLoad {
-    [self.delegate customEventInterstitialDidReceiveAd:self];
+    NSLog(@"rewardedDidLoad");
+//    [self.delegate customEventInterstitialDidReceiveAd:self];
 }
 
 - (void)rewardedDidTrackClick {
-    [self.delegate customEventInterstitialWasClicked:self];
-    [self.delegate customEventInterstitialWillLeaveApplication:self];
+    NSLog(@"rewardedDidTrackClick");
+//    [self.delegate customEventInterstitialWasClicked:self];
+//    [self.delegate customEventInterstitialWillLeaveApplication:self];
 }
 
 - (void)rewardedDidTrackImpression {
     NSLog(@"Rewarded Did Track Impression.");
+}
+
+- (void)rewardedAd:(nonnull GADRewardedAd *)rewardedAd userDidEarnReward:(nonnull GADAdReward *)reward {
+    NSLog(@"On Reward2.");
 }
 
 @end

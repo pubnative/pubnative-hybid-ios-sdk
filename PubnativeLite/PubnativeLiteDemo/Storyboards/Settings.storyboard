@@ -379,8 +379,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="RNr-dY-7jh"/>
                                         <include reference="7pE-Mc-yZg"/>
+                                        <exclude reference="RNr-dY-7jh"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -1405,6 +1405,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BsN-5K-fM7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="foo-7C-0dO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-5382" y="806"/>
         </scene>
@@ -1724,12 +1725,49 @@
                                     <outlet property="delegate" destination="pUa-nI-1vi" id="Dsw-De-fsc"/>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rewarded Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="19c-zA-Kpa">
+                                <rect key="frame" x="16" y="393" width="127" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDLabel" label="Rewarded Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="O9Y-IV-aKs"/>
+                                    <constraint firstAttribute="height" constant="21" id="s9K-tm-VjZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="O9Y-IV-aKs"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="s9K-tm-VjZ"/>
+                                        <include reference="O9Y-IV-aKs"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your MoPub Mediation Rewarded Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="U9K-ys-LrL" userLabel="Rewarded Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="422" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDTextField" label="Rewarded Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="dI4-UL-9f2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="pUa-nI-1vi" id="RWF-M4-Zuy"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sgh-UY-4dA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="U9K-ys-LrL" firstAttribute="top" secondItem="19c-zA-Kpa" secondAttribute="bottom" constant="8" id="2Hq-bM-czm"/>
                             <constraint firstItem="zjs-f9-j8i" firstAttribute="top" secondItem="bPo-ge-fBA" secondAttribute="bottom" constant="8" id="3Bb-Z9-Hco"/>
                             <constraint firstItem="RLd-Q0-FWY" firstAttribute="top" secondItem="2lg-LB-cu2" secondAttribute="bottom" constant="18" id="3jU-Y5-7eh"/>
+                            <constraint firstItem="19c-zA-Kpa" firstAttribute="top" secondItem="dvZ-XJ-YVF" secondAttribute="bottom" constant="18" id="3nY-D7-hzj"/>
                             <constraint firstItem="9zr-oL-H67" firstAttribute="centerX" secondItem="FUy-Y1-ULU" secondAttribute="centerX" id="5wS-gB-wbm"/>
                             <constraint firstItem="TMF-ll-pYd" firstAttribute="top" secondItem="o5J-mK-0TE" secondAttribute="bottom" constant="8" id="7NS-qn-Wfp"/>
                             <constraint firstItem="o5J-mK-0TE" firstAttribute="top" secondItem="sgh-UY-4dA" secondAttribute="top" constant="8" id="9Xd-5b-KVd"/>
@@ -1737,11 +1775,14 @@
                             <constraint firstItem="RLd-Q0-FWY" firstAttribute="leading" secondItem="sgh-UY-4dA" secondAttribute="leading" constant="16" id="BRh-r3-co0"/>
                             <constraint firstItem="9zr-oL-H67" firstAttribute="leading" secondItem="FUy-Y1-ULU" secondAttribute="leading" constant="16" id="BSN-fp-5d4"/>
                             <constraint firstItem="bPo-ge-fBA" firstAttribute="leading" secondItem="FUy-Y1-ULU" secondAttribute="leading" constant="16" id="EXc-Vf-hyp"/>
+                            <constraint firstItem="U9K-ys-LrL" firstAttribute="leading" secondItem="sgh-UY-4dA" secondAttribute="leading" constant="16" id="H4s-8B-bce"/>
                             <constraint firstItem="o5J-mK-0TE" firstAttribute="leading" secondItem="sgh-UY-4dA" secondAttribute="leading" constant="16" id="IKP-bR-hdi"/>
+                            <constraint firstItem="sgh-UY-4dA" firstAttribute="trailing" secondItem="U9K-ys-LrL" secondAttribute="trailing" constant="16" id="JHV-eL-ngQ"/>
                             <constraint firstItem="TMF-ll-pYd" firstAttribute="leading" secondItem="sgh-UY-4dA" secondAttribute="leading" constant="16" id="JSw-4A-Kgf"/>
                             <constraint firstItem="2lg-LB-cu2" firstAttribute="top" secondItem="VXo-BQ-6sY" secondAttribute="bottom" constant="8" id="Lfy-Va-eje"/>
                             <constraint firstItem="bPo-ge-fBA" firstAttribute="top" secondItem="IZM-LV-9OQ" secondAttribute="bottom" constant="18" id="Lih-Bk-72R"/>
                             <constraint firstItem="IZM-LV-9OQ" firstAttribute="top" secondItem="x1z-iM-Svk" secondAttribute="bottom" constant="8" id="PNQ-X6-Irj"/>
+                            <constraint firstItem="19c-zA-Kpa" firstAttribute="leading" secondItem="sgh-UY-4dA" secondAttribute="leading" constant="16" id="R5J-d7-ESR"/>
                             <constraint firstAttribute="trailing" secondItem="IZM-LV-9OQ" secondAttribute="trailing" constant="16" id="Ri5-t8-Lup"/>
                             <constraint firstItem="jtc-lm-GRr" firstAttribute="top" secondItem="9zr-oL-H67" secondAttribute="bottom" constant="8" id="Vn4-5b-L08"/>
                             <constraint firstItem="IZM-LV-9OQ" firstAttribute="leading" secondItem="FUy-Y1-ULU" secondAttribute="leading" constant="16" id="XNG-op-4oX"/>
@@ -1766,6 +1807,7 @@
                         <outlet property="leaderboardAdUnitIDTextField" destination="dvZ-XJ-YVF" id="BvM-HY-rG8"/>
                         <outlet property="mRectAdUnitIDTextField" destination="zjs-f9-j8i" id="uL0-4G-ObE"/>
                         <outlet property="nativeAdUnitIDTextField" destination="TMF-ll-pYd" id="oyd-DG-a1x"/>
+                        <outlet property="rewardedAdUnitIDTextField" destination="U9K-ys-LrL" id="Ndb-ml-eHk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rfn-UH-2oE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1980,22 +2022,55 @@
                                     <outlet property="delegate" destination="FdI-pw-Xqn" id="HPx-o6-MXw"/>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rewarded Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0S6-Wc-PM8">
+                                <rect key="frame" x="16" y="383" width="127" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDLabel" label="Rewarded Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="hI3-iN-uEF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="hI3-iN-uEF"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your AdMob Mediation Rewarded Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="KAz-le-jVm" userLabel="Rewarded Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="412" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDTextField" label="Rewarded Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ryb-KE-iUj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="rewardedAdUnitIDTextField:" destination="foo-7C-0dO" eventType="editingDidEnd" id="vfi-dR-G8J"/>
+                                    <outlet property="delegate" destination="8gd-Ri-fSt" id="big-nM-mXk"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tPm-1U-VsP"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Pra-Or-dFT" firstAttribute="leading" secondItem="tPm-1U-VsP" secondAttribute="leading" constant="16" id="1Ks-2F-Bro"/>
                             <constraint firstItem="tPm-1U-VsP" firstAttribute="trailing" secondItem="Pra-Or-dFT" secondAttribute="trailing" constant="16" id="2qf-Hs-qXG"/>
+                            <constraint firstItem="0S6-Wc-PM8" firstAttribute="leading" secondItem="tPm-1U-VsP" secondAttribute="leading" constant="16" id="34Q-fq-tyB"/>
                             <constraint firstItem="tgy-VF-whW" firstAttribute="top" secondItem="y31-PY-92r" secondAttribute="bottom" constant="18" id="3dJ-qh-UXg"/>
                             <constraint firstItem="DYz-Jf-bBl" firstAttribute="top" secondItem="3HY-ii-12N" secondAttribute="bottom" constant="8" id="4pc-wa-4O2"/>
+                            <constraint firstItem="KAz-le-jVm" firstAttribute="leading" secondItem="tPm-1U-VsP" secondAttribute="leading" constant="16" id="5Cn-DI-sMY"/>
                             <constraint firstAttribute="trailing" secondItem="y31-PY-92r" secondAttribute="trailing" constant="16" id="83L-Km-bSK"/>
                             <constraint firstItem="tgy-VF-whW" firstAttribute="leading" secondItem="tPm-1U-VsP" secondAttribute="leading" constant="16" id="8et-Qx-fun"/>
                             <constraint firstItem="Jvv-fz-YDZ" firstAttribute="leading" secondItem="on7-Oo-dc7" secondAttribute="leading" constant="16" id="FsZ-gz-E3Y"/>
+                            <constraint firstItem="KAz-le-jVm" firstAttribute="top" secondItem="0S6-Wc-PM8" secondAttribute="bottom" constant="8" id="IsU-bS-yu1"/>
                             <constraint firstItem="7My-b3-FDt" firstAttribute="top" secondItem="Jvv-fz-YDZ" secondAttribute="bottom" constant="8" id="JOU-F1-jCi"/>
                             <constraint firstItem="Ms9-Fa-kbf" firstAttribute="leading" secondItem="on7-Oo-dc7" secondAttribute="leading" constant="16" id="MCV-FO-CVf"/>
                             <constraint firstAttribute="trailing" secondItem="sdH-YT-DSf" secondAttribute="trailing" constant="16" id="Oq0-tc-rzE"/>
                             <constraint firstItem="R2n-BZ-8AN" firstAttribute="leading" secondItem="on7-Oo-dc7" secondAttribute="leading" constant="16" id="Smg-Ix-vWR"/>
                             <constraint firstItem="sdH-YT-DSf" firstAttribute="leading" secondItem="on7-Oo-dc7" secondAttribute="leading" constant="16" id="T9K-aY-lIZ"/>
+                            <constraint firstItem="0S6-Wc-PM8" firstAttribute="top" secondItem="Pra-Or-dFT" secondAttribute="bottom" constant="8" id="TX2-sr-oWI"/>
                             <constraint firstAttribute="trailing" secondItem="Jvv-fz-YDZ" secondAttribute="trailing" constant="16" id="Uk8-aX-YzO"/>
                             <constraint firstItem="sdH-YT-DSf" firstAttribute="top" secondItem="wu7-Tf-qKG" secondAttribute="bottom" constant="8" id="Vlp-ac-IP4"/>
                             <constraint firstItem="y31-PY-92r" firstAttribute="leading" secondItem="on7-Oo-dc7" secondAttribute="leading" constant="16" id="Vtn-qP-V53"/>
@@ -2006,6 +2081,7 @@
                             <constraint firstItem="mfv-EV-D1B" firstAttribute="top" secondItem="sdH-YT-DSf" secondAttribute="bottom" constant="18" id="eRj-j9-hdD"/>
                             <constraint firstItem="y31-PY-92r" firstAttribute="top" secondItem="R2n-BZ-8AN" secondAttribute="bottom" constant="8" id="nq5-6O-iQC"/>
                             <constraint firstItem="wu7-Tf-qKG" firstAttribute="top" secondItem="DYz-Jf-bBl" secondAttribute="bottom" constant="18" id="pkW-Ec-9Zt"/>
+                            <constraint firstItem="tPm-1U-VsP" firstAttribute="trailing" secondItem="KAz-le-jVm" secondAttribute="trailing" constant="16" id="q0h-jZ-CNM"/>
                             <constraint firstItem="Jvv-fz-YDZ" firstAttribute="centerX" secondItem="on7-Oo-dc7" secondAttribute="centerX" id="qoT-fr-PZB"/>
                             <constraint firstItem="tPm-1U-VsP" firstAttribute="trailing" secondItem="DYz-Jf-bBl" secondAttribute="trailing" constant="16" id="rFz-9W-gyV"/>
                             <constraint firstItem="3HY-ii-12N" firstAttribute="top" secondItem="tPm-1U-VsP" secondAttribute="top" constant="8" id="s1j-Ez-J07"/>
@@ -2022,6 +2098,7 @@
                         <outlet property="interstitialAdUnitIDTextField" destination="y31-PY-92r" id="VnQ-Uh-f3U"/>
                         <outlet property="leaderboardAdUnitIDTextField" destination="Pra-Or-dFT" id="H5f-5w-ESx"/>
                         <outlet property="mRectAdUnitIDTextField" destination="Ms9-Fa-kbf" id="dKm-Ky-KYI"/>
+                        <outlet property="rewardedAdUnitIDTextField" destination="KAz-le-jVm" id="WHN-PI-ZvH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Ec-P2-KEv" userLabel="First Responder" sceneMemberID="firstResponder"/>

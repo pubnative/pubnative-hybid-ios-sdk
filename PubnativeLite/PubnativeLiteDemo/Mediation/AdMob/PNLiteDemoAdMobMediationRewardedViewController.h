@@ -20,10 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
+#import <UIKit/UIKit.h>
+#import "PNLiteDemoBaseViewController.h"
 
-@import GoogleMobileAds;
+@interface PNLiteDemoAdMobMediationRewardedViewController : PNLiteDemoBaseViewController
 
-@interface HyBidAdMobMediationRewardedCustomEvent : NSObject <GADRewardedAdDelegate>
 @end
