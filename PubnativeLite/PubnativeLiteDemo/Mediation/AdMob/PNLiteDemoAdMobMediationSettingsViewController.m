@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *bannerAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mRectAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *interstitialAdUnitIDTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rewardedAdUnitIDTextField;
 @end
 
 @implementation PNLiteDemoAdMobMediationSettingsViewController
@@ -42,6 +43,7 @@
     self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationBannerAdUnitIDKey];
     self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationMRectAdUnitIDKey];
     self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationInterstitialAdUnitIDKey];
+    self.rewardedAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidAdMobMediationRewardedAdUnitIDKey];
 }
 - (IBAction)saveMoPubMediationSettingsTouchUpInside:(UIButton *)sender
 {
@@ -50,6 +52,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.bannerAdUnitIDTextField.text forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.mRectAdUnitIDTextField.text forKey:kHyBidAdMobMediationMRectAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.interstitialAdUnitIDTextField.text forKey:kHyBidAdMobMediationInterstitialAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.rewardedAdUnitIDTextField.text forKey:kHyBidAdMobMediationRewardedAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -71,4 +74,6 @@
     return YES;
 }
 
+- (IBAction)rewardedAdUnitIDTextField:(id)sender {
+}
 @end

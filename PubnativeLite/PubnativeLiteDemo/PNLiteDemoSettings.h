@@ -47,6 +47,7 @@
 #define kHyBidAdMobMediationMRectAdUnitIDKey @"adMobMediationMRectAdUnitID"
 #define kHyBidAdMobMediationLeaderboardAdUnitIDKey @"adMobMediationLeaderboardAdUnitID"
 #define kHyBidAdMobMediationInterstitialAdUnitIDKey @"adMobMediationInterstitialAdUnitID"
+#define kHyBidAdMobMediationRewardedAdUnitIDKey @"adMobMediationRewardedAdUnitID"
 #define kHyBidDemoAPIURLKey @"apiURL"
 #define kHyBidDemoAppID @"1530210244"
 
