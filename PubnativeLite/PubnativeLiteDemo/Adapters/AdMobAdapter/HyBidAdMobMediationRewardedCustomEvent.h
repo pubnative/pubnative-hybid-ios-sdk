@@ -25,5 +25,5 @@
 
 @import GoogleMobileAds;
 
-@interface HyBidAdMobMediationRewardedCustomEvent : NSObject <GADRewardedAdDelegate>
+@interface HyBidAdMobMediationRewardedCustomEvent : NSObject <GADMediationAdapter>
 @end
