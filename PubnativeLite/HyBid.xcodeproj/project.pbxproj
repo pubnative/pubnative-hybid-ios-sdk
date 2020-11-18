@@ -630,6 +630,8 @@
 		6F8C118D2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */; };
 		6F8C118E2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
 		6F8C118F2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
+		6FC29692256537EF00423025 /* VASTTesting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FC29691256537EF00423025 /* VASTTesting.storyboard */; };
+		6FC2969B25653BD300423025 /* PNLiteDemoVASTTestingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC2969A25653BD300423025 /* PNLiteDemoVASTTestingViewController.m */; };
 		6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FD11E572514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; };
 		6FD11E582514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
@@ -1901,6 +1903,9 @@
 		6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAdRequest.m; sourceTree = "<group>"; };
 		6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSKAdNetworkViewController.h; sourceTree = "<group>"; };
 		6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSKAdNetworkViewController.m; sourceTree = "<group>"; };
+		6FC29691256537EF00423025 /* VASTTesting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = VASTTesting.storyboard; sourceTree = "<group>"; };
+		6FC2969925653BD300423025 /* PNLiteDemoVASTTestingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoVASTTestingViewController.h; sourceTree = "<group>"; };
+		6FC2969A25653BD300423025 /* PNLiteDemoVASTTestingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoVASTTestingViewController.m; sourceTree = "<group>"; };
 		6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSkAdNetworkModel.h; sourceTree = "<group>"; };
 		6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkAdNetworkModel.m; sourceTree = "<group>"; };
 		6FE01AD8255D5302006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubMediationRewardedAdCustomEvent.h; sourceTree = "<group>"; };
@@ -2898,6 +2903,7 @@
 				5A049AD1252E130E0066B270 /* Header Bidding */,
 				5AD07C0C22FADF60001BF4A1 /* Markup */,
 				5A921D3C2530B1D4006F1572 /* Signal Data */,
+				6FC2969825653BB100423025 /* VAST Testing */,
 				5AA7EC5D20E4D54D00277E2B /* Storyboards */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
@@ -3387,6 +3393,7 @@
 				5AC886E4241A9E68004E7D74 /* Mediation.storyboard */,
 				5A73BC2224C0CEA3002E1E9D /* Consent.storyboard */,
 				5A921D422530B2B9006F1572 /* SignalData.storyboard */,
+				6FC29691256537EF00423025 /* VASTTesting.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -3661,6 +3668,15 @@
 				6F8C11802539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m */,
 			);
 			path = Rewarded;
+			sourceTree = "<group>";
+		};
+		6FC2969825653BB100423025 /* VAST Testing */ = {
+			isa = PBXGroup;
+			children = (
+				6FC2969925653BD300423025 /* PNLiteDemoVASTTestingViewController.h */,
+				6FC2969A25653BD300423025 /* PNLiteDemoVASTTestingViewController.m */,
+			);
+			path = "VAST Testing";
 			sourceTree = "<group>";
 		};
 		7E4CCA582502A688003A3425 /* iqv */ = {
@@ -4104,6 +4120,7 @@
 				5A69520D251B9843003D44CE /* OpenMeasurement-LICENSE in Resources */,
 				5A049A66252E0D070066B270 /* LICENSE in Resources */,
 				5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */,
+				6FC29692256537EF00423025 /* VASTTesting.storyboard in Resources */,
 				5A049A09252E0D070066B270 /* MoPubSDK.xcconfig in Resources */,
 				5A049A14252E0D070066B270 /* MPCloseBtn@3x.png in Resources */,
 				5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */,
@@ -4254,6 +4271,7 @@
 				5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */,
 				5A8D5D87232B99B100BB8AE3 /* HyBidAdMobMediationBannerCustomEvent.m in Sources */,
 				5A049A61252E0D070066B270 /* MPLocationAuthorizationStatus.m in Sources */,
+				6FC2969B25653BD300423025 /* PNLiteDemoVASTTestingViewController.m in Sources */,
 				5A049A82252E0D070066B270 /* MPIdentityProvider.m in Sources */,
 				5A0499EB252E0D070066B270 /* MPNativeAdData.m in Sources */,
 				5A049A72252E0D070066B270 /* MPFullscreenAdAdapter+Reward.m in Sources */,
