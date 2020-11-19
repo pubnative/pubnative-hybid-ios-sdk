@@ -27,6 +27,7 @@
 @interface PNLiteDemoVASTTestingViewController () <HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *vastTextField;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
@@ -35,12 +36,31 @@
 
 @implementation PNLiteDemoVASTTestingViewController
 
+- (void)viewDidLoad
+{
+    [self setupUI];
+}
+
+- (void)setupUI
+{
+    [self setTitle:@"VAST Testing"];
+    [self.segmentedControl setTitle:@"Interstitial" forSegmentAtIndex:0];
+    [self.segmentedControl setTitle:@"MRect" forSegmentAtIndex:1];
+}
+
 - (IBAction)loadButtonTapped:(UIButton *)sender {
     if ([[self.vastTextField text] isEqualToString:@""]) {
         NSLog(@"The field is empty!");
+        return;
     }
     
-    [self loadVASTTag];
+    switch ([self.segmentedControl selectedSegmentIndex]) {
+        case 0:
+            [self loadVASTTag];
+        case 1:
+            NSLog(@"MRect is not set up yet.");
+        default: break;
+    }
 }
 
 - (void)loadVASTTag
