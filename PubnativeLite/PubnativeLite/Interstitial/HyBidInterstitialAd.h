@@ -44,6 +44,7 @@
 - (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;
 - (void)prepareAdWithContent:(NSString *)adContent;
+- (void)prepareVideoTagFrom:(NSString *)url;
 
 /// Presents the interstitial ad modally from the current view controller.
 ///

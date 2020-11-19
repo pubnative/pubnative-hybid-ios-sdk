@@ -34,6 +34,7 @@
 #import "HyBidVideoAdProcessor.h"
 #import "HyBidVideoAdCacheItem.h"
 #import "HyBidVideoAdCache.h"
+#import "HyBidMarkupUtils.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -106,6 +107,12 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
+- (void)requestVideoTagFrom:(NSString *)url andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate
+{
+    self.delegate = delegate;
+    [[PNLiteHttpRequest alloc] startWithUrlString:url withMethod:@"GET" delegate:self];
+}
+
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
                                                                                                                                                                                                                          withAdSize:[self adSize]
@@ -172,6 +179,39 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         return nil;
     } else {
         return jsonDictonary;
+    }
+}
+
+- (void)processVASTTagResponseFrom:(NSString *)adContent
+{
+    if ([adContent length] != 0) {
+        if ([HyBidMarkupUtils isVastXml:adContent]) {
+            HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
+            [videoAdProcessor processVASTString:adContent completion:^(PNLiteVASTModel *vastModel, NSError *error) {
+                if (!vastModel) {
+                    [self invokeDidFail:error];
+                } else {
+                    NSString *zoneID = @"4";
+                    NSInteger assetGroupID = 15;
+                    NSInteger type = kHyBidAdTypeVideo;
+                    
+                    HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
+                    videoAdCacheItem.vastModel = vastModel;
+                    [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
+                    HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
+                    [self invokeDidLoad:ad];
+                }
+            }];
+        } else {
+            NSInteger assetGroupID = 21;
+            NSInteger type = kHyBidAdTypeHTML;
+            
+            HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
+            [self invokeDidLoad:ad];
+        }
+    } else {
+        NSError *error = [NSError errorWithDomain:@"The server has returned an invalid ad asset" code:0 userInfo:nil];
+        [self invokeDidFail:error];
     }
 }
 
@@ -243,16 +283,21 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
        PNLiteResponseStatusRequestMalformed == statusCode) {
         
         NSString *responseString;
-        if ([self createDictionaryFromData:data]) {
-            responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
+        NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (![HyBidMarkupUtils isVastXml:dataString]) {
+            if ([self createDictionaryFromData:data]) {
+                responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
+            } else {
+                responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+            }
+            
+            [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
+                                                                       withResponse:responseString
+                                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+            [self processResponseWithData:data];
         } else {
-            responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+            [self processVASTTagResponseFrom:dataString];
         }
-        
-        [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                                   withResponse:responseString
-                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
-        [self processResponseWithData:data];
     } else {
         NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
         [self invokeDidFail:statusError];

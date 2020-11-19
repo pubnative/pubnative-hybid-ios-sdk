@@ -21,7 +21,73 @@
 //
 
 #import "PNLiteDemoVASTTestingViewController.h"
+#import "HyBidLogger.h"
+#import "HyBid.h"
+
+@interface PNLiteDemoVASTTestingViewController () <HyBidInterstitialAdDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *vastTextField;
+@property (weak, nonatomic) IBOutlet UIButton *loadButton;
+
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+
+@end
 
 @implementation PNLiteDemoVASTTestingViewController
+
+- (IBAction)loadButtonTapped:(UIButton *)sender {
+    if ([[self.vastTextField text] isEqualToString:@""]) {
+        NSLog(@"The field is empty!");
+    }
+    
+    [self loadVASTTag];
+}
+
+- (void)loadVASTTag
+{
+    NSString *vastURL = [self.vastTextField text];
+    if ([vastURL length] == 0) {
+        NSError *error = [NSError errorWithDomain:@"Please input some vast adserver URL" code:0 userInfo:nil];
+        [self invokeDidFail:error];
+    } else {
+        [self loadVASTTagDirectlyFrom:vastURL];
+    }
+}
+
+- (void)loadVASTTagDirectlyFrom:(NSString *)url
+{
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+    [self.interstitialAd prepareVideoTagFrom:url];
+}
+
+- (void)invokeDidFail:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+    });
+}
+
+#pragma mark - HyBidInterstitialAdDelegate
+
+- (void)interstitialDidLoad {
+    NSLog(@"Interstitial did load");
+    [self.interstitialAd show];
+}
+
+- (void)interstitialDidFailWithError:(NSError *)error {
+    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    [self showAlertControllerWithMessage:error.localizedDescription];
+}
+
+- (void)interstitialDidTrackClick {
+    NSLog(@"Interstitial did track click");
+}
+
+- (void)interstitialDidTrackImpression {
+    NSLog(@"Interstitial did track impression");
+}
+
+- (void)interstitialDidDismiss {
+    NSLog(@"Interstitial did dismiss");
+}
 
 @end
