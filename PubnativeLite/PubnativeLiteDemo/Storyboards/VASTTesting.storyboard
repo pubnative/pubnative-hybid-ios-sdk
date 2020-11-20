@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hfM-SG-3vw">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Lite DemoVAST Testing View Controller-->
+        <scene sceneID="Zwg-yd-X0U">
+            <objects>
+                <viewController id="hfM-SG-3vw" customClass="PNLiteDemoVASTTestingViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rBb-9K-kZe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter VAST Ad Server URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kik-fO-uZb" userLabel="VAST TextField">
+                                <rect key="frame" x="16" y="68" width="382" height="50"/>
+                                <accessibility key="accessibilityConfiguration" identifier="vastTextField" label="VAST TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="j6b-Xv-2ki"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iwv-z7-a3M" userLabel="Load Button">
+                                <rect key="frame" x="16" y="189" width="382" height="50"/>
+                                <color key="backgroundColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadButton" label="Load Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="vZE-nr-iFh"/>
+                                </constraints>
+                                <state key="normal" title="LOAD">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadButtonTapped:" destination="hfM-SG-3vw" eventType="touchUpInside" id="c3L-bt-fAs"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="nSJ-ic-LfX" userLabel="VAST SegmentedControl">
+                                <rect key="frame" x="16" y="134" width="382" height="32"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vWP-e4-9zr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="kik-fO-uZb" firstAttribute="top" secondItem="vWP-e4-9zr" secondAttribute="top" constant="24" id="03U-OI-WHp"/>
+                            <constraint firstItem="nSJ-ic-LfX" firstAttribute="leading" secondItem="vWP-e4-9zr" secondAttribute="leading" constant="16" id="1ud-Z2-J7K"/>
+                            <constraint firstItem="vWP-e4-9zr" firstAttribute="trailing" secondItem="nSJ-ic-LfX" secondAttribute="trailing" constant="16" id="Br3-8S-SDc"/>
+                            <constraint firstItem="vWP-e4-9zr" firstAttribute="trailing" secondItem="Iwv-z7-a3M" secondAttribute="trailing" constant="16" id="OIE-VA-K98"/>
+                            <constraint firstItem="Iwv-z7-a3M" firstAttribute="leading" secondItem="vWP-e4-9zr" secondAttribute="leading" constant="16" id="das-dB-ILU"/>
+                            <constraint firstItem="vWP-e4-9zr" firstAttribute="trailing" secondItem="kik-fO-uZb" secondAttribute="trailing" constant="16" id="e0q-iU-pN2"/>
+                            <constraint firstItem="nSJ-ic-LfX" firstAttribute="top" secondItem="kik-fO-uZb" secondAttribute="bottom" constant="16" id="ptA-cQ-vJY"/>
+                            <constraint firstItem="Iwv-z7-a3M" firstAttribute="top" secondItem="nSJ-ic-LfX" secondAttribute="bottom" constant="24" id="q4k-jI-0i6"/>
+                            <constraint firstItem="kik-fO-uZb" firstAttribute="leading" secondItem="vWP-e4-9zr" secondAttribute="leading" constant="16" id="umC-WV-g7Z"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="loadButton" destination="Iwv-z7-a3M" id="HfJ-xQ-rno"/>
+                        <outlet property="segmentedControl" destination="nSJ-ic-LfX" id="RwG-Pa-Qpx"/>
+                        <outlet property="vastTextField" destination="kik-fO-uZb" id="3SI-jK-f00"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JIv-50-BWY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="158" y="169"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
