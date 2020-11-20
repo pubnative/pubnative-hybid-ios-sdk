@@ -21,11 +21,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AdSourceConfig.h"
+#import "HyBidAdSize.h"
+#import "PNLiteHttpRequest.h"
 
-@interface VastTagAdSource : NSObject
+@interface VastTagAdSource : NSObject<PNLiteHttpRequestDelegate>
 
-@property (nonatomic, strong) HyBidAdRequest *adRequest;
-@property (nonatomic, strong) AdSourceConfig *config;
+@property (nonatomic, strong) AdSourceConfig*config;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 
 - (instancetype)initWithConfig:(AdSourceConfig *)config;

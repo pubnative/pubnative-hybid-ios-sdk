@@ -21,6 +21,7 @@
 //
 
 #import "VastTagAdSource.h"
+#import "HyBidAd.h"
 
 @implementation VastTagAdSource
 
@@ -32,8 +33,24 @@
 }
 
 -(void)load {
-    NSString* zoneId = _config.zoneId;
+    PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
+    [request startWithUrlString:self.config.vastTagUrl withMethod:@"GET" delegate:self];
+}
+
+//MARK: PNLiteHttpRequestDelegate
+
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
+    NSString* content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSInteger assetGroup = 4 ;
+    if (self.adSize == HyBidAdSize.SIZE_INTERSTITIAL) {
+        assetGroup = 15;
+    }
+    HyBidAd* ad = [[HyBidAd alloc]initWithAssetGroup:assetGroup withAdContent:content withAdType:kHyBidAdTypeVideo];
+}
+
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     
 }
+
 
 @end
