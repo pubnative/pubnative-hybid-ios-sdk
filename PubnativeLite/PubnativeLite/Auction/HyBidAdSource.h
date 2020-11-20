@@ -1,5 +1,5 @@
-//
-//  Copyright © 2019 PubNative. All rights reserved.
+////
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidAdRequest.h"
+#import "AdSourceConfig.h"
 
-typedef enum {
-    HEADER_BIDDING,
-    IN_APP_BUDDING,
-    MEDIATION,
-    STANDALONE,
-} IntegrationType;
+@interface HyBidAdSource : NSObject<HyBidAdRequestDelegate>
 
-@interface HyBidIntegrationType : NSObject
+@property (nonatomic, strong) HyBidAdRequest *adRequest;
+@property (nonatomic, strong) AdSourceConfig *config;
+@property (nonatomic, strong) HyBidAdSize *adSize;
 
-+ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType;
+- (instancetype)initWithConfig:(AdSourceConfig *)config;
+- (void)load;
 
 @end

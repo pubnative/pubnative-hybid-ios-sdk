@@ -1,5 +1,5 @@
-//
-//  Copyright © 2019 PubNative. All rights reserved.
+////
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,20 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "VastTagAdSource.h"
 
-typedef enum {
-    HEADER_BIDDING,
-    IN_APP_BUDDING,
-    MEDIATION,
-    STANDALONE,
-} IntegrationType;
+@implementation VastTagAdSource
 
-@interface HyBidIntegrationType : NSObject
+- (instancetype)initWithConfig:(AdSourceConfig *)config {
+    if (self) {
+        self.config = config;
+    }
+    return self;
+}
 
-+ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType;
+-(void)load {
+    NSString* zoneId = _config.zoneId;
+    
+}
 
 @end
