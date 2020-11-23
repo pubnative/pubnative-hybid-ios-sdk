@@ -45,6 +45,7 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 - (NSString *_Nullable)getIABUSPrivacyString;
 - (void)removeIABUSPrivacyString;
 - (BOOL)isCCPAOptOut;
+- (BOOL)isConsentDenied;
 
 - (void)setIABGDPRConsentString:(NSString *_Nullable)privacyString;
 - (NSString *_Nullable)getIABGDPRConsentString;

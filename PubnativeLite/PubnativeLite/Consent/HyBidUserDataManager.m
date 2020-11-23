@@ -297,6 +297,12 @@ NSInteger const PNLiteConsentStateDenied = 0;
     }
 }
 
+- (BOOL)isConsentDenied
+{
+    id consentKeyValue = [[NSUserDefaults standardUserDefaults] objectForKey:PNLiteGDPRConsentStateKey];
+    return (consentKeyValue != nil) && ([consentKeyValue integerValue] == PNLiteConsentStateDenied);
+}
+
 #pragma mark Consent Dialog
 
 - (BOOL)isConsentPageLoaded {
