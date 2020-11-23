@@ -23,14 +23,14 @@
 #import <Foundation/Foundation.h>
 #import "HyBidAdRequest.h"
 #import "AdSourceConfig.h"
+#import "AdSource.h"
 
-@interface HyBidAdSource : NSObject<HyBidAdRequestDelegate>
+@interface HyBidAdSource : AdSource<HyBidAdRequestDelegate>
 
 @property (nonatomic, strong) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) AdSourceConfig *config;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 
 - (instancetype)initWithConfig:(AdSourceConfig *)config;
-- (void)load;
 
 @end

@@ -20,38 +20,28 @@
 //  THE SOFTWARE.
 //
 
-#import "VastTagAdSource.h"
+#import <Foundation/Foundation.h>
+#import "AdSource.h"
 #import "HyBidAd.h"
 
-@implementation VastTagAdSource
+typedef void(^CompletionAdResponses)(NSMutableArray<HyBidAd*>* mAdResponses, NSError* error);
 
-- (instancetype)initWithConfig:(AdSourceConfig *)config {
-    if (self) {
-        self.config = config;
-    }
-    return self;
-}
+typedef enum {
+    READY,
+    AWAITING_RESPONSES,
+    PROCESSING_RESULTS,
+    DONE,
+} AuctionState;
 
-- (void)fetchAd:(CompletionBlock)completionBlock {
-    PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
-    [request startWithUrlString:self.config.vastTagUrl withMethod:@"GET" delegate:self];
-    self.completionBlock = completionBlock;
-}
+@interface Auction : NSObject
 
-//MARK: PNLiteHttpRequestDelegate
+@property (nonatomic) NSTimer *timer;
+@property (nonatomic) AuctionState mAuctionState;
+@property (nonatomic) CompletionAdResponses completionAdResponses;
+@property (nonatomic) NSMutableArray<AdSource*>* mAuctionAdSources;
+@property (nonatomic) NSMutableArray<HyBidAd*>* mAdResponses;
 
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
-    NSString* content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSInteger assetGroup = 4 ;
-    if (self.adSize == HyBidAdSize.SIZE_INTERSTITIAL) {
-        assetGroup = 15;
-    }
-    HyBidAd* ad = [[HyBidAd alloc]initWithAssetGroup:assetGroup withAdContent:content withAdType:kHyBidAdTypeVideo];
-    self.completionBlock(ad, nil);
-}
-
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
-    self.completionBlock(nil, error);
-}
-
+- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources timeout: (int) timeoutInMillis completion: (CompletionAdResponses) completionAdResponses;
+ 
 @end
+

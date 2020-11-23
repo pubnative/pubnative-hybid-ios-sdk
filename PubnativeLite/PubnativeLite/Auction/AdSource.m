@@ -20,38 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "VastTagAdSource.h"
-#import "HyBidAd.h"
+#import "AdSource.h"
 
-@implementation VastTagAdSource
-
-- (instancetype)initWithConfig:(AdSourceConfig *)config {
-    if (self) {
-        self.config = config;
-    }
-    return self;
-}
+@implementation AdSource
 
 - (void)fetchAd:(CompletionBlock)completionBlock {
-    PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
-    [request startWithUrlString:self.config.vastTagUrl withMethod:@"GET" delegate:self];
-    self.completionBlock = completionBlock;
-}
-
-//MARK: PNLiteHttpRequestDelegate
-
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
-    NSString* content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSInteger assetGroup = 4 ;
-    if (self.adSize == HyBidAdSize.SIZE_INTERSTITIAL) {
-        assetGroup = 15;
-    }
-    HyBidAd* ad = [[HyBidAd alloc]initWithAssetGroup:assetGroup withAdContent:content withAdType:kHyBidAdTypeVideo];
-    self.completionBlock(ad, nil);
-}
-
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
-    self.completionBlock(nil, error);
+    
 }
 
 @end

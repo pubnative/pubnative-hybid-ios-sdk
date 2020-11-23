@@ -33,12 +33,14 @@
     return self;
 }
 
--(void)load {
+
+- (void)fetchAd:(CompletionBlock)completionBlock {
     NSString* zoneId = _config.zoneId;
     self.adRequest = [[HyBidAdRequest alloc]init];
     self.adRequest.adSize = self.adSize;
     [self.adRequest setIntegrationType:IN_APP_BUDDING withZoneID:zoneId];
     [self.adRequest requestAdWithDelegate:self withZoneID:zoneId];
+    self.completionBlock = completionBlock;
 }
 
 //MARK: HyBidAdRequestDelegate
@@ -48,10 +50,12 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
+    self.completionBlock(ad, nil);
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ failed with error: %@",request, error.localizedDescription]];
+    self.completionBlock(nil, error);
 }
 
 @end

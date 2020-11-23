@@ -20,38 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "VastTagAdSource.h"
+#import <Foundation/Foundation.h>
 #import "HyBidAd.h"
 
-@implementation VastTagAdSource
+typedef void(^CompletionBlock)(HyBidAd* ad, NSError* error);
 
-- (instancetype)initWithConfig:(AdSourceConfig *)config {
-    if (self) {
-        self.config = config;
-    }
-    return self;
-}
+@interface AdSource : NSObject
 
-- (void)fetchAd:(CompletionBlock)completionBlock {
-    PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
-    [request startWithUrlString:self.config.vastTagUrl withMethod:@"GET" delegate:self];
-    self.completionBlock = completionBlock;
-}
+@property (nonatomic) CompletionBlock completionBlock;
 
-//MARK: PNLiteHttpRequestDelegate
-
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
-    NSString* content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSInteger assetGroup = 4 ;
-    if (self.adSize == HyBidAdSize.SIZE_INTERSTITIAL) {
-        assetGroup = 15;
-    }
-    HyBidAd* ad = [[HyBidAd alloc]initWithAssetGroup:assetGroup withAdContent:content withAdType:kHyBidAdTypeVideo];
-    self.completionBlock(ad, nil);
-}
-
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
-    self.completionBlock(nil, error);
-}
+- (void) fetchAd: (CompletionBlock) completionBlock;
 
 @end
