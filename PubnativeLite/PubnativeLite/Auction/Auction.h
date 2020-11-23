@@ -35,7 +35,6 @@ typedef enum {
 
 @interface Auction : NSObject
 
-@property (nonatomic) NSTimer *timer;
 @property (nonatomic) AuctionState mAuctionState;
 @property (nonatomic) CompletionAdResponses completionAdResponses;
 @property (nonatomic) NSMutableArray<AdSource*>* mAuctionAdSources;
