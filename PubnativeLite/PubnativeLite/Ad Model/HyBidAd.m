@@ -263,4 +263,8 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return queryItem.value;
 }
 
+- (NSComparisonResult)compare:(HyBidAd*)other
+{
+    return [self.eCPM compare:other.eCPM];
+}
 @end

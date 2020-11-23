@@ -24,30 +24,25 @@
 
 @implementation Auction
 
-long mMissingResponses;
-long timeoutInMillis;
-
-- (instancetype)initWithAdSources:(NSMutableArray<AdSource *> *)mAuctionAdSources timeout:(int)timeoutInMillis completion:(CompletionAdResponses)completionAdResponses {
+- (instancetype)initWithAdSources:(NSMutableArray<AdSource *> *)mAuctionAdSources timeout:(int)timeoutInMillis {
     if (self) {
         self.mAuctionAdSources = mAuctionAdSources;
-        self.completionAdResponses = completionAdResponses;
         self.mAuctionState = READY;
-        timeoutInMillis = timeoutInMillis;
+        self.timeoutInMillis = timeoutInMillis;
     }
     return self;
 }
 
--(void)timerFired {
-    if (self.mAuctionState == AWAITING_RESPONSES) {
-        [self processResults];
-    }
-}
-
--(void)runAction {
-    mMissingResponses = self.mAuctionAdSources.count;
-    [self.mAdResponses removeAllObjects];
+-(void)runAction:(CompletionAdResponses)completionAdResponses {
+    self.completionAdResponses = completionAdResponses;
+    self.mMissingResponses = self.mAuctionAdSources.count;
+    self.mAdResponses = [[NSMutableArray alloc]init];
     self.mAuctionState = AWAITING_RESPONSES;
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:timeoutInMillis target:self selector:@selector(timerFired) userInfo:nil repeats:NO];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.timeoutInMillis * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+        [self processResults];
+    });
+    
     [self requestFromAdSources];
 }
 
@@ -57,9 +52,9 @@ long timeoutInMillis;
             if (error == nil) {
                 [self.mAdResponses addObject:ad];
             }
-            mMissingResponses -= 1;
+            self.mMissingResponses -= 1;
             
-            if (self.mAuctionState == AWAITING_RESPONSES && mMissingResponses <= 0) {
+            if (self.mAuctionState == AWAITING_RESPONSES && self.mMissingResponses <= 0) {
                 [self processResults];
             }
             
@@ -69,9 +64,11 @@ long timeoutInMillis;
 
 -(void) processResults {
     self.mAuctionState = PROCESSING_RESULTS;
+    NSArray* mAdResponsesArray = [self.mAdResponses sortedArrayUsingSelector:@selector(compare:)];
+
     if (self.mAdResponses.count > 0 ) {
         self.mAuctionState = DONE;
-        self.completionAdResponses(self.mAdResponses, nil);
+        self.completionAdResponses(mAdResponsesArray, nil);
     } else {
         self.mAuctionState = DONE;
         NSError *error = [NSError errorWithDomain:@"The auction concluded without any winning bid."

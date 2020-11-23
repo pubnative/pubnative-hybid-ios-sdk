@@ -24,7 +24,7 @@
 #import "AdSource.h"
 #import "HyBidAd.h"
 
-typedef void(^CompletionAdResponses)(NSMutableArray<HyBidAd*>* mAdResponses, NSError* error);
+typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
 
 typedef enum {
     READY,
@@ -41,7 +41,11 @@ typedef enum {
 @property (nonatomic) NSMutableArray<AdSource*>* mAuctionAdSources;
 @property (nonatomic) NSMutableArray<HyBidAd*>* mAdResponses;
 
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources timeout: (int) timeoutInMillis completion: (CompletionAdResponses) completionAdResponses;
- 
+@property long mMissingResponses ;
+@property long timeoutInMillis;
+
+- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources timeout: (int) timeoutInMillis;
+-(void)runAction:(CompletionAdResponses)completionAdResponses;
+
 @end
 
