@@ -24,7 +24,7 @@
 
 typedef enum {
     HEADER_BIDDING,
-    IN_APP_BUDDING,
+    IN_APP_BIDDING,
     MEDIATION,
     STANDALONE,
 } IntegrationType;

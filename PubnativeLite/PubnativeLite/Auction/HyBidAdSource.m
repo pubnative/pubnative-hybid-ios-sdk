@@ -38,7 +38,7 @@
     NSString* zoneId = _config.zoneId;
     self.adRequest = [[HyBidAdRequest alloc]init];
     self.adRequest.adSize = self.adSize;
-    [self.adRequest setIntegrationType:IN_APP_BUDDING withZoneID:zoneId];
+    [self.adRequest setIntegrationType:IN_APP_BIDDING withZoneID:zoneId];
     [self.adRequest requestAdWithDelegate:self withZoneID:zoneId];
     self.completionBlock = completionBlock;
 }
