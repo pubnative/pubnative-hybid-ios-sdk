@@ -1,4 +1,4 @@
-////
+//
 //  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,32 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "AdSource.h"
-#import "HyBidAd.h"
+#import <HyBid/HyBid.h>
+#import "HyBidRemoteConfigPlacement.h"
 
-typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
+@interface HyBidRemoteConfigPlacementInfo : HyBidBaseModel
 
-typedef enum {
-    READY,
-    AWAITING_RESPONSES,
-    PROCESSING_RESULTS,
-    DONE,
-} AuctionState;
-
-@interface Auction : NSObject
-
-@property (nonatomic, assign) AuctionState mAuctionState;
-@property (nonatomic, strong) CompletionAdResponses completionAdResponses;
-@property (nonatomic, strong) NSMutableArray<AdSource*>* mAuctionAdSources;
-@property (nonatomic, strong) NSMutableArray<HyBidAd*>* mAdResponses;
-@property (nonatomic, strong) NSString* mZoneId;
-
-@property long mMissingResponses ;
-@property long timeoutInMillis;
-
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (int) timeoutInMillis;
--(void)runAction:(CompletionAdResponses)completionAdResponses;
+@property (nonatomic, assign) NSInteger timeout;
+@property (nonatomic, strong) NSDictionary* placementsDict;
+@property (nonatomic, strong) NSMutableArray<HyBidRemoteConfigPlacement*>* placements;
 
 @end
 

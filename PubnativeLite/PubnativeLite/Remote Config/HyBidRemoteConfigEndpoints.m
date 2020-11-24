@@ -1,4 +1,4 @@
-////
+//
 //  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,32 +20,18 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "AdSource.h"
-#import "HyBidAd.h"
+#import "HyBidRemoteConfigEndpoints.h"
 
-typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
+NSString *const kRemoteConfigScheme = @"https";
+NSString *const kRemoteConfigAuthority = @"hybid-remote-config.herokuapp.com";
 
-typedef enum {
-    READY,
-    AWAITING_RESPONSES,
-    PROCESSING_RESULTS,
-    DONE,
-} AuctionState;
+@implementation HyBidRemoteConfigEndpoints
 
-@interface Auction : NSObject
-
-@property (nonatomic, assign) AuctionState mAuctionState;
-@property (nonatomic, strong) CompletionAdResponses completionAdResponses;
-@property (nonatomic, strong) NSMutableArray<AdSource*>* mAuctionAdSources;
-@property (nonatomic, strong) NSMutableArray<HyBidAd*>* mAdResponses;
-@property (nonatomic, strong) NSString* mZoneId;
-
-@property long mMissingResponses ;
-@property long timeoutInMillis;
-
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (int) timeoutInMillis;
--(void)runAction:(CompletionAdResponses)completionAdResponses;
++ (NSString *)remoteConfigURL {
+    NSURLComponents *components = [[NSURLComponents alloc] init];
+    components.scheme = kRemoteConfigScheme;
+    components.host = kRemoteConfigAuthority;
+    return [NSString stringWithFormat:@"%@", components.URL];
+}
 
 @end
-

@@ -24,8 +24,6 @@
 
 @implementation AdSource
 
-- (void)fetchAd:(CompletionBlock)completionBlock {
-    
-}
+- (void)fetchAdWithZoneId:(NSString*)zoneId completionBlock: (CompletionBlock)completionBlock {}
 
 @end

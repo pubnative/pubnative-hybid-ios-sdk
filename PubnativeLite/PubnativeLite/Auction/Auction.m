@@ -24,11 +24,12 @@
 
 @implementation Auction
 
-- (instancetype)initWithAdSources:(NSMutableArray<AdSource *> *)mAuctionAdSources timeout:(int)timeoutInMillis {
+- (instancetype)initWithAdSources:(NSMutableArray<AdSource *> *)mAuctionAdSources mZoneId:(NSString *)mZoneId timeout:(int)timeoutInMillis {
     if (self) {
         self.mAuctionAdSources = mAuctionAdSources;
         self.mAuctionState = READY;
         self.timeoutInMillis = timeoutInMillis;
+        self.mZoneId = mZoneId;
     }
     return self;
 }
@@ -48,7 +49,7 @@
 
 -(void)requestFromAdSources {
     for (AdSource* adSource in self.mAuctionAdSources) {
-        [adSource fetchAd:^(HyBidAd *ad, NSError *error) {
+        [adSource fetchAdWithZoneId:self.mZoneId completionBlock:^(HyBidAd *ad, NSError *error) {
             if (error == nil) {
                 [self.mAdResponses addObject:ad];
             }
@@ -57,7 +58,6 @@
             if (self.mAuctionState == AWAITING_RESPONSES && self.mMissingResponses <= 0) {
                 [self processResults];
             }
-            
         }];
     }
 }

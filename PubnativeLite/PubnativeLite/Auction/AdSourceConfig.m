@@ -24,29 +24,16 @@
 
 @implementation AdSourceConfig
 
-- (instancetype)initWithJSON:(NSString *)json {
-    NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDictonary = [self createDictionaryFromData:jsonData];
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
     if (self) {
-        self.eCPM = jsonDictonary[@"eCPM"];
-        self.enabled = jsonDictonary[@"enabled"];
-        self.name = jsonDictonary[@"name"];
-        self.vastTagUrl = jsonDictonary[@"vastTagUrl"];
-        self.zoneId = jsonDictonary[@"zoneId"];
+        self.eCPM = [dictionary[@"eCPM"]doubleValue];
+        self.enabled = [dictionary[@"enabled"]boolValue];
+        self.name = [dictionary[@"name"]stringValue];
+        self.vastTagUrl = [dictionary[@"vastTagUrl"]stringValue];
+        self.type = [dictionary[@"type"]stringValue];
     }
     return self;
-}
-
-- (NSDictionary *)createDictionaryFromData:(NSData *)data {
-    NSError *parseError;
-    NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:&parseError];
-    if (parseError) {
-        return nil;
-    } else {
-        return jsonDictonary;
-    }
 }
 
 @end

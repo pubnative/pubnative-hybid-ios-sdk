@@ -1,4 +1,4 @@
-////
+//
 //  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,32 +20,28 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "AdSource.h"
-#import "HyBidAd.h"
+#import "HyBidRemoteConfigPlacementInfo.h"
+#import "HyBidRemoteConfigParameter.h"
 
-typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
+@implementation HyBidRemoteConfigPlacementInfo
 
-typedef enum {
-    READY,
-    AWAITING_RESPONSES,
-    PROCESSING_RESULTS,
-    DONE,
-} AuctionState;
+- (void)dealloc {
+    self.placements = nil;
+}
 
-@interface Auction : NSObject
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (self) {
+        self.timeout = [dictionary[HyBidRemoteConfigParameter.timeout] integerValue];
+        self.placementsDict = [[NSMutableDictionary alloc]initWithDictionary:dictionary[@"placements"]];
+        for (NSNumber *zoneId in self.placementsDict.allKeys) {
+            HyBidRemoteConfigPlacement* hyBidRemoteConfigPlacement = [[HyBidRemoteConfigPlacement alloc]initWithDictionary: self.placementsDict[zoneId]];
+            hyBidRemoteConfigPlacement.zoneId = [zoneId integerValue];
+            [self.placements addObject:hyBidRemoteConfigPlacement];
+        }
 
-@property (nonatomic, assign) AuctionState mAuctionState;
-@property (nonatomic, strong) CompletionAdResponses completionAdResponses;
-@property (nonatomic, strong) NSMutableArray<AdSource*>* mAuctionAdSources;
-@property (nonatomic, strong) NSMutableArray<HyBidAd*>* mAdResponses;
-@property (nonatomic, strong) NSString* mZoneId;
-
-@property long mMissingResponses ;
-@property long timeoutInMillis;
-
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (int) timeoutInMillis;
--(void)runAction:(CompletionAdResponses)completionAdResponses;
+    }
+    return self;
+}
 
 @end
-

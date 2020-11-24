@@ -25,6 +25,7 @@
 #import "HyBidUserDataManager.h"
 #import "PNLiteLocationManager.h"
 #import "HyBidConstants.h"
+#import "HyBidRemoteConfigManager.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 
@@ -53,8 +54,12 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
         [HyBidSettings sharedInstance].appToken = appToken;
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidViewabilityManager sharedInstance];
-        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
-            completion(success);
+        [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {
+            if (remoteConfigSuccess) {
+                [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
+                    completion(success);
+                }];
+            }
         }];
     }
 }

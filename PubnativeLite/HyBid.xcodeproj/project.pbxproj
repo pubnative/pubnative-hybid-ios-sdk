@@ -911,6 +911,38 @@
 		7EE3577D256BC7DD005E6AC6 /* AdSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3577A256BC7DC005E6AC6 /* AdSource.h */; };
 		7EE3577E256BC7DD005E6AC6 /* AdSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3577B256BC7DC005E6AC6 /* AdSource.m */; };
 		7EE3577F256BC7DD005E6AC6 /* AdSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3577B256BC7DC005E6AC6 /* AdSource.m */; };
+		7EE357BF256D4628005E6AC6 /* HyBidRemoteConfigRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3579E256D4626005E6AC6 /* HyBidRemoteConfigRequest.h */; };
+		7EE357C0256D4628005E6AC6 /* HyBidRemoteConfigRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3579E256D4626005E6AC6 /* HyBidRemoteConfigRequest.h */; };
+		7EE357C9256D4628005E6AC6 /* HyBidRemoteConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE357A3256D4626005E6AC6 /* HyBidRemoteConfigRequest.m */; };
+		7EE357CA256D4628005E6AC6 /* HyBidRemoteConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE357A3256D4626005E6AC6 /* HyBidRemoteConfigRequest.m */; };
+		7EE357CB256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE357A4256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.m */; };
+		7EE357CC256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE357A4256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.m */; };
+		7EE357D3256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE357A8256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.h */; };
+		7EE357D4256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE357A8256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.h */; };
+		7EE357D5256D4628005E6AC6 /* HyBidRemoteConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE357A9256D4626005E6AC6 /* HyBidRemoteConfigManager.m */; };
+		7EE357D6256D4628005E6AC6 /* HyBidRemoteConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE357A9256D4626005E6AC6 /* HyBidRemoteConfigManager.m */; };
+		7EE357D7256D4628005E6AC6 /* HyBidRemoteConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE357AA256D4627005E6AC6 /* HyBidRemoteConfigManager.h */; };
+		7EE357D8256D4628005E6AC6 /* HyBidRemoteConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE357AA256D4627005E6AC6 /* HyBidRemoteConfigManager.h */; };
+		7EE35815256D4721005E6AC6 /* HyBidRemoteConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE35813256D4721005E6AC6 /* HyBidRemoteConfigModel.m */; };
+		7EE35816256D4721005E6AC6 /* HyBidRemoteConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE35813256D4721005E6AC6 /* HyBidRemoteConfigModel.m */; };
+		7EE35817256D4721005E6AC6 /* HyBidRemoteConfigModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35814256D4721005E6AC6 /* HyBidRemoteConfigModel.h */; };
+		7EE35818256D4721005E6AC6 /* HyBidRemoteConfigModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35814256D4721005E6AC6 /* HyBidRemoteConfigModel.h */; };
+		7EE35820256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3581E256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m */; };
+		7EE35821256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3581E256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m */; };
+		7EE35822256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3581F256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h */; };
+		7EE35823256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3581F256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h */; };
+		7EE3582B256D474D005E6AC6 /* HyBidRemoteConfigPlacement.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35829256D474C005E6AC6 /* HyBidRemoteConfigPlacement.h */; };
+		7EE3582C256D474D005E6AC6 /* HyBidRemoteConfigPlacement.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35829256D474C005E6AC6 /* HyBidRemoteConfigPlacement.h */; };
+		7EE3582D256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3582A256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m */; };
+		7EE3582E256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3582A256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m */; };
+		7EE35856256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE35854256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m */; };
+		7EE35857256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE35854256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m */; };
+		7EE35858256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35855256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h */; };
+		7EE35859256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35855256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h */; };
+		7EE35861256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3585F256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.m */; };
+		7EE35862256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3585F256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.m */; };
+		7EE35863256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35860256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.h */; };
+		7EE35864256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35860256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.h */; };
 		E7CD0E472522219E00F976D6 /* HyBidSKAdNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */; };
 		E7CD0E4D252221A300F976D6 /* HyBidSKAdNetworkViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */; };
 		E7CD0E53252221AD00F976D6 /* HyBidSKAdNetworkViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */; };
@@ -1960,6 +1992,22 @@
 		7EE3576F256BC672005E6AC6 /* Auction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Auction.m; sourceTree = "<group>"; };
 		7EE3577A256BC7DC005E6AC6 /* AdSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdSource.h; sourceTree = "<group>"; };
 		7EE3577B256BC7DC005E6AC6 /* AdSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdSource.m; sourceTree = "<group>"; };
+		7EE3579E256D4626005E6AC6 /* HyBidRemoteConfigRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigRequest.h; sourceTree = "<group>"; };
+		7EE357A3256D4626005E6AC6 /* HyBidRemoteConfigRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigRequest.m; sourceTree = "<group>"; };
+		7EE357A4256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigEndpoints.m; sourceTree = "<group>"; };
+		7EE357A8256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigEndpoints.h; sourceTree = "<group>"; };
+		7EE357A9256D4626005E6AC6 /* HyBidRemoteConfigManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigManager.m; sourceTree = "<group>"; };
+		7EE357AA256D4627005E6AC6 /* HyBidRemoteConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigManager.h; sourceTree = "<group>"; };
+		7EE35813256D4721005E6AC6 /* HyBidRemoteConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigModel.m; sourceTree = "<group>"; };
+		7EE35814256D4721005E6AC6 /* HyBidRemoteConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigModel.h; sourceTree = "<group>"; };
+		7EE3581E256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigPlacementInfo.m; sourceTree = "<group>"; };
+		7EE3581F256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigPlacementInfo.h; sourceTree = "<group>"; };
+		7EE35829256D474C005E6AC6 /* HyBidRemoteConfigPlacement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigPlacement.h; sourceTree = "<group>"; };
+		7EE3582A256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigPlacement.m; sourceTree = "<group>"; };
+		7EE35854256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigParameter.m; sourceTree = "<group>"; };
+		7EE35855256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigParameter.h; sourceTree = "<group>"; };
+		7EE3585F256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigMeasurement.m; sourceTree = "<group>"; };
+		7EE35860256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigMeasurement.h; sourceTree = "<group>"; };
 		E7F24F1524E41E2F00160097 /* hybidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidscaling.js; sourceTree = "<group>"; };
 		E7F24F1724E4224000160097 /* hybidmraidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidmraidscaling.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3189,6 +3237,7 @@
 				5AFE05DF211C83B9009DF560 /* Native */,
 				5A9B66C520BD57FE0067964E /* VAST */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
+				7EE3579A256D45E0005E6AC6 /* Remote Config */,
 				7E80A741256805DC006BD5EF /* Auction */,
 				5A3657D7203C538A004B4347 /* Categories */,
 				5A064992203DBECC00CDF925 /* Utils */,
@@ -3748,6 +3797,29 @@
 			path = Auction;
 			sourceTree = "<group>";
 		};
+		7EE3579A256D45E0005E6AC6 /* Remote Config */ = {
+			isa = PBXGroup;
+			children = (
+				7EE35860256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.h */,
+				7EE3585F256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.m */,
+				7EE35855256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h */,
+				7EE35854256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m */,
+				7EE35829256D474C005E6AC6 /* HyBidRemoteConfigPlacement.h */,
+				7EE3582A256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m */,
+				7EE3581F256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h */,
+				7EE3581E256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m */,
+				7EE35814256D4721005E6AC6 /* HyBidRemoteConfigModel.h */,
+				7EE35813256D4721005E6AC6 /* HyBidRemoteConfigModel.m */,
+				7EE357A8256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.h */,
+				7EE357A4256D4626005E6AC6 /* HyBidRemoteConfigEndpoints.m */,
+				7EE357AA256D4627005E6AC6 /* HyBidRemoteConfigManager.h */,
+				7EE357A9256D4626005E6AC6 /* HyBidRemoteConfigManager.m */,
+				7EE3579E256D4626005E6AC6 /* HyBidRemoteConfigRequest.h */,
+				7EE357A3256D4626005E6AC6 /* HyBidRemoteConfigRequest.m */,
+			);
+			path = "Remote Config";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -3787,6 +3859,7 @@
 				5ADB0FBB20AF1A8A005BDAF5 /* HyBidGeoIPRequest.h in Headers */,
 				5AEC48BC237067F4009641F1 /* HyBidConstants.h in Headers */,
 				5A4B95DE24D9D3CD00028939 /* HyBidPrebidUtils.h in Headers */,
+				7EE357D3256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.h in Headers */,
 				5ADF9EAF21496C400081355E /* HyBidNativeAdRenderer.h in Headers */,
 				5ACC74EC203595250001CDC3 /* PNLiteMRAIDParser.h in Headers */,
 				5AEC317024698D4E008FD8BD /* HyBidViewabilityWebAdSession.h in Headers */,
@@ -3823,6 +3896,7 @@
 				5AEC317424698D8D008FD8BD /* HyBidViewabilityNativeVideoAdSession.h in Headers */,
 				5A9B66E720BD97530067964E /* PNLiteVASTPlayerViewController.h in Headers */,
 				5A2EC33720C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */,
+				7EE35822256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h in Headers */,
 				5ADF9E772149426B0081355E /* HyBidAdTracker.h in Headers */,
 				5A3657D1203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h in Headers */,
 				5A9B66D620BD6E680067964E /* PNLiteVASTMediaFile.h in Headers */,
@@ -3836,17 +3910,21 @@
 				5A9B66DF20BD8BE00067964E /* PNLiteVASTParser.h in Headers */,
 				6F8C118C2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */,
 				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
+				7EE357BF256D4628005E6AC6 /* HyBidRemoteConfigRequest.h in Headers */,
 				5A91E65F20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h in Headers */,
 				5A9B66C920BD62640067964E /* PNLiteVASTXMLUtil.h in Headers */,
 				5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */,
 				6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */,
+				7EE35817256D4721005E6AC6 /* HyBidRemoteConfigModel.h in Headers */,
 				5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */,
+				7EE35863256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.h in Headers */,
 				5ACC74E7203595250001CDC3 /* PNLitemraidjs.h in Headers */,
 				6F8C115A2539BABD00DC4151 /* HyBidRewardedPresenter.h in Headers */,
 				5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */,
 				5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */,
 				5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */,
 				5ADACD1B202CB88A00617734 /* PNLiteData.h in Headers */,
+				7EE357D7256D4628005E6AC6 /* HyBidRemoteConfigManager.h in Headers */,
 				5A2633542034AB480005EA39 /* PNLiteMRAIDOrientationProperties.h in Headers */,
 				5A91E66720C008E900527BAA /* PNLiteCheckConsentRequest.h in Headers */,
 				6FEFC84C2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */,
@@ -3870,11 +3948,13 @@
 				5ADF9E4D21490E8E0081355E /* HyBidTargetingModel.h in Headers */,
 				5AB6FBDE20AC722A0092C5DD /* PNLiteOrientationManager.h in Headers */,
 				6F8C11702539BCCC00DC4151 /* PNLiteRewardedPresenterDecorator.h in Headers */,
+				7EE35858256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h in Headers */,
 				5ADF9E4921490B9A0081355E /* HyBidRequestParameter.h in Headers */,
 				5ADF9EA7214966880081355E /* HyBidDataModel.h in Headers */,
 				5A64B3FD21E78A3E00160235 /* HyBidAdPresenterFactory.h in Headers */,
 				5AEC316C24698D0E008FD8BD /* HyBidViewabilityAdSession.h in Headers */,
 				5ADF9E8721494F730081355E /* HyBidBannerPresenterFactory.h in Headers */,
+				7EE3582B256D474D005E6AC6 /* HyBidRemoteConfigPlacement.h in Headers */,
 				5A52BFDF2034580A00C4B7C5 /* HyBidLogger.h in Headers */,
 				5AC35B44214A7727001F0ED3 /* HyBidStarRatingView.h in Headers */,
 				5A6923CD2405365F001868A3 /* HyBidAdSize.h in Headers */,
@@ -3898,6 +3978,7 @@
 				7E4CCA102502A5A9003A3425 /* PNLiteVASTInterstitialPresenter.h in Headers */,
 				7E4CCA412502A5F2003A3425 /* PNLiteMRAIDModalViewController.h in Headers */,
 				7E4CC9AB2502A4FC003A3425 /* HyBidVerificationScriptResource.h in Headers */,
+				7EE357D4256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.h in Headers */,
 				7E4CCA552502A616003A3425 /* PNLiteCountryUtils.h in Headers */,
 				7E4CC8CF25029B5A003A3425 /* HyBidMRectAdView.h in Headers */,
 				7E4CCA452502A5F2003A3425 /* PNLiteMRAIDUtil.h in Headers */,
@@ -3919,10 +4000,12 @@
 				7E4CC8BE25029A5F003A3425 /* HyBidNativeAdLoader.h in Headers */,
 				7E4CC9DF2502A57A003A3425 /* PNLiteResponseModel.h in Headers */,
 				7E4CC8AC25029960003A3425 /* HyBidAdRequest.h in Headers */,
+				7EE35823256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h in Headers */,
 				7E4CCA1C2502A5B9003A3425 /* PNLiteVASTEventProcessor.h in Headers */,
 				7E4CC9A52502A4EB003A3425 /* HyBidViewabilityWebAdSession.h in Headers */,
 				7E4CC8C925029B23003A3425 /* HyBidDataModel.h in Headers */,
 				7E4CC8D025029B6B003A3425 /* HyBidInterstitialAd.h in Headers */,
+				7EE357C0256D4628005E6AC6 /* HyBidRemoteConfigRequest.h in Headers */,
 				7E4CC8CB25029B30003A3425 /* HyBidNativeAd.h in Headers */,
 				7E4CCA182502A5B9003A3425 /* PNLiteVASTModel.h in Headers */,
 				7E4CC8BA25029A32003A3425 /* HyBidAdView.h in Headers */,
@@ -3931,11 +4014,13 @@
 				7E4CC9FD2502A593003A3425 /* PNLiteAdPresenterDecorator.h in Headers */,
 				6F8C118D2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */,
 				7E4CC8BB25029A36003A3425 /* HyBidStarRatingView.h in Headers */,
+				7EE35864256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.h in Headers */,
 				7E4CC8CD25029B3C003A3425 /* HyBidAdSize.h in Headers */,
 				7E4CC8C825029B0C003A3425 /* HyBidAdModel.h in Headers */,
 				7E4CC8CC25029B38003A3425 /* HyBidIntegrationType.h in Headers */,
 				7EE35771256BC672005E6AC6 /* Auction.h in Headers */,
 				7E4CC8AD25029970003A3425 /* HyBidMRAIDServiceProvider.h in Headers */,
+				7EE35818256D4721005E6AC6 /* HyBidRemoteConfigModel.h in Headers */,
 				7E4CC9A72502A4F1003A3425 /* HyBidViewabilityNativeAdSession.h in Headers */,
 				6F8C115B2539BABD00DC4151 /* HyBidRewardedPresenter.h in Headers */,
 				7E4CC9AD2502A507003A3425 /* PNLiteRequestInspector.h in Headers */,
@@ -3973,6 +4058,7 @@
 				7E4CC9E32502A57A003A3425 /* PNLiteAssetGroupType.h in Headers */,
 				7E4CC8B3250299F0003A3425 /* HyBidInterstitialAdRequest.h in Headers */,
 				7E80A771256817DA006BD5EF /* VastTagAdSource.h in Headers */,
+				7EE35859256D51A4005E6AC6 /* HyBidRemoteConfigParameter.h in Headers */,
 				7E4CCA3F2502A5F2003A3425 /* PNLiteMRAIDSettings.h in Headers */,
 				7E4CC8D725029D25003A3425 /* HyBidHeaderBiddingUtils.h in Headers */,
 				7E4CC9F42502A587003A3425 /* HyBidVideoAdCacheItem.h in Headers */,
@@ -3989,12 +4075,14 @@
 				7E4CC8B4250299FA003A3425 /* HyBidAdPresenter.h in Headers */,
 				7E4CC9C32502A54C003A3425 /* PNLiteUserConsentRequestModel.h in Headers */,
 				7E4CC8BD25029A49003A3425 /* HyBidViewabilityManager.h in Headers */,
+				7EE3582C256D474D005E6AC6 /* HyBidRemoteConfigPlacement.h in Headers */,
 				7E4CCA382502A5E1003A3425 /* PNLiteVASTXMLUtil.h in Headers */,
 				7E4CC9BF2502A541003A3425 /* PNLiteUserConsentResponseStatus.h in Headers */,
 				7E4CC9B32502A51B003A3425 /* PNLiteImpressionTrackerItem.h in Headers */,
 				7E4CC9D82502A579003A3425 /* PNLiteData.h in Headers */,
 				6F8C11712539BCCC00DC4151 /* PNLiteRewardedPresenterDecorator.h in Headers */,
 				7E4CCA3D2502A5EB003A3425 /* PNLiteCloseButton.h in Headers */,
+				7EE357D8256D4628005E6AC6 /* HyBidRemoteConfigManager.h in Headers */,
 				7E4CC8BF25029A63003A3425 /* HyBidNativeAdRenderer.h in Headers */,
 				7E4CC9DA2502A579003A3425 /* PNLiteAsset.h in Headers */,
 				7E4CC9EA2502A581003A3425 /* PNLiteAdRequestModel.h in Headers */,
@@ -4658,6 +4746,7 @@
 				5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */,
 				5A4B95DF24D9D3CD00028939 /* HyBidPrebidUtils.m in Sources */,
 				5ADF9E4A21490B9A0081355E /* HyBidRequestParameter.m in Sources */,
+				7EE357C9256D4628005E6AC6 /* HyBidRemoteConfigRequest.m in Sources */,
 				5ADF9EB421496E140081355E /* HyBidSettings.m in Sources */,
 				5AC35B45214A7727001F0ED3 /* HyBidStarRatingView.m in Sources */,
 				5ADF9E4E21490E8E0081355E /* HyBidTargetingModel.m in Sources */,
@@ -4665,6 +4754,7 @@
 				5AD51B8B250166D400286A4A /* HyBidVASTAdPresenter.m in Sources */,
 				5A3EDD5023747F8000493EF2 /* HyBidVerificationScriptResource.m in Sources */,
 				5AB2C12E2486981100AFB4A5 /* HyBidVideoAdCache.m in Sources */,
+				7EE35820256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m in Sources */,
 				5AB2C12A248696BA00AFB4A5 /* HyBidVideoAdCacheItem.m in Sources */,
 				E7CD0E472522219E00F976D6 /* HyBidSKAdNetworkViewController.m in Sources */,
 				5AFAF2C525223A900031581B /* HyBidMarkupUtils.m in Sources */,
@@ -4681,6 +4771,7 @@
 				6F8C11832539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m in Sources */,
 				5AA3D5EA20319D82002BFDA3 /* PNLiteAdRequestModel.m in Sources */,
 				5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */,
+				7EE35861256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.m in Sources */,
 				6F8C115C2539BABD00DC4151 /* HyBidRewardedPresenter.m in Sources */,
 				5A20DBE0203B0CB400EF2B3C /* PNLiteAssetGroupType.m in Sources */,
 				5A91E66820C008E900527BAA /* PNLiteCheckConsentRequest.m in Sources */,
@@ -4694,11 +4785,13 @@
 				5A9A886F2108BE59006A081D /* PNLiteImpressionTracker.m in Sources */,
 				5A9A886A2108BB9A006A081D /* PNLiteImpressionTrackerItem.m in Sources */,
 				5AECD5AE20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.m in Sources */,
+				7EE357D5256D4628005E6AC6 /* HyBidRemoteConfigManager.m in Sources */,
 				5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */,
 				6FEFC84E2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m in Sources */,
 				5A3657D2203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m in Sources */,
 				5AE7395620441464003D09DE /* PNLiteMRAIDInterstitialPresenter.m in Sources */,
 				5A2633572034AB480005EA39 /* PNLiteMRAIDOrientationProperties.m in Sources */,
+				7EE3582D256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m in Sources */,
 				5ACC74E5203595250001CDC3 /* PNLiteMRAIDParser.m in Sources */,
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5ACC74E8203595250001CDC3 /* PNLiteMRAIDSettings.m in Sources */,
@@ -4711,7 +4804,10 @@
 				7EE3577E256BC7DD005E6AC6 /* AdSource.m in Sources */,
 				7E80A772256817DA006BD5EF /* VastTagAdSource.m in Sources */,
 				5AA3D5F22031CA96002BFDA3 /* PNLiteReachability.m in Sources */,
+				7EE357CB256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.m in Sources */,
+				7EE35815256D4721005E6AC6 /* HyBidRemoteConfigModel.m in Sources */,
 				5A0779F221340FFA00EBD0E7 /* PNLiteRequestInspector.m in Sources */,
+				7EE35856256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m in Sources */,
 				5A0779EE2134061100EBD0E7 /* PNLiteRequestInspectorModel.m in Sources */,
 				5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */,
 				5A9A885E21088024006A081D /* PNLiteTrackingManager.m in Sources */,
@@ -4757,6 +4853,7 @@
 				7E4CC9DE2502A57A003A3425 /* HyBidAdModel.m in Sources */,
 				7E4CC9FC2502A593003A3425 /* HyBidAdPresenter.m in Sources */,
 				7E4CC9FF2502A593003A3425 /* HyBidAdPresenterFactory.m in Sources */,
+				7EE357D6256D4628005E6AC6 /* HyBidRemoteConfigManager.m in Sources */,
 				7E4CC9EC2502A581003A3425 /* HyBidAdRequest.m in Sources */,
 				7E4CC9E62502A57A003A3425 /* HyBidAdSize.m in Sources */,
 				7E4CC9F92502A58D003A3425 /* HyBidAdTracker.m in Sources */,
@@ -4793,11 +4890,13 @@
 				7E4CCA542502A611003A3425 /* HyBidPrebidUtils.m in Sources */,
 				7E4CC9E72502A581003A3425 /* HyBidRequestParameter.m in Sources */,
 				7E4CC8DA25029F3D003A3425 /* HyBidSettings.m in Sources */,
+				7EE3582E256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m in Sources */,
 				6F8C118F2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */,
 				7E4CC99E2502A4D2003A3425 /* HyBidStarRatingView.m in Sources */,
 				7E4CC8A8250298C6003A3425 /* HyBidStatic.m in Sources */,
 				7E4CC8D925029F37003A3425 /* HyBidTargetingModel.m in Sources */,
 				7E4CC9CB2502A564003A3425 /* HyBidUserDataManager.m in Sources */,
+				7EE35821256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m in Sources */,
 				7E4CCA012502A593003A3425 /* HyBidVASTAdPresenter.m in Sources */,
 				7E4CC9AC2502A500003A3425 /* HyBidVerificationScriptResource.m in Sources */,
 				7E4CC9F72502A587003A3425 /* HyBidVideoAdCache.m in Sources */,
@@ -4810,6 +4909,7 @@
 				6F8C11472539B8E300DC4151 /* HyBidRewardedAd.m in Sources */,
 				7E4CC9A22502A4E3003A3425 /* HyBidViewabilityManager.m in Sources */,
 				7E4CC9A82502A4F3003A3425 /* HyBidViewabilityNativeAdSession.m in Sources */,
+				7EE35857256D51A4005E6AC6 /* HyBidRemoteConfigParameter.m in Sources */,
 				7E4CC9AA2502A4FA003A3425 /* HyBidViewabilityNativeVideoAdSession.m in Sources */,
 				7E4CC9A62502A4EE003A3425 /* HyBidViewabilityWebAdSession.m in Sources */,
 				7E4CC9BA2502A531003A3425 /* HyBidVisibilityTracker.m in Sources */,
@@ -4829,6 +4929,7 @@
 				7E4CC9D92502A579003A3425 /* PNLiteData.m in Sources */,
 				7E4CC9D52502A573003A3425 /* PNLiteHttpRequest.m in Sources */,
 				7E4CC9B22502A518003A3425 /* PNLiteImpressionTracker.m in Sources */,
+				7EE35862256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.m in Sources */,
 				7E4CC9B42502A51E003A3425 /* PNLiteImpressionTrackerItem.m in Sources */,
 				7E4CCA0D2502A5A9003A3425 /* PNLiteInterstitialPresenterDecorator.m in Sources */,
 				7E4CC9CF2502A56E003A3425 /* PNLiteLocationManager.m in Sources */,
@@ -4857,6 +4958,7 @@
 				7E4CC9C82502A55B003A3425 /* PNLiteUserConsentRequest.m in Sources */,
 				7E4CC9C42502A54F003A3425 /* PNLiteUserConsentRequestModel.m in Sources */,
 				7E4CC9C62502A554003A3425 /* PNLiteUserConsentResponseModel.m in Sources */,
+				7EE35816256D4721005E6AC6 /* HyBidRemoteConfigModel.m in Sources */,
 				7E4CC9C02502A544003A3425 /* PNLiteUserConsentResponseStatus.m in Sources */,
 				7E4CCA1D2502A5B9003A3425 /* PNLiteVASTEventProcessor.m in Sources */,
 				7E4CCA112502A5A9003A3425 /* PNLiteVASTInterstitialPresenter.m in Sources */,
@@ -4866,10 +4968,12 @@
 				7E4CCA1B2502A5B9003A3425 /* PNLiteVASTParser.m in Sources */,
 				7E4CCA312502A5D3003A3425 /* PNLiteVASTPlayerInterstitialViewController.m in Sources */,
 				7E4CCA1F2502A5B9003A3425 /* PNLiteVASTPlayerViewController.m in Sources */,
+				7EE357CA256D4628005E6AC6 /* HyBidRemoteConfigRequest.m in Sources */,
 				7E80A74725680656006BD5EF /* AdSourceConfig.m in Sources */,
 				7EE3577F256BC7DD005E6AC6 /* AdSource.m in Sources */,
 				7E4CCA392502A5E1003A3425 /* PNLiteVASTXMLUtil.m in Sources */,
 				7E4CC9BC2502A536003A3425 /* PNLiteVisibilityTrackerItem.m in Sources */,
+				7EE357CC256D4628005E6AC6 /* HyBidRemoteConfigEndpoints.m in Sources */,
 				7E4CCA502502A604003A3425 /* UIApplication+PNLiteTopViewController.m in Sources */,
 				6F8C115D2539BABD00DC4151 /* HyBidRewardedPresenter.m in Sources */,
 			);

@@ -1,4 +1,4 @@
-////
+//
 //  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,32 +20,19 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "AdSource.h"
-#import "HyBidAd.h"
+#import "HyBidRemoteConfigPlacement.h"
+#import "AdSourceConfig.h"
 
-typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
+@implementation HyBidRemoteConfigPlacement
 
-typedef enum {
-    READY,
-    AWAITING_RESPONSES,
-    PROCESSING_RESULTS,
-    DONE,
-} AuctionState;
-
-@interface Auction : NSObject
-
-@property (nonatomic, assign) AuctionState mAuctionState;
-@property (nonatomic, strong) CompletionAdResponses completionAdResponses;
-@property (nonatomic, strong) NSMutableArray<AdSource*>* mAuctionAdSources;
-@property (nonatomic, strong) NSMutableArray<HyBidAd*>* mAdResponses;
-@property (nonatomic, strong) NSString* mZoneId;
-
-@property long mMissingResponses ;
-@property long timeoutInMillis;
-
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (int) timeoutInMillis;
--(void)runAction:(CompletionAdResponses)completionAdResponses;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (self) {
+        self.timeout = [dictionary[@"timeout"]integerValue];
+        self.type = [dictionary[@"timeout"]stringValue];
+        self.adSources = [AdSourceConfig parseArrayValues:dictionary[@"ad_sources"]];
+    }
+    return self;
+}
 
 @end
-

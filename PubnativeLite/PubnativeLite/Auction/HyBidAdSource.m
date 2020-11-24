@@ -33,9 +33,7 @@
     return self;
 }
 
-
-- (void)fetchAd:(CompletionBlock)completionBlock {
-    NSString* zoneId = _config.zoneId;
+- (void)fetchAdWithZoneId:(NSString *)zoneId completionBlock:(CompletionBlock)completionBlock {
     self.adRequest = [[HyBidAdRequest alloc]init];
     self.adRequest.adSize = self.adSize;
     [self.adRequest setIntegrationType:IN_APP_BIDDING withZoneID:zoneId];

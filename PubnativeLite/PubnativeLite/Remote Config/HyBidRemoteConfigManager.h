@@ -1,4 +1,4 @@
-////
+//
 //  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,31 +21,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AdSource.h"
-#import "HyBidAd.h"
+#import "HyBidRemoteConfigModel.h"
 
-typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
+typedef void (^RemoteConfigManagerCompletionBlock)(BOOL remoteConfigSuccess, HyBidRemoteConfigModel * remoteConfig);
 
-typedef enum {
-    READY,
-    AWAITING_RESPONSES,
-    PROCESSING_RESULTS,
-    DONE,
-} AuctionState;
+@interface HyBidRemoteConfigManager : NSObject
 
-@interface Auction : NSObject
-
-@property (nonatomic, assign) AuctionState mAuctionState;
-@property (nonatomic, strong) CompletionAdResponses completionAdResponses;
-@property (nonatomic, strong) NSMutableArray<AdSource*>* mAuctionAdSources;
-@property (nonatomic, strong) NSMutableArray<HyBidAd*>* mAdResponses;
-@property (nonatomic, strong) NSString* mZoneId;
-
-@property long mMissingResponses ;
-@property long timeoutInMillis;
-
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (int) timeoutInMillis;
--(void)runAction:(CompletionAdResponses)completionAdResponses;
++ (instancetype)sharedInstance;
+- (void)initializeRemoteConfigWithCompletion:(RemoteConfigManagerCompletionBlock)completion;
+- (void)refreshRemoteConfig;
 
 @end
-
