@@ -1,5 +1,5 @@
-//
-//  Copyright © 2019 PubNative. All rights reserved.
+////
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,31 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidIntegrationType.h"
+#import <Foundation/Foundation.h>
+#import "AdSource.h"
+#import "HyBidAd.h"
 
-@implementation HyBidIntegrationType
+typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
 
-+ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType {
-    NSArray *integrationTypes = @[
-                                  @"hb",
-                                  @"iab",
-                                  @"m",
-                                  @"s",
-                                  ];
-    return integrationTypes[integrationType];
-}
+typedef enum {
+    READY,
+    AWAITING_RESPONSES,
+    PROCESSING_RESULTS,
+    DONE,
+} AuctionState;
+
+@interface Auction : NSObject
+
+@property (nonatomic) AuctionState mAuctionState;
+@property (nonatomic) CompletionAdResponses completionAdResponses;
+@property (nonatomic) NSMutableArray<AdSource*>* mAuctionAdSources;
+@property (nonatomic) NSMutableArray<HyBidAd*>* mAdResponses;
+
+@property long mMissingResponses ;
+@property long timeoutInMillis;
+
+- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources timeout: (int) timeoutInMillis;
+-(void)runAction:(CompletionAdResponses)completionAdResponses;
+
 @end
+

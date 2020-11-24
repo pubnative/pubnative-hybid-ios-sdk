@@ -1,5 +1,5 @@
-//
-//  Copyright © 2019 PubNative. All rights reserved.
+////
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidIntegrationType.h"
+#import "AdSource.h"
 
-@implementation HyBidIntegrationType
+@implementation AdSource
 
-+ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType {
-    NSArray *integrationTypes = @[
-                                  @"hb",
-                                  @"iab",
-                                  @"m",
-                                  @"s",
-                                  ];
-    return integrationTypes[integrationType];
+- (void)fetchAd:(CompletionBlock)completionBlock {
+    
 }
+
 @end

@@ -1,5 +1,5 @@
-//
-//  Copyright © 2019 PubNative. All rights reserved.
+////
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidIntegrationType.h"
+#import <Foundation/Foundation.h>
+#import "AdSourceConfig.h"
+#import "HyBidAdSize.h"
+#import "AdSource.h"
+#import "PNLiteHttpRequest.h"
 
-@implementation HyBidIntegrationType
+@interface VastTagAdSource : AdSource<PNLiteHttpRequestDelegate>
 
-+ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType {
-    NSArray *integrationTypes = @[
-                                  @"hb",
-                                  @"iab",
-                                  @"m",
-                                  @"s",
-                                  ];
-    return integrationTypes[integrationType];
-}
+@property (nonatomic, strong) AdSourceConfig*config;
+@property (nonatomic, strong) HyBidAdSize *adSize;
+
+- (instancetype)initWithConfig:(AdSourceConfig *)config;
+
 @end

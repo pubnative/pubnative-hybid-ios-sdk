@@ -1,5 +1,5 @@
-//
-//  Copyright © 2019 PubNative. All rights reserved.
+////
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,33 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidIntegrationType.h"
+#import "AdSourceConfig.h"
 
-@implementation HyBidIntegrationType
+@implementation AdSourceConfig
 
-+ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType {
-    NSArray *integrationTypes = @[
-                                  @"hb",
-                                  @"iab",
-                                  @"m",
-                                  @"s",
-                                  ];
-    return integrationTypes[integrationType];
+- (instancetype)initWithJSON:(NSString *)json {
+    NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDictonary = [self createDictionaryFromData:jsonData];
+    if (self) {
+        self.eCPM = jsonDictonary[@"eCPM"];
+        self.enabled = jsonDictonary[@"enabled"];
+        self.name = jsonDictonary[@"name"];
+        self.vastTagUrl = jsonDictonary[@"vastTagUrl"];
+        self.zoneId = jsonDictonary[@"zoneId"];
+    }
+    return self;
 }
+
+- (NSDictionary *)createDictionaryFromData:(NSData *)data {
+    NSError *parseError;
+    NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
+                                                                  options:NSJSONReadingMutableContainers
+                                                                    error:&parseError];
+    if (parseError) {
+        return nil;
+    } else {
+        return jsonDictonary;
+    }
+}
+
 @end
