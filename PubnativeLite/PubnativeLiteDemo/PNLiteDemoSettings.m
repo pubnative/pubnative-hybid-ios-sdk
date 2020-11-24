@@ -39,6 +39,7 @@
 #define kHyBidDFPHeaderBiddingMRectAdUnitID @"/6499/example/banner"
 #define kHyBidDFPHeaderBiddingInterstitialAdUnitID @"/6499/example/interstitial"
 #define kHyBidAdMobMediationAppID @"ca-app-pub-2576283444991206~5819414108"
+#define kHyBidAdMobMediationNativeAdUnitID @"ca-app-pub-2576283444991206/3019714736"
 #define kHyBidAdMobMediationBannerAdUnitID @"ca-app-pub-2576283444991206/7675421252"
 #define kHyBidAdMobMediationMRectAdUnitID @"ca-app-pub-2576283444991206/1943393054"
 #define kHyBidAdMobMediationLeaderboardAdUnitID @"ca-app-pub-2576283444991206/2969889488"
@@ -98,6 +99,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingInterstitialAdUnitID forKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAPIURL forKey:kHyBidDemoAPIURLKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationAppID forKey:kHyBidAdMobMediationAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationNativeAdUnitID forKey:kHyBidAdMobMediationNativeAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationBannerAdUnitID forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationMRectAdUnitID forKey:kHyBidAdMobMediationMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationLeaderboardAdUnitID forKey:kHyBidAdMobMediationLeaderboardAdUnitIDKey];

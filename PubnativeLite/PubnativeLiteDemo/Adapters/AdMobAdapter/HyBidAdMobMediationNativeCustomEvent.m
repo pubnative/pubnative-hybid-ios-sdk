@@ -24,7 +24,7 @@
 #import "HyBidAdMobMediationNativeAd.h"
 #import "HyBidAdMobUtils.h"
 
-@interface HyBidAdMobMediationNativeCustomEvent() <HyBidNativeAdLoaderDelegate>
+@interface HyBidAdMobMediationNativeCustomEvent() <HyBidNativeAdLoaderDelegate, HyBidNativeAdFetchDelegate>
 
 @property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) GADNativeAdViewAdOptions *nativeAdViewAdOptions;
@@ -81,11 +81,21 @@
 #pragma mark - HyBidNativeAdLoaderDelegate
 
 - (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
+    [nativeAd fetchNativeAdAssetsWithDelegate:self];
+}
+
+- (void)nativeLoaderDidFailWithError:(NSError *)error {
+    [self invokeFailWithMessage:error.localizedDescription];
+}
+
+#pragma mark - HyBidNativeAdFetchDelegate
+
+- (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd {
     HyBidAdMobMediationNativeAd *mediatedNativeAd = [[HyBidAdMobMediationNativeAd alloc] initWithHyBidNativeAd:nativeAd nativeAdViewAdOptions:self.nativeAdViewAdOptions];
     [self.delegate customEventNativeAd:self didReceiveMediatedUnifiedNativeAd:mediatedNativeAd];
 }
 
-- (void)nativeLoaderDidFailWithError:(NSError *)error {
+- (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error {
     [self invokeFailWithMessage:error.localizedDescription];
 }
 

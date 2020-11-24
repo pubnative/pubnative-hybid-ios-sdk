@@ -25,8 +25,6 @@
 @interface HyBidAdMobMediationNativeAd () <HyBidNativeAdDelegate>
 
 @property(nonatomic, strong) HyBidNativeAd *nativeAd;
-@property(nonatomic, strong) GADNativeAdImage *mappedIcon;
-@property(nonatomic, copy) NSArray *mappedImages;
 
 @end
 
@@ -36,7 +34,6 @@
 
 - (void)dealloc {
     self.nativeAd = nil;
-    self.mappedIcon = nil;
 }
 
 - (instancetype)initWithHyBidNativeAd:(HyBidNativeAd *)nativeAd
@@ -47,20 +44,6 @@
     self = [super init];
     if (self) {
         self.nativeAd = nativeAd;
-        
-        if (self.nativeAd.bannerImage) {
-          self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:self.nativeAd.bannerImage] ];
-        } else {
-          NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:self.nativeAd.bannerUrl];
-          self.mappedImages = @[ [[GADNativeAdImage alloc] initWithURL:imageURL scale:1.0] ];
-        }
-        
-        if (self.nativeAd.icon) {
-          self.mappedIcon = [[GADNativeAdImage alloc] initWithImage:self.nativeAd.icon];
-        } else {
-          NSURL *iconURL = [[NSURL alloc] initFileURLWithPath:self.nativeAd.iconUrl];
-          self.mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:1.0];
-        }
     }
     return self;
 }
@@ -82,11 +65,11 @@
 }
 
 - (GADNativeAdImage *)icon {
-    return self.mappedIcon;
+    return [[GADNativeAdImage alloc] initWithImage:self.nativeAd.icon];
 }
 
 - (NSArray *)images {
-  return self.mappedImages;
+  return @[ [[GADNativeAdImage alloc] initWithImage:self.nativeAd.bannerImage] ];
 }
 
 - (UIView *)adChoicesView {
