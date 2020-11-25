@@ -30,5 +30,7 @@
 + (NSString *)timeout;                      { return @"timeout"; }
 + (NSString *)placements;                   { return @"placements"; }
 + (NSString *)viewability;                  { return @"viewability"; }
++ (NSString *)type;                         { return @"type"; }
++ (NSString *)adSources;                    { return @"ad_sources"; }
 
 @end

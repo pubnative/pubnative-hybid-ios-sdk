@@ -20,28 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidRemoteConfigPlacementInfo.h"
-#import "HyBidRemoteConfigParameter.h"
+#import <Foundation/Foundation.h>
 
-@implementation HyBidRemoteConfigPlacementInfo
+@interface AdSourceConfigParameter : NSObject
 
-- (void)dealloc {
-    self.placements = nil;
-}
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-    self = [super initWithDictionary:dictionary];
-    if (self) {
-        self.timeout = [dictionary[HyBidRemoteConfigParameter.timeout] integerValue];
-        self.placementsDict = [[NSMutableDictionary alloc]initWithDictionary:dictionary[HyBidRemoteConfigParameter.placements]];
-        for (NSNumber *zoneId in self.placementsDict.allKeys) {
-            HyBidRemoteConfigPlacement* hyBidRemoteConfigPlacement = [[HyBidRemoteConfigPlacement alloc]initWithDictionary: self.placementsDict[zoneId]];
-            hyBidRemoteConfigPlacement.zoneId = [zoneId integerValue];
-            [self.placements addObject:hyBidRemoteConfigPlacement];
-        }
-
-    }
-    return self;
-}
++ (NSString *)eCPM;
++ (NSString *)enabled;
++ (NSString *)name;
++ (NSString *)vastTagUrl;
++ (NSString *)type;
 
 @end

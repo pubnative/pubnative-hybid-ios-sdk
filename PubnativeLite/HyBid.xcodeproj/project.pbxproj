@@ -901,6 +901,10 @@
 		7E80A771256817DA006BD5EF /* VastTagAdSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E80A76E256817DA006BD5EF /* VastTagAdSource.h */; };
 		7E80A772256817DA006BD5EF /* VastTagAdSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E80A76F256817DA006BD5EF /* VastTagAdSource.m */; };
 		7E80A773256817DA006BD5EF /* VastTagAdSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E80A76F256817DA006BD5EF /* VastTagAdSource.m */; };
+		7E8B932C256E753A003BAD86 /* AdSourceConfigParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8B932A256E753A003BAD86 /* AdSourceConfigParameter.h */; };
+		7E8B932D256E753A003BAD86 /* AdSourceConfigParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8B932A256E753A003BAD86 /* AdSourceConfigParameter.h */; };
+		7E8B932E256E753A003BAD86 /* AdSourceConfigParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */; };
+		7E8B932F256E753A003BAD86 /* AdSourceConfigParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */; };
 		7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
 		7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCDD24BDFE84005D2B64 /* omsdk.js */; };
 		7EE35770256BC672005E6AC6 /* Auction.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3576E256BC672005E6AC6 /* Auction.h */; };
@@ -1986,6 +1990,8 @@
 		7E80A74E25680C98006BD5EF /* HyBidAdSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdSource.m; sourceTree = "<group>"; };
 		7E80A76E256817DA006BD5EF /* VastTagAdSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VastTagAdSource.h; sourceTree = "<group>"; };
 		7E80A76F256817DA006BD5EF /* VastTagAdSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VastTagAdSource.m; sourceTree = "<group>"; };
+		7E8B932A256E753A003BAD86 /* AdSourceConfigParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdSourceConfigParameter.h; sourceTree = "<group>"; };
+		7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdSourceConfigParameter.m; sourceTree = "<group>"; };
 		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
 		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
 		7EE3576E256BC672005E6AC6 /* Auction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Auction.h; sourceTree = "<group>"; };
@@ -3793,6 +3799,8 @@
 				7E80A76F256817DA006BD5EF /* VastTagAdSource.m */,
 				7EE3576E256BC672005E6AC6 /* Auction.h */,
 				7EE3576F256BC672005E6AC6 /* Auction.m */,
+				7E8B932A256E753A003BAD86 /* AdSourceConfigParameter.h */,
+				7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -3838,6 +3846,7 @@
 				5ADF9EBB214972940081355E /* HyBidMRectAdView.h in Headers */,
 				5AC35B3C214A6B5B001F0ED3 /* HyBidNativeAd.h in Headers */,
 				7E80A74425680656006BD5EF /* AdSourceConfig.h in Headers */,
+				7E8B932C256E753A003BAD86 /* AdSourceConfigParameter.h in Headers */,
 				5ADF9E93214956FF0081355E /* HyBidAdCache.h in Headers */,
 				5ADF9E8F214954A40081355E /* HyBidInterstitialPresenterFactory.h in Headers */,
 				5ADF9EB321496E140081355E /* HyBidSettings.h in Headers */,
@@ -4026,6 +4035,7 @@
 				7E4CC9AD2502A507003A3425 /* PNLiteRequestInspector.h in Headers */,
 				7E4CC99B2502A4C6003A3425 /* PNLiteOrientationManager.h in Headers */,
 				7E4CC9C52502A551003A3425 /* PNLiteUserConsentResponseModel.h in Headers */,
+				7E8B932D256E753A003BAD86 /* AdSourceConfigParameter.h in Headers */,
 				7E4CC9D42502A573003A3425 /* PNLiteHttpRequest.h in Headers */,
 				6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */,
 				7E4CC8AE250299A7003A3425 /* HyBidMRAIDView.h in Headers */,
@@ -4711,6 +4721,7 @@
 				6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */,
 				5ADF9E7421493DF00081355E /* HyBidAdPresenter.m in Sources */,
 				5A64B3FE21E78A3E00160235 /* HyBidAdPresenterFactory.m in Sources */,
+				7E8B932E256E753A003BAD86 /* AdSourceConfigParameter.m in Sources */,
 				5ADF9E52214911A90081355E /* HyBidAdRequest.m in Sources */,
 				5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */,
 				5ADF9E782149426B0081355E /* HyBidAdTracker.m in Sources */,
@@ -4877,6 +4888,7 @@
 				7E4CCA032502A598003A3425 /* HyBidLeaderboardAdView.m in Sources */,
 				7E4CCA022502A598003A3425 /* HyBidLeaderboardPresenterFactory.m in Sources */,
 				7E4CC99F2502A4D6003A3425 /* HyBidLogger.m in Sources */,
+				7E8B932F256E753A003BAD86 /* AdSourceConfigParameter.m in Sources */,
 				7E4CCA4A2502A5FA003A3425 /* HyBidMRAIDServiceProvider.m in Sources */,
 				7E4CCA472502A5F2003A3425 /* HyBidMRAIDView.m in Sources */,
 				7E4CC9EF2502A581003A3425 /* HyBidMRectAdRequest.m in Sources */,

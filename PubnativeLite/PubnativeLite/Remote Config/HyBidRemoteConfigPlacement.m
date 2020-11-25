@@ -21,6 +21,7 @@
 //
 
 #import "HyBidRemoteConfigPlacement.h"
+#import "HyBidRemoteConfigParameter.h"
 #import "AdSourceConfig.h"
 
 @implementation HyBidRemoteConfigPlacement
@@ -28,9 +29,9 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.timeout = [dictionary[@"timeout"]integerValue];
-        self.type = [dictionary[@"timeout"]stringValue];
-        self.adSources = [AdSourceConfig parseArrayValues:dictionary[@"ad_sources"]];
+        self.timeout = [dictionary[HyBidRemoteConfigParameter.timeout]integerValue];
+        self.type = [dictionary[HyBidRemoteConfigParameter.type]stringValue];
+        self.adSources = [AdSourceConfig parseArrayValues:dictionary[HyBidRemoteConfigParameter.adSources]];
     }
     return self;
 }

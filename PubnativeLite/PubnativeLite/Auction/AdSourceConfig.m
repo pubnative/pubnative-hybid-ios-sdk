@@ -21,17 +21,18 @@
 //
 
 #import "AdSourceConfig.h"
+#import "AdSourceConfigParameter.h"
 
 @implementation AdSourceConfig
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.eCPM = [dictionary[@"eCPM"]doubleValue];
-        self.enabled = [dictionary[@"enabled"]boolValue];
-        self.name = [dictionary[@"name"]stringValue];
-        self.vastTagUrl = [dictionary[@"vastTagUrl"]stringValue];
-        self.type = [dictionary[@"type"]stringValue];
+        self.eCPM = [dictionary[AdSourceConfigParameter.eCPM]doubleValue];
+        self.enabled = [dictionary[AdSourceConfigParameter.enabled]boolValue];
+        self.name = [dictionary[AdSourceConfigParameter.name]stringValue];
+        self.vastTagUrl = [dictionary[AdSourceConfigParameter.vastTagUrl]stringValue];
+        self.type = [dictionary[AdSourceConfigParameter.type]stringValue];
     }
     return self;
 }

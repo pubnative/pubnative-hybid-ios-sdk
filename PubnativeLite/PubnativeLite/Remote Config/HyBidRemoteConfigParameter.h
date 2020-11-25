@@ -30,5 +30,7 @@
 + (NSString *)timeout;
 + (NSString *)placements;
 + (NSString *)viewability;
++ (NSString *)type;
++ (NSString *)adSources;
 
 @end
