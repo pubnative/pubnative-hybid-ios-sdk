@@ -83,18 +83,14 @@
     [self.nativeAdContainer addSubview:self.nativeAdView];
     self.nativeAdContainer.hidden = NO;
 
+    nativeAdView.nativeAd = nativeAd;
     ((UILabel *)nativeAdView.headlineView).text = nativeAd.headline;
     ((UILabel *)nativeAdView.bodyView).text = nativeAd.body;
-    nativeAdView.bodyView.hidden = nativeAd.body ? NO : YES;
     [((UIButton *)nativeAdView.callToActionView)setTitle:nativeAd.callToAction
                                                 forState:UIControlStateNormal];
-    nativeAdView.callToActionView.hidden = nativeAd.callToAction ? NO : YES;
     nativeAdView.callToActionView.userInteractionEnabled = NO;
     ((UIImageView *)nativeAdView.iconView).image = nativeAd.icon.image;
-    nativeAdView.iconView.hidden = nativeAd.icon ? NO : YES;
     ((UIImageView *)nativeAdView.imageView).image = nativeAd.images.firstObject.image;
-    nativeAdView.imageView.hidden = nativeAd.images.firstObject ? NO : YES;
-    nativeAdView.nativeAd = nativeAd;
 }
 
 - (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error {
