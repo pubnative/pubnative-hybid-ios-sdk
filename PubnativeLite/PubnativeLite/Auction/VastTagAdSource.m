@@ -32,7 +32,7 @@
     return self;
 }
 
-- (void)fetchAd:(CompletionBlock)completionBlock {
+- (void)fetchAdWithZoneId:(NSString *)zoneId completionBlock:(CompletionBlock)completionBlock {
     PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
     [request startWithUrlString:self.config.vastTagUrl withMethod:@"GET" delegate:self];
     self.completionBlock = completionBlock;

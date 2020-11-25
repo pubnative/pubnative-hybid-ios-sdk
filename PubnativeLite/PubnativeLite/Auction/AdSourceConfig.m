@@ -21,32 +21,20 @@
 //
 
 #import "AdSourceConfig.h"
+#import "AdSourceConfigParameter.h"
 
 @implementation AdSourceConfig
 
-- (instancetype)initWithJSON:(NSString *)json {
-    NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonDictonary = [self createDictionaryFromData:jsonData];
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
     if (self) {
-        self.eCPM = jsonDictonary[@"eCPM"];
-        self.enabled = jsonDictonary[@"enabled"];
-        self.name = jsonDictonary[@"name"];
-        self.vastTagUrl = jsonDictonary[@"vastTagUrl"];
-        self.zoneId = jsonDictonary[@"zoneId"];
+        self.eCPM = [dictionary[AdSourceConfigParameter.eCPM]doubleValue];
+        self.enabled = [dictionary[AdSourceConfigParameter.enabled]boolValue];
+        self.name = [dictionary[AdSourceConfigParameter.name]stringValue];
+        self.vastTagUrl = [dictionary[AdSourceConfigParameter.vastTagUrl]stringValue];
+        self.type = [dictionary[AdSourceConfigParameter.type]stringValue];
     }
     return self;
-}
-
-- (NSDictionary *)createDictionaryFromData:(NSData *)data {
-    NSError *parseError;
-    NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:&parseError];
-    if (parseError) {
-        return nil;
-    } else {
-        return jsonDictonary;
-    }
 }
 
 @end

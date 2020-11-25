@@ -20,16 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <HyBid/HyBid.h>
+ 
+@interface AdSourceConfig : HyBidBaseModel
 
-@interface AdSourceConfig : NSObject
-
-@property (nonatomic) NSNumber* eCPM;
-@property (nonatomic) BOOL enabled;
+@property (nonatomic, assign) double eCPM;
+@property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* vastTagUrl;
-@property (nonatomic, strong) NSString* zoneId;
-
-- (instancetype)initWithJSON:(NSString *)json;
+@property (nonatomic, strong) NSString* type;
 
 @end

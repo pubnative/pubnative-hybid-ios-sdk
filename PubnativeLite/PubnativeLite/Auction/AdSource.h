@@ -29,6 +29,6 @@ typedef void(^CompletionBlock)(HyBidAd* ad, NSError* error);
 
 @property (nonatomic) CompletionBlock completionBlock;
 
-- (void) fetchAd: (CompletionBlock) completionBlock;
+- (void)fetchAdWithZoneId:(NSString*)zoneId completionBlock: (CompletionBlock)completionBlock;
 
 @end
