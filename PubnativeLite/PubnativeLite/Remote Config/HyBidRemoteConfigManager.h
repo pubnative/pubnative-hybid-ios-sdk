@@ -28,6 +28,7 @@ typedef void (^RemoteConfigManagerCompletionBlock)(BOOL remoteConfigSuccess, HyB
 @interface HyBidRemoteConfigManager : NSObject
 
 + (instancetype)sharedInstance;
+@property (nonatomic, strong) HyBidRemoteConfigModel *remoteConfigModel;
 - (void)initializeRemoteConfigWithCompletion:(RemoteConfigManagerCompletionBlock)completion;
 - (void)refreshRemoteConfig;
 

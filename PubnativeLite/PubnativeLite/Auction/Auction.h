@@ -44,7 +44,7 @@ typedef enum {
 @property long mMissingResponses ;
 @property long timeoutInMillis;
 
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (int) timeoutInMillis;
+- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (long) timeoutInMillis;
 -(void)runAction:(CompletionAdResponses)completionAdResponses;
 
 @end

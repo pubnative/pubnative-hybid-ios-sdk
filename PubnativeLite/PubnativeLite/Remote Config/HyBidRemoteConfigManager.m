@@ -28,7 +28,6 @@
 @interface HyBidRemoteConfigManager() <HyBidRemoteConfigRequestDelegate>
 
 @property (nonatomic, copy) RemoteConfigManagerCompletionBlock completionBlock;
-@property (nonatomic, strong) HyBidRemoteConfigModel *remoteConfigModel;
 
 @end
 

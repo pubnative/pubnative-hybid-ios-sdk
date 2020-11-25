@@ -24,7 +24,7 @@
 
 @implementation Auction
 
-- (instancetype)initWithAdSources:(NSMutableArray<AdSource *> *)mAuctionAdSources mZoneId:(NSString *)mZoneId timeout:(int)timeoutInMillis {
+- (instancetype)initWithAdSources:(NSMutableArray<AdSource *> *)mAuctionAdSources mZoneId:(NSString *)mZoneId timeout:(long)timeoutInMillis {
     if (self) {
         self.mAuctionAdSources = mAuctionAdSources;
         self.mAuctionState = READY;
