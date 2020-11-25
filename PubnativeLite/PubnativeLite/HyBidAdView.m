@@ -92,7 +92,7 @@
             configModel.placementInfo.placements != nil &&
             configModel.placementInfo.placements.count > 0) {
             
-            NSPredicate *p = [NSPredicate predicateWithFormat:@"zoneId == %@", zoneID];
+            NSPredicate *p = [NSPredicate predicateWithFormat:@"zoneId=%ld", [zoneID integerValue]];
             NSArray<HyBidRemoteConfigPlacement*>* filteredPlacements = [configModel.placementInfo.placements filteredArrayUsingPredicate:p];
             
             if (filteredPlacements.count > 0) {
@@ -119,15 +119,16 @@
                     [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
                         if (error != nil) {
                             self.ad = mAdResponses.firstObject;
-                            if (self.autoShowOnLoad) {
-                                [self renderAd];
-                            } else {
-                                if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
-                                    [self.delegate adViewDidLoad:self];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                if (self.autoShowOnLoad) {
+                                    [self renderAd];
+                                } else {
+                                    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+                                        [self.delegate adViewDidLoad:self];
+                                    }
                                 }
-                            }
+                            });
                         }
-                        
                     }];
                     return;
                 }
