@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubMediationBannerViewController.h"
-#import "MPAdView.h"
+#import <MoPub/MPAdView.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubMediationBannerViewController () <MPAdViewDelegate>

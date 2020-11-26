@@ -24,6 +24,8 @@
 #import <MoPub/MoPub.h>
 #else
 #import "MPFullscreenAdAdapter.h"
+#import "MPLogging.h"
+#import "MPError.h"
 #endif
 
 #import <HyBid/HyBid.h>

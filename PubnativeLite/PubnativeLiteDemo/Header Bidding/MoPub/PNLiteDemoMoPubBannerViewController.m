@@ -22,7 +22,7 @@
 
 #import "PNLiteDemoMoPubBannerViewController.h"
 #import <HyBid/HyBid.h>
-#import "MPAdView.h"
+#import <MoPub/MPAdView.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubBannerViewController () <HyBidAdRequestDelegate, MPAdViewDelegate>

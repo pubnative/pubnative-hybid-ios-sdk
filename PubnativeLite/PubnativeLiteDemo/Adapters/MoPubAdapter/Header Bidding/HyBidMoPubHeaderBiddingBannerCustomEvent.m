@@ -22,9 +22,6 @@
 
 #import "HyBidMoPubHeaderBiddingBannerCustomEvent.h"
 #import "HyBidMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPConstants.h"
-#import "MPError.h"
 
 @interface HyBidMoPubHeaderBiddingBannerCustomEvent () <HyBidAdPresenterDelegate>
 

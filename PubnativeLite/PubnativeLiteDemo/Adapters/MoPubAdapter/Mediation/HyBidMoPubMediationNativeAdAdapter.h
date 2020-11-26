@@ -24,6 +24,8 @@
 #import <MoPub/MoPub.h>
 #else
 #import "MPNativeAdAdapter.h"
+#import "MPNativeAdConstants.h"
+#import "MPLogging.h"
 #endif
 
 #import <HyBid/HyBid.h>

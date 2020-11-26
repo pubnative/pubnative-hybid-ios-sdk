@@ -21,9 +21,9 @@
 //
 
 #import "PNLiteDemoMoPubMediationRewardedViewController.h"
-#import "MPRewardedVideo.h"
+#import <MoPub/MPRewardedVideo.h>
+#import <MoPub/MPRewardedVideoReward.h>
 #import "PNLiteDemoSettings.h"
-#import "MPRewardedVideoReward.h"
 
 @interface PNLiteDemoMoPubMediationRewardedViewController () <MPRewardedVideoDelegate>
 

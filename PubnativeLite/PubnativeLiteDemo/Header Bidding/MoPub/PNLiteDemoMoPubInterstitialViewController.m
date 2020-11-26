@@ -22,7 +22,7 @@
 
 #import "PNLiteDemoMoPubInterstitialViewController.h"
 #import <HyBid/HyBid.h>
-#import "MPInterstitialAdController.h"
+#import <MoPub/MPInterstitialAdController.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubInterstitialViewController () <HyBidAdRequestDelegate, MPInterstitialAdControllerDelegate>
