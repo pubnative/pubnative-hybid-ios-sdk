@@ -128,7 +128,12 @@
                                     }
                                 }
                             });
+                        } else {
+                            if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+                                [self.delegate adView:self didFailWithError:error];
+                            }
                         }
+                        return;
                     }];
                     return;
                 }

@@ -22,6 +22,7 @@
 
 #import "VastTagAdSource.h"
 #import "HyBidAd.h"
+#import "PNLiteVastMacrosUtils.h"
 
 @implementation VastTagAdSource
 
@@ -34,7 +35,7 @@
 
 - (void)fetchAdWithZoneId:(NSString *)zoneId completionBlock:(CompletionBlock)completionBlock {
     PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
-    [request startWithUrlString:self.config.vastTagUrl withMethod:@"GET" delegate:self];
+    [request startWithUrlString:[self processTagUrl:self.config.vastTagUrl] withMethod:@"GET" delegate:self];
     self.completionBlock = completionBlock;
 }
 
@@ -52,6 +53,10 @@
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     self.completionBlock(nil, error);
+}
+
+-(NSString*) processTagUrl:(NSString*) tagUrl {
+    return [PNLiteVastMacrosUtils formatUrl:tagUrl];
 }
 
 @end

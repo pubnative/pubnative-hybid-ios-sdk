@@ -646,6 +646,10 @@
 		6FEFC84F2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */; };
 		6FEFC8502539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */; };
 		6FEFC8752539F9E20097C5FF /* PNLiteDemoPNLiteRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC85C2539F6140097C5FF /* PNLiteDemoPNLiteRewardedViewController.m */; };
+		7E45CF30256FB79400E0FC3D /* PNLiteVastMacrosUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */; };
+		7E45CF31256FB79400E0FC3D /* PNLiteVastMacrosUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */; };
+		7E45CF32256FB79400E0FC3D /* PNLiteVastMacrosUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E45CF2F256FB79400E0FC3D /* PNLiteVastMacrosUtils.m */; };
+		7E45CF33256FB79400E0FC3D /* PNLiteVastMacrosUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E45CF2F256FB79400E0FC3D /* PNLiteVastMacrosUtils.m */; };
 		7E4CC8A8250298C6003A3425 /* HyBidStatic.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CC8A6250298C5003A3425 /* HyBidStatic.m */; };
 		7E4CC8A9250298C6003A3425 /* HyBidStatic.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4CC8A7250298C5003A3425 /* HyBidStatic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E4CC8AA2502991C003A3425 /* HyBidRequestParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E4721490B9A0081355E /* HyBidRequestParameter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1977,6 +1981,8 @@
 		6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteVASTPlayerRewardedViewController.xib; sourceTree = "<group>"; };
 		6FEFC85B2539F6140097C5FF /* PNLiteDemoPNLiteRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteRewardedViewController.h; sourceTree = "<group>"; };
 		6FEFC85C2539F6140097C5FF /* PNLiteDemoPNLiteRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteRewardedViewController.m; sourceTree = "<group>"; };
+		7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVastMacrosUtils.h; sourceTree = "<group>"; };
+		7E45CF2F256FB79400E0FC3D /* PNLiteVastMacrosUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVastMacrosUtils.m; sourceTree = "<group>"; };
 		7E4CC8A6250298C5003A3425 /* HyBidStatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidStatic.m; sourceTree = "<group>"; };
 		7E4CC8A7250298C5003A3425 /* HyBidStatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidStatic.h; sourceTree = "<group>"; };
 		7E4CCA592502A688003A3425 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -3462,6 +3468,8 @@
 				6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */,
 				6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */,
 				6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */,
+				7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */,
+				7E45CF2F256FB79400E0FC3D /* PNLiteVastMacrosUtils.m */,
 			);
 			path = VAST;
 			sourceTree = "<group>";
@@ -3952,6 +3960,7 @@
 				5ADF9E7321493DF00081355E /* HyBidAdPresenter.h in Headers */,
 				5AB2C129248696BA00AFB4A5 /* HyBidVideoAdCacheItem.h in Headers */,
 				5ADF9E602149216E0081355E /* HyBidMRAIDServiceDelegate.h in Headers */,
+				7E45CF30256FB79400E0FC3D /* PNLiteVastMacrosUtils.h in Headers */,
 				5ADF9EAB214969ED0081355E /* HyBidBaseModel.h in Headers */,
 				5A0779ED2134061100EBD0E7 /* PNLiteRequestInspectorModel.h in Headers */,
 				5ADF9E4D21490E8E0081355E /* HyBidTargetingModel.h in Headers */,
@@ -4042,6 +4051,7 @@
 				7E4CCA4B2502A5FF003A3425 /* PNLiteMRAIDOrientationProperties.h in Headers */,
 				7E4CC8B725029A10003A3425 /* HyBidInterstitialPresenterFactory.h in Headers */,
 				7E4CC8B825029A25003A3425 /* HyBidSettings.h in Headers */,
+				7E45CF31256FB79400E0FC3D /* PNLiteVastMacrosUtils.h in Headers */,
 				7E4CC9F82502A58D003A3425 /* HyBidAdTracker.h in Headers */,
 				7EE3577D256BC7DD005E6AC6 /* AdSource.h in Headers */,
 				7E4CCA372502A5E1003A3425 /* PNLiteVASTSchema.h in Headers */,
@@ -4710,6 +4720,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E45CF32256FB79400E0FC3D /* PNLiteVastMacrosUtils.m in Sources */,
 				7E4CCA7A250712A6003A3425 /* PNLiteMRAIDModalViewController.m in Sources */,
 				7E4CCA75250710EB003A3425 /* HyBidHeaderBiddingUtils.m in Sources */,
 				7E4CC8DB2502A007003A3425 /* HyBid.m in Sources */,
@@ -4969,6 +4980,7 @@
 				7E4CC9C22502A549003A3425 /* PNLiteUserConsentModel.m in Sources */,
 				7E4CC9C82502A55B003A3425 /* PNLiteUserConsentRequest.m in Sources */,
 				7E4CC9C42502A54F003A3425 /* PNLiteUserConsentRequestModel.m in Sources */,
+				7E45CF33256FB79400E0FC3D /* PNLiteVastMacrosUtils.m in Sources */,
 				7E4CC9C62502A554003A3425 /* PNLiteUserConsentResponseModel.m in Sources */,
 				7EE35816256D4721005E6AC6 /* HyBidRemoteConfigModel.m in Sources */,
 				7E4CC9C02502A544003A3425 /* PNLiteUserConsentResponseStatus.m in Sources */,

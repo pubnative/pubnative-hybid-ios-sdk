@@ -41,7 +41,9 @@
     self.mAuctionState = AWAITING_RESPONSES;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.timeoutInMillis * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
-        [self processResults];
+        if (self. mAuctionState == AWAITING_RESPONSES) {
+            [self processResults];
+        }
     });
     
     [self requestFromAdSources];
