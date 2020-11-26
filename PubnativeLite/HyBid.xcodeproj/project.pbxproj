@@ -514,6 +514,7 @@
 		5AD1404B2065293D0018845E /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */; };
 		5AD51B8A250166D400286A4A /* HyBidVASTAdPresenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AD51B88250166D400286A4A /* HyBidVASTAdPresenter.h */; };
 		5AD51B8B250166D400286A4A /* HyBidVASTAdPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD51B89250166D400286A4A /* HyBidVASTAdPresenter.m */; };
+		5AD56AA02570154900EC568F /* song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AD56A9F2570154900EC568F /* song.mp3 */; };
 		5ADACD07202C617A00617734 /* PNLiteResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADACD05202C617A00617734 /* PNLiteResponseModel.m */; };
 		5ADACD08202C617A00617734 /* PNLiteResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADACD06202C617A00617734 /* PNLiteResponseModel.h */; };
 		5ADACD1B202CB88A00617734 /* PNLiteData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADACD19202CB88A00617734 /* PNLiteData.h */; };
@@ -1786,6 +1787,7 @@
 		5AD1404A2065293D0018845E /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		5AD51B88250166D400286A4A /* HyBidVASTAdPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTAdPresenter.h; sourceTree = "<group>"; };
 		5AD51B89250166D400286A4A /* HyBidVASTAdPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTAdPresenter.m; sourceTree = "<group>"; };
+		5AD56A9F2570154900EC568F /* song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song.mp3; sourceTree = "<group>"; };
 		5ADACD05202C617A00617734 /* PNLiteResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteResponseModel.m; sourceTree = "<group>"; };
 		5ADACD06202C617A00617734 /* PNLiteResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteResponseModel.h; sourceTree = "<group>"; };
 		5ADACD19202CB88A00617734 /* PNLiteData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteData.h; sourceTree = "<group>"; };
@@ -2883,6 +2885,7 @@
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
 				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
+				5AD56A9F2570154900EC568F /* song.mp3 */,
 				5A82D4E72537630100AEA53F /* NSString+UnescapingString.h */,
 				5A82D4E82537630200AEA53F /* NSString+UnescapingString.m */,
 				5AEDEE50228AEC7C001F00BB /* PNLiteDemoMoPubManager.h */,
@@ -4134,6 +4137,7 @@
 				5A049A1A252E0D070066B270 /* MPMutedBtn@3x.png in Resources */,
 				5A69520E251B9843003D44CE /* GoogleUtilities-LICENSE in Resources */,
 				5A049A2E252E0D070066B270 /* omsdk-v1.js in Resources */,
+				5AD56AA02570154900EC568F /* song.mp3 in Resources */,
 				5A69520B251B9843003D44CE /* Promises-LICENSE in Resources */,
 				5A049A0E252E0D070066B270 /* MPAssets.xcassets in Resources */,
 				5A69520C251B9843003D44CE /* NanoPB-LICENSE in Resources */,
