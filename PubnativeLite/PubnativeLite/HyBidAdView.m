@@ -117,7 +117,7 @@
                     }
                     Auction* auction = [[Auction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
                     [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
-                        if (error != nil) {
+                        if (error == nil) {
                             self.ad = mAdResponses.firstObject;
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 if (self.autoShowOnLoad) {
