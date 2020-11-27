@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdSource.h"
-#import "HyBidLogger.h"
-#import "HyBidIntegrationType.h"
+#import "HyBidVastTagAdSource.h"
+#import "HyBidAd.h"
+#import "PNLiteVastMacrosUtils.h"
 
-@implementation HyBidAdSource
+@implementation HyBidVastTagAdSource
 
-- (instancetype)initWithConfig:(HyBidAdSourceConfig *)config {
+- (instancetype)initWithConfig:(HyBidAdSourceAbstract *)config {
     if (self) {
         self.config = config;
     }
@@ -34,26 +34,29 @@
 }
 
 - (void)fetchAdWithZoneId:(NSString *)zoneId completionBlock:(CompletionBlock)completionBlock {
-    self.adRequest = [[HyBidAdRequest alloc]init];
-    self.adRequest.adSize = self.adSize;
-    [self.adRequest setIntegrationType:IN_APP_BIDDING withZoneID:zoneId];
-    [self.adRequest requestAdWithDelegate:self withZoneID:zoneId];
+    PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
+    [request startWithUrlString:[self processTagUrl:self.config.vastTagUrl] withMethod:@"GET" delegate:self];
     self.completionBlock = completionBlock;
 }
 
-//MARK: HyBidAdRequestDelegate
-- (void)requestDidStart:(HyBidAdRequest *)request {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
-}
+//MARK: PNLiteHttpRequestDelegate
 
-- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
+    NSString* content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSInteger assetGroup = 4 ;
+    if (self.adSize == HyBidAdSize.SIZE_INTERSTITIAL) {
+        assetGroup = 15;
+    }
+    HyBidAd* ad = [[HyBidAd alloc]initWithAssetGroup:assetGroup withAdContent:content withAdType:kHyBidAdTypeVideo];
     self.completionBlock(ad, nil);
 }
 
-- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ failed with error: %@",request, error.localizedDescription]];
+- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     self.completionBlock(nil, error);
+}
+
+-(NSString*) processTagUrl:(NSString*) tagUrl {
+    return [PNLiteVastMacrosUtils formatUrl:tagUrl];
 }
 
 @end

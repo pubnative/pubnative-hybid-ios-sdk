@@ -20,14 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import <HyBid/HyBid.h>
- 
-@interface AdSourceConfig : HyBidBaseModel
+#import <Foundation/Foundation.h>
+#import "HyBidAd.h"
 
-@property (nonatomic, assign) double eCPM;
-@property (nonatomic, assign) BOOL enabled;
-@property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSString* vastTagUrl;
-@property (nonatomic, strong) NSString* type;
+typedef void(^CompletionBlock)(HyBidAd* ad, NSError* error);
+
+@interface HyBidAdSourceAbstract : NSObject
+
+@property (nonatomic) CompletionBlock completionBlock;
+
+- (void)fetchAdWithZoneId:(NSString*)zoneId completionBlock: (CompletionBlock)completionBlock;
 
 @end

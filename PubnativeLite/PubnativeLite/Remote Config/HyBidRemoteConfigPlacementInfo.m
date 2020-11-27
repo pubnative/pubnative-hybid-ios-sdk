@@ -32,6 +32,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
+        self.placements = [[NSMutableArray alloc]init];
         self.timeout = [dictionary[HyBidRemoteConfigParameter.timeout] integerValue];
         self.placementsDict = [[NSMutableDictionary alloc]initWithDictionary:dictionary[HyBidRemoteConfigParameter.placements]];
         for (NSNumber *zoneId in self.placementsDict.allKeys) {
@@ -39,7 +40,7 @@
             hyBidRemoteConfigPlacement.zoneId = [zoneId integerValue];
             [self.placements addObject:hyBidRemoteConfigPlacement];
         }
-
+        
     }
     return self;
 }

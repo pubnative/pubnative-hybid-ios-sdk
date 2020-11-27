@@ -20,38 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "VastTagAdSource.h"
-#import "HyBidAd.h"
+#import "HyBidAdSourceConfig.h"
+#import "AdSourceConfigParameter.h"
 
-@implementation VastTagAdSource
+@implementation HyBidAdSourceConfig
 
-- (instancetype)initWithConfig:(AdSourceConfig *)config {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
     if (self) {
-        self.config = config;
+        self.eCPM = [dictionary[AdSourceConfigParameter.eCPM]doubleValue];
+        self.enabled = [dictionary[AdSourceConfigParameter.enabled]boolValue];
+        self.name = [dictionary[AdSourceConfigParameter.name]stringValue];
+        self.vastTagUrl = [dictionary[AdSourceConfigParameter.vastTagUrl]stringValue];
+        self.type = [dictionary[AdSourceConfigParameter.type]stringValue];
     }
     return self;
-}
-
-- (void)fetchAdWithZoneId:(NSString *)zoneId completionBlock:(CompletionBlock)completionBlock {
-    PNLiteHttpRequest* request = [[PNLiteHttpRequest alloc]init];
-    [request startWithUrlString:self.config.vastTagUrl withMethod:@"GET" delegate:self];
-    self.completionBlock = completionBlock;
-}
-
-//MARK: PNLiteHttpRequestDelegate
-
-- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
-    NSString* content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSInteger assetGroup = 4 ;
-    if (self.adSize == HyBidAdSize.SIZE_INTERSTITIAL) {
-        assetGroup = 15;
-    }
-    HyBidAd* ad = [[HyBidAd alloc]initWithAssetGroup:assetGroup withAdContent:content withAdType:kHyBidAdTypeVideo];
-    self.completionBlock(ad, nil);
-}
-
-- (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
-    self.completionBlock(nil, error);
 }
 
 @end

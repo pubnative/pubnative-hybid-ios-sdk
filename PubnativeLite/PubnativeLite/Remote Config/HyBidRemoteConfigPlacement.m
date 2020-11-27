@@ -22,7 +22,7 @@
 
 #import "HyBidRemoteConfigPlacement.h"
 #import "HyBidRemoteConfigParameter.h"
-#import "AdSourceConfig.h"
+#import "HyBidAdSourceConfig.h"
 
 @implementation HyBidRemoteConfigPlacement
 
@@ -31,7 +31,7 @@
     if (self) {
         self.timeout = [dictionary[HyBidRemoteConfigParameter.timeout]integerValue];
         self.type = [dictionary[HyBidRemoteConfigParameter.type]stringValue];
-        self.adSources = [AdSourceConfig parseArrayValues:dictionary[HyBidRemoteConfigParameter.adSources]];
+        self.adSources = [HyBidAdSourceConfig parseArrayValues:dictionary[HyBidRemoteConfigParameter.adSources]];
     }
     return self;
 }

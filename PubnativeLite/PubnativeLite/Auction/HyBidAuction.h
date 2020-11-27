@@ -21,16 +21,31 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AdSourceConfig.h"
-#import "HyBidAdSize.h"
-#import "AdSource.h"
-#import "PNLiteHttpRequest.h"
+#import "HyBidAdSourceAbstract.h"
+#import "HyBidAd.h"
 
-@interface VastTagAdSource : AdSource<PNLiteHttpRequestDelegate>
+typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
 
-@property (nonatomic, strong) AdSourceConfig*config;
-@property (nonatomic, strong) HyBidAdSize *adSize;
+typedef enum {
+    READY,
+    AWAITING_RESPONSES,
+    PROCESSING_RESULTS,
+    DONE,
+} AuctionState;
 
-- (instancetype)initWithConfig:(AdSourceConfig *)config;
+@interface HyBidAuction : NSObject
+
+@property (nonatomic, assign) AuctionState mAuctionState;
+@property (nonatomic, strong) CompletionAdResponses completionAdResponses;
+@property (nonatomic, strong) NSMutableArray<HyBidAdSourceAbstract*>* mAuctionAdSources;
+@property (nonatomic, strong) NSMutableArray<HyBidAd*>* mAdResponses;
+@property (nonatomic, strong) NSString* mZoneId;
+
+@property long mMissingResponses ;
+@property long timeoutInMillis;
+
+- (instancetype)initWithAdSources: (NSMutableArray<HyBidAdSourceAbstract*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (long) timeoutInMillis;
+-(void)runAction:(CompletionAdResponses)completionAdResponses;
 
 @end
+

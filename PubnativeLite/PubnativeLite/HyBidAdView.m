@@ -24,11 +24,16 @@
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidBannerPresenterFactory.h"
+#import "HyBidRemoteConfigManager.h"
+#import "HyBidRemoteConfigModel.h"
+#import "HyBidAuction.h"
+#import "HyBidVastTagAdSource.h"
 
 @interface HyBidAdView()
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSMutableArray<HyBidAd*>* auctionResponses;
 
 @end
 
@@ -53,6 +58,7 @@
     self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
     if (self) {
         self.adRequest = [[HyBidAdRequest alloc] init];
+        self.auctionResponses = [[NSMutableArray alloc]init];
         self.adSize = adSize;
         self.autoShowOnLoad = true;
     }
@@ -80,10 +86,68 @@
             [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
         }
     } else {
-        self.adRequest.adSize = self.adSize;
-        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
-        [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
+        
+        if (configModel.placementInfo != nil &&
+            configModel.placementInfo.placements != nil &&
+            configModel.placementInfo.placements.count > 0) {
+            
+            NSPredicate *p = [NSPredicate predicateWithFormat:@"zoneId=%ld", [zoneID integerValue]];
+            NSArray<HyBidRemoteConfigPlacement*>* filteredPlacements = [configModel.placementInfo.placements filteredArrayUsingPredicate:p];
+            
+            if (filteredPlacements.count > 0) {
+                
+                HyBidRemoteConfigPlacement *placement = filteredPlacements.firstObject;
+                
+                if (placement.type != nil &&
+                    [placement.type isEqualToString:@"auction"] &&
+                    placement.adSources.count > 0 ) {
+                    
+                    long timeout = 5000;
+                    if (placement.timeout != 0) {
+                        timeout = placement.timeout;
+                    }
+                    NSMutableArray<HyBidAdSourceAbstract*>* adSources = [[NSMutableArray alloc]init];
+                    for (HyBidAdSourceConfig* config in placement.adSources) {
+                        if (config.type != nil &&
+                            [config.type isEqualToString:@"vast_tag"]) {
+                            HyBidVastTagAdSource* vastAdSource = [[HyBidVastTagAdSource alloc]initWithConfig:config];
+                            [adSources addObject:vastAdSource];
+                        }
+                    }
+                    HyBidAuction* auction = [[HyBidAuction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
+                    [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
+                        if (error == nil) {
+                            self.ad = mAdResponses.firstObject;
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                if (self.autoShowOnLoad) {
+                                    [self renderAd];
+                                } else {
+                                    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+                                        [self.delegate adViewDidLoad:self];
+                                    }
+                                }
+                            });
+                        } else {
+                            if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+                                [self.delegate adView:self didFailWithError:error];
+                            }
+                        }
+                        return;
+                    }];
+                    return;
+                }
+            }
+        }
+        [self requestAd];
+        
     }
+}
+
+- (void)requestAd {
+    self.adRequest.adSize = self.adSize;
+    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
+    [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
 }
 
 - (void) show {

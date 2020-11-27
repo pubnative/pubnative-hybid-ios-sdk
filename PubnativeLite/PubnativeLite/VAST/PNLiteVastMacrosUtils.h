@@ -1,4 +1,4 @@
-////
+//
 //  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,10 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "AdSource.h"
+#import <Foundation/Foundation.h>
 
-@implementation AdSource
+@interface PNLiteVastMacrosUtils : NSObject
 
-- (void)fetchAdWithZoneId:(NSString*)zoneId completionBlock: (CompletionBlock)completionBlock {}
++ (NSString*) formatUrl:(NSString*)vastUrl;
 
 @end

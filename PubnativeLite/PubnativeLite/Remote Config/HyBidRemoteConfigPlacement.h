@@ -21,13 +21,13 @@
 //
 
 #import <HyBid/HyBid.h>
-#import "AdSourceConfig.h"
+#import "HyBidAdSourceConfig.h"
 
 @interface HyBidRemoteConfigPlacement : HyBidBaseModel
 
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, assign) NSInteger timeout;
 @property (nonatomic, assign) NSInteger zoneId;
-@property (nonatomic, strong) NSArray<AdSourceConfig*>* adSources;
+@property (nonatomic, strong) NSArray<HyBidAdSourceConfig*>* adSources;
 
 @end

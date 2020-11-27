@@ -22,15 +22,15 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAdRequest.h"
-#import "AdSourceConfig.h"
-#import "AdSource.h"
+#import "HyBidAdSourceConfig.h"
+#import "HyBidAdSourceAbstract.h"
 
-@interface HyBidAdSource : AdSource<HyBidAdRequestDelegate>
+@interface HyBidAdSource : HyBidAdSourceAbstract<HyBidAdRequestDelegate>
 
 @property (nonatomic, strong) HyBidAdRequest *adRequest;
-@property (nonatomic, strong) AdSourceConfig *config;
+@property (nonatomic, strong) HyBidAdSourceConfig *config;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 
-- (instancetype)initWithConfig:(AdSourceConfig *)config;
+- (instancetype)initWithConfig:(HyBidAdSourceConfig *)config;
 
 @end
