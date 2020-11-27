@@ -20,11 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "Auction.h"
+#import "HyBidAuction.h"
 
-@implementation Auction
+@implementation HyBidAuction
 
-- (instancetype)initWithAdSources:(NSMutableArray<AdSource *> *)mAuctionAdSources mZoneId:(NSString *)mZoneId timeout:(long)timeoutInMillis {
+- (instancetype)initWithAdSources:(NSMutableArray<HyBidAdSourceAbstract *> *)mAuctionAdSources mZoneId:(NSString *)mZoneId timeout:(long)timeoutInMillis {
     if (self) {
         self.mAuctionAdSources = mAuctionAdSources;
         self.mAuctionState = READY;
@@ -50,7 +50,7 @@
 }
 
 -(void)requestFromAdSources {
-    for (AdSource* adSource in self.mAuctionAdSources) {
+    for (HyBidAdSourceAbstract* adSource in self.mAuctionAdSources) {
         [adSource fetchAdWithZoneId:self.mZoneId completionBlock:^(HyBidAd *ad, NSError *error) {
             if (error == nil) {
                 [self.mAdResponses addObject:ad];

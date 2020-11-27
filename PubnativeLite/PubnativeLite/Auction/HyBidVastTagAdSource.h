@@ -21,14 +21,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidAd.h"
+#import "HyBidAdSourceConfig.h"
+#import "HyBidAdSize.h"
+#import "HyBidAdSourceAbstract.h"
+#import "PNLiteHttpRequest.h"
 
-typedef void(^CompletionBlock)(HyBidAd* ad, NSError* error);
+@interface HyBidVastTagAdSource : HyBidAdSourceAbstract<PNLiteHttpRequestDelegate>
 
-@interface AdSource : NSObject
+@property (nonatomic, strong) HyBidAdSourceConfig*config;
+@property (nonatomic, strong) HyBidAdSize *adSize;
 
-@property (nonatomic) CompletionBlock completionBlock;
-
-- (void)fetchAdWithZoneId:(NSString*)zoneId completionBlock: (CompletionBlock)completionBlock;
+- (instancetype)initWithConfig:(HyBidAdSourceConfig *)config;
 
 @end

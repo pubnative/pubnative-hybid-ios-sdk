@@ -20,10 +20,21 @@
 //  THE SOFTWARE.
 //
 
-#import "AdSource.h"
+#import "HyBidAdSourceConfig.h"
+#import "AdSourceConfigParameter.h"
 
-@implementation AdSource
+@implementation HyBidAdSourceConfig
 
-- (void)fetchAdWithZoneId:(NSString*)zoneId completionBlock: (CompletionBlock)completionBlock {}
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (self) {
+        self.eCPM = [dictionary[AdSourceConfigParameter.eCPM]doubleValue];
+        self.enabled = [dictionary[AdSourceConfigParameter.enabled]boolValue];
+        self.name = [dictionary[AdSourceConfigParameter.name]stringValue];
+        self.vastTagUrl = [dictionary[AdSourceConfigParameter.vastTagUrl]stringValue];
+        self.type = [dictionary[AdSourceConfigParameter.type]stringValue];
+    }
+    return self;
+}
 
 @end

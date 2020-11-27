@@ -26,8 +26,8 @@
 #import "HyBidBannerPresenterFactory.h"
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidRemoteConfigModel.h"
-#import "Auction.h"
-#import "VastTagAdSource.h"
+#import "HyBidAuction.h"
+#import "HyBidVastTagAdSource.h"
 
 @interface HyBidAdView()
 
@@ -107,15 +107,15 @@
                     if (placement.timeout != 0) {
                         timeout = placement.timeout;
                     }
-                    NSMutableArray<AdSource*>* adSources = [[NSMutableArray alloc]init];
-                    for (AdSourceConfig* config in placement.adSources) {
+                    NSMutableArray<HyBidAdSourceAbstract*>* adSources = [[NSMutableArray alloc]init];
+                    for (HyBidAdSourceConfig* config in placement.adSources) {
                         if (config.type != nil &&
                             [config.type isEqualToString:@"vast_tag"]) {
-                            VastTagAdSource* vastAdSource = [[VastTagAdSource alloc]initWithConfig:config];
+                            HyBidVastTagAdSource* vastAdSource = [[HyBidVastTagAdSource alloc]initWithConfig:config];
                             [adSources addObject:vastAdSource];
                         }
                     }
-                    Auction* auction = [[Auction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
+                    HyBidAuction* auction = [[HyBidAuction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
                     [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
                         if (error == nil) {
                             self.ad = mAdResponses.firstObject;

@@ -20,32 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "AdSource.h"
-#import "HyBidAd.h"
+#import <HyBid/HyBid.h>
+ 
+@interface HyBidAdSourceConfig : HyBidBaseModel
 
-typedef void(^CompletionAdResponses)(NSArray<HyBidAd*>* mAdResponses, NSError* error);
-
-typedef enum {
-    READY,
-    AWAITING_RESPONSES,
-    PROCESSING_RESULTS,
-    DONE,
-} AuctionState;
-
-@interface Auction : NSObject
-
-@property (nonatomic, assign) AuctionState mAuctionState;
-@property (nonatomic, strong) CompletionAdResponses completionAdResponses;
-@property (nonatomic, strong) NSMutableArray<AdSource*>* mAuctionAdSources;
-@property (nonatomic, strong) NSMutableArray<HyBidAd*>* mAdResponses;
-@property (nonatomic, strong) NSString* mZoneId;
-
-@property long mMissingResponses ;
-@property long timeoutInMillis;
-
-- (instancetype)initWithAdSources: (NSMutableArray<AdSource*>*) mAuctionAdSources mZoneId:(NSString*)mZoneId timeout: (long) timeoutInMillis;
--(void)runAction:(CompletionAdResponses)completionAdResponses;
+@property (nonatomic, assign) double eCPM;
+@property (nonatomic, assign) BOOL enabled;
+@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) NSString* vastTagUrl;
+@property (nonatomic, strong) NSString* type;
 
 @end
-

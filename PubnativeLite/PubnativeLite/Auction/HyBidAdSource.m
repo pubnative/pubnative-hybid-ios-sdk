@@ -26,7 +26,7 @@
 
 @implementation HyBidAdSource
 
-- (instancetype)initWithConfig:(AdSourceConfig *)config {
+- (instancetype)initWithConfig:(HyBidAdSourceConfig *)config {
     if (self) {
         self.config = config;
     }

@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "VastTagAdSource.h"
+#import "HyBidVastTagAdSource.h"
 #import "HyBidAd.h"
 #import "PNLiteVastMacrosUtils.h"
 
-@implementation VastTagAdSource
+@implementation HyBidVastTagAdSource
 
-- (instancetype)initWithConfig:(AdSourceConfig *)config {
+- (instancetype)initWithConfig:(HyBidAdSourceAbstract *)config {
     if (self) {
         self.config = config;
     }
