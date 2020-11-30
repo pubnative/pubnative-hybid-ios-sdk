@@ -22,8 +22,6 @@
 
 #import "HyBidMoPubMediationInterstitialCustomEvent.h"
 #import "HyBidMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPError.h"
 
 @interface HyBidMoPubMediationInterstitialCustomEvent() <HyBidInterstitialAdDelegate>
 

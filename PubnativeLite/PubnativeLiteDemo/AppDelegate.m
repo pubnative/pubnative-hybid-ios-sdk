@@ -22,7 +22,7 @@
 
 #import "AppDelegate.h"
 #import "PNLiteDemoSettings.h"
-#import "MoPub.h"
+#import <MoPub/MoPub.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"

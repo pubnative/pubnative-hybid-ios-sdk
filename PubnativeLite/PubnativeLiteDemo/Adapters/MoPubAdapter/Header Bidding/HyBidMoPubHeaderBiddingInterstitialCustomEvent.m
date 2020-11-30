@@ -22,8 +22,6 @@
 
 #import "HyBidMoPubHeaderBiddingInterstitialCustomEvent.h"
 #import "HyBidMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPError.h"
 
 @interface HyBidMoPubHeaderBiddingInterstitialCustomEvent () <HyBidInterstitialPresenterDelegate>
 

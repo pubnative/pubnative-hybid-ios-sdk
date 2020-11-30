@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubMediationInterstitialViewController.h"
-#import "MPInterstitialAdController.h"
+#import <MoPub/MPInterstitialAdController.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubMediationInterstitialViewController () <MPInterstitialAdControllerDelegate>
