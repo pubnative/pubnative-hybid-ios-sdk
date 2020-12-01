@@ -113,8 +113,6 @@
 }
 
 - (NSString *)deviceSound {
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
     if ([AVAudioSession sharedInstance].outputVolume == 0) {
         return @"0";
     } else {

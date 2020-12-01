@@ -27,12 +27,9 @@
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"
 
-@import AVKit;
-
 @import GoogleMobileAds;
 
 @interface AppDelegate ()
-@property (nonatomic, strong) AVPlayer *player;
 @end
 
 @implementation AppDelegate
@@ -73,9 +70,6 @@ CLLocationManager *locationManager;
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
-    
-    [self playSampleSong];
-    
     return YES;
 }
 
@@ -104,15 +98,6 @@ CLLocationManager *locationManager;
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void)playSampleSong
-{
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"song" ofType:@"mp3"];
-    NSURL *itemUrl = [NSURL fileURLWithPath:imagePath];
-    AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:itemUrl];
-    self.player = [[AVPlayer alloc] initWithPlayerItem:item];
-    [self.player play];
 }
 
 @end
