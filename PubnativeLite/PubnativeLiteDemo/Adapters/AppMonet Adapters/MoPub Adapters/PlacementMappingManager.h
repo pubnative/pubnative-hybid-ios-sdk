@@ -21,11 +21,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import "AdRequestInfo.h"
+#import "HyBidAdSize.h"
 
 @interface PlacementMappingManager : NSObject
 
-@end
++ (PlacementMappingManager *)sharedInstance;
+- (AdRequestInfo *)getEcmpMappingFrom:(HyBidAdSize *)adSize andEcpm:(NSString *)eCPM;
 
-NS_ASSUME_NONNULL_END
+@end

@@ -24,12 +24,39 @@
 #import "HyBidMoPubUtils.h"
 #import "MPLogging.h"
 #import "MPError.h"
+#import "AdRequestInfo.h"
+#import "PlacementMappingManager.h"
 
 @implementation AMCustomEventInterstitial
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        NSString *appToken = nil;
+        NSString *zoneID = nil;
+        
+        if ([info objectForKey:@"cpm"] != nil) {
+            NSString *eCPM = [info objectForKey:@"cpm"];
+            AdRequestInfo *adRequestInfo = [[PlacementMappingManager sharedInstance] getEcmpMappingFrom:HyBidAdSize.SIZE_INTERSTITIAL andEcpm:eCPM];
+            
+            if (adRequestInfo != nil &&
+                [[adRequestInfo getAppToken] length] != 0 &&
+                [[adRequestInfo getZoneID] length] != 0) {
+                appToken = [adRequestInfo getAppToken];
+                zoneID = [adRequestInfo getZoneID];
+            }
+        }
+        
+        if ([appToken length] == 0 && [zoneID length] == 0) {
+            if ([HyBidMoPubUtils appToken:info] != nil && [HyBidMoPubUtils zoneID:info] != nil) {
+                appToken = [HyBidMoPubUtils appToken:info];
+                zoneID = [HyBidMoPubUtils zoneID:info];
+            } else {
+                [self invokeFailWithMessage:@"Could not find the required params in CustomEventInterstitial adapterInfo."];
+                return;
+            }
+        }
+        
+        if (appToken != nil || [appToken isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidMoPubUtils zoneID:info]]) {
                 HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
