@@ -30,6 +30,21 @@
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
+        NSString *ecpm;
+        NSString *appToken;
+        HyBidAdSize *adSize = [self getHyBidAdSizeFromSize:size];
+        
+        if (info[@"cpm"] != nil) {
+            ecpm = info[@"cpm"];
+        }
+        
+        
+        
+        
+        
+        
+        
+        
         if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:size]];
             if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidMoPubUtils zoneID:info]]) {

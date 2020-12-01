@@ -621,6 +621,13 @@
 		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F77725501B29006A266F /* AMOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AMOConstants.m */; };
 		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
+		6F8A6D1B25750FB20017D2E9 /* AMCustomEventBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D582F2550713100E024B2 /* AMCustomEventBanner.m */; };
+		6F8A6D2E257512870017D2E9 /* PlacementMappingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A6D2D257512820017D2E9 /* PlacementMappingManager.m */; };
+		6F8A6D35257513DF0017D2E9 /* hybid_mapping.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F8A6D34257513DF0017D2E9 /* hybid_mapping.json */; };
+		6F8A6D66257515810017D2E9 /* AdRequestInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8A6D64257515810017D2E9 /* AdRequestInfo.h */; };
+		6F8A6D67257515810017D2E9 /* AdRequestInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A6D65257515810017D2E9 /* AdRequestInfo.m */; };
+		6F8A6D6F25751FDB0017D2E9 /* ZoneIDMappingModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8A6D6D25751FDB0017D2E9 /* ZoneIDMappingModel.h */; };
+		6F8A6D76257520000017D2E9 /* ZoneIDMappingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A6D6E25751FDB0017D2E9 /* ZoneIDMappingModel.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -1939,6 +1946,13 @@
 		6F09F77525501B29006A266F /* AMOConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMOConstants.m; sourceTree = "<group>"; };
 		6F776D55255AA6BA00951905 /* AppMonetAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetAdView.h; sourceTree = "<group>"; };
 		6F776D56255AA6BA00951905 /* AppMonetAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetAdView.m; sourceTree = "<group>"; };
+		6F8A6D2C257512820017D2E9 /* PlacementMappingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacementMappingManager.h; sourceTree = "<group>"; };
+		6F8A6D2D257512820017D2E9 /* PlacementMappingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacementMappingManager.m; sourceTree = "<group>"; };
+		6F8A6D34257513DF0017D2E9 /* hybid_mapping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = hybid_mapping.json; sourceTree = "<group>"; };
+		6F8A6D64257515810017D2E9 /* AdRequestInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdRequestInfo.h; sourceTree = "<group>"; };
+		6F8A6D65257515810017D2E9 /* AdRequestInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdRequestInfo.m; sourceTree = "<group>"; };
+		6F8A6D6D25751FDB0017D2E9 /* ZoneIDMappingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZoneIDMappingModel.h; sourceTree = "<group>"; };
+		6F8A6D6E25751FDB0017D2E9 /* ZoneIDMappingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZoneIDMappingModel.m; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -3015,6 +3029,13 @@
 				7EF4BF2125595FA0004558D5 /* AppMonetInterstitialAdView.m */,
 				7EF4BF2225595FB8004558D5 /* AppMonetAdView.h */,
 				7EF4BF2325595FB8004558D5 /* AppMonetAdView.m */,
+				6F8A6D2C257512820017D2E9 /* PlacementMappingManager.h */,
+				6F8A6D2D257512820017D2E9 /* PlacementMappingManager.m */,
+				6F8A6D34257513DF0017D2E9 /* hybid_mapping.json */,
+				6F8A6D64257515810017D2E9 /* AdRequestInfo.h */,
+				6F8A6D65257515810017D2E9 /* AdRequestInfo.m */,
+				6F8A6D6D25751FDB0017D2E9 /* ZoneIDMappingModel.h */,
+				6F8A6D6E25751FDB0017D2E9 /* ZoneIDMappingModel.m */,
 			);
 			path = "MoPub Adapters";
 			sourceTree = "<group>";
@@ -3838,6 +3859,7 @@
 				5A262DCD218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h in Headers */,
 				5ADF9E51214911A90081355E /* HyBidAdRequest.h in Headers */,
 				5AFAF2C425223A900031581B /* HyBidMarkupUtils.h in Headers */,
+				6F8A6D6F25751FDB0017D2E9 /* ZoneIDMappingModel.h in Headers */,
 				5A0779F121340FFA00EBD0E7 /* PNLiteRequestInspector.h in Headers */,
 				5ADF9E9B21495C500081355E /* HyBidContentInfoView.h in Headers */,
 				5AC35B40214A7055001F0ED3 /* HyBidAd.h in Headers */,
@@ -3905,6 +3927,7 @@
 				5ACC74E7203595250001CDC3 /* PNLitemraidjs.h in Headers */,
 				6F8C115A2539BABD00DC4151 /* HyBidRewardedPresenter.h in Headers */,
 				5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */,
+				6F8A6D66257515810017D2E9 /* AdRequestInfo.h in Headers */,
 				5AE7395520441464003D09DE /* PNLiteMRAIDInterstitialPresenter.h in Headers */,
 				6F09F77625501B29006A266F /* AMOConstants.h in Headers */,
 				5A3657D5203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h in Headers */,
@@ -4284,6 +4307,7 @@
 				5A2EC34120C83DA5000F9747 /* PNLiteClose@3x.png in Resources */,
 				6FEFC8502539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib in Resources */,
 				5ACC74EE203595250001CDC3 /* PNLiteCloseButton.png in Resources */,
+				6F8A6D35257513DF0017D2E9 /* hybid_mapping.json in Resources */,
 				5A9B66BD20BD57ED0067964E /* PNLiteExternalLink.png in Resources */,
 				5A9B66C420BD57ED0067964E /* PNLiteExternalLink@2x.png in Resources */,
 				5A9B66C120BD57ED0067964E /* PNLiteFullScreen.png in Resources */,
@@ -4582,6 +4606,7 @@
 				5A049A64252E0D070066B270 /* MRNativeCommandHandler.m in Sources */,
 				5A049A78252E0D070066B270 /* MPHTTPNetworkSession.m in Sources */,
 				5A049A80252E0D070066B270 /* MPStopwatch.m in Sources */,
+				6F8A6D76257520000017D2E9 /* ZoneIDMappingModel.m in Sources */,
 				5A0499EF252E0D070066B270 /* MPNativePositionResponseDeserializer.m in Sources */,
 				5A049A55252E0D070066B270 /* MPURLResolver.m in Sources */,
 				5A049A92252E0D070066B270 /* NSObject+MPAdditions.m in Sources */,
@@ -4642,6 +4667,7 @@
 				5A049A51252E0D070066B270 /* MPProgressOverlayView.m in Sources */,
 				5A049A08252E0D070066B270 /* MPAdView.m in Sources */,
 				5A049AB5252E0D070066B270 /* MOPUBActivityIndicatorView.m in Sources */,
+				6F8A6D1B25750FB20017D2E9 /* AMCustomEventBanner.m in Sources */,
 				5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */,
 				5A049A65252E0D070066B270 /* MRVideoPlayerManager.m in Sources */,
 				5A049A3F252E0D070066B270 /* MPDeviceInformation.m in Sources */,
@@ -4664,6 +4690,7 @@
 				7E7CC36524D9ECDE00F3A476 /* Quote.m in Sources */,
 				7E7CC36824D9F0E700F3A476 /* QuoteCell.m in Sources */,
 				5A049A8D252E0D070066B270 /* NSString+MPAdditions.m in Sources */,
+				6F8A6D2E257512870017D2E9 /* PlacementMappingManager.m in Sources */,
 				5A32CECB2029F79B0003B450 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4764,6 +4791,7 @@
 				5A2633552034AB480005EA39 /* PNLiteMRAIDResizeProperties.m in Sources */,
 				5ACC74E8203595250001CDC3 /* PNLiteMRAIDSettings.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
+				6F8A6D67257515810017D2E9 /* AdRequestInfo.m in Sources */,
 				5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,
 				5A9B66EC20BD9DD80067964E /* PNLiteProgressLabel.m in Sources */,
