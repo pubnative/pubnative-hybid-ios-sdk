@@ -1293,6 +1293,10 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     NSString *command = [commandDict valueForKey:@"command"];
     NSObject *paramObj = [commandDict valueForKey:@"paramObj"];
     
+    NSLog(@"commandDict %@", commandDict);
+    if ([command isEqualToString:@"expand:"]) {
+        command = @"expand:supportVerve:";
+    }
     SEL selector = NSSelectorFromString(command);
     
     // Turn off the warning "PerformSelector may cause a leak because its selector is unknown".
