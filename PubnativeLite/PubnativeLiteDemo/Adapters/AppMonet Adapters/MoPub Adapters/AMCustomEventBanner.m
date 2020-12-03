@@ -25,19 +25,48 @@
 #import "MPLogging.h"
 #import "MPConstants.h"
 #import "MPError.h"
+#import "AdRequestInfo.h"
+#import "PlacementMappingManager.h"
 
 @implementation AMCustomEventBanner
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
-    if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+    if (([HyBidMoPubUtils appToken:info] != nil && [HyBidMoPubUtils zoneID:info] != nil) || [HyBidMoPubUtils eCPM:info] != nil) {
+        NSString *appToken = nil;
+        NSString *zoneID = nil;
+        
+        if ([info objectForKey:@"cpm"] != nil) {
+            NSString *eCPM = [info objectForKey:@"cpm"];
+            HyBidAdSize *adSize = [self getHyBidAdSizeFromSize:size];
+            AdRequestInfo *adRequestInfo = [[PlacementMappingManager sharedInstance] getEcmpMappingFrom:adSize andEcpm:eCPM];
+            
+            if (adRequestInfo != nil &&
+                [[adRequestInfo getAppToken] length] != 0 &&
+                [[adRequestInfo getZoneID] length] != 0) {
+                appToken = [adRequestInfo getAppToken];
+                zoneID = [adRequestInfo getZoneID];
+            }
+        }
+        
+        if ([appToken length] == 0 && [zoneID length] == 0) {
+            if ([HyBidMoPubUtils appToken:info] != nil && [HyBidMoPubUtils zoneID:info] != nil) {
+                appToken = [HyBidMoPubUtils appToken:info];
+                zoneID = [HyBidMoPubUtils zoneID:info];
+            } else {
+                [self invokeFailWithMessage:@"Could not find the required params in CustomEventBanner adapterInfo."];
+                return;
+            }
+        }
+        
+        if (appToken != nil || [appToken isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:size]];
-            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidMoPubUtils zoneID:info]]) {
-                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
+            
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:zoneID]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:zoneID];
                 [self.bannerAdView renderAdWithAd:cachedAd withDelegate:self];
             } else {
                 self.bannerAdView.isMediation = YES;
-                [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
+                [self.bannerAdView loadWithZoneID:zoneID andWithDelegate:self];
             }
             MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         } else {

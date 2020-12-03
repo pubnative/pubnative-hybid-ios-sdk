@@ -1939,6 +1939,13 @@
 		6F09F77525501B29006A266F /* AMOConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMOConstants.m; sourceTree = "<group>"; };
 		6F776D55255AA6BA00951905 /* AppMonetAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetAdView.h; sourceTree = "<group>"; };
 		6F776D56255AA6BA00951905 /* AppMonetAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetAdView.m; sourceTree = "<group>"; };
+		6F8A6D2C257512820017D2E9 /* PlacementMappingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacementMappingManager.h; sourceTree = "<group>"; };
+		6F8A6D2D257512820017D2E9 /* PlacementMappingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacementMappingManager.m; sourceTree = "<group>"; };
+		6F8A6D34257513DF0017D2E9 /* hybid_mapping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = hybid_mapping.json; sourceTree = "<group>"; };
+		6F8A6D64257515810017D2E9 /* AdRequestInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdRequestInfo.h; sourceTree = "<group>"; };
+		6F8A6D65257515810017D2E9 /* AdRequestInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdRequestInfo.m; sourceTree = "<group>"; };
+		6F8A6D6D25751FDB0017D2E9 /* ZoneIDMappingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZoneIDMappingModel.h; sourceTree = "<group>"; };
+		6F8A6D6E25751FDB0017D2E9 /* ZoneIDMappingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZoneIDMappingModel.m; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -3015,6 +3022,13 @@
 				7EF4BF2125595FA0004558D5 /* AppMonetInterstitialAdView.m */,
 				7EF4BF2225595FB8004558D5 /* AppMonetAdView.h */,
 				7EF4BF2325595FB8004558D5 /* AppMonetAdView.m */,
+				6F8A6D2C257512820017D2E9 /* PlacementMappingManager.h */,
+				6F8A6D2D257512820017D2E9 /* PlacementMappingManager.m */,
+				6F8A6D34257513DF0017D2E9 /* hybid_mapping.json */,
+				6F8A6D64257515810017D2E9 /* AdRequestInfo.h */,
+				6F8A6D65257515810017D2E9 /* AdRequestInfo.m */,
+				6F8A6D6D25751FDB0017D2E9 /* ZoneIDMappingModel.h */,
+				6F8A6D6E25751FDB0017D2E9 /* ZoneIDMappingModel.m */,
 			);
 			path = "MoPub Adapters";
 			sourceTree = "<group>";

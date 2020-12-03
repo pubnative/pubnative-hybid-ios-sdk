@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HyBidMoPubUtils : NSObject
+@interface ZoneIDMappingModel : NSObject
 
-+ (BOOL)isZoneIDValid:(NSDictionary *)extras;
-+ (BOOL)isAppTokenValid:(NSDictionary *)extras;
-+ (BOOL)areExtrasValid:(NSDictionary *)extras;
-+ (NSString *)appToken:(NSDictionary*)extras;
-+ (NSString *)zoneID:(NSDictionary *)extras;
-+ (NSString *)eCPM:(NSDictionary *)extras;
+- (instancetype)initWithJSONString:(NSString *)jsonString;
+- (NSString *)getAppToken;
+- (NSDictionary<NSString *, NSDictionary<NSString *, NSString *>*>*)getAdSizes;
 
 @end

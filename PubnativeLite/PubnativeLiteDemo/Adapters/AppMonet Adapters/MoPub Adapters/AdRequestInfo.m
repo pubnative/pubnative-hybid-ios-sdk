@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,34 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "AdRequestInfo.h"
 
-@interface HyBidMoPubUtils : NSObject
+@interface AdRequestInfo ()
 
-+ (BOOL)isZoneIDValid:(NSDictionary *)extras;
-+ (BOOL)isAppTokenValid:(NSDictionary *)extras;
-+ (BOOL)areExtrasValid:(NSDictionary *)extras;
-+ (NSString *)appToken:(NSDictionary*)extras;
-+ (NSString *)zoneID:(NSDictionary *)extras;
-+ (NSString *)eCPM:(NSDictionary *)extras;
+@property (nonatomic, strong) NSString *appToken;
+@property (nonatomic, strong) NSString *zoneID;
+@end
+
+@implementation AdRequestInfo
+
+- (instancetype)initWith:(NSString *)appToken andZoneID:(NSString *)zoneID
+{
+    self = [super init];
+    if (self) {
+        self.appToken = appToken;
+        self.zoneID = zoneID;
+    }
+    return self;
+}
+
+- (NSString *)getAppToken
+{
+    return self.appToken;
+}
+
+- (NSString *)getZoneID
+{
+    return self.zoneID;
+}
 
 @end
