@@ -22,19 +22,47 @@
 
 #import "AMCustomEventBanner.h"
 #import "HyBidAdMobUtils.h"
+#import "AdRequestInfo.h"
+#import "PlacementMappingManager.h"
 
 @implementation AMCustomEventBanner
 
 - (void)requestBannerAd:(GADAdSize)adSize parameter:(NSString *)serverParameter label:(NSString *)serverLabel request:(GADCustomEventRequest *)request {
-    if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+    if (([HyBidAdMobUtils appToken:serverParameter] != nil && [HyBidAdMobUtils zoneID:serverParameter] != nil) || [HyBidAdMobUtils eCPM:serverParameter] != nil) {
+        NSString *appToken = nil;
+        NSString *zoneID = nil;
+        
+        if ([HyBidAdMobUtils eCPM:serverParameter] != nil) {
+            NSString *eCPM = [HyBidAdMobUtils eCPM:serverParameter];
+            HyBidAdSize *size = [self getHyBidAdSizeFromSize:adSize];
+            AdRequestInfo *adRequestInfo = [[PlacementMappingManager sharedInstance] getEcmpMappingFrom:size andEcpm:eCPM];
+            
+            if (adRequestInfo != nil &&
+                [[adRequestInfo getAppToken] length] != 0 &&
+                [[adRequestInfo getZoneID] length] != 0) {
+                appToken = [adRequestInfo getAppToken];
+                zoneID = [adRequestInfo getZoneID];
+            }
+        }
+        
+        if ([appToken length] == 0 && [zoneID length] == 0) {
+            if ([HyBidAdMobUtils appToken:serverParameter] != nil && [HyBidAdMobUtils zoneID:serverParameter] != nil) {
+                appToken = [HyBidAdMobUtils appToken:serverParameter];
+                zoneID = [HyBidAdMobUtils zoneID:serverParameter];
+            } else {
+                [self invokeFailWithMessage:@"Could not find the required params in CustomEventBanner adapterInfo."];
+                return;
+            }
+        }
+        
+        if (appToken != nil || [appToken isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:adSize]];
-            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidAdMobUtils zoneID:serverParameter]]) {
-                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidAdMobUtils zoneID:serverParameter]];
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:zoneID]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:zoneID];
                 [self.bannerAdView renderAdWithAd:cachedAd withDelegate:self];
             } else {
                 self.bannerAdView.isMediation = YES;
-                [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
+                [self.bannerAdView loadWithZoneID:zoneID andWithDelegate:self];
             }
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];

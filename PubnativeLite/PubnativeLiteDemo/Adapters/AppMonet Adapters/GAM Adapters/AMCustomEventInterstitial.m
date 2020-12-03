@@ -22,15 +22,42 @@
 
 #import "AMCustomEventInterstitial.h"
 #import "HyBidAdMobUtils.h"
+#import "AdRequestInfo.h"
+#import "PlacementMappingManager.h"
 
 @implementation AMCustomEventInterstitial
 
 - (void)requestInterstitialAdWithParameter:(NSString *)serverParameter label:(NSString *)serverLabel request:(GADCustomEventRequest *)request {
-    if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
-            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidAdMobUtils zoneID:serverParameter]]) {
-                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidAdMobUtils zoneID:serverParameter]];
+    if (([HyBidAdMobUtils appToken:serverParameter] != nil && [HyBidAdMobUtils zoneID:serverParameter] != nil) || [HyBidAdMobUtils eCPM:serverParameter] != nil) {
+        NSString *appToken = nil;
+        NSString *zoneID = nil;
+        
+        if ([HyBidAdMobUtils eCPM:serverParameter] != nil) {
+            NSString *eCPM = [HyBidAdMobUtils eCPM:serverParameter];
+            AdRequestInfo *adRequestInfo = [[PlacementMappingManager sharedInstance] getEcmpMappingFrom:HyBidAdSize.SIZE_INTERSTITIAL andEcpm:eCPM];
+            
+            if (adRequestInfo != nil &&
+                [[adRequestInfo getAppToken] length] != 0 &&
+                [[adRequestInfo getZoneID] length] != 0) {
+                appToken = [adRequestInfo getAppToken];
+                zoneID = [adRequestInfo getZoneID];
+            }
+        }
+        
+        if ([appToken length] == 0 && [zoneID length] == 0) {
+            if ([HyBidAdMobUtils appToken:serverParameter] != nil && [HyBidAdMobUtils zoneID:serverParameter] != nil) {
+                appToken = [HyBidAdMobUtils appToken:serverParameter];
+                zoneID = [HyBidAdMobUtils zoneID:serverParameter];
+            } else {
+                [self invokeFailWithMessage:@"Could not find the required params in CustomEventBanner adapterInfo."];
+                return;
+            }
+        }
+
+        if (appToken != nil || [appToken isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:zoneID andWithDelegate:self];
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:zoneID]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:zoneID];
                 [self.interstitialAd prepareAdWithAd:cachedAd];
             } else {
                 self.interstitialAd.isMediation = YES;

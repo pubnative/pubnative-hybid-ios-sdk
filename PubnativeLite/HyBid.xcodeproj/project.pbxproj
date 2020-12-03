@@ -621,6 +621,8 @@
 		6F09F77625501B29006A266F /* AMOConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F09F77425501B29006A266F /* AMOConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F09F77725501B29006A266F /* AMOConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F77525501B29006A266F /* AMOConstants.m */; };
 		6F1CA4F32552C81C00A351A6 /* AMAppMonetAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F09F763255018A9006A266F /* AMAppMonetAdView.m */; };
+		6F7E56CD2579150F009038E9 /* AMCustomEventBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D5826255070F200E024B2 /* AMCustomEventBanner.m */; };
+		6F7E56E5257917AF009038E9 /* AMCustomEventInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -1939,6 +1941,13 @@
 		6F09F77525501B29006A266F /* AMOConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMOConstants.m; sourceTree = "<group>"; };
 		6F776D55255AA6BA00951905 /* AppMonetAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMonetAdView.h; sourceTree = "<group>"; };
 		6F776D56255AA6BA00951905 /* AppMonetAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppMonetAdView.m; sourceTree = "<group>"; };
+		6F7E56B225791265009038E9 /* AdRequestInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdRequestInfo.h; sourceTree = "<group>"; };
+		6F7E56B325791265009038E9 /* AdRequestInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdRequestInfo.m; sourceTree = "<group>"; };
+		6F7E56B925791348009038E9 /* PlacementMappingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacementMappingManager.h; sourceTree = "<group>"; };
+		6F7E56BA25791348009038E9 /* PlacementMappingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacementMappingManager.m; sourceTree = "<group>"; };
+		6F7E56C0257913BF009038E9 /* ZoneIDMappingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZoneIDMappingModel.h; sourceTree = "<group>"; };
+		6F7E56C1257913BF009038E9 /* ZoneIDMappingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZoneIDMappingModel.m; sourceTree = "<group>"; };
+		6F7E56C7257914AF009038E9 /* hybid_mapping.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = hybid_mapping.json; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -3030,6 +3039,13 @@
 				7EF4BE6025545438004558D5 /* AMCustomEventInterstitial.m */,
 				6F776D55255AA6BA00951905 /* AppMonetAdView.h */,
 				6F776D56255AA6BA00951905 /* AppMonetAdView.m */,
+				6F7E56B225791265009038E9 /* AdRequestInfo.h */,
+				6F7E56B325791265009038E9 /* AdRequestInfo.m */,
+				6F7E56B925791348009038E9 /* PlacementMappingManager.h */,
+				6F7E56BA25791348009038E9 /* PlacementMappingManager.m */,
+				6F7E56C0257913BF009038E9 /* ZoneIDMappingModel.h */,
+				6F7E56C1257913BF009038E9 /* ZoneIDMappingModel.m */,
+				6F7E56C7257914AF009038E9 /* hybid_mapping.json */,
 			);
 			path = "GAM Adapters";
 			sourceTree = "<group>";
@@ -4407,6 +4423,7 @@
 				5A0499E9252E0D070066B270 /* MPNativePositionSource.m in Sources */,
 				5A049A94252E0D070066B270 /* NSString+MPConsentStatus.m in Sources */,
 				5A049A6F252E0D070066B270 /* MPFullscreenAdViewController+Video.m in Sources */,
+				6F7E56E5257917AF009038E9 /* AMCustomEventInterstitial.m in Sources */,
 				5A0499F2252E0D070066B270 /* MPTableViewAdPlacerCell.m in Sources */,
 				5A2057DE2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m in Sources */,
 				5A049AC8252E0D070066B270 /* MPLogManager.m in Sources */,
@@ -4642,6 +4659,7 @@
 				5A049A51252E0D070066B270 /* MPProgressOverlayView.m in Sources */,
 				5A049A08252E0D070066B270 /* MPAdView.m in Sources */,
 				5A049AB5252E0D070066B270 /* MOPUBActivityIndicatorView.m in Sources */,
+				6F7E56CD2579150F009038E9 /* AMCustomEventBanner.m in Sources */,
 				5A59DBBC2052A2280002BCD4 /* PNLiteDemoPNLiteSettingsViewController.m in Sources */,
 				5A049A65252E0D070066B270 /* MRVideoPlayerManager.m in Sources */,
 				5A049A3F252E0D070066B270 /* MPDeviceInformation.m in Sources */,

@@ -24,6 +24,7 @@
 
 NSString *const HyBidAdMobAdapterKeyZoneID = @"pn_zone_id";
 NSString *const HyBidAdMobAdapterKeyAppToken = @"pn_app_token";
+NSString *const HyBidAdMobAdapterKeyCPM = @"cpm";
 
 @implementation HyBidAdMobUtils
 
@@ -43,6 +44,10 @@ NSString *const HyBidAdMobAdapterKeyAppToken = @"pn_app_token";
     return [HyBidAdMobUtils valueWithKey:HyBidAdMobAdapterKeyZoneID fromExtras:extras];
 }
 
++ (NSString *)eCPM:(NSString *)extras {
+    return [HyBidAdMobUtils valueWithKey:HyBidAdMobAdapterKeyCPM fromExtras:extras];
+}
+
 + (NSString *)valueWithKey:(NSString *)key
                 fromExtras:(NSString *)extras {
     NSString *result = nil;
@@ -52,7 +57,7 @@ NSString *const HyBidAdMobAdapterKeyAppToken = @"pn_app_token";
                                                                       options:0
                                                                         error:&error];
     if (!error) {
-        result = (NSString *)dictionary[key];
+        result = [NSString stringWithFormat:@"%@", [dictionary objectForKey:key]];
     }
     
     return result;

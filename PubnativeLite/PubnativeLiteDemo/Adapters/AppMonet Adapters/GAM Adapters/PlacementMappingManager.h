@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AdRequestInfo.h"
+#import "HyBidAdSize.h"
 
-@interface HyBidAdMobUtils : NSObject
+@interface PlacementMappingManager : NSObject
 
-+ (BOOL)areExtrasValid:(NSString *)extras;
-+ (NSString *)appToken:(NSString *)extras;
-+ (NSString *)zoneID:(NSString *)extras;
-+ (NSString *)eCPM:(NSString *)extras;
++ (PlacementMappingManager *)sharedInstance;
+- (AdRequestInfo *)getEcmpMappingFrom:(HyBidAdSize *)adSize andEcpm:(NSString *)eCPM;
 
 @end
