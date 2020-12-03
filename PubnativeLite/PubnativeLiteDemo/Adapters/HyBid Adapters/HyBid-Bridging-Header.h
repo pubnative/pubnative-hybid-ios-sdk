@@ -24,3 +24,5 @@
 #import "HyBidAdMobMediationMRectCustomEvent.h"
 #import "HyBidAdMobMediationLeaderboardCustomEvent.h"
 #import "HyBidAdMobMediationInterstitialCustomEvent.h"
+
+#import "AMCustomEventBanner.h"
