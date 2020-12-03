@@ -29,5 +29,6 @@
 + (BOOL)areExtrasValid:(NSDictionary *)extras;
 + (NSString *)appToken:(NSDictionary*)extras;
 + (NSString *)zoneID:(NSDictionary *)extras;
++ (NSString *)eCPM:(NSDictionary *)extras;
 
 @end

@@ -42,7 +42,7 @@
         
         self.adSizes = [NSMutableDictionary new];
         for (NSString *key in [[json objectForKey:@"ad_sizes"] allKeys]) {
-            NSMutableDictionary *innerDictionary = [json objectForKey:@"ad_sizes"][key];
+            NSMutableDictionary<NSString *, NSString *>*innerDictionary = [json objectForKey:@"ad_sizes"][key];
             [self.adSizes setObject:innerDictionary forKey:key];
         }
     }

@@ -79,6 +79,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/AMBannerAdDelegate.h>
 #import <HyBid/AMOConstants.h>
 #import <HyBid/AMMonetBid.h>
+#import <HyBid/AMAppMonetAdView.h>
 
 
 typedef void (^HyBidCompletionBlock)(BOOL);

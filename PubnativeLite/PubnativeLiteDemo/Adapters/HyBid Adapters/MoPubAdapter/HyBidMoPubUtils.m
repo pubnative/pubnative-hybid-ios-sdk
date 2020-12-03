@@ -25,6 +25,7 @@
 
 NSString *const PNLiteMoPubAdapterKeyZoneID = @"pn_zone_id";
 NSString *const PNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
+NSString *const PNLiteMoPubAdapterKeyCPM = @"cpm";
 
 @implementation HyBidMoPubUtils
 
@@ -56,11 +57,15 @@ NSString *const PNLiteMoPubAdapterKeyAppToken = @"pn_app_token";
     return [HyBidMoPubUtils valueWithKey:PNLiteMoPubAdapterKeyAppToken fromExtras:extras];
 }
 
++ (NSString *)eCPM:(NSDictionary *)extras {
+    return [HyBidMoPubUtils valueWithKey:PNLiteMoPubAdapterKeyCPM fromExtras:extras];
+}
+
 + (NSString *)valueWithKey:(NSString *)key
                 fromExtras:(NSDictionary *)extras {
     NSString *result = nil;
     if (extras && [extras objectForKey:key]) {
-        NSString *param = [extras objectForKey:key];
+        NSString *param = [NSString stringWithFormat:@"%@", [extras objectForKey:key]];
         if ([param length] != 0) {
             result = param;
         }

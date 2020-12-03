@@ -49,22 +49,22 @@ static PlacementMappingManager *_sharedInstance = nil;
 
 + (PlacementMappingManager *)sharedInstance
 {
-    @synchronized ([PlacementMappingManager class]) {
-        if (!_sharedInstance) {
-            _sharedInstance = [[self alloc] init];
-            return _sharedInstance;
-        }
-        return nil;
-    }
+    static PlacementMappingManager *_sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedInstance = [[self alloc] init];
+    });
+    return _sharedInstance;
 }
 
 - (AdRequestInfo *)getEcmpMappingFrom:(HyBidAdSize *)adSize andEcpm:(NSString *)eCPM
 {
+    NSString *newCPM = [NSString stringWithFormat:@"%@", eCPM];
     if (self.model == nil ||
         [self.model getAdSizes] == nil ||
         [[self.model getAdSizes] count] == 0 ||
-        [[self.model getAppToken] length] == 0 ||
-        [eCPM length] == 0) {
+        [[self.model getAppToken] isEqualToString:@""] ||
+        [newCPM isEqualToString:@""]) {
         return nil;
     }
     
@@ -75,7 +75,7 @@ static PlacementMappingManager *_sharedInstance = nil;
         return nil;
     }
     
-    NSString *zoneID = [sizeMapping objectForKey:eCPM];
+    NSString *zoneID = [sizeMapping objectForKey:newCPM];
     if ([zoneID length] == 0) {
         return nil;
     }
@@ -85,18 +85,42 @@ static PlacementMappingManager *_sharedInstance = nil;
 
 - (NSString *)getAdSizeLabelFrom:(HyBidAdSize *)adSize
 {
-    if (adSize == HyBidAdSize.SIZE_INTERSTITIAL) return @"fullscreen";
-    if (adSize == HyBidAdSize.SIZE_768x1024) return @"768x1024";
-    if (adSize == HyBidAdSize.SIZE_1024x768) return @"1024x768";
-    if (adSize == HyBidAdSize.SIZE_300x600) return @"300x600";
-    if (adSize == HyBidAdSize.SIZE_160x600) return @"160x600";
-    if (adSize == HyBidAdSize.SIZE_320x480) return @"320x480";
-    if (adSize == HyBidAdSize.SIZE_480x320) return @"480x320";
-    if (adSize == HyBidAdSize.SIZE_300x250) return @"300x250";
-    if (adSize == HyBidAdSize.SIZE_250x250) return @"250x250";
-    if (adSize == HyBidAdSize.SIZE_320x100) return @"320x100";
-    if (adSize == HyBidAdSize.SIZE_728x90) return @"728x90";
-    if (adSize == HyBidAdSize.SIZE_300x50) return @"300x50";
+    if (adSize.height == HyBidAdSize.SIZE_INTERSTITIAL.height && adSize.width == HyBidAdSize.SIZE_INTERSTITIAL.width && adSize.layoutSize == HyBidAdSize.SIZE_INTERSTITIAL.layoutSize) {
+        return @"fullscreen";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_768x1024.height && adSize.width == HyBidAdSize.SIZE_768x1024.width && adSize.layoutSize == HyBidAdSize.SIZE_768x1024.layoutSize) {
+        return @"768x1024";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_1024x768.height && adSize.width == HyBidAdSize.SIZE_1024x768.width && adSize.layoutSize == HyBidAdSize.SIZE_1024x768.layoutSize) {
+        return @"1024x768";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_300x600.height && adSize.width == HyBidAdSize.SIZE_300x600.width && adSize.layoutSize == HyBidAdSize.SIZE_300x600.layoutSize) {
+        return @"300x600";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_160x600.height && adSize.width == HyBidAdSize.SIZE_160x600.width && adSize.layoutSize == HyBidAdSize.SIZE_160x600.layoutSize) {
+        return @"160x600";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_320x480.height && adSize.width == HyBidAdSize.SIZE_320x480.width && adSize.layoutSize == HyBidAdSize.SIZE_320x480.layoutSize) {
+        return @"320x480";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_480x320.height && adSize.width == HyBidAdSize.SIZE_480x320.width && adSize.layoutSize == HyBidAdSize.SIZE_480x320.layoutSize) {
+        return @"480x320";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_300x250.height && adSize.width == HyBidAdSize.SIZE_300x250.width && adSize.layoutSize == HyBidAdSize.SIZE_300x250.layoutSize) {
+        return @"300x250";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_250x250.height && adSize.width == HyBidAdSize.SIZE_250x250.width && adSize.layoutSize == HyBidAdSize.SIZE_250x250.layoutSize) {
+        return @"250x250";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_320x100.height && adSize.width == HyBidAdSize.SIZE_320x100.width && adSize.layoutSize == HyBidAdSize.SIZE_320x100.layoutSize) {
+        return @"320x100";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_728x90.height && adSize.width == HyBidAdSize.SIZE_728x90.width && adSize.layoutSize == HyBidAdSize.SIZE_728x90.layoutSize) {
+        return @"728x90";
+    }
+    if (adSize.height == HyBidAdSize.SIZE_300x50.height && adSize.width == HyBidAdSize.SIZE_300x50.width && adSize.layoutSize == HyBidAdSize.SIZE_300x50.layoutSize) {
+        return @"300x50";
+    }
     return @"300x50";
 }
 

@@ -30,7 +30,7 @@
 @implementation AMCustomEventInterstitial
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
-    if ([HyBidMoPubUtils areExtrasValid:info]) {
+    if (([HyBidMoPubUtils appToken:info] != nil && [HyBidMoPubUtils zoneID:info] != nil) || [HyBidMoPubUtils eCPM:info] != nil) {
         NSString *appToken = nil;
         NSString *zoneID = nil;
         
@@ -57,9 +57,9 @@
         }
         
         if (appToken != nil || [appToken isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
-            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidMoPubUtils zoneID:info]]) {
-                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
+            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:zoneID andWithDelegate:self];
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:zoneID]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:zoneID];
                 [self.interstitialAd prepareAdWithAd:cachedAd];
             } else {
                 self.interstitialAd.isMediation = YES;

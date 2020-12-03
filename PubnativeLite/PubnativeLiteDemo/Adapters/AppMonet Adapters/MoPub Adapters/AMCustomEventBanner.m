@@ -31,7 +31,7 @@
 @implementation AMCustomEventBanner
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
-    if ([HyBidMoPubUtils areExtrasValid:info]) {
+    if (([HyBidMoPubUtils appToken:info] != nil && [HyBidMoPubUtils zoneID:info] != nil) || [HyBidMoPubUtils eCPM:info] != nil) {
         NSString *appToken = nil;
         NSString *zoneID = nil;
         
@@ -61,12 +61,12 @@
         if (appToken != nil || [appToken isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFromSize:size]];
             
-            if ([[HyBidAdCache sharedInstance].adCache objectForKey:[HyBidMoPubUtils zoneID:info]]) {
-                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidMoPubUtils zoneID:info]];
+            if ([[HyBidAdCache sharedInstance].adCache objectForKey:zoneID]) {
+                HyBidAd *cachedAd = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:zoneID];
                 [self.bannerAdView renderAdWithAd:cachedAd withDelegate:self];
             } else {
                 self.bannerAdView.isMediation = YES;
-                [self.bannerAdView loadWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
+                [self.bannerAdView loadWithZoneID:zoneID andWithDelegate:self];
             }
             MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         } else {
