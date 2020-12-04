@@ -54,12 +54,8 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
         [HyBidSettings sharedInstance].appToken = appToken;
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidViewabilityManager sharedInstance];
-        [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {
-            if (remoteConfigSuccess) {
-                [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
-                    completion(success);
-                }];
-            }
+        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
+            completion(success);
         }];
     }
 }
