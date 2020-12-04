@@ -30,7 +30,6 @@
 @import GoogleMobileAds;
 
 @interface AppDelegate ()
-
 @end
 
 @implementation AppDelegate
@@ -71,7 +70,6 @@ CLLocationManager *locationManager;
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
-    
     return YES;
 }
 
