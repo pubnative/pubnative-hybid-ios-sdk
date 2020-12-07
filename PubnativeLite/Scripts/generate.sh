@@ -15,10 +15,8 @@ FAT_XC_ZIP_PATH=$BASE_DIR/HyBid.xcframework.zip
 IPHONEOS_PATH=$BASE_DIR/iphoneos
 IPHONEOS_ARCH=$IPHONEOS_PATH/arch
 IPHONEOS_FRAMEWORK=$IPHONEOS_PATH/$FRAMEWORK_NAME
-IPHONEOS_ZIP_PATH=$BASE_DIR/HyBid.iphoneos.framework.zip
 IPHONESIMULATOR_PATH=$BASE_DIR/iphonesimulator
 IPHONESIMULATOR_FRAMEWORK=$IPHONESIMULATOR_PATH/$FRAMEWORK_NAME
-IPHONESIMULATOR_ZIP_PATH=$BASE_DIR/HyBid.iphonesimulator.framework.zip
 
 # Generate Frameworks
 xcodebuild -project PubnativeLite/HyBid.xcodeproj -scheme HyBid -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
