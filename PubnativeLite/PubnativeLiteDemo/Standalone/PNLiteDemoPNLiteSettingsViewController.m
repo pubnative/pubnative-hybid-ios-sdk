@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *appTokenTextField;
 @property (weak, nonatomic) IBOutlet UITextField *ageTextField;
 @property (weak, nonatomic) IBOutlet UITextField *apiURLTextField;
+@property (weak, nonatomic) IBOutlet UITextField *openRTBApiURLTextField;
 @property (weak, nonatomic) IBOutlet UIButton *testModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *coppaModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *notSetButton;
@@ -57,6 +58,7 @@
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
     self.apiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
+    self.openRTBApiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoOpenRTBAPIURLKey];
     [self setInitialStateForModeButtons];
     [self setInitialStateForGenderButtons];
     if (self.targetingModel.age.integerValue > 0) {
@@ -120,6 +122,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:self.testModeSelected forKey:kHyBidDemoTestModeKey];
     [[NSUserDefaults standardUserDefaults] setBool:self.coppaModeSelected forKey:kHyBidDemoCOPPAModeKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.apiURLTextField.text forKey:kHyBidDemoAPIURLKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.openRTBApiURLTextField.text forKey:kHyBidDemoOpenRTBAPIURLKey];
     
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
@@ -127,6 +130,7 @@
         }
     }];
     [HyBidSettings sharedInstance].apiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
+    [HyBidSettings sharedInstance].openRtbApiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoOpenRTBAPIURLKey];
     [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
     if (self.testModeSelected) {
         [HyBid setTestMode:YES];
