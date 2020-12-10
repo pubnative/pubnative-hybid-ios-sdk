@@ -37,8 +37,14 @@
     self = [super initWithDictionary:dictionary];
     if (self) {
         if (dictionary[@"data"] != nil) {
+            NSMutableDictionary *newDict = [dictionary[@"data"] mutableCopy];
             self.type = dictionary[@"data"][@"label"];
-            self.data = dictionary[@"data"];
+
+            id value = dictionary[@"data"][@"value"];
+            [newDict setObject:value forKey:([self.type isEqual: @"rating"] ? @"number" : @"text")];
+            [newDict removeObjectForKey:@"value"];
+            
+            self.data = newDict;
         } else if (dictionary[@"img"] != nil) {
             NSDictionary *typeDict = @{@1: @"icon", @3: @"banner"};
             self.type = typeDict[dictionary[@"img"][@"type"]];
@@ -69,7 +75,7 @@
     return self;
 }
 
-#pragma mark HyBidDataModel
+#pragma mark HyBidOpenRTBDataModel
 
 - (NSString *)text {
     return [self stringFieldWithKey:PNLiteData.text];

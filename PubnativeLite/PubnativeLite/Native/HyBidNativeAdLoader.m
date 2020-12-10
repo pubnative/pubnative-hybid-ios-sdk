@@ -24,10 +24,12 @@
 #import "HyBidNativeAdRequest.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidOpenRTBNativeAdRequest.h"
 
-@interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
+@interface HyBidNativeAdLoader() <HyBidOpenRTBAdRequestDelegate>
 
-@property (nonatomic, strong) HyBidNativeAdRequest *nativeAdRequest;
+//@property (nonatomic, strong) HyBidNativeAdRequest *nativeAdRequest;
+@property (nonatomic, strong) HyBidOpenRTBNativeAdRequest *nativeAdRequest;
 @property (nonatomic, weak) NSObject <HyBidNativeAdLoaderDelegate> *delegate;
 
 @end
@@ -42,7 +44,8 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.nativeAdRequest = [[HyBidNativeAdRequest alloc] init];
+//        self.nativeAdRequest = [[HyBidNativeAdRequest alloc] init];
+        self.nativeAdRequest = [[HyBidOpenRTBNativeAdRequest alloc] init];
     }
     return self;
 }
