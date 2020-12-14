@@ -44,7 +44,7 @@ NSInteger const PNLiteOpenRTBResponseStatusRequestMalformed = 422;
 
 @interface HyBidOpenRTBAdRequest () <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <HyBidOpenRTBAdRequestDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidAdRequestDelegate> *delegate;
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSDate *startTime;
@@ -86,7 +86,7 @@ NSInteger const PNLiteOpenRTBResponseStatusRequestMalformed = 422;
     self.isSetIntegrationTypeCalled = YES;
 }
 
-- (void)requestAdWithDelegate:(NSObject<HyBidOpenRTBAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
+- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID forAdType:(AdType)adType {
     if (self.isRunning) {
         NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
         [self invokeDidFail:runningError];
@@ -107,15 +107,15 @@ NSInteger const PNLiteOpenRTBResponseStatusRequestMalformed = 422;
             [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
         }
         
-        [[PNLiteOpenRTBHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"POST" withAdRequestModel:self.adRequestModel delegate:self];
+        [[PNLiteOpenRTBHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"POST" withAdRequestModel:self.adRequestModel delegate:self forAdType:adType];
 //        [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"POST" delegate:self];
     }
 }
 
-- (void)requestVideoTagFrom:(NSString *)url andWithDelegate:(NSObject<HyBidOpenRTBAdRequestDelegate> *)delegate
+- (void)requestVideoTagFrom:(NSString *)url andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate
 {
     self.delegate = delegate;
-    [[PNLiteOpenRTBHttpRequest alloc] startWithUrlString:url withMethod:@"POST" withAdRequestModel:self.adRequestModel delegate:self];
+    [[PNLiteOpenRTBHttpRequest alloc] startWithUrlString:url withMethod:@"POST" withAdRequestModel:self.adRequestModel delegate:self forAdType:VIDEO];
 //    [[PNLiteHttpRequest alloc] startWithUrlString:url withMethod:@"GET" delegate:self];
 }
 
@@ -202,9 +202,15 @@ NSInteger const PNLiteOpenRTBResponseStatusRequestMalformed = 422;
 - (void)processVASTTagResponseFrom:(NSString *)adContent
 {
     if ([adContent length] != 0) {
-        if ([HyBidMarkupUtils isVastXml:adContent]) {
+        NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *error;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
+        NSDictionary *bid = [seatBid[@"bid"] firstObject];
+        NSString *vastString = bid[@"adm"];
+        if ([HyBidMarkupUtils isVastXml:vastString]) {
             HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-            [videoAdProcessor processVASTString:adContent completion:^(PNLiteVASTModel *vastModel, NSError *error) {
+            [videoAdProcessor processVASTString:vastString completion:^(PNLiteVASTModel *vastModel, NSError *error) {
                 if (!vastModel) {
                     [self invokeDidFail:error];
                 } else {
@@ -215,7 +221,7 @@ NSInteger const PNLiteOpenRTBResponseStatusRequestMalformed = 422;
                     HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                     videoAdCacheItem.vastModel = vastModel;
                     [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
-                    HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
+                    HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:vastString withAdType:type];
                     [self invokeDidLoad:ad];
                 }
             }];

@@ -51,7 +51,7 @@ NSInteger const OPENRTB_MAX_RETRIES = 1;
     self.body = nil;
 }
 
-- (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method withAdRequestModel:(PNLiteAdRequestModel *)model delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate
+- (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method withAdRequestModel:(PNLiteAdRequestModel *)model delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate forAdType:(AdType)adType
 {
     self.delegate = delegate;
     self.urlString = urlString;
@@ -61,19 +61,7 @@ NSInteger const OPENRTB_MAX_RETRIES = 1;
     NSArray *headerKeys = [NSArray arrayWithObjects:@"x-openrtb-version", @"Content-Type", @"Accept-Charset", nil];
     self.header = [[NSDictionary alloc] initWithObjects:headerObjects forKeys:headerKeys];
     
-//    "imp": [
-//        {
-//          "id": "94628ee5-fe99-436d-94b5-f3270ad06529",
-//          "banner": {
-//            "w": 300,
-//            "h": 250
-//          },
-//          "tagid": "1",
-//          "bidfloor": 0.01,
-//          "bidfloorcurdan": "USD",
-//          "secure": 1
-//        }
-//      ]
+    NSArray *imp = [self getImpObjectFor:adType];
     NSDictionary *jsonBodyDict = @{
         @"id": NSUUID.UUID.UUIDString,
         @"app": @{
@@ -83,20 +71,9 @@ NSInteger const OPENRTB_MAX_RETRIES = 1;
                 @"os": model.requestParameters[HyBidRequestParameter.os],
                 @"ua": HyBidWebBrowserUserAgentInfo.hyBidUserAgent
         },
-        @"imp": @[
-                @{
-                    @"id": NSUUID.UUID.UUIDString,
-                    @"banner": @{
-                            @"w": @300,
-                            @"h": @250
-                    },
-                    @"native":
-                        @{
-                            @"request": @"{\"native\":{\"ver\":\"1\",\"layout\":6,\"assets\":[{\"id\":0,\"required\":0,\"title\":{\"len\":100}},{\"id\":2,\"required\":1,\"img\":{\"type\":1,\"wmin\":50,\"hmin\":50}},{\"id\":3,\"required\":0,\"data\":{\"type\":2,\"len\":90}},{\"id\":4,\"required\":0,\"data\":{\"type\":3}},{\"id\":5,\" required\":0,\"data\":{\"type\":12,\"len\":15}},{\"id\":1,\"required\":0,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":250}}]}}"
-                        }
-                }
-        ]
+        @"imp": imp
     };
+
     NSError *error;
     NSData *jsonBodyData = [NSJSONSerialization dataWithJSONObject:jsonBodyDict options:kNilOptions error:&error];
     self.body = [[NSData alloc] initWithData:jsonBodyData];
@@ -118,6 +95,37 @@ NSInteger const OPENRTB_MAX_RETRIES = 1;
             [self executeAsyncRequest];
         }
     }
+}
+
+- (NSArray *)getImpObjectFor:(AdType)adType
+{
+    if (adType == BANNER) {
+        return @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"banner": @{
+                        @"w": @300,
+                        @"h": @250
+                },
+                @"native":
+                    @{
+                        @"request": @"{\"native\":{\"ver\":\"1\",\"layout\":6,\"assets\":[{\"id\":0,\"required\":0,\"title\":{\"len\":100}},{\"id\":2,\"required\":1,\"img\":{\"type\":1,\"wmin\":50,\"hmin\":50}},{\"id\":3,\"required\":0,\"data\":{\"type\":2,\"len\":90}},{\"id\":4,\"required\":0,\"data\":{\"type\":3}},{\"id\":5,\" required\":0,\"data\":{\"type\":12,\"len\":15}},{\"id\":1,\"required\":0,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":250}}]}}"
+                    }
+            }
+        ];
+    } else if (adType == VIDEO) {
+        return @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"video":
+                    @{
+                        @"mimes": @[@"video/mp4"],
+                        @"protocols": @[@1, @2, @3, @4, @5, @6]
+                    }
+            }
+        ];
+    }
+    return @[];
 }
 
 - (void)executeAsyncRequest

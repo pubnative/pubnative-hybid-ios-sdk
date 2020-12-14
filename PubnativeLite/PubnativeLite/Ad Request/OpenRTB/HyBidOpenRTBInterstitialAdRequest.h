@@ -20,28 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "HyBidAd.h"
-#import "HyBidIntegrationType.h"
-#import "HyBidAdSize.h"
-#import "HyBidAdRequest.h"
+#import "HyBidOpenRTBAdRequest.h"
 
-@class HyBidOpenRTBAdRequest;
-
-typedef enum {
-    NATIVE,
-    BANNER,
-    VIDEO
-} AdType;
-
-@interface HyBidOpenRTBAdRequest : NSObject
-
-@property (nonatomic, strong) HyBidAdSize *adSize;
-@property (nonatomic, assign) BOOL isRewarded;
-@property (nonatomic, readonly) NSArray<NSString *> *supportedAPIFrameworks;
-
-- (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
-- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID forAdType:(AdType)adType;
-- (void)requestVideoTagFrom:(NSString *)url andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
+@interface HyBidOpenRTBInterstitialAdRequest : HyBidOpenRTBAdRequest
 
 @end

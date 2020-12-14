@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PNLiteAdRequestModel.h"
+#import "HyBidOpenRTBAdRequest.h"
 
 @class PNLiteOpenRTBHttpRequest;
 
@@ -39,6 +40,6 @@
 @property (nonatomic, strong) NSData *body;
 @property (nonatomic, assign) BOOL shouldRetry;
 
-- (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method withAdRequestModel:(PNLiteAdRequestModel *)model delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
+- (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method withAdRequestModel:(PNLiteAdRequestModel *)model delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate forAdType:(AdType)adType;
 
 @end

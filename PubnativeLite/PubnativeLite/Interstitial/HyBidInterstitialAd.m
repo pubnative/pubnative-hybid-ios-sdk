@@ -26,6 +26,7 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidOpenRTBInterstitialAdRequest.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -33,10 +34,11 @@
 @property (nonatomic, weak) NSObject<HyBidInterstitialAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+@property (nonatomic, strong) HyBidOpenRTBInterstitialAdRequest *openRTBInterstitialAdRequest;
 @property (nonatomic) NSInteger skipOffset;
 
 @end
-
+ 
 @implementation HyBidInterstitialAd
 
 - (void)dealloc {
@@ -45,6 +47,7 @@
     self.delegate = nil;
     self.interstitialPresenter = nil;
     self.interstitialAdRequest = nil;
+    self.openRTBInterstitialAdRequest = nil;
 }
 
 - (void)cleanUp {
@@ -54,7 +57,11 @@
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
     self = [super init];
     if (self) {
-        self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+        if (!self.isUsingOpenRTB) {
+            self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+        } else {
+            self.openRTBInterstitialAdRequest = [[HyBidOpenRTBInterstitialAdRequest alloc] init];
+        }
         self.zoneID = zoneID;
         self.delegate = delegate;
     }
@@ -76,8 +83,14 @@
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
     } else {
         self.isReady = NO;
-        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-        [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        
+        if (!self.isUsingOpenRTB) {
+            [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+            [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        } else {
+            [self.openRTBInterstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+            [self.openRTBInterstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID forAdType:VIDEO];
+        }
     }
 }
 
