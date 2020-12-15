@@ -72,7 +72,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAdSize.h>
 #import <HyBid/HyBidSignalDataProcessor.h>
 #import <HyBid/HyBidRewardedAd.h>
-#import <HyBid/HyBidOpenRTBAdRequest.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 

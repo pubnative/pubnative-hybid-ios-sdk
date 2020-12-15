@@ -25,7 +25,6 @@
 #import "HyBidAdRequest.h"
 #import "HyBidAdPresenter.h"
 #import "HyBidSignalDataProcessor.h"
-#import "HyBidOpenRTBAdRequest.h"
 
 @class HyBidAdView;
 

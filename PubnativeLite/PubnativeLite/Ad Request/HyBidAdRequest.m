@@ -36,7 +36,6 @@
 #import "HyBidVideoAdCache.h"
 #import "HyBidMarkupUtils.h"
 #import "HyBidRemoteConfigManager.h"
-#import "PNLiteOpenRTBHttpRequest.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
