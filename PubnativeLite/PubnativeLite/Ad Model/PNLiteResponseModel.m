@@ -22,6 +22,7 @@
 
 
 #import "PNLiteResponseModel.h"
+#import "HyBidOpenRTBAdModel.h"
 
 @implementation PNLiteResponseModel
 
@@ -29,6 +30,7 @@
     self.status = nil;
     self.errorMessage = nil;
     self.ads = nil;
+    self.bids = nil;
 }
 
 #pragma mark HyBidBaseModel
@@ -39,6 +41,13 @@
         self.status = dictionary[@"status"];
         self.errorMessage = dictionary[@"error_message"];
         self.ads = [HyBidAdModel parseArrayValues:dictionary[@"ads"]];
+    }
+    return self;
+}
+- (instancetype)initOpenRTBWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (self) {
+        self.bids = [HyBidOpenRTBAdModel parseArrayValuesForBids:dictionary[@"seatbid"]];
     }
     return self;
 }

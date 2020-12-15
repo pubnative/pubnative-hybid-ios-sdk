@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidOpenRTBAdRequest.h"
+#import "HyBidAdRequest.h"
 
-@interface HyBidOpenRTBInterstitialAdRequest : HyBidOpenRTBAdRequest
+@interface HyBidOpenRTBInterstitialAdRequest : HyBidAdRequest
 
 @end

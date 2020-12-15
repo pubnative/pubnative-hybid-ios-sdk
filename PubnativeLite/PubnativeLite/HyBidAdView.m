@@ -45,19 +45,33 @@
     self.delegate = nil;
     self.adPresenter = nil;
     self.adRequest = nil;
+//    self.openRTBAdRequest = nil;
     self.adSize = nil;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+//    if (!self.isUsingOpenRTB) {
     self.adRequest = [[HyBidAdRequest alloc] init];
+    self.adRequest.openRTBAdType = BANNER;
+//    } else {
+//        self.openRTBAdRequest = [[HyBidOpenRTBAdRequest alloc] init];
+//    }
     self.autoShowOnLoad = true;
 }
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize {
     self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
+    // REMOVE THIS LINE
+    self.isUsingOpenRTB = YES;
+    
     if (self) {
-        self.adRequest = [[HyBidAdRequest alloc] init];
+//        if (!self.isUsingOpenRTB) {
+            self.adRequest = [[HyBidAdRequest alloc] init];
+//        } else {
+//            self.openRTBAdRequest = [[HyBidOpenRTBAdRequest alloc] init];
+//        }
         self.auctionResponses = [[NSMutableArray alloc]init];
         self.adSize = adSize;
         self.autoShowOnLoad = true;
@@ -96,7 +110,6 @@
             NSArray<HyBidRemoteConfigPlacement*>* filteredPlacements = [configModel.placementInfo.placements filteredArrayUsingPredicate:p];
             
             if (filteredPlacements.count > 0) {
-                
                 HyBidRemoteConfigPlacement *placement = filteredPlacements.firstObject;
                 
                 if (placement.type != nil &&
@@ -145,9 +158,15 @@
 }
 
 - (void)requestAd {
-    self.adRequest.adSize = self.adSize;
-    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
-    [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+//    if (!self.isUsingOpenRTB) {
+        self.adRequest.adSize = self.adSize;
+        [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
+        [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+//    } else {
+//        self.openRTBAdRequest.adSize = self.adSize;
+//        [self.openRTBAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
+//        [self.openRTBAdRequest requestAdWithDelegate:self withZoneID:self.zoneID forAdType:BANNER];
+//    }
 }
 
 - (void) show {

@@ -25,6 +25,7 @@
 #import "PNLiteCryptoUtils.h"
 #import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidRequestParameter.h"
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -48,6 +49,8 @@ NSInteger const MAX_RETRIES = 1;
     self.method = nil;
     self.header = nil;
     self.body = nil;
+    self.isUsingOpenRTB = nil;
+    self.adRequestModel = nil;
 }
 
 - (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate
@@ -55,6 +58,29 @@ NSInteger const MAX_RETRIES = 1;
     self.delegate = delegate;
     self.urlString = urlString;
     self.method = method;
+    
+    if (self.isUsingOpenRTB) {
+        NSArray *headerObjects = [NSArray arrayWithObjects:@"2.3", @"application/json", @"utf-8", nil];
+        NSArray *headerKeys = [NSArray arrayWithObjects:@"x-openrtb-version", @"Content-Type", @"Accept-Charset", nil];
+        self.header = [[NSDictionary alloc] initWithObjects:headerObjects forKeys:headerKeys];
+        
+        NSArray *imp = [self getImpObjectFor:self.openRTBAdType];
+        NSDictionary *jsonBodyDict = @{
+            @"id": NSUUID.UUID.UUIDString,
+            @"app": @{
+            },
+            @"device": @{
+                    @"ip": self.adRequestModel.requestParameters[HyBidRequestParameter.ip],
+                    @"os": self.adRequestModel.requestParameters[HyBidRequestParameter.os],
+                    @"ua": HyBidWebBrowserUserAgentInfo.hyBidUserAgent
+            },
+            @"imp": imp
+        };
+        
+        NSError *error;
+        NSData *jsonBodyData = [NSJSONSerialization dataWithJSONObject:jsonBodyDict options:kNilOptions error:&error];
+        self.body = [[NSData alloc] initWithData:jsonBodyData];
+    }
     
     if (!self.delegate) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Delegate is nil, dropping the call."];
@@ -73,6 +99,47 @@ NSInteger const MAX_RETRIES = 1;
             [self executeAsyncRequest];
         }
     }
+}
+
+- (NSArray *)getImpObjectFor:(AdType)adType
+{
+    if (adType == NATIVE) {
+        return @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"banner": @{
+                        @"w": @300,
+                        @"h": @250
+                },
+                @"native":
+                    @{
+                        @"request": @"{\"native\":{\"ver\":\"1\",\"layout\":6,\"assets\":[{\"id\":0,\"required\":0,\"title\":{\"len\":100}},{\"id\":2,\"required\":1,\"img\":{\"type\":1,\"wmin\":50,\"hmin\":50}},{\"id\":3,\"required\":0,\"data\":{\"type\":2,\"len\":90}},{\"id\":4,\"required\":0,\"data\":{\"type\":3}},{\"id\":5,\" required\":0,\"data\":{\"type\":12,\"len\":15}},{\"id\":1,\"required\":0,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":250}}]}}"
+                    }
+            }
+        ];
+    } else if (adType == VIDEO) {
+        return @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"video":
+                    @{
+                        @"mimes": @[@"video/mp4"],
+                        @"protocols": @[@1, @2, @3, @4, @5, @6]
+                    }
+            }
+        ];
+    } else if (adType == BANNER) {
+        return @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"banner": @{
+                        @"w": @320,
+                        @"h": @50
+                }
+            }
+        ];
+    }
+    return @[];
 }
 
 - (void)executeAsyncRequest

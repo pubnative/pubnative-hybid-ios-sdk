@@ -88,8 +88,8 @@
             [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
             [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
         } else {
-            [self.openRTBInterstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-            [self.openRTBInterstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID forAdType:VIDEO];
+//            [self.openRTBInterstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+//            [self.openRTBInterstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID forAdType:VIDEO];
         }
     }
 }
