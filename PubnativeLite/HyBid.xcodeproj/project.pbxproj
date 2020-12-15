@@ -1551,19 +1551,6 @@
 			path = MRect;
 			sourceTree = "<group>";
 		};
-		5A449B56203D93D900CEB630 /* Banner */ = {
-			isa = PBXGroup;
-			children = (
-				5ADF9E8521494F730081355E /* HyBidBannerPresenterFactory.h */,
-				5ADF9E8621494F730081355E /* HyBidBannerPresenterFactory.m */,
-				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
-				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
-				5AC35B32214A5F80001F0ED3 /* HyBidBannerAdView.h */,
-				5AC35B33214A5F80001F0ED3 /* HyBidBannerAdView.m */,
-			);
-			path = Banner;
-			sourceTree = "<group>";
-		};
 		5A4FF06520AD92C700B81B3D /* Standalone */ = {
 			isa = PBXGroup;
 			children = (
@@ -1722,56 +1709,10 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
-				7E4CC8A7250298C5003A3425 /* HyBidStatic.h */,
-				7E4CC8A6250298C5003A3425 /* HyBidStatic.m */,
-				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
-				5A6CD0232029CD060022E206 /* HyBid.h */,
-				5A540258202B129E005D80E6 /* HyBid.m */,
-				5AEC48BB237067F4009641F1 /* HyBidConstants.h */,
-				5ADF9E4B21490E8E0081355E /* HyBidTargetingModel.h */,
-				5ADF9E4C21490E8E0081355E /* HyBidTargetingModel.m */,
-				5ADF9EB121496E140081355E /* HyBidSettings.h */,
-				5ADF9EB221496E140081355E /* HyBidSettings.m */,
-				5ADF9E9921495C500081355E /* HyBidContentInfoView.h */,
-				5ADF9E9A21495C500081355E /* HyBidContentInfoView.m */,
-				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
-				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
-				5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */,
-				5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */,
-				5AC35B36214A6392001F0ED3 /* HyBidAdView.h */,
-				5AC35B37214A6392001F0ED3 /* HyBidAdView.m */,
-				5AC35B42214A7727001F0ED3 /* HyBidStarRatingView.h */,
-				5AC35B43214A7727001F0ED3 /* HyBidStarRatingView.m */,
-				5A52BFDD2034580900C4B7C5 /* HyBidLogger.h */,
-				5A52BFDE2034580A00C4B7C5 /* HyBidLogger.m */,
-				5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */,
-				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
-				6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */,
-				6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */,
-				5A22C18C225F41EC0077B4ED /* Viewability */,
-				5A0779F321341E9100EBD0E7 /* Request Inspector */,
-				5A9A885B21087C43006A081D /* Tracking */,
-				5A674F9C20B5AAD200B3D68D /* Consent */,
-				5ABE013D203F344A00E6A14E /* Location */,
-				5ABE013C203F33AD00E6A14E /* Network */,
-				5ABE013B203F332100E6A14E /* Ad Model */,
-				5ABE0139203F2F4600E6A14E /* Ad Request */,
-				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
-				5A404B47204E96C200BEE041 /* Ad Tracker */,
-				5A64B3FA21E77C1800160235 /* Ad Presenter */,
-				5A262DC6218B02D1001A29E2 /* Leaderboard */,
-				5A449B56203D93D900CEB630 /* Banner */,
-				5A449B55203D93C300CEB630 /* MRect */,
-				5AECD5A6204034F20023ABBC /* Interstitial */,
-				6F8C114D2539BA8F00DC4151 /* Rewarded */,
-				5AFE05DF211C83B9009DF560 /* Native */,
-				5A9B66C520BD57FE0067964E /* VAST */,
-				5A2633592034ABAF0005EA39 /* MRAID */,
-				7EE3579A256D45E0005E6AC6 /* Remote Config */,
-				7E80A741256805DC006BD5EF /* Auction */,
-				5A3657D7203C538A004B4347 /* Categories */,
-				5A064992203DBECC00CDF925 /* Utils */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
+				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
+				7EA2A89125890C3A004C6A97 /* Core */,
+				7EA2A89225890C8C004C6A97 /* Banner */,
 			);
 			path = PubnativeLite;
 			sourceTree = "<group>";
@@ -2337,6 +2278,73 @@
 				7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */,
 			);
 			path = Auction;
+			sourceTree = "<group>";
+		};
+		7EA2A89125890C3A004C6A97 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7E4CC8A7250298C5003A3425 /* HyBidStatic.h */,
+				7E4CC8A6250298C5003A3425 /* HyBidStatic.m */,
+				5A6CD0232029CD060022E206 /* HyBid.h */,
+				5A540258202B129E005D80E6 /* HyBid.m */,
+				5AEC48BB237067F4009641F1 /* HyBidConstants.h */,
+				5ADF9E4B21490E8E0081355E /* HyBidTargetingModel.h */,
+				5ADF9E4C21490E8E0081355E /* HyBidTargetingModel.m */,
+				5ADF9EB121496E140081355E /* HyBidSettings.h */,
+				5ADF9EB221496E140081355E /* HyBidSettings.m */,
+				5ADF9E9921495C500081355E /* HyBidContentInfoView.h */,
+				5ADF9E9A21495C500081355E /* HyBidContentInfoView.m */,
+				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
+				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
+				5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */,
+				5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */,
+				5AC35B36214A6392001F0ED3 /* HyBidAdView.h */,
+				5AC35B37214A6392001F0ED3 /* HyBidAdView.m */,
+				5AC35B42214A7727001F0ED3 /* HyBidStarRatingView.h */,
+				5AC35B43214A7727001F0ED3 /* HyBidStarRatingView.m */,
+				5A52BFDD2034580900C4B7C5 /* HyBidLogger.h */,
+				5A52BFDE2034580A00C4B7C5 /* HyBidLogger.m */,
+				5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */,
+				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
+				6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */,
+				6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */,
+				5A22C18C225F41EC0077B4ED /* Viewability */,
+				5A0779F321341E9100EBD0E7 /* Request Inspector */,
+				5A9A885B21087C43006A081D /* Tracking */,
+				5A674F9C20B5AAD200B3D68D /* Consent */,
+				5ABE013D203F344A00E6A14E /* Location */,
+				5ABE013C203F33AD00E6A14E /* Network */,
+				5ABE013B203F332100E6A14E /* Ad Model */,
+				5ABE0139203F2F4600E6A14E /* Ad Request */,
+				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
+				5A404B47204E96C200BEE041 /* Ad Tracker */,
+				5A64B3FA21E77C1800160235 /* Ad Presenter */,
+				5A262DC6218B02D1001A29E2 /* Leaderboard */,
+				5A449B55203D93C300CEB630 /* MRect */,
+				5AECD5A6204034F20023ABBC /* Interstitial */,
+				6F8C114D2539BA8F00DC4151 /* Rewarded */,
+				5AFE05DF211C83B9009DF560 /* Native */,
+				5A9B66C520BD57FE0067964E /* VAST */,
+				5A2633592034ABAF0005EA39 /* MRAID */,
+				7EE3579A256D45E0005E6AC6 /* Remote Config */,
+				7E80A741256805DC006BD5EF /* Auction */,
+				5A3657D7203C538A004B4347 /* Categories */,
+				5A064992203DBECC00CDF925 /* Utils */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		7EA2A89225890C8C004C6A97 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				5ADF9E8521494F730081355E /* HyBidBannerPresenterFactory.h */,
+				5ADF9E8621494F730081355E /* HyBidBannerPresenterFactory.m */,
+				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
+				5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */,
+				5AC35B32214A5F80001F0ED3 /* HyBidBannerAdView.h */,
+				5AC35B33214A5F80001F0ED3 /* HyBidBannerAdView.m */,
+			);
+			path = Banner;
 			sourceTree = "<group>";
 		};
 		7EE3579A256D45E0005E6AC6 /* Remote Config */ = {
