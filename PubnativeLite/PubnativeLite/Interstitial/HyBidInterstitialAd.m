@@ -34,7 +34,6 @@
 @property (nonatomic, weak) NSObject<HyBidInterstitialAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
-@property (nonatomic, strong) HyBidOpenRTBInterstitialAdRequest *openRTBInterstitialAdRequest;
 @property (nonatomic) NSInteger skipOffset;
 
 @end
@@ -47,7 +46,6 @@
     self.delegate = nil;
     self.interstitialPresenter = nil;
     self.interstitialAdRequest = nil;
-    self.openRTBInterstitialAdRequest = nil;
 }
 
 - (void)cleanUp {
@@ -57,11 +55,19 @@
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
     self = [super init];
     if (self) {
-        if (!self.isUsingOpenRTB) {
-            self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-        } else {
-            self.openRTBInterstitialAdRequest = [[HyBidOpenRTBInterstitialAdRequest alloc] init];
-        }
+        self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+        self.zoneID = zoneID;
+        self.delegate = delegate;
+    }
+    return self;
+}
+- (instancetype)initOpenRTBWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
+    self = [super init];
+    if (self) {
+        self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+        self.interstitialAdRequest.isUsingOpenRTB = YES;
+        self.isUsingOpenRTB = YES;
+        self.interstitialAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;
     }
@@ -84,13 +90,8 @@
     } else {
         self.isReady = NO;
         
-        if (!self.isUsingOpenRTB) {
-            [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-            [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
-        } else {
-//            [self.openRTBInterstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-//            [self.openRTBInterstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID forAdType:VIDEO];
-        }
+        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+        [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
     }
 }
 

@@ -108,16 +108,12 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
         }
         
-//        if (!self.isUsingOpenRTB) {
         PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
         request.isUsingOpenRTB = self.isUsingOpenRTB;
         request.adRequestModel = self.adRequestModel;
+        request.openRTBAdType = self.openRTBAdType;
         NSString *method = self.isUsingOpenRTB ? @"POST" : @"GET";
         [request startWithUrlString:self.requestURL.absoluteString withMethod:method delegate:self];
-//            [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
-//        } else {
-//            [[PNLiteOpenRTBHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"POST" withAdRequestModel:self.adRequestModel delegate:self forAdType:self.openRTBAdType];
-//        }
     }
 }
 
@@ -217,6 +213,16 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (void)processVASTTagResponseFrom:(NSString *)adContent
 {
     if ([adContent length] != 0) {
+        if (self.isUsingOpenRTB) {
+            NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+            NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
+            NSDictionary *bid = [seatBid[@"bid"] firstObject];
+            NSString *vastString = bid[@"adm"];
+            adContent = vastString;
+        }
+
         if ([HyBidMarkupUtils isVastXml:adContent]) {
             HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
             [videoAdProcessor processVASTString:adContent completion:^(PNLiteVASTModel *vastModel, NSError *error) {
@@ -251,7 +257,6 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (jsonDictonary) {
         PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initOpenRTBWithDictionary:jsonDictonary];
-//        PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
         if(!response) {
             NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
                                                  code:0
