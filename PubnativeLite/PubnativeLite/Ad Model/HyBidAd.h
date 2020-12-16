@@ -44,8 +44,11 @@
 @property (nonatomic, readonly) NSNumber *height;
 @property (nonatomic, readonly) NSArray<HyBidDataModel*> *beacons;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
+@property (nonatomic) NSInteger adType;
+@property (nonatomic, assign) BOOL isUsingOpenRTB;
 
 - (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
+- (instancetype)initOpenRTBWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 - (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType;
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;

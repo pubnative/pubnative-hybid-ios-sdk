@@ -103,13 +103,16 @@ NSInteger const MAX_RETRIES = 1;
 
 - (NSArray *)getImpObjectFor:(AdType)adType
 {
+    NSNumber *width = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.width] integerValue]];
+    NSNumber *height = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.height] integerValue]];
+    
     if (adType == NATIVE) {
         return @[
             @{
                 @"id": NSUUID.UUID.UUIDString,
                 @"banner": @{
-                        @"w": @300,
-                        @"h": @250
+                        @"w": width,
+                        @"h": height
                 },
                 @"native":
                     @{
@@ -133,8 +136,8 @@ NSInteger const MAX_RETRIES = 1;
             @{
                 @"id": NSUUID.UUID.UUIDString,
                 @"banner": @{
-                        @"w": @320,
-                        @"h": @50
+                        @"w": width,
+                        @"h": height
                 }
             }
         ];

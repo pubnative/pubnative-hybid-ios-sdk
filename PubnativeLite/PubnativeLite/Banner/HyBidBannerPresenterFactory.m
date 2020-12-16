@@ -25,10 +25,21 @@
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "HyBidLogger.h"
 #import "HyBidVASTAdPresenter.h"
+#import "PNLiteDemoSettings.h"
 
 @implementation HyBidBannerPresenterFactory
 
 - (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
+    if (ad.isUsingOpenRTB) {
+        if (ad.adType == kHyBidAdTypeHTML) {
+            PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
+            return mraidBannerPresenter;
+        } else if (ad.adType == kHyBidAdTypeVideo) {
+            HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
+            return vastAdPresenter;
+        }
+    }
+    
     switch (ad.assetGroupID.integerValue) {
         case MRAID_160x600:
         case MRAID_250x250:

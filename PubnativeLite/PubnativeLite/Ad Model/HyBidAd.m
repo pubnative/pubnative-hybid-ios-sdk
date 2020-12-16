@@ -25,6 +25,7 @@
 #import "PNLiteAsset.h"
 #import "HyBidContentInfoView.h"
 #import "HyBidSkAdNetworkModel.h"
+#import "HyBidOpenRTBAdModel.h"
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -36,6 +37,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 @interface HyBidAd ()
 
 @property (nonatomic, strong)HyBidAdModel *data;
+@property (nonatomic, strong)HyBidOpenRTBAdModel *openRTBData;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong)NSString *_zoneID;
 
@@ -59,6 +61,14 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     }
     return self;
 }
+- (instancetype)initOpenRTBWithData:(HyBidOpenRTBAdModel *)data withZoneID:(NSString *)zoneID {
+    self = [super init];
+    if (self) {
+        self.openRTBData = data;
+        self._zoneID = zoneID;
+    }
+    return self;
+}
 
 - (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType {
     self = [super init];
@@ -70,9 +80,11 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if (adType == kHyBidAdTypeVideo) {
             apiAsset = PNLiteAsset.vast;
             data = [[HyBidDataModel alloc] initWithVASTAsset:apiAsset withValue:adContent];
+            adType = kHyBidAdTypeVideo;
         } else {
             apiAsset = PNLiteAsset.htmlBanner;
             data = [[HyBidDataModel alloc] initWithHTMLAsset:apiAsset withValue:adContent];
+            adType = kHyBidAdTypeHTML;
         }
         [assets addObject:data];
         
@@ -98,18 +110,32 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSString *)htmlUrl {
     NSString *result = nil;
-    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
-    if (data) {
-        result = data.url;
+    
+    if (self.openRTBData != nil) {
+        if (self.openRTBData.dictionary[@"nurl"]) {
+            result = self.openRTBData.dictionary[@"nurl"];
+        }
+    } else {
+        HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+        if (data) {
+            result = data.url;
+        }
     }
     return result;
 }
 
 - (NSString *)htmlData {
     NSString *result = nil;
-    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
-    if (data) {
-        result = data.html;
+    
+    if (self.openRTBData != nil) {
+        if (self.openRTBData.dictionary[@"adm"]) {
+            result = self.openRTBData.dictionary[@"adm"];
+        }
+    } else {
+        HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+        if (data) {
+            result = data.html;
+        }
     }
     return result;
 }

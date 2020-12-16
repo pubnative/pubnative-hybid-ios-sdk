@@ -45,19 +45,13 @@
     self.delegate = nil;
     self.adPresenter = nil;
     self.adRequest = nil;
-//    self.openRTBAdRequest = nil;
     self.adSize = nil;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-//    if (!self.isUsingOpenRTB) {
     self.adRequest = [[HyBidAdRequest alloc] init];
-    self.adRequest.openRTBAdType = BANNER;
-//    } else {
-//        self.openRTBAdRequest = [[HyBidOpenRTBAdRequest alloc] init];
-//    }
     self.autoShowOnLoad = true;
 }
 
@@ -67,11 +61,9 @@
     self.isUsingOpenRTB = YES;
     
     if (self) {
-//        if (!self.isUsingOpenRTB) {
-            self.adRequest = [[HyBidAdRequest alloc] init];
-//        } else {
-//            self.openRTBAdRequest = [[HyBidOpenRTBAdRequest alloc] init];
-//        }
+        self.adRequest = [[HyBidAdRequest alloc] init];
+        self.adRequest.isUsingOpenRTB = self.isUsingOpenRTB;
+        self.adRequest.openRTBAdType = BANNER;
         self.auctionResponses = [[NSMutableArray alloc]init];
         self.adSize = adSize;
         self.autoShowOnLoad = true;
@@ -158,15 +150,9 @@
 }
 
 - (void)requestAd {
-//    if (!self.isUsingOpenRTB) {
         self.adRequest.adSize = self.adSize;
         [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
         [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
-//    } else {
-//        self.openRTBAdRequest.adSize = self.adSize;
-//        [self.openRTBAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
-//        [self.openRTBAdRequest requestAdWithDelegate:self withZoneID:self.zoneID forAdType:BANNER];
-//    }
 }
 
 - (void) show {
@@ -224,6 +210,9 @@
 
 - (HyBidAdPresenter *)createAdPresenter {
     HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
+    
+    // REMOVE THIS LINE
+    self.ad.isUsingOpenRTB = YES;
     return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 

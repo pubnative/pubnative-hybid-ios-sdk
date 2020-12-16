@@ -256,7 +256,14 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (void)processResponseWithData:(NSData *)data {
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (jsonDictonary) {
-        PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initOpenRTBWithDictionary:jsonDictonary];
+        PNLiteResponseModel *response = nil;
+                
+        if (self.isUsingOpenRTB) {
+            response = [[PNLiteResponseModel alloc] initOpenRTBWithDictionary:jsonDictonary];
+        } else {
+            response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
+        }
+        
         if(!response) {
             NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
                                                  code:0
@@ -265,7 +272,13 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         } else if ([PNLiteResponseOK isEqualToString:response.status] || self.isUsingOpenRTB) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
             for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? response.bids : response.ads)) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
+                HyBidAd *ad = nil;
+                if (self.isUsingOpenRTB) {
+                    ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
+                } else {
+                    ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
+                }
+                
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
                 switch (ad.assetGroupID.integerValue) {

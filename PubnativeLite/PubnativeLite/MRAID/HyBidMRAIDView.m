@@ -1092,6 +1092,12 @@ typedef enum {
     @synchronized(self) {
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
         
+        if (webView.frame.size.height == CGSizeZero.height && webView.frame.size.width == CGSizeZero.width) {
+            CGRect frame = webView.frame;
+            frame.size = webView.scrollView.contentSize;
+            webView.frame = frame;
+        }
+        
         // If wv is webViewPart2, that means the part 2 expanded web view has just loaded.
         // In this case, state should already be PNLiteMRAIDStateExpanded and should not be changed.
         // if (wv != webViewPart2) {
