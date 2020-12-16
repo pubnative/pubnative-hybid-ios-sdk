@@ -94,7 +94,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Zone ID nil or empty, droping this call."];
     }
     else {
-        [[HyBidRemoteConfigManager sharedInstance] refreshRemoteConfig];
+//        [[HyBidRemoteConfigManager sharedInstance] refreshRemoteConfig];
         self.startTime = [NSDate date];
         self.delegate = delegate;
         self.zoneID = zoneID;
