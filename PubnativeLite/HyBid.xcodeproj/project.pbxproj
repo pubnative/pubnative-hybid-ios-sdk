@@ -2319,7 +2319,6 @@
 				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
 				5A404B47204E96C200BEE041 /* Ad Tracker */,
 				5A64B3FA21E77C1800160235 /* Ad Presenter */,
-				5A262DC6218B02D1001A29E2 /* Leaderboard */,
 				5A449B55203D93C300CEB630 /* MRect */,
 				5AECD5A6204034F20023ABBC /* Interstitial */,
 				6F8C114D2539BA8F00DC4151 /* Rewarded */,
@@ -2337,6 +2336,7 @@
 		7EA2A89225890C8C004C6A97 /* Banner */ = {
 			isa = PBXGroup;
 			children = (
+				5A262DC6218B02D1001A29E2 /* Leaderboard */,
 				5ADF9E8521494F730081355E /* HyBidBannerPresenterFactory.h */,
 				5ADF9E8621494F730081355E /* HyBidBannerPresenterFactory.m */,
 				5A3657CF203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h */,
