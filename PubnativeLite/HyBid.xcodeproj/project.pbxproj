@@ -1710,6 +1710,7 @@
 			isa = PBXGroup;
 			children = (
 				5A6CD0242029CD060022E206 /* Info.plist */,
+				7EA2A96B2589F730004C6A97 /* Resources */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
 				7EA2A89125890C3A004C6A97 /* Core */,
 				7EA2A89225890C8C004C6A97 /* Banner */,
@@ -1885,19 +1886,6 @@
 		5A9B66C520BD57FE0067964E /* VAST */ = {
 			isa = PBXGroup;
 			children = (
-				5A9B66B320BD57E90067964E /* PNLiteExternalLink.png */,
-				5A9B66BA20BD57ED0067964E /* PNLiteExternalLink@2x.png */,
-				5A9B66B720BD57EB0067964E /* PNLiteFullScreen.png */,
-				5A9B66B920BD57EC0067964E /* PNLiteFullScreen@2x.png */,
-				5A9B66B420BD57EA0067964E /* PNLiteMute.png */,
-				5A9B66B220BD57E90067964E /* PNLiteMute@2x.png */,
-				5A9B66B120BD57E80067964E /* PNLitePlay.png */,
-				5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */,
-				5A9B66B520BD57EA0067964E /* PNLiteUnmute.png */,
-				5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */,
-				5A2EC33D20C83DA3000F9747 /* PNLiteClose.png */,
-				5A2EC33C20C83DA2000F9747 /* PNLiteClose@2x.png */,
-				5A2EC33E20C83DA5000F9747 /* PNLiteClose@3x.png */,
 				5A9B66EB20BD9DD70067964E /* PNLiteProgressLabel.h */,
 				5A9B66EA20BD9DD70067964E /* PNLiteProgressLabel.m */,
 				5A9B66EF20BDA15C0067964E /* PNLitePropertyAnimation.h */,
@@ -1910,11 +1898,8 @@
 				5A9B66E120BD8FF70067964E /* PNLiteVASTEventProcessor.m */,
 				5A9B66E420BD97500067964E /* PNLiteVASTPlayerViewController.h */,
 				5A9B66E520BD97510067964E /* PNLiteVASTPlayerViewController.m */,
-				5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */,
-				5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */,
 				5A2EC33420C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h */,
 				5A2EC33520C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.m */,
-				5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */,
 				5A9B66D420BD6E670067964E /* PNLiteVASTMediaFile.h */,
 				5A9B66D520BD6E680067964E /* PNLiteVASTMediaFile.m */,
 				5A9B66D120BD6BF60067964E /* PNLiteVASTMediaFilePicker.h */,
@@ -1926,7 +1911,6 @@
 				5AB2C13024869E4300AFB4A5 /* HyBidVideoAdProcessor.m */,
 				6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */,
 				6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */,
-				6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */,
 				7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */,
 				7E45CF2F256FB79400E0FC3D /* PNLiteVastMacrosUtils.m */,
 			);
@@ -2353,6 +2337,30 @@
 				5ADF9E662149377D0081355E /* HyBidBannerAdRequest.m */,
 			);
 			path = "Ad Request";
+			sourceTree = "<group>";
+		};
+		7EA2A96B2589F730004C6A97 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5A9B66B320BD57E90067964E /* PNLiteExternalLink.png */,
+				5A9B66BA20BD57ED0067964E /* PNLiteExternalLink@2x.png */,
+				5A9B66B720BD57EB0067964E /* PNLiteFullScreen.png */,
+				5A9B66B920BD57EC0067964E /* PNLiteFullScreen@2x.png */,
+				5A9B66B420BD57EA0067964E /* PNLiteMute.png */,
+				5A9B66B220BD57E90067964E /* PNLiteMute@2x.png */,
+				5A9B66B120BD57E80067964E /* PNLitePlay.png */,
+				5A9B66B820BD57EC0067964E /* PNLitePlay@2x.png */,
+				5A9B66B520BD57EA0067964E /* PNLiteUnmute.png */,
+				5A9B66B620BD57EB0067964E /* PNLiteUnmute@2x.png */,
+				5A2EC33D20C83DA3000F9747 /* PNLiteClose.png */,
+				5A2EC33C20C83DA2000F9747 /* PNLiteClose@2x.png */,
+				5A2EC33E20C83DA5000F9747 /* PNLiteClose@3x.png */,
+				5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */,
+				5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */,
+				5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */,
+				6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		7EE3579A256D45E0005E6AC6 /* Remote Config */ = {
