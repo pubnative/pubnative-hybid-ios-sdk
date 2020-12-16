@@ -1971,8 +1971,6 @@
 				5AA3D5E820319D82002BFDA3 /* PNLiteAdRequestModel.m */,
 				5ADF9E4F214911A90081355E /* HyBidAdRequest.h */,
 				5ADF9E50214911A90081355E /* HyBidAdRequest.m */,
-				5ADF9E69214939C40081355E /* HyBidMRectAdRequest.h */,
-				5ADF9E6A214939C40081355E /* HyBidMRectAdRequest.m */,
 				5ADF9E6D21493B6D0081355E /* HyBidInterstitialAdRequest.h */,
 				5ADF9E6E21493B6D0081355E /* HyBidInterstitialAdRequest.m */,
 				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
@@ -2315,7 +2313,6 @@
 				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
 				5A404B47204E96C200BEE041 /* Ad Tracker */,
 				5A64B3FA21E77C1800160235 /* Ad Presenter */,
-				5A449B55203D93C300CEB630 /* MRect */,
 				5AECD5A6204034F20023ABBC /* Interstitial */,
 				6F8C114D2539BA8F00DC4151 /* Rewarded */,
 				5AFE05DF211C83B9009DF560 /* Native */,
@@ -2332,6 +2329,7 @@
 		7EA2A89225890C8C004C6A97 /* Banner */ = {
 			isa = PBXGroup;
 			children = (
+				5A449B55203D93C300CEB630 /* MRect */,
 				7EA2A90C2589E7A1004C6A97 /* Ad Request */,
 				5A262DC6218B02D1001A29E2 /* Leaderboard */,
 				5ADF9E8521494F730081355E /* HyBidBannerPresenterFactory.h */,
@@ -2347,6 +2345,8 @@
 		7EA2A90C2589E7A1004C6A97 /* Ad Request */ = {
 			isa = PBXGroup;
 			children = (
+				5ADF9E69214939C40081355E /* HyBidMRectAdRequest.h */,
+				5ADF9E6A214939C40081355E /* HyBidMRectAdRequest.m */,
 				5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */,
 				5A262DD8218B394C001A29E2 /* HyBidLeaderboardAdRequest.m */,
 				5ADF9E652149377D0081355E /* HyBidBannerAdRequest.h */,

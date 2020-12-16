@@ -30,13 +30,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <HyBid/PublicHeader.h>
 
-#import <HyBid/HyBidRequestParameter.h>
-#import <HyBid/HyBidTargetingModel.h>
-#import <HyBid/HyBidAdRequest.h>
-#import <HyBid/HyBidMRAIDServiceProvider.h>
-#import <HyBid/HyBidMRAIDView.h>
-#import <HyBid/HyBidMRAIDServiceDelegate.h>
-
 #if __has_include("HyBidLeaderboardAdRequest.h")
     #import <HyBid/HyBidLeaderboardAdRequest.h>
 #endif
@@ -55,14 +48,27 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #if __has_include("HyBidBannerAdView.h")
     #import <HyBid/HyBidBannerAdView.h>
 #endif
+#if __has_include("HyBidMRectAdRequest.h")
+    #import <HyBid/HyBidMRectAdRequest.h>
+#endif
+#if __has_include("HyBidMRectPresenterFactory.h")
+    #import <HyBid/HyBidMRectPresenterFactory.h>
+#endif
+#if __has_include("HyBidMRectAdView.h")
+    #import <HyBid/HyBidMRectAdView.h>
+#endif
 
-#import <HyBid/HyBidMRectAdRequest.h>
+#import <HyBid/HyBidRequestParameter.h>
+#import <HyBid/HyBidTargetingModel.h>
+#import <HyBid/HyBidAdRequest.h>
+#import <HyBid/HyBidMRAIDServiceProvider.h>
+#import <HyBid/HyBidMRAIDView.h>
+#import <HyBid/HyBidMRAIDServiceDelegate.h>
 #import <HyBid/HyBidInterstitialAdRequest.h>
 #import <HyBid/HyBidAdPresenter.h>
 #import <HyBid/HyBidInterstitialPresenter.h>
 #import <HyBid/HyBidNativeAdLoader.h>
 #import <HyBid/HyBidAdPresenterFactory.h>
-#import <HyBid/HyBidMRectPresenterFactory.h>
 #import <HyBid/HyBidInterstitialPresenterFactory.h>
 #import <HyBid/HyBidAdCache.h>
 #import <HyBid/HyBidHeaderBiddingUtils.h>
@@ -75,7 +81,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAd.h>
 #import <HyBid/HyBidNativeAd.h>
 #import <HyBid/HyBidAdView.h>
-#import <HyBid/HyBidMRectAdView.h>
 #import <HyBid/HyBidInterstitialAd.h>
 #import <HyBid/HyBidSettings.h>
 #import <HyBid/HyBidStarRatingView.h>
