@@ -36,16 +36,32 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidMRAIDServiceProvider.h>
 #import <HyBid/HyBidMRAIDView.h>
 #import <HyBid/HyBidMRAIDServiceDelegate.h>
-#import <HyBid/HyBidLeaderboardAdRequest.h>
-#import <HyBid/HyBidBannerAdRequest.h>
+
+#if __has_include("HyBidLeaderboardAdRequest.h")
+    #import <HyBid/HyBidLeaderboardAdRequest.h>
+#endif
+#if __has_include("HyBidBannerAdRequest.h")
+    #import <HyBid/HyBidBannerAdRequest.h>
+#endif
+#if __has_include("HyBidLeaderboardPresenterFactory.h")
+    #import <HyBid/HyBidLeaderboardPresenterFactory.h>
+#endif
+#if __has_include("HyBidBannerPresenterFactory.h")
+    #import <HyBid/HyBidBannerPresenterFactory.h>
+#endif
+#if __has_include("HyBidLeaderboardAdView.h")
+    #import <HyBid/HyBidLeaderboardAdView.h>
+#endif
+#if __has_include("HyBidBannerAdView.h")
+    #import <HyBid/HyBidBannerAdView.h>
+#endif
+
 #import <HyBid/HyBidMRectAdRequest.h>
 #import <HyBid/HyBidInterstitialAdRequest.h>
 #import <HyBid/HyBidAdPresenter.h>
 #import <HyBid/HyBidInterstitialPresenter.h>
 #import <HyBid/HyBidNativeAdLoader.h>
 #import <HyBid/HyBidAdPresenterFactory.h>
-#import <HyBid/HyBidLeaderboardPresenterFactory.h>
-#import <HyBid/HyBidBannerPresenterFactory.h>
 #import <HyBid/HyBidMRectPresenterFactory.h>
 #import <HyBid/HyBidInterstitialPresenterFactory.h>
 #import <HyBid/HyBidAdCache.h>
@@ -59,8 +75,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAd.h>
 #import <HyBid/HyBidNativeAd.h>
 #import <HyBid/HyBidAdView.h>
-#import <HyBid/HyBidLeaderboardAdView.h>
-#import <HyBid/HyBidBannerAdView.h>
 #import <HyBid/HyBidMRectAdView.h>
 #import <HyBid/HyBidInterstitialAd.h>
 #import <HyBid/HyBidSettings.h>

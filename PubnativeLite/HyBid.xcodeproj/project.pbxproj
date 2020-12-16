@@ -1971,10 +1971,6 @@
 				5AA3D5E820319D82002BFDA3 /* PNLiteAdRequestModel.m */,
 				5ADF9E4F214911A90081355E /* HyBidAdRequest.h */,
 				5ADF9E50214911A90081355E /* HyBidAdRequest.m */,
-				5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */,
-				5A262DD8218B394C001A29E2 /* HyBidLeaderboardAdRequest.m */,
-				5ADF9E652149377D0081355E /* HyBidBannerAdRequest.h */,
-				5ADF9E662149377D0081355E /* HyBidBannerAdRequest.m */,
 				5ADF9E69214939C40081355E /* HyBidMRectAdRequest.h */,
 				5ADF9E6A214939C40081355E /* HyBidMRectAdRequest.m */,
 				5ADF9E6D21493B6D0081355E /* HyBidInterstitialAdRequest.h */,
@@ -2336,6 +2332,7 @@
 		7EA2A89225890C8C004C6A97 /* Banner */ = {
 			isa = PBXGroup;
 			children = (
+				7EA2A90C2589E7A1004C6A97 /* Ad Request */,
 				5A262DC6218B02D1001A29E2 /* Leaderboard */,
 				5ADF9E8521494F730081355E /* HyBidBannerPresenterFactory.h */,
 				5ADF9E8621494F730081355E /* HyBidBannerPresenterFactory.m */,
@@ -2345,6 +2342,17 @@
 				5AC35B33214A5F80001F0ED3 /* HyBidBannerAdView.m */,
 			);
 			path = Banner;
+			sourceTree = "<group>";
+		};
+		7EA2A90C2589E7A1004C6A97 /* Ad Request */ = {
+			isa = PBXGroup;
+			children = (
+				5A262DD7218B394C001A29E2 /* HyBidLeaderboardAdRequest.h */,
+				5A262DD8218B394C001A29E2 /* HyBidLeaderboardAdRequest.m */,
+				5ADF9E652149377D0081355E /* HyBidBannerAdRequest.h */,
+				5ADF9E662149377D0081355E /* HyBidBannerAdRequest.m */,
+			);
+			path = "Ad Request";
 			sourceTree = "<group>";
 		};
 		7EE3579A256D45E0005E6AC6 /* Remote Config */ = {
