@@ -61,7 +61,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'Banner' do |banner|
     banner.dependency           'HyBid/Core'
-    banner.source_files         = ['PubnativeLite/Banner/**/*.{swift,h,m}']
+    banner.source_files         = ['PubnativeLite/PubnativeLite/Banner/**/*.{swift,h,m}']
   end
   
 end
