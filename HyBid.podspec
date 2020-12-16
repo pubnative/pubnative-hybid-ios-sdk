@@ -44,9 +44,10 @@ Pod::Spec.new do |s|
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.ios.deployment_target = "9.0"
   s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :branch => "development-hybid-modules" }
-  s.ios.vendored_frameworks = 'HyBid.framework'
   
-  s.subspec 'MoPubSDK' do |sdk|
+  s.default_subspecs = 'HyBid'
+
+  s.subspec 'HyBid' do |sdk|
     sdk.dependency 'HyBid/Core'
     sdk.dependency 'HyBid/Banner'
   end
@@ -59,7 +60,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Banner' do |banner|
-    banner.dependency             'HyBid/Core'
+    banner.dependency           'HyBid/Core'
     banner.source_files         = ['PubnativeLite/Banner/**/*.{swift,h,m}']
   end
   
