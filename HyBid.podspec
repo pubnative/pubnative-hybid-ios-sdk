@@ -50,6 +50,7 @@ Pod::Spec.new do |s|
   s.subspec 'HyBid' do |sdk|
     sdk.dependency 'HyBid/Core'
     sdk.dependency 'HyBid/Banner'
+    sdk.dependency 'HyBid/Native'
   end
   
   s.subspec 'Core' do |core|
