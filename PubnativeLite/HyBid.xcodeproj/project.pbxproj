@@ -1713,6 +1713,7 @@
 				7EA2A96B2589F730004C6A97 /* Resources */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
 				7EA2A89125890C3A004C6A97 /* Core */,
+				7EA2A9B1258B294D004C6A97 /* Native */,
 				7EA2A89225890C8C004C6A97 /* Banner */,
 			);
 			path = PubnativeLite;
@@ -1957,8 +1958,6 @@
 				5ADF9E50214911A90081355E /* HyBidAdRequest.m */,
 				5ADF9E6D21493B6D0081355E /* HyBidInterstitialAdRequest.h */,
 				5ADF9E6E21493B6D0081355E /* HyBidInterstitialAdRequest.m */,
-				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
-				5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */,
 				6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */,
 				6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */,
 			);
@@ -1997,8 +1996,6 @@
 				5ADACD05202C617A00617734 /* PNLiteResponseModel.m */,
 				5AC35B3E214A7055001F0ED3 /* HyBidAd.h */,
 				5AC35B3F214A7055001F0ED3 /* HyBidAd.m */,
-				5AC35B3A214A6B5B001F0ED3 /* HyBidNativeAd.h */,
-				5AC35B3B214A6B5B001F0ED3 /* HyBidNativeAd.m */,
 				5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */,
 				5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */,
 				5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */,
@@ -2181,17 +2178,6 @@
 			path = Markup;
 			sourceTree = "<group>";
 		};
-		5AFE05DF211C83B9009DF560 /* Native */ = {
-			isa = PBXGroup;
-			children = (
-				5ADF9E8121494C240081355E /* HyBidNativeAdLoader.h */,
-				5ADF9E8221494C240081355E /* HyBidNativeAdLoader.m */,
-				5ADF9EAD21496C400081355E /* HyBidNativeAdRenderer.h */,
-				5ADF9EAE21496C400081355E /* HyBidNativeAdRenderer.m */,
-			);
-			path = Native;
-			sourceTree = "<group>";
-		};
 		6F8C114D2539BA8F00DC4151 /* Rewarded */ = {
 			isa = PBXGroup;
 			children = (
@@ -2299,7 +2285,6 @@
 				5A64B3FA21E77C1800160235 /* Ad Presenter */,
 				5AECD5A6204034F20023ABBC /* Interstitial */,
 				6F8C114D2539BA8F00DC4151 /* Rewarded */,
-				5AFE05DF211C83B9009DF560 /* Native */,
 				5A9B66C520BD57FE0067964E /* VAST */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
 				7EE3579A256D45E0005E6AC6 /* Remote Config */,
@@ -2361,6 +2346,29 @@
 				6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		7EA2A9B1258B294D004C6A97 /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				5AC35B3A214A6B5B001F0ED3 /* HyBidNativeAd.h */,
+				5AC35B3B214A6B5B001F0ED3 /* HyBidNativeAd.m */,
+				5ADF9E8121494C240081355E /* HyBidNativeAdLoader.h */,
+				5ADF9E8221494C240081355E /* HyBidNativeAdLoader.m */,
+				5ADF9EAD21496C400081355E /* HyBidNativeAdRenderer.h */,
+				5ADF9EAE21496C400081355E /* HyBidNativeAdRenderer.m */,
+				7EA2A9B2258B29CB004C6A97 /* Ad Request */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
+		7EA2A9B2258B29CB004C6A97 /* Ad Request */ = {
+			isa = PBXGroup;
+			children = (
+				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
+				5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */,
+			);
+			path = "Ad Request";
 			sourceTree = "<group>";
 		};
 		7EE3579A256D45E0005E6AC6 /* Remote Config */ = {
