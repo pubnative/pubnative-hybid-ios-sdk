@@ -1901,8 +1901,6 @@
 				5A9B66E120BD8FF70067964E /* PNLiteVASTEventProcessor.m */,
 				5A9B66E420BD97500067964E /* PNLiteVASTPlayerViewController.h */,
 				5A9B66E520BD97510067964E /* PNLiteVASTPlayerViewController.m */,
-				5A2EC33420C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h */,
-				5A2EC33520C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.m */,
 				5A9B66D420BD6E670067964E /* PNLiteVASTMediaFile.h */,
 				5A9B66D520BD6E680067964E /* PNLiteVASTMediaFile.m */,
 				5A9B66D120BD6BF60067964E /* PNLiteVASTMediaFilePicker.h */,
@@ -2162,6 +2160,8 @@
 				5A8D7DC320C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.m */,
 				5ADF9EB5214970430081355E /* HyBidInterstitialAd.h */,
 				5ADF9EB6214970430081355E /* HyBidInterstitialAd.m */,
+				5A2EC33420C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h */,
+				5A2EC33520C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.m */,
 			);
 			path = FullScreen;
 			sourceTree = "<group>";
