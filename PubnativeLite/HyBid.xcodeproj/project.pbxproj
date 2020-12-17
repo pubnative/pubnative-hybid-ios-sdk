@@ -1912,8 +1912,6 @@
 				5A9B66C620BD62630067964E /* PNLiteVASTXMLUtil.m */,
 				5AB2C12F24869E4300AFB4A5 /* HyBidVideoAdProcessor.h */,
 				5AB2C13024869E4300AFB4A5 /* HyBidVideoAdProcessor.m */,
-				6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */,
-				6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */,
 				7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */,
 				7E45CF2F256FB79400E0FC3D /* PNLiteVastMacrosUtils.m */,
 			);
@@ -2192,6 +2190,8 @@
 				6F8C116F2539BCCC00DC4151 /* PNLiteRewardedPresenterDecorator.m */,
 				6F8C117F2539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.h */,
 				6F8C11802539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m */,
+				6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */,
+				6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */,
 			);
 			path = Rewarded;
 			sourceTree = "<group>";
