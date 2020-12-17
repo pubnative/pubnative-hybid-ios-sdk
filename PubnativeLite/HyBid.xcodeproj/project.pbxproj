@@ -1714,7 +1714,7 @@
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
 				7EA2A89125890C3A004C6A97 /* Core */,
 				7EA2A9B1258B294D004C6A97 /* Native */,
-				5AECD5A6204034F20023ABBC /* Interstitial */,
+				5AECD5A6204034F20023ABBC /* FullScreen */,
 				6F8C114D2539BA8F00DC4151 /* Rewarded */,
 				7EA2A89225890C8C004C6A97 /* Banner */,
 			);
@@ -2148,9 +2148,10 @@
 			path = DFPAdapter;
 			sourceTree = "<group>";
 		};
-		5AECD5A6204034F20023ABBC /* Interstitial */ = {
+		5AECD5A6204034F20023ABBC /* FullScreen */ = {
 			isa = PBXGroup;
 			children = (
+				5A9B66C520BD57FE0067964E /* VAST */,
 				7EA2A9EE258B393B004C6A97 /* Ad Request */,
 				5ADF9E7D2149492B0081355E /* HyBidInterstitialPresenter.h */,
 				5ADF9E7E2149492B0081355E /* HyBidInterstitialPresenter.m */,
@@ -2165,7 +2166,7 @@
 				5ADF9EB5214970430081355E /* HyBidInterstitialAd.h */,
 				5ADF9EB6214970430081355E /* HyBidInterstitialAd.m */,
 			);
-			path = Interstitial;
+			path = FullScreen;
 			sourceTree = "<group>";
 		};
 		5AFAF2C125223A210031581B /* Markup */ = {
@@ -2283,7 +2284,6 @@
 				5ABE013A203F2F5F00E6A14E /* Ad Cache */,
 				5A404B47204E96C200BEE041 /* Ad Tracker */,
 				5A64B3FA21E77C1800160235 /* Ad Presenter */,
-				5A9B66C520BD57FE0067964E /* VAST */,
 				5A2633592034ABAF0005EA39 /* MRAID */,
 				7EE3579A256D45E0005E6AC6 /* Remote Config */,
 				7E80A741256805DC006BD5EF /* Auction */,

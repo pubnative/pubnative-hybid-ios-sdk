@@ -70,9 +70,9 @@ Pod::Spec.new do |s|
         native.source_files     = ['PubnativeLite/PubnativeLite/Native/**/*.{swift,h,m}']
   end
   
-  s.subspec 'Interstitial' do |interstitial|
-    interstitial.dependency     'HyBid/Core'
-    interstitial.source_files   = ['PubnativeLite/PubnativeLite/Interstitial/**/*.{swift,h,m}']
+  s.subspec 'FullScreen' do |fullscreen|
+    fullscreen.dependency       'HyBid/Core'
+    fullscreen.source_files     = ['PubnativeLite/PubnativeLite/FullScreen/**/*.{swift,h,m}']
   end
   
   s.subspec 'RewardedVideo' do |rewarded|

@@ -70,7 +70,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
     #import <HyBid/HyBidNativeAdRenderer.h>
 #endif
 
-//Interstitial Module headers
+//FullScreen Module headers
 #if __has_include("HyBidInterstitialAdRequest.h")
     #import <HyBid/HyBidInterstitialAdRequest.h>
 #endif
