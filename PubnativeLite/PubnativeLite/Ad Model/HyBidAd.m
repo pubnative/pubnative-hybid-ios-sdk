@@ -142,8 +142,12 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSString *)link {
     NSString *result = nil;
-    if (self.data) {
-        result = self.data.link;
+    if (self.openRTBData != nil) {
+        result = self.openRTBData.link;
+    } else {
+        if (self.data) {
+            result = self.data.link;
+        }
     }
     return result;
 }
@@ -261,8 +265,13 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {
     HyBidDataModel *result = nil;
-    if (self.data) {
-        result = [self.data assetWithType:type];
+    
+    if (self.openRTBData != nil) {
+        result = [self.openRTBData assetWithType:type];
+    } else {
+        if (self.data) {
+            result = [self.data assetWithType:type];
+        }
     }
     return result;
 }
