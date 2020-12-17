@@ -237,6 +237,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         }
     } else {
         if (!self.contentInfoView) {
+            self.contentInfoView = [[HyBidContentInfoView alloc] init];
             self.contentInfoView.text = ContentInfoViewText;
             self.contentInfoView.link = ContentInfoViewLink;
             self.contentInfoView.icon = ContentInfoViewIcon;
