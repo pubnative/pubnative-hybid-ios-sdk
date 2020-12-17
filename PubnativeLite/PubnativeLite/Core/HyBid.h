@@ -57,6 +57,15 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #if __has_include("HyBidMRectAdView.h")
     #import <HyBid/HyBidMRectAdView.h>
 #endif
+#if __has_include("HyBidNativeAdLoader.h")
+    #import <HyBid/HyBidNativeAdLoader.h>
+#endif
+#if __has_include("HyBidNativeAd.h")
+    #import <HyBid/HyBidNativeAd.h>
+#endif
+#if __has_include("HyBidNativeAdRenderer.h")
+    #import <HyBid/HyBidNativeAdRenderer.h>
+#endif
 
 #import <HyBid/HyBidRequestParameter.h>
 #import <HyBid/HyBidTargetingModel.h>
@@ -67,7 +76,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidInterstitialAdRequest.h>
 #import <HyBid/HyBidAdPresenter.h>
 #import <HyBid/HyBidInterstitialPresenter.h>
-#import <HyBid/HyBidNativeAdLoader.h>
 #import <HyBid/HyBidAdPresenterFactory.h>
 #import <HyBid/HyBidInterstitialPresenterFactory.h>
 #import <HyBid/HyBidAdCache.h>
@@ -79,12 +87,10 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAdModel.h>
 #import <HyBid/HyBidDataModel.h>
 #import <HyBid/HyBidAd.h>
-#import <HyBid/HyBidNativeAd.h>
 #import <HyBid/HyBidAdView.h>
 #import <HyBid/HyBidInterstitialAd.h>
 #import <HyBid/HyBidSettings.h>
 #import <HyBid/HyBidStarRatingView.h>
-#import <HyBid/HyBidNativeAdRenderer.h>
 #import <HyBid/HyBidViewabilityManager.h>
 #import <HyBid/HyBidLogger.h>
 #import <HyBid/HyBidIntegrationType.h>
