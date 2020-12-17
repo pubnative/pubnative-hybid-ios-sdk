@@ -2149,7 +2149,6 @@
 		5AECD5A6204034F20023ABBC /* FullScreen */ = {
 			isa = PBXGroup;
 			children = (
-				5A9B66C520BD57FE0067964E /* VAST */,
 				7EA2A9EE258B393B004C6A97 /* Ad Request */,
 				5ADF9E7D2149492B0081355E /* HyBidInterstitialPresenter.h */,
 				5ADF9E7E2149492B0081355E /* HyBidInterstitialPresenter.m */,
@@ -2288,6 +2287,7 @@
 				7EE3579A256D45E0005E6AC6 /* Remote Config */,
 				7E80A741256805DC006BD5EF /* Auction */,
 				5A3657D7203C538A004B4347 /* Categories */,
+				5A9B66C520BD57FE0067964E /* VAST */,
 				5A064992203DBECC00CDF925 /* Utils */,
 			);
 			path = Core;
