@@ -230,6 +230,7 @@
         }
     } else {
         self.ad = ad;
+        self.ad.adType = kHyBidAdTypeHTML;
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {

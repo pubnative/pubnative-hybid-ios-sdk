@@ -30,33 +30,12 @@
 @implementation HyBidBannerPresenterFactory
 
 - (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
-    if (ad.isUsingOpenRTB) {
-        if (ad.adType == kHyBidAdTypeHTML) {
-            PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
-            return mraidBannerPresenter;
-        } else if (ad.adType == kHyBidAdTypeVideo) {
-            HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
-            return vastAdPresenter;
-        }
-    }
-    
-    switch (ad.assetGroupID.integerValue) {
-        case MRAID_160x600:
-        case MRAID_250x250:
-        case MRAID_300x50:
-        case MRAID_300x250:
-        case MRAID_300x600:
-        case MRAID_320x50:
-        case MRAID_320x100:
-        case MRAID_320x480:
-        case MRAID_480x320:
-        case MRAID_728x90:
-        case MRAID_768x1024:
-        case MRAID_1024x768: {
+    switch (ad.adType) {
+        case kHyBidAdTypeHTML: {
             PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
             return mraidBannerPresenter;
         }
-        case VAST_MRECT: {
+        case kHyBidAdTypeVideo: {
             HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
             return vastAdPresenter;
         }
