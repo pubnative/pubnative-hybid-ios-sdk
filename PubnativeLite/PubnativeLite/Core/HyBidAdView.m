@@ -23,11 +23,7 @@
 #import "HyBidAdView.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
-#if __has_include("HyBidBannerPresenterFactory.h")
-    #import "HyBidBannerPresenterFactory.h"
-#else
-    #import "HyBidAdPresenterFactory.h"
-#endif
+#import "HyBidBannerPresenterFactory.h"
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidRemoteConfigModel.h"
 #import "HyBidAuction.h"
@@ -208,14 +204,8 @@
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
-    #if __has_include("HyBidBannerPresenterFactory.h")
-        HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-        return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-    #else
-        HyBidAdPresenterFactory *adPresenterFactory = [[HyBidAdPresenterFactory alloc] init];
-        return [adPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
-    #endif
-   
+    HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
+    return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 
 #pragma mark HyBidAdRequestDelegate

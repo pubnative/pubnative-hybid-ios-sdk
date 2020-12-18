@@ -40,9 +40,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #if __has_include("HyBidLeaderboardPresenterFactory.h")
     #import <HyBid/HyBidLeaderboardPresenterFactory.h>
 #endif
-#if __has_include("HyBidBannerPresenterFactory.h")
-    #import <HyBid/HyBidBannerPresenterFactory.h>
-#endif
 #if __has_include("HyBidLeaderboardAdView.h")
     #import <HyBid/HyBidLeaderboardAdView.h>
 #endif
@@ -89,6 +86,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
     #import <HyBid/HyBidRewardedAd.h>
 #endif
 
+#import <HyBid/HyBidBannerPresenterFactory.h>
 #import <HyBid/HyBidRequestParameter.h>
 #import <HyBid/HyBidTargetingModel.h>
 #import <HyBid/HyBidAdRequest.h>
