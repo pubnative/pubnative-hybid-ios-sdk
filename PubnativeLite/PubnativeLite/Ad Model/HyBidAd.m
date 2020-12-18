@@ -128,8 +128,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     NSString *result = nil;
     
     if (self.openRTBData != nil) {
-        if (self.openRTBData.dictionary[@"adm"]) {
-            result = self.openRTBData.dictionary[@"adm"];
+        HyBidOpenRTBDataModel *data = [self openRTBAssetDataWithType:PNLiteAsset.htmlBanner];
+        if (data) {
+            result = data.html;
         }
     } else {
         HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
@@ -267,12 +268,17 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {
     HyBidDataModel *result = nil;
     
-    if (self.openRTBData != nil) {
+    if (self.data) {
+        result = [self.data assetWithType:type];
+    }
+    return result;
+}
+
+- (HyBidOpenRTBDataModel *)openRTBAssetDataWithType:(NSString *)type {
+    HyBidOpenRTBDataModel *result = nil;
+    
+    if (self.openRTBData) {
         result = [self.openRTBData assetWithType:type];
-    } else {
-        if (self.data) {
-            result = [self.data assetWithType:type];
-        }
     }
     return result;
 }

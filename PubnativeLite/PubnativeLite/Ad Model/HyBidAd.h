@@ -25,6 +25,7 @@
 #import "HyBidAdModel.h"
 #import "HyBidContentInfoView.h"
 #import "HyBidSkAdNetworkModel.h"
+#import "HyBidOpenRTBDataModel.h"
 
 #define kHyBidAdTypeHTML 0
 #define kHyBidAdTypeVideo 1
@@ -51,6 +52,7 @@
 - (instancetype)initOpenRTBWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 - (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType;
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
+- (HyBidOpenRTBDataModel *)openRTBAssetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel;

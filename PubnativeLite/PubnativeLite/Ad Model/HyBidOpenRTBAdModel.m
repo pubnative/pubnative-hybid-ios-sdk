@@ -22,6 +22,7 @@
 
 #import "HyBidOpenRTBAdModel.h"
 #import "HyBidOpenRTBDataModel.h"
+#import "PNLiteAsset.h"
 
 @implementation HyBidOpenRTBAdModel
 
@@ -43,10 +44,7 @@
         NSDictionary *adm = [NSJSONSerialization JSONObjectWithData:admData options:kNilOptions error:&error];
         
         self.link = adm[@"native"][@"link"][@"url"];
-//        self.assetgroupid = dictionary[@"assetgroupid"];
         self.assets = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseArrayValuesForAssets:adm[@"native"][@"assets"]]];
-//        self.meta = [HyBidDataModel parseArrayValues:dictionary[@"meta"]];
-//        self.beacons = [HyBidDataModel parseArrayValues:dictionary[@"beacons"]];
     }
     return self;
 }
@@ -74,11 +72,15 @@
 - (HyBidOpenRTBDataModel *)dataWithType:(NSString *)type
                          fromList:(NSArray *)list {
     HyBidOpenRTBDataModel *result = nil;
-    if (list != nil) {
-        for (HyBidOpenRTBDataModel *data in list) {
-            if ([type isEqualToString:data.type]) {
-                result = data;
-                break;
+    if ([type isEqual: PNLiteAsset.htmlBanner]) {
+        result = [[HyBidOpenRTBDataModel alloc] initWithHTMLAsset:PNLiteAsset.htmlBanner withValue:self.dictionary[@"adm"]];
+    } else {
+        if (list != nil) {
+            for (HyBidOpenRTBDataModel *data in list) {
+                if ([type isEqualToString:data.type]) {
+                    result = data;
+                    break;
+                }
             }
         }
     }

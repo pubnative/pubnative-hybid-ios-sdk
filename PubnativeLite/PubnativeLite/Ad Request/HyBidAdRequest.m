@@ -237,6 +237,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                     videoAdCacheItem.vastModel = vastModel;
                     [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
                     HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
+                    ad.isUsingOpenRTB = self.isUsingOpenRTB;
                     [self invokeDidLoad:ad];
                 }
             }];
@@ -279,6 +280,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                     ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
                 }
                 
+                ad.isUsingOpenRTB = self.isUsingOpenRTB;
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
                 switch (ad.assetGroupID.integerValue) {
