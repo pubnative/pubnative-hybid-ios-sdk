@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "2.3.0-beta"
+  s.version      = "2.4.3-beta"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -43,6 +43,7 @@ Pod::Spec.new do |s|
   }
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.ios.deployment_target = "9.0"
+
   s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :branch => "development-hybid-modules" }
   
   s.default_subspecs = 'HyBid'
@@ -79,5 +80,5 @@ Pod::Spec.new do |s|
     rewarded.dependency         'HyBid/Core'
     rewarded.source_files       = ['PubnativeLite/PubnativeLite/Rewarded/**/*.{swift,h,m}']
   end
-  
+
 end
