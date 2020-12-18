@@ -46,14 +46,6 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :branch => "development-hybid-modules" }
   
-  s.default_subspecs = 'HyBid'
-
-  s.subspec 'HyBid' do |sdk|
-    sdk.dependency 'HyBid/Core'
-    sdk.dependency 'HyBid/Banner'
-    sdk.dependency 'HyBid/Native'
-  end
-  
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
     core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.3.7/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
