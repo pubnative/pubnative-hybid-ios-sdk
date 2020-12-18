@@ -45,4 +45,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "9.0"
   s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/2.4.3-beta/HyBid.xcframework.zip" }
   s.ios.vendored_frameworks = 'HyBid.xcframework'
+  s.xcconfig = {
+    'VALID_ARCHS' =>  'arm64 x86_64',
+  }
 end
