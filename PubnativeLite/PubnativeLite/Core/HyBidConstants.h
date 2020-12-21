@@ -20,27 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#ifndef HyBidConstants_h
+#define HyBidConstants_h
 
-/// You should consider this struct as an opaque type.
-/// Never, ever, rely on size property of this struct - instead use
-/// CGSizeFromVWAdSize and other methods defined below.
-typedef struct {
-  CGSize size;
-  NSUInteger flags;
-} VWAdSize;
+#define HYBID_SDK_NAME @"HyBid"
+#define HYBID_SDK_VERSION @"2.4.4-beta"
+#define HYBID_OMSDK_VERSION @"1.3.7"
+#define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
 
-
-#pragma mark Standard Sizes
-
-/// 320 x 50 or device-width x 50
-extern VWAdSize const kVWAdSizeBanner;
-
-/// 300 x 250
-extern VWAdSize const kVWAdSizeMediumRectangle;
-
-/// 728 x 90
-extern VWAdSize const kVWAdSizeLeaderboard;
-
-/// Undefined
-extern VWAdSize const kVWAdSizeUndefined;
+#endif

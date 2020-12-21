@@ -58,8 +58,17 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-hybid-modules" ]; then
                       PubnativeLite/Scripts/generate.sh
+                    fi
+            - deploy:
+                name: Generate Module frameworks
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-hybid-modules" ]; then
+                      PubnativeLite/Scripts/generate_banner_only.sh
+                      PubnativeLite/Scripts/generate_fullscreen_only.sh
+                      PubnativeLite/Scripts/generate_native_only.sh
+                      PubnativeLite/Scripts/generate_rewardedvideo_only.sh
                     fi
             - deploy:
                 name: Publish to Firebase
