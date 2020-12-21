@@ -43,6 +43,7 @@
 #define kHyBidDFPHeaderBiddingMRectAdUnitIDKey @"dfpHeaderBiddingMRectAdUnitID"
 #define kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey @"dfpHeaderBiddingInterstitialAdUnitID"
 #define kHyBidAdMobMediationAppIDKey @"adMobMediationAppID"
+#define kHyBidAdMobMediationNativeAdUnitIDKey @"adMobMediationNativeAdUnitID"
 #define kHyBidAdMobMediationBannerAdUnitIDKey @"adMobMediationBannerAdUnitID"
 #define kHyBidAdMobMediationMRectAdUnitIDKey @"adMobMediationMRectAdUnitID"
 #define kHyBidAdMobMediationLeaderboardAdUnitIDKey @"adMobMediationLeaderboardAdUnitID"

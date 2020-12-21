@@ -160,6 +160,17 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     return self.bannerImageView;
 }
 
+- (UIImage *)bannerImage {
+    UIImage *image = nil;
+    if(self.bannerUrl && self.bannerUrl.length > 0) {
+        NSData *bannerData = self.fetchedAssets[[NSURL URLWithString:self.bannerUrl]];
+        if(bannerData && bannerData.length > 0) {
+            image = [UIImage imageWithData:bannerData];
+        }
+    }
+    return image;
+}
+
 - (UIImage *)icon {
     UIImage *result = nil;
     if(self.iconUrl && self.iconUrl.length > 0) {
