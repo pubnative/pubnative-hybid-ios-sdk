@@ -27,6 +27,7 @@
 + (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType {
     NSArray *integrationTypes = @[
                                   @"hb",
+                                  @"iab",
                                   @"m",
                                   @"s",
                                   ];

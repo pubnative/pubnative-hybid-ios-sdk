@@ -24,6 +24,9 @@
 #import <MoPub/MoPub.h>
 #else
 #import "MPInlineAdAdapter.h"
+#import "MPLogging.h"
+#import "MPConstants.h"
+#import "MPError.h"
 #endif
 
 #import <HyBid/HyBid.h>

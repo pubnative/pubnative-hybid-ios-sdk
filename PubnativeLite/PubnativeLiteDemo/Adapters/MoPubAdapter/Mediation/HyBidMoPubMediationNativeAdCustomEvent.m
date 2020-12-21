@@ -23,8 +23,6 @@
 #import "HyBidMoPubMediationNativeAdCustomEvent.h"
 #import "HyBidMoPubMediationNativeAdAdapter.h"
 #import "HyBidMoPubUtils.h"
-#import "MPNativeAd.h"
-#import "MPLogging.h"
 
 @interface HyBidMoPubMediationNativeAdCustomEvent() <HyBidNativeAdLoaderDelegate>
 

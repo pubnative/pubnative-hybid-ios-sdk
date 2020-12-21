@@ -32,6 +32,7 @@
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
 #import "HyBidSKAdNetworkViewController.h"
+#import "HyBidSettings.h"
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -138,7 +139,8 @@ typedef enum : NSUInteger {
     if (self) {
         self.state = PNLiteVASTPlayerState_IDLE;
         self.playback = PNLiteVASTPlaybackState_FirstQuartile;
-        self.muted = YES;
+        self.muted = [[HyBidSettings sharedInstance].deviceSound isEqual: @"0"];
+        [self setAdAudioMuted:self.muted];
         self.canResize = YES;
     }
     return self;
@@ -157,7 +159,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLoad {
-    [self.btnMute setImage:[self bundledImageNamed:PNLiteVASTPlayerMuteImageName] forState:UIControlStateNormal];
+    [self setAdAudioMuted:self.muted];
     [self.btnOpenOffer setImage:[self bundledImageNamed:PNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
     [self.btnFullscreen setImage:[self bundledImageNamed:PNLiteVASTPlayerFullScreenImageName] forState:UIControlStateNormal];
     [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
@@ -423,14 +425,18 @@ typedef enum : NSUInteger {
 
 #pragma mark IBActions
 
-- (IBAction)btnMutePush:(id)sender {
-    self.muted = !self.muted;
-    NSString *newImageName = self.muted ? PNLiteVASTPlayerMuteImageName : PNLiteVASTPlayerUnMuteImageName;
+- (void)setAdAudioMuted:(BOOL)muted {
+    NSString *newImageName = muted ? PNLiteVASTPlayerMuteImageName : PNLiteVASTPlayerUnMuteImageName;
     UIImage *newImage = [self bundledImageNamed:newImageName];
     [self.btnMute setImage:newImage forState:UIControlStateNormal];
-    CGFloat newVolume = self.muted?0.0f:1.0f;
+    CGFloat newVolume = muted ? 0.0f : 1.0f;
     self.player.volume = newVolume;
     [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDVolumeChangeEventWithVolume:newVolume];
+}
+
+- (IBAction)btnMutePush:(id)sender {
+    self.muted = !self.muted;
+    [self setAdAudioMuted:self.muted];
 }
 
 - (IBAction)btnClosePush:(id)sender {

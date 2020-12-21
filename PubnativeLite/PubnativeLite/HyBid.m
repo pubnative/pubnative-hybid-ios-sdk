@@ -25,6 +25,7 @@
 #import "HyBidUserDataManager.h"
 #import "PNLiteLocationManager.h"
 #import "HyBidConstants.h"
+#import "HyBidRemoteConfigManager.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 

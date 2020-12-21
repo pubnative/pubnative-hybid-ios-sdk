@@ -178,6 +178,8 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (void)notifyConsentGiven {
+    [self saveGDPRConsentState];
+    
     PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
                                                                                          withDeviceIDType:PNLiteDeviceIDType
                                                                                               withConsent:YES];
@@ -187,6 +189,8 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (void)notifyConsentDenied {
+    [self saveGDPRConsentState];
+    
     PNLiteUserConsentRequestModel *requestModel = [[PNLiteUserConsentRequestModel alloc] initWithDeviceID:[HyBidSettings sharedInstance].advertisingId
                                                                                     withDeviceIDType:PNLiteDeviceIDType
                                                                                          withConsent:NO];
@@ -297,6 +301,12 @@ NSInteger const PNLiteConsentStateDenied = 0;
     }
 }
 
+- (BOOL)isConsentDenied
+{
+    id consentKeyValue = [[NSUserDefaults standardUserDefaults] objectForKey:PNLiteGDPRConsentStateKey];
+    return (consentKeyValue != nil) && ([consentKeyValue integerValue] == PNLiteConsentStateDenied);
+}
+
 #pragma mark Consent Dialog
 
 - (BOOL)isConsentPageLoaded {
@@ -363,11 +373,9 @@ NSInteger const PNLiteConsentStateDenied = 0;
     if ([model.status isEqualToString:[PNLiteUserConsentResponseStatus ok]]) {
         if (model.consent != nil) {
             if (model.consent.consented) {
-                self.consentState = PNLiteConsentStateAccepted;
-                [self saveGDPRConsentState];
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Positive user consent has been notified"];
             } else {
-                self.consentState = PNLiteConsentStateDenied;
-                [self saveGDPRConsentState];
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Negative user consent has been notified"];
             }
         }
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Check Consent Request finished."];

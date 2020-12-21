@@ -24,6 +24,8 @@
 #import <MoPub/MoPub.h>
 #else
 #import "MPNativeCustomEvent.h"
+#import "MPNativeAd.h"
+#import "MPLogging.h"
 #endif
 
 #import <HyBid/HyBid.h>

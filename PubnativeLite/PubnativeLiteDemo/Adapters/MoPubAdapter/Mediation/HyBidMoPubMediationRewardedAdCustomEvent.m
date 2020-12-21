@@ -22,8 +22,6 @@
 
 #import "HyBidMoPubMediationRewardedAdCustomEvent.h"
 #import "HyBidMoPubUtils.h"
-#import "MPLogging.h"
-#import "MPError.h"
 
 @interface HyBidMoPubMediationRewardedAdCustomEvent() <HyBidRewardedAdDelegate>
 @property (nonatomic) HyBidRewardedAd *rewardedAd;

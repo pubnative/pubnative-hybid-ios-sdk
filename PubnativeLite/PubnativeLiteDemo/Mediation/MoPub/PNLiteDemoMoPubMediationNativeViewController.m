@@ -23,15 +23,15 @@
 #import "PNLiteDemoMoPubMediationNativeViewController.h"
 #import "PNLiteDemoMoPubMediationNativeView.h"
 #import "PNLiteDemoSettings.h"
-#import "MPNativeAdRequest.h"
-#import "MPNativeAd.h"
-#import "MPNativeAdDelegate.h"
-#import "MPNativeAdRendererImageHandler.h"
-#import "MPNativeAdRendererConfiguration.h"
-#import "MPStaticNativeAdRendererSettings.h"
-#import "MPStaticNativeAdRenderer.h"
-#import "MPNativeAdRequestTargeting.h"
-#import "MPNativeAdConstants.h"
+#import <MoPub/MPNativeAdRequest.h>
+#import <MoPub/MPNativeAd.h>
+#import <MoPub/MPNativeAdDelegate.h>
+#import <MoPub/MPNativeAdRendererImageHandler.h>
+#import <MoPub/MPNativeAdRendererConfiguration.h>
+#import <MoPub/MPStaticNativeAdRendererSettings.h>
+#import <MoPub/MPStaticNativeAdRenderer.h>
+#import <MoPub/MPNativeAdRequestTargeting.h>
+#import <MoPub/MPNativeAdConstants.h>
 
 @interface PNLiteDemoMoPubMediationNativeViewController () <MPNativeAdDelegate>
 

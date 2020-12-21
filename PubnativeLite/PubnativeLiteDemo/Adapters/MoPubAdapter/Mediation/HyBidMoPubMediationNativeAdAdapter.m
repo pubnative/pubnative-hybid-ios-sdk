@@ -21,8 +21,6 @@
 //
 
 #import "HyBidMoPubMediationNativeAdAdapter.h"
-#import "MPNativeAdConstants.h"
-#import "MPLogging.h"
 
 @interface HyBidMoPubMediationNativeAdAdapter () <HyBidNativeAdDelegate>
 

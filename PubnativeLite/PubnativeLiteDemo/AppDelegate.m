@@ -22,7 +22,7 @@
 
 #import "AppDelegate.h"
 #import "PNLiteDemoSettings.h"
-#import "MoPub.h"
+#import <MoPub/MoPub.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"
@@ -30,7 +30,6 @@
 @import GoogleMobileAds;
 
 @interface AppDelegate ()
-
 @end
 
 @implementation AppDelegate
@@ -71,7 +70,6 @@ CLLocationManager *locationManager;
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
-    
     return YES;
 }
 
