@@ -56,5 +56,6 @@
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;
 - (NSArray *)beaconsDataWithType:(NSString *)type;
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel;
+- (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel;
 
 @end

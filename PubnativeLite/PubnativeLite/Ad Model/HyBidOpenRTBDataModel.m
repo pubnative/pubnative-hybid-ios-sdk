@@ -37,7 +37,7 @@
     self = [super initWithDictionary:dictionary];
     if (self) {
         if (dictionary[@"data"] != nil) {
-            NSMutableDictionary *newDict = [dictionary[@"data"] mutableCopy];
+            NSMutableDictionary *newDict = [NSMutableDictionary dictionary];
             self.type = dictionary[@"data"][@"label"];
 
             id value = dictionary[@"data"][@"value"];
@@ -52,6 +52,9 @@
         } else if (dictionary[@"title"] != nil) {
             self.type = @"title";
             self.data = dictionary[@"title"];
+        } else if (dictionary[@"skadn"] != nil) {
+            self.type = [PNLiteMeta skadnetwork];
+            self.data = dictionary[@"skadn"];
         }
     }
     return self;

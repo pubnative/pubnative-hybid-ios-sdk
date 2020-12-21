@@ -60,5 +60,14 @@
     }
     return result;
 }
++ (NSArray *)parseDictionaryValuesForMetas:(NSDictionary *)dictionary {
+    NSMutableArray *result;
+    if(dictionary && [dictionary isKindOfClass: [NSDictionary class]]) {
+        result = [NSMutableArray array];
+        NSObject *value = [[self alloc] initWithDictionary:dictionary];
+        [result addObject:value];
+    }
+    return result;
+}
 
 @end

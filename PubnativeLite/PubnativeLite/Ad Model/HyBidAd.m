@@ -264,6 +264,23 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     }
     return model;
 }
+- (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel {
+    HyBidOpenRTBDataModel *data = [self extensionDataWithType:PNLiteMeta.skadnetwork];
+    HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
+    
+    if (data) {
+        NSDictionary *dict = @{@"campaign": [data stringFieldWithKey:@"campaign"],
+                               @"itunesitem": [data stringFieldWithKey:@"itunesitem"],
+                               @"network": [data stringFieldWithKey:@"network"],
+                               @"nonce": [data stringFieldWithKey:@"nonce"],
+                               @"signature": [data stringFieldWithKey:@"signature"],
+                               @"sourceapp": [data stringFieldWithKey:@"sourceapp"],
+                               @"timestamp": [data stringFieldWithKey:@"timestamp"],
+                               @"version": [data stringFieldWithKey:@"version"]};
+        model.productParameters = dict;
+    }
+    return model;
+}
 
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {
     HyBidDataModel *result = nil;
@@ -287,6 +304,14 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     HyBidDataModel *result = nil;
     if (self.data) {
         result = [self.data metaWithType:type];
+    }
+    return result;
+}
+
+- (HyBidOpenRTBDataModel *)extensionDataWithType:(NSString *)type {
+    HyBidOpenRTBDataModel *result = nil;
+    if (self.openRTBData) {
+        result = [self.openRTBData extensionWithType:type];
     }
     return result;
 }

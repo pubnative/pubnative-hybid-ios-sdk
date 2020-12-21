@@ -26,6 +26,7 @@
 #import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
 #import "HyBidRequestParameter.h"
+#import "HyBidSkAdNetworkRequestModel.h"
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -107,7 +108,7 @@ NSInteger const MAX_RETRIES = 1;
     NSNumber *height = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.height] integerValue]];
     
     if (adType == NATIVE) {
-        return @[
+        NSArray *arr = @[
             @{
                 @"id": NSUUID.UUID.UUIDString,
                 @"banner": @{
@@ -117,11 +118,12 @@ NSInteger const MAX_RETRIES = 1;
                 @"native":
                     @{
                         @"request": @"{\"native\":{\"ver\":\"1\",\"layout\":6,\"assets\":[{\"id\":0,\"required\":0,\"title\":{\"len\":100}},{\"id\":2,\"required\":1,\"img\":{\"type\":1,\"wmin\":50,\"hmin\":50}},{\"id\":3,\"required\":0,\"data\":{\"type\":2,\"len\":90}},{\"id\":4,\"required\":0,\"data\":{\"type\":3}},{\"id\":5,\" required\":0,\"data\":{\"type\":12,\"len\":15}},{\"id\":1,\"required\":0,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":250}}]}}"
-                    }
+                    },
             }
         ];
+        return [self appendSkAdNetworkParametersTo:arr];
     } else if (adType == VIDEO) {
-        return @[
+        NSArray *arr = @[
             @{
                 @"id": NSUUID.UUID.UUIDString,
                 @"video":
@@ -131,8 +133,9 @@ NSInteger const MAX_RETRIES = 1;
                     }
             }
         ];
+        return [self appendSkAdNetworkParametersTo:arr];
     } else if (adType == BANNER) {
-        return @[
+        NSArray *arr = @[
             @{
                 @"id": NSUUID.UUID.UUIDString,
                 @"banner": @{
@@ -141,8 +144,25 @@ NSInteger const MAX_RETRIES = 1;
                 }
             }
         ];
+        return [self appendSkAdNetworkParametersTo:arr];
     }
     return @[];
+}
+- (NSArray *)appendSkAdNetworkParametersTo:(NSArray *)array
+{
+    HyBidSkAdNetworkRequestModel *model = [[HyBidSkAdNetworkRequestModel alloc] init];
+    NSDictionary *extDict = @{
+        @"ext": @{
+                @"skadn": @{
+                        @"sourceapp": [model getAppID],
+                        @"version": [model getSkAdNetworkVersion],
+                        @"skadnetids": [model getSkAdNetworkAdNetworkIDs]
+                }
+        }
+    };
+    NSMutableDictionary *dict = [[array firstObject] mutableCopy];
+    [dict addEntriesFromDictionary:extDict];
+    return [NSArray arrayWithObject:dict];
 }
 
 - (void)executeAsyncRequest

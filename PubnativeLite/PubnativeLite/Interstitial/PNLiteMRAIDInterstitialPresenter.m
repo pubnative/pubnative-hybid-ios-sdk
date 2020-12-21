@@ -114,7 +114,7 @@
     
     [self.delegate interstitialPresenterDidClick:self];
     
-    HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
+    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
         NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];

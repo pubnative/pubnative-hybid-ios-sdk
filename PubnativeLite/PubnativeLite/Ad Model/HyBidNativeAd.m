@@ -234,6 +234,13 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     }
     return result;
 }
+- (HyBidSkAdNetworkModel *)openRTBSkAdNetworkModel {
+    HyBidSkAdNetworkModel *result = nil;
+    if (self.ad) {
+        result = [self.ad getOpenRTBSkAdNetworkModel];
+    }
+    return result;
+}
 
 #pragma mark Tracking & Clicking
 
@@ -307,7 +314,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self invokeDidClick];
         [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
         
-        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+        HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
         
         if (skAdNetworkModel) {
             NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];

@@ -124,7 +124,7 @@ typedef enum : NSUInteger {
     self = [self init];
     if (self) {
         self.contentInfoView = adModel.contentInfo;
-        self.skAdModel = adModel.getSkAdNetworkModel;
+        self.skAdModel = adModel.isUsingOpenRTB ? adModel.getOpenRTBSkAdNetworkModel : adModel.getSkAdNetworkModel;
         self.contentInfoView.delegate = self;
     }
     return self;

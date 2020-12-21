@@ -28,6 +28,7 @@
 
 + (NSArray *)parseArrayValuesForBids:(NSArray *)array;
 + (NSArray *)parseArrayValuesForAssets:(NSArray *)array;
++ (NSArray *)parseDictionaryValuesForMetas:(NSDictionary *)dictionary;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 

@@ -29,9 +29,8 @@
 - (void)dealloc {
     self.link = nil;
     self.assets = nil;
-    self.meta = nil;
+    self.extensions = nil;
     self.beacons = nil;
-    self.assetgroupid = nil;
 }
 
 #pragma mark HyBidBaseModel
@@ -45,6 +44,11 @@
         
         self.link = adm[@"native"][@"link"][@"url"];
         self.assets = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseArrayValuesForAssets:adm[@"native"][@"assets"]]];
+        
+        NSError *extError;
+        NSData *extData = [NSJSONSerialization dataWithJSONObject:dictionary[@"ext"] options:NSJSONWritingPrettyPrinted error:&extError];
+        NSDictionary *ext = [NSJSONSerialization JSONObjectWithData:extData options:kNilOptions error:&extError];
+        self.extensions = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseDictionaryValuesForMetas:ext]];
     }
     return self;
 }
@@ -57,9 +61,9 @@
     return result;
 }
 
-- (HyBidOpenRTBDataModel *)metaWithType:(NSString *)type {
+- (HyBidOpenRTBDataModel *)extensionWithType:(NSString *)type {
     HyBidOpenRTBDataModel *result = nil;
-    result = [self dataWithType:type fromList:self.meta];
+    result = [self dataWithType:type fromList:self.extensions];
     return result;
 }
 

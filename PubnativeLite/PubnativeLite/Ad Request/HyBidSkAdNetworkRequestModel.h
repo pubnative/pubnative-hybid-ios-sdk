@@ -21,18 +21,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidOpenRTBBaseModel.h"
-#import "HyBidOpenRTBDataModel.h"
 
-@interface HyBidOpenRTBAdModel : HyBidOpenRTBBaseModel
+@interface HyBidSkAdNetworkRequestModel : NSObject
 
-@property (nonatomic, strong) NSString *link;
-@property (nonatomic, strong) NSMutableArray<HyBidOpenRTBDataModel*> *assets;
-@property (nonatomic, strong) NSArray<HyBidOpenRTBDataModel*> *beacons;
-@property (nonatomic, strong) NSArray<HyBidOpenRTBDataModel*> *extensions;
-
-- (HyBidOpenRTBDataModel *)assetWithType:(NSString *)type;
-- (HyBidOpenRTBDataModel *)extensionWithType:(NSString *)type;
-- (NSArray *)beaconsWithType:(NSString *)type;
+- (NSString *)getAppID;
+- (NSString *)getSkAdNetworkVersion;
+- (NSString *)getSkAdNetworkAdNetworkIDs;
 
 @end
