@@ -43,8 +43,8 @@
 }
 
 - (HyBidRewardedPresenter *)createRewardedPresenterFromAd:(HyBidAd *)ad {
-    switch (ad.assetGroupID.integerValue) {
-        case VAST_REWARDED: {
+    switch (ad.adType) {
+        case kHyBidAdTypeVideo: {
             PNLiteVASTRewardedPresenter *vastRewardedPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad];
             return vastRewardedPresenter;
         }

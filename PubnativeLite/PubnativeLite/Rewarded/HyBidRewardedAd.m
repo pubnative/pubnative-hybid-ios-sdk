@@ -54,6 +54,8 @@
     self = [super init];
     if (self) {
         self.rewardedAdRequest = [[HyBidRewardedAdRequest alloc] init];
+        self.rewardedAdRequest.isUsingOpenRTB = YES;
+        self.rewardedAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;
     }
@@ -184,6 +186,7 @@
         [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
     } else {
         self.ad = ad;
+        self.ad.adType = kHyBidAdTypeVideo;
         [self renderAd:ad];
     }
 }
@@ -224,6 +227,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
+    self.ad.adType = kHyBidAdTypeVideo;
     [self renderAd:self.ad];
 }
 

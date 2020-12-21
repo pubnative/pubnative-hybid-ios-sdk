@@ -39,7 +39,6 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
-@property (nonatomic, assign) BOOL isUsingOpenRTB;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (instancetype)initOpenRTBWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;

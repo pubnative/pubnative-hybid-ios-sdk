@@ -66,7 +66,6 @@
     if (self) {
         self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
         self.interstitialAdRequest.isUsingOpenRTB = YES;
-        self.isUsingOpenRTB = YES;
         self.interstitialAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;
