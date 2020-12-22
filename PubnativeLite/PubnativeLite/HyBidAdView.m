@@ -269,7 +269,7 @@
 - (HyBidSkAdNetworkModel *)skAdNetworkModel {
     HyBidSkAdNetworkModel *result = nil;
     if (self.ad) {
-        result = [self.ad getSkAdNetworkModel];
+        result = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     }
     return result;
 }

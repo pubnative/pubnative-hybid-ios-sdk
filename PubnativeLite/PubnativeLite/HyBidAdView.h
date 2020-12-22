@@ -40,7 +40,6 @@
 @interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidAdRequest *adRequest;
-//@property (nonatomic, strong) HyBidOpenRTBAdRequest *openRTBAdRequest;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, weak) NSObject <HyBidAdViewDelegate> *delegate;

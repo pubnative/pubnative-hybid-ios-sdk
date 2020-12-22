@@ -1093,8 +1093,10 @@ typedef enum {
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
         
         if (webView.frame.size.height == CGSizeZero.height && webView.frame.size.width == CGSizeZero.width) {
+            self.frame = CGRectMake(0, 0, webView.scrollView.contentSize.width, webView.scrollView.contentSize.height);
             CGRect frame = webView.frame;
-            frame.size = webView.scrollView.contentSize;
+            frame.size = self.frame.size;
+            frame.origin = self.frame.origin;
             webView.frame = frame;
         }
         
