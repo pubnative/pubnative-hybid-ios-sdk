@@ -60,7 +60,7 @@
     }
     return result;
 }
-+ (NSArray *)parseDictionaryValuesForMetas:(NSDictionary *)dictionary {
++ (NSArray *)parseDictionaryValuesForExtensions:(NSDictionary *)dictionary {
     NSMutableArray *result;
     if(dictionary && [dictionary isKindOfClass: [NSDictionary class]]) {
         result = [NSMutableArray array];

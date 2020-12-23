@@ -30,6 +30,5 @@
 @property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) NSArray *ads;
 @property (nonatomic, strong) NSArray *bids;
-@property (nonatomic, assign) BOOL isUsingOpenRTB;
 
 @end

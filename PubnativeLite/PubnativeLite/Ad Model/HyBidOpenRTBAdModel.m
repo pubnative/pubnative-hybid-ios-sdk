@@ -48,7 +48,7 @@
         NSError *extError;
         NSData *extData = [NSJSONSerialization dataWithJSONObject:dictionary[@"ext"] options:NSJSONWritingPrettyPrinted error:&extError];
         NSDictionary *ext = [NSJSONSerialization JSONObjectWithData:extData options:kNilOptions error:&extError];
-        self.extensions = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseDictionaryValuesForMetas:ext]];
+        self.extensions = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseDictionaryValuesForExtensions:ext]];
     }
     return self;
 }
