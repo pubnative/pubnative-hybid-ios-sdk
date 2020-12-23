@@ -54,7 +54,6 @@
     self = [super init];
     if (self) {
         self.rewardedAdRequest = [[HyBidRewardedAdRequest alloc] init];
-        self.rewardedAdRequest.isUsingOpenRTB = YES;
         self.rewardedAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;

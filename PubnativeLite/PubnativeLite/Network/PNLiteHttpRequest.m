@@ -156,7 +156,7 @@ NSInteger const MAX_RETRIES = 1;
                 @"skadn": @{
                         @"sourceapp": [model getAppID],
                         @"version": [model getSkAdNetworkVersion],
-                        @"skadnetids": [model getSkAdNetworkAdNetworkIDs]
+                        @"skadnetids": [model getSkAdNetworkAdNetworkIDsArray]
                 }
         }
     };

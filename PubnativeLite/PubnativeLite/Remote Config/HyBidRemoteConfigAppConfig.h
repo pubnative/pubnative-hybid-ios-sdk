@@ -20,13 +20,20 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <HyBid/HyBid.h>
 
-@interface HyBidSkAdNetworkRequestModel : NSObject
+typedef NS_ENUM(NSInteger, ApiType) {
+    OPENRTB,
+    LEGACY
+};
 
-- (NSString *)getAppID;
-- (NSString *)getSkAdNetworkVersion;
-- (NSArray *)getSkAdNetworkAdNetworkIDsArray;
-- (NSString *)getSkAdNetworkAdNetworkIDsString;
+@interface NSString (EnumParser)
+- (ApiType)apiTypeFromString;
+@end
+
+@interface HyBidRemoteConfigAppConfig : HyBidBaseModel
+
+@property (nonatomic, strong) NSString *appToken;
+@property (nonatomic) ApiType apiType;
 
 @end

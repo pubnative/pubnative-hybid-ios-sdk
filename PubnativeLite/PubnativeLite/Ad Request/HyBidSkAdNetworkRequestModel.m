@@ -47,12 +47,7 @@
     }
 }
 
-- (NSString *)getSkAdNetworkAdNetworkIDs
-{
-    return [self getSKAdNetworkIDs];
-}
-
--(NSString *)getSKAdNetworkIDs {
+- (NSArray *)getSkAdNetworkAdNetworkIDsArray {
     NSArray *networkItems = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SKAdNetworkItems"];
     
     if (networkItems == NULL) {
@@ -66,6 +61,10 @@
         [adIDs addObject:value];
     }
     
+    return adIDs;
+}
+-(NSString *)getSkAdNetworkAdNetworkIDsString {
+    NSArray *adIDs = [self getSkAdNetworkAdNetworkIDsArray];
     return [adIDs componentsJoinedByString:@","];
 }
 

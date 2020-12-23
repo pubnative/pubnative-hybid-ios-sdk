@@ -56,16 +56,6 @@
     self = [super init];
     if (self) {
         self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-        self.zoneID = zoneID;
-        self.delegate = delegate;
-    }
-    return self;
-}
-- (instancetype)initOpenRTBWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
-    self = [super init];
-    if (self) {
-        self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
-        self.interstitialAdRequest.isUsingOpenRTB = YES;
         self.interstitialAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;

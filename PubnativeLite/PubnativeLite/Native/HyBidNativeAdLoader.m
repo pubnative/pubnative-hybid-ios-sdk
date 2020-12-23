@@ -44,7 +44,6 @@
     self = [super init];
     if (self) {
         self.nativeAdRequest = [[HyBidNativeAdRequest alloc] init];
-        self.nativeAdRequest.isUsingOpenRTB = YES;
     }
     return self;
 }

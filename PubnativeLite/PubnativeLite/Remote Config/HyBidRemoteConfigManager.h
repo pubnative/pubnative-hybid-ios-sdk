@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 #import "HyBidRemoteConfigModel.h"
 
+#define kIsUsingOpenRTB @"isUsingOpenRTB"
+
 typedef void (^RemoteConfigManagerCompletionBlock)(BOOL remoteConfigSuccess, HyBidRemoteConfigModel * remoteConfig);
 
 @interface HyBidRemoteConfigManager : NSObject

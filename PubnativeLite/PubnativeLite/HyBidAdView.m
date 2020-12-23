@@ -57,12 +57,8 @@
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize {
     self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
-    // REMOVE THIS LINE
-    self.isUsingOpenRTB = YES;
-    
     if (self) {
         self.adRequest = [[HyBidAdRequest alloc] init];
-        self.adRequest.isUsingOpenRTB = self.isUsingOpenRTB;
         self.adRequest.openRTBAdType = BANNER;
         self.auctionResponses = [[NSMutableArray alloc]init];
         self.adSize = adSize;
@@ -122,7 +118,7 @@
                     }
                     HyBidAuction* auction = [[HyBidAuction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
                     [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
-                        if (error == nil) {
+                        if (error == nil && [mAdResponses count] > 0) {
                             self.ad = mAdResponses.firstObject;
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 if (self.autoShowOnLoad) {
@@ -210,9 +206,6 @@
 
 - (HyBidAdPresenter *)createAdPresenter {
     HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
-    
-    // REMOVE THIS LINE
-    self.ad.isUsingOpenRTB = YES;
     return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
 }
 

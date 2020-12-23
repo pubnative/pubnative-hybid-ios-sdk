@@ -52,6 +52,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 @property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
 @property (nonatomic, assign) BOOL isSetIntegrationTypeCalled;
 @property (nonatomic, strong) PNLiteAdFactory *adFactory;
+@property (nonatomic, assign) BOOL isUsingOpenRTB;
 
 @end
 
@@ -70,6 +71,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
         self.adFactory = [[PNLiteAdFactory alloc] init];
         self.adSize = HyBidAdSize.SIZE_320x50;
     }

@@ -20,13 +20,37 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidRemoteConfigAppConfig.h"
+#import "HyBidRemoteConfigParameter.h"
 
-@interface HyBidSkAdNetworkRequestModel : NSObject
+@implementation NSString (EnumParser)
 
-- (NSString *)getAppID;
-- (NSString *)getSkAdNetworkVersion;
-- (NSArray *)getSkAdNetworkAdNetworkIDsArray;
-- (NSString *)getSkAdNetworkAdNetworkIDsString;
+- (ApiType)apiTypeFromString
+{
+    NSDictionary<NSString *, NSNumber *> *apiTypes = @{
+        @"onlineapi": @(LEGACY),
+        @"openrtb"  : @(OPENRTB)
+    };
+    
+    return apiTypes[self].integerValue;
+}
+
+@end
+
+@implementation HyBidRemoteConfigAppConfig
+
+- (void)dealloc {
+    self.appToken = nil;
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (self) {
+        self.appToken = [dictionary[HyBidRemoteConfigParameter.appToken] stringValue];
+        NSString *api = [dictionary[HyBidRemoteConfigParameter.api] stringValue];
+        self.apiType = [api apiTypeFromString];
+    }
+    return self;
+}
 
 @end

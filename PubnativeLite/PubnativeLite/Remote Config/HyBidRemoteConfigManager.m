@@ -73,6 +73,16 @@
     [[NSUserDefaults standardUserDefaults] setFloat:currentTimeInterval forKey:kRemoteConfigTimestampKey];
 }
 
+- (void)storeAPIVersionFrom:(HyBidRemoteConfigModel *)model
+{
+    BOOL isUsingOpenRTB = NO;
+    if (model.appConfig != nil) {
+        isUsingOpenRTB = (model.appConfig.apiType == OPENRTB) ? YES : NO;
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:isUsingOpenRTB forKey:kIsUsingOpenRTB];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (BOOL)isConfigOutdated {
     long long tttInMillis = [[NSNumber numberWithInteger:self.remoteConfigModel.ttl * 1000.0] longLongValue];
     long long configTimeStamp = (long long)([[NSUserDefaults standardUserDefaults] floatForKey:kRemoteConfigTimestampKey] * 1000.0);
@@ -87,6 +97,7 @@
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Remote Config Request finished."];
     if (model) {
         [self storeConfigTimestamp];
+        [self storeAPIVersionFrom:model];
         self.remoteConfigModel = model;
         self.completionBlock(YES, model);
     } else {

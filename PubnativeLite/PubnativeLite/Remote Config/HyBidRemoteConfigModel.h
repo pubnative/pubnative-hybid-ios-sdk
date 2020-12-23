@@ -23,11 +23,13 @@
 #import <HyBid/HyBid.h>
 #import "HyBidRemoteConfigPlacementInfo.h"
 #import "HyBidRemoteConfigMeasurement.h"
+#import "HyBidRemoteConfigAppConfig.h"
 
 @interface HyBidRemoteConfigModel : HyBidBaseModel
 
 @property (nonatomic, assign) NSInteger ttl;
 @property (nonatomic, strong) HyBidRemoteConfigPlacementInfo *placementInfo;
+@property (nonatomic, strong) HyBidRemoteConfigAppConfig *appConfig;
 @property (nonatomic, strong) HyBidRemoteConfigMeasurement *measurement;
 
 @end

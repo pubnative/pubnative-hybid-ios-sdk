@@ -46,7 +46,6 @@ typedef enum {
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, assign) BOOL isRewarded;
 @property (nonatomic, readonly) NSArray<NSString *> *supportedAPIFrameworks;
-@property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic) AdType openRTBAdType;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;

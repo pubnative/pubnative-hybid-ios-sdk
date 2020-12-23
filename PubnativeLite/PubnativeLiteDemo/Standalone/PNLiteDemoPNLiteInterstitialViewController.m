@@ -53,12 +53,7 @@
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     
-    BOOL isUsingOpenRTB = YES;
-    if (!isUsingOpenRTB) {
-        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-    } else {
-        self.interstitialAd = [[HyBidInterstitialAd alloc] initOpenRTBWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-    }
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.interstitialAd load];
 }
 

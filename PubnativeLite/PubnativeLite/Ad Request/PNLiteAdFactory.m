@@ -29,6 +29,7 @@
 #import "HyBidConstants.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidSkAdNetworkRequestModel.h"
+#import "HyBidRemoteConfigManager.h"
 
 @implementation PNLiteAdFactory
 
@@ -50,7 +51,11 @@
     adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
     [self setIDFA:adRequestModel];
     adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
-    adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
+    
+    BOOL isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
+    if (isUsingOpenRTB) {
+        adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
+    }
     
     adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
     adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
@@ -62,7 +67,7 @@
         
         if ([skAdNetworkRequestModel getAppID] != NULL) {
             if ([[skAdNetworkRequestModel getAppID] length] > 0) {
-                NSString *adIDs = [skAdNetworkRequestModel getSkAdNetworkAdNetworkIDs];
+                NSString *adIDs = [skAdNetworkRequestModel getSkAdNetworkAdNetworkIDsString];
                 if ([adIDs length] > 0) {
                     [self setAppStoreAppID:adRequestModel withAppID:[skAdNetworkRequestModel getAppID]];
                     adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;

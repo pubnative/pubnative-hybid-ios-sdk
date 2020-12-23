@@ -28,6 +28,7 @@
 - (void)dealloc {
     self.placementInfo = nil;
     self.measurement = nil;
+    self.appConfig = nil;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
@@ -36,6 +37,7 @@
         self.ttl = [dictionary[HyBidRemoteConfigParameter.ttl] integerValue];
         self.placementInfo = [[HyBidRemoteConfigPlacementInfo alloc] initWithDictionary:dictionary[HyBidRemoteConfigParameter.placementInfo]];
         self.measurement = [[HyBidRemoteConfigMeasurement alloc] initWithDictionary:dictionary[HyBidRemoteConfigParameter.measurement]];
+        self.appConfig = [[HyBidRemoteConfigAppConfig alloc] initWithDictionary:dictionary[HyBidRemoteConfigParameter.appConfig]];
     }
     return self;
 }
