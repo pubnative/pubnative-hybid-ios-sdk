@@ -111,16 +111,11 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSString *)htmlUrl {
     NSString *result = nil;
-    if (self.openRTBData != nil) {
-        if (self.openRTBData.dictionary[@"nurl"]) {
-            result = self.openRTBData.dictionary[@"nurl"];
-        }
-    } else {
-        HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
-        if (data) {
-            result = data.url;
-        }
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+    if (data) {
+        result = data.url;
     }
+    
     return result;
 }
 
