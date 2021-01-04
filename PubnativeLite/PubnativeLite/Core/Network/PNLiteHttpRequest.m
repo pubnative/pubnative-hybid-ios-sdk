@@ -25,6 +25,8 @@
 #import "PNLiteCryptoUtils.h"
 #import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidRequestParameter.h"
+#import "HyBidSkAdNetworkRequestModel.h"
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -48,6 +50,8 @@ NSInteger const MAX_RETRIES = 1;
     self.method = nil;
     self.header = nil;
     self.body = nil;
+    self.isUsingOpenRTB = nil;
+    self.adRequestModel = nil;
 }
 
 - (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate
@@ -55,6 +59,29 @@ NSInteger const MAX_RETRIES = 1;
     self.delegate = delegate;
     self.urlString = urlString;
     self.method = method;
+    
+    if (self.isUsingOpenRTB) {
+        NSArray *headerObjects = [NSArray arrayWithObjects:@"2.3", @"application/json", @"utf-8", nil];
+        NSArray *headerKeys = [NSArray arrayWithObjects:@"x-openrtb-version", @"Content-Type", @"Accept-Charset", nil];
+        self.header = [[NSDictionary alloc] initWithObjects:headerObjects forKeys:headerKeys];
+        
+        NSArray *imp = [self getImpObjectFor:self.openRTBAdType];
+        NSDictionary *jsonBodyDict = @{
+            @"id": NSUUID.UUID.UUIDString,
+            @"app": @{
+            },
+            @"device": @{
+                    @"ip": self.adRequestModel.requestParameters[HyBidRequestParameter.ip],
+                    @"os": self.adRequestModel.requestParameters[HyBidRequestParameter.os],
+                    @"ua": HyBidWebBrowserUserAgentInfo.hyBidUserAgent
+            },
+            @"imp": imp
+        };
+        
+        NSError *error;
+        NSData *jsonBodyData = [NSJSONSerialization dataWithJSONObject:jsonBodyDict options:kNilOptions error:&error];
+        self.body = [[NSData alloc] initWithData:jsonBodyData];
+    }
     
     if (!self.delegate) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Delegate is nil, dropping the call."];
@@ -74,6 +101,70 @@ NSInteger const MAX_RETRIES = 1;
         }
     }
 }
+
+- (NSArray *)getImpObjectFor:(AdType)adType
+{
+    NSNumber *width = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.width] integerValue]];
+    NSNumber *height = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.height] integerValue]];
+    
+    if (adType == NATIVE) {
+        NSArray *arr = @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"banner": @{
+                        @"w": width,
+                        @"h": height
+                },
+                @"native":
+                    @{
+                        @"request": @"{\"native\":{\"ver\":\"1\",\"layout\":6,\"assets\":[{\"id\":0,\"required\":0,\"title\":{\"len\":100}},{\"id\":2,\"required\":1,\"img\":{\"type\":1,\"wmin\":50,\"hmin\":50}},{\"id\":3,\"required\":0,\"data\":{\"type\":2,\"len\":90}},{\"id\":4,\"required\":0,\"data\":{\"type\":3}},{\"id\":5,\" required\":0,\"data\":{\"type\":12,\"len\":15}},{\"id\":1,\"required\":0,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":250}}]}}"
+                    },
+            }
+        ];
+        return [self appendSkAdNetworkParametersTo:arr];
+    } else if (adType == VIDEO) {
+        NSArray *arr = @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"video":
+                    @{
+                        @"mimes": @[@"video/mp4"],
+                        @"protocols": @[@1, @2, @3, @4, @5, @6]
+                    }
+            }
+        ];
+        return [self appendSkAdNetworkParametersTo:arr];
+    } else if (adType == BANNER) {
+        NSArray *arr = @[
+            @{
+                @"id": NSUUID.UUID.UUIDString,
+                @"banner": @{
+                        @"w": width,
+                        @"h": height
+                }
+            }
+        ];
+        return [self appendSkAdNetworkParametersTo:arr];
+    }
+    return @[];
+}
+- (NSArray *)appendSkAdNetworkParametersTo:(NSArray *)array
+{
+    HyBidSkAdNetworkRequestModel *model = [[HyBidSkAdNetworkRequestModel alloc] init];
+    NSDictionary *extDict = @{
+        @"ext": @{
+                @"skadn": @{
+                        @"sourceapp": [model getAppID],
+                        @"version": [model getSkAdNetworkVersion],
+                        @"skadnetids": [model getSkAdNetworkAdNetworkIDsArray]
+                }
+        }
+    };
+    NSMutableDictionary *dict = [[array firstObject] mutableCopy];
+    [dict addEntriesFromDictionary:extDict];
+    return [NSArray arrayWithObject:dict];
+}
+
 
 - (void)executeAsyncRequest
 {
@@ -110,18 +201,18 @@ NSInteger const MAX_RETRIES = 1;
             [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.body length]] forHTTPHeaderField:@"Content-Length"];
             [request setValue:[PNLiteCryptoUtils md5WithString:[[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding]] forHTTPHeaderField:@"Content-MD5"];
         }
-    
+        
         [[session dataTaskWithRequest:request
                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                        if (error) {
-                            [self invokeFailWithError:error andAttemptRetry:NO];
-                        } else {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [self invokeFinishWithData:data statusCode:httpResponse.statusCode];
-                            });
-                        }
-                    }] resume];
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if (error) {
+                [self invokeFailWithError:error andAttemptRetry:NO];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self invokeFinishWithData:data statusCode:httpResponse.statusCode];
+                });
+            }
+        }] resume];
     }
 }
 
@@ -142,7 +233,7 @@ NSInteger const MAX_RETRIES = 1;
 - (void)invokeFailWithError:(NSError *)error andAttemptRetry:(BOOL)retry
 {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"HTTP Request failed with error: %@", error.localizedDescription]];
-
+    
     if (self.shouldRetry && self.retryCount < MAX_RETRIES && retry) {
         self.retryCount++;
         [self executeAsyncRequest];

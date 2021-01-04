@@ -69,4 +69,7 @@
 + (NSString *)skAdNetworkAppID              { return @"skadn_sourceapp"; }
 + (NSString *)skAdNetworkAdNetworkIDs       { return @"skadnetids"; }
 
+#pragma mark - OpenRTB API
++ (NSString *)ip                            { return @"ip"; }
+
 @end

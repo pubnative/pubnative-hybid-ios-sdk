@@ -23,6 +23,8 @@
 #import "HyBidSettings.h"
 #import "PNLiteLocationManager.h"
 #import <AVFoundation/AVFoundation.h>
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 
 @implementation HyBidSettings
 
@@ -139,5 +141,11 @@
     }
     return result;
 }
+
+- (NSString *)ip {
+     NSURL *url = [NSURL URLWithString:@"https://api.ipify.org/"];
+     NSString *ipAddress = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+     return ipAddress;
+ }
 
 @end

@@ -25,6 +25,7 @@
 #import "PNLiteAsset.h"
 #import "HyBidContentInfoView.h"
 #import "HyBidSkAdNetworkModel.h"
+#import "HyBidOpenRTBAdModel.h"
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -36,6 +37,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 @interface HyBidAd ()
 
 @property (nonatomic, strong)HyBidAdModel *data;
+@property (nonatomic, strong)HyBidOpenRTBAdModel *openRTBData;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong)NSString *_zoneID;
 
@@ -60,6 +62,15 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return self;
 }
 
+- (instancetype)initOpenRTBWithData:(HyBidOpenRTBAdModel *)data withZoneID:(NSString *)zoneID {
+    self = [super init];
+    if (self) {
+        self.openRTBData = data;
+        self._zoneID = zoneID;
+    }
+    return self;
+}
+
 - (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType {
     self = [super init];
     if (self) {
@@ -70,9 +81,11 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if (adType == kHyBidAdTypeVideo) {
             apiAsset = PNLiteAsset.vast;
             data = [[HyBidDataModel alloc] initWithVASTAsset:apiAsset withValue:adContent];
+            self.adType = kHyBidAdTypeVideo;
         } else {
             apiAsset = PNLiteAsset.htmlBanner;
             data = [[HyBidDataModel alloc] initWithHTMLAsset:apiAsset withValue:adContent];
+            self.adType = kHyBidAdTypeHTML;
         }
         [assets addObject:data];
         
@@ -98,26 +111,43 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSString *)htmlUrl {
     NSString *result = nil;
-    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
-    if (data) {
-        result = data.url;
+    if (self.openRTBData != nil) {
+        if (self.openRTBData.dictionary[@"nurl"]) {
+            result = self.openRTBData.dictionary[@"nurl"];
+        }
+    } else {
+        HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+        if (data) {
+            result = data.url;
+        }
     }
     return result;
 }
 
 - (NSString *)htmlData {
     NSString *result = nil;
-    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
-    if (data) {
-        result = data.html;
+    if (self.openRTBData != nil) {
+        HyBidOpenRTBDataModel *data = [self openRTBAssetDataWithType:PNLiteAsset.htmlBanner];
+        if (data) {
+            result = data.html;
+        }
+    } else {
+        HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
+        if (data) {
+            result = data.html;
+        }
     }
     return result;
 }
 
 - (NSString *)link {
     NSString *result = nil;
-    if (self.data) {
-        result = self.data.link;
+    if (self.openRTBData != nil) {
+        result = self.openRTBData.link;
+    } else {
+        if (self.data) {
+            result = self.data.link;
+        }
     }
     return result;
 }
@@ -207,12 +237,31 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         }
     } else {
         if (!self.contentInfoView) {
+            self.contentInfoView = [[HyBidContentInfoView alloc] init];
             self.contentInfoView.text = ContentInfoViewText;
             self.contentInfoView.link = ContentInfoViewLink;
             self.contentInfoView.icon = ContentInfoViewIcon;
         }
     }
     return self.contentInfoView;
+}
+
+- (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel {
+    HyBidOpenRTBDataModel *data = [self extensionDataWithType:PNLiteMeta.skadnetwork];
+    HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
+    
+    if (data) {
+        NSDictionary *dict = @{@"campaign": [data stringFieldWithKey:@"campaign"],
+                               @"itunesitem": [data stringFieldWithKey:@"itunesitem"],
+                               @"network": [data stringFieldWithKey:@"network"],
+                               @"nonce": [data stringFieldWithKey:@"nonce"],
+                               @"signature": [data stringFieldWithKey:@"signature"],
+                               @"sourceapp": [data stringFieldWithKey:@"sourceapp"],
+                               @"timestamp": [data stringFieldWithKey:@"timestamp"],
+                               @"version": [data stringFieldWithKey:@"version"]};
+        model.productParameters = dict;
+    }
+    return model;
 }
 
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel {
@@ -241,10 +290,27 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (HyBidOpenRTBDataModel *)openRTBAssetDataWithType:(NSString *)type {
+    HyBidOpenRTBDataModel *result = nil;
+    
+    if (self.openRTBData) {
+        result = [self.openRTBData assetWithType:type];
+    }
+    return result;
+}
+
 - (HyBidDataModel *)metaDataWithType:(NSString *)type {
     HyBidDataModel *result = nil;
     if (self.data) {
         result = [self.data metaWithType:type];
+    }
+    return result;
+}
+
+- (HyBidOpenRTBDataModel *)extensionDataWithType:(NSString *)type {
+    HyBidOpenRTBDataModel *result = nil;
+    if (self.openRTBData) {
+        result = [self.openRTBData extensionWithType:type];
     }
     return result;
 }

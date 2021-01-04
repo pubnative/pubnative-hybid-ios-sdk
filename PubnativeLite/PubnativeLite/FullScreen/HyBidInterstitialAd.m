@@ -26,6 +26,7 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidOpenRTBInterstitialAdRequest.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -55,6 +56,7 @@
     self = [super init];
     if (self) {
         self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+        self.interstitialAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;
     }
@@ -161,7 +163,7 @@
 - (HyBidSkAdNetworkModel *)skAdNetworkModel {
     HyBidSkAdNetworkModel *result = nil;
     if (self.ad) {
-        result = [self.ad getSkAdNetworkModel];
+        result = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     }
     return result;
 }

@@ -49,8 +49,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSURL *requestURL;
+@property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
 @property (nonatomic, assign) BOOL isSetIntegrationTypeCalled;
 @property (nonatomic, strong) PNLiteAdFactory *adFactory;
+@property (nonatomic, assign) BOOL isUsingOpenRTB;
 
 @end
 
@@ -63,11 +65,13 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     self.delegate = nil;
     self.adFactory = nil;
     self.adSize = nil;
+    self.adRequestModel = nil;
 }
 
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
         self.adFactory = [[PNLiteAdFactory alloc] init];
         self.adSize = HyBidAdSize.SIZE_320x50;
     }
@@ -80,6 +84,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
     self.zoneID = zoneID;
+    self.adRequestModel = [self createAdRequestModelWithIntegrationType:integrationType];
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
     self.isSetIntegrationTypeCalled = YES;
 }
@@ -105,7 +110,12 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
         }
         
-        [[PNLiteHttpRequest alloc] startWithUrlString:self.requestURL.absoluteString withMethod:@"GET" delegate:self];
+        PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
+        request.isUsingOpenRTB = self.isUsingOpenRTB;
+        request.adRequestModel = self.adRequestModel;
+        request.openRTBAdType = self.openRTBAdType;
+        NSString *method = self.isUsingOpenRTB ? @"POST" : @"GET";
+        [request startWithUrlString:self.requestURL.absoluteString withMethod:method delegate:self];
     }
 }
 
@@ -129,17 +139,35 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
-    NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].apiURL];
-    components.path = @"/api/v3/native";
-    if (adRequestModel.requestParameters) {
-        NSMutableArray *query = [NSMutableArray array];
-        NSDictionary *parametersDictionary = adRequestModel.requestParameters;
-        for (id key in parametersDictionary) {
-            [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
+    if (!self.isUsingOpenRTB) {
+        NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].apiURL];
+        components.path = @"/api/v3/native";
+        if (adRequestModel.requestParameters) {
+            NSMutableArray *query = [NSMutableArray array];
+            NSDictionary *parametersDictionary = adRequestModel.requestParameters;
+            for (id key in parametersDictionary) {
+                [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
+            }
+            components.queryItems = query;
         }
-        components.queryItems = query;
+        return components.URL;
+    } else {
+        NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].openRtbApiURL];
+        components.path = @"/bid/v1/request";
+        
+        if (adRequestModel.requestParameters) {
+            NSMutableArray *query = [NSMutableArray array];
+            NSDictionary *parametersDictionary = adRequestModel.requestParameters;
+            for (id key in parametersDictionary) {
+                if ([key  isEqual: @"apptoken"] || [key  isEqual: @"zoneid"]) {
+                    [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
+                }
+            }
+            components.queryItems = query;
+        }
+        
+        return components.URL;
     }
-    return components.URL;
 }
 
 - (void)invokeDidStart {
@@ -187,6 +215,16 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (void)processVASTTagResponseFrom:(NSString *)adContent
 {
     if ([adContent length] != 0) {
+        if (self.isUsingOpenRTB) {
+            NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+            NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
+            NSDictionary *bid = [seatBid[@"bid"] firstObject];
+            NSString *vastString = bid[@"adm"];
+            adContent = vastString;
+        }
+        
         if ([HyBidMarkupUtils isVastXml:adContent]) {
             HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
             [videoAdProcessor processVASTString:adContent completion:^(PNLiteVASTModel *vastModel, NSError *error) {
@@ -201,6 +239,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                     videoAdCacheItem.vastModel = vastModel;
                     [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
                     HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
+                    ad.isUsingOpenRTB = self.isUsingOpenRTB;
                     [self invokeDidLoad:ad];
                 }
             }];
@@ -220,16 +259,30 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (void)processResponseWithData:(NSData *)data {
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (jsonDictonary) {
-        PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
+        PNLiteResponseModel *response = nil;
+        
+        if (self.isUsingOpenRTB) {
+            response = [[PNLiteResponseModel alloc] initOpenRTBWithDictionary:jsonDictonary];
+        } else {
+            response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
+        }
+        
         if(!response) {
             NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
                                                  code:0
                                              userInfo:nil];
             [self invokeDidFail:error];
-        } else if ([PNLiteResponseOK isEqualToString:response.status]) {
+        } else if ([PNLiteResponseOK isEqualToString:response.status] || self.isUsingOpenRTB) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
-            for (HyBidAdModel *adModel in response.ads) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
+            for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? response.bids : response.ads)) {
+                HyBidAd *ad = nil;
+                if (self.isUsingOpenRTB) {
+                    ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
+                } else {
+                    ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
+                }
+                
+                ad.isUsingOpenRTB = self.isUsingOpenRTB;
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
                 switch (ad.assetGroupID.integerValue) {

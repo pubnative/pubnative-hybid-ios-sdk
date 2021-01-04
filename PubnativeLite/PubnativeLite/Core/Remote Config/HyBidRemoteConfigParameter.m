@@ -32,5 +32,8 @@
 + (NSString *)viewability;                  { return @"viewability"; }
 + (NSString *)type;                         { return @"type"; }
 + (NSString *)adSources;                    { return @"ad_sources"; }
++ (NSString *)appConfig;                    { return @"app_config"; }
++ (NSString *)appToken;                     { return @"app_token"; }
++ (NSString *)api;                          { return @"api"; }
 
 @end
