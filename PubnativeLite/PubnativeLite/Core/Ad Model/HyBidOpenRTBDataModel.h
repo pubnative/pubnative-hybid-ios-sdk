@@ -31,11 +31,7 @@
  @property (nonatomic, readonly) NSString *vast;
  @property (nonatomic, readonly) NSNumber *number;
  @property (nonatomic, readonly) NSString *url;
- @property (nonatomic, readonly) NSString *js;
  @property (nonatomic, readonly) NSString *html;
- @property (nonatomic, readonly) NSNumber *eCPM;
- @property (nonatomic, readonly) NSNumber *width;
- @property (nonatomic, readonly) NSNumber *height;
 
  - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
  - (instancetype)initWithHTMLAsset:(NSString *)assetName withValue:(NSString *)value;

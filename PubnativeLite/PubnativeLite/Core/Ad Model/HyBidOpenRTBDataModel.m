@@ -96,24 +96,8 @@
      return [self stringFieldWithKey:PNLiteData.url];
  }
 
- - (NSString *)js {
-     return [self stringFieldWithKey:PNLiteData.js];
- }
-
  - (NSString *)html {
      return [self stringFieldWithKey:PNLiteData.html];
- }
-
- - (NSNumber *)eCPM {
-     return [self numberFieldWithKey:PNLiteData.number];
- }
-
- - (NSNumber *)width {
-     return [self numberFieldWithKey:PNLiteData.width];
- }
-
- - (NSNumber *)height {
-     return [self numberFieldWithKey:PNLiteData.height];
  }
 
  - (NSString *)stringFieldWithKey:(NSString *)key {

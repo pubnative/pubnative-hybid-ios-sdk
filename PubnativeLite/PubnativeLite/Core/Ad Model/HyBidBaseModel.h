@@ -28,6 +28,5 @@
 
 + (NSArray *)parseArrayValues:(NSArray *)array;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
-- (instancetype)initOpenRTBWithDictionary:(NSDictionary *)dictionary;
 
 @end

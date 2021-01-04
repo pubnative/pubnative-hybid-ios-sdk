@@ -24,7 +24,6 @@
 #import "HyBidNativeAdRequest.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
-#import "HyBidOpenRTBNativeAdRequest.h"
 
 @interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
 

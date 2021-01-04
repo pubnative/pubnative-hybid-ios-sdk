@@ -29,6 +29,5 @@
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) NSArray *ads;
-@property (nonatomic, strong) NSArray *bids;
 
 @end

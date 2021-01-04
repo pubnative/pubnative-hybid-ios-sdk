@@ -36,14 +36,6 @@
     return self;
 }
 
-- (instancetype)initOpenRTBWithDictionary:(NSDictionary *)dictionary {
-     self = [super init];
-     if (self) {
-         self.dictionary = dictionary;
-     }
-     return self;
- }
-
 + (NSArray *)parseArrayValues:(NSArray *)array {
     NSMutableArray *result;
     if(array && [array isKindOfClass: [NSArray class]]) {

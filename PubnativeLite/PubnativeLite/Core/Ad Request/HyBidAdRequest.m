@@ -25,6 +25,7 @@
 #import "PNLiteAdFactory.h"
 #import "PNLiteAdRequestModel.h"
 #import "PNLiteResponseModel.h"
+#import "PNLiteOpenRTBResponseModel.h"
 #import "HyBidAdModel.h"
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
@@ -71,7 +72,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
+        self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
+            ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
+            : NO;
+        
         self.adFactory = [[PNLiteAdFactory alloc] init];
         self.adSize = HyBidAdSize.SIZE_320x50;
     }
@@ -260,9 +264,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (jsonDictonary) {
         PNLiteResponseModel *response = nil;
+        PNLiteOpenRTBResponseModel *openRTBResponse = nil;
         
         if (self.isUsingOpenRTB) {
-            response = [[PNLiteResponseModel alloc] initOpenRTBWithDictionary:jsonDictonary];
+            openRTBResponse = [[PNLiteOpenRTBResponseModel alloc] initWithDictionary:jsonDictonary];
         } else {
             response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
         }
@@ -274,7 +279,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             [self invokeDidFail:error];
         } else if ([PNLiteResponseOK isEqualToString:response.status] || self.isUsingOpenRTB) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
-            for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? response.bids : response.ads)) {
+            for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? openRTBResponse.bids : response.ads)) {
                 HyBidAd *ad = nil;
                 if (self.isUsingOpenRTB) {
                     ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];

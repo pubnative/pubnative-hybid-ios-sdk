@@ -77,7 +77,7 @@
  {
      BOOL isUsingOpenRTB = NO;
      if (model.appConfig != nil) {
-         isUsingOpenRTB = (model.appConfig.apiType == OPENRTB) ? YES : NO;
+         isUsingOpenRTB = model.appConfig.apiType == OPENRTB;
      }
      [[NSUserDefaults standardUserDefaults] setBool:isUsingOpenRTB forKey:kIsUsingOpenRTB];
      [[NSUserDefaults standardUserDefaults] synchronize];
