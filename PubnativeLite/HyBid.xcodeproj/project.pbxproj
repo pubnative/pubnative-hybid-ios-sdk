@@ -441,6 +441,8 @@
 		6FD11E592514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
 		6FE01B27255D5A57006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE01AD9255D5302006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m */; };
 		6FE01B3C255D646F006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE01B2E255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m */; };
+		6FE6942525A5E3EE0015A553 /* HyBidKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE6942325A5E3EE0015A553 /* HyBidKeychain.h */; };
+		6FE6942625A5E3EE0015A553 /* HyBidKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */; };
 		6FED0A7C255EBDB600434977 /* HyBidAdMobMediationRewardedCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */; };
 		6FED0A95255EC5DF00434977 /* PNLiteDemoAdMobMediationRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A83255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.m */; };
 		6FEFC84C2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */; };
@@ -2309,6 +2311,8 @@
 		6FE01AD9255D5302006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationRewardedAdCustomEvent.m; sourceTree = "<group>"; };
 		6FE01B2D255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationRewardedViewController.h; sourceTree = "<group>"; };
 		6FE01B2E255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationRewardedViewController.m; sourceTree = "<group>"; };
+		6FE6942325A5E3EE0015A553 /* HyBidKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidKeychain.h; sourceTree = "<group>"; };
+		6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidKeychain.m; sourceTree = "<group>"; };
 		6FED0A69255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationRewardedCustomEvent.h; sourceTree = "<group>"; };
 		6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationRewardedCustomEvent.m; sourceTree = "<group>"; };
 		6FED0A82255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationRewardedViewController.h; sourceTree = "<group>"; };
@@ -3363,6 +3367,8 @@
 				6F54A85925A4B27D00576A09 /* HyBidVGIUserVendor.m */,
 				6F54A86E25A4B33E00576A09 /* HyBidVGIAppUser.h */,
 				6F54A86F25A4B33E00576A09 /* HyBidVGIAppUser.m */,
+				6FE6942325A5E3EE0015A553 /* HyBidKeychain.h */,
+				6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */,
 			);
 			path = "VGI ID";
 			sourceTree = "<group>";
@@ -3700,6 +3706,7 @@
 				6F8C118C2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */,
 				5AECD5AD20405BD70023ABBC /* PNLiteInterstitialPresenterDecorator.h in Headers */,
 				6F54A83725A4B13500576A09 /* HyBidVGITtd.h in Headers */,
+				6FE6942525A5E3EE0015A553 /* HyBidKeychain.h in Headers */,
 				7EE357BF256D4628005E6AC6 /* HyBidRemoteConfigRequest.h in Headers */,
 				5A91E65F20BFFF1000527BAA /* PNLiteUserConsentResponseModel.h in Headers */,
 				6F54A7DB25A4A1CE00576A09 /* HyBidVGILocation.h in Headers */,
@@ -4954,6 +4961,7 @@
 				7E4CCA7A250712A6003A3425 /* PNLiteMRAIDModalViewController.m in Sources */,
 				7E4CCA75250710EB003A3425 /* HyBidHeaderBiddingUtils.m in Sources */,
 				7E4CC8DB2502A007003A3425 /* HyBid.m in Sources */,
+				6FE6942625A5E3EE0015A553 /* HyBidKeychain.m in Sources */,
 				5AC35B41214A7055001F0ED3 /* HyBidAd.m in Sources */,
 				7E80A74625680656006BD5EF /* HyBidAdSourceConfig.m in Sources */,
 				5ADF9E94214956FF0081355E /* HyBidAdCache.m in Sources */,
