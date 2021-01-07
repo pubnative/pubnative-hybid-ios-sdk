@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidVGIEmail.h"
-#import "HyBidVGIAppVendor.h"
+#import "HyBidVGIUserVendor.h"
 #import "HyBidVGILocation.h"
 #import "HyBidVGIAudience.h"
 
@@ -30,8 +30,10 @@
 
 @property (nonatomic, strong) NSString *SUID;
 @property (nonatomic, strong) NSArray<HyBidVGIEmail *> *emails;
-@property (nonatomic, strong) HyBidVGIAppVendor *vendor;
+@property (nonatomic, strong) HyBidVGIUserVendor *vendor;
 @property (nonatomic, strong) NSArray<HyBidVGILocation *> *locations;
 @property (nonatomic, strong) NSArray<HyBidVGIAudience *> *audiences;
+
+- (instancetype)initWithJSON:(id)json;
 
 @end

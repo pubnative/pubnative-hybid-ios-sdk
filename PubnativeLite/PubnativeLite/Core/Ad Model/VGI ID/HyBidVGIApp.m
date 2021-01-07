@@ -26,4 +26,27 @@
 
 @implementation HyBidVGIApp
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.bundleID = json[@"bundle_id"];
+    self.privacy = [[HyBidVGIPrivacy alloc] initWithJSON:json[@"privacy"]];
+    
+    NSMutableArray *newUsers = [[NSMutableArray alloc] init];
+    for (id user in json[@"users"]) {
+        HyBidVGIAppUser *newUser = [[HyBidVGIAppUser alloc] initWithJSON:user];
+        [newUsers addObject:newUser];
+    }
+    self.users = newUsers;
+}
+
+
 @end

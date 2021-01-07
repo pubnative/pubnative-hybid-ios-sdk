@@ -30,4 +30,6 @@
 @property (nonatomic, strong) NSArray<HyBidVGIAppUser *> *users;
 @property (nonatomic, strong) HyBidVGIPrivacy *privacy;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

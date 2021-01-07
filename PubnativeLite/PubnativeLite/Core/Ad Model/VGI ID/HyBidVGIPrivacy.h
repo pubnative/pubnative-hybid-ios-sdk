@@ -29,4 +29,6 @@
 @property (nonatomic, strong) NSString *TCFv2;
 @property (nonatomic, strong) NSString *iabCCPA;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

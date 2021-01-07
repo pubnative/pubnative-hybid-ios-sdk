@@ -28,4 +28,6 @@
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *ts;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

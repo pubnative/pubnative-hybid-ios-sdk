@@ -24,4 +24,24 @@
 
 @implementation HyBidVGIDevice
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.ID = json[@"id"];
+    self.manufacture = json[@"manufacture"];
+    self.brand = json[@"brand"];
+    self.model = json[@"model"];
+    
+    self.battery = [[HyBidVGIBattery alloc] initWithJSON:json[@"battery"]];
+    self.OS = [[HyBidVGIOS alloc] initWithJSON:json[@"os"]];
+}
+
 @end

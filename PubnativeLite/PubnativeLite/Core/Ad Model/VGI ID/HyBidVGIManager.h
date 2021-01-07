@@ -21,11 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidVGIModel.h"
 
-@interface HyBidVGIBattery : NSObject
+@interface HyBidVGIManager : NSObject
 
-@property (nonatomic, strong) NSString *capacity;
-
-- (instancetype)initWithJSON:(id)json;
+-(HyBidVGIModel *)getHyBidVGIModel;
 
 @end

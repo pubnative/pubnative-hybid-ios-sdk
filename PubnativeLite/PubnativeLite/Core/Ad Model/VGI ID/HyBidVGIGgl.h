@@ -26,4 +26,6 @@
 
 @property (nonatomic, strong) NSString *GAID;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

@@ -24,4 +24,19 @@
 
 @implementation HyBidVGIApl
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.IDFA = json[@"IDFA"];
+    self.IDFV = json[@"IDFV"];
+}
+
 @end

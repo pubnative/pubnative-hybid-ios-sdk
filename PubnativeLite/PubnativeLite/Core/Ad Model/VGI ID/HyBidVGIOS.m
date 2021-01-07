@@ -24,4 +24,20 @@
 
 @implementation HyBidVGIOS
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.buildSignature = json[@"build_signature"];
+    self.name = json[@"name"];
+    self.version = json[@"version"];
+}
+
 @end

@@ -24,4 +24,18 @@
 
 @implementation HyBidVGIEmail
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.bundleID = json[@"bundle_id"];
+}
+
 @end

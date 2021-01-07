@@ -28,7 +28,9 @@
 @interface HyBidVGIModel : NSObject
 
 @property (nonatomic, strong) NSArray<HyBidVGIApp *> *apps;
-@property (nonatomic, strong) NSArray<HyBidVGIDevice *> *devices;
+@property (nonatomic, strong) HyBidVGIDevice *device;
 @property (nonatomic, strong) NSArray<HyBidVGIUser *> *users;
+
+- (instancetype)initWithJSON:(id)json;
 
 @end

@@ -27,8 +27,10 @@
 
 @interface HyBidVGIAppVendor : NSObject
 
-@property (nonatomic, strong) HyBidVGIApl *apl;
+@property (nonatomic, strong) HyBidVGIApl *APL;
 @property (nonatomic, strong) HyBidVGILr *LR;
 @property (nonatomic, strong) HyBidVGITtd *TTD;
+
+- (instancetype)initWithJSON:(id)json;
 
 @end

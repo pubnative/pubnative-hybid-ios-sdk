@@ -24,4 +24,20 @@
 
 @implementation HyBidVGIAppVendor
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.APL = [[HyBidVGIApl alloc] initWithJSON:json[@"APL"]];
+    self.LR = [[HyBidVGILr alloc] initWithJSON:json[@"LR"]];
+    self.TTD = [[HyBidVGITtd alloc] initWithJSON:json[@"TTD"]];
+}
+
 @end

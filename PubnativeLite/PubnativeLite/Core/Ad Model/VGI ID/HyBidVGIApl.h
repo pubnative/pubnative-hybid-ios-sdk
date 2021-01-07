@@ -27,4 +27,6 @@
 @property (nonatomic, strong) NSString *IDFA;
 @property (nonatomic, strong) NSString *IDFV;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

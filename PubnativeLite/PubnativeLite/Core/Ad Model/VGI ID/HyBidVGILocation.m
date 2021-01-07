@@ -24,4 +24,21 @@
 
 @implementation HyBidVGILocation
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.accuracy = json[@"accuracy"];
+    self.lat = json[@"lat"];
+    self.lon = json[@"long"];
+    self.ts = json[@"ts"];
+}
+
 @end

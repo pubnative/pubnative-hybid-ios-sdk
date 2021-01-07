@@ -24,4 +24,20 @@
 
 @implementation HyBidVGIAudience
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.ID = json[@"id"];
+    self.ts = json[@"ts"];
+    self.type = json[@"type"];
+}
+
 @end

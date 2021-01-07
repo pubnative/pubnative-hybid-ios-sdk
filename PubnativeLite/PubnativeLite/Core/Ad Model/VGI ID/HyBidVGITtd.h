@@ -26,4 +26,6 @@
 
 @property (nonatomic, strong) NSString *IDL;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

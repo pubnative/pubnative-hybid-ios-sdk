@@ -28,4 +28,6 @@
 @property (nonatomic, strong) NSString *version;
 @property (nonatomic, strong) NSString *buildSignature;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

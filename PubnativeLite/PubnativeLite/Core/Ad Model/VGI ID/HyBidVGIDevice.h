@@ -33,4 +33,6 @@
 @property (nonatomic, strong) NSString *brand;
 @property (nonatomic, strong) HyBidVGIBattery *battery;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

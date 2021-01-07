@@ -24,4 +24,20 @@
 
 @implementation HyBidVGIAppUser
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    self.AUID = json[@"AUID"];
+    self.SUID = json[@"SUID"];
+    self.vendor = [[HyBidVGIAppVendor alloc] initWithJSON:json[@"vendors"]];
+}
+
 @end

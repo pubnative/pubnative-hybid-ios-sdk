@@ -29,4 +29,6 @@
 @property (nonatomic, strong) HyBidVGIGgl *GGL;
 @property (nonatomic, strong) HyBidVGIApl *APL;
 
+- (instancetype)initWithJSON:(id)json;
+
 @end

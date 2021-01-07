@@ -24,4 +24,36 @@
 
 @implementation HyBidVGIModel
 
+- (instancetype)initWithJSON:(id)json
+{
+    self = [super init];
+    if (self) {
+        [self bindPropertiesFromJSON:json];
+    }
+    return self;
+}
+
+-(void)bindPropertiesFromJSON:(id)json
+{
+    NSArray *apps = [json objectForKey:@"apps"];
+    NSMutableArray *newApps = [[NSMutableArray alloc] init];
+    for (id app in apps) {
+        HyBidVGIApp *newApp = [[HyBidVGIApp alloc] initWithJSON:app];
+        [newApps addObject:newApp];
+    }
+    self.apps = newApps;
+    
+    id device = [json objectForKey:@"device"];
+    HyBidVGIDevice *newDevice= [[HyBidVGIDevice alloc] initWithJSON:device];
+    self.device = newDevice;
+    
+    NSArray *users = [json objectForKey:@"users"];
+    NSMutableArray *newUsers = [[NSMutableArray alloc] init];
+    for (id user in users) {
+        HyBidVGIUser *newUser = [[HyBidVGIUser alloc] initWithJSON:user];
+        [newUsers addObject:newUser];
+    }
+    self.users = newUsers;
+}
+
 @end

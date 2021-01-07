@@ -443,6 +443,8 @@
 		6FE01B3C255D646F006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE01B2E255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m */; };
 		6FE6942525A5E3EE0015A553 /* HyBidKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE6942325A5E3EE0015A553 /* HyBidKeychain.h */; };
 		6FE6942625A5E3EE0015A553 /* HyBidKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */; };
+		6FE6944625A5EAA20015A553 /* HyBidVGIManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE6944425A5EAA20015A553 /* HyBidVGIManager.h */; };
+		6FE6944725A5EAA20015A553 /* HyBidVGIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE6944525A5EAA20015A553 /* HyBidVGIManager.m */; };
 		6FED0A7C255EBDB600434977 /* HyBidAdMobMediationRewardedCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */; };
 		6FED0A95255EC5DF00434977 /* PNLiteDemoAdMobMediationRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A83255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.m */; };
 		6FEFC84C2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */; };
@@ -2313,6 +2315,8 @@
 		6FE01B2E255D6427006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationRewardedViewController.m; sourceTree = "<group>"; };
 		6FE6942325A5E3EE0015A553 /* HyBidKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidKeychain.h; sourceTree = "<group>"; };
 		6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidKeychain.m; sourceTree = "<group>"; };
+		6FE6944425A5EAA20015A553 /* HyBidVGIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVGIManager.h; sourceTree = "<group>"; };
+		6FE6944525A5EAA20015A553 /* HyBidVGIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVGIManager.m; sourceTree = "<group>"; };
 		6FED0A69255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationRewardedCustomEvent.h; sourceTree = "<group>"; };
 		6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationRewardedCustomEvent.m; sourceTree = "<group>"; };
 		6FED0A82255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationRewardedViewController.h; sourceTree = "<group>"; };
@@ -3369,6 +3373,8 @@
 				6F54A86F25A4B33E00576A09 /* HyBidVGIAppUser.m */,
 				6FE6942325A5E3EE0015A553 /* HyBidKeychain.h */,
 				6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */,
+				6FE6944425A5EAA20015A553 /* HyBidVGIManager.h */,
+				6FE6944525A5EAA20015A553 /* HyBidVGIManager.m */,
 			);
 			path = "VGI ID";
 			sourceTree = "<group>";
@@ -3714,6 +3720,7 @@
 				5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */,
 				6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */,
 				7EE35817256D4721005E6AC6 /* HyBidRemoteConfigModel.h in Headers */,
+				6FE6944625A5EAA20015A553 /* HyBidVGIManager.h in Headers */,
 				5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */,
 				7EE35863256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.h in Headers */,
 				5ACC74E7203595250001CDC3 /* PNLitemraidjs.h in Headers */,
@@ -4968,6 +4975,7 @@
 				5ADF9EA4214962340081355E /* HyBidAdModel.m in Sources */,
 				5A3DD0A725277A0300A72B03 /* HyBidSignalDataProcessor.m in Sources */,
 				6F54A84525A4B16200576A09 /* HyBidVGIUser.m in Sources */,
+				6FE6944725A5EAA20015A553 /* HyBidVGIManager.m in Sources */,
 				6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */,
 				5ADF9E7421493DF00081355E /* HyBidAdPresenter.m in Sources */,
 				5A64B3FE21E78A3E00160235 /* HyBidAdPresenterFactory.m in Sources */,
