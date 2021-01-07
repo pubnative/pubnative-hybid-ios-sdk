@@ -40,4 +40,9 @@
     self.vendor = [[HyBidVGIAppVendor alloc] initWithJSON:json[@"vendors"]];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.AUID, @"AUID", self.SUID, @"SUID", self.vendor.dictionary, @"vendors", nil];
+}
+
 @end

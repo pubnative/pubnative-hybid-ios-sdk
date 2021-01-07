@@ -38,4 +38,9 @@
     self.bundleID = json[@"bundle_id"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.bundleID, @"bundle_id", nil];
+}
+
 @end

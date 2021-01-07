@@ -25,11 +25,11 @@
 
 @implementation HyBidVGIManager
 
-#define HyBid_VGI_ID @"HyBid_VGI_ID"
+#define kHyBid_VGI_ID @"HyBid_VGI_ID"
 
 -(HyBidVGIModel *)getHyBidVGIModel
 {
-//    NSString *vgiID = (NSString *)[HyBidKeychain loadObjectForKey:HyBid_VGI_ID];
+//    NSString *vgiID = (NSString *)[HyBidKeychain loadObjectForKey:kHyBid_VGI_ID];
     NSString *vgiID = @"{\"apps\":[{\"bundle_id\":\"123\",\"users\":[{\"AUID\":\"1\",\"SUID\":\"2\",\"vendors\":{\"APL\":{\"IDFV\":\"3\"},\"LR\":{\"IDL\":\"4\"},\"TTD\":{\"IDL\":\"5\"}}}],\"privacy\":{\"lat\":\"6\",\"tcfv1\":\"7\",\"tcfv2\":\"8\",\"iab_ccpa\":\"9\"}}],\"device\":{\"id\":\"1\",\"os\":{\"name\":\"2\",\"version\":\"3\",\"build_signature\":\"4\"},\"manufacture\":\"5\",\"model\":\"6\",\"brand\":\"7\",\"battery\":{\"capacity\":\"8\"}},\"users\":[{\"SUID\":\"9\",\"emails\":[{\"bundle_id\":\"1\"}],\"vendors\":{\"GGL\":{\"GAID\":\"2\"},\"APL\":{\"IDFA\":\"3\"}},\"locations\":[{\"bundle_id\":\"4\"}],\"audiences\":[{\"bundle_id\":\"5\"}]}]}";
 
     HyBidVGIModel *model = nil;
@@ -41,23 +41,23 @@
         NSError *error = nil;
         jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
         
-        NSLog(@"%@", jsonObject);
         model = [[HyBidVGIModel alloc] initWithJSON:jsonObject];
+        
+        [self setHyBidVGIModelFrom:model];
     }
-//    String vgiId = mPreferences.getString(KEY_VGI_ID, null);
-//    JSONObject vgiIdJson;
-//    IdModel vgiIdModel = null;
-//
-//    if (!TextUtils.isEmpty(vgiId)) {
-//        try {
-//            vgiIdJson = new JSONObject(vgiId);
-//            vgiIdModel = new IdModel(vgiIdJson);
-//        } catch (Exception e) {
-//            Logger.e(TAG, e.getMessage());
-//        }
-//    }
-//    return vgiIdModel;
+
     return model;
+}
+
+- (void)setHyBidVGIModelFrom:(HyBidVGIModel *)model
+{
+    if (model != nil) {
+        NSError *writeError = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:model.dictionary options:NSJSONWritingPrettyPrinted error:&writeError];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        [HyBidKeychain saveObject:jsonString forKey:kHyBid_VGI_ID];
+    }
 }
 
 @end

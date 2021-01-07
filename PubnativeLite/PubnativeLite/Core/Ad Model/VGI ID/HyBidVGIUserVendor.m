@@ -39,4 +39,9 @@
     self.GGL = [[HyBidVGIGgl alloc] initWithJSON:json[@"GGL"]];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.APL.dictionary, @"APL", self.GGL.dictionary, @"GGL", nil];
+}
+
 @end

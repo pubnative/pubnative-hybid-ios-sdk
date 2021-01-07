@@ -41,4 +41,9 @@
     self.TCFv2 = json[@"tcfv2"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.TCFv1, @"tcfv1", self.TCFv2, @"tcfv2", self.iabCCPA, @"iab_ccpa", self.lat, @"lat", nil];
+}
+
 @end

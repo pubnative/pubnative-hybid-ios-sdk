@@ -38,4 +38,9 @@
     self.GAID = json[@"GAID"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.GAID, @"GAID", nil];
+}
+
 @end

@@ -29,5 +29,6 @@
 @property (nonatomic, strong) NSString *ts;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

@@ -64,4 +64,24 @@
     self.vendor = [[HyBidVGIUserVendor alloc] initWithJSON:json[@"vendors"]];
 }
 
+- (NSDictionary *)dictionary
+{
+    NSMutableArray *emailsDict = [[NSMutableArray alloc] init];
+    for (HyBidVGIEmail *email in self.emails) {
+        [emailsDict addObject:email.dictionary];
+    }
+    
+    NSMutableArray *locationsDict = [[NSMutableArray alloc] init];
+    for (HyBidVGILocation *location in self.locations) {
+        [locationsDict addObject:location.dictionary];
+    }
+    
+    NSMutableArray *audiencesDict = [[NSMutableArray alloc] init];
+    for (HyBidVGIAudience *audience in self.audiences) {
+        [audiencesDict addObject:audience.dictionary];
+    }
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.SUID, @"SUID", emailsDict, @"emails", locationsDict, @"locations", audiencesDict, @"audiences", self.vendor.dictionary, @"vendors", nil];
+}
+
 @end

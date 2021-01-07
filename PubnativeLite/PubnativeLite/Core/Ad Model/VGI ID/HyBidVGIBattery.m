@@ -38,4 +38,9 @@
     self.capacity = json[@"capacity"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.capacity, @"capacity", nil];
+}
+
 @end

@@ -26,10 +26,10 @@
 
 @property (nonatomic, strong) NSString *lat;
 @property (nonatomic, strong) NSString *lon;
-@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *accuracy;
 @property (nonatomic, strong) NSString *ts;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

@@ -31,5 +31,6 @@
 @property (nonatomic, strong) HyBidVGIPrivacy *privacy;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

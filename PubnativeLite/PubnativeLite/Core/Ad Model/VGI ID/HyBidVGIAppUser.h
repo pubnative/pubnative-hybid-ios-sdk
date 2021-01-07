@@ -30,5 +30,6 @@
 @property (nonatomic, strong) HyBidVGIAppVendor *vendor;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

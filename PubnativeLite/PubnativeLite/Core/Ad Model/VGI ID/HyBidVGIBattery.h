@@ -27,5 +27,6 @@
 @property (nonatomic, strong) NSString *capacity;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

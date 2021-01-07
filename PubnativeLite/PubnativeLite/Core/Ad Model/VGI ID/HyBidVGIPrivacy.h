@@ -30,5 +30,6 @@
 @property (nonatomic, strong) NSString *iabCCPA;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

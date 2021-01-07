@@ -32,5 +32,6 @@
 @property (nonatomic, strong) HyBidVGITtd *TTD;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

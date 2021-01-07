@@ -39,4 +39,16 @@
     self.IDFV = json[@"IDFV"];
 }
 
+- (NSDictionary *)dictionary
+{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    if (self.IDFA != nil) {
+        dict[@"IDFA"] = self.IDFA;
+    }
+    if (self.IDFV != nil) {
+        dict[@"IDFV"] = self.IDFV;
+    }
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 @end

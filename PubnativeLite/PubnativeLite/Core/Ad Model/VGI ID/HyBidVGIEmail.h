@@ -27,5 +27,6 @@
 @property (nonatomic, strong) NSString *bundleID;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

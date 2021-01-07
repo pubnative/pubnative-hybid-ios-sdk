@@ -48,5 +48,15 @@
     self.users = newUsers;
 }
 
+- (NSDictionary *)dictionary
+{
+    NSMutableArray *usersDict = [[NSMutableArray alloc] init];
+    for (HyBidVGIAppUser *user in self.users) {
+        [usersDict addObject:user.dictionary];
+    }
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.bundleID, @"bundle_id", usersDict, @"users", self.privacy.dictionary, @"privacy", nil];
+}
+
 
 @end

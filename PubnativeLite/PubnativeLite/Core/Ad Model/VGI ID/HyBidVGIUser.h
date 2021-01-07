@@ -35,5 +35,6 @@
 @property (nonatomic, strong) NSArray<HyBidVGIAudience *> *audiences;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

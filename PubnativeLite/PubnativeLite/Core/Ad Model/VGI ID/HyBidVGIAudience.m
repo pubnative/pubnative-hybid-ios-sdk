@@ -40,4 +40,9 @@
     self.type = json[@"type"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.ID, @"id", self.ts, @"ts", self.type, @"type", nil];
+}
+
 @end

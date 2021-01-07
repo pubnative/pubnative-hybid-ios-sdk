@@ -34,5 +34,6 @@
 @property (nonatomic, strong) HyBidVGIBattery *battery;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

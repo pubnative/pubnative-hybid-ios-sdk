@@ -41,4 +41,9 @@
     self.ts = json[@"ts"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.accuracy, @"accuracy", self.lat, @"lat", self.lon, @"long", self.ts, @"ts", nil];
+}
+
 @end

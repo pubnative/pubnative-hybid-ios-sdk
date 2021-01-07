@@ -38,4 +38,9 @@
     self.IDL = json[@"IDL"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.IDL, @"IDL", nil];
+}
+
 @end

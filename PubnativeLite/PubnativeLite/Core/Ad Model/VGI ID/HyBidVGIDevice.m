@@ -44,4 +44,9 @@
     self.OS = [[HyBidVGIOS alloc] initWithJSON:json[@"os"]];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.ID, @"id", self.OS.dictionary, @"os", self.manufacture, @"manufacture", self.model, @"model", self.brand, @"brand", self.battery.dictionary, @"battery", nil];
+}
+
 @end

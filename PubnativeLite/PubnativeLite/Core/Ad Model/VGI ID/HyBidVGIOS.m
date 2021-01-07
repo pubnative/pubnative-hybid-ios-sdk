@@ -40,4 +40,9 @@
     self.version = json[@"version"];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.buildSignature, @"build_signature", self.name, @"name", self.version, @"version", nil];
+}
+
 @end

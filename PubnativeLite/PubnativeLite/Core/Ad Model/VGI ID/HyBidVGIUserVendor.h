@@ -30,5 +30,6 @@
 @property (nonatomic, strong) HyBidVGIApl *APL;
 
 - (instancetype)initWithJSON:(id)json;
+- (NSDictionary *)dictionary;
 
 @end

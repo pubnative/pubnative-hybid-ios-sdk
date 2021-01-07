@@ -40,4 +40,9 @@
     self.TTD = [[HyBidVGITtd alloc] initWithJSON:json[@"TTD"]];
 }
 
+- (NSDictionary *)dictionary
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.APL.dictionary, @"APL", self.LR.dictionary, @"LR", self.TTD.dictionary, @"TTD", nil];
+}
+
 @end
