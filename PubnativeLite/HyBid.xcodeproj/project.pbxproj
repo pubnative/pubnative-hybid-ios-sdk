@@ -1747,6 +1747,20 @@
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
 		};
+		62A3105725A86CE70099B5EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 62A3105325A86CE70099B5EE /* Analytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 62A3104625A86CBD0099B5EE;
+			remoteInfo = Analytics;
+		};
+		62A3105925A86CF70099B5EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 62A3105325A86CE70099B5EE /* Analytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 62A3104525A86CBD0099B5EE;
+			remoteInfo = Analytics;
+		};
 		7E598C1624475F2E00BEA734 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
@@ -2218,6 +2232,7 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
+		62A3105325A86CE70099B5EE /* Analytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Analytics.xcodeproj; path = ../../../../Analytics/Analytics.xcodeproj; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -2787,6 +2802,7 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
+				62A3105225A86CD70099B5EE /* Dependencies */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
 				7EA2A96B2589F730004C6A97 /* Resources */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
@@ -3255,6 +3271,22 @@
 				5AFAF2C325223A900031581B /* HyBidMarkupUtils.m */,
 			);
 			path = Markup;
+			sourceTree = "<group>";
+		};
+		62A3105225A86CD70099B5EE /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				62A3105325A86CE70099B5EE /* Analytics.xcodeproj */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		62A3105425A86CE70099B5EE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62A3105825A86CE70099B5EE /* Analytics.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		6F8C114D2539BA8F00DC4151 /* Rewarded */ = {
@@ -4301,6 +4333,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				62A3105A25A86CF70099B5EE /* PBXTargetDependency */,
 			);
 			name = HyBid;
 			productName = HyBid;
@@ -4475,6 +4508,12 @@
 			mainGroup = 5A6CD0162029CD060022E206;
 			productRefGroup = 5A6CD0212029CD060022E206 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 62A3105425A86CE70099B5EE /* Products */;
+					ProjectRef = 62A3105325A86CE70099B5EE /* Analytics.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5A6CD01F2029CD060022E206 /* HyBid */,
@@ -4490,6 +4529,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		62A3105825A86CE70099B5EE /* Analytics.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Analytics.framework;
+			remoteRef = 62A3105725A86CE70099B5EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5A32CEB72029F79B0003B450 /* Resources */ = {
@@ -5587,6 +5636,11 @@
 			isa = PBXTargetDependency;
 			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
+		};
+		62A3105A25A86CF70099B5EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Analytics;
+			targetProxy = 62A3105925A86CF70099B5EE /* PBXContainerItemProxy */;
 		};
 		7E598C1724475F2E00BEA734 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
