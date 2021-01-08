@@ -10,6 +10,7 @@
 		62A310C625A87B9E0099B5EE /* Analytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 62A310C425A87B9E0099B5EE /* Analytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62A310DC25A87BBB0099B5EE /* ReportingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A310DB25A87BBB0099B5EE /* ReportingManager.swift */; };
 		62A310DF25A87BC90099B5EE /* ReportingEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A310DE25A87BC90099B5EE /* ReportingEvent.swift */; };
+		62A3113325A8A91F0099B5EE /* ReportingProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A3113225A8A91F0099B5EE /* ReportingProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		62A310C525A87B9E0099B5EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		62A310DB25A87BBB0099B5EE /* ReportingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingManager.swift; sourceTree = "<group>"; };
 		62A310DE25A87BC90099B5EE /* ReportingEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingEvent.swift; sourceTree = "<group>"; };
+		62A3113225A8A91F0099B5EE /* ReportingProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingProperties.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 				62A310C525A87B9E0099B5EE /* Info.plist */,
 				62A310DB25A87BBB0099B5EE /* ReportingManager.swift */,
 				62A310DE25A87BC90099B5EE /* ReportingEvent.swift */,
+				62A3113225A8A91F0099B5EE /* ReportingProperties.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				62A310DC25A87BBB0099B5EE /* ReportingManager.swift in Sources */,
+				62A3113325A8A91F0099B5EE /* ReportingProperties.swift in Sources */,
 				62A310DF25A87BC90099B5EE /* ReportingEvent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

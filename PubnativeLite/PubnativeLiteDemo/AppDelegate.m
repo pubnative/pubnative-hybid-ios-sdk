@@ -104,7 +104,7 @@ CLLocationManager *locationManager;
 
 // MARK: ReportingDelegate
 - (void)onEventWith:(ReportingEvent *)event {
-    NSLog(@"event: %@", event.description);
+    NSLog(@"event: %@", [event toJSON]);
 }
 
 @end
