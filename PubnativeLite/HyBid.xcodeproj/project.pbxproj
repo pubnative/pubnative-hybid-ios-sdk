@@ -375,8 +375,7 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
-		62A3106A25A8734E0099B5EE /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A3105825A86CE70099B5EE /* Analytics.framework */; };
-		62A3106B25A8734E0099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A3105825A86CE70099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		62A310E125A87BEB0099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -1749,18 +1748,11 @@
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
 		};
-		62A3105725A86CE70099B5EE /* PBXContainerItemProxy */ = {
+		62A310D025A87BAC0099B5EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 62A3105325A86CE70099B5EE /* Analytics.xcodeproj */;
+			containerPortal = 62A310CC25A87BAC0099B5EE /* Analytics.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 62A3104625A86CBD0099B5EE;
-			remoteInfo = Analytics;
-		};
-		62A3105925A86CF70099B5EE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 62A3105325A86CE70099B5EE /* Analytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 62A3104525A86CBD0099B5EE;
+			remoteGlobalIDString = 62A310C125A87B9E0099B5EE;
 			remoteInfo = Analytics;
 		};
 		7E598C1624475F2E00BEA734 /* PBXContainerItemProxy */ = {
@@ -1805,7 +1797,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				62A3106B25A8734E0099B5EE /* Analytics.framework in Embed Frameworks */,
+				62A310E125A87BEB0099B5EE /* Analytics.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2245,7 +2237,7 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
-		62A3105325A86CE70099B5EE /* Analytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Analytics.xcodeproj; path = ../../../../Analytics/Analytics.xcodeproj; sourceTree = "<group>"; };
+		62A310CC25A87BAC0099B5EE /* Analytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Analytics.xcodeproj; path = ../../../Analytics/Analytics.xcodeproj; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -2366,7 +2358,6 @@
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
 				7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */,
-				62A3106A25A8734E0099B5EE /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3290,15 +3281,15 @@
 		62A3105225A86CD70099B5EE /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				62A3105325A86CE70099B5EE /* Analytics.xcodeproj */,
+				62A310CC25A87BAC0099B5EE /* Analytics.xcodeproj */,
 			);
 			path = Dependencies;
 			sourceTree = "<group>";
 		};
-		62A3105425A86CE70099B5EE /* Products */ = {
+		62A310CD25A87BAC0099B5EE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				62A3105825A86CE70099B5EE /* Analytics.framework */,
+				62A310D125A87BAC0099B5EE /* Analytics.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4348,7 +4339,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				62A3105A25A86CF70099B5EE /* PBXTargetDependency */,
 			);
 			name = HyBid;
 			productName = HyBid;
@@ -4525,8 +4515,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 62A3105425A86CE70099B5EE /* Products */;
-					ProjectRef = 62A3105325A86CE70099B5EE /* Analytics.xcodeproj */;
+					ProductGroup = 62A310CD25A87BAC0099B5EE /* Products */;
+					ProjectRef = 62A310CC25A87BAC0099B5EE /* Analytics.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -4546,11 +4536,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		62A3105825A86CE70099B5EE /* Analytics.framework */ = {
+		62A310D125A87BAC0099B5EE /* Analytics.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Analytics.framework;
-			remoteRef = 62A3105725A86CE70099B5EE /* PBXContainerItemProxy */;
+			remoteRef = 62A310D025A87BAC0099B5EE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -5651,11 +5641,6 @@
 			isa = PBXTargetDependency;
 			target = 5A6CD01F2029CD060022E206 /* HyBid */;
 			targetProxy = 5A969A43206523F800C3B74A /* PBXContainerItemProxy */;
-		};
-		62A3105A25A86CF70099B5EE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Analytics;
-			targetProxy = 62A3105925A86CF70099B5EE /* PBXContainerItemProxy */;
 		};
 		7E598C1724475F2E00BEA734 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

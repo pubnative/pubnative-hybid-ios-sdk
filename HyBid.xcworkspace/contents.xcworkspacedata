@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../Analytics/Analytics.xcodeproj">
+      location = "group:Analytics/Analytics.xcodeproj">
    </FileRef>
    <Group
       location = "group:PubnativeLite/Scripts"
