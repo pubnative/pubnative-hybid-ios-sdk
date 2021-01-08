@@ -377,6 +377,14 @@
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		62A310E125A87BEB0099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		62A310F525A8881C0099B5EE /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; };
+		62A3110B25A88E0D0099B5EE /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; };
+		62A3110C25A88E0D0099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		62A3110E25A88E130099B5EE /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; };
+		62A3110F25A88E130099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		62A3111125A88E190099B5EE /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; };
+		62A3111225A88E190099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		62A3111425A88E1E0099B5EE /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; };
+		62A3111525A88E1E0099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -1803,6 +1811,50 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		62A3110D25A88E0D0099B5EE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				62A3110C25A88E0D0099B5EE /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62A3111025A88E130099B5EE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				62A3110F25A88E130099B5EE /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62A3111325A88E190099B5EE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				62A3111225A88E190099B5EE /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62A3111625A88E1E0099B5EE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				62A3111525A88E1E0099B5EE /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -2380,6 +2432,7 @@
 				7EF1AA44258CC21600F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1AA45258CC21600F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1AA46258CC21600F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				62A3110B25A88E0D0099B5EE /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2390,6 +2443,7 @@
 				7EF1AB9F258CC52D00F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1ABA0258CC52D00F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1ABA1258CC52D00F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				62A3110E25A88E130099B5EE /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2400,6 +2454,7 @@
 				7EF1ACB3258CC55300F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1ACB4258CC55300F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1ACB5258CC55300F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				62A3111125A88E190099B5EE /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2410,6 +2465,7 @@
 				7EF1ADC1258CC55F00F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1ADC2258CC55F00F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1ADC3258CC55F00F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				62A3111425A88E1E0099B5EE /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4387,6 +4443,7 @@
 				7EF1AA43258CC21600F2D75A /* Frameworks */,
 				7EF1AA47258CC21600F2D75A /* Headers */,
 				7EF1AAD0258CC21600F2D75A /* Resources */,
+				62A3110D25A88E0D0099B5EE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4405,6 +4462,7 @@
 				7EF1AB9E258CC52D00F2D75A /* Frameworks */,
 				7EF1ABA2258CC52D00F2D75A /* Headers */,
 				7EF1AC17258CC52D00F2D75A /* Resources */,
+				62A3111025A88E130099B5EE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4423,6 +4481,7 @@
 				7EF1ACB2258CC55300F2D75A /* Frameworks */,
 				7EF1ACB6258CC55300F2D75A /* Headers */,
 				7EF1AD2B258CC55300F2D75A /* Resources */,
+				62A3111325A88E190099B5EE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4441,6 +4500,7 @@
 				7EF1ADC0258CC55F00F2D75A /* Frameworks */,
 				7EF1ADC4258CC55F00F2D75A /* Headers */,
 				7EF1AE39258CC55F00F2D75A /* Resources */,
+				62A3111625A88E1E0099B5EE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
