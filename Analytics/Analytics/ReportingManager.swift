@@ -29,5 +29,11 @@ public protocol ReportingDelegate: class {
 
 @objc
 public class ReportingManager: NSObject {
+    
     @objc weak public var delegate: ReportingDelegate?
+    
+    @objc
+    public func reportEvent(for event: ReportingEvent) {
+        delegate?.onEvent(with: event)
+    }
 }

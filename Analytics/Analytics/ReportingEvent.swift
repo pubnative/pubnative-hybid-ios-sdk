@@ -22,7 +22,66 @@
 
 import Foundation
 
+public typealias ReportingKey = String
+
+@objc
+public class ReportingProperties: NSObject {}
+
+@objc
+public class Common: ReportingProperties {
+    @objc static let AD_FORMAT = "ad_format"
+    @objc static let AD_SIZE = "ad_size"
+    @objc static let CATEGORY_ID = "category_id"
+    @objc static let CAMPAIGN_ID = "campaign_id"
+    @objc static let EVENT_TYPE = "event_type"
+    @objc static let CREATIVE_TYPE = "creative_type"
+    @objc static let TIMESTAMP = "timestamp"
+}
+
+@objc
+public class EventType: ReportingProperties  {
+    @objc static let IMPRESSION = "impression"
+    @objc static let CLICK = "click"
+    @objc static let INTERSTITIAL_CLOSED = "interstitial_closed"
+    @objc static let VIDEO_STARTED = "video_started"
+    @objc static let VIDEO_DISMISSED = "video_dismissed"
+    @objc static let VIDEO_FINISHED = "video_finished"
+    @objc static let VIDEO_MUTE = "video_mute"
+    @objc static let VIDEO_UNMUTE = "video_unmute"
+}
+
+@objc
+public class CreativeType: ReportingProperties  {
+    @objc static let STANDARD = "standard"
+    @objc static let VIDEO = "video"
+}
+
+@objc
+public class AdFormat: ReportingProperties  {
+    @objc static let NATIVE = "native"
+    @objc static let BANNER = "banner"
+    @objc static let FULLSCREEN = "fullscreen"
+    @objc static let REWARDED = "rewarded"
+}
+
 @objc
 public class ReportingEvent: NSObject {
     
+    @objc public var properties: [ReportingKey: String]
+    
+    public init(properties: [ReportingKey: String]) {
+        self.properties = properties
+        super.init()
+    }
+    
+    @objc
+    public func toJSON() -> String {
+        let encoder = JSONEncoder()
+        if let jsonData = try? encoder.encode(properties) {
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        }
+        return ""
+    }
 }
