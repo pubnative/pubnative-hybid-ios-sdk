@@ -4,7 +4,7 @@ jobs:
         working_directory: ~/pubnative/pubnative-hybid-ios-sdk
         shell: /bin/bash --login -o pipefail
         macos:
-            xcode: "12.0.0"
+            xcode: "12.3"
         steps:
             - checkout
             - run:
@@ -47,7 +47,7 @@ jobs:
                 command: xcodebuild
                             -workspace HyBid.xcworkspace
                             -scheme HyBid
-                            -destination 'platform=iOS Simulator,OS=14.0,name=iPhone 8'
+                            -destination 'platform=iOS Simulator,OS=14.3,name=iPhone 11'
                             clean test
                             | tee /tmp/circleci-artifacts/test_xcodebuild.log
                             | xcpretty
