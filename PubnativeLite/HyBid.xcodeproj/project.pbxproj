@@ -376,6 +376,7 @@
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
 		62A310E125A87BEB0099B5EE /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		62A310F525A8881C0099B5EE /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A310D125A87BAC0099B5EE /* Analytics.framework */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -2355,6 +2356,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62A310F525A8881C0099B5EE /* Analytics.framework in Frameworks */,
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
 				7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */,
