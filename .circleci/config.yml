@@ -41,11 +41,11 @@ jobs:
                 command: mkdir -p /tmp/circleci-test-results
             - run:
                 name: List Schemes
-                command: xcodebuild -project PubnativeLite/HyBid.xcodeproj -list
+                command: xcodebuild -workspace HyBid.xcworkspace -list
             - run:
                 name: Xcode Build and Run Tests
                 command: xcodebuild
-                            -project PubnativeLite/HyBid.xcodeproj
+                            -workspace HyBid.xcworkspace
                             -scheme HyBid
                             -destination 'platform=iOS Simulator,OS=14.0,name=iPhone 8'
                             clean test
@@ -58,13 +58,13 @@ jobs:
             - deploy:
                 name: Generate framework
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-hybid-modules" ]; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-anayltics-architecture" ]; then
                       PubnativeLite/Scripts/generate.sh
                     fi
             - deploy:
                 name: Generate Module frameworks
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-hybid-modules" ]; then
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-anayltics-architecture" ]; then
                       PubnativeLite/Scripts/generate_banner_only.sh
                       PubnativeLite/Scripts/generate_fullscreen_only.sh
                       PubnativeLite/Scripts/generate_native_only.sh
