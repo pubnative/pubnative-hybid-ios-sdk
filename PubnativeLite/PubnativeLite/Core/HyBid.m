@@ -69,4 +69,13 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
     return HYBID_SDK_VERSION;
 }
 
++ (ReportingManager *)reportingManager {
+    static ReportingManager *_reportingManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _reportingManager = [[ReportingManager alloc] init];
+    });
+    return _reportingManager;
+}
+
 @end

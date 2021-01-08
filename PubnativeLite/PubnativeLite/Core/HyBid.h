@@ -113,7 +113,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAdSize.h>
 #import <HyBid/HyBidSignalDataProcessor.h>
 #import <Analytics/Analytics-Swift.h>
-
+ 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
 @interface HyBid : NSObject
@@ -125,5 +125,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setLocationUpdates:(BOOL)enabled;
 + (void)setAppStoreAppID:(NSString *)appID;
 + (NSString *)sdkVersion;
-+ (ReportingManager *)getReportingManager;
++ (ReportingManager *)reportingManager;
+
 @end
