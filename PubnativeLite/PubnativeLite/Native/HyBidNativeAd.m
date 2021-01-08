@@ -82,45 +82,80 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 - (NSString *)title {
     NSString *result = nil;
-    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.title];
-    if (data) {
-        result = data.text;
+    if (self.ad.isUsingOpenRTB) {
+        HyBidOpenRTBDataModel *data = [self.ad openRTBAssetDataWithType:PNLiteAsset.title];
+        if (data) {
+            result = data.text;
+        }
+    } else {
+        HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.title];
+        if (data) {
+            result = data.text;
+        }
     }
     return result;
 }
 
 - (NSString *)body {
     NSString *result = nil;
-    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.body];
-    if (data) {
-        result = data.text;
+    if (self.ad.isUsingOpenRTB) {
+        HyBidOpenRTBDataModel *data = [self.ad openRTBAssetDataWithType:PNLiteAsset.body];
+        if (data) {
+            result = data.text;
+        }
+    } else {
+        HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.body];
+        if (data) {
+            result = data.text;
+        }
     }
     return result;
 }
 
 - (NSString *)callToActionTitle {
     NSString *result = nil;
-    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.callToAction];
-    if (data) {
-        result = data.text;
+    if (self.ad.isUsingOpenRTB) {
+        HyBidOpenRTBDataModel *data = [self.ad openRTBAssetDataWithType:PNLiteAsset.callToAction];
+        if (data) {
+            result = data.text;
+        }
+    } else {
+        HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.callToAction];
+        if (data) {
+            result = data.text;
+        }
     }
     return result;
 }
 
 - (NSString *)iconUrl {
     NSString *result = nil;
-    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.icon];
-    if (data) {
-        result = data.url;
+    if (self.ad.isUsingOpenRTB) {
+        HyBidOpenRTBDataModel *data = [self.ad openRTBAssetDataWithType:PNLiteAsset.icon];
+        if (data) {
+            result = data.url;
+        }
+    } else {
+        HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.icon];
+        if (data) {
+            result = data.url;
+        }
     }
     return result;
 }
 
 - (NSString *)bannerUrl {
     NSString *result = nil;
-    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.banner];
-    if (data) {
-        result = data.url;
+    if (self.ad.isUsingOpenRTB) {
+        HyBidOpenRTBDataModel *data = [self.ad openRTBAssetDataWithType:PNLiteAsset.banner];
+        if (data) {
+            result = data.url;
+        }
+    } else {
+        HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.banner];
+        if (data) {
+            result = data.url;
+        }
     }
     return result;
 }
@@ -137,9 +172,16 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 - (NSNumber *)rating {
     NSNumber *result = nil;
-    HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.rating];
-    if (data) {
-        result = data.number;
+    if (self.ad.isUsingOpenRTB) {
+        HyBidOpenRTBDataModel *data = [self.ad openRTBAssetDataWithType:PNLiteAsset.rating];
+        if (data) {
+            result = data.number;
+        }
+    } else {
+        HyBidDataModel *data = [self.ad assetDataWithType:PNLiteAsset.rating];
+        if (data) {
+            result = data.number;
+        }
     }
     return result;
 }
@@ -197,6 +239,14 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     }
     return result;
 }
+
+- (HyBidSkAdNetworkModel *)openRTBSkAdNetworkModel {
+     HyBidSkAdNetworkModel *result = nil;
+     if (self.ad) {
+         result = [self.ad getOpenRTBSkAdNetworkModel];
+     }
+     return result;
+ }
 
 #pragma mark Tracking & Clicking
 
@@ -270,7 +320,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self invokeDidClick];
         [self confirmBeaconsWithType:PNLiteNativeAdBeaconClick];
         
-        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+        HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
         
         if (skAdNetworkModel) {
             NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
