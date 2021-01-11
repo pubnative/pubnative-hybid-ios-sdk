@@ -68,7 +68,7 @@
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"banner", ReportingPropertiesCommon.AD_FORMAT, self.bannerAdView.adSize.description, ReportingPropertiesCommon.AD_SIZE, nil];
+    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"banner", ReportingPropertiesCommon.AD_FORMAT, self.bannerAdView.adSize.description , ReportingPropertiesCommon.AD_SIZE, nil];
     ReportingEvent* reportingEvent = [[ReportingEvent alloc]initWith:properties];
     
     [[HyBid reportingManager]reportEventFor:reportingEvent];
