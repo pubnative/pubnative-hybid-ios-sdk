@@ -375,6 +375,16 @@
 		5AFF730720B451C100052F2D /* PNLiteConsentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */; };
 		5AFFFFA923607A5A002B8D6B /* HyBidIntegrationType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */; };
+		6234933A25AC58CF000B2718 /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; };
+		6234933B25AC58CF000B2718 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6234933D25AC58DC000B2718 /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; };
+		6234933E25AC58DC000B2718 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6234934025AC58E1000B2718 /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; };
+		6234934125AC58E1000B2718 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6234934325AC58E6000B2718 /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; };
+		6234934425AC58E6000B2718 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6234934625AC58EB000B2718 /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; };
+		6234934725AC58EB000B2718 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6F54A72F25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
 		6F54A73025A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
 		6F54A73125A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
@@ -1858,6 +1868,13 @@
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
 		};
+		6234933825AC58BE000B2718 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6234933425AC58BE000B2718 /* Analytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 62A310C125A87B9E0099B5EE;
+			remoteInfo = Analytics;
+		};
 		7E598C1624475F2E00BEA734 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
@@ -1890,6 +1907,61 @@
 			files = (
 				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
 				7E78424A2591FD0500E99A69 /* MoPub.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6234933C25AC58CF000B2718 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6234933B25AC58CF000B2718 /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6234933F25AC58DC000B2718 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6234933E25AC58DC000B2718 /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6234934225AC58E1000B2718 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6234934125AC58E1000B2718 /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6234934525AC58E6000B2718 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6234934425AC58E6000B2718 /* Analytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6234934825AC58EB000B2718 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6234934725AC58EB000B2718 /* Analytics.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2329,6 +2401,7 @@
 		5AFF730420B451C100052F2D /* PNLiteConsentPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteConsentPageViewController.m; sourceTree = "<group>"; };
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
+		6234933425AC58BE000B2718 /* Analytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Analytics.xcodeproj; path = ../../../Analytics/Analytics.xcodeproj; sourceTree = "<group>"; };
 		6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteOpenRTBResponseModel.h; sourceTree = "<group>"; };
 		6F54A72E25A3664D00576A09 /* PNLiteOpenRTBResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteOpenRTBResponseModel.m; sourceTree = "<group>"; };
 		6F54A75725A49D5300576A09 /* HyBidVGIApl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVGIApl.h; sourceTree = "<group>"; };
@@ -2500,6 +2573,7 @@
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
 				7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */,
+				6234933A25AC58CF000B2718 /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2520,6 +2594,7 @@
 				7EF1AA44258CC21600F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1AA45258CC21600F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1AA46258CC21600F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				6234933D25AC58DC000B2718 /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2530,6 +2605,7 @@
 				7EF1AB9F258CC52D00F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1ABA0258CC52D00F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1ABA1258CC52D00F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				6234934025AC58E1000B2718 /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2540,6 +2616,7 @@
 				7EF1ACB3258CC55300F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1ACB4258CC55300F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1ACB5258CC55300F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				6234934325AC58E6000B2718 /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2550,6 +2627,7 @@
 				7EF1ADC1258CC55F00F2D75A /* libxml2.2.tbd in Frameworks */,
 				7EF1ADC2258CC55F00F2D75A /* libxml2.tbd in Frameworks */,
 				7EF1ADC3258CC55F00F2D75A /* OMSDK_Pubnativenet.framework in Frameworks */,
+				6234934625AC58EB000B2718 /* Analytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2949,6 +3027,7 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
+				6234933325AC58B6000B2718 /* Dependencies */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
 				7EA2A96B2589F730004C6A97 /* Resources */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
@@ -3428,6 +3507,22 @@
 				5AFAF2C325223A900031581B /* HyBidMarkupUtils.m */,
 			);
 			path = Markup;
+			sourceTree = "<group>";
+		};
+		6234933325AC58B6000B2718 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				6234933425AC58BE000B2718 /* Analytics.xcodeproj */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		6234933525AC58BE000B2718 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6234933925AC58BE000B2718 /* Analytics.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		6F54A74D25A49D0800576A09 /* VGI ID */ = {
@@ -4574,6 +4669,7 @@
 				5A6CD01C2029CD060022E206 /* Frameworks */,
 				5A6CD01D2029CD060022E206 /* Headers */,
 				5A6CD01E2029CD060022E206 /* Resources */,
+				6234933C25AC58CF000B2718 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4624,6 +4720,7 @@
 				7EF1AA43258CC21600F2D75A /* Frameworks */,
 				7EF1AA47258CC21600F2D75A /* Headers */,
 				7EF1AAD0258CC21600F2D75A /* Resources */,
+				6234933F25AC58DC000B2718 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4642,6 +4739,7 @@
 				7EF1AB9E258CC52D00F2D75A /* Frameworks */,
 				7EF1ABA2258CC52D00F2D75A /* Headers */,
 				7EF1AC17258CC52D00F2D75A /* Resources */,
+				6234934225AC58E1000B2718 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4660,6 +4758,7 @@
 				7EF1ACB2258CC55300F2D75A /* Frameworks */,
 				7EF1ACB6258CC55300F2D75A /* Headers */,
 				7EF1AD2B258CC55300F2D75A /* Resources */,
+				6234934525AC58E6000B2718 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4678,6 +4777,7 @@
 				7EF1ADC0258CC55F00F2D75A /* Frameworks */,
 				7EF1ADC4258CC55F00F2D75A /* Headers */,
 				7EF1AE39258CC55F00F2D75A /* Resources */,
+				6234934825AC58EB000B2718 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4752,6 +4852,12 @@
 			mainGroup = 5A6CD0162029CD060022E206;
 			productRefGroup = 5A6CD0212029CD060022E206 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6234933525AC58BE000B2718 /* Products */;
+					ProjectRef = 6234933425AC58BE000B2718 /* Analytics.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5A6CD01F2029CD060022E206 /* HyBid */,
@@ -4767,6 +4873,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6234933925AC58BE000B2718 /* Analytics.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Analytics.framework;
+			remoteRef = 6234933825AC58BE000B2718 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5A32CEB72029F79B0003B450 /* Resources */ = {

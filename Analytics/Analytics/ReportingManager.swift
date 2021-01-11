@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,20 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <HyBid/HyBid.h>
+import Foundation
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, ReportingDelegate>
+@objc
+public protocol ReportingDelegate: class {
+    func onEvent(with event: ReportingEvent)
+}
 
-@property (strong, nonatomic) UIWindow *window;
-
-@end
-
+@objc
+public class ReportingManager: NSObject {
+    
+    @objc weak public var delegate: ReportingDelegate?
+    
+    @objc
+    public func reportEvent(for event: ReportingEvent) {
+        delegate?.onEvent(with: event)
+    }
+}
