@@ -46,6 +46,11 @@
      return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%dx%d", self.adWidth, self.adHeight];
+}
+
 - (BOOL)isEqualTo:(HyBidAdSize *)hyBidAdSize {
     return (self.adHeight == hyBidAdSize.adHeight && self.adWidth == hyBidAdSize.adWidth && [self.adLayoutSize isEqualToString:hyBidAdSize.adLayoutSize]);
 }

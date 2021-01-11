@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <HyBid/HyBid.h>
+#import <Foundation/Foundation.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, ReportingDelegate>
+//! Project version number for Analytics.
+FOUNDATION_EXPORT double AnalyticsVersionNumber;
 
-@property (strong, nonatomic) UIWindow *window;
+//! Project version string for Analytics.
+FOUNDATION_EXPORT const unsigned char AnalyticsVersionString[];
 
-@end
+// In this header, you should import all the public headers of your framework using statements like #import <Analytics/PublicHeader.h>
+
 
