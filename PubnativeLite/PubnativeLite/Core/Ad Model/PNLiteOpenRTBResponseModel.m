@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,22 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
-#import "PNLiteMRAIDBannerPresenter.h"
-#import "HyBidLogger.h"
-#import "HyBidVASTAdPresenter.h"
-#import "PNLiteDemoSettings.h"
+#import "PNLiteOpenRTBResponseModel.h"
+#import "HyBidOpenRTBAdModel.h"
 
-@implementation HyBidBannerPresenterFactory
+@implementation PNLiteOpenRTBResponseModel
 
-- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
-    switch (ad.adType) {
-        case kHyBidAdTypeHTML: {
-            PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
-            return mraidBannerPresenter;
-        }
-        case kHyBidAdTypeVideo: {
-            HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
-            return vastAdPresenter;
-        }
-        default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
-            return nil;
-    }
+- (void)dealloc {
+    self.bids = nil;
 }
+
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+     self = [super initWithDictionary:dictionary];
+     if (self) {
+         self.bids = [HyBidOpenRTBAdModel parseArrayValuesForBids:dictionary[@"seatbid"]];
+     }
+     return self;
+ }
+
 @end

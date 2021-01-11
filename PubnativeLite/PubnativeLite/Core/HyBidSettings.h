@@ -34,6 +34,7 @@
 @property (nonatomic, strong) HyBidTargetingModel *targeting;
 @property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, strong) NSString *apiURL;
+@property (nonatomic, strong) NSString *openRtbApiURL;
 @property (nonatomic, strong) NSString *appID;
 
 // COMMON PARAMETERS
@@ -51,6 +52,7 @@
 @property (readonly) NSString *appVersion;
 @property (readonly) CLLocation *location;
 @property (readonly) NSString *identifierForVendor;
+@property (readonly) NSString *ip;
 
 + (HyBidSettings *)sharedInstance;
 

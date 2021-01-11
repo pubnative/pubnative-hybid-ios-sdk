@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2020 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidBannerPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
-#import "PNLiteMRAIDBannerPresenter.h"
-#import "HyBidLogger.h"
-#import "HyBidVASTAdPresenter.h"
-#import "PNLiteDemoSettings.h"
+#import <Foundation/Foundation.h>
 
-@implementation HyBidBannerPresenterFactory
+NS_ASSUME_NONNULL_BEGIN
 
-- (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
-    switch (ad.adType) {
-        case kHyBidAdTypeHTML: {
-            PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
-            return mraidBannerPresenter;
-        }
-        case kHyBidAdTypeVideo: {
-            HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
-            return vastAdPresenter;
-        }
-        default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
-            return nil;
-    }
-}
+@interface HyBidOpenRTBBaseModel : NSObject
+
 @end
+
+NS_ASSUME_NONNULL_END

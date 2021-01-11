@@ -104,7 +104,7 @@
 - (HyBidSkAdNetworkModel *)skAdNetworkModel {
     HyBidSkAdNetworkModel *result = nil;
     if (self.adModel) {
-        result = [self.adModel getSkAdNetworkModel];
+        result = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     }
     return result;
 }
@@ -114,7 +114,7 @@
     
     [self.delegate adPresenterDidClick:self];
     
-    HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
+    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
         NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
@@ -153,7 +153,7 @@
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
     [self.delegate adPresenterDidClick:self];
     
-    HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
+    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
         NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];

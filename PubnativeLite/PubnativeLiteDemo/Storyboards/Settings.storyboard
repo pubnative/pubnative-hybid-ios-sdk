@@ -695,37 +695,6 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwp-5P-1u0" userLabel="Keywords Button">
-                                <rect key="frame" x="16" y="315" width="343" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="keywordsButton" label="Keywords Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="5ve-jb-qo9"/>
-                                    <constraint firstAttribute="height" constant="33" id="6Em-d9-bop"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Keywords">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="6Em-d9-bop"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="5ve-jb-qo9"/>
-                                        <include reference="6Em-d9-bop"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <segue destination="YdD-l3-WZK" kind="show" id="WMg-mR-5an"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMd-ox-EsH" userLabel="Save PNLite Settings Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -799,7 +768,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="API URL" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cKm-HC-iYK" userLabel="App Token Text Field">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="API URL" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cKm-HC-iYK" userLabel="API URL Text Field">
                                 <rect key="frame" x="16" y="277" width="343" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="apiURLTextField" label="API URL TextField"/>
@@ -812,6 +781,50 @@
                                     <outlet property="delegate" destination="nGO-xg-xlE" id="WQL-Kl-r2c"/>
                                 </connections>
                             </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="OpenRTB API URL" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mWk-DB-Mfx" userLabel="OpenRTB API URL Text Field">
+                                 <rect key="frame" x="16" y="315" width="343" height="30"/>
+                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                 <accessibility key="accessibilityConfiguration" identifier="openRTBApiURLTextField" label="OpenRTB API URL TextField"/>
+                                 <constraints>
+                                     <constraint firstAttribute="height" constant="30" id="dAi-ML-06j"/>
+                                 </constraints>
+                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                 <connections>
+                                     <outlet property="delegate" destination="nGO-xg-xlE" id="GZ7-Zf-98Z"/>
+                                 </connections>
+                             </textField>
+                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwp-5P-1u0" userLabel="Keywords Button">
+                                 <rect key="frame" x="16" y="353" width="343" height="33"/>
+                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                 <accessibility key="accessibilityConfiguration" identifier="keywordsButton" label="Keywords Button"/>
+                                 <constraints>
+                                     <constraint firstAttribute="height" constant="33" id="5ve-jb-qo9"/>
+                                     <constraint firstAttribute="height" constant="33" id="6Em-d9-bop"/>
+                                 </constraints>
+                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                 <state key="normal" title="Keywords">
+                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                 </state>
+                                 <state key="selected">
+                                     <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                 </state>
+                                 <variation key="default">
+                                     <mask key="constraints">
+                                         <exclude reference="6Em-d9-bop"/>
+                                     </mask>
+                                 </variation>
+                                 <variation key="heightClass=compact">
+                                     <mask key="constraints">
+                                         <exclude reference="5ve-jb-qo9"/>
+                                         <include reference="6Em-d9-bop"/>
+                                     </mask>
+                                 </variation>
+                                 <connections>
+                                     <segue destination="YdD-l3-WZK" kind="show" id="WMg-mR-5an"/>
+                                 </connections>
+                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XR4-a4-G7L"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -823,10 +836,10 @@
                             <constraint firstItem="b4J-lo-hCK" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="4rH-QS-Yck"/>
                             <constraint firstItem="e81-8b-UEu" firstAttribute="top" secondItem="cFF-Hf-GKS" secondAttribute="bottom" constant="8" id="56G-wk-XYK"/>
                             <constraint firstItem="t7D-mO-sSx" firstAttribute="leading" secondItem="XR4-a4-G7L" secondAttribute="leading" constant="16" id="607-KX-tCH"/>
+                            <constraint firstItem="mWk-DB-Mfx" firstAttribute="top" secondItem="cKm-HC-iYK" secondAttribute="bottom" constant="8" id="6mU-UR-cgS"/>
                             <constraint firstItem="Dph-7b-Jiy" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="89u-mU-Tjo"/>
                             <constraint firstItem="m0j-k5-mea" firstAttribute="top" secondItem="WMd-ox-EsH" secondAttribute="bottom" constant="8" id="8Un-8o-Phy"/>
                             <constraint firstItem="RJO-EG-VVb" firstAttribute="top" secondItem="t7D-mO-sSx" secondAttribute="bottom" constant="8" id="Avj-62-ccg"/>
-                            <constraint firstItem="gwp-5P-1u0" firstAttribute="top" secondItem="cKm-HC-iYK" secondAttribute="bottom" constant="8" id="GsJ-nR-1ZS"/>
                             <constraint firstItem="t7D-mO-sSx" firstAttribute="top" secondItem="aAv-lb-I3F" secondAttribute="bottom" constant="16" id="KDv-8z-BqP"/>
                             <constraint firstItem="cFF-Hf-GKS" firstAttribute="top" secondItem="Dph-7b-Jiy" secondAttribute="bottom" constant="8" id="Kdx-vP-dqt"/>
                             <constraint firstItem="aAv-lb-I3F" firstAttribute="leading" secondItem="XR4-a4-G7L" secondAttribute="leading" constant="16" id="N2o-Zr-Gr0"/>
@@ -839,10 +852,12 @@
                             <constraint firstItem="gwp-5P-1u0" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="Xvq-6E-GEy"/>
                             <constraint firstAttribute="trailing" secondItem="gwp-5P-1u0" secondAttribute="trailing" constant="16" id="a6f-0G-ZAE"/>
                             <constraint firstItem="aFq-1P-NMZ" firstAttribute="top" secondItem="8YK-7c-xht" secondAttribute="bottom" constant="8" id="b7r-VB-wJW"/>
+                            <constraint firstItem="XR4-a4-G7L" firstAttribute="trailing" secondItem="mWk-DB-Mfx" secondAttribute="trailing" constant="16" id="cgM-vf-2mh"/>
                             <constraint firstItem="XR4-a4-G7L" firstAttribute="trailing" secondItem="cKm-HC-iYK" secondAttribute="trailing" constant="16" id="dgN-u5-B70"/>
                             <constraint firstItem="aFq-1P-NMZ" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="dwk-YI-Eg9"/>
                             <constraint firstItem="b4J-lo-hCK" firstAttribute="top" secondItem="WK9-is-Nnu" secondAttribute="bottom" constant="8" id="e21-lY-ti6"/>
                             <constraint firstAttribute="trailing" secondItem="e81-8b-UEu" secondAttribute="trailing" constant="16" id="ejI-io-0m8"/>
+                            <constraint firstItem="mWk-DB-Mfx" firstAttribute="leading" secondItem="XR4-a4-G7L" secondAttribute="leading" constant="16" id="fX7-38-gfL"/>
                             <constraint firstItem="XR4-a4-G7L" firstAttribute="trailing" secondItem="3Q0-ii-Xf7" secondAttribute="trailing" constant="16" id="hyr-hD-BDh"/>
                             <constraint firstItem="Dph-7b-Jiy" firstAttribute="top" secondItem="aFq-1P-NMZ" secondAttribute="bottom" constant="8" id="j04-t7-yH1"/>
                             <constraint firstItem="cKm-HC-iYK" firstAttribute="top" secondItem="RJO-EG-VVb" secondAttribute="bottom" constant="8" id="jKy-rq-fWP"/>
@@ -850,6 +865,7 @@
                             <constraint firstItem="cKm-HC-iYK" firstAttribute="leading" secondItem="XR4-a4-G7L" secondAttribute="leading" constant="16" id="o3Z-rR-8I5"/>
                             <constraint firstItem="WMd-ox-EsH" firstAttribute="leading" secondItem="VfU-Ie-GCk" secondAttribute="leading" constant="16" id="qlS-ig-10M"/>
                             <constraint firstAttribute="trailing" secondItem="WMd-ox-EsH" secondAttribute="trailing" constant="16" id="tjG-Vf-zC7"/>
+                            <constraint firstItem="gwp-5P-1u0" firstAttribute="top" secondItem="mWk-DB-Mfx" secondAttribute="bottom" constant="8" id="wWc-Kq-vHe"/>
                             <constraint firstItem="XR4-a4-G7L" firstAttribute="trailing" secondItem="cFF-Hf-GKS" secondAttribute="trailing" constant="16" id="zZB-2X-GVG"/>
                         </constraints>
                         <connections>
@@ -864,6 +880,7 @@
                         <outlet property="femaleButton" destination="1nI-Vc-Eqn" id="hvy-jD-2w5"/>
                         <outlet property="maleButton" destination="vtx-LB-b3S" id="jRP-2U-Lqy"/>
                         <outlet property="notSetButton" destination="uhM-Na-pDc" id="5aD-fS-HMo"/>
+                        <outlet property="openRTBApiURLTextField" destination="mWk-DB-Mfx" id="n0R-LZ-fK0"/>
                         <outlet property="testModeButton" destination="ooi-g1-RiV" id="2ku-VQ-Ed7"/>
                         <outlet property="viewabilitySwitch" destination="3Q0-ii-Xf7" id="Q0K-N2-yFg"/>
                     </connections>

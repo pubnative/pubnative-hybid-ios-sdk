@@ -124,7 +124,7 @@ typedef enum : NSUInteger {
     self = [self init];
     if (self) {
         self.contentInfoView = adModel.contentInfo;
-        self.skAdModel = adModel.getSkAdNetworkModel;
+        self.skAdModel = adModel.isUsingOpenRTB ? adModel.getOpenRTBSkAdNetworkModel : adModel.getSkAdNetworkModel;
         self.contentInfoView.delegate = self;
     }
     return self;
@@ -364,7 +364,7 @@ typedef enum : NSUInteger {
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
     
-    if (self.skipOffsetFromServer != -1 || self.skipOffset > 0) {
+    if ((self.skipOffsetFromServer != -1 || self.skipOffset > 0) && (self.skipOffset != 0 && self.skipOffsetFromServer != 0)) {
         NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
                                                                         ? self.skipOffset
                                                                         : self.skipOffsetFromServer;

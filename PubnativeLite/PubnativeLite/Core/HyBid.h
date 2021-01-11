@@ -113,7 +113,8 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidAdSize.h>
 #import <HyBid/HyBidSignalDataProcessor.h>
 #import <Analytics/Analytics-Swift.h>
- 
+#import <HyBid/HyBidOpenRTBDataModel.h>
+
 typedef void (^HyBidCompletionBlock)(BOOL);
 
 @interface HyBid : NSObject

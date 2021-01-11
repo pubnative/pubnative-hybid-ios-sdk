@@ -50,6 +50,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
     self.adRequest = [[HyBidAdRequest alloc] init];
     self.autoShowOnLoad = true;
 }
@@ -58,6 +59,7 @@
     self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
     if (self) {
         self.adRequest = [[HyBidAdRequest alloc] init];
+        self.adRequest.openRTBAdType = BANNER;
         self.auctionResponses = [[NSMutableArray alloc]init];
         self.adSize = adSize;
         self.autoShowOnLoad = true;
@@ -96,7 +98,6 @@
             NSArray<HyBidRemoteConfigPlacement*>* filteredPlacements = [configModel.placementInfo.placements filteredArrayUsingPredicate:p];
             
             if (filteredPlacements.count > 0) {
-                
                 HyBidRemoteConfigPlacement *placement = filteredPlacements.firstObject;
                 
                 if (placement.type != nil &&
@@ -117,7 +118,7 @@
                     }
                     HyBidAuction* auction = [[HyBidAuction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
                     [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
-                        if (error == nil) {
+                        if (error == nil && [mAdResponses count] > 0) {
                             self.ad = mAdResponses.firstObject;
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 if (self.autoShowOnLoad) {
@@ -222,6 +223,7 @@
         }
     } else {
         self.ad = ad;
+        self.ad.adType = kHyBidAdTypeHTML;
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
@@ -260,7 +262,7 @@
 - (HyBidSkAdNetworkModel *)skAdNetworkModel {
     HyBidSkAdNetworkModel *result = nil;
     if (self.ad) {
-        result = [self.ad getSkAdNetworkModel];
+        result = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     }
     return result;
 }
