@@ -55,6 +55,11 @@
     
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.interstitialAd load];
+    
+    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"ad request", ReportingPropertiesCommon.EVENT_NAME,@"interstitial", ReportingPropertiesCommon.AD_FORMAT, nil];
+    ReportingEvent* reportingEvent = [[ReportingEvent alloc]initWith:properties];
+    
+    [[HyBid reportingManager]reportEventFor:reportingEvent];
 }
 
 #pragma mark - HyBidInterstitialAdDelegate
