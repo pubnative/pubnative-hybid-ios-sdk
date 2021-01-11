@@ -37,11 +37,10 @@ public class ReportingEvent: NSObject {
     @objc
     public func toJSON() -> String {
         let encoder = JSONEncoder()
-        if let jsonData = try? encoder.encode(properties) {
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                return jsonString
-            }
+        guard let jsonData = try? encoder.encode(properties),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return ""
         }
-        return ""
+        return jsonString
     }
 }
