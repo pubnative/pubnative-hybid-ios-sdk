@@ -28,6 +28,7 @@ public class ReportingProperties: NSObject {
 
 @objc(ReportingPropertiesCommon)
 public class Common: ReportingProperties {
+    @objc public static let EVENT_NAME = "event_name"
     @objc public static let AD_FORMAT = "ad_format"
     @objc public static let AD_SIZE = "ad_size"
     @objc public static let CATEGORY_ID = "category_id"

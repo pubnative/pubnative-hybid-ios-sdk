@@ -20,22 +20,19 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+#import "AnalyticsEventTableViewCell.h"
+#import <HyBid/HyBid.h>
 
-@objc
-public protocol ReportingDelegate: class {
-    func onEvent(with event: ReportingEvent)
+@implementation AnalyticsEventTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
 }
 
-@objc
-public class ReportingManager: NSObject {
-    
-    @objc weak public var delegate: ReportingDelegate?
-    @objc public var events: [ReportingEvent] = []
-    
-    @objc
-    public func reportEvent(for event: ReportingEvent) {
-        events.append(event)
-        delegate?.onEvent(with: event)
-    }
+- (void) configureCell:(ReportingEvent*) event {
+    self.analyticsEventName.text = [[NSString alloc]initWithFormat:@"Event name: %@", event.properties[ReportingPropertiesCommon.EVENT_NAME] ];
+    self.analyticsEventJSON.text = [[NSString alloc]initWithFormat:@"JSON: %@", [event toJSON] ];
 }
+
+@end

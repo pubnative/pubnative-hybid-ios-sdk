@@ -385,6 +385,9 @@
 		6234934425AC58E6000B2718 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6234934625AC58EB000B2718 /* Analytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; };
 		6234934725AC58EB000B2718 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6234933925AC58BE000B2718 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6234935B25AC667F000B2718 /* AnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234935925AC667F000B2718 /* AnalyticsViewController.m */; };
+		6234936525AC66C1000B2718 /* Analytics.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6234936425AC66C1000B2718 /* Analytics.storyboard */; };
+		6234937225AC68A7000B2718 /* AnalyticsEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */; };
 		6F54A72F25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
 		6F54A73025A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
 		6F54A73125A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
@@ -2401,6 +2404,11 @@
 		5AFFFFA723607A5A002B8D6B /* HyBidIntegrationType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidIntegrationType.h; sourceTree = "<group>"; };
 		5AFFFFA823607A5A002B8D6B /* HyBidIntegrationType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidIntegrationType.m; sourceTree = "<group>"; };
 		6234933425AC58BE000B2718 /* Analytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Analytics.xcodeproj; path = ../../../Analytics/Analytics.xcodeproj; sourceTree = "<group>"; };
+		6234935825AC667F000B2718 /* AnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsViewController.h; sourceTree = "<group>"; };
+		6234935925AC667F000B2718 /* AnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsViewController.m; sourceTree = "<group>"; };
+		6234936425AC66C1000B2718 /* Analytics.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Analytics.storyboard; sourceTree = "<group>"; };
+		6234937025AC68A7000B2718 /* AnalyticsEventTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsEventTableViewCell.h; sourceTree = "<group>"; };
+		6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyticsEventTableViewCell.m; sourceTree = "<group>"; };
 		6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteOpenRTBResponseModel.h; sourceTree = "<group>"; };
 		6F54A72E25A3664D00576A09 /* PNLiteOpenRTBResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteOpenRTBResponseModel.m; sourceTree = "<group>"; };
 		6F54A75725A49D5300576A09 /* HyBidVGIApl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVGIApl.h; sourceTree = "<group>"; };
@@ -2816,6 +2824,7 @@
 				5AD07C0C22FADF60001BF4A1 /* Markup */,
 				5A921D3C2530B1D4006F1572 /* Signal Data */,
 				6FC2969825653BB100423025 /* VAST Testing */,
+				6234935725AC667F000B2718 /* Analytics */,
 				5AA7EC5D20E4D54D00277E2B /* Storyboards */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
@@ -3240,6 +3249,7 @@
 		5AA7EC5D20E4D54D00277E2B /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				6234936425AC66C1000B2718 /* Analytics.storyboard */,
 				5A32CEC12029F79B0003B450 /* Main.storyboard */,
 				5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */,
 				5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */,
@@ -3521,6 +3531,17 @@
 				6234933925AC58BE000B2718 /* Analytics.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6234935725AC667F000B2718 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				6234935825AC667F000B2718 /* AnalyticsViewController.h */,
+				6234935925AC667F000B2718 /* AnalyticsViewController.m */,
+				6234937025AC68A7000B2718 /* AnalyticsEventTableViewCell.h */,
+				6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */,
+			);
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 		6F54A74D25A49D0800576A09 /* VGI ID */ = {
@@ -4899,6 +4920,7 @@
 				5A69520E251B9843003D44CE /* GoogleUtilities-LICENSE in Resources */,
 				5A69520B251B9843003D44CE /* Promises-LICENSE in Resources */,
 				5A69520C251B9843003D44CE /* NanoPB-LICENSE in Resources */,
+				6234936525AC66C1000B2718 /* Analytics.storyboard in Resources */,
 				5AFDAFF1212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib in Resources */,
 				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
 				5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */,
@@ -5155,6 +5177,7 @@
 				5AEA7C44250821DD00DBFC0E /* BannerAdViewCell.m in Sources */,
 				5AD07C1222FB02F2001BF4A1 /* Markup.m in Sources */,
 				5A2057E12331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m in Sources */,
+				6234937225AC68A7000B2718 /* AnalyticsEventTableViewCell.m in Sources */,
 				5A81B48F2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m in Sources */,
 				5A40351B23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m in Sources */,
 				5A40351823322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m in Sources */,
@@ -5167,6 +5190,7 @@
 				6FE01B3C255D646F006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m in Sources */,
 				6FE01B27255D5A57006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m in Sources */,
 				5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */,
+				6234935B25AC667F000B2718 /* AnalyticsViewController.m in Sources */,
 				5A82190B219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m in Sources */,
 				5A0E7713207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m in Sources */,
 				5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */,

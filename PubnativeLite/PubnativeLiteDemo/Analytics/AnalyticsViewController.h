@@ -20,22 +20,8 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+#import <UIKit/UIKit.h>
 
-@objc
-public protocol ReportingDelegate: class {
-    func onEvent(with event: ReportingEvent)
-}
+@interface AnalyticsViewController : UIViewController
 
-@objc
-public class ReportingManager: NSObject {
-    
-    @objc weak public var delegate: ReportingDelegate?
-    @objc public var events: [ReportingEvent] = []
-    
-    @objc
-    public func reportEvent(for event: ReportingEvent) {
-        events.append(event)
-        delegate?.onEvent(with: event)
-    }
-}
+@end
