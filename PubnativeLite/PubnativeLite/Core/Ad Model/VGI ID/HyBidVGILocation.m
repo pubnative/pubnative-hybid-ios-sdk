@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGILocation.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGILocation
 
@@ -43,7 +44,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.accuracy, @"accuracy", self.lat, @"lat", self.lon, @"long", self.ts, @"ts", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.accuracy), @"accuracy", NSNullIfEmpty(self.lat), @"lat", NSNullIfEmpty(self.lon), @"long", NSNullIfEmpty(self.ts), @"ts", nil];
 }
 
 @end

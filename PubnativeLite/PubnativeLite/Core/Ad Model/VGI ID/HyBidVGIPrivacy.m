@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIPrivacy.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIPrivacy
 
@@ -43,7 +44,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.TCFv1, @"tcfv1", self.TCFv2, @"tcfv2", self.iabCCPA, @"iab_ccpa", self.lat, @"lat", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.TCFv1), @"tcfv1", NSNullIfEmpty(self.TCFv2), @"tcfv2", NSNullIfEmpty(self.iabCCPA), @"iab_ccpa", NSNullIfEmpty(self.lat), @"lat", nil];
 }
 
 @end

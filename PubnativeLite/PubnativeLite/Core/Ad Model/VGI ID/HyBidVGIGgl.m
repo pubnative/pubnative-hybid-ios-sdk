@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIGgl.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIGgl
 
@@ -40,7 +41,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.GAID, @"GAID", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.GAID), @"GAID", nil];
 }
 
 @end

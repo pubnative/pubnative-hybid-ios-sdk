@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIUser.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIUser
 
@@ -81,7 +82,7 @@
         [audiencesDict addObject:audience.dictionary];
     }
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.SUID, @"SUID", emailsDict, @"emails", locationsDict, @"locations", audiencesDict, @"audiences", self.vendor.dictionary, @"vendors", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.SUID), @"SUID", NSNullIfDictionaryEmpty(emailsDict), @"emails", NSNullIfDictionaryEmpty(locationsDict), @"locations", NSNullIfDictionaryEmpty(audiencesDict), @"audiences", NSNullIfDictionaryEmpty(self.vendor.dictionary), @"vendors", nil];
 }
 
 @end

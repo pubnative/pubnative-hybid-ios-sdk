@@ -20,30 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidVGIAudience.h"
-#import "HyBidVGIMacros.h"
+#import <Foundation/Foundation.h>
 
-@implementation HyBidVGIAudience
+#if !defined(NSNullIfEmpty)
+    #define NSNullIfEmpty(A)  ({ __typeof__(A) __a = (A); __a ? __a : [NSNull null]; })
+#endif
 
-- (instancetype)initWithJSON:(id)json
-{
-    self = [super init];
-    if (self) {
-        [self bindPropertiesFromJSON:json];
-    }
-    return self;
-}
+#if !defined(NSNullIfDictionaryEmpty)
+    #define NSNullIfDictionaryEmpty(A)  ({ __typeof__(A) __a = (A); __a.count > 0 ? __a : [NSNull null]; })
+#endif
 
--(void)bindPropertiesFromJSON:(id)json
-{
-    self.ID = json[@"id"];
-    self.ts = json[@"ts"];
-    self.type = json[@"type"];
-}
-
-- (NSDictionary *)dictionary
-{
-    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.ID), @"id", NSNullIfEmpty(self.ts), @"ts", NSNullIfEmpty(self.type), @"type", nil];
-}
+@interface HyBidVGIMacros : NSObject
 
 @end

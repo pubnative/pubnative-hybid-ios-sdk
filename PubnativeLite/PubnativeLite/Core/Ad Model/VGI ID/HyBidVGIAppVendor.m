@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIAppVendor.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIAppVendor
 
@@ -42,7 +43,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.APL.dictionary, @"APL", self.LR.dictionary, @"LR", self.TTD.dictionary, @"TTD", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfDictionaryEmpty(self.APL.dictionary), @"APL", NSNullIfDictionaryEmpty(self.LR.dictionary), @"LR", NSNullIfDictionaryEmpty(self.TTD.dictionary), @"TTD", nil];
 }
 
 @end

@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIBattery.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIBattery
 
@@ -40,7 +41,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.capacity, @"capacity", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.capacity), @"capacity", nil];
 }
 
 @end

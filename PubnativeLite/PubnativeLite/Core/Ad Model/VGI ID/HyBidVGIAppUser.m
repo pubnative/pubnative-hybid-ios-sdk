@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIAppUser.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIAppUser
 
@@ -42,7 +43,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.AUID, @"AUID", self.SUID, @"SUID", self.vendor.dictionary, @"vendors", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.AUID), @"AUID", NSNullIfEmpty(self.SUID), @"SUID", NSNullIfDictionaryEmpty(self.vendor.dictionary), @"vendors", nil];
 }
 
 @end

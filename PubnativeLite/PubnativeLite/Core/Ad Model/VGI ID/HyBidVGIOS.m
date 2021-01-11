@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIOS.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIOS
 
@@ -42,7 +43,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.buildSignature, @"build_signature", self.name, @"name", self.version, @"version", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.buildSignature), @"build_signature", NSNullIfEmpty(self.name), @"name", NSNullIfEmpty(self.version), @"version", nil];
 }
 
 @end

@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIEmail.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIEmail
 
@@ -40,7 +41,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.bundleID, @"bundle_id", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.bundleID), @"bundle_id", nil];
 }
 
 @end

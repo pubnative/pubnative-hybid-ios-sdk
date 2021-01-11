@@ -25,6 +25,6 @@
 
 @interface HyBidVGIManager : NSObject
 
--(HyBidVGIModel *)getHyBidVGIModel;
++(HyBidVGIModel *)getHyBidVGIModel;
 
 @end

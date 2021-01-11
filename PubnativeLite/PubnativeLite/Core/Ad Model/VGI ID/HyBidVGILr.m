@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGILr.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGILr
 
@@ -40,7 +41,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.IDL, @"IDL", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.IDL), @"IDL", nil];
 }
 
 @end

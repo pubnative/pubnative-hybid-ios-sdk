@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIDevice.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIDevice
 
@@ -46,7 +47,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.ID, @"id", self.OS.dictionary, @"os", self.manufacture, @"manufacture", self.model, @"model", self.brand, @"brand", self.battery.dictionary, @"battery", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.ID), @"id", NSNullIfDictionaryEmpty(self.OS.dictionary), @"os", NSNullIfEmpty(self.manufacture), @"manufacture", NSNullIfEmpty(self.model), @"model", NSNullIfEmpty(self.brand), @"brand", NSNullIfDictionaryEmpty(self.battery.dictionary), @"battery", nil];
 }
 
 @end

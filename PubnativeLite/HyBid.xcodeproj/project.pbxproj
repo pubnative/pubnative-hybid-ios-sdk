@@ -445,6 +445,7 @@
 		6F8C118D2539C01000DC4151 /* HyBidRewardedAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */; };
 		6F8C118E2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
 		6F8C118F2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */; };
+		6F8DCB6425ACA46E009EC232 /* HyBidVGIMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8DCB6225ACA46E009EC232 /* HyBidVGIMacros.h */; };
 		6F96C73E259B68E300F03422 /* HyBidOpenRTBDataModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F96C73C259B68E300F03422 /* HyBidOpenRTBDataModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F96C73F259B68E300F03422 /* HyBidOpenRTBDataModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F96C73C259B68E300F03422 /* HyBidOpenRTBDataModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F96C740259B68E300F03422 /* HyBidOpenRTBDataModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F96C73C259B68E300F03422 /* HyBidOpenRTBDataModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2376,6 +2377,7 @@
 		6F8C11802539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTRewardedPresenter.m; sourceTree = "<group>"; };
 		6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAdRequest.h; sourceTree = "<group>"; };
 		6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAdRequest.m; sourceTree = "<group>"; };
+		6F8DCB6225ACA46E009EC232 /* HyBidVGIMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVGIMacros.h; sourceTree = "<group>"; };
 		6F96C73C259B68E300F03422 /* HyBidOpenRTBDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidOpenRTBDataModel.h; sourceTree = "<group>"; };
 		6F96C73D259B68E300F03422 /* HyBidOpenRTBDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidOpenRTBDataModel.m; sourceTree = "<group>"; };
 		6F96C753259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HyBidSkAdNetworkRequestModel.h; path = "PubnativeLite/Core/Ad Model/HyBidSkAdNetworkRequestModel.h"; sourceTree = SOURCE_ROOT; };
@@ -3469,6 +3471,7 @@
 				6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */,
 				6FE6944425A5EAA20015A553 /* HyBidVGIManager.h */,
 				6FE6944525A5EAA20015A553 /* HyBidVGIManager.m */,
+				6F8DCB6225ACA46E009EC232 /* HyBidVGIMacros.h */,
 			);
 			path = "VGI ID";
 			sourceTree = "<group>";
@@ -3770,6 +3773,7 @@
 				5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */,
 				5A9B66E220BD8FF70067964E /* PNLiteVASTEventProcessor.h in Headers */,
 				7E4CCA7825071215003A3425 /* HyBidStatic.h in Headers */,
+				6F8DCB6425ACA46E009EC232 /* HyBidVGIMacros.h in Headers */,
 				7E4CCA7725071201003A3425 /* PNLiteMRAIDModalViewController.h in Headers */,
 				7E4CCA74250710CF003A3425 /* HyBidHeaderBiddingUtils.m in Headers */,
 				7E80A770256817DA006BD5EF /* HyBidVastTagAdSource.h in Headers */,
