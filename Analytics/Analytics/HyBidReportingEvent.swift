@@ -19,13 +19,12 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-
 import Foundation
 
 public typealias ReportingKey = String
 
 @objc
-public class ReportingEvent: NSObject {
+public class HyBidReportingEvent: NSObject {
     
     @objc public var properties: [ReportingKey: String] = [:]
     

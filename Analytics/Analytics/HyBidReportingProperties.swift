@@ -19,15 +19,14 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-
 import Foundation
 
 @objc
-public class ReportingProperties: NSObject {
+public class HyBidReportingProperties: NSObject {
 }
 
-@objc(ReportingPropertiesCommon)
-public class Common: ReportingProperties {
+@objc(HyBidReportingPropertiesCommon)
+public class Common: HyBidReportingProperties {
     @objc public static let EVENT_NAME = "event_name"
     @objc public static let AD_FORMAT = "ad_format"
     @objc public static let AD_SIZE = "ad_size"
@@ -38,8 +37,8 @@ public class Common: ReportingProperties {
     @objc public static let TIMESTAMP = "timestamp"
 }
 
-@objc(ReportingPropertiesEventType)
-public class EventType: ReportingProperties  {
+@objc(HyBidReportingPropertiesEventType)
+public class EventType: HyBidReportingProperties  {
     @objc public static let IMPRESSION = "impression"
     @objc public static let CLICK = "click"
     @objc public static let INTERSTITIAL_CLOSED = "interstitial_closed"
@@ -50,14 +49,14 @@ public class EventType: ReportingProperties  {
     @objc public static let VIDEO_UNMUTE = "video_unmute"
 }
 
-@objc(ReportingPropertiesCreativeType)
-public class CreativeType: ReportingProperties  {
+@objc(HyBidReportingPropertiesCreativeType)
+public class CreativeType: HyBidReportingProperties  {
     @objc public static let STANDARD = "standard"
     @objc public static let VIDEO = "video"
 }
 
-@objc(ReportingPropertiesAdFormat)
-public class AdFormat: ReportingProperties  {
+@objc(HyBidReportingPropertiesAdFormat)
+public class AdFormat: HyBidReportingProperties  {
     @objc public static let NATIVE = "native"
     @objc public static let BANNER = "banner"
     @objc public static let FULLSCREEN = "fullscreen"

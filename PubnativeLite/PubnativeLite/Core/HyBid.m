@@ -71,11 +71,11 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
     return HYBID_SDK_VERSION;
 }
 
-+ (ReportingManager *)reportingManager {
-    static ReportingManager *_reportingManager;
++ (HyBidReportingManager *)reportingManager {
+    static HyBidReportingManager *_reportingManager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _reportingManager = [[ReportingManager alloc] init];
+        _reportingManager = [[HyBidReportingManager alloc] init];
     });
     return _reportingManager;
 }

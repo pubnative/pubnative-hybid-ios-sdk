@@ -28,5 +28,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *analyticsEventName;
 @property (weak, nonatomic) IBOutlet UITextView *analyticsEventJSON;
 
-- (void) configureCell:(ReportingEvent*) event;
+- (void) configureCell:(HyBidReportingEvent*) event;
 @end

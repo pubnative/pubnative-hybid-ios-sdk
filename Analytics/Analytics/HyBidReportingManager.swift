@@ -19,22 +19,21 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-
 import Foundation
 
 @objc
-public protocol ReportingDelegate: class {
-    func onEvent(with event: ReportingEvent)
+public protocol HyBidReportingDelegate: class {
+    func onEvent(with event: HyBidReportingEvent)
 }
 
 @objc
-public class ReportingManager: NSObject {
+public class HyBidReportingManager: NSObject {
     
-    @objc weak public var delegate: ReportingDelegate?
-    @objc public var events: [ReportingEvent] = []
-    
+    @objc weak public var delegate: HyBidReportingDelegate?
+    @objc public var events: [HyBidReportingEvent] = []
+
     @objc
-    public func reportEvent(for event: ReportingEvent) {
+    public func reportEvent(for event: HyBidReportingEvent) {
         events.append(event)
         delegate?.onEvent(with: event)
     }
