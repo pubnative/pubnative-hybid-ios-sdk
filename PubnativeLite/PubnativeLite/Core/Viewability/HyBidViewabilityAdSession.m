@@ -21,6 +21,7 @@
 //
 
 #import "HyBidViewabilityAdSession.h"
+#import "HyBid.h"
 
 @implementation HyBidViewabilityAdSession
 
@@ -56,6 +57,9 @@
         NSError *impressionError;
         [adEvents impressionOccurredWithError:&impressionError];
     }
+    
+    HyBidReportingEvent* impressionOccurredEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingPropertiesEventType.IMPRESSION properties:nil];
+    [[HyBid reportingManager]reportEventFor:impressionOccurredEvent];
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {

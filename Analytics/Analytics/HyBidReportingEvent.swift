@@ -28,10 +28,12 @@ public typealias ReportingKey = String
 public class HyBidReportingEvent: NSObject {
     
     @objc public var properties: [ReportingKey: String] = [:]
+    @objc public var eventType: String?
     
     @objc
-    public init(with properties: [ReportingKey: String]) {
-        self.properties = properties
+    public init(with eventType: String, properties: [ReportingKey: String]? = [:]) {
+        self.eventType = eventType
+        self.properties = properties ?? [:]
     }
     
     @objc

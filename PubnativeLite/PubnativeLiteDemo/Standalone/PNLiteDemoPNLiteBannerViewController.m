@@ -69,7 +69,7 @@
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     
     NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"banner", HyBidReportingPropertiesCommon.AD_FORMAT, self.bannerAdView.adSize.description , HyBidReportingPropertiesCommon.AD_SIZE, nil];
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:properties];
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingPropertiesEventType.AD_REQUEST properties:properties];
     
     [[HyBid reportingManager]reportEventFor:reportingEvent];
 }

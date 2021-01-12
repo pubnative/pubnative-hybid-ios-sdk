@@ -39,6 +39,7 @@ public class Common: HyBidReportingProperties {
 
 @objc(HyBidReportingPropertiesEventType)
 public class EventType: HyBidReportingProperties  {
+    @objc public static let AD_REQUEST = "ad_request"
     @objc public static let IMPRESSION = "impression"
     @objc public static let CLICK = "click"
     @objc public static let INTERSTITIAL_CLOSED = "interstitial_closed"
@@ -47,6 +48,22 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let VIDEO_FINISHED = "video_finished"
     @objc public static let VIDEO_MUTE = "video_mute"
     @objc public static let VIDEO_UNMUTE = "video_unmute"
+    @objc public static let VIDEO_AD_SESSION_INITIALIZED = "session_initialized"
+    @objc public static let VIDEO_AD_SESSION_LOADED = "session_loaded"
+    @objc public static let VIDEO_AD_SESSION_STARTED = "session_started"
+    @objc public static let VIDEO_AD_FIRST_QUARTILE = "first_quartile"
+    @objc public static let VIDEO_AD_MIDPOINT = "midpoint"
+    @objc public static let VIDEO_AD_THIRD_QUARTILE = "third_quartile"
+    @objc public static let VIDEO_AD_COMPLETE = "third_complete"
+    @objc public static let VIDEO_AD_PAUSE = "pause"
+    @objc public static let VIDEO_AD_RESUME = "resume"
+    @objc public static let VIDEO_AD_BUFFER_START = "buffer_start"
+    @objc public static let VIDEO_AD_BUFFER_FINISH = "buffer_finish"
+    @objc public static let VIDEO_AD_VOLUME_CHANGE = "volume_change"
+    @objc public static let VIDEO_AD_SKIPPED = "skipped"
+    @objc public static let VIDEO_AD_CLICKED = "clicked"
+    @objc public static let VIDEO_AD_IMPRESSION = "impression"
+    @objc public static let WEB_AD_SESSION_INITIALIZED = "web_ad_session_started"
 }
 
 @objc(HyBidReportingPropertiesCreativeType)
