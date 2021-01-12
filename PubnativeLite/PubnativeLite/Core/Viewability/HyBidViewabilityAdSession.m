@@ -58,8 +58,7 @@
         [adEvents impressionOccurredWithError:&impressionError];
     }
     
-    HyBidReportingEvent* impressionOccurredEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingPropertiesEventType.IMPRESSION properties:nil];
-    [[HyBid reportingManager]reportEventFor:impressionOccurredEvent];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingPropertiesEventType.IMPRESSION];
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {

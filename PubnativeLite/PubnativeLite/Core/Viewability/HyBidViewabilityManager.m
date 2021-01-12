@@ -24,6 +24,7 @@
 #import <OMSDK_Pubnativenet/OMIDImports.h>
 #import "HyBidLogger.h"
 #import "HyBidConstants.h"
+#import "HyBid.h"
 
 static NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
 static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
@@ -115,6 +116,11 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 
 - (BOOL)isViewabilityMeasurementActivated {
     return OMIDPubnativenetSDK.sharedInstance.isActive && self.viewabilityMeasurementEnabled;
+}
+
+- (void)reportEvent:(NSString *)eventType {
+    HyBidReportingEvent* impressionOccurredEvent = [[HyBidReportingEvent alloc]initWith:eventType properties:nil];
+    [[HyBid reportingManager]reportEventFor:impressionOccurredEvent];
 }
 
 @end

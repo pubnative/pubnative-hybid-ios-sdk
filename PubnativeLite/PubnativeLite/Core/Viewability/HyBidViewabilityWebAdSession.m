@@ -21,6 +21,7 @@
 //
 
 #import "HyBidViewabilityWebAdSession.h"
+#import "HyBid.h"
 
 @interface HyBidViewabilityWebAdSession()
 
@@ -94,6 +95,9 @@
         
         NSError *loadedError;
         [self.adEvents loadedWithError:&loadedError];
+        
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingPropertiesEventType.VIDEO_AD_SESSION_LOADED];
+
     }
 }
 

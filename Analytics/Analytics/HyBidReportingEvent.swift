@@ -34,12 +34,13 @@ public class HyBidReportingEvent: NSObject {
     public init(with eventType: String, properties: [ReportingKey: String]? = [:]) {
         self.eventType = eventType
         self.properties = properties ?? [:]
+        self.properties[Common.EVENT_TYPE] = eventType
+        self.properties[Common.TIMESTAMP] = "\(Date().timeIntervalSince1970)"
     }
     
     @objc
     public func toJSON() -> String {
         let encoder = JSONEncoder()
-        properties[Common.EVENT_TYPE] = eventType
         guard let jsonData = try? encoder.encode(properties),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return ""
