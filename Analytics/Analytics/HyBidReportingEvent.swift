@@ -28,15 +28,18 @@ public typealias ReportingKey = String
 public class HyBidReportingEvent: NSObject {
     
     @objc public var properties: [ReportingKey: String] = [:]
+    @objc public var eventType: String?
     
     @objc
-    public init(with properties: [ReportingKey: String]) {
-        self.properties = properties
+    public init(with eventType: String, properties: [ReportingKey: String]? = [:]) {
+        self.eventType = eventType
+        self.properties = properties ?? [:]
     }
     
     @objc
     public func toJSON() -> String {
         let encoder = JSONEncoder()
+        properties[Common.EVENT_TYPE] = eventType
         guard let jsonData = try? encoder.encode(properties),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return ""
@@ -44,3 +47,4 @@ public class HyBidReportingEvent: NSObject {
         return jsonString
     }
 }
+

@@ -19,22 +19,20 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-import Foundation
 
-@objc
-public protocol HyBidReportingDelegate: class {
-    func onEvent(with event: HyBidReportingEvent)
+#import "AnalyticsEventTableViewCell.h"
+#import <HyBid/HyBid.h>
+
+@implementation AnalyticsEventTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
 }
 
-@objc
-public class HyBidReportingManager: NSObject {
-    
-    @objc weak public var delegate: HyBidReportingDelegate?
-    @objc public var events: [HyBidReportingEvent] = []
-
-    @objc
-    public func reportEvent(for event: HyBidReportingEvent) {
-        events.append(event)
-        delegate?.onEvent(with: event)
-    }
+- (void) configureCell:(HyBidReportingEvent*) event {
+    self.analyticsEventName.text = [[NSString alloc]initWithFormat:@"Event type: %@", event.eventType];
+    self.analyticsEventJSON.text = [[NSString alloc]initWithFormat:@"JSON: %@", [event toJSON] ];
 }
+
+@end
