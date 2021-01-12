@@ -56,6 +56,12 @@ jobs:
                                 -r html --output /tmp/circleci-test-results/report.html
                                 -r json-compilation-database --output /tmp/circleci-artifacts/test_compilation_database.json
             - deploy:
+                name: Generate Demo App
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ] || [ "${CIRCLE_BRANCH}" == "development-versionForQA" ]; then
+                      PubnativeLite/Scripts/demo.sh
+                    fi
+            - deploy:
                 name: Generate framework
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ] || [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then

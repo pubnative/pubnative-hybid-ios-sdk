@@ -31,6 +31,9 @@
       <FileRef
          location = "group:iqv.sh">
       </FileRef>
+      <FileRef
+         location = "group:demo.sh">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:PubnativeLite/../HyBidDemo/HyBidDemo.xcodeproj">
