@@ -79,3 +79,4 @@ public class AdFormat: HyBidReportingProperties  {
     @objc public static let FULLSCREEN = "fullscreen"
     @objc public static let REWARDED = "rewarded"
 }
+

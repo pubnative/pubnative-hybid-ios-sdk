@@ -19,22 +19,39 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-import Foundation
 
-@objc
-public protocol HyBidReportingDelegate: class {
-    func onEvent(with event: HyBidReportingEvent)
+#import "AnalyticsViewController.h"
+#import "AnalyticsEventTableViewCell.h"
+
+@interface AnalyticsViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSArray *dataSource;
+
+@end
+
+@implementation AnalyticsViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.dataSource = [HyBid reportingManager].events;
 }
 
-@objc
-public class HyBidReportingManager: NSObject {
+#pragma mark - UITableViewDatasource
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
-    @objc weak public var delegate: HyBidReportingDelegate?
-    @objc public var events: [HyBidReportingEvent] = []
-
-    @objc
-    public func reportEvent(for event: HyBidReportingEvent) {
-        events.append(event)
-        delegate?.onEvent(with: event)
-    }
+    AnalyticsEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnalyticsEventTableViewCell" forIndexPath:indexPath];
+    [cell configureCell:self.dataSource[indexPath.row]];
+    return cell;
 }
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
+}
+
+@end

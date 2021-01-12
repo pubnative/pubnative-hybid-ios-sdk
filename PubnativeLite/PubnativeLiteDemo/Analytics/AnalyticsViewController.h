@@ -19,22 +19,9 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-import Foundation
 
-@objc
-public protocol HyBidReportingDelegate: class {
-    func onEvent(with event: HyBidReportingEvent)
-}
+#import <UIKit/UIKit.h>
 
-@objc
-public class HyBidReportingManager: NSObject {
-    
-    @objc weak public var delegate: HyBidReportingDelegate?
-    @objc public var events: [HyBidReportingEvent] = []
+@interface AnalyticsViewController : UIViewController
 
-    @objc
-    public func reportEvent(for event: HyBidReportingEvent) {
-        events.append(event)
-        delegate?.onEvent(with: event)
-    }
-}
+@end
