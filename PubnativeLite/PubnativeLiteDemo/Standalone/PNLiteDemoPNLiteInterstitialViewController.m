@@ -56,7 +56,7 @@
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.interstitialAd load];
     
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"ad request", HyBidReportingPropertiesCommon.EVENT_NAME,@"interstitial", HyBidReportingPropertiesCommon.AD_FORMAT, nil];
+    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"ad request", HyBidReportingPropertiesCommon.EVENT_NAME, @"interstitial", HyBidReportingPropertiesCommon.AD_FORMAT, nil];
     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:properties];
     
     [[HyBid reportingManager]reportEventFor:reportingEvent];
