@@ -31,7 +31,7 @@
 }
 
 - (void) configureCell:(HyBidReportingEvent*) event {
-    self.analyticsEventName.text = [[NSString alloc]initWithFormat:@"Event name: %@", event.properties[HyBidReportingPropertiesCommon.EVENT_NAME] ];
+    self.analyticsEventName.text = [[NSString alloc]initWithFormat:@"Event type: %@", event.eventType];
     self.analyticsEventJSON.text = [[NSString alloc]initWithFormat:@"JSON: %@", [event toJSON] ];
 }
 

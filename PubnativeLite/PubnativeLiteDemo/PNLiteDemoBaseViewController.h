@@ -21,11 +21,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <HyBid/HyBid.h>
 
 @interface PNLiteDemoBaseViewController : UIViewController
 
 - (void)clearLastInspectedRequest;
 - (void)requestAd;
 - (void)showAlertControllerWithMessage:(NSString *)message;
-
+- (void) reportEvent: (NSString*) eventType properties:(NSDictionary<NSString *, NSString *> * _Nullable)properties;
 @end

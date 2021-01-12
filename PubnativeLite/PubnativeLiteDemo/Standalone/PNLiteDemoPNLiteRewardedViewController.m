@@ -49,10 +49,8 @@
     self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.rewardedAd load];
     
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"ad request", HyBidReportingPropertiesCommon.EVENT_NAME,@"rewarded video", HyBidReportingPropertiesCommon.AD_FORMAT, nil];
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:properties];
-    
-    [[HyBid reportingManager]reportEventFor:reportingEvent];
+    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"rewarded video", HyBidReportingPropertiesCommon.AD_FORMAT, nil];
+    [self reportEvent:HyBidReportingPropertiesEventType.AD_REQUEST properties:properties];
 }
 
 #pragma mark - HyBidRewardedAdDelegate
