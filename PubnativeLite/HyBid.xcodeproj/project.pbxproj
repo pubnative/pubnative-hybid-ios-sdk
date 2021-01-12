@@ -434,6 +434,8 @@
 		6F54A85B25A4B27D00576A09 /* HyBidVGIUserVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F54A85925A4B27D00576A09 /* HyBidVGIUserVendor.m */; };
 		6F54A87025A4B33E00576A09 /* HyBidVGIAppUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A86E25A4B33E00576A09 /* HyBidVGIAppUser.h */; };
 		6F54A87125A4B33E00576A09 /* HyBidVGIAppUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F54A86F25A4B33E00576A09 /* HyBidVGIAppUser.m */; };
+		6F8B1B3725ADDD0100E455C6 /* HyBidEncryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8B1B3525ADDD0100E455C6 /* HyBidEncryption.h */; };
+		6F8B1B3825ADDD0100E455C6 /* HyBidEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B1B3625ADDD0100E455C6 /* HyBidEncryption.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11452539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F8C11462539B8E300DC4151 /* HyBidRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */; };
@@ -2445,6 +2447,8 @@
 		6F54A85925A4B27D00576A09 /* HyBidVGIUserVendor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVGIUserVendor.m; sourceTree = "<group>"; };
 		6F54A86E25A4B33E00576A09 /* HyBidVGIAppUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVGIAppUser.h; sourceTree = "<group>"; };
 		6F54A86F25A4B33E00576A09 /* HyBidVGIAppUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVGIAppUser.m; sourceTree = "<group>"; };
+		6F8B1B3525ADDD0100E455C6 /* HyBidEncryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidEncryption.h; sourceTree = "<group>"; };
+		6F8B1B3625ADDD0100E455C6 /* HyBidEncryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidEncryption.m; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
 		6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAd.m; sourceTree = "<group>"; };
 		6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedPresenter.h; sourceTree = "<group>"; };
@@ -3585,6 +3589,9 @@
 				6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */,
 				6FE6944425A5EAA20015A553 /* HyBidVGIManager.h */,
 				6FE6944525A5EAA20015A553 /* HyBidVGIManager.m */,
+				6F8DCB6225ACA46E009EC232 /* HyBidVGIMacros.h */,
+				6F8B1B3525ADDD0100E455C6 /* HyBidEncryption.h */,
+				6F8B1B3625ADDD0100E455C6 /* HyBidEncryption.m */,
 			);
 			path = "VGI ID";
 			sourceTree = "<group>";
@@ -3890,6 +3897,7 @@
 				7E4CCA74250710CF003A3425 /* HyBidHeaderBiddingUtils.m in Headers */,
 				7E80A770256817DA006BD5EF /* HyBidVastTagAdSource.h in Headers */,
 				5ADACD08202C617A00617734 /* PNLiteResponseModel.h in Headers */,
+				6F8B1B3725ADDD0100E455C6 /* HyBidEncryption.h in Headers */,
 				6F54A87025A4B33E00576A09 /* HyBidVGIAppUser.h in Headers */,
 				5A3657CD203C2E75004B4347 /* PNLiteAdPresenterDecorator.h in Headers */,
 				5A3DD0A625277A0300A72B03 /* HyBidSignalDataProcessor.h in Headers */,
@@ -5290,6 +5298,7 @@
 				5AC35B3D214A6B5B001F0ED3 /* HyBidNativeAd.m in Sources */,
 				5ADF9E8421494C240081355E /* HyBidNativeAdLoader.m in Sources */,
 				5ADF9EB021496C400081355E /* HyBidNativeAdRenderer.m in Sources */,
+				6F8B1B3825ADDD0100E455C6 /* HyBidEncryption.m in Sources */,
 				6F96C7B8259B7CEF00F03422 /* HyBidOpenRTBBaseModel.m in Sources */,
 				5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */,
 				5A4B95DF24D9D3CD00028939 /* HyBidPrebidUtils.m in Sources */,
