@@ -126,6 +126,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setLocationUpdates:(BOOL)enabled;
 + (void)setAppStoreAppID:(NSString *)appID;
 + (NSString *)sdkVersion;
-+ (ReportingManager *)reportingManager;
++ (HyBidReportingManager *)reportingManager;
 
 @end

@@ -22,25 +22,18 @@
 
 import Foundation
 
-public typealias ReportingKey = String
+@objc
+public protocol HyBidReportingDelegate: class {
+    func onEvent(with event: HyBidReportingEvent)
+}
 
 @objc
-public class ReportingEvent: NSObject {
+public class HyBidReportingManager: NSObject {
     
-    @objc public var properties: [ReportingKey: String] = [:]
-    
-    @objc
-    public init(with properties: [ReportingKey: String]) {
-        self.properties = properties
-    }
+    @objc weak public var delegate: HyBidReportingDelegate?
     
     @objc
-    public func toJSON() -> String {
-        let encoder = JSONEncoder()
-        guard let jsonData = try? encoder.encode(properties),
-              let jsonString = String(data: jsonData, encoding: .utf8) else {
-            return ""
-        }
-        return jsonString
+    public func reportEvent(for event: HyBidReportingEvent) {
+        delegate?.onEvent(with: event)
     }
 }
