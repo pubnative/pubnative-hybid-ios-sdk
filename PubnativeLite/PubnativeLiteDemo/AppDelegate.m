@@ -103,7 +103,7 @@ CLLocationManager *locationManager;
 }
 
 // MARK: ReportingDelegate
-- (void)onEventWith:(ReportingEvent *)event {
+- (void)onEventWith:(HyBidReportingEvent *)event {
     NSLog(@"event: %@", [event toJSON]);
 }
 

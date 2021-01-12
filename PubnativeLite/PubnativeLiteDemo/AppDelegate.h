@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 #import <HyBid/HyBid.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, ReportingDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, HyBidReportingDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
