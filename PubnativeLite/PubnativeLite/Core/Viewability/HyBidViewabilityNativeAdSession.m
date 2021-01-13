@@ -69,6 +69,8 @@
     
     omidAdSession.mainAdView = view;
     
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SESSION_INITIALIZED];
+
     return omidAdSession;
 }
 
@@ -82,7 +84,7 @@
         NSError *loadedError;
         [adEvents loadedWithError:&loadedError];
         
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingPropertiesEventType.VIDEO_AD_SESSION_LOADED];
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SESSION_LOADED];
     }
 }
 

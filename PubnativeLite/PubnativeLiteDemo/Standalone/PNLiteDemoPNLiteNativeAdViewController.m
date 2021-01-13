@@ -68,8 +68,8 @@
     self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
     
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"native ad", HyBidReportingPropertiesCommon.AD_FORMAT, nil];
-    [self reportEvent:HyBidReportingPropertiesEventType.AD_REQUEST properties:properties]; 
+    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:HyBidReportingAdFormat.NATIVE, HyBidReportingCommon.AD_FORMAT, nil];
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST properties:properties];
 }
 
 #pragma mark - HyBidNativeAdLoaderDelegate

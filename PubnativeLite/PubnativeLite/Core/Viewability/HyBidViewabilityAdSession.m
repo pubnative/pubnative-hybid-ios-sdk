@@ -35,6 +35,7 @@
     
     if(omidAdSession){
         [omidAdSession start];
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SESSION_STARTED];
     }
 }
 
@@ -44,6 +45,7 @@
     
     if(omidAdSession){
         [omidAdSession finish];
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_FINISHED];
         omidAdSession = nil;
     }
 }
@@ -58,11 +60,11 @@
         [adEvents impressionOccurredWithError:&impressionError];
     }
     
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingPropertiesEventType.IMPRESSION];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.IMPRESSION];
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
-    
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SESSION_LOADED];
 }
 
 - (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial {

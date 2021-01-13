@@ -23,11 +23,11 @@
 import Foundation
 
 @objc
-public class HyBidReportingProperties: NSObject {
+public class HyBidReporting: NSObject {
 }
 
-@objc(HyBidReportingPropertiesCommon)
-public class Common: HyBidReportingProperties {
+@objc(HyBidReportingCommon)
+public class Common: HyBidReporting {
     @objc public static let AD_FORMAT = "ad_format"
     @objc public static let AD_SIZE = "ad_size"
     @objc public static let CATEGORY_ID = "category_id"
@@ -37,8 +37,8 @@ public class Common: HyBidReportingProperties {
     @objc public static let TIMESTAMP = "timestamp"
 }
 
-@objc(HyBidReportingPropertiesEventType)
-public class EventType: HyBidReportingProperties  {
+@objc(HyBidReportingEventType)
+public class EventType: HyBidReporting {
     @objc public static let AD_REQUEST = "ad_request"
     @objc public static let IMPRESSION = "impression"
     @objc public static let CLICK = "click"
@@ -66,14 +66,14 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let WEB_AD_SESSION_INITIALIZED = "web_ad_session_started"
 }
 
-@objc(HyBidReportingPropertiesCreativeType)
-public class CreativeType: HyBidReportingProperties  {
+@objc(HyBidReportingCreativeType)
+public class CreativeType: HyBidReporting  {
     @objc public static let STANDARD = "standard"
     @objc public static let VIDEO = "video"
 }
 
-@objc(HyBidReportingPropertiesAdFormat)
-public class AdFormat: HyBidReportingProperties  {
+@objc(HyBidReportingAdFormat)
+public class AdFormat: HyBidReporting {
     @objc public static let NATIVE = "native"
     @objc public static let BANNER = "banner"
     @objc public static let FULLSCREEN = "fullscreen"
