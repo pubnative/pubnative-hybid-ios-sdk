@@ -21,6 +21,8 @@
 //
 
 #import "PNLiteAdPresenterDecorator.h"
+#import "HyBidViewabilityAdSession.h"
+#import "HyBid.h"
 
 @interface PNLiteAdPresenterDecorator ()
 
@@ -66,8 +68,8 @@
 #pragma mark HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.IMPRESSION];
         [self.adTracker trackImpression];
         [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
     }
@@ -75,6 +77,7 @@
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidClick:)]) {
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.CLICK];
         [self.adTracker trackClick];
         [self.adPresenterDelegate adPresenterDidClick:adPresenter];
     }
@@ -82,6 +85,7 @@
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didFailWithError:)]) {
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.ERROR];
         [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
     }
 }

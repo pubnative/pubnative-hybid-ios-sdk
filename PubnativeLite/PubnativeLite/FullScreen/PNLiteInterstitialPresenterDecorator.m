@@ -21,6 +21,8 @@
 //
 
 #import "PNLiteInterstitialPresenterDecorator.h"
+#import "HyBidViewabilityAdSession.h"
+#import "HyBid.h"
 
 @interface PNLiteInterstitialPresenterDecorator()
 
@@ -76,6 +78,7 @@
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)]) {
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.IMPRESSION];
         [self.adTracker trackImpression];
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
     }
@@ -83,6 +86,7 @@
 
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidClick:)]) {
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.CLICK];
         [self.adTracker trackClick];
         [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
     }
@@ -90,12 +94,14 @@
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidDismiss:)]) {
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.INTERSTITIAL_CLOSED];
         [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
     }
 }
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenter:didFailWithError:)]) {
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.ERROR];
         [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
     }
 }
