@@ -35,8 +35,8 @@ public class HyBidReportingEvent: NSObject {
         self.eventType = eventType
         self.properties = properties ?? [:]
         self.properties[Common.EVENT_TYPE] = eventType
-        self.properties[Common.AD_FORMAT] = adFormat
-        self.properties[Common.TIMESTAMP] = "\(Date().timeIntervalSince1970)"
+        self.properties[Common.AD_FORMAT] = eventType
+        self.properties[Common.TIMESTAMP] = "\(Date().millisecondsSince1970)"
     }
     
     @objc
@@ -50,3 +50,10 @@ public class HyBidReportingEvent: NSObject {
     }
 }
 
+extension Date {
+    
+    var millisecondsSince1970:Int64 {
+        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+    
+}
