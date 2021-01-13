@@ -78,7 +78,8 @@
 
 - (void)rewardedPresenterDidShow:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidShow:)]) {
-        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.IMPRESSION];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adTracker trackImpression];
         [self.rewardedPresenterDelegate rewardedPresenterDidShow:rewardedPresenter];
     }
@@ -86,7 +87,8 @@
 
 - (void)rewardedPresenterDidClick:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidClick:)]) {
-        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.CLICK];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adTracker trackClick];
         [self.rewardedPresenterDelegate rewardedPresenterDidClick:rewardedPresenter];
     }
@@ -101,14 +103,16 @@
 - (void)rewardedPresenterDidFinish:(HyBidRewardedPresenter *)rewardedPresenter
 {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidFinish:)]) {
-        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.VIDEO_FINISHED];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_FINISHED adFormat:HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.rewardedPresenterDelegate rewardedPresenterDidFinish:rewardedPresenter];
     }
 }
 
 - (void)rewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter didFailWithError:(NSError *)error {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenter:didFailWithError:)]) {
-        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.ERROR];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.rewardedPresenterDelegate rewardedPresenter:rewardedPresenter didFailWithError:error];
     }
 }

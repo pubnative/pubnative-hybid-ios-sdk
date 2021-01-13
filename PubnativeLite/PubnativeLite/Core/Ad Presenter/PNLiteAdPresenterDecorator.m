@@ -69,7 +69,8 @@
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
-        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.IMPRESSION];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adTracker trackImpression];
         [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
     }
@@ -77,7 +78,8 @@
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidClick:)]) {
-        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.CLICK];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adTracker trackClick];
         [self.adPresenterDelegate adPresenterDidClick:adPresenter];
     }
@@ -85,7 +87,8 @@
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didFailWithError:)]) {
-        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.ERROR];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
     }
 }
