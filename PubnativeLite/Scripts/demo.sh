@@ -9,7 +9,7 @@ HYBID_DEMO_APP_ZIP_PATH=$BASE_DIR/HyBidDemo.app.zip
 xcodebuild -showsdks
 
 # Generate HyBid Demo App
-xcodebuild -arch x86_64 -sdk iphonesimulator14.0 -workspace HyBid.xcworkspace -scheme HyBidDemo
+xcodebuild -arch x86_64 -sdk iphonesimulator -workspace HyBid.xcworkspace -scheme HyBidDemo -verbose
 
 # Create a .zip HyBid Demo App
 zip -r $HYBID_DEMO_APP_ZIP_PATH $HYBID_DEMO_APP
