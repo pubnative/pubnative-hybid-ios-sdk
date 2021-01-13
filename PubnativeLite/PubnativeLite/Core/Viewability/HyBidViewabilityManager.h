@@ -41,5 +41,6 @@
 - (NSString *)getOMIDJS;
 - (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession;
 - (OMIDPubnativenetMediaEvents *)getMediaEvents:(OMIDPubnativenetAdSession*)omidAdSession;
+- (void) reportEvent: (NSString*)eventType;
 
 @end

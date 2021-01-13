@@ -21,6 +21,7 @@
 //
 
 #import "HyBidViewabilityNativeVideoAdSession.h"
+#import "HyBid.h"
 
 @interface HyBidViewabilityNativeVideoAdSession()
 
@@ -85,6 +86,8 @@
     [self createAdEventsWithSession:omidAdSession];
     [self createMediaEventsWithSession:omidAdSession];
     
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
+
     return omidAdSession;
 }
 
@@ -97,6 +100,7 @@
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
+    [super fireOMIDAdLoadEvent:omidAdSession];
     [self fireOMIDAdLoadEvent];
 }
 
@@ -116,6 +120,8 @@
     if (!self.isStartEventFired) {
         [self.omidMediaEvents startWithDuration:duration mediaPlayerVolume:volume];
         self.isStartEventFired = YES;
+        
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_STARTED];
     }
 }
 
@@ -126,6 +132,7 @@
     if (!self.isFirstQuartileEventFired) {
         [self.omidMediaEvents firstQuartile];
         self.isFirstQuartileEventFired = YES;
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_FIRST_QUARTILE];
     }
 }
 
@@ -136,6 +143,7 @@
     if (!self.isMidpointEventFired) {
         [self.omidMediaEvents midpoint];
         self.isMidpointEventFired = YES;
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_MIDPOINT];
     }
 }
 
@@ -146,6 +154,7 @@
     if (!self.isThirdQuartileEventFired) {
         [self.omidMediaEvents thirdQuartile];
         self.isThirdQuartileEventFired = YES;
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_THIRD_QUARTILE];
     }
 }
 
@@ -156,6 +165,7 @@
     if (!self.isCompleteEventFired) {
         [self.omidMediaEvents complete];
         self.isCompleteEventFired = YES;
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_COMPLETE];
     }
 }
 
@@ -164,6 +174,7 @@
        return;
     
     [self.omidMediaEvents pause];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_PAUSE];
 }
 
 - (void)fireOMIDResumeEvent {
@@ -171,6 +182,7 @@
        return;
     
     [self.omidMediaEvents resume];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_RESUME];
 }
 
 - (void)fireOMIDBufferStartEvent {
@@ -178,6 +190,8 @@
        return;
     
     [self.omidMediaEvents bufferStart];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_BUFFER_START];
+
 }
 
 - (void)fireOMIDBufferFinishEvent {
@@ -185,6 +199,7 @@
        return;
     
     [self.omidMediaEvents bufferFinish];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_BUFFER_FINISH];
 }
 
 - (void)fireOMIDVolumeChangeEventWithVolume:(CGFloat)volume {
@@ -192,6 +207,7 @@
        return;
     
     [self.omidMediaEvents volumeChangeTo:volume];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_VOLUME_CHANGE];
 }
 
 - (void)fireOMIDSkippedEvent {
@@ -199,6 +215,7 @@
        return;
     
     [self.omidMediaEvents skipped];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SKIPPED];
 }
 
 - (void)fireOMIDClikedEvent {
@@ -206,6 +223,7 @@
        return;
     NSLog(@"media events %@", self.omidMediaEvents);
     [self.omidMediaEvents adUserInteractionWithType:OMIDInteractionTypeClick];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_CLICKED];
 }
 
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen {

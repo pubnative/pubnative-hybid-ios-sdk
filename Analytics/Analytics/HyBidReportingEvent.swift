@@ -31,15 +31,17 @@ public class HyBidReportingEvent: NSObject {
     @objc public var eventType: String?
     
     @objc
-    public init(with eventType: String, properties: [ReportingKey: String]? = [:]) {
+    public init(with eventType: String, adFormat: String? = nil, properties: [ReportingKey: String]? = [:]) {
         self.eventType = eventType
         self.properties = properties ?? [:]
+        self.properties[Common.EVENT_TYPE] = eventType
+        self.properties[Common.AD_FORMAT] = eventType
+        self.properties[Common.TIMESTAMP] = "\(Date().millisecondsSince1970)"
     }
     
     @objc
     public func toJSON() -> String {
         let encoder = JSONEncoder()
-        properties[Common.EVENT_TYPE] = eventType
         guard let jsonData = try? encoder.encode(properties),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return ""
@@ -48,3 +50,10 @@ public class HyBidReportingEvent: NSObject {
     }
 }
 
+extension Date {
+    
+    var millisecondsSince1970:Int64 {
+        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+    
+}

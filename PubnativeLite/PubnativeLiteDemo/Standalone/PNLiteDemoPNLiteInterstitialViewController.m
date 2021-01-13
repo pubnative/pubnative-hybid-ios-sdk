@@ -45,6 +45,7 @@
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.FULLSCREEN properties:nil];
     [self requestAd];
 }
 
@@ -55,9 +56,6 @@
     
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.interstitialAd load];
-    
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:@"interstitial", HyBidReportingPropertiesCommon.AD_FORMAT, nil];
-    [self reportEvent:HyBidReportingPropertiesEventType.AD_REQUEST properties:properties];
 }
 
 #pragma mark - HyBidInterstitialAdDelegate

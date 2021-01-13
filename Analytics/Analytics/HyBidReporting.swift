@@ -23,11 +23,11 @@
 import Foundation
 
 @objc
-public class HyBidReportingProperties: NSObject {
+public class HyBidReporting: NSObject {
 }
 
-@objc(HyBidReportingPropertiesCommon)
-public class Common: HyBidReportingProperties {
+@objc(HyBidReportingCommon)
+public class Common: HyBidReporting {
     @objc public static let AD_FORMAT = "ad_format"
     @objc public static let AD_SIZE = "ad_size"
     @objc public static let CATEGORY_ID = "category_id"
@@ -37,20 +37,24 @@ public class Common: HyBidReportingProperties {
     @objc public static let TIMESTAMP = "timestamp"
 }
 
-@objc(HyBidReportingPropertiesEventType)
-public class EventType: HyBidReportingProperties  {
+@objc(HyBidReportingEventType)
+public class EventType: HyBidReporting {
     @objc public static let AD_REQUEST = "ad_request"
     @objc public static let IMPRESSION = "impression"
     @objc public static let CLICK = "click"
+    @objc public static let ERROR = "error"
     @objc public static let INTERSTITIAL_CLOSED = "interstitial_closed"
     @objc public static let VIDEO_STARTED = "video_started"
     @objc public static let VIDEO_DISMISSED = "video_dismissed"
     @objc public static let VIDEO_FINISHED = "video_finished"
     @objc public static let VIDEO_MUTE = "video_mute"
     @objc public static let VIDEO_UNMUTE = "video_unmute"
-    @objc public static let VIDEO_AD_SESSION_INITIALIZED = "session_initialized"
-    @objc public static let VIDEO_AD_SESSION_LOADED = "session_loaded"
-    @objc public static let VIDEO_AD_SESSION_STARTED = "session_started"
+    
+    @objc public static let AD_SESSION_INITIALIZED = "session_initialized"
+    @objc public static let AD_SESSION_LOADED = "session_loaded"
+    @objc public static let AD_SESSION_STARTED = "session_started"
+    @objc public static let AD_SESSION_STOPPED = "session_stopped"
+
     @objc public static let VIDEO_AD_FIRST_QUARTILE = "first_quartile"
     @objc public static let VIDEO_AD_MIDPOINT = "midpoint"
     @objc public static let VIDEO_AD_THIRD_QUARTILE = "third_quartile"
@@ -62,18 +66,16 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let VIDEO_AD_VOLUME_CHANGE = "volume_change"
     @objc public static let VIDEO_AD_SKIPPED = "skipped"
     @objc public static let VIDEO_AD_CLICKED = "clicked"
-    @objc public static let VIDEO_AD_IMPRESSION = "impression"
-    @objc public static let WEB_AD_SESSION_INITIALIZED = "web_ad_session_started"
 }
 
-@objc(HyBidReportingPropertiesCreativeType)
-public class CreativeType: HyBidReportingProperties  {
+@objc(HyBidReportingCreativeType)
+public class CreativeType: HyBidReporting  {
     @objc public static let STANDARD = "standard"
     @objc public static let VIDEO = "video"
 }
 
-@objc(HyBidReportingPropertiesAdFormat)
-public class AdFormat: HyBidReportingProperties  {
+@objc(HyBidReportingAdFormat)
+public class AdFormat: HyBidReporting {
     @objc public static let NATIVE = "native"
     @objc public static let BANNER = "banner"
     @objc public static let FULLSCREEN = "fullscreen"

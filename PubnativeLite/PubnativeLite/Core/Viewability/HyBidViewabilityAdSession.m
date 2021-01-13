@@ -21,6 +21,7 @@
 //
 
 #import "HyBidViewabilityAdSession.h"
+#import "HyBid.h"
 
 @implementation HyBidViewabilityAdSession
 
@@ -34,6 +35,7 @@
     
     if(omidAdSession){
         [omidAdSession start];
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_STARTED];
     }
 }
 
@@ -43,6 +45,7 @@
     
     if(omidAdSession){
         [omidAdSession finish];
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_STOPPED];
         omidAdSession = nil;
     }
 }
@@ -56,10 +59,12 @@
         NSError *impressionError;
         [adEvents impressionOccurredWithError:&impressionError];
     }
+    
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.IMPRESSION];
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
-    
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_LOADED];
 }
 
 - (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial {
