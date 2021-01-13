@@ -2,8 +2,7 @@
 BASE_DIR=/tmp/circleci-artifacts
 PRODUCT_NAME=HyBidDemo
 HYBID_DEMO_APP_NAME=$PRODUCT_NAME.app
-cd PubnativeLite
-HYBID_DEMO_APP_PATH=$BASE_DIR/"$(agvtool what-marketing-version -terse1)-${CIRCLE_BRANCH}.${CIRCLE_BUILD_NUM}"
+HYBID_DEMO_APP_PATH=$BASE_DIR/$PRODUCT_NAME
 HYBID_DEMO_APP=$HYBID_DEMO_APP_PATH/$HYBID_DEMO_APP_NAME
 HYBID_DEMO_APP_ZIP_PATH=$BASE_DIR/HyBidDemo.app.zip
 
@@ -11,7 +10,7 @@ HYBID_DEMO_APP_ZIP_PATH=$BASE_DIR/HyBidDemo.app.zip
 xcodebuild -showsdks
 
 # Generate HyBid Demo App
-xcodebuild -arch x86_64 -sdk iphonesimulator -workspace "../HyBid.xcworkspace" -scheme HyBidDemo CONFIGURATION_BUILD_DIR=$HYBID_DEMO_APP_PATH -verbose
+xcodebuild -arch x86_64 -sdk iphonesimulator -workspace HyBid.xcworkspace -scheme HyBidDemo CONFIGURATION_BUILD_DIR=$HYBID_DEMO_APP_PATH -verbose
 
 # Create a .zip HyBid Demo App
 zip -r $HYBID_DEMO_APP_ZIP_PATH $HYBID_DEMO_APP
