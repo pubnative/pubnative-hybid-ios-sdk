@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataSource = [[HyBid reportingManager].events sortedArrayUsingComparator:^NSComparisonResult(HyBidReportingEvent* a, HyBidReportingEvent* b) {
-        return a.properties[HyBidReportingCommon.TIMESTAMP] < b.properties[HyBidReportingCommon.TIMESTAMP];
+        return a.properties[HyBidReportingCommon.TIMESTAMP] > b.properties[HyBidReportingCommon.TIMESTAMP];
     }];
 }
 

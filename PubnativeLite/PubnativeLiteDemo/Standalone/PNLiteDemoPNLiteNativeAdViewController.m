@@ -57,6 +57,7 @@
 }
 
 - (IBAction)requestNativeAdTouchUpInside:(id)sender {
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.NATIVE properties:nil];
     [self requestAd];
 }
 
@@ -67,9 +68,6 @@
     [self.nativeAdLoaderIndicator startAnimating];
     self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
-    
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:HyBidReportingAdFormat.NATIVE, HyBidReportingCommon.AD_FORMAT, nil];
-    [self reportEvent:HyBidReportingEventType.AD_REQUEST properties:properties];
 }
 
 #pragma mark - HyBidNativeAdLoaderDelegate

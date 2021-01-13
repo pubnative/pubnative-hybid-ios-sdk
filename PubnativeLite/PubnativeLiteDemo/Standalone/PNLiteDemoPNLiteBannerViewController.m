@@ -58,6 +58,8 @@
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
+    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:self.bannerAdView.adSize.description , HyBidReportingCommon.AD_SIZE, nil];
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.BANNER properties:properties];
     [self requestAd];
 }
 
@@ -67,9 +69,6 @@
     self.inspectRequestButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-    
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:HyBidReportingAdFormat.BANNER, HyBidReportingCommon.AD_FORMAT, self.bannerAdView.adSize.description , HyBidReportingCommon.AD_SIZE, nil];
-    [self reportEvent:HyBidReportingEventType.AD_REQUEST properties:properties];
 }
 
 #pragma mark - HyBidAdViewDelegate

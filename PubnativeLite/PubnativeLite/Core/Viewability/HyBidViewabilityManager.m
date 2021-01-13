@@ -119,7 +119,7 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)reportEvent:(NSString *)eventType {
-    HyBidReportingEvent* impressionOccurredEvent = [[HyBidReportingEvent alloc]initWith:eventType properties:nil];
+    HyBidReportingEvent* impressionOccurredEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:nil properties:nil];
     [[HyBid reportingManager]reportEventFor:impressionOccurredEvent];
 }
 

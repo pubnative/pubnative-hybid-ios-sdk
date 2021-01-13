@@ -31,10 +31,11 @@ public class HyBidReportingEvent: NSObject {
     @objc public var eventType: String?
     
     @objc
-    public init(with eventType: String, properties: [ReportingKey: String]? = [:]) {
+    public init(with eventType: String, adFormat: String? = nil, properties: [ReportingKey: String]? = [:]) {
         self.eventType = eventType
         self.properties = properties ?? [:]
         self.properties[Common.EVENT_TYPE] = eventType
+        self.properties[Common.AD_FORMAT] = adFormat
         self.properties[Common.TIMESTAMP] = "\(Date().timeIntervalSince1970)"
     }
     

@@ -32,6 +32,7 @@
 }
 
 - (IBAction)requestRewardedTouchUpInside:(id)sender {
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.REWARDED properties:nil];
     [self requestAd];
 }
 
@@ -48,9 +49,6 @@
     
     self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.rewardedAd load];
-    
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:HyBidReportingAdFormat.REWARDED, HyBidReportingCommon.AD_FORMAT, nil];
-    [self reportEvent:HyBidReportingEventType.AD_REQUEST properties:properties];
 }
 
 #pragma mark - HyBidRewardedAdDelegate

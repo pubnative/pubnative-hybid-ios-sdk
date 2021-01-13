@@ -69,12 +69,13 @@
     
     omidAdSession.mainAdView = view;
     
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SESSION_INITIALIZED];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
 
     return omidAdSession;
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
+    [super fireOMIDAdLoadEvent:omidAdSession];
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
     return;
     
@@ -84,7 +85,6 @@
         NSError *loadedError;
         [adEvents loadedWithError:&loadedError];
         
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SESSION_LOADED];
     }
 }
 

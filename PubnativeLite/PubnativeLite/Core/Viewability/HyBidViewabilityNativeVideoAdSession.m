@@ -86,6 +86,8 @@
     [self createAdEventsWithSession:omidAdSession];
     [self createMediaEventsWithSession:omidAdSession];
     
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
+
     return omidAdSession;
 }
 
@@ -98,6 +100,7 @@
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
+    [super fireOMIDAdLoadEvent:omidAdSession];
     [self fireOMIDAdLoadEvent];
 }
 
@@ -108,8 +111,6 @@
     NSError *vastPropertiesError;
     OMIDPubnativenetVASTProperties *vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
     [self.adEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
-    
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SESSION_LOADED];
 }
 
 - (void)fireOMIDStartEventWithDuration:(CGFloat)duration withVolume:(CGFloat)volume {
@@ -132,7 +133,6 @@
         [self.omidMediaEvents firstQuartile];
         self.isFirstQuartileEventFired = YES;
         [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_FIRST_QUARTILE];
-
     }
 }
 
@@ -144,7 +144,6 @@
         [self.omidMediaEvents midpoint];
         self.isMidpointEventFired = YES;
         [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_MIDPOINT];
-
     }
 }
 
