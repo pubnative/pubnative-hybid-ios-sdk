@@ -21,6 +21,8 @@
 //
 
 #import "PNLiteInterstitialPresenterDecorator.h"
+#import "HyBidViewabilityAdSession.h"
+#import "HyBid.h"
 
 @interface PNLiteInterstitialPresenterDecorator()
 
@@ -76,6 +78,8 @@
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)]) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adTracker trackImpression];
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
     }
@@ -83,6 +87,8 @@
 
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidClick:)]) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adTracker trackClick];
         [self.interstitialPresenterDelegate interstitialPresenterDidClick:interstitialPresenter];
     }
@@ -90,12 +96,16 @@
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidDismiss:)]) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.INTERSTITIAL_CLOSED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
     }
 }
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenter:didFailWithError:)]) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
     }
 }
