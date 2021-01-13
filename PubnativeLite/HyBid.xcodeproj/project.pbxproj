@@ -6117,7 +6117,7 @@
 					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6150,7 +6150,7 @@
 					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
