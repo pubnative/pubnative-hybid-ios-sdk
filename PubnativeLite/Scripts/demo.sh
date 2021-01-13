@@ -12,4 +12,4 @@ xcodebuild -showsdks
 xcodebuild -arch x86_64 -sdk iphonesimulator -workspace HyBid.xcworkspace -scheme HyBidDemo -verbose
 
 # Create a .zip HyBid Demo App
-zip -r $HYBID_DEMO_APP_ZIP_PATH $HYBID_DEMO_APP
+zip -r $HYBID_DEMO_APP_ZIP_PATH /tmp/circleci-artifacts/HyBidDemo.app
