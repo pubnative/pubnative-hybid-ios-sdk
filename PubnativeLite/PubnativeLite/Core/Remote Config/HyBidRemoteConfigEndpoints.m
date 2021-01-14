@@ -32,9 +32,6 @@ NSString *const kRemoteConfigAuthority = @"hybid-remote-config.herokuapp.com";
     components.scheme = kRemoteConfigScheme;
     components.host = kRemoteConfigAuthority;
     
-    NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:@"api" value:@"openrtb"];
-    components.queryItems = @[item];
-    
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 
