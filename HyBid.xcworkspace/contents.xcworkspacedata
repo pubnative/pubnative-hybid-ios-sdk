@@ -28,6 +28,9 @@
       <FileRef
          location = "group:iqv.sh">
       </FileRef>
+      <FileRef
+         location = "group:demo.sh">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:Analytics/Analytics.xcodeproj">
