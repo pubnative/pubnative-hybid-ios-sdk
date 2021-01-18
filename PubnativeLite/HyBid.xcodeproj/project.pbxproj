@@ -379,7 +379,6 @@
 		6234935B25AC667F000B2718 /* AnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234935925AC667F000B2718 /* AnalyticsViewController.m */; };
 		6234936525AC66C1000B2718 /* Analytics.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6234936425AC66C1000B2718 /* Analytics.storyboard */; };
 		6234937225AC68A7000B2718 /* AnalyticsEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */; };
-		62561DAC25B1D64C0093D4D9 /* Analytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62561D7025B1D0F10093D4D9 /* Analytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		62CE409425B58AAA00C5E8EA /* HyBidReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE409225B58AAA00C5E8EA /* HyBidReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62CE409525B58AAA00C5E8EA /* HyBidReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE409225B58AAA00C5E8EA /* HyBidReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62CE409625B58AAA00C5E8EA /* HyBidReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE409225B58AAA00C5E8EA /* HyBidReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1900,13 +1899,6 @@
 			remoteGlobalIDString = 5A6CD01F2029CD060022E206;
 			remoteInfo = PubnativeLite;
 		};
-		62561D6F25B1D0F10093D4D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 62561D6B25B1D0F10093D4D9 /* Analytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 62A310C125A87B9E0099B5EE;
-			remoteInfo = Analytics;
-		};
 		7E598C1624475F2E00BEA734 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5A6CD0172029CD060022E206 /* Project object */;
@@ -1959,17 +1951,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6234934825AC58EB000B2718 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 11;
-			files = (
-				62561DAC25B1D64C0093D4D9 /* Analytics.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2416,13 +2397,16 @@
 		6234936425AC66C1000B2718 /* Analytics.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Analytics.storyboard; sourceTree = "<group>"; };
 		6234937025AC68A7000B2718 /* AnalyticsEventTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsEventTableViewCell.h; sourceTree = "<group>"; };
 		6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyticsEventTableViewCell.m; sourceTree = "<group>"; };
-		62561D6B25B1D0F10093D4D9 /* Analytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Analytics.xcodeproj; path = ../../../Analytics/Analytics.xcodeproj; sourceTree = "<group>"; };
 		62CE409225B58AAA00C5E8EA /* HyBidReporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReporting.h; sourceTree = "<group>"; };
 		62CE409325B58AAA00C5E8EA /* HyBidReporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidReporting.m; sourceTree = "<group>"; };
 		62CE40CC25B5933400C5E8EA /* HyBidReportingEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReportingEvent.h; sourceTree = "<group>"; };
 		62CE40CD25B5933400C5E8EA /* HyBidReportingEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidReportingEvent.m; sourceTree = "<group>"; };
 		62CE40DF25B59A7E00C5E8EA /* HyBidReportingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReportingManager.h; sourceTree = "<group>"; };
 		62CE40E025B59A7E00C5E8EA /* HyBidReportingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidReportingManager.m; sourceTree = "<group>"; };
+		62CE416825B5C8D500C5E8EA /* HyBidRewardedVideoOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HyBidRewardedVideoOnly.plist; sourceTree = "<group>"; };
+		62CE416925B5C8D500C5E8EA /* HyBidBannerOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HyBidBannerOnly.plist; sourceTree = "<group>"; };
+		62CE416A25B5C8D500C5E8EA /* HyBidNativeOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HyBidNativeOnly.plist; sourceTree = "<group>"; };
+		62CE416B25B5C8D500C5E8EA /* HyBidFullScreenOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HyBidFullScreenOnly.plist; sourceTree = "<group>"; };
 		6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteOpenRTBResponseModel.h; sourceTree = "<group>"; };
 		6F54A72E25A3664D00576A09 /* PNLiteOpenRTBResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteOpenRTBResponseModel.m; sourceTree = "<group>"; };
 		6F54A75725A49D5300576A09 /* HyBidVGIApl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVGIApl.h; sourceTree = "<group>"; };
@@ -2547,13 +2531,9 @@
 		7EE3585F256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidRemoteConfigMeasurement.m; sourceTree = "<group>"; };
 		7EE35860256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidRemoteConfigMeasurement.h; sourceTree = "<group>"; };
 		7EF1AAE9258CC21600F2D75A /* HyBidRewardedVideoOnly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBidRewardedVideoOnly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EF1AAEA258CC21600F2D75A /* HyBidRewardedVideoOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = HyBidRewardedVideoOnly.plist; path = "/Users/faresbenhamouda/pubnative-hybid-ios-sdk/PubnativeLite/HyBidRewardedVideoOnly.plist"; sourceTree = "<absolute>"; };
 		7EF1AC30258CC52D00F2D75A /* HyBidNativeOnly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBidNativeOnly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EF1AC31258CC52E00F2D75A /* HyBidBannerOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = HyBidBannerOnly.plist; path = "/Users/faresbenhamouda/pubnative-hybid-ios-sdk/PubnativeLite/HyBidBannerOnly.plist"; sourceTree = "<absolute>"; };
 		7EF1AD44258CC55300F2D75A /* HyBidFullScreenOnly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBidFullScreenOnly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EF1AD45258CC55300F2D75A /* HyBidFullScreenOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = HyBidFullScreenOnly.plist; path = "/Users/faresbenhamouda/pubnative-hybid-ios-sdk/PubnativeLite/HyBidFullScreenOnly.plist"; sourceTree = "<absolute>"; };
 		7EF1AE52258CC55F00F2D75A /* HyBidBannerOnly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBidBannerOnly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EF1AE5C258CC55F00F2D75A /* HyBidNativeOnly.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = HyBidNativeOnly.plist; path = "/Users/faresbenhamouda/pubnative-hybid-ios-sdk/PubnativeLite/HyBidNativeOnly.plist"; sourceTree = "<absolute>"; };
 		E7F24F1524E41E2F00160097 /* hybidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidscaling.js; sourceTree = "<group>"; };
 		E7F24F1724E4224000160097 /* hybidmraidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidmraidscaling.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3023,10 +3003,6 @@
 				5A969A3E206523F800C3B74A /* PubnativeLiteTests */,
 				5A6CD0212029CD060022E206 /* Products */,
 				5A8903CF203DE1D400D86051 /* Frameworks */,
-				7EF1AAEA258CC21600F2D75A /* HyBidRewardedVideoOnly.plist */,
-				7EF1AC31258CC52E00F2D75A /* HyBidBannerOnly.plist */,
-				7EF1AD45258CC55300F2D75A /* HyBidFullScreenOnly.plist */,
-				7EF1AE5C258CC55F00F2D75A /* HyBidNativeOnly.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3047,8 +3023,7 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
-				62561D6625B1D0E30093D4D9 /* Dependencies */,
-				5A6CD0242029CD060022E206 /* Info.plist */,
+				62CE417325B5C99400C5E8EA /* plist */,
 				7EA2A96B2589F730004C6A97 /* Resources */,
 				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
 				7EA2A89125890C3A004C6A97 /* Core */,
@@ -3541,22 +3516,6 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
-		62561D6625B1D0E30093D4D9 /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				62561D6B25B1D0F10093D4D9 /* Analytics.xcodeproj */,
-			);
-			path = Dependencies;
-			sourceTree = "<group>";
-		};
-		62561D6C25B1D0F10093D4D9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				62561D7025B1D0F10093D4D9 /* Analytics.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		62CE409025B58A7A00C5E8EA /* Anayltics */ = {
 			isa = PBXGroup;
 			children = (
@@ -3568,6 +3527,18 @@
 				62CE40E025B59A7E00C5E8EA /* HyBidReportingManager.m */,
 			);
 			path = Anayltics;
+			sourceTree = "<group>";
+		};
+		62CE417325B5C99400C5E8EA /* plist */ = {
+			isa = PBXGroup;
+			children = (
+				5A6CD0242029CD060022E206 /* Info.plist */,
+				62CE416925B5C8D500C5E8EA /* HyBidBannerOnly.plist */,
+				62CE416B25B5C8D500C5E8EA /* HyBidFullScreenOnly.plist */,
+				62CE416A25B5C8D500C5E8EA /* HyBidNativeOnly.plist */,
+				62CE416825B5C8D500C5E8EA /* HyBidRewardedVideoOnly.plist */,
+			);
+			path = plist;
 			sourceTree = "<group>";
 		};
 		6F54A74D25A49D0800576A09 /* VGI ID */ = {
@@ -4840,7 +4811,6 @@
 				7EF1ADC0258CC55F00F2D75A /* Frameworks */,
 				7EF1ADC4258CC55F00F2D75A /* Headers */,
 				7EF1AE39258CC55F00F2D75A /* Resources */,
-				6234934825AC58EB000B2718 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4913,12 +4883,6 @@
 			mainGroup = 5A6CD0162029CD060022E206;
 			productRefGroup = 5A6CD0212029CD060022E206 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 62561D6C25B1D0F10093D4D9 /* Products */;
-					ProjectRef = 62561D6B25B1D0F10093D4D9 /* Analytics.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				5A6CD01F2029CD060022E206 /* HyBid */,
@@ -4934,16 +4898,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		62561D7025B1D0F10093D4D9 /* Analytics.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Analytics.framework;
-			remoteRef = 62561D6F25B1D0F10093D4D9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5A32CEB72029F79B0003B450 /* Resources */ = {
@@ -6353,7 +6307,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = PubnativeLite/Info.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6362,7 +6316,7 @@
 					"@loader_path/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)/Analytics",
 				);
-				MARKETING_VERSION = 2.4.3;
+				MARKETING_VERSION = "2.4.0-beta1";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6396,7 +6350,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = PubnativeLite/Info.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6404,7 +6358,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.3;
+				MARKETING_VERSION = "2.4.0-beta1";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6545,7 +6499,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidRewardedVideoOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidRewardedVideoOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6584,7 +6538,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidRewardedVideoOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidRewardedVideoOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6623,7 +6577,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidNativeOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidNativeOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6662,7 +6616,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidNativeOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidNativeOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6701,7 +6655,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidFullScreenOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidFullScreenOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6740,7 +6694,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidFullScreenOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidFullScreenOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6779,7 +6733,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidBannerOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidBannerOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6818,7 +6772,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = HyBidBannerOnly.plist;
+				INFOPLIST_FILE = PubnativeLite/plist/HyBidBannerOnly.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
