@@ -21,13 +21,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidReportingEvent.h"
 
-//! Project version number for Analytics.
-FOUNDATION_EXPORT double AnalyticsVersionNumber;
+@protocol HyBidReportingDelegate<NSObject>
 
-//! Project version string for Analytics.
-FOUNDATION_EXPORT const unsigned char AnalyticsVersionString[];
+- (void)onEventWith:(HyBidReportingEvent * _Nonnull)event;
 
-// In this header, you should import all the public headers of your framework using statements like #import <Analytics/PublicHeader.h>
+@end
 
+@interface HyBidReportingManager : NSObject
 
+@property (nonatomic) NSMutableArray<HyBidReportingEvent *> * _Nonnull events;
+@property (nonatomic, weak) id <HyBidReportingDelegate> _Nullable delegate;
+
+- (void)reportEventFor:(HyBidReportingEvent * _Nonnull)event;
+
++ (HyBidReportingManager *_Nonnull)sharedInstance;
+
+@end

@@ -112,8 +112,10 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidIntegrationType.h>
 #import <HyBid/HyBidAdSize.h>
 #import <HyBid/HyBidSignalDataProcessor.h>
-#import <Analytics/Analytics-Swift.h>
 #import <HyBid/HyBidOpenRTBDataModel.h>
+#import <HyBid/HyBidReportingManager.h>
+#import <HyBid/HyBidReporting.h>
+#import <HyBid/HyBidReportingEvent.h>
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
