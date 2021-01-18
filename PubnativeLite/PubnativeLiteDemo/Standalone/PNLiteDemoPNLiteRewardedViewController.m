@@ -32,6 +32,7 @@
 }
 
 - (IBAction)requestRewardedTouchUpInside:(id)sender {
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.REWARDED properties:nil];
     [self requestAd];
 }
 

@@ -26,6 +26,7 @@
 #import "PNLiteLocationManager.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
+NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 
 @implementation HyBid
 
@@ -47,6 +48,7 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
+        [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
         [HyBidViewabilityManager sharedInstance];
         [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
             completion(success);

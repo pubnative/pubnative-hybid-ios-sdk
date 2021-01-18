@@ -15,5 +15,5 @@ cd PubnativeLite
 agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-${CIRCLE_BRANCH}.${CIRCLE_BUILD_NUM}"
 agvtool new-version -all $CIRCLE_BUILD_NUM
 bundle exec fastlane adhoc --verbose
-bundle exec fastlane gym --verbose --include_bitcode true --include_symbols true --clean --project HyBid.xcodeproj --scheme HyBidDemo --archive_path $ARCHIVE_PATH --output_directory $OUTPUT_FOLDER --export_options $OPTIONS_PLIST
+bundle exec fastlane gym --verbose --include_bitcode true --include_symbols true --clean --workspace "../HyBid.xcworkspace" --scheme HyBidDemo --archive_path $ARCHIVE_PATH --output_directory $OUTPUT_FOLDER --export_options $OPTIONS_PLIST
 bundle exec fastlane distribute --verbose

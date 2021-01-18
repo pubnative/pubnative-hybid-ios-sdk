@@ -39,12 +39,14 @@
 #define kHyBidDFPHeaderBiddingMRectAdUnitID @"/6499/example/banner"
 #define kHyBidDFPHeaderBiddingInterstitialAdUnitID @"/6499/example/interstitial"
 #define kHyBidAdMobMediationAppID @"ca-app-pub-2576283444991206~5819414108"
+#define kHyBidAdMobMediationNativeAdUnitID @"ca-app-pub-2576283444991206/3019714736"
 #define kHyBidAdMobMediationBannerAdUnitID @"ca-app-pub-2576283444991206/7675421252"
 #define kHyBidAdMobMediationMRectAdUnitID @"ca-app-pub-2576283444991206/1943393054"
 #define kHyBidAdMobMediationLeaderboardAdUnitID @"ca-app-pub-2576283444991206/2969889488"
 #define kHyBidAdMobMediationInterstitialAdUnitID @"ca-app-pub-2576283444991206/1852248931"
 #define kHyBidAdMobMediationRewardedAdUnitID @"ca-app-pub-2576283444991206/4897238342"
 #define kHyBidDemoAPIURL @"https://api.pubnative.net"
+#define kHyBidDemoOpenRTBAPIURL @"https://dsp.pubnative.net"
 #define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
 
 @implementation PNLiteDemoSettings
@@ -97,7 +99,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingMRectAdUnitID forKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingInterstitialAdUnitID forKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAPIURL forKey:kHyBidDemoAPIURLKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoOpenRTBAPIURL forKey:kHyBidDemoOpenRTBAPIURLKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationAppID forKey:kHyBidAdMobMediationAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationNativeAdUnitID forKey:kHyBidAdMobMediationNativeAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationBannerAdUnitID forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationMRectAdUnitID forKey:kHyBidAdMobMediationMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationLeaderboardAdUnitID forKey:kHyBidAdMobMediationLeaderboardAdUnitIDKey];

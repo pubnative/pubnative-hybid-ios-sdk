@@ -31,6 +31,7 @@ NSString *const kRemoteConfigAuthority = @"hybid-remote-config.herokuapp.com";
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kRemoteConfigScheme;
     components.host = kRemoteConfigAuthority;
+    
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 

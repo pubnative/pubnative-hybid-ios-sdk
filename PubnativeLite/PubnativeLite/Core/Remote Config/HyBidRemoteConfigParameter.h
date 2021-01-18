@@ -32,5 +32,8 @@
 + (NSString *)viewability;
 + (NSString *)type;
 + (NSString *)adSources;
++ (NSString *)appConfig;
++ (NSString *)appToken;
++ (NSString *)api;
 
 @end

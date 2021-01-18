@@ -15,8 +15,8 @@ IPHONESIMULATOR_PATH=$BASE_DIR/iphonesimulator
 IPHONESIMULATOR_FRAMEWORK=$IPHONESIMULATOR_PATH/$FRAMEWORK_NAME
 
 # Generate Frameworks
-xcodebuild -project PubnativeLite/HyBid.xcodeproj -scheme HyBid -arch arm64 -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
-xcodebuild -project PubnativeLite/HyBid.xcodeproj -scheme HyBid -arch x86_64 -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HyBid -arch arm64 -sdk iphoneos -configuration Release clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH | xcpretty -c
+xcodebuild -workspace HyBid.xcworkspace -scheme HyBid -arch x86_64 -sdk iphonesimulator -configuration Release clean build CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH | xcpretty -c
 
 # Generate XCFramework
 xcodebuild -create-xcframework -framework $IPHONEOS_FRAMEWORK -framework $IPHONESIMULATOR_FRAMEWORK -output $XCFRAMEWORK
