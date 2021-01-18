@@ -3265,8 +3265,6 @@
 		5ABE0139203F2F4600E6A14E /* Ad Request */ = {
 			isa = PBXGroup;
 			children = (
-				6F96C753259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h */,
-				6F96C754259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.m */,
 				5ADF9E4721490B9A0081355E /* HyBidRequestParameter.h */,
 				5ADF9E4821490B9A0081355E /* HyBidRequestParameter.m */,
 				5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */,
@@ -3328,6 +3326,8 @@
 				6F96C7B1259B7CEF00F03422 /* HyBidOpenRTBBaseModel.m */,
 				6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */,
 				6F54A72E25A3664D00576A09 /* PNLiteOpenRTBResponseModel.m */,
+				6F96C753259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h */,
+				6F96C754259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.m */,
 			);
 			path = "Ad Model";
 			sourceTree = "<group>";
