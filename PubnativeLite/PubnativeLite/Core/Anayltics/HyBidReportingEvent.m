@@ -30,11 +30,7 @@
     self = [super init];
     if (self) {
         self.eventType = eventType;
-        if (properties != nil) {
-            self.properties = properties;
-        } else {
-            self.properties = [[NSDictionary alloc]init];
-        }
+        self.properties = (properties != nil) ? self.properties = properties : [[NSDictionary alloc]init];
         NSMutableDictionary* mutuableProperties = [[NSMutableDictionary alloc]initWithDictionary:self.properties];
         [mutuableProperties setValue:eventType forKey:HyBidReportingCommon.EVENT_TYPE];
         [mutuableProperties setValue:adFormat forKey:HyBidReportingCommon.AD_FORMAT];
