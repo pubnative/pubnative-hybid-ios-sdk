@@ -25,7 +25,6 @@
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "HyBidLogger.h"
 #import "HyBidVASTAdPresenter.h"
-#import "PNLiteDemoSettings.h"
 
 @implementation HyBidBannerPresenterFactory
 
