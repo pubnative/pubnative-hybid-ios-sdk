@@ -31,6 +31,7 @@
 		5A0779F82134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */; };
 		5A0E770D207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */; };
 		5A0E7713207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7712207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m */; };
+		5A1C3F9A25AE664500079B0D /* PNLiteDemoSettingsMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1C3F9925AE664500079B0D /* PNLiteDemoSettingsMainViewController.m */; };
 		5A2057DB232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057DA232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.m */; };
 		5A2057DE2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057DD2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m */; };
 		5A2057E12331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */; };
@@ -1987,6 +1988,8 @@
 		5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPBannerViewController.m; sourceTree = "<group>"; };
 		5A0E7711207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPMRectViewController.h; sourceTree = "<group>"; };
 		5A0E7712207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPMRectViewController.m; sourceTree = "<group>"; };
+		5A1C3F9825AE664500079B0D /* PNLiteDemoSettingsMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoSettingsMainViewController.h; sourceTree = "<group>"; };
+		5A1C3F9925AE664500079B0D /* PNLiteDemoSettingsMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoSettingsMainViewController.m; sourceTree = "<group>"; };
 		5A2057D9232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationLeaderboardCustomEvent.h; sourceTree = "<group>"; };
 		5A2057DA232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationLeaderboardCustomEvent.m; sourceTree = "<group>"; };
 		5A2057DC2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationInterstitialCustomEvent.h; sourceTree = "<group>"; };
@@ -2837,6 +2840,8 @@
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
 				5A32CECA2029F79B0003B450 /* main.m */,
+				5A1C3F9825AE664500079B0D /* PNLiteDemoSettingsMainViewController.h */,
+				5A1C3F9925AE664500079B0D /* PNLiteDemoSettingsMainViewController.m */,
 			);
 			path = PubnativeLiteDemo;
 			sourceTree = "<group>";
@@ -5264,6 +5269,7 @@
 				5A0779F82134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m in Sources */,
 				5ADC023820514F120071DA20 /* PNLiteDemoSettings.m in Sources */,
 				7E7CC36524D9ECDE00F3A476 /* Quote.m in Sources */,
+				5A1C3F9A25AE664500079B0D /* PNLiteDemoSettingsMainViewController.m in Sources */,
 				7E7CC36824D9F0E700F3A476 /* QuoteCell.m in Sources */,
 				5A32CECB2029F79B0003B450 /* main.m in Sources */,
 			);
@@ -6161,10 +6167,11 @@
 					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.4.3;
@@ -6193,11 +6200,12 @@
 					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)/Analytics.framework",
+					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.4.3;
