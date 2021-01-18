@@ -44,7 +44,7 @@ Pod::Spec.new do |s|
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.ios.deployment_target = "9.0"
 
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :branch => "beta" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :branch => "prepare-for-beta-release" }
   
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
