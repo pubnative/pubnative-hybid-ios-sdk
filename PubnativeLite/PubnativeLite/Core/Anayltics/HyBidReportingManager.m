@@ -19,22 +19,25 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-import Foundation
 
-@objc
-public protocol HyBidReportingDelegate: class {
-    func onEvent(with event: HyBidReportingEvent)
+#import "HyBidReportingManager.h"
+
+@implementation HyBidReportingManager
+
+- (void)reportEventFor:(HyBidReportingEvent *)event {
+    [self.events addObject:event];
+    [self.delegate onEventWith:event];
 }
 
-@objc
-public class HyBidReportingManager: NSObject {
-    
-    @objc weak public var delegate: HyBidReportingDelegate?
-    @objc public var events: [HyBidReportingEvent] = []
-
-    @objc
-    public func reportEvent(for event: HyBidReportingEvent) {
-        events.append(event)
-        delegate?.onEvent(with: event)
-    }
++ (HyBidReportingManager *)sharedInstance {
+    static HyBidReportingManager *_reportingManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _reportingManager = [[HyBidReportingManager alloc] init];
+        _reportingManager.events = [[NSMutableArray alloc]init];
+    });
+    return _reportingManager;
 }
+
+
+@end
