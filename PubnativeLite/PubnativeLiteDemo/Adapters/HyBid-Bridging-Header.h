@@ -14,6 +14,7 @@
 #import "HyBidMoPubMediationBannerCustomEvent.h"
 #import "HyBidMoPubMediationMRectCustomEvent.h"
 #import "HyBidMoPubMediationInterstitialCustomEvent.h"
+#import "HyBidMoPubMediationRewardedAdCustomEvent.h"
 #import "HyBidDFPUtils.h"
 #import "HyBidDFPHeaderBiddingLeaderboardCustomEvent.h"
 #import "HyBidDFPHeaderBiddingBannerCustomEvent.h"
