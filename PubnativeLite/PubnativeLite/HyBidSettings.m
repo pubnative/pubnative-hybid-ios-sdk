@@ -57,6 +57,10 @@
     return result;
 }
 
+- (BOOL) locationTrackingEnabled {
+    return [PNLiteLocationManager locationTrackingEnabled];
+}
+
 - (CLLocation *)location {
     CLLocation *result = nil;
     if(!self.coppa) {

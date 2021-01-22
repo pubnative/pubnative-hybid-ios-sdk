@@ -82,6 +82,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setTestMode:(BOOL)enabled;
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
 + (void)setLocationUpdates:(BOOL)enabled;
++ (void)setLocationTracking:(BOOL)enabled;
 + (void)setAppStoreAppID:(NSString *)appID;
 + (NSString *)sdkVersion;
 

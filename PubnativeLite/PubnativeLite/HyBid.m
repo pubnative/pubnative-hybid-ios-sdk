@@ -64,6 +64,10 @@ NSString *const HyBidBaseURL = @"https://api.pubnative.net";
     PNLiteLocationManager.locationUpdatesEnabled = enabled;
 }
 
++ (void) setLocationTracking:(BOOL)enabled {
+    PNLiteLocationManager.locationTrackingEnabled = enabled;
+}
+
 + (NSString *)sdkVersion
 {
     return HYBID_SDK_VERSION;

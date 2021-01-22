@@ -49,6 +49,7 @@
 @property (readonly) NSString *sdkVersion;
 @property (readonly) NSString *appBundleID;
 @property (readonly) NSString *appVersion;
+@property (readonly) BOOL locationTrackingEnabled;
 @property (readonly) CLLocation *location;
 @property (readonly) NSString *identifierForVendor;
 

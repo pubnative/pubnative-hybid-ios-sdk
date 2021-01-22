@@ -92,14 +92,16 @@
         adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
         adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
         
-        CLLocation* location = [HyBidSettings sharedInstance].location;
-        
-        if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
-            NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
-            NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+        if ([HyBidSettings sharedInstance].locationTrackingEnabled) {
+            CLLocation* location = [HyBidSettings sharedInstance].location;
             
-            adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
-            adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+            if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
+                NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+                NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
+                
+                adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
+                adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+            }
         }
     }
     

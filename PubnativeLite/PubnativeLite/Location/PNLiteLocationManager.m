@@ -55,9 +55,18 @@ static BOOL locationUpdatesEnabled;
 
 + (void)setLocationUpdatesEnabled:(BOOL)enabled {
     @synchronized(self) { locationUpdatesEnabled = enabled; }
-    if (locationUpdatesEnabled) {
+    if (locationTrackingEnabled && locationUpdatesEnabled) {
         [[PNLiteLocationManager sharedInstance].manager startUpdatingLocation];
     }
+}
+
+static BOOL locationTrackingEnabled = true;
++ (BOOL) locationTrackingEnabled {
+    @synchronized(self) { return locationTrackingEnabled; }
+}
+
++ (void)setLocationTrackingEnabled:(BOOL)enabled {
+    @synchronized(self) { locationTrackingEnabled = enabled; }
 }
 
 #pragma mark PNLiteLocationManager
