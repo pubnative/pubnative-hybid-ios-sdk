@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "2.4.0-beta2"
+  s.version      = "2.4.0-beta3"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.license             = { :type => "MIT", :text => <<-LICENSE
     MIT License
 
-    Copyright (c) 2020 PubNative GmbH
+    Copyright (c) 2021 PubNative GmbH
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -43,31 +43,30 @@ Pod::Spec.new do |s|
   }
   s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   s.ios.deployment_target = "9.0"
-
   s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :branch => "beta" }
-  
+
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
     core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.3.7/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
     core.exclude_files         = 'PubnativeLite/PubnativeLite/Core/HyBidStatic.{swift,h,m}'
     core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.3.7/*.{framework}']
   end
-  
+
   s.subspec 'Banner' do |banner|
     banner.dependency           'HyBid/Core'
     banner.source_files         = ['PubnativeLite/PubnativeLite/Banner/**/*.{swift,h,m}']
   end
-  
+
   s.subspec 'Native' do |native|
     native.dependency           'HyBid/Core'
         native.source_files     = ['PubnativeLite/PubnativeLite/Native/**/*.{swift,h,m}']
   end
-  
+
   s.subspec 'FullScreen' do |fullscreen|
     fullscreen.dependency       'HyBid/Core'
     fullscreen.source_files     = ['PubnativeLite/PubnativeLite/FullScreen/**/*.{swift,h,m}']
   end
-  
+
   s.subspec 'RewardedVideo' do |rewarded|
     rewarded.dependency         'HyBid/Core'
     rewarded.source_files       = ['PubnativeLite/PubnativeLite/Rewarded/**/*.{swift,h,m}']
