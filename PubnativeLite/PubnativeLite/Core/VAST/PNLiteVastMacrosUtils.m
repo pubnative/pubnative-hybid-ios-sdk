@@ -23,10 +23,11 @@
 #import "PNLiteVastMacrosUtils.h"
 #import "HyBidSettings.h"
 #import "HyBidUserDataManager.h"
+#import "HyBidWebBrowserUserAgentInfo.h"
 
 @implementation PNLiteVastMacrosUtils
 
-+ (NSString*)formatUrl:(NSString *)vastUrl {
++ (NSString *)formatUrl:(NSString *)vastUrl {
     vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${IDFA}"
                                          withString:[HyBidSettings sharedInstance].advertisingId];
     vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${BUNDLE_ID}"
@@ -34,7 +35,7 @@
     vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CB}"
                                                   withString:[NSString stringWithFormat:@"%f", [[NSDate alloc]init].timeIntervalSince1970]];
     vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${UA}"
-                                         withString:[self userAgentEncoded]];
+                                         withString:[self urlEncode:HyBidWebBrowserUserAgentInfo.hyBidUserAgent]];
    
     if ([[HyBidUserDataManager sharedInstance]getIABGDPRConsentString] != nil) {
         vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CONSENT_STRING}"
@@ -56,13 +57,7 @@
     return [vastUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 }
 
-+ (NSString*) userAgentEncoded {
-    UIWebView *webView = [[UIWebView alloc] init];
-    [webView loadHTMLString:@"<html></html>" baseURL:nil];
-    return [self urlEncode:[webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"]];
-}
-
-+ (NSString *)urlEncode: (NSString*) stringUrl {
++ (NSString *)urlEncode: (NSString *) stringUrl {
     NSString *unreserved = @"-._~/?";
     NSMutableCharacterSet *allowed = [NSMutableCharacterSet
                                       alphanumericCharacterSet];

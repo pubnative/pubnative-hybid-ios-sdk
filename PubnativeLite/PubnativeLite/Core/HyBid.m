@@ -66,6 +66,10 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
     PNLiteLocationManager.locationUpdatesEnabled = enabled;
 }
 
++ (void) setLocationTracking:(BOOL)enabled {
+    PNLiteLocationManager.locationTrackingEnabled = enabled;
+}
+
 + (NSString *)sdkVersion
 {
     return HYBID_SDK_VERSION;
