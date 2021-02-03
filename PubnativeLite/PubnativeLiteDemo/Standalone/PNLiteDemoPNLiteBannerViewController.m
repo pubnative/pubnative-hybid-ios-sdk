@@ -58,6 +58,8 @@
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
+    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:self.bannerAdView.adSize.description , HyBidReportingCommon.AD_SIZE, nil];
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.BANNER properties:properties];
     [self requestAd];
 }
 

@@ -56,4 +56,9 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+- (void)reportEvent:(NSString *)eventType adFormat:(NSString *)adFormat properties:(NSDictionary<NSString *,NSString *> *)properties {
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:adFormat properties:properties];
+    [[HyBid reportingManager]reportEventFor:reportingEvent];
+}
+
 @end

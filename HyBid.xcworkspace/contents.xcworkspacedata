@@ -16,10 +16,10 @@
       <FileRef
          location = "group:iqv.sh">
       </FileRef>
+      <FileRef
+         location = "group:demo.sh">
+      </FileRef>
    </Group>
-   <FileRef
-      location = "group:PubnativeLite/../HyBidDemo/HyBidDemo.xcodeproj">
-   </FileRef>
    <FileRef
       location = "group:PubnativeLite/HyBid.xcodeproj">
    </FileRef>

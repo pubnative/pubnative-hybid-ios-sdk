@@ -43,12 +43,14 @@
 #define kHyBidDFPHeaderBiddingMRectAdUnitIDKey @"dfpHeaderBiddingMRectAdUnitID"
 #define kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey @"dfpHeaderBiddingInterstitialAdUnitID"
 #define kHyBidAdMobMediationAppIDKey @"adMobMediationAppID"
+#define kHyBidAdMobMediationNativeAdUnitIDKey @"adMobMediationNativeAdUnitID"
 #define kHyBidAdMobMediationBannerAdUnitIDKey @"adMobMediationBannerAdUnitID"
 #define kHyBidAdMobMediationMRectAdUnitIDKey @"adMobMediationMRectAdUnitID"
 #define kHyBidAdMobMediationLeaderboardAdUnitIDKey @"adMobMediationLeaderboardAdUnitID"
 #define kHyBidAdMobMediationInterstitialAdUnitIDKey @"adMobMediationInterstitialAdUnitID"
 #define kHyBidAdMobMediationRewardedAdUnitIDKey @"adMobMediationRewardedAdUnitID"
 #define kHyBidDemoAPIURLKey @"apiURL"
+#define kHyBidDemoOpenRTBAPIURLKey @"openRtbApiURL"
 #define kHyBidDemoAppID @"1530210244"
 
 @interface PNLiteDemoSettings : NSObject

@@ -27,7 +27,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *privacyPolicyURLButton;
 @property (weak, nonatomic) IBOutlet UIButton *vendorListURLButton;
-@property (weak, nonatomic) IBOutlet UIImageView *canCollectDataIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *currentConsentStatusLabel;
 
 @end
 
@@ -40,9 +40,11 @@
 
 - (void)prepareCanCollectDataIndicator {
     if ([[HyBidUserDataManager sharedInstance] canCollectData]) {
-        [self.canCollectDataIndicator setImage:[UIImage imageNamed:@"Success"]];
+        self.currentConsentStatusLabel.text = @"Given";
+        self.currentConsentStatusLabel.accessibilityValue = @"Given";
     } else {
-        [self.canCollectDataIndicator setImage:[UIImage imageNamed:@"Fail"]];
+        self.currentConsentStatusLabel.text = @"Rejected";
+        self.currentConsentStatusLabel.accessibilityValue = @"Rejected";
     }
 }
 

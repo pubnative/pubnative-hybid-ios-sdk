@@ -57,6 +57,7 @@
 }
 
 - (IBAction)requestNativeAdTouchUpInside:(id)sender {
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.NATIVE properties:nil];
     [self requestAd];
 }
 
