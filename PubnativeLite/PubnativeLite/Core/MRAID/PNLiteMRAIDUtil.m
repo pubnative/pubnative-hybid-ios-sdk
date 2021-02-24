@@ -25,6 +25,10 @@
 @implementation PNLiteMRAIDUtil
 
 + (NSString *)processRawHtml:(NSString *)rawHtml {
+    if (rawHtml == nil) {
+        return @"";
+    }
+    
     NSString *processedHtml = rawHtml;
     NSRange range;
     NSError *error = NULL;
