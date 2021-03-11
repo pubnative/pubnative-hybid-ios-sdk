@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubManager.h"
-#import <MoPub/MoPub.h>
+#import <MoPubSDK/MoPub.h>
 #import "HyBidAdapterConfiguration.h"
 
 @implementation PNLiteDemoMoPubManager

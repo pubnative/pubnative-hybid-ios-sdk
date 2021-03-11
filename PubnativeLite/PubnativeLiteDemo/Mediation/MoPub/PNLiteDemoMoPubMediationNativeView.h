@@ -21,7 +21,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MoPub/MPNativeAdRendering.h>
+#import <MoPubSDK/MPNativeAdRendering.h>
 
 @interface PNLiteDemoMoPubMediationNativeView : UIView <MPNativeAdRendering>
 

@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIModel.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIModel
 
@@ -68,7 +69,7 @@
         [usersDict addObject:user.dictionary];
     }
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:appsDict, @"apps", usersDict, @"users", self.device.dictionary, @"device", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfDictionaryEmpty(appsDict), @"apps", NSNullIfDictionaryEmpty(usersDict), @"users", NSNullIfDictionaryEmpty(self.device.dictionary), @"device", nil];
 }
 
 @end

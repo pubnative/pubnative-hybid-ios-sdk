@@ -23,6 +23,7 @@
 #import "HyBidVGIApp.h"
 #import "HyBidVGIAppUser.h"
 #import "HyBidVGIPrivacy.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIApp
 
@@ -55,7 +56,7 @@
         [usersDict addObject:user.dictionary];
     }
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.bundleID, @"bundle_id", usersDict, @"users", self.privacy.dictionary, @"privacy", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.bundleID), @"bundle_id", usersDict, @"users", NSNullIfDictionaryEmpty(self.privacy.dictionary), @"privacy", nil];
 }
 
 

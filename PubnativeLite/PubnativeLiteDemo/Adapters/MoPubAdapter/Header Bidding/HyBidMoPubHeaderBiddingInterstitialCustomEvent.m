@@ -107,8 +107,11 @@
 }
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
+    [self.delegate fullscreenAdAdapterAdWillDismiss:self];
     [self.delegate fullscreenAdAdapterAdWillDisappear:self];
     MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
+    [self.delegate fullscreenAdAdapterAdDidDismiss:self];
+    MPLogEvent([MPLogEvent adDidDismissModalForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterAdDidDisappear:self];
     MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
 }

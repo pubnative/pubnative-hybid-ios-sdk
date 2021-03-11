@@ -26,9 +26,9 @@ NSString *const kScheme = @"https";
 NSString *const kAuthority = @"backend.pubnative.net";
 NSString *const kGeoIPAuthority = @"pubnative.info";
 NSString *const kConsentPath = @"consent";
-NSString *const kCountryPath = @"country";
-NSString *const kAPIVersion = @"v1";
-NSString *const kParamDeviceID = @"did";
+NSString *const kConsentCountryPath = @"country";
+NSString *const kConsentAPIVersion = @"v1";
+NSString *const kConsentParamDeviceID = @"did";
 
 @implementation PNLiteConsentEndpoints
 
@@ -36,8 +36,8 @@ NSString *const kParamDeviceID = @"did";
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kAuthority;
-    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
-    NSURLQueryItem *deviceIDQuery = [NSURLQueryItem queryItemWithName:kParamDeviceID value:deviceID];
+    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kConsentAPIVersion];
+    NSURLQueryItem *deviceIDQuery = [NSURLQueryItem queryItemWithName:kConsentParamDeviceID value:deviceID];
     components.queryItems = @[deviceIDQuery];
     return [NSString stringWithFormat:@"%@", components.URL];
 }
@@ -46,7 +46,7 @@ NSString *const kParamDeviceID = @"did";
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kAuthority;
-    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kAPIVersion];
+    components.path = [NSString stringWithFormat:@"/%@/%@",kConsentPath,kConsentAPIVersion];
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 
@@ -54,7 +54,7 @@ NSString *const kParamDeviceID = @"did";
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kScheme;
     components.host = kGeoIPAuthority;
-    components.path = [NSString stringWithFormat:@"/%@",kCountryPath];
+    components.path = [NSString stringWithFormat:@"/%@",kConsentCountryPath];
     return [NSString stringWithFormat:@"%@", components.URL];
 }
 @end

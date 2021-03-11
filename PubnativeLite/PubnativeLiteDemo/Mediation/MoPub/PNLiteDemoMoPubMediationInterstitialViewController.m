@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoMoPubMediationInterstitialViewController.h"
-#import <MoPub/MPInterstitialAdController.h>
+#import <MoPubSDK/MPInterstitialAdController.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubMediationInterstitialViewController () <MPInterstitialAdControllerDelegate>
@@ -63,10 +63,12 @@
     NSLog(@"interstitialDidLoadAd");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
-    [self.moPubInterstitial showFromViewController:self];
+    if (self.moPubInterstitial.ready) {
+        [self.moPubInterstitial showFromViewController:self];
+    }
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error {
     NSLog(@"interstitialDidFailToLoadAd");
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
@@ -81,12 +83,12 @@
     NSLog(@"interstitialDidAppear");
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
-    NSLog(@"interstitialWillDisappear");
+- (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {
+    NSLog(@"interstitialWillDismiss");
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
-    NSLog(@"interstitialDidDisappear");
+- (void)interstitialDidDismiss:(MPInterstitialAdController *)interstitial {
+    NSLog(@"interstitialDidDismiss");
 }
 
 - (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial {

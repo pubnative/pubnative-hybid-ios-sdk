@@ -129,6 +129,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setLocationTracking:(BOOL)enabled;
 + (void)setAppStoreAppID:(NSString *)appID;
 + (NSString *)sdkVersion;
++ (void)setInterstitialSkipOffset:(NSInteger)seconds;
 + (HyBidReportingManager *)reportingManager;
 
 @end

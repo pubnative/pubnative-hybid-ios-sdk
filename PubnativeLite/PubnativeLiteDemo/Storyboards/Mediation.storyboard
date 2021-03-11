@@ -1312,7 +1312,7 @@
                                     </segue>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vr-Gt-FK3">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vr-Gt-FK3">
                                 <rect key="frame" x="16" y="46" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
@@ -1348,6 +1348,7 @@
                     <connections>
                         <outlet property="inspectRequestButton" destination="1qg-pD-6h6" id="WSC-59-YTS"/>
                         <outlet property="rewardedLoaderIndicator" destination="TWF-7x-L1v" id="t47-Pn-xGL"/>
+                        <outlet property="showAdButton" destination="0vr-Gt-FK3" id="mdA-3N-dsP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZ3-6c-FfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1493,7 +1494,7 @@
                                     </segue>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UxX-eS-VTP">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UxX-eS-VTP">
                                 <rect key="frame" x="16" y="46" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
@@ -1529,6 +1530,7 @@
                     <connections>
                         <outlet property="inspectRequestButton" destination="IAm-iE-pRT" id="xfR-mk-Hql"/>
                         <outlet property="rewardedLoaderIndicator" destination="yge-GL-eI0" id="aVR-Mf-TsX"/>
+                        <outlet property="showAdButton" destination="UxX-eS-VTP" id="q1f-VU-YW2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67J-qt-ugB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1689,6 +1691,11 @@
                                         <exclude reference="TSm-eN-2q3"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="PjM-Vv-pli" id="x2d-0u-9kv">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="MUh-lF-2iV"/>
@@ -1717,6 +1724,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="SJf-4q-whf"/>
+        <segue reference="T0i-LW-GmB"/>
     </inferredMetricsTieBreakers>
 </document>

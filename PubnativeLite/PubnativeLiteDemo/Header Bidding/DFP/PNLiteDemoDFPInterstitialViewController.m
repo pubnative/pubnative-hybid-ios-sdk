@@ -30,6 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) DFPInterstitial *dfpInterstitial;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
@@ -109,6 +110,9 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", ad.creativeID];
+    
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
         DFPRequest *request = [DFPRequest request];

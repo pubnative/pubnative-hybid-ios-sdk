@@ -21,9 +21,13 @@
 //
 
 #import "HyBidRemoteConfigEndpoints.h"
+#import "HyBidSettings.h"
 
 NSString *const kRemoteConfigScheme = @"https";
-NSString *const kRemoteConfigAuthority = @"hybid-remote-config.herokuapp.com";
+NSString *const kRemoteConfigAuthority = @"hbrc.pubnative.net";
+NSString *const kRemoteConfigPath = @"config";
+NSString *const kRemoteConfigDefaultPath = @"default";
+NSString *const kRemoteConfigAPIVersion = @"v1";
 
 @implementation HyBidRemoteConfigEndpoints
 
@@ -31,6 +35,7 @@ NSString *const kRemoteConfigAuthority = @"hybid-remote-config.herokuapp.com";
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kRemoteConfigScheme;
     components.host = kRemoteConfigAuthority;
+    components.path = [NSString stringWithFormat:@"/%@/%@/%@/%@",kRemoteConfigPath,kRemoteConfigAPIVersion,kRemoteConfigDefaultPath,[HyBidSettings sharedInstance].appToken];
     
     return [NSString stringWithFormat:@"%@", components.URL];
 }

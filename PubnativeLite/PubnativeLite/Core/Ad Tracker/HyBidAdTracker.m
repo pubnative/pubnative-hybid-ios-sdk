@@ -23,12 +23,13 @@
 #import "HyBidAdTracker.h"
 #import "HyBidDataModel.h"
 #import "HyBidLogger.h"
+#import "HyBidURLDriller.h"
 #import <WebKit/WebKit.h>
 
 NSString *const PNLiteAdTrackerClick = @"click";
 NSString *const PNLiteAdTrackerImpression = @"impression";
 
-@interface HyBidAdTracker() <HyBidAdTrackerRequestDelegate>
+@interface HyBidAdTracker() <HyBidAdTrackerRequestDelegate, HyBidURLDrillerDelegate>
 
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) HyBidAdTrackerRequest *adTrackerRequest;
@@ -36,6 +37,8 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 @property (nonatomic, strong) NSArray *clickURLs;
 @property (nonatomic, assign) BOOL impressionTracked;
 @property (nonatomic, assign) BOOL clickTracked;
+@property (nonatomic, strong) NSString *trackTypeForURL;
+@property (nonatomic, assign) BOOL urlDrillerEnabled;
 
 @end
 
@@ -46,6 +49,7 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
     self.impressionURLs = nil;
     self.clickURLs = nil;
     self.wkWebView = nil;
+    self.trackTypeForURL = nil;
 }
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
@@ -89,8 +93,13 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
     if (URLs != nil) {
         for (HyBidDataModel *dataModel in URLs) {
             if (dataModel.url != nil) {
-                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
-                [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
+                if (self.urlDrillerEnabled) {
+                    self.trackTypeForURL = trackType;
+                    [[[HyBidURLDriller alloc] init] startDrillWithURLString:dataModel.url delegate:self];
+                } else {
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
+                    [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
+                }
             } else if (dataModel.js != nil) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with JS Beacon: %@",trackType, dataModel.js]];
                 [self.wkWebView evaluateJavaScript:dataModel.js completionHandler:^(id _Nullable success, NSError * _Nullable error) {}];
@@ -111,6 +120,25 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 
 - (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ failed with error: %@",request,error.localizedDescription]];
+}
+
+#pragma mark HyBidURLDrillerDelegate
+
+- (void)didStartWithURL:(NSURL *)url {
+    
+}
+
+- (void)didRedirectWithURL:(NSURL *)url {
+    
+}
+
+- (void)didFinishWithURL:(NSURL *)url {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",self.trackTypeForURL, [url absoluteString]]];
+    [self.adTrackerRequest trackAdWithDelegate:self withURL:[url absoluteString]];
+}
+
+- (void)didFailWithURL:(NSURL *)url andError:(NSError *)error {
+    
 }
 
 @end

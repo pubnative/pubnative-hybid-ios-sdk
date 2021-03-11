@@ -26,6 +26,7 @@
 #import "HyBidInterstitialPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidSettings.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate>
 
@@ -58,17 +59,16 @@
         self.interstitialAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;
+        // Globack skipOffset will be used as placement offset if this one is not set previously.
+        if ([HyBidSettings sharedInstance].skipOffset > 0 && _skipOffset <= 0 ) {
+            [self setSkipOffset:[HyBidSettings sharedInstance].skipOffset];
+        }
     }
     return self;
 }
 
 - (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
-    self = [super init];
-    if (self) {
-        self.zoneID = @"";
-        self.delegate = delegate;
-    }
-    return self;
+    return [self initWithZoneID:@"" andWithDelegate:delegate];
 }
 
 - (void)load {

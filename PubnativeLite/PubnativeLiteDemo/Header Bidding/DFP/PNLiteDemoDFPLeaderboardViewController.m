@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIView *leaderboardContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) DFPBannerView *dfpLeaderboard;
 @property (nonatomic, strong) HyBidAdRequest *leaderboardAdRequest;
 
@@ -112,6 +113,8 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", ad.creativeID];
     
     if (request == self.leaderboardAdRequest) {
         self.inspectRequestButton.hidden = NO;

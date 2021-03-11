@@ -23,9 +23,12 @@
 #import "HyBidAdMobMediationRewardedCustomEvent.h"
 #import "HyBidAdMobUtils.h"
 
+typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidAdMobMediationRewardedCustomEventCompletionBlock)(_Nullable id<GADMediationRewardedAd> ad,
+                                                                                                                  NSError *_Nullable error);
 @interface HyBidAdMobMediationRewardedCustomEvent() <HyBidRewardedAdDelegate, GADMediationRewardedAd>
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property(nonatomic, weak, nullable) id<GADMediationRewardedAdEventDelegate> delegate;
+@property(nonatomic, copy) HyBidAdMobMediationRewardedCustomEventCompletionBlock completionBlock;
 @end
 
 @implementation HyBidAdMobMediationRewardedCustomEvent
@@ -36,26 +39,31 @@
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    self.completionBlock(nil, [NSError errorWithDomain:message code:0 userInfo:nil]);
     [self.delegate didFailToPresentWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-    [self.delegate willPresentFullScreenView];
-    if ([self.rewardedAd respondsToSelector:@selector(showFromViewController:)]) {
-        [self.rewardedAd showFromViewController:viewController];
+    if (self.rewardedAd.isReady) {
+        [self.delegate willPresentFullScreenView];
+        if ([self.rewardedAd respondsToSelector:@selector(showFromViewController:)]) {
+            [self.rewardedAd showFromViewController:viewController];
+        } else {
+            [self.rewardedAd show];
+        }
     } else {
-        [self.rewardedAd show];
+        [self.delegate didFailToPresentWithError:[NSError errorWithDomain:@"Ad is not ready... Please wait." code:0 userInfo:nil]];
     }
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler
-{
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+    self.completionBlock = completionHandler;
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([HyBidAdMobUtils appToken:serverParameter] != nil && [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];
             self.rewardedAd.isMediation = YES;
-            self.delegate = completionHandler(self, nil);
             [self.rewardedAd load];
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
@@ -70,14 +78,12 @@
 #pragma mark - HyBidRewardedAdDelegate
 
 - (void)onReward {
-    NSLog(@"On Reward.");
     NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithDecimal:[[NSNumber numberWithInt:0] decimalValue]];
     GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@"hybid_reward" rewardAmount:amount];
     [self.delegate didRewardUserWithReward:reward];
 }
 
 - (void)rewardedDidDismiss {
-    NSLog(@"rewardedDidDismiss");
     [self.delegate willDismissFullScreenView];
     [self.delegate didDismissFullScreenView];
 }
@@ -87,25 +93,32 @@
 }
 
 - (void)rewardedDidLoad {
-    NSLog(@"rewardedDidLoad");
-    [self.delegate willPresentFullScreenView];
+    self.delegate = self.completionBlock(self, nil);
 }
 
 - (void)rewardedDidTrackClick {
-    NSLog(@"rewardedDidTrackClick");
     [self.delegate reportClick];
 }
 
 - (void)rewardedDidTrackImpression {
     [self.delegate reportImpression];
-    NSLog(@"Rewarded Did Track Impression.");
 }
 
+// v: 2.4.2
 + (GADVersionNumber)adSDKVersion {
     GADVersionNumber version = {0};
     version.majorVersion = 2;
-    version.minorVersion = 3;
-    version.patchVersion = 0;
+    version.minorVersion = 4;
+    version.patchVersion = 2;
+    
+    return version;
+}
+
++ (GADVersionNumber)adapterVersion {
+    GADVersionNumber version = {0};
+    version.majorVersion = 2;
+    version.minorVersion = 4;
+    version.patchVersion = 2;
     
     return version;
 }
@@ -114,11 +127,4 @@
     return nil;
 }
 
-+ (GADVersionNumber)version {
-    GADVersionNumber version = {0};
-    version.majorVersion = 2;
-    version.minorVersion = 3;
-    version.patchVersion = 0;
-    return version;
-}
 @end

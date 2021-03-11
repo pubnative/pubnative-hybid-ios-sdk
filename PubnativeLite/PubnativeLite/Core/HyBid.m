@@ -75,6 +75,10 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
     return HYBID_SDK_VERSION;
 }
 
++ (void)setInterstitialSkipOffset:(NSInteger)seconds {
+    [HyBidSettings sharedInstance].skipOffset = seconds;
+}
+
 + (HyBidReportingManager *)reportingManager {
     return HyBidReportingManager.sharedInstance;
 }

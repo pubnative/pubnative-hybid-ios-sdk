@@ -51,7 +51,7 @@
         case MRAID_480x320:
         case MRAID_1024x768:
         case MRAID_768x1024:{
-            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad];
+            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad withSkipOffset:skipOffset];
             return mraidInterstitalPresenter;
             break;
         }

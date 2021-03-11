@@ -34,6 +34,7 @@
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSMutableArray<HyBidAd*>* auctionResponses;
+@property (nonatomic, strong) UIView *container;
 
 @end
 
@@ -46,6 +47,8 @@
     self.adPresenter = nil;
     self.adRequest = nil;
     self.adSize = nil;
+
+    [self cleanUp];
 }
 
 - (void)awakeFromNib {
@@ -69,6 +72,8 @@
 
 - (void)cleanUp {
     [self removeAllSubViewsFrom:self];
+    [self.container removeFromSuperview];
+    self.container = nil;
     self.ad = nil;
 }
 
@@ -77,6 +82,12 @@
     for (UIView *v in viewsToRemove) {
         [v removeFromSuperview];
     }
+}
+
+- (void)loadWithZoneID:(NSString *)zoneID withPosition:(BannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate
+{
+    self.bannerPosition = bannerPosition;
+    [self loadWithZoneID:zoneID andWithDelegate:delegate];
 }
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
@@ -155,8 +166,55 @@
     [self renderAd];
 }
 
+- (void)show:(UIView *)adView withPosition:(BannerPosition)position
+{
+    if (self.container == nil) {
+        self.container = [[UIView alloc] init];
+    }
+    
+    [self.container addSubview:adView];
+    [[self containerViewController].view addSubview:self.container];
+    
+    switch (position) {
+        case UNKNOWN:
+            break;
+        case TOP:
+            [self setStickyBannerConstraintsAtPosition:TOP forView:self.container];
+            break;
+        case BOTTOM:
+            [self setStickyBannerConstraintsAtPosition:BOTTOM forView:self.container];
+            break;
+    }
+}
+
+- (UIViewController *)containerViewController
+{
+    return [UIApplication sharedApplication].delegate.window.rootViewController;
+}
+
+- (void)setStickyBannerConstraintsAtPosition:(BannerPosition)position forView:(UIView *)adView
+{
+    adView.translatesAutoresizingMaskIntoConstraints = NO;
+    [adView.widthAnchor constraintEqualToConstant:self.adSize.width].active = YES;
+    [adView.heightAnchor constraintEqualToConstant:self.adSize.height].active = YES;
+    [adView.centerXAnchor constraintEqualToAnchor:[self containerViewController].view.centerXAnchor].active = YES;
+    if (@available(iOS 11.0, *)) {
+        [position == TOP ? adView.topAnchor : adView.bottomAnchor
+        constraintEqualToAnchor:
+        position == TOP ? [self containerViewController].view.safeAreaLayoutGuide.topAnchor : [self containerViewController].view.safeAreaLayoutGuide.bottomAnchor
+        constant:8.0].active = YES;
+    } else {
+        // Fallback on earlier versions
+    }
+}
+
 - (void)setupAdView:(UIView *)adView {
-    [self addSubview:adView];
+    if (self.bannerPosition == UNKNOWN) {
+        [self addSubview:adView];
+    } else {
+        [self show:adView withPosition:self.bannerPosition];
+    }
+    
     if (self.autoShowOnLoad) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
             [self.delegate adViewDidLoad:self];

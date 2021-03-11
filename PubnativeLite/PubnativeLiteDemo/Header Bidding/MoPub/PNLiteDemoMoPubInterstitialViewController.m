@@ -22,13 +22,14 @@
 
 #import "PNLiteDemoMoPubInterstitialViewController.h"
 #import <HyBid/HyBid.h>
-#import <MoPub/MPInterstitialAdController.h>
+#import <MoPubSDK/MPInterstitialAdController.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubInterstitialViewController () <HyBidAdRequestDelegate, MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
@@ -64,10 +65,12 @@
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
-    [self.moPubInterstitial showFromViewController:self];
+    if (self.moPubInterstitial.ready) {
+        [self.moPubInterstitial showFromViewController:self];
+    }
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error {
     NSLog(@"interstitialDidFailToLoadAd");
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
@@ -81,12 +84,12 @@
     NSLog(@"interstitialDidAppear");
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
-    NSLog(@"interstitialWillDisappear");
+- (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {
+    NSLog(@"interstitialWillDismiss");
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
-    NSLog(@"interstitialDidDisappear");
+- (void)interstitialDidDismiss:(MPInterstitialAdController *)interstitial {
+    NSLog(@"interstitialDidDismiss");
 }
 
 - (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial {
@@ -105,6 +108,9 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", ad.creativeID];
+    
     if (request == self.interstitialAdRequest) {
         self.inspectRequestButton.hidden = NO;
         self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey]];

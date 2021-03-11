@@ -59,7 +59,8 @@
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(HyBidContentInfoView *)contentInfo;
+        contentInfo:(HyBidContentInfoView *)contentInfo
+         skipOffset:(NSInteger)skipOffset;
 
 - (void)cancel;
 

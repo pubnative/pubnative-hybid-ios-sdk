@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIAudience.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIAudience
 
@@ -42,7 +43,7 @@
 
 - (NSDictionary *)dictionary
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:self.ID, @"id", self.ts, @"ts", self.type, @"type", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.ID), @"id", NSNullIfEmpty(self.ts), @"ts", NSNullIfEmpty(self.type), @"type", nil];
 }
 
 @end

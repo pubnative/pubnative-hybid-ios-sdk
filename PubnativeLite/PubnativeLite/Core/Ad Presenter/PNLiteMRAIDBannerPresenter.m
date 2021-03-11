@@ -65,7 +65,8 @@
                                                    delegate:self
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
-                                                contentInfo:self.adModel.contentInfo];
+                                                contentInfo:self.adModel.contentInfo
+                                                 skipOffset:0];
 }
 
 - (void)startTracking {

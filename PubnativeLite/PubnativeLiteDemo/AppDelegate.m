@@ -22,7 +22,7 @@
 
 #import "AppDelegate.h"
 #import "PNLiteDemoSettings.h"
-#import <MoPub/MoPub.h>
+#import <MoPubSDK/MoPub.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"
@@ -74,6 +74,7 @@ CLLocationManager *locationManager;
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     
     [HyBid reportingManager].delegate = self;
+    [HyBid setInterstitialSkipOffset:10];
     return YES;
 }
 

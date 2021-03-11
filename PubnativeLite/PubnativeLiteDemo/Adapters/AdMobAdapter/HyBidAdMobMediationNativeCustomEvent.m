@@ -46,7 +46,7 @@
                              options:(NSArray *)options
                   rootViewController:(UIViewController *)rootViewController {
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([HyBidAdMobUtils appToken:serverParameter] != nil && [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             for (GADAdLoaderOptions *loaderOptions in options) {
                 if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
                 self.nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;

@@ -43,7 +43,7 @@
                   label:(NSString * _Nullable)serverLabel
                 request:(nonnull GADCustomEventRequest *)request {
     if ([HyBidAdMobUtils areExtrasValid:serverParameter]) {
-        if ([HyBidAdMobUtils appToken:serverParameter] != nil || [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([HyBidAdMobUtils appToken:serverParameter] != nil && [[HyBidAdMobUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
             self.bannerAdView.isMediation = YES;
             [self.bannerAdView loadWithZoneID:[HyBidAdMobUtils zoneID:serverParameter] andWithDelegate:self];

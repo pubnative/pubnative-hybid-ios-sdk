@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *nativeCallToAction;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *nativeAdLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) HyBidNativeAd *nativeAd;
 @end
@@ -76,6 +77,8 @@
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.inspectRequestButton.hidden = NO;
     self.nativeAd = nativeAd;
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.nativeAd.ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.nativeAd.ad.creativeID];
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
 

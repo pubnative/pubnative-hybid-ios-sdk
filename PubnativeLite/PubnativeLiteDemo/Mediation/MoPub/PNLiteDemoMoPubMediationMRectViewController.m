@@ -22,7 +22,7 @@
 
 #import "PNLiteDemoMoPubMediationMRectViewController.h"
 #import "PNLiteDemoSettings.h"
-#import <MoPub/MPAdView.h>
+#import <MoPubSDK/MPAdView.h>
 
 @interface PNLiteDemoMoPubMediationMRectViewController () <MPAdViewDelegate>
 

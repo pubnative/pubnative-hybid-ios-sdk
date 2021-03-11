@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
 @end
@@ -53,8 +54,8 @@
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+    [self.interstitialAd setSkipOffset: 5];
     [self.interstitialAd load];
 }
 
@@ -62,6 +63,8 @@
 
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.interstitialAd.ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.interstitialAd.ad.creativeID];
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.interstitialAd show];

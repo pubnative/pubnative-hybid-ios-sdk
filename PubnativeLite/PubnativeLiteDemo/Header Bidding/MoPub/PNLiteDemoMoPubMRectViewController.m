@@ -22,7 +22,7 @@
 
 #import "PNLiteDemoMoPubMRectViewController.h"
 #import <HyBid/HyBid.h>
-#import <MoPub/MPAdView.h>
+#import <MoPubSDK/MPAdView.h>
 #import "PNLiteDemoSettings.h"
 
 @interface PNLiteDemoMoPubMRectViewController () <HyBidAdRequestDelegate, MPAdViewDelegate>
@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) MPAdView *moPubMrect;
 @property (nonatomic, strong) HyBidAdRequest *mRectAdRequest;
 
@@ -111,6 +112,8 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", ad.creativeID];
     
     if (request == self.mRectAdRequest) {
         self.inspectRequestButton.hidden = NO;

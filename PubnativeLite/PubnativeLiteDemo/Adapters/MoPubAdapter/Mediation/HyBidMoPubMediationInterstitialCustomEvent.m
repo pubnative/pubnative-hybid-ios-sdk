@@ -37,7 +37,7 @@
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([HyBidMoPubUtils appToken:info] != nil && [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             self.interstitialAd.isMediation = YES;
             [self.interstitialAd load];
@@ -104,8 +104,11 @@
 }
 
 - (void)interstitialDidDismiss {
+    [self.delegate fullscreenAdAdapterAdWillDismiss:self];
     [self.delegate fullscreenAdAdapterAdWillDisappear:self];
     MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
+    [self.delegate fullscreenAdAdapterAdDidDismiss:self];
+    MPLogEvent([MPLogEvent adDidDismissModalForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterAdDidDisappear:self];
     MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
 }

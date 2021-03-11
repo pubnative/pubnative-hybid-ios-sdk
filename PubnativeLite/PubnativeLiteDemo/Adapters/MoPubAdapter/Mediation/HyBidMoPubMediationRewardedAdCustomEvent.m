@@ -31,7 +31,7 @@
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if ([HyBidMoPubUtils areExtrasValid:info]) {
-        if ([HyBidMoPubUtils appToken:info] != nil || [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([HyBidMoPubUtils appToken:info] != nil && [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
             self.rewardedAd.isMediation = YES;
             [self.rewardedAd load];
@@ -73,12 +73,16 @@
 
 - (void)onReward {
     MPReward *reward = [[MPReward alloc] initWithCurrencyType:@"hybid_reward" amount:0];
+    [self.delegate fullscreenAdAdapter:self willRewardUser:reward];
     MPLogEvent([MPLogEvent adShouldRewardUserWithReward:reward]);
 }
 
 - (void)rewardedDidDismiss {
+    [self.delegate fullscreenAdAdapterAdWillDismiss:self];
     [self.delegate fullscreenAdAdapterAdWillDisappear:self];
     MPLogEvent([MPLogEvent adWillDisappearForAdapter:NSStringFromClass([self class])]);
+    [self.delegate fullscreenAdAdapterAdDidDismiss:self];
+    MPLogEvent([MPLogEvent adDidDismissModalForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterAdDidDisappear:self];
     MPLogEvent([MPLogEvent adDidDisappearForAdapter:NSStringFromClass([self class])]);
 }
@@ -95,6 +99,7 @@
 
 - (void)rewardedDidTrackClick {
     [self.delegate fullscreenAdAdapterDidTrackClick:self];
+    [self.delegate fullscreenAdAdapterDidReceiveTap:self];
     MPLogEvent([MPLogEvent adTappedForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
 }
@@ -106,8 +111,7 @@
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);
 }
 
--(void)dealloc
-{
+-(void)dealloc {
     self.rewardedAd = nil;
 }
 

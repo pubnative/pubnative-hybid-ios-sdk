@@ -24,6 +24,7 @@
 #import "PNLiteHttpRequest.h"
 #import "HyBidRemoteConfigEndpoints.h"
 #import "HyBidLogger.h"
+#import "HyBidEncryption.h"
 
 @interface HyBidRemoteConfigRequest() <PNLiteHttpRequestDelegate>
 
@@ -70,23 +71,41 @@
     });
 }
 
+- (NSData *)decryptRemoteConfigsData:(NSData *)data withKey:(NSString *)key andWithIV:(NSString *)iv
+{
+    if (key != nil && iv != nil) {
+    NSString *encryptedString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        return [[HyBidEncryption decrypt:encryptedString withKey:key andWithIV:iv] dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    return nil;
+}
+
 - (void)processResponseWithData:(NSData *)data {
-    NSError *parseError;
-    NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:&parseError];
-    if (parseError) {
-        [self invokeDidFail:parseError];
-    } else {
-        HyBidRemoteConfigModel *remoteConfig = [[HyBidRemoteConfigModel alloc] initWithDictionary:jsonDictonary];
-        if (!remoteConfig) {
-            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server."
-                                                 code:0
-                                             userInfo:nil];
-            [self invokeDidFail:error];
+    NSData *decryptedData = [self decryptRemoteConfigsData:data withKey:[HyBidSettings sharedInstance].appToken andWithIV:[@"" stringByPaddingToLength:16 withString:@"0" startingAtIndex:0]];
+
+    if (decryptedData != nil) {
+        NSError *parseError;
+        NSDictionary *jsonDictonary = [NSJSONSerialization JSONObjectWithData:decryptedData
+                                                                           options:NSJSONReadingMutableContainers
+                                                                             error:&parseError];
+        if (parseError) {
+            [self invokeDidFail:parseError];
         } else {
-            [self invokeDidLoad:remoteConfig];
+            HyBidRemoteConfigModel *remoteConfig = [[HyBidRemoteConfigModel alloc] initWithDictionary:jsonDictonary];
+            if (!remoteConfig) {
+                NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server."
+                                                          code:0
+                                                      userInfo:nil];
+                [self invokeDidFail:error];
+            } else {
+                [self invokeDidLoad:remoteConfig];
+            }
         }
+    } else {
+        NSError *error = [NSError errorWithDomain:@"Could not decrypt the response data."
+                                                  code:0
+                                              userInfo:nil];
+        [self invokeDidFail:error];
     }
 }
 

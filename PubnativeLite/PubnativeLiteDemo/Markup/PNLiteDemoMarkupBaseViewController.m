@@ -50,7 +50,8 @@
                                                   delegate:self
                                            serviceDelegate:self
                                         rootViewController:self
-                                               contentInfo:nil];
+                                               contentInfo:nil
+                                                skipOffset:0];
     return self.mraidView;
 }
 

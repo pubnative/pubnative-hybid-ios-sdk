@@ -30,6 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rewardedLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (nonatomic, strong) GADRewardedAd *adMobRewarded;
 
 @end
@@ -61,6 +62,7 @@
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
+    self.showAdButton.hidden = YES;
     [self.rewardedLoaderIndicator startAnimating];
     GADRequest *request = [GADRequest request];
     [self.adMobRewarded loadRequest:request completionHandler:^(GADRequestError * _Nullable error) {
@@ -69,6 +71,7 @@
         } else {
             NSLog(@"rewardedDidReceiveAd");
             self.inspectRequestButton.hidden = NO;
+            self.showAdButton.hidden = NO;
             [self.rewardedLoaderIndicator stopAnimating];
         }
     }];

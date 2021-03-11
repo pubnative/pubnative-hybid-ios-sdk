@@ -31,8 +31,8 @@
 #import "HyBidViewabilityManager.h"
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidLogger.h"
-
 #import "PNLiteCloseButton.h"
+#import "HyBidSettings.h"
 
 #import <WebKit/WebKit.h>
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
@@ -64,6 +64,8 @@ typedef enum {
     // on the native side is the useCustomClose property.
     // The width, height, and isModal properties are not used in MRAID v2.0.
     BOOL useCustomClose;
+    
+    NSInteger _skipOffset;
     
     PNLiteMRAIDOrientationProperties *orientationProperties;
     PNLiteMRAIDResizeProperties *resizeProperties;
@@ -162,7 +164,8 @@ typedef enum {
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(HyBidContentInfoView *)contentInfo {
+        contentInfo:(HyBidContentInfoView *)contentInfo
+         skipOffset:(NSInteger)skipOffset {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
                    withBaseURL:bsURL
@@ -171,7 +174,8 @@ typedef enum {
                       delegate:delegate
                serviceDelegate:serviceDelegate
             rootViewController:rootViewController
-                   contentInfo:contentInfo];
+                   contentInfo:contentInfo
+                    skipOffset:skipOffset];
 }
 
 // designated initializer
@@ -183,7 +187,8 @@ typedef enum {
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
-        contentInfo:(HyBidContentInfoView *)contentInfo {
+        contentInfo:(HyBidContentInfoView *)contentInfo
+         skipOffset:(NSInteger)skipOffset {
     self = [super initWithFrame:frame];
     if (self) {
         [self setUpTapGestureRecognizer];
@@ -197,7 +202,8 @@ typedef enum {
         state = PNLiteMRAIDStateLoading;
         _isViewable = NO;
         useCustomClose = NO;
-        
+        _skipOffset = skipOffset;
+
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
         
@@ -598,7 +604,9 @@ typedef enum {
     [modalVC.view addSubview:currentWebView];
     
     // always include the close event region
-    [self addCloseEventRegion];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, _skipOffset * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self addCloseEventRegion];
+    });
     
     if ([self.rootViewController respondsToSelector:@selector(presentViewController:animated:completion:)]) {
         // used if running >= iOS 6
@@ -849,6 +857,7 @@ typedef enum {
 }
 
 - (void)addCloseEventRegion {
+    
     closeEventRegion = [UIButton buttonWithType:UIButtonTypeCustom];
     closeEventRegion.backgroundColor = [UIColor clearColor];
     [closeEventRegion addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];

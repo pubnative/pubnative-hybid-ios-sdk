@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVGIApl.h"
+#import "HyBidVGIMacros.h"
 
 @implementation HyBidVGIApl
 
@@ -41,14 +42,7 @@
 
 - (NSDictionary *)dictionary
 {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    if (self.IDFA != nil) {
-        dict[@"IDFA"] = self.IDFA;
-    }
-    if (self.IDFV != nil) {
-        dict[@"IDFV"] = self.IDFV;
-    }
-    return [NSDictionary dictionaryWithDictionary:dict];
+    return [NSDictionary dictionaryWithObjectsAndKeys:NSNullIfEmpty(self.IDFA), @"IDFA", NSNullIfEmpty(self.IDFV), @"IDFV", nil];
 }
 
 @end

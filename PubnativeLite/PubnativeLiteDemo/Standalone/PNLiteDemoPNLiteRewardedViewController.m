@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rewardedLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 
 @end
@@ -55,6 +56,8 @@
 
 - (void)rewardedDidLoad {
     NSLog(@"Rewarded did load");
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.rewardedAd.ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.rewardedAd.ad.creativeID];
     self.inspectRequestButton.hidden = NO;
     [self.rewardedLoaderIndicator stopAnimating];
 }

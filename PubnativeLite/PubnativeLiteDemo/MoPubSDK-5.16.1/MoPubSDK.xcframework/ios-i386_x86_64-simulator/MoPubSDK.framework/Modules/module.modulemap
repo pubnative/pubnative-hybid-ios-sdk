@@ -1,0 +1,11 @@
+framework module MoPubSDK {
+    umbrella header "MoPub.h"
+
+    export *
+    module * { export * }
+}
+
+module MoPubSDK.Swift {
+    header "MoPubSDK-Swift.h"
+    requires objc
+}

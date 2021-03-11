@@ -43,10 +43,11 @@
     self.adModel = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad {
+- (instancetype)initWithAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset {
     self = [super init];
     if (self) {
         self.adModel = ad;
+        self.skipOffset = skipOffset;
     }
     return self;
 }
@@ -65,8 +66,8 @@
                                                   delegate:self
                                            serviceDelegate:self
                                         rootViewController:[UIApplication sharedApplication].topViewController
-                                               contentInfo:self.adModel.contentInfo];
-
+                                               contentInfo:self.adModel.contentInfo
+                                                skipOffset:_skipOffset];
 }
 
 - (void)show {

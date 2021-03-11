@@ -32,6 +32,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -75,6 +76,8 @@
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.bannerAdView.ad.creativeID];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.bannerAdView.ad.creativeID];
     self.bannerAdView.hidden = NO;
     self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
