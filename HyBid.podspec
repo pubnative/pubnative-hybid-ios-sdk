@@ -49,7 +49,7 @@ Pod::Spec.new do |s|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
     core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.3.7/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
     core.exclude_files         = 'PubnativeLite/PubnativeLite/Core/HyBidStatic.{swift,h,m}'
-    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/Frameworks/OMSDK-1.3.7/*.{framework}']
+    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.3.7/*.{framework}']
   end
 
   s.subspec 'Banner' do |banner|
@@ -74,7 +74,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'Edge' do |edge|
     edge.dependency         'HyBid/Core'
-    edge.vendored_frameworks   = ['PubnativeLite/PubnativeLite/Frameworks/HyBidEdge/*.{xcframework}']
+    edge.vendored_frameworks   = ['PubnativeLite/PubnativeLite/HyBidEdge/*.{xcframework}']
   end
 
 end

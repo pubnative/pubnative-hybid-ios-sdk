@@ -1936,9 +1936,9 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
+				624F560E26037F66006BCEB8 /* Frameworks */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
 				7EA2A96B2589F730004C6A97 /* Resources */,
-				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
 				7EA2A89125890C3A004C6A97 /* Core */,
 				7EA2A9B1258B294D004C6A97 /* Native */,
 				5AECD5A6204034F20023ABBC /* FullScreen */,
@@ -2172,8 +2172,7 @@
 				7EC5DCDD24BDFE84005D2B64 /* omsdk.js */,
 				7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */,
 			);
-			name = "OMSDK-1.3.7";
-			path = "Frameworks/OMSDK-1.3.7";
+			path = "OMSDK-1.3.7";
 			sourceTree = "<group>";
 		};
 		5ABE0139203F2F4600E6A14E /* Ad Request */ = {
@@ -2428,6 +2427,14 @@
 				6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */,
 			);
 			path = Analytics;
+			sourceTree = "<group>";
+		};
+		624F560E26037F66006BCEB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		62CE409025B58A7A00C5E8EA /* Anayltics */ = {
@@ -4037,7 +4044,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite",
-					"$(PROJECT_DIR)/PubnativeLite/Frameworks/OMSDK-1.3.7",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
@@ -4079,7 +4086,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite",
-					"$(PROJECT_DIR)/PubnativeLite/Frameworks/OMSDK-1.3.7",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
