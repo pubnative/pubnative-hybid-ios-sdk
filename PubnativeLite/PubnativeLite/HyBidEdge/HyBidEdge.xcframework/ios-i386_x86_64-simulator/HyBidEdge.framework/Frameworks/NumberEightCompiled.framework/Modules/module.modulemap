@@ -1,6 +1,0 @@
-framework module NumberEightCompiled {
-  umbrella header "NumberEightCompiled.h"
-
-  export *
-  module * { export * }
-}

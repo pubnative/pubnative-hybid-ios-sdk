@@ -74,7 +74,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'Edge' do |edge|
     edge.dependency         'HyBid/Core'
-    edge.vendored_frameworks   = ['PubnativeLite/PubnativeLite/HyBidEdge/*.{xcframework}']
+    edge.dependency         'HyBidEdge'
   end
 
 end
