@@ -1,0 +1,72 @@
+[
+  {
+    "shortDescription" : "January gender model",
+    "metadataOutputVersion" : "3.0",
+    "outputSchema" : [
+      {
+        "isOptional" : "0",
+        "keyType" : "String",
+        "formattedType" : "Dictionary (String → Double)",
+        "type" : "Dictionary",
+        "name" : "Identity",
+        "shortDescription" : ""
+      },
+      {
+        "isOptional" : "0",
+        "formattedType" : "String",
+        "type" : "String",
+        "name" : "classLabel",
+        "shortDescription" : ""
+      }
+    ],
+    "version" : "0.1",
+    "modelParameters" : [
+
+    ],
+    "author" : "jodieburchell",
+    "specificationVersion" : 4,
+    "license" : "",
+    "isUpdatable" : "0",
+    "availability" : {
+      "macOS" : "10.15",
+      "tvOS" : "13.0",
+      "watchOS" : "6.0",
+      "iOS" : "13.0",
+      "macCatalyst" : "13.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_neuralNetworkClassifier"
+    },
+    "inputSchema" : [
+      {
+        "dataType" : "Float32",
+        "hasShapeFlexibility" : "1",
+        "isOptional" : "0",
+        "shapeFlexibility" : "1... × 64",
+        "shapeRange" : "[[1, -1], [64, 64]]",
+        "formattedType" : "MultiArray (Float32 1 × 64)",
+        "type" : "MultiArray",
+        "shape" : "[1, 64]",
+        "name" : "batch_normalization_1_input",
+        "shortDescription" : ""
+      }
+    ],
+    "classLabels" : [
+      "male"
+    ],
+    "generatedClassName" : "gender_model_january_update_single_output_male",
+    "userDefinedMetadata" : {
+      "com.github.apple.coremltools.version" : "4.0",
+      "com.github.apple.coremltools.source" : "tensorflow==2.3.1"
+    },
+    "neuralNetworkLayerTypeHistogram" : {
+      "LoadConstantND" : 2,
+      "InnerProduct" : 3,
+      "ActivationSigmoid" : 1,
+      "MultiplyBroadcastable" : 1,
+      "ActivationReLU" : 2,
+      "AddBroadcastable" : 1
+    },
+    "method" : "predict"
+  }
+]

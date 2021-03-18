@@ -1,0 +1,204 @@
+{
+  "layer_shapes" : {
+    "sequential_7\/dense_14\/Tensordot\/Reshape" : {
+      "k" : 1,
+      "w" : 5,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/embedding_2\/Cast" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "embedding_2_input" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/BiasAdd" : {
+      "k" : 1,
+      "w" : 128,
+      "n" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot\/GatherV2" : {
+      "k" : 1,
+      "w" : 2,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "Identity" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Tensordot\/Const_2" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot\/concat_1" : {
+      "k" : 1,
+      "w" : 3,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Tensordot\/Shape" : {
+      "k" : 1,
+      "w" : 3,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Tensordot\/GatherV2" : {
+      "k" : 1,
+      "w" : 2,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/embedding_2\/Cast_ceil" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Tensordot\/concat_1" : {
+      "k" : 1,
+      "w" : 3,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/embedding_2\/Cast_cond_load_constant_3" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot\/Shape" : {
+      "k" : 1,
+      "w" : 4,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/BiasAdd\/ReadVariableOp" : {
+      "k" : 1,
+      "w" : 128,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Tensordot\/MatMul" : {
+      "k" : 1,
+      "w" : 128,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Relu" : {
+      "k" : 1,
+      "w" : 128,
+      "n" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot\/Reshape" : {
+      "k" : 1,
+      "w" : 128,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot\/free" : {
+      "k" : 1,
+      "w" : 2,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/BiasAdd\/ReadVariableOp" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/embedding_2\/Cast_cond" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/embedding_2\/Cast_floor" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Tensordot" : {
+      "k" : 1,
+      "w" : 128,
+      "n" : 1,
+      "h" : 1
+    },
+    "sequential_7\/embedding_2\/embedding_lookup_expand_dims" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 3,
+      "h" : 1
+    },
+    "sequential_7\/embedding_2\/embedding_lookup" : {
+      "k" : 1,
+      "w" : 5,
+      "n" : 1,
+      "_rank" : 3,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot\/Const_2" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    },
+    "sequential_7\/dense_15\/Tensordot\/MatMul" : {
+      "k" : 1,
+      "w" : 1,
+      "n" : 1,
+      "_rank" : 2,
+      "h" : 1
+    },
+    "sequential_7\/dense_14\/Tensordot\/free" : {
+      "k" : 1,
+      "w" : 2,
+      "n" : 1,
+      "_rank" : 1,
+      "h" : 1
+    }
+  },
+  "global_shapes" : {
+
+  }
+}

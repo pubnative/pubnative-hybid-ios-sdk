@@ -1,0 +1,4 @@
+framework module HyBidEdge {
+  header "HyBidEdge-Swift.h"
+  requires objc
+}

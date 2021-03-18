@@ -1,0 +1,151 @@
+Engine: PlacePenalty
+InputVariable: TimeOfDay
+  enabled: true
+  range: 0.000 24.000
+  lock-range: false
+  term: EarlyMorning Trapezoid 4.000 5.000 7.750 8.500
+  term: LateNight Discrete 0.000 0.000 0.000 1.000 4.000 1.000 5.000 0.000 23.000 0.000 23.500 1.000 24.000 1.000
+  term: Morning Trapezoid 7.750 8.500 9.500 10.500
+  term: LateMorning Trapezoid 9.500 10.500 11.500 12.000
+  term: Lunchtime Trapezoid 11.500 12.000 13.750 14.500
+  term: Afternoon Trapezoid 13.750 14.500 16.750 17.500
+  term: Evening Trapezoid 16.750 17.500 19.000 19.500
+  term: Night Trapezoid 19.000 19.500 23.00 23.500
+InputVariable: IndoorOutdoor
+  enabled: true
+  range: 0.000 1.000
+  lock-range: false
+  term: Outdoor Discrete 0.000 0.000 0.000 1.000 0.500 1.000 0.750 0.500 1.000 0.500
+  term: Indoor Discrete 0.000 0.500 0.000 0.500 0.250 0.500 0.500 1.000 1.000 1.000
+InputVariable: PlaceMajor
+  enabled: true
+  range: -0.500 13.5
+  lock-range: false
+  term: Unavailable Rectangle -0.5 0.5
+  term: None Rectangle 0.5 1.5
+  term: Unknown Rectangle 1.5 2.5
+  term: Academic Rectangle 2.5 3.5
+  term: Commercial Rectangle 3.5 4.5
+  term: Cultural Rectangle 4.5 5.5
+  term: Entertainment Rectangle 5.5 6.5
+  term: FoodAndDrink Rectangle 6.5 7.5
+  term: Office Rectangle 7.5 8.5
+  term: Recreational Rectangle 8.5 9.5
+  term: Residential Rectangle 9.5 10.5
+  term: ShopsAndServices Rectangle 10.5 11.5
+  term: Sport Rectangle 11.5 12.5
+  term: Transportation Rectangle 12.5 13.5
+InputVariable: PlaceMinor
+  enabled: true
+  range: -0.500 33.5
+  lock-range: false
+  term: Unknown Rectangle -0.5 0.5
+  term: Library Rectangle 0.5 1.5
+  term: ArtGallery Rectangle 1.5 2.5
+  term: Exhibition Rectangle 2.5 3.5
+  term: HistoricSite Rectangle 3.5 4.5
+  term: Museum Rectangle 4.5 5.5
+  term: Cinema Rectangle 5.5 6.5
+  term: Concert Rectangle 6.5 7.5
+  term: Festival Rectangle 7.5 8.5
+  term: Stadium Rectangle 8.5 9.5
+  term: Bar Rectangle 9.5 10.5
+  term: Cafe Rectangle 10.5 11.5
+  term: FoodCourt Rectangle 11.5 12.5
+  term: Nightclub Rectangle 12.5 13.5
+  term: Restaurant Rectangle 13.5 14.5
+  term: Beach Rectangle 14.5 15.5
+  term: Campsite Rectangle 15.5 16.5
+  term: Gardens Rectangle 16.5 17.5
+  term: Hotel Rectangle 17.5 18.5
+  term: Lake Rectangle 18.5 19.5
+  term: NatureSite Rectangle 19.5 20.5
+  term: Park Rectangle 20.5 21.5
+  term: RecreationCentre Rectangle 21.5 22.5
+  term: AntiquesShop Rectangle 22.5 23.5
+  term: Bank Rectangle 23.5 24.5
+  term: BicycleShop Rectangle 24.5 25.5
+  term: BookShop Rectangle 25.5 26.5
+  term: CarDealership Rectangle 26.5 27.5
+  term: Charity Rectangle 27.5 28.5
+  term: ClothingShop Rectangle 28.5 29.5
+  term: ConvenienceStore Rectangle 29.5 30.5
+  term: CosmeticsShop Rectangle 30.5 31.5
+  term: DepartmentStore Rectangle 31.5 32.5
+  term: ElectronicsShop Rectangle 32.5 33.5
+  term: FabricShop Rectangle 33.5 34.5
+  term: FishingShop Rectangle 34.5 35.5
+  term: Florist Rectangle 35.5 36.5
+  term: FootwearShop Rectangle 36.5 37.5
+  term: ServiceStation Rectangle 37.5 38.5
+  term: HairSalon Rectangle 38.5 39.5
+  term: HardwareShop Rectangle 39.5 40.5
+  term: HealthAndBeauty Rectangle 40.5 41.5
+  term: HomewaresShop Rectangle 41.5 42.5
+  term: HuntingShop Rectangle 42.5 43.5
+  term: LuxuryShop Rectangle 43.5 44.5
+  term: Market Rectangle 44.5 45.5
+  term: MusicShop Rectangle 45.5 46.5
+  term: OutdoorsShop Rectangle 46.5 47.5
+  term: PetServices Rectangle 47.5 48.5
+  term: PetShop Rectangle 48.5 49.5
+  term: PostalService Rectangle 49.5 50.5
+  term: RealEstateAgent Rectangle 50.5 51.5
+  term: ShoppingMall Rectangle 51.5 52.5
+  term: SpecialityFoodsShop Rectangle 52.5 53.5
+  term: SportsShop Rectangle 53.5 54.5
+  term: SupermarketTier1 Rectangle 54.5 55.5
+  term: SupermarketTier2 Rectangle 55.5 56.5
+  term: SupermarketTier3 Rectangle 56.5 57.5
+  term: ToyShop Rectangle 57.5 58.5
+  term: TravelAgents Rectangle 58.5 59.5
+  term: VehiclePartsShop Rectangle 59.5 60.5
+  term: Gym Rectangle 60.5 61.5
+  term: SportsFacility Rectangle 61.5 62.5
+  term: SportsField Rectangle 62.5 63.5
+  term: Airport Rectangle 63.5 64.5
+  term: BusStop Rectangle 64.5 65.5
+  term: Port Rectangle 65.5 66.5
+  term: SubwayStation Rectangle 66.5 67.5
+  term: TrainStation Rectangle 67.5 68.5
+OutputVariable: Penalty
+  enabled: true
+  range: 0.000 1.000
+  lock-range: false
+  aggregation: BoundedSum
+  defuzzifier: SmallestOfMaximum 100
+  default: nan
+  lock-previous: false
+  term: penalty Ramp 0.000 1.000
+RuleBlock: block1
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: BoundedSum
+  implication: Minimum
+  activation: General
+  rule: if PlaceMinor is ArtGallery and ( TimeOfDay is Night or TimeOfDay is LateNight or TimeOfDay is EarlyMorning ) then Penalty is penalty with 1
+  rule: if PlaceMinor is ArtGallery and ( TimeOfDay is Evening ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Bank and ( TimeOfDay is Night or TimeOfDay is LateNight or TimeOfDay is EarlyMorning ) then Penalty is penalty with 1
+  rule: if PlaceMinor is Bank and ( TimeOfDay is Evening ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Cafe and ( TimeOfDay is Night or TimeOfDay is LateNight or TimeOfDay is EarlyMorning ) then Penalty is penalty with 1
+  rule: if PlaceMinor is Cafe and ( TimeOfDay is Evening ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Museum and ( TimeOfDay is Night or TimeOfDay is LateNight or TimeOfDay is EarlyMorning ) then Penalty is penalty with 1
+  rule: if PlaceMinor is Museum and ( TimeOfDay is Evening ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is ClothingShop and ( TimeOfDay is Night or TimeOfDay is LateNight or TimeOfDay is EarlyMorning ) then Penalty is penalty with 1
+  rule: if PlaceMinor is ClothingShop and ( TimeOfDay is Evening ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Cinema and ( TimeOfDay is LateNight or TimeOfDay is EarlyMorning ) then Penalty is penalty with 1
+  rule: if PlaceMinor is Cinema and ( TimeOfDay is Morning ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Bar and ( TimeOfDay is EarlyMorning or TimeOfDay is Morning or TimeOfDay is LateMorning or TimeOfDay is Lunchtime ) then Penalty is penalty with 1
+  rule: if PlaceMinor is Bar and ( TimeOfDay is Afternoon ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Concert and ( TimeOfDay is EarlyMorning or TimeOfDay is Morning or TimeOfDay is LateMorning or TimeOfDay is Lunchtime ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Nightclub and ( TimeOfDay is Morning or TimeOfDay is LateMorning or TimeOfDay is Lunchtime or TimeOfDay is Afternoon ) then Penalty is penalty with 1
+  rule: if PlaceMinor is Nightclub and ( TimeOfDay is Evening or TimeOfDay is EarlyMorning ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Beach and ( TimeOfDay is Night or TimeOfDay is LateNight ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Park and ( TimeOfDay is Night or TimeOfDay is LateNight ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Gardens and ( TimeOfDay is Night or TimeOfDay is LateNight ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Library and ( TimeOfDay is Night or TimeOfDay is LateNight ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Restaurant and ( TimeOfDay is LateNight or TimeOfDay is EarlyMorning or TimeOfDay is Morning ) then Penalty is penalty with 1
+  rule: if PlaceMinor is Restaurant and ( TimeOfDay is Afternoon or TimeOfDay is LateMorning ) then Penalty is penalty with 0.5
+  rule: if PlaceMinor is Gym and ( TimeOfDay is LateNight ) then Penalty is penalty with 1
+  rule: if PlaceMajor is ShopsAndServices and PlaceMinor is Unknown and ( TimeOfDay is Night or TimeOfDay is LateNight or TimeOfDay is EarlyMorning ) then Penalty is penalty with 1
+  rule: if PlaceMajor is ShopsAndServices and PlaceMinor is Unknown and ( TimeOfDay is Evening ) then Penalty is penalty with 0.5

@@ -1,0 +1,654 @@
+{
+  "layers" : [
+    {
+      "bottom" : "embedding_2_input",
+      "alpha" : 1,
+      "operation" : 117,
+      "beta" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "sequential_7\/embedding_2\/Cast_floor",
+      "top" : "sequential_7\/embedding_2\/Cast_floor",
+      "type" : "elementwise",
+      "name" : "sequential_7\/embedding_2\/Cast_floor",
+      "attributes" : {
+        "basic_block_head" : 1
+      }
+    },
+    {
+      "bottom" : "embedding_2_input",
+      "alpha" : 1,
+      "operation" : 118,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "sequential_7\/embedding_2\/Cast_ceil",
+      "top" : "sequential_7\/embedding_2\/Cast_ceil",
+      "type" : "elementwise",
+      "name" : "sequential_7\/embedding_2\/Cast_ceil",
+      "beta" : 0
+    },
+    {
+      "bottom" : "",
+      "k" : 1,
+      "n" : 1,
+      "weights" : {
+
+      },
+      "h" : 1,
+      "debug_info" : "sequential_7\/embedding_2\/Cast_cond",
+      "constant_blob" : 1,
+      "top" : "sequential_7\/embedding_2\/Cast_cond_load_constant_3",
+      "w" : 1,
+      "type" : "load_constant",
+      "name" : "sequential_7\/embedding_2\/Cast_cond_load_constant_3"
+    },
+    {
+      "bottom" : "embedding_2_input,sequential_7\/embedding_2\/Cast_cond_load_constant_3",
+      "alpha" : 1,
+      "operation" : 105,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "sequential_7\/embedding_2\/Cast_cond",
+      "top" : "sequential_7\/embedding_2\/Cast_cond",
+      "type" : "elementwise",
+      "name" : "sequential_7\/embedding_2\/Cast_cond",
+      "beta" : 0
+    },
+    {
+      "bottom" : "sequential_7\/embedding_2\/Cast_cond,sequential_7\/embedding_2\/Cast_floor,sequential_7\/embedding_2\/Cast_ceil",
+      "alpha" : 1,
+      "operation" : 101,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "sequential_7\/embedding_2\/Cast",
+      "nd_mode" : true,
+      "top" : "sequential_7\/embedding_2\/Cast",
+      "type" : "elementwise",
+      "name" : "sequential_7\/embedding_2\/Cast",
+      "beta" : 0
+    },
+    {
+      "size_of_axes" : 1,
+      "bottom" : "sequential_7\/embedding_2\/Cast",
+      "axes_0" : -1,
+      "weights" : {
+
+      },
+      "nd_axis" : 0,
+      "debug_info" : "sequential_7\/embedding_2\/embedding_lookup_expand_dims",
+      "top" : "sequential_7\/embedding_2\/embedding_lookup_expand_dims",
+      "type" : "expand_dims",
+      "name" : "sequential_7\/embedding_2\/embedding_lookup_expand_dims"
+    },
+    {
+      "nB" : 163,
+      "top" : "sequential_7\/embedding_2\/embedding_lookup",
+      "has_biases" : 0,
+      "nd_mode" : true,
+      "nC" : 5,
+      "blob_weights" : 3,
+      "weights" : {
+
+      },
+      "is_lookup" : 1,
+      "type" : "inner_product",
+      "has_relu" : 0,
+      "bottom" : "sequential_7\/embedding_2\/embedding_lookup_expand_dims",
+      "debug_info" : "sequential_7\/embedding_2\/embedding_lookup",
+      "has_tanh" : 0,
+      "hint_fallback_from_metal" : 1,
+      "name" : "sequential_7\/embedding_2\/embedding_lookup",
+      "has_prelu" : 0
+    },
+    {
+      "bottom" : "sequential_7\/embedding_2\/embedding_lookup",
+      "weights" : {
+
+      },
+      "nd_mode" : 1,
+      "axis" : -1,
+      "debug_info" : "sequential_7\/dense_14\/Tensordot\/Shape",
+      "top" : "sequential_7\/dense_14\/Tensordot\/Shape",
+      "type" : "get_shape",
+      "name" : "sequential_7\/dense_14\/Tensordot\/Shape"
+    },
+    {
+      "top" : "sequential_7\/dense_14\/Tensordot\/free",
+      "w" : 2,
+      "h" : 1,
+      "name" : "sequential_7\/dense_14\/Tensordot\/free",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "sequential_7\/dense_14\/Tensordot\/free",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 5
+    },
+    {
+      "bottom" : "sequential_7\/dense_14\/Tensordot\/Shape,sequential_7\/dense_14\/Tensordot\/free",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "debug_info" : "sequential_7\/dense_14\/Tensordot\/GatherV2",
+      "axis" : 0,
+      "top" : "sequential_7\/dense_14\/Tensordot\/GatherV2",
+      "type" : "gather_nd",
+      "name" : "sequential_7\/dense_14\/Tensordot\/GatherV2"
+    },
+    {
+      "top" : "sequential_7\/dense_14\/Tensordot\/Const_2",
+      "w" : 1,
+      "h" : 1,
+      "name" : "sequential_7\/dense_14\/Tensordot\/Const_2",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "sequential_7\/dense_14\/Tensordot\/Const_2",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 7
+    },
+    {
+      "bottom" : "sequential_7\/dense_14\/Tensordot\/GatherV2,sequential_7\/dense_14\/Tensordot\/Const_2",
+      "weights" : {
+
+      },
+      "nd_mode" : true,
+      "axis" : 0,
+      "debug_info" : "sequential_7\/dense_14\/Tensordot\/concat_1",
+      "top" : "sequential_7\/dense_14\/Tensordot\/concat_1",
+      "type" : "general_concat",
+      "name" : "sequential_7\/dense_14\/Tensordot\/concat_1"
+    },
+    {
+      "name" : "sequential_7\/dense_14\/Tensordot\/Reshape",
+      "weights" : {
+
+      },
+      "dst_w" : 5,
+      "version" : 1,
+      "dst_n" : 1,
+      "dst_nd_rank" : 2,
+      "type" : "reshape",
+      "dst_h" : -1,
+      "mode" : 0,
+      "dynamic_shape" : false,
+      "bottom" : "sequential_7\/embedding_2\/embedding_lookup",
+      "debug_info" : "sequential_7\/dense_14\/Tensordot\/Reshape",
+      "dst_seq" : 1,
+      "dst_k" : 1,
+      "top" : "sequential_7\/dense_14\/Tensordot\/Reshape"
+    },
+    {
+      "nB" : 5,
+      "top" : "sequential_7\/dense_14\/Tensordot\/MatMul",
+      "has_biases" : 0,
+      "weights" : {
+
+      },
+      "nC" : 128,
+      "blob_weights" : 9,
+      "type" : "inner_product",
+      "has_relu" : 0,
+      "bottom" : "sequential_7\/dense_14\/Tensordot\/Reshape",
+      "debug_info" : "sequential_7\/dense_14\/Tensordot\/MatMul",
+      "has_tanh" : 0,
+      "nd_mode" : true,
+      "name" : "sequential_7\/dense_14\/Tensordot\/MatMul",
+      "has_prelu" : 0
+    },
+    {
+      "name" : "sequential_7\/dense_14\/Tensordot",
+      "weights" : {
+
+      },
+      "dst_w" : 0,
+      "version" : 1,
+      "dst_n" : 0,
+      "type" : "reshape",
+      "dst_h" : 0,
+      "mode" : 0,
+      "bottom" : "sequential_7\/dense_14\/Tensordot\/MatMul,sequential_7\/dense_14\/Tensordot\/concat_1",
+      "debug_info" : "sequential_7\/dense_14\/Tensordot",
+      "nd_mode" : 1,
+      "dst_seq" : 1,
+      "dst_k" : 0,
+      "top" : "sequential_7\/dense_14\/Tensordot"
+    },
+    {
+      "top" : "sequential_7\/dense_14\/BiasAdd\/ReadVariableOp",
+      "w" : 128,
+      "h" : 1,
+      "weights" : {
+
+      },
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "attributes" : {
+        "basic_block_head" : 1
+      },
+      "bottom" : "",
+      "debug_info" : "sequential_7\/dense_14\/BiasAdd\/ReadVariableOp",
+      "n" : 1,
+      "name" : "sequential_7\/dense_14\/BiasAdd\/ReadVariableOp",
+      "constant_blob" : 11
+    },
+    {
+      "bottom" : "sequential_7\/dense_14\/Tensordot,sequential_7\/dense_14\/BiasAdd\/ReadVariableOp",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "sequential_7\/dense_14\/BiasAdd",
+      "nd_mode" : true,
+      "top" : "sequential_7\/dense_14\/BiasAdd",
+      "type" : "elementwise",
+      "name" : "sequential_7\/dense_14\/BiasAdd",
+      "beta" : 0
+    },
+    {
+      "bottom" : "sequential_7\/dense_14\/BiasAdd",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "debug_info" : "sequential_7\/dense_14\/Relu",
+      "top" : "sequential_7\/dense_14\/Relu",
+      "type" : "activation",
+      "name" : "sequential_7\/dense_14\/Relu"
+    },
+    {
+      "bottom" : "sequential_7\/dense_14\/Relu",
+      "weights" : {
+
+      },
+      "nd_mode" : 1,
+      "axis" : -1,
+      "debug_info" : "sequential_7\/dense_15\/Tensordot\/Shape",
+      "top" : "sequential_7\/dense_15\/Tensordot\/Shape",
+      "type" : "get_shape",
+      "name" : "sequential_7\/dense_15\/Tensordot\/Shape"
+    },
+    {
+      "top" : "sequential_7\/dense_15\/Tensordot\/free",
+      "w" : 2,
+      "h" : 1,
+      "name" : "sequential_7\/dense_15\/Tensordot\/free",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "sequential_7\/dense_15\/Tensordot\/free",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 13
+    },
+    {
+      "bottom" : "sequential_7\/dense_15\/Tensordot\/Shape,sequential_7\/dense_15\/Tensordot\/free",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "debug_info" : "sequential_7\/dense_15\/Tensordot\/GatherV2",
+      "axis" : 0,
+      "top" : "sequential_7\/dense_15\/Tensordot\/GatherV2",
+      "type" : "gather_nd",
+      "name" : "sequential_7\/dense_15\/Tensordot\/GatherV2"
+    },
+    {
+      "top" : "sequential_7\/dense_15\/Tensordot\/Const_2",
+      "w" : 1,
+      "h" : 1,
+      "name" : "sequential_7\/dense_15\/Tensordot\/Const_2",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "sequential_7\/dense_15\/Tensordot\/Const_2",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 15
+    },
+    {
+      "bottom" : "sequential_7\/dense_15\/Tensordot\/GatherV2,sequential_7\/dense_15\/Tensordot\/Const_2",
+      "weights" : {
+
+      },
+      "nd_mode" : true,
+      "axis" : 0,
+      "debug_info" : "sequential_7\/dense_15\/Tensordot\/concat_1",
+      "top" : "sequential_7\/dense_15\/Tensordot\/concat_1",
+      "type" : "general_concat",
+      "name" : "sequential_7\/dense_15\/Tensordot\/concat_1"
+    },
+    {
+      "name" : "sequential_7\/dense_15\/Tensordot\/Reshape",
+      "weights" : {
+
+      },
+      "dst_w" : 128,
+      "version" : 1,
+      "dst_n" : 1,
+      "dst_nd_rank" : 2,
+      "type" : "reshape",
+      "dst_h" : -1,
+      "mode" : 0,
+      "dynamic_shape" : false,
+      "bottom" : "sequential_7\/dense_14\/Relu",
+      "debug_info" : "sequential_7\/dense_15\/Tensordot\/Reshape",
+      "dst_seq" : 1,
+      "dst_k" : 1,
+      "top" : "sequential_7\/dense_15\/Tensordot\/Reshape"
+    },
+    {
+      "nB" : 128,
+      "top" : "sequential_7\/dense_15\/Tensordot\/MatMul",
+      "has_biases" : 0,
+      "weights" : {
+
+      },
+      "nC" : 1,
+      "blob_weights" : 17,
+      "type" : "inner_product",
+      "has_relu" : 0,
+      "bottom" : "sequential_7\/dense_15\/Tensordot\/Reshape",
+      "debug_info" : "sequential_7\/dense_15\/Tensordot\/MatMul",
+      "has_tanh" : 0,
+      "nd_mode" : true,
+      "name" : "sequential_7\/dense_15\/Tensordot\/MatMul",
+      "has_prelu" : 0
+    },
+    {
+      "name" : "sequential_7\/dense_15\/Tensordot",
+      "weights" : {
+
+      },
+      "dst_w" : 0,
+      "version" : 1,
+      "dst_n" : 0,
+      "type" : "reshape",
+      "dst_h" : 0,
+      "mode" : 0,
+      "bottom" : "sequential_7\/dense_15\/Tensordot\/MatMul,sequential_7\/dense_15\/Tensordot\/concat_1",
+      "debug_info" : "sequential_7\/dense_15\/Tensordot",
+      "nd_mode" : 1,
+      "dst_seq" : 1,
+      "dst_k" : 0,
+      "top" : "sequential_7\/dense_15\/Tensordot"
+    },
+    {
+      "top" : "sequential_7\/dense_15\/BiasAdd\/ReadVariableOp",
+      "w" : 1,
+      "h" : 1,
+      "weights" : {
+
+      },
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "attributes" : {
+        "basic_block_head" : 1
+      },
+      "bottom" : "",
+      "debug_info" : "sequential_7\/dense_15\/BiasAdd\/ReadVariableOp",
+      "n" : 1,
+      "name" : "sequential_7\/dense_15\/BiasAdd\/ReadVariableOp",
+      "constant_blob" : 19
+    },
+    {
+      "bottom" : "sequential_7\/dense_15\/Tensordot,sequential_7\/dense_15\/BiasAdd\/ReadVariableOp",
+      "alpha" : 1,
+      "operation" : 0,
+      "beta" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "Identity",
+      "top" : "Identity",
+      "type" : "elementwise",
+      "name" : "Identity",
+      "attributes" : {
+        "is_output" : 1
+      }
+    }
+  ],
+  "storage" : "model.espresso.weights",
+  "analyses" : {
+
+  },
+  "properties" : {
+
+  },
+  "format_version" : 300,
+  "shape" : {
+    "layer_shapes" : {
+      "sequential_7\/dense_14\/Tensordot\/Reshape" : {
+        "k" : 1,
+        "w" : 5,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/embedding_2\/Cast" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "embedding_2_input" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/BiasAdd" : {
+        "k" : 1,
+        "w" : 128,
+        "n" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot\/GatherV2" : {
+        "k" : 1,
+        "w" : 2,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "Identity" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Tensordot\/Const_2" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot\/concat_1" : {
+        "k" : 1,
+        "w" : 3,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Tensordot\/Shape" : {
+        "k" : 1,
+        "w" : 3,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Tensordot\/GatherV2" : {
+        "k" : 1,
+        "w" : 2,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/embedding_2\/Cast_ceil" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Tensordot\/concat_1" : {
+        "k" : 1,
+        "w" : 3,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/embedding_2\/Cast_cond_load_constant_3" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot\/Shape" : {
+        "k" : 1,
+        "w" : 4,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/BiasAdd\/ReadVariableOp" : {
+        "k" : 1,
+        "w" : 128,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Tensordot\/MatMul" : {
+        "k" : 1,
+        "w" : 128,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Relu" : {
+        "k" : 1,
+        "w" : 128,
+        "n" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot\/Reshape" : {
+        "k" : 1,
+        "w" : 128,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot\/free" : {
+        "k" : 1,
+        "w" : 2,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/BiasAdd\/ReadVariableOp" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/embedding_2\/Cast_cond" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/embedding_2\/Cast_floor" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Tensordot" : {
+        "k" : 1,
+        "w" : 128,
+        "n" : 1,
+        "h" : 1
+      },
+      "sequential_7\/embedding_2\/embedding_lookup_expand_dims" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 3,
+        "h" : 1
+      },
+      "sequential_7\/embedding_2\/embedding_lookup" : {
+        "k" : 1,
+        "w" : 5,
+        "n" : 1,
+        "_rank" : 3,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot\/Const_2" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      },
+      "sequential_7\/dense_15\/Tensordot\/MatMul" : {
+        "k" : 1,
+        "w" : 1,
+        "n" : 1,
+        "_rank" : 2,
+        "h" : 1
+      },
+      "sequential_7\/dense_14\/Tensordot\/free" : {
+        "k" : 1,
+        "w" : 2,
+        "n" : 1,
+        "_rank" : 1,
+        "h" : 1
+      }
+    },
+    "global_shapes" : {
+
+    }
+  },
+  "subnetworks" : {
+
+  }
+}

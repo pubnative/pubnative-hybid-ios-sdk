@@ -104,7 +104,7 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidAdMobMediationRe
     [self.delegate reportImpression];
 }
 
-// v: 2.4.3
+// v: 2.4.3-edge
 + (GADVersionNumber)adSDKVersion {
     GADVersionNumber version = {0};
     version.majorVersion = 2;

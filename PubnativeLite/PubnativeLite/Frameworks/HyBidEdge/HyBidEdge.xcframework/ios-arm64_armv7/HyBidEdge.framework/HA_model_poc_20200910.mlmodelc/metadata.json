@@ -1,0 +1,72 @@
+[
+  {
+    "shortDescription" : "test HA model",
+    "metadataOutputVersion" : "3.0",
+    "outputSchema" : [
+      {
+        "isOptional" : "0",
+        "keyType" : "String",
+        "formattedType" : "Dictionary (String → Double)",
+        "type" : "Dictionary",
+        "name" : "Identity",
+        "shortDescription" : ""
+      },
+      {
+        "isOptional" : "0",
+        "formattedType" : "String",
+        "type" : "String",
+        "name" : "classLabel",
+        "shortDescription" : ""
+      }
+    ],
+    "version" : "0.2",
+    "modelParameters" : [
+
+    ],
+    "author" : "hoimingchi",
+    "specificationVersion" : 4,
+    "license" : "",
+    "isUpdatable" : "0",
+    "availability" : {
+      "macOS" : "10.15",
+      "tvOS" : "13.0",
+      "watchOS" : "6.0",
+      "iOS" : "13.0",
+      "macCatalyst" : "13.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_neuralNetworkClassifier"
+    },
+    "inputSchema" : [
+      {
+        "dataType" : "Float32",
+        "hasShapeFlexibility" : "1",
+        "isOptional" : "0",
+        "shapeFlexibility" : "1... × 40",
+        "shapeRange" : "[[1, -1], [40, 40]]",
+        "formattedType" : "MultiArray (Float32 1 × 40)",
+        "type" : "MultiArray",
+        "shape" : "[1, 40]",
+        "name" : "batch_normalization_6_input",
+        "shortDescription" : ""
+      }
+    ],
+    "classLabels" : [
+      "home"
+    ],
+    "generatedClassName" : "HA_model_poc_20200910",
+    "userDefinedMetadata" : {
+      "com.github.apple.coremltools.version" : "4.0b1",
+      "com.github.apple.coremltools.source" : "tensorflow==2.1.0"
+    },
+    "neuralNetworkLayerTypeHistogram" : {
+      "LoadConstantND" : 2,
+      "InnerProduct" : 2,
+      "ActivationSigmoid" : 1,
+      "MultiplyBroadcastable" : 1,
+      "ActivationReLU" : 1,
+      "AddBroadcastable" : 1
+    },
+    "method" : "predict"
+  }
+]

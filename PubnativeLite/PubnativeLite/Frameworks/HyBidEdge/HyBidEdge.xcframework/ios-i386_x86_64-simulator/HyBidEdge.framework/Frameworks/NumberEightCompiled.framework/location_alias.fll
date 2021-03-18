@@ -1,0 +1,60 @@
+Engine: HomeOrWork
+InputVariable: VisitDuration
+  enabled: true
+  range: 0.000 24.000
+  lock-range: false
+  term: Short Trapezoid -0.080 0.100 0.650 1.250
+  term: Medium Trapezoid 0.650 1.250 3.500 4.000
+  term: Long Trapezoid 3.500 4.000 24.000 24.000
+InputVariable: DepartureTime
+  enabled: true
+  range: 0.000 25.000
+  lock-range: false
+  term: Morning Trapezoid 3.500 5.000 8.500 9.750
+  term: Afternoon Trapezoid 10.000 10.750 17.000 18.000
+  term: Evening Trapezoid 17.000 18.000 19.500 21.000
+  term: Night Trapezoid 19.500 21.000 24.000 24.000
+  term: DistantFuture Triangle 24.000 25.000 25.000
+InputVariable: WeekendOrWeekday
+  enabled: true
+  range: 0.000 168.000
+  lock-range: false
+  term: Weekday PiShape 0.000 0.000 111.000 115.000
+  term: Weekend PiShape 111.000 115.000 168.000 168.000
+InputVariable: Residential
+  enabled: true
+  range: 0.000 1.000
+  lock-range: false
+  term: True Rectangle 0.500 1.000
+  term: False Rectangle 0.000 0.500
+OutputVariable: Location
+  enabled: true
+  range: 0.000 3.000
+  lock-range: false
+  aggregation: EinsteinSum
+  defuzzifier: MeanOfMaximum 200
+  default: 0.833
+  lock-previous: false
+  term: Home Rectangle 0.000 1.000
+  term: Work Rectangle 1.000 2.000
+  term: Unknown Rectangle 2.000 3.000
+RuleBlock: rule block 2
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: Maximum
+  implication: Minimum
+  activation: General
+  rule: if VisitDuration is Short and DepartureTime is Morning and WeekendOrWeekday is Weekday then Location is Home with 0.25
+  rule: if VisitDuration is Short and DepartureTime is Morning and WeekendOrWeekday is Weekend then Location is Home with 0.5
+  rule: if VisitDuration is Medium and DepartureTime is Morning then Location is Home with 0.75
+  rule: if VisitDuration is Long and DepartureTime is Morning then Location is Home
+  rule: if VisitDuration is Medium and DepartureTime is Night and WeekendOrWeekday is Weekend then Location is Home with 0.15
+  rule: if VisitDuration is Long and DepartureTime is Night and WeekendOrWeekday is Weekend then Location is Home with 0.25
+  rule: if VisitDuration is Short and DepartureTime is Night and WeekendOrWeekday is Weekday then Location is Home with 0.25
+  rule: if VisitDuration is Medium and DepartureTime is Night and WeekendOrWeekday is Weekday then Location is Home with 0.33
+  rule: if VisitDuration is Long and DepartureTime is Night and WeekendOrWeekday is Weekday then Location is Home with 0.5
+  rule: if Residential is True then Location is Home with 0.25
+  rule: if VisitDuration is Short and DepartureTime is Afternoon and WeekendOrWeekday is Weekday then Location is Work with 0.25
+  rule: if VisitDuration is Medium and DepartureTime is Afternoon and WeekendOrWeekday is Weekday then Location is Work with 0.5
+  rule: if VisitDuration is Long and DepartureTime is Afternoon and WeekendOrWeekday is Weekday then Location is Work
+  rule: if VisitDuration is Long and DepartureTime is Evening and WeekendOrWeekday is Weekday then Location is Work
