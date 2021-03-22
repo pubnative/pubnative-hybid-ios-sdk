@@ -30,6 +30,7 @@
 
 // CONFIGURABLE PARAMETERS
 @property (nonatomic, assign) BOOL test;
+@property (nonatomic, assign) BOOL sessionTest;
 @property (nonatomic, assign) BOOL coppa;
 @property (nonatomic, strong) HyBidTargetingModel *targeting;
 @property (nonatomic, strong) NSString *appToken;

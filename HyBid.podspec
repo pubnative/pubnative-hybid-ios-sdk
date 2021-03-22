@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "2.4.3-edge"
+  s.version      = "2.4.3-edge-beta1"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -74,7 +74,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'Edge' do |edge|
     edge.dependency         'HyBid/Core'
-    edge.dependency         'HyBidEdge'
+    edge.dependency         'HyBidEdge', '1.0.1'
   end
 
 end

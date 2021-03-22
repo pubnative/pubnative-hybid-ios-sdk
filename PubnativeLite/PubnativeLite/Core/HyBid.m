@@ -48,6 +48,10 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
     [HyBidSettings sharedInstance].test = enabled;
 }
 
++ (void)setSessionTestMode:(BOOL)enabled {
+    [HyBidSettings sharedInstance].sessionTest = enabled;
+}
+
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
@@ -56,9 +60,23 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
         [HyBidViewabilityManager sharedInstance];
-        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
-            completion(success);
-        }];
+        
+        #if __has_include("HyBidAudienceController.h")
+            HyBidAudienceController* audienceController = [[HyBidAudienceController alloc] init];
+            int refreshAudienceInterval = [audienceController getAudienceRefreshFrequencyInHours:(AudienceRefreshSchedule) twicePerDay];
+            [audienceController refreshAudience];
+            [audienceController scheduleNextAudienceRefreshTimerIn:refreshAudienceInterval];
+            
+            [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
+                completion(success);
+            }];
+            
+            [self startRecordingSessions];
+            
+            [self startNumberEightWithApiKey:NumberEightAPIToken];
+            [self startRecordingNumberEightAudiencesWithApiKey:NumberEightAPIToken];
+        #endif
+       
     }
 }
 
@@ -82,5 +100,60 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 + (HyBidReportingManager *)reportingManager {
     return HyBidReportingManager.sharedInstance;
 }
+
+#if __has_include("HyBidAudienceController.h")
++ (void)startRecordingSessions
+{
+    [self openSession];
+    [HyBidAdAnalyticsSession startSession];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSession) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
++ (void)openSession
+{
+    HyBidSessionManager *sessionManager = [[HyBidSessionManager alloc] init];
+    [sessionManager openSession];
+}
+
++ (void)startRecordingNumberEightAudiencesWithApiKey:(NSString *)apiKey
+{
+    NEXAPIToken* token =
+    [NEXNumberEight startWithApiKey:apiKey
+                    launchOptions:nil
+                    consentOptions:[NEXConsentOptions withConsentToAll]
+                    completion:nil];
+    [NEXAudiences startRecordingWithApiToken:token];
+}
+
++ (NSSet *)getNumberEightAudiences
+{
+    NSSet *audiences = [NEXAudiences currentMemberships];
+    NSLog(@"Audiences %@", audiences); // ["early-risers", "socialites"]
+    
+    return audiences;
+}
+
++ (void)startNumberEightWithApiKey:(NSString *)apiKey
+{
+    [NEXNumberEight startWithApiKey:apiKey launchOptions:nil
+                     consentOptions:[NEXConsentOptions withConsentToAll]
+      facingAuthorizationChallenges:^(NEXAuthorizationSource authSource, id<NEXAuthorizationChallengeResolver> _Nonnull resolver) {
+        switch (authSource) {
+            case kNEXAuthorizationSourceLocation:
+                [resolver requestAuthorization];
+                break;
+            default:
+                break;
+        }
+    } completion:^(BOOL isSuccess, NSError * _Nullable error) {
+        if (isSuccess) {
+            NSLog(@"NumberEight SDK Initialisation completed successfully.");
+        } else {
+            NSString *errorMessage = [NSString stringWithFormat:@"NumberEight SDK Initialisation failed with error: %@", [error localizedDescription]];
+            NSLog(@"%@", errorMessage);
+        }
+    }];
+}
+#endif
 
 @end
