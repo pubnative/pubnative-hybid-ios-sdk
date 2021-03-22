@@ -132,5 +132,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString *)sdkVersion;
 + (void)setInterstitialSkipOffset:(NSInteger)seconds;
 + (HyBidReportingManager *)reportingManager;
++ (NSSet *)getNumberEightAudiences;
 
 @end

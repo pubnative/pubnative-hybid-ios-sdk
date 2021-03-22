@@ -62,6 +62,8 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
         [HyBidViewabilityManager sharedInstance];
         
         #if __has_include("HyBidAudienceController.h")
+        
+            NSLog(@"HyBidAudienceController included");
             HyBidAudienceController* audienceController = [[HyBidAudienceController alloc] init];
             int refreshAudienceInterval = [audienceController getAudienceRefreshFrequencyInHours:(AudienceRefreshSchedule) twicePerDay];
             [audienceController refreshAudience];
@@ -105,7 +107,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 + (void)startRecordingSessions
 {
     [self openSession];
-    [HyBidAdAnalyticsSession startSession];
+//    [HyBidAdAnalyticsSession startSession];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSession) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
@@ -124,6 +126,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
                     completion:nil];
     [NEXAudiences startRecordingWithApiToken:token];
 }
+
 
 + (NSSet *)getNumberEightAudiences
 {
@@ -157,3 +160,4 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 #endif
 
 @end
+
