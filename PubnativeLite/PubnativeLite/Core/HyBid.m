@@ -26,13 +26,16 @@
 #import "PNLiteLocationManager.h"
 #import "HyBidConstants.h"
 #import "HyBidRemoteConfigManager.h"
-#if __has_include("HyBidAudienceController.h")
+#if __has_include(<HyBidEdge/HyBidAudienceController.h>)
 #import <HyBidEdge/HyBidEdge.h>
+@import NumberEight;
+@import Audiences;
 #endif
 
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
+NSString *const NumberEightAPIToken = @"T954C5VJTIAXAGMUVPDU0TZMGEV2";
 
 @implementation HyBid
 
@@ -65,7 +68,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
         [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
         [HyBidViewabilityManager sharedInstance];
         
-        #if __has_include("HyBidAudienceController.h")
+        #if __has_include(<HyBidEdge/HyBidAudienceController.h>)
             NSLog(@"HyBidAudienceController included");
             HyBidAudienceController* audienceController = [[HyBidAudienceController alloc] init];
             int refreshAudienceInterval = [audienceController getAudienceRefreshFrequencyInHours:(AudienceRefreshSchedule) twicePerDay];
@@ -108,7 +111,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 
 + (void)startRecordingSessions
 {
-    #if __has_include("HyBidAudienceController.h")
+    #if __has_include(<HyBidEdge/HyBidAudienceController.h>)
         [self openSession];
         //    [HyBidAdAnalyticsSession startSession];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSession) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -117,7 +120,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 
 + (void)openSession
 {
-    #if __has_include("HyBidAudienceController.h")
+    #if __has_include(<HyBidEdge/HyBidAudienceController.h>)
         HyBidSessionManager *sessionManager = [[HyBidSessionManager alloc] init];
         [sessionManager openSession];
     #endif
@@ -125,7 +128,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 
 + (void)startRecordingNumberEightAudiencesWithApiKey:(NSString *)apiKey
 {
-    #if __has_include("HyBidAudienceController.h")
+    #if __has_include(<HyBidEdge/HyBidAudienceController.h>)
         NEXAPIToken* token =
         [NEXNumberEight startWithApiKey:apiKey
                           launchOptions:nil
@@ -138,7 +141,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 
 + (void)startNumberEightWithApiKey:(NSString *)apiKey
 {
-    #if __has_include("HyBidAudienceController.h")
+    #if __has_include(<HyBidEdge/HyBidAudienceController.h>)
         [NEXNumberEight startWithApiKey:apiKey launchOptions:nil
                          consentOptions:[NEXConsentOptions withConsentToAll]
           facingAuthorizationChallenges:^(NEXAuthorizationSource authSource, id<NEXAuthorizationChallengeResolver> _Nonnull resolver) {
@@ -163,7 +166,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 
 + (NSSet *)getNumberEightAudiences
 {
-    #if __has_include("<HyBidEdge/HyBidAudienceController.h")
+    #if __has_include(<HyBidEdge/HyBidAudienceController.h>)
         NSSet *audiences = [NEXAudiences currentMemberships];
         NSLog(@"Audiences %@", audiences); // ["early-risers", "socialites"]
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage: [NSString stringWithFormat:@"Audiences: %@", audiences] ];
