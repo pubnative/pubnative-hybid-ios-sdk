@@ -74,7 +74,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'Edge' do |edge|
     edge.dependency         'HyBid/Core'
-    edge.dependency         'HyBidEdge', '1.0.6'
+    edge.dependency         'HyBidEdge', '1.0.7'
     edge.dependency         'NumberEight', '1.4.0'
     edge.dependency         'NumberEight/Audiences', '1.4.0'
   end
