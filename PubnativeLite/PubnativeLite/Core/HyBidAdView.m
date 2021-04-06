@@ -281,7 +281,11 @@
         }
     } else {
         self.ad = ad;
-        self.ad.adType = kHyBidAdTypeHTML;
+        if (self.ad.vast != nil) {
+            self.ad.adType = kHyBidAdTypeVideo;
+        } else {
+            self.ad.adType = kHyBidAdTypeHTML;
+        }
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
