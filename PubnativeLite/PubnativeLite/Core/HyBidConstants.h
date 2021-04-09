@@ -24,7 +24,7 @@
 #define HyBidConstants_h
 
 #define HYBID_SDK_NAME @"HyBid"
-#define HYBID_SDK_VERSION @"2.4.4-edge"
+#define HYBID_SDK_VERSION @"2.4.5-edge"
 #define HYBID_OMSDK_VERSION @"1.3.7"
 #define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
 
