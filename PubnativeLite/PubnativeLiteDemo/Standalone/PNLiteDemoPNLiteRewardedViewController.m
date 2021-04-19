@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
+@property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 
 @end
 
@@ -44,21 +45,29 @@
 }
 
 - (void)requestAd {
+    [self setCreativeIDLabelWithString:@"_"];
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
+    self.showAdButton.hidden = YES;
     [self.rewardedLoaderIndicator startAnimating];
     
     self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.rewardedAd load];
 }
 
+- (void)setCreativeIDLabelWithString:(NSString *)string
+{
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
+}
+
 #pragma mark - HyBidRewardedAdDelegate
 
 - (void)rewardedDidLoad {
     NSLog(@"Rewarded did load");
-    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.rewardedAd.ad.creativeID];
-    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.rewardedAd.ad.creativeID];
+    [self setCreativeIDLabelWithString:self.rewardedAd.ad.creativeID];
     self.inspectRequestButton.hidden = NO;
+    self.showAdButton.hidden = NO;
     [self.rewardedLoaderIndicator stopAnimating];
 }
 

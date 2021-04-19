@@ -66,17 +66,17 @@
                                     <segue destination="qyv-5Y-zm8" kind="show" id="n8X-vu-cy3"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Now-D3-gFm" userLabel="AdMob Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Now-D3-gFm" userLabel="GAD Button">
                                 <rect key="frame" x="16" y="78" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="adMobButton" label="AdMob Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="gadButton" label="GAD Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="8lG-Tp-DvO"/>
                                     <constraint firstAttribute="height" constant="33" id="ouK-yq-bR6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="AdMob">
+                                <state key="normal" title="GAD">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <state key="selected">
@@ -111,6 +111,9 @@
                             <constraint firstAttribute="trailing" secondItem="Now-D3-gFm" secondAttribute="trailing" constant="16" id="ULy-HI-xsh"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Mediation" id="m7V-x3-xz6">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="JRf-0M-ONE"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dBA-cv-bF1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -355,16 +358,18 @@
                             <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="ld2-BM-hcT" secondAttribute="trailing" constant="16" id="zsb-x3-pDO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="MoPub Mediation" id="Kcu-FR-CKB"/>
+                    <navigationItem key="navigationItem" title="MoPub Mediation" id="Kcu-FR-CKB">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="G1U-4u-0OO"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nx-Hi-og6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5863" y="217"/>
         </scene>
-        <!--AdMob Mediation-->
+        <!--GAD-->
         <scene sceneID="1fi-Gt-Xxj">
             <objects>
-                <viewController title="AdMob Mediation" id="xKk-V9-smz" sceneMemberID="viewController">
+                <viewController title="GAD" id="xKk-V9-smz" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gab-qh-UWJ"/>
                         <viewControllerLayoutGuide type="bottom" id="hSI-k6-beJ"/>
@@ -509,7 +514,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="WBU-S6-hFl" kind="show" id="Tbf-TN-RZC"/>
+                                    <segue destination="WBU-S6-hFl" kind="show" id="iG2-FZ-xxT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9fz-wz-s6Z" userLabel="Rewarded Button">
@@ -540,7 +545,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="jza-ge-wh1" kind="show" id="Ofn-K7-NcX"/>
+                                    <segue destination="jza-ge-wh1" kind="show" id="zb3-Gu-xaG"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2w1-pV-Geq" userLabel="Native Button">
@@ -600,7 +605,9 @@
                             <constraint firstItem="9qF-Pl-kmC" firstAttribute="top" secondItem="2w1-pV-Geq" secondAttribute="bottom" constant="8" id="vcb-uK-SlS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="AdMob Mediation" id="ow2-gy-cjg"/>
+                    <navigationItem key="navigationItem" title="GAD" id="ow2-gy-cjg">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="SLI-oy-WGj"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b4k-d5-Bkr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -804,10 +811,10 @@
             </objects>
             <point key="canvasLocation" x="-7502" y="1044"/>
         </scene>
-        <!--AdMob Mediation Leaderboard View Controller-->
+        <!--GAD Leaderboard View Controller-->
         <scene sceneID="TCt-bV-U2Q">
             <objects>
-                <viewController title="AdMob Mediation Leaderboard" id="eWL-wQ-gWx" userLabel="AdMob Mediation Leaderboard View Controller" customClass="PNLiteDemoAdMobMediationLeaderboardViewController" sceneMemberID="viewController">
+                <viewController title="GAD Leaderboard" id="eWL-wQ-gWx" userLabel="GAD Leaderboard View Controller" customClass="HyBidDemoGADLeaderboardViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ptg-HF-Xmn"/>
                         <viewControllerLayoutGuide type="bottom" id="h5j-zg-g9V"/>
@@ -986,10 +993,10 @@
             </objects>
             <point key="canvasLocation" x="-6775" y="1044"/>
         </scene>
-        <!--AdMob Mediation Banner View Controller-->
+        <!--GAD Banner View Controller-->
         <scene sceneID="cOf-uf-5UW">
             <objects>
-                <viewController title="AdMob Mediation Banner" id="mDA-ZE-JA6" userLabel="AdMob Mediation Banner View Controller" customClass="PNLiteDemoAdMobMediationBannerViewController" sceneMemberID="viewController">
+                <viewController title="GAD Banner" id="mDA-ZE-JA6" userLabel="GAD Banner View Controller" customClass="HyBidDemoGADBannerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MSL-65-9jR"/>
                         <viewControllerLayoutGuide type="bottom" id="JKO-Rt-z9Y"/>
@@ -1168,10 +1175,10 @@
             </objects>
             <point key="canvasLocation" x="-6046" y="1044"/>
         </scene>
-        <!--AdMob Mediation MRect-->
+        <!--GAD MRect-->
         <scene sceneID="mCf-zB-Rx8">
             <objects>
-                <viewController title="AdMob Mediation MRect" id="BsK-py-hNc" customClass="PNLiteDemoAdMobMediationMRectViewController" sceneMemberID="viewController">
+                <viewController title="GAD MRect" id="BsK-py-hNc" customClass="HyBidDemoGADMRectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jfs-pq-gxm"/>
                         <viewControllerLayoutGuide type="bottom" id="F0e-GV-iUM"/>
@@ -1355,10 +1362,10 @@
             </objects>
             <point key="canvasLocation" x="-4529" y="1044"/>
         </scene>
-        <!--AdMob Interstitial View Controller-->
+        <!--GAD Interstitial View Controller-->
         <scene sceneID="D7n-3x-Aod">
             <objects>
-                <viewController title="AdMob Mediation Interstitial" id="WBU-S6-hFl" userLabel="AdMob Interstitial View Controller" customClass="PNLiteDemoAdMobMediationInterstitialViewController" sceneMemberID="viewController">
+                <viewController title="GAD Interstitial" id="WBU-S6-hFl" userLabel="GAD Interstitial View Controller" customClass="HyBidDemoGADInterstitialViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uqB-WG-ffP"/>
                         <viewControllerLayoutGuide type="bottom" id="oeO-VS-w0n"/>
@@ -1441,10 +1448,10 @@
             </objects>
             <point key="canvasLocation" x="-3078" y="1822"/>
         </scene>
-        <!--AdMob Interstitial View Controller-->
+        <!--GAD Interstitial View Controller-->
         <scene sceneID="r75-PH-kVN">
             <objects>
-                <viewController title="AdMob Mediation Interstitial" id="jza-ge-wh1" userLabel="AdMob Interstitial View Controller" customClass="PNLiteDemoAdMobMediationRewardedViewController" sceneMemberID="viewController">
+                <viewController title="GAD Interstitial" id="jza-ge-wh1" userLabel="GAD Interstitial View Controller" customClass="HyBidDemoGADRewardedViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O6X-tE-YxW"/>
                         <viewControllerLayoutGuide type="bottom" id="5D6-UB-VCv"/>
@@ -1537,10 +1544,10 @@
             </objects>
             <point key="canvasLocation" x="234" y="1044"/>
         </scene>
-        <!--AdMob Mediation Native View Controller-->
+        <!--GAD Native View Controller-->
         <scene sceneID="wLL-uh-ifS">
             <objects>
-                <viewController title="AdMob Mediation Banner" id="G4A-a2-eUR" userLabel="AdMob Mediation Native View Controller" customClass="PNLiteDemoAdMobMediationNativeViewController" sceneMemberID="viewController">
+                <viewController title="GAD Banner" id="G4A-a2-eUR" userLabel="GAD Native View Controller" customClass="HyBidDemoGADNativeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qrc-kK-y4a"/>
                         <viewControllerLayoutGuide type="bottom" id="Hs0-fW-kx0"/>
@@ -1724,6 +1731,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="T0i-LW-GmB"/>
+        <segue reference="OZU-Z2-D4k"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -29,6 +29,13 @@
     [self.delegate onEventWith:event];
 }
 
+- (void)reportEventsFor:(NSArray<HyBidReportingEvent *> *)events {
+    [self.events addObjectsFromArray:events];
+    for (HyBidReportingEvent *event in events) {
+        [self.delegate onEventWith:event];
+    }
+}
+
 + (HyBidReportingManager *)sharedInstance {
     static HyBidReportingManager *_reportingManager;
     static dispatch_once_t onceToken;

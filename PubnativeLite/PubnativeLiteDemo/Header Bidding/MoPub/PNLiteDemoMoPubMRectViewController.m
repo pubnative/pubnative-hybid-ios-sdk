@@ -61,6 +61,7 @@
 }
 
 - (void)requestAd {
+    [self setCreativeIDLabelWithString:@"_"];
     [self clearLastInspectedRequest];
     self.mRectContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -104,6 +105,12 @@
     NSLog(@"willLeaveApplicationFromAd");
 }
 
+- (void)setCreativeIDLabelWithString:(NSString *)string
+{
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
+}
+
 #pragma mark - HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
@@ -112,8 +119,7 @@
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
-    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", ad.creativeID];
-    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", ad.creativeID];
+    [self setCreativeIDLabelWithString:ad.creativeID];
     
     if (request == self.mRectAdRequest) {
         self.inspectRequestButton.hidden = NO;

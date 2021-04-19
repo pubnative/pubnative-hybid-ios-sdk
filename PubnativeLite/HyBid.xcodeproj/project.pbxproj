@@ -29,15 +29,15 @@
 		5A0779F221340FFA00EBD0E7 /* PNLiteRequestInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0779F021340FFA00EBD0E7 /* PNLiteRequestInspector.m */; };
 		5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */; };
 		5A0779F82134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */; };
-		5A0E770D207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */; };
-		5A0E7713207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7712207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m */; };
+		5A0E770D207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E770C207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.m */; };
+		5A0E7713207CE83500D269B2 /* HyBidDemoGAMMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7712207CE83500D269B2 /* HyBidDemoGAMMRectViewController.m */; };
 		5A1C845F25D480AD00149F27 /* HyBidURLDriller.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A1C845D25D480AD00149F27 /* HyBidURLDriller.h */; };
 		5A1C846025D480AD00149F27 /* HyBidURLDriller.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A1C845D25D480AD00149F27 /* HyBidURLDriller.h */; };
 		5A1C846125D480AD00149F27 /* HyBidURLDriller.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1C845E25D480AD00149F27 /* HyBidURLDriller.m */; };
 		5A1C846225D480AD00149F27 /* HyBidURLDriller.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1C845E25D480AD00149F27 /* HyBidURLDriller.m */; };
 		5A2057DB232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057DA232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.m */; };
 		5A2057DE2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057DD2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m */; };
-		5A2057E12331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */; };
+		5A2057E12331218600AE124D /* HyBidDemoGADBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2057E02331218600AE124D /* HyBidDemoGADBannerViewController.m */; };
 		5A20DBDF203B0CB400EF2B3C /* PNLiteAssetGroupType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */; };
 		5A20DBE0203B0CB400EF2B3C /* PNLiteAssetGroupType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */; };
 		5A262DCD218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A262DCB218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,8 +77,8 @@
 		5A3DD0BD25278A7B00A72B03 /* HyBidSignalDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */; };
 		5A3EDD4F23747F8000493EF2 /* HyBidVerificationScriptResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3EDD4D23747F8000493EF2 /* HyBidVerificationScriptResource.h */; };
 		5A3EDD5023747F8000493EF2 /* HyBidVerificationScriptResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3EDD4E23747F8000493EF2 /* HyBidVerificationScriptResource.m */; };
-		5A40351823322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */; };
-		5A40351B23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */; };
+		5A40351823322E81005AC6F7 /* HyBidDemoGADMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351723322E81005AC6F7 /* HyBidDemoGADMRectViewController.m */; };
+		5A40351B23326084005AC6F7 /* HyBidDemoGADLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40351A23326084005AC6F7 /* HyBidDemoGADLeaderboardViewController.m */; };
 		5A404B4A204E991200BEE041 /* HyBidAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */; };
 		5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */; };
 		5A421CBF24B625CF0005732F /* HyBidAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A421CBE24B625CF0005732F /* HyBidAdapterConfiguration.m */; };
@@ -88,8 +88,8 @@
 		5A453DA1219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453DA0219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m */; };
 		5A4B95DE24D9D3CD00028939 /* HyBidPrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A4B95DC24D9D3CD00028939 /* HyBidPrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A4B95DF24D9D3CD00028939 /* HyBidPrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B95DD24D9D3CD00028939 /* HyBidPrebidUtils.m */; };
-		5A4CD93B256C277B00AB15B7 /* PNLiteDemoAdMobMediationNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4CD93A256C277B00AB15B7 /* PNLiteDemoAdMobMediationNativeViewController.m */; };
-		5A4CD94F256C561300AB15B7 /* PNLiteDemoAdMobMediationNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4CD94E256C561300AB15B7 /* PNLiteDemoAdMobMediationNativeView.xib */; };
+		5A4CD93B256C277B00AB15B7 /* HyBidDemoGADNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4CD93A256C277B00AB15B7 /* HyBidDemoGADNativeViewController.m */; };
+		5A4CD94F256C561300AB15B7 /* HyBidDemoGADNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4CD94E256C561300AB15B7 /* HyBidDemoGADNativeView.xib */; };
 		5A4FF06420AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */; };
 		5A4FF06B20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06A20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m */; };
 		5A52BFDF2034580A00C4B7C5 /* HyBidLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A52BFDD2034580900C4B7C5 /* HyBidLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -111,30 +111,32 @@
 		5A63F23E2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A63F23D2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m */; };
 		5A64B3FD21E78A3E00160235 /* HyBidAdPresenterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A64B3FB21E78A3E00160235 /* HyBidAdPresenterFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A64B3FE21E78A3E00160235 /* HyBidAdPresenterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A64B3FC21E78A3E00160235 /* HyBidAdPresenterFactory.m */; };
+		5A66130425F0749800062932 /* HyBidGAMUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66130325F0749800062932 /* HyBidGAMUtils.m */; };
+		5A66131625F0764100062932 /* HyBidGAMInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66131525F0764100062932 /* HyBidGAMInterstitialCustomEvent.m */; };
+		5A66131E25F07A9800062932 /* HyBidGADUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66131D25F07A9800062932 /* HyBidGADUtils.m */; };
+		5A66132625F07C5300062932 /* HyBidGADInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66132525F07C5300062932 /* HyBidGADInterstitialCustomEvent.m */; };
+		5A66132E25F07E4100062932 /* HyBidGADRewardedCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66132D25F07E4100062932 /* HyBidGADRewardedCustomEvent.m */; };
+		5A66133C25F1013900062932 /* HyBidGAMBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66133B25F1013900062932 /* HyBidGAMBannerCustomEvent.m */; };
+		5A66134425F1030700062932 /* HyBidGAMMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66134325F1030700062932 /* HyBidGAMMRectCustomEvent.m */; };
+		5A66134C25F1596A00062932 /* HyBidGAMLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66134B25F1596A00062932 /* HyBidGAMLeaderboardCustomEvent.m */; };
+		5A66135E25F1660D00062932 /* HyBidGADBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66135D25F1660D00062932 /* HyBidGADBannerCustomEvent.m */; };
+		5A66136B25F168D400062932 /* HyBidGADMRectCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66136A25F168D400062932 /* HyBidGADMRectCustomEvent.m */; };
+		5A66137325F169CA00062932 /* HyBidGADLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66137225F169CA00062932 /* HyBidGADLeaderboardCustomEvent.m */; };
+		5A66137B25F16C0000062932 /* HyBidGADNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A66137A25F16C0000062932 /* HyBidGADNativeCustomEvent.m */; };
 		5A6923CD2405365F001868A3 /* HyBidAdSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6923CB2405365F001868A3 /* HyBidAdSize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A6923CE2405365F001868A3 /* HyBidAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6923CC2405365F001868A3 /* HyBidAdSize.m */; };
-		5A695209251B9843003D44CE /* nanopb.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6951FE251B9843003D44CE /* nanopb.xcframework */; };
-		5A69520A251B9843003D44CE /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6951FF251B9843003D44CE /* GoogleAppMeasurement.framework */; };
-		5A69520B251B9843003D44CE /* Promises-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695201251B9843003D44CE /* Promises-LICENSE */; };
-		5A69520C251B9843003D44CE /* NanoPB-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695202251B9843003D44CE /* NanoPB-LICENSE */; };
-		5A69520D251B9843003D44CE /* OpenMeasurement-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695203251B9843003D44CE /* OpenMeasurement-LICENSE */; };
-		5A69520E251B9843003D44CE /* GoogleUtilities-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A695204251B9843003D44CE /* GoogleUtilities-LICENSE */; };
-		5A69520F251B9843003D44CE /* PromisesObjC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695205251B9843003D44CE /* PromisesObjC.xcframework */; };
-		5A695210251B9843003D44CE /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695206251B9843003D44CE /* GoogleMobileAds.framework */; };
-		5A695211251B9843003D44CE /* UserMessagingPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695207251B9843003D44CE /* UserMessagingPlatform.framework */; };
-		5A695212251B9843003D44CE /* GoogleUtilities.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A695208251B9843003D44CE /* GoogleUtilities.xcframework */; };
 		5A6CD0252029CD060022E206 /* HyBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A6CD0232029CD060022E206 /* HyBid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A6FDFA72501966C003B8C9F /* PNLiteDemoConsentManagementProviderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E67220C0381400527BAA /* PNLiteDemoConsentManagementProviderViewController.m */; };
 		5A71309B2068F39A000B83D9 /* PNLiteHttpRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309A2068F39A000B83D9 /* PNLiteHttpRequestTest.m */; };
 		5A71309E20690463000B83D9 /* HyBidAdTrackerRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */; };
 		5A7130A120693E9B000B83D9 /* PNLiteAdRequestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */; };
 		5A73BC2324C0CEA3002E1E9D /* Consent.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A73BC2224C0CEA3002E1E9D /* Consent.storyboard */; };
-		5A81B48F2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81B48E2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m */; };
-		5A81B4922333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81B4912333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m */; };
-		5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */; };
-		5A82190B219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */; };
+		5A81B48F2333A90000543531 /* HyBidDemoGADInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81B48E2333A90000543531 /* HyBidDemoGADInterstitialViewController.m */; };
+		5A81B4922333C7FF00543531 /* HyBidDemoGADSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81B4912333C7FF00543531 /* HyBidDemoGADSettingsViewController.m */; };
+		5A81F8A0207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81F89F207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.m */; };
+		5A82190B219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A82190A219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.m */; };
 		5A82D4E92537630300AEA53F /* NSString+UnescapingString.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A82D4E82537630200AEA53F /* NSString+UnescapingString.m */; };
-		5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */; };
+		5A87F45A207BC488005CC648 /* HyBidDemoGAMSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A87F459207BC488005CC648 /* HyBidDemoGAMSettingsViewController.m */; };
 		5A8893A5211C40BC0073BF66 /* HyBidNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */; };
 		5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */; };
 		5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8903D0203DE1D400D86051 /* WebKit.framework */; };
@@ -159,7 +161,7 @@
 		5A8E0E6A241A826F00F378E9 /* Standalone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A572BD9241A7D010018D405 /* Standalone.storyboard */; };
 		5A8E0E6C241A86A500F378E9 /* HeaderBidding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E0E6B241A86A500F378E9 /* HeaderBidding.storyboard */; };
 		5A8FEE5B2568308C00D8FAD0 /* HyBidAdMobMediationNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8FEE5A2568308C00D8FAD0 /* HyBidAdMobMediationNativeCustomEvent.m */; };
-		5A8FEE63256837E800D8FAD0 /* HyBidAdMobMediationNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8FEE62256837E800D8FAD0 /* HyBidAdMobMediationNativeAd.m */; };
+		5A8FEE63256837E800D8FAD0 /* HyBidGADNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8FEE62256837E800D8FAD0 /* HyBidGADNativeAd.m */; };
 		5A90B4F820E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */; };
 		5A90B4FB20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A90B4FA20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m */; };
 		5A91E64F20BFF1F300527BAA /* PNLiteConsentEndpoints.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A91E64D20BFF1F300527BAA /* PNLiteConsentEndpoints.h */; };
@@ -245,6 +247,16 @@
 		5AB6D21922575FF200AB9C8F /* HyBidViewabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6D21722575FF200AB9C8F /* HyBidViewabilityManager.m */; };
 		5AB6FBDE20AC722A0092C5DD /* PNLiteOrientationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */; };
 		5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */; };
+		5AB9F6BF25E97BB000CFF43F /* PromisesObjC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB9F6B425E97BA700CFF43F /* PromisesObjC.xcframework */; };
+		5AB9F6C025E97BB000CFF43F /* Promises-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5AB9F6B625E97BA800CFF43F /* Promises-LICENSE */; };
+		5AB9F6C125E97BB000CFF43F /* NanoPB-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5AB9F6B725E97BA800CFF43F /* NanoPB-LICENSE */; };
+		5AB9F6C225E97BB000CFF43F /* OpenMeasurement-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5AB9F6B825E97BA800CFF43F /* OpenMeasurement-LICENSE */; };
+		5AB9F6C325E97BB000CFF43F /* GoogleUtilities-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5AB9F6B925E97BA800CFF43F /* GoogleUtilities-LICENSE */; };
+		5AB9F6C425E97BB000CFF43F /* GoogleAppMeasurement.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB9F6BA25E97BA900CFF43F /* GoogleAppMeasurement.xcframework */; };
+		5AB9F6C525E97BB000CFF43F /* GoogleMobileAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB9F6BB25E97BAD00CFF43F /* GoogleMobileAds.xcframework */; };
+		5AB9F6C625E97BB000CFF43F /* nanopb.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB9F6BC25E97BAE00CFF43F /* nanopb.xcframework */; };
+		5AB9F6C725E97BB000CFF43F /* UserMessagingPlatform.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB9F6BD25E97BAF00CFF43F /* UserMessagingPlatform.xcframework */; };
+		5AB9F6C825E97BB000CFF43F /* GoogleUtilities.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB9F6BE25E97BB000CFF43F /* GoogleUtilities.xcframework */; };
 		5AC35B34214A5F80001F0ED3 /* HyBidBannerAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AC35B32214A5F80001F0ED3 /* HyBidBannerAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AC35B35214A5F80001F0ED3 /* HyBidBannerAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC35B33214A5F80001F0ED3 /* HyBidBannerAdView.m */; };
 		5AC35B38214A6392001F0ED3 /* HyBidAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AC35B36214A6392001F0ED3 /* HyBidAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -396,10 +408,17 @@
 		62CE40E225B59A7E00C5E8EA /* HyBidReportingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE40DF25B59A7E00C5E8EA /* HyBidReportingManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62CE40E725B59A7E00C5E8EA /* HyBidReportingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62CE40E025B59A7E00C5E8EA /* HyBidReportingManager.m */; };
 		62CE40E825B59A7E00C5E8EA /* HyBidReportingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62CE40E025B59A7E00C5E8EA /* HyBidReportingManager.m */; };
+		6F1CC82D260B4A720022A117 /* HyBidMoPubHeaderBiddingRewardedCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1CC81B260B468F0022A117 /* HyBidMoPubHeaderBiddingRewardedCustomEvent.m */; };
 		6F54A72F25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
 		6F54A73025A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */; };
 		6F54A73525A3664D00576A09 /* PNLiteOpenRTBResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F54A72E25A3664D00576A09 /* PNLiteOpenRTBResponseModel.m */; };
 		6F54A73625A3664D00576A09 /* PNLiteOpenRTBResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F54A72E25A3664D00576A09 /* PNLiteOpenRTBResponseModel.m */; };
+		6F79BBC62611C5620086FCD3 /* PNLiteDemoMoPubMRectVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F79BBB42611C5460086FCD3 /* PNLiteDemoMoPubMRectVideoViewController.m */; };
+		6F79BBDA2611D4A50086FCD3 /* HyBidMoPubHeaderBiddingMRectVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F79BBCD2611CBBB0086FCD3 /* HyBidMoPubHeaderBiddingMRectVideoCustomEvent.m */; };
+		6F79BBF8261260680086FCD3 /* PNLiteDemoMoPubInterstitialVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F79BBE6261260530086FCD3 /* PNLiteDemoMoPubInterstitialVideoViewController.m */; };
+		6F79BC112612665A0086FCD3 /* HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F79BBFF261266380086FCD3 /* HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.m */; };
+		6F79BC2D26149FFA0086FCD3 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 6F79BC2C26149FFA0086FCD3 /* omsdk.js */; };
+		6F79BC2E26149FFA0086FCD3 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 6F79BC2C26149FFA0086FCD3 /* omsdk.js */; };
 		6F8B1B3725ADDD0100E455C6 /* HyBidEncryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8B1B3525ADDD0100E455C6 /* HyBidEncryption.h */; };
 		6F8B1B3825ADDD0100E455C6 /* HyBidEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B1B3625ADDD0100E455C6 /* HyBidEncryption.m */; };
 		6F8C11442539B8E300DC4151 /* HyBidRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -450,6 +469,7 @@
 		6F9CE99E25D6EBE50059E2A0 /* PNLiteDemoMoPubConsentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9CE99D25D6EBE50059E2A0 /* PNLiteDemoMoPubConsentViewController.m */; };
 		6FC29692256537EF00423025 /* VASTTesting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FC29691256537EF00423025 /* VASTTesting.storyboard */; };
 		6FC2969B25653BD300423025 /* PNLiteDemoVASTTestingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC2969A25653BD300423025 /* PNLiteDemoVASTTestingViewController.m */; };
+		6FC4CE84260A3F45001B0465 /* PNLiteDemoMoPubRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC4CE83260A3F45001B0465 /* PNLiteDemoMoPubRewardedViewController.m */; };
 		6FD11E562514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6FD11E572514C0ED00655B06 /* HyBidSkAdNetworkModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */; };
 		6FD11E582514C0ED00655B06 /* HyBidSkAdNetworkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */; };
@@ -459,13 +479,15 @@
 		6FE6942525A5E3EE0015A553 /* HyBidKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE6942325A5E3EE0015A553 /* HyBidKeychain.h */; };
 		6FE6942625A5E3EE0015A553 /* HyBidKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */; };
 		6FED0A7C255EBDB600434977 /* HyBidAdMobMediationRewardedCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */; };
-		6FED0A95255EC5DF00434977 /* PNLiteDemoAdMobMediationRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A83255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.m */; };
+		6FED0A95255EC5DF00434977 /* HyBidDemoGADRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FED0A83255EC47700434977 /* HyBidDemoGADRewardedViewController.m */; };
 		6FEFC84C2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */; };
 		6FEFC84D2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */; };
 		6FEFC84E2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */; };
 		6FEFC84F2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */; };
 		6FEFC8502539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */; };
 		6FEFC8752539F9E20097C5FF /* PNLiteDemoPNLiteRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC85C2539F6140097C5FF /* PNLiteDemoPNLiteRewardedViewController.m */; };
+		6FFA3506261C405B00573C74 /* OMSDK_Pubnativenet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F79BC342614A0250086FCD3 /* OMSDK_Pubnativenet.xcframework */; };
+		6FFA3507261C405B00573C74 /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6F79BC342614A0250086FCD3 /* OMSDK_Pubnativenet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E45CF30256FB79400E0FC3D /* PNLiteVastMacrosUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */; };
 		7E45CF31256FB79400E0FC3D /* PNLiteVastMacrosUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E45CF2E256FB79300E0FC3D /* PNLiteVastMacrosUtils.h */; };
 		7E45CF32256FB79400E0FC3D /* PNLiteVastMacrosUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E45CF2F256FB79400E0FC3D /* PNLiteVastMacrosUtils.m */; };
@@ -705,7 +727,6 @@
 		7E4CCA542502A611003A3425 /* HyBidPrebidUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B95DD24D9D3CD00028939 /* HyBidPrebidUtils.m */; };
 		7E4CCA552502A616003A3425 /* PNLiteCountryUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ADB0FB020AF0B30005BDAF5 /* PNLiteCountryUtils.h */; };
 		7E4CCA562502A616003A3425 /* PNLiteCountryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADB0FB120AF0B30005BDAF5 /* PNLiteCountryUtils.m */; };
-		7E4CCA572502A630003A3425 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCDD24BDFE84005D2B64 /* omsdk.js */; };
 		7E4CCA74250710CF003A3425 /* HyBidHeaderBiddingUtils.m in Headers */ = {isa = PBXBuildFile; fileRef = 5ADF9E9621495A710081355E /* HyBidHeaderBiddingUtils.m */; };
 		7E4CCA75250710EB003A3425 /* HyBidHeaderBiddingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADF9E9621495A710081355E /* HyBidHeaderBiddingUtils.m */; };
 		7E4CCA7725071201003A3425 /* PNLiteMRAIDModalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACC74D8203595230001CDC3 /* PNLiteMRAIDModalViewController.h */; };
@@ -729,8 +750,6 @@
 		7E8B932D256E753A003BAD86 /* AdSourceConfigParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8B932A256E753A003BAD86 /* AdSourceConfigParameter.h */; };
 		7E8B932E256E753A003BAD86 /* AdSourceConfigParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */; };
 		7E8B932F256E753A003BAD86 /* AdSourceConfigParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */; };
-		7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */; };
-		7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 7EC5DCDD24BDFE84005D2B64 /* omsdk.js */; };
 		7EE35770256BC672005E6AC6 /* HyBidAuction.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3576E256BC672005E6AC6 /* HyBidAuction.h */; };
 		7EE35771256BC672005E6AC6 /* HyBidAuction.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3576E256BC672005E6AC6 /* HyBidAuction.h */; };
 		7EE35772256BC672005E6AC6 /* HyBidAuction.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3576F256BC672005E6AC6 /* HyBidAuction.m */; };
@@ -906,6 +925,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6FFA3508261C405B00573C74 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6FFA3507261C405B00573C74 /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -917,18 +947,18 @@
 		5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoRequestInspectorViewController.h; sourceTree = "<group>"; };
 		5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoRequestInspectorViewController.m; sourceTree = "<group>"; };
 		5A0BCC2425E5C366009C8ED7 /* MoPubSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MoPubSDK.xcframework; sourceTree = "<group>"; };
-		5A0E770B207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPBannerViewController.h; sourceTree = "<group>"; };
-		5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPBannerViewController.m; sourceTree = "<group>"; };
-		5A0E7711207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPMRectViewController.h; sourceTree = "<group>"; };
-		5A0E7712207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPMRectViewController.m; sourceTree = "<group>"; };
+		5A0E770B207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGAMBannerViewController.h; sourceTree = "<group>"; };
+		5A0E770C207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGAMBannerViewController.m; sourceTree = "<group>"; };
+		5A0E7711207CE83500D269B2 /* HyBidDemoGAMMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGAMMRectViewController.h; sourceTree = "<group>"; };
+		5A0E7712207CE83500D269B2 /* HyBidDemoGAMMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGAMMRectViewController.m; sourceTree = "<group>"; };
 		5A1C845D25D480AD00149F27 /* HyBidURLDriller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidURLDriller.h; sourceTree = "<group>"; };
 		5A1C845E25D480AD00149F27 /* HyBidURLDriller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidURLDriller.m; sourceTree = "<group>"; };
 		5A2057D9232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationLeaderboardCustomEvent.h; sourceTree = "<group>"; };
 		5A2057DA232EBA3400AE124D /* HyBidAdMobMediationLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationLeaderboardCustomEvent.m; sourceTree = "<group>"; };
 		5A2057DC2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		5A2057DD2330CFDE00AE124D /* HyBidAdMobMediationInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationInterstitialCustomEvent.m; sourceTree = "<group>"; };
-		5A2057DF2331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationBannerViewController.h; sourceTree = "<group>"; };
-		5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationBannerViewController.m; sourceTree = "<group>"; };
+		5A2057DF2331218600AE124D /* HyBidDemoGADBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADBannerViewController.h; sourceTree = "<group>"; };
+		5A2057E02331218600AE124D /* HyBidDemoGADBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGADBannerViewController.m; sourceTree = "<group>"; };
 		5A20DBDD203B0CB400EF2B3C /* PNLiteAssetGroupType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteAssetGroupType.h; sourceTree = "<group>"; };
 		5A20DBDE203B0CB400EF2B3C /* PNLiteAssetGroupType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAssetGroupType.m; sourceTree = "<group>"; };
 		5A262DCB218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLeaderboardPresenterFactory.h; sourceTree = "<group>"; };
@@ -969,10 +999,10 @@
 		5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSignalDataProcessor.m; sourceTree = "<group>"; };
 		5A3EDD4D23747F8000493EF2 /* HyBidVerificationScriptResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVerificationScriptResource.h; sourceTree = "<group>"; };
 		5A3EDD4E23747F8000493EF2 /* HyBidVerificationScriptResource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVerificationScriptResource.m; sourceTree = "<group>"; };
-		5A40351623322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationMRectViewController.h; sourceTree = "<group>"; };
-		5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationMRectViewController.m; sourceTree = "<group>"; };
-		5A40351923326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationLeaderboardViewController.h; sourceTree = "<group>"; };
-		5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationLeaderboardViewController.m; sourceTree = "<group>"; };
+		5A40351623322E81005AC6F7 /* HyBidDemoGADMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADMRectViewController.h; sourceTree = "<group>"; };
+		5A40351723322E81005AC6F7 /* HyBidDemoGADMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGADMRectViewController.m; sourceTree = "<group>"; };
+		5A40351923326084005AC6F7 /* HyBidDemoGADLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADLeaderboardViewController.h; sourceTree = "<group>"; };
+		5A40351A23326084005AC6F7 /* HyBidDemoGADLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGADLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdTrackerRequest.h; sourceTree = "<group>"; };
 		5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequest.m; sourceTree = "<group>"; };
 		5A421CBD24B625CF0005732F /* HyBidAdapterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdapterConfiguration.h; sourceTree = "<group>"; };
@@ -983,9 +1013,9 @@
 		5A453DA0219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m; sourceTree = "<group>"; };
 		5A4B95DC24D9D3CD00028939 /* HyBidPrebidUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidPrebidUtils.h; sourceTree = "<group>"; };
 		5A4B95DD24D9D3CD00028939 /* HyBidPrebidUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidPrebidUtils.m; sourceTree = "<group>"; };
-		5A4CD939256C277B00AB15B7 /* PNLiteDemoAdMobMediationNativeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationNativeViewController.h; sourceTree = "<group>"; };
-		5A4CD93A256C277B00AB15B7 /* PNLiteDemoAdMobMediationNativeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationNativeViewController.m; sourceTree = "<group>"; };
-		5A4CD94E256C561300AB15B7 /* PNLiteDemoAdMobMediationNativeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteDemoAdMobMediationNativeView.xib; sourceTree = "<group>"; };
+		5A4CD939256C277B00AB15B7 /* HyBidDemoGADNativeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADNativeViewController.h; sourceTree = "<group>"; };
+		5A4CD93A256C277B00AB15B7 /* HyBidDemoGADNativeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGADNativeViewController.m; sourceTree = "<group>"; };
+		5A4CD94E256C561300AB15B7 /* HyBidDemoGADNativeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HyBidDemoGADNativeView.xib; sourceTree = "<group>"; };
 		5A4FF06220AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteBannerViewController.h; sourceTree = "<group>"; };
 		5A4FF06320AD92BD00B81B3D /* PNLiteDemoPNLiteBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteBannerViewController.m; sourceTree = "<group>"; };
 		5A4FF06920ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteInterstitialViewController.h; sourceTree = "<group>"; };
@@ -1020,18 +1050,32 @@
 		5A63F23D2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubMediationLeaderboardCustomEvent.m; sourceTree = "<group>"; };
 		5A64B3FB21E78A3E00160235 /* HyBidAdPresenterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdPresenterFactory.h; sourceTree = "<group>"; };
 		5A64B3FC21E78A3E00160235 /* HyBidAdPresenterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdPresenterFactory.m; sourceTree = "<group>"; };
+		5A66130225F0749800062932 /* HyBidGAMUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGAMUtils.h; sourceTree = "<group>"; };
+		5A66130325F0749800062932 /* HyBidGAMUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGAMUtils.m; sourceTree = "<group>"; };
+		5A66131425F0764100062932 /* HyBidGAMInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGAMInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		5A66131525F0764100062932 /* HyBidGAMInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGAMInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		5A66131C25F07A9800062932 /* HyBidGADUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADUtils.h; sourceTree = "<group>"; };
+		5A66131D25F07A9800062932 /* HyBidGADUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADUtils.m; sourceTree = "<group>"; };
+		5A66132425F07C5300062932 /* HyBidGADInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		5A66132525F07C5300062932 /* HyBidGADInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		5A66132C25F07E4100062932 /* HyBidGADRewardedCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADRewardedCustomEvent.h; sourceTree = "<group>"; };
+		5A66132D25F07E4100062932 /* HyBidGADRewardedCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADRewardedCustomEvent.m; sourceTree = "<group>"; };
+		5A66133A25F1013900062932 /* HyBidGAMBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGAMBannerCustomEvent.h; sourceTree = "<group>"; };
+		5A66133B25F1013900062932 /* HyBidGAMBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGAMBannerCustomEvent.m; sourceTree = "<group>"; };
+		5A66134225F1030700062932 /* HyBidGAMMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGAMMRectCustomEvent.h; sourceTree = "<group>"; };
+		5A66134325F1030700062932 /* HyBidGAMMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGAMMRectCustomEvent.m; sourceTree = "<group>"; };
+		5A66134A25F1596A00062932 /* HyBidGAMLeaderboardCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGAMLeaderboardCustomEvent.h; sourceTree = "<group>"; };
+		5A66134B25F1596A00062932 /* HyBidGAMLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGAMLeaderboardCustomEvent.m; sourceTree = "<group>"; };
+		5A66135C25F1660D00062932 /* HyBidGADBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADBannerCustomEvent.h; sourceTree = "<group>"; };
+		5A66135D25F1660D00062932 /* HyBidGADBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADBannerCustomEvent.m; sourceTree = "<group>"; };
+		5A66136925F168D400062932 /* HyBidGADMRectCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADMRectCustomEvent.h; sourceTree = "<group>"; };
+		5A66136A25F168D400062932 /* HyBidGADMRectCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADMRectCustomEvent.m; sourceTree = "<group>"; };
+		5A66137125F169CA00062932 /* HyBidGADLeaderboardCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADLeaderboardCustomEvent.h; sourceTree = "<group>"; };
+		5A66137225F169CA00062932 /* HyBidGADLeaderboardCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADLeaderboardCustomEvent.m; sourceTree = "<group>"; };
+		5A66137925F16C0000062932 /* HyBidGADNativeCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADNativeCustomEvent.h; sourceTree = "<group>"; };
+		5A66137A25F16C0000062932 /* HyBidGADNativeCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADNativeCustomEvent.m; sourceTree = "<group>"; };
 		5A6923CB2405365F001868A3 /* HyBidAdSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdSize.h; sourceTree = "<group>"; };
 		5A6923CC2405365F001868A3 /* HyBidAdSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdSize.m; sourceTree = "<group>"; };
-		5A6951FE251B9843003D44CE /* nanopb.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = nanopb.xcframework; sourceTree = "<group>"; };
-		5A6951FF251B9843003D44CE /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppMeasurement.framework; sourceTree = "<group>"; };
-		5A695201251B9843003D44CE /* Promises-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Promises-LICENSE"; sourceTree = "<group>"; };
-		5A695202251B9843003D44CE /* NanoPB-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NanoPB-LICENSE"; sourceTree = "<group>"; };
-		5A695203251B9843003D44CE /* OpenMeasurement-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenMeasurement-LICENSE"; sourceTree = "<group>"; };
-		5A695204251B9843003D44CE /* GoogleUtilities-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GoogleUtilities-LICENSE"; sourceTree = "<group>"; };
-		5A695205251B9843003D44CE /* PromisesObjC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PromisesObjC.xcframework; sourceTree = "<group>"; };
-		5A695206251B9843003D44CE /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
-		5A695207251B9843003D44CE /* UserMessagingPlatform.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UserMessagingPlatform.framework; sourceTree = "<group>"; };
-		5A695208251B9843003D44CE /* GoogleUtilities.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GoogleUtilities.xcframework; sourceTree = "<group>"; };
 		5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyBid-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A6CD0202029CD060022E206 /* HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6CD0232029CD060022E206 /* HyBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBid.h; sourceTree = "<group>"; };
@@ -1040,18 +1084,18 @@
 		5A71309D20690463000B83D9 /* HyBidAdTrackerRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdTrackerRequestTest.m; sourceTree = "<group>"; };
 		5A7130A020693E9B000B83D9 /* PNLiteAdRequestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteAdRequestTest.m; sourceTree = "<group>"; };
 		5A73BC2224C0CEA3002E1E9D /* Consent.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Consent.storyboard; sourceTree = "<group>"; };
-		5A81B48D2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationInterstitialViewController.h; sourceTree = "<group>"; };
-		5A81B48E2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationInterstitialViewController.m; sourceTree = "<group>"; };
-		5A81B4902333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationSettingsViewController.h; sourceTree = "<group>"; };
-		5A81B4912333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationSettingsViewController.m; sourceTree = "<group>"; };
-		5A81F89E207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPInterstitialViewController.h; sourceTree = "<group>"; };
-		5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPInterstitialViewController.m; sourceTree = "<group>"; };
-		5A821909219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPLeaderboardViewController.h; sourceTree = "<group>"; };
-		5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPLeaderboardViewController.m; sourceTree = "<group>"; };
+		5A81B48D2333A90000543531 /* HyBidDemoGADInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADInterstitialViewController.h; sourceTree = "<group>"; };
+		5A81B48E2333A90000543531 /* HyBidDemoGADInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGADInterstitialViewController.m; sourceTree = "<group>"; };
+		5A81B4902333C7FF00543531 /* HyBidDemoGADSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADSettingsViewController.h; sourceTree = "<group>"; };
+		5A81B4912333C7FF00543531 /* HyBidDemoGADSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGADSettingsViewController.m; sourceTree = "<group>"; };
+		5A81F89E207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGAMInterstitialViewController.h; sourceTree = "<group>"; };
+		5A81F89F207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGAMInterstitialViewController.m; sourceTree = "<group>"; };
+		5A821909219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGAMLeaderboardViewController.h; sourceTree = "<group>"; };
+		5A82190A219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGAMLeaderboardViewController.m; sourceTree = "<group>"; };
 		5A82D4E72537630100AEA53F /* NSString+UnescapingString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UnescapingString.h"; sourceTree = "<group>"; };
 		5A82D4E82537630200AEA53F /* NSString+UnescapingString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UnescapingString.m"; sourceTree = "<group>"; };
-		5A87F458207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoDFPSettingsViewController.h; sourceTree = "<group>"; };
-		5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoDFPSettingsViewController.m; sourceTree = "<group>"; };
+		5A87F458207BC488005CC648 /* HyBidDemoGAMSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGAMSettingsViewController.h; sourceTree = "<group>"; };
+		5A87F459207BC488005CC648 /* HyBidDemoGAMSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGAMSettingsViewController.m; sourceTree = "<group>"; };
 		5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidNativeAdRequest.h; sourceTree = "<group>"; };
 		5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidNativeAdRequest.m; sourceTree = "<group>"; };
 		5A8903D0203DE1D400D86051 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -1079,8 +1123,8 @@
 		5A8E0E6B241A86A500F378E9 /* HeaderBidding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HeaderBidding.storyboard; sourceTree = "<group>"; };
 		5A8FEE592568308C00D8FAD0 /* HyBidAdMobMediationNativeCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationNativeCustomEvent.h; sourceTree = "<group>"; };
 		5A8FEE5A2568308C00D8FAD0 /* HyBidAdMobMediationNativeCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationNativeCustomEvent.m; sourceTree = "<group>"; };
-		5A8FEE61256837E800D8FAD0 /* HyBidAdMobMediationNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationNativeAd.h; sourceTree = "<group>"; };
-		5A8FEE62256837E800D8FAD0 /* HyBidAdMobMediationNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationNativeAd.m; sourceTree = "<group>"; };
+		5A8FEE61256837E800D8FAD0 /* HyBidGADNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidGADNativeAd.h; sourceTree = "<group>"; };
+		5A8FEE62256837E800D8FAD0 /* HyBidGADNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidGADNativeAd.m; sourceTree = "<group>"; };
 		5A90B4F620E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationBannerViewController.h; sourceTree = "<group>"; };
 		5A90B4F720E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMediationBannerViewController.m; sourceTree = "<group>"; };
 		5A90B4F920E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMediationMRectViewController.h; sourceTree = "<group>"; };
@@ -1176,6 +1220,16 @@
 		5AB6D21722575FF200AB9C8F /* HyBidViewabilityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidViewabilityManager.m; sourceTree = "<group>"; };
 		5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteOrientationManager.h; sourceTree = "<group>"; };
 		5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteOrientationManager.m; sourceTree = "<group>"; };
+		5AB9F6B425E97BA700CFF43F /* PromisesObjC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = PromisesObjC.xcframework; sourceTree = "<group>"; };
+		5AB9F6B625E97BA800CFF43F /* Promises-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Promises-LICENSE"; sourceTree = "<group>"; };
+		5AB9F6B725E97BA800CFF43F /* NanoPB-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NanoPB-LICENSE"; sourceTree = "<group>"; };
+		5AB9F6B825E97BA800CFF43F /* OpenMeasurement-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenMeasurement-LICENSE"; sourceTree = "<group>"; };
+		5AB9F6B925E97BA800CFF43F /* GoogleUtilities-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GoogleUtilities-LICENSE"; sourceTree = "<group>"; };
+		5AB9F6BA25E97BA900CFF43F /* GoogleAppMeasurement.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GoogleAppMeasurement.xcframework; sourceTree = "<group>"; };
+		5AB9F6BB25E97BAD00CFF43F /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GoogleMobileAds.xcframework; sourceTree = "<group>"; };
+		5AB9F6BC25E97BAE00CFF43F /* nanopb.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = nanopb.xcframework; sourceTree = "<group>"; };
+		5AB9F6BD25E97BAF00CFF43F /* UserMessagingPlatform.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = UserMessagingPlatform.xcframework; sourceTree = "<group>"; };
+		5AB9F6BE25E97BB000CFF43F /* GoogleUtilities.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GoogleUtilities.xcframework; sourceTree = "<group>"; };
 		5AC35B32214A5F80001F0ED3 /* HyBidBannerAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidBannerAdView.h; sourceTree = "<group>"; };
 		5AC35B33214A5F80001F0ED3 /* HyBidBannerAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidBannerAdView.m; sourceTree = "<group>"; };
 		5AC35B36214A6392001F0ED3 /* HyBidAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdView.h; sourceTree = "<group>"; };
@@ -1355,8 +1409,20 @@
 		62CE40CD25B5933400C5E8EA /* HyBidReportingEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidReportingEvent.m; sourceTree = "<group>"; };
 		62CE40DF25B59A7E00C5E8EA /* HyBidReportingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReportingManager.h; sourceTree = "<group>"; };
 		62CE40E025B59A7E00C5E8EA /* HyBidReportingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidReportingManager.m; sourceTree = "<group>"; };
+		6F1CC81A260B468F0022A117 /* HyBidMoPubHeaderBiddingRewardedCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubHeaderBiddingRewardedCustomEvent.h; sourceTree = "<group>"; };
+		6F1CC81B260B468F0022A117 /* HyBidMoPubHeaderBiddingRewardedCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubHeaderBiddingRewardedCustomEvent.m; sourceTree = "<group>"; };
 		6F54A72D25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteOpenRTBResponseModel.h; sourceTree = "<group>"; };
 		6F54A72E25A3664D00576A09 /* PNLiteOpenRTBResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteOpenRTBResponseModel.m; sourceTree = "<group>"; };
+		6F79BBB32611C5460086FCD3 /* PNLiteDemoMoPubMRectVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMRectVideoViewController.h; sourceTree = "<group>"; };
+		6F79BBB42611C5460086FCD3 /* PNLiteDemoMoPubMRectVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMRectVideoViewController.m; sourceTree = "<group>"; };
+		6F79BBCC2611CBBB0086FCD3 /* HyBidMoPubHeaderBiddingMRectVideoCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubHeaderBiddingMRectVideoCustomEvent.h; sourceTree = "<group>"; };
+		6F79BBCD2611CBBB0086FCD3 /* HyBidMoPubHeaderBiddingMRectVideoCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubHeaderBiddingMRectVideoCustomEvent.m; sourceTree = "<group>"; };
+		6F79BBE5261260530086FCD3 /* PNLiteDemoMoPubInterstitialVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubInterstitialVideoViewController.h; sourceTree = "<group>"; };
+		6F79BBE6261260530086FCD3 /* PNLiteDemoMoPubInterstitialVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubInterstitialVideoViewController.m; sourceTree = "<group>"; };
+		6F79BBFE261266380086FCD3 /* HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.h; sourceTree = "<group>"; };
+		6F79BBFF261266380086FCD3 /* HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.m; sourceTree = "<group>"; };
+		6F79BC2C26149FFA0086FCD3 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
+		6F79BC342614A0250086FCD3 /* OMSDK_Pubnativenet.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OMSDK_Pubnativenet.xcframework; sourceTree = "<group>"; };
 		6F8B1B3525ADDD0100E455C6 /* HyBidEncryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidEncryption.h; sourceTree = "<group>"; };
 		6F8B1B3625ADDD0100E455C6 /* HyBidEncryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidEncryption.m; sourceTree = "<group>"; };
 		6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRewardedAd.h; sourceTree = "<group>"; };
@@ -1391,6 +1457,8 @@
 		6FC29691256537EF00423025 /* VASTTesting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = VASTTesting.storyboard; sourceTree = "<group>"; };
 		6FC2969925653BD300423025 /* PNLiteDemoVASTTestingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoVASTTestingViewController.h; sourceTree = "<group>"; };
 		6FC2969A25653BD300423025 /* PNLiteDemoVASTTestingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoVASTTestingViewController.m; sourceTree = "<group>"; };
+		6FC4CE82260A3F45001B0465 /* PNLiteDemoMoPubRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubRewardedViewController.h; sourceTree = "<group>"; };
+		6FC4CE83260A3F45001B0465 /* PNLiteDemoMoPubRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubRewardedViewController.m; sourceTree = "<group>"; };
 		6FD11E542514C0ED00655B06 /* HyBidSkAdNetworkModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSkAdNetworkModel.h; sourceTree = "<group>"; };
 		6FD11E552514C0ED00655B06 /* HyBidSkAdNetworkModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkAdNetworkModel.m; sourceTree = "<group>"; };
 		6FE01AD8255D5302006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidMoPubMediationRewardedAdCustomEvent.h; sourceTree = "<group>"; };
@@ -1401,8 +1469,8 @@
 		6FE6942425A5E3EE0015A553 /* HyBidKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidKeychain.m; sourceTree = "<group>"; };
 		6FED0A69255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdMobMediationRewardedCustomEvent.h; sourceTree = "<group>"; };
 		6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdMobMediationRewardedCustomEvent.m; sourceTree = "<group>"; };
-		6FED0A82255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoAdMobMediationRewardedViewController.h; sourceTree = "<group>"; };
-		6FED0A83255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoAdMobMediationRewardedViewController.m; sourceTree = "<group>"; };
+		6FED0A82255EC47700434977 /* HyBidDemoGADRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADRewardedViewController.h; sourceTree = "<group>"; };
+		6FED0A83255EC47700434977 /* HyBidDemoGADRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGADRewardedViewController.m; sourceTree = "<group>"; };
 		6FEFC8492539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteVASTPlayerRewardedViewController.h; sourceTree = "<group>"; };
 		6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteVASTPlayerRewardedViewController.m; sourceTree = "<group>"; };
 		6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteVASTPlayerRewardedViewController.xib; sourceTree = "<group>"; };
@@ -1425,8 +1493,6 @@
 		7E80A76F256817DA006BD5EF /* HyBidVastTagAdSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVastTagAdSource.m; sourceTree = "<group>"; };
 		7E8B932A256E753A003BAD86 /* AdSourceConfigParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdSourceConfigParameter.h; sourceTree = "<group>"; };
 		7E8B932B256E753A003BAD86 /* AdSourceConfigParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdSourceConfigParameter.m; sourceTree = "<group>"; };
-		7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OMSDK_Pubnativenet.framework; sourceTree = "<group>"; };
-		7EC5DCDD24BDFE84005D2B64 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
 		7EE3576E256BC672005E6AC6 /* HyBidAuction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAuction.h; sourceTree = "<group>"; };
 		7EE3576F256BC672005E6AC6 /* HyBidAuction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAuction.m; sourceTree = "<group>"; };
 		7EE3577A256BC7DC005E6AC6 /* HyBidAdSourceAbstract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdSourceAbstract.h; sourceTree = "<group>"; };
@@ -1496,27 +1562,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A43E7F925E5D9F500AD0D67 /* MoPubSDK.xcframework in Frameworks */,
-				5A695210251B9843003D44CE /* GoogleMobileAds.framework in Frameworks */,
+				5AB9F6C725E97BB000CFF43F /* UserMessagingPlatform.xcframework in Frameworks */,
 				5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */,
-				5A695212251B9843003D44CE /* GoogleUtilities.xcframework in Frameworks */,
-				5A69520A251B9843003D44CE /* GoogleAppMeasurement.framework in Frameworks */,
 				5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */,
+				5AB9F6C625E97BB000CFF43F /* nanopb.xcframework in Frameworks */,
 				5A8903E7203DE23200D86051 /* CoreGraphics.framework in Frameworks */,
 				5A8903E5203DE22A00D86051 /* CoreMedia.framework in Frameworks */,
 				5A8903E3203DE22300D86051 /* CoreTelephony.framework in Frameworks */,
+				5AB9F6C525E97BB000CFF43F /* GoogleMobileAds.xcframework in Frameworks */,
 				5A8903E1203DE21D00D86051 /* Foundation.framework in Frameworks */,
 				5A8903DF203DE21400D86051 /* MediaPlayer.framework in Frameworks */,
-				5A695209251B9843003D44CE /* nanopb.xcframework in Frameworks */,
-				5A69520F251B9843003D44CE /* PromisesObjC.xcframework in Frameworks */,
 				5A8903DD203DE20800D86051 /* MessageUI.framework in Frameworks */,
 				5A8903DB203DE1FC00D86051 /* QuartzCore.framework in Frameworks */,
+				5AB9F6C425E97BB000CFF43F /* GoogleAppMeasurement.xcframework in Frameworks */,
 				5A8903D9203DE1F500D86051 /* SafariServices.framework in Frameworks */,
+				5AB9F6C825E97BB000CFF43F /* GoogleUtilities.xcframework in Frameworks */,
 				5A8903D7203DE1EC00D86051 /* StoreKit.framework in Frameworks */,
 				5A8903D5203DE1E100D86051 /* SystemConfiguration.framework in Frameworks */,
 				5A8903D3203DE1DA00D86051 /* UIKit.framework in Frameworks */,
-				5A695211251B9843003D44CE /* UserMessagingPlatform.framework in Frameworks */,
 				5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */,
 				5A32CECF2029F8530003B450 /* HyBid.framework in Frameworks */,
+				5AB9F6BF25E97BB000CFF43F /* PromisesObjC.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1525,8 +1591,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
+				6FFA3506261C405B00573C74 /* OMSDK_Pubnativenet.xcframework in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
-				7EC5DCDC24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1554,7 +1620,7 @@
 			isa = PBXGroup;
 			children = (
 				5A6354D52076506B00D47E1B /* MoPub */,
-				5A87F45B207BC48F005CC648 /* DFP */,
+				5A87F45B207BC48F005CC648 /* GAM */,
 			);
 			path = "Header Bidding";
 			sourceTree = "<group>";
@@ -1601,26 +1667,26 @@
 			path = "Request Inspector";
 			sourceTree = "<group>";
 		};
-		5A2057E22331219400AE124D /* AdMob */ = {
+		5A2057E22331219400AE124D /* GAD */ = {
 			isa = PBXGroup;
 			children = (
-				5A4CD939256C277B00AB15B7 /* PNLiteDemoAdMobMediationNativeViewController.h */,
-				5A4CD93A256C277B00AB15B7 /* PNLiteDemoAdMobMediationNativeViewController.m */,
-				5A4CD94E256C561300AB15B7 /* PNLiteDemoAdMobMediationNativeView.xib */,
-				5A2057DF2331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.h */,
-				5A2057E02331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m */,
-				5A40351623322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.h */,
-				5A40351723322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m */,
-				5A40351923326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.h */,
-				5A40351A23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m */,
-				5A81B48D2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.h */,
-				5A81B48E2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m */,
-				5A81B4902333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.h */,
-				5A81B4912333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m */,
-				6FED0A82255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.h */,
-				6FED0A83255EC47700434977 /* PNLiteDemoAdMobMediationRewardedViewController.m */,
+				5A4CD939256C277B00AB15B7 /* HyBidDemoGADNativeViewController.h */,
+				5A4CD93A256C277B00AB15B7 /* HyBidDemoGADNativeViewController.m */,
+				5A4CD94E256C561300AB15B7 /* HyBidDemoGADNativeView.xib */,
+				5A2057DF2331218600AE124D /* HyBidDemoGADBannerViewController.h */,
+				5A2057E02331218600AE124D /* HyBidDemoGADBannerViewController.m */,
+				5A40351623322E81005AC6F7 /* HyBidDemoGADMRectViewController.h */,
+				5A40351723322E81005AC6F7 /* HyBidDemoGADMRectViewController.m */,
+				5A40351923326084005AC6F7 /* HyBidDemoGADLeaderboardViewController.h */,
+				5A40351A23326084005AC6F7 /* HyBidDemoGADLeaderboardViewController.m */,
+				5A81B48D2333A90000543531 /* HyBidDemoGADInterstitialViewController.h */,
+				5A81B48E2333A90000543531 /* HyBidDemoGADInterstitialViewController.m */,
+				5A81B4902333C7FF00543531 /* HyBidDemoGADSettingsViewController.h */,
+				5A81B4912333C7FF00543531 /* HyBidDemoGADSettingsViewController.m */,
+				6FED0A82255EC47700434977 /* HyBidDemoGADRewardedViewController.h */,
+				6FED0A83255EC47700434977 /* HyBidDemoGADRewardedViewController.m */,
 			);
-			path = AdMob;
+			path = GAD;
 			sourceTree = "<group>";
 		};
 		5A22C18C225F41EC0077B4ED /* Viewability */ = {
@@ -1701,7 +1767,7 @@
 		5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */ = {
 			isa = PBXGroup;
 			children = (
-				5A6951FD251B9843003D44CE /* GoogleMobileAdsSDK-7.65.0 */,
+				5A6951FD251B9843003D44CE /* GoogleMobileAdsSDK-8.1.0 */,
 				5AD56A74256F419D00EC568F /* MoPubSDK-5.16.1 */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
@@ -1827,6 +1893,12 @@
 				5AC523F920459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m */,
 				5ADC0233205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.h */,
 				5ADC0234205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m */,
+				6FC4CE82260A3F45001B0465 /* PNLiteDemoMoPubRewardedViewController.h */,
+				6FC4CE83260A3F45001B0465 /* PNLiteDemoMoPubRewardedViewController.m */,
+				6F79BBB32611C5460086FCD3 /* PNLiteDemoMoPubMRectVideoViewController.h */,
+				6F79BBB42611C5460086FCD3 /* PNLiteDemoMoPubMRectVideoViewController.m */,
+				6F79BBE5261260530086FCD3 /* PNLiteDemoMoPubInterstitialVideoViewController.h */,
+				6F79BBE6261260530086FCD3 /* PNLiteDemoMoPubInterstitialVideoViewController.m */,
 			);
 			path = MoPub;
 			sourceTree = "<group>";
@@ -1875,38 +1947,27 @@
 			path = Consent;
 			sourceTree = "<group>";
 		};
-		5A6951FD251B9843003D44CE /* GoogleMobileAdsSDK-7.65.0 */ = {
+		5A6951FD251B9843003D44CE /* GoogleMobileAdsSDK-8.1.0 */ = {
 			isa = PBXGroup;
 			children = (
-				5A6951FE251B9843003D44CE /* nanopb.xcframework */,
-				5A6951FF251B9843003D44CE /* GoogleAppMeasurement.framework */,
-				5A695200251B9843003D44CE /* Licenses */,
-				5A695205251B9843003D44CE /* PromisesObjC.xcframework */,
-				5A695206251B9843003D44CE /* GoogleMobileAds.framework */,
-				5A695207251B9843003D44CE /* UserMessagingPlatform.framework */,
-				5A695208251B9843003D44CE /* GoogleUtilities.xcframework */,
+				5AB9F6BA25E97BA900CFF43F /* GoogleAppMeasurement.xcframework */,
+				5AB9F6BB25E97BAD00CFF43F /* GoogleMobileAds.xcframework */,
+				5AB9F6BE25E97BB000CFF43F /* GoogleUtilities.xcframework */,
+				5AB9F6B525E97BA800CFF43F /* Licenses */,
+				5AB9F6BC25E97BAE00CFF43F /* nanopb.xcframework */,
+				5AB9F6B425E97BA700CFF43F /* PromisesObjC.xcframework */,
+				5AB9F6BD25E97BAF00CFF43F /* UserMessagingPlatform.xcframework */,
 			);
-			path = "GoogleMobileAdsSDK-7.65.0";
-			sourceTree = "<group>";
-		};
-		5A695200251B9843003D44CE /* Licenses */ = {
-			isa = PBXGroup;
-			children = (
-				5A695201251B9843003D44CE /* Promises-LICENSE */,
-				5A695202251B9843003D44CE /* NanoPB-LICENSE */,
-				5A695203251B9843003D44CE /* OpenMeasurement-LICENSE */,
-				5A695204251B9843003D44CE /* GoogleUtilities-LICENSE */,
-			);
-			path = Licenses;
+			path = "GoogleMobileAdsSDK-8.1.0";
 			sourceTree = "<group>";
 		};
 		5A6BBE79206262320079F8A5 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
 				5A6BBE7A206263BB0079F8A5 /* HyBid-Bridging-Header.h */,
-				5A8D5D84232B8E2C00BB8AE3 /* AdMobAdapter */,
 				5AE31C99203EC7E5005F140A /* MoPubAdapter */,
-				5AE4C6DD20752A4A00A2A8C5 /* DFPAdapter */,
+				5A8D5D84232B8E2C00BB8AE3 /* GAD (Previously AdMob) Adapter */,
+				5AE4C6DD20752A4A00A2A8C5 /* GAM (Previously DFP) Adapter */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -1938,7 +1999,7 @@
 			children = (
 				5A6CD0242029CD060022E206 /* Info.plist */,
 				7EA2A96B2589F730004C6A97 /* Resources */,
-				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */,
+				5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.17 */,
 				7EA2A89125890C3A004C6A97 /* Core */,
 				7EA2A9B1258B294D004C6A97 /* Native */,
 				5AECD5A6204034F20023ABBC /* FullScreen */,
@@ -1972,21 +2033,21 @@
 			path = "Ad Request";
 			sourceTree = "<group>";
 		};
-		5A87F45B207BC48F005CC648 /* DFP */ = {
+		5A87F45B207BC48F005CC648 /* GAM */ = {
 			isa = PBXGroup;
 			children = (
-				5A821909219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.h */,
-				5A82190A219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m */,
-				5A0E770B207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.h */,
-				5A0E770C207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m */,
-				5A0E7711207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.h */,
-				5A0E7712207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m */,
-				5A81F89E207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.h */,
-				5A81F89F207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m */,
-				5A87F458207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.h */,
-				5A87F459207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m */,
+				5A821909219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.h */,
+				5A82190A219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.m */,
+				5A0E770B207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.h */,
+				5A0E770C207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.m */,
+				5A0E7711207CE83500D269B2 /* HyBidDemoGAMMRectViewController.h */,
+				5A0E7712207CE83500D269B2 /* HyBidDemoGAMMRectViewController.m */,
+				5A81F89E207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.h */,
+				5A81F89F207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.m */,
+				5A87F458207BC488005CC648 /* HyBidDemoGAMSettingsViewController.h */,
+				5A87F459207BC488005CC648 /* HyBidDemoGAMSettingsViewController.m */,
 			);
-			path = DFP;
+			path = GAM;
 			sourceTree = "<group>";
 		};
 		5A8903CF203DE1D400D86051 /* Frameworks */ = {
@@ -2012,7 +2073,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5A8D5D84232B8E2C00BB8AE3 /* AdMobAdapter */ = {
+		5A8D5D84232B8E2C00BB8AE3 /* GAD (Previously AdMob) Adapter */ = {
 			isa = PBXGroup;
 			children = (
 				5A8D5D81232B8E1D00BB8AE3 /* HyBidAdMobUtils.h */,
@@ -2029,10 +2090,24 @@
 				6FED0A6A255EBD6A00434977 /* HyBidAdMobMediationRewardedCustomEvent.m */,
 				5A8FEE592568308C00D8FAD0 /* HyBidAdMobMediationNativeCustomEvent.h */,
 				5A8FEE5A2568308C00D8FAD0 /* HyBidAdMobMediationNativeCustomEvent.m */,
-				5A8FEE61256837E800D8FAD0 /* HyBidAdMobMediationNativeAd.h */,
-				5A8FEE62256837E800D8FAD0 /* HyBidAdMobMediationNativeAd.m */,
+				5A66131C25F07A9800062932 /* HyBidGADUtils.h */,
+				5A66131D25F07A9800062932 /* HyBidGADUtils.m */,
+				5A66135C25F1660D00062932 /* HyBidGADBannerCustomEvent.h */,
+				5A66135D25F1660D00062932 /* HyBidGADBannerCustomEvent.m */,
+				5A66136925F168D400062932 /* HyBidGADMRectCustomEvent.h */,
+				5A66136A25F168D400062932 /* HyBidGADMRectCustomEvent.m */,
+				5A66137125F169CA00062932 /* HyBidGADLeaderboardCustomEvent.h */,
+				5A66137225F169CA00062932 /* HyBidGADLeaderboardCustomEvent.m */,
+				5A66132425F07C5300062932 /* HyBidGADInterstitialCustomEvent.h */,
+				5A66132525F07C5300062932 /* HyBidGADInterstitialCustomEvent.m */,
+				5A66132C25F07E4100062932 /* HyBidGADRewardedCustomEvent.h */,
+				5A66132D25F07E4100062932 /* HyBidGADRewardedCustomEvent.m */,
+				5A66137925F16C0000062932 /* HyBidGADNativeCustomEvent.h */,
+				5A66137A25F16C0000062932 /* HyBidGADNativeCustomEvent.m */,
+				5A8FEE61256837E800D8FAD0 /* HyBidGADNativeAd.h */,
+				5A8FEE62256837E800D8FAD0 /* HyBidGADNativeAd.m */,
 			);
-			path = AdMobAdapter;
+			path = "GAD (Previously AdMob) Adapter";
 			sourceTree = "<group>";
 		};
 		5A91EC6420D7C26300129798 /* Mediation */ = {
@@ -2042,12 +2117,12 @@
 				5AC35B53214A92BA001F0ED3 /* HyBidMoPubMediationNativeAdCustomEvent.m */,
 				5AC35B55214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.h */,
 				5AC35B56214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m */,
-				5A63F23C2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.h */,
-				5A63F23D2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m */,
 				5AC35B58214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.h */,
 				5AC35B59214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m */,
 				5AC35B5B214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.h */,
 				5AC35B5C214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.m */,
+				5A63F23C2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.h */,
+				5A63F23D2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m */,
 				5AC35B5E214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.h */,
 				5AC35B5F214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m */,
 				6FE01AD8255D5302006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.h */,
@@ -2059,14 +2134,20 @@
 		5A91EC6520D7C2D700129798 /* Header Bidding */ = {
 			isa = PBXGroup;
 			children = (
-				5A453D9F219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.h */,
-				5A453DA0219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m */,
 				5AC35B49214A8FC4001F0ED3 /* HyBidMoPubHeaderBiddingBannerCustomEvent.h */,
 				5AC35B4A214A8FC4001F0ED3 /* HyBidMoPubHeaderBiddingBannerCustomEvent.m */,
 				5AC35B4C214A90AA001F0ED3 /* HyBidMoPubHeaderBiddingMRectCustomEvent.h */,
 				5AC35B4D214A90AA001F0ED3 /* HyBidMoPubHeaderBiddingMRectCustomEvent.m */,
+				5A453D9F219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.h */,
+				5A453DA0219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m */,
 				5AC35B4F214A91D0001F0ED3 /* HyBidMoPubHeaderBiddingInterstitialCustomEvent.h */,
 				5AC35B50214A91D0001F0ED3 /* HyBidMoPubHeaderBiddingInterstitialCustomEvent.m */,
+				6F1CC81A260B468F0022A117 /* HyBidMoPubHeaderBiddingRewardedCustomEvent.h */,
+				6F1CC81B260B468F0022A117 /* HyBidMoPubHeaderBiddingRewardedCustomEvent.m */,
+				6F79BBCC2611CBBB0086FCD3 /* HyBidMoPubHeaderBiddingMRectVideoCustomEvent.h */,
+				6F79BBCD2611CBBB0086FCD3 /* HyBidMoPubHeaderBiddingMRectVideoCustomEvent.m */,
+				6F79BBFE261266380086FCD3 /* HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.h */,
+				6F79BBFF261266380086FCD3 /* HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.m */,
 			);
 			path = "Header Bidding";
 			sourceTree = "<group>";
@@ -2166,13 +2247,24 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.7 */ = {
+		5AB6D21122575AFA00AB9C8F /* OMSDK-1.3.17 */ = {
 			isa = PBXGroup;
 			children = (
-				7EC5DCDD24BDFE84005D2B64 /* omsdk.js */,
-				7EC5DCDB24BDFE63005D2B64 /* OMSDK_Pubnativenet.framework */,
+				6F79BC342614A0250086FCD3 /* OMSDK_Pubnativenet.xcframework */,
+				6F79BC2C26149FFA0086FCD3 /* omsdk.js */,
 			);
-			path = "OMSDK-1.3.7";
+			path = "OMSDK-1.3.17";
+			sourceTree = "<group>";
+		};
+		5AB9F6B525E97BA800CFF43F /* Licenses */ = {
+			isa = PBXGroup;
+			children = (
+				5AB9F6B625E97BA800CFF43F /* Promises-LICENSE */,
+				5AB9F6B725E97BA800CFF43F /* NanoPB-LICENSE */,
+				5AB9F6B825E97BA800CFF43F /* OpenMeasurement-LICENSE */,
+				5AB9F6B925E97BA800CFF43F /* GoogleUtilities-LICENSE */,
+			);
+			path = Licenses;
 			sourceTree = "<group>";
 		};
 		5ABE0139203F2F4600E6A14E /* Ad Request */ = {
@@ -2328,7 +2420,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE206C320E288EF000E770C /* MoPub */,
-				5A2057E22331219400AE124D /* AdMob */,
+				5A2057E22331219400AE124D /* GAD */,
 			);
 			path = Mediation;
 			sourceTree = "<group>";
@@ -2370,21 +2462,31 @@
 			path = MoPubAdapter;
 			sourceTree = "<group>";
 		};
-		5AE4C6DD20752A4A00A2A8C5 /* DFPAdapter */ = {
+		5AE4C6DD20752A4A00A2A8C5 /* GAM (Previously DFP) Adapter */ = {
 			isa = PBXGroup;
 			children = (
 				5AC35B61214A9DC5001F0ED3 /* HyBidDFPUtils.h */,
 				5AC35B62214A9DC5001F0ED3 /* HyBidDFPUtils.m */,
-				5A580DA221A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.h */,
-				5A580DA321A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m */,
 				5AC35B64214AA104001F0ED3 /* HyBidDFPHeaderBiddingBannerCustomEvent.h */,
 				5AC35B65214AA104001F0ED3 /* HyBidDFPHeaderBiddingBannerCustomEvent.m */,
 				5AC35B67214AA35B001F0ED3 /* HyBidDFPHeaderBiddingMRectCustomEvent.h */,
 				5AC35B68214AA35B001F0ED3 /* HyBidDFPHeaderBiddingMRectCustomEvent.m */,
+				5A580DA221A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.h */,
+				5A580DA321A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m */,
 				5AC35B6A214AA499001F0ED3 /* HyBidDFPHeaderBiddingInterstitialCustomEvent.h */,
 				5AC35B6B214AA499001F0ED3 /* HyBidDFPHeaderBiddingInterstitialCustomEvent.m */,
+				5A66130225F0749800062932 /* HyBidGAMUtils.h */,
+				5A66130325F0749800062932 /* HyBidGAMUtils.m */,
+				5A66133A25F1013900062932 /* HyBidGAMBannerCustomEvent.h */,
+				5A66133B25F1013900062932 /* HyBidGAMBannerCustomEvent.m */,
+				5A66134225F1030700062932 /* HyBidGAMMRectCustomEvent.h */,
+				5A66134325F1030700062932 /* HyBidGAMMRectCustomEvent.m */,
+				5A66134A25F1596A00062932 /* HyBidGAMLeaderboardCustomEvent.h */,
+				5A66134B25F1596A00062932 /* HyBidGAMLeaderboardCustomEvent.m */,
+				5A66131425F0764100062932 /* HyBidGAMInterstitialCustomEvent.h */,
+				5A66131525F0764100062932 /* HyBidGAMInterstitialCustomEvent.m */,
 			);
-			path = DFPAdapter;
+			path = "GAM (Previously DFP) Adapter";
 			sourceTree = "<group>";
 		};
 		5AECD5A6204034F20023ABBC /* FullScreen */ = {
@@ -3113,6 +3215,7 @@
 				5A6CD01C2029CD060022E206 /* Frameworks */,
 				5A6CD01D2029CD060022E206 /* Headers */,
 				5A6CD01E2029CD060022E206 /* Resources */,
+				6FFA3508261C405B00573C74 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3235,24 +3338,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */,
-				5A4CD94F256C561300AB15B7 /* PNLiteDemoAdMobMediationNativeView.xib in Resources */,
+				5A4CD94F256C561300AB15B7 /* HyBidDemoGADNativeView.xib in Resources */,
 				5A921D432530B2B9006F1572 /* SignalData.storyboard in Resources */,
+				5AB9F6C225E97BB000CFF43F /* OpenMeasurement-LICENSE in Resources */,
 				5A73BC2324C0CEA3002E1E9D /* Consent.storyboard in Resources */,
+				5AB9F6C125E97BB000CFF43F /* NanoPB-LICENSE in Resources */,
 				5A8E0E6C241A86A500F378E9 /* HeaderBidding.storyboard in Resources */,
-				5A69520D251B9843003D44CE /* OpenMeasurement-LICENSE in Resources */,
 				6F9CE99A25D6E9FB0059E2A0 /* MoPubConsentStoryboard.storyboard in Resources */,
+				5AB9F6C325E97BB000CFF43F /* GoogleUtilities-LICENSE in Resources */,
 				5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */,
 				6FC29692256537EF00423025 /* VASTTesting.storyboard in Resources */,
 				5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */,
 				5AD07C0822FAD27E001BF4A1 /* Markup.storyboard in Resources */,
 				5AC886E5241A9E68004E7D74 /* Mediation.storyboard in Resources */,
-				5A69520E251B9843003D44CE /* GoogleUtilities-LICENSE in Resources */,
-				5A69520B251B9843003D44CE /* Promises-LICENSE in Resources */,
-				5A69520C251B9843003D44CE /* NanoPB-LICENSE in Resources */,
 				6234936525AC66C1000B2718 /* Analytics.storyboard in Resources */,
 				5AFDAFF1212EEA5000B88576 /* PNLiteDemoMoPubMediationNativeView.xib in Resources */,
 				5A0779F52134429700EBD0E7 /* RequestInspector.storyboard in Resources */,
 				5AA7EC6520E4D5BB00277E2B /* Settings.storyboard in Resources */,
+				5AB9F6C025E97BB000CFF43F /* Promises-LICENSE in Resources */,
 				5A8E0E6A241A826F00F378E9 /* Standalone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3280,8 +3383,8 @@
 				5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
 				5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */,
 				E7F24F1824E4224000160097 /* hybidmraidscaling.js in Resources */,
+				6F79BC2D26149FFA0086FCD3 /* omsdk.js in Resources */,
 				E7F24F1624E41E2F00160097 /* hybidscaling.js in Resources */,
-				7EC5DCDE24BDFE84005D2B64 /* omsdk.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3300,6 +3403,7 @@
 				7E4CCA2C2502A5C5003A3425 /* PNLiteClose@2x.png in Resources */,
 				7E4CCA2D2502A5C5003A3425 /* PNLiteClose@3x.png in Resources */,
 				7E4CCA3C2502A5E8003A3425 /* PNLiteCloseButton.png in Resources */,
+				6F79BC2E26149FFA0086FCD3 /* omsdk.js in Resources */,
 				7E4CCA212502A5C5003A3425 /* PNLiteExternalLink.png in Resources */,
 				7E4CCA222502A5C5003A3425 /* PNLiteExternalLink@2x.png in Resources */,
 				7E4CCA232502A5C5003A3425 /* PNLiteFullScreen.png in Resources */,
@@ -3315,7 +3419,6 @@
 				7E4CCA2E2502A5CF003A3425 /* PNLiteVASTPlayerViewController.xib in Resources */,
 				7E4CCA492502A5F5003A3425 /* hybidmraidscaling.js in Resources */,
 				7E4CCA482502A5F5003A3425 /* hybidscaling.js in Resources */,
-				7E4CCA572502A630003A3425 /* omsdk.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3375,65 +3478,83 @@
 				5AC35B6C214AA499001F0ED3 /* HyBidDFPHeaderBiddingInterstitialCustomEvent.m in Sources */,
 				5A8FEE5B2568308C00D8FAD0 /* HyBidAdMobMediationNativeCustomEvent.m in Sources */,
 				5A580DA421A40C78007139E4 /* HyBidDFPHeaderBiddingLeaderboardCustomEvent.m in Sources */,
+				5A66137B25F16C0000062932 /* HyBidGADNativeCustomEvent.m in Sources */,
 				5AC35B69214AA35B001F0ED3 /* HyBidDFPHeaderBiddingMRectCustomEvent.m in Sources */,
 				5AC35B63214A9DC5001F0ED3 /* HyBidDFPUtils.m in Sources */,
 				5AC35B4B214A8FC4001F0ED3 /* HyBidMoPubHeaderBiddingBannerCustomEvent.m in Sources */,
 				5A5A9BF02530CC94002C9168 /* SignalData.m in Sources */,
 				5AC35B51214A91D0001F0ED3 /* HyBidMoPubHeaderBiddingInterstitialCustomEvent.m in Sources */,
 				5A453DA1219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m in Sources */,
+				5A66137325F169CA00062932 /* HyBidGADLeaderboardCustomEvent.m in Sources */,
 				5AC35B4E214A90AA001F0ED3 /* HyBidMoPubHeaderBiddingMRectCustomEvent.m in Sources */,
 				6FED0A7C255EBDB600434977 /* HyBidAdMobMediationRewardedCustomEvent.m in Sources */,
 				E78E5BAE25C9929C009192CE /* PNLiteDemoPNLiteStickyBannerViewController.m in Sources */,
 				5AC35B5A214A9795001F0ED3 /* HyBidMoPubMediationBannerCustomEvent.m in Sources */,
 				5AC35B60214A9C1C001F0ED3 /* HyBidMoPubMediationInterstitialCustomEvent.m in Sources */,
 				5A63F23E2191E43000813317 /* HyBidMoPubMediationLeaderboardCustomEvent.m in Sources */,
-				5A8FEE63256837E800D8FAD0 /* HyBidAdMobMediationNativeAd.m in Sources */,
+				5A8FEE63256837E800D8FAD0 /* HyBidGADNativeAd.m in Sources */,
 				5AC35B5D214A98DE001F0ED3 /* HyBidMoPubMediationMRectCustomEvent.m in Sources */,
 				5AC35B57214A9555001F0ED3 /* HyBidMoPubMediationNativeAdAdapter.m in Sources */,
+				5A66132E25F07E4100062932 /* HyBidGADRewardedCustomEvent.m in Sources */,
 				5AC35B54214A92BA001F0ED3 /* HyBidMoPubMediationNativeAdCustomEvent.m in Sources */,
 				5AC35B48214A8C84001F0ED3 /* HyBidMoPubUtils.m in Sources */,
 				5AEA7C44250821DD00DBFC0E /* BannerAdViewCell.m in Sources */,
 				5AD07C1222FB02F2001BF4A1 /* Markup.m in Sources */,
-				5A2057E12331218600AE124D /* PNLiteDemoAdMobMediationBannerViewController.m in Sources */,
+				5A2057E12331218600AE124D /* HyBidDemoGADBannerViewController.m in Sources */,
 				6234937225AC68A7000B2718 /* AnalyticsEventTableViewCell.m in Sources */,
-				5A81B48F2333A90000543531 /* PNLiteDemoAdMobMediationInterstitialViewController.m in Sources */,
-				5A40351B23326084005AC6F7 /* PNLiteDemoAdMobMediationLeaderboardViewController.m in Sources */,
-				5A40351823322E81005AC6F7 /* PNLiteDemoAdMobMediationMRectViewController.m in Sources */,
-				5A81B4922333C7FF00543531 /* PNLiteDemoAdMobMediationSettingsViewController.m in Sources */,
+				5A66134C25F1596A00062932 /* HyBidGAMLeaderboardCustomEvent.m in Sources */,
+				6F79BBC62611C5620086FCD3 /* PNLiteDemoMoPubMRectVideoViewController.m in Sources */,
+				5A81B48F2333A90000543531 /* HyBidDemoGADInterstitialViewController.m in Sources */,
+				6F1CC82D260B4A720022A117 /* HyBidMoPubHeaderBiddingRewardedCustomEvent.m in Sources */,
+				5A40351B23326084005AC6F7 /* HyBidDemoGADLeaderboardViewController.m in Sources */,
+				6F79BBF8261260680086FCD3 /* PNLiteDemoMoPubInterstitialVideoViewController.m in Sources */,
+				5A40351823322E81005AC6F7 /* HyBidDemoGADMRectViewController.m in Sources */,
+				6F79BBDA2611D4A50086FCD3 /* HyBidMoPubHeaderBiddingMRectVideoCustomEvent.m in Sources */,
+				5A81B4922333C7FF00543531 /* HyBidDemoGADSettingsViewController.m in Sources */,
 				5AF231F821932C8F000AC1C0 /* PNLiteDemoBaseViewController.m in Sources */,
 				5A6FDFA72501966C003B8C9F /* PNLiteDemoConsentManagementProviderViewController.m in Sources */,
+				5A66131E25F07A9800062932 /* HyBidGADUtils.m in Sources */,
 				5A54619D24C0D47800B49550 /* PNLiteDemoConsentStringsViewController.m in Sources */,
 				5A5A9BD72530C0CD002C9168 /* HyBidDemoSignalDataDetailViewController.m in Sources */,
-				5A0E770D207CB29D00D269B2 /* PNLiteDemoDFPBannerViewController.m in Sources */,
+				5A0E770D207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.m in Sources */,
 				6FE01B3C255D646F006B101A /* PNLiteDemoMoPubMediationRewardedViewController.m in Sources */,
 				6FE01B27255D5A57006B101A /* HyBidMoPubMediationRewardedAdCustomEvent.m in Sources */,
-				5A81F8A0207E3ABC00B713BC /* PNLiteDemoDFPInterstitialViewController.m in Sources */,
+				5A66131625F0764100062932 /* HyBidGAMInterstitialCustomEvent.m in Sources */,
+				5A66136B25F168D400062932 /* HyBidGADMRectCustomEvent.m in Sources */,
+				5A81F8A0207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.m in Sources */,
 				6234935B25AC667F000B2718 /* AnalyticsViewController.m in Sources */,
-				5A82190B219DD0800062DAC5 /* PNLiteDemoDFPLeaderboardViewController.m in Sources */,
-				5A0E7713207CE83500D269B2 /* PNLiteDemoDFPMRectViewController.m in Sources */,
-				5A87F45A207BC488005CC648 /* PNLiteDemoDFPSettingsViewController.m in Sources */,
+				6F79BC112612665A0086FCD3 /* HyBidMoPubHeaderBiddingInterstitialVideoCustomEvent.m in Sources */,
+				5A82190B219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.m in Sources */,
+				5A0E7713207CE83500D269B2 /* HyBidDemoGAMMRectViewController.m in Sources */,
+				5A87F45A207BC488005CC648 /* HyBidDemoGAMSettingsViewController.m in Sources */,
 				6FEFC8752539F9E20097C5FF /* PNLiteDemoPNLiteRewardedViewController.m in Sources */,
 				5A59DBBF2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m in Sources */,
 				E78E5BA625C99134009192CE /* PNLiteDemoPNLiteStickyBannerSizeSelectionViewController.m in Sources */,
-				5A4CD93B256C277B00AB15B7 /* PNLiteDemoAdMobMediationNativeViewController.m in Sources */,
+				5A4CD93B256C277B00AB15B7 /* HyBidDemoGADNativeViewController.m in Sources */,
 				5ADC023B2051700F0071DA20 /* PNLiteDemoMainViewController.m in Sources */,
 				5A82D4E92537630300AEA53F /* NSString+UnescapingString.m in Sources */,
 				5AC7B6D82302E9FF00BDB91F /* PNLiteDemoMarkupBaseViewController.m in Sources */,
+				5A66133C25F1013900062932 /* HyBidGAMBannerCustomEvent.m in Sources */,
 				5AD07C0F22FAF6B6001BF4A1 /* PNLiteDemoMarkupDetailViewController.m in Sources */,
 				5AD07C0B22FADF58001BF4A1 /* PNLiteDemoMarkupMainViewController.m in Sources */,
+				5A66134425F1030700062932 /* HyBidGAMMRectCustomEvent.m in Sources */,
+				5A66132625F07C5300062932 /* HyBidGADInterstitialCustomEvent.m in Sources */,
+				5A66130425F0749800062932 /* HyBidGAMUtils.m in Sources */,
+				6FC4CE84260A3F45001B0465 /* PNLiteDemoMoPubRewardedViewController.m in Sources */,
 				5A32CEC02029F79B0003B450 /* PNLiteDemoMoPubBannerViewController.m in Sources */,
 				5AC523FA20459E64007E1967 /* PNLiteDemoMoPubInterstitialViewController.m in Sources */,
 				5A921D4B2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m in Sources */,
 				5A453D9E219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m in Sources */,
 				5A5EEC452507D7AC008100AF /* PNLiteDemoPNLiteBannerSizeSelectionViewController.m in Sources */,
 				5ADC023E205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m in Sources */,
-				6FED0A95255EC5DF00434977 /* PNLiteDemoAdMobMediationRewardedViewController.m in Sources */,
+				6FED0A95255EC5DF00434977 /* HyBidDemoGADRewardedViewController.m in Sources */,
 				5AEDEE52228AEC7C001F00BB /* PNLiteDemoMoPubManager.m in Sources */,
 				5A90B4F820E3835400405625 /* PNLiteDemoMoPubMediationBannerViewController.m in Sources */,
 				5AA7EC6820E4E28F00277E2B /* PNLiteDemoMoPubMediationInterstitialViewController.m in Sources */,
 				5A63F23B2191AE8000813317 /* PNLiteDemoMoPubMediationLeaderboardViewController.m in Sources */,
 				5A90B4FB20E39A5600405625 /* PNLiteDemoMoPubMediationMRectViewController.m in Sources */,
 				5AFDAFEF212EEA1C00B88576 /* PNLiteDemoMoPubMediationNativeView.m in Sources */,
+				5A66135E25F1660D00062932 /* HyBidGADBannerCustomEvent.m in Sources */,
 				5AFDAFEC212EBB5500B88576 /* PNLiteDemoMoPubMediationNativeViewController.m in Sources */,
 				5AE206C620E2923B000E770C /* PNLiteDemoMoPubMediationSettingsViewController.m in Sources */,
 				5ADC0235205144CB0071DA20 /* PNLiteDemoMoPubSettingsViewController.m in Sources */,
@@ -3852,7 +3973,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-8.1.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -3862,7 +3983,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.4.4;
+				MARKETING_VERSION = 2.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3885,7 +4006,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-7.65.0",
+					"$(PROJECT_DIR)/PubnativeLiteDemo/GoogleMobileAdsSDK-8.1.0",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -3896,7 +4017,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.4.4;
+				MARKETING_VERSION = 2.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4036,7 +4157,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.17",
 					"$(BUILT_PRODUCTS_DIR)/Analytics",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
@@ -4050,7 +4171,7 @@
 					"@loader_path/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)/Analytics",
 				);
-				MARKETING_VERSION = 2.4.4;
+				MARKETING_VERSION = 2.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4079,7 +4200,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.17",
 					"$(BUILT_PRODUCTS_DIR)/Analytics",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
@@ -4092,7 +4213,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.4;
+				MARKETING_VERSION = 2.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4223,7 +4344,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.17",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -4250,7 +4371,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.7",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.17",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

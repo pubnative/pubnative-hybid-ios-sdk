@@ -189,7 +189,7 @@
 
 - (UIViewController *)containerViewController
 {
-    return [UIApplication sharedApplication].delegate.window.rootViewController;
+    return [[[UIApplication sharedApplication].delegate.window.rootViewController childViewControllers] lastObject];
 }
 
 - (void)setStickyBannerConstraintsAtPosition:(BannerPosition)position forView:(UIView *)adView
@@ -254,7 +254,10 @@
 - (void)startTracking {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
         [self.adPresenter startTracking];
-        [self.delegate adViewDidTrackImpression:self];
+        
+        if (self.ad.adType != kHyBidAdTypeVideo) {
+            [self.delegate adViewDidTrackImpression:self];
+        }
     }
 }
 
@@ -313,6 +316,11 @@
     } else {
         [self setupAdView:adView];
     }
+}
+
+- (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter
+{
+    [self.delegate adViewDidTrackImpression:self];
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {

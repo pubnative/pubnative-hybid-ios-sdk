@@ -57,7 +57,9 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
         [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
         [HyBidViewabilityManager sharedInstance];
         [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
-            completion(success);
+            if (completion) {
+                completion(success);
+            }
         }];
     }
 }

@@ -57,40 +57,6 @@
       }] resume];
 }
 
-- (void)createEvent:(NSString *)eventJSON {
-    NSData *data = [eventJSON dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error;
-    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:kNilOptions
-                                                                   error:&error];
-    
-    EKEventStore *store = [EKEventStore new];
-    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
-        if (!granted) { return; }
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:[NSLocale currentLocale]];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mmZZZZZ"];
-        EKEvent *event = [EKEvent eventWithEventStore:store];
-        event.title = [jsonResponse objectForKey:@"description"];
-        event.location = [jsonResponse objectForKey:@"location"];
-        if ([jsonResponse objectForKey:@"start"]) {
-            if ([jsonResponse objectForKey:@"end"]) {
-                event.startDate = [dateFormatter dateFromString:[jsonResponse objectForKey:@"start"]];
-                event.endDate = [dateFormatter dateFromString:[jsonResponse objectForKey:@"end"]];
-            } else {
-                event.startDate = [dateFormatter dateFromString:[jsonResponse objectForKey:@"start"]];
-                event.endDate = [dateFormatter dateFromString:[jsonResponse objectForKey:@"start"]];
-                event.allDay = TRUE;
-            }
-        } else {
-            return;
-        }
-        event.calendar = [store defaultCalendarForNewEvents];
-        NSError *err = nil;
-        [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
-    }];
-}
-
 - (void)sendSMS:(NSString *)urlString {
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString:[@"sms:" stringByAppendingString:urlString]]];
 }

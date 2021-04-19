@@ -110,7 +110,6 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
         self.omidMediaAdSession = omidAdSession;
         self.omidMediaEvents = [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:self.omidMediaAdSession error:&mediaEventsError];
     }
-    NSLog(@"media events: %@", self.omidMediaEvents);
     return self.omidMediaEvents;
 }
 

@@ -144,33 +144,43 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
     if (!self.isUsingOpenRTB) {
-        NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].apiURL];
-        components.path = @"/api/v3/native";
-        if (adRequestModel.requestParameters) {
-            NSMutableArray *query = [NSMutableArray array];
-            NSDictionary *parametersDictionary = adRequestModel.requestParameters;
-            for (id key in parametersDictionary) {
-                [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
-            }
-            components.queryItems = query;
-        }
-        return components.URL;
-    } else {
-        NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].openRtbApiURL];
-        components.path = @"/bid/v1/request";
-        
-        if (adRequestModel.requestParameters) {
-            NSMutableArray *query = [NSMutableArray array];
-            NSDictionary *parametersDictionary = adRequestModel.requestParameters;
-            for (id key in parametersDictionary) {
-                if ([key  isEqual: @"apptoken"] || [key  isEqual: @"zoneid"]) {
+        if ([HyBidSettings sharedInstance].apiURL) {
+            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].apiURL];
+            components.path = @"/api/v3/native";
+            if (adRequestModel.requestParameters) {
+                NSMutableArray *query = [NSMutableArray array];
+                NSDictionary *parametersDictionary = adRequestModel.requestParameters;
+                for (id key in parametersDictionary) {
                     [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
                 }
+                components.queryItems = query;
             }
-            components.queryItems = query;
+            return components.URL;
+        } else {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid iOS SDK was not initalized, droping this call. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+            return nil;
         }
-        
-        return components.URL;
+    } else {
+        if ([HyBidSettings sharedInstance].openRtbApiURL) {
+            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].openRtbApiURL];
+            components.path = @"/bid/v1/request";
+            
+            if (adRequestModel.requestParameters) {
+                NSMutableArray *query = [NSMutableArray array];
+                NSDictionary *parametersDictionary = adRequestModel.requestParameters;
+                for (id key in parametersDictionary) {
+                    if ([key  isEqual: @"apptoken"] || [key  isEqual: @"zoneid"]) {
+                        [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
+                    }
+                }
+                components.queryItems = query;
+            }
+            
+            return components.URL;
+        } else {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid iOS SDK was not initalized, droping this call. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+            return nil;
+        }
     }
 }
 

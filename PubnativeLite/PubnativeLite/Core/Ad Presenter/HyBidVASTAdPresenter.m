@@ -103,7 +103,9 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 }
 
 - (void)vastPlayerDidStartPlaying:(PNLiteVASTPlayerViewController *)vastPlayer {
-    
+    if ([self.delegate respondsToSelector:@selector(adPresenterDidStartPlaying:)]) {
+        [self.delegate adPresenterDidStartPlaying:self];
+    }
 }
 
 - (void)vastPlayerDidPause:(PNLiteVASTPlayerViewController *)vastPlayer {
@@ -111,7 +113,6 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 }
 
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
-    
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {

@@ -27,24 +27,27 @@
 #define kHyBidMoPubHeaderBiddingLeaderboardAdUnitID @"990b5957b0374238a4ce6fcf451c8e89"
 #define kHyBidMoPubHeaderBiddingBannerAdUnitID @"a4eac931d95444f0a95adc77093a22ab"
 #define kHyBidMoPubHeaderBiddingMRectAdUnitID @"7f797ff5c287480cbf15e9f1735fb8d7"
+#define kHyBidMoPubHeaderBiddingMRectVideoAdUnitID @"e1f164a8c7554fdc9f0ad3740ff80c5e"
 #define kHyBidMoPubHeaderBiddingInterstitialAdUnitID @"a91bc5a72fd54888ac248e7656b69b2e"
+#define kHyBidMoPubHeaderBiddingRewardedAdUnitID @"0d6a3e5d883540ad98f1baf5d2a5d710"
+#define kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitID @"766c0edcd4c2496884a697ad406a8555"
 #define kHyBidMoPubMediationNativeAdUnitID @"823d7538cf714f2ab344436b2027f8ea"
 #define kHyBidMoPubMediationLeaderboardAdUnitID @"8c18da9010144ebabeb85eead8141bf6"
 #define kHyBidMoPubMediationBannerAdUnitID @"8ba4f63a03da4c1ba84653c4bc66d11e"
 #define kHyBidMoPubMediationMRectAdUnitID @"038dfd33ec4d4391aee61557ffd3ed8b"
 #define kHyBidMoPubMediationInterstitialAdUnitID @"a50d6ad8b2b84ea0af8049b8dfd32126"
 #define kHyBidMoPubMediationRewardedAdUnitID @"b514d9fc570742a4b974e59d33aee494"
-#define kHyBidDFPHeaderBiddingLeaderboardAdUnitID @"/6499/example/banner"
-#define kHyBidDFPHeaderBiddingBannerAdUnitID @"/6499/example/banner"
-#define kHyBidDFPHeaderBiddingMRectAdUnitID @"/6499/example/banner"
-#define kHyBidDFPHeaderBiddingInterstitialAdUnitID @"/6499/example/interstitial"
-#define kHyBidAdMobMediationAppID @"ca-app-pub-2576283444991206~5819414108"
-#define kHyBidAdMobMediationNativeAdUnitID @"ca-app-pub-2576283444991206/3019714736"
-#define kHyBidAdMobMediationBannerAdUnitID @"ca-app-pub-2576283444991206/7675421252"
-#define kHyBidAdMobMediationMRectAdUnitID @"ca-app-pub-2576283444991206/1943393054"
-#define kHyBidAdMobMediationLeaderboardAdUnitID @"ca-app-pub-2576283444991206/2969889488"
-#define kHyBidAdMobMediationInterstitialAdUnitID @"ca-app-pub-2576283444991206/1852248931"
-#define kHyBidAdMobMediationRewardedAdUnitID @"ca-app-pub-2576283444991206/4897238342"
+#define kHyBidGAMLeaderboardAdUnitID @"/6499/example/banner"
+#define kHyBidGAMBannerAdUnitID @"/6499/example/banner"
+#define kHyBidGAMMRectAdUnitID @"/6499/example/banner"
+#define kHyBidGAMInterstitialAdUnitID @"/6499/example/interstitial"
+#define kHyBidGADAppID @"ca-app-pub-8741261465579918~3720290336"
+#define kHyBidGADNativeAdUnitID @"ca-app-pub-8741261465579918/8160924764"
+#define kHyBidGADBannerAdUnitID @"ca-app-pub-8741261465579918/4075513559"
+#define kHyBidGADMRectAdUnitID @"ca-app-pub-8741261465579918/6510105208"
+#define kHyBidGADLeaderboardAdUnitID @"ca-app-pub-8741261465579918/4943734481"
+#define kHyBidGADInterstitialAdUnitID @"ca-app-pub-8741261465579918/1815008264"
+#define kHyBidGADRewardedAdUnitID @"ca-app-pub-8741261465579918/7366717846"
 #define kHyBidDemoAPIURL @"https://api.pubnative.net"
 #define kHyBidDemoOpenRTBAPIURL @"https://dsp.pubnative.net"
 #define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
@@ -86,26 +89,29 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingLeaderboardAdUnitID forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingBannerAdUnitID forKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingMRectAdUnitID forKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingMRectVideoAdUnitID forKey:kHyBidMoPubHeaderBiddingMRectVideoAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingInterstitialAdUnitID forKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitID forKey:kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingRewardedAdUnitID forKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationNativeAdUnitID forKey:kHyBidMoPubMediationNativeAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationLeaderboardAdUnitID forKey:kHyBidMoPubMediationLeaderboardAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationBannerAdUnitID forKey:kHyBidMoPubMediationBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationMRectAdUnitID forKey:kHyBidMoPubMediationMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationInterstitialAdUnitID forKey:kHyBidMoPubMediationInterstitialAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationRewardedAdUnitID forKey:kHyBidMoPubMediationRewardedAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingLeaderboardAdUnitID forKey:kHyBidDFPHeaderBiddingLeaderboardAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingBannerAdUnitID forKey:kHyBidDFPHeaderBiddingBannerAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingMRectAdUnitID forKey:kHyBidDFPHeaderBiddingMRectAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidDFPHeaderBiddingInterstitialAdUnitID forKey:kHyBidDFPHeaderBiddingInterstitialAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGAMLeaderboardAdUnitID forKey:kHyBidGAMLeaderboardAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGAMBannerAdUnitID forKey:kHyBidGAMBannerAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGAMMRectAdUnitID forKey:kHyBidGAMMRectAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGAMInterstitialAdUnitID forKey:kHyBidGAMInterstitialAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAPIURL forKey:kHyBidDemoAPIURLKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoOpenRTBAPIURL forKey:kHyBidDemoOpenRTBAPIURLKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationAppID forKey:kHyBidAdMobMediationAppIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationNativeAdUnitID forKey:kHyBidAdMobMediationNativeAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationBannerAdUnitID forKey:kHyBidAdMobMediationBannerAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationMRectAdUnitID forKey:kHyBidAdMobMediationMRectAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationLeaderboardAdUnitID forKey:kHyBidAdMobMediationLeaderboardAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationInterstitialAdUnitID forKey:kHyBidAdMobMediationInterstitialAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidAdMobMediationRewardedAdUnitID forKey:kHyBidAdMobMediationRewardedAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADAppID forKey:kHyBidGADAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADNativeAdUnitID forKey:kHyBidGADNativeAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADBannerAdUnitID forKey:kHyBidGADBannerAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADMRectAdUnitID forKey:kHyBidGADMRectAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADLeaderboardAdUnitID forKey:kHyBidGADLeaderboardAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADInterstitialAdUnitID forKey:kHyBidGADInterstitialAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADRewardedAdUnitID forKey:kHyBidGADRewardedAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
     }
 }

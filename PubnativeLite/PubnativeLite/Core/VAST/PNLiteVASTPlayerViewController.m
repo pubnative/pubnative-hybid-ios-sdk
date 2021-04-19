@@ -245,7 +245,6 @@ typedef enum : NSUInteger {
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] startOMIDAdSession:self.adSession];
         self.isAdSessionCreated = YES;
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDAdLoadEvent:self.adSession];
-        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDImpressionOccuredEvent:self.adSession];
     }
 }
 
@@ -804,6 +803,7 @@ typedef enum : NSUInteger {
     } else {
         [self.eventProcessor trackEvent:PNLiteVASTEvent_Start];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDStartEventWithDuration:[self duration] withVolume:self.player.volume];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDImpressionOccuredEvent:self.adSession];
     }
     if (self.isInterstitial) {
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:YES];

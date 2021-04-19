@@ -61,7 +61,7 @@
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
                                               withHtmlData:self.adModel.htmlData
                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsCalendar, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
                                              isInterstital:YES
                                                   delegate:self
                                            serviceDelegate:self
@@ -145,10 +145,6 @@
 
 - (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString {
     [self.serviceProvider sendSMS:urlString];
-}
-
-- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON {
-    [self.serviceProvider createEvent:eventJSON];
 }
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {

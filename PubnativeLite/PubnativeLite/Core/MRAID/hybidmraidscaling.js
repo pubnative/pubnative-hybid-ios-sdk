@@ -97,7 +97,6 @@
     var SUPPORTED_FEATURES = mraid.SUPPORTED_FEATURES = {
         "SMS": "sms",
         "TEL": "tel",
-        "CALENDAR": "calendar",
         "STOREPICTURE": "storePicture",
         "INLINEVIDEO": "inlineVideo"
     };
@@ -188,15 +187,6 @@
             }
         }
         listenersForEvent.push(listener);
-    };
-
-    mraid.createCalendarEvent = function (parameters) {
-        log.i("mraid.createCalendarEvent with " + parameters);
-        if (supportedFeatures[mraid.SUPPORTED_FEATURES.CALENDAR]) {
-            callNative("createCalendarEvent?eventJSON=" + JSON.stringify(parameters));
-        } else {
-            log.e("createCalendarEvent is not supported");
-        }
     };
 
     mraid.close = function () {

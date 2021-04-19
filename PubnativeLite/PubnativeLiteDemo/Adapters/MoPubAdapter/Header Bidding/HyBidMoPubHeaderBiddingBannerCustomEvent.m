@@ -93,4 +93,9 @@
     [self.delegate inlineAdAdapterWillLeaveApplication:self];
 }
 
+- (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter
+{
+    MPLogEvent([MPLogEvent adShowSuccess]);                
+}
+
 @end

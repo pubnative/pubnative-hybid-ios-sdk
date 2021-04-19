@@ -21,6 +21,7 @@
 //
 
 #import "HyBidKeychain.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidKeychain
 
@@ -63,7 +64,7 @@
         @try {
             object = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData *)keyData];
         } @catch (NSException *exception) {
-            NSLog(@"Unarchiving for key %@ failed with exception %@", key, exception.name);
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Unarchiving for key %@ failed with exception %@"];
             object = nil;
         } @finally {}
     }

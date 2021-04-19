@@ -93,9 +93,7 @@
         [command isEqualToString:@"storePicture"] ||
         [command isEqualToString:@"useCustomClose"]
         ) {
-        if ([command isEqualToString:@"createCalendarEvent"]) {
-            paramObj = [params valueForKey:@"eventJSON"];
-        } else if ([command isEqualToString:@"expand"] ||
+        if ([command isEqualToString:@"expand"] ||
                    [command isEqualToString:@"open"] ||
                    [command isEqualToString:@"playVideo"] ||
                    [command isEqualToString:@"sendSMS"] ||
@@ -120,7 +118,6 @@
 
 - (BOOL)isValidCommand:(NSString *)command {
     NSArray *kCommands = @[
-                           @"createCalendarEvent",
                            @"close",
                            @"expand",
                            @"open",
@@ -138,9 +135,7 @@
 }
 
 - (BOOL)checkParamsForCommand:(NSString *)command params:(NSDictionary *)params; {
-    if ([command isEqualToString:@"createCalendarEvent"]) {
-        return ([params valueForKey:@"eventJSON"] != nil);
-    } else if ([command isEqualToString:@"open"] || [command isEqualToString:@"playVideo"] || [command isEqualToString:@"storePicture"] || [command isEqualToString:@"sendSMS"] || [command isEqualToString:@"callNumber"]) {
+    if ([command isEqualToString:@"open"] || [command isEqualToString:@"playVideo"] || [command isEqualToString:@"storePicture"] || [command isEqualToString:@"sendSMS"] || [command isEqualToString:@"callNumber"]) {
         return ([params valueForKey:@"url"] != nil);
     } else if ([command isEqualToString:@"setOrientationProperties"]) {
         return (

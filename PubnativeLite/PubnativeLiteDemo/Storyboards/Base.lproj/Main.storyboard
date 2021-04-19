@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwu-Kj-qga" userLabel="PNLite Settings Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwu-Kj-qga" userLabel="PNLite Settings Button">
                                 <rect key="frame" x="16" y="52" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.49019607843137253" green="0.039215686274509803" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="settingsButton" label="Settings Button"/>
@@ -75,7 +75,7 @@
                                     <outlet property="delegate" destination="dIX-wM-j9j" id="Neg-IL-f2s"/>
                                 </connections>
                             </textField>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctb-Dy-s2W" userLabel="Standalone Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctb-Dy-s2W" userLabel="Standalone Button">
                                 <rect key="frame" x="16" y="544" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="standaloneButton" label="Standalone Button"/>
@@ -107,7 +107,7 @@
                                     <segue destination="OWp-6z-FPf" kind="show" id="W1Y-Ep-K3W"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62G-RC-7fB" userLabel="Header Bidding Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62G-RC-7fB" userLabel="Header Bidding Button">
                                 <rect key="frame" x="16" y="585" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="headerBiddingButton" label="Header Bidding Button"/>
@@ -139,7 +139,7 @@
                                     <segue destination="pnb-xc-EzR" kind="show" id="MVo-rm-QpU"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hcb-bJ-YfG" userLabel="Mediation Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hcb-bJ-YfG" userLabel="Mediation Button">
                                 <rect key="frame" x="16" y="626" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mediationButton" label="Mediation Button"/>
@@ -197,7 +197,9 @@
                             <outletCollection property="gestureRecognizers" destination="S6C-z2-jku" appends="YES" id="dY7-eG-4gv"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="HyBid Demo" id="0pE-n5-Vvz"/>
+                    <navigationItem key="navigationItem" title="HyBid Demo" id="0pE-n5-Vvz">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="PdY-Ro-XiZ"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="headerBiddingButton" destination="62G-RC-7fB" id="uLD-8V-Vaj"/>
                         <outlet property="mediationButton" destination="Hcb-bJ-YfG" id="VwJ-nf-MG4"/>

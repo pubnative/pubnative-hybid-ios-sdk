@@ -35,6 +35,7 @@
 @property (nonatomic, weak) id <HyBidReportingDelegate> _Nullable delegate;
 
 - (void)reportEventFor:(HyBidReportingEvent * _Nonnull)event;
+- (void)reportEventsFor:(NSArray<HyBidReportingEvent *> * _Nonnull)events;
 
 + (HyBidReportingManager *_Nonnull)sharedInstance;
 

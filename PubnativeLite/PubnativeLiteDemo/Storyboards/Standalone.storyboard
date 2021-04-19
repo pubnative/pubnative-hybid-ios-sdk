@@ -214,6 +214,9 @@
                             <constraint firstItem="Mpy-mT-cGa" firstAttribute="leading" secondItem="Nf0-uC-D50" secondAttribute="leading" constant="16" id="ya4-Zi-3WY"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Standalone" id="ppr-7L-qd1">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="M9E-V2-hQS"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Smd-AQ-Yqg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -267,7 +270,9 @@
                             <constraint firstItem="KHy-gW-2gA" firstAttribute="trailing" secondItem="mUH-wn-Do7" secondAttribute="trailing" constant="16" id="XwS-bk-9YW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="jeM-oH-nPR"/>
+                    <navigationItem key="navigationItem" id="jeM-oH-nPR">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="xJL-GU-rZA"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="bannerSizePickerView" destination="mUH-wn-Do7" id="y2N-sV-UpP"/>
                         <outlet property="continueButton" destination="UVp-dg-hyD" id="7vg-7P-8Vg"/>
@@ -596,7 +601,9 @@
                             <constraint firstItem="a0W-GM-DvE" firstAttribute="top" secondItem="3fp-Fc-2CN" secondAttribute="bottom" constant="8" id="wne-J6-jaT"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Izn-co-fdB"/>
+                    <navigationItem key="navigationItem" id="Izn-co-fdB">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="UBq-Xi-prd"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="creativeIdLabel" destination="J2H-G7-WQG" id="Ojl-aT-VXj"/>
                         <outlet property="inspectRequestButton" destination="f2U-LB-h2a" id="Hi9-nW-ipd"/>
@@ -952,7 +959,7 @@
                                     </segue>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azJ-lQ-mZi">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azJ-lQ-mZi">
                                 <rect key="frame" x="16" y="46" width="343" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
@@ -1007,6 +1014,7 @@
                         <outlet property="creativeIdLabel" destination="PNq-ts-kC2" id="dbe-FE-zA3"/>
                         <outlet property="inspectRequestButton" destination="g1E-b3-YMA" id="tKY-3u-pET"/>
                         <outlet property="rewardedLoaderIndicator" destination="znC-rO-N4o" id="BTg-hn-KSd"/>
+                        <outlet property="showAdButton" destination="azJ-lQ-mZi" id="hQl-Wu-p3O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kpl-QB-XLk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1061,7 +1069,9 @@
                             <constraint firstItem="FHj-AQ-9Vk" firstAttribute="top" secondItem="8j5-jt-pSb" secondAttribute="bottom" constant="8" id="wvp-ez-DEU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="cWd-LY-Jfo"/>
+                    <navigationItem key="navigationItem" id="cWd-LY-Jfo">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="D7O-Qi-xJ6"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="bannerSizePickerView" destination="FHj-AQ-9Vk" id="C68-63-d3P"/>
                         <outlet property="continueButton" destination="dSd-Oc-qVG" id="44f-Gt-ayr"/>

@@ -27,9 +27,12 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *bannerAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *mRectAdUnitIDTextField;
+@property (weak, nonatomic) IBOutlet UITextField *mRectVideoAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *interstitialAdUnitIDTextField;
+@property (weak, nonatomic) IBOutlet UITextField *interstitialVideoAdUnitIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *leaderboardAdUnitTextField;
 @property (weak, nonatomic) IBOutlet UITextField *rewardedAdUnitTextField;
+@property (weak, nonatomic) IBOutlet UITextField *headerBiddingRewardedAdUnitIDTextField;
 
 @end
 
@@ -40,7 +43,10 @@
     self.navigationItem.title = @"MoPub Header Bidding Settings";
     self.bannerAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
     self.mRectAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
+    self.mRectVideoAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingMRectVideoAdUnitIDKey];
     self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
+    self.interstitialVideoAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitIDKey];
+    self.headerBiddingRewardedAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey];
     self.leaderboardAdUnitTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
     self.rewardedAdUnitTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationRewardedAdUnitIDKey];
 }
@@ -48,7 +54,10 @@
 - (IBAction)saveMoPubSettingsTouchUpInside:(UIButton *)sender {
     [[NSUserDefaults standardUserDefaults] setObject:self.bannerAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.mRectAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.mRectVideoAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingMRectVideoAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.interstitialAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.interstitialVideoAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitIDKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.headerBiddingRewardedAdUnitIDTextField.text forKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.leaderboardAdUnitTextField.text forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.rewardedAdUnitTextField.text forKey:kHyBidMoPubMediationRewardedAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];

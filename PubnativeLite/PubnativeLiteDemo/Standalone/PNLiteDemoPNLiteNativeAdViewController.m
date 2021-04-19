@@ -63,6 +63,7 @@
 }
 
 - (void)requestAd {
+    [self setCreativeIDLabelWithString:@"_"];
     [self clearLastInspectedRequest];
     self.nativeAdContainer.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -71,14 +72,19 @@
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
+- (void)setCreativeIDLabelWithString:(NSString *)string
+{
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
+}
+
 #pragma mark - HyBidNativeAdLoaderDelegate
 
 - (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.inspectRequestButton.hidden = NO;
     self.nativeAd = nativeAd;
-    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.nativeAd.ad.creativeID];
-    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.nativeAd.ad.creativeID];
+    [self setCreativeIDLabelWithString:self.nativeAd.ad.creativeID];
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
 

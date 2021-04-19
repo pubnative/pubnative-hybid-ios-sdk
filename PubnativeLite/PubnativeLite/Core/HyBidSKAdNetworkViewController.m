@@ -21,6 +21,7 @@
 //
 
 #import "HyBidSKAdNetworkViewController.h"
+#import "HyBidLogger.h"
 
 @implementation HyBidSKAdNetworkViewController
 
@@ -36,7 +37,7 @@
     
     [self loadProductWithParameters:self->productParameters completionBlock:^(BOOL result, NSError * _Nullable error) {
         if (error || !result){
-            NSLog(@"Loading the ad failed, try to load another ad or retry the current ad.");
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Loading the ad failed, try to load another ad or retry the current ad."];
         }
     }];
 }

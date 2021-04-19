@@ -69,9 +69,11 @@
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:HyBidReportingAdFormat.BANNER properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
-        [self.adTracker trackImpression];
+        if (self.adPresenter.ad.adType != kHyBidAdTypeVideo) {
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+            [self.adTracker trackImpression];
+        }
         [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
     }
 }
@@ -92,5 +94,17 @@
         [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
     }
 }
+
+- (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
+    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)]) {
+        HyBidReportingEvent* reportingVideoStartedEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_STARTED adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+        HyBidReportingEvent* reportingImpressionEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+        
+        [[HyBid reportingManager] reportEventsFor:[NSArray arrayWithObjects:reportingVideoStartedEvent, reportingImpressionEvent, nil]];         
+        [self.adTracker trackImpression];
+        [self.adPresenterDelegate adPresenterDidStartPlaying:adPresenter];
+    }
+}
+
 
 @end

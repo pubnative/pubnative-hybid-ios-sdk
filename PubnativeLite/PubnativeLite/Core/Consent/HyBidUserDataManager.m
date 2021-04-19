@@ -218,7 +218,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
     BOOL askedForConsent = [[NSUserDefaults standardUserDefaults] objectForKey:PNLiteGDPRConsentStateKey];
     if (askedForConsent) {
         NSString *IDFA = [[NSUserDefaults standardUserDefaults] stringForKey:PNLiteGDPRAdvertisingIDKey];
-        if (IDFA != nil && IDFA.length > 0 && ![IDFA isEqualToString:[HyBidSettings sharedInstance].advertisingId]) {
+        if (IDFA != nil && IDFA.length > 0 && ![IDFA  isEqual: @"00000000-0000-0000-0000-000000000000"] && ![IDFA isEqualToString:[HyBidSettings sharedInstance].advertisingId]) {
             askedForConsent = NO;
         }
     }

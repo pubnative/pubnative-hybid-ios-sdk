@@ -221,7 +221,6 @@
 - (void)fireOMIDClikedEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
        return;
-    NSLog(@"media events %@", self.omidMediaEvents);
     [self.omidMediaEvents adUserInteractionWithType:OMIDInteractionTypeClick];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_CLICKED];
 }

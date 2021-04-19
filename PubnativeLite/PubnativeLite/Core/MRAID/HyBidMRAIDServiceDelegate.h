@@ -22,7 +22,6 @@
 
 static NSString* PNLiteMRAIDSupportsSMS = @"sms";
 static NSString* PNLiteMRAIDSupportsTel = @"tel";
-static NSString* PNLiteMRAIDSupportsCalendar = @"calendar";
 static NSString* PNLiteMRAIDSupportsStorePicture = @"storePicture";
 static NSString* PNLiteMRAIDSupportsInlineVideo = @"inlineVideo";
 
@@ -36,7 +35,6 @@ static NSString* PNLiteMRAIDSupportsInlineVideo = @"inlineVideo";
 @optional
 
 // These callbacks are to request other services.
-- (void)mraidServiceCreateCalendarEventWithEventJSON:(NSString *)eventJSON;
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString;
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString;
 - (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString;

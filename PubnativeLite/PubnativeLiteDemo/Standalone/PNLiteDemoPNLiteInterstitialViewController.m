@@ -51,6 +51,7 @@
 }
 
 - (void)requestAd {
+    [self setCreativeIDLabelWithString:@"_"];
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
@@ -59,12 +60,17 @@
     [self.interstitialAd load];
 }
 
+- (void)setCreativeIDLabelWithString:(NSString *)string
+{
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
+}
+
 #pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
-    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.interstitialAd.ad.creativeID];
-    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.interstitialAd.ad.creativeID];
+    [self setCreativeIDLabelWithString:self.interstitialAd.ad.creativeID];
     self.inspectRequestButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self.interstitialAd show];

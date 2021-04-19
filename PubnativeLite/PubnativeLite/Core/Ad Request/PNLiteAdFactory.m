@@ -30,6 +30,7 @@
 #import "HyBidUserDataManager.h"
 #import "HyBidSkAdNetworkRequestModel.h"
 #import "HyBidRemoteConfigManager.h"
+#import "HyBidLogger.h"
 
 @implementation PNLiteAdFactory
 
@@ -73,10 +74,10 @@
                     adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
                     adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = [skAdNetworkRequestModel getSkAdNetworkVersion];
                 } else {
-                    NSLog(@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again.");
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again."];
                 }
             } else {
-                NSLog(@"HyBid AppID parameter cannot be empty. Please assign the actual AppStore app ID to this parameter and try again.");
+                [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid AppID parameter cannot be empty. Please assign the actual AppStore app ID to this parameter and try again."];
             }
         }
     }

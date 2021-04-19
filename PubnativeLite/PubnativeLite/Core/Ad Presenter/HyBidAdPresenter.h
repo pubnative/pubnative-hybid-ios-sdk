@@ -34,6 +34,9 @@
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter
        didFailWithError:(NSError *)error;
 
+@optional
+- (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter;
+
 @end
 
 @interface HyBidAdPresenter : NSObject

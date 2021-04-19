@@ -65,6 +65,7 @@
 }
 
 - (void)requestAd {
+    [self setCreativeIDLabelWithString:@"_"];
     [self clearLastInspectedRequest];
     self.bannerAdView.hidden = YES;
     self.inspectRequestButton.hidden = YES;
@@ -72,12 +73,17 @@
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
 }
 
+- (void)setCreativeIDLabelWithString:(NSString *)string
+{
+    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
+    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
+}
+
 #pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
-    self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", self.bannerAdView.ad.creativeID];
-    self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", self.bannerAdView.ad.creativeID];
+    [self setCreativeIDLabelWithString:self.bannerAdView.ad.creativeID];
     self.bannerAdView.hidden = NO;
     self.inspectRequestButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
