@@ -33,7 +33,7 @@
     if ([HyBidMoPubUtils areExtrasValid:info]) {
         if ([HyBidMoPubUtils appToken:info] != nil && [[HyBidMoPubUtils appToken:info] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[HyBidMoPubUtils zoneID:info] andWithDelegate:self];
-            self.rewardedAd.isMediation = NO;
+            self.rewardedAd.isMediation = YES;
             [self.rewardedAd load];
             MPLogEvent([MPLogEvent adLoadAttemptForAdapter:NSStringFromClass([self class]) dspCreativeId:nil dspName:nil]);
         } else {
