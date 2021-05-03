@@ -112,7 +112,7 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
     GADVersionNumber version = {0};
     version.majorVersion = 2;
     version.minorVersion = 4;
-    version.patchVersion = 5;
+    version.patchVersion = 6;
     
     return version;
 }
@@ -121,7 +121,7 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
     GADVersionNumber version = {0};
     version.majorVersion = 2;
     version.minorVersion = 4;
-    version.patchVersion = 5;
+    version.patchVersion = 6;
     return version;
 }
 
