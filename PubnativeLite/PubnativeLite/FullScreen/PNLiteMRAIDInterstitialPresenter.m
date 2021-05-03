@@ -27,8 +27,9 @@
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidLogger.h"
 #import "HyBidSKAdNetworkViewController.h"
+#import "HyBidURLDriller.h"
 
-@interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate>
+@interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
@@ -120,6 +121,7 @@
     if (skAdNetworkModel) {
         NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
         if ([productParams count] > 0) {
+            [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
 
@@ -155,6 +157,7 @@
     if (skAdNetworkModel) {
         NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
         if ([productParams count] > 0) {
+            [[HyBidURLDriller alloc] startDrillWithURLString:urlString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
 
@@ -175,4 +178,6 @@
 - (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
     [self.serviceProvider storePicture:urlString];
 }
+
 @end
+

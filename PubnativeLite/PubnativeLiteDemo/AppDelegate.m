@@ -75,6 +75,7 @@ CLLocationManager *locationManager;
     
     [HyBid reportingManager].delegate = self;
     [HyBid setInterstitialSkipOffset:10];
+    [HyBid setVideoAudioStatus:HyBidAudioStatusDefault];
     return YES;
 }
 

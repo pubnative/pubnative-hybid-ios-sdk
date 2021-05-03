@@ -51,7 +51,7 @@
                                            serviceDelegate:self
                                         rootViewController:self
                                                contentInfo:nil
-                                                skipOffset:0];
+                                                skipOffset:[HyBidSettings sharedInstance].skipOffset];
     return self.mraidView;
 }
 

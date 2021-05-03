@@ -30,11 +30,12 @@
 #import "UIApplication+PNLiteTopViewController.h"
 #import <WebKit/WebKit.h>
 #import "HyBidSKAdNetworkViewController.h"
+#import "HyBidURLDriller.h"
 
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
 
-@interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate>
+@interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate>
 
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) NSDictionary *trackingExtras;
@@ -325,6 +326,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         if (skAdNetworkModel) {
             NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
             if ([productParams count] > 0) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
 
@@ -566,3 +568,4 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 @end
+

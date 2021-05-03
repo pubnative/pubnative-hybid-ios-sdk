@@ -26,6 +26,12 @@
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "HyBidTargetingModel.h"
 
+typedef enum {
+    HyBidAudioStatusMuted,
+    HyBidAudioStatusON,
+    HyBidAudioStatusDefault
+} HyBidAudioStatus;
+
 @interface HyBidSettings : NSObject
 
 // CONFIGURABLE PARAMETERS

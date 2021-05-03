@@ -131,5 +131,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString *)sdkVersion;
 + (void)setInterstitialSkipOffset:(NSInteger)seconds;
 + (HyBidReportingManager *)reportingManager;
++ (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
 
 @end

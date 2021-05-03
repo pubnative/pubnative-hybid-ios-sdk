@@ -33,6 +33,7 @@
 #import "HyBidAd.h"
 #import "HyBidSKAdNetworkViewController.h"
 #import "HyBidSettings.h"
+#import "HyBidURLDriller.h"
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -45,8 +46,11 @@ NSString * const PNLiteVASTPlayerCloseImageName        = @"PNLiteClose";
 
 NSTimeInterval const PNLiteVASTPlayerDefaultLoadTimeout        = 20.0f;
 NSTimeInterval const PNLiteVASTPlayerDefaultPlaybackInterval   = 0.25f;
-CGFloat const PNLiteVASTPlayerViewProgressBottomConstant       = 10.0f;
-CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant      = 10.0f;
+CGFloat const PNLiteVASTPlayerViewSkipTopConstant       = 10.0f;
+CGFloat const PNLiteVASTPlayerViewSkipTrailingConstant      = 10.0f;
+CGFloat const PNLiteVASTPlayerViewProgressBottomConstant       = 0.0f;
+CGFloat const PNLiteVASTPlayerViewProgressTrailingConstant      = 0.0f;
+CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant       = 0.0f;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -63,7 +67,7 @@ typedef enum : NSUInteger {
     PNLiteVASTPlaybackState_FourthQuartile = 1 << 3
 }PNLiteVASTPlaybackState;
 
-@interface PNLiteVASTPlayerViewController ()<PNLiteVASTEventProcessorDelegate, HyBidContentInfoViewDelegate>
+@interface PNLiteVASTPlayerViewController ()<PNLiteVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -97,20 +101,24 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIButton *btnOpenOffer;
 @property (weak, nonatomic) IBOutlet UIButton *btnFullscreen;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
-@property (weak, nonatomic) IBOutlet UIView *viewProgress;
+@property (weak, nonatomic) IBOutlet UIView *viewSkip;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpin;
 @property (weak, nonatomic) IBOutlet UIView *contentInfoViewContainer;
+@property (weak, nonatomic) IBOutlet UIProgressView *viewProgress;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewWidthConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferTopConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferTrailingConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnOpenOfferLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewSkipTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewSkipTrailingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnMuteTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnMuteLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnFullscreenBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *btnFullScreenTrailingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewContainerTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentInfoViewContainerLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressTrailingConstraint;
 
 @end
 
@@ -139,7 +147,7 @@ typedef enum : NSUInteger {
     if (self) {
         self.state = PNLiteVASTPlayerState_IDLE;
         self.playback = PNLiteVASTPlaybackState_FirstQuartile;
-        self.muted = [[HyBidSettings sharedInstance].deviceSound isEqual: @"0"];
+        self.muted = [self setAdAudioStatus:[HyBidSettings sharedInstance].audioStatus];
         [self setAdAudioMuted:self.muted];
         self.canResize = YES;
     }
@@ -362,7 +370,8 @@ typedef enum : NSUInteger {
     Float64 currentDuration = [self duration];
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
-    
+    Float64 currentSkipOffsetPercent = currentPlaybackTime / self.skipOffset;
+
     if ((self.skipOffsetFromServer != -1 || self.skipOffset > 0) && (self.skipOffset != 0 && self.skipOffsetFromServer != 0)) {
         NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
                                                                         ? self.skipOffset
@@ -370,11 +379,16 @@ typedef enum : NSUInteger {
         
         if (currentPlaybackTime >= calculatedSkipOffset) {
             self.btnClose.hidden = NO;
+            [self.viewSkip removeFromSuperview];
+        } else {
+            self.viewSkip.hidden = NO;
         }
+        
+        [self.progressLabel setProgress:currentSkipOffsetPercent];
+        self.progressLabel.text = [NSString stringWithFormat:@"%.f", self.skipOffset - currentPlaybackTime];
     }
-    
-    [self.progressLabel setProgress:currentPlayedPercent];
-    self.progressLabel.text = [NSString stringWithFormat:@"%.f", currentDuration - currentPlaybackTime];
+        
+    [self.viewProgress setProgress:currentPlayedPercent];
     
     switch (self.playback) {
         case PNLiteVASTPlaybackState_FirstQuartile:
@@ -433,6 +447,20 @@ typedef enum : NSUInteger {
     [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDVolumeChangeEventWithVolume:newVolume];
 }
 
+- (BOOL)setAdAudioStatus:(HyBidAudioStatus)status {
+    switch (status) {
+        case HyBidAudioStatusDefault:
+        case HyBidAudioStatusMuted:
+            return YES;
+            break;
+        case HyBidAudioStatusON:
+            return NO;
+        default:
+            return [[HyBidSettings sharedInstance].deviceSound isEqual: @"0"];
+            break;
+    }
+}
+
 - (IBAction)btnMutePush:(id)sender {
     self.muted = !self.muted;
     [self setAdAudioMuted:self.muted];
@@ -462,6 +490,7 @@ typedef enum : NSUInteger {
     if (self.skAdModel) {
         NSDictionary* productParams = [self.skAdModel getStoreKitParameters];
         if ([productParams count] > 0) {
+            [[HyBidURLDriller alloc] startDrillWithURLString:[self.vastModel clickThrough] delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
 
@@ -502,27 +531,33 @@ typedef enum : NSUInteger {
             CGFloat bottomPadding = window.safeAreaInsets.bottom;
             CGFloat leadingPadding = window.safeAreaInsets.left;
             CGFloat trailingPadding = window.safeAreaInsets.right;
-            self.btnOpenOfferTopConstraint.constant = -topPadding;
-            self.btnOpenOfferTrailingConstraint.constant = trailingPadding;
+            self.btnOpenOfferBottomConstraint.constant = -bottomPadding;
+            self.btnOpenOfferLeadingConstraint.constant = leadingPadding;
             self.btnMuteTopConstraint.constant = -topPadding;
             self.btnMuteLeadingConstraint.constant = leadingPadding;
             self.btnFullscreenBottomConstraint.constant = bottomPadding;
             self.btnFullScreenTrailingConstraint.constant = trailingPadding;
             self.contentInfoViewContainerTopConstraint.constant = -topPadding;
             self.contentInfoViewContainerLeadingConstraint.constant = leadingPadding;
-            self.viewProgressBottomConstraint.constant = bottomPadding + PNLiteVASTPlayerViewProgressBottomConstant;
-            self.viewProgressLeadingConstraint.constant = leadingPadding + PNLiteVASTPlayerViewProgressLeadingConstant;
+            self.viewSkipTopConstraint.constant = topPadding + PNLiteVASTPlayerViewSkipTopConstant;
+            self.viewSkipTrailingConstraint.constant = trailingPadding + PNLiteVASTPlayerViewSkipTrailingConstant;
+            self.viewProgressBottomConstraint.constant = -bottomPadding;
+            self.viewProgressLeadingConstraint.constant = leadingPadding;
+            self.viewProgressTrailingConstraint.constant = trailingPadding;
         } else {
-            self.btnOpenOfferTopConstraint.constant = 0;
-            self.btnOpenOfferTrailingConstraint.constant = 0;
+            self.btnOpenOfferBottomConstraint.constant = 0;
+            self.btnOpenOfferLeadingConstraint.constant = 0;
             self.btnMuteTopConstraint.constant = 0;
             self.btnMuteLeadingConstraint.constant = 0;
             self.btnFullscreenBottomConstraint.constant = 0;
             self.btnFullScreenTrailingConstraint.constant = 0;
             self.contentInfoViewContainerTopConstraint.constant = 0;
             self.contentInfoViewContainerLeadingConstraint.constant = 0;
-            self.viewProgressBottomConstraint.constant = PNLiteVASTPlayerViewProgressBottomConstant;
+            self.viewSkipTopConstraint.constant = PNLiteVASTPlayerViewSkipTopConstant;
+            self.viewSkipTrailingConstraint.constant = PNLiteVASTPlayerViewSkipTrailingConstant;
+            self.viewProgressTrailingConstraint.constant = PNLiteVASTPlayerViewProgressTrailingConstant;
             self.viewProgressLeadingConstraint.constant = PNLiteVASTPlayerViewProgressLeadingConstant;
+            self.viewProgressBottomConstraint.constant = PNLiteVASTPlayerViewProgressBottomConstant;
         }
         
         [self.view layoutIfNeeded];
@@ -676,6 +711,7 @@ typedef enum : NSUInteger {
     self.btnClose.hidden = self.isInterstitial;
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
+    self.viewSkip.hidden = YES;
     self.viewProgress.hidden = YES;
     self.wantsToPlay = NO;
     [self.loadingSpin stopAnimating];
@@ -689,6 +725,7 @@ typedef enum : NSUInteger {
     self.btnClose.hidden = self.isInterstitial;
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
+    self.viewSkip.hidden = YES;
     self.viewProgress.hidden = YES;
     self.wantsToPlay = NO;
     [self.loadingSpin startAnimating];
@@ -752,6 +789,7 @@ typedef enum : NSUInteger {
     self.btnMute.hidden = YES;
     self.btnOpenOffer.hidden = YES;
     self.btnFullscreen.hidden = YES;
+    self.viewSkip.hidden = YES;
     self.viewProgress.hidden = YES;
     self.loadingSpin.hidden = YES;
     
@@ -763,9 +801,9 @@ typedef enum : NSUInteger {
     }
     
     if(!self.progressLabel) {
-        self.progressLabel = [[PNLiteProgressLabel alloc] initWithFrame:self.viewProgress.bounds];
-        self.progressLabel.frame = self.viewProgress.bounds;
-        self.progressLabel.borderWidth = 6.0;
+        self.progressLabel = [[PNLiteProgressLabel alloc] initWithFrame:self.viewSkip.bounds];
+        self.progressLabel.frame = self.viewSkip.bounds;
+        self.progressLabel.borderWidth = 3.0;
         self.progressLabel.colorTable = @{
                                           NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelTrackColor):[UIColor clearColor],
                                           NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelProgressColor):[UIColor whiteColor],
@@ -778,9 +816,9 @@ typedef enum : NSUInteger {
         self.progressLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
         
         [self.progressLabel setProgress:0.0f];
-        [self.viewProgress addSubview:self.progressLabel];
+        [self.viewSkip addSubview:self.progressLabel];
     }
-    self.progressLabel.text = @"0";
+    self.progressLabel.text = [NSString stringWithFormat:@"%ld", (long)self.skipOffset];
 }
 
 - (void)setPlayState {
@@ -792,6 +830,7 @@ typedef enum : NSUInteger {
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }
+    self.viewSkip.hidden = YES;
     self.viewProgress.hidden = NO;
     self.wantsToPlay = NO;
     [self.loadingSpin stopAnimating];
@@ -820,6 +859,7 @@ typedef enum : NSUInteger {
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }
+    self.viewSkip.hidden = NO;
     self.viewProgress.hidden = NO;
     [self.loadingSpin stopAnimating];
     
@@ -884,3 +924,4 @@ typedef enum : NSUInteger {
 }
 
 @end
+

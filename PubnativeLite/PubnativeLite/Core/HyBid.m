@@ -85,4 +85,8 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
     return HyBidReportingManager.sharedInstance;
 }
 
++ (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus {
+    [HyBidSettings sharedInstance].audioStatus = audioStatus;
+}
+
 @end
