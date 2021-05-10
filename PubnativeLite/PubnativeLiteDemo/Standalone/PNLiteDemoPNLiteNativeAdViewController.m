@@ -72,8 +72,7 @@
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
-- (void)setCreativeIDLabelWithString:(NSString *)string
-{
+- (void)setCreativeIDLabelWithString:(NSString *)string {
     self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
 }

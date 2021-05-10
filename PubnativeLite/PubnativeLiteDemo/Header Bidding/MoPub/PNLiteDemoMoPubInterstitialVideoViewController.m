@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
+@property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
@@ -56,19 +57,25 @@
     [self setCreativeIDLabelWithString:@"_"];
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
+    self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
+}
+
+- (IBAction)showInterstitialVideoAdButtonTapped:(UIButton *)sender {
+    if (self.moPubInterstitial.ready) {
+        [self.moPubInterstitial showFromViewController:self];
+    }
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
 
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
+    self.inspectRequestButton.hidden = NO;
+    self.showAdButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
-    if (self.moPubInterstitial.ready) {
-        [self.moPubInterstitial showFromViewController:self];
-    }
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error {
@@ -87,6 +94,7 @@
 
 - (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillDismiss");
+    self.showAdButton.hidden = YES;
 }
 
 - (void)interstitialDidDismiss:(MPInterstitialAdController *)interstitial {
@@ -101,8 +109,7 @@
     NSLog(@"interstitialDidReceiveTapEvent");
 }
 
-- (void)setCreativeIDLabelWithString:(NSString *)string
-{
+- (void)setCreativeIDLabelWithString:(NSString *)string {
     self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
 }

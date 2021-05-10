@@ -41,9 +41,9 @@ CLLocationManager *locationManager;
     [PNLiteDemoSettings sharedInstance];
     locationManager = [[CLLocationManager alloc] init];
     [locationManager requestWhenInUseAuthorization];
-    // setLocationTracking: Allowing SDK to track location , default is true.
+    // setLocationTracking: Allowing SDK to track location, default is true.
     [HyBid setLocationTracking:YES];
-    // setLocationUpdates: Allowing SDK to update location , default is false.
+    // setLocationUpdates: Allowing SDK to update location, default is false.
     [HyBid setLocationUpdates:NO];
     
     if (@available(iOS 14.5, *)) {

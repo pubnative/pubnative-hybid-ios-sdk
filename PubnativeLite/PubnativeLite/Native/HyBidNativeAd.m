@@ -568,4 +568,3 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 @end
-

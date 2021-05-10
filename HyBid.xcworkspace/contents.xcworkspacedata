@@ -14,19 +14,10 @@
          location = "group:generate.sh">
       </FileRef>
       <FileRef
-         location = "group:generate_banner_only.sh">
-      </FileRef>
-      <FileRef
-         location = "group:generate_fullscreen_only.sh">
-      </FileRef>
-      <FileRef
-         location = "group:generate_native_only.sh">
-      </FileRef>
-      <FileRef
-         location = "group:generate_rewardedvideo_only.sh">
-      </FileRef>
-      <FileRef
          location = "group:iqv.sh">
+      </FileRef>
+      <FileRef
+         location = "group:demo.sh">
       </FileRef>
    </Group>
    <FileRef

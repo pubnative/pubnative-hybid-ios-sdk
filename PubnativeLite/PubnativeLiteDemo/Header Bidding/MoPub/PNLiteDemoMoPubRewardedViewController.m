@@ -68,8 +68,7 @@
     [self.rewardedAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
-- (void)setCreativeIDLabelWithString:(NSString *)string
-{
+- (void)setCreativeIDLabelWithString:(NSString *)string {
     self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
 }
@@ -109,6 +108,7 @@
 
 - (void)rewardedAdWillDismissForAdUnitID:(NSString *)adUnitID {
     NSLog(@"rewardedAdWillDismiss");
+    self.showAdButton.hidden = YES;
 }
 
 - (void)rewardedAdDidDismissForAdUnitID:(NSString *)adUnitID {

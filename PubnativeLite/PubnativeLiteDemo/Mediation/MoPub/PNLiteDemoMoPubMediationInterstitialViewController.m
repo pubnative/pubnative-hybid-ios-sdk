@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 
 @end
@@ -51,10 +52,17 @@
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
+    self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationInterstitialAdUnitIDKey]];
     self.moPubInterstitial.delegate = self;
     [self.moPubInterstitial loadAd];
+}
+
+- (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {
+    if (self.moPubInterstitial.ready) {
+        [self.moPubInterstitial showFromViewController:self];
+    }
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate
@@ -62,10 +70,8 @@
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
     self.inspectRequestButton.hidden = NO;
+    self.showAdButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
-    if (self.moPubInterstitial.ready) {
-        [self.moPubInterstitial showFromViewController:self];
-    }
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error {
@@ -85,6 +91,7 @@
 
 - (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillDismiss");
+    self.showAdButton.hidden = YES;
 }
 
 - (void)interstitialDidDismiss:(MPInterstitialAdController *)interstitial {

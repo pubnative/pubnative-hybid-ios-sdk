@@ -104,11 +104,11 @@
 }
 
 - (IBAction)privacyPolicyURLTouchUpInside:(UIButton *)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:sender.titleLabel.text]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:sender.titleLabel.text] options:@{} completionHandler:nil];
 }
 
 - (IBAction)vendorListURLTouchUpInside:(UIButton *)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:sender.titleLabel.text]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:sender.titleLabel.text] options:@{} completionHandler:nil];
 }
 
 @end

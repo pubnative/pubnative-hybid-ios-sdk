@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
+@property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (nonatomic, strong) GAMInterstitialAd *gamInterstitialAd;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 
@@ -56,9 +57,18 @@
 - (void)requestAd {
     [self clearLastInspectedRequest];
     self.inspectRequestButton.hidden = YES;
+    self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
+}
+
+- (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {
+    if (self.gamInterstitialAd) {
+        [self.gamInterstitialAd presentFromRootViewController:self];
+    } else {
+        NSLog(@"Ad wasn't ready");
+    }
 }
 
 #pragma mark GADFullScreenContentDelegate
@@ -73,6 +83,7 @@
 
 - (void)adDidDismissFullScreenContent:(id)ad {
     NSLog(@"Ad did dismiss full screen content.");
+    self.showAdButton.hidden = YES;
 }
 
 
@@ -103,11 +114,7 @@
             [self.interstitialLoaderIndicator stopAnimating];
             self.gamInterstitialAd = ad;
             self.gamInterstitialAd.fullScreenContentDelegate = self;
-            if (self.gamInterstitialAd) {
-                [self.gamInterstitialAd presentFromRootViewController:self];
-            } else {
-                NSLog(@"Ad wasn't ready");
-            }
+            self.showAdButton.hidden = NO;
         }];
     }
 }

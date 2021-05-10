@@ -50,7 +50,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.bannerLoaderIndicator stopAnimating];
+
     self.navigationItem.title = @"HyBid Banner";
     
     [self populateDataSource];
@@ -73,8 +74,7 @@
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
 }
 
-- (void)setCreativeIDLabelWithString:(NSString *)string
-{
+- (void)setCreativeIDLabelWithString:(NSString *)string {
     self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
 }

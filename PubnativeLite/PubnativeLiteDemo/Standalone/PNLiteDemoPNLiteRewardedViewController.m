@@ -55,8 +55,7 @@
     [self.rewardedAd load];
 }
 
-- (void)setCreativeIDLabelWithString:(NSString *)string
-{
+- (void)setCreativeIDLabelWithString:(NSString *)string {
     self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
 }
@@ -88,10 +87,10 @@
 
 - (void)rewardedDidDismiss {
     NSLog(@"Rewarded did dismiss");
+    self.showAdButton.hidden = YES;
 }
 
-- (void)onReward
-{
+- (void)onReward {
     NSLog(@"Rewarded.");
 }
 
