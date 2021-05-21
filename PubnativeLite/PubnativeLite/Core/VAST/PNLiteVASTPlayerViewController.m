@@ -370,7 +370,12 @@ typedef enum : NSUInteger {
     Float64 currentDuration = [self duration];
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
+    Float64 currentSkippablePlayedPercent = 0;
 
+    if (self.skipOffset > 0) {
+        currentSkippablePlayedPercent = currentPlaybackTime / self.skipOffset;
+    }
+    
     if ((self.skipOffsetFromServer != -1 || self.skipOffset > 0) && (self.skipOffset != 0 && self.skipOffsetFromServer != 0)) {
         NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
                                                                         ? self.skipOffset
@@ -386,8 +391,15 @@ typedef enum : NSUInteger {
         if (self.skipOffset - currentPlaybackTime > 1) { // to prevent displaying 0 inside of the circle
             self.progressLabel.text = [NSString stringWithFormat:@"%.f", self.skipOffset - currentPlaybackTime];
         }
+        
+        if (currentSkippablePlayedPercent > 0) {
+            [self startCircularProgressBarAnimationWithProgress:currentSkippablePlayedPercent];
+        }
+
     }
     
+    [self startBottomProgressBarAnimationWithProgress:currentPlayedPercent];
+
     switch (self.playback) {
         case PNLiteVASTPlaybackState_FirstQuartile:
         {
@@ -417,18 +429,16 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)startBottomProgressBarAnimationWithDuration:(Float64)duration
+- (void)startBottomProgressBarAnimationWithProgress:(Float64)progress
 {
-    [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-        [self.viewProgress setProgress:1.0 animated:YES];
+    [UIView animateWithDuration:progress delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+        [self.viewProgress setProgress:progress animated:YES];
     } completion:nil];
 }
 
-- (void)startCircularProgressBarAnimationWithDuration:(Float64)duration
+- (void)startCircularProgressBarAnimationWithProgress:(Float64)progress
 {
-    [UIView animateWithDuration:duration animations:^{
-        [self.progressLabel setProgress:1.0 timing:PNLitePropertyAnimationTimingLinear duration:duration delay:0];
-    }];
+    [self.progressLabel setProgress:progress];
 }
 
 - (Float64)duration {
@@ -492,7 +502,6 @@ typedef enum : NSUInteger {
             [self.player pause];
         } else {
             [self.player play];
-            [self startBottomProgressBarAnimationWithDuration:[self duration] - [self currentPlaybackTime]];
         }
         return;
     }
@@ -606,9 +615,6 @@ typedef enum : NSUInteger {
 }
 
 - (void)invokeDidStartPlaying {
-    [self startBottomProgressBarAnimationWithDuration:[self duration]];
-    [self startCircularProgressBarAnimationWithDuration:self.skipOffset];
-    
     if([self.delegate respondsToSelector:@selector(vastPlayerDidStartPlaying:)]) {
         [self.delegate vastPlayerDidStartPlaying:self];
     }

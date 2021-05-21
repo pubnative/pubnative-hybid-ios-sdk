@@ -58,7 +58,7 @@
 }
 
 - (void)presentAdFromViewController:(UIViewController *)viewController {
-    [self.delegate fullscreenAdAdapterAdWillAppear:self];
+    [self.delegate fullscreenAdAdapterAdWillPresent:self];
     if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
         [self.interstitialAd showFromViewController:viewController];
     } else {
@@ -97,7 +97,7 @@
 }
 
 - (void)interstitialDidTrackImpression {
-    [self.delegate fullscreenAdAdapterAdDidAppear:self];
+    [self.delegate fullscreenAdAdapterAdDidPresent:self];
     MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterDidTrackImpression:self];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);

@@ -130,6 +130,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setAppStoreAppID:(NSString *)appID;
 + (NSString *)sdkVersion;
 + (void)setInterstitialSkipOffset:(NSInteger)seconds;
++ (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish;
 + (HyBidReportingManager *)reportingManager;
 + (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
 

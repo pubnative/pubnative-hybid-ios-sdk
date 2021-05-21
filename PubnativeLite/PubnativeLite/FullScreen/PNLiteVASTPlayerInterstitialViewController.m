@@ -111,6 +111,10 @@
 }
 
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
+    if (self.closeOnFinish) {
+        [self.presenter hide];
+        [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
+    }
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {

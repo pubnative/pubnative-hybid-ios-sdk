@@ -56,7 +56,7 @@
 }
 
 - (void)presentAdFromViewController:(UIViewController *)viewController {
-    [self.delegate fullscreenAdAdapterAdWillAppear:self];
+    [self.delegate fullscreenAdAdapterAdWillPresent:self];
     if ([self.rewardedAd respondsToSelector:@selector(showFromViewController:)]) {
         [self.rewardedAd showFromViewController:viewController];
     } else {
@@ -72,7 +72,7 @@
 #pragma mark - HyBidRewardedAdDelegate
 
 - (void)onReward {
-    MPReward *reward = [[MPReward alloc] initWithCurrencyType:@"hybid_reward" amount:0];
+    MPReward *reward = [[MPReward alloc] initWithCurrencyType:@"hybid_reward" amount:[NSNumber numberWithInt:0]];
     [self.delegate fullscreenAdAdapter:self willRewardUser:reward];
     MPLogEvent([MPLogEvent adShouldRewardUserWithReward:reward]);
 }
@@ -105,7 +105,7 @@
 }
 
 - (void)rewardedDidTrackImpression {
-    [self.delegate fullscreenAdAdapterAdDidAppear:self];
+    [self.delegate fullscreenAdAdapterAdDidPresent:self];
     MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterDidTrackImpression:self];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);

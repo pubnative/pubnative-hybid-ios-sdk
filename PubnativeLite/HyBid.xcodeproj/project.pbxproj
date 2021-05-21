@@ -82,8 +82,6 @@
 		5A404B4A204E991200BEE041 /* HyBidAdTrackerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A404B48204E991200BEE041 /* HyBidAdTrackerRequest.h */; };
 		5A404B4B204E991200BEE041 /* HyBidAdTrackerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A404B49204E991200BEE041 /* HyBidAdTrackerRequest.m */; };
 		5A421CBF24B625CF0005732F /* HyBidAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A421CBE24B625CF0005732F /* HyBidAdapterConfiguration.m */; };
-		5A43E7F925E5D9F500AD0D67 /* MoPubSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0BCC2425E5C366009C8ED7 /* MoPubSDK.xcframework */; };
-		5A43E7FA25E5D9F500AD0D67 /* MoPubSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0BCC2425E5C366009C8ED7 /* MoPubSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5A453D9E219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453D9D219AE0D6002F6406 /* PNLiteDemoMoPubLeaderboardViewController.m */; };
 		5A453DA1219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A453DA0219B16E2002F6406 /* HyBidMoPubHeaderBiddingLeaderboardCustomEvent.m */; };
 		5A4B95DE24D9D3CD00028939 /* HyBidPrebidUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A4B95DC24D9D3CD00028939 /* HyBidPrebidUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -180,6 +178,10 @@
 		5A91E66C20C01E5000527BAA /* PNLiteUserConsentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A91E66A20C01E5000527BAA /* PNLiteUserConsentRequest.m */; };
 		5A921D432530B2B9006F1572 /* SignalData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A921D422530B2B9006F1572 /* SignalData.storyboard */; };
 		5A921D4B2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A921D4A2530B605006F1572 /* HyBidDemoSignalDataMainViewController.m */; };
+		5A965D3026532FA800E96743 /* MoPubSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADC8C48264DADBD00092907 /* MoPubSDK.xcframework */; };
+		5A965D3126532FA800E96743 /* MoPubSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADC8C48264DADBD00092907 /* MoPubSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5A965D36265335FB00E96743 /* OMSDK_Mopub.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADC8C52264DAF9B00092907 /* OMSDK_Mopub.xcframework */; };
+		5A965D37265335FB00E96743 /* OMSDK_Mopub.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADC8C52264DAF9B00092907 /* OMSDK_Mopub.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5A969A42206523F800C3B74A /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
 		5A9A021F23C88A88005C0A45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A021E23C88A88005C0A45 /* Launch Screen.storyboard */; };
 		5A9A885921087C13006A081D /* PNLiteTrackingManagerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A885721087C12006A081D /* PNLiteTrackingManagerItem.m */; };
@@ -918,7 +920,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5A43E7FA25E5D9F500AD0D67 /* MoPubSDK.xcframework in Embed Frameworks */,
+				5A965D3126532FA800E96743 /* MoPubSDK.xcframework in Embed Frameworks */,
+				5A965D37265335FB00E96743 /* OMSDK_Mopub.xcframework in Embed Frameworks */,
 				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -944,7 +947,6 @@
 		5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RequestInspector.storyboard; sourceTree = "<group>"; };
 		5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoRequestInspectorViewController.h; sourceTree = "<group>"; };
 		5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoRequestInspectorViewController.m; sourceTree = "<group>"; };
-		5A0BCC2425E5C366009C8ED7 /* MoPubSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MoPubSDK.xcframework; sourceTree = "<group>"; };
 		5A0E770B207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGAMBannerViewController.h; sourceTree = "<group>"; };
 		5A0E770C207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoGAMBannerViewController.m; sourceTree = "<group>"; };
 		5A0E7711207CE83500D269B2 /* HyBidDemoGAMMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGAMMRectViewController.h; sourceTree = "<group>"; };
@@ -1312,6 +1314,8 @@
 		5ADC023A2051700F0071DA20 /* PNLiteDemoMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMainViewController.m; sourceTree = "<group>"; };
 		5ADC023C205181310071DA20 /* PNLiteDemoMoPubMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoMoPubMRectViewController.h; sourceTree = "<group>"; };
 		5ADC023D205181310071DA20 /* PNLiteDemoMoPubMRectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoMoPubMRectViewController.m; sourceTree = "<group>"; };
+		5ADC8C48264DADBD00092907 /* MoPubSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MoPubSDK.xcframework; sourceTree = "<group>"; };
+		5ADC8C52264DAF9B00092907 /* OMSDK_Mopub.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OMSDK_Mopub.xcframework; sourceTree = "<group>"; };
 		5ADF9E4721490B9A0081355E /* HyBidRequestParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidRequestParameter.h; sourceTree = "<group>"; };
 		5ADF9E4821490B9A0081355E /* HyBidRequestParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRequestParameter.m; sourceTree = "<group>"; };
 		5ADF9E4B21490E8E0081355E /* HyBidTargetingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidTargetingModel.h; sourceTree = "<group>"; };
@@ -1559,7 +1563,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A43E7F925E5D9F500AD0D67 /* MoPubSDK.xcframework in Frameworks */,
 				5AB9F6C725E97BB000CFF43F /* UserMessagingPlatform.xcframework in Frameworks */,
 				5A8903EB203DE24500D86051 /* AdSupport.framework in Frameworks */,
 				5A8903E9203DE23A00D86051 /* AVFoundation.framework in Frameworks */,
@@ -1578,7 +1581,9 @@
 				5A8903D7203DE1EC00D86051 /* StoreKit.framework in Frameworks */,
 				5A8903D5203DE1E100D86051 /* SystemConfiguration.framework in Frameworks */,
 				5A8903D3203DE1DA00D86051 /* UIKit.framework in Frameworks */,
+				5A965D3026532FA800E96743 /* MoPubSDK.xcframework in Frameworks */,
 				5A8903D1203DE1D400D86051 /* WebKit.framework in Frameworks */,
+				5A965D36265335FB00E96743 /* OMSDK_Mopub.xcframework in Frameworks */,
 				5A32CECF2029F8530003B450 /* HyBid.framework in Frameworks */,
 				5AB9F6BF25E97BB000CFF43F /* PromisesObjC.xcframework in Frameworks */,
 			);
@@ -1766,7 +1771,7 @@
 			isa = PBXGroup;
 			children = (
 				5A6951FD251B9843003D44CE /* GoogleMobileAdsSDK-8.1.0 */,
-				5AD56A74256F419D00EC568F /* MoPubSDK-5.16.1 */,
+				5AD56A74256F419D00EC568F /* MoPubSDK-5.17.0 */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
 				5A32CEBB2029F79B0003B450 /* AppDelegate.h */,
 				5A32CEBC2029F79B0003B450 /* AppDelegate.m */,
@@ -2397,12 +2402,13 @@
 			path = Dependencies;
 			sourceTree = "<group>";
 		};
-		5AD56A74256F419D00EC568F /* MoPubSDK-5.16.1 */ = {
+		5AD56A74256F419D00EC568F /* MoPubSDK-5.17.0 */ = {
 			isa = PBXGroup;
 			children = (
-				5A0BCC2425E5C366009C8ED7 /* MoPubSDK.xcframework */,
+				5ADC8C48264DADBD00092907 /* MoPubSDK.xcframework */,
+				5ADC8C52264DAF9B00092907 /* OMSDK_Mopub.xcframework */,
 			);
-			path = "MoPubSDK-5.16.1";
+			path = "MoPubSDK-5.17.0";
 			sourceTree = "<group>";
 		};
 		5ADB0FB420AF0B77005BDAF5 /* Country */ = {
@@ -3981,7 +3987,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -4015,7 +4021,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4169,7 +4175,7 @@
 					"@loader_path/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)/Analytics",
 				);
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4211,7 +4217,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -47,7 +47,7 @@
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
-        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withSkipOffset:[HyBidSettings sharedInstance].skipOffset withDelegate:self];
+        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withSkipOffset:[HyBidSettings sharedInstance].skipOffset withCloseOnFinish:[HyBidSettings sharedInstance].closeOnFinish withDelegate:self];
         if (!self.interstitialPresenter) {
             [self invokeFailWithMessage:@"Could not create valid interstitial presenter."];
             return;
@@ -66,7 +66,7 @@
 }
 
 - (void)presentAdFromViewController:(UIViewController *)viewController {
-    [self.delegate fullscreenAdAdapterAdWillAppear:self];
+    [self.delegate fullscreenAdAdapterAdWillPresent:self];
     if ([self.interstitialPresenter respondsToSelector:@selector(showFromViewController:)]) {
         [self.interstitialPresenter showFromViewController:viewController];
     } else {
@@ -94,7 +94,7 @@
 }
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.delegate fullscreenAdAdapterAdDidAppear:self];
+    [self.delegate fullscreenAdAdapterAdDidPresent:self];
     MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterDidTrackImpression:self];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);

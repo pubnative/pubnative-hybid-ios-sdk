@@ -35,6 +35,7 @@
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
 @property (nonatomic) NSInteger skipOffset;
+@property (nonatomic) BOOL closeOnFinish;
 
 @end
 
@@ -89,6 +90,11 @@
     }
 }
 
+- (void)setCloseOnFinish:(BOOL)closeOnFinish
+{
+    self->_closeOnFinish = closeOnFinish;
+}
+
 - (void)prepareAdWithContent:(NSString *)adContent {
     if (adContent && [adContent length] != 0) {
         [self processAdContent:adContent];
@@ -130,7 +136,7 @@
 
 - (void)renderAd:(HyBidAd *)ad {
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
-    self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withSkipOffset:self.skipOffset withDelegate:self];
+    self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withSkipOffset:self.skipOffset withCloseOnFinish:self.closeOnFinish withDelegate:self];
     if (!self.interstitialPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid interstitial presenter."];
         [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];

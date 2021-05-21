@@ -66,24 +66,35 @@
 - (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     __block HyBidMoPubMediationNativeAdCustomEvent *strongSelf = self;
     __block HyBidNativeAd *blockAd = nativeAd;
+    NSMutableArray *imageURLsArray = [NSMutableArray new];
     NSString *bannerURLString = nativeAd.bannerUrl;
     NSString *iconURLString = nativeAd.iconUrl;
-    
+
     NSURL *bannerURL = [NSURL URLWithString:bannerURLString];
+    if (bannerURL) {
+        [imageURLsArray addObject:bannerURL];
+    }
     NSURL *iconURL = [NSURL URLWithString:iconURLString];
+    if (iconURL) {
+        [imageURLsArray addObject:iconURL];
+    }
     
-    [self precacheImagesWithURLs:@[bannerURL, iconURL] completionBlock:^(NSArray *errors) {
-        if(errors && errors.count > 0) {
-            [strongSelf invokeFailWithMessage:@"Error caching resources."];
-        } else {
-            HyBidMoPubMediationNativeAdAdapter *adapter = [[HyBidMoPubMediationNativeAdAdapter alloc] initWithNativeAd:blockAd];
-            MPNativeAd* result = [[MPNativeAd alloc] initWithAdAdapter:adapter];
-            [strongSelf.delegate nativeCustomEvent:strongSelf didLoadAd:result];
-            MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([strongSelf class])]);
-        }
-        blockAd = nil;
-        strongSelf = nil;
-    }];
+    if (imageURLsArray && imageURLsArray.count > 0) {
+        [self precacheImagesWithURLs:imageURLsArray completionBlock:^(NSArray *errors) {
+            if(errors && errors.count > 0) {
+                [strongSelf invokeFailWithMessage:@"Error caching resources."];
+            } else {
+                HyBidMoPubMediationNativeAdAdapter *adapter = [[HyBidMoPubMediationNativeAdAdapter alloc] initWithNativeAd:blockAd];
+                MPNativeAd* result = [[MPNativeAd alloc] initWithAdAdapter:adapter];
+                [strongSelf.delegate nativeCustomEvent:strongSelf didLoadAd:result];
+                MPLogEvent([MPLogEvent adLoadSuccessForAdapter:NSStringFromClass([strongSelf class])]);
+            }
+            blockAd = nil;
+            strongSelf = nil;
+        }];
+    } else {
+        [self invokeFailWithMessage:@"Misconfiguration of the Native Ad."];
+    }
 }
 
 - (void)nativeLoaderDidFailWithError:(NSError *)error {

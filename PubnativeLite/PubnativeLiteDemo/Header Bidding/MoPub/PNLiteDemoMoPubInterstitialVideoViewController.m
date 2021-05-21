@@ -84,12 +84,12 @@
     [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
 
-- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
-    NSLog(@"interstitialWillAppear");
+- (void)interstitialWillPresent:(MPInterstitialAdController *)interstitial {
+    NSLog(@"interstitialWillPresent");
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
-    NSLog(@"interstitialDidAppear");
+- (void)interstitialDidPresent:(MPInterstitialAdController *)interstitial {
+    NSLog(@"interstitialDidPresent");
 }
 
 - (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {

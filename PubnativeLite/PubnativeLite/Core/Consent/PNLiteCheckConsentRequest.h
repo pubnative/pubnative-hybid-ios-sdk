@@ -33,6 +33,8 @@
 
 @interface PNLiteCheckConsentRequest : NSObject
 
+@property (nonatomic, weak) NSObject <PNLiteCheckConsentRequestDelegate> *delegate;
+
 - (void)checkConsentRequestWithDelegate:(NSObject<PNLiteCheckConsentRequestDelegate> *)delegate
                            withAppToken:(NSString *)appToken
                            withDeviceID:(NSString *)deviceID;

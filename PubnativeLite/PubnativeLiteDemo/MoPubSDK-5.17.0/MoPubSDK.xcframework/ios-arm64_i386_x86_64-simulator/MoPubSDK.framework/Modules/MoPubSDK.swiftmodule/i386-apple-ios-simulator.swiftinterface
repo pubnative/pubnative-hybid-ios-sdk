@@ -1,0 +1,294 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
+// swift-module-flags: -target i386-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name MoPubSDK
+import AppTrackingTransparency
+import CoreLocation
+import CoreTelephony
+import Foundation
+@_exported import MoPubSDK
+import StoreKit
+import Swift
+import UIKit
+@_inheritsConvenienceInitializers @objc(MPAdvertisingTrackingAuthorization) final public class AdvertisingTrackingAuthorization : ObjectiveC.NSObject {
+  @objc dynamic public static var advertisingIdentifier: Swift.String? {
+    @objc get
+  }
+  @objc public static var isAllowed: Swift.Bool {
+    @objc get
+  }
+  @objc public static var statusDescription: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension AdvertisingTrackingAuthorization {
+  @objc public static var statusValue: Swift.UInt {
+    @objc get
+  }
+}
+@objc(MPURLRequestComparable) public protocol URLRequestComparable {
+  @objc func isRequest(_ urlRequest1: MoPubSDK.MPURLRequest?, duplicateOf urlRequest2: MoPubSDK.MPURLRequest?) -> Swift.Bool
+}
+@_inheritsConvenienceInitializers @objc(MPConsentSynchronizationURLCompare) public class ConsentSynchronizationURLCompare : ObjectiveC.NSObject, MoPubSDK.URLRequestComparable {
+  @objc public func isRequest(_ urlRequest1: MoPubSDK.MPURLRequest?, duplicateOf urlRequest2: MoPubSDK.MPURLRequest?) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension UIView {
+  @objc dynamic public var isVisible: Swift.Bool {
+    @objc get
+  }
+}
+@_inheritsConvenienceInitializers @objc(MPAPIEndpoints) final public class APIEndpoints : ObjectiveC.NSObject {
+  @objc public static var adRequestURLComponents: Foundation.URLComponents {
+    @objc get
+  }
+  @objc public static var nativePositioningURLComponents: Foundation.URLComponents {
+    @objc get
+  }
+  @objc public static var openURLComponents: Foundation.URLComponents {
+    @objc get
+  }
+  @objc public static var consentDialogURLComponents: Foundation.URLComponents {
+    @objc get
+  }
+  @objc public static var consentSyncURLComponents: Foundation.URLComponents {
+    @objc get
+  }
+  @objc public static var baseHostname: Swift.String {
+    @objc get
+    @objc set(value)
+  }
+  @objc public static var baseURL: Foundation.URL? {
+    @objc get
+  }
+  @objc public static var skAdNetworkSyncURLComponents: Foundation.URLComponents {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc(MPResumableTimer) final public class ResumableTimer : ObjectiveC.NSObject {
+  public enum State {
+    case active
+    case complete
+    case paused(remaining: Foundation.TimeInterval)
+    case ready
+  }
+  @objc final public var isCountdownActive: Swift.Bool {
+    @objc get
+  }
+  final public var state: MoPubSDK.ResumableTimer.State {
+    get
+  }
+  @objc final public var isValid: Swift.Bool {
+    @objc get
+  }
+  @objc required public init(interval timerInterval: Foundation.TimeInterval, repeats: Swift.Bool = false, runLoopMode: Foundation.RunLoop.Mode = .default, closure: @escaping (MoPubSDK.ResumableTimer) -> Swift.Void)
+  @objc deinit
+  @objc final public func invalidate()
+  @objc final public func pause()
+  @objc final public func scheduleNow()
+  @objc override dynamic public init()
+}
+@objc(MPSKAdNetworkData) public class SKAdNetworkData : ObjectiveC.NSObject {
+  @objc(MPSKAdNetworkDataClickMethod) public enum ClickMethod : Swift.UInt {
+    case interceptAppStoreClicks = 0
+    case interceptAllClicks = 1
+    public init?(rawValue: Swift.UInt)
+    public typealias RawValue = Swift.UInt
+    public var rawValue: Swift.UInt {
+      get
+    }
+  }
+  @objc required public init?(serverResponse: [Swift.String : Any]?)
+  @objc final public let clickMethod: MoPubSDK.SKAdNetworkData.ClickMethod
+  @objc final public let clickDisplayTrackers: [Swift.String]
+  @objc final public let clickDataDictionary: [Swift.String : Any]
+  @available(iOS 14.5, *)
+  @objc public var impressionData: StoreKit.SKAdImpression? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(MPConsentSyncSerialNetworkSession) public class ConsentSyncSerialNetworkSession : ObjectiveC.NSObject {
+  public init(comparator: MoPubSDK.URLRequestComparable, networkSession: MoPubSDK.MPHTTPNetworkSession.Type)
+  @objc override dynamic public convenience init()
+  @objc public func attemptTask(with request: MoPubSDK.MPURLRequest, responseHandler: ((Foundation.Data?, Foundation.URLResponse?) -> Swift.Void)?, errorHandler: ((Swift.Error?) -> Swift.Void)?)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(MPDeviceInformation) final public class DeviceInformation : ObjectiveC.NSObject {
+  @objc public static func start(completion: @escaping () -> Swift.Void)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension DeviceInformation {
+  @objc public static var appTransportSecuritySettingsValue: Swift.Int
+  @objc dynamic public static var applicationVersion: Swift.String? {
+    @objc get
+  }
+}
+extension DeviceInformation {
+  @objc dynamic public static var cellularService: MoPubSDK.CellularService?
+  @objc public static var currentNetworkStatus: MoPubSDK.NetworkStatus {
+    @objc get
+  }
+}
+@_inheritsConvenienceInitializers @objc(MPStopwatch) final public class Stopwatch : ObjectiveC.NSObject {
+  @objc final public var isRunning: Swift.Bool {
+    @objc get
+  }
+  @objc final public func start()
+  @objc final public func stop() -> Foundation.TimeInterval
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc(MPImageCreativeData) public class ImageCreativeData : ObjectiveC.NSObject {
+  @objc required public init?(withServerResponseData serverResponseData: Foundation.Data?)
+  @objc public var imageURL: Foundation.URL {
+    @objc get
+  }
+  @objc public var clickthroughURL: Foundation.URL? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(MPConversionManager) final public class ConversionManager : ObjectiveC.NSObject {
+  @objc public static func setConversionAppId(_ applicationId: Swift.String)
+  @objc public static func trackConversion()
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc(MPNetworkStatus) public enum NetworkStatus : Swift.Int, Swift.CustomStringConvertible {
+  case notReachable = 0
+  case reachableViaWiFi = 2
+  case reachableViaCellularNetworkUnknownGeneration
+  case reachableViaCellularNetwork2G
+  case reachableViaCellularNetwork3G
+  case reachableViaCellularNetwork4G
+  case reachableViaCellularNetwork5G
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers @objc(MPAdImpressionTimer) final public class AdImpressionTimer : ObjectiveC.NSObject {
+  public typealias Completion = (UIKit.UIView) -> Swift.Void
+  @objc final public let impressionTime: Foundation.TimeInterval
+  @objc final public var pixelsRequiredForViewVisibility: CoreGraphics.CGFloat {
+    @objc get
+  }
+  @objc final public var percentageRequiredForViewVisibility: CoreGraphics.CGFloat {
+    @objc get
+  }
+  @objc public convenience init(impressionTime: Foundation.TimeInterval, requiredViewVisibilityPixels: CoreGraphics.CGFloat, completion: @escaping MoPubSDK.AdImpressionTimer.Completion)
+  @objc public convenience init(impressionTime: Foundation.TimeInterval, requiredViewVisibilityPercentage: CoreGraphics.CGFloat, completion: @escaping MoPubSDK.AdImpressionTimer.Completion)
+  @objc deinit
+  @objc final public func startTracking(view: UIKit.UIView)
+  @objc override dynamic public init()
+}
+@_inheritsConvenienceInitializers @objc(MPClickDisplayTracker) public class ClickDisplayTracker : ObjectiveC.NSObject {
+  @objc(MPClickDisplayTrackerDisplayType) public enum DisplayType : Swift.UInt {
+    case safariViewController = 0
+    case nativeSafari
+    case storeProductViewController
+    case error
+    public init?(rawValue: Swift.UInt)
+    public typealias RawValue = Swift.UInt
+    public var rawValue: Swift.UInt {
+      get
+    }
+  }
+  @objc public class func trackClickDisplay(skAdNetworkData: MoPubSDK.SKAdNetworkData?, displayType: MoPubSDK.ClickDisplayTracker.DisplayType)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ClickDisplayTracker.DisplayType : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension ClickDisplayTracker.DisplayType : Swift.CaseIterable {
+  public typealias AllCases = [MoPubSDK.ClickDisplayTracker.DisplayType]
+  public static var allCases: [MoPubSDK.ClickDisplayTracker.DisplayType] {
+    get
+  }
+}
+@objc(MPLocationAuthorizationStatus) public enum LocationAuthorizationStatus : Swift.Int {
+  case notDetermined
+  case restricted
+  case userDenied
+  case settingsDenied
+  case publisherDenied
+  case authorizedAlways
+  case authorizedWhenInUse
+  case unknown
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension DeviceInformation {
+  @objc public static var enableLocation: Swift.Bool
+  @objc public static var locationAuthorizationStatus: MoPubSDK.LocationAuthorizationStatus {
+    @objc get
+  }
+  @objc public static func string(fromLocationAuthorizationStatus status: MoPubSDK.LocationAuthorizationStatus) -> Swift.String?
+  @objc public static var lastLocation: CoreLocation.CLLocation? {
+    @objc get
+  }
+}
+@_hasMissingDesignatedInitializers @objc(MPCellularService) public class CellularService : ObjectiveC.NSObject {
+  @objc final public let carrier: CoreTelephony.CTCarrier
+  @objc public var currentRadioAccessTechnology: MoPubSDK.NetworkStatus {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(MPImageCreator) final public class ImageCreator : ObjectiveC.NSObject {
+  @objc public static func image(with data: Foundation.Data) -> UIKit.UIImage?
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc(MPImageCreativeView) public class ImageCreativeView : UIKit.UIImageView {
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc dynamic public convenience init()
+  @objc public var isClickable: Swift.Bool {
+    @objc get
+  }
+  @objc public func enableClick()
+  @objc weak public var delegate: MoPubSDK.ImageCreativeViewDelegate?
+  @objc override dynamic public func layoutSubviews()
+  @objc override dynamic public var image: UIKit.UIImage? {
+    @objc get
+    @objc set(value)
+  }
+  @objc override dynamic public init(image: UIKit.UIImage?)
+  @available(iOS 3.0, *)
+  @objc override dynamic public init(image: UIKit.UIImage?, highlightedImage: UIKit.UIImage?)
+  @objc deinit
+}
+@objc(MPImageCreativeViewDelegate) public protocol ImageCreativeViewDelegate {
+  @objc optional func imageCreativeViewWasClicked(_ imageCreativeView: MoPubSDK.ImageCreativeView)
+}
+extension DeviceInformation {
+  @objc public static var ifa: Swift.String? {
+    @objc get
+  }
+  @objc public static var ifv: Swift.String? {
+    @objc get
+  }
+  @objc public static var mopubIdentifier: Swift.String {
+    @objc get
+  }
+}

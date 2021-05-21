@@ -28,4 +28,6 @@
 
 - (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset;
 
+@property (nonatomic, assign) BOOL closeOnFinish;
+
 @end

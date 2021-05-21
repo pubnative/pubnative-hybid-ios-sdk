@@ -28,6 +28,7 @@
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
                                                   withSkipOffset:(NSUInteger)skipOffset
+                                               withCloseOnFinish: (BOOL)closeOnFinish
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate;
 
 @end

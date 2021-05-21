@@ -66,7 +66,7 @@
 }
 
 - (void)presentAdFromViewController:(UIViewController *)viewController {
-    [self.delegate fullscreenAdAdapterAdWillAppear:self];
+    [self.delegate fullscreenAdAdapterAdWillPresent:self];
     if ([self.rewardedPresenter respondsToSelector:@selector(showFromViewController:)]) {
         [self.rewardedPresenter showFromViewController:viewController];
     } else {
@@ -122,7 +122,7 @@
 }
 
 - (void)rewardedPresenterDidShow:(HyBidRewardedPresenter *)rewardedPresenter {
-    [self.delegate fullscreenAdAdapterAdDidAppear:self];
+    [self.delegate fullscreenAdAdapterAdDidPresent:self];
     MPLogEvent([MPLogEvent adDidAppearForAdapter:NSStringFromClass([self class])]);
     [self.delegate fullscreenAdAdapterDidTrackImpression:self];
     MPLogEvent([MPLogEvent adShowSuccessForAdapter:NSStringFromClass([self class])]);

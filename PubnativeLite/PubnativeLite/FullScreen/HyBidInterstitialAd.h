@@ -63,5 +63,6 @@
 - (void)hide;
 
 - (void)setSkipOffset:(NSInteger)seconds;
+- (void)setCloseOnFinish:(BOOL)closeOnFinish;
 
 @end
