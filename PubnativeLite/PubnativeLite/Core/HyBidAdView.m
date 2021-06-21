@@ -248,7 +248,7 @@
 - (void)processAdContent:(NSString *)adContent {
     HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
     signalDataProcessor.delegate = self;
-    [signalDataProcessor processSignalData:adContent withZoneID:self.zoneID];
+    [signalDataProcessor processSignalData:adContent];
 }
 
 - (void)startTracking {

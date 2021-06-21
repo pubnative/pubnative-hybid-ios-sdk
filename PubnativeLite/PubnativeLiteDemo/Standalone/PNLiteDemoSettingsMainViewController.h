@@ -20,8 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoBaseViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface PNLiteDemoSettingsMainViewController : PNLiteDemoBaseViewController
+@interface PNLiteDemoSettingsMainViewController : UIViewController
 
 @end

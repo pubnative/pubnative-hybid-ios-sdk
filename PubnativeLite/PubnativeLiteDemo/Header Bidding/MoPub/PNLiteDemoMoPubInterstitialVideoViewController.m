@@ -139,6 +139,7 @@
         self.inspectRequestButton.hidden = NO;
         [self.interstitialLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
+        [self.moPubInterstitial loadAd];
     }
 }
 

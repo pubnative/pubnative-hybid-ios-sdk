@@ -22,6 +22,7 @@
 
 #import "PNLiteDemoMarkupMainViewController.h"
 #import "PNLiteDemoMarkupDetailViewController.h"
+#import "UITextView+KeyboardDismiss.h"
 
 @interface PNLiteDemoMarkupMainViewController ()
 
@@ -43,7 +44,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.markupTextView addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];
 }
 
 - (IBAction)loadMarkupTouchUpInside:(UIButton *)sender {

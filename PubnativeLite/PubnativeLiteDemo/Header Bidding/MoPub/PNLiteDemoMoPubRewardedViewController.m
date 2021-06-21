@@ -144,11 +144,10 @@
     if (request == self.rewardedAdRequest) {
         self.inspectRequestButton.hidden = NO;
         
-        NSString *adUnitId = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey];
         NSString *keywords = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad];
 
-        [MPRewardedAds setDelegate:self forAdUnitId:adUnitId];
-        [MPRewardedAds loadRewardedAdWithAdUnitID:adUnitId keywords:keywords userDataKeywords:nil mediationSettings:nil];
+        [MPRewardedAds setDelegate:self forAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey]];
+        [MPRewardedAds loadRewardedAdWithAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey] keywords:keywords userDataKeywords:nil mediationSettings:nil];
     }
 }
 
@@ -158,6 +157,7 @@
         self.inspectRequestButton.hidden = NO;
         [self.rewardedLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
+        [MPRewardedAds loadRewardedAdWithAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey] withMediationSettings:nil];
     }
 }
 

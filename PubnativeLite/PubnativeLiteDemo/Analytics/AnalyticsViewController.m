@@ -42,7 +42,6 @@
 #pragma mark - UITableViewDatasource
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
     AnalyticsEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AnalyticsEventTableViewCell" forIndexPath:indexPath];
     [cell configureCell:self.dataSource[indexPath.row]];
     return cell;

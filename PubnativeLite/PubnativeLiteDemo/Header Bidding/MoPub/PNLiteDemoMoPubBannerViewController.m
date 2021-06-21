@@ -134,6 +134,7 @@
         self.inspectRequestButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
+        [self.moPubBanner loadAd];
     }
 }
 

@@ -22,6 +22,9 @@
 
 #import "PNLiteDemoBaseViewController.h"
 #import "PNLiteRequestInspector.h"
+#if DEBUG
+#import "FLEXManager.h"
+#endif
 
 @interface PNLiteDemoBaseViewController ()
 
@@ -31,6 +34,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UIBarButtonItem *flexButton =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gearIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFLEX)];
+    [self.navigationItem setRightBarButtonItem:flexButton];
+}
+
+- (void)toggleFLEX {
+#if DEBUG
+    [[FLEXManager sharedManager] toggleExplorer];
+#endif
 }
 
 - (void)requestAd {

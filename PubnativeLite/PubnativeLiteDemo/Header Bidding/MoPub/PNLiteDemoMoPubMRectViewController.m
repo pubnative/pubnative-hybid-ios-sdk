@@ -134,6 +134,7 @@
          self.inspectRequestButton.hidden = NO;
          [self.mRectLoaderIndicator stopAnimating];
          [self showAlertControllerWithMessage:error.localizedDescription];
+         [self.moPubMrect loadAd];
     }
 }
 
