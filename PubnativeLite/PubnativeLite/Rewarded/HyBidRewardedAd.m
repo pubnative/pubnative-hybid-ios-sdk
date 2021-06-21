@@ -26,8 +26,9 @@
 #import "HyBidRewardedPresenterFactory.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidSignalDataProcessor.h"
 
-@interface HyBidRewardedAd() <HyBidRewardedPresenterDelegate, HyBidAdRequestDelegate>
+@interface HyBidRewardedAd() <HyBidRewardedPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, weak) NSObject<HyBidRewardedAdDelegate> *delegate;

@@ -22,7 +22,6 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
-#import "HyBidSignalDataProcessor.h"
 
 @protocol HyBidRewardedAdDelegate<NSObject>
 
@@ -35,7 +34,7 @@
 
 @end
 
-@interface HyBidRewardedAd: NSObject <HyBidSignalDataProcessorDelegate>
+@interface HyBidRewardedAd: NSObject
 
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;

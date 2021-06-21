@@ -111,7 +111,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import <HyBid/HyBidLogger.h>
 #import <HyBid/HyBidIntegrationType.h>
 #import <HyBid/HyBidAdSize.h>
-#import <HyBid/HyBidSignalDataProcessor.h>
 #import <HyBid/HyBidOpenRTBDataModel.h>
 #import <HyBid/HyBidReportingManager.h>
 #import <HyBid/HyBidReporting.h>

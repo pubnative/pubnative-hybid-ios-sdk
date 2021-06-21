@@ -28,8 +28,9 @@
 #import "HyBidRemoteConfigModel.h"
 #import "HyBidAuction.h"
 #import "HyBidVastTagAdSource.h"
+#import "HyBidSignalDataProcessor.h"
 
-@interface HyBidAdView()
+@interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) NSString *zoneID;

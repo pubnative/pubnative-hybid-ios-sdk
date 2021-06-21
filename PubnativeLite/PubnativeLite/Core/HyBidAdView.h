@@ -24,7 +24,6 @@
 #import "HyBidAd.h"
 #import "HyBidAdRequest.h"
 #import "HyBidAdPresenter.h"
-#import "HyBidSignalDataProcessor.h"
 
 @class HyBidAdView;
 
@@ -43,7 +42,7 @@ typedef enum {
 
 @end
 
-@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate, HyBidSignalDataProcessorDelegate>
+@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate>
 
 @property (nonatomic, strong) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) HyBidAd *ad;
