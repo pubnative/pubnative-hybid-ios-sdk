@@ -21,8 +21,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class HyBidSignalDataProcessor, HyBidAd;
+#import "HyBidAd.h"
 
 @protocol HyBidSignalDataProcessorDelegate<NSObject>
 

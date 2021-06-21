@@ -1038,6 +1038,8 @@
 		E7C26C2B267B9CD20089C60A /* HyBidSignalDataModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7066348267B931700167612 /* HyBidSignalDataModel.h */; };
 		E7C26C2C267B9CD60089C60A /* HyBidSignalDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7066349267B931700167612 /* HyBidSignalDataModel.m */; };
 		E7C26C2D267B9CD70089C60A /* HyBidSignalDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E7066349267B931700167612 /* HyBidSignalDataModel.m */; };
+		E7C438832681077400BE90BF /* HyBidSignalDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */; };
+		E7C438842681077800BE90BF /* HyBidSignalDataProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */; };
 		E7CD0E472522219E00F976D6 /* HyBidSKAdNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */; };
 		E7CD0E4D252221A300F976D6 /* HyBidSKAdNetworkViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */; };
 		E7CD0E53252221AD00F976D6 /* HyBidSKAdNetworkViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */; };
@@ -1166,8 +1168,8 @@
 		5A3657D0203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteMRAIDBannerPresenter.m; sourceTree = "<group>"; };
 		5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+PNLiteTopViewController.h"; sourceTree = "<group>"; };
 		5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+PNLiteTopViewController.m"; sourceTree = "<group>"; };
-		5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HyBidSignalDataProcessor.h; path = ../HyBidSignalDataProcessor.h; sourceTree = "<group>"; };
-		5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HyBidSignalDataProcessor.m; path = ../HyBidSignalDataProcessor.m; sourceTree = "<group>"; };
+		5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSignalDataProcessor.h; sourceTree = "<group>"; };
+		5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSignalDataProcessor.m; sourceTree = "<group>"; };
 		5A3EDD4D23747F8000493EF2 /* HyBidVerificationScriptResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVerificationScriptResource.h; sourceTree = "<group>"; };
 		5A3EDD4E23747F8000493EF2 /* HyBidVerificationScriptResource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVerificationScriptResource.m; sourceTree = "<group>"; };
 		5A40351623322E81005AC6F7 /* HyBidDemoGADMRectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoGADMRectViewController.h; sourceTree = "<group>"; };
@@ -3877,6 +3879,8 @@
 				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
 				6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */,
 				6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */,
+				5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */,
+				5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */,
 				62CE409025B58A7A00C5E8EA /* Anayltics */,
 				5A22C18C225F41EC0077B4ED /* Viewability */,
 				5A0779F321341E9100EBD0E7 /* Request Inspector */,
@@ -4018,8 +4022,6 @@
 		E7B2833D267B97C000CB6E95 /* SignalData */ = {
 			isa = PBXGroup;
 			children = (
-				5A3DD0A425277A0300A72B03 /* HyBidSignalDataProcessor.h */,
-				5A3DD0A525277A0300A72B03 /* HyBidSignalDataProcessor.m */,
 				E7066348267B931700167612 /* HyBidSignalDataModel.h */,
 				E7066349267B931700167612 /* HyBidSignalDataModel.m */,
 			);
@@ -4245,7 +4247,6 @@
 				6F96C7CA259B7D4B00F03422 /* HyBidRemoteConfigAppConfig.h in Headers */,
 				7E4CC9E82502A581003A3425 /* PNLiteAdFactory.h in Headers */,
 				7E4CC8CE25029B4D003A3425 /* HyBidBannerAdView.h in Headers */,
-				5A3DD0B725278A6F00A72B03 /* HyBidSignalDataProcessor.h in Headers */,
 				7E4CC8BE25029A5F003A3425 /* HyBidNativeAdLoader.h in Headers */,
 				E76DF5DE25E6C0EC002CF7BA /* HyBidVGIEmail.h in Headers */,
 				7E4CC9DF2502A57A003A3425 /* PNLiteResponseModel.h in Headers */,
@@ -4347,6 +4348,7 @@
 				7E4CC9B32502A51B003A3425 /* PNLiteImpressionTrackerItem.h in Headers */,
 				7E4CC9D82502A579003A3425 /* PNLiteData.h in Headers */,
 				6F8C11712539BCCC00DC4151 /* PNLiteRewardedPresenterDecorator.h in Headers */,
+				E7C438842681077800BE90BF /* HyBidSignalDataProcessor.h in Headers */,
 				7E4CCA3D2502A5EB003A3425 /* PNLiteCloseButton.h in Headers */,
 				7EE357D8256D4628005E6AC6 /* HyBidRemoteConfigManager.h in Headers */,
 				7E4CC8BF25029A63003A3425 /* HyBidNativeAdRenderer.h in Headers */,
@@ -5126,6 +5128,7 @@
 				7E4CC9E62502A57A003A3425 /* HyBidAdSize.m in Sources */,
 				6F96C7B9259B7CEF00F03422 /* HyBidOpenRTBBaseModel.m in Sources */,
 				7E4CC9F92502A58D003A3425 /* HyBidAdTracker.m in Sources */,
+				E7C438832681077400BE90BF /* HyBidSignalDataProcessor.m in Sources */,
 				7E4CC9FB2502A58D003A3425 /* HyBidAdTrackerRequest.m in Sources */,
 				7E4CC99D2502A4CE003A3425 /* HyBidAdView.m in Sources */,
 				7E4CC9EE2502A581003A3425 /* HyBidBannerAdRequest.m in Sources */,
@@ -5182,7 +5185,6 @@
 				6F8C11842539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m in Sources */,
 				7E4CCA3B2502A5E1003A3425 /* HyBidVideoAdProcessor.m in Sources */,
 				E7CD0E59252221B800F976D6 /* HyBidSKAdNetworkViewController.m in Sources */,
-				5A3DD0BD25278A7B00A72B03 /* HyBidSignalDataProcessor.m in Sources */,
 				E76DF5F425E6C0ED002CF7BA /* HyBidVGIAudience.m in Sources */,
 				E76DF5E425E6C0EC002CF7BA /* HyBidVGIModel.m in Sources */,
 				7E4CC9A42502A4E8003A3425 /* HyBidViewabilityAdSession.m in Sources */,
