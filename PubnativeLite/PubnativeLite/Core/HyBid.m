@@ -26,9 +26,12 @@
 #import "PNLiteLocationManager.h"
 #import "HyBidConstants.h"
 #import "HyBidRemoteConfigManager.h"
+#import "HyBidDisplayManager.h"
+#import "PNLiteAdFactory.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
+BOOL isInitialized = NO;
 
 @implementation HyBid
 
@@ -51,6 +54,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
+        isInitialized = NO;
         if (completion) {
             completion(false);
         }
@@ -59,12 +63,17 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
         [HyBidViewabilityManager sharedInstance];
+        isInitialized = YES;
         [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
             if (completion) {
                 completion(success);
             }
         }];
     }
+}
+
++ (BOOL)isInitialized {
+    return isInitialized;
 }
 
 + (void) setLocationUpdates:(BOOL)enabled {
@@ -75,8 +84,7 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
     PNLiteLocationManager.locationTrackingEnabled = enabled;
 }
 
-+ (NSString *)sdkVersion
-{
++ (NSString *)sdkVersion {
     return HYBID_SDK_VERSION;
 }
 
@@ -94,6 +102,25 @@ NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 
 + (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus {
     [HyBidSettings sharedInstance].audioStatus = audioStatus;
+}
+
++ (NSString *)getSDKVersionInfo {
+    return [HyBidDisplayManager getDisplayManagerVersion];
+}
+
++ (NSString *)getCustomRequestSignalData {
+    if (!HyBid.isInitialized) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before getting Custom Request Signal Data. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+        return @"";
+    }
+    
+    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false];
+    
+    HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
+    NSURL* url = [adRequest requestURLFromAdRequestModel:adRequestModel];
+    
+    NSLog(@"requestParametersString %@", url.query);
+    return url.query;
 }
 
 @end

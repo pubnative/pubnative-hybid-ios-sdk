@@ -27,6 +27,7 @@
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidSignalDataProcessor.h"
+#import "HyBid.h"
 
 @interface HyBidRewardedAd() <HyBidRewardedPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
@@ -54,6 +55,9 @@
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate {
     self = [super init];
     if (self) {
+        if (![HyBid isInitialized]) {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before creating a HyBidRewardedAd. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+        }
         self.rewardedAdRequest = [[HyBidRewardedAdRequest alloc] init];
         self.rewardedAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;

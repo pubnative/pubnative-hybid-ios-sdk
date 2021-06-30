@@ -28,6 +28,7 @@
 #import "HyBidIntegrationType.h"
 #import "HyBidSettings.h"
 #import "HyBidSignalDataProcessor.h"
+#import "HyBid.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
@@ -57,11 +58,14 @@
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
     self = [super init];
     if (self) {
+        if (![HyBid isInitialized]) {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before creating a HyBidInterstitialAd. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+        }
         self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
         self.interstitialAdRequest.openRTBAdType = VIDEO;
         self.zoneID = zoneID;
         self.delegate = delegate;
-        // Globack skipOffset will be used as placement offset if this one is not set previously.
+        // Global skipOffset will be used as placement offset if this one is not set previously.
         if ([HyBidSettings sharedInstance].skipOffset > 0 && _skipOffset <= 0 ) {
             [self setSkipOffset:[HyBidSettings sharedInstance].skipOffset];
         }

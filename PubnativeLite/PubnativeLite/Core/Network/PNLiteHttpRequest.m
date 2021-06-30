@@ -27,6 +27,7 @@
 #import "HyBidWebBrowserUserAgentInfo.h"
 #import "HyBidRequestParameter.h"
 #import "HyBidSkAdNetworkRequestModel.h"
+#import "HyBid.h"
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -59,6 +60,10 @@ NSInteger const MAX_RETRIES = 1;
     self.delegate = delegate;
     self.urlString = urlString;
     self.method = method;
+    
+    if (![HyBid isInitialized]) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before making any requests. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+    }
     
     if (self.isUsingOpenRTB) {
         NSArray *headerObjects = [NSArray arrayWithObjects:@"2.3", @"application/json", @"utf-8", nil];

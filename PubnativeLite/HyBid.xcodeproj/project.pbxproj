@@ -566,6 +566,14 @@
 		6234935B25AC667F000B2718 /* AnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234935925AC667F000B2718 /* AnalyticsViewController.m */; };
 		6234936525AC66C1000B2718 /* Analytics.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6234936425AC66C1000B2718 /* Analytics.storyboard */; };
 		6234937225AC68A7000B2718 /* AnalyticsEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */; };
+		62AED0702685F64D00CDDDD1 /* HyBidDisplayManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 62AED06E2685F64D00CDDDD1 /* HyBidDisplayManager.h */; };
+		62AED0712685F64D00CDDDD1 /* HyBidDisplayManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 62AED06E2685F64D00CDDDD1 /* HyBidDisplayManager.h */; };
+		62AED0722685F64D00CDDDD1 /* HyBidDisplayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AED06F2685F64D00CDDDD1 /* HyBidDisplayManager.m */; };
+		62AED0732685F64D00CDDDD1 /* HyBidDisplayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AED06F2685F64D00CDDDD1 /* HyBidDisplayManager.m */; };
+		62AED07C2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62AED07A2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h */; };
+		62AED07D2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62AED07A2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h */; };
+		62AED07E2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AED07B2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m */; };
+		62AED07F2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AED07B2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m */; };
 		62CE409425B58AAA00C5E8EA /* HyBidReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE409225B58AAA00C5E8EA /* HyBidReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62CE409525B58AAA00C5E8EA /* HyBidReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE409225B58AAA00C5E8EA /* HyBidReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62CE409A25B58AAA00C5E8EA /* HyBidReporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 62CE409325B58AAA00C5E8EA /* HyBidReporting.m */; };
@@ -1928,6 +1936,10 @@
 		6234936425AC66C1000B2718 /* Analytics.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Analytics.storyboard; sourceTree = "<group>"; };
 		6234937025AC68A7000B2718 /* AnalyticsEventTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsEventTableViewCell.h; sourceTree = "<group>"; };
 		6234937125AC68A7000B2718 /* AnalyticsEventTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyticsEventTableViewCell.m; sourceTree = "<group>"; };
+		62AED06E2685F64D00CDDDD1 /* HyBidDisplayManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDisplayManager.h; sourceTree = "<group>"; };
+		62AED06F2685F64D00CDDDD1 /* HyBidDisplayManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDisplayManager.m; sourceTree = "<group>"; };
+		62AED07A2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoCustomSDKDataViewController.h; sourceTree = "<group>"; };
+		62AED07B2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoCustomSDKDataViewController.m; sourceTree = "<group>"; };
 		62CE409225B58AAA00C5E8EA /* HyBidReporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReporting.h; sourceTree = "<group>"; };
 		62CE409325B58AAA00C5E8EA /* HyBidReporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidReporting.m; sourceTree = "<group>"; };
 		62CE40CC25B5933400C5E8EA /* HyBidReportingEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReportingEvent.h; sourceTree = "<group>"; };
@@ -2314,6 +2326,8 @@
 				5A59DBBE2052F6650002BCD4 /* PNLiteDemoKeywordsViewController.m */,
 				5A0779F62134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.h */,
 				5A0779F72134479800EBD0E7 /* PNLiteDemoRequestInspectorViewController.m */,
+				62AED07A2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h */,
+				62AED07B2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m */,
 				5A54619A24C0D41E00B49550 /* Consent */,
 				5AE206C220E288D5000E770C /* Mediation */,
 				5A4FF06520AD92C700B81B3D /* Standalone */,
@@ -2808,6 +2822,8 @@
 				5AA3D5E820319D82002BFDA3 /* PNLiteAdRequestModel.m */,
 				5ADF9E4F214911A90081355E /* HyBidAdRequest.h */,
 				5ADF9E50214911A90081355E /* HyBidAdRequest.m */,
+				62AED06E2685F64D00CDDDD1 /* HyBidDisplayManager.h */,
+				62AED06F2685F64D00CDDDD1 /* HyBidDisplayManager.m */,
 			);
 			path = "Ad Request";
 			sourceTree = "<group>";
@@ -4109,6 +4125,7 @@
 				5A3DD0A625277A0300A72B03 /* HyBidSignalDataProcessor.h in Headers */,
 				5A91E65720BFF76900527BAA /* PNLiteUserConsentModel.h in Headers */,
 				5A9B66CF20BD66080067964E /* PNLiteVASTSchema.h in Headers */,
+				62AED0702685F64D00CDDDD1 /* HyBidDisplayManager.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
 				5A8D7DC420C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h in Headers */,
 				5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */,
@@ -4124,6 +4141,7 @@
 				5AEC317424698D8D008FD8BD /* HyBidViewabilityNativeVideoAdSession.h in Headers */,
 				5A9B66E720BD97530067964E /* PNLiteVASTPlayerViewController.h in Headers */,
 				5A2EC33720C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */,
+				62AED07C2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h in Headers */,
 				7EE35822256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.h in Headers */,
 				5ADF9E772149426B0081355E /* HyBidAdTracker.h in Headers */,
 				5A3657D1203C41DA004B4347 /* PNLiteMRAIDBannerPresenter.h in Headers */,
@@ -4241,6 +4259,7 @@
 				7E4CC9D62502A579003A3425 /* PNLiteMeta.h in Headers */,
 				7E4CC9F12502A581003A3425 /* HyBidNativeAdRequest.h in Headers */,
 				6FEFC84D2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.h in Headers */,
+				62AED07D2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.h in Headers */,
 				E76DF5D425E6C0EC002CF7BA /* HyBidVGIMacros.h in Headers */,
 				7E4CC8CA25029B2C003A3425 /* HyBidAd.h in Headers */,
 				7E80A74525680656006BD5EF /* HyBidAdSourceConfig.h in Headers */,
@@ -4294,6 +4313,7 @@
 				7E4CC9F82502A58D003A3425 /* HyBidAdTracker.h in Headers */,
 				7EE3577D256BC7DD005E6AC6 /* HyBidAdSourceAbstract.h in Headers */,
 				7E4CCA372502A5E1003A3425 /* PNLiteVASTSchema.h in Headers */,
+				62AED0712685F64D00CDDDD1 /* HyBidDisplayManager.h in Headers */,
 				E76DF5E625E6C0EC002CF7BA /* HyBidVGIPrivacy.h in Headers */,
 				E76DF5BA25E6C0EC002CF7BA /* HyBidVGIModel.h in Headers */,
 				7E4CCA302502A5D3003A3425 /* PNLiteVASTPlayerInterstitialViewController.h in Headers */,
@@ -4993,6 +5013,7 @@
 				5ADF9EB021496C400081355E /* HyBidNativeAdRenderer.m in Sources */,
 				6F8B1B3825ADDD0100E455C6 /* HyBidEncryption.m in Sources */,
 				6F96C7B8259B7CEF00F03422 /* HyBidOpenRTBBaseModel.m in Sources */,
+				62AED0722685F64D00CDDDD1 /* HyBidDisplayManager.m in Sources */,
 				5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */,
 				5A4B95DF24D9D3CD00028939 /* HyBidPrebidUtils.m in Sources */,
 				5ADF9E4A21490B9A0081355E /* HyBidRequestParameter.m in Sources */,
@@ -5010,6 +5031,7 @@
 				E76DF5B725E6C0EC002CF7BA /* HyBidVGIOS.m in Sources */,
 				7EE35820256D4738005E6AC6 /* HyBidRemoteConfigPlacementInfo.m in Sources */,
 				5AB2C12A248696BA00AFB4A5 /* HyBidVideoAdCacheItem.m in Sources */,
+				62AED07E2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m in Sources */,
 				E7CD0E472522219E00F976D6 /* HyBidSKAdNetworkViewController.m in Sources */,
 				5AFAF2C525223A900031581B /* HyBidMarkupUtils.m in Sources */,
 				5AB2C13224869E4300AFB4A5 /* HyBidVideoAdProcessor.m in Sources */,
@@ -5167,6 +5189,7 @@
 				7EE35773256BC672005E6AC6 /* HyBidAuction.m in Sources */,
 				7E4CCA542502A611003A3425 /* HyBidPrebidUtils.m in Sources */,
 				E76DF5C825E6C0EC002CF7BA /* HyBidVGIApl.m in Sources */,
+				62AED0732685F64D00CDDDD1 /* HyBidDisplayManager.m in Sources */,
 				7E4CC9E72502A581003A3425 /* HyBidRequestParameter.m in Sources */,
 				7E4CC8DA25029F3D003A3425 /* HyBidSettings.m in Sources */,
 				7EE3582E256D474D005E6AC6 /* HyBidRemoteConfigPlacement.m in Sources */,
@@ -5188,6 +5211,7 @@
 				E76DF5F425E6C0ED002CF7BA /* HyBidVGIAudience.m in Sources */,
 				E76DF5E425E6C0EC002CF7BA /* HyBidVGIModel.m in Sources */,
 				7E4CC9A42502A4E8003A3425 /* HyBidViewabilityAdSession.m in Sources */,
+				62AED07F2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m in Sources */,
 				6F8C11472539B8E300DC4151 /* HyBidRewardedAd.m in Sources */,
 				7E4CC9A22502A4E3003A3425 /* HyBidViewabilityManager.m in Sources */,
 				7E4CC9A82502A4F3003A3425 /* HyBidViewabilityNativeAdSession.m in Sources */,
@@ -5347,7 +5371,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -5387,7 +5411,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -5546,7 +5570,7 @@
 					"@loader_path/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)/Analytics",
 				);
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -5588,7 +5612,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

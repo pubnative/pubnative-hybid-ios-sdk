@@ -29,6 +29,7 @@
 #import "HyBidAuction.h"
 #import "HyBidVastTagAdSource.h"
 #import "HyBidSignalDataProcessor.h"
+#import "HyBid.h"
 
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
 
@@ -62,6 +63,9 @@
 - (instancetype)initWithSize:(HyBidAdSize *)adSize {
     self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
     if (self) {
+        if (![HyBid isInitialized]) {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before creating a HyBidAdView. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+        }
         self.adRequest = [[HyBidAdRequest alloc] init];
         self.adRequest.openRTBAdType = BANNER;
         self.auctionResponses = [[NSMutableArray alloc]init];

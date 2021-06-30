@@ -77,6 +77,8 @@ CLLocationManager *locationManager;
     [HyBid setInterstitialSkipOffset:10];
     [HyBid setInterstitialCloseOnFinish:YES];
     [HyBid setVideoAudioStatus:HyBidAudioStatusDefault];
+    
+    [HyBid getCustomRequestSignalData];
     return YES;
 }
 
