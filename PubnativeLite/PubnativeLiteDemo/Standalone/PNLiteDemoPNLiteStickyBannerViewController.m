@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
-@property (nonatomic) BannerPosition bannerPosition;
+@property (nonatomic) HyBidBannerPosition bannerPosition;
 
 @end
 
@@ -48,7 +48,7 @@
     [self.bannerLoaderIndicator stopAnimating];
     self.navigationItem.title = @"HyBid Sticky Banner";
     self.bannerAdView = [[HyBidAdView alloc] initWithSize:[PNLiteDemoSettings sharedInstance].adSize];
-    self.bannerPosition = TOP;
+    self.bannerPosition = BANNER_POSITION_TOP;
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
@@ -60,10 +60,10 @@
 - (IBAction)segmentedControlValueChanged:(id)sender {
     switch ([sender selectedSegmentIndex]) {
         case 0: // TOP
-            self.bannerPosition = TOP;
+            self.bannerPosition = BANNER_POSITION_TOP;
             break;
         case 1: // BOTTOM
-            self.bannerPosition = BOTTOM;
+            self.bannerPosition = BANNER_POSITION_BOTTOM;
             break;
     }
 }

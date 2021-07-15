@@ -9,6 +9,9 @@ HYBID_DEMO_APP_ZIP_PATH=$BASE_DIR/HyBidDemo.app.zip
 # Show Current Versions
 xcodebuild -showsdks
 
+# Install cocoapods dependencies
+pod install
+
 # Generate HyBid Demo App
 xcodebuild -arch x86_64 -sdk iphonesimulator -workspace HyBid.xcworkspace -scheme HyBidDemo CONFIGURATION_BUILD_DIR=$HYBID_DEMO_APP_PATH
 

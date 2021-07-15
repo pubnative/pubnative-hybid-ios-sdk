@@ -28,6 +28,7 @@
 #import "PNLiteDemoMoPubManager.h"
 
 @import GoogleMobileAds;
+@import Firebase;
 
 @interface AppDelegate ()
 @end
@@ -38,6 +39,10 @@ CLLocationManager *locationManager;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+    // Configure Firebase app
+    [FIRApp configure];
+
     [PNLiteDemoSettings sharedInstance];
     locationManager = [[CLLocationManager alloc] init];
     [locationManager requestWhenInUseAuthorization];

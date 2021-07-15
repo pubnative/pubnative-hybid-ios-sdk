@@ -1,4 +1,0 @@
-module OMSDK_Mopub {
-    header "Headers/OMIDImports.h"
-    export *
-}

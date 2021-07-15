@@ -41,7 +41,9 @@
 
 - (NSString *)getSkAdNetworkVersion
 {
-    if (@available(iOS 14, *)) {
+    if (@available(iOS 14.5, *)) {
+        return @"2.2";
+    } else if (@available(iOS 14, *)) {
         return @"2.0";
     } else {
         return @"1.0";
