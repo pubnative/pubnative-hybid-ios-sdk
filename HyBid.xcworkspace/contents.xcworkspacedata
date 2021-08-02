@@ -23,4 +23,7 @@
    <FileRef
       location = "group:PubnativeLite/HyBid.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

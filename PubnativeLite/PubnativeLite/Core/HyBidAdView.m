@@ -29,6 +29,7 @@
 #import "HyBidAuction.h"
 #import "HyBidVastTagAdSource.h"
 #import "HyBidSignalDataProcessor.h"
+#import "HyBid.h"
 
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
 
@@ -62,6 +63,9 @@
 - (instancetype)initWithSize:(HyBidAdSize *)adSize {
     self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
     if (self) {
+        if (![HyBid isInitialized]) {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before creating a HyBidAdView. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
+        }
         self.adRequest = [[HyBidAdRequest alloc] init];
         self.adRequest.openRTBAdType = BANNER;
         self.auctionResponses = [[NSMutableArray alloc]init];
@@ -85,7 +89,7 @@
     }
 }
 
-- (void)loadWithZoneID:(NSString *)zoneID withPosition:(BannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate
+- (void)loadWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate
 {
     self.bannerPosition = bannerPosition;
     [self loadWithZoneID:zoneID andWithDelegate:delegate];
@@ -167,7 +171,7 @@
     [self renderAd];
 }
 
-- (void)show:(UIView *)adView withPosition:(BannerPosition)position
+- (void)show:(UIView *)adView withPosition:(HyBidBannerPosition)position
 {
     if (self.container == nil) {
         self.container = [[UIView alloc] init];
@@ -177,13 +181,13 @@
     [[self containerViewController].view addSubview:self.container];
     
     switch (position) {
-        case UNKNOWN:
+        case BANNER_POSITION_UNKNOWN:
             break;
-        case TOP:
-            [self setStickyBannerConstraintsAtPosition:TOP forView:self.container];
+        case BANNER_POSITION_TOP:
+            [self setStickyBannerConstraintsAtPosition:BANNER_POSITION_TOP forView:self.container];
             break;
-        case BOTTOM:
-            [self setStickyBannerConstraintsAtPosition:BOTTOM forView:self.container];
+        case BANNER_POSITION_BOTTOM:
+            [self setStickyBannerConstraintsAtPosition:BANNER_POSITION_BOTTOM forView:self.container];
             break;
     }
 }
@@ -193,24 +197,23 @@
     return [[[UIApplication sharedApplication].delegate.window.rootViewController childViewControllers] lastObject];
 }
 
-- (void)setStickyBannerConstraintsAtPosition:(BannerPosition)position forView:(UIView *)adView
+- (void)setStickyBannerConstraintsAtPosition:(HyBidBannerPosition)position forView:(UIView *)adView
 {
     adView.translatesAutoresizingMaskIntoConstraints = NO;
     [adView.widthAnchor constraintEqualToConstant:self.adSize.width].active = YES;
     [adView.heightAnchor constraintEqualToConstant:self.adSize.height].active = YES;
     [adView.centerXAnchor constraintEqualToAnchor:[self containerViewController].view.centerXAnchor].active = YES;
     if (@available(iOS 11.0, *)) {
-        [position == TOP ? adView.topAnchor : adView.bottomAnchor
-        constraintEqualToAnchor:
-        position == TOP ? [self containerViewController].view.safeAreaLayoutGuide.topAnchor : [self containerViewController].view.safeAreaLayoutGuide.bottomAnchor
-        constant:8.0].active = YES;
+        [position == BANNER_POSITION_TOP ? adView.topAnchor : adView.bottomAnchor
+                                     constraintEqualToAnchor:
+         position == BANNER_POSITION_TOP ? [self containerViewController].view.safeAreaLayoutGuide.topAnchor : [self containerViewController].view.safeAreaLayoutGuide.bottomAnchor constant:position == BANNER_POSITION_TOP ? 8.0 : -8.0].active = YES;
     } else {
         // Fallback on earlier versions
     }
 }
 
 - (void)setupAdView:(UIView *)adView {
-    if (self.bannerPosition == UNKNOWN) {
+    if (self.bannerPosition == BANNER_POSITION_UNKNOWN) {
         [self addSubview:adView];
     } else {
         [self show:adView withPosition:self.bannerPosition];

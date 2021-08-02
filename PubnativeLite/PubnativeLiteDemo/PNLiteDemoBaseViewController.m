@@ -23,7 +23,7 @@
 #import "PNLiteDemoBaseViewController.h"
 #import "PNLiteRequestInspector.h"
 #if DEBUG
-#import "FLEXManager.h"
+#import <FLEX/FLEX.h>
 #endif
 
 @interface PNLiteDemoBaseViewController ()

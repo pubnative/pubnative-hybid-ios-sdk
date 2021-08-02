@@ -1,18 +1,41 @@
 default_platform(:ios)
 
+
 platform :ios do
+
   before_all do
     setup_circle_ci
   end
+
   desc "Ad-Hoc Build for Firebase"
-  lane :adhoc do
-    match
-  end
-  desc "Distribute Build for Firebase"
-  lane :distribute do
+  lane :distribute do |options|
+
+    match(type: "development")
+
+    cocoapods(
+	repo_update: true,
+  	clean_install: true,
+  	podfile: "../Podfile",
+	verbose: true
+    )
+
+    gym(
+	include_bitcode: true,
+	include_symbols: true,
+	clean: true,
+	workspace: "../HyBid.xcworkspace",
+	scheme: "HyBidDemo",
+	archive_path: "/tmp/circleci-artifacts/archive.xcarchive",
+	output_directory:  "/tmp/circleci-artifacts/ipa",
+ 	export_method: "development",
+	export_options: "PubnativeLiteDemo/options.plist"
+    )
+
     firebase_app_distribution(
-              app: "1:786277539067:ios:8b6750af0afc3240ab245e",
-              ipa_path: "/tmp/circleci-artifacts/ipa/HyBidDemo.ipa"
-          )
+	app: "1:786277539067:ios:8b6750af0afc3240ab245e",
+	ipa_path: "/tmp/circleci-artifacts/ipa/HyBidDemo.ipa"
+    )
+
   end
+
 end

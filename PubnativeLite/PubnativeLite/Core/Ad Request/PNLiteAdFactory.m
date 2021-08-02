@@ -31,6 +31,7 @@
 #import "HyBidSkAdNetworkRequestModel.h"
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidLogger.h"
+#import "HyBidDisplayManager.h"
 
 @implementation PNLiteAdFactory
 
@@ -131,8 +132,8 @@
 }
 
 - (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = HYBID_SDK_NAME;
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [NSString stringWithFormat:@"%@_%@_%@", @"sdkios", [HyBidIntegrationType getIntegrationTypeCodeFromIntegrationType:integrationType] ,HYBID_SDK_VERSION];
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = [HyBidDisplayManager getDisplayManager];
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [HyBidDisplayManager setDisplayManager:integrationType];
 }
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {

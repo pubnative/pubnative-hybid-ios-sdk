@@ -33,11 +33,10 @@
 void documentParserErrorCallback(void *ctx, const char *msg, ...) {
     va_list args;
     va_start (args, msg);
-    char *s = va_arg(args, char*);
-    NSString *errMsg;
-    if(s) {
-        errMsg = [[NSString stringWithCString:s encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    }
+        
+    NSString *newMsg = [NSString stringWithUTF8String:msg];
+    NSString *errMsg = [[NSString alloc] initWithFormat:newMsg arguments:args];
+
     if ([errMsg length] > 0) {
         NSLog(@"VAST - XML Util: Document parser error: %@", errMsg);
     }
