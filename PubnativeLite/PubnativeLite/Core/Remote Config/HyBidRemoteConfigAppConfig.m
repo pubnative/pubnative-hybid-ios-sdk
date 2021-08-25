@@ -25,11 +25,11 @@
 
  @implementation NSString (EnumParser)
 
- - (ApiType)apiTypeFromString
+ - (HyBidApiType)apiTypeFromString
  {
      NSDictionary<NSString *, NSNumber *> *apiTypes = @{
-         @"onlineapi": @(LEGACY),
-         @"openrtb"  : @(OPENRTB)
+         @"open_rtb"  : @(HyBidApiOpenRTB),
+         @"online_api": @(HyBidApiLegacy)
      };
 
      return apiTypes[self].integerValue;

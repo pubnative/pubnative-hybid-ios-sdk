@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -671,7 +671,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="quoteCell" rowHeight="245" id="byB-XM-ADP" customClass="QuoteCell">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="245"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="343" height="245"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="byB-XM-ADP" id="yrg-ai-ZtN">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="245"/>
@@ -711,7 +711,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="bannerAdViewCell" rowHeight="245" id="Tss-OX-0Xj" customClass="BannerAdViewCell">
-                                        <rect key="frame" x="0.0" y="273" width="343" height="245"/>
+                                        <rect key="frame" x="0.0" y="269.5" width="343" height="245"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tss-OX-0Xj" id="4Tq-RI-hHu">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="245"/>
@@ -724,7 +724,7 @@
                                                         <constraint firstAttribute="height" constant="50" id="dYq-f4-o4h"/>
                                                     </constraints>
                                                 </view>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Q83-SR-2DF">
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Q83-SR-2DF">
                                                     <rect key="frame" x="153" y="104" width="37" height="37"/>
                                                     <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </activityIndicatorView>
@@ -1100,13 +1100,8 @@
             <point key="canvasLocation" x="-4343" y="403"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="yuJ-gp-1ek">
-            <size key="intrinsicContentSize" width="240" height="44"/>
-        </designable>
-    </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="V49-N4-zzN"/>
+        <segue reference="EqL-tj-82v"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

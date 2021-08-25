@@ -22,6 +22,7 @@
 
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
+#import "OMIDImports.h"
 
 @implementation HyBidViewabilityAdSession
 

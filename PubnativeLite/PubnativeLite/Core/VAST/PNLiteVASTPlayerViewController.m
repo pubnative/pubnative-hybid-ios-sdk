@@ -29,11 +29,12 @@
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidLogger.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
-#import <OMSDK_Pubnativenet/OMIDAdSession.h>
+#import "OMIDAdSession.h"
 #import "HyBidAd.h"
 #import "HyBidSKAdNetworkViewController.h"
 #import "HyBidSettings.h"
 #import "HyBidURLDriller.h"
+#import "HyBidError.h"
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -357,7 +358,11 @@ typedef enum : NSUInteger {
                 break;
             case AVPlayerItemStatusFailed:
                 [self setState:PNLiteVASTPlayerState_IDLE];
-                [self invokeDidFailLoadingWithError:self.playerItem.error];
+                if (self.playerItem.error) {
+                    [self invokeDidFailLoadingWithError:self.playerItem.error];
+                } else {
+                    [self invokeDidFailLoadingWithError:[NSError errorWithDomain:@"Something went wrong with the AVPlayerItem." code:0 userInfo:nil]];
+                }
                 break;
             case AVPlayerItemStatusUnknown:
                 // Not ready
@@ -761,7 +766,7 @@ typedef enum : NSUInteger {
         NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[self.videoAdCacheItem.vastModel mediaFiles]].url;
         if(!mediaUrl) {
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
-            NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:0 userInfo:nil];
+            NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:HyBidErrorCodeInternal userInfo:nil];
             [self invokeDidFailLoadingWithError:mediaNotFoundError];
         } else {
             self.vastModel = self.videoAdCacheItem.vastModel;
@@ -778,7 +783,7 @@ typedef enum : NSUInteger {
         vastParserCompletionBlock completion = ^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
             if (!model) {
                 NSError *parseError = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", (long)error]
-                                                          code:0
+                                                          code:HyBidErrorCodeInternal
                                                       userInfo:nil];
                 [weakSelf invokeDidFailLoadingWithError:parseError];
             } else {
@@ -786,7 +791,7 @@ typedef enum : NSUInteger {
                 NSURL *mediaUrl = [PNLiteVASTMediaFilePicker pick:[model mediaFiles]].url;
                 if(!mediaUrl) {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
-                    NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:0 userInfo:nil];
+                    NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:HyBidErrorCodeInternal userInfo:nil];
                     [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
                 } else {
                     weakSelf.vastModel = model;
@@ -801,7 +806,7 @@ typedef enum : NSUInteger {
             [self.parser parseWithData:[self.vastString dataUsingEncoding:NSUTF8StringEncoding]
                             completion:completion];
         } else {
-            NSError *unexpectedError = [NSError errorWithDomain:@"Unexpected Error." code:0 userInfo:nil];
+            NSError *unexpectedError = [NSError errorWithDomain:@"Unexpected Error." code:HyBidErrorCodeInternal userInfo:nil];
             [self invokeDidFailLoadingWithError:unexpectedError];
         }
     } else {
@@ -918,7 +923,7 @@ typedef enum : NSUInteger {
 
 - (void)loadTimeoutFired {
     [self close];
-    NSError *error = [NSError errorWithDomain:@"Video load timeout." code:0 userInfo:nil];
+    NSError *error = [NSError errorWithDomain:@"Video load timeout." code:HyBidErrorCodeInternal userInfo:nil];
     [self invokeDidFailLoadingWithError:error];
 }
 

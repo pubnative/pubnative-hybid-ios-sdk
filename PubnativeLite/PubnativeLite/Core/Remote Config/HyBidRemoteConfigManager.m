@@ -65,7 +65,7 @@
 - (void)fetchRemoteConfigWithCompletion:(RemoteConfigManagerCompletionBlock)completion {
     self.completionBlock = completion;
     HyBidRemoteConfigRequest *remoteConfigRequest = [[HyBidRemoteConfigRequest alloc] init];
-    [remoteConfigRequest doConsentRequestWithDelegate:self withAppToken:[HyBidSettings sharedInstance].appToken];
+    [remoteConfigRequest doConfigRequestWithDelegate:self withAppToken:[HyBidSettings sharedInstance].appToken];
 }
 
 - (void)storeConfigTimestamp {
@@ -77,7 +77,7 @@
  {
      BOOL isUsingOpenRTB = NO;
      if (model.appConfig != nil) {
-         isUsingOpenRTB = model.appConfig.apiType == OPENRTB;
+         isUsingOpenRTB = model.appConfig.apiType == HyBidApiOpenRTB;
      }
      [[NSUserDefaults standardUserDefaults] setBool:isUsingOpenRTB forKey:kIsUsingOpenRTB];
      [[NSUserDefaults standardUserDefaults] synchronize];

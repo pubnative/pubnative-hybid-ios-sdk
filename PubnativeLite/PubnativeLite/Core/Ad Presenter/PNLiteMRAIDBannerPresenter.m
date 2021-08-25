@@ -28,6 +28,7 @@
 #import "HyBidLogger.h"
 #import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
+#import "HyBidError.h"
 
 @interface PNLiteMRAIDBannerPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate>
 
@@ -90,7 +91,7 @@
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
-    NSError *error = [NSError errorWithDomain:@"MRAID View failed." code:0 userInfo:nil];
+    NSError *error = [NSError hyBidMraidPlayer];
     [self.delegate adPresenter:self didFailWithError:error];
 }
 

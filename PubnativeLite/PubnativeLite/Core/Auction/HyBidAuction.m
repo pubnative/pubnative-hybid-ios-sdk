@@ -21,6 +21,7 @@
 //
 
 #import "HyBidAuction.h"
+#import "HyBidError.h"
 
 @implementation HyBidAuction
 
@@ -73,9 +74,7 @@
         self.completionAdResponses(mAdResponsesArray, nil);
     } else {
         self.mAuctionState = DONE;
-        NSError *error = [NSError errorWithDomain:@"The auction concluded without any winning bid."
-                                             code:0
-                                         userInfo:nil];
+        NSError *error = [NSError hyBidAuctionNoAd];
         self.completionAdResponses(nil, error);
     }
 }

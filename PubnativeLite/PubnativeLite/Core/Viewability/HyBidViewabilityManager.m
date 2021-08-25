@@ -21,7 +21,7 @@
 //
 
 #import "HyBidViewabilityManager.h"
-#import <OMSDK_Pubnativenet/OMIDImports.h>
+#import "OMIDImports.h"
 #import "HyBidLogger.h"
 #import "HyBidConstants.h"
 #import "HyBid.h"

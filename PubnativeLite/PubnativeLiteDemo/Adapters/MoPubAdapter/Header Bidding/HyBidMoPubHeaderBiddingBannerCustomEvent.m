@@ -46,6 +46,11 @@
             [self invokeFailWithMessage:[NSString stringWithFormat:@"Could not find an ad in the cache for zone id with key: %@", [HyBidMoPubUtils zoneID:info]]];
             return;
         }
+        if (self.ad.vast != nil) {
+            self.ad.adType = kHyBidAdTypeVideo;
+        } else {
+            self.ad.adType = kHyBidAdTypeHTML;
+        }
         self.bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
         self.adPresenter = [self.bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
         if (!self.adPresenter) {

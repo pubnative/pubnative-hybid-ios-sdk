@@ -70,14 +70,9 @@
         NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
         NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
         
-        NSString *scalingJSPath = [bundle pathForResource: [self nameForResource:@"hybidscaling" :@"js"] ofType:@"js"];
-        NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
-        NSString *scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
-        
         processedHtml = [NSString stringWithFormat:
                          @"<html>\n"
                          "<head>\n"
-                         "<script>%@</script>"
                          "<script>%@</script>"
                          "</head>\n"
                          "<body>\n"
@@ -87,7 +82,6 @@
                          "</body>\n"
                          "</html>",
                          mraidjs,
-                         scalingjs,
                          processedHtml
                          ];
     } else if (!hasHeadTag) {

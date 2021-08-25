@@ -28,6 +28,7 @@
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidDisplayManager.h"
 #import "PNLiteAdFactory.h"
+#import "HyBidDiagnosticsManager.h"
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
@@ -64,9 +65,14 @@ BOOL isInitialized = NO;
         [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
-        [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
-            if (completion) {
-                completion(success);
+        [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {
+            [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
+            if (remoteConfigSuccess) {
+                [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
+                    if (completion) {
+                        completion(success);
+                    }
+                }];
             }
         }];
     }

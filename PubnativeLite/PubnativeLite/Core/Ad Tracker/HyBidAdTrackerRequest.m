@@ -23,6 +23,7 @@
 #import "HyBidAdTrackerRequest.h"
 #import "PNLiteHttpRequest.h"
 #import "HyBidLogger.h"
+#import "HyBidError.h"
 
 NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
@@ -79,7 +80,7 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     if(PNLiteResponseStatusRequestNotFound == statusCode) {
-        NSError *statusError = [NSError errorWithDomain:@"Server error with the status code" code:statusCode userInfo:nil];
+        NSError *statusError = [NSError hyBidServerError];
         [self invokeDidFail:statusError];
     } else {
         [self invokeDidLoad];

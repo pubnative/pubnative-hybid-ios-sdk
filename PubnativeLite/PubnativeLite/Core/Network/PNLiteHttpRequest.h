@@ -40,7 +40,7 @@
 @property (nonatomic, strong) NSData *body;
 @property (nonatomic, assign) BOOL shouldRetry;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
-@property (nonatomic) AdType openRTBAdType;
+@property (nonatomic) HyBidOpenRTBAdType openRTBAdType;
 @property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
 
 - (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;

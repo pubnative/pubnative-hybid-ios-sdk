@@ -22,6 +22,7 @@
 
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBid.h"
+#import "OMIDImports.h"
 
 @interface HyBidViewabilityWebAdSession()
 

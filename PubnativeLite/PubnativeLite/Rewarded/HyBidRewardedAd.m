@@ -28,6 +28,7 @@
 #import "HyBidIntegrationType.h"
 #import "HyBidSignalDataProcessor.h"
 #import "HyBid.h"
+#import "HyBidError.h"
 
 @interface HyBidRewardedAd() <HyBidRewardedPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
@@ -59,7 +60,7 @@
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before creating a HyBidRewardedAd. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
         }
         self.rewardedAdRequest = [[HyBidRewardedAdRequest alloc] init];
-        self.rewardedAdRequest.openRTBAdType = VIDEO;
+        self.rewardedAdRequest.openRTBAdType = HyBidOpenRTBAdVideo;
         self.zoneID = zoneID;
         self.delegate = delegate;
     }
@@ -78,7 +79,7 @@
 - (void)load {
     [self cleanUp];
     if (!self.zoneID || self.zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
     } else {
         self.isReady = NO;
         [self.rewardedAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
@@ -90,7 +91,7 @@
     if (adContent && [adContent length] != 0) {
         [self processAdContent:adContent];
     } else {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an invalid ad asset" code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError hyBidInvalidAsset]];
     }
 }
 
@@ -125,7 +126,7 @@
     self.rewardedPresenter = [rewardedPresenterFactory createRewardedPresenterWithAd:ad withDelegate:self];
     if (!self.rewardedPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid rewarded presenter."];
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError hyBidUnsupportedAsset]];
         return;
     } else {
         [self.rewardedPresenter load];
@@ -187,7 +188,7 @@
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     if (!ad) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
         self.ad = ad;
         self.ad.adType = kHyBidAdTypeVideo;

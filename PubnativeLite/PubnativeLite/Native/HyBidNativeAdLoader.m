@@ -24,6 +24,7 @@
 #import "HyBidNativeAdRequest.h"
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+#import "HyBidError.h"
 
 @interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
 
@@ -76,7 +77,7 @@
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     if (!ad) {
-        [self invokeDidFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
+        [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
         [self invokeDidLoadWithNativeAd:[[HyBidNativeAd alloc] initWithAd:ad]];
     }

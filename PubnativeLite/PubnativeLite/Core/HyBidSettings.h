@@ -60,6 +60,7 @@ typedef enum {
 @property (readonly) NSString *appBundleID;
 @property (readonly) NSString *appVersion;
 @property (readonly) BOOL locationTrackingEnabled;
+@property (readonly) BOOL locationUpdatesEnabled;
 @property (readonly) CLLocation *location;
 @property (readonly) NSString *identifierForVendor;
 @property (readonly) NSString *ip;
