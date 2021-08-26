@@ -29,8 +29,13 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.timeout = [dictionary[HyBidRemoteConfigParameter.timeout]integerValue];
-        self.type = [dictionary[HyBidRemoteConfigParameter.type]stringValue];
+        self.timeout = [dictionary[HyBidRemoteConfigParameter.timeout] integerValue];
+        if ([[dictionary objectForKey:HyBidRemoteConfigParameter.type] respondsToSelector:@selector(stringValue)]) {
+            self.type = [dictionary[HyBidRemoteConfigParameter.type] stringValue];
+        }
+        else {
+            self.type = dictionary[HyBidRemoteConfigParameter.type];
+        }
         self.adSources = [HyBidAdSourceConfig parseArrayValues:dictionary[HyBidRemoteConfigParameter.adSources]];
     }
     return self;
