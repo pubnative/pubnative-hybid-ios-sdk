@@ -40,6 +40,7 @@ CLLocationManager *locationManager;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
+    [HyBidLogger setLogLevel:HyBidLogLevelDebug];
     // Configure Firebase app
     [FIRApp configure];
 

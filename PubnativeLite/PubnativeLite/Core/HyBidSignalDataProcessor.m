@@ -31,6 +31,7 @@
 #import "HyBidVideoAdCache.h"
 #import "HyBidSignalDataModel.h"
 #import "PNLiteHttpRequest.h"
+#import "HyBidError.h"
 
 NSString *const HyBidSignalDataResponseOK = @"ok";
 NSString *const HyBidSignalDataResponseError = @"error";
@@ -71,24 +72,15 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
     if (jsonDictonary) {
         self.signalDataModel = [[HyBidSignalDataModel alloc] initWithDictionary:jsonDictonary];
         if(!self.signalDataModel) {
-            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
-                                                 code:0
-                                             userInfo:nil];
-            [self invokeDidFail:error];
+            [self invokeDidFail:[NSError hyBidParseError]];
         } else if ([HyBidSignalDataResponseOK isEqualToString: self.signalDataModel.status]) {
             if (self.signalDataModel.admurl && self.signalDataModel.admurl.length != 0) {
                 [[PNLiteHttpRequest alloc] startWithUrlString:self.signalDataModel.admurl withMethod:@"GET" delegate:self];
             } else {
-                NSError *error = [NSError errorWithDomain:@"Invalid ad url"
-                                                     code:0
-                                                 userInfo:nil];
-                [self invokeDidFail:error];
+                [self invokeDidFail:[NSError hyBidInvalidUrl]];
             }
         } else {
-            NSString *errorMessage = @"Cached ad error";
-            NSError *responseError = [NSError errorWithDomain:errorMessage
-                                                         code:0
-                                                     userInfo:nil];
+            NSError *responseError = [NSError hyBidInvalidSignalData];
             [self invokeDidFail:responseError];
         }
     }
@@ -115,9 +107,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
         
         if(!response) {
-            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
-                                                 code:0
-                                             userInfo:nil];
+            NSError *error = [NSError hyBidParseError];
             [self invokeDidFail:error];
         } else if ([HyBidSignalDataResponseOK isEqualToString:response.status]) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
@@ -146,9 +136,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                         if (responseAdArray.count > 0) {
                             [self invokeDidLoad:responseAdArray.firstObject];
                         } else {
-                            NSError *error = [NSError errorWithDomain:@"No fill"
-                                                                 code:0
-                                                             userInfo:nil];
+                            NSError *error = [NSError hyBidNoFill];
                             [self invokeDidFail:error];
                         }
                         break;
@@ -156,17 +144,12 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
             }
             
             if (responseAdArray.count <= 0) {
-                NSError *error = [NSError errorWithDomain:@"No fill"
-                                                     code:0
-                                                 userInfo:nil];
+                NSError *error = [NSError hyBidNoFill];
                 [self invokeDidFail:error];
             }
             
         } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
-            NSError *responseError = [NSError errorWithDomain:errorMessage
-                                                         code:0
-                                                     userInfo:nil];
+            NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
             [self invokeDidFail:responseError];
         }
     }
@@ -186,8 +169,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         }
         [self processResponseWithData:data];
     } else {
-        NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
-        [self invokeDidFail:statusError];
+        [self invokeDidFail:[NSError hyBidServerError]];
     }
 }
 

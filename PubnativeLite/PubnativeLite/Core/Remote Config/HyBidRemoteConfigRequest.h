@@ -32,6 +32,6 @@
 
 @interface HyBidRemoteConfigRequest : NSObject
 
-- (void)doConsentRequestWithDelegate:(NSObject<HyBidRemoteConfigRequestDelegate> *)delegate
+- (void)doConfigRequestWithDelegate:(NSObject<HyBidRemoteConfigRequestDelegate> *)delegate
                         withAppToken:(NSString *)appToken;
 @end

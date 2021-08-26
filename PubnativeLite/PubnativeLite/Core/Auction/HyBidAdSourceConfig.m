@@ -28,11 +28,29 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.eCPM = [dictionary[AdSourceConfigParameter.eCPM]doubleValue];
-        self.enabled = [dictionary[AdSourceConfigParameter.enabled]boolValue];
-        self.name = [dictionary[AdSourceConfigParameter.name]stringValue];
-        self.vastTagUrl = [dictionary[AdSourceConfigParameter.vastTagUrl]stringValue];
-        self.type = [dictionary[AdSourceConfigParameter.type]stringValue];
+        self.eCPM = [dictionary[AdSourceConfigParameter.eCPM] doubleValue];
+        self.enabled = [dictionary[AdSourceConfigParameter.enabled] boolValue];
+        
+        if ([[dictionary objectForKey:AdSourceConfigParameter.name] respondsToSelector:@selector(stringValue)]) {
+            self.name = [dictionary[AdSourceConfigParameter.name] stringValue];
+        }
+        else {
+            self.name = dictionary[AdSourceConfigParameter.name];
+        }
+        
+        if ([[dictionary objectForKey:AdSourceConfigParameter.vastTagUrl] respondsToSelector:@selector(stringValue)]) {
+            self.vastTagUrl = [dictionary[AdSourceConfigParameter.vastTagUrl] stringValue];
+        }
+        else {
+            self.vastTagUrl = dictionary[AdSourceConfigParameter.vastTagUrl];
+        }
+        
+        if ([[dictionary objectForKey:AdSourceConfigParameter.type] respondsToSelector:@selector(stringValue)]) {
+            self.type = [dictionary[AdSourceConfigParameter.type] stringValue];
+        }
+        else {
+            self.type = dictionary[AdSourceConfigParameter.type];
+        }
     }
     return self;
 }

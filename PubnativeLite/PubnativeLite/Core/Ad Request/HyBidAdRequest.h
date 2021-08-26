@@ -29,10 +29,10 @@
 @class PNLiteAdRequestModel;
 
 typedef enum {
-     NATIVE,
-     BANNER,
-     VIDEO
- } AdType;
+    HyBidOpenRTBAdNative,
+    HyBidOpenRTBAdBanner,
+    HyBidOpenRTBAdVideo
+ } HyBidOpenRTBAdType;
 
 @protocol HyBidAdRequestDelegate <NSObject>
 
@@ -47,7 +47,7 @@ typedef enum {
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, assign) BOOL isRewarded;
 @property (nonatomic, readonly) NSArray<NSString *> *supportedAPIFrameworks;
-@property (nonatomic) AdType openRTBAdType;
+@property (nonatomic) HyBidOpenRTBAdType openRTBAdType;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;

@@ -111,16 +111,16 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
 + (GADVersionNumber)adSDKVersion {
     GADVersionNumber version = {0};
     version.majorVersion = 2;
-    version.minorVersion = 5;
-    version.patchVersion = 3;
+    version.minorVersion = 6;
+    version.patchVersion = 1;
     return version;
 }
 
 + (GADVersionNumber)adapterVersion {
     GADVersionNumber version = {0};
     version.majorVersion = 2;
-    version.minorVersion = 5;
-    version.patchVersion = 3;
+    version.minorVersion = 6;
+    version.patchVersion = 1;
     return version;
 }
 

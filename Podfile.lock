@@ -77,13 +77,13 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.4.3):
     - GoogleUtilities/Logger
-  - mopub-ios-sdk (5.17.0):
-    - mopub-ios-sdk/MoPubSDK (= 5.17.0)
-  - mopub-ios-sdk/Core (5.17.0)
-  - mopub-ios-sdk/MoPubSDK (5.17.0):
+  - mopub-ios-sdk (5.18.0):
+    - mopub-ios-sdk/MoPubSDK (= 5.18.0)
+  - mopub-ios-sdk/Core (5.18.0)
+  - mopub-ios-sdk/MoPubSDK (5.18.0):
     - mopub-ios-sdk/Core
     - mopub-ios-sdk/NativeAds
-  - mopub-ios-sdk/NativeAds (5.17.0):
+  - mopub-ios-sdk/NativeAds (5.18.0):
     - mopub-ios-sdk/Core
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -97,7 +97,7 @@ DEPENDENCIES:
   - Firebase/Performance
   - FLEX (= 4.4.1)
   - Google-Mobile-Ads-SDK (= 8.1.0)
-  - mopub-ios-sdk (= 5.17.0)
+  - mopub-ios-sdk (= 5.18.0)
 
 SPEC REPOS:
   trunk:
@@ -133,11 +133,11 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 04c3e9a480bbcaa2ec3f5d27f1cdeb6a92f20c8d
   GoogleUserMessagingPlatform: b168e8c46cd8f92aa3e34b584c4ca78a411ce367
   GoogleUtilities: 45dbb24a7f351d69d0a601482b39ad6c32e30dab
-  mopub-ios-sdk: 36d322902674b79b0560a1cb8d15af0548d364ea
+  mopub-ios-sdk: d7b533646d96a075e578e8af9598794f2dfb7f7b
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 7327d4444215b5f18e560a97f879ff5503c4581c
 
-PODFILE CHECKSUM: 3c5b56b7284cfedc1dfe36adf50613b637fe56eb
+PODFILE CHECKSUM: bc45d2cfa781d4a906d0b908a2e531c88d441b09
 
 COCOAPODS: 1.10.1

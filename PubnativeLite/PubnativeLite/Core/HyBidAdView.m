@@ -30,6 +30,7 @@
 #import "HyBidVastTagAdSource.h"
 #import "HyBidSignalDataProcessor.h"
 #import "HyBid.h"
+#import "HyBidError.h"
 
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
 
@@ -67,7 +68,7 @@
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before creating a HyBidAdView. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
         }
         self.adRequest = [[HyBidAdRequest alloc] init];
-        self.adRequest.openRTBAdType = BANNER;
+        self.adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
         self.auctionResponses = [[NSMutableArray alloc]init];
         self.adSize = adSize;
         self.autoShowOnLoad = true;
@@ -101,7 +102,7 @@
     self.zoneID = zoneID;
     if (!self.zoneID || self.zoneID.length == 0) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Invalid Zone ID provided." code:0 userInfo:nil]];
+            [self.delegate adView:self didFailWithError: [NSError hyBidInvalidZoneId]];
         }
     } else {
         HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
@@ -231,7 +232,7 @@
     self.adPresenter = [self createAdPresenter];
     if (!self.adPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid ad presenter."];
-        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an unsupported ad asset." code:0 userInfo:nil]];
+        [self.delegate adView:self didFailWithError:[NSError hyBidUnsupportedAsset]];
         return;
     } else {
         [self.adPresenter load];
@@ -245,7 +246,7 @@
     if (adContent && [adContent length] != 0) {
         [self processAdContent:adContent];
     } else {
-        [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"The server has returned an invalid ad asset." code:0 userInfo:nil]];
+        [self.delegate adView:self didFailWithError:[NSError hyBidInvalidAsset]];
     }
 }
 
@@ -284,7 +285,7 @@
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     if (!ad) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"Server returned nil ad." code:0 userInfo:nil]];
+            [self.delegate adView:self didFailWithError:[NSError hyBidNullAd]];
         }
     } else {
         self.ad = ad;
@@ -315,7 +316,7 @@
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     if (!adView) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError errorWithDomain:@"An error has occurred while rendering the ad." code:0 userInfo:nil]];
+            [self.delegate adView:self didFailWithError:[NSError hyBidRenderingBanner]];
         }
     } else {
         [self setupAdView:adView];

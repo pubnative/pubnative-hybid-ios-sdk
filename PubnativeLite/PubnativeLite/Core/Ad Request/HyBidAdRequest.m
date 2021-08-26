@@ -37,6 +37,7 @@
 #import "HyBidVideoAdCache.h"
 #import "HyBidMarkupUtils.h"
 #import "HyBidRemoteConfigManager.h"
+#import "HyBidError.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -95,7 +96,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
     if (self.isRunning) {
-        NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:0 userInfo:nil];
+        NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:HyBidErrorCodeInternal userInfo:nil];
         [self invokeDidFail:runningError];
     } else if(!delegate) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
@@ -265,7 +266,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             [self invokeDidLoad:ad];
         }
     } else {
-        NSError *error = [NSError errorWithDomain:@"The server has returned an invalid ad asset" code:0 userInfo:nil];
+        NSError *error = [NSError hyBidInvalidAsset];
         [self invokeDidFail:error];
     }
 }
@@ -282,10 +283,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
         }
         
-        if(!response) {
-            NSError *error = [NSError errorWithDomain:@"Can't parse JSON from server"
-                                                 code:0
-                                             userInfo:nil];
+        if(!response && !openRTBResponse) {
+            NSError *error = [NSError hyBidParseError];
             [self invokeDidFail:error];
         } else if ([PNLiteResponseOK isEqualToString:response.status] || self.isUsingOpenRTB) {
             NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
@@ -320,9 +319,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                         if (responseAdArray.count > 0) {
                             [self invokeDidLoad:responseAdArray.firstObject];
                         } else {
-                            NSError *error = [NSError errorWithDomain:@"No fill"
-                                                                 code:0
-                                                             userInfo:nil];
+                            NSError *error = [NSError hyBidNoFill];
                             [self invokeDidFail:error];
                         }
                         break;
@@ -330,17 +327,12 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             }
             
             if (responseAdArray.count <= 0) {
-                NSError *error = [NSError errorWithDomain:@"No fill"
-                                                     code:0
-                                                 userInfo:nil];
+                NSError *error = [NSError hyBidNoFill];
                 [self invokeDidFail:error];
             }
             
         } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"HyBidAdRequest - %@", response.errorMessage];
-            NSError *responseError = [NSError errorWithDomain:errorMessage
-                                                         code:0
-                                                     userInfo:nil];
+            NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
             [self invokeDidFail:responseError];
         }
     }
@@ -369,7 +361,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             [self processVASTTagResponseFrom:dataString];
         }
     } else {
-        NSError *statusError = [NSError errorWithDomain:@"PNLiteHttpRequestDelegate - Server error: status code" code:statusCode userInfo:nil];
+        NSError *statusError = [NSError hyBidServerError];
         [self invokeDidFail:statusError];
     }
 }

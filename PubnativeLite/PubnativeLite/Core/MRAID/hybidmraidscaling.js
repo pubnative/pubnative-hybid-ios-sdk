@@ -558,7 +558,6 @@
         log.i("mraid.setScreenSize " + width + "x" + height);
         screenSize.width = width;
         screenSize.height = height;
-        updateCreativeSize(width, height);
         if (!isExpandPropertiesSet) {
             expandProperties.width = width;
             expandProperties.height = height;

@@ -28,6 +28,7 @@
 #import "HyBidRequestParameter.h"
 #import "HyBidSkAdNetworkRequestModel.h"
 #import "HyBid.h"
+#import "HyBidError.h"
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -107,12 +108,12 @@ NSInteger const MAX_RETRIES = 1;
     }
 }
 
-- (NSArray *)getImpObjectFor:(AdType)adType
+- (NSArray *)getImpObjectFor:(HyBidOpenRTBAdType)adType
 {
     NSNumber *width = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.width] integerValue]];
     NSNumber *height = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.height] integerValue]];
     
-    if (adType == NATIVE) {
+    if (adType == HyBidOpenRTBAdNative) {
         NSArray *arr = @[
             @{
                 @"id": NSUUID.UUID.UUIDString,
@@ -127,7 +128,7 @@ NSInteger const MAX_RETRIES = 1;
             }
         ];
         return [self appendSkAdNetworkParametersTo:arr];
-    } else if (adType == VIDEO) {
+    } else if (adType ==     HyBidOpenRTBAdVideo) {
         NSArray *arr = @[
             @{
                 @"id": NSUUID.UUID.UUIDString,
@@ -139,7 +140,7 @@ NSInteger const MAX_RETRIES = 1;
             }
         ];
         return [self appendSkAdNetworkParametersTo:arr];
-    } else if (adType == BANNER) {
+    } else if (adType ==     HyBidOpenRTBAdBanner) {
         NSArray *arr = @[
             @{
                 @"id": NSUUID.UUID.UUIDString,
@@ -231,8 +232,7 @@ NSInteger const MAX_RETRIES = 1;
 
 - (void)invokeFailWithMessage:(NSString *)message andAttemptRetry:(BOOL)retry
 {
-    NSError *error = [NSError errorWithDomain:message code:0 userInfo:nil];
-    [self invokeFailWithError:error andAttemptRetry:retry];
+    [self invokeFailWithError:[NSError hyBidServerErrorWithMessage: message] andAttemptRetry:retry];
 }
 
 - (void)invokeFailWithError:(NSError *)error andAttemptRetry:(BOOL)retry

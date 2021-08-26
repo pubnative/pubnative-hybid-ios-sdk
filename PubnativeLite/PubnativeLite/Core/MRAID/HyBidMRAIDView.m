@@ -35,7 +35,7 @@
 #import "HyBidSettings.h"
 
 #import <WebKit/WebKit.h>
-#import <OMSDK_Pubnativenet/OMIDAdSession.h>
+#import "OMIDAdSession.h"
 
 #define kCloseEventRegionSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)

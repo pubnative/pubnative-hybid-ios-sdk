@@ -38,16 +38,14 @@
     self.delegate = nil;
 }
 
-- (void)doConsentRequestWithDelegate:(NSObject<HyBidRemoteConfigRequestDelegate> *)delegate
+- (void)doConfigRequestWithDelegate:(NSObject<HyBidRemoteConfigRequestDelegate> *)delegate
                         withAppToken:(NSString *)appToken {
     if (!delegate) {
         [self invokeDidFail:[NSError errorWithDomain:@"Given delegate is nil and required, droping this call." code:0 userInfo:nil]];
     } else {
         self.delegate = delegate;
         NSString *url = [HyBidRemoteConfigEndpoints remoteConfigURL];
-        NSDictionary *headerDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"application/json",@"Content-Type",[NSString stringWithFormat:@"Bearer %@",appToken],@"Authorization", nil];
         PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-        request.header = headerDictionary;
         [request startWithUrlString:url withMethod:@"GET" delegate:self];
     }
 }

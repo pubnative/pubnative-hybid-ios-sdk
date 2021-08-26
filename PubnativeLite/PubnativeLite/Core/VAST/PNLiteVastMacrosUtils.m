@@ -28,8 +28,13 @@
 @implementation PNLiteVastMacrosUtils
 
 + (NSString *)formatUrl:(NSString *)vastUrl {
-    vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${IDFA}"
-                                         withString:[HyBidSettings sharedInstance].advertisingId];
+    if ([HyBidSettings sharedInstance].advertisingId) {
+        vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${IDFA}"
+                                             withString:[HyBidSettings sharedInstance].advertisingId];
+    } else {
+        vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${IDFA}"
+                                             withString:@"-1"];
+    }
     vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${BUNDLE_ID}"
                                          withString:[HyBidSettings sharedInstance].appBundleID];
     vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CB}"

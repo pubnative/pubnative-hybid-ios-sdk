@@ -22,18 +22,19 @@
 
  #import <HyBid/HyBid.h>
 
- typedef NS_ENUM(NSInteger, ApiType) {
-     OPENRTB,
-     LEGACY
+ typedef NS_ENUM(NSInteger, HyBidApiType) {
+     HyBidApiLegacy,
+     HyBidApiOpenRTB
+     
  };
 
  @interface NSString (EnumParser)
- - (ApiType)apiTypeFromString;
+ - (HyBidApiType)apiTypeFromString;
  @end
 
  @interface HyBidRemoteConfigAppConfig : HyBidBaseModel
 
  @property (nonatomic, strong) NSString *appToken;
- @property (nonatomic) ApiType apiType;
+ @property (nonatomic) HyBidApiType apiType;
 
  @end

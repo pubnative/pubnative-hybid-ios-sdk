@@ -22,6 +22,7 @@
 
 #import "HyBidVideoAdProcessor.h"
 #import "PNLiteVASTParser.h"
+#import "HyBidError.h"
 
 @interface HyBidVideoAdProcessor()
 
@@ -47,9 +48,7 @@
    [self.parser parseWithData:[vastString dataUsingEncoding:NSUTF8StringEncoding]
                    completion:^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
        if (!model) {
-           NSError *parseError = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", (long)error]
-                                                     code:0
-                                                 userInfo:nil];
+           NSError *parseError = [NSError hyBidParseError];
            
            block(nil, parseError);
        } else {
