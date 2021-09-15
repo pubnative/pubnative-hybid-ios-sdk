@@ -56,25 +56,16 @@ BOOL isInitialized = NO;
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
         isInitialized = NO;
-        if (completion) {
-            completion(false);
-        }
+        completion(NO);
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
         [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
-        [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {
-            [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
-            if (remoteConfigSuccess) {
-                [[HyBidUserDataManager sharedInstance] createUserDataManagerWithCompletion:^(BOOL success) {
-                    if (completion) {
-                        completion(success);
-                    }
-                }];
-            }
-        }];
+        [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {}];
+        completion(YES);
+        [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
     }
 }
 
