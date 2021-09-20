@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,39 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1N-JO-wkO" userLabel="Consent Management Provider Button">
-                                <rect key="frame" x="16" y="8" width="343" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="consentManagementProviderButton" label="Consent Management Provider Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="3Af-za-PmX"/>
-                                    <constraint firstAttribute="height" constant="33" id="N9X-Nn-yeJ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Consent Management Provider">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="N9X-Nn-yeJ"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="3Af-za-PmX"/>
-                                        <include reference="N9X-Nn-yeJ"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <segue destination="PSx-2u-yE7" kind="show" id="CYR-M5-bLf"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Hw-uu-zd1" userLabel="Consent Strings Button">
-                                <rect key="frame" x="16" y="49" width="343" height="33"/>
+                                <rect key="frame" x="16" y="8" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentStringsButton" label="Consent Strings Button"/>
                                 <constraints>
@@ -83,12 +52,9 @@
                         <viewLayoutGuide key="safeArea" id="xfT-RM-eBc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="xfT-RM-eBc" firstAttribute="trailing" secondItem="Y1N-JO-wkO" secondAttribute="trailing" constant="16" id="GUk-IA-5im"/>
-                            <constraint firstItem="Y1N-JO-wkO" firstAttribute="top" secondItem="xfT-RM-eBc" secondAttribute="top" constant="8" id="WVe-EZ-oRr"/>
-                            <constraint firstItem="Y1N-JO-wkO" firstAttribute="leading" secondItem="xfT-RM-eBc" secondAttribute="leading" constant="16" id="cgD-JX-uZw"/>
                             <constraint firstItem="xfT-RM-eBc" firstAttribute="trailing" secondItem="1Hw-uu-zd1" secondAttribute="trailing" constant="16" id="hul-fq-jYc"/>
                             <constraint firstItem="1Hw-uu-zd1" firstAttribute="leading" secondItem="xfT-RM-eBc" secondAttribute="leading" constant="16" id="kks-BO-8I4"/>
-                            <constraint firstItem="1Hw-uu-zd1" firstAttribute="top" secondItem="Y1N-JO-wkO" secondAttribute="bottom" constant="8" id="vYg-We-ZGf"/>
+                            <constraint firstItem="1Hw-uu-zd1" firstAttribute="top" secondItem="xfT-RM-eBc" secondAttribute="top" constant="8" id="z38-5P-uRE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Consent" id="RCU-HS-g7r">
@@ -98,256 +64,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BRG-TG-Si8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5497" y="-201"/>
-        </scene>
-        <!--Consent Management Provider-->
-        <scene sceneID="GgF-p9-Zc6">
-            <objects>
-                <viewController title="Consent Management Provider" id="PSx-2u-yE7" customClass="PNLiteDemoConsentManagementProviderViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5ye-qC-VZH"/>
-                        <viewControllerLayoutGuide type="bottom" id="5mT-uc-tdD"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Lqn-oi-MrE">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zCV-h5-ijh" userLabel="Privacy Policy URL Button">
-                                <rect key="frame" x="16" y="8" width="343" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="privacyPolicyURLButton" label="Privacy Policy URL Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="mmE-Co-xJO"/>
-                                    <constraint firstAttribute="height" constant="33" id="oi8-hQ-Wfl"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="mmE-Co-xJO"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="mmE-Co-xJO"/>
-                                        <exclude reference="oi8-hQ-Wfl"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="privacyPolicyURLTouchUpInside:" destination="PSx-2u-yE7" eventType="touchUpInside" id="m3i-jk-PmG"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Constent Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YC6-Le-Rzr">
-                                <rect key="frame" x="16" y="530" width="112" height="21"/>
-                                <accessibility key="accessibilityConfiguration" identifier="consentStatusLabel" label="Consent Status Label"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="AEb-Pg-FzR"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="AEb-Pg-FzR"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RN2-uC-JCX" userLabel="Vendor List URL Button">
-                                <rect key="frame" x="16" y="49" width="343" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="vendorListURLButton" label="Vendor List URL Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="Uk0-s7-eMg"/>
-                                    <constraint firstAttribute="height" constant="33" id="qcc-JV-q3F"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="qcc-JV-q3F"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="Uk0-s7-eMg"/>
-                                        <include reference="qcc-JV-q3F"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="vendorListURLTouchUpInside:" destination="PSx-2u-yE7" eventType="touchUpInside" id="a6s-Be-raA"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZs-Rp-N2p" userLabel="PN Owned Button">
-                                <rect key="frame" x="16" y="559" width="166.5" height="30"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" identifier="pnOwnedButton" label="PN Owned Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="gwh-L4-Mil"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="PN Owned">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <variation key="heightClass=compact">
-                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                                    <mask key="constraints">
-                                        <exclude reference="gwh-L4-Mil"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="pnOwnedTouchUpInside:" destination="PSx-2u-yE7" eventType="touchUpInside" id="JuQ-BZ-9UG"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXf-fJ-E0E" userLabel="Publisher Owned Button">
-                                <rect key="frame" x="192.5" y="559" width="166.5" height="30"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" identifier="publisherOwnedButton" label="Publisher Owned Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="qqm-6w-l9c"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Publisher Owned">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <variation key="heightClass=compact">
-                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                                    <mask key="constraints">
-                                        <exclude reference="qqm-6w-l9c"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="publisherOwnedTouchUpInside:" destination="PSx-2u-yE7" eventType="touchUpInside" id="XhR-kd-W8t"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ci8-ek-PDT" userLabel="Accept Consent Button">
-                                <rect key="frame" x="16" y="597" width="166.5" height="30"/>
-                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="acceptConsentButton" label="Accept Consent Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="aXq-3D-pPe"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Accept Consent">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <variation key="heightClass=compact">
-                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                                    <mask key="constraints">
-                                        <exclude reference="aXq-3D-pPe"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="acceptConsentTouchUpInside:" destination="PSx-2u-yE7" eventType="touchUpInside" id="Xpm-JJ-C0g"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yy9-4d-ol7" userLabel="Reject Consent Button">
-                                <rect key="frame" x="192.5" y="597" width="166.5" height="30"/>
-                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="rejectConsentButton" label="Reject Consent Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="k6k-v0-GIv"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Reject Consent">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <variation key="heightClass=compact">
-                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                                    <mask key="constraints">
-                                        <exclude reference="k6k-v0-GIv"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="rejectConsentTouchUpInside:" destination="PSx-2u-yE7" eventType="touchUpInside" id="cIB-Zq-bG2"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWb-Dw-zRC">
-                                <rect key="frame" x="136" y="540.5" width="0.0" height="0.0"/>
-                                <accessibility key="accessibilityConfiguration" identifier="currentConsentStatusLabel" label="Current Consent Status Label"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V9u-cA-e6x" userLabel="Check Consent Button">
-                                <rect key="frame" x="294" y="526" width="65" height="25"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration" identifier="checkConsentButton" label="Check Consent Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="91A-Oj-c8d"/>
-                                    <constraint firstAttribute="width" constant="65" id="hOi-mm-Sk3"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Check">
-                                    <color key="titleColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="heightClass=compact">
-                                    <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
-                                    <mask key="constraints">
-                                        <exclude reference="91A-Oj-c8d"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="checkConsentTouchUpInside:" destination="PSx-2u-yE7" eventType="touchUpInside" id="yTL-jc-KLz"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="020-hw-bzL"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="ci8-ek-PDT" firstAttribute="top" secondItem="SZs-Rp-N2p" secondAttribute="bottom" constant="8" id="03W-mO-Y8K"/>
-                            <constraint firstItem="YXf-fJ-E0E" firstAttribute="top" secondItem="V9u-cA-e6x" secondAttribute="bottom" constant="8" id="64N-bU-HW4"/>
-                            <constraint firstItem="eWb-Dw-zRC" firstAttribute="leading" secondItem="YC6-Le-Rzr" secondAttribute="trailing" constant="8" symbolic="YES" id="7S8-dh-7lH"/>
-                            <constraint firstItem="SZs-Rp-N2p" firstAttribute="top" secondItem="YC6-Le-Rzr" secondAttribute="bottom" constant="8" id="8c9-TT-y9b"/>
-                            <constraint firstItem="zCV-h5-ijh" firstAttribute="top" secondItem="020-hw-bzL" secondAttribute="top" constant="8" id="AcI-fb-7si"/>
-                            <constraint firstItem="ci8-ek-PDT" firstAttribute="leading" secondItem="Lqn-oi-MrE" secondAttribute="leading" constant="16" id="Cgh-o6-hvd"/>
-                            <constraint firstItem="zCV-h5-ijh" firstAttribute="leading" secondItem="Lqn-oi-MrE" secondAttribute="leading" constant="16" id="D8e-6h-vvF"/>
-                            <constraint firstItem="ci8-ek-PDT" firstAttribute="width" secondItem="Yy9-4d-ol7" secondAttribute="width" id="E02-1d-ja1"/>
-                            <constraint firstItem="020-hw-bzL" firstAttribute="bottom" secondItem="ci8-ek-PDT" secondAttribute="bottom" constant="20" id="ERA-4U-si2"/>
-                            <constraint firstAttribute="trailing" secondItem="zCV-h5-ijh" secondAttribute="trailing" constant="16" id="Edw-Hn-52l"/>
-                            <constraint firstItem="020-hw-bzL" firstAttribute="trailing" secondItem="V9u-cA-e6x" secondAttribute="trailing" constant="16" id="OuT-NS-nWM"/>
-                            <constraint firstAttribute="trailing" secondItem="YXf-fJ-E0E" secondAttribute="trailing" constant="16" id="QMP-JZ-bnD"/>
-                            <constraint firstItem="YXf-fJ-E0E" firstAttribute="leading" secondItem="SZs-Rp-N2p" secondAttribute="trailing" constant="10" id="QaK-zL-cFw"/>
-                            <constraint firstAttribute="trailing" secondItem="RN2-uC-JCX" secondAttribute="trailing" constant="16" id="Vi8-h3-99R"/>
-                            <constraint firstItem="SZs-Rp-N2p" firstAttribute="leading" secondItem="Lqn-oi-MrE" secondAttribute="leading" constant="16" id="WS1-tR-QF5"/>
-                            <constraint firstItem="RN2-uC-JCX" firstAttribute="top" secondItem="zCV-h5-ijh" secondAttribute="bottom" constant="8" id="YP3-Zi-DJh"/>
-                            <constraint firstItem="020-hw-bzL" firstAttribute="bottom" secondItem="Yy9-4d-ol7" secondAttribute="bottom" constant="20" id="dU9-5A-VWS"/>
-                            <constraint firstItem="YC6-Le-Rzr" firstAttribute="leading" secondItem="020-hw-bzL" secondAttribute="leading" constant="16" id="eSf-dp-zh0"/>
-                            <constraint firstItem="RN2-uC-JCX" firstAttribute="leading" secondItem="Lqn-oi-MrE" secondAttribute="leading" constant="16" id="i8Q-BY-1Z7"/>
-                            <constraint firstItem="eWb-Dw-zRC" firstAttribute="centerY" secondItem="YC6-Le-Rzr" secondAttribute="centerY" id="iLG-5B-btC"/>
-                            <constraint firstItem="Yy9-4d-ol7" firstAttribute="leading" secondItem="ci8-ek-PDT" secondAttribute="trailing" constant="10" id="mCf-xc-Ikf"/>
-                            <constraint firstAttribute="trailing" secondItem="Yy9-4d-ol7" secondAttribute="trailing" constant="16" id="qDL-vA-rBb"/>
-                            <constraint firstItem="SZs-Rp-N2p" firstAttribute="width" secondItem="YXf-fJ-E0E" secondAttribute="width" id="xF1-nZ-Utj"/>
-                            <constraint firstItem="Yy9-4d-ol7" firstAttribute="top" secondItem="YXf-fJ-E0E" secondAttribute="bottom" constant="8" id="xlS-1U-Moa"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Consent Management Provider" id="lUv-0d-Bh5">
-                        <barButtonItem key="backBarButtonItem" title="Consent" id="jOB-LY-vyd"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="currentConsentStatusLabel" destination="eWb-Dw-zRC" id="ACB-YC-HXM"/>
-                        <outlet property="privacyPolicyURLButton" destination="zCV-h5-ijh" id="ZO0-Lg-z3z"/>
-                        <outlet property="vendorListURLButton" destination="RN2-uC-JCX" id="KuK-tu-6wl"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jfg-6d-2KO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-4614" y="-751"/>
         </scene>
         <!--Consent Strings-->
         <scene sceneID="1B2-8x-lZ4">
@@ -554,7 +270,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uhk-uE-0ut" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4615" y="-52"/>
+            <point key="canvasLocation" x="-4705" y="-201"/>
         </scene>
     </scenes>
     <resources>

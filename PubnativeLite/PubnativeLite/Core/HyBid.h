@@ -28,95 +28,95 @@ FOUNDATION_EXPORT double HyBidVersionNumber;
 //! Project version string for HyBid.
 FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <HyBid/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import "PublicHeader.h"
 
 //Banner module headers
 #if __has_include("HyBidLeaderboardAdRequest.h")
-    #import <HyBid/HyBidLeaderboardAdRequest.h>
+    #import "HyBidLeaderboardAdRequest.h"
 #endif
 #if __has_include("HyBidBannerAdRequest.h")
-    #import <HyBid/HyBidBannerAdRequest.h>
+    #import "HyBidBannerAdRequest.h"
 #endif
 #if __has_include("HyBidLeaderboardPresenterFactory.h")
-    #import <HyBid/HyBidLeaderboardPresenterFactory.h>
+    #import "HyBidLeaderboardPresenterFactory.h"
 #endif
 #if __has_include("HyBidLeaderboardAdView.h")
-    #import <HyBid/HyBidLeaderboardAdView.h>
+    #import "HyBidLeaderboardAdView.h"
 #endif
 #if __has_include("HyBidBannerAdView.h")
-    #import <HyBid/HyBidBannerAdView.h>
+    #import "HyBidBannerAdView.h"
 #endif
 #if __has_include("HyBidMRectAdRequest.h")
-    #import <HyBid/HyBidMRectAdRequest.h>
+    #import "HyBidMRectAdRequest.h"
 #endif
 #if __has_include("HyBidMRectPresenterFactory.h")
-    #import <HyBid/HyBidMRectPresenterFactory.h>
+    #import "HyBidMRectPresenterFactory.h"
 #endif
 #if __has_include("HyBidMRectAdView.h")
-    #import <HyBid/HyBidMRectAdView.h>
+    #import "HyBidMRectAdView.h"
 #endif
 
 //Native module headers
 #if __has_include("HyBidNativeAdLoader.h")
-    #import <HyBid/HyBidNativeAdLoader.h>
+    #import "HyBidNativeAdLoader.h"
 #endif
 #if __has_include("HyBidNativeAd.h")
-    #import <HyBid/HyBidNativeAd.h>
+    #import "HyBidNativeAd.h"
 #endif
 #if __has_include("HyBidNativeAdRenderer.h")
-    #import <HyBid/HyBidNativeAdRenderer.h>
+    #import "HyBidNativeAdRenderer.h"
 #endif
 
 //FullScreen Module headers
 #if __has_include("HyBidInterstitialAdRequest.h")
-    #import <HyBid/HyBidInterstitialAdRequest.h>
+    #import "HyBidInterstitialAdRequest.h"
 #endif
 #if __has_include("HyBidInterstitialPresenter.h")
-    #import <HyBid/HyBidInterstitialPresenter.h>
+    #import "HyBidInterstitialPresenter.h"
 #endif
 #if __has_include("HyBidInterstitialPresenterFactory.h")
-    #import <HyBid/HyBidInterstitialPresenterFactory.h>
+    #import "HyBidInterstitialPresenterFactory.h"
 #endif
 #if __has_include("HyBidInterstitialAd.h")
-    #import <HyBid/HyBidInterstitialAd.h>
+    #import "HyBidInterstitialAd.h"
 #endif
 
 //Rewarded video Module headers
 #if __has_include("HyBidRewardedAd.h")
-    #import <HyBid/HyBidRewardedAd.h>
+    #import "HyBidRewardedAd.h"
 #endif
 
-#import <HyBid/HyBidBannerPresenterFactory.h>
-#import <HyBid/HyBidRequestParameter.h>
-#import <HyBid/HyBidTargetingModel.h>
-#import <HyBid/HyBidAdRequest.h>
-#import <HyBid/HyBidMRAIDServiceProvider.h>
-#import <HyBid/HyBidMRAIDView.h>
-#import <HyBid/HyBidMRAIDServiceDelegate.h>
-#import <HyBid/HyBidAdPresenter.h>
-#import <HyBid/HyBidAdPresenterFactory.h>
-#import <HyBid/HyBidAdCache.h>
-#import <HyBid/HyBidHeaderBiddingUtils.h>
-#import <HyBid/HyBidPrebidUtils.h>
-#import <HyBid/HyBidContentInfoView.h>
-#import <HyBid/HyBidUserDataManager.h>
-#import <HyBid/HyBidBaseModel.h>
-#import <HyBid/HyBidAdModel.h>
-#import <HyBid/HyBidDataModel.h>
-#import <HyBid/HyBidAd.h>
-#import <HyBid/HyBidAdView.h>
-#import <HyBid/HyBidSettings.h>
-#import <HyBid/HyBidStarRatingView.h>
-#import <HyBid/HyBidViewabilityManager.h>
-#import <HyBid/HyBidLogger.h>
-#import <HyBid/HyBidIntegrationType.h>
-#import <HyBid/HyBidAdSize.h>
-#import <HyBid/HyBidOpenRTBDataModel.h>
-#import <HyBid/HyBidReportingManager.h>
-#import <HyBid/HyBidReporting.h>
-#import <HyBid/HyBidReportingEvent.h>
-#import <HyBid/HyBidDiagnosticsManager.h>
-#import <HyBid/HyBidError.h>
+#import "HyBidBannerPresenterFactory.h"
+#import "HyBidRequestParameter.h"
+#import "HyBidTargetingModel.h"
+#import "HyBidAdRequest.h"
+#import "HyBidMRAIDServiceProvider.h"
+#import "HyBidMRAIDView.h"
+#import "HyBidMRAIDServiceDelegate.h"
+#import "HyBidAdPresenter.h"
+#import "HyBidAdPresenterFactory.h"
+#import "HyBidAdCache.h"
+#import "HyBidHeaderBiddingUtils.h"
+#import "HyBidPrebidUtils.h"
+#import "HyBidContentInfoView.h"
+#import "HyBidUserDataManager.h"
+#import "HyBidBaseModel.h"
+#import "HyBidAdModel.h"
+#import "HyBidDataModel.h"
+#import "HyBidAd.h"
+#import "HyBidAdView.h"
+#import "HyBidSettings.h"
+#import "HyBidStarRatingView.h"
+#import "HyBidViewabilityManager.h"
+#import "HyBidLogger.h"
+#import "HyBidIntegrationType.h"
+#import "HyBidAdSize.h"
+#import "HyBidOpenRTBDataModel.h"
+#import "HyBidReportingManager.h"
+#import "HyBidReporting.h"
+#import "HyBidReportingEvent.h"
+#import "HyBidDiagnosticsManager.h"
+#import "HyBidError.h"
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 

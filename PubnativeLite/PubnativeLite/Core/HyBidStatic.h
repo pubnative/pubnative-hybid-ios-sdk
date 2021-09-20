@@ -84,5 +84,14 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
 + (void)setLocationUpdates:(BOOL)enabled;
 + (void)setLocationTracking:(BOOL)enabled;
++ (void)setAppStoreAppID:(NSString *)appID;
++ (NSString *)sdkVersion;
++ (BOOL)isInitialized;
++ (void)setInterstitialSkipOffset:(NSInteger)seconds;
++ (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish;
++ (HyBidReportingManager *)reportingManager;
++ (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
++ (NSString*)getSDKVersionInfo;
++ (NSString*)getCustomRequestSignalData;
 
 @end
