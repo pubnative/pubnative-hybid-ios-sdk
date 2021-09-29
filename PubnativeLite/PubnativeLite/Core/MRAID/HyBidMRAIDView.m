@@ -756,6 +756,7 @@ typedef enum {
     }
 }
 
+// DEPRECATED: useCustomClose is deprecated as from MRAID 3.0
 - (void)useCustomClose:(NSString *)isCustomCloseString {
     BOOL isCustomClose = [isCustomCloseString boolValue];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (isCustomClose ? @"YES" : @"NO")]];
@@ -1215,7 +1216,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     // Open any links to new windows in the current WKWebView rather than create a new one
     if (!navigationAction.targetFrame.isMainFrame) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        [[UIApplication sharedApplication] openURL:[navigationAction.request URL]];
         if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
             [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
                                                                                                                               [[[navigationAction.request URL] absoluteString] stringByRemovingPercentEncoding]]];

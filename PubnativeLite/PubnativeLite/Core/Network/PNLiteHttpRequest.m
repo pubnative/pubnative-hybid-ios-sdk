@@ -157,10 +157,14 @@ NSInteger const MAX_RETRIES = 1;
 - (NSArray *)appendSkAdNetworkParametersTo:(NSArray *)array
 {
     HyBidSkAdNetworkRequestModel *model = [[HyBidSkAdNetworkRequestModel alloc] init];
+    NSString *appID = @"0";
+    if ([model getAppID] && [[model getAppID] length] > 0) {
+        appID = [model getAppID];
+    }
     NSDictionary *extDict = @{
         @"ext": @{
                 @"skadn": @{
-                        @"sourceapp": [model getAppID],
+                        @"sourceapp": appID,
                         @"version": [model getSkAdNetworkVersion],
                         @"skadnetids": [model getSkAdNetworkAdNetworkIDsArray]
                 }

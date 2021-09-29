@@ -86,7 +86,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
-@property (nonatomic, assign) NSInteger skipOffsetFromServer;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackToken;
@@ -376,17 +375,11 @@ typedef enum : NSUInteger {
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
     Float64 currentSkippablePlayedPercent = 0;
-
+    
     if (self.skipOffset > 0) {
         currentSkippablePlayedPercent = currentPlaybackTime / self.skipOffset;
-    }
-    
-    if ((self.skipOffsetFromServer != -1 || self.skipOffset > 0) && (self.skipOffset != 0 && self.skipOffsetFromServer != 0)) {
-        NSInteger calculatedSkipOffset = self.skipOffset >= self.skipOffsetFromServer
-                                                                        ? self.skipOffset
-                                                                        : self.skipOffsetFromServer;
-        
-        if (currentPlaybackTime >= calculatedSkipOffset - 0.5) { // -0.5 for more smooth transition between circular progress view and close button
+
+        if (currentPlaybackTime >= self.skipOffset - 0.5) { // -0.5 for more smooth transition between circular progress view and close button
             self.btnClose.hidden = NO;
             [self.viewSkip removeFromSuperview];
         } else {
@@ -504,9 +497,9 @@ typedef enum : NSUInteger {
             for (CALayer *layer in self.viewProgress.layer.sublayers) {
                 [layer removeAllAnimations];
             }
-            [self.player pause];
+            [self setPauseState];
         } else {
-            [self.player play];
+            [self setPlayState];
         }
         return;
     }
@@ -673,7 +666,7 @@ typedef enum : NSUInteger {
 
 - (void)applicationDidEnterBackground:(NSNotification*)notification {
     if(self.currentState == PNLiteVASTPlayerState_PLAY) {
-        [self pause];
+        [self setPauseState];
     }
 }
 
@@ -770,7 +763,9 @@ typedef enum : NSUInteger {
             [self invokeDidFailLoadingWithError:mediaNotFoundError];
         } else {
             self.vastModel = self.videoAdCacheItem.vastModel;
-            self.skipOffsetFromServer = [self.vastModel skipOffsetFromServer];
+            if ([self.vastModel skipOffsetFromServer] != -1 && self.skipOffset <= 0) {
+                self.skipOffset = [self.vastModel skipOffsetFromServer];
+            }
             
             [self createVideoPlayerWithVideoUrl:mediaUrl];
         }
@@ -884,12 +879,17 @@ typedef enum : NSUInteger {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     self.btnOpenOffer.hidden = NO;
+    
     if (self.isInterstitial) {
         self.btnFullscreen.hidden = YES;
+        
+        if (!self.isRewarded) {
+            self.viewSkip.hidden = NO;
+        }
     } else {
         self.btnFullscreen.hidden = !self.canResize;
     }
-    self.viewSkip.hidden = NO;
+    
     self.viewProgress.hidden = NO;
     [self.loadingSpin stopAnimating];
     

@@ -246,33 +246,73 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
     
     if (data) {
-        NSDictionary *dict = @{@"campaign": [data stringFieldWithKey:@"campaign"],
-                               @"itunesitem": [data stringFieldWithKey:@"itunesitem"],
-                               @"network": [data stringFieldWithKey:@"network"],
-                               @"nonce": [data stringFieldWithKey:@"nonce"],
-                               @"signature": [data stringFieldWithKey:@"signature"],
-                               @"sourceapp": [data stringFieldWithKey:@"sourceapp"],
-                               @"timestamp": [data stringFieldWithKey:@"timestamp"],
-                               @"version": [data stringFieldWithKey:@"version"]};
-        model.productParameters = dict;
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+        if ([data stringFieldWithKey:@"campaign"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
+        }
+        if ([data stringFieldWithKey:@"itunesitem"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"itunesitem"] forKey:@"itunesitem"];
+        }
+        if ([data stringFieldWithKey:@"network"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"network"] forKey:@"network"];
+        }
+        if ([data stringFieldWithKey:@"nonce"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
+        }
+        if ([data stringFieldWithKey:@"signature"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
+        }
+        if ([data stringFieldWithKey:@"sourceapp"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"sourceapp"] forKey:@"sourceapp"];
+        }
+        if ([data stringFieldWithKey:@"timestamp"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
+        }
+        if ([data stringFieldWithKey:@"version"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"version"] forKey:@"version"];
+        }
+        if ([data numberFieldWithKey:@"fidelity"] != nil) {
+            [dict setValue:[data numberFieldWithKey:@"fidelity"] forKey:@"fidelity"];
+        }
+        model.productParameters = [dict copy];
     }
     return model;
 }
 
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel {
-    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
     HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
-    
+
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
     if (data) {
-        NSDictionary *dict = @{@"campaign": [data stringFieldWithKey:@"campaign"],
-                               @"itunesitem": [data stringFieldWithKey:@"itunesitem"],
-                               @"network": [data stringFieldWithKey:@"network"],
-                               @"nonce": [data stringFieldWithKey:@"nonce"],
-                               @"signature": [data stringFieldWithKey:@"signature"],
-                               @"sourceapp": [data stringFieldWithKey:@"sourceapp"],
-                               @"timestamp": [data stringFieldWithKey:@"timestamp"],
-                               @"version": [data stringFieldWithKey:@"version"]};
-        model.productParameters = dict;
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+        if ([data stringFieldWithKey:@"campaign"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
+        }
+        if ([data stringFieldWithKey:@"itunesitem"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"itunesitem"] forKey:@"itunesitem"];
+        }
+        if ([data stringFieldWithKey:@"network"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"network"] forKey:@"network"];
+        }
+        if ([data stringFieldWithKey:@"nonce"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
+        }
+        if ([data stringFieldWithKey:@"signature"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
+        }
+        if ([data stringFieldWithKey:@"sourceapp"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"sourceapp"] forKey:@"sourceapp"];
+        }
+        if ([data stringFieldWithKey:@"timestamp"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
+        }
+        if ([data stringFieldWithKey:@"version"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"version"] forKey:@"version"];
+        }
+        if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
+            [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
+        }
+        model.productParameters = [dict copy];
     }
     return model;
 }

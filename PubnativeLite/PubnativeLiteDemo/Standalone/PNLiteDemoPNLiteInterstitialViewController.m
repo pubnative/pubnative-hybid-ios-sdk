@@ -58,7 +58,7 @@
     self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-    [self.interstitialAd setSkipOffset: 5];
+    [self.interstitialAd setSkipOffset:5];
     [self.interstitialAd load];
 }
 
