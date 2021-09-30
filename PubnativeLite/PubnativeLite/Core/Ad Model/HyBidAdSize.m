@@ -48,7 +48,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%dx%d", self.adWidth, self.adHeight];
+    return [NSString stringWithFormat:@"%ldx%ld", self.adWidth, self.adHeight];
 }
 
 - (BOOL)isEqualTo:(HyBidAdSize *)hyBidAdSize {

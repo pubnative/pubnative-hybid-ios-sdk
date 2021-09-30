@@ -26,7 +26,7 @@
 
 @implementation HyBidVastTagAdSource
 
-- (instancetype)initWithConfig:(HyBidAdSourceAbstract *)config {
+- (instancetype)initWithConfig:(HyBidAdSourceConfig *)config {
     if (self) {
         self.config = config;
     }

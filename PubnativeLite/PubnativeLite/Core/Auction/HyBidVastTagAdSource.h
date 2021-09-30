@@ -28,7 +28,7 @@
 
 @interface HyBidVastTagAdSource : HyBidAdSourceAbstract<PNLiteHttpRequestDelegate>
 
-@property (nonatomic, strong) HyBidAdSourceConfig*config;
+@property (nonatomic, strong) HyBidAdSourceConfig *config;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 
 - (instancetype)initWithConfig:(HyBidAdSourceConfig *)config;

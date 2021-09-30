@@ -37,6 +37,7 @@ NSString * const RESPONSE_SIGNATURE_KEY = @"signature";
 NSString * const RESPONSE_CAMPAIGN_ID_KEY = @"campaign";
 NSString * const RESPONSE_TIMESTAMP_KEY = @"timestamp";
 NSString * const RESPONSE_NONCE_KEY = @"nonce";
+NSString * const RESPONSE_FIDELITY_KEY = @"fidelity-type";
 
 - (instancetype)initWithParameters:(NSDictionary *)productParams {
     self = [super init];

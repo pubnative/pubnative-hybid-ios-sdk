@@ -128,7 +128,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion;
 + (void)setLocationUpdates:(BOOL)enabled;
 + (void)setLocationTracking:(BOOL)enabled;
-+ (void)setAppStoreAppID:(NSString *)appID;
++ (void)setAppStoreAppID:(NSString *)appID DEPRECATED_MSG_ATTRIBUTE("You can safely remove this method from your integration.");
 + (NSString *)sdkVersion;
 + (BOOL)isInitialized;
 + (void)setInterstitialSkipOffset:(NSInteger)seconds;

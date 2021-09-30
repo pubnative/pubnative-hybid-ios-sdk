@@ -66,20 +66,18 @@
     
     if (@available(iOS 11.3, *)) {
         HyBidSkAdNetworkRequestModel *skAdNetworkRequestModel = [[HyBidSkAdNetworkRequestModel alloc] init];
-        
-        if ([skAdNetworkRequestModel getAppID] != NULL) {
-            if ([[skAdNetworkRequestModel getAppID] length] > 0) {
-                NSString *adIDs = [skAdNetworkRequestModel getSkAdNetworkAdNetworkIDsString];
-                if ([adIDs length] > 0) {
-                    [self setAppStoreAppID:adRequestModel withAppID:[skAdNetworkRequestModel getAppID]];
-                    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
-                    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = [skAdNetworkRequestModel getSkAdNetworkVersion];
-                } else {
-                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again."];
-                }
+    
+        NSString *adIDs = [skAdNetworkRequestModel getSkAdNetworkAdNetworkIDsString];
+        if ([adIDs length] > 0) {
+            if ([skAdNetworkRequestModel getAppID] && [[skAdNetworkRequestModel getAppID] length] > 0) {
+                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = [skAdNetworkRequestModel getAppID];
             } else {
-                [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid AppID parameter cannot be empty. Please assign the actual AppStore app ID to this parameter and try again."];
+                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = @"0";
             }
+            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
+            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = [skAdNetworkRequestModel getSkAdNetworkVersion];
+        } else {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again."];
         }
     }
     
@@ -181,10 +179,6 @@
         [newMetaFields addObject:PNLiteMeta.creativeId];
     }
     adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
-}
-
--(void)setAppStoreAppID:(PNLiteAdRequestModel *)adRequestModel withAppID:(NSString *)appID {
-    adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = appID;
 }
 
 @end
