@@ -129,13 +129,19 @@
 }
 
 - (NSString *)deviceSound {
-    NSError* error;
-    [[AVAudioSession sharedInstance] setActive:YES error:&error];
-    if ([AVAudioSession sharedInstance].outputVolume == 0) {
+    [self activateAVAudioSession];
+    float outputVolume = [AVAudioSession sharedInstance].outputVolume;
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
+    if (outputVolume == 0) {
         return @"0";
     } else {
         return @"1";
     }
+}
+
+- (void)activateAVAudioSession {
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
 }
 
 - (NSString *)locale {
