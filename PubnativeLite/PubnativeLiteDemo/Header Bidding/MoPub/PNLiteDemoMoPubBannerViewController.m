@@ -29,7 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) MPAdView *moPubBanner;
 @property (nonatomic, strong) HyBidAdRequest *bannerAdRequest;
@@ -62,9 +62,9 @@
 
 - (void)requestAd {
     [self setCreativeIDLabelWithString:@"_"];
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.bannerContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     self.bannerAdRequest = [[HyBidAdRequest alloc] init];
     self.bannerAdRequest.adSize = HyBidAdSize.SIZE_320x50;
@@ -121,7 +121,7 @@
     [self setCreativeIDLabelWithString:ad.creativeID];
     
     if (request == self.bannerAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.moPubBanner setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubBanner loadAd];
     }
@@ -131,7 +131,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.bannerAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
         [self.moPubBanner loadAd];

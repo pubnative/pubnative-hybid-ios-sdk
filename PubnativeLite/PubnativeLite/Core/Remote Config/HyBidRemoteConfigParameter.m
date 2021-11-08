@@ -35,5 +35,7 @@
 + (NSString *)appConfig;                    { return @"app_config"; }
 + (NSString *)appToken;                     { return @"app_token"; }
 + (NSString *)api;                          { return @"api"; }
++ (NSString *)enabledProtocols;             { return @"enabled_protocols"; }
++ (NSString *)enabledAPIs;                  { return @"enabled_apis"; }
 
 @end

@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *leaderboardContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic, strong) GADBannerView *gadLeaderboard;
 
 @end
@@ -59,9 +59,9 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.leaderboardContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
     [self.gadLeaderboard loadRequest:[GADRequest request]];
 }
@@ -72,7 +72,7 @@
     NSLog(@"bannerViewDidReceiveAd");
     if (self.gadLeaderboard == bannerView) {
         self.leaderboardContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.leaderboardLoaderIndicator stopAnimating];
     }
 }
@@ -80,7 +80,7 @@
 - (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
     NSLog(@"bannerView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.gadLeaderboard == bannerView) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.leaderboardLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }

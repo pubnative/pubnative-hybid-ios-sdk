@@ -61,7 +61,7 @@
         [adEvents impressionOccurredWithError:&impressionError];
     }
     
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.IMPRESSION];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.OMID_IMPRESSION];
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {

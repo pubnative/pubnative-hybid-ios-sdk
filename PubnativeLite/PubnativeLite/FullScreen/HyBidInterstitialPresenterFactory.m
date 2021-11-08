@@ -31,10 +31,11 @@
 @implementation HyBidInterstitialPresenterFactory
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
-                                                    withSkipOffset:(NSUInteger)skipOffset
-                                               withCloseOnFinish: (BOOL)closeOnFinish
+                                             withVideoSkipOffset:(NSUInteger)videoSkipOffset
+                                              withHTMLSkipOffset:(NSUInteger)htmlSkipOffset
+                                               withCloseOnFinish:(BOOL)closeOnFinish
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate {
-    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad withSkipOffset:skipOffset withCloseOnFinish:closeOnFinish];
+    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad withVideoSkipOffset:videoSkipOffset withHTMLSkipOffset:htmlSkipOffset withCloseOnFinish:closeOnFinish];
     if (!interstitialPresenter) {
         return nil;
     }
@@ -44,20 +45,20 @@
     interstitialPresenter.delegate = interstitialPresenterDecorator;
     return interstitialPresenterDecorator;
 }
-
-- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withSkipOffset:(NSUInteger)skipOffset withCloseOnFinish: (BOOL)closeOnFinish {
+    
+- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withVideoSkipOffset:(NSUInteger)videoSkipOffset withHTMLSkipOffset:(NSUInteger)htmlSkipOffset withCloseOnFinish: (BOOL)closeOnFinish {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_300x600:
         case MRAID_320x480:
         case MRAID_480x320:
         case MRAID_1024x768:
         case MRAID_768x1024:{
-            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad withSkipOffset:skipOffset];
+            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad withSkipOffset:htmlSkipOffset];
             return mraidInterstitalPresenter;
             break;
         }
         case VAST_INTERSTITIAL: {
-            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad withSkipOffset:skipOffset withCloseOnFinish:closeOnFinish];
+            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad withSkipOffset:videoSkipOffset withCloseOnFinish:closeOnFinish];
             return vastInterstitalPresenter;
         }
         default:

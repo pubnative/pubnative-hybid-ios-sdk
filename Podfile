@@ -6,10 +6,9 @@ project 'PubnativeLite/HyBid.xcodeproj'
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'HyBidDemo' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+use_frameworks!
 
+target 'HyBidDemo' do
   # Pods for HyBidDemo
   pod 'FLEX', '4.4.1'
   pod 'Firebase/Performance'

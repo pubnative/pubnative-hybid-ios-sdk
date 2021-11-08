@@ -25,6 +25,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "HyBidTargetingModel.h"
+#import "HyBidInterstitialActionBehaviour.h"
 
 typedef enum {
     HyBidAudioStatusMuted,
@@ -42,9 +43,13 @@ typedef enum {
 @property (nonatomic, strong) NSString *apiURL;
 @property (nonatomic, strong) NSString *openRtbApiURL;
 @property (nonatomic, strong) NSString *appID;
-@property (nonatomic, assign) NSInteger skipOffset;
+@property (nonatomic, assign) NSInteger videoSkipOffset;
+@property (nonatomic, assign) NSInteger htmlSkipOffset;
+@property (nonatomic, assign) HyBidInterstitialActionBehaviour interstitialActionBehaviour;
+
 @property (nonatomic, assign) BOOL closeOnFinish;
 @property (nonatomic, assign) HyBidAudioStatus audioStatus;
+@property (nonatomic, assign) BOOL reporting;
 
 // COMMON PARAMETERS
 @property (readonly) NSString *advertisingId;
@@ -55,6 +60,7 @@ typedef enum {
 @property (readonly) NSString *deviceHeight;
 @property (readonly) NSString *orientation;
 @property (readonly) NSString *deviceSound;
+@property (readonly) NSNumber *audioVolumePercentage;
 @property (readonly) NSString *locale;
 @property (readonly) NSString *sdkVersion;
 @property (readonly) NSString *appBundleID;

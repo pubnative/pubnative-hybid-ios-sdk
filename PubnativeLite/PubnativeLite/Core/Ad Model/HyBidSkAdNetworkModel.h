@@ -29,5 +29,6 @@
 
 - (instancetype)initWithParameters:(NSDictionary *)productParams;
 - (NSDictionary *) getStoreKitParameters;
+- (BOOL)isSKAdNetworkIDVisible:(NSDictionary*) productParams;
 
 @end

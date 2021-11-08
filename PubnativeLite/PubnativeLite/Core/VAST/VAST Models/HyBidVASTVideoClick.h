@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,37 +21,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "PNLiteVASTModel.h"
 
-typedef enum : NSInteger {
-    PNLiteVASTEvent_Start,
-    PNLiteVASTEvent_FirstQuartile,
-    PNLiteVASTEvent_Midpoint,
-    PNLiteVASTEvent_ThirdQuartile,
-    PNLiteVASTEvent_Complete,
-    PNLiteVASTEvent_Close,
-    PNLiteVASTEvent_Pause,
-    PNLiteVASTEvent_Resume,
-    PNLiteVASTEvent_Click,
-    PNLiteVASTEvent_Unknown
-} PNLiteVASTEvent;
+@interface HyBidVASTVideoClick : NSObject
 
-@class PNLiteVASTEventProcessor;
+- (instancetype)init NS_UNAVAILABLE;
 
-@protocol PNLiteVASTEventProcessorDelegate <NSObject>
+- (instancetype)initWithNode:(NSDictionary *)node andWithType:(NSString *)type;
 
-- (void)eventProcessorDidTrackEvent:(PNLiteVASTEvent)event;
+- (NSString *)id;
 
-@end
+- (NSString *)type;
 
-@interface PNLiteVASTEventProcessor : NSObject
-
-// designated initializer, uses tracking events stored in VASTModel
-- (id)initWithEvents:(NSDictionary *)events delegate:(id<PNLiteVASTEventProcessorDelegate>)delegate;
-// sends the given VASTEvent
-- (void)trackEvent:(PNLiteVASTEvent)event;
-// sends the set of http requests to supplied URLs, used for Impressions, ClickTracking, and Errors.
-- (void)sendVASTUrls:(NSArray *)urls;
+- (NSString *)url;
 
 @end

@@ -27,7 +27,7 @@
 @interface PNLiteDemoMoPubMediationInterstitialViewController () <MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 
@@ -50,8 +50,8 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
-    self.inspectRequestButton.hidden = YES;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubMediationInterstitialAdUnitIDKey]];
@@ -69,14 +69,14 @@
 
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error {
     NSLog(@"interstitialDidFailToLoadAd");
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }

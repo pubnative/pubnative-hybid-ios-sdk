@@ -28,7 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic, strong) MPAdView *moPubBanner;
 
 @end
@@ -56,9 +56,9 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.bannerContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     [self.moPubBanner loadAd];
 }
@@ -73,7 +73,7 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubBanner == view) {
         self.bannerContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
     }
 }
@@ -81,7 +81,7 @@
 - (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubBanner == view) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:@"MoPub Banner did fail to load."];
     }

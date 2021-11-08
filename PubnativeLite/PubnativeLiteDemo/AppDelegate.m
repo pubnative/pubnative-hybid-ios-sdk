@@ -80,7 +80,9 @@ CLLocationManager *locationManager;
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     
     [HyBid reportingManager].delegate = self;
-    [HyBid setInterstitialSkipOffset:10];
+    [HyBid setInterstitialActionBehaviour:HB_CREATIVE];
+    [HyBid setVideoInterstitialSkipOffset:8];
+    [HyBid setHTMLInterstitialSkipOffset:2];
     [HyBid setInterstitialCloseOnFinish:YES];
     [HyBid setVideoAudioStatus:HyBidAudioStatusDefault];
     

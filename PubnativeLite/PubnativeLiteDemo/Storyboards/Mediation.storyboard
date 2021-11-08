@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oCm-84-z79">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oCm-84-z79">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -669,16 +669,16 @@
                                 <rect key="frame" x="169" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-xv-Rt1" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-xv-Rt1" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="faW-vR-qZZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -711,7 +711,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="USZ-Pl-yjO"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="W1m-xv-Rt1" id="Euq-vz-BDQ"/>
+                        <outlet property="debugButton" destination="W1m-xv-Rt1" id="Euq-vz-BDQ"/>
                         <outlet property="nativeAdContainer" destination="UdH-DJ-h67" id="835-bL-Ong"/>
                         <outlet property="nativeAdLoaderIndicator" destination="ky0-LA-wDo" id="FCa-1H-N1z"/>
                     </connections>
@@ -760,16 +760,16 @@
                                 <rect key="frame" x="169" y="70" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVr-Fh-lES" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVr-Fh-lES" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="e6b-Hp-3OR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -802,7 +802,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="9UJ-QK-CLF"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="wVr-Fh-lES" id="wQc-tZ-Gr4"/>
+                        <outlet property="debugButton" destination="wVr-Fh-lES" id="wQc-tZ-Gr4"/>
                         <outlet property="leaderboardContainer" destination="5Dj-I2-y7R" id="Jhh-Rs-jfH"/>
                         <outlet property="leaderboardLoaderIndicator" destination="iVN-93-XKw" id="iGJ-Zc-Zb2"/>
                     </connections>
@@ -851,16 +851,16 @@
                                 <rect key="frame" x="169" y="70" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiV-Xl-L6b" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiV-Xl-L6b" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="Qus-sT-7P1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -893,7 +893,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="yxU-z6-M6e"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="MiV-Xl-L6b" id="AIM-YA-uSd"/>
+                        <outlet property="debugButton" destination="MiV-Xl-L6b" id="AIM-YA-uSd"/>
                         <outlet property="leaderboardContainer" destination="fWD-Nb-cGY" id="jd6-IV-vNc"/>
                         <outlet property="leaderboardLoaderIndicator" destination="bOB-GG-n2S" id="tcg-Vb-nwe"/>
                     </connections>
@@ -942,16 +942,16 @@
                                 <rect key="frame" x="169" y="54" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owG-oh-uMy" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owG-oh-uMy" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="Viv-4u-CWF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -986,7 +986,7 @@
                     <connections>
                         <outlet property="bannerContainer" destination="Qlv-ES-8tZ" id="12f-4g-fYY"/>
                         <outlet property="bannerLoaderIndicator" destination="URX-ya-iLK" id="NkE-Vw-5Ix"/>
-                        <outlet property="inspectRequestButton" destination="owG-oh-uMy" id="J8g-u5-5vT"/>
+                        <outlet property="debugButton" destination="owG-oh-uMy" id="J8g-u5-5vT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L8g-I9-4Th" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1033,16 +1033,16 @@
                                 <rect key="frame" x="169" y="54" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEE-X9-lhe" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEE-X9-lhe" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="BKv-FQ-M6g"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1077,7 +1077,7 @@
                     <connections>
                         <outlet property="bannerContainer" destination="sbH-VL-EqQ" id="z2p-8R-ZkX"/>
                         <outlet property="bannerLoaderIndicator" destination="vZp-S8-Sbq" id="zbk-Lh-NOv"/>
-                        <outlet property="inspectRequestButton" destination="CEE-X9-lhe" id="QXh-Jm-zlo"/>
+                        <outlet property="debugButton" destination="CEE-X9-lhe" id="QXh-Jm-zlo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rxc-Ec-E8G" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1124,16 +1124,16 @@
                                 <rect key="frame" x="169" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2T-Sa-VCA" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2T-Sa-VCA" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="gfE-hx-a5s"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1166,7 +1166,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="hXV-iZ-A7t"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="F2T-Sa-VCA" id="uw8-vJ-cKT"/>
+                        <outlet property="debugButton" destination="F2T-Sa-VCA" id="uw8-vJ-cKT"/>
                         <outlet property="mRectContainer" destination="KmS-m4-rOv" id="Yr9-x5-Ww4"/>
                         <outlet property="mRectLoaderIndicator" destination="FtZ-Vp-lag" id="mGX-4S-eFB"/>
                     </connections>
@@ -1215,16 +1215,16 @@
                                 <rect key="frame" x="169" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KH-lB-aei" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KH-lB-aei" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="lgP-T7-EwL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1257,7 +1257,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="cLz-du-Py3"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="1KH-lB-aei" id="8A3-lI-Fyk"/>
+                        <outlet property="debugButton" destination="1KH-lB-aei" id="8A3-lI-Fyk"/>
                         <outlet property="mRectContainer" destination="ROb-wq-zxQ" id="IYO-nO-ith"/>
                         <outlet property="mRectLoaderIndicator" destination="5HG-ee-g2W" id="pOd-1w-Da1"/>
                     </connections>
@@ -1296,16 +1296,16 @@
                                 <rect key="frame" x="169" y="305" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qg-pD-6h6" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qg-pD-6h6" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="m72-xg-Li3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1353,7 +1353,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="zpb-Rt-dKW"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="1qg-pD-6h6" id="WSC-59-YTS"/>
+                        <outlet property="debugButton" destination="1qg-pD-6h6" id="WSC-59-YTS"/>
                         <outlet property="rewardedLoaderIndicator" destination="TWF-7x-L1v" id="t47-Pn-xGL"/>
                         <outlet property="showAdButton" destination="0vr-Gt-FK3" id="mdA-3N-dsP"/>
                     </connections>
@@ -1392,16 +1392,16 @@
                                 <rect key="frame" x="169" y="305" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kc7-lt-WWO" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kc7-lt-WWO" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="ZlB-ac-V0g"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1449,7 +1449,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="URy-Mk-WsJ"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="Kc7-lt-WWO" id="JVi-wi-M0b"/>
+                        <outlet property="debugButton" destination="Kc7-lt-WWO" id="JVi-wi-M0b"/>
                         <outlet property="interstitialLoaderIndicator" destination="tgx-d1-eNI" id="7WV-sH-pjH"/>
                         <outlet property="showAdButton" destination="hEU-wF-sa4" id="jUH-eV-oTb"/>
                     </connections>
@@ -1458,10 +1458,10 @@
             </objects>
             <point key="canvasLocation" x="-454" y="1044"/>
         </scene>
-        <!--RequestInspector-->
+        <!--Debug-->
         <scene sceneID="DD4-QI-Yfr">
             <objects>
-                <viewControllerPlaceholder storyboardName="RequestInspector" id="qhe-R0-zhi" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Debug" id="qhe-R0-zhi" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6FU-x4-9ZR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3078" y="1822"/>
@@ -1496,16 +1496,16 @@
                                 <rect key="frame" x="169" y="305" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAm-iE-pRT" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAm-iE-pRT" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="Dec-lg-zmV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1553,7 +1553,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="KaC-PT-PXi"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="IAm-iE-pRT" id="xfR-mk-Hql"/>
+                        <outlet property="debugButton" destination="IAm-iE-pRT" id="xfR-mk-Hql"/>
                         <outlet property="rewardedLoaderIndicator" destination="yge-GL-eI0" id="aVR-Mf-TsX"/>
                         <outlet property="showAdButton" destination="UxX-eS-VTP" id="q1f-VU-YW2"/>
                     </connections>
@@ -1618,16 +1618,16 @@
                                 <rect key="frame" x="169" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4HR-2X-sdp" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4HR-2X-sdp" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="WWx-MW-LBG"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1660,7 +1660,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="sJo-zG-z3D"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="4HR-2X-sdp" id="OjI-Eq-D9M"/>
+                        <outlet property="debugButton" destination="4HR-2X-sdp" id="OjI-Eq-D9M"/>
                         <outlet property="nativeAdContainer" destination="Fxt-CM-ip6" id="q0D-OD-L5b"/>
                         <outlet property="nativeAdLoaderIndicator" destination="Ix3-ZG-Xf2" id="m13-ek-0Me"/>
                     </connections>
@@ -1699,16 +1699,16 @@
                                 <rect key="frame" x="169" y="305" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PjM-Vv-pli" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PjM-Vv-pli" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="606" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="TSm-eN-2q3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1756,7 +1756,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="GG1-Ix-fEi"/>
                     <connections>
-                        <outlet property="inspectRequestButton" destination="PjM-Vv-pli" id="DhW-iL-rOz"/>
+                        <outlet property="debugButton" destination="PjM-Vv-pli" id="DhW-iL-rOz"/>
                         <outlet property="interstitialLoaderIndicator" destination="Gsb-Kq-BTG" id="Zft-Og-gw7"/>
                         <outlet property="showAdButton" destination="4Oy-n4-8dI" id="Ziq-gn-CaS"/>
                     </connections>

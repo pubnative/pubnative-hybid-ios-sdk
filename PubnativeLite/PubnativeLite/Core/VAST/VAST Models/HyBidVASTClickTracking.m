@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +20,43 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "HyBidVASTClickTracking.h"
+#import "HyBidVASTXMLParserHelper.h"
 
-@interface PNLiteVASTModel : NSObject
+@interface HyBidVASTClickTracking ()
 
-// returns the version of the VAST document 
-- (NSString *)vastVersion;
+@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
 
-// returns the skip offset in seconds
-- (NSInteger)skipOffsetFromServer;
+@property (nonatomic) int index;
 
-// returns an array of VASTUrlWithId objects (although the id will always be nil)
-- (NSArray<NSString*> *)errors;
+@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
 
-// returns an array of VASTUrlWithId objects
-- (NSArray<NSString*> *)impressions;
+@end
 
-// returns the ClickThrough URL
-- (NSString*)clickThrough;
+@implementation HyBidVASTClickTracking
 
-// returns an array of VASTUrlWithId objects
-- (NSArray<NSString*> *)clickTracking;
+- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+{
+    self = [super init];
+    if (self) {
+        self.vastDocumentArray = [array mutableCopy];
+        self.index = index;
+        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+    }
+    return self;
+}
 
-// returns a dictionary whose keys are the names of the event ("start", "midpoint", etc.)
-// and whose values are arrays of NSURL objects
-- (NSDictionary *)trackingEvents;
+- (NSString *)id
+{
+    NSString *query = @"//ClickTracking";
+    NSArray *array = [self.parserHelper getArrayResultsForQuery: query];
+    return [self.parserHelper getContentForAttribute:@"id" inNode:array[self.index]];
+}
 
-// returns an array of VASTMediaFile objects
-- (NSArray *)mediaFiles;
-
-// returns an array of OMVerificationScriptResource objects
-- (NSMutableArray *)scriptResources;
+- (NSString *)url
+{
+    NSString *query = @"//ClickTracking";
+    return [self.parserHelper getContentForQuery: query];
+}
 
 @end

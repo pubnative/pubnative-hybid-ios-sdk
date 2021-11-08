@@ -29,7 +29,7 @@
 @interface HyBidDemoGADInterstitialViewController () <GADFullScreenContentDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic, strong) GAMInterstitialAd *gadInterstitial;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 
@@ -52,8 +52,8 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
-    self.inspectRequestButton.hidden = YES;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     GAMRequest *request = [GAMRequest request];
@@ -62,12 +62,12 @@
                                completionHandler:^(GAMInterstitialAd *ad, NSError *error) {
         if (error) {
             NSLog(@"Failed to load interstitial ad with error: %@", [error localizedDescription]);
-            self.inspectRequestButton.hidden = NO;
+            self.debugButton.hidden = NO;
             [self.interstitialLoaderIndicator stopAnimating];
             [self showAlertControllerWithMessage:error.localizedDescription];
             return;
         }
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         self.showAdButton.hidden = NO;
         [self.interstitialLoaderIndicator stopAnimating];
         self.gadInterstitial = ad;

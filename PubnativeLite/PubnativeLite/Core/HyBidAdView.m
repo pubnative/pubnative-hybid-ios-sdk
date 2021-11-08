@@ -27,10 +27,12 @@
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidRemoteConfigModel.h"
 #import "HyBidAuction.h"
+#import "HyBidAdImpression.h"
 #import "HyBidVastTagAdSource.h"
 #import "HyBidSignalDataProcessor.h"
 #import "HyBid.h"
 #import "HyBidError.h"
+#import "PNLiteAssetGroupType.h"
 
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
 
@@ -38,6 +40,10 @@
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSMutableArray<HyBidAd*>* auctionResponses;
 @property (nonatomic, strong) UIView *container;
+@property (nonatomic, assign) NSTimeInterval initialLoadTimestamp;
+@property (nonatomic, assign) NSTimeInterval initialRenderTimestamp;
+@property (nonatomic, strong) NSMutableDictionary *loadReportingProperties;
+@property (nonatomic, strong) NSMutableDictionary *renderReportingProperties;
 
 @end
 
@@ -50,7 +56,8 @@
     self.adPresenter = nil;
     self.adRequest = nil;
     self.adSize = nil;
-
+    self.loadReportingProperties = nil;
+    self.renderReportingProperties = nil;
     [self cleanUp];
 }
 
@@ -72,6 +79,8 @@
         self.auctionResponses = [[NSMutableArray alloc]init];
         self.adSize = adSize;
         self.autoShowOnLoad = true;
+        self.loadReportingProperties = [NSMutableDictionary new];
+        self.renderReportingProperties = [NSMutableDictionary new];
     }
     return self;
 }
@@ -81,6 +90,8 @@
     [self.container removeFromSuperview];
     self.container = nil;
     self.ad = nil;
+    self.initialLoadTimestamp = -1;
+    self.initialRenderTimestamp = -1;
 }
 
 - (void)removeAllSubViewsFrom:(UIView *)view {
@@ -90,20 +101,18 @@
     }
 }
 
-- (void)loadWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate
-{
+- (void)loadWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     self.bannerPosition = bannerPosition;
     [self loadWithZoneID:zoneID andWithDelegate:delegate];
 }
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
+    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
     self.delegate = delegate;
     self.zoneID = zoneID;
     if (!self.zoneID || self.zoneID.length == 0) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError: [NSError hyBidInvalidZoneId]];
-        }
+        [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
     } else {
         HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
         
@@ -141,15 +150,11 @@
                                 if (self.autoShowOnLoad) {
                                     [self renderAd];
                                 } else {
-                                    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
-                                        [self.delegate adViewDidLoad:self];
-                                    }
+                                    [self invokeDidLoad];
                                 }
                             });
                         } else {
-                            if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-                                [self.delegate adView:self didFailWithError:error];
-                            }
+                            [self invokeDidFailWithError:error];
                         }
                         return;
                     }];
@@ -168,16 +173,36 @@
     [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
 }
 
-- (void) show {
+- (void)prepare
+{
+    if (self.adRequest != nil && self.ad != nil) {
+        [self.adRequest cacheAd:self.ad];
+    }
+}
+
+- (BOOL)isAutoCacheOnLoad {
+    if (self.adRequest != nil) {
+        return [self.adRequest isAutoCacheOnLoad];
+    } else {
+        return YES;
+    }
+}
+
+- (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad
+{
+    if (self.adRequest != nil) {
+        [self.adRequest setIsAutoCacheOnLoad:isAutoCacheOnLoad];
+    }
+}
+
+- (void)show {
     [self renderAd];
 }
 
-- (void)show:(UIView *)adView withPosition:(HyBidBannerPosition)position
-{
+- (void)show:(UIView *)adView withPosition:(HyBidBannerPosition)position {
     if (self.container == nil) {
         self.container = [[UIView alloc] init];
     }
-    
     [self.container addSubview:adView];
     [[self containerViewController].view addSubview:self.container];
     
@@ -193,13 +218,11 @@
     }
 }
 
-- (UIViewController *)containerViewController
-{
+- (UIViewController *)containerViewController {
     return [[[UIApplication sharedApplication].delegate.window.rootViewController childViewControllers] lastObject];
 }
 
-- (void)setStickyBannerConstraintsAtPosition:(HyBidBannerPosition)position forView:(UIView *)adView
-{
+- (void)setStickyBannerConstraintsAtPosition:(HyBidBannerPosition)position forView:(UIView *)adView {
     adView.translatesAutoresizingMaskIntoConstraints = NO;
     [adView.widthAnchor constraintEqualToConstant:self.adSize.width].active = YES;
     [adView.heightAnchor constraintEqualToConstant:self.adSize.height].active = YES;
@@ -221,11 +244,14 @@
     }
     
     if (self.autoShowOnLoad) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
-            [self.delegate adViewDidLoad:self];
-        }
+        [self invokeDidLoad];
     }
     [self startTracking];
+    if (self.initialRenderTimestamp != -1) {
+        [self.renderReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialRenderTimestamp]] forKey:HyBidReportingCommon.RENDER_TIME];
+    }
+    [self addCommonPropertiesToReportingDictionary:self.renderReportingProperties];
+    [self reportEvent:HyBidReportingEventType.RENDER withProperties:self.renderReportingProperties];
 }
 
 - (void)renderAd {
@@ -233,6 +259,7 @@
     if (!self.adPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid ad presenter."];
         [self.delegate adView:self didFailWithError:[NSError hyBidUnsupportedAsset]];
+        [self createRenderErrorEventWithError:[NSError hyBidUnsupportedAsset]];
         return;
     } else {
         [self.adPresenter load];
@@ -247,6 +274,7 @@
         [self processAdContent:adContent];
     } else {
         [self.delegate adView:self didFailWithError:[NSError hyBidInvalidAsset]];
+        [self createRenderErrorEventWithError:[NSError hyBidInvalidAsset]];
     }
 }
 
@@ -260,6 +288,10 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
         [self.adPresenter startTracking];
         
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+        [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
+#endif
+        
         if (self.ad.adType != kHyBidAdTypeVideo) {
             [self.delegate adViewDidTrackImpression:self];
         }
@@ -268,11 +300,91 @@
 
 - (void)stopTracking {
     [self.adPresenter stopTracking];
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+    [[HyBidAdImpression sharedInstance] endImpressionForAd:self.ad];
+#endif
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
+    self.initialRenderTimestamp = [[NSDate date] timeIntervalSince1970];
     HyBidBannerPresenterFactory *bannerPresenterFactory = [[HyBidBannerPresenterFactory alloc] init];
     return [bannerPresenterFactory createAdPresenterWithAd:self.ad withDelegate:self];
+}
+
+- (void)createRenderErrorEventWithError:(NSError *)error {
+    NSMutableDictionary *renderErrorReportingProperties = [NSMutableDictionary new];
+    [renderErrorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+    [renderErrorReportingProperties setObject:[NSString stringWithFormat:@"%ld",error.code] forKey:HyBidReportingCommon.ERROR_CODE];
+    [self addCommonPropertiesToReportingDictionary:renderErrorReportingProperties];
+    [self reportEvent:HyBidReportingEventType.RENDER_ERROR withProperties:renderErrorReportingProperties];
+}
+
+- (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
+    [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    if (self.zoneID) {
+        [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.adRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
+    [reportingDictionary setObject:self.adSize.description forKey:HyBidReportingCommon.AD_SIZE];
+    switch (self.ad.assetGroupID.integerValue) {
+        case VAST_MRECT:
+        case VAST_INTERSTITIAL:
+            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+            if (self.ad.vast) {
+                [reportingDictionary setObject:self.ad.vast forKey:HyBidReportingCommon.CREATIVE];
+            }
+            break;
+        default:
+            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
+            if (self.ad.htmlData) {
+                [reportingDictionary setObject:self.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
+            }
+            break;
+    }
+    switch (self.bannerPosition) {
+        case BANNER_POSITION_UNKNOWN:
+            break;
+        case BANNER_POSITION_TOP:
+            [reportingDictionary setObject:@"TOP" forKey:HyBidReportingCommon.AD_POSITION];
+            break;
+        case BANNER_POSITION_BOTTOM:
+            [reportingDictionary setObject:@"BOTTOM" forKey:HyBidReportingCommon.AD_POSITION];
+            break;
+    }
+}
+
+- (void)reportEvent:(NSString *)eventType withProperties:(NSMutableDictionary *)properties {
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
+                                                                       adFormat:HyBidReportingAdFormat.BANNER
+                                                                     properties:properties];
+    [[HyBid reportingManager] reportEventFor:reportingEvent];
+}
+
+- (NSTimeInterval)elapsedTimeSince:(NSTimeInterval)timestamp {
+    return [[NSDate date] timeIntervalSince1970] - timestamp;
+}
+
+- (void)invokeDidLoad {
+    if (self.initialLoadTimestamp != -1) {
+        [self.loadReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialLoadTimestamp]] forKey:HyBidReportingCommon.TIME_TO_LOAD];
+    }
+    [self addCommonPropertiesToReportingDictionary:self.loadReportingProperties];
+    [self reportEvent:HyBidReportingEventType.LOAD withProperties:self.loadReportingProperties];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
+        [self.delegate adViewDidLoad:self];
+    }
+}
+
+- (void)invokeDidFailWithError:(NSError *)error {
+    if (self.initialLoadTimestamp != -1) {
+        [self.loadReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialLoadTimestamp]] forKey:HyBidReportingCommon.TIME_TO_LOAD];
+    }
+    [self addCommonPropertiesToReportingDictionary:self.loadReportingProperties];
+    [self reportEvent:HyBidReportingEventType.LOAD_FAIL withProperties:self.loadReportingProperties];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
+        [self.delegate adView:self didFailWithError:error];
+    }
 }
 
 #pragma mark HyBidAdRequestDelegate
@@ -284,9 +396,7 @@
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ loaded with ad: %@",request, ad]];
     if (!ad) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError hyBidNullAd]];
-        }
+        [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
         self.ad = ad;
         if (self.ad.vast != nil) {
@@ -297,41 +407,32 @@
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
-                [self.delegate adViewDidLoad:self];
-            }
+            [self invokeDidLoad];
         }
     }
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ failed with error: %@",request, error.localizedDescription]];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-        [self.delegate adView:self didFailWithError:error];
-    }
+    [self invokeDidFailWithError:error];
 }
 
 #pragma mark - HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
     if (!adView) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-            [self.delegate adView:self didFailWithError:[NSError hyBidRenderingBanner]];
-        }
+        [self invokeDidFailWithError:[NSError hyBidRenderingBanner]];
     } else {
         [self setupAdView:adView];
     }
 }
 
-- (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter
-{
+- (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
     [self.delegate adViewDidTrackImpression:self];
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
-        [self.delegate adView:self didFailWithError:error];
-    }
+    [self invokeDidFailWithError:error];
 }
 
 - (HyBidSkAdNetworkModel *)skAdNetworkModel {
@@ -342,8 +443,7 @@
     return result;
 }
 
--  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter
-{
+-  (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackClick:)]) {
         [self.delegate adViewDidTrackClick:self];
     }

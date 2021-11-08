@@ -56,7 +56,6 @@ BOOL isInitialized = NO;
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
         isInitialized = NO;
-        completion(NO);
     } else {
         [HyBidSettings sharedInstance].appToken = appToken;
         [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
@@ -64,8 +63,10 @@ BOOL isInitialized = NO;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
         [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {}];
-        completion(YES);
         [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
+    }
+    if (completion != nil) {
+        completion(isInitialized);
     }
 }
 
@@ -86,7 +87,16 @@ BOOL isInitialized = NO;
 }
 
 + (void)setInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidSettings sharedInstance].skipOffset = seconds;
+    [self setVideoInterstitialSkipOffset:seconds];
+    [self setHTMLInterstitialSkipOffset:seconds];
+}
+
++ (void)setVideoInterstitialSkipOffset:(NSInteger)seconds {
+    [HyBidSettings sharedInstance].videoSkipOffset = seconds;
+}
+
++ (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds {
+    [HyBidSettings sharedInstance].htmlSkipOffset = seconds;
 }
 
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
@@ -118,6 +128,10 @@ BOOL isInitialized = NO;
     
     NSLog(@"requestParametersString %@", url.query);
     return url.query;
+}
+
++ (void)setReporting:(BOOL)enabled {
+    [HyBidSettings sharedInstance].reporting = enabled;
 }
 
 @end

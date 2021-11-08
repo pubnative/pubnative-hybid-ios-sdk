@@ -131,12 +131,17 @@
 - (NSString *)deviceSound {
     [self activateAVAudioSession];
     float outputVolume = [AVAudioSession sharedInstance].outputVolume;
-    [[AVAudioSession sharedInstance] setActive:NO error:nil];
+    
     if (outputVolume == 0) {
         return @"0";
     } else {
         return @"1";
     }
+}
+
+- (NSNumber *)audioVolumePercentage {
+    [self activateAVAudioSession];
+    return [NSNumber numberWithFloat: (100 * [AVAudioSession sharedInstance].outputVolume)];
 }
 
 - (void)activateAVAudioSession {

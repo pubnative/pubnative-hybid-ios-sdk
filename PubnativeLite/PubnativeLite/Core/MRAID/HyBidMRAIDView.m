@@ -35,10 +35,14 @@
 #import "HyBidSettings.h"
 
 #import <WebKit/WebKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "OMIDAdSession.h"
 
-#define kCloseEventRegionSize 50
+#define kCloseEventRegionSize 26
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
+//Viewbility Timeinterval Freqeuncy
+#define HYBID_MRAID_Check_Viewable_Frequency 0.2
 
 CGFloat const kContentInfoViewHeight = 15.0f;
 CGFloat const kContentInfoViewWidth = 15.0f;
@@ -63,6 +67,7 @@ typedef enum {
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
     // The width, height, and isModal properties are not used in MRAID v2.0.
+    // @Deprecated as from MRAID v3.0
     BOOL useCustomClose;
     
     NSInteger _skipOffset;
@@ -100,6 +105,12 @@ typedef enum {
     
     CGFloat adWidth;
     CGFloat adHeight;
+    
+    // Params for exposedChange introduced with MRAID 3.0
+    CGFloat exposedPercentage;
+    CGRect visibleRect;
+    NSTimer *viewabilityTimer;
+
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -118,7 +129,8 @@ typedef enum {
 - (void)fireReadyEvent;
 - (void)fireSizeChangeEvent;
 - (void)fireStateChangeEvent;
-- (void)fireViewableChangeEvent;
+- (void)fireViewableChangeEvent; // DEPRECATED: ViewableChangeEvent is deprecated as from MRAID 3.0
+- (void)fireExposureChange;
 // setters
 - (void)setDefaultPosition;
 - (void)setMaxSize;
@@ -216,6 +228,7 @@ typedef enum {
                           PNLiteMRAIDSupportsTel,
                           PNLiteMRAIDSupportsStorePicture,
                           PNLiteMRAIDSupportsInlineVideo,
+                          PNLiteMRAIDSupportsLocation,
                           ];
         
         
@@ -232,6 +245,13 @@ typedef enum {
         previousScreenSize = CGSizeZero;
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
+        
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:nil];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        [[AVAudioSession sharedInstance] addObserver:self
+                                          forKeyPath:@"outputVolume"
+                                             options:0
+                                             context:nil];
         
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
@@ -316,6 +336,8 @@ typedef enum {
     contentInfoViewContainer = nil;
     contentInfoView = nil;
     
+    viewabilityTimer = nil;
+    
     self.delegate = nil;
     self.serviceDelegate =nil;
 }
@@ -326,6 +348,7 @@ typedef enum {
                            PNLiteMRAIDSupportsTel,
                            PNLiteMRAIDSupportsStorePicture,
                            PNLiteMRAIDSupportsInlineVideo,
+                           PNLiteMRAIDSupportsLocation,
                            ];
     
     // Validate the features set by the user
@@ -351,6 +374,29 @@ typedef enum {
     return _isViewable;
 }
 
+- (CGFloat)exposedPercent{
+    CGFloat exposedPrecentage = 0;
+    if(_isViewable){
+        CGRect normalizedSelfRect = [currentWebView convertRect:currentWebView.bounds toView:nil];
+        CGRect intersection = CGRectIntersection(UIScreen.mainScreen.bounds, normalizedSelfRect);
+        CGFloat intersectionArea = intersection.size.width  * intersection.size.height;
+        int totalArea = normalizedSelfRect.size.width *normalizedSelfRect.size.height;
+        exposedPrecentage  = (intersectionArea * 100)/(totalArea);
+    }
+    return exposedPrecentage;
+}
+
+- (CGRect)visibleRect{
+    CGRect visibleRectangle =  CGRectMake(0,0,0,0);
+    if(_isViewable){
+        UIWindow *parentWindow = currentWebView.window;
+        // We need to call convertRect:toView: on this view's superview rather than on this view itself.
+        CGRect viewFrameInWindowCoordinates = [currentWebView.superview convertRect:currentWebView.frame toView:parentWindow];
+        visibleRectangle = CGRectIntersection(viewFrameInWindowCoordinates, parentWindow.frame);
+    }
+    return visibleRectangle;
+}
+
 - (void)setRootViewController:(UIViewController *)newRootViewController {
     if(newRootViewController!=_rootViewController) {
         _rootViewController=newRootViewController;
@@ -368,30 +414,32 @@ typedef enum {
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (!([keyPath isEqualToString:@"self.frame"])) {
-        return;
-    }
+    if ([keyPath isEqualToString:@"outputVolume"]) {
+        [self fireAudioVolumeChangeEvent];
+      }
     
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"self.frame has changed."];
-    
-    CGRect oldFrame = CGRectNull;
-    CGRect newFrame = CGRectNull;
-    if (change[@"old"] != [NSNull null]) {
-        oldFrame = [change[@"old"] CGRectValue];
+    if ([keyPath isEqualToString:@"self.frame"]) {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"self.frame has changed."];
+        
+        CGRect oldFrame = CGRectNull;
+        CGRect newFrame = CGRectNull;
+        if (change[@"old"] != [NSNull null]) {
+            oldFrame = [change[@"old"] CGRectValue];
+        }
+        if ([object valueForKeyPath:keyPath] != [NSNull null]) {
+            newFrame = [[object valueForKeyPath:keyPath] CGRectValue];
+        }
+        
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"old %@", NSStringFromCGRect(oldFrame)]];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"new %@", NSStringFromCGRect(newFrame)]];
+        
+        if (state == PNLiteMRAIDStateResized) {
+            [self setResizeViewPosition];
+        }
+        [self setDefaultPosition];
+        [self setMaxSize];
+        [self fireSizeChangeEvent];
     }
-    if ([object valueForKeyPath:keyPath] != [NSNull null]) {
-        newFrame = [[object valueForKeyPath:keyPath] CGRectValue];
-    }
-    
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"old %@", NSStringFromCGRect(oldFrame)]];
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"new %@", NSStringFromCGRect(newFrame)]];
-    
-    if (state == PNLiteMRAIDStateResized) {
-        [self setResizeViewPosition];
-    }
-    [self setDefaultPosition];
-    [self setMaxSize];
-    [self fireSizeChangeEvent];
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
@@ -428,6 +476,14 @@ typedef enum {
 
 // These methods are (indirectly) called by JavaScript code.
 // They provide the means for JavaScript code to talk to native code
+
+- (void)unload {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
+        [self.delegate mraidViewAdFailed:self];
+    }
+}
 
 - (void)close {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
@@ -778,69 +834,20 @@ typedef enum {
 
     if (@available(iOS 11.0, *)) {
         contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeWidth
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:nil
-                                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                                              multiplier:1.f
-                                                                                constant:kContentInfoViewWidth],
-                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeHeight
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:nil
-                                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                                              multiplier:1.f
-                                                                                constant:kContentInfoViewHeight],
-                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeTop
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:view.safeAreaLayoutGuide
-                                                                               attribute:NSLayoutAttributeTop
-                                                                              multiplier:1.f
-                                                                                constant:0.f],
-                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeLeading
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:view.safeAreaLayoutGuide
-                                                                               attribute:NSLayoutAttributeLeading
-                                                                              multiplier:1.f
-                                                                                constant:0.f],]];
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kContentInfoViewWidth],
+        [NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kContentInfoViewHeight],
+        [NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+        [NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f],]];
     } else {
         contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeWidth
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:nil
-                                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                                              multiplier:1.f
-                                                                                constant:kContentInfoViewWidth],
-                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeHeight
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:nil
-                                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                                              multiplier:1.f
-                                                                                constant:kContentInfoViewHeight],
-                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeTop
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:view
-                                                                               attribute:NSLayoutAttributeTop
-                                                                              multiplier:1.f
-                                                                                constant:0.f],
-                                                  [NSLayoutConstraint constraintWithItem:contentInfoViewContainer
-                                                                               attribute:NSLayoutAttributeLeading
-                                                                               relatedBy:NSLayoutRelationEqual
-                                                                                  toItem:view
-                                                                               attribute:NSLayoutAttributeLeading
-                                                                              multiplier:1.f
-                                                                                constant:0.f],]];
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kContentInfoViewWidth],
+        [NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kContentInfoViewHeight],
+        [NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+        [NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f],]];
     }
 }
 
 - (void)addCloseEventRegion {
-    
     closeEventRegion = [UIButton buttonWithType:UIButtonTypeCustom];
     closeEventRegion.backgroundColor = [UIColor clearColor];
     [closeEventRegion addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
@@ -859,7 +866,9 @@ typedef enum {
     
     // align on top right
     int x = CGRectGetWidth(modalVC.view.frame) - CGRectGetWidth(frame);
-    frame.origin = CGPointMake(x, 0);
+    int y = contentInfoViewContainer.frame.origin.y - 5;
+    
+    frame.origin = CGPointMake(x, y);
     closeEventRegion.frame = frame;
     // autoresizing so it stays at top right (flexible left and flexible bottom margin)
     closeEventRegion.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -1010,6 +1019,38 @@ typedef enum {
     [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireViewableChangeEvent(%@);", (self.isViewable ? @"true" : @"false")]];
 }
 
+- (void)fireExposureChange {
+    
+    CGFloat updatedExposedPercentage = [self exposedPercent];
+    CGRect updatedVisibleRectangle = [self visibleRect];
+    
+    // Send exposureChange Event only when there is an update from the previous.
+    if(exposedPercentage != updatedExposedPercentage || !CGRectEqualToRect(visibleRect,updatedVisibleRectangle)) {
+        exposedPercentage = updatedExposedPercentage;
+        visibleRect = updatedVisibleRectangle;
+        
+        NSString* jsonExposureChange = @"";
+        if (exposedPercentage <=0 ) {
+            // If exposure percentage is 0 then send visibleRectangle as null.
+            jsonExposureChange = [NSString stringWithFormat:@"{\"exposedPercentage\":0.0,\"visibleRectangle\":null,\"occlusionRectangles\":null}"];
+        } else {
+            
+            int offsetX = (visibleRect.origin.x > 0) ? floorf(visibleRect.origin.x) : ceilf(visibleRect.origin.x);
+            int offsetY = (visibleRect.origin.y > 0) ? floorf(visibleRect.origin.y) : ceilf(visibleRect.origin.y);
+            int width = floorf(visibleRect.size.width);
+            int height = floorf(visibleRect.size.height);
+            
+            jsonExposureChange = [NSString stringWithFormat:@"{\"exposedPercentage\":%.01f,\"visibleRectangle\":{\"x\":%i,\"y\":%i,\"width\":%i,\"height\":%i},\"occlusionRectangles\":null}",exposedPercentage,offsetX,offsetY,width,height];
+        }
+
+        [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireExposureChangeEvent(%@);", jsonExposureChange]];
+    }
+}
+
+- (void)fireAudioVolumeChangeEvent {
+    [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireAudioVolumeChangeEvent(%@);", [HyBidSettings sharedInstance].audioVolumePercentage]];
+}
+
 - (void)setDefaultPosition {
     if (isInterstitial) {
         // For interstitials, we define defaultPosition to be the same as screen size, so set the value there.
@@ -1074,6 +1115,36 @@ typedef enum {
     }
 }
 
+-(void)setLocation {
+    if ([HyBidSettings sharedInstance].locationTrackingEnabled) {
+        CLLocation* location = [HyBidSettings sharedInstance].location;
+        if (location) {
+            NSArray *objects = [[NSArray alloc] initWithObjects:
+                                [NSNumber numberWithDouble:location.coordinate.latitude],
+                                [NSNumber numberWithDouble:location.coordinate.longitude],
+                                [NSNumber numberWithInt:1],
+                                [NSNumber numberWithDouble:[location horizontalAccuracy]],
+                                [NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:location.timestamp]], nil];
+            NSArray *keys = [[NSArray alloc] initWithObjects:@"lat", @"lon", @"type", @"accuracy", @"lastfix", nil];
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+            NSError *error;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+            if (!error) {
+                NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                [self injectJavaScript:[NSString stringWithFormat:@"mraid.setLocation(%@);", jsonString]];
+            } else {
+                [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Error creating the JSON location object."];
+                [self injectJavaScript:@"mraid.setLocation(-1);"];
+            }
+        } else {
+            [self injectJavaScript:@"mraid.setLocation(-1);"];
+        }
+    } else {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Location tracking is not enabled."];
+        [self injectJavaScript:@"mraid.setLocation(-1);"];
+    }
+}
+
 #pragma mark - WKNavigationDelegate
 
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
@@ -1108,6 +1179,7 @@ typedef enum {
             state = PNLiteMRAIDStateDefault;
             [self injectJavaScript:[NSString stringWithFormat:@"mraid.setPlacementType('%@');", (isInterstitial ? @"interstitial" : @"inline")]];
             [self setSupports:supportedFeatures];
+            [self setLocation];
             [self setDefaultPosition];
             [self setMaxSize];
             [self setScreenSize];
@@ -1120,6 +1192,7 @@ typedef enum {
                 if (!isInterstitial) {
                     self.isViewable = YES;
                 }
+                [self setupTimerForCheckingViewability:HYBID_MRAID_Check_Viewable_Frequency];
                 [self.delegate mraidViewAdReady:self];
             }
             
@@ -1204,7 +1277,9 @@ typedef enum {
         [[HyBidViewabilityWebAdSession sharedInstance] stopOMIDAdSession:adSession];
         isAdSessionCreated = NO;
     }
-     
+    
+    [[AVAudioSession sharedInstance] removeObserver:self
+                                         forKeyPath:@"outputVolume"];     
 }
 
 #pragma mark - WKUIDelegate
@@ -1345,6 +1420,28 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     }
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"tapGesture 'shouldReceiveTouch'=YES"];
     return YES;
+}
+
+// MRAID Viewbility Timer
+
+-(void)setupTimerForCheckingViewability:(NSTimeInterval)timeInterval {
+    
+    if (viewabilityTimer) {
+        [viewabilityTimer invalidate];
+    }
+
+    __weak HyBidMRAIDView *weakSelf = self;
+
+    if (@available(iOS 10.0, *)) {
+        viewabilityTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
+            [weakSelf fireExposureChange];
+        }];
+    } else {
+        // Fallback on earlier versions
+        // Runs only once when MRAID is loaded
+        [weakSelf fireExposureChange];
+    }
+
 }
 
 @end

@@ -121,21 +121,24 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
                                                            multiplier:1.f
                                                              constant:0.f]]];
         
+
         [PNLiteOrientationManager sharedInstance].delegate = self;
     }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)didMoveToWindow {
     if(!self.iconImage) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.icon]];
             self.iconImage = [UIImage imageWithData:iconData];
             [self configureView];
         });
-    } else {
-        [self configureView];
     }
+}
+
+- (void)layoutSubviews {
+    [self configureView];
 }
 
 - (void)configureView {

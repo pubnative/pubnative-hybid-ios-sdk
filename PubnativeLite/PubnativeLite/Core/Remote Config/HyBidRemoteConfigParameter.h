@@ -35,5 +35,7 @@
 + (NSString *)appConfig;
 + (NSString *)appToken;
 + (NSString *)api;
++ (NSString *)enabledProtocols;
++ (NSString *)enabledAPIs;
 
 @end

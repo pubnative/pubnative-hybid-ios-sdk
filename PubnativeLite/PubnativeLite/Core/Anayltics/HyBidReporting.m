@@ -31,6 +31,20 @@
 + (NSString *)EVENT_TYPE { return @"event_type"; }
 + (NSString *)CREATIVE_TYPE { return @"creative_type"; }
 + (NSString *)TIMESTAMP { return @"timestamp"; }
++ (NSString *)APPTOKEN { return @"app_token"; }
++ (NSString *)ZONE_ID { return @"zone_id"; }
++ (NSString *)INTEGRATION_TYPE { return @"integration_type"; }
++ (NSString *)TIME_TO_LOAD { return @"time_to_load"; }
++ (NSString *)AD_TYPE { return @"ad_type"; }
++ (NSString *)CACHE_TIME { return @"cache_time"; }
++ (NSString *)AD_REQUEST { return @"ad_request"; }
++ (NSString *)AD_RESPONSE { return @"ad_response"; }
++ (NSString *)RESPONSE_TIME { return @"response_time"; }
++ (NSString *)RENDER_TIME { return @"render_time"; }
++ (NSString *)AD_POSITION { return @"ad_position"; }
++ (NSString *)ERROR_CODE { return @"error_code"; }
++ (NSString *)ERROR_MESSAGE { return @"error_message"; }
++ (NSString *)CREATIVE { return @"creative"; }
 
 @end
 
@@ -38,6 +52,7 @@
 
 + (NSString *)AD_REQUEST { return @"ad_request"; }
 + (NSString *)IMPRESSION { return @"impression"; }
++ (NSString *)OMID_IMPRESSION { return @"omid_impression"; }
 + (NSString *)CLICK { return @"click"; }
 + (NSString *)ERROR { return @"error"; }
 + (NSString *)INTERSTITIAL_CLOSED { return @"interstitial_closed"; }
@@ -63,6 +78,13 @@
 + (NSString *)VIDEO_AD_VOLUME_CHANGE { return @"volume_change"; }
 + (NSString *)VIDEO_AD_SKIPPED { return @"skipped"; }
 + (NSString *)VIDEO_AD_CLICKED { return @"clicked"; }
+
++ (NSString *)LOAD { return @"load"; }
++ (NSString *)LOAD_FAIL { return @"load_fail"; }
++ (NSString *)CACHE { return @"cache"; }
++ (NSString *)RESPONSE { return @"response"; }
++ (NSString *)RENDER { return @"render"; }
++ (NSString *)RENDER_ERROR { return @"render_error"; }
 
 @end
 

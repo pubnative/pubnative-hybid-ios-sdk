@@ -28,24 +28,53 @@
 @interface PNLiteDemoMoPubRewardedViewController () <HyBidAdRequestDelegate, MPRewardedAdsDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rewardedLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) HyBidRewardedAdRequest *rewardedAdRequest;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 
+@property (weak, nonatomic) IBOutlet UIButton *prepareButton;
+@property (weak, nonatomic) IBOutlet UISwitch *adCachingSwitch;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *showAdTopConstraint;
+
+@property (nonatomic, strong) HyBidAd *ad;
+
 @end
 
 @implementation PNLiteDemoMoPubRewardedViewController
+
+
+- (void)dealloc
+{
+    self.rewardedAdRequest = nil;
+    self.ad = nil;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Header Bidding Rewarded";
     [self.rewardedLoaderIndicator stopAnimating];
+    
+    self.showAdTopConstraint.constant = 8.0;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
 }
 
 - (IBAction)requestRewardedTouchUpInside:(id)sender {
     [self requestAd];
+}
+
+- (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {
+    self.prepareButton.hidden = sender.isOn;
+    self.showAdTopConstraint.constant = sender.isOn ? 8.0 : 46.0;
+    [self.showAdButton setNeedsDisplay];
+}
+
+- (IBAction)prepareButtonTapped:(UIButton *)sender {
+    if (self.ad != nil && self.rewardedAdRequest != nil) {
+        [self.rewardedAdRequest cacheAd:self.ad];
+    }
 }
 
 - (IBAction)showRewardedTouchUpInside:(id)sender {
@@ -59,12 +88,13 @@
 
 - (void)requestAd {
     [self setCreativeIDLabelWithString:@"_"];
-    [self clearLastInspectedRequest];
-    self.inspectRequestButton.hidden = YES;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.rewardedLoaderIndicator startAnimating];
     
     self.rewardedAdRequest = [[HyBidRewardedAdRequest alloc] init];
+    [self.rewardedAdRequest setIsAutoCacheOnLoad:self.adCachingSwitch.isOn];
     [self.rewardedAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
@@ -77,14 +107,18 @@
 
 - (void)rewardedAdDidLoadForAdUnitID:(NSString *)adUnitID {
     NSLog(@"rewardedAdDidLoadAd");
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
+    self.prepareButton.enabled = !self.adCachingSwitch.isOn;
+    self.showAdButton.enabled = YES;
     [self.rewardedLoaderIndicator stopAnimating];
 }
 
 - (void)rewardedAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
     NSLog(@"rewardedAdDidFailToLoadAd, %@", error.localizedDescription);
-    self.inspectRequestButton.hidden = NO;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
+    self.debugButton.hidden = NO;
     [self.rewardedLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Rewarded did fail to load."];
 }
@@ -109,6 +143,8 @@
 - (void)rewardedAdWillDismissForAdUnitID:(NSString *)adUnitID {
     NSLog(@"rewardedAdWillDismiss");
     self.showAdButton.hidden = YES;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
 }
 
 - (void)rewardedAdDidDismissForAdUnitID:(NSString *)adUnitID {
@@ -140,9 +176,10 @@
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     [self setCreativeIDLabelWithString:ad.creativeID];
+    self.ad = ad;
     
     if (request == self.rewardedAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         
         NSString *keywords = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad];
 
@@ -153,8 +190,9 @@
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+    self.ad = nil;
     if (request == self.rewardedAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.rewardedLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
         [MPRewardedAds loadRewardedAdWithAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey] withMediationSettings:nil];

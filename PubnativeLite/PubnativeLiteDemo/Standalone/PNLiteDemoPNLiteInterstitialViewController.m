@@ -27,10 +27,13 @@
 @interface PNLiteDemoPNLiteInterstitialViewController () <HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
+@property (weak, nonatomic) IBOutlet UIButton *prepareButton;
+@property (weak, nonatomic) IBOutlet UISwitch *adCachingSwitch;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *showAdTopConstraint;
 
 @end
 
@@ -44,28 +47,43 @@
     [super viewDidLoad];
     self.navigationItem.title = @"HyBid Interstitial";
     [self.interstitialLoaderIndicator stopAnimating];
+    self.showAdTopConstraint.constant = 8.0;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
-    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.FULLSCREEN properties:nil];
     [self requestAd];
+    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.FULLSCREEN properties:nil];
 }
 
 - (void)requestAd {
     [self setCreativeIDLabelWithString:@"_"];
-    [self clearLastInspectedRequest];
-    self.inspectRequestButton.hidden = YES;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
-    [self.interstitialAd setSkipOffset:5];
+    [self.interstitialAd setIsAutoCacheOnLoad: self.adCachingSwitch.isOn];
+    [self.interstitialAd setVideoSkipOffset:10];
+    [self.interstitialAd setHTMLSkipOffset:4];
     [self.interstitialAd load];
 }
 
 - (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {
     if (self.interstitialAd.isReady) {
-            [self.interstitialAd show];
-        }
+        [self.interstitialAd show];
+    }
+}
+
+- (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {
+    self.prepareButton.hidden = sender.isOn;
+    self.showAdTopConstraint.constant = sender.isOn ? 8.0 : 46.0;
+    [self.showAdButton setNeedsDisplay];
+}
+
+- (IBAction)prepareButtonTapped:(UIButton *)sender {
+    [self.interstitialAd prepare];
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {
@@ -78,14 +96,18 @@
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
     [self setCreativeIDLabelWithString:self.interstitialAd.ad.creativeID];
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
+    self.prepareButton.enabled = !self.adCachingSwitch.isOn;
+    self.showAdButton.enabled = YES;
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
-    self.inspectRequestButton.hidden = NO;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
+    self.debugButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }
@@ -101,6 +123,8 @@
 - (void)interstitialDidDismiss {
     NSLog(@"Interstitial did dismiss");
     self.showAdButton.hidden = YES;
+    self.showAdButton.enabled = NO;
+    self.prepareButton.enabled = NO;
 }
 
 @end

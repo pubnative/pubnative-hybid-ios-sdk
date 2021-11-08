@@ -30,7 +30,7 @@
 
 @interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 
@@ -60,16 +60,16 @@
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
+    [self requestAd];
     NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:self.bannerAdView.adSize.description , HyBidReportingCommon.AD_SIZE, nil];
     [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.BANNER properties:properties];
-    [self requestAd];
 }
 
 - (void)requestAd {
     [self setCreativeIDLabelWithString:@"_"];
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.bannerAdView.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
 }
@@ -85,13 +85,13 @@
     NSLog(@"Banner Ad View did load:");
     [self setCreativeIDLabelWithString:self.bannerAdView.ad.creativeID];
     self.bannerAdView.hidden = NO;
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }

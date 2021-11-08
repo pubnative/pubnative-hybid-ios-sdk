@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteVASTMediaFilePicker.h"
+#import "HyBidVASTMediaFilePicker.h"
 #import "PNLiteReachability.h"
 #import <UIKit/UIKit.h>
 #import "HyBidLogger.h"
 
-@interface PNLiteVASTMediaFilePicker()
+@interface HyBidVASTMediaFilePicker()
 
-+ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile;
++ (BOOL)isMIMETypeCompatible:(HyBidVASTMediaFile *)vastMediaFile;
 
 @end
 
-@implementation PNLiteVASTMediaFilePicker
+@implementation HyBidVASTMediaFilePicker
 
-+ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles {
++ (HyBidVASTMediaFile *)pick:(NSArray *)mediaFiles {
     // Check whether we even have a network connection.
     // If not, return a nil.
-    if (![PNLiteVASTMediaFilePicker isInternetReachable]) {
+    if (![HyBidVASTMediaFilePicker isInternetReachable]) {
         return nil;
     }
     
     // Go through the provided media files and only those that have a compatible MIME type.
     NSMutableArray *compatibleMediaFiles = [[NSMutableArray alloc] init];
-    for (PNLiteVASTMediaFile *vastMediaFile in mediaFiles) {
+    for (HyBidVASTMediaFile *vastMediaFile in mediaFiles) {
         // Make sure that you have type specified for mediafile and ignore accordingly
         if (vastMediaFile.type != nil && [self isMIMETypeCompatible:vastMediaFile]) {
             [compatibleMediaFiles addObject:vastMediaFile];
@@ -54,10 +54,10 @@
     
     // Sort the media files based on their video size (in square pixels).
     NSArray *sortedMediaFiles = [compatibleMediaFiles sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        PNLiteVASTMediaFile *mf1 = (PNLiteVASTMediaFile *)a;
-        PNLiteVASTMediaFile *mf2 = (PNLiteVASTMediaFile *)b;
-        int area1 = mf1.width * mf1.height;
-        int area2 = mf2.width * mf2.height;
+        HyBidVASTMediaFile *mf1 = (HyBidVASTMediaFile *)a;
+        HyBidVASTMediaFile *mf2 = (HyBidVASTMediaFile *)b;
+        int area1 = [mf1.width intValue] * [mf1.height intValue];
+        int area2 = [mf2.width intValue] * [mf2.height intValue];
         if (area1 < area2) {
             return NSOrderedAscending;
         } else if (area1 > area2) {
@@ -75,7 +75,7 @@
     int len = (int)[sortedMediaFiles count];
     
     for (int i = 0; i < len; i++) {
-        int videoArea = ((PNLiteVASTMediaFile *)sortedMediaFiles[i]).width * ((PNLiteVASTMediaFile *)sortedMediaFiles[i]).height;
+        int videoArea = [((HyBidVASTMediaFile *)sortedMediaFiles[i]).width intValue] * [((HyBidVASTMediaFile *)sortedMediaFiles[i]).height intValue];
         int diff = abs(screenArea - videoArea);
        if (diff >= bestMatchDiff) {
             break;
@@ -84,7 +84,7 @@
         bestMatchDiff = diff;
     }
     
-    PNLiteVASTMediaFile *toReturn = (PNLiteVASTMediaFile *)sortedMediaFiles[bestMatch];
+    HyBidVASTMediaFile *toReturn = (HyBidVASTMediaFile *)sortedMediaFiles[bestMatch];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Selected Media File: %@", toReturn.url]];
     return toReturn;
 }
@@ -99,7 +99,7 @@
     [reachability stopNotifier];
     return result;}
 
-+ (BOOL)isMIMETypeCompatible:(PNLiteVASTMediaFile *)vastMediaFile {
++ (BOOL)isMIMETypeCompatible:(HyBidVASTMediaFile *)vastMediaFile {
     NSString *pattern = @"(mp4|m4v|quicktime|3gpp)";
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern

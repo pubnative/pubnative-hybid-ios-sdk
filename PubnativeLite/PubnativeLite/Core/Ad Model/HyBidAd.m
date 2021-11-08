@@ -271,9 +271,10 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data stringFieldWithKey:@"version"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"version"] forKey:@"version"];
         }
-        if ([data numberFieldWithKey:@"fidelity"] != nil) {
-            [dict setValue:[data numberFieldWithKey:@"fidelity"] forKey:@"fidelity"];
+        if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
+            [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
         }
+        
         model.productParameters = [dict copy];
     }
     return model;
@@ -281,8 +282,8 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel {
     HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
-
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
+    
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         if ([data stringFieldWithKey:@"campaign"] != nil) {
@@ -312,6 +313,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
             [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
         }
+        
         model.productParameters = [dict copy];
     }
     return model;

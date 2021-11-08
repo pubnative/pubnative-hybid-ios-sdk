@@ -25,6 +25,7 @@
 #import "HyBidLogger.h"
 #import "HyBidURLDriller.h"
 #import <WebKit/WebKit.h>
+#import "HyBid.h"
 
 NSString *const PNLiteAdTrackerClick = @"click";
 NSString *const PNLiteAdTrackerImpression = @"impression";
@@ -71,21 +72,25 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
     return self;
 }
 
-- (void)trackClick {
+- (void)trackClickWithAdFormat:(NSString *)adFormat {
     if (self.clickTracked) {
         return;
     }
     
     [self trackURLs:self.clickURLs withTrackType:PNLiteAdTrackerClick];
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:adFormat properties:nil];
+    [[HyBid reportingManager] reportEventFor:reportingEvent];
     self.clickTracked = YES;
 }
 
-- (void)trackImpression {
+- (void)trackImpressionWithAdFormat:(NSString *)adFormat {
     if (self.impressionTracked) {
         return;
     }
     
     [self trackURLs:self.impressionURLs withTrackType:PNLiteAdTrackerImpression];
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:adFormat properties:nil];
+    [[HyBid reportingManager] reportEventFor:reportingEvent];
     self.impressionTracked = YES;
 }
 

@@ -51,7 +51,11 @@
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
-        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad withSkipOffset:[HyBidSettings sharedInstance].skipOffset withCloseOnFinish:[HyBidSettings sharedInstance].closeOnFinish withDelegate:self];
+        self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad
+                                                                                    withVideoSkipOffset:[HyBidSettings sharedInstance].videoSkipOffset
+                                                                                     withHTMLSkipOffset:[HyBidSettings sharedInstance].htmlSkipOffset
+                                                                                      withCloseOnFinish:[HyBidSettings sharedInstance].closeOnFinish
+                                                                                           withDelegate:self];
         if (!self.interstitialPresenter) {
             [self invokeFailWithMessage:@"Could not create valid interstitial presenter."];
             return;

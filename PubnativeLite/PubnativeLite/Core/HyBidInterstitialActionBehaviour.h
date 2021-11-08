@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "PNLiteVASTMediaFile.h"
-
-// An implementation of how to pick media file from one or more in a VAST Document. VASTMediaFilePicker looks for internet first and eliminate entries with mime type which we can't play in the phone. After that, the list is sorted by bit rate (if exists) along with hi or low speed connection + progressive/streaming attribute. Once we have the final list, we end up picking the first from the list. If you have no valid media file to pick, you will get a nil and that will generate an error to the caller.
-@interface PNLiteVASTMediaFilePicker : NSObject
-
-+ (PNLiteVASTMediaFile *)pick:(NSArray *)mediaFiles;
-
-@end
+typedef enum {
+    HB_CREATIVE,
+    HB_ACTION_BUTTON
+} HyBidInterstitialActionBehaviour;

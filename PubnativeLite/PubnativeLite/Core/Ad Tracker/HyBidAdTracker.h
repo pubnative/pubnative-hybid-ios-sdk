@@ -30,7 +30,7 @@ extern NSString *const PNLiteAdTrackerImpression;
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
                          withClickURLs:(NSArray *)clickURLs;
-- (void)trackClick;
-- (void)trackImpression;
+- (void)trackClickWithAdFormat:(NSString *)adFormat;
+- (void)trackImpressionWithAdFormat:(NSString *)adFormat;
 
 @end

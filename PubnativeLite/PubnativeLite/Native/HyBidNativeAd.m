@@ -27,6 +27,7 @@
 #import "PNLiteImpressionTracker.h"
 #import "HyBidLogger.h"
 #import "HyBidSkAdNetworkModel.h"
+#import "HyBidAdImpression.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import <WebKit/WebKit.h>
 #import "HyBidSKAdNetworkViewController.h"
@@ -277,6 +278,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
             self.impressionTracker.delegate = self;
         }
         [self.impressionTracker addView:view];
+        
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+        [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
+#endif
     }
 }
 
@@ -308,6 +313,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (void)stopTrackingImpression {
     [self.impressionTracker clear];
     self.impressionTracker = nil;
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+    [[HyBidAdImpression sharedInstance] endImpressionForAd:self.ad];
+#endif
 }
 
 - (void)stopTrackingClicks {
@@ -325,7 +334,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         
         if (skAdNetworkModel) {
             NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
-            if ([productParams count] > 0) {
+            if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];

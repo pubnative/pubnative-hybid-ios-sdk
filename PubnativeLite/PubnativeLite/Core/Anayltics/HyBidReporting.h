@@ -31,6 +31,20 @@
 @property (class, nonatomic, readonly) NSString *EVENT_TYPE;
 @property (class, nonatomic, readonly) NSString *CREATIVE_TYPE;
 @property (class, nonatomic, readonly) NSString *TIMESTAMP;
+@property (class, nonatomic, readonly) NSString *APPTOKEN;
+@property (class, nonatomic, readonly) NSString *ZONE_ID;
+@property (class, nonatomic, readonly) NSString *INTEGRATION_TYPE;
+@property (class, nonatomic, readonly) NSString *TIME_TO_LOAD;
+@property (class, nonatomic, readonly) NSString *AD_TYPE;
+@property (class, nonatomic, readonly) NSString *CACHE_TIME;
+@property (class, nonatomic, readonly) NSString *AD_REQUEST;
+@property (class, nonatomic, readonly) NSString *AD_RESPONSE;
+@property (class, nonatomic, readonly) NSString *RESPONSE_TIME;
+@property (class, nonatomic, readonly) NSString *RENDER_TIME;
+@property (class, nonatomic, readonly) NSString *AD_POSITION;
+@property (class, nonatomic, readonly) NSString *ERROR_CODE;
+@property (class, nonatomic, readonly) NSString *ERROR_MESSAGE;
+@property (class, nonatomic, readonly) NSString *CREATIVE;
 
 @end
 
@@ -38,6 +52,7 @@
 
 @property (class, nonatomic, readonly) NSString *AD_REQUEST;
 @property (class, nonatomic, readonly) NSString *IMPRESSION;
+@property (class, nonatomic, readonly) NSString *OMID_IMPRESSION;
 @property (class, nonatomic, readonly) NSString *CLICK;
 @property (class, nonatomic, readonly) NSString *ERROR;
 @property (class, nonatomic, readonly) NSString *INTERSTITIAL_CLOSED;
@@ -63,6 +78,13 @@
 @property (class, nonatomic, readonly) NSString *VIDEO_AD_VOLUME_CHANGE;
 @property (class, nonatomic, readonly) NSString *VIDEO_AD_SKIPPED;
 @property (class, nonatomic, readonly) NSString *VIDEO_AD_CLICKED;
+
+@property (class, nonatomic, readonly) NSString *LOAD;
+@property (class, nonatomic, readonly) NSString *LOAD_FAIL;
+@property (class, nonatomic, readonly) NSString *CACHE;
+@property (class, nonatomic, readonly) NSString *RESPONSE;
+@property (class, nonatomic, readonly) NSString *RENDER;
+@property (class, nonatomic, readonly) NSString *RENDER_ERROR;
 
 @end
 

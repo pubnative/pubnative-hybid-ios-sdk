@@ -117,6 +117,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidReportingEvent.h"
 #import "HyBidDiagnosticsManager.h"
 #import "HyBidError.h"
+#import "HyBidInterstitialActionBehaviour.h"
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
@@ -131,11 +132,15 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setAppStoreAppID:(NSString *)appID DEPRECATED_MSG_ATTRIBUTE("You can safely remove this method from your integration.");
 + (NSString *)sdkVersion;
 + (BOOL)isInitialized;
-+ (void)setInterstitialSkipOffset:(NSInteger)seconds;
++ (void)setInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Use either setVideoInterstitialSkipOffset: or setHTMLInterstitialSkipOffset: based on your ad format instead.");
++ (void)setVideoInterstitialSkipOffset:(NSInteger)seconds;
++ (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds;
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish;
++ (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)actionBehaviour;
 + (HyBidReportingManager *)reportingManager;
 + (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
++ (void)setReporting:(BOOL)enabled;
 
 @end

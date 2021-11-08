@@ -36,6 +36,7 @@
 
 - (void)reportEventFor:(HyBidReportingEvent * _Nonnull)event;
 - (void)reportEventsFor:(NSArray<HyBidReportingEvent *> * _Nonnull)events;
+- (void)clearEvents;
 
 + (HyBidReportingManager *_Nonnull)sharedInstance;
 

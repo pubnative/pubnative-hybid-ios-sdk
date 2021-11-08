@@ -1,0 +1,208 @@
+<VAST version="2.0">
+    <Ad id="223626102" sequence="1" conditionalAd="true">
+        <InLine>
+            <AdServingId>a532d16d-4d7f-4440-bd29-2ec0e693fc80</AdServingId>
+            <AdTitle>PubNative Mobile Video</AdTitle>
+            <Category authority="https://www.iabtechlab.com/categoryauthority">AD CONTENT description category</Category>
+            <AdVerifications>
+                <Verification>
+                    <JavaScriptResource apiFramework="omid" browserOptional="true">
+                        <![CDATA[https://verificationcompany1.com/verification_script1.js]]>
+                    </JavaScriptResource>
+                </Verification>
+                <Verification>
+                    <ExecutableResource apiFramework="omid2" language="html">
+                        <![CDATA[https://verificationvendor.com/omid.js]]>
+                    </ExecutableResource>
+                </Verification>
+                <Verification vendor="company.com-omid">
+                    <JavaScriptResource>
+                        <![CDATA[https://verificationcompany.com/untrusted.js]]>
+                    </JavaScriptResource>
+                </Verification>
+            </AdVerifications>
+            <Advertiser>IAB Sample Company</Advertiser>
+            <Description>Advanced Mobile Monetization</Description>
+            <Error>
+                <![CDATA[https://got.pubnative.net/video/event?err=[ERRORCODE]&t=L3r5FF8W-B-vLu4toIFbvEuUyy5JtZVmctg1yDO4u-xS7Z3GTBVe6xJllRk8fPdyPNpTnDgHpDAc7JwLHxurBKe0f_8CO_Hga2Noz3hA3zUEJ0b7Lu3RITU40N7VxII0BpcO1m-254L_6qo4mb0TYJyve1vlXxxy6zSTELvqBTic44Xa9va5FDazvodrMpaccyvwyO7QEaPMNidBQatjtS0vUTxiUwEvIXvK-mFfRD7mUI1747alGE-ZDdJqW3r9Pa6DdCV-NrTw0_FdrwxqTB6JQOpnWJLefWsb3a9D1F1Vb0nQYVnQU2lrCurkuqoz8njEtNM7JBb8fxD_KtlXGYtk_0W3VzQcvyF6CeSTGRXsjHWF0DIt0RqJetRauwTtbGmXNlBiVCZKCned8cYi91sBLs7e72KmJ0cz7IpxG0R2ZjU2NrTjGTVSdIQG3Nz7zOsAbG7DLiUeALpcIP6vOFriDL03dHkA8zxJgyl3FgJyUAXZ3QNCYcdBpYitYyqwjr6K5WVT9FzobnaZPOIp0o92vtaTMxat242xJwC8SpZBkDdVLfbtKKGWJ06Nx-odnWE_7y6hKsQSU5kPXAD9dMVohA9n2ZfLJOcfxAMRctXoc9WKSDWBHFwp2Ldf4fq5VKA2miGCtlQwVT6yF4ST_os7mxbufNSkMJcu6MtDOgUlmbgZvcrvwyjw4E0nJKK7vj6RS-4XrLqE3xZ10XkTAHQGtgmXygXJvjg8NgxzYwQ6SB36PFF70plo_HRVmpKN6nsqF_ZnRPzjxejYQb_7RatyH9HEdXFSgH8CVpxgXN7D9tiPSbLASUzgLty14ot6yGVEXF43X5Vwg_qdQmK9BQWzoqNEuTb2e-Y4PHVN7SW2FZ4gbBRPFfuyeYCxglzHLvp4d5o-b1jY6Cg9SNsgZrRFd6r6ZCo_9kZMIMZvd_G6dno7Q0yt4L02VzAArufsEwnKD8tNlbw8n7JJM8cJBEjMa8bA_6Ccb3CjL_agGIjqGQ]]>
+            </Error>
+            <AdSystem version="1.0">PubNative</AdSystem>
+            <Extensions>
+                <Extension type="iab-Count">
+                    <total_available>
+                        <![CDATA[ 2 ]]>
+                    </total_available>
+                </Extension>
+            </Extensions>
+            <Impression id="Impression-ID1">
+                <![CDATA[https://got.pubnative.net/impression?aid=1039073&t=5zPfS_J4M2rcOLoGaeeyHsjJxHfbRYnCaHvmTdgyodM1FzSRjb6R8A3cxUGQd-LqFnwas81gIu0t9l27-fNsCv9BRsgUXxcpQljamzGQEOaKLRrv83IjQrwbSzu6IOBoO08Muj8B8lvPA8gWxeZnuqRx0_bZ3HnC2ShAtFkddlHwk3XgrHK25Zmnp1SPnEdrgqcCwS1knL8d0s5EioYNBYTOSSRTqTrsbq9rsJ2USjPyf7N-ktN200IaoGf9HWYe6oNAgiUZkTAfRx1lLPSNfk0IsKPT6TIW3zRxEdw-R0qsuMrm8GfXk5ZavYeCISYxqgoOxYrmV7j3EALxdfd3iMIncZRGgN8ucMiAzFbC_IIzOG9Mq6pX3eQi14iM_e03Noonlo6RnQhoXsG9M6KTJOBH5RJcU60v6NLwKJhzgUywSKlUbIc0rk_vhnzvgbIgEk4_mE6eO-yw-UOgOdJXX3SicEDPJK3JZ0iNTr-4NznH5abC6asaIJBZ1TjvKeKPow2_kYWx3wIYndb2mOXoUeMdH43y6wVqD-RdfFN-Xvgo4wEcOCbNzswczHR70XrAxbPg4-q6gxOj6EKaogJsdb9bHU55yeTZITycYRs8RjDNoc9N61wZfjXUfFRJQG89JSrLACoxuZiw6gdr-RaIvRYaHKALwwlU5out3tVSGdDvSXdEoChGZtyJJn3YzkcVoBksCFRHvLSPivQeFE_47BGNxWUAt3AChT9j9M7dny6l97DgT1RN1XEXcK7Qb_6OoQuOStl5qCPvpEoxzoY8V10-yx0Y-JmStrb8dBjULr2de6XXjvXjEg9sYlQpks-pBPHHxGUB9ZcpNVRzv250DXfEA7Ck0jZi099_KupUL3uvBzx4v-VVB9VdMXjq5vEHJjqL5ppZ-GKAyr63EEu9A7GVMoJofdg-Au4epGNIxZ_zuHHgg5WPMeytLeGUhHoY4u5GE9l5GlwpRsdwpL32eTkHCcbEKHGiL8w&px=1&ap=${AUCTION_PRICE}]]>
+            </Impression>
+            <Impression id="Impression-ID2">
+                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/nurl?app_id=1039073&p=0.131]]>
+            </Impression>
+            <Impression id="Impression-ID3">
+                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/iurl?app_id=1039073&beacon=vast1&p=0.131]]>
+            </Impression>
+            <Impression id="Impression-ID4">
+                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp//v1/tracker/iurl?app_id=1039073&beacon=vast2&p=0.131]]>
+            </Impression>
+            <Creatives>
+                <Creative id="5481" sequence="1" adId="2447226">
+                    <CompanionAds>
+                        <Companion width="480" height="320">
+                            <HTMLResource>&lt;img src=&#34;https://cdn.pubnative.net/widget/v3/assets/easyforecast_320x480.jpg&#34;&gt;</HTMLResource>
+                            <CompanionClickThrough>
+                                <![CDATA[https://pubnative.net]]>
+                            </CompanionClickThrough>
+                            <TrackingEvents>
+                                <Tracking event="creativeView">
+                                    <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/companionView]]>
+                                </Tracking>
+                            </TrackingEvents>
+                        </Companion>
+                    </CompanionAds>
+                </Creative>
+                <Creative id="5482" sequence="1" adId="2447226" apiFramework="TEST">
+                    <Linear skipoffset="00:00:05">
+                        <Duration>00:00:14</Duration>
+                        <AdParameters xmlEncoded="true">Test Ad Parameter</AdParameters>
+                        <Icons>
+                            <Icon apiFramework="Test Api Framework" duration="00:00:16" program="AdChoices" width="20" height="16" xPosition="left" yPosition="top" offset="00:00:03" pxratio="1">
+                                <StaticResource creativeType="image/png">
+                                    <![CDATA[ https://example.org/images/ad_icon_img.png ]]>
+                                </StaticResource>
+                                <IconClicks>
+                                    <IconClickFallbackImages>
+                                        <IconClickFallbackImage>
+                                            <AltText>The live click interaction</AltText>
+                                            <StaticResource >
+                                                <![CDATA[ https://example.org/images/ad_icon_clicked.png ]]>
+                                            </StaticResource>
+                                        </IconClickFallbackImage>
+                                    </IconClickFallbackImages>
+                                </IconClicks>
+                                <IconViewTracking>Sample_IconViewTracking_URL</IconViewTracking>
+                            </Icon>
+                        </Icons>
+                        <TrackingEvents>
+                            <Tracking event="start">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/videoStart]]>
+                            </Tracking>
+                            <Tracking event="midpoint">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/midPoint]]>
+                            </Tracking>
+                            <Tracking event="midpoint">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/midPoint2]]>
+                            </Tracking>
+                            <Tracking event="firstQuartile">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/firstQuartile]]>
+                            </Tracking>
+                            <Tracking event="firstQuartile">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/firstQuartile2]]>
+                            </Tracking>
+                            <Tracking event="thirdQuartile">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/thirdQuartile]]>
+                            </Tracking>
+                            <Tracking event="thirdQuartile">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/thirdQuartile]]>
+                            </Tracking>
+                            <Tracking event="complete">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/complete]]>
+                            </Tracking>
+                            <Tracking event="complete">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/complete2]]>
+                            </Tracking>
+                            <Tracking event="mute">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/mute]]>
+                            </Tracking>
+                            <Tracking event="pause">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/pause]]>
+                            </Tracking>
+                            <Tracking event="fullscreen">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/fullscreen]]>
+                            </Tracking>
+                            <Tracking event="fullscreen">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/fullscreen2]]>
+                            </Tracking>
+                            <Tracking event="creativeView">
+                                <![CDATA[https://got.pubnative.net/video/event?t=Kirs7A8ntlr6zBC-g2qoIl_j7Am8xHiC9FnxiF0CWIh1YiWBNYmHCbu4aRVNgolQeg5lzkUejY3VDcQyQ899HAP70GJ4VWBPZFwqOVceCENovgeHAP8GUHTCw29Pfplfj64J9rssqPD5ZZKUtU-0xRwCKviH6_yJEW1ww48WdgpR9PQQ2RUUnHr3EhZoK6ta5Tkeqx0hCsYbcsyBQBJ4-J1RmyiPYf8wF4gc5ANfTWd4nfkS0TxM--s5AeWPDH-5PBfjj_LjMC6YEfBYN4XCpY9ncQk3B9p-wWd6K6E1K59F6Hofkjbb0-uwl6FSJZD4Llv7Q1mT6q37AdqFyhnfM79xTE8qizOMVg_XL8mieQC9erncC6XoPG7gxBLJmHCBHMSNyK3BdDeYJWr018dWYDNubPUEgBspcokakjLKfLvOi70ZKwFBGTCGAolXfr3RlBnmSAl-bUGDofJZ8gEn9U3zJA09hhEVBBJXvrpml5pAPK5X12yl0HFJY25c45jH3SNcqpKVtQtDk2JIfB5Rk0YuG7UfOy1G40f2SnDn1EwgUhOPzc2lKgChnNn8L1ouCqNFCWS4OmGi0pvp9mTud9KFoJBqMNwB2-rHZKDzm69bulb9p4LEPMQXo0KNoXuffZ7rpCjwjC9oOSgbxSO0HYYVcFCejemAC2YPQZwavm4eUBzUb2Gi3uDolxI9fYHXtE3arvBoFBgFW2b5vIw_sDDZOODsxTALSUEFXCsEjdAvKpI631Y3gzM6TQ8KJ9ywiY7Gro295nh8Qs22XQzRiuGSMW4zk32coo4J5r-4EarwWA4ubjOIXbdXmz9SaZJCzJp9nu1Ui4WhcZPB7O-vbLD3dwjhUeWvBtKq4VE2HJC9Qn-sV7Ln-ZiNWR1fqd8OfypNpGxhxWc4vD4pNPk82BE9_yms5ksnlRhO0NWsQ7eVHsmNLs_tjclz8nMbZ8q0qIZ5lv9jOfdx4I24Xjr_wAhF8VbMBOLjUPs0YZRVFYt4ZZElCWyQKSA]]>
+                            </Tracking>
+                            <Tracking event="start">
+                                <![CDATA[https://got.pubnative.net/video/event?t=7HzPy8EtL8v7zTdUfj3HppDBwT2FM7_F4cjxM2nJF06_lJrvqb25LB4WXnta_IgASzQQ9cQnjfnTWsnCQV9lqdQf0gmSkeYj5N_4QW0JiW6emfH0i-VL5HxQKeAZZ_MJIVcbmHdMPd21rjbbHAC1p4QCOH4Z82ngM--vvKjcTk25P5w4lnW6nA2Z4qbyhLEMhf42XpbCub8CcCQLHzwuwcxJDtZPZVTtotyOlEIuM8ERlCEH5uC_sZ5lMRrJl6YE5udzZMG_GS0u3sKC9u4NJQHdVQu8rsxTVJEN5yxvzi1dJ3Zqe_Fd3hiLjFTj-AG61W7ibBZ894zFrEACbkOG1RJYO8d2Nre_2L_dxT3L0vYThIkSVU4u2nEn0PBFvKLhI5SWwr3uTkW9F7UgUS3G8TwxWhEk_5AuElAl4P-cU511ZNeJIplVVjB_7qPTh6t9yRDFDjoHhoTa3LKx2oyG-jn3YXING8WNL8YHkw-uDV0pTT4O8X74Dr1NLmN9dI-yohDbPKjMl6UBf5qmS8nRLTw5jeTG56D4LQW6QoTd-F2r_SYRXClrfPfEAcl4NmTXG0RbzmR8jOXv9S1zx5hijKFcUSlL8fczMIjHbyLkok9zj3Y0saMVJuZeYPw0-gI-LhfWDZAWvndVmVYmPw_GEkiK3atm93lGcL3bOeyyyRY5I5rPUhCldVNQXtFYDsPbo4phdxKlqFDLOhjVWKPhltWfMEww9ZNEovoeq4IBoL1cgP0YAU5s40I-zRyJFsiWBm9drmYYzCetrAexjFNX7DlIvc0NBo4V2IsTzwFB-3yQHzU8hpTiCcdaMmdOFn24ZtWwvibOPeRw-AzTGByuK7yXO3sB8_4M6iTMLVJYioYCNZ9shkc80BZ4yVuq_GkK1xAU_tjVgv6gNKnewCnH5YcRE1KfPm-ajh3SgnRqXWTvkSTUAgw6lZx5pagm_Z-lqrUBr3JsnyoDZEFugpG8i2BapNfvK0Bni5zfmaLIBVNNIw]]>
+                            </Tracking>
+                            <Tracking event="midpoint">
+                                <![CDATA[https://got.pubnative.net/video/event?t=yxgzpxNqbgLgyQzMowtLSyOZ2l7X-sOROLRe6Tw3IuviaYBpw4Q9LhVCgjIW0n_vb30OlmbIpjCzroAvAg47_NxpahDdnkUC42kz9w8Iv485XvDC5y32SJO6Rw5t52vc2OKWwHkW98j_1SqyT_kH-wPpr62D_7P6-jE2jWrQD4t0LIhHbTKMVtnILVXnRM13XhfulO9G6LUsGGclcfmjPM78s9OQfGbuzCivBeZVS75DGd6PvXw-GNLK8mkxUSQBQzbgrcCbE45KHJFekN5liDiK-jcofjaCBxtALAzg2BCrl1vBOD2p_4wFt7BCMX-3vjr8csuoO3I0YedfO5eWVk-FHmKXuh_6yPMgbbRnBC0XW4I9pjPXRjMMzzGtye-MT3kuIf2mi72nPX1jD1ZgXXD0U1JJpMhV-j9fCJZdP7EC-mnR8yNHNdGDZ2qa73zSW8DMM6mJlHtfEOAaCni6T4RJ91A_4-O8-SL-IvHRTkO0XthSm_Yy5w1s3szapKIWeJwhTVVZ8DQ3zptoO3wxfx9LM1mlciNY6atlLd0dBE72QdTLsDJgNIBxyyuDGBE5DHycImGCorWM9GzBvuh4b5YMc7cwugVxryseb245s8nVAx_84WKAvdQuN9FARbMS8uq7uYkuu58fmHWMJoDzCytKKcAv7S7LyFCJi-_YF1iYnDbPg36fSV573LWimiyTz9PymTvx2qapqI0ppFdI6U0JG2X2OfWAcOtlDRaHmfp3hLhw1D5I80zxQYn3JuLK7sXRh5btLDuFDWol-MPULnhcPZX63FaNbxFV91N0wt6ULiEWzMBl_9uxJYZ5we9R1jqYFu3_aBgDVv7qTctwTsGIUAHjEv18YkZ8LZZ74sbtUepgIRkLIi7LTo31ESOOFMYGHv_rYyDwxZTMPzwNB40IJ3Kv8FWoj280vUiY6ssca32MgNyQTFZxnomuZ7bPOBNDJkI6WbyOhPXxHyu30ZTf7E_p61ebjpT5sfE0AFD7ccz9Rw]]>
+                            </Tracking>
+                            <Tracking event="firstQuartile">
+                                <![CDATA[https://got.pubnative.net/video/event?t=HEjZ9uenxznyeyuu97IGCvkk-Pwpc5L6zM6BmJnslmSB7DcC2QfJCB14jiH3jmzL2__xJd6RfXgoSrp9o9bvDa9KxE8e23MSy59Ce-njfG93j_xRj894xrh3a_USQyzvXqwOQqPj6Z83ceyXw9Jt5DlnTcKW6WQOvrZSS80uM7bCwSV1vrNZwGCR0Z7BVGBcvKy8sMYIA6vpAqltpdn0RQq_y0OpnYaxIK9IZEqiJ5N5Af9GK2jnapRy7x2EKsOtx56Em01HI9c0rqzJtloKrPK5ibxIyjUe4kap0GcGkU1GP_3MgMVUjbAZB6IEhmVL_wZofoC4f0Nw2Yf_6hvA17yeY2TTh5RJNdqIwheOAX7Tw3EEj0jwRbeZ8luG3PaB4ZgDhVT8t0zZ8P_PrSJp1vh53VzOd_-TDm-O7sFR0c3etsGjBR_jAxfS1ZrUNIayIZvkOe4-HU1-RKtGAL_aMv_PkId7i72-i-qjJiLpPaKLXwaQkcLj8PFpWCjxtHGsnRy0hHRuz6Xms0gjeYCkOSdaeYcVTEs5RmQz9DUW-rocq9PCjb6KIk3mEqiuF-d8UjP7PYURWeDOM1h4cito78dGl3lZNkoBRJW8KaizrDsHxeQqIgg7gJDSXerguo5cPiH_KHj_NwZ88abrS1k5Cin3Cngi4lhetaBGS8jMQZKbO_CgbPr0BapY_WHHBuc9rG_nXATJ9lWDzS9owmqio1dJhspx9iRjBBjf4RpBVqOoc0TGHXT0l3KlRHVbfqKKMPpzGS4F4_6QMT_uTf2D8XjnKIKQez_RecpYHwbBmuBUdwFiL3RBO-5qfcJmwGoswufn_k10-LP1Yty5xTXZNCkyIT01fLjTDVEGLNbZ_Q6uposjLifkDha4E1_mwzi46KCeVnoHirUj0eeBV9vUop_81YxMcqT8spMvQC2xvwzWzmEHfxep5hwsiLvWw5L_fSguRq98w_2YkzKqLxmoHXI6ilKh5zR3LCvbwE9T799LkvB2EAc76m8O]]>
+                            </Tracking>
+                            <Tracking event="thirdQuartile">
+                                <![CDATA[https://got.pubnative.net/video/event?t=t-2tbdWhDf1PuCxzDNZh4sKmnl3AUKgQLj64YfMkKbR8hXF-CNuBD98HER4om9hmuspY5-5sAZRFU-nqR9L8TBUsuV3ifJxrv3oBwFaaoUBae-KuYhm1DAIxOWBVomPp1_YD7o7Xd1aU1jqgWKMp8S1Cap5LV9RvqR1boCFPJkV-CNtizACMWPjR8A972hzoEZVi7dQzcq2Vau6JhW_D1AQWuMbaM7xWBD9PB0I9bq8oPgGuYxTe0tJ0V1JAa7fJaZA4KiI-OB0il6uA7OVz9-S6Mus4CF1zN7ISvQSloRXJi4dxOBfsqjLfc1O7XrDoQaQuBpse3YoxWndJGtaCW-v8iCfuJws1hwrWqCePI5Nq1xMpdqUSntkwH3BtadUp3OgMfuCbYAZHatTOB6GXtqsY7_hpIAHQE2iv2aah3PCAgQn3ikmNLzCcFpjJp2OcDIeqFJ9KNfhNpzJ0vXk7W8Ff4wGHWKWdV4klkP8u5McZwrUb_y4coxN47n1ncGj9BHFiVvZQMB7N-tKg8P6zweFYp4P2i2-_qAJZSQ2iErrsNE8G5b7zkUvf7cLJauxuLiggoFbrFdgqaYzCePIw_2T_e9u449N9n2pC-oGOZ7hJtveG442SV8m96f_dCrjb5QdpceQI1FnXzpauKoeUAY65KDhmDQrDa4DqSGUhT6W7qpA_OtLHGgr7eLct5JDGlqhtYsxLWpJfca2OjLqvsUHjs59xtCoHVouOjpXhkvz1KpqnOSqCVZEF_wNTb3QkVgq9PPDMNUXzLWFoGcWgAFV2V90FSF7My9hD57nkf7SVy68nZgN4gxqRiz10ZX1jJLAYmaMrSoHMCd1paayJZipffs0I3z-1W6u30BdCC1yHka5DI1WL8ER3_3oN4ae0Q95pN5r0r23Uwwnat05NF3XdVa6qzTwYvP9qkVYTkFb0EcZLyqWIcQSXc7fFWoY7VTp5WFdPn-bJgjFpoGz8takZN0DIZ86UbE_iLib4ML_Y14xXITNJnof8]]>
+                            </Tracking>
+                            <Tracking event="complete">
+                                <![CDATA[https://got.pubnative.net/video/event?t=HffX42zYVFtiGWVJVRqYvuTE0SAwuBRkLzVUuNfau8kqiFIv11S-7OstWvOcOUDBUVebDZ2zyFm9j8gXjA9fdW-cU0gE8RroU2WzNLRZAetUyw6pQb_1Vzi3cMCQCDusAD0--S1-gwkacax4pWhUKjJFAkBKQ0-wugxDk_FwDrDnQuKSMXr4IfIvVk8yeExyy2Ta2rFO4ZBj1RAqLyhoXGSpGeZ0qI7oarUgsq4HNzfsLJHgbCB2zawFvIc2EWhqq9SZaUQrGEvYzi5prZNaGaDpZk3na5mqw9Z4eswk8zL1NNO7B6G5_NzOHRfqN-vKgeD1N2oy5AVWoTZQlESX8kzBM5zWVc8flmuov4Oi1qAbWFyFI2z1RU2Kao61Lpc427Dy4KNaVAmtoPOsnCQ4bYzeNrdr5Kv3u3iLglNQ5lUWEbM6zxle_y79ClRYRLZegkfo4avXbNOguDum1pPAFldi4d1OYdFlYV53aIYg9Zmla10P8q28qsBZvVB_q3ETXPyNQpbU8-e35gY4v00tNLZ0_a-8OtmWJnmF3ES07P2i2ydlDzuH3zIgfu51SB4w5bIkzxhkDZhoZDe9afPkhLyaqtO2g6HrlM6G64Zn3dYt-tSBUs-qsk8ugAUf6qP4idZydmRXmb5wKjXyVu7WeZTXCTuJxohJtMatag-p6YIbVWCPyqLvHciy6-rueRzTO2uK_yH-IMUk1tKaXyARnQqiTUeXFKzURe2g410sHtcZBEungo53pyXD-0zmz97sg3QhUFqwjGb9DO_8z8qTTHBUy4Qazmeja7LFdgFzw2mxHtYA9Urj5oYz-Yc5BuE62r1fds1a0QDcmxzki4lblwYdnWQnJFAfP_hK_j4QK4IMZkdqx_GebMaelnQDUUQYxeAhGwHqWrMBtr5hgasxuNPxKxchWpBQHAMe98_SDWSFIMmzcSApTHlC1ulkLKbDjMrrxBzkIDyyZ28Lh-Aj-ty5fcv4j3LwcH-6TY5OIgAcwmFy-w]]>
+                            </Tracking>
+                            <Tracking event="mute">
+                                <![CDATA[https://got.pubnative.net/video/event?t=swn4lmXSS2hrY46KsnKPtGaUUzOpUeSjjPAj6TO_8L_9pDM7Xgr_8kGmiWdklazjlZdvPloH6JlwqEyjIeiWJqlhFS3KRTVu4daTa1A9T-UFgF2kcKJqHtEHLELbk1lux1PbBW7675kP2eKZwQUOaDwB0sZ3ZOoTlFztMqe4vgf5Y9tcWSeOzFTU1M9-BqyUikEnQyPJJgpgAxzwznCVHRL7S1qatX1d1FVpBxQ-9DZio4ifarQiJiN7HLoBi4NUyMAX7qAI2xOyGwMEw90TGSHKEeu3ZYp7QNXHiqvY8f4GmfmPDGC6qXq1IqcWruydf7w2C927IfSoEottfVSErvfIcJe6y4d1FohTEhpdS_beeGeHkAzBZWO04SvdzbMt6NngMei7jXEvDAyGBXPREiwxScZ8MongAs061TJr_e6epmsQ25OZZ9WEtTU4imO5lbq2uT9-qClRq7Lyjsiwpuj2dffmju7BpVOvMSRoD4gh8-rPITomz1KqQIZ1_nCk1bdHAwa_Wh6BZYiB78HDy3YE9APil079dikcjdaKK3baJJbnekB4sHS1M5bANQwnFgLHJFqzGGX_nGhXEUuWJctIo8SUtIvERrBmqsy-kDIPwJAoIohOmVkSjtApVJWCBoRDN5YYqdKeFjOhsXgYpxWtZzrAbZDnsI2W7ctoe7mxLsRhxSa5fjbWrR7sbsV5kwoWzvVXRnlhqwQEJZqEMYzz7hZGKH-utYMBXEAuQZM6xJZzc0PXAJKeUzLqlNYQWab6FVRoZ0kHmzyaOM6QvSAcsR1-vk1H9qokaM8xp2iPoO6EonfGP2_Jswl6ET9luMKhNKkvwzdy7lG2jCYauBU1pKpjpknZGfqvNJhLLBmAni-tBlPUZsSxz9unkF8JlQg6NaAY7vOaJ1ztkTPwS3IyK3l8PCoFN1XCoFPcBxRCj4gYCha7LCu9ovJUpOEazsD---_BpeeAO1Va56GTfWEAVS1fsg9qIRVWsSwGwEao]]>
+                            </Tracking>
+                            <Tracking event="unmute">
+                                <![CDATA[https://got.pubnative.net/video/event?t=Tw19dqlxQ-_TLtljT9BeU30lQgfb01AZy_D9OKsDQJ6Jh0nQUa-gNZK6rSCxYKNXyqzw4vpE7CgxY6C9Q3ZdetAcL47GdLNwRAdURw0XCm-i8BrCX8gJGyX4kHbjIrg8WfFmd_Ggo0Tjah3iWruPcP-sGKZ4vn1JvrlhgZCkX-zufsutxXp8gtnXqaksRq0GjZw6F-sl7kAwumSI5us-_93dkVjBUIqdQeMkHCzeVhz3H8r4m7Gy_sVHvxj-R7ffOcDHWeOsQl1dlr-A-NilPuFgRlr4aZzOY0_FDQxRGj0BPfuWntjdc_xJW9I7sfB4qdNIEoRuSOEOXBQXSZmzVLflh8fza7OGH5qZCHDUj6yzdhqDC0hKx75t6fXwnlm17pluADy68_RNiUwbs7TCcHlRm0RAEl0wqHwxFiuT8PEIMjcHW912AgaU2PpEu_Q3Wmc5fMN_jB7FtQx6w3Moz29d46979kOI_W89yuIkrEExAzwSUWaRQK-w4lEGARgc_4NpKcdh9icgi4g6DLM1fRhC0yNcXpfPlWfFJLsw29mm-JR_v-XJ5hEjYv-N_4s1IPq3AtTvT3--29ndVlFCuE9cWOXmLI_y9ouHLv-i_acj_RHfLqgyfE0s49zA5UiH1IOxLq5lokG3zmozROtEXmuHWYHbeo63ihMKcChaRUiRk9xkYymhOQVch0FT5IJBj744lwVnaPNOGoqOCUhjia4D35izAGx6wwQ41GGbMGc2K0Q1VaXIB5rl37D4l-w7e1N0BlXxBe94Ko-JlGPGOnHVJuGsotdOdReSAET_0A-TxxUXAGlZy_cxjxjY6d2TU53ct7YC2OQDZs4cb8hWCCMnXr2zXSm477sQrjjZ4kj_XFd1NAbH7QMB_AJfZ2pW2sY_IfayHVIkPqgFuMiYZ6DRtLxrgvQlnsF9Jf_VDJNVGcyAy2jEy9RQPOODi7zVFiSBYPkOHwIseYD_X5FUyIxfhDOAhzVQ6jUinhmBegYsPG8]]>
+                            </Tracking>
+                            <Tracking event="pause">
+                                <![CDATA[https://got.pubnative.net/video/event?t=0QE_g93keulnpQsLBHUhJAHIvwvrD5y_WB1eyBVQ-eAuT5ZzGduZfXofSPyP9OmjvqegX5Vjpeyh8aQ9RW-bDJRo7G272B0qaj-PifPBNF9X6fJIm3dMxkpNCYV2u3SlLYq7_-WuBScS8hTucIDi1rYW6ngM1-AcxZIA4Qj8gPC-nrXif1EYoXoU9wUO_IfxmWFtv9dkq51zFcQlxi15HAJzutZayZTaVKICJ6edBAmP_1h0wCVSI7rY4HK2W1G3k_enxwnACuLlegoitHv4GCzEfIe18LCc2gqvbcM63pMk49ZXbQacc-cVZwEi2Kbq3zf80HlqNd9bIc7mwQ--JVN4zkcCWf6-zAc2EmAIorLdhc8YZN_XZYVg2dAldn-EztaEOLElAu7rIRqbyUH0MIhjV92NTOgpTE4SdAbimY2r1MYNnlafea7GPiJ1W1kX9G4alulL7Q_19HtsPTQaR1dfmdDqUdYxr9BLOhZbTQCBAxzNAGdO8dhvNzQL8XwzThtf4vT4g4YImsa7hoGri4Kn-4XenKZcNakX6JZ06lMiBuARw5b_Zd1xTt39AMt-lhQBZDW0WWq0PzPOLjf5Ao_knMhnRDzWLHFb55s0WfEdaHUjJoMy2DEmNa8L3PBHEA9S5IQzL2VQr9EsrNWeAKY3iXpw_8SSPSQWJ6Dkh7Vo3OJJAa_nlWhpQ7bjiZ-FdtJxxFBgbiqTyGJwIhMtuGqL60WQTy0BnOSEMQMRHJ3maxXet070b6k4lRfc06aqg0hLxOZWWSvzvNhwePO2qbrkUeHo8B98aQiHHtFhNTKPxFkDUWP1jV4Dn_reWynwh5C5eM9z7ms4Xnh1cXVZDvbnMJ5WrBMdBb70tYfWSmesn7U69BywMDhmmwgd-ki4x4JeS7IgEgxbPP7DkLQbEHwqgfyYmOrdfk4e0DhDdUu9mOmsMFdcRoLCl0aktjoX8JWZLH0N_aIEuZ8PHeV9rcLol18xN3fPFzyp2FsDp6pnAQ]]>
+                            </Tracking>
+                            <Tracking event="rewind">
+                                <![CDATA[https://got.pubnative.net/video/event?t=FSMWU_cRRAgwEP61KLViDGghgzMWnsCPLrSPs8iydIfoc59G-nop7clMFJdEm-TMRqO1LLYaBcNw0HU93NhEkCmIu3mZ96nEw3oIvZNre8vmAJaEYkxAjKRGOmm5KZW0n7qrMc-1I4s1ifQcHIR3umV9S7ljYKDWfIlx3TEZx-SKkgODY_rI8p2GAS-wzn6bgrOlqK-sVtWccUKuVXGSE2y2EOThc_Mp-BXKHf3pJZoI_xs1zsx5eX09oNEjzuW6i_sELb3Gwn-Md5OIsbPki6g4aSAUS2ygKAqypZaNVrfSGZu68g1RBtjm9irNZYFHSMLIndwAwRam-lbRudP3EtxoFVP0Y95L5BLGH8tDMJWQbOoVMx1D-zECNMaCpUucPcGZkf29BGYJJUQ7I8R3PF4T8VdIpUwLUIfnR886LKSDfBjCNtaAgbdRym311IMJHYSaDSm_oCzGZBpFR5GPRLEE_N0YEbms5EBj3cac7KAk_9KY_ziCpMxgd6FlVHajB0PgnTj5t4UPSxBPa7uAd0ml7gp3d5YGBzWWC7YlgDjjPtqlNiWOGnaHLRxAiZZ8AamQnbRjJ-Y-2oqRTm2xZ2Bx5-za2t091tOmK8gbGWHndSTens06rIQ8vFEV34nX16pfZrDzYP3vLg01QPFsbOsQg6j0rsXm1F3yp4Ab3AJGew-nodZ9wtMR1MxQf4Oxs_1USdg6TanSFPNtUPC8genfZGmMH94OSHiSJ6vlq3qrEj2jzNJDNL_EV8slatKMVax8qXQMHFyQtW21HcMCiOPJMYFANX7N-wkPUXqz4zqfJePY8zJEdWQOglpLTvNxuoPW3Sd3vSlidIqwiY8V-nso5sm6RF4vXYrbkZzB4lFGckn-kHvxbJ2SWoPmx9P88264_237srd_xN4iTAQJzbpx2JiXTX7-O-fkhjUA5H3spKHhrugN-BWv2lTBSCDvoK9jojxdOA8ya7dHtWO3f8R8CDoXADAa8-w-nQhG5f3uhQM]]>
+                            </Tracking>
+                            <Tracking event="resume">
+                                <![CDATA[https://got.pubnative.net/video/event?t=kQnPfgkQTcaWiRJ_8yO4hhQD_wr3wvOptQbPd29r88th317mpXnQnCRyNBzf8yknHh1Rq1ZTK9_Eb_xW7vThbFpSi0-StDxUeTYqmsKyZuTr3VCm0sD-PrkXVmB_vWyBicdhiCk1UUeJAHxiWmgf3jowujQEdxYfcGvR-Lt1mLTS-Nq6E1H2yXxMvUdpqDQfUQ53mL7Qv4AWDWBzkRqVy5R1sWf3Tlhtq48iOxSkVcahG_OSlkbRc-pTuNCSR9oRyAQ69qXjEvd_pIAfSjhccYdRR0n4YXWKslY7XObGN81zWf8c5G6rgMWqHGsaFtllnhmBE6GBdtGDk5OI1UfHq3NoXMfDrhtO1j_G__lb-b93BHRfftSjj39-cE4lLLeL6-GsDeITDf3SiU8CMFLDON33kS7TXwRp6PvDhk2gioSfLDvcoKhoCYUFshRHJ84yJaOT8f36VYBAaUvO3Nlga8WsyF0lxwv8TnIuSIza-1khPb3aMUx_vlYK06Oq4MLEzHXCRew_z3jpg05oBI-mRqHn5hK0L8o5zejV7jR9gcPCNf01WklU_Gh6Abnn5EQRqWaTDav_WlJ1TwUPiqqgUywjXjieblukjubNxwBOVx-r9nOSYr4RJqZY19o57HUmQjg7eNINXrZd-A1aAGsYRYVQb9AyauuLq0Sr4OQoJQClPeoo9-B15WVMUNVCuXWo0A1pWHlmT6m6Z79bnkdttZeOxDGwpklXrK2hw8myxJ89oysMNGMTOCiZEDN9hkhA6NdIXyfXU1voQf2G0Ym7O2aqsPDBrAwXeXPoCYBhJvct9zDEMLQnvjO9xSgjO4cl7wWtTQrbkIsXxdo5NDBsT1eaVlmuCOXsxTuBxib849FW1lRBv9YMMvd1v4yGizCSZui3_Xo1mSS8TkpK0XQYziVi2VMvZl0ARQe_VzHuZWpjQLRGBjUNAjpqktIMXzD9Yef6iQe5JHCMrQQH11dCmKfA1wDWtZGxGtTLmq1Bjk_bGUc]]>
+                            </Tracking>
+                            <Tracking event="fullscreen">
+                                <![CDATA[https://got.pubnative.net/video/event?t=sM5nYS7OSKF0UFmUOq2ffvX-B19VvLHVtL_Y_zxOQg5DYdDdSy6GINs29_7wW3PXw8Nlna4-z0_eD4VrgTeAYQn5Xr9FILpSSoqdfaaDK5PfTpTxHDhM8iTsQpfZlArDmgMDh2bdDoUeu5rwwNKjIsKYaJ-PgjaJ6RsXeEuXkXtw9SWFH4XSigSfQmlL5UJcZsMtetaUBj7AiJaKeIQjzqbvn_LrbQpT3wO0WU9J5ULwo21eAea32GsjQF5fiYIjNeS_TQwDI-LF13ufTeseENnY4psQNAmDHMOWdZvKK4KCi_oETC6xFNjO80fCCS9di7-ke0LphRlKbfnS7x2U-cJrKjWcyOxaQI3g5rq7fB30iCx25NDDRuWTBMklqlOdtSRYI-Yf4sXOl8-jOS1W2hohFZF0XyKPm735UCTJZ-JQFf2yD9WJn2qwI1RB4DtE3h6KbY5AScvWZ7rmamEsttG5ck6hxI4Y4fvo8VG6NqtN_jiw_3eCvynTt2PFdutDDE5Dlz7VMLcyMP_rd-qv8hpyoTZznj-q2dLMx0gWYVh25AA_tFCA86c4k4OSXT9z2Eewf7rNF5HK8O3QunGCd7dTssRZALtAaj7Rn_uFnwR66CNPkgEdZ70BnCIGRpfQ3lojRDYHKSEQZCYuHv8l4nqM64HCvzcD6okD4YrZ7grE0lPKHsujAtr4zB_yu-PkXDoY2r4p9zwwvlm7mIh7DNrRsPNNCL5ekPS7hw2fXHFURGXJdy--lrRt-mRwYJ0odAqDVCBYwQj5ffIriA4CfD2d7QHiELyuzkj5ULZ_1j7ZQYuKJW7YjRinGQzOROJCgheIMp8VFYB-caQYn2ZAIC6ah4l8ZYGogfnPrJydEDN6M7z_fDwezlafjUm6rzfJ3zzrfbyH15Bx97kNc6XwNTy5vd3VMV806Wr9dYorbSe1IxrjzTz87qT4Py3lsensAbv7LEl2IchPkyCd8tvPqpKrt5TQWvLQm6n4xKdsnrcWxigfm58K]]>
+                            </Tracking>
+                            <Tracking event="expand">
+                                <![CDATA[https://got.pubnative.net/video/event?t=O54ayfl7gpA0P37m8BWWKKC5bub5jfBlTpFNRqvyJSjgIlmEez2DVoI7f6V33MRrHI9zwZENx1Rq6K_TfuYZDlLAaUEy1QkaJ1Lyc1V6SduaRP0N-G17BbR8FDl3riTwQk3mSB6BJ2Gy7uhs8AgGRhEmTDxMuvM9nY08KfPxRh3_V2OyUB4olhuJaryCkH_zUlpbENu-vS4AiyUj5GdvWU8YpuG-WeCJ9Tk_Lu5PoxmPj0UsFRnBJzJsx031ru2XTdnajnzx02HnFb7tVUQmRxbPAC6mpQs19AGW_qFR-YX8tZOkq09ACMCERODhZlJZ6r3ypZmql15mq8813J48vSRnb2kgvvQii4ng7JlqQajQ3JLJDCR5d6qO9QAf-Fhc7j9HwloNOnh44K2ZrTk-sGVjmA8-BEaxTQ4OZAkvr0RFg1NiOTe5Jpq0J7K8oa_UrJEV8kGvPhPxwob6_pXFIRM9LTqnnpGoHaxKKafKj6Y_dqo9m37S8e0QVBTdL0mM8b03iKiPW29_ewrwQ4CfJjd1rSzLuAVfvP-AURocNTzPB3PspAsiMCYP-Q1virF7Lg7DCHyICxo5lilXMKy_JX1Ct49bmL8iIYJgjHC0wI1rWnORKXIgUBgQDcBXopThfVMWIJ8zNhQyEY5a4hqdsxZqJhXEWJMQsEf07wB9MrsZKM1KlOnguVwo22lNnGBhLdnkuYtEi2CfXAI9qlDS2I7XiM9LQq3EmOpxo6Jui4mx3WOol9uwNddNYaIwVaP3-58NoPxNx3DzqypdiQh_iUg15teKjheu4tqRGJ237BAdgrENGN6u_tuNuR2eefpqrJ3BetcRghJtx-wvQeEHYfNpkI_2W34tehCka1-kYaRoTaHj7t-A7QnDsN59IHr_LX-flZoXgHT2-UvcnnRs35OTGlR2VTutJagzBi_iuOeEDnzkhvHcRUBTCjK89FKFdyM2opCktbnXFQES3HB2C4ACgPLqNqziWkyWOKir9pTorXM]]>
+                            </Tracking>
+                            <Tracking event="collapse">
+                                <![CDATA[https://got.pubnative.net/video/event?t=pmn3FuAs7v6eu0TFOjNFV6YonkW10S9YBVfH2S_2Zb2mFx-N0ewN92Z-CqM_xpy5D6855up3Pe36bm0nMcdxMcgz0Mbhtsdgt7EKjQTLyaUPCkBZalTYAXfQj6rO3ruKAg84qOdvf4WncUIKnsSRBdxGTMxyDRpUzQzoqeNIjp5c3SB6Tx2kxs-oFs0x9Fd01KXOfQTVOGJucqf2bDmeMC_aqHLnxrHft8Luw9SuyAtvVj9gNqATUlvjH_oHYEHNPVeR68WbnHWHKB5w4VolmUbaX_fAM1Z3O2LnAlbrvoXhw5dNw7-jOuPEY-8tf8cdG7URP1y_MiycGfFi9vsSvMUOQoa2JtsNnBW-ukiJSJzGldXu2iSWiD-jo-KzY3If0fAT4HNbIqxHcZcJucrWkIpfCvA7qfmJqseAvYSg2pCiGQjPLik8uTXwaN-vJx68GxLKV9krFblIKx9abM45VIZyOFXpZER_fXoUuDDkzpf2os9nj_iKVozE735PoDOESs0XbpYHBX9SH1z8UUaXLuzZzhsOB2J1j8GXX34KndnsHddIll93YBvB-TfPbBSRmq7Zo4PJtGQnt4enyhOVaEh1LX3iJuhRuNXU9I2fYeybeEwnR0Xz9e3NDYNJCVMmNNm4wIl7SX9z4gkQCzumo-XY7p9Ac6YWbsUAh7QZWiqRdwpCQpnjOPXgc-oknyDt0xHvXab-w1Whywbb6gx8aY9yNPNQ5Rk6627FIHzgsAzJWlhtgbu2mOz5v7JneRJlMxxvXxWQlUQIb7Rqj2_gMFD5vZChFWhfBKSdHar-2VSWUw2v_pPYTGbxUOHiFEFJk5HuBirW-dsB_713jxTo4NkbNw5Flr-gq2nGgkzdBcVTj1ApmcbSun9maAqa9S0HujW0Uv54SThZukmcRbWkeczkS4qQjJbbpI-3bLVuHPuka4oOwdmWx1Q6piQUOdn_7Tw8y7iwrMLJIu703oEY6Gnaa_GDhj5baotCoyU0Zv9vDJ1m_Q]]>
+                            </Tracking>
+                            <Tracking event="acceptInvitation">
+                                <![CDATA[https://got.pubnative.net/video/event?t=H4B4tCVeDI12Q8Rz-mONJ2YfMlrXrFD7MB9JUVKrWnDSm9gNK4J_e81iGbXSXDsa219S2ltAsljS1G1Ekp4looGeJqNt4wRQ82w_NgXlHG2dn__orOP6TQAjL4tj_DD9Cn6mP_fGhsRtRkFuanXxKiMKU8vz3r6AbycQZXAf7yQkVmPZk02XYLMtiYdODXeK3imRmWxUQCN7IAK1f85awSwkD4hV4qFT08HT2UQWJO4IHIxI21BYZfC3a5clsoBiFBlc1t0bpRSN5IQUQoWcw0LjC3ZPk-_uSllzN_IMzBYg4Ck1oh-Mhho1FROEABNGDJAMYap-d3i2Re46-Nson6y76oHCvcAKu-BdmuXt1dT9Hml19Z6iZA4BuDln1Er46oZFtmZMAoHPKnmxyYuKQf7v7eCEdwJGrorlBIUDgyD5nZnP4n-eOoiv7Fy57IiUg2LE4ZuM5CLcTDGOITgr5Wa0BF2HnH0DGNz9dzj3EhtF9l2qo2Y3zwBGDHf5zoEh43BzmDWs6OkB_QqSzTKDEQqe8kkAGlFGogxQZHJ5HqA7qOGCwY_UcC-canNQMoV9TAM5ushTozDr5U0zNglCivNn3C4xBPRMf0Z5n-bNQXOCe8wX_Fcq7LzszhwSnOQRnVXkDPdUm1__kJh-n2WJE8dv8oMHpObb9EGcjaGFztdPTSB1EfrIXZbvcz4z2fdl37s9DSPpx5uAQAj14A05oVGeRKcAfVIM14Pv1UK2c5NoG81ZRKJvlzo2myKMuJbJ5pVGaXRO_b9YYyANGB1PbefH7zolw_HRgst1M94k5HzqVfIYUG97Vc90sPkm7oKl8DSQocG5yhTFM9a4nEiHcY4f9ZC70B65BcpiRGSh6vSRxMOUOHx3VxyxtAnRvat2MODqXhr7pRX9spW7-_NVTA6W3Oco973VfYcsCpXJxak1TIoJx1G83B2qlSAI66d2ekGm6C8TR9gREwzDMHbImHXdSgachT3ohdTupMRRPi7dxUtOlPgnCu_JX1At]]>
+                            </Tracking>
+                            <Tracking event="close">
+                                <![CDATA[https://got.pubnative.net/video/event?t=ous3FZTLHgAiOaxv3njc9N2NJjayHTR-t2iCYPBCRcUwWoNU0dunaIjJa9yEJGAFpZTissVc_QSGeF45HXGqw1kbVN3uy2Tz0_S5-ku_kK099XWhrtjp2UJ9CtoJmGpZCqBGthVFbYFG0d0iqIjCHHonm-zOCiyQYmO9zenUgnEP2sw8mGVnikA5TsN2H8NBAKqzJEeXW0-LwU-Ov_kPBQEydISvuEHauWds-lDVSMMgcoyNIz1s_oqVjxWknRnReAGZeVAQuo7PGMy5VKT4-nKqeJY8QLZbAqHETH5adz5CVA4801gKac-hGLNgJsOQ4vbUQdTEUQs8ZCIYNliF9Hn7V8XMEGmkL5i8POXXqpBs6Mwgz96I5EiF5VdOm07DerubVK_NbUocnxOjzF3qVRK9bwOj9b-DgIZChenCMp1dha3GJTOnFyCWt4ITFGK9z7st6eaZ_5R8MgGRfXy1-eLx2-SILywIQpZ-w7zI7i_f5wWbvCue_-nU7dJ65cWGtii20FZoDQTiKZl0W8Nve9_uUekthsRCC_jmuVZ3QPCLYLIvab5DTvFNkM2O92sM-jin6KPnKSSD7V-MFL3HC-8yFdbIzAXh01sj1cOYXaEr2TcOIV5lSM9EDBZvNuDZfwwWNQ5-HiQB9HhGouV4VNIpORaZhH4xYGGV_cHEwwotc8qHArn1hlbmwjULx5e6UwLMBIjchjZ_RFUlVen9pPfXsw747_01ZBnWyzlIIcKOi2wPJAyrDHxiRlzkrxniXdu7wOdiJyAGSVuczLg2otkF0KmzvPevXRn97G2ZkxjUaRLvyR5vVabUnoQ5avckNSZPRw9-Xgjuxrd7Xx9t2X-DEE2zEgnwbiTq6-6Vo3VnB2obRftBKPQNscVhhcbrjz64vXiOtH61iWr1yYluPUSBY-myXrvtqyL94RLQ5NfiVu9Jg5DeuPOCzS4BT59KTFvzackAxUd0XOuWfwncNGxfyf9KX2blc9feBaFnFm5Fig]]>
+                            </Tracking>
+                        </TrackingEvents>
+                        <VideoClicks>
+                            <ClickThrough>
+                                <![CDATA[https://pubnative.net]]>
+                            </ClickThrough>
+                            <ClickTracking id="test_id">
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/clickTracking]]>
+                            </ClickTracking>
+                            <ClickTracking>
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/clickTracking2]]>
+                            </ClickTracking>
+                            <ClickTracking>
+                                <![CDATA[https://got.pubnative.net/click/rtb?aid=1039073&t=2EA4EZTjvqrbELNWFPNFLrUBsTo5ovfVlXpTSZm-i2byX7_t7l0U8DZolN_WHTx2dEvghaMClIF3sOzD64_TTAzeMzb0En_qlShIzEOhj4QPJE28G4iMU1VQweZwHcNX-0eNVvEC3gjFdSgIIBCypmiXL4yY0ok_P86GBuCU6EcRF3esm9XYv8307xRiswKvv0WlUzsv0XlC1iKYCo-6kzlBCpU2E398imUDf_Hzjmr0cf0EtC0efHEqynoXIqlAiEsnXnVNBm37SVtnIanydaQkWOWmcVWfqq8DAJOPok-T94SMP06K5RDO_URom2OhOLXPRs-eQWN8kkYVfv9mXtVVq0PHM-QTN79C9C1qbD6BzVuyPXHNeC8WoF5S4WMQ6A_eipUrSGwZN5DwfI0Pr9_NnoYT8bPLXVHvVvGkIjEv9y9-w9mWe8jcqTQVY3ULD9lgyWM-bcHn2CE7dHY-sFKyTc5mPxGG2W0SNl-NRe57JGsqUVpIf0xpXB0YrO75sGDUYLLmhsNqepcebtayhZkxKDMIUMFJL9mpbgDgUw1xmjv2pu3ha-Gjp4ArzDqfozjRMrPeGDjMtoG4N6vet9UQml9OosxIjDn9K_yyZ-adlu3a5dhuGuUKvhE]]>
+                            </ClickTracking>
+                            <CustomClick>
+                                <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/clickTracking2]]>
+                            </CustomClick>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile id="1" delivery="progressive" type="video/mp4" bitrate="457" width="1280" height="720">
+                                <![CDATA[https://pubnative-assets.s3.amazonaws.com/static/PNVideoMockup.mp4]]>
+                            </MediaFile>
+                            <MediaFile height="750">
+                                <![CDATA[TEST_URL]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                    <UniversalAdId idRegistry="Ad-ID">8465</UniversalAdId>
+                    <UniversalAdId idRegistry="FOO-ID">6666465</UniversalAdId>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>

@@ -45,13 +45,13 @@
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, width, height)
                                               withHtmlData:markup.text
                                                withBaseURL:nil
-                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo]
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                              isInterstital:self.isInterstitial
                                                   delegate:self
                                            serviceDelegate:self
                                         rootViewController:self
                                                contentInfo:nil
-                                                skipOffset:[HyBidSettings sharedInstance].skipOffset];
+                                                skipOffset:[HyBidSettings sharedInstance].htmlSkipOffset];
     return self.mraidView;
 }
 

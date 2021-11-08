@@ -38,12 +38,15 @@
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
+@property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;
 - (void)prepareAdWithContent:(NSString *)adContent;
 - (void)prepareVideoTagFrom:(NSString *)url;
+
+- (void)prepare;
 
 /// Presents the interstitial ad modally from the current view controller.
 ///
@@ -61,7 +64,9 @@
 - (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
 
-- (void)setSkipOffset:(NSInteger)seconds;
+- (void)setSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Use either setVideoSkipOffset: or setHTMLSkipOffset: based on your ad format instead.");
+- (void)setVideoSkipOffset:(NSInteger)seconds;
+- (void)setHTMLSkipOffset:(NSInteger)seconds;
 - (void)setCloseOnFinish:(BOOL)closeOnFinish;
 
 @end

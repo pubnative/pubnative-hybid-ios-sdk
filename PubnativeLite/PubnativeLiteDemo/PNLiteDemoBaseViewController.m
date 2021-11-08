@@ -49,7 +49,8 @@
     
 }
 
-- (void)clearLastInspectedRequest {
+- (void)clearDebugTools {
+    [[HyBid reportingManager] clearEvents];
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:@"No request URL available..."  withResponse:@"No response available..." withLatency:nil];
 }
 

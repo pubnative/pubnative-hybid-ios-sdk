@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PNLiteVASTPlayerViewController">
             <connections>
                 <outlet property="btnClose" destination="xsk-q6-jz9" id="kFg-sc-m7Y"/>
-                <outlet property="btnFullscreen" destination="6ou-3V-8Hg" id="hiU-c3-BiD"/>
                 <outlet property="btnMute" destination="VMb-Wf-Jhi" id="HUJ-xs-WXa"/>
                 <outlet property="btnOpenOffer" destination="Jiw-2I-70B" id="cTU-wT-7b8"/>
                 <outlet property="contentInfoViewContainer" destination="EyD-B7-zGY" id="4Ai-hH-Hhk"/>
@@ -32,13 +31,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jiw-2I-70B">
-                    <rect key="frame" x="550" y="550" width="50" height="50"/>
+                    <rect key="frame" x="474" y="550" width="126" height="50"/>
                     <accessibility key="accessibilityConfiguration" identifier="openOfferButton" label="Open Offer Button"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="FKW-vK-OMb"/>
-                        <constraint firstAttribute="width" constant="50" id="Qrm-MK-wE4"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="126" id="eOt-6s-EmY"/>
                     </constraints>
-                    <state key="normal" image="PNLiteExternalLink.png"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="Learn More" image="PNLiteExternalLink1.png"/>
                     <connections>
                         <action selector="btnOpenOfferPush:" destination="-1" eventType="touchUpInside" id="J3G-D9-TKI"/>
                     </connections>
@@ -54,18 +54,6 @@
                     <state key="normal" image="PNLiteMute.png"/>
                     <connections>
                         <action selector="btnMutePush:" destination="-1" eventType="touchUpInside" id="WhW-Cj-rC0"/>
-                    </connections>
-                </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ou-3V-8Hg">
-                    <rect key="frame" x="551" y="549" width="49" height="51"/>
-                    <accessibility key="accessibilityConfiguration" identifier="fullscreenButton" label="Fullscreen Button"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="51" id="U3o-Ts-eW8"/>
-                        <constraint firstAttribute="width" constant="49" id="gOM-cj-Oq6"/>
-                    </constraints>
-                    <state key="normal" image="PNLiteFullScreen.png"/>
-                    <connections>
-                        <action selector="btnFullscreenPush:" destination="-1" eventType="touchUpInside" id="jFl-P1-Ati"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsk-q6-jz9" userLabel="Btn Close">
@@ -115,7 +103,6 @@
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="Jiw-2I-70B" secondAttribute="trailing" id="0mH-9B-A2N"/>
-                <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="6ou-3V-8Hg" secondAttribute="bottom" id="3rq-r0-Iag"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="VMb-Wf-Jhi" secondAttribute="top" id="7bQ-vz-blX"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="a1F-up-quM" secondAttribute="bottom" id="7ik-2y-HgY"/>
                 <constraint firstItem="EyD-B7-zGY" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="B4a-Nm-5pA"/>
@@ -124,7 +111,6 @@
                 <constraint firstItem="a1F-up-quM" firstAttribute="trailing" secondItem="pjM-1K-mT8" secondAttribute="trailing" id="KHV-1q-9pF"/>
                 <constraint firstItem="a1F-up-quM" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="PCi-Rw-6h1"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="xsk-q6-jz9" secondAttribute="trailing" id="VqZ-0i-V6i"/>
-                <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="6ou-3V-8Hg" secondAttribute="trailing" id="aaM-eI-VjL"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerX" secondItem="CWD-dp-WWe" secondAttribute="centerX" id="bUX-hK-Noz"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerY" secondItem="CWD-dp-WWe" secondAttribute="centerY" id="nBg-k3-iEi"/>
                 <constraint firstItem="VMb-Wf-Jhi" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="nCr-Xc-euC"/>
@@ -146,8 +132,7 @@
     </objects>
     <resources>
         <image name="PNLiteClose.png" width="32" height="32"/>
-        <image name="PNLiteExternalLink.png" width="200" height="200"/>
-        <image name="PNLiteFullScreen.png" width="200" height="200"/>
+        <image name="PNLiteExternalLink1.png" width="32" height="32"/>
         <image name="PNLiteMute.png" width="200" height="200"/>
     </resources>
 </document>

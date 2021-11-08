@@ -21,19 +21,28 @@
 //
 
 #import "HyBidReportingManager.h"
+#import "HyBidSettings.h"
 
 @implementation HyBidReportingManager
 
 - (void)reportEventFor:(HyBidReportingEvent *)event {
     [self.events addObject:event];
-    [self.delegate onEventWith:event];
+    if ([HyBidSettings sharedInstance].reporting) {
+        [self.delegate onEventWith:event];
+    }
 }
 
 - (void)reportEventsFor:(NSArray<HyBidReportingEvent *> *)events {
     [self.events addObjectsFromArray:events];
-    for (HyBidReportingEvent *event in events) {
-        [self.delegate onEventWith:event];
+    if ([HyBidSettings sharedInstance].reporting) {
+        for (HyBidReportingEvent *event in events) {
+            [self.delegate onEventWith:event];
+        }
     }
+}
+
+- (void)clearEvents {
+    [self.events removeAllObjects];
 }
 
 + (HyBidReportingManager *)sharedInstance {

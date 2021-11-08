@@ -27,7 +27,9 @@
 @property (nonatomic) NSDictionary<NSString*, NSString*>* _Nonnull properties;
 @property (nonatomic) NSString* _Nullable eventType;
 
-- (nonnull instancetype)initWith:(NSString * _Nonnull)eventType adFormat:(NSString * _Nullable)adFormat properties:(NSDictionary<NSString *, NSString *> * _Nullable)properties;
--(NSString*_Nonnull) toJSON;
+- (nonnull instancetype)initWith:(NSString * _Nonnull)eventType
+                        adFormat:(NSString * _Nullable)adFormat
+                      properties:(NSDictionary<NSString *, NSString *> * _Nullable)properties;
+-(NSString*_Nonnull)toJSON;
 
 @end

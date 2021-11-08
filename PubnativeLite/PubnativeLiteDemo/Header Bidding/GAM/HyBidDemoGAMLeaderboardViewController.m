@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *leaderboardContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) GAMBannerView *gamLeaderboardView;
 @property (nonatomic, strong) HyBidAdRequest *leaderboardAdRequest;
@@ -62,9 +62,9 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.leaderboardContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
     self.leaderboardAdRequest = [[HyBidAdRequest alloc] init];
     self.leaderboardAdRequest.adSize = HyBidAdSize.SIZE_728x90;
@@ -113,7 +113,7 @@
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", ad.creativeID];
     
     if (request == self.leaderboardAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         GAMRequest *request = [GAMRequest request];
         request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
         [self.gamLeaderboardView loadRequest:request];
@@ -124,7 +124,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.leaderboardAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.leaderboardLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }

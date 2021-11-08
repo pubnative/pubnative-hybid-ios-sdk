@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,34 +20,35 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteVASTParser.h"
+#import "HyBidVASTParser.h"
 #import "PNLiteVASTXMLUtil.h"
-#import "PNLiteVASTModel.h"
-#import "PNLiteVASTSchema.h"
+#import "HyBidVASTModel.h"
+#import "HyBidVASTSchema.h"
 
-NSInteger const PNLiteVASTModel_MaxRecursiveDepth = 5;
-BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
+NSInteger const HyBidVASTModel_MaxRecursiveDepth = 5;
+BOOL const HyBidVASTModel_ValidateWithSchema = NO;
 
-@interface PNLiteVASTModel (private)
+@interface HyBidVASTModel ()
 
 - (void)addVASTDocument:(NSData *)vastDocument;
 
 @end
 
-@interface PNLiteVASTParser ()
+@interface HyBidVASTParser ()
 
-@property (nonatomic, strong) PNLiteVASTModel *vastModel;
+@property (nonatomic, strong) HyBidVASTModel *vastModel;
 
-- (PNLiteVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth;
+- (HyBidVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth;
+
 
 @end
 
-@implementation PNLiteVASTParser
+@implementation HyBidVASTParser
 
 - (id)init {
     self = [super init];
     if (self) {
-        self.vastModel = [[PNLiteVASTModel alloc] init];
+        self.vastModel = [[HyBidVASTModel alloc] init];
     }
     return self;
 }
@@ -58,19 +59,19 @@ BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
 
 #pragma mark - "public" methods
 
-- (void)parseWithUrl:(NSURL *)url completion:(vastParserCompletionBlock)block {
+- (void)parseWithUrl:(NSURL *)url completion:(HyBidVastParserCompletionBlock)block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *vastData = [NSData dataWithContentsOfURL:url];
-        PNLiteVASTParserError vastError = [self parseRecursivelyWithData:vastData depth:0];
+        HyBidVASTParserError vastError = [self parseRecursivelyWithData:vastData depth:0];
         dispatch_async(dispatch_get_main_queue(), ^{
             block(self.vastModel, vastError);
         });
     });
 }
 
-- (void)parseWithData:(NSData *)vastData completion:(vastParserCompletionBlock)block {
+- (void)parseWithData:(NSData *)vastData completion:(HyBidVastParserCompletionBlock)block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        PNLiteVASTParserError vastError = [self parseRecursivelyWithData:vastData depth:0];
+        HyBidVASTParserError vastError = [self parseRecursivelyWithData:vastData depth:0];
         dispatch_async(dispatch_get_main_queue(), ^{
             block(self.vastModel, vastError);
         });
@@ -79,10 +80,10 @@ BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
 
 #pragma mark - "private" method
 
-- (PNLiteVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth {
-    if (depth >= PNLiteVASTModel_MaxRecursiveDepth) {
+- (HyBidVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth {
+    if (depth >= HyBidVASTModel_MaxRecursiveDepth) {
         self.vastModel = nil;
-        return PNLiteVASTParserError_TooManyWrappers;
+        return HyBidVASTParserError_TooManyWrappers;
     }
     
     // sanity check
@@ -93,19 +94,19 @@ BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
     isValid = validateXMLDocSyntax(vastData);
     if (!isValid) {
         self.vastModel = nil;
-        return PNLiteVASTParserError_XMLParse;
+        return HyBidVASTParserError_XMLParse;
     }
 
-    if (PNLiteVASTModel_ValidateWithSchema) {
+    if (HyBidVASTModel_ValidateWithSchema) {
         
         // Using header data
-        NSData *PNLiteVASTSchemaData = [NSData dataWithBytesNoCopy:pubnative_lite_vast_2_0_1_xsd
-                                                        length:pubnative_lite_vast_2_0_1_xsd_len
+        NSData *HyBidVASTSchemaData = [NSData dataWithBytesNoCopy:hybid_vast_2_0_1_xsd
+                                                        length:hybid_vast_2_0_1_xsd_len
                                                 freeWhenDone:NO];
-        isValid = validateXMLDocAgainstSchema(vastData, PNLiteVASTSchemaData);
+        isValid = validateXMLDocAgainstSchema(vastData, HyBidVASTSchemaData);
         if (!isValid) {
             self.vastModel = nil;
-            return PNLiteVASTParserError_SchemaValidation;
+            return HyBidVASTParserError_SchemaValidation;
         }
     }
 
@@ -133,7 +134,7 @@ BOOL const PNLiteVASTModel_ValidateWithSchema = NO;
         return [self parseRecursivelyWithData:vastData depth:(depth + 1)];
     }
     
-    return PNLiteVASTParserError_None;
+    return HyBidVASTParserError_None;
 }
 
 - (NSString *)content:(NSDictionary *)node {

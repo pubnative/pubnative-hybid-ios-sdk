@@ -51,6 +51,7 @@ typedef enum {
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, assign) BOOL autoShowOnLoad;
 @property (nonatomic) HyBidBannerPosition bannerPosition;
+@property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
@@ -62,6 +63,7 @@ typedef enum {
 - (void)renderAdWithContent:(NSString *)adContent withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)startTracking;
 - (void)stopTracking;
+- (void)prepare;
 - (void)show;
 - (HyBidAdPresenter *)createAdPresenter;
 

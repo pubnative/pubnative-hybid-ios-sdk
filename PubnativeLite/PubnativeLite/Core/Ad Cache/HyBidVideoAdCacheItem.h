@@ -21,10 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteVASTModel.h"
+#import "HyBidVASTModel.h"
 
 @interface HyBidVideoAdCacheItem : NSObject
 
-@property (nonatomic, strong) PNLiteVASTModel *vastModel;
+@property (nonatomic, strong) HyBidVASTModel *vastModel;
 
 @end

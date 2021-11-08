@@ -28,11 +28,17 @@
 @interface PNLiteDemoMoPubInterstitialVideoViewController () <HyBidAdRequestDelegate, MPInterstitialAdControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (nonatomic, strong) MPInterstitialAdController *moPubInterstitial;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
+
+@property (weak, nonatomic) IBOutlet UIButton *prepareButton;
+@property (weak, nonatomic) IBOutlet UISwitch *adCachingSwitch;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *showAdTopConstraint;
+
+@property (nonatomic, strong) HyBidAd *ad;
 
 @end
 
@@ -41,12 +47,17 @@
 - (void)dealloc {
     self.moPubInterstitial = nil;
     self.interstitialAdRequest = nil;
+    self.ad = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"MoPub Header Bidding Interstitial Video";
     [self.interstitialLoaderIndicator stopAnimating];
+    
+    self.showAdTopConstraint.constant = 8.0;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
@@ -55,11 +66,12 @@
 
 - (void)requestAd {
     [self setCreativeIDLabelWithString:@"_"];
-    [self clearLastInspectedRequest];
-    self.inspectRequestButton.hidden = YES;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
+    [self.interstitialAdRequest setIsAutoCacheOnLoad:self.adCachingSwitch.isOn];
     [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
@@ -69,17 +81,33 @@
     }
 }
 
+- (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {
+    self.prepareButton.hidden = sender.isOn;
+    self.showAdTopConstraint.constant = sender.isOn ? 8.0 : 46.0;
+    [self.showAdButton setNeedsDisplay];
+}
+
+- (IBAction)prepareButtonTapped:(UIButton *)sender {
+    if (self.ad != nil && self.interstitialAdRequest != nil) {
+        [self.interstitialAdRequest cacheAd:self.ad];
+    }
+}
+
 #pragma mark - MPInterstitialAdControllerDelegate
 
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd");
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
+    self.prepareButton.enabled = !self.adCachingSwitch.isOn;
+    self.showAdButton.enabled = YES;
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error {
     NSLog(@"interstitialDidFailToLoadAd");
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Interstitial did fail to load."];
 }
@@ -95,6 +123,8 @@
 - (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillDismiss");
     self.showAdButton.hidden = YES;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
 }
 
 - (void)interstitialDidDismiss:(MPInterstitialAdController *)interstitial {
@@ -123,9 +153,10 @@
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
     NSLog(@"Request loaded with ad: %@",ad);
     [self setCreativeIDLabelWithString:ad.creativeID];
+    self.ad = ad;
     
     if (request == self.interstitialAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         self.moPubInterstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitIDKey]];
         self.moPubInterstitial.delegate = self;
         [self.moPubInterstitial setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
@@ -135,8 +166,9 @@
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
+    self.ad = nil;
     if (request == self.interstitialAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.interstitialLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
         [self.moPubInterstitial loadAd];

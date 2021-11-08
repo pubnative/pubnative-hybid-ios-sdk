@@ -32,6 +32,8 @@
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidLogger.h"
 #import "HyBidDisplayManager.h"
+#import "HyBidAPI.h"
+#import "HyBidProtocol.h"
 
 @implementation PNLiteAdFactory
 
@@ -126,6 +128,8 @@
     }
     [self setDefaultMetaFields:adRequestModel];
     [self setDisplayManager:adRequestModel withIntegrationType:integrationType];
+    [self setSupportedAPIs:adRequestModel];
+    [self setSupportedProtocols:adRequestModel];
     return adRequestModel;
 }
 
@@ -179,6 +183,52 @@
         [newMetaFields addObject:PNLiteMeta.creativeId];
     }
     adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
+}
+
+- (void)setSupportedProtocols:(PNLiteAdRequestModel *)adRequestModel {
+    NSArray *supportedProtocols = [NSArray arrayWithObjects:[HyBidProtocol protocolTypeToString:VAST_1_0],
+                                   [HyBidProtocol protocolTypeToString:VAST_2_0],
+                                   [HyBidProtocol protocolTypeToString:VAST_3_0],
+                                   [HyBidProtocol protocolTypeToString:VAST_1_0_WRAPPER],
+                                   [HyBidProtocol protocolTypeToString:VAST_2_0_WRAPPER],
+                                   [HyBidProtocol protocolTypeToString:VAST_3_0_WRAPPER],
+                                   [HyBidProtocol protocolTypeToString:VAST_4_0],
+                                   [HyBidProtocol protocolTypeToString:VAST_4_0_WRAPPER],
+                                   [HyBidProtocol protocolTypeToString:VAST_4_1],
+                                   [HyBidProtocol protocolTypeToString:VAST_4_1_WRAPPER],
+                                   [HyBidProtocol protocolTypeToString:VAST_4_2],
+                                   [HyBidProtocol protocolTypeToString:VAST_4_2_WRAPPER],
+                                   nil];
+    NSMutableArray *configProtocols = [NSMutableArray array];
+    if (HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledProtocols && [HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledProtocols count] > 0) {
+        for (NSString *protocol in HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledProtocols) {
+            if ([supportedProtocols containsObject:protocol]) {
+                [configProtocols addObject:protocol];
+            }
+        }
+        adRequestModel.requestParameters[HyBidRequestParameter.protocol] = [configProtocols componentsJoinedByString:@","];
+    } else {
+        adRequestModel.requestParameters[HyBidRequestParameter.protocol] = [supportedProtocols componentsJoinedByString:@","];
+    }
+}
+
+- (void)setSupportedAPIs:(PNLiteAdRequestModel *)adRequestModel {
+    NSArray *supportedAPIs = [NSArray arrayWithObjects:[HyBidAPI apiTypeToString:MRAID_1],
+                              [HyBidAPI apiTypeToString:MRAID_2],
+                              [HyBidAPI apiTypeToString:MRAID_3],
+                              [HyBidAPI apiTypeToString:OMID_1],
+                              nil];
+    NSMutableArray *configAPIs = [NSMutableArray array];
+    if (HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledAPIs && [HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledAPIs count] > 0) {
+        for (NSString *api in HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledAPIs) {
+            if ([supportedAPIs containsObject:api]) {
+                [configAPIs addObject:api];
+            }
+        }
+        adRequestModel.requestParameters[HyBidRequestParameter.api] = [configAPIs componentsJoinedByString:@","];
+    } else {
+        adRequestModel.requestParameters[HyBidRequestParameter.api] = [supportedAPIs componentsJoinedByString:@","];
+    }
 }
 
 @end
