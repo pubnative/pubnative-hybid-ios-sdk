@@ -41,6 +41,7 @@
 #import "HyBidRemoteConfigFeature.h"
 #import "HyBidRewardedAdRequest.h"
 #import "HyBidNativeAdRequest.h"
+#import "HyBidInterstitialAdRequest.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
