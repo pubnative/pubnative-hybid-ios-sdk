@@ -47,6 +47,7 @@
     self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADInterstitialAdUnitIDKey];
     self.rewardedAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADRewardedAdUnitIDKey];
 }
+
 - (IBAction)saveGADSettingsTouchUpInside:(UIButton *)sender
 {
     [[NSUserDefaults standardUserDefaults] setObject:self.appIDTextField.text forKey:kHyBidGADAppIDKey];

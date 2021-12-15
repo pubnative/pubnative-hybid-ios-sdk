@@ -29,7 +29,7 @@
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidLogger.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
-#import "OMIDAdSession.h"
+#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
 #import "HyBidSKAdNetworkViewController.h"
 #import "HyBidSettings.h"

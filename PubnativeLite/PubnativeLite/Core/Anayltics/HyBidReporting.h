@@ -50,7 +50,7 @@
 
 @interface HyBidReportingEventType : NSObject
 
-@property (class, nonatomic, readonly) NSString *AD_REQUEST;
+@property (class, nonatomic, readonly) NSString *REQUEST;
 @property (class, nonatomic, readonly) NSString *IMPRESSION;
 @property (class, nonatomic, readonly) NSString *OMID_IMPRESSION;
 @property (class, nonatomic, readonly) NSString *CLICK;

@@ -50,7 +50,7 @@
     self.navigationItem.title = @"GAM Banner";
     
     [self.bannerLoaderIndicator stopAnimating];
-    self.gamBannerView = [[GAMBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    self.gamBannerView = [[GAMBannerView alloc] initWithAdSize:GADAdSizeBanner];
     self.gamBannerView.delegate = self;
     self.gamBannerView.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGAMBannerAdUnitIDKey];
     self.gamBannerView.rootViewController = self;

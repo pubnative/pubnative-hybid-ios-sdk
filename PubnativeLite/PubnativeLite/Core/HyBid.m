@@ -67,7 +67,7 @@ BOOL isInitialized = NO;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
         [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {}];
-        [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
+        [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];       
     }
     if (completion != nil) {
         completion(isInitialized);
@@ -132,10 +132,6 @@ BOOL isInitialized = NO;
     
     NSLog(@"requestParametersString %@", url.query);
     return url.query;
-}
-
-+ (void)setReporting:(BOOL)enabled {
-    [HyBidSettings sharedInstance].reporting = enabled;
 }
 
 @end

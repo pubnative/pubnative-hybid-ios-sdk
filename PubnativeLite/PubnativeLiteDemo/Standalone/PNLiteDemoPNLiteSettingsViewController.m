@@ -36,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *maleButton;
 @property (weak, nonatomic) IBOutlet UIButton *femaleButton;
 @property (weak, nonatomic) IBOutlet UISwitch *viewabilitySwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *reportingSwitch;
 @property (nonatomic, assign) BOOL testModeSelected;
 @property (nonatomic, assign) BOOL coppaModeSelected;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
@@ -60,7 +59,6 @@
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
     self.apiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
     self.openRTBApiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoOpenRTBAPIURLKey];
-    self.reportingSwitch.on = [HyBidSettings sharedInstance].reporting;
     [self setInitialStateForModeButtons];
     [self setInitialStateForGenderButtons];
     if (self.targetingModel.age.integerValue > 0) {
@@ -208,10 +206,6 @@
 
 - (IBAction)viewabilitySwitchValueChanged:(UISwitch *)sender {
     [HyBidViewabilityManager sharedInstance].viewabilityMeasurementEnabled = sender.on;
-}
-
-- (IBAction)reportingSwitchValueChanged:(UISwitch *)sender {
-    [HyBid setReporting:sender.on];
 }
 
 #pragma mark UITextFieldDelegate

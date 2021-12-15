@@ -55,6 +55,7 @@
 #define kHyBidDemoAPIURLKey @"apiURL"
 #define kHyBidDemoOpenRTBAPIURLKey @"openRtbApiURL"
 #define kHyBidDemoAppID @"1530210244"
+#define kHyBidISAppIDKey @"ironSourceAppID"
 
 @interface PNLiteDemoSettings : NSObject
 

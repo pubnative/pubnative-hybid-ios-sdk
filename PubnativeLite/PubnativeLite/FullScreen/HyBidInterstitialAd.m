@@ -32,6 +32,8 @@
 #import "HyBid.h"
 #import "HyBidError.h"
 #import "PNLiteAssetGroupType.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidRemoteConfigManager.h"
 
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
@@ -98,14 +100,19 @@
 }
 
 - (void)load {
-    [self cleanUp];
-    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
-    if (!self.zoneID || self.zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
+    NSString *interstitialString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_INTERSTITIAL];
+    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:interstitialString]) {
+        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
     } else {
-        self.isReady = NO;
-        [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-        [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        [self cleanUp];
+        self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
+        if (!self.zoneID || self.zoneID.length == 0) {
+            [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
+        } else {
+            self.isReady = NO;
+            [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+            [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        }
     }
 }
 
@@ -132,8 +139,7 @@
     self->_closeOnFinish = closeOnFinish;
 }
 
-- (void)prepare
-{
+- (void)prepare {
     if (self.interstitialAdRequest != nil && self.ad != nil) {
         [self.interstitialAdRequest cacheAd:self.ad];
     }
@@ -147,8 +153,7 @@
     }
 }
 
-- (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad
-{
+- (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad {
     if (self.interstitialAdRequest != nil) {
         [self.interstitialAdRequest setIsAutoCacheOnLoad:isAutoCacheOnLoad];
     }
@@ -212,7 +217,11 @@
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
     [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    
+    if (self.zoneID != nil && [self.zoneID length] > 0) {
+        [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    
     [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
     switch (self.ad.assetGroupID.integerValue) {
         case VAST_INTERSTITIAL:

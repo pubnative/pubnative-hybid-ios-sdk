@@ -50,7 +50,7 @@
     self.navigationItem.title = @"GAM Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
-    self.gamLeaderboardView = [[GAMBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
+    self.gamLeaderboardView = [[GAMBannerView alloc] initWithAdSize:GADAdSizeLeaderboard];
     self.gamLeaderboardView.delegate = self;
     self.gamLeaderboardView.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGAMLeaderboardAdUnitIDKey];
     self.gamLeaderboardView.rootViewController = self;

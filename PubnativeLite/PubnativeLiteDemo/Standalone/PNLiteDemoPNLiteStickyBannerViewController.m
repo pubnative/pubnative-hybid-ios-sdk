@@ -53,8 +53,6 @@
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
     [self requestAd];
-    NSDictionary *properties=[[NSDictionary alloc] initWithObjectsAndKeys:self.bannerAdView.adSize.description , HyBidReportingCommon.AD_SIZE, nil];
-    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.BANNER properties:properties];
 }
 
 - (IBAction)segmentedControlValueChanged:(id)sender {

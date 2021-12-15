@@ -47,7 +47,7 @@
     self.navigationItem.title = @"GAD MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.gadMRect = [[GADBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+    self.gadMRect = [[GADBannerView alloc] initWithAdSize:GADAdSizeMediumRectangle];
     self.gadMRect.delegate = self;
     self.gadMRect.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADMRectAdUnitIDKey];
     self.gadMRect.rootViewController = self;

@@ -38,6 +38,9 @@
 #import "HyBidMarkupUtils.h"
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidError.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidRewardedAdRequest.h"
+#import "HyBidNativeAdRequest.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -60,6 +63,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 @property (nonatomic, assign) NSTimeInterval initialAdResponseTimestamp;
 @property (nonatomic, strong) NSMutableDictionary *cacheReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *adResponseReportingProperties;
+@property (nonatomic, strong) NSMutableDictionary *requestReportingProperties;
+@property (nonatomic, assign) BOOL adCached;
 
 @end
 
@@ -75,6 +80,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     self.adRequestModel = nil;
     self.cacheReportingProperties = nil;
     self.adResponseReportingProperties = nil;
+    self.requestReportingProperties = nil;
 }
 
 - (instancetype)init {
@@ -89,6 +95,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         self.isAutoCacheOnLoad = YES;
         self.cacheReportingProperties = [NSMutableDictionary new];
         self.adResponseReportingProperties = [NSMutableDictionary new];
+        self.requestReportingProperties = [NSMutableDictionary new];
     }
     return self;
 }
@@ -117,26 +124,47 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Given delegate is nil and required, droping this call."];
     } else if(!zoneID || zoneID.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Zone ID nil or empty, droping this call."];
+    } else {
+        //        [[HyBidRemoteConfigManager sharedInstance] refreshRemoteConfig];
+        self.delegate = delegate;
+        if (![self isFormatEnabled]) {
+            [self invokeDidFail:[NSError hyBidDisabledFormatError]];
+        } else {
+            self.startTime = [NSDate date];
+            self.zoneID = zoneID;
+            self.isRunning = YES;
+            self.adCached = NO;
+            [self invokeDidStart];
+            
+            if (!self.isSetIntegrationTypeCalled) {
+                [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
+            }
+            
+            PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
+            request.isUsingOpenRTB = self.isUsingOpenRTB;
+            request.adRequestModel = self.adRequestModel;
+            request.openRTBAdType = self.openRTBAdType;
+            NSString *method = self.isUsingOpenRTB ? @"POST" : @"GET";
+            self.initialAdResponseTimestamp = [[NSDate date] timeIntervalSince1970];
+            [request startWithUrlString:self.requestURL.absoluteString withMethod:method delegate:self];
+            [self addCommonPropertiesToReportingDictionary:self.requestReportingProperties];
+            [self reportEvent:HyBidReportingEventType.REQUEST withProperties:self.requestReportingProperties];
+        }
+    }
+}
+
+- (BOOL)isFormatEnabled {
+    if ([self isMemberOfClass:[HyBidAdRequest class]]) {
+        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_BANNER]];
+    } else if ([self isMemberOfClass:[HyBidInterstitialAdRequest class]]) {
+        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_INTERSTITIAL]];
+    } else if ([self isMemberOfClass:[HyBidRewardedAdRequest class]]) {
+        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_REWARDED]];
+    } else if ([self isMemberOfClass:[HyBidNativeAdRequest class]]) {
+        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_NATIVE]];
     }
     else {
-        //        [[HyBidRemoteConfigManager sharedInstance] refreshRemoteConfig];
-        self.startTime = [NSDate date];
-        self.delegate = delegate;
-        self.zoneID = zoneID;
-        self.isRunning = YES;
-        [self invokeDidStart];
-        
-        if (!self.isSetIntegrationTypeCalled) {
-            [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
-        }
-        
-        PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-        request.isUsingOpenRTB = self.isUsingOpenRTB;
-        request.adRequestModel = self.adRequestModel;
-        request.openRTBAdType = self.openRTBAdType;
-        NSString *method = self.isUsingOpenRTB ? @"POST" : @"GET";
-        self.initialAdResponseTimestamp = [[NSDate date] timeIntervalSince1970];
-        [request startWithUrlString:self.requestURL.absoluteString withMethod:method delegate:self];
+        return YES;
     }
 }
 
@@ -358,37 +386,48 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
-- (void)cacheAd:(HyBidAd *)ad
-{
-    [self.cacheReportingProperties setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-    
-    if (ad.vast != nil) {
-        [self.cacheReportingProperties setObject:ad.vast forKey:HyBidReportingCommon.CREATIVE];
-    }
-    self.initialCacheTimestamp = [[NSDate date] timeIntervalSince1970];
-    HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-    [videoAdProcessor processVASTString:ad.vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
-        if (!vastModel) {
-            [self invokeDidFail:error];
-        } else {
-            [self.cacheReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialCacheTimestamp]] forKey:HyBidReportingCommon.CACHE_TIME];
-            HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
-            videoAdCacheItem.vastModel = vastModel;
-            [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
-            [self invokeDidLoad:ad];
-            [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
-            [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
+- (void)cacheAd:(HyBidAd *)ad {
+    if (self.adCached) {
+        return;
+    } else {
+        [self.cacheReportingProperties setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+        
+        if (ad.vast != nil) {
+            [self.cacheReportingProperties setObject:ad.vast forKey:HyBidReportingCommon.CREATIVE];
         }
-    }];
+        self.initialCacheTimestamp = [[NSDate date] timeIntervalSince1970];
+        HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
+        [videoAdProcessor processVASTString:ad.vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
+            if (!vastModel) {
+                [self invokeDidFail:error];
+            } else {
+                [self.cacheReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialCacheTimestamp]] forKey:HyBidReportingCommon.CACHE_TIME];
+                HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
+                videoAdCacheItem.vastModel = vastModel;
+                [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
+                [self invokeDidLoad:ad];
+                [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
+                [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
+                self.adCached = YES;
+            }
+        }];
+    }
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
     if ([HyBidSettings sharedInstance].appToken) {
         [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
     }
-    [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    
+    if (self.zoneID != nil && [self.zoneID length] > 0) {
+        [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    
     [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
-    [reportingDictionary setObject:self.requestURL.absoluteString forKey:HyBidReportingCommon.AD_REQUEST];
+    
+    if (self.requestURL != nil && [self.requestURL.absoluteString length] > 0) {
+        [reportingDictionary setObject:self.requestURL.absoluteString forKey:HyBidReportingCommon.AD_REQUEST];
+    }
 }
 
 - (void)reportEvent:(NSString *)eventType withProperties:(NSMutableDictionary *)properties {
@@ -402,6 +441,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             adFormat = HyBidReportingAdFormat.NATIVE;
         } else {
             adFormat = HyBidReportingAdFormat.BANNER;
+            [properties setObject:[self adSize].description forKey:HyBidReportingCommon.AD_SIZE];
         }
     }
     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType

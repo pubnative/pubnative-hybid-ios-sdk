@@ -22,28 +22,17 @@
 
 #import "HyBidReportingManager.h"
 #import "HyBidSettings.h"
+#import "HyBidReportingRequest.h"
+#import "HyBidReportingEvent.h"
+#import "HyBidRemoteConfigManager.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidLogger.h"
+
+@interface HyBidReportingManager() <HyBidReportingRequestDelegate>
+
+@end
 
 @implementation HyBidReportingManager
-
-- (void)reportEventFor:(HyBidReportingEvent *)event {
-    [self.events addObject:event];
-    if ([HyBidSettings sharedInstance].reporting) {
-        [self.delegate onEventWith:event];
-    }
-}
-
-- (void)reportEventsFor:(NSArray<HyBidReportingEvent *> *)events {
-    [self.events addObjectsFromArray:events];
-    if ([HyBidSettings sharedInstance].reporting) {
-        for (HyBidReportingEvent *event in events) {
-            [self.delegate onEventWith:event];
-        }
-    }
-}
-
-- (void)clearEvents {
-    [self.events removeAllObjects];
-}
 
 + (HyBidReportingManager *)sharedInstance {
     static HyBidReportingManager *_reportingManager;
@@ -55,5 +44,43 @@
     return _reportingManager;
 }
 
+- (void)reportEventFor:(HyBidReportingEvent *)event {
+    [self.events addObject:event];
+    [self performReportingRequestWithEvent:event];
+}
 
+- (void)reportEventsFor:(NSArray<HyBidReportingEvent *> *)events {
+    [self.events addObjectsFromArray:events];
+    for (HyBidReportingEvent *event in events) {
+        [self performReportingRequestWithEvent:event];
+    }
+}
+
+- (void)performReportingRequestWithEvent:(HyBidReportingEvent *)event {
+    if (event) {
+        HyBidReportingRequest *request = [[HyBidReportingRequest alloc] init];
+        if (([event.eventType isEqualToString:HyBidReportingEventType.ERROR] || [event.eventType isEqualToString:HyBidReportingEventType.RENDER_ERROR]) &&
+            [HyBidRemoteConfigManager.sharedInstance.featureResolver isReportingModeEnabled:[HyBidRemoteConfigFeature hyBidRemoteReportingToString:HyBidRemoteReporting_AD_ERRORS]]) {
+            [request doReportingRequestWithDelegate:self withReportingEvent:event];
+        } else {
+            if ([HyBidRemoteConfigManager.sharedInstance.featureResolver isReportingModeEnabled:[HyBidRemoteConfigFeature hyBidRemoteReportingToString:HyBidRemoteReporting_AD_EVENTS]]) {
+                [request doReportingRequestWithDelegate:self withReportingEvent:event];
+            }
+        }
+    }
+}
+
+- (void)clearEvents {
+    [self.events removeAllObjects];
+}
+
+#pragma mark HyBidReportingRequestDelegate
+
+- (void)reportingRequestSuccessForEvent:(HyBidReportingEvent *)event {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ event is successfully reported", event.eventType]];
+}
+
+- (void)reportingRequestFail:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+}
 @end

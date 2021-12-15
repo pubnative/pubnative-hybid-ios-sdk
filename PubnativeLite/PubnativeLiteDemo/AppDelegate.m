@@ -26,6 +26,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"
+#import "IronSource/IronSource.h"
 
 @import GoogleMobileAds;
 @import Firebase;
@@ -76,10 +77,10 @@ CLLocationManager *locationManager;
     [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
                                         withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+    [IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     
-    [HyBid reportingManager].delegate = self;
     [HyBid setInterstitialActionBehaviour:HB_CREATIVE];
     [HyBid setVideoInterstitialSkipOffset:8];
     [HyBid setHTMLInterstitialSkipOffset:2];
@@ -115,11 +116,6 @@ CLLocationManager *locationManager;
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-// MARK: ReportingDelegate
-- (void)onEventWith:(HyBidReportingEvent *)event {
-    NSLog(@"event: %@", [event toJSON]);
 }
 
 @end

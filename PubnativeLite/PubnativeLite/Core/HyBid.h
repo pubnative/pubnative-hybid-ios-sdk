@@ -141,6 +141,5 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
-+ (void)setReporting:(BOOL)enabled;
 
 @end

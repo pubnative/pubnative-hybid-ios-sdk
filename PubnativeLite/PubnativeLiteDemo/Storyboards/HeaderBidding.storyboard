@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NKb-IO-q9l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NKb-IO-q9l">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1509,7 +1509,6 @@
                                 <state key="normal" title="Prepare"/>
                                 <connections>
                                     <action selector="prepareButtonTapped:" destination="btf-ZX-HnC" eventType="touchUpInside" id="OrQ-CH-KW5"/>
-                                    <action selector="prepareButtonTapped:" destination="Vai-9P-AP3" eventType="touchUpInside" id="pkk-Mu-t85"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1657,7 +1656,6 @@
                                 <state key="normal" title="Prepare"/>
                                 <connections>
                                     <action selector="prepareButtonTapped:" destination="8Zw-RJ-gbW" eventType="touchUpInside" id="24w-zz-wAi"/>
-                                    <action selector="prepareButtonTapped:" destination="Vai-9P-AP3" eventType="touchUpInside" id="uGS-xU-0Fo"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2eg-fe-GFq">
@@ -1700,8 +1698,8 @@
                     <connections>
                         <outlet property="adCachingSwitch" destination="qZo-5F-3hM" id="dzb-yG-dQX"/>
                         <outlet property="creativeIdLabel" destination="cpp-8g-bAc" id="aMk-j0-gBD"/>
-                        <outlet property="prepareButton" destination="ecy-rg-LUx" id="IMa-N1-Xpf"/>
                         <outlet property="debugButton" destination="0WU-j5-hGd" id="VM1-TG-ehd"/>
+                        <outlet property="prepareButton" destination="ecy-rg-LUx" id="IMa-N1-Xpf"/>
                         <outlet property="rewardedLoaderIndicator" destination="Ntx-NH-ORP" id="On9-jj-8F1"/>
                         <outlet property="showAdButton" destination="xHB-Px-3LS" id="yTv-iG-wqz"/>
                         <outlet property="showAdTopConstraint" destination="8zp-zz-NOf" id="QME-d3-HKF"/>
@@ -1979,6 +1977,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lHN-h0-WeQ"/>
+        <segue reference="aKg-Fy-vH1"/>
     </inferredMetricsTieBreakers>
 </document>

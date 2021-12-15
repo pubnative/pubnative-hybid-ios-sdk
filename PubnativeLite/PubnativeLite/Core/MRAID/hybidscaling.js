@@ -32,10 +32,6 @@ const creativeResize = function (parent_width, parent_height, element) {
             aspect_height = child_height * (scale_factor);
         }
 
-        if (aspect_width < parent_width) {
-            child_div.style.marginLeft = (parent_width - aspect_width) / 2 + "px";
-        }
-
         if (aspect_height < parent_height) {
             let translationPixels = (parent_height - child_height) / 2 + "px";
             child_div.style.transform += "translate(0px," + translationPixels + ")";

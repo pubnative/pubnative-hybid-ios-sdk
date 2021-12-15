@@ -21,6 +21,7 @@
 //
 
 #import "HyBid.h"
+#import "HyBidRemoteConfigAppFeatures.h"
 
 typedef NS_ENUM(NSInteger, HyBidApiType) {
     HyBidApiLegacy,
@@ -38,5 +39,6 @@ typedef NS_ENUM(NSInteger, HyBidApiType) {
 @property (nonatomic) HyBidApiType apiType;
 @property (nonatomic, strong) NSArray<NSString *> *enabledAPIs;
 @property (nonatomic, strong) NSArray<NSString *> *enabledProtocols;
+@property (nonatomic, strong) HyBidRemoteConfigAppFeatures *features;
 
 @end

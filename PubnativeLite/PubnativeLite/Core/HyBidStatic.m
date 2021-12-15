@@ -130,8 +130,4 @@ BOOL isInitialized = NO;
     return url.query;
 }
 
-+ (void)setReporting:(BOOL)enabled {
-    [HyBidSettings sharedInstance].reporting = enabled;
-}
-
 @end

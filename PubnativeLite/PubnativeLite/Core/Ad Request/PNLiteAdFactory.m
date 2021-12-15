@@ -34,6 +34,7 @@
 #import "HyBidDisplayManager.h"
 #import "HyBidAPI.h"
 #import "HyBidProtocol.h"
+#import "HyBidRemoteConfigFeature.h"
 
 @implementation PNLiteAdFactory
 
@@ -51,7 +52,6 @@
     adRequestModel.requestParameters[HyBidRequestParameter.deviceWidth] = [HyBidSettings sharedInstance].deviceWidth;
     adRequestModel.requestParameters[HyBidRequestParameter.deviceHeight] = [HyBidSettings sharedInstance].deviceHeight;
     adRequestModel.requestParameters[HyBidRequestParameter.orientation] = [HyBidSettings sharedInstance].orientation;
-    adRequestModel.requestParameters[HyBidRequestParameter.deviceSound] = [HyBidSettings sharedInstance].deviceSound;
     adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
     [self setIDFA:adRequestModel];
     adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
@@ -84,12 +84,12 @@
     }
     
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
-    if (!([privacyString length] == 0)) {
+    if (!([privacyString length] == 0) && [HyBidRemoteConfigManager.sharedInstance.featureResolver isUserConsentSupported:[HyBidRemoteConfigFeature hyBidRemoteUserConsentToString:HyBidRemoteUserConsent_CCPA]]) {
         adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
     NSString* consentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
-    if (!([consentString length] == 0)) {
+    if (!([consentString length] == 0) && [HyBidRemoteConfigManager.sharedInstance.featureResolver isUserConsentSupported:[HyBidRemoteConfigFeature hyBidRemoteUserConsentToString:HyBidRemoteUserConsent_GDPR]]) {
         adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
     }
     

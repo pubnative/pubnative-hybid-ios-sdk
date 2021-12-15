@@ -47,7 +47,9 @@ typedef enum {
     HyBidErrorCodeTrackingJS = 18,
     HyBidErrorCodeInvalidUrl = 19,
     HyBidErrorCodeInternal = 20,
-    HyBidErrorCodeUnknown = 21
+    HyBidErrorCodeUnknown = 21,
+    HyBidErrorCodeDisabledFormat = 22,
+    HyBidErrorCodeDisabledRenderingEngine = 23
 } HyBidErrorCode;
 
 @interface NSError (HyBid)
@@ -76,6 +78,8 @@ typedef enum {
 + (instancetype)hyBidInvalidUrl;
 + (instancetype)hyBidInternalError;
 + (instancetype)hyBidUnknownError;
++ (instancetype)hyBidDisabledFormatError;
++ (instancetype)hyBidDisabledRenderingEngineError;
 
 @end
 

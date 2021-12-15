@@ -33,6 +33,7 @@
 #import "HyBid.h"
 #import "HyBidError.h"
 #import "PNLiteAssetGroupType.h"
+#import "HyBidRemoteConfigFeature.h"
 
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
 
@@ -109,61 +110,67 @@
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
-    self.delegate = delegate;
-    self.zoneID = zoneID;
-    if (!self.zoneID || self.zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
+    
+    NSString *bannerString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_BANNER];
+    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:bannerString]) {
+        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
     } else {
-        HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
-        
-        if (configModel.placementInfo != nil &&
-            configModel.placementInfo.placements != nil &&
-            configModel.placementInfo.placements.count > 0) {
+        self.delegate = delegate;
+        self.zoneID = zoneID;
+        if (!self.zoneID || self.zoneID.length == 0) {
+            [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
+        } else {
+            HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
             
-            NSPredicate *p = [NSPredicate predicateWithFormat:@"zoneId=%ld", [zoneID integerValue]];
-            NSArray<HyBidRemoteConfigPlacement*>* filteredPlacements = [configModel.placementInfo.placements filteredArrayUsingPredicate:p];
-            
-            if (filteredPlacements.count > 0) {
-                HyBidRemoteConfigPlacement *placement = filteredPlacements.firstObject;
+            if (configModel.placementInfo != nil &&
+                configModel.placementInfo.placements != nil &&
+                configModel.placementInfo.placements.count > 0) {
                 
-                if (placement.type != nil &&
-                    [placement.type isEqualToString:@"auction"] &&
-                    placement.adSources.count > 0 ) {
+                NSPredicate *p = [NSPredicate predicateWithFormat:@"zoneId=%ld", [zoneID integerValue]];
+                NSArray<HyBidRemoteConfigPlacement*>* filteredPlacements = [configModel.placementInfo.placements filteredArrayUsingPredicate:p];
+                
+                if (filteredPlacements.count > 0) {
+                    HyBidRemoteConfigPlacement *placement = filteredPlacements.firstObject;
                     
-                    long timeout = 5000;
-                    if (placement.timeout != 0) {
-                        timeout = placement.timeout;
-                    }
-                    NSMutableArray<HyBidAdSourceAbstract*>* adSources = [[NSMutableArray alloc]init];
-                    for (HyBidAdSourceConfig* config in placement.adSources) {
-                        if (config.type != nil &&
-                            [config.type isEqualToString:@"vast_tag"]) {
-                            HyBidVastTagAdSource* vastAdSource = [[HyBidVastTagAdSource alloc]initWithConfig:config];
-                            [adSources addObject:vastAdSource];
+                    if (placement.type != nil &&
+                        [placement.type isEqualToString:@"auction"] &&
+                        placement.adSources.count > 0 ) {
+                        
+                        long timeout = 5000;
+                        if (placement.timeout != 0) {
+                            timeout = placement.timeout;
                         }
-                    }
-                    HyBidAuction* auction = [[HyBidAuction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
-                    [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
-                        if (error == nil && [mAdResponses count] > 0) {
-                            self.ad = mAdResponses.firstObject;
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                if (self.autoShowOnLoad) {
-                                    [self renderAd];
-                                } else {
-                                    [self invokeDidLoad];
-                                }
-                            });
-                        } else {
-                            [self invokeDidFailWithError:error];
+                        NSMutableArray<HyBidAdSourceAbstract*>* adSources = [[NSMutableArray alloc]init];
+                        for (HyBidAdSourceConfig* config in placement.adSources) {
+                            if (config.type != nil &&
+                                [config.type isEqualToString:@"vast_tag"]) {
+                                HyBidVastTagAdSource* vastAdSource = [[HyBidVastTagAdSource alloc]initWithConfig:config];
+                                [adSources addObject:vastAdSource];
+                            }
                         }
+                        HyBidAuction* auction = [[HyBidAuction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
+                        [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
+                            if (error == nil && [mAdResponses count] > 0) {
+                                self.ad = mAdResponses.firstObject;
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    if (self.autoShowOnLoad) {
+                                        [self renderAd];
+                                    } else {
+                                        [self invokeDidLoad];
+                                    }
+                                });
+                            } else {
+                                [self invokeDidFailWithError:error];
+                            }
+                            return;
+                        }];
                         return;
-                    }];
-                    return;
+                    }
                 }
             }
+            [self requestAd];
+            
         }
-        [self requestAd];
-        
     }
 }
 
@@ -173,8 +180,7 @@
     [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
 }
 
-- (void)prepare
-{
+- (void)prepare {
     if (self.adRequest != nil && self.ad != nil) {
         [self.adRequest cacheAd:self.ad];
     }
@@ -188,8 +194,7 @@
     }
 }
 
-- (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad
-{
+- (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad {
     if (self.adRequest != nil) {
         [self.adRequest setIsAutoCacheOnLoad:isAutoCacheOnLoad];
     }

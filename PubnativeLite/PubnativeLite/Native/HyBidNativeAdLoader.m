@@ -25,6 +25,8 @@
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidError.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidRemoteConfigManager.h"
 
 @interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
 
@@ -49,9 +51,15 @@
 }
 
 - (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
-    self.delegate = delegate;
-    [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
-    [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
+    NSString *nativeString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_NATIVE];
+    
+    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:nativeString]) {
+        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
+    } else {
+        self.delegate = delegate;
+        [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
+        [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
+    }
 }
 
 - (void)invokeDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {

@@ -47,7 +47,7 @@
     self.navigationItem.title = @"GAD Leaderboard";
     
     [self.leaderboardLoaderIndicator stopAnimating];
-    self.gadLeaderboard = [[GADBannerView alloc] initWithAdSize:kGADAdSizeLeaderboard];
+    self.gadLeaderboard = [[GADBannerView alloc] initWithAdSize:GADAdSizeLeaderboard];
     self.gadLeaderboard.delegate = self;
     self.gadLeaderboard.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADLeaderboardAdUnitIDKey];
     self.gadLeaderboard.rootViewController = self;

@@ -54,7 +54,6 @@
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
     [self requestAd];
-    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.FULLSCREEN properties:nil];
 }
 
 - (void)requestAd {

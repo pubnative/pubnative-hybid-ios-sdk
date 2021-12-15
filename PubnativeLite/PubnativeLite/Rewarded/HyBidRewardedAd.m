@@ -31,6 +31,8 @@
 #import "HyBid.h"
 #import "HyBidError.h"
 #import "PNLiteAssetGroupType.h"
+#import "HyBidRemoteConfigManager.h"
+#import "HyBidRemoteConfigFeature.h"
 
 @interface HyBidRewardedAd() <HyBidRewardedPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
@@ -88,19 +90,23 @@
 }
 
 - (void)load {
-    [self cleanUp];
-    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
-    if (!self.zoneID || self.zoneID.length == 0) {
-        [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
+    NSString *rewardedString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_REWARDED];
+    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:rewardedString]) {
+        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
     } else {
-        self.isReady = NO;
-        [self.rewardedAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-        [self.rewardedAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        [self cleanUp];
+        self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
+        if (!self.zoneID || self.zoneID.length == 0) {
+            [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
+        } else {
+            self.isReady = NO;
+            [self.rewardedAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
+            [self.rewardedAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        }
     }
 }
 
-- (void)prepare
-{
+- (void)prepare {
     if (self.rewardedAdRequest != nil && self.ad != nil) {
         [self.rewardedAdRequest cacheAd:self.ad];
     }
@@ -114,8 +120,7 @@
     }
 }
 
-- (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad
-{
+- (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad {
     if (self.rewardedAdRequest != nil) {
         [self.rewardedAdRequest setIsAutoCacheOnLoad:isAutoCacheOnLoad];
     }

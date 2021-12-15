@@ -91,6 +91,12 @@
     return currentTimestamp >= timeToUpdate;
 }
 
+- (HyBidRemoteFeatureResolver *)featureResolver
+{
+    HyBidRemoteFeatureResolver *resolver = [[HyBidRemoteFeatureResolver alloc] initWithRemoteConfigModel:self.remoteConfigModel];
+    return resolver;
+}
+
 #pragma mark HyBidRemoteConfigRequestDelegate
 
 - (void)remoteConfigRequestSuccess:(HyBidRemoteConfigModel *)model {

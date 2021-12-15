@@ -94,7 +94,6 @@
 
 - (void)interstitialPresenterDidClick:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.delegate customEventInterstitialWasClicked:self];
-    [self.delegate customEventInterstitialWillLeaveApplication:self];
 }
 
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {

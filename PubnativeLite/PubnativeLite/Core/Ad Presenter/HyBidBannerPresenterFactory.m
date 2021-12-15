@@ -25,6 +25,8 @@
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "HyBidLogger.h"
 #import "HyBidVASTAdPresenter.h"
+#import "HyBidRemoteConfigManager.h"
+#import "HyBidRemoteConfigFeature.h"
 
 @implementation HyBidBannerPresenterFactory
 
@@ -32,11 +34,15 @@
     switch (ad.adType) {
         case kHyBidAdTypeHTML: {
             PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
-            return mraidBannerPresenter;
+            
+            NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:mraidString] ? nil : mraidBannerPresenter;
         }
         case kHyBidAdTypeVideo: {
             HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
-            return vastAdPresenter;
+            
+            NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:vastString] ? nil : vastAdPresenter;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];

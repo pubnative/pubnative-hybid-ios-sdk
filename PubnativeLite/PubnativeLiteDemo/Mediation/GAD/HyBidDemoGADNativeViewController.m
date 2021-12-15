@@ -61,7 +61,7 @@
     
     self.adLoader = [[GADAdLoader alloc] initWithAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADNativeAdUnitIDKey]
                                        rootViewController:self
-                                                  adTypes:@[ kGADAdLoaderAdTypeNative ]
+                                                  adTypes:@[ GADAdLoaderAdTypeNative ]
                                                   options:@[ [[GADNativeAdViewAdOptions alloc] init] ]];
     self.adLoader.delegate = self;
     [self.adLoader loadRequest:[GADRequest request]];

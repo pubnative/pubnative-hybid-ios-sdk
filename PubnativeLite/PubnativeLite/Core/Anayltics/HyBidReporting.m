@@ -50,7 +50,7 @@
 
 @implementation HyBidReportingEventType
 
-+ (NSString *)AD_REQUEST { return @"ad_request"; }
++ (NSString *)REQUEST { return @"request"; }
 + (NSString *)IMPRESSION { return @"impression"; }
 + (NSString *)OMID_IMPRESSION { return @"omid_impression"; }
 + (NSString *)CLICK { return @"click"; }

@@ -31,6 +31,7 @@
 
 - (void)configureCell:(HyBidReportingEvent*) event {
     self.analyticsEventName.text = [[NSString alloc]initWithFormat:@"%@", event.eventType];
+    self.analyticsEventName.accessibilityIdentifier = [[NSString alloc]initWithFormat:@"%@", event.eventType];
 }
 
 @end

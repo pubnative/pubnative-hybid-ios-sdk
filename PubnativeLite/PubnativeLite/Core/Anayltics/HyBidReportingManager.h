@@ -23,16 +23,9 @@
 #import <Foundation/Foundation.h>
 #import "HyBidReportingEvent.h"
 
-@protocol HyBidReportingDelegate<NSObject>
-
-- (void)onEventWith:(HyBidReportingEvent * _Nonnull)event;
-
-@end
-
 @interface HyBidReportingManager : NSObject
 
 @property (nonatomic) NSMutableArray<HyBidReportingEvent *> * _Nonnull events;
-@property (nonatomic, weak) id <HyBidReportingDelegate> _Nullable delegate;
 
 - (void)reportEventFor:(HyBidReportingEvent * _Nonnull)event;
 - (void)reportEventsFor:(NSArray<HyBidReportingEvent *> * _Nonnull)events;

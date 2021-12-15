@@ -123,4 +123,12 @@ NSString * const kHyBidErrorDomain = @"net.pubnative.PubnativeLite";
     return [NSError errorWithCode:HyBidErrorCodeUnknown localizedDescription:@"An unknown error has occurred in the HyBid SDK"];
 }
 
++ (instancetype)hyBidDisabledFormatError {
+    return [NSError errorWithCode:HyBidErrorCodeDisabledFormat localizedDescription:@"The requested ad format has been disabled"];
+}
+
++ (instancetype)hyBidDisabledRenderingEngineError {
+    return [NSError errorWithCode:HyBidErrorCodeDisabledRenderingEngine localizedDescription:@"The requested rendering engine has been disabled"];
+}
+
 @end

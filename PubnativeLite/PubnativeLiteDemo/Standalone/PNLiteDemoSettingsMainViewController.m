@@ -22,6 +22,8 @@
 
 #import "PNLiteDemoSettingsMainViewController.h"
 
+#define GAD_APP_ID @"ca-app-pub-8741261465579918~3720290336"
+
 @interface PNLiteDemoSettingsMainViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *demoAppVersionLabel;
@@ -34,7 +36,12 @@
     [super viewDidLoad];
     self.demoAppVersionLabel.text = [NSString stringWithFormat:@"HyBid Demo App v: %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
     self.demoAppVersionLabel.accessibilityValue = [NSString stringWithFormat:@"HyBid Demo App v: %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+}
 
+- (IBAction)googleMediationTestSuiteTouchUpInside:(UIButton *)sender {
+//    The presentWithAppID: method marked as deprecated from Google but still works and shows relevant information comparing to the presentForAdManagerOnViewController:
+    [GoogleMobileAdsMediationTestSuite presentWithAppID:GAD_APP_ID onViewController:self delegate:nil];
+//    [GoogleMobileAdsMediationTestSuite presentForAdManagerOnViewController:self delegate:nil];
 }
 
 @end

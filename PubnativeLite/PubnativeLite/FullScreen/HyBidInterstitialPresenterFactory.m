@@ -27,6 +27,8 @@
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "HyBidAdTracker.h"
 #import "HyBidLogger.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidRemoteConfigManager.h"
 
 @implementation HyBidInterstitialPresenterFactory
 
@@ -54,12 +56,15 @@
         case MRAID_1024x768:
         case MRAID_768x1024:{
             PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad withSkipOffset:htmlSkipOffset];
-            return mraidInterstitalPresenter;
-            break;
+            
+            NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: mraidString] ? nil : mraidInterstitalPresenter;
         }
         case VAST_INTERSTITIAL: {
             PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad withSkipOffset:videoSkipOffset withCloseOnFinish:closeOnFinish];
-            return vastInterstitalPresenter;
+            
+            NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: vastString] ? nil : vastInterstitalPresenter;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format.", ad.assetGroupID]];

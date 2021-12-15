@@ -396,7 +396,6 @@
                                 <state key="normal" title="Prepare"/>
                                 <connections>
                                     <action selector="prepareButtonTapped:" destination="Q6h-xd-eET" eventType="touchUpInside" id="5Nn-HA-YfL"/>
-                                    <action selector="requestInterstitialTouchUpInside:" destination="Q6h-xd-eET" eventType="touchUpInside" id="dRh-gr-rTf"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1074,9 +1073,7 @@
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Prepare"/>
                                 <connections>
-                                    <action selector="prepareButtonTapped:" destination="Q6h-xd-eET" eventType="touchUpInside" id="Sg9-Ph-lL2"/>
                                     <action selector="prepareButtonTapped:" destination="YQ3-Ig-QgH" eventType="touchUpInside" id="em6-go-jSA"/>
-                                    <action selector="requestInterstitialTouchUpInside:" destination="Q6h-xd-eET" eventType="touchUpInside" id="1PH-Xt-rv6"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1112,8 +1109,8 @@
                     <connections>
                         <outlet property="adCachingSwitch" destination="CON-Qd-26y" id="o03-Y5-VLD"/>
                         <outlet property="creativeIdLabel" destination="PNq-ts-kC2" id="dbe-FE-zA3"/>
-                        <outlet property="prepareButton" destination="ShS-A0-O2B" id="PVk-rn-Sos"/>
                         <outlet property="debugButton" destination="g1E-b3-YMA" id="tKY-3u-pET"/>
+                        <outlet property="prepareButton" destination="ShS-A0-O2B" id="PVk-rn-Sos"/>
                         <outlet property="rewardedLoaderIndicator" destination="znC-rO-N4o" id="BTg-hn-KSd"/>
                         <outlet property="showAdButton" destination="azJ-lQ-mZi" id="hQl-Wu-p3O"/>
                         <outlet property="showAdTopConstraint" destination="p2W-8D-4o8" id="Dz1-qe-wOe"/>
@@ -1184,13 +1181,8 @@
             <point key="canvasLocation" x="-4343" y="403"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="yuJ-gp-1ek">
-            <size key="intrinsicContentSize" width="240" height="44"/>
-        </designable>
-    </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="Mz2-IO-UpD"/>
+        <segue reference="JtS-Jd-WmC"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

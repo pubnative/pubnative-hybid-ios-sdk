@@ -97,18 +97,52 @@
                                     <segue destination="xKk-V9-smz" kind="show" id="JMW-MV-NV9"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ea-L3-3u8" userLabel="IronSource Button">
+                                <rect key="frame" x="16" y="119" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="ironSouceButton" label="IronSource Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="FE0-Ai-bJl"/>
+                                    <constraint firstAttribute="height" constant="33" id="GvH-CL-jFQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="ironSource">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="GvH-CL-jFQ"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="FE0-Ai-bJl"/>
+                                        <include reference="GvH-CL-jFQ"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="4WL-ad-hM5" kind="show" id="0Pq-hU-joj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="QcE-sN-vMO"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="6Ea-L3-3u8" firstAttribute="leading" secondItem="QcE-sN-vMO" secondAttribute="leading" constant="16" id="5pg-MF-u4r"/>
                             <constraint firstItem="FB7-B2-kQt" firstAttribute="top" secondItem="QcE-sN-vMO" secondAttribute="top" constant="8" id="7aZ-8h-cKT"/>
                             <constraint firstItem="Now-D3-gFm" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="7n4-hM-hdG"/>
                             <constraint firstItem="E6y-3h-hbU" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="Fua-VP-4JG"/>
                             <constraint firstAttribute="trailing" secondItem="E6y-3h-hbU" secondAttribute="trailing" constant="16" id="Jhe-dE-TqM"/>
                             <constraint firstItem="Now-D3-gFm" firstAttribute="top" secondItem="E6y-3h-hbU" secondAttribute="bottom" constant="8" id="KEM-wj-AX9"/>
+                            <constraint firstItem="6Ea-L3-3u8" firstAttribute="top" secondItem="Now-D3-gFm" secondAttribute="bottom" constant="8" symbolic="YES" id="Kdk-v3-QeE"/>
                             <constraint firstItem="E6y-3h-hbU" firstAttribute="top" secondItem="FB7-B2-kQt" secondAttribute="bottom" constant="8" id="Led-Rn-4Sm"/>
                             <constraint firstItem="FB7-B2-kQt" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="Sur-i6-GOB"/>
                             <constraint firstAttribute="trailing" secondItem="Now-D3-gFm" secondAttribute="trailing" constant="16" id="ULy-HI-xsh"/>
+                            <constraint firstItem="QcE-sN-vMO" firstAttribute="trailing" secondItem="6Ea-L3-3u8" secondAttribute="trailing" constant="16" id="WfB-gg-ozg"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Mediation" id="m7V-x3-xz6">
@@ -364,7 +398,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nx-Hi-og6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5863" y="217"/>
+            <point key="canvasLocation" x="-6942" y="215"/>
         </scene>
         <!--GAD-->
         <scene sceneID="1fi-Gt-Xxj">
@@ -611,7 +645,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b4k-d5-Bkr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1839" y="218"/>
+            <point key="canvasLocation" x="-86" y="216"/>
         </scene>
         <!--MoPub Mediation Native View Controller-->
         <scene sceneID="SG8-CE-XYT">
@@ -718,7 +752,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Amq-bo-hnP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-8250" y="1044"/>
+            <point key="canvasLocation" x="-9329" y="1042"/>
         </scene>
         <!--MoPub Mediation Leaderboard View Controller-->
         <scene sceneID="ull-ft-eSo">
@@ -809,7 +843,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5BI-3L-AI1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7502" y="1044"/>
+            <point key="canvasLocation" x="-8582" y="1042"/>
         </scene>
         <!--GAD Leaderboard View Controller-->
         <scene sceneID="TCt-bV-U2Q">
@@ -900,7 +934,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SfF-jI-jUH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2649" y="1044"/>
+            <point key="canvasLocation" x="-897" y="1043"/>
         </scene>
         <!--MoPub Mediation Banner View Controller-->
         <scene sceneID="hvb-wq-Clb">
@@ -991,7 +1025,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L8g-I9-4Th" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6775" y="1044"/>
+            <point key="canvasLocation" x="-7854" y="1042"/>
         </scene>
         <!--GAD Banner View Controller-->
         <scene sceneID="cOf-uf-5UW">
@@ -1082,7 +1116,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rxc-Ec-E8G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1913" y="1044"/>
+            <point key="canvasLocation" x="-161" y="1043"/>
         </scene>
         <!--MoPub Mediation MRect-->
         <scene sceneID="7uh-CF-mRi">
@@ -1173,7 +1207,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CwA-eb-d96" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6046" y="1044"/>
+            <point key="canvasLocation" x="-7126" y="1042"/>
         </scene>
         <!--GAD MRect-->
         <scene sceneID="mCf-zB-Rx8">
@@ -1264,7 +1298,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h37-vL-fQN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1153" y="1044"/>
+            <point key="canvasLocation" x="599" y="1043"/>
         </scene>
         <!--MoPub Rewarded View Controller-->
         <scene sceneID="5W6-xE-VJh">
@@ -1360,7 +1394,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZ3-6c-FfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4529" y="1044"/>
+            <point key="canvasLocation" x="-5609" y="1042"/>
         </scene>
         <!--GAD Interstitial View Controller-->
         <scene sceneID="D7n-3x-Aod">
@@ -1456,7 +1490,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ftq-NB-eyr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-454" y="1044"/>
+            <point key="canvasLocation" x="1298" y="1043"/>
         </scene>
         <!--Debug-->
         <scene sceneID="DD4-QI-Yfr">
@@ -1560,7 +1594,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67J-qt-ugB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="234" y="1044"/>
+            <point key="canvasLocation" x="1986" y="1043"/>
         </scene>
         <!--GAD Native View Controller-->
         <scene sceneID="wLL-uh-ifS">
@@ -1667,7 +1701,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="it5-RG-Pp1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3342" y="1044"/>
+            <point key="canvasLocation" x="-1590" y="1043"/>
         </scene>
         <!--MoPub Interstitial View Controller-->
         <scene sceneID="99v-pK-FNz">
@@ -1763,10 +1797,183 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YJu-12-nUm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5324" y="1044"/>
+            <point key="canvasLocation" x="-6402" y="1042"/>
+        </scene>
+        <!--ironSource-->
+        <scene sceneID="rqc-fE-zJW">
+            <objects>
+                <viewController title="ironSource" id="4WL-ad-hM5" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9B4-MW-QVC"/>
+                        <viewControllerLayoutGuide type="bottom" id="ld7-m1-809"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ir6-zV-iXI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xxq-ZH-MvL" userLabel="Format">
+                                <rect key="frame" x="16" y="8" width="42.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="i5L-RX-BZA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="i5L-RX-BZA"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00A-xT-Wm1" userLabel="Interstitial Button">
+                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="9kO-hj-1Vn"/>
+                                    <constraint firstAttribute="height" constant="33" id="uWH-ok-xw1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Interstitial">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="9kO-hj-1Vn"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="9kO-hj-1Vn"/>
+                                        <exclude reference="uWH-ok-xw1"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="6tV-2h-flk" kind="show" id="y9p-Zj-9KE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hwK-ju-WBg"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Xxq-ZH-MvL" firstAttribute="top" secondItem="hwK-ju-WBg" secondAttribute="top" constant="8" id="IhB-05-hos"/>
+                            <constraint firstItem="hwK-ju-WBg" firstAttribute="trailing" secondItem="00A-xT-Wm1" secondAttribute="trailing" constant="16" id="XuD-IS-LVd"/>
+                            <constraint firstItem="00A-xT-Wm1" firstAttribute="leading" secondItem="hwK-ju-WBg" secondAttribute="leading" constant="16" id="hGB-Ig-Pye"/>
+                            <constraint firstItem="00A-xT-Wm1" firstAttribute="top" secondItem="Xxq-ZH-MvL" secondAttribute="bottom" constant="8" id="oaA-Dr-HSv"/>
+                            <constraint firstItem="Xxq-ZH-MvL" firstAttribute="leading" secondItem="Ir6-zV-iXI" secondAttribute="leading" constant="16" id="w8P-Uo-9Uw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="ironSource" id="Q1a-g4-vxl">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="ZCR-Hm-Lbl"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uOV-FD-9Ej" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3930" y="233"/>
+        </scene>
+        <!--IS Interstitial View Controller-->
+        <scene sceneID="qpk-wS-h7p">
+            <objects>
+                <viewController title="IS Interstitial" id="6tV-2h-flk" userLabel="IS Interstitial View Controller" customClass="HyBidDemoISInterstitialViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gV5-XA-yDv"/>
+                        <viewControllerLayoutGuide type="bottom" id="yNf-Z0-l3H"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Rm-Oa-lwu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsu-DM-exx">
+                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="sqf-pB-Eiw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestInterstitialTouchUpInside:" destination="6tV-2h-flk" eventType="touchUpInside" id="6h3-zo-bo9"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="9De-7H-xdB">
+                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAT-5P-Cnd" userLabel="Debug Button">
+                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="KcO-bx-oqq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Debug">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="KcO-bx-oqq"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="qhe-R0-zhi" kind="popoverPresentation" popoverAnchorView="YAT-5P-Cnd" id="BcO-jJ-I7S">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UyR-VR-YeG">
+                                <rect key="frame" x="16" y="46" width="343" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Eqb-gg-8I9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Show Ad"/>
+                                <connections>
+                                    <action selector="showInterstitialAdButtonTapped:" destination="6tV-2h-flk" eventType="touchUpInside" id="XKr-P4-fhL"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="sNh-3p-qK4"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xsu-DM-exx" firstAttribute="leading" secondItem="5Rm-Oa-lwu" secondAttribute="leadingMargin" id="4r4-fT-BMN"/>
+                            <constraint firstItem="UyR-VR-YeG" firstAttribute="top" secondItem="xsu-DM-exx" secondAttribute="bottom" constant="8" symbolic="YES" id="8dN-WY-WE6"/>
+                            <constraint firstItem="9De-7H-xdB" firstAttribute="centerX" secondItem="5Rm-Oa-lwu" secondAttribute="centerX" id="ASm-Dh-W8V"/>
+                            <constraint firstItem="YAT-5P-Cnd" firstAttribute="centerX" secondItem="5Rm-Oa-lwu" secondAttribute="centerX" id="NqU-f2-IBN"/>
+                            <constraint firstItem="sNh-3p-qK4" firstAttribute="bottom" secondItem="YAT-5P-Cnd" secondAttribute="bottom" constant="8" id="fJk-Ea-84S"/>
+                            <constraint firstItem="UyR-VR-YeG" firstAttribute="trailing" secondItem="xsu-DM-exx" secondAttribute="trailing" id="jDZ-S5-bWF"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xsu-DM-exx" secondAttribute="trailing" id="ja9-8K-bow"/>
+                            <constraint firstItem="UyR-VR-YeG" firstAttribute="leading" secondItem="xsu-DM-exx" secondAttribute="leading" id="jeE-UB-CjD"/>
+                            <constraint firstItem="YAT-5P-Cnd" firstAttribute="leading" secondItem="5Rm-Oa-lwu" secondAttribute="leading" constant="16" id="l1v-SS-bw2"/>
+                            <constraint firstItem="sNh-3p-qK4" firstAttribute="trailing" secondItem="YAT-5P-Cnd" secondAttribute="trailing" constant="16" id="n2h-yH-i5D"/>
+                            <constraint firstItem="9De-7H-xdB" firstAttribute="centerY" secondItem="5Rm-Oa-lwu" secondAttribute="centerY" id="xAF-EW-aKd"/>
+                            <constraint firstItem="xsu-DM-exx" firstAttribute="top" secondItem="sNh-3p-qK4" secondAttribute="top" constant="8" id="zHR-BM-fDF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="3Uy-bT-bE3"/>
+                    <connections>
+                        <outlet property="debugButton" destination="YAT-5P-Cnd" id="PV3-db-A6R"/>
+                        <outlet property="interstitialLoaderIndicator" destination="9De-7H-xdB" id="cN1-ZZ-5mc"/>
+                        <outlet property="showAdButton" destination="UyR-VR-YeG" id="Pyc-s9-6UN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kP5-dF-anV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3930" y="1000"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="PLx-74-seh"/>
+        <segue reference="BcO-jJ-I7S"/>
     </inferredMetricsTieBreakers>
 </document>

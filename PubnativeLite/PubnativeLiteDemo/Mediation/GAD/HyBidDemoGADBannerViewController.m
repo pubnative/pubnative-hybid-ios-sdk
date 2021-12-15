@@ -47,7 +47,7 @@
     self.navigationItem.title = @"GAD Banner";
     
     [self.bannerLoaderIndicator stopAnimating];
-    self.gadBanner = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    self.gadBanner = [[GADBannerView alloc] initWithAdSize:GADAdSizeBanner];
     self.gadBanner.delegate = self;
     self.gadBanner.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADBannerAdUnitIDKey];
     self.gadBanner.rootViewController = self;

@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidRemoteConfigModel.h"
+#import "HyBidRemoteFeatureResolver.h"
 
 #define kIsUsingOpenRTB @"isUsingOpenRTB"
 
@@ -29,9 +30,12 @@ typedef void (^RemoteConfigManagerCompletionBlock)(BOOL remoteConfigSuccess, HyB
 
 @interface HyBidRemoteConfigManager : NSObject
 
-+ (instancetype)sharedInstance;
 @property (nonatomic, strong) HyBidRemoteConfigModel *remoteConfigModel;
+
++ (instancetype)sharedInstance;
+
 - (void)initializeRemoteConfigWithCompletion:(RemoteConfigManagerCompletionBlock)completion;
 - (void)refreshRemoteConfig;
+- (HyBidRemoteFeatureResolver *)featureResolver;
 
 @end

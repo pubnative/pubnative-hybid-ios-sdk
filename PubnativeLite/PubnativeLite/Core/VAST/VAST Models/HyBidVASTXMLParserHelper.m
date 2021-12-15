@@ -99,7 +99,14 @@
         return nil;
     }
     
-    return performXMLXPathQuery(self.vastDocumentArray[0], query);
+    NSString *xmlString = [[NSString alloc] initWithData:self.vastDocumentArray[0] encoding:NSUTF8StringEncoding];
+    
+    // having XML namespace in the XML causes parsing issues
+    // therefore we are replacing `xmlns` with `hybid`
+    NSString *newXmlString = [xmlString stringByReplacingOccurrencesOfString:@"xmlns=" withString:@"hybid="];
+    NSData *newXmlData = [newXmlString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    return performXMLXPathQuery(newXmlData, query);
 }
 
 @end

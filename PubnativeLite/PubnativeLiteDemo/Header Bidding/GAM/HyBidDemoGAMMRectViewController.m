@@ -50,7 +50,7 @@
     self.navigationItem.title = @"GAM MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.gamMRectView = [[GAMBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+    self.gamMRectView = [[GAMBannerView alloc] initWithAdSize:GADAdSizeMediumRectangle];
     self.gamMRectView.delegate = self;
     self.gamMRectView.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGAMMRectAdUnitIDKey];
     self.gamMRectView.rootViewController = self;

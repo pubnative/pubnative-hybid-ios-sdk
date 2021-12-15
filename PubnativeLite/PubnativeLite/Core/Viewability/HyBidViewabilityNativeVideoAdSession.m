@@ -22,18 +22,12 @@
 
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import "HyBid.h"
-#import "OMIDImports.h"
+#import <OMSDK_Pubnativenet/OMIDImports.h>
 
 @interface HyBidViewabilityNativeVideoAdSession()
 
 @property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
 @property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
-
-@property (nonatomic, assign) BOOL isStartEventFired;
-@property (nonatomic, assign) BOOL isFirstQuartileEventFired;
-@property (nonatomic, assign) BOOL isMidpointEventFired;
-@property (nonatomic, assign) BOOL isThirdQuartileEventFired;
-@property (nonatomic, assign) BOOL isCompleteEventFired;
 
 @end
 
@@ -88,7 +82,7 @@
     [self createMediaEventsWithSession:omidAdSession];
     
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
-
+    
     return omidAdSession;
 }
 
@@ -107,7 +101,7 @@
 
 - (void)fireOMIDAdLoadEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
     NSError *vastPropertiesError;
     OMIDPubnativenetVASTProperties *vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
@@ -116,63 +110,47 @@
 
 - (void)fireOMIDStartEventWithDuration:(CGFloat)duration withVolume:(CGFloat)volume {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
-    if (!self.isStartEventFired) {
-        [self.omidMediaEvents startWithDuration:duration mediaPlayerVolume:volume];
-        self.isStartEventFired = YES;
-        
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_STARTED];
-    }
+    [self.omidMediaEvents startWithDuration:duration mediaPlayerVolume:volume];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_STARTED];
 }
 
 - (void)fireOMIDFirstQuartileEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
-    if (!self.isFirstQuartileEventFired) {
-        [self.omidMediaEvents firstQuartile];
-        self.isFirstQuartileEventFired = YES;
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_FIRST_QUARTILE];
-    }
+    [self.omidMediaEvents firstQuartile];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_FIRST_QUARTILE];
 }
 
 - (void)fireOMIDMidpointEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
-    if (!self.isMidpointEventFired) {
-        [self.omidMediaEvents midpoint];
-        self.isMidpointEventFired = YES;
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_MIDPOINT];
-    }
+    [self.omidMediaEvents midpoint];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_MIDPOINT];
 }
 
 - (void)fireOMIDThirdQuartileEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
-    if (!self.isThirdQuartileEventFired) {
-        [self.omidMediaEvents thirdQuartile];
-        self.isThirdQuartileEventFired = YES;
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_THIRD_QUARTILE];
-    }
+    [self.omidMediaEvents thirdQuartile];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_THIRD_QUARTILE];
 }
 
 - (void)fireOMIDCompleteEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
-    if (!self.isCompleteEventFired) {
-        [self.omidMediaEvents complete];
-        self.isCompleteEventFired = YES;
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_COMPLETE];
-    }
+    [self.omidMediaEvents complete];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_COMPLETE];
 }
 
 - (void)fireOMIDPauseEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
     [self.omidMediaEvents pause];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_PAUSE];
@@ -180,7 +158,7 @@
 
 - (void)fireOMIDResumeEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
     [self.omidMediaEvents resume];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_RESUME];
@@ -188,16 +166,16 @@
 
 - (void)fireOMIDBufferStartEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
     [self.omidMediaEvents bufferStart];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_BUFFER_START];
-
+    
 }
 
 - (void)fireOMIDBufferFinishEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
     [self.omidMediaEvents bufferFinish];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_BUFFER_FINISH];
@@ -205,7 +183,7 @@
 
 - (void)fireOMIDVolumeChangeEventWithVolume:(CGFloat)volume {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
     [self.omidMediaEvents volumeChangeTo:volume];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_VOLUME_CHANGE];
@@ -213,7 +191,7 @@
 
 - (void)fireOMIDSkippedEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
     
     [self.omidMediaEvents skipped];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SKIPPED];
@@ -221,14 +199,15 @@
 
 - (void)fireOMIDClikedEvent {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-       return;
+        return;
+    
     [self.omidMediaEvents adUserInteractionWithType:OMIDInteractionTypeClick];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_CLICKED];
 }
 
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-    return;
+        return;
     
     if (isFullScreen) {
         [self.omidMediaEvents playerStateChangeTo:OMIDPlayerStateFullscreen];

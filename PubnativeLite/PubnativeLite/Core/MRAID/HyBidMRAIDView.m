@@ -36,7 +36,7 @@
 
 #import <WebKit/WebKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "OMIDAdSession.h"
+#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 
 #define kCloseEventRegionSize 26
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -245,14 +245,7 @@ typedef enum {
         previousScreenSize = CGSizeZero;
         
         [self addObserver:self forKeyPath:@"self.frame" options:NSKeyValueObservingOptionOld context:NULL];
-        
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:nil];
-        [[AVAudioSession sharedInstance] setActive:YES error:nil];
-        [[AVAudioSession sharedInstance] addObserver:self
-                                          forKeyPath:@"outputVolume"
-                                             options:0
-                                             context:nil];
-        
+       
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
         
@@ -414,10 +407,6 @@ typedef enum {
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"outputVolume"]) {
-        [self fireAudioVolumeChangeEvent];
-      }
-    
     if ([keyPath isEqualToString:@"self.frame"]) {
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"self.frame has changed."];
         
@@ -861,19 +850,32 @@ typedef enum {
         [closeEventRegion setBackgroundImage:closeButtonImage forState:UIControlStateNormal];
     }
     
-    closeEventRegion.frame = CGRectMake(0, 0, kCloseEventRegionSize, kCloseEventRegionSize);
-    CGRect frame = closeEventRegion.frame;
+    closeEventRegion.frame = [self getCloseButtonFrame];
+    // autoresizing so it stays at top right (flexible left and flexible bottom margin)
+    closeEventRegion.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    
+    [modalVC.view addSubview:closeEventRegion];
+}
+
+- (CGRect)getCloseButtonFrame
+{
+    CGRect frame = CGRectMake(0, 0, kCloseEventRegionSize, kCloseEventRegionSize);
     
     // align on top right
     int x = CGRectGetWidth(modalVC.view.frame) - CGRectGetWidth(frame);
     int y = contentInfoViewContainer.frame.origin.y - 5;
     
-    frame.origin = CGPointMake(x, y);
-    closeEventRegion.frame = frame;
-    // autoresizing so it stays at top right (flexible left and flexible bottom margin)
-    closeEventRegion.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *window = UIApplication.sharedApplication.windows.firstObject;
+        
+        if (window != nil) {
+            x = x - window.safeAreaInsets.right;
+        }
+    }
     
-    [modalVC.view addSubview:closeEventRegion];
+    frame.origin = CGPointMake(x, y);
+    
+    return frame;
 }
 
 - (void)showResizeCloseRegion {
@@ -1272,14 +1274,10 @@ typedef enum {
 }
 
 - (void)stopAdSession {
-    
     if (isAdSessionCreated) {
         [[HyBidViewabilityWebAdSession sharedInstance] stopOMIDAdSession:adSession];
         isAdSessionCreated = NO;
     }
-    
-    [[AVAudioSession sharedInstance] removeObserver:self
-                                         forKeyPath:@"outputVolume"];     
 }
 
 #pragma mark - WKUIDelegate
@@ -1305,6 +1303,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
 - (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
+    closeEventRegion.frame = [self getCloseButtonFrame];
     [self setScreenSize];
     [self fireSizeChangeEvent];
 }
