@@ -2392,6 +2392,10 @@
 				5ADF9E50214911A90081355E /* HyBidAdRequest.m */,
 				62AED06E2685F64D00CDDDD1 /* HyBidDisplayManager.h */,
 				62AED06F2685F64D00CDDDD1 /* HyBidDisplayManager.m */,
+				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
+				5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */,
+				6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */,
+				6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */,
 			);
 			path = "Ad Request";
 			sourceTree = "<group>";
@@ -2734,7 +2738,6 @@
 		6F8C114D2539BA8F00DC4151 /* Rewarded */ = {
 			isa = PBXGroup;
 			children = (
-				7EA2A9EF258B395A004C6A97 /* Ad Request */,
 				6F8C11422539B8E300DC4151 /* HyBidRewardedAd.h */,
 				6F8C11432539B8E300DC4151 /* HyBidRewardedAd.m */,
 				6F8C11582539BABD00DC4151 /* HyBidRewardedPresenter.h */,
@@ -2995,18 +2998,8 @@
 				5ADF9E8221494C240081355E /* HyBidNativeAdLoader.m */,
 				5ADF9EAD21496C400081355E /* HyBidNativeAdRenderer.h */,
 				5ADF9EAE21496C400081355E /* HyBidNativeAdRenderer.m */,
-				7EA2A9B2258B29CB004C6A97 /* Ad Request */,
 			);
 			path = Native;
-			sourceTree = "<group>";
-		};
-		7EA2A9B2258B29CB004C6A97 /* Ad Request */ = {
-			isa = PBXGroup;
-			children = (
-				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
-				5A8893A4211C40BC0073BF66 /* HyBidNativeAdRequest.m */,
-			);
-			path = "Ad Request";
 			sourceTree = "<group>";
 		};
 		7EA2A9EE258B393B004C6A97 /* Ad Request */ = {
@@ -3014,15 +3007,6 @@
 			children = (
 				5ADF9E6D21493B6D0081355E /* HyBidInterstitialAdRequest.h */,
 				5ADF9E6E21493B6D0081355E /* HyBidInterstitialAdRequest.m */,
-			);
-			path = "Ad Request";
-			sourceTree = "<group>";
-		};
-		7EA2A9EF258B395A004C6A97 /* Ad Request */ = {
-			isa = PBXGroup;
-			children = (
-				6F8C118A2539C01000DC4151 /* HyBidRewardedAdRequest.h */,
-				6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */,
 			);
 			path = "Ad Request";
 			sourceTree = "<group>";
@@ -3748,7 +3732,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPubSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/mopub-ios-sdk/Core/OMSDK_Mopub.framework/OMSDK_Mopub",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OMSDK_Mopub/OMSDK_Mopub.framework/OMSDK_Mopub",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
