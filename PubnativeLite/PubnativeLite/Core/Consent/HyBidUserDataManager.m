@@ -56,6 +56,8 @@ NSInteger const PNLiteConsentStateDenied = 0;
     self = [super init];
     if (self) {
         self.consentState = PNLiteConsentStateDenied;
+        [self setIABUSPrivacyStringFromPublicKey];
+        [self setIABGDPRConsentStringFromPublicKey];
         [[NSUserDefaults standardUserDefaults] addObserver:self
                                                 forKeyPath:kCCPAPublicPrivacyKey options:NSKeyValueObservingOptionNew
                                                    context:NULL];
@@ -199,8 +201,8 @@ NSInteger const PNLiteConsentStateDenied = 0;
 
 #pragma mark - GDPR Consent String
 
-- (void)setIABGDPRConsentString:(NSString *)privacyString {
-    [[NSUserDefaults standardUserDefaults] setObject:privacyString forKey:kGDPRConsentKey];
+- (void)setIABGDPRConsentString:(NSString *)consentString {
+    [[NSUserDefaults standardUserDefaults] setObject:consentString forKey:kGDPRConsentKey];
 }
 
 - (NSString *)getIABGDPRConsentString {
@@ -212,6 +214,20 @@ NSInteger const PNLiteConsentStateDenied = 0;
         }
     }
     return consentString;
+}
+
+- (void)setIABGDPRConsentStringFromPublicKey {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key] &&
+        [[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key] isKindOfClass:[NSString class]] &&
+        [NSString stringWithString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key]].length != 0) {
+        [self setIABGDPRConsentString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key]];
+    } else if ([[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey] &&
+               [[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey] isKindOfClass:[NSString class]] &&
+               [NSString stringWithString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey]].length != 0) {
+        [self setIABGDPRConsentString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey]];
+    } else {
+        [self setIABGDPRConsentString:@""];
+    }
 }
 
 - (void)removeIABGDPRConsentString {
@@ -230,6 +246,16 @@ NSInteger const PNLiteConsentStateDenied = 0;
         privacyString = [[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey];
     }
     return privacyString;
+}
+
+- (void)setIABUSPrivacyStringFromPublicKey {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey] &&
+        [[[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey] isKindOfClass:[NSString class]] &&
+        [NSString stringWithString:[[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey]].length != 0) {
+        [self setIABUSPrivacyString:[[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey]];
+    } else {
+        [self setIABUSPrivacyString:@""];
+    }
 }
 
 - (void)removeIABUSPrivacyString {

@@ -40,6 +40,8 @@
 	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAdvertisingAttributionReportEndpoint</key>
+	<string>https://postbacks-is.com</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -54,6 +56,10 @@
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
 			<string>TL55SBB4FM.skadnetwork</string>
+		</dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>su67r6k2v3.skadnetwork</string>
 		</dict>
 	</array>
 	<key>UILaunchStoryboardName</key>

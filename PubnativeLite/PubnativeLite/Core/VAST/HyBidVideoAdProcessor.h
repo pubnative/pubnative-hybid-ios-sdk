@@ -21,9 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PNLiteVASTModel.h"
+#import "HyBidVASTModel.h"
 
-typedef void (^videoAdProcessorCompletionBlock)(PNLiteVASTModel *, NSError *);
+typedef void (^videoAdProcessorCompletionBlock)(HyBidVASTModel *, NSError *);
 
 @interface HyBidVideoAdProcessor : NSObject
 

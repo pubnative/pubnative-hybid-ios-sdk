@@ -31,7 +31,6 @@
 + (NSString *)deviceWidth                   { return @"dw"; }
 + (NSString *)deviceHeight                  { return @"dh"; }
 + (NSString *)orientation                   { return @"scro"; }
-+ (NSString *)deviceSound                   { return @"aud"; }
 + (NSString *)dnt                           { return @"dnt"; }
 + (NSString *)locale                        { return @"locale"; }
 + (NSString *)adCount                       { return @"adcount"; }
@@ -63,6 +62,8 @@
 + (NSString *)versionOfOMSDKIntegration     { return @"omidpv"; }
 + (NSString *)identifierForVendor           { return @"ifv"; }
 + (NSString *)rewardedVideo                 { return @"rv"; }
++ (NSString *)protocol                      { return @"protocol"; }
++ (NSString *)api                           { return @"api"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion            { return @"skadn_version"; }

@@ -52,6 +52,10 @@ BOOL isInitialized = NO;
     [HyBidSettings sharedInstance].test = enabled;
 }
 
++ (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)behaviour {
+    [HyBidSettings sharedInstance].interstitialActionBehaviour = behaviour;
+}
+
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
@@ -63,7 +67,7 @@ BOOL isInitialized = NO;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
         [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {}];
-        [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
+        [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];       
     }
     if (completion != nil) {
         completion(isInitialized);
@@ -87,7 +91,16 @@ BOOL isInitialized = NO;
 }
 
 + (void)setInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidSettings sharedInstance].skipOffset = seconds;
+    [self setVideoInterstitialSkipOffset:seconds];
+    [self setHTMLInterstitialSkipOffset:seconds];
+}
+
++ (void)setVideoInterstitialSkipOffset:(NSInteger)seconds {
+    [HyBidSettings sharedInstance].videoSkipOffset = seconds;
+}
+
++ (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds {
+    [HyBidSettings sharedInstance].htmlSkipOffset = seconds;
 }
 
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {

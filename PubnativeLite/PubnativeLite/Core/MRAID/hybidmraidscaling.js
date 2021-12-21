@@ -52,10 +52,18 @@
     var mraid = window.mraid = {};
 
     /***************************************************************************
+     * VPAID declaration (optional)
+     **************************************************************************/
+
+    var vpaid = null;
+
+    /***************************************************************************
      * constants
      **************************************************************************/
 
-    var VERSION = "2.0";
+    var VERSION = "3.0";
+
+    var SDK = "HyBid";
 
     var STATES = mraid.STATES = {
         "LOADING": "loading",
@@ -91,15 +99,26 @@
         "READY": "ready",
         "SIZECHANGE": "sizeChange",
         "STATECHANGE": "stateChange",
+        "EXPOSURECHANGE": "exposureChange",
+        "AUDIOVOLUMECHANGE": "audioVolumeChange",
         "VIEWABLECHANGE": "viewableChange"
     };
 
     var SUPPORTED_FEATURES = mraid.SUPPORTED_FEATURES = {
         "SMS": "sms",
         "TEL": "tel",
+        "CALENDAR": "calendar",
         "STOREPICTURE": "storePicture",
-        "INLINEVIDEO": "inlineVideo"
+        "INLINEVIDEO": "inlineVideo",
+        "VPAID": "vpaid",
+        "LOCATION": "location"
     };
+
+    var LOCATION_SOURCES = mraid.LOCATION_SOURCES = {
+        "GPS": 1,
+        "IP": 2,
+        "USER_PROVIDED": 3
+    }
 
     /***************************************************************************
      * state
@@ -112,6 +131,20 @@
     var isExpandPropertiesSet = false;
     var isResizeReady = false;
 
+    var exposure = {
+        "exposedPercentage": 0.0,
+        "visibleRectangle": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+        },
+        "occlusionRectangles": null
+    }
+
+    var volumePercentage = 0.0;
+
+
     var expandProperties = {
         "width": 0,
         "height": 0,
@@ -122,6 +155,11 @@
     var orientationProperties = {
         "allowOrientationChange": true,
         "forceOrientation": ORIENTATION_PROPERTIES_FORCE_ORIENTATION.NONE
+    };
+
+    var currentAppOrientation = {
+        "orientation": ORIENTATION_PROPERTIES_FORCE_ORIENTATION.PORTRAIT,
+        "locked": false
     };
 
     var resizeProperties = {
@@ -157,10 +195,29 @@
         "height": 0
     };
 
-    var currentOrientation = 0;
+    var location = {
+        "lat": -1,
+        "lon": -1,
+        "type": LOCATION_SOURCES.GPS,
+        "accuracy": -1,
+        "lastfix": -1,
+        "ipservice": "none"
+    }
 
     var listeners = {};
     window.listeners = listeners;
+
+    var mraidEnv = {
+        "version": VERSION,
+        "sdk": SDK,
+        "sdkVersion": null,
+        "appId": null,
+        "ifa": null,
+        "limitAdTracking": false,
+        "coppa": false
+    };
+
+    window.MRAID_ENV = mraidEnv;
 
     /***************************************************************************
      * "official" API: methods called by creative
@@ -187,6 +244,15 @@
             }
         }
         listenersForEvent.push(listener);
+    };
+
+    mraid.createCalendarEvent = function (parameters) {
+        log.i("mraid.createCalendarEvent with " + parameters);
+        if (supportedFeatures[mraid.SUPPORTED_FEATURES.CALENDAR]) {
+            callNative("createCalendarEvent?eventJSON=" + JSON.stringify(parameters));
+        } else {
+            log.e("createCalendarEvent is not supported");
+        }
     };
 
     mraid.close = function () {
@@ -244,6 +310,11 @@
         return orientationProperties;
     };
 
+    mraid.getCurrentAppOrientation = function () {
+        log.i("mraid.getCurrentAppOrientation");
+        return currentAppOrientation;
+    };
+
     mraid.getPlacementType = function () {
         log.i("mraid.getPlacementType");
         return placementType;
@@ -267,6 +338,11 @@
     mraid.getVersion = function () {
         log.i("mraid.getVersion");
         return VERSION;
+    };
+
+    mraid.getLocation = function () {
+        log.i("mraid.getLocation");
+        return location;
     };
 
     mraid.isViewable = function () {
@@ -497,6 +573,7 @@
         return retval;
     };
 
+
     mraid.useCustomClose = function (isCustomClose) {
         log.i("mraid.useCustomClose " + isCustomClose);
         if (expandProperties.useCustomClose !== isCustomClose) {
@@ -504,6 +581,15 @@
             callNative("useCustomClose?useCustomClose="
                 + expandProperties.useCustomClose);
         }
+    };
+
+    mraid.unload = function () {
+        log.i("mraid.unload");
+        callNative("unload");
+    };
+
+    mraid.initVpaid = function (vpaidObject) {
+        vpaid = vpaidObject;
     };
 
     /***************************************************************************
@@ -558,16 +644,61 @@
         log.i("mraid.setScreenSize " + width + "x" + height);
         screenSize.width = width;
         screenSize.height = height;
+        updateCreativeSize(width, height);
         if (!isExpandPropertiesSet) {
             expandProperties.width = width;
             expandProperties.height = height;
-            ;
         }
     };
 
     mraid.setSupports = function (feature, supported) {
         log.i("mraid.setSupports " + feature + " " + supported);
         supportedFeatures[feature] = supported;
+    };
+
+    mraid.setSdkVersion = function (sdkVersion) {
+        log.i("mraid.setSdkVersion " + sdkVersion);
+        if (sdkVersion && sdkVersion !== "") {
+            mraidEnv.sdkVersion = sdkVersion;
+        }
+    };
+
+    mraid.setAppId = function (bundleName) {
+        log.i("mraid.setAppId " + bundleName);
+        if (bundleName && bundleName !== "") {
+            mraidEnv.appId = bundleName;
+        }
+    };
+
+    mraid.setIfa = function (ifa) {
+        log.i("mraid.setIfa " + ifa);
+        if (ifa && ifa !== "") {
+            mraidEnv.sdkVersion = ifa;
+        }
+    };
+
+    mraid.setLimitAdTracking = function (limitAdTracking) {
+        log.i("mraid.setLimitAdTracking " + limitAdTracking);
+        mraidEnv.limitAdTracking = limitAdTracking;
+    };
+
+    mraid.setCoppa = function (coppa) {
+        log.i("mraid.setCoppa " + coppa);
+        mraidEnv.coppa = coppa;
+    };
+
+    mraid.setCurrentAppOrientation = function (newAppOrientation) {
+        log.i("mraid.setCurrentAppOrientation " + newAppOrientation);
+        if (newAppOrientation) {
+            currentAppOrientation = newAppOrientation;
+        }
+    };
+
+    mraid.setLocation = function (newLocation) {
+        log.i("mraid.setLocation " + newLocation);
+        if (newLocation) {
+            location = newLocation;
+        }
     };
 
     // methods to fire events
@@ -594,6 +725,43 @@
         if (state !== newState) {
             state = newState;
             fireEvent(mraid.EVENTS.STATECHANGE, state);
+        }
+    };
+
+    mraid.fireExposureChangeEvent = function (exposedPercentage, visibleRectangle, occlusionRectangles) {
+        log.i("mraid.fireExposureChangeEvent " + exposedPercentage + " " + visibleRectangle + " " + occlusionRectangles);
+        if (state !== mraid.STATES.LOADING) {
+            exposure.exposedPercentage = exposedPercentage;
+            exposure.visibleRectangle = visibleRectangle;
+            if (occlusionRectangles) {
+                if (exposure.occlusionRectangles) {
+                    for (var i = 0; i < occlusionRectangles.length; i++) {
+                        exposure.occlusionRectangles.push(occlusionRectangles[i]);
+                    }
+                } else {
+                    exposure.occlusionRectangles = occlusionRectangles
+                }
+            } else {
+                exposure.occlusionRectangles = null
+            }
+
+            fireEvent(mraid.EVENTS.EXPOSURECHANGE, exposedPercentage, visibleRectangle, occlusionRectangles);
+            if (exposedPercentage > 0.0) {
+                isViewable = true;
+                fireEvent(mraid.EVENTS.VIEWABLECHANGE, isViewable);
+            } else {
+                isViewable = false;
+                fireEvent(mraid.EVENTS.VIEWABLECHANGE, isViewable);
+            }
+        }
+
+    };
+
+    mraid.fireAudioVolumeChangeEvent = function (newVolumePercentage) {
+        log.i("mraid.fireAudioVolumeChangeEvent " + newVolumePercentage);
+        if (volumePercentage !== newVolumePercentage) {
+            volumePercentage = newVolumePercentage;
+            fireEvent(mraid.EVENTS.AUDIOVOLUMECHANGE, volumePercentage);
         }
     };
 

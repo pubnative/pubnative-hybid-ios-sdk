@@ -33,7 +33,7 @@ NSString * const DISPLAY_MANAGER_ENGINE = @"sdkios";
 }
 
 + (NSString*)setDisplayManager:(IntegrationType)integrationType {
-    return [NSString stringWithFormat:@"%@_%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType getIntegrationTypeCodeFromIntegrationType:integrationType] ,HYBID_SDK_VERSION];
+    return [NSString stringWithFormat:@"%@_%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType integrationTypeToString:integrationType] ,HYBID_SDK_VERSION];
 }
 
 + (NSString*)getDisplayManager {

@@ -29,7 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) MPAdView *moPubMrect;
 @property (nonatomic, strong) HyBidAdRequest *mRectAdRequest;
@@ -62,9 +62,9 @@
 
 - (void)requestAd {
     [self setCreativeIDLabelWithString:@"_"];
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.mRectContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[HyBidAdRequest alloc] init];
     self.mRectAdRequest.adSize = HyBidAdSize.SIZE_300x250;
@@ -121,7 +121,7 @@
     [self setCreativeIDLabelWithString:ad.creativeID];
     
     if (request == self.mRectAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.moPubMrect setKeywords:[HyBidHeaderBiddingUtils createHeaderBiddingKeywordsStringWithAd:ad]];
         [self.moPubMrect loadAd];
     }
@@ -131,7 +131,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
      if (request == self.mRectAdRequest) {
-         self.inspectRequestButton.hidden = NO;
+         self.debugButton.hidden = NO;
          [self.mRectLoaderIndicator stopAnimating];
          [self showAlertControllerWithMessage:error.localizedDescription];
          [self.moPubMrect loadAd];

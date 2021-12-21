@@ -48,10 +48,13 @@ typedef enum {
 @property (nonatomic, assign) BOOL isRewarded;
 @property (nonatomic, readonly) NSArray<NSString *> *supportedAPIFrameworks;
 @property (nonatomic) HyBidOpenRTBAdType openRTBAdType;
+@property (nonatomic, assign) BOOL isAutoCacheOnLoad;
+@property (nonatomic, readonly) IntegrationType integrationType;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
 - (void)requestVideoTagFrom:(NSString *)url andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
+- (void)cacheAd:(HyBidAd *)ad;
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel;
 
 @end

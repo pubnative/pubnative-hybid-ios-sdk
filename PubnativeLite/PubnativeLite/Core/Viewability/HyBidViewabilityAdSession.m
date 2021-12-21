@@ -22,7 +22,7 @@
 
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
-#import "OMIDImports.h"
+#import <OMSDK_Pubnativenet/OMIDImports.h>
 
 @implementation HyBidViewabilityAdSession
 
@@ -61,7 +61,7 @@
         [adEvents impressionOccurredWithError:&impressionError];
     }
     
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.IMPRESSION];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.OMID_IMPRESSION];
 }
 
 - (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {

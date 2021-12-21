@@ -28,7 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic, strong) MPAdView *moPubMrect;
 
 @end
@@ -56,9 +56,9 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.mRectContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     [self.moPubMrect loadAd];
 }
@@ -73,7 +73,7 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubMrect == view) {
         self.mRectContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -81,7 +81,7 @@
 - (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubMrect == view) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:@"MoPub MRect did fail to load."];
     }

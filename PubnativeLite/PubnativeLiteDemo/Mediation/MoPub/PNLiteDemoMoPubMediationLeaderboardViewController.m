@@ -28,7 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *leaderboardContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *leaderboardLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic, strong) MPAdView *moPubLeaderboard;
 
 @end
@@ -56,9 +56,9 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.leaderboardContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.leaderboardLoaderIndicator startAnimating];
     [self.moPubLeaderboard loadAd];
 }
@@ -73,7 +73,7 @@
     NSLog(@"adViewDidLoadAd");
     if (self.moPubLeaderboard == view) {
         self.leaderboardContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.leaderboardLoaderIndicator stopAnimating];
     }
 }
@@ -81,7 +81,7 @@
 - (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
     NSLog(@"adViewDidFailToLoadAd");
     if (self.moPubLeaderboard == view) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.leaderboardLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:@"MoPub Leaderboard did fail to load."];
     }

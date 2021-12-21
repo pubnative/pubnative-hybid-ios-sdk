@@ -28,7 +28,7 @@
 @interface PNLiteDemoMoPubMediationRewardedViewController () <MPRewardedAdsDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rewardedLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 
 @end
@@ -56,8 +56,8 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
-    self.inspectRequestButton.hidden = YES;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.rewardedLoaderIndicator startAnimating];
     
@@ -71,14 +71,14 @@
 
 - (void)rewardedAdDidLoadForAdUnitID:(NSString *)adUnitID {
     NSLog(@"rewardedAdDidLoadAd");
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
     [self.rewardedLoaderIndicator stopAnimating];
 }
 
 - (void)rewardedAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
     NSLog(@"rewardedAdDidFailToLoadAd");
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     [self.rewardedLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:@"MoPub Rewarded did fail to load."];
 }

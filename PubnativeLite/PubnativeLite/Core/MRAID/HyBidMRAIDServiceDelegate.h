@@ -24,6 +24,8 @@ static NSString* PNLiteMRAIDSupportsSMS = @"sms";
 static NSString* PNLiteMRAIDSupportsTel = @"tel";
 static NSString* PNLiteMRAIDSupportsStorePicture = @"storePicture";
 static NSString* PNLiteMRAIDSupportsInlineVideo = @"inlineVideo";
+static NSString* PNLiteMRAIDSupportsLocation = @"location";
+
 
 // A delegate for MRAIDView/MRAIDInterstitial to listen for notifications when the following events
 // are triggered from a creative: SMS, Telephone call, Calendar entry, Play Video (external) and
@@ -40,5 +42,4 @@ static NSString* PNLiteMRAIDSupportsInlineVideo = @"inlineVideo";
 - (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString;
 - (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString;
 - (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString;
-
 @end

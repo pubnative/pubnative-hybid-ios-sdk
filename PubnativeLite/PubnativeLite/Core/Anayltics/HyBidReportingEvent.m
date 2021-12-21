@@ -26,7 +26,9 @@
 @implementation HyBidReportingEvent
 
 
-- (instancetype)initWith:(NSString *)eventType adFormat:(NSString *)adFormat properties:(NSDictionary<NSString *,NSString *> *)properties {
+- (instancetype)initWith:(NSString *)eventType
+                adFormat:(NSString *)adFormat
+              properties:(NSDictionary<NSString *,NSString *> *)properties {
     self = [super init];
     if (self) {
         self.eventType = eventType;

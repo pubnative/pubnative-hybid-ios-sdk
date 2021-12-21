@@ -120,7 +120,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                     case VAST_INTERSTITIAL:
                     case VAST_MRECT: {
                         HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-                        [videoAdProcessor processVASTString:ad.vast completion:^(PNLiteVASTModel *vastModel, NSError *error) {
+                        [videoAdProcessor processVASTString:ad.vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
                             if (!vastModel) {
                                 [self invokeDidFail:error];
                             } else {

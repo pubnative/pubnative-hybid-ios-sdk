@@ -82,7 +82,6 @@
 
 - (void)interstitialDidTrackClick {
     [self.delegate customEventInterstitialWasClicked:self];
-    [self.delegate customEventInterstitialWillLeaveApplication:self];
 }
 
 - (void)interstitialDidTrackImpression {

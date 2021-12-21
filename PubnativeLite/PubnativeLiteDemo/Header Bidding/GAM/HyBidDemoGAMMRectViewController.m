@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) GAMBannerView *gamMRectView;
 @property (nonatomic, strong) HyBidAdRequest *mRectAdRequest;
@@ -50,7 +50,7 @@
     self.navigationItem.title = @"GAM MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.gamMRectView = [[GAMBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+    self.gamMRectView = [[GAMBannerView alloc] initWithAdSize:GADAdSizeMediumRectangle];
     self.gamMRectView.delegate = self;
     self.gamMRectView.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGAMMRectAdUnitIDKey];
     self.gamMRectView.rootViewController = self;
@@ -62,9 +62,9 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.mRectContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     self.mRectAdRequest = [[HyBidAdRequest alloc] init];
     self.mRectAdRequest.adSize = HyBidAdSize.SIZE_300x250;
@@ -114,7 +114,7 @@
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", ad.creativeID];
     
     if (request == self.mRectAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         GAMRequest *request = [GAMRequest request];
         request.customTargeting = [HyBidHeaderBiddingUtils createHeaderBiddingKeywordsDictionaryWithAd:ad];
         [self.gamMRectView loadRequest:request];
@@ -125,7 +125,7 @@
     NSLog(@"Request %@ failed with error: %@",request,error.localizedDescription);
     
     if (request == self.mRectAdRequest) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }

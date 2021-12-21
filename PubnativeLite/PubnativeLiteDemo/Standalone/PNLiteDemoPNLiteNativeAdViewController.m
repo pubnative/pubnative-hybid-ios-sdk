@@ -36,7 +36,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nativeAdBody;
 @property (weak, nonatomic) IBOutlet UIButton *nativeCallToAction;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *nativeAdLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) HyBidNativeAd *nativeAd;
@@ -58,15 +58,14 @@
 }
 
 - (IBAction)requestNativeAdTouchUpInside:(id)sender {
-    [self reportEvent:HyBidReportingEventType.AD_REQUEST adFormat: HyBidReportingAdFormat.NATIVE properties:nil];
     [self requestAd];
 }
 
 - (void)requestAd {
     [self setCreativeIDLabelWithString:@"_"];
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.nativeAdContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
@@ -81,7 +80,7 @@
 
 - (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     NSLog(@"Native Ad: %@ did load",nativeAd);
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     self.nativeAd = nativeAd;
     [self setCreativeIDLabelWithString:self.nativeAd.ad.creativeID];
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
@@ -89,7 +88,7 @@
 
 - (void)nativeLoaderDidFailWithError:(NSError *)error {
     NSLog(@"Native Ad did fail with error: %@",error.localizedDescription);
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     [self.nativeAdLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }

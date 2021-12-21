@@ -26,6 +26,8 @@
 #import "PNLiteVASTRewardedPresenter.h"
 #import "HyBidAdTracker.h"
 #import "HyBidLogger.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidRemoteConfigManager.h"
 
 @implementation HyBidRewardedPresenterFactory
 
@@ -44,9 +46,11 @@
 
 - (HyBidRewardedPresenter *)createRewardedPresenterFromAd:(HyBidAd *)ad {
     switch (ad.assetGroupID.integerValue) {
-        case VAST_INTERSTITIAL: {
+        case VAST_REWARDED: {
             PNLiteVASTRewardedPresenter *vastRewardedPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad];
-            return vastRewardedPresenter;
+            
+            NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: vastString] ? nil : vastRewardedPresenter;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Rewarded ad format.", ad.assetGroupID]];

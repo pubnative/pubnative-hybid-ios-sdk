@@ -35,5 +35,12 @@
 + (NSString *)appConfig;
 + (NSString *)appToken;
 + (NSString *)api;
++ (NSString *)enabledProtocols;
++ (NSString *)enabledAPIs;
++ (NSString *)features;
++ (NSString *)adFormats;
++ (NSString *)rendering;
++ (NSString *)reporting;
++ (NSString *)userConsent;
 
 @end

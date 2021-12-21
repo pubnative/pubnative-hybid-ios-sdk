@@ -22,6 +22,7 @@
 
 #import "AnalyticsViewController.h"
 #import "AnalyticsEventTableViewCell.h"
+#import "AnalyticsDetailViewController.h"
 
 @interface AnalyticsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -34,9 +35,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.dataSource = [[HyBid reportingManager].events sortedArrayUsingComparator:^NSComparisonResult(HyBidReportingEvent* a, HyBidReportingEvent* b) {
         return a.properties[HyBidReportingCommon.TIMESTAMP] > b.properties[HyBidReportingCommon.TIMESTAMP];
     }];
+    self.tableView.hidden = !self.dataSource.count;
+}
+
+- (void)clearEvents {
+    [[HyBid reportingManager] clearEvents];
+    self.dataSource = [HyBid reportingManager].events;
+    [self.tableView reloadData];
+    self.tableView.hidden = !self.dataSource.count;
+}
+
+- (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDatasource
@@ -51,8 +68,13 @@
     return self.dataSource.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    AnalyticsDetailViewController *analyticsDetailViewController = [[UIStoryboard storyboardWithName:@"Analytics" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([AnalyticsDetailViewController class])];
+    analyticsDetailViewController.event = self.dataSource[indexPath.row];
+    analyticsDetailViewController.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController:analyticsDetailViewController animated:YES completion:nil];
 }
 
 @end

@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *nativeAdContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *nativeAdLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property(nonatomic, strong) GADAdLoader *adLoader;
 @property(nonatomic, strong) GADNativeAdView *nativeAdView;
 
@@ -54,14 +54,14 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.nativeAdContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     
     self.adLoader = [[GADAdLoader alloc] initWithAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADNativeAdUnitIDKey]
                                        rootViewController:self
-                                                  adTypes:@[ kGADAdLoaderAdTypeNative ]
+                                                  adTypes:@[ GADAdLoaderAdTypeNative ]
                                                   options:@[ [[GADNativeAdViewAdOptions alloc] init] ]];
     self.adLoader.delegate = self;
     [self.adLoader loadRequest:[GADRequest request]];
@@ -82,7 +82,8 @@
     self.nativeAdView.frame = self.nativeAdContainer.bounds;
     [self.nativeAdContainer addSubview:self.nativeAdView];
     self.nativeAdContainer.hidden = NO;
-
+    self.debugButton.hidden = NO;
+    
     ((UILabel *)nativeAdView.headlineView).text = nativeAd.headline;
     ((UILabel *)nativeAdView.bodyView).text = nativeAd.body;
     [((UIButton *)nativeAdView.callToActionView)setTitle:nativeAd.callToAction
@@ -95,7 +96,7 @@
 
 - (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(NSError *)error {
     if (self.adLoader == adLoader) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.nativeAdLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }

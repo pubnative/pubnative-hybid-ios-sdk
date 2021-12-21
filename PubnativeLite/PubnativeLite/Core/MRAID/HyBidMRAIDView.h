@@ -48,6 +48,7 @@
 @property (nonatomic, strong) id<HyBidMRAIDViewDelegate> delegate;
 @property (nonatomic, strong) id<HyBidMRAIDServiceDelegate> serviceDelegate;
 @property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
+// DEPRECATED: isViewable is deprecated as from MRAID 3.0
 @property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
 
 // IMPORTANT: This is the only valid initializer for an MRAIDView; -init and -initWithFrame: will throw exceptions

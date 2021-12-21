@@ -29,7 +29,7 @@
 @interface HyBidDemoGADRewardedViewController () <GADFullScreenContentDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rewardedLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic, strong) GADRewardedAd *gadRewarded;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 
@@ -64,8 +64,8 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
-    self.inspectRequestButton.hidden = YES;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.rewardedLoaderIndicator startAnimating];
     GADRequest *request = [GADRequest request];
@@ -74,7 +74,7 @@
                   completionHandler:^(GADRewardedAd *ad, NSError *error) {
         if (error) {
             NSLog(@"Rewarded ad failed to load with error: %@", [error localizedDescription]);
-            self.inspectRequestButton.hidden = NO;
+            self.debugButton.hidden = NO;
             [self.rewardedLoaderIndicator stopAnimating];
             [self showAlertControllerWithMessage:error.localizedDescription];
             return;
@@ -83,7 +83,7 @@
         self.gadRewarded = ad;
         NSLog(@"Rewarded ad loaded.");
         self.gadRewarded.fullScreenContentDelegate = self;
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         self.showAdButton.hidden = NO;
         [self.rewardedLoaderIndicator stopAnimating];
     }];
@@ -97,7 +97,7 @@
 
 - (void)ad:(id)ad didFailToPresentFullScreenContentWithError:(NSError *)error {
     NSLog(@"Rewarded ad failed to present with error: %@", [error localizedDescription]);
-    self.inspectRequestButton.hidden = NO;
+    self.debugButton.hidden = NO;
     [self.rewardedLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }

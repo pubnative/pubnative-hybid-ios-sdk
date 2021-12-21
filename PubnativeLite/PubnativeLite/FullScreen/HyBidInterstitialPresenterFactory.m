@@ -27,14 +27,17 @@
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "HyBidAdTracker.h"
 #import "HyBidLogger.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidRemoteConfigManager.h"
 
 @implementation HyBidInterstitialPresenterFactory
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
-                                                    withSkipOffset:(NSUInteger)skipOffset
-                                               withCloseOnFinish: (BOOL)closeOnFinish
+                                             withVideoSkipOffset:(NSUInteger)videoSkipOffset
+                                              withHTMLSkipOffset:(NSUInteger)htmlSkipOffset
+                                               withCloseOnFinish:(BOOL)closeOnFinish
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate {
-    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad withSkipOffset:skipOffset withCloseOnFinish:closeOnFinish];
+    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad withVideoSkipOffset:videoSkipOffset withHTMLSkipOffset:htmlSkipOffset withCloseOnFinish:closeOnFinish];
     if (!interstitialPresenter) {
         return nil;
     }
@@ -44,21 +47,24 @@
     interstitialPresenter.delegate = interstitialPresenterDecorator;
     return interstitialPresenterDecorator;
 }
-
-- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withSkipOffset:(NSUInteger)skipOffset withCloseOnFinish: (BOOL)closeOnFinish {
+    
+- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withVideoSkipOffset:(NSUInteger)videoSkipOffset withHTMLSkipOffset:(NSUInteger)htmlSkipOffset withCloseOnFinish: (BOOL)closeOnFinish {
     switch (ad.assetGroupID.integerValue) {
         case MRAID_300x600:
         case MRAID_320x480:
         case MRAID_480x320:
         case MRAID_1024x768:
         case MRAID_768x1024:{
-            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad withSkipOffset:skipOffset];
-            return mraidInterstitalPresenter;
-            break;
+            PNLiteMRAIDInterstitialPresenter *mraidInterstitalPresenter = [[PNLiteMRAIDInterstitialPresenter alloc] initWithAd:ad withSkipOffset:htmlSkipOffset];
+            
+            NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: mraidString] ? nil : mraidInterstitalPresenter;
         }
         case VAST_INTERSTITIAL: {
-            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad withSkipOffset:skipOffset withCloseOnFinish:closeOnFinish];
-            return vastInterstitalPresenter;
+            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad withSkipOffset:videoSkipOffset withCloseOnFinish:closeOnFinish];
+            
+            NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: vastString] ? nil : vastInterstitalPresenter;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format.", ad.assetGroupID]];

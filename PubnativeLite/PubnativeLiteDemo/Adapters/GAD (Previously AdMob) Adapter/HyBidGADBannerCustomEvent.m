@@ -82,7 +82,6 @@
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
     [self.delegate customEventBannerWasClicked:self];
-    [self.delegate customEventBannerWillLeaveApplication:self];
 }
 
 @end

@@ -129,9 +129,7 @@
 }
 
 - (NSString *)deviceSound {
-    [self activateAVAudioSession];
     float outputVolume = [AVAudioSession sharedInstance].outputVolume;
-    [[AVAudioSession sharedInstance] setActive:NO error:nil];
     if (outputVolume == 0) {
         return @"0";
     } else {
@@ -139,9 +137,8 @@
     }
 }
 
-- (void)activateAVAudioSession {
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:nil];
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+- (NSNumber *)audioVolumePercentage {
+    return [NSNumber numberWithFloat: (100 * [AVAudioSession sharedInstance].outputVolume)];
 }
 
 - (NSString *)locale {

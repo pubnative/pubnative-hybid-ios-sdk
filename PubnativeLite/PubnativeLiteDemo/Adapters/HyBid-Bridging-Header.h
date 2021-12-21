@@ -38,3 +38,6 @@
 #import "HyBidGADLeaderboardCustomEvent.h"
 #import "HyBidGADInterstitialCustomEvent.h"
 #import "HyBidGADRewardedCustomEvent.h"
+#import "ISVerveUtils.h"
+#import "ISVerveCustomAdapter.h"
+#import "ISVerveCustomInterstitial.h"

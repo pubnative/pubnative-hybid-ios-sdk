@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NKb-IO-q9l">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NKb-IO-q9l">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -609,16 +609,16 @@
                                 <rect key="frame" x="188.5" y="100" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="idh-Mk-p5e" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="idh-Mk-p5e" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="21M-Nv-v1T"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -680,7 +680,7 @@
                     <navigationItem key="navigationItem" id="uMZ-9b-D35"/>
                     <connections>
                         <outlet property="creativeIdLabel" destination="JXG-vk-6aq" id="ZhI-j8-oMw"/>
-                        <outlet property="inspectRequestButton" destination="idh-Mk-p5e" id="7Vq-tZ-eFW"/>
+                        <outlet property="debugButton" destination="idh-Mk-p5e" id="7Vq-tZ-eFW"/>
                         <outlet property="leaderboardContainer" destination="2VV-Va-mTK" id="psn-v9-Tc7"/>
                         <outlet property="leaderboardLoaderIndicator" destination="dXI-OE-hKj" id="ki0-uC-Uti"/>
                     </connections>
@@ -689,10 +689,10 @@
             </objects>
             <point key="canvasLocation" x="-7420" y="1012"/>
         </scene>
-        <!--RequestInspector-->
+        <!--Debug-->
         <scene sceneID="n5p-Is-Zup">
             <objects>
-                <viewControllerPlaceholder storyboardName="RequestInspector" id="zX6-Mm-MWj" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Debug" id="zX6-Mm-MWj" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mWg-2p-35T" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3634" y="1718"/>
@@ -727,16 +727,16 @@
                                 <rect key="frame" x="188.5" y="100" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHX-1R-frn" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHX-1R-frn" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="FQ6-2o-c3a"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -798,7 +798,7 @@
                     <navigationItem key="navigationItem" id="eGl-uy-YqT"/>
                     <connections>
                         <outlet property="creativeIdLabel" destination="ys2-oA-p7U" id="pwT-R2-1eR"/>
-                        <outlet property="inspectRequestButton" destination="LHX-1R-frn" id="Lif-lo-cXO"/>
+                        <outlet property="debugButton" destination="LHX-1R-frn" id="Lif-lo-cXO"/>
                         <outlet property="leaderboardContainer" destination="tHL-c9-uOt" id="Pby-xX-eBx"/>
                         <outlet property="leaderboardLoaderIndicator" destination="LSN-AW-iP9" id="sPy-Kz-Bq0"/>
                     </connections>
@@ -837,16 +837,16 @@
                                 <rect key="frame" x="188.5" y="100" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bPz-UD-7kr" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bPz-UD-7kr" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="CKh-d2-Swc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -910,7 +910,7 @@
                         <outlet property="bannerContainer" destination="uz0-5Q-tei" id="gZv-F5-Kzp"/>
                         <outlet property="bannerLoaderIndicator" destination="G2r-kR-xhu" id="0Ep-we-iCg"/>
                         <outlet property="creativeIdLabel" destination="Kiq-SG-WEI" id="RET-Nd-dbW"/>
-                        <outlet property="inspectRequestButton" destination="bPz-UD-7kr" id="jfH-MV-F7T"/>
+                        <outlet property="debugButton" destination="bPz-UD-7kr" id="jfH-MV-F7T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G9j-1F-5Qa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -957,16 +957,16 @@
                                 <rect key="frame" x="188.5" y="100" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbX-L6-0d7" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbX-L6-0d7" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="guE-30-aod"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1020,7 +1020,7 @@
                         <outlet property="bannerContainer" destination="Dga-QW-HTf" id="IQd-QD-OKX"/>
                         <outlet property="bannerLoaderIndicator" destination="4Yk-cA-hH0" id="MOQ-BK-T1A"/>
                         <outlet property="creativeIdLabel" destination="2RB-NN-hhM" id="3EQ-Ci-geB"/>
-                        <outlet property="inspectRequestButton" destination="JbX-L6-0d7" id="KRQ-PA-Oh8"/>
+                        <outlet property="debugButton" destination="JbX-L6-0d7" id="KRQ-PA-Oh8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fzx-tU-HMl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1053,16 +1053,16 @@
                                     <action selector="requestMRectTouchUpInside:" destination="hFf-oZ-HdZ" eventType="touchUpInside" id="LcU-jY-y5t"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEw-PK-AA4" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEw-PK-AA4" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="V3h-p5-rTj"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1130,7 +1130,7 @@
                     <navigationItem key="navigationItem" id="MGK-d3-c7Z"/>
                     <connections>
                         <outlet property="creativeIdLabel" destination="7gb-VX-2C7" id="kCD-QB-Ijf"/>
-                        <outlet property="inspectRequestButton" destination="aEw-PK-AA4" id="wcF-hc-nqY"/>
+                        <outlet property="debugButton" destination="aEw-PK-AA4" id="wcF-hc-nqY"/>
                         <outlet property="mRectContainer" destination="6yu-k5-xJQ" id="gEK-vV-Kj0"/>
                         <outlet property="mRectLoaderIndicator" destination="5lQ-Gr-rLY" id="qRI-9Y-js2"/>
                     </connections>
@@ -1169,16 +1169,16 @@
                                 <rect key="frame" x="188.5" y="182" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjJ-uI-668" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjJ-uI-668" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="4eR-UT-Hna"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1240,7 +1240,7 @@
                     <navigationItem key="navigationItem" id="RIX-cv-tb8"/>
                     <connections>
                         <outlet property="creativeIdLabel" destination="S92-9s-2bl" id="WEu-gn-omt"/>
-                        <outlet property="inspectRequestButton" destination="tjJ-uI-668" id="PNM-ly-Cqx"/>
+                        <outlet property="debugButton" destination="tjJ-uI-668" id="PNM-ly-Cqx"/>
                         <outlet property="mRectContainer" destination="A4C-cl-mGp" id="L9B-ZX-p87"/>
                         <outlet property="mRectLoaderIndicator" destination="QmB-6q-2NE" id="DiZ-Wr-J3B"/>
                     </connections>
@@ -1262,7 +1262,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UWb-KH-Ydr">
-                                <rect key="frame" x="20" y="8" width="374" height="30"/>
+                                <rect key="frame" x="20" y="75" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1279,16 +1279,16 @@
                                 <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="irO-Yf-TRu" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="irO-Yf-TRu" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="dQ6-t3-VaV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1303,21 +1303,21 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5CI-oM-dS5" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="88" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="193" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GGL-cI-ZVr" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="88" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="193" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vhx-Vt-42f">
-                                <rect key="frame" x="20" y="46" width="374" height="30"/>
+                                <rect key="frame" x="20" y="151" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1330,34 +1330,73 @@
                                     <action selector="showInterstitialAdButtonTapped:" destination="EQl-yB-0nX" eventType="touchUpInside" id="NM9-km-3aJ"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RC0-2u-7qG">
+                                <rect key="frame" x="16" y="20" width="313" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Rc-Ym-dbL">
+                                <rect key="frame" x="345" y="20" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="autoCacheSwitch" label="Auto Cache Switch"/>
+                                <connections>
+                                    <action selector="adCachingSwitchValueChanged:" destination="EQl-yB-0nX" eventType="valueChanged" id="Trt-Em-ign"/>
+                                </connections>
+                            </switch>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UKy-re-awD">
+                                <rect key="frame" x="20" y="113" width="374" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="prepareButton" label="Prepare Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="bWa-fw-3A2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Prepare"/>
+                                <connections>
+                                    <action selector="prepareButtonTapped:" destination="EQl-yB-0nX" eventType="touchUpInside" id="MeO-pg-y88"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="MWo-FD-TVB"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="5CI-oM-dS5" firstAttribute="top" secondItem="Vhx-Vt-42f" secondAttribute="bottom" constant="12" id="44A-Du-RJo"/>
-                            <constraint firstItem="UWb-KH-Ydr" firstAttribute="top" secondItem="MWo-FD-TVB" secondAttribute="top" constant="8" id="BIg-gK-F4S"/>
-                            <constraint firstItem="Vhx-Vt-42f" firstAttribute="top" secondItem="UWb-KH-Ydr" secondAttribute="bottom" constant="8" symbolic="YES" id="CE0-zp-B5k"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="UWb-KH-Ydr" secondAttribute="trailing" id="CpP-wz-e2h"/>
+                            <constraint firstItem="MWo-FD-TVB" firstAttribute="trailing" secondItem="UKy-re-awD" secondAttribute="trailing" constant="20" id="4ha-Zf-76P"/>
+                            <constraint firstItem="4Rc-Ym-dbL" firstAttribute="centerY" secondItem="RC0-2u-7qG" secondAttribute="centerY" id="733-z1-f1s"/>
+                            <constraint firstItem="MWo-FD-TVB" firstAttribute="trailing" secondItem="4Rc-Ym-dbL" secondAttribute="trailing" constant="20" id="8TW-2r-4lj"/>
                             <constraint firstItem="GGL-cI-ZVr" firstAttribute="centerY" secondItem="5CI-oM-dS5" secondAttribute="centerY" id="Dhx-DP-gNG"/>
+                            <constraint firstItem="RC0-2u-7qG" firstAttribute="top" secondItem="MWo-FD-TVB" secondAttribute="top" constant="20" id="FNC-cA-1XY"/>
+                            <constraint firstItem="4Rc-Ym-dbL" firstAttribute="top" secondItem="MWo-FD-TVB" secondAttribute="top" constant="20" id="IJk-C1-Yrf"/>
+                            <constraint firstItem="UWb-KH-Ydr" firstAttribute="top" secondItem="RC0-2u-7qG" secondAttribute="bottom" constant="24" id="K8l-We-m2h"/>
                             <constraint firstItem="euq-Hl-C8v" firstAttribute="centerY" secondItem="I48-FF-63B" secondAttribute="centerY" id="Kwi-Fq-xNj"/>
-                            <constraint firstItem="UWb-KH-Ydr" firstAttribute="leading" secondItem="I48-FF-63B" secondAttribute="leadingMargin" id="QB2-A3-Sme"/>
                             <constraint firstItem="5CI-oM-dS5" firstAttribute="leading" secondItem="MWo-FD-TVB" secondAttribute="leading" constant="16" id="VuA-uJ-Bwg"/>
+                            <constraint firstItem="MWo-FD-TVB" firstAttribute="trailing" secondItem="UWb-KH-Ydr" secondAttribute="trailing" constant="20" id="WEf-6y-kkr"/>
                             <constraint firstItem="euq-Hl-C8v" firstAttribute="centerX" secondItem="I48-FF-63B" secondAttribute="centerX" id="WIh-36-KL3"/>
+                            <constraint firstItem="UKy-re-awD" firstAttribute="top" secondItem="UWb-KH-Ydr" secondAttribute="bottom" constant="8" id="Y3f-0y-2Ns"/>
                             <constraint firstItem="Vhx-Vt-42f" firstAttribute="leading" secondItem="UWb-KH-Ydr" secondAttribute="leading" id="bw4-bi-C3a"/>
+                            <constraint firstItem="UKy-re-awD" firstAttribute="leading" secondItem="MWo-FD-TVB" secondAttribute="leading" constant="20" id="d3S-Xf-AIq"/>
                             <constraint firstItem="MWo-FD-TVB" firstAttribute="bottom" secondItem="irO-Yf-TRu" secondAttribute="bottom" constant="8" id="ekV-wz-uSE"/>
                             <constraint firstItem="GGL-cI-ZVr" firstAttribute="leading" secondItem="5CI-oM-dS5" secondAttribute="trailing" constant="8" id="gAf-Ur-8hW"/>
                             <constraint firstItem="irO-Yf-TRu" firstAttribute="leading" secondItem="MWo-FD-TVB" secondAttribute="leading" constant="16" id="gpV-Kv-Dks"/>
+                            <constraint firstItem="UWb-KH-Ydr" firstAttribute="leading" secondItem="MWo-FD-TVB" secondAttribute="leading" constant="20" id="kRQ-xk-VsA"/>
+                            <constraint firstItem="4Rc-Ym-dbL" firstAttribute="leading" secondItem="RC0-2u-7qG" secondAttribute="trailing" constant="16" id="mOu-83-Dsl"/>
                             <constraint firstAttribute="trailing" secondItem="irO-Yf-TRu" secondAttribute="trailing" constant="16" id="n2Q-TA-gIL"/>
                             <constraint firstItem="irO-Yf-TRu" firstAttribute="centerX" secondItem="I48-FF-63B" secondAttribute="centerX" id="odq-Me-3na"/>
                             <constraint firstItem="UWb-KH-Ydr" firstAttribute="trailing" secondItem="Vhx-Vt-42f" secondAttribute="trailing" id="qr4-4t-m52"/>
+                            <constraint firstItem="RC0-2u-7qG" firstAttribute="leading" secondItem="MWo-FD-TVB" secondAttribute="leading" constant="16" id="rxv-vk-N8H"/>
+                            <constraint firstItem="Vhx-Vt-42f" firstAttribute="top" secondItem="UWb-KH-Ydr" secondAttribute="bottom" constant="46" id="vM0-BY-WT1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6lR-95-jVM"/>
                     <connections>
+                        <outlet property="adCachingSwitch" destination="4Rc-Ym-dbL" id="gII-nw-cf8"/>
                         <outlet property="creativeIdLabel" destination="GGL-cI-ZVr" id="UQk-jI-Nj6"/>
-                        <outlet property="inspectRequestButton" destination="irO-Yf-TRu" id="Jp7-f5-rbI"/>
+                        <outlet property="debugButton" destination="irO-Yf-TRu" id="Jp7-f5-rbI"/>
                         <outlet property="interstitialLoaderIndicator" destination="euq-Hl-C8v" id="N5s-hw-XX3"/>
+                        <outlet property="prepareButton" destination="UKy-re-awD" id="DmY-Mg-DBp"/>
                         <outlet property="showAdButton" destination="Vhx-Vt-42f" id="3aQ-u7-E1s"/>
+                        <outlet property="showAdTopConstraint" destination="vM0-BY-WT1" id="e5P-11-Xd9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L67-bY-ZeL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1377,7 +1416,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BVm-og-7Z1">
-                                <rect key="frame" x="20" y="8" width="374" height="30"/>
+                                <rect key="frame" x="20" y="70" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1394,16 +1433,16 @@
                                 <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QRN-vf-Zmi" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QRN-vf-Zmi" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="UpH-OE-Bhv"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1418,21 +1457,21 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ir0-JT-42u" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="88" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="188" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4a-uh-qX1" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="88" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="188" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiW-Aw-EyM">
-                                <rect key="frame" x="20" y="46" width="374" height="30"/>
+                                <rect key="frame" x="20" y="146" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1445,34 +1484,71 @@
                                     <action selector="showInterstitialAdButtonTapped:" destination="btf-ZX-HnC" eventType="touchUpInside" id="4ZY-Hc-pTG"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3FX-rH-5l4">
+                                <rect key="frame" x="20" y="20" width="150" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hcu-Jg-YR1">
+                                <rect key="frame" x="345" y="15" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="autoCacheSwitch" label="Auto Cache Switch"/>
+                                <connections>
+                                    <action selector="adCachingSwitchValueChanged:" destination="btf-ZX-HnC" eventType="valueChanged" id="Uqe-vH-TMI"/>
+                                </connections>
+                            </switch>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jx8-Yo-YkN">
+                                <rect key="frame" x="20" y="108" width="374" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="prepareButton" label="Prepare Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="kC5-hA-DHw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Prepare"/>
+                                <connections>
+                                    <action selector="prepareButtonTapped:" destination="btf-ZX-HnC" eventType="touchUpInside" id="OrQ-CH-KW5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fwH-DH-n9j"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BVm-og-7Z1" firstAttribute="top" secondItem="fwH-DH-n9j" secondAttribute="top" constant="8" id="2NL-UK-K06"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BVm-og-7Z1" secondAttribute="trailing" id="8vj-x1-ePs"/>
+                            <constraint firstAttribute="trailing" secondItem="Jx8-Yo-YkN" secondAttribute="trailing" constant="20" id="5sB-8L-fB3"/>
                             <constraint firstItem="s4a-uh-qX1" firstAttribute="centerY" secondItem="Ir0-JT-42u" secondAttribute="centerY" id="9km-Vf-4X5"/>
+                            <constraint firstItem="fwH-DH-n9j" firstAttribute="trailing" secondItem="BVm-og-7Z1" secondAttribute="trailing" constant="20" id="DLt-vK-Ugv"/>
                             <constraint firstItem="s4a-uh-qX1" firstAttribute="leading" secondItem="Ir0-JT-42u" secondAttribute="trailing" constant="8" id="ERN-Lo-7jR"/>
-                            <constraint firstItem="BVm-og-7Z1" firstAttribute="leading" secondItem="gOg-Sc-dYx" secondAttribute="leadingMargin" id="KTw-7r-U0p"/>
+                            <constraint firstItem="3FX-rH-5l4" firstAttribute="leading" secondItem="fwH-DH-n9j" secondAttribute="leading" constant="20" id="Kel-T9-Ous"/>
+                            <constraint firstItem="Jx8-Yo-YkN" firstAttribute="leading" secondItem="fwH-DH-n9j" secondAttribute="leading" constant="20" id="KzF-CL-fbr"/>
+                            <constraint firstItem="BVm-og-7Z1" firstAttribute="leading" secondItem="fwH-DH-n9j" secondAttribute="leading" constant="20" id="L0L-dW-4dH"/>
                             <constraint firstItem="QRN-vf-Zmi" firstAttribute="centerX" secondItem="gOg-Sc-dYx" secondAttribute="centerX" id="LZJ-Nq-95H"/>
+                            <constraint firstItem="Jx8-Yo-YkN" firstAttribute="top" secondItem="BVm-og-7Z1" secondAttribute="bottom" constant="8" id="Ldi-yv-FUd"/>
                             <constraint firstItem="MJ7-lS-fcf" firstAttribute="centerX" secondItem="gOg-Sc-dYx" secondAttribute="centerX" id="Mna-KE-Syk"/>
                             <constraint firstItem="fwH-DH-n9j" firstAttribute="bottom" secondItem="QRN-vf-Zmi" secondAttribute="bottom" constant="8" id="ORo-l2-LvF"/>
+                            <constraint firstItem="3FX-rH-5l4" firstAttribute="top" secondItem="fwH-DH-n9j" secondAttribute="top" constant="20" id="OxA-d4-4mI"/>
                             <constraint firstItem="BVm-og-7Z1" firstAttribute="trailing" secondItem="tiW-Aw-EyM" secondAttribute="trailing" id="P7B-c1-nx2"/>
                             <constraint firstAttribute="trailing" secondItem="QRN-vf-Zmi" secondAttribute="trailing" constant="16" id="RRn-R5-cM4"/>
                             <constraint firstItem="QRN-vf-Zmi" firstAttribute="leading" secondItem="fwH-DH-n9j" secondAttribute="leading" constant="16" id="Zwk-1s-8Vk"/>
+                            <constraint firstItem="BVm-og-7Z1" firstAttribute="top" secondItem="Hcu-Jg-YR1" secondAttribute="bottom" constant="24" id="bog-G9-j9r"/>
+                            <constraint firstItem="Hcu-Jg-YR1" firstAttribute="centerY" secondItem="3FX-rH-5l4" secondAttribute="centerY" id="fMN-lm-5j9"/>
                             <constraint firstItem="Ir0-JT-42u" firstAttribute="top" secondItem="tiW-Aw-EyM" secondAttribute="bottom" constant="12" id="g4a-ZE-bsx"/>
+                            <constraint firstItem="tiW-Aw-EyM" firstAttribute="top" secondItem="BVm-og-7Z1" secondAttribute="bottom" constant="46" id="hvS-zL-tDc"/>
                             <constraint firstItem="Ir0-JT-42u" firstAttribute="leading" secondItem="fwH-DH-n9j" secondAttribute="leading" constant="16" id="iHK-TP-637"/>
+                            <constraint firstItem="fwH-DH-n9j" firstAttribute="trailing" secondItem="Hcu-Jg-YR1" secondAttribute="trailing" constant="20" id="iKA-7I-PRO"/>
                             <constraint firstItem="MJ7-lS-fcf" firstAttribute="centerY" secondItem="gOg-Sc-dYx" secondAttribute="centerY" id="mRy-AL-ysy"/>
-                            <constraint firstItem="tiW-Aw-EyM" firstAttribute="top" secondItem="BVm-og-7Z1" secondAttribute="bottom" constant="8" symbolic="YES" id="mwQ-YL-yot"/>
                             <constraint firstItem="tiW-Aw-EyM" firstAttribute="leading" secondItem="BVm-og-7Z1" secondAttribute="leading" id="so7-HZ-NfC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="b4D-Lt-Ull"/>
                     <connections>
+                        <outlet property="adCachingSwitch" destination="Hcu-Jg-YR1" id="R9j-eA-Tj6"/>
                         <outlet property="creativeIdLabel" destination="s4a-uh-qX1" id="P2A-5B-B1v"/>
-                        <outlet property="inspectRequestButton" destination="QRN-vf-Zmi" id="7cZ-JA-pKV"/>
+                        <outlet property="debugButton" destination="QRN-vf-Zmi" id="7cZ-JA-pKV"/>
                         <outlet property="interstitialLoaderIndicator" destination="MJ7-lS-fcf" id="Mqs-Yj-YGE"/>
+                        <outlet property="prepareButton" destination="Jx8-Yo-YkN" id="H6F-gJ-mj8"/>
                         <outlet property="showAdButton" destination="tiW-Aw-EyM" id="BVU-OA-jpT"/>
+                        <outlet property="showAdTopConstraint" destination="hvS-zL-tDc" id="pYk-rM-cw6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EIs-r7-984" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1492,7 +1568,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6f-kw-oKt">
-                                <rect key="frame" x="20" y="8" width="374" height="30"/>
+                                <rect key="frame" x="20" y="70" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1509,16 +1585,16 @@
                                 <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0WU-j5-hGd" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0WU-j5-hGd" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="IRq-gS-ApJ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1533,21 +1609,21 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RpF-VW-LKc" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="88" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="188" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpp-8g-bAc" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="88" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="188" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHB-Px-3LS">
-                                <rect key="frame" x="20" y="46" width="374" height="30"/>
+                                <rect key="frame" x="20" y="146" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1560,34 +1636,73 @@
                                     <action selector="showRewardedTouchUpInside:" destination="8Zw-RJ-gbW" eventType="touchUpInside" id="85u-dJ-3gu"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qZo-5F-3hM">
+                                <rect key="frame" x="349" y="15" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="autoCacheSwitch" label="Auto Cache Switch"/>
+                                <connections>
+                                    <action selector="adCachingSwitchValueChanged:" destination="8Zw-RJ-gbW" eventType="valueChanged" id="5Gn-4j-SCy"/>
+                                    <action selector="adCachingSwitchValueChanged:" destination="Vai-9P-AP3" eventType="valueChanged" id="j6p-nu-buP"/>
+                                </connections>
+                            </switch>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-rg-LUx">
+                                <rect key="frame" x="20" y="108" width="374" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="prepareButton" label="Prepare Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ozg-VL-MXp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Prepare"/>
+                                <connections>
+                                    <action selector="prepareButtonTapped:" destination="8Zw-RJ-gbW" eventType="touchUpInside" id="24w-zz-wAi"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2eg-fe-GFq">
+                                <rect key="frame" x="16" y="20" width="317" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2SD-dJ-HXx"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="RpF-VW-LKc" firstAttribute="leading" secondItem="2SD-dJ-HXx" secondAttribute="leading" constant="16" id="5DO-Dk-n0e"/>
-                            <constraint firstItem="O6f-kw-oKt" firstAttribute="leading" secondItem="AOX-v1-93y" secondAttribute="leadingMargin" id="84d-VW-2gx"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="O6f-kw-oKt" secondAttribute="trailing" id="8FT-fJ-lPm"/>
+                            <constraint firstItem="qZo-5F-3hM" firstAttribute="centerY" secondItem="2eg-fe-GFq" secondAttribute="centerY" id="5Z9-hw-py4"/>
+                            <constraint firstItem="O6f-kw-oKt" firstAttribute="leading" secondItem="2SD-dJ-HXx" secondAttribute="leading" constant="20" id="8t9-b4-aZe"/>
+                            <constraint firstItem="xHB-Px-3LS" firstAttribute="top" secondItem="O6f-kw-oKt" secondAttribute="bottom" constant="46" id="8zp-zz-NOf"/>
                             <constraint firstItem="cpp-8g-bAc" firstAttribute="centerY" secondItem="RpF-VW-LKc" secondAttribute="centerY" id="92z-G1-JKe"/>
-                            <constraint firstItem="O6f-kw-oKt" firstAttribute="top" secondItem="2SD-dJ-HXx" secondAttribute="top" constant="8" id="9QA-Wc-EEa"/>
                             <constraint firstItem="xHB-Px-3LS" firstAttribute="leading" secondItem="O6f-kw-oKt" secondAttribute="leading" id="EbL-E1-ulc"/>
+                            <constraint firstItem="ecy-rg-LUx" firstAttribute="top" secondItem="O6f-kw-oKt" secondAttribute="bottom" constant="8" id="Hy2-K6-ZQj"/>
+                            <constraint firstItem="O6f-kw-oKt" firstAttribute="top" secondItem="qZo-5F-3hM" secondAttribute="bottom" constant="24" id="IZ2-h8-nR6"/>
                             <constraint firstItem="O6f-kw-oKt" firstAttribute="trailing" secondItem="xHB-Px-3LS" secondAttribute="trailing" id="JgH-PJ-9rp"/>
                             <constraint firstAttribute="trailing" secondItem="0WU-j5-hGd" secondAttribute="trailing" constant="16" id="JpH-xU-FYF"/>
                             <constraint firstItem="cpp-8g-bAc" firstAttribute="leading" secondItem="RpF-VW-LKc" secondAttribute="trailing" constant="8" id="Kbx-Kd-kPe"/>
+                            <constraint firstItem="2eg-fe-GFq" firstAttribute="leading" secondItem="2SD-dJ-HXx" secondAttribute="leading" constant="16" id="LO8-Lo-AnM"/>
+                            <constraint firstItem="ecy-rg-LUx" firstAttribute="leading" secondItem="AOX-v1-93y" secondAttribute="leading" constant="20" id="N7I-NA-V4P"/>
+                            <constraint firstItem="2SD-dJ-HXx" firstAttribute="trailing" secondItem="O6f-kw-oKt" secondAttribute="trailing" constant="20" id="Q5a-yf-tVI"/>
+                            <constraint firstItem="2eg-fe-GFq" firstAttribute="top" secondItem="2SD-dJ-HXx" secondAttribute="top" constant="20" id="Q7n-wc-8sb"/>
                             <constraint firstItem="Ntx-NH-ORP" firstAttribute="centerY" secondItem="AOX-v1-93y" secondAttribute="centerY" id="QOt-K6-sp7"/>
                             <constraint firstItem="0WU-j5-hGd" firstAttribute="leading" secondItem="2SD-dJ-HXx" secondAttribute="leading" constant="16" id="VfG-4m-ziy"/>
                             <constraint firstItem="Ntx-NH-ORP" firstAttribute="centerX" secondItem="AOX-v1-93y" secondAttribute="centerX" id="Xmj-4o-sFb"/>
                             <constraint firstItem="2SD-dJ-HXx" firstAttribute="bottom" secondItem="0WU-j5-hGd" secondAttribute="bottom" constant="8" id="bDf-5S-vOv"/>
+                            <constraint firstItem="2SD-dJ-HXx" firstAttribute="trailing" secondItem="ecy-rg-LUx" secondAttribute="trailing" constant="20" id="bsW-9E-ZgL"/>
                             <constraint firstItem="0WU-j5-hGd" firstAttribute="centerX" secondItem="AOX-v1-93y" secondAttribute="centerX" id="cus-Ht-oJc"/>
                             <constraint firstItem="RpF-VW-LKc" firstAttribute="top" secondItem="xHB-Px-3LS" secondAttribute="bottom" constant="12" id="oxz-dm-cJb"/>
-                            <constraint firstItem="xHB-Px-3LS" firstAttribute="top" secondItem="O6f-kw-oKt" secondAttribute="bottom" constant="8" symbolic="YES" id="zBi-TR-S4I"/>
+                            <constraint firstItem="qZo-5F-3hM" firstAttribute="leading" secondItem="2eg-fe-GFq" secondAttribute="trailing" constant="16" id="p5i-zo-qH5"/>
+                            <constraint firstItem="2SD-dJ-HXx" firstAttribute="trailing" secondItem="qZo-5F-3hM" secondAttribute="trailing" constant="16" id="wPN-eW-qEi"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Px0-Zh-eFx"/>
                     <connections>
+                        <outlet property="adCachingSwitch" destination="qZo-5F-3hM" id="dzb-yG-dQX"/>
                         <outlet property="creativeIdLabel" destination="cpp-8g-bAc" id="aMk-j0-gBD"/>
-                        <outlet property="inspectRequestButton" destination="0WU-j5-hGd" id="VM1-TG-ehd"/>
+                        <outlet property="debugButton" destination="0WU-j5-hGd" id="VM1-TG-ehd"/>
+                        <outlet property="prepareButton" destination="ecy-rg-LUx" id="IMa-N1-Xpf"/>
                         <outlet property="rewardedLoaderIndicator" destination="Ntx-NH-ORP" id="On9-jj-8F1"/>
                         <outlet property="showAdButton" destination="xHB-Px-3LS" id="yTv-iG-wqz"/>
+                        <outlet property="showAdTopConstraint" destination="8zp-zz-NOf" id="QME-d3-HKF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UrY-iL-REt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1620,16 +1735,16 @@
                                     <action selector="requestMRectTouchUpInside:" destination="vVZ-YT-bgj" eventType="touchUpInside" id="kQn-aF-QX8"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fq1-5j-isN" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fq1-5j-isN" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="xgd-zr-XXB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1697,7 +1812,7 @@
                     <navigationItem key="navigationItem" id="kxt-85-46T"/>
                     <connections>
                         <outlet property="creativeIdLabel" destination="smt-gy-FFh" id="84p-Wh-nMF"/>
-                        <outlet property="inspectRequestButton" destination="Fq1-5j-isN" id="Fde-wz-Yxy"/>
+                        <outlet property="debugButton" destination="Fq1-5j-isN" id="Fde-wz-Yxy"/>
                         <outlet property="mRectContainer" destination="r80-Vy-Kx9" id="ppl-BQ-FDU"/>
                         <outlet property="mRectLoaderIndicator" destination="ZxO-Gb-Vh5" id="UEu-HF-wIb"/>
                     </connections>
@@ -1719,7 +1834,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jvu-sf-31k">
-                                <rect key="frame" x="20" y="8" width="374" height="30"/>
+                                <rect key="frame" x="20" y="75" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1736,16 +1851,16 @@
                                 <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xA0-nV-da8" userLabel="Inspect Request Button">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xA0-nV-da8" userLabel="Debug Button">
                                 <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="inspectRequestButton" label="Inspect Request Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="dcz-D9-7BJ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Inspect Request">
+                                <state key="normal" title="Debug">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=compact">
@@ -1760,21 +1875,21 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2u-jM-XkK" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="88" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="193" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ffb-tg-IJx" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="88" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="193" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nMH-uM-gp5">
-                                <rect key="frame" x="20" y="46" width="374" height="30"/>
+                                <rect key="frame" x="20" y="151" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1787,42 +1902,81 @@
                                     <action selector="showInterstitialVideoAdButtonTapped:" destination="Vai-9P-AP3" eventType="touchUpInside" id="pRh-ye-a0v"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVy-r2-UIK">
+                                <rect key="frame" x="16" y="20" width="317" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AHi-gB-t4n">
+                                <rect key="frame" x="349" y="20" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="autoCacheSwitch" label="Auto Cache Switch"/>
+                                <connections>
+                                    <action selector="adCachingSwitchValueChanged:" destination="Vai-9P-AP3" eventType="valueChanged" id="GGZ-Q9-2bs"/>
+                                </connections>
+                            </switch>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FDd-ZM-9JC">
+                                <rect key="frame" x="20" y="113" width="374" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="prepareButton" label="Prepare Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="tJt-vS-1Ik"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Prepare"/>
+                                <connections>
+                                    <action selector="prepareButtonTapped:" destination="Vai-9P-AP3" eventType="touchUpInside" id="S0p-gq-O3e"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="098-wz-RK7"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="xA0-nV-da8" secondAttribute="trailing" constant="16" id="0aK-1d-A9z"/>
+                            <constraint firstItem="ZVy-r2-UIK" firstAttribute="leading" secondItem="098-wz-RK7" secondAttribute="leading" constant="16" id="0ya-vq-kKj"/>
                             <constraint firstItem="xA0-nV-da8" firstAttribute="centerX" secondItem="1S6-SY-Wph" secondAttribute="centerX" id="3Bg-n4-7qr"/>
                             <constraint firstItem="nMH-uM-gp5" firstAttribute="trailing" secondItem="Jvu-sf-31k" secondAttribute="trailing" id="8YK-df-jJS"/>
+                            <constraint firstItem="098-wz-RK7" firstAttribute="trailing" secondItem="Jvu-sf-31k" secondAttribute="trailing" constant="20" id="9cC-kh-uuH"/>
                             <constraint firstItem="Ffb-tg-IJx" firstAttribute="centerY" secondItem="v2u-jM-XkK" secondAttribute="centerY" id="9di-jl-lA5"/>
+                            <constraint firstItem="Jvu-sf-31k" firstAttribute="leading" secondItem="098-wz-RK7" secondAttribute="leading" constant="20" id="BhH-C8-S85"/>
                             <constraint firstItem="xA0-nV-da8" firstAttribute="leading" secondItem="098-wz-RK7" secondAttribute="leading" constant="16" id="D4u-Rx-MNf"/>
                             <constraint firstItem="Ffb-tg-IJx" firstAttribute="leading" secondItem="v2u-jM-XkK" secondAttribute="trailing" constant="8" id="IIK-7q-5Lg"/>
                             <constraint firstItem="v2u-jM-XkK" firstAttribute="top" secondItem="nMH-uM-gp5" secondAttribute="bottom" constant="12" id="J0h-vB-XjJ"/>
                             <constraint firstItem="nMH-uM-gp5" firstAttribute="leading" secondItem="Jvu-sf-31k" secondAttribute="leading" id="Kkl-3F-epO"/>
                             <constraint firstItem="TbR-ld-j52" firstAttribute="centerY" secondItem="1S6-SY-Wph" secondAttribute="centerY" id="Kvd-yG-ApV"/>
                             <constraint firstItem="v2u-jM-XkK" firstAttribute="leading" secondItem="098-wz-RK7" secondAttribute="leading" constant="16" id="MkT-1y-x8h"/>
-                            <constraint firstItem="Jvu-sf-31k" firstAttribute="leading" secondItem="1S6-SY-Wph" secondAttribute="leadingMargin" id="QHp-kx-naN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Jvu-sf-31k" secondAttribute="trailing" id="S9H-Tt-OXf"/>
-                            <constraint firstItem="Jvu-sf-31k" firstAttribute="top" secondItem="098-wz-RK7" secondAttribute="top" constant="8" id="aQo-V5-pwP"/>
-                            <constraint firstItem="nMH-uM-gp5" firstAttribute="top" secondItem="Jvu-sf-31k" secondAttribute="bottom" constant="8" symbolic="YES" id="brd-67-Put"/>
+                            <constraint firstItem="AHi-gB-t4n" firstAttribute="top" secondItem="098-wz-RK7" secondAttribute="top" constant="20" id="NHy-IE-hdG"/>
+                            <constraint firstItem="098-wz-RK7" firstAttribute="trailing" secondItem="FDd-ZM-9JC" secondAttribute="trailing" constant="20" id="NNI-1g-I8c"/>
+                            <constraint firstItem="FDd-ZM-9JC" firstAttribute="leading" secondItem="098-wz-RK7" secondAttribute="leading" constant="20" id="Ovz-pq-vok"/>
+                            <constraint firstItem="ZVy-r2-UIK" firstAttribute="top" secondItem="098-wz-RK7" secondAttribute="top" constant="20" id="RbF-MR-nM9"/>
+                            <constraint firstItem="098-wz-RK7" firstAttribute="trailing" secondItem="AHi-gB-t4n" secondAttribute="trailing" constant="16" id="SEs-LS-pKj"/>
+                            <constraint firstItem="Jvu-sf-31k" firstAttribute="top" secondItem="ZVy-r2-UIK" secondAttribute="bottom" constant="24" id="SGz-5X-Cdp"/>
+                            <constraint firstItem="AHi-gB-t4n" firstAttribute="leading" secondItem="ZVy-r2-UIK" secondAttribute="trailing" constant="16" id="Tsd-NF-64Z"/>
+                            <constraint firstItem="nMH-uM-gp5" firstAttribute="top" secondItem="Jvu-sf-31k" secondAttribute="bottom" constant="46" id="dWf-5J-ZRD"/>
                             <constraint firstItem="098-wz-RK7" firstAttribute="bottom" secondItem="xA0-nV-da8" secondAttribute="bottom" constant="8" id="f4v-dU-A8B"/>
+                            <constraint firstItem="FDd-ZM-9JC" firstAttribute="top" secondItem="Jvu-sf-31k" secondAttribute="bottom" constant="8" id="iUN-rq-MaF"/>
                             <constraint firstItem="TbR-ld-j52" firstAttribute="centerX" secondItem="1S6-SY-Wph" secondAttribute="centerX" id="l6W-cz-KJb"/>
+                            <constraint firstItem="AHi-gB-t4n" firstAttribute="centerY" secondItem="ZVy-r2-UIK" secondAttribute="centerY" id="qRw-4M-WZG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ddc-xU-94z"/>
                     <connections>
+                        <outlet property="adCachingSwitch" destination="AHi-gB-t4n" id="Jsf-fg-hgB"/>
                         <outlet property="creativeIdLabel" destination="Ffb-tg-IJx" id="KZ5-Ud-Q17"/>
-                        <outlet property="inspectRequestButton" destination="xA0-nV-da8" id="EMA-ql-YNd"/>
+                        <outlet property="debugButton" destination="xA0-nV-da8" id="EMA-ql-YNd"/>
                         <outlet property="interstitialLoaderIndicator" destination="TbR-ld-j52" id="xrc-Sx-Fj9"/>
+                        <outlet property="prepareButton" destination="FDd-ZM-9JC" id="AKM-Ob-Mj7"/>
                         <outlet property="showAdButton" destination="nMH-uM-gp5" id="GwH-E3-Kj2"/>
+                        <outlet property="showAdTopConstraint" destination="dWf-5J-ZRD" id="Rap-wU-boZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5JV-MJ-aX4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4158" y="1012"/>
+            <point key="canvasLocation" x="-4159.420289855073" y="1011.8303571428571"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FCc-Dq-GF0"/>
+        <segue reference="aKg-Fy-vH1"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -31,7 +31,6 @@
 + (NSString *)deviceWidth;
 + (NSString *)deviceHeight;
 + (NSString *)orientation;
-+ (NSString *)deviceSound;
 + (NSString *)dnt;
 + (NSString *)locale;
 + (NSString *)adCount;
@@ -63,6 +62,8 @@
 + (NSString *)versionOfOMSDKIntegration;
 + (NSString *)identifierForVendor;
 + (NSString *)rewardedVideo;
++ (NSString *)protocol;
++ (NSString *)api;
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion;

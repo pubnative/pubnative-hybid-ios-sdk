@@ -31,7 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.title = @"Custom SDK Data";
     NSString* customSDKData = [HyBid getCustomRequestSignalData];
     NSString* sdkVersionInfo = [HyBid getSDKVersionInfo];
 

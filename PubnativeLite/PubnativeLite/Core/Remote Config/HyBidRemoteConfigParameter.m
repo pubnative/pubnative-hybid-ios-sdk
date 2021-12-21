@@ -35,5 +35,12 @@
 + (NSString *)appConfig;                    { return @"app_config"; }
 + (NSString *)appToken;                     { return @"app_token"; }
 + (NSString *)api;                          { return @"api"; }
++ (NSString *)enabledProtocols;             { return @"enabled_protocols"; }
++ (NSString *)enabledAPIs;                  { return @"enabled_apis"; }
++ (NSString *)features;                     { return @"features"; }
++ (NSString *)adFormats;                    { return @"ad_formats"; }
++ (NSString *)rendering;                    { return @"rendering"; }
++ (NSString *)reporting;                    { return @"reporting"; }
++ (NSString *)userConsent;                  { return @"user_consent"; }
 
 @end

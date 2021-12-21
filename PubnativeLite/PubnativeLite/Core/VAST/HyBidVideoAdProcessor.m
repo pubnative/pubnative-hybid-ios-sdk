@@ -21,12 +21,12 @@
 //
 
 #import "HyBidVideoAdProcessor.h"
-#import "PNLiteVASTParser.h"
+#import "HyBidVASTParser.h"
 #import "HyBidError.h"
 
 @interface HyBidVideoAdProcessor()
 
-@property (nonatomic, strong) PNLiteVASTParser *parser;
+@property (nonatomic, strong) HyBidVASTParser *parser;
 
 @end
 
@@ -39,14 +39,14 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.parser = [[PNLiteVASTParser alloc] init];
+        self.parser = [[HyBidVASTParser alloc] init];
     }
     return self;
 }
 - (void)processVASTString:(NSString *)vastString completion:(videoAdProcessorCompletionBlock)block {
 
    [self.parser parseWithData:[vastString dataUsingEncoding:NSUTF8StringEncoding]
-                   completion:^(PNLiteVASTModel *model, PNLiteVASTParserError error) {
+                   completion:^(HyBidVASTModel *model, HyBidVASTParserError error) {
        if (!model) {
            NSError *parseError = [NSError hyBidParseError];
            

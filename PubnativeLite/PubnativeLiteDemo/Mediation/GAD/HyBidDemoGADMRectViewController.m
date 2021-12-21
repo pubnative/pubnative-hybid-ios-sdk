@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *mRectContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *mRectLoaderIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (nonatomic, strong) GADBannerView *gadMRect;
 
 @end
@@ -47,7 +47,7 @@
     self.navigationItem.title = @"GAD MRect";
     
     [self.mRectLoaderIndicator stopAnimating];
-    self.gadMRect = [[GADBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+    self.gadMRect = [[GADBannerView alloc] initWithAdSize:GADAdSizeMediumRectangle];
     self.gadMRect.delegate = self;
     self.gadMRect.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADMRectAdUnitIDKey];
     self.gadMRect.rootViewController = self;
@@ -59,9 +59,9 @@
 }
 
 - (void)requestAd {
-    [self clearLastInspectedRequest];
+    [self clearDebugTools];
     self.mRectContainer.hidden = YES;
-    self.inspectRequestButton.hidden = YES;
+    self.debugButton.hidden = YES;
     [self.mRectLoaderIndicator startAnimating];
     [self.gadMRect loadRequest:[GADRequest request]];
 }
@@ -72,7 +72,7 @@
     NSLog(@"bannerViewDidReceiveAd");
     if (self.gadMRect == bannerView) {
         self.mRectContainer.hidden = NO;
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
     }
 }
@@ -80,7 +80,7 @@
 - (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
     NSLog(@"bannerView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
     if (self.gadMRect == bannerView) {
-        self.inspectRequestButton.hidden = NO;
+        self.debugButton.hidden = NO;
         [self.mRectLoaderIndicator stopAnimating];
         [self showAlertControllerWithMessage:error.localizedDescription];
     }

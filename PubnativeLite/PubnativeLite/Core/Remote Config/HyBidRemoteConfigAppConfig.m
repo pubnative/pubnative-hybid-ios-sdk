@@ -59,7 +59,9 @@
         else {
             self.apiType = [dictionary[HyBidRemoteConfigParameter.api] apiTypeFromString];
         }
-        
+        self.enabledProtocols = dictionary[HyBidRemoteConfigParameter.enabledProtocols];
+        self.enabledAPIs = dictionary[HyBidRemoteConfigParameter.enabledAPIs];
+        self.features = [[HyBidRemoteConfigAppFeatures alloc] initWithDictionary:dictionary[HyBidRemoteConfigParameter.features]];
     }
     return self;
 }

@@ -24,7 +24,7 @@
 
 @implementation HyBidIntegrationType
 
-+ (NSString *)getIntegrationTypeCodeFromIntegrationType:(IntegrationType)integrationType {
++ (NSString *)integrationTypeToString:(IntegrationType)integrationType {
     NSArray *integrationTypes = @[
                                   @"hb",
                                   @"iab",

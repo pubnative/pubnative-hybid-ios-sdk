@@ -21,13 +21,15 @@
 //
 
 #import "HyBidSkAdNetworkModel.h"
+#import "HyBidLogger.h"
 #import <StoreKit/SKAdNetwork.h>
 #import <StoreKit/SKStoreProductViewController.h>
-
 @implementation HyBidSkAdNetworkModel
 
 NSString * const REQUEST_SKADNETWORK_V1 = @"1.0";
 NSString * const REQUEST_SKADNETWORK_V2 = @"2.0";
+NSString * const REQUEST_SKADNETWORK_V2_2 = @"2.2";
+NSString * const REQUEST_SKADNETWORK_V3 = @"3.0";
 
 NSString * const RESPONSE_AD_NETWORK_ID_KEY = @"network";
 NSString * const RESPONSE_SOURCE_APP_ID_KEY = @"sourceapp";
@@ -37,7 +39,7 @@ NSString * const RESPONSE_SIGNATURE_KEY = @"signature";
 NSString * const RESPONSE_CAMPAIGN_ID_KEY = @"campaign";
 NSString * const RESPONSE_TIMESTAMP_KEY = @"timestamp";
 NSString * const RESPONSE_NONCE_KEY = @"nonce";
-NSString * const RESPONSE_FIDELITY_KEY = @"fidelity-type";
+NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
 
 - (instancetype)initWithParameters:(NSDictionary *)productParams {
     self = [super init];
@@ -51,8 +53,8 @@ NSString * const RESPONSE_FIDELITY_KEY = @"fidelity-type";
     NSMutableDictionary* storeKitParameters = [[NSMutableDictionary alloc] init];
     
     if ([self areProductParametersValid:self.productParameters]) {
+        // SkAdNetwork v1.0 and later
         if (@available(iOS 11.3, *)) {
-            [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_SIGNATURE_KEY] forKey:SKStoreProductParameterAdNetworkAttributionSignature];
             [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_AD_NETWORK_ID_KEY] forKey:SKStoreProductParameterAdNetworkIdentifier];
             [storeKitParameters setObject:@([[self.productParameters objectForKey:RESPONSE_CAMPAIGN_ID_KEY] intValue]) forKey:SKStoreProductParameterAdNetworkCampaignIdentifier];
             [storeKitParameters setObject:@([[self.productParameters objectForKey:RESPONSE_TIMESTAMP_KEY] intValue]) forKey:SKStoreProductParameterAdNetworkTimestamp];
@@ -61,14 +63,23 @@ NSString * const RESPONSE_FIDELITY_KEY = @"fidelity-type";
             // Fallback on earlier versions
         }
         [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_TARGET_APP_ID_KEY] forKey:SKStoreProductParameterITunesItemIdentifier];
-        
+               
+        // SkAdNetwork v2.0 and later
         if (@available(iOS 14, *)) {
             NSString* skAdNetworkVersion = [self.productParameters objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY];
             
-            // These product params are only included in SKAdNetwork version 2.0
-            if ([skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2]) {
+            BOOL isSkAdNetworkHigher_v2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+            
+            BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+            
+            if (isSkAdNetworkHigher_v2) {
                 [storeKitParameters setObject:skAdNetworkVersion forKey:SKStoreProductParameterAdNetworkVersion];
                 [storeKitParameters setObject:@([[self.productParameters objectForKey:RESPONSE_SOURCE_APP_ID_KEY] intValue]) forKey:SKStoreProductParameterAdNetworkSourceAppStoreIdentifier];
+                [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_SIGNATURE_KEY] forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+            }
+            
+            if (isSkAdNetworkHigher_v2_2) {
+                [storeKitParameters setObject:@([[self.productParameters objectForKey:RESPONSE_FIDELITY_TYPE_KEY] intValue]) forKey:RESPONSE_FIDELITY_TYPE_KEY];
             }
         }
     }
@@ -102,13 +113,45 @@ NSString * const RESPONSE_FIDELITY_KEY = @"fidelity-type";
     if (@available(iOS 14, *)) {
         NSString *appStoreID = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_SOURCE_APP_ID_KEY]]];
         
-        areV2ParametersValid = [dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY] &&
+        areV2ParametersValid =
+        [dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY] &&
         [(NSString *)[dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY] length] > 0 &&
         [dict objectForKey:RESPONSE_SOURCE_APP_ID_KEY] &&
-        [appStoreID length] > 0;
+        [appStoreID length] > 0 &&
+        [dict objectForKey:RESPONSE_SIGNATURE_KEY] &&
+        [(NSString *)[dict objectForKey:RESPONSE_SIGNATURE_KEY] length] > 0;
     }
     
-    return areBasicParametersValid && areV2ParametersValid;
+    BOOL areV2_2_ParametersValid = FALSE;
+    NSString* skAdNetworkVersion = [dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY];
+    BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+    if (@available(iOS 14, *)) {
+        if (isSkAdNetworkHigher_v2_2) {
+            areV2_2_ParametersValid = ([dict objectForKey:RESPONSE_FIDELITY_TYPE_KEY] != nil)
+            && [[NSString stringWithFormat:@"%@", [dict objectForKey:RESPONSE_FIDELITY_TYPE_KEY]] length] > 0;
+        } else {
+            areV2_2_ParametersValid = TRUE; // No need in versions below v2.2
+        }
+    }
+    
+    return areBasicParametersValid && areV2ParametersValid && areV2_2_ParametersValid;
+}
+
+- (BOOL)isSKAdNetworkIDVisible:(NSDictionary*) productParams{
+   NSArray *networkItems = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SKAdNetworkItems"];
+    
+    if (networkItems == NULL || [networkItems count] == 0) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"The key `SKAdNetworkItems` could not be found in `info.plist` file of the app. Please add the required item and try again."];
+        return NO;
+    }
+
+   for (NSDictionary* skAdNetworkID in networkItems) {
+       if ([[NSString stringWithFormat:@"%@",skAdNetworkID[@"SKAdNetworkIdentifier"]] isEqual:
+            [NSString stringWithFormat:@"%@",productParams[@"adNetworkId"]]]) {
+           return YES;
+       }
+   }
+   return NO;
 }
 
 @end
