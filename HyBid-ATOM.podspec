@@ -40,8 +40,8 @@ Pod::Spec.new do |s|
   s.authors      = { "Can Soykarafakili" => "can.soykarafakili@verve.com", "Eros Garcia Ponte" => "eros.ponte@verve.com", "Fares Benhamouda" => "fares.benhamouda@verve.com", "Orkhan Alizada" => "orkhan.alizada@verve.com"  }
   s.platform     = :ios
 
-  s.ios.deployment_target = "9.0"
-  s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/2.7.1-ATOM-beta1/HyBid.xcframework.zip" }
+  s.ios.deployment_target = "11.0"
+  s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/2.9.0-ATOM-beta1/HyBid.xcframework.zip" }
   s.vendored_framework = 'HyBid.xcframework'
   s.dependency 'NumberEightCompiled', '= 3.0.4'
 
