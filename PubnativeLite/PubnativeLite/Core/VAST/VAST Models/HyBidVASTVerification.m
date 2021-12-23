@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVASTVerification.h"
+#import "HyBidVASTVerificationParameters.h"
 #import "HyBidVASTXMLParserHelper.h"
 #import "HyBidVASTResource.h"
 
@@ -90,6 +91,18 @@
 {
     NSMutableArray *trackingEvents = [[NSMutableArray alloc] init];
     return trackingEvents;
+}
+
+- (NSString *)verificationParameters {
+    NSString *query = @"//AdVerifications/Verification/VerificationParameters";
+    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
+    
+    if (result && [result count] >= 1) {
+        HyBidVASTVerificationParameters* verificationParameters = [[HyBidVASTVerificationParameters alloc] initWithDocumentArray:self.vastDocumentArray atIndex:0];
+        return [verificationParameters parameters];
+    } else {
+        return @"";
+    }
 }
 
 @end

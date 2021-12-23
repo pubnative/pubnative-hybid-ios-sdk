@@ -43,4 +43,6 @@
 
 - (NSArray<HyBidVASTTrackingEvent *> *)trackingEvents;
 
+- (NSString *)verificationParameters;
+
 @end

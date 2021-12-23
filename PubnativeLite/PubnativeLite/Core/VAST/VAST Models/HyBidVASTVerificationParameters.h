@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#ifndef HyBidConstants_h
-#define HyBidConstants_h
+#import <Foundation/Foundation.h>
 
-#define HYBID_SDK_NAME @"HyBid"
-#define HYBID_SDK_VERSION @"2.9.1"
-#define HYBID_OMSDK_VERSION @"1.3.26"
-#define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
+@interface HyBidVASTVerificationParameters : NSObject
 
-#endif
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+
+- (NSString *)parameters;
+
+@end

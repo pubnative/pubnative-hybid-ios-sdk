@@ -849,6 +849,12 @@
 		7EE35862256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3585F256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.m */; };
 		7EE35863256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35860256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.h */; };
 		7EE35864256D51E9005E6AC6 /* HyBidRemoteConfigMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE35860256D51E8005E6AC6 /* HyBidRemoteConfigMeasurement.h */; };
+		CEEB1FE32772370200FCC282 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 62763BB327397BDA00482C22 /* omsdk.js */; };
+		CEEB1FE42772370300FCC282 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 62763BB327397BDA00482C22 /* omsdk.js */; };
+		E70D16BE2773718F009AFA37 /* HyBidVASTVerificationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = E70D16BC2773718F009AFA37 /* HyBidVASTVerificationParameters.h */; };
+		E70D16BF2773718F009AFA37 /* HyBidVASTVerificationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = E70D16BC2773718F009AFA37 /* HyBidVASTVerificationParameters.h */; };
+		E70D16C02773718F009AFA37 /* HyBidVASTVerificationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = E70D16BD2773718F009AFA37 /* HyBidVASTVerificationParameters.m */; };
+		E70D16C12773718F009AFA37 /* HyBidVASTVerificationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = E70D16BD2773718F009AFA37 /* HyBidVASTVerificationParameters.m */; };
 		E715F7232729A4E500E20A9E /* hybidscaling.js in Resources */ = {isa = PBXBuildFile; fileRef = E715F7222729A4E500E20A9E /* hybidscaling.js */; };
 		E715F7242729A4FE00E20A9E /* hybidscaling.js in Resources */ = {isa = PBXBuildFile; fileRef = E715F7222729A4E500E20A9E /* hybidscaling.js */; };
 		E76DF5B725E6C0EC002CF7BA /* HyBidVGIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = E76DF59225E6C0E9002CF7BA /* HyBidVGIOS.m */; };
@@ -1643,6 +1649,8 @@
 		BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBidDemo.release.xcconfig"; path = "Target Support Files/Pods-HyBidDemo/Pods-HyBidDemo.release.xcconfig"; sourceTree = "<group>"; };
 		E7066348267B931700167612 /* HyBidSignalDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSignalDataModel.h; sourceTree = "<group>"; };
 		E7066349267B931700167612 /* HyBidSignalDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSignalDataModel.m; sourceTree = "<group>"; };
+		E70D16BC2773718F009AFA37 /* HyBidVASTVerificationParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTVerificationParameters.h; sourceTree = "<group>"; };
+		E70D16BD2773718F009AFA37 /* HyBidVASTVerificationParameters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTVerificationParameters.m; sourceTree = "<group>"; };
 		E715F7222729A4E500E20A9E /* hybidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidscaling.js; sourceTree = "<group>"; };
 		E76DF59225E6C0E9002CF7BA /* HyBidVGIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidVGIOS.m; sourceTree = "<group>"; };
 		E76DF59325E6C0E9002CF7BA /* HyBidVGIModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidVGIModel.h; sourceTree = "<group>"; };
@@ -2825,6 +2833,8 @@
 				6F828F8C26EB9E4800180516 /* HyBidVASTResource.m */,
 				6F828F9426F0F28E00180516 /* HyBidVASTAdCategory.h */,
 				6F828F9526F0F28E00180516 /* HyBidVASTAdCategory.m */,
+				E70D16BC2773718F009AFA37 /* HyBidVASTVerificationParameters.h */,
+				E70D16BD2773718F009AFA37 /* HyBidVASTVerificationParameters.m */,
 			);
 			path = "VAST Models";
 			sourceTree = "<group>";
@@ -3214,6 +3224,7 @@
 				6F56703526C67E5B00B52B46 /* HyBidVASTTrackingEvents.h in Headers */,
 				E7C26C2A267B9CD10089C60A /* HyBidSignalDataModel.h in Headers */,
 				5AA284CC233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.h in Headers */,
+				E70D16BE2773718F009AFA37 /* HyBidVASTVerificationParameters.h in Headers */,
 				5A262DD5218B3395001A29E2 /* HyBidLeaderboardAdView.h in Headers */,
 				6F54A72F25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */,
 				6F8C11812539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.h in Headers */,
@@ -3268,6 +3279,7 @@
 				7E4CC8B625029A0C003A3425 /* HyBidInterstitialPresenter.h in Headers */,
 				6F96C73F259B68E300F03422 /* HyBidOpenRTBDataModel.h in Headers */,
 				6F96C7B3259B7CEF00F03422 /* HyBidOpenRTBBaseModel.h in Headers */,
+				E70D16BF2773718F009AFA37 /* HyBidVASTVerificationParameters.h in Headers */,
 				7E4CCA0C2502A5A9003A3425 /* PNLiteInterstitialPresenterDecorator.h in Headers */,
 				7E4CC9A32502A4E6003A3425 /* HyBidViewabilityAdSession.h in Headers */,
 				E76DF5FC25E6C0ED002CF7BA /* HyBidVGIOS.h in Headers */,
@@ -3633,6 +3645,7 @@
 				6F59DE352721ACAC00C117FF /* PNLiteExternalLink1@3x.png in Resources */,
 				5A9B66C220BD57ED0067964E /* PNLitePlay@2x.png in Resources */,
 				5A9B66BF20BD57ED0067964E /* PNLiteUnmute.png in Resources */,
+				CEEB1FE32772370200FCC282 /* omsdk.js in Resources */,
 				5A9B66C020BD57ED0067964E /* PNLiteUnmute@2x.png in Resources */,
 				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 				E715F7232729A4E500E20A9E /* hybidscaling.js in Resources */,
@@ -3663,6 +3676,7 @@
 				7E4CCA3C2502A5E8003A3425 /* PNLiteCloseButton.png in Resources */,
 				7E4CCA212502A5C5003A3425 /* PNLiteExternalLink.png in Resources */,
 				7E4CCA222502A5C5003A3425 /* PNLiteExternalLink@2x.png in Resources */,
+				CEEB1FE42772370300FCC282 /* omsdk.js in Resources */,
 				E715F7242729A4FE00E20A9E /* hybidscaling.js in Resources */,
 				7E4CCA232502A5C5003A3425 /* PNLiteFullScreen.png in Resources */,
 				7E4CCA242502A5C5003A3425 /* PNLiteFullScreen@2x.png in Resources */,
@@ -3724,7 +3738,7 @@
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/mopub-ios-sdk/MoPubSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OMSDK_Mopub/OMSDK_Mopub.framework/OMSDK_Mopub",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/mopub-ios-sdk/Core/OMSDK_Mopub.framework/OMSDK_Mopub",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -4018,6 +4032,7 @@
 				6F75A7CF26BC3B62004D2862 /* HyBidVASTInteractiveCreativeFile.m in Sources */,
 				5ACAA3A92705F69F00FCC47A /* HyBidAPI.m in Sources */,
 				5AB2C13224869E4300AFB4A5 /* HyBidVideoAdProcessor.m in Sources */,
+				E70D16C02773718F009AFA37 /* HyBidVASTVerificationParameters.m in Sources */,
 				5AEC316D24698D0E008FD8BD /* HyBidViewabilityAdSession.m in Sources */,
 				62E8D73F26CFAA8000828E6A /* HyBidVASTTrackingEvent.m in Sources */,
 				5AB6D21922575FF200AB9C8F /* HyBidViewabilityManager.m in Sources */,
@@ -4207,6 +4222,7 @@
 				62CE40E825B59A7E00C5E8EA /* HyBidReportingManager.m in Sources */,
 				7E4CC9F72502A587003A3425 /* HyBidVideoAdCache.m in Sources */,
 				7E4CC9F52502A587003A3425 /* HyBidVideoAdCacheItem.m in Sources */,
+				E70D16C12773718F009AFA37 /* HyBidVASTVerificationParameters.m in Sources */,
 				6F8C11842539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m in Sources */,
 				7E4CCA3B2502A5E1003A3425 /* HyBidVideoAdProcessor.m in Sources */,
 				E7CD0E59252221B800F976D6 /* HyBidSKAdNetworkViewController.m in Sources */,
@@ -4369,7 +4385,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -4408,7 +4424,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.9.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4565,7 +4581,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.9.1;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4607,7 +4623,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.9.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
@@ -4742,7 +4758,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.22",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.26",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -4769,7 +4785,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.22",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.3.26",
 				);
 				HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2\n";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

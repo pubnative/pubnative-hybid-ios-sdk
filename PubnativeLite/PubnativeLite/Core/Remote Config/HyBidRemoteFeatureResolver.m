@@ -51,7 +51,7 @@
         return NO;
     }
     
-    if (self.appFeaturesModel != nil && self.appFeaturesModel.adFormats != nil) {
+    if (self.appFeaturesModel != nil && self.appFeaturesModel.adFormats != nil && [self.appFeaturesModel.adFormats count] > 0) {
         return [self.appFeaturesModel.adFormats containsObject:feature];
     } else {
         return YES;
@@ -64,7 +64,7 @@
         return NO;
     }
     
-    if (self.appFeaturesModel != nil && self.appFeaturesModel.rendering != nil) {
+    if (self.appFeaturesModel != nil && self.appFeaturesModel.rendering != nil && [self.appFeaturesModel.rendering count] > 0) {
         return [self.appFeaturesModel.rendering containsObject:feature];
     } else {
         return YES;
@@ -77,7 +77,7 @@
         return NO;
     }
     
-    if (self.appFeaturesModel != nil && self.appFeaturesModel.reporting != nil) {
+    if (self.appFeaturesModel != nil && self.appFeaturesModel.reporting != nil && [self.appFeaturesModel.reporting count] > 0) {
         return [self.appFeaturesModel.reporting containsObject:feature];
     } else {
         return ![feature isEqualToString:[HyBidRemoteConfigFeature hyBidRemoteReportingToString:HyBidRemoteReporting_AD_EVENTS]];
@@ -90,7 +90,7 @@
         return NO;
     }
     
-    if (self.appFeaturesModel != nil && self.appFeaturesModel.userConsent != nil) {
+    if (self.appFeaturesModel != nil && self.appFeaturesModel.userConsent != nil && [self.appFeaturesModel.userConsent count] > 0) {
         return [self.appFeaturesModel.userConsent containsObject:feature];
     } else {
         return YES;

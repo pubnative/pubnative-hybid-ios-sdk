@@ -258,16 +258,27 @@ typedef enum : NSUInteger {
 
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {
-        NSMutableArray<NSString *> *scriptResources = [[NSMutableArray alloc] init];
+        NSMutableArray<OMIDPubnativenetVerificationScriptResource *> *scriptResources = [[NSMutableArray alloc] init];
         HyBidVASTAd *firstAd = [[self.hyBidVastModel ads] firstObject];
-        HyBidVASTVerification *firstVerification = [[firstAd adVerifications] firstObject];
-
-        for (HyBidVASTJavaScriptResource *res in [firstVerification javaScriptResource]) {
-            [scriptResources addObject: [res url]];
+        
+        NSArray<HyBidVASTVerification *> * adVerifications = [firstAd adVerifications];
+        if (adVerifications) {
+            for (HyBidVASTVerification *verification in adVerifications) {
+                if (verification) {
+                    for (HyBidVASTJavaScriptResource *res in [verification javaScriptResource]) {
+                        NSString* urlString = [res url];
+                        NSString* vendor = [verification vendor];
+                        NSString* params = [verification verificationParameters];
+                        
+                        if (urlString && [urlString length] != 0 && vendor && [vendor length] != 0) {
+                            
+                            [scriptResources addObject: [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:urlString] vendorKey:vendor parameters:params]];
+                        }
+                    }
+                }
+            }
         }
-        for (HyBidVASTExecutableResource *res in [firstVerification executableResource]) {
-            [scriptResources addObject: [res url]];
-        }
+        
         
         self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:scriptResources];
         
