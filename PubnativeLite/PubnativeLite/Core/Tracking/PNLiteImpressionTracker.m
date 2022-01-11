@@ -103,9 +103,8 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 
 - (void)checkVisibility {
     if(self.visibleViews != nil) {
-        for (int i = 0; i < self.visibleViews.count; i++) {
-            if (i < self.visibleViews.count) {
-                PNLiteImpressionTrackerItem *item = self.visibleViews[i];
+        for (PNLiteImpressionTrackerItem* item in self.visibleViews) {
+            if (item != nil) {
                 // It could happen that we've removed the view right when we're tracking, so we simply skip this item
                 if([self.trackedViews containsObject:item.view]) {
                     NSTimeInterval currentTimestamp = [[NSDate date] timeIntervalSince1970];
@@ -120,7 +119,6 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
                 break;
             }
         }
-        
         self.isVisibiltyCheckScheduled = NO;
         if(self.visibleViews.count > 0) {
             [self scheduleNextRun];

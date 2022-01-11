@@ -69,7 +69,7 @@
         NSDictionary *attribute = results[0];
         xmlValue = attribute[@"nodeContent"];
     }
-    return xmlValue;
+    return [xmlValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (NSString *)getContentForNode:(NSDictionary *)node {
