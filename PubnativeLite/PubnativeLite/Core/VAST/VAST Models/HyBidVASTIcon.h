@@ -77,4 +77,8 @@
  */
 - (NSArray<NSString *> *)iconViewTracking;
 
+- (NSString *)staticResource;
+
+- (NSString *)iconClickThrough;
+
 @end

@@ -71,7 +71,16 @@
 
 - (NSArray<NSString *> *)iconViewTracking
 {
-    return [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon/IconViewTracking"];
+    NSString *query = @"//Icons/Icon/IconViewTracking";
+    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
+    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *node in result) {
+        NSString *str = [self.parserHelper getContentForNode:node];
+        [array addObject:str];
+    }
+    
+    return array;
 }
 
 - (NSString *)offset
@@ -102,6 +111,18 @@
 {
     NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
     return [self.parserHelper getContentForAttribute:@"yPosition" inNode: array[self.index]];
+}
+
+- (NSString *)staticResource
+{
+    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon/StaticResource"];
+    return [array count] > self.index ? [self.parserHelper getContentForNode:array[self.index]] : nil;
+}
+
+- (NSString *)iconClickThrough
+{
+    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon/IconClicks/IconClickThrough"];
+    return [array count] > self.index ? [self.parserHelper getContentForNode:array[self.index]] : nil;
 }
 
 @end

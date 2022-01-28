@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,16 +12,12 @@
         <scene sceneID="La3-Pw-El7">
             <objects>
                 <viewController id="dIX-wM-j9j" customClass="PNLiteDemoMainViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="10S-oZ-WAa"/>
-                        <viewControllerLayoutGuide type="bottom" id="Emv-ng-H1T"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Rak-bh-dB1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwu-Kj-qga" userLabel="PNLite Settings Button">
-                                <rect key="frame" x="16" y="52" width="343" height="33"/>
+                                <rect key="frame" x="16" y="96" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.49019607843137253" green="0.039215686274509803" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="settingsButton" label="Settings Button"/>
                                 <constraints>
@@ -48,7 +45,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zone ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfZ-6R-g6D">
-                                <rect key="frame" x="16" y="93" width="48" height="21"/>
+                                <rect key="frame" x="16" y="137" width="48" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="zoneIDLabel" label="ZoneID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="CPe-yh-cjh"/>
@@ -63,7 +60,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a Zone ID" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ypJ-Ju-ZDX" userLabel="Zone ID Text Field">
-                                <rect key="frame" x="16" y="122" width="343" height="30"/>
+                                <rect key="frame" x="16" y="166" width="382" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="zoneIDTextField" label="ZoneID TextField"/>
                                 <constraints>
@@ -76,7 +73,7 @@
                                 </connections>
                             </textField>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctb-Dy-s2W" userLabel="Standalone Button">
-                                <rect key="frame" x="16" y="544" width="343" height="33"/>
+                                <rect key="frame" x="16" y="739" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="standaloneButton" label="Standalone Button"/>
                                 <constraints>
@@ -108,7 +105,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62G-RC-7fB" userLabel="Header Bidding Button">
-                                <rect key="frame" x="16" y="585" width="343" height="33"/>
+                                <rect key="frame" x="16" y="780" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="headerBiddingButton" label="Header Bidding Button"/>
                                 <constraints>
@@ -140,7 +137,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hcb-bJ-YfG" userLabel="Mediation Button">
-                                <rect key="frame" x="16" y="626" width="343" height="33"/>
+                                <rect key="frame" x="16" y="821" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mediationButton" label="Mediation Button"/>
                                 <constraints>
@@ -172,7 +169,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cJ-kb-ef6" userLabel="Standalone Button">
-                                <rect key="frame" x="16" y="160" width="343" height="33"/>
+                                <rect key="frame" x="16" y="204" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="standaloneButton" label="Standalone Button"/>
                                 <constraints>
@@ -194,8 +191,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="Edb-uS-kz6"/>
                                         <include reference="7oB-xO-olB"/>
+                                        <exclude reference="Edb-uS-kz6"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -203,29 +200,30 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="d0j-k5-Re8"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="1cJ-kb-ef6" secondAttribute="trailing" constant="16" id="22b-rn-dTP"/>
                             <constraint firstItem="gfZ-6R-g6D" firstAttribute="top" secondItem="kwu-Kj-qga" secondAttribute="bottom" constant="8" id="2fP-Dj-YRd"/>
                             <constraint firstItem="Hcb-bJ-YfG" firstAttribute="top" secondItem="62G-RC-7fB" secondAttribute="bottom" constant="8" id="7oe-I7-mzY"/>
-                            <constraint firstItem="kwu-Kj-qga" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="8vC-2y-c5q"/>
-                            <constraint firstItem="ctb-Dy-s2W" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="ANu-i5-amr"/>
-                            <constraint firstItem="kwu-Kj-qga" firstAttribute="top" secondItem="10S-oZ-WAa" secondAttribute="bottom" constant="8" id="I6v-KL-B78"/>
+                            <constraint firstItem="kwu-Kj-qga" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="8vC-2y-c5q"/>
+                            <constraint firstItem="ctb-Dy-s2W" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="ANu-i5-amr"/>
+                            <constraint firstItem="kwu-Kj-qga" firstAttribute="top" secondItem="d0j-k5-Re8" secondAttribute="top" constant="8" id="I6v-KL-B78"/>
                             <constraint firstItem="62G-RC-7fB" firstAttribute="top" secondItem="ctb-Dy-s2W" secondAttribute="bottom" constant="8" id="IlC-xz-EHW"/>
-                            <constraint firstItem="gfZ-6R-g6D" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="MHv-xW-VR2"/>
-                            <constraint firstAttribute="trailing" secondItem="ypJ-Ju-ZDX" secondAttribute="trailing" constant="16" id="QbA-Xz-9S7"/>
-                            <constraint firstItem="Emv-ng-H1T" firstAttribute="top" secondItem="Hcb-bJ-YfG" secondAttribute="bottom" constant="8" id="RB8-LR-C92"/>
-                            <constraint firstItem="1cJ-kb-ef6" firstAttribute="trailing" secondItem="Rak-bh-dB1" secondAttribute="trailingMargin" id="RNd-42-V2l"/>
-                            <constraint firstItem="62G-RC-7fB" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="S83-dx-DGV"/>
-                            <constraint firstItem="Hcb-bJ-YfG" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="bpT-2E-9AP"/>
-                            <constraint firstAttribute="trailing" secondItem="kwu-Kj-qga" secondAttribute="trailing" constant="16" id="bqO-xf-R3h"/>
-                            <constraint firstAttribute="trailing" secondItem="Hcb-bJ-YfG" secondAttribute="trailing" constant="16" id="ees-8Z-OdF"/>
+                            <constraint firstItem="gfZ-6R-g6D" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="MHv-xW-VR2"/>
+                            <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="ypJ-Ju-ZDX" secondAttribute="trailing" constant="16" id="QbA-Xz-9S7"/>
+                            <constraint firstItem="d0j-k5-Re8" firstAttribute="bottom" secondItem="Hcb-bJ-YfG" secondAttribute="bottom" constant="8" id="RB8-LR-C92"/>
+                            <constraint firstItem="62G-RC-7fB" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="S83-dx-DGV"/>
+                            <constraint firstItem="Hcb-bJ-YfG" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="bpT-2E-9AP"/>
+                            <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="kwu-Kj-qga" secondAttribute="trailing" constant="16" id="bqO-xf-R3h"/>
+                            <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="Hcb-bJ-YfG" secondAttribute="trailing" constant="16" id="ees-8Z-OdF"/>
                             <constraint firstItem="1cJ-kb-ef6" firstAttribute="top" secondItem="ypJ-Ju-ZDX" secondAttribute="bottom" constant="8" symbolic="YES" id="fMO-Ya-37g"/>
                             <constraint firstItem="ypJ-Ju-ZDX" firstAttribute="top" secondItem="gfZ-6R-g6D" secondAttribute="bottom" constant="8" id="mb8-QT-xKp"/>
-                            <constraint firstItem="ypJ-Ju-ZDX" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leading" constant="16" id="mpt-xA-whp"/>
-                            <constraint firstAttribute="trailing" secondItem="62G-RC-7fB" secondAttribute="trailing" constant="16" id="qNZ-BR-kyY"/>
-                            <constraint firstItem="1cJ-kb-ef6" firstAttribute="leading" secondItem="Rak-bh-dB1" secondAttribute="leadingMargin" id="s4O-9U-OXv"/>
-                            <constraint firstAttribute="trailing" secondItem="ctb-Dy-s2W" secondAttribute="trailing" constant="16" id="zGv-r0-XOz"/>
+                            <constraint firstItem="ypJ-Ju-ZDX" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="mpt-xA-whp"/>
+                            <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="62G-RC-7fB" secondAttribute="trailing" constant="16" id="qNZ-BR-kyY"/>
+                            <constraint firstItem="1cJ-kb-ef6" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="s4O-9U-OXv"/>
+                            <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="ctb-Dy-s2W" secondAttribute="trailing" constant="16" id="zGv-r0-XOz"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="S6C-z2-jku" appends="YES" id="dY7-eG-4gv"/>
@@ -295,7 +293,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JCl-qa-lcV" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lqw-hV-VTW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">

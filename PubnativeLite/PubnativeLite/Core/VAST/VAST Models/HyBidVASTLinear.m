@@ -58,17 +58,9 @@
     return [[HyBidVASTAdParameters alloc] initWithDocumentArray:self.vastDocumentArray atIndex:self.index];
 }
 
-- (NSArray<HyBidVASTIcon *> *)icons
+- (HyBidVASTIcons *)icons
 {
-    NSMutableArray<HyBidVASTIcon *> *icons = [[NSMutableArray alloc] init];
-    NSString *query = @"//Creatives/Creative/Linear/Icons";
-    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
-    
-    for (int i = 0; i < [result count]; i++) {
-        HyBidVASTIcon *icon = [[HyBidVASTIcon alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
-        [icons addObject:icon];
-    }
-    return icons;
+    return [[HyBidVASTIcons alloc] initWithDocumentArray:self.vastDocumentArray];
 }
 
 - (HyBidVASTMediaFiles *)mediaFiles

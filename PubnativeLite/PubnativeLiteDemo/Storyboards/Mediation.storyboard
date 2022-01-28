@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oCm-84-z79">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oCm-84-z79">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,11 +17,11 @@
                         <viewControllerLayoutGuide type="bottom" id="u5Z-OG-p7a"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rq6-rV-hag">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FB7-B2-kQt">
-                                <rect key="frame" x="16" y="8" width="53" height="21"/>
+                                <rect key="frame" x="16" y="52" width="53" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="networkLabel" label="Network Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Q9H-QR-1zY"/>
@@ -36,7 +36,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E6y-3h-hbU" userLabel="MoPub Button">
-                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <rect key="frame" x="16" y="81" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="moPubButton" label="MoPub Button"/>
                                 <constraints>
@@ -67,7 +67,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Now-D3-gFm" userLabel="GAD Button">
-                                <rect key="frame" x="16" y="78" width="343" height="33"/>
+                                <rect key="frame" x="16" y="122" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="gadButton" label="GAD Button"/>
                                 <constraints>
@@ -97,8 +97,8 @@
                                     <segue destination="xKk-V9-smz" kind="show" id="JMW-MV-NV9"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ea-L3-3u8" userLabel="IronSource Button">
-                                <rect key="frame" x="16" y="119" width="343" height="33"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ea-L3-3u8" userLabel="IronSource Button">
+                                <rect key="frame" x="16" y="163" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="ironSouceButton" label="IronSource Button"/>
                                 <constraints>
@@ -134,14 +134,14 @@
                         <constraints>
                             <constraint firstItem="6Ea-L3-3u8" firstAttribute="leading" secondItem="QcE-sN-vMO" secondAttribute="leading" constant="16" id="5pg-MF-u4r"/>
                             <constraint firstItem="FB7-B2-kQt" firstAttribute="top" secondItem="QcE-sN-vMO" secondAttribute="top" constant="8" id="7aZ-8h-cKT"/>
-                            <constraint firstItem="Now-D3-gFm" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="7n4-hM-hdG"/>
-                            <constraint firstItem="E6y-3h-hbU" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="Fua-VP-4JG"/>
-                            <constraint firstAttribute="trailing" secondItem="E6y-3h-hbU" secondAttribute="trailing" constant="16" id="Jhe-dE-TqM"/>
+                            <constraint firstItem="Now-D3-gFm" firstAttribute="leading" secondItem="QcE-sN-vMO" secondAttribute="leading" constant="16" id="7n4-hM-hdG"/>
+                            <constraint firstItem="E6y-3h-hbU" firstAttribute="leading" secondItem="QcE-sN-vMO" secondAttribute="leading" constant="16" id="Fua-VP-4JG"/>
+                            <constraint firstItem="QcE-sN-vMO" firstAttribute="trailing" secondItem="E6y-3h-hbU" secondAttribute="trailing" constant="16" id="Jhe-dE-TqM"/>
                             <constraint firstItem="Now-D3-gFm" firstAttribute="top" secondItem="E6y-3h-hbU" secondAttribute="bottom" constant="8" id="KEM-wj-AX9"/>
                             <constraint firstItem="6Ea-L3-3u8" firstAttribute="top" secondItem="Now-D3-gFm" secondAttribute="bottom" constant="8" symbolic="YES" id="Kdk-v3-QeE"/>
                             <constraint firstItem="E6y-3h-hbU" firstAttribute="top" secondItem="FB7-B2-kQt" secondAttribute="bottom" constant="8" id="Led-Rn-4Sm"/>
-                            <constraint firstItem="FB7-B2-kQt" firstAttribute="leading" secondItem="rq6-rV-hag" secondAttribute="leading" constant="16" id="Sur-i6-GOB"/>
-                            <constraint firstAttribute="trailing" secondItem="Now-D3-gFm" secondAttribute="trailing" constant="16" id="ULy-HI-xsh"/>
+                            <constraint firstItem="FB7-B2-kQt" firstAttribute="leading" secondItem="QcE-sN-vMO" secondAttribute="leading" constant="16" id="Sur-i6-GOB"/>
+                            <constraint firstItem="QcE-sN-vMO" firstAttribute="trailing" secondItem="Now-D3-gFm" secondAttribute="trailing" constant="16" id="ULy-HI-xsh"/>
                             <constraint firstItem="QcE-sN-vMO" firstAttribute="trailing" secondItem="6Ea-L3-3u8" secondAttribute="trailing" constant="16" id="WfB-gg-ozg"/>
                         </constraints>
                     </view>
@@ -162,7 +162,7 @@
                         <viewControllerLayoutGuide type="bottom" id="v2S-Lv-3Zh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="E7t-mK-DMV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2zI-ML-LrH" userLabel="Format">
@@ -181,7 +181,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ld2-BM-hcT" userLabel="Native Button">
-                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <rect key="frame" x="16" y="37" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="nativeButton" label="Native Button"/>
                                 <constraints>
@@ -212,7 +212,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpO-3n-F0N" userLabel="Leaderboard Button">
-                                <rect key="frame" x="16" y="78" width="343" height="33"/>
+                                <rect key="frame" x="16" y="78" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
                                 <constraints>
@@ -243,7 +243,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zi-Cd-YPJ" userLabel="Banner Button">
-                                <rect key="frame" x="16" y="119" width="343" height="33"/>
+                                <rect key="frame" x="16" y="119" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
                                 <constraints>
@@ -274,7 +274,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59H-wC-Uf0" userLabel="MRect Button">
-                                <rect key="frame" x="16" y="160" width="343" height="33"/>
+                                <rect key="frame" x="16" y="160" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
                                 <constraints>
@@ -305,7 +305,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PnG-11-tWy" userLabel="Interstitial Button">
-                                <rect key="frame" x="16" y="201" width="343" height="33"/>
+                                <rect key="frame" x="16" y="201" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
                                 <constraints>
@@ -336,7 +336,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qdm-bN-rJw" userLabel="Rewarded Button">
-                                <rect key="frame" x="16" y="242" width="343" height="33"/>
+                                <rect key="frame" x="16" y="242" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="rewardedButton" label="Rewarded Button"/>
                                 <constraints>
@@ -371,23 +371,23 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="Qdm-bN-rJw" secondAttribute="trailing" constant="16" id="3CF-zC-ogK"/>
-                            <constraint firstItem="wpO-3n-F0N" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="4Mf-6P-YrQ"/>
+                            <constraint firstItem="wpO-3n-F0N" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="4Mf-6P-YrQ"/>
                             <constraint firstItem="2zI-ML-LrH" firstAttribute="top" secondItem="Ef4-ib-mhr" secondAttribute="top" constant="8" id="6rZ-1b-X9U"/>
-                            <constraint firstAttribute="trailing" secondItem="59H-wC-Uf0" secondAttribute="trailing" constant="16" id="8Ny-Qm-xpM"/>
-                            <constraint firstItem="4zi-Cd-YPJ" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="Apb-xl-slu"/>
+                            <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="59H-wC-Uf0" secondAttribute="trailing" constant="16" id="8Ny-Qm-xpM"/>
+                            <constraint firstItem="4zi-Cd-YPJ" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="Apb-xl-slu"/>
                             <constraint firstItem="PnG-11-tWy" firstAttribute="top" secondItem="59H-wC-Uf0" secondAttribute="bottom" constant="8" id="JMO-A2-mT4"/>
-                            <constraint firstAttribute="trailing" secondItem="wpO-3n-F0N" secondAttribute="trailing" constant="16" id="LSe-Xl-Q4F"/>
+                            <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="wpO-3n-F0N" secondAttribute="trailing" constant="16" id="LSe-Xl-Q4F"/>
                             <constraint firstItem="ld2-BM-hcT" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="NWc-Z6-zxC"/>
                             <constraint firstItem="wpO-3n-F0N" firstAttribute="top" secondItem="ld2-BM-hcT" secondAttribute="bottom" constant="8" id="YBn-6s-1VS"/>
-                            <constraint firstItem="59H-wC-Uf0" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="ah3-7L-9eM"/>
+                            <constraint firstItem="59H-wC-Uf0" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="ah3-7L-9eM"/>
                             <constraint firstItem="Qdm-bN-rJw" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="arM-md-p98"/>
-                            <constraint firstItem="2zI-ML-LrH" firstAttribute="leading" secondItem="E7t-mK-DMV" secondAttribute="leading" constant="16" id="b7e-jp-QqY"/>
+                            <constraint firstItem="2zI-ML-LrH" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="b7e-jp-QqY"/>
                             <constraint firstItem="PnG-11-tWy" firstAttribute="leading" secondItem="Ef4-ib-mhr" secondAttribute="leading" constant="16" id="dUs-K0-dgv"/>
                             <constraint firstItem="4zi-Cd-YPJ" firstAttribute="top" secondItem="wpO-3n-F0N" secondAttribute="bottom" constant="8" id="jEy-lw-hIf"/>
                             <constraint firstItem="Qdm-bN-rJw" firstAttribute="top" secondItem="PnG-11-tWy" secondAttribute="bottom" constant="8" id="jLe-uh-Ekz"/>
                             <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="PnG-11-tWy" secondAttribute="trailing" constant="16" id="kqT-8Z-qk8"/>
                             <constraint firstItem="59H-wC-Uf0" firstAttribute="top" secondItem="4zi-Cd-YPJ" secondAttribute="bottom" constant="8" id="rH2-gY-7Ng"/>
-                            <constraint firstAttribute="trailing" secondItem="4zi-Cd-YPJ" secondAttribute="trailing" constant="16" id="rkn-LZ-WzX"/>
+                            <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="4zi-Cd-YPJ" secondAttribute="trailing" constant="16" id="rkn-LZ-WzX"/>
                             <constraint firstItem="ld2-BM-hcT" firstAttribute="top" secondItem="2zI-ML-LrH" secondAttribute="bottom" constant="8" id="tdh-hv-67L"/>
                             <constraint firstItem="Ef4-ib-mhr" firstAttribute="trailing" secondItem="ld2-BM-hcT" secondAttribute="trailing" constant="16" id="zsb-x3-pDO"/>
                         </constraints>
@@ -409,7 +409,7 @@
                         <viewControllerLayoutGuide type="bottom" id="hSI-k6-beJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Xap-3b-dq3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLn-xw-477" userLabel="Format">
@@ -428,7 +428,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qF-Pl-kmC" userLabel="Leaderboard Button">
-                                <rect key="frame" x="16" y="78" width="343" height="33"/>
+                                <rect key="frame" x="16" y="78" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
                                 <constraints>
@@ -459,7 +459,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJV-kw-2y1" userLabel="Banner Button">
-                                <rect key="frame" x="16" y="119" width="343" height="33"/>
+                                <rect key="frame" x="16" y="119" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
                                 <constraints>
@@ -490,7 +490,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiG-Rv-FNC" userLabel="MRect Button">
-                                <rect key="frame" x="16" y="160" width="343" height="33"/>
+                                <rect key="frame" x="16" y="160" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
                                 <constraints>
@@ -521,7 +521,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igf-bn-OvZ" userLabel="Interstitial Button">
-                                <rect key="frame" x="16" y="201" width="343" height="33"/>
+                                <rect key="frame" x="16" y="201" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
                                 <constraints>
@@ -552,7 +552,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9fz-wz-s6Z" userLabel="Rewarded Button">
-                                <rect key="frame" x="16" y="242" width="343" height="33"/>
+                                <rect key="frame" x="16" y="242" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="rewardedButton" label="Rewarded Button"/>
                                 <constraints>
@@ -583,7 +583,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2w1-pV-Geq" userLabel="Native Button">
-                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <rect key="frame" x="16" y="37" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="nativeButton" label="Native Button"/>
                                 <constraints>
@@ -619,23 +619,23 @@
                         <constraints>
                             <constraint firstItem="XiG-Rv-FNC" firstAttribute="top" secondItem="dJV-kw-2y1" secondAttribute="bottom" constant="8" id="0FS-x6-ahs"/>
                             <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="Igf-bn-OvZ" secondAttribute="trailing" constant="16" id="326-E8-4fK"/>
-                            <constraint firstItem="rLn-xw-477" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="7t4-Cj-2H0"/>
+                            <constraint firstItem="rLn-xw-477" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="7t4-Cj-2H0"/>
                             <constraint firstItem="9fz-wz-s6Z" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="Caa-NX-pt7"/>
                             <constraint firstItem="rLn-xw-477" firstAttribute="top" secondItem="wHs-Ph-8zc" secondAttribute="top" constant="8" id="EhM-Ji-98c"/>
                             <constraint firstItem="2w1-pV-Geq" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="FZh-kG-uxG"/>
                             <constraint firstItem="Igf-bn-OvZ" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="Fz4-bn-1YO"/>
-                            <constraint firstItem="XiG-Rv-FNC" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="HOT-gN-1Wx"/>
-                            <constraint firstItem="dJV-kw-2y1" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="JW5-yn-5cw"/>
-                            <constraint firstItem="9qF-Pl-kmC" firstAttribute="leading" secondItem="Xap-3b-dq3" secondAttribute="leading" constant="16" id="JfU-5z-8cV"/>
+                            <constraint firstItem="XiG-Rv-FNC" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="HOT-gN-1Wx"/>
+                            <constraint firstItem="dJV-kw-2y1" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="JW5-yn-5cw"/>
+                            <constraint firstItem="9qF-Pl-kmC" firstAttribute="leading" secondItem="wHs-Ph-8zc" secondAttribute="leading" constant="16" id="JfU-5z-8cV"/>
                             <constraint firstItem="Igf-bn-OvZ" firstAttribute="top" secondItem="XiG-Rv-FNC" secondAttribute="bottom" constant="8" id="MIG-is-vbH"/>
                             <constraint firstItem="2w1-pV-Geq" firstAttribute="top" secondItem="rLn-xw-477" secondAttribute="bottom" constant="8" id="OOa-eL-XRZ"/>
                             <constraint firstItem="dJV-kw-2y1" firstAttribute="top" secondItem="9qF-Pl-kmC" secondAttribute="bottom" constant="8" id="baf-0S-2tp"/>
-                            <constraint firstAttribute="trailing" secondItem="XiG-Rv-FNC" secondAttribute="trailing" constant="16" id="cem-L0-zdW"/>
+                            <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="XiG-Rv-FNC" secondAttribute="trailing" constant="16" id="cem-L0-zdW"/>
                             <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="9fz-wz-s6Z" secondAttribute="trailing" constant="16" id="edM-vA-JE1"/>
                             <constraint firstItem="9fz-wz-s6Z" firstAttribute="top" secondItem="Igf-bn-OvZ" secondAttribute="bottom" constant="8" id="kJS-Wo-3nC"/>
-                            <constraint firstAttribute="trailing" secondItem="dJV-kw-2y1" secondAttribute="trailing" constant="16" id="n0u-1J-RNl"/>
+                            <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="dJV-kw-2y1" secondAttribute="trailing" constant="16" id="n0u-1J-RNl"/>
                             <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="2w1-pV-Geq" secondAttribute="trailing" constant="16" id="taC-S6-076"/>
-                            <constraint firstAttribute="trailing" secondItem="9qF-Pl-kmC" secondAttribute="trailing" constant="16" id="uLT-t1-6JY"/>
+                            <constraint firstItem="wHs-Ph-8zc" firstAttribute="trailing" secondItem="9qF-Pl-kmC" secondAttribute="trailing" constant="16" id="uLT-t1-6JY"/>
                             <constraint firstItem="9qF-Pl-kmC" firstAttribute="top" secondItem="2w1-pV-Geq" secondAttribute="bottom" constant="8" id="vcb-uK-SlS"/>
                         </constraints>
                     </view>
@@ -656,11 +656,11 @@
                         <viewControllerLayoutGuide type="bottom" id="RA7-hu-aGc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wWJ-S9-2rx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NFS-w7-teZ">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -674,7 +674,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1c6-vF-Zlj" userLabel="Native Ad Background">
-                                <rect key="frame" x="16" y="46" width="343" height="242"/>
+                                <rect key="frame" x="35.5" y="46" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UdH-DJ-h67" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
@@ -700,11 +700,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ky0-LA-wDo" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="169" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-xv-Rt1" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -735,9 +735,9 @@
                             <constraint firstItem="1c6-vF-Zlj" firstAttribute="centerX" secondItem="wWJ-S9-2rx" secondAttribute="centerX" id="C58-6t-wme"/>
                             <constraint firstItem="ky0-LA-wDo" firstAttribute="top" secondItem="NFS-w7-teZ" secondAttribute="bottom" constant="114" id="Kxb-O2-5j7"/>
                             <constraint firstItem="W1m-xv-Rt1" firstAttribute="centerX" secondItem="wWJ-S9-2rx" secondAttribute="centerX" id="PpW-MH-kfS"/>
-                            <constraint firstItem="NFS-w7-teZ" firstAttribute="leading" secondItem="wWJ-S9-2rx" secondAttribute="leadingMargin" id="TRs-gv-ZE2"/>
+                            <constraint firstItem="NFS-w7-teZ" firstAttribute="leading" secondItem="6vj-c4-Cew" secondAttribute="leading" constant="16" id="TRs-gv-ZE2"/>
                             <constraint firstItem="ky0-LA-wDo" firstAttribute="centerX" secondItem="wWJ-S9-2rx" secondAttribute="centerX" id="UQn-1x-YvK"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="NFS-w7-teZ" secondAttribute="trailing" id="Zpa-tJ-4dl"/>
+                            <constraint firstItem="6vj-c4-Cew" firstAttribute="trailing" secondItem="NFS-w7-teZ" secondAttribute="trailing" constant="16" id="Zpa-tJ-4dl"/>
                             <constraint firstItem="6vj-c4-Cew" firstAttribute="bottom" secondItem="W1m-xv-Rt1" secondAttribute="bottom" constant="8" id="hvn-b7-fFa"/>
                             <constraint firstItem="W1m-xv-Rt1" firstAttribute="leading" secondItem="6vj-c4-Cew" secondAttribute="leading" constant="16" id="kVz-nW-MqH"/>
                             <constraint firstItem="NFS-w7-teZ" firstAttribute="top" secondItem="6vj-c4-Cew" secondAttribute="top" constant="8" id="nV2-VD-FaB"/>
@@ -763,11 +763,11 @@
                         <viewControllerLayoutGuide type="bottom" id="3dp-Yo-MbR"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="z3s-rE-fSl">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yH-8p-wGK">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -781,7 +781,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Dj-I2-y7R" userLabel="Leaderboard Container">
-                                <rect key="frame" x="-176.5" y="46" width="728" height="90"/>
+                                <rect key="frame" x="-157" y="46" width="728" height="90"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardContainerView" label="Leaderboard Container View">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -791,11 +791,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="iVN-93-XKw" userLabel="Leaderboard Loader Indicator">
-                                <rect key="frame" x="169" y="70" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="70" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVr-Fh-lES" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -824,13 +824,13 @@
                             <constraint firstItem="iVN-93-XKw" firstAttribute="top" secondItem="4yH-8p-wGK" secondAttribute="bottom" constant="32" id="0pv-Hd-sWS"/>
                             <constraint firstItem="4yH-8p-wGK" firstAttribute="top" secondItem="bxF-ao-bAh" secondAttribute="top" constant="8" id="JL6-Kt-lwL"/>
                             <constraint firstItem="5Dj-I2-y7R" firstAttribute="top" secondItem="4yH-8p-wGK" secondAttribute="bottom" constant="8" id="JyA-vV-VHZ"/>
-                            <constraint firstItem="4yH-8p-wGK" firstAttribute="leading" secondItem="z3s-rE-fSl" secondAttribute="leadingMargin" id="OY9-Vy-8AV"/>
+                            <constraint firstItem="4yH-8p-wGK" firstAttribute="leading" secondItem="bxF-ao-bAh" secondAttribute="leading" constant="16" id="OY9-Vy-8AV"/>
                             <constraint firstItem="wVr-Fh-lES" firstAttribute="centerX" secondItem="z3s-rE-fSl" secondAttribute="centerX" id="PSk-EV-TbE"/>
                             <constraint firstItem="bxF-ao-bAh" firstAttribute="bottom" secondItem="wVr-Fh-lES" secondAttribute="bottom" constant="8" id="TnX-H8-Q2d"/>
                             <constraint firstItem="5Dj-I2-y7R" firstAttribute="centerX" secondItem="z3s-rE-fSl" secondAttribute="centerX" id="gZn-bD-eog"/>
                             <constraint firstItem="wVr-Fh-lES" firstAttribute="leading" secondItem="bxF-ao-bAh" secondAttribute="leading" constant="16" id="jaK-0r-jf7"/>
                             <constraint firstItem="iVN-93-XKw" firstAttribute="centerX" secondItem="z3s-rE-fSl" secondAttribute="centerX" id="npC-Jg-9zT"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4yH-8p-wGK" secondAttribute="trailing" id="rn7-VM-dEk"/>
+                            <constraint firstItem="bxF-ao-bAh" firstAttribute="trailing" secondItem="4yH-8p-wGK" secondAttribute="trailing" constant="16" id="rn7-VM-dEk"/>
                             <constraint firstItem="bxF-ao-bAh" firstAttribute="trailing" secondItem="wVr-Fh-lES" secondAttribute="trailing" constant="16" id="xbm-FG-0an"/>
                         </constraints>
                     </view>
@@ -854,11 +854,11 @@
                         <viewControllerLayoutGuide type="bottom" id="h5j-zg-g9V"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LtQ-Wb-Ozz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbT-xD-K7e">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -872,7 +872,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fWD-Nb-cGY" userLabel="Leaderboard Container">
-                                <rect key="frame" x="-176.5" y="46" width="728" height="90"/>
+                                <rect key="frame" x="-157" y="46" width="728" height="90"/>
                                 <accessibility key="accessibilityConfiguration" identifier="leaderboardContainerView" label="Leaderboard Container View">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -882,11 +882,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bOB-GG-n2S" userLabel="Leaderboard Loader Indicator">
-                                <rect key="frame" x="169" y="70" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="70" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiV-Xl-L6b" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -913,8 +913,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="bOB-GG-n2S" firstAttribute="centerX" secondItem="LtQ-Wb-Ozz" secondAttribute="centerX" id="B1o-Yo-Bfe"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="pbT-xD-K7e" secondAttribute="trailing" id="I9l-lv-RQv"/>
-                            <constraint firstItem="pbT-xD-K7e" firstAttribute="leading" secondItem="LtQ-Wb-Ozz" secondAttribute="leadingMargin" id="LgP-F8-dpO"/>
+                            <constraint firstItem="tMV-Cd-g9g" firstAttribute="trailing" secondItem="pbT-xD-K7e" secondAttribute="trailing" constant="16" id="I9l-lv-RQv"/>
+                            <constraint firstItem="pbT-xD-K7e" firstAttribute="leading" secondItem="tMV-Cd-g9g" secondAttribute="leading" constant="16" id="LgP-F8-dpO"/>
                             <constraint firstItem="fWD-Nb-cGY" firstAttribute="top" secondItem="pbT-xD-K7e" secondAttribute="bottom" constant="8" id="Nen-yX-L2a"/>
                             <constraint firstItem="bOB-GG-n2S" firstAttribute="top" secondItem="pbT-xD-K7e" secondAttribute="bottom" constant="32" id="P2q-I8-W2r"/>
                             <constraint firstItem="pbT-xD-K7e" firstAttribute="top" secondItem="tMV-Cd-g9g" secondAttribute="top" constant="8" id="UuY-NZ-USw"/>
@@ -945,11 +945,11 @@
                         <viewControllerLayoutGuide type="bottom" id="K1d-3l-Xne"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="W70-eO-eci">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9je-4S-GbN">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -963,7 +963,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qlv-ES-8tZ">
-                                <rect key="frame" x="27.5" y="46" width="320" height="50"/>
+                                <rect key="frame" x="47" y="46" width="320" height="50"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerContainerView" label="Banner Container View">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -973,11 +973,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="URX-ya-iLK">
-                                <rect key="frame" x="169" y="54" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="54" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owG-oh-uMy" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1005,13 +1005,13 @@
                         <constraints>
                             <constraint firstItem="URX-ya-iLK" firstAttribute="centerX" secondItem="W70-eO-eci" secondAttribute="centerX" id="B4k-rA-4jo"/>
                             <constraint firstItem="owG-oh-uMy" firstAttribute="centerX" secondItem="W70-eO-eci" secondAttribute="centerX" id="IUh-ME-WXD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="9je-4S-GbN" secondAttribute="trailing" id="TDL-xW-2rh"/>
+                            <constraint firstItem="xYn-6Q-pOP" firstAttribute="trailing" secondItem="9je-4S-GbN" secondAttribute="trailing" constant="16" id="TDL-xW-2rh"/>
                             <constraint firstItem="xYn-6Q-pOP" firstAttribute="bottom" secondItem="owG-oh-uMy" secondAttribute="bottom" constant="8" id="VWk-bS-RAS"/>
                             <constraint firstItem="owG-oh-uMy" firstAttribute="leading" secondItem="xYn-6Q-pOP" secondAttribute="leading" constant="16" id="WKw-Cc-Jj5"/>
                             <constraint firstItem="URX-ya-iLK" firstAttribute="top" secondItem="9je-4S-GbN" secondAttribute="bottom" constant="16" id="Wkb-wf-gY0"/>
                             <constraint firstItem="9je-4S-GbN" firstAttribute="top" secondItem="xYn-6Q-pOP" secondAttribute="top" constant="8" id="ckd-5l-hfB"/>
                             <constraint firstItem="Qlv-ES-8tZ" firstAttribute="centerX" secondItem="W70-eO-eci" secondAttribute="centerX" id="eeh-nx-Jse"/>
-                            <constraint firstItem="9je-4S-GbN" firstAttribute="leading" secondItem="W70-eO-eci" secondAttribute="leadingMargin" id="f0R-DF-wtm"/>
+                            <constraint firstItem="9je-4S-GbN" firstAttribute="leading" secondItem="xYn-6Q-pOP" secondAttribute="leading" constant="16" id="f0R-DF-wtm"/>
                             <constraint firstItem="xYn-6Q-pOP" firstAttribute="trailing" secondItem="owG-oh-uMy" secondAttribute="trailing" constant="16" id="n5e-RT-MmC"/>
                             <constraint firstItem="Qlv-ES-8tZ" firstAttribute="top" secondItem="9je-4S-GbN" secondAttribute="bottom" constant="8" id="ulc-vU-jgp"/>
                         </constraints>
@@ -1036,11 +1036,11 @@
                         <viewControllerLayoutGuide type="bottom" id="JKO-Rt-z9Y"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1W2-Pr-ITC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTh-0H-Plp">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1054,7 +1054,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sbH-VL-EqQ">
-                                <rect key="frame" x="27.5" y="46" width="320" height="50"/>
+                                <rect key="frame" x="47" y="46" width="320" height="50"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerContainerView" label="Banner Container View">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -1064,11 +1064,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="vZp-S8-Sbq">
-                                <rect key="frame" x="169" y="54" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="54" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEE-X9-lhe" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1098,12 +1098,12 @@
                             <constraint firstItem="sbH-VL-EqQ" firstAttribute="centerX" secondItem="1W2-Pr-ITC" secondAttribute="centerX" id="MNq-pC-yhK"/>
                             <constraint firstItem="EdY-hr-lpG" firstAttribute="bottom" secondItem="CEE-X9-lhe" secondAttribute="bottom" constant="8" id="Uf0-Rn-WSf"/>
                             <constraint firstItem="EdY-hr-lpG" firstAttribute="trailing" secondItem="CEE-X9-lhe" secondAttribute="trailing" constant="16" id="X0z-Qq-Bkp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="sTh-0H-Plp" secondAttribute="trailing" id="Zl1-8v-ztm"/>
+                            <constraint firstItem="EdY-hr-lpG" firstAttribute="trailing" secondItem="sTh-0H-Plp" secondAttribute="trailing" constant="16" id="Zl1-8v-ztm"/>
                             <constraint firstItem="vZp-S8-Sbq" firstAttribute="centerX" secondItem="1W2-Pr-ITC" secondAttribute="centerX" id="csM-Gv-8Xc"/>
                             <constraint firstItem="vZp-S8-Sbq" firstAttribute="top" secondItem="sTh-0H-Plp" secondAttribute="bottom" constant="16" id="dGX-O9-pnv"/>
                             <constraint firstItem="sTh-0H-Plp" firstAttribute="top" secondItem="EdY-hr-lpG" secondAttribute="top" constant="8" id="gJO-rN-h6X"/>
                             <constraint firstItem="sbH-VL-EqQ" firstAttribute="top" secondItem="sTh-0H-Plp" secondAttribute="bottom" constant="8" id="oSH-2l-zQE"/>
-                            <constraint firstItem="sTh-0H-Plp" firstAttribute="leading" secondItem="1W2-Pr-ITC" secondAttribute="leadingMargin" id="ovx-zl-wVf"/>
+                            <constraint firstItem="sTh-0H-Plp" firstAttribute="leading" secondItem="EdY-hr-lpG" secondAttribute="leading" constant="16" id="ovx-zl-wVf"/>
                             <constraint firstItem="CEE-X9-lhe" firstAttribute="centerX" secondItem="1W2-Pr-ITC" secondAttribute="centerX" id="xsz-pH-9sa"/>
                         </constraints>
                     </view>
@@ -1127,11 +1127,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ETm-r0-MSV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="u9b-SY-3to">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qCv-1h-Soy">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1145,7 +1145,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KmS-m4-rOv">
-                                <rect key="frame" x="37.5" y="46" width="300" height="250"/>
+                                <rect key="frame" x="57" y="46" width="300" height="250"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectContainerView" label="MRect Container View">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -1155,11 +1155,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="FtZ-Vp-lag">
-                                <rect key="frame" x="169" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2T-Sa-VCA" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1185,12 +1185,12 @@
                         <viewLayoutGuide key="safeArea" id="dYl-Mb-mCV"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="F2T-Sa-VCA" secondAttribute="trailing" constant="16" id="0Fd-eJ-9yX"/>
-                            <constraint firstItem="F2T-Sa-VCA" firstAttribute="centerX" secondItem="u9b-SY-3to" secondAttribute="centerX" id="4dV-Wb-b1a"/>
-                            <constraint firstItem="qCv-1h-Soy" firstAttribute="leading" secondItem="u9b-SY-3to" secondAttribute="leading" constant="16" id="Bus-3a-82O"/>
+                            <constraint firstItem="dYl-Mb-mCV" firstAttribute="trailing" secondItem="F2T-Sa-VCA" secondAttribute="trailing" constant="16" id="0Fd-eJ-9yX"/>
+                            <constraint firstItem="F2T-Sa-VCA" firstAttribute="centerX" secondItem="dYl-Mb-mCV" secondAttribute="centerX" id="4dV-Wb-b1a"/>
+                            <constraint firstItem="qCv-1h-Soy" firstAttribute="leading" secondItem="dYl-Mb-mCV" secondAttribute="leading" constant="16" id="Bus-3a-82O"/>
                             <constraint firstItem="FtZ-Vp-lag" firstAttribute="top" secondItem="qCv-1h-Soy" secondAttribute="bottom" constant="114" id="CNW-mu-fKG"/>
                             <constraint firstItem="KmS-m4-rOv" firstAttribute="centerX" secondItem="u9b-SY-3to" secondAttribute="centerX" id="GbU-cN-7H9"/>
-                            <constraint firstAttribute="trailing" secondItem="qCv-1h-Soy" secondAttribute="trailing" constant="16" id="KUy-8N-lNk"/>
+                            <constraint firstItem="dYl-Mb-mCV" firstAttribute="trailing" secondItem="qCv-1h-Soy" secondAttribute="trailing" constant="16" id="KUy-8N-lNk"/>
                             <constraint firstItem="FtZ-Vp-lag" firstAttribute="centerX" secondItem="u9b-SY-3to" secondAttribute="centerX" id="R5i-nF-ECO"/>
                             <constraint firstItem="F2T-Sa-VCA" firstAttribute="leading" secondItem="dYl-Mb-mCV" secondAttribute="leading" constant="16" id="YNi-BF-QJ4"/>
                             <constraint firstItem="qCv-1h-Soy" firstAttribute="top" secondItem="dYl-Mb-mCV" secondAttribute="top" constant="8" id="kqO-1b-rGV"/>
@@ -1218,11 +1218,11 @@
                         <viewControllerLayoutGuide type="bottom" id="F0e-GV-iUM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MiE-ud-158">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlb-ow-jeZ">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1236,7 +1236,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROb-wq-zxQ">
-                                <rect key="frame" x="37.5" y="46" width="300" height="250"/>
+                                <rect key="frame" x="57" y="46" width="300" height="250"/>
                                 <accessibility key="accessibilityConfiguration" identifier="mRectContainerView" label="MRect Container View">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -1246,11 +1246,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="5HG-ee-g2W">
-                                <rect key="frame" x="169" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KH-lB-aei" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1277,16 +1277,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="1KH-lB-aei" firstAttribute="centerX" secondItem="MiE-ud-158" secondAttribute="centerX" id="2iP-Fi-LV0"/>
-                            <constraint firstAttribute="trailing" secondItem="1KH-lB-aei" secondAttribute="trailing" constant="16" id="HVL-Xu-jez"/>
+                            <constraint firstItem="UMu-Gh-aNO" firstAttribute="trailing" secondItem="1KH-lB-aei" secondAttribute="trailing" constant="16" id="HVL-Xu-jez"/>
                             <constraint firstItem="5HG-ee-g2W" firstAttribute="centerX" secondItem="MiE-ud-158" secondAttribute="centerX" id="J0D-dx-ah5"/>
                             <constraint firstItem="ROb-wq-zxQ" firstAttribute="centerX" secondItem="MiE-ud-158" secondAttribute="centerX" id="Qej-zn-ntW"/>
-                            <constraint firstAttribute="trailing" secondItem="hlb-ow-jeZ" secondAttribute="trailing" constant="16" id="VCv-Kg-Dbv"/>
+                            <constraint firstItem="UMu-Gh-aNO" firstAttribute="trailing" secondItem="hlb-ow-jeZ" secondAttribute="trailing" constant="16" id="VCv-Kg-Dbv"/>
                             <constraint firstItem="hlb-ow-jeZ" firstAttribute="top" secondItem="UMu-Gh-aNO" secondAttribute="top" constant="8" id="ZsB-hl-4Mw"/>
                             <constraint firstItem="5HG-ee-g2W" firstAttribute="top" secondItem="hlb-ow-jeZ" secondAttribute="bottom" constant="114" id="aIj-tH-ZRW"/>
                             <constraint firstItem="ROb-wq-zxQ" firstAttribute="top" secondItem="hlb-ow-jeZ" secondAttribute="bottom" constant="8" id="fjK-80-CEQ"/>
                             <constraint firstItem="UMu-Gh-aNO" firstAttribute="bottom" secondItem="1KH-lB-aei" secondAttribute="bottom" constant="8" id="jJh-HO-4BR"/>
                             <constraint firstItem="1KH-lB-aei" firstAttribute="leading" secondItem="UMu-Gh-aNO" secondAttribute="leading" constant="16" id="lW0-6I-t5S"/>
-                            <constraint firstItem="hlb-ow-jeZ" firstAttribute="leading" secondItem="MiE-ud-158" secondAttribute="leading" constant="16" id="rC1-ye-u0U"/>
+                            <constraint firstItem="hlb-ow-jeZ" firstAttribute="leading" secondItem="UMu-Gh-aNO" secondAttribute="leading" constant="16" id="rC1-ye-u0U"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cLz-du-Py3"/>
@@ -1309,11 +1309,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ocZ-oO-yh2"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7Li-I7-Pta">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98c-Wy-drM">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1327,11 +1327,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="TWF-7x-L1v">
-                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="385.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qg-pD-6h6" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1354,7 +1354,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vr-Gt-FK3">
-                                <rect key="frame" x="16" y="46" width="343" height="30"/>
+                                <rect key="frame" x="16" y="46" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1374,15 +1374,15 @@
                             <constraint firstItem="B3P-GQ-qeG" firstAttribute="trailing" secondItem="1qg-pD-6h6" secondAttribute="trailing" constant="16" id="6Z7-0Y-tZO"/>
                             <constraint firstItem="98c-Wy-drM" firstAttribute="top" secondItem="B3P-GQ-qeG" secondAttribute="top" constant="8" id="7hk-sV-mKx"/>
                             <constraint firstItem="0vr-Gt-FK3" firstAttribute="leading" secondItem="B3P-GQ-qeG" secondAttribute="leading" constant="16" id="7q7-hy-MyW"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="98c-Wy-drM" secondAttribute="trailing" id="Hhd-ux-RK2"/>
-                            <constraint firstItem="TWF-7x-L1v" firstAttribute="centerX" secondItem="7Li-I7-Pta" secondAttribute="centerX" id="K0e-bC-UFv"/>
-                            <constraint firstItem="1qg-pD-6h6" firstAttribute="leading" secondItem="7Li-I7-Pta" secondAttribute="leading" constant="16" id="PGv-Bt-6pp"/>
+                            <constraint firstItem="B3P-GQ-qeG" firstAttribute="trailing" secondItem="98c-Wy-drM" secondAttribute="trailing" constant="16" id="Hhd-ux-RK2"/>
+                            <constraint firstItem="TWF-7x-L1v" firstAttribute="centerX" secondItem="B3P-GQ-qeG" secondAttribute="centerX" id="K0e-bC-UFv"/>
+                            <constraint firstItem="1qg-pD-6h6" firstAttribute="leading" secondItem="B3P-GQ-qeG" secondAttribute="leading" constant="16" id="PGv-Bt-6pp"/>
                             <constraint firstItem="B3P-GQ-qeG" firstAttribute="bottom" secondItem="1qg-pD-6h6" secondAttribute="bottom" constant="8" id="RHU-Or-YPP"/>
                             <constraint firstItem="B3P-GQ-qeG" firstAttribute="trailing" secondItem="0vr-Gt-FK3" secondAttribute="trailing" constant="16" id="Vk2-4T-6sp"/>
-                            <constraint firstItem="98c-Wy-drM" firstAttribute="leading" secondItem="7Li-I7-Pta" secondAttribute="leadingMargin" id="etg-AZ-Ppz"/>
-                            <constraint firstItem="TWF-7x-L1v" firstAttribute="centerY" secondItem="7Li-I7-Pta" secondAttribute="centerY" id="nN9-mF-Esv"/>
+                            <constraint firstItem="98c-Wy-drM" firstAttribute="leading" secondItem="B3P-GQ-qeG" secondAttribute="leading" constant="16" id="etg-AZ-Ppz"/>
+                            <constraint firstItem="TWF-7x-L1v" firstAttribute="centerY" secondItem="B3P-GQ-qeG" secondAttribute="centerY" id="nN9-mF-Esv"/>
                             <constraint firstItem="0vr-Gt-FK3" firstAttribute="top" secondItem="98c-Wy-drM" secondAttribute="bottom" constant="8" id="ox8-gm-17r"/>
-                            <constraint firstItem="1qg-pD-6h6" firstAttribute="centerX" secondItem="7Li-I7-Pta" secondAttribute="centerX" id="tsm-n6-J6H"/>
+                            <constraint firstItem="1qg-pD-6h6" firstAttribute="centerX" secondItem="B3P-GQ-qeG" secondAttribute="centerX" id="tsm-n6-J6H"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zpb-Rt-dKW"/>
@@ -1405,11 +1405,11 @@
                         <viewControllerLayoutGuide type="bottom" id="oeO-VS-w0n"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="x3O-45-Lah">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YQP-yC-Dxu">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1423,11 +1423,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tgx-d1-eNI">
-                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kc7-lt-WWO" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1450,7 +1450,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hEU-wF-sa4">
-                                <rect key="frame" x="16" y="46" width="343" height="30"/>
+                                <rect key="frame" x="16" y="46" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1473,12 +1473,12 @@
                             <constraint firstItem="UVj-nM-Xry" firstAttribute="trailing" secondItem="Kc7-lt-WWO" secondAttribute="trailing" constant="16" id="HSD-eN-1de"/>
                             <constraint firstItem="hEU-wF-sa4" firstAttribute="top" secondItem="YQP-yC-Dxu" secondAttribute="bottom" constant="8" symbolic="YES" id="LBl-QU-GRC"/>
                             <constraint firstItem="hEU-wF-sa4" firstAttribute="leading" secondItem="YQP-yC-Dxu" secondAttribute="leading" id="WW6-dc-nJI"/>
-                            <constraint firstItem="Kc7-lt-WWO" firstAttribute="leading" secondItem="x3O-45-Lah" secondAttribute="leading" constant="16" id="cfH-qc-b89"/>
+                            <constraint firstItem="Kc7-lt-WWO" firstAttribute="leading" secondItem="UVj-nM-Xry" secondAttribute="leading" constant="16" id="cfH-qc-b89"/>
                             <constraint firstItem="UVj-nM-Xry" firstAttribute="bottom" secondItem="Kc7-lt-WWO" secondAttribute="bottom" constant="8" id="iZg-qa-nxc"/>
                             <constraint firstItem="YQP-yC-Dxu" firstAttribute="top" secondItem="UVj-nM-Xry" secondAttribute="top" constant="8" id="ilA-jl-WIq"/>
                             <constraint firstItem="tgx-d1-eNI" firstAttribute="centerY" secondItem="x3O-45-Lah" secondAttribute="centerY" id="kjI-d8-NjH"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="YQP-yC-Dxu" secondAttribute="trailing" id="uWN-KG-Tfx"/>
-                            <constraint firstItem="YQP-yC-Dxu" firstAttribute="leading" secondItem="x3O-45-Lah" secondAttribute="leadingMargin" id="y9V-qa-50B"/>
+                            <constraint firstItem="UVj-nM-Xry" firstAttribute="trailing" secondItem="YQP-yC-Dxu" secondAttribute="trailing" constant="16" id="uWN-KG-Tfx"/>
+                            <constraint firstItem="YQP-yC-Dxu" firstAttribute="leading" secondItem="UVj-nM-Xry" secondAttribute="leading" constant="16" id="y9V-qa-50B"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="URy-Mk-WsJ"/>
@@ -1509,11 +1509,11 @@
                         <viewControllerLayoutGuide type="bottom" id="5D6-UB-VCv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bMc-cr-zGV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D8-SD-mvx">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1527,11 +1527,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yge-GL-eI0">
-                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAm-iE-pRT" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1554,7 +1554,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UxX-eS-VTP">
-                                <rect key="frame" x="16" y="46" width="343" height="30"/>
+                                <rect key="frame" x="16" y="46" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1573,16 +1573,16 @@
                         <constraints>
                             <constraint firstItem="4T1-FI-Y9V" firstAttribute="bottom" secondItem="IAm-iE-pRT" secondAttribute="bottom" constant="8" id="9CT-c7-tVn"/>
                             <constraint firstItem="4T1-FI-Y9V" firstAttribute="trailing" secondItem="IAm-iE-pRT" secondAttribute="trailing" constant="16" id="Dtc-VZ-ARH"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="2D8-SD-mvx" secondAttribute="trailing" id="JCK-YM-Pxs"/>
+                            <constraint firstItem="4T1-FI-Y9V" firstAttribute="trailing" secondItem="2D8-SD-mvx" secondAttribute="trailing" constant="16" id="JCK-YM-Pxs"/>
                             <constraint firstItem="2D8-SD-mvx" firstAttribute="top" secondItem="4T1-FI-Y9V" secondAttribute="top" constant="8" id="Niz-T8-o1L"/>
                             <constraint firstItem="yge-GL-eI0" firstAttribute="centerY" secondItem="bMc-cr-zGV" secondAttribute="centerY" id="OEC-PN-6Wa"/>
-                            <constraint firstItem="2D8-SD-mvx" firstAttribute="leading" secondItem="bMc-cr-zGV" secondAttribute="leadingMargin" id="VUM-Ge-Qpa"/>
+                            <constraint firstItem="2D8-SD-mvx" firstAttribute="leading" secondItem="4T1-FI-Y9V" secondAttribute="leading" constant="16" id="VUM-Ge-Qpa"/>
                             <constraint firstItem="2D8-SD-mvx" firstAttribute="trailing" secondItem="UxX-eS-VTP" secondAttribute="trailing" id="XGJ-yK-4cv"/>
                             <constraint firstItem="IAm-iE-pRT" firstAttribute="centerX" secondItem="bMc-cr-zGV" secondAttribute="centerX" id="ZEH-8K-mft"/>
                             <constraint firstItem="UxX-eS-VTP" firstAttribute="top" secondItem="2D8-SD-mvx" secondAttribute="bottom" constant="8" id="dzy-xZ-mZv"/>
                             <constraint firstItem="yge-GL-eI0" firstAttribute="centerX" secondItem="bMc-cr-zGV" secondAttribute="centerX" id="fVs-tE-FmI"/>
                             <constraint firstItem="UxX-eS-VTP" firstAttribute="leading" secondItem="2D8-SD-mvx" secondAttribute="leading" id="lcZ-vg-ZkI"/>
-                            <constraint firstItem="IAm-iE-pRT" firstAttribute="leading" secondItem="bMc-cr-zGV" secondAttribute="leading" constant="16" id="vqe-xd-Y7W"/>
+                            <constraint firstItem="IAm-iE-pRT" firstAttribute="leading" secondItem="4T1-FI-Y9V" secondAttribute="leading" constant="16" id="vqe-xd-Y7W"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="KaC-PT-PXi"/>
@@ -1605,11 +1605,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Hs0-fW-kx0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="aO6-gV-vft">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79n-hd-uri">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1623,7 +1623,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWz-5F-paN" userLabel="Native Ad Background">
-                                <rect key="frame" x="16" y="46" width="343" height="242"/>
+                                <rect key="frame" x="35.5" y="46" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fxt-CM-ip6" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
@@ -1649,11 +1649,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ix3-ZG-Xf2" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="169" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4HR-2X-sdp" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1681,9 +1681,9 @@
                         <constraints>
                             <constraint firstItem="Ix3-ZG-Xf2" firstAttribute="top" secondItem="79n-hd-uri" secondAttribute="bottom" constant="114" id="1Fm-Ls-jzk"/>
                             <constraint firstItem="RRs-pb-fsQ" firstAttribute="bottom" secondItem="4HR-2X-sdp" secondAttribute="bottom" constant="8" id="1hM-eY-rvw"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="79n-hd-uri" secondAttribute="trailing" id="6Td-IR-AOt"/>
+                            <constraint firstItem="RRs-pb-fsQ" firstAttribute="trailing" secondItem="79n-hd-uri" secondAttribute="trailing" constant="16" id="6Td-IR-AOt"/>
                             <constraint firstItem="RRs-pb-fsQ" firstAttribute="trailing" secondItem="4HR-2X-sdp" secondAttribute="trailing" constant="16" id="JIB-j9-geC"/>
-                            <constraint firstItem="79n-hd-uri" firstAttribute="leading" secondItem="aO6-gV-vft" secondAttribute="leadingMargin" id="Pzx-Pg-Mhf"/>
+                            <constraint firstItem="79n-hd-uri" firstAttribute="leading" secondItem="RRs-pb-fsQ" secondAttribute="leading" constant="16" id="Pzx-Pg-Mhf"/>
                             <constraint firstItem="cWz-5F-paN" firstAttribute="centerX" secondItem="aO6-gV-vft" secondAttribute="centerX" id="XYe-M5-Ym2"/>
                             <constraint firstItem="4HR-2X-sdp" firstAttribute="leading" secondItem="RRs-pb-fsQ" secondAttribute="leading" constant="16" id="Zty-D6-LWs"/>
                             <constraint firstItem="cWz-5F-paN" firstAttribute="top" secondItem="79n-hd-uri" secondAttribute="bottom" constant="8" id="c58-Ui-Adv"/>
@@ -1712,11 +1712,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Fm9-Qn-Qr8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4sF-YP-jcR">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ntt-hd-jLb">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1730,11 +1730,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Gsb-Kq-BTG">
-                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="385.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PjM-Vv-pli" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1757,7 +1757,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Oy-n4-8dI">
-                                <rect key="frame" x="16" y="46" width="343" height="30"/>
+                                <rect key="frame" x="16" y="46" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1774,18 +1774,18 @@
                         <viewLayoutGuide key="safeArea" id="MUh-lF-2iV"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Gsb-Kq-BTG" firstAttribute="centerY" secondItem="4sF-YP-jcR" secondAttribute="centerY" id="5fu-0G-XcV"/>
+                            <constraint firstItem="Gsb-Kq-BTG" firstAttribute="centerY" secondItem="MUh-lF-2iV" secondAttribute="centerY" id="5fu-0G-XcV"/>
                             <constraint firstItem="4Oy-n4-8dI" firstAttribute="leading" secondItem="MUh-lF-2iV" secondAttribute="leading" constant="16" id="AKh-Vf-FgK"/>
                             <constraint firstItem="MUh-lF-2iV" firstAttribute="bottom" secondItem="PjM-Vv-pli" secondAttribute="bottom" constant="8" id="AbE-J1-C74"/>
                             <constraint firstItem="4Oy-n4-8dI" firstAttribute="top" secondItem="Ntt-hd-jLb" secondAttribute="bottom" constant="8" id="Exz-Ew-xs7"/>
                             <constraint firstItem="MUh-lF-2iV" firstAttribute="trailing" secondItem="PjM-Vv-pli" secondAttribute="trailing" constant="16" id="GUA-oQ-Eif"/>
-                            <constraint firstItem="Ntt-hd-jLb" firstAttribute="leading" secondItem="4sF-YP-jcR" secondAttribute="leadingMargin" id="Ngu-YW-FZ9"/>
-                            <constraint firstItem="PjM-Vv-pli" firstAttribute="leading" secondItem="4sF-YP-jcR" secondAttribute="leading" constant="16" id="Rhw-Ta-V5T"/>
+                            <constraint firstItem="Ntt-hd-jLb" firstAttribute="leading" secondItem="MUh-lF-2iV" secondAttribute="leading" constant="16" id="Ngu-YW-FZ9"/>
+                            <constraint firstItem="PjM-Vv-pli" firstAttribute="leading" secondItem="MUh-lF-2iV" secondAttribute="leading" constant="16" id="Rhw-Ta-V5T"/>
                             <constraint firstItem="MUh-lF-2iV" firstAttribute="trailing" secondItem="4Oy-n4-8dI" secondAttribute="trailing" constant="16" id="VcH-UB-KsZ"/>
                             <constraint firstItem="Ntt-hd-jLb" firstAttribute="top" secondItem="MUh-lF-2iV" secondAttribute="top" constant="8" id="WVm-Qv-zSB"/>
-                            <constraint firstItem="Gsb-Kq-BTG" firstAttribute="centerX" secondItem="4sF-YP-jcR" secondAttribute="centerX" id="hfy-7b-YlL"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Ntt-hd-jLb" secondAttribute="trailing" id="sw6-T0-qa2"/>
-                            <constraint firstItem="PjM-Vv-pli" firstAttribute="centerX" secondItem="4sF-YP-jcR" secondAttribute="centerX" id="ueV-xz-5b8"/>
+                            <constraint firstItem="Gsb-Kq-BTG" firstAttribute="centerX" secondItem="MUh-lF-2iV" secondAttribute="centerX" id="hfy-7b-YlL"/>
+                            <constraint firstItem="MUh-lF-2iV" firstAttribute="trailing" secondItem="Ntt-hd-jLb" secondAttribute="trailing" constant="16" id="sw6-T0-qa2"/>
+                            <constraint firstItem="PjM-Vv-pli" firstAttribute="centerX" secondItem="MUh-lF-2iV" secondAttribute="centerX" id="ueV-xz-5b8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GG1-Ix-fEi"/>
@@ -1808,7 +1808,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ld7-m1-809"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ir6-zV-iXI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xxq-ZH-MvL" userLabel="Format">
@@ -1827,7 +1827,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00A-xT-Wm1" userLabel="Interstitial Button">
-                                <rect key="frame" x="16" y="37" width="343" height="33"/>
+                                <rect key="frame" x="16" y="37" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
                                 <constraints>
@@ -1865,7 +1865,7 @@
                             <constraint firstItem="hwK-ju-WBg" firstAttribute="trailing" secondItem="00A-xT-Wm1" secondAttribute="trailing" constant="16" id="XuD-IS-LVd"/>
                             <constraint firstItem="00A-xT-Wm1" firstAttribute="leading" secondItem="hwK-ju-WBg" secondAttribute="leading" constant="16" id="hGB-Ig-Pye"/>
                             <constraint firstItem="00A-xT-Wm1" firstAttribute="top" secondItem="Xxq-ZH-MvL" secondAttribute="bottom" constant="8" id="oaA-Dr-HSv"/>
-                            <constraint firstItem="Xxq-ZH-MvL" firstAttribute="leading" secondItem="Ir6-zV-iXI" secondAttribute="leading" constant="16" id="w8P-Uo-9Uw"/>
+                            <constraint firstItem="Xxq-ZH-MvL" firstAttribute="leading" secondItem="hwK-ju-WBg" secondAttribute="leading" constant="16" id="w8P-Uo-9Uw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="ironSource" id="Q1a-g4-vxl">
@@ -1885,11 +1885,11 @@
                         <viewControllerLayoutGuide type="bottom" id="yNf-Z0-l3H"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5Rm-Oa-lwu">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsu-DM-exx">
-                                <rect key="frame" x="16" y="8" width="343" height="30"/>
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1903,11 +1903,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="9De-7H-xdB">
-                                <rect key="frame" x="169" y="305" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAT-5P-Cnd" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="606" width="343" height="33"/>
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1930,7 +1930,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UyR-VR-YeG">
-                                <rect key="frame" x="16" y="46" width="343" height="30"/>
+                                <rect key="frame" x="16" y="46" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1947,15 +1947,15 @@
                         <viewLayoutGuide key="safeArea" id="sNh-3p-qK4"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="xsu-DM-exx" firstAttribute="leading" secondItem="5Rm-Oa-lwu" secondAttribute="leadingMargin" id="4r4-fT-BMN"/>
+                            <constraint firstItem="xsu-DM-exx" firstAttribute="leading" secondItem="sNh-3p-qK4" secondAttribute="leading" constant="16" id="4r4-fT-BMN"/>
                             <constraint firstItem="UyR-VR-YeG" firstAttribute="top" secondItem="xsu-DM-exx" secondAttribute="bottom" constant="8" symbolic="YES" id="8dN-WY-WE6"/>
                             <constraint firstItem="9De-7H-xdB" firstAttribute="centerX" secondItem="5Rm-Oa-lwu" secondAttribute="centerX" id="ASm-Dh-W8V"/>
                             <constraint firstItem="YAT-5P-Cnd" firstAttribute="centerX" secondItem="5Rm-Oa-lwu" secondAttribute="centerX" id="NqU-f2-IBN"/>
                             <constraint firstItem="sNh-3p-qK4" firstAttribute="bottom" secondItem="YAT-5P-Cnd" secondAttribute="bottom" constant="8" id="fJk-Ea-84S"/>
                             <constraint firstItem="UyR-VR-YeG" firstAttribute="trailing" secondItem="xsu-DM-exx" secondAttribute="trailing" id="jDZ-S5-bWF"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="xsu-DM-exx" secondAttribute="trailing" id="ja9-8K-bow"/>
+                            <constraint firstItem="sNh-3p-qK4" firstAttribute="trailing" secondItem="xsu-DM-exx" secondAttribute="trailing" constant="16" id="ja9-8K-bow"/>
                             <constraint firstItem="UyR-VR-YeG" firstAttribute="leading" secondItem="xsu-DM-exx" secondAttribute="leading" id="jeE-UB-CjD"/>
-                            <constraint firstItem="YAT-5P-Cnd" firstAttribute="leading" secondItem="5Rm-Oa-lwu" secondAttribute="leading" constant="16" id="l1v-SS-bw2"/>
+                            <constraint firstItem="YAT-5P-Cnd" firstAttribute="leading" secondItem="sNh-3p-qK4" secondAttribute="leading" constant="16" id="l1v-SS-bw2"/>
                             <constraint firstItem="sNh-3p-qK4" firstAttribute="trailing" secondItem="YAT-5P-Cnd" secondAttribute="trailing" constant="16" id="n2h-yH-i5D"/>
                             <constraint firstItem="9De-7H-xdB" firstAttribute="centerY" secondItem="5Rm-Oa-lwu" secondAttribute="centerY" id="xAF-EW-aKd"/>
                             <constraint firstItem="xsu-DM-exx" firstAttribute="top" secondItem="sNh-3p-qK4" secondAttribute="top" constant="8" id="zHR-BM-fDF"/>
@@ -1974,6 +1974,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="BcO-jJ-I7S"/>
+        <segue reference="SJf-4q-whf"/>
     </inferredMetricsTieBreakers>
 </document>

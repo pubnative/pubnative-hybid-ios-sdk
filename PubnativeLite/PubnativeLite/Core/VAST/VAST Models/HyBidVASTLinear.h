@@ -28,6 +28,7 @@
 #import "HyBidVASTTrackingEvent.h"
 #import "HyBidVASTMediaFiles.h"
 #import "HyBidVASTVideoClicks.h"
+#import "HyBidVASTIcons.h"
 
 @interface HyBidVASTLinear : NSObject
 
@@ -58,7 +59,7 @@
 /**
  The <VideoClicks> element provides URIs for clickthroughs, clicktracking, and custom clicks and is available for Linear Ads in both the InLine and Wrapper formats.
  */
-- (NSArray<HyBidVASTIcon *> *)icons;
+- (HyBidVASTIcons *)icons;
 
 - (HyBidVASTMediaFiles *)mediaFiles;
 

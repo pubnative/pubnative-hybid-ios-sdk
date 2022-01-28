@@ -26,7 +26,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"
-#import "IronSource/IronSource.h"
+//#import "IronSource/IronSource.h"
 
 @import GoogleMobileAds;
 @import Firebase;
@@ -77,7 +77,7 @@ CLLocationManager *locationManager;
     [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
                                         withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
-    [IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
+    //[IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     

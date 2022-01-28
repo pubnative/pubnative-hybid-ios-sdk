@@ -343,7 +343,7 @@
         HyBidVASTCreative *firstCreative = [[firstAd creatives] firstObject];
         HyBidVASTLinear *linear = [firstCreative linear];
         
-        NSArray<HyBidVASTIcon *> *icons = [linear icons];
+        NSArray<HyBidVASTIcon *> *icons = [[linear icons] icons];
         XCTAssertNotEqual([icons count], 0);
         
         HyBidVASTIcon *firstIcon = [icons firstObject];

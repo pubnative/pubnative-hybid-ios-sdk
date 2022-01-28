@@ -33,6 +33,7 @@
 #import "HyBidLogger.h"
 #import "PNLiteCloseButton.h"
 #import "HyBidSettings.h"
+#import "HyBidNavigatorGeolocation.h"
 
 #import <WebKit/WebKit.h>
 #import <AVFoundation/AVFoundation.h>
@@ -88,6 +89,8 @@ typedef enum {
     WKWebView *webView;
     WKWebView *webViewPart2;
     WKWebView *currentWebView;
+    
+    HyBidNavigatorGeolocation* navigatorGeolocation;
     
     UIButton *closeEventRegion;
     
@@ -236,9 +239,11 @@ typedef enum {
             supportedFeatures=currentFeatures;
         }
         
+        navigatorGeolocation = [[HyBidNavigatorGeolocation alloc] init];
         webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) configuration:[self createConfiguration]];
         [self initWebView:webView];
         currentWebView = webView;
+        [navigatorGeolocation assignWebView:webView];
         [self addSubview:webView];
         
         previousMaxSize = CGSizeZero;
@@ -312,6 +317,7 @@ typedef enum {
     webView = nil;
     webViewPart2 = nil;
     currentWebView = nil;
+    navigatorGeolocation = nil;
     
     mraidParser = nil;
     modalVC = nil;
@@ -516,6 +522,9 @@ typedef enum {
     } else {
         // Reset frame of webView if returning from 1-part expansion.
         webView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+        if (!isInterstitial) {
+            [self addContentInfoViewToView:webView];
+        }
     }
     
     [self addSubview:webView];
@@ -558,6 +567,18 @@ typedef enum {
 
 // Note: This method is also used to present an interstitial ad.
 - (void)expand:(NSString *)urlString supportVerve:(BOOL)supportVerve{
+    if (![HyBidSettings sharedInstance].mraidExpand) {
+        if (!isInterstitial) {
+            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ expand disabled by the developer", NSStringFromSelector(_cmd)]];
+        } else {
+            [self expandCreative:urlString supportVerve:supportVerve];
+        }
+    } else {
+        [self expandCreative:urlString supportVerve:supportVerve];
+    }
+}
+
+- (void)expandCreative:(NSString *)urlString supportVerve:(BOOL)supportVerve {
     if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.expand() when no UI touch event exists."];
         return;  // ignore programmatic touches (taps)
@@ -585,6 +606,7 @@ typedef enum {
         webViewPart2 = [[WKWebView alloc] initWithFrame:frame configuration:[self createConfiguration]];
         [self initWebView:webViewPart2];
         currentWebView = webViewPart2;
+        [navigatorGeolocation assignWebView:webViewPart2];
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
         
         if (omSDKjs) {
@@ -652,6 +674,7 @@ typedef enum {
     }
     
     if (!isInterstitial) {
+        [self addContentInfoViewToView:modalVC.view];
         state = PNLiteMRAIDStateExpanded;
         [self fireStateChangeEvent];
     }
@@ -812,10 +835,12 @@ typedef enum {
 
 // These methods are helper methods for the ones above.
 - (void)addContentInfoViewToView:(UIView *)view {
-    contentInfoViewContainer = [[UIView alloc] init];
-    [contentInfoViewContainer setAccessibilityLabel:@"Content Info Container View"];
-    [contentInfoViewContainer setAccessibilityIdentifier:@"contentInfoContainerView"];
-    contentInfoView.delegate = self;
+    if (!contentInfoViewContainer) {
+        contentInfoViewContainer = [[UIView alloc] init];
+        [contentInfoViewContainer setAccessibilityLabel:@"Content Info Container View"];
+        [contentInfoViewContainer setAccessibilityIdentifier:@"contentInfoContainerView"];
+        contentInfoView.delegate = self;
+    }
     [view addSubview:contentInfoViewContainer];
     [contentInfoViewContainer addSubview:contentInfoView];
     
@@ -1176,6 +1201,8 @@ typedef enum {
         if (PNLite_SUPPRESS_JS_ALERT) {
             [webView evaluateJavaScript:@"function alert(){}; function prompt(){}; function confirm(){}" completionHandler:^(id result, NSError *error) {}];
         }
+        
+        [webView evaluateJavaScript:[navigatorGeolocation getJavaScriptToEvaluate] completionHandler:^(id result, NSError *error) {}];
         
         if (state == PNLiteMRAIDStateLoading) {
             state = PNLiteMRAIDStateDefault;

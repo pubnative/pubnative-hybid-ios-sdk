@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "HyBidVASTIcon.h"
+#import "HyBidContentInfoView.h"
+#import "HyBidVASTAd.h"
 
-@class HyBidContentInfoView;
+typedef void (^vastIconCompletionBlock)(HyBidVASTIcon *, NSError *);
 
-@protocol HyBidContentInfoViewDelegate<NSObject>
+@interface HyBidVASTIconUtils : NSObject
 
-- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
+- (void)getVASTIconFrom:(NSString *)adContent completion:(vastIconCompletionBlock)block;
 
-@end
-
-@interface HyBidContentInfoView : UIView
-
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSString *link;
-@property (nonatomic, strong) NSString *icon;
-@property (nonatomic, strong) NSArray<NSString *> *viewTrackers;
-@property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
+- (HyBidContentInfoView *)parseContentInfo:(HyBidVASTIcon *)icon;
 
 @end

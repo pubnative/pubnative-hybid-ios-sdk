@@ -90,7 +90,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.4.3):
     - GoogleUtilities/Logger
-  - IronSourceSDK (7.1.12.0)
   - MaterialComponents/AnimationTiming (124.2.0)
   - MaterialComponents/Availability (124.2.0)
   - MaterialComponents/Buttons (124.2.0):
@@ -246,7 +245,6 @@ DEPENDENCIES:
   - FLEX (= 4.4.1)
   - Google-Mobile-Ads-SDK (= 8.13.0)
   - GoogleMobileAdsMediationTestSuite
-  - IronSourceSDK (= 7.1.12.0)
   - mopub-ios-sdk (= 5.18.0)
 
 SPEC REPOS:
@@ -265,7 +263,6 @@ SPEC REPOS:
     - GoogleMobileAdsMediationTestSuite
     - GoogleUserMessagingPlatform
     - GoogleUtilities
-    - IronSourceSDK
     - MaterialComponents
     - MDFInternationalization
     - MDFTextAccessibility
@@ -289,7 +286,6 @@ SPEC CHECKSUMS:
   GoogleMobileAdsMediationTestSuite: 1e45292ed37896267fe82c0faf0a01de3b06fa18
   GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
   GoogleUtilities: 45dbb24a7f351d69d0a601482b39ad6c32e30dab
-  IronSourceSDK: f8c439ff772b2b6f4b826054d661238d4d3c4d53
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
@@ -298,6 +294,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 7327d4444215b5f18e560a97f879ff5503c4581c
 
-PODFILE CHECKSUM: e4e3b1983b68429948b67c0f2c8ff3df009a3c3f
+PODFILE CHECKSUM: ed4f2c17112bad090c6704032b1932da84f4e0ae
 
 COCOAPODS: 1.11.2

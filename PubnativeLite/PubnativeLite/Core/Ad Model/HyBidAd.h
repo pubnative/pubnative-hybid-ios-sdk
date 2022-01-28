@@ -58,4 +58,7 @@
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel;
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel;
 
+- (HyBidContentInfoView *)getContentInfoView;
+- (HyBidContentInfoView *)getContentInfoViewFrom:(HyBidContentInfoView *)infoView;
+
 @end

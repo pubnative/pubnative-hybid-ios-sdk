@@ -49,6 +49,7 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL closeOnFinish;
 @property (nonatomic, assign) HyBidAudioStatus audioStatus;
+@property (nonatomic, assign) BOOL mraidExpand;
 
 // COMMON PARAMETERS
 @property (readonly) NSString *advertisingId;

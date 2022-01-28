@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,41 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "HyBidVASTIcons.h"
+#import "HyBidVASTXMLParserHelper.h"
 
-@class HyBidContentInfoView;
+@interface HyBidVASTIcons ()
 
-@protocol HyBidContentInfoViewDelegate<NSObject>
+@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
 
-- (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
+@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
 
 @end
 
-@interface HyBidContentInfoView : UIView
+@implementation HyBidVASTIcons
 
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSString *link;
-@property (nonatomic, strong) NSString *icon;
-@property (nonatomic, strong) NSArray<NSString *> *viewTrackers;
-@property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
+- (instancetype)initWithDocumentArray:(NSArray *)array
+{
+    self = [super init];
+    if (self) {
+        self.vastDocumentArray = [array mutableCopy];
+        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+    }
+    return self;
+}
+
+- (NSArray<HyBidVASTIcon *> *)icons
+{
+    NSString *query = @"//Icons";
+    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
+    NSMutableArray<HyBidVASTIcon *> *array = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTIcon *icon = [[HyBidVASTIcon alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
+        [array addObject:icon];
+    }
+    
+    return array;
+}
 
 @end

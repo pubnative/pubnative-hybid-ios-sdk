@@ -81,6 +81,13 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
 #pragma mark - "private" method
 
 - (HyBidVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth {
+    NSString *vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
+    
+    // having XML namespace in the XML causes parsing issues
+    // therefore we are replacing `xmlns` with `hybid`
+    NSString *newXmlString = [vastDataString stringByReplacingOccurrencesOfString:@"xmlns=" withString:@"hybid="];
+    vastData = [newXmlString dataUsingEncoding:NSUTF8StringEncoding];
+    
     if (depth >= HyBidVASTModel_MaxRecursiveDepth) {
         self.vastModel = nil;
         return HyBidVASTParserError_TooManyWrappers;
@@ -109,7 +116,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
             return HyBidVASTParserError_SchemaValidation;
         }
     }
-
+    
     [self.vastModel addVASTDocument:vastData];
     
     // Check to see whether this is a wrapper ad. If so, process it.
@@ -130,7 +137,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
             }
         }
         
-        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]]];
+        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
         return [self parseRecursivelyWithData:vastData depth:(depth + 1)];
     }
     

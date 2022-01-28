@@ -41,6 +41,13 @@
     });
     return _instance;
 }
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.mraidExpand = YES;
+    }
+    return self;
+}
 
 - (NSString *)advertisingId {
     NSString *result = nil;

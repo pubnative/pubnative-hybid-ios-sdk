@@ -36,6 +36,7 @@
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
+#import "HyBidVASTIconUtils.h"
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -88,6 +89,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong)NSArray *vastDocumentArray;
 
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
+@property (nonatomic, strong) HyBidVASTIcon *icon;
+@property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
 
@@ -132,9 +135,11 @@ typedef enum : NSUInteger {
     self.isInterstitial = isInterstitial;
     self = [self init];
     if (self) {
-        self.contentInfoView = adModel.contentInfo;
+        self.ad = adModel;
+        [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:adModel.vast completion:^(HyBidVASTIcon *icon, NSError *error) {
+            self.icon = icon;
+        }];
         self.skAdModel = adModel.isUsingOpenRTB ? adModel.getOpenRTBSkAdNetworkModel : adModel.getSkAdNetworkModel;
-        self.contentInfoView.delegate = self;
     }
     return self;
 }
@@ -177,9 +182,43 @@ typedef enum : NSUInteger {
     }
     
     [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
-    [self.contentInfoViewContainer addSubview:self.contentInfoView];
+    
+    if (self.icon != nil) {
+        [self setupContentInfoView:self.icon];
+    } else {
+        [self setupContentInfoView];
+    }
+    self.contentInfoView.delegate = self;
     
     self.btnClose.hidden = YES;
+}
+
+- (HyBidContentInfoView *)getContentInfoView:(HyBidAd *)ad fromContentInfoView:(HyBidContentInfoView *)contentInfoView
+{
+    return contentInfoView == nil ? [ad getContentInfoView] : [ad getContentInfoViewFrom:contentInfoView];
+}
+
+- (void)setupContentInfoView
+{
+    [self setupContentInfoView:nil];
+}
+
+- (void)setupContentInfoView:(HyBidVASTIcon *)icon
+{
+    if (self.ad != nil && self.contentInfoViewContainer != nil) {
+        HyBidVASTIconUtils *utils = [[HyBidVASTIconUtils alloc] init];
+        HyBidContentInfoView *contentInfoViewFromIcon = [utils parseContentInfo:icon];
+        HyBidContentInfoView *contentInfoView = [self getContentInfoView:self.ad fromContentInfoView:contentInfoViewFromIcon];
+        
+        if (contentInfoView != nil) {
+            [self.contentInfoViewContainer addSubview:contentInfoView];
+            contentInfoView.delegate = self;
+            
+            if (contentInfoViewFromIcon != nil && contentInfoViewFromIcon.viewTrackers != nil && [contentInfoViewFromIcon.viewTrackers count] > 0) {
+                [[[HyBidVASTEventProcessor alloc] init] sendVASTUrls:contentInfoViewFromIcon.viewTrackers];
+            }
+        }
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -648,12 +687,12 @@ typedef enum : NSUInteger {
 }
 
 - (void)invokeDidFailLoadingWithError:(NSError*)error {
-    [self close];
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
     if([self.delegate respondsToSelector:@selector(vastPlayer:didFailLoadingWithError:)]) {
         [self.delegate vastPlayer:self didFailLoadingWithError:error];
     }
     [self trackError];
+    [self close];
 }
 
 - (void)invokeDidStartPlaying {
@@ -841,13 +880,13 @@ typedef enum : NSUInteger {
                 
                 HyBidVASTMediaFiles *mediaFiles = [[HyBidVASTMediaFiles alloc] initWithDocumentArray:self.vastDocumentArray];
                 NSString *mediaUrl = [HyBidVASTMediaFilePicker pick:[mediaFiles mediaFiles]].url;
-                
+                weakSelf.hyBidVastModel = model;
+
                 if(!mediaUrl) {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
                     NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:HyBidErrorCodeInternal userInfo:nil];
                     [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
                 } else {
-                    weakSelf.hyBidVastModel = model;
                     NSURL *url = [[NSURL alloc] initWithString:mediaUrl];
                     [weakSelf createVideoPlayerWithVideoUrl:url];
                 }
@@ -921,6 +960,9 @@ typedef enum : NSUInteger {
     if([self currentPlaybackTime]  > 0) {
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_resume];
     } else {
+        if (self.hyBidVastModel.ads.count >0 && self.hyBidVastModel.ads.firstObject.impressions.count > 0) {
+            [self.vastEventProcessor trackImpression: [[self.hyBidVastModel.ads firstObject].impressions firstObject]];
+        }
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_start];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDStartEventWithDuration:[self duration] withVolume:self.player.volume];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDImpressionOccuredEvent:self.adSession];

@@ -54,7 +54,8 @@ typedef enum {
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
 - (void)requestVideoTagFrom:(NSString *)url andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
-- (void)cacheAd:(HyBidAd *)ad;
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel;
+- (void)processCustomMarkupFrom:(NSString *)markup andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
+- (void)cacheAd:(HyBidAd *)ad;
 
 @end
