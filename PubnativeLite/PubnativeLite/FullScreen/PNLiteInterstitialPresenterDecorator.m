@@ -23,12 +23,14 @@
 #import "PNLiteInterstitialPresenterDecorator.h"
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
+#import "PNLiteAssetGroupType.h"
 
 @interface PNLiteInterstitialPresenterDecorator()
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, weak) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
+@property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 
 @end
 
@@ -38,6 +40,7 @@
     self.interstitialPresenter = nil;
     self.adTracker = nil;
     self.interstitialPresenterDelegate = nil;
+    self.errorReportingProperties = nil;
 }
 
 - (void)load {
@@ -64,8 +67,31 @@
         self.interstitialPresenter = interstitialPresenter;
         self.adTracker = adTracker;
         self.interstitialPresenterDelegate = delegate;
+        self.errorReportingProperties = [NSMutableDictionary new];
     }
     return self;
+}
+
+- (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter {
+    [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    
+    if (interstitialPresenter.ad.zoneID != nil && [interstitialPresenter.ad.zoneID length] > 0) {
+        [reportingDictionary setObject:interstitialPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    switch (interstitialPresenter.ad.assetGroupID.integerValue) {
+        case VAST_INTERSTITIAL:
+            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+            if (interstitialPresenter.ad.vast) {
+                [reportingDictionary setObject:interstitialPresenter.ad.vast forKey:HyBidReportingCommon.CREATIVE];
+            }
+            break;
+        default:
+            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
+            if (interstitialPresenter.ad.htmlData) {
+                [reportingDictionary setObject:interstitialPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
+            }
+            break;
+    }
 }
 
 #pragma mark HyBidInterstitialPresenterDelegate
@@ -100,7 +126,9 @@
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenter:didFailWithError:)]) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+        [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withInterstitialPresenter:interstitialPresenter];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.FULLSCREEN properties:self.errorReportingProperties];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
     }

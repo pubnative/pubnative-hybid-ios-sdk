@@ -232,13 +232,50 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         }
     } else {
         if (!self.contentInfoView) {
-            self.contentInfoView = [[HyBidContentInfoView alloc] init];
-            self.contentInfoView.text = ContentInfoViewText;
-            self.contentInfoView.link = ContentInfoViewLink;
-            self.contentInfoView.icon = ContentInfoViewIcon;
+            self.contentInfoView = [self getDefaultContentInfo];
         }
     }
     return self.contentInfoView;
+}
+
+- (HyBidContentInfoView *)getContentInfoView
+{
+    return [self getContentInfoViewFrom:nil];
+}
+
+- (HyBidContentInfoView *)getContentInfoViewFrom:(HyBidContentInfoView *)infoView
+{
+    HyBidContentInfoView *contentInfoView = [self getCustomContentInfoFrom:infoView];
+    
+    if (contentInfoView == nil) {
+        contentInfoView = [self contentInfo];
+    }
+    
+    return contentInfoView;
+}
+
+- (HyBidContentInfoView *)getCustomContentInfoFrom:(HyBidContentInfoView *)contentInfoView
+{
+    if (contentInfoView == nil || [contentInfoView.link length] == 0 || [contentInfoView.icon length] == 0) {
+        return nil;
+    } else {
+        HyBidContentInfoView *result = [[HyBidContentInfoView alloc] init];
+        result.icon = contentInfoView.icon;
+        result.link = contentInfoView.link;
+        result.text = [contentInfoView.text length] == 0 ? contentInfoView.text : ContentInfoViewText;
+        
+        return result;
+    }
+}
+
+- (HyBidContentInfoView *)getDefaultContentInfo
+{
+    HyBidContentInfoView *contentInfoView = [[HyBidContentInfoView alloc] init];
+    contentInfoView.text = ContentInfoViewText;
+    contentInfoView.link = ContentInfoViewLink;
+    contentInfoView.icon = ContentInfoViewIcon;
+    
+    return contentInfoView;
 }
 
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel {

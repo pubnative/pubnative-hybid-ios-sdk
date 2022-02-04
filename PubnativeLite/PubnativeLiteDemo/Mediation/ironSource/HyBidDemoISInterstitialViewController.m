@@ -23,9 +23,9 @@
 #import "HyBidDemoISInterstitialViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
-#import "IronSource/IronSource.h"
+//#import "IronSource/IronSource.h"
 
-@interface HyBidDemoISInterstitialViewController () <ISInterstitialDelegate>
+@interface HyBidDemoISInterstitialViewController () /*<ISInterstitialDelegate>*/
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
@@ -50,18 +50,19 @@
     self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    [IronSource setInterstitialDelegate:self];
-    [IronSource loadInterstitial];
+    //[IronSource setInterstitialDelegate:self];
+    //[IronSource loadInterstitial];
 }
 
 - (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {
+    /*
     if ([IronSource hasInterstitial]) {
         [IronSource showInterstitialWithViewController:self];
-    }
+    }*/
 }
 
 #pragma mark - ISInterstitialDelegate
-
+/*
 -(void)interstitialDidLoad {
     self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
@@ -93,5 +94,5 @@
 -(void)interstitialDidShow {
     NSLog(@"interstitialDidShow");
 }
-
+*/
 @end

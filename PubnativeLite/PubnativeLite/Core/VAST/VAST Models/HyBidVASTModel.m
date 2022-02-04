@@ -70,6 +70,8 @@
     if (!self.vastDocumentArray) {
         self.vastDocumentArray = [NSMutableArray array];
     }
+    
+    [self.vastDocumentArray removeAllObjects];
     [self.vastDocumentArray addObject:vastDocument];
 }
 

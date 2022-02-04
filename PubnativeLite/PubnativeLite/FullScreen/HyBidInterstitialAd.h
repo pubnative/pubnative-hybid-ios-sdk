@@ -45,7 +45,7 @@
 - (void)load;
 - (void)prepareAdWithContent:(NSString *)adContent;
 - (void)prepareVideoTagFrom:(NSString *)url;
-
+- (void)prepareCustomMarkupFrom:(NSString *)markup;
 - (void)prepare;
 
 /// Presents the interstitial ad modally from the current view controller.

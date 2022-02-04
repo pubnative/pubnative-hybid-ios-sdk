@@ -74,6 +74,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
         
         self.iconView = [[UIImageView alloc] init];
+        [self.iconView setContentMode:UIViewContentModeScaleAspectFit];
         self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self addSubview:self.iconView];
@@ -144,8 +145,10 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (void)configureView {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
-            if (self.iconView && self.textView) {
-                self.textView.text = self.text;
+            if (self.iconView && self.textView && self.iconImage && [self.iconImage isMemberOfClass:[UIImage class]]) {
+                if (self.text) {
+                    self.textView.text = self.text;
+                }
                 [self.textView sizeToFit];
                 [self.iconView setImage:self.iconImage];
                 self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;

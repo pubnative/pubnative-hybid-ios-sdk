@@ -171,6 +171,10 @@
     [self.interstitialAdRequest requestVideoTagFrom:url andWithDelegate:self];
 }
 
+- (void)prepareCustomMarkupFrom:(NSString *)markup {
+    [self.interstitialAdRequest processCustomMarkupFrom:markup andWithDelegate:self];
+}
+
 - (void)processAdContent:(NSString *)adContent {
     HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
     signalDataProcessor.delegate = self;

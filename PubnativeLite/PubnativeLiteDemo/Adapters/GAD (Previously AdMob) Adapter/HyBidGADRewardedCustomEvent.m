@@ -107,20 +107,20 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
 
 #pragma mark - GADMediationAdapter
 
-// v: 2.9.1-ATOM-beta1
+// v: 2.10.0-ATOM-beta1
 + (GADVersionNumber)adSDKVersion {
     GADVersionNumber version = {0};
     version.majorVersion = 2;
-    version.minorVersion = 9;
-    version.patchVersion = 1;
+    version.minorVersion = 10;
+    version.patchVersion = 0;
     return version;
 }
 
 + (GADVersionNumber)adapterVersion {
     GADVersionNumber version = {0};
     version.majorVersion = 2;
-    version.minorVersion = 9;
-    version.patchVersion = 1;
+    version.minorVersion = 10;
+    version.patchVersion = 0;
     return version;
 }
 

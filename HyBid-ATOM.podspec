@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid-ATOM"
-  s.version      = "2.9.1-beta1"
+  s.version      = "2.10.0-beta1"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://verve.com."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -40,8 +40,8 @@ Pod::Spec.new do |s|
   s.authors      = { "Can Soykarafakili" => "can.soykarafakili@verve.com", "Eros Garcia Ponte" => "eros.ponte@verve.com", "Fares Benhamouda" => "fares.benhamouda@verve.com", "Orkhan Alizada" => "orkhan.alizada@verve.com"  }
   s.platform     = :ios
 
-  s.ios.deployment_target = "11.0"
-  s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/2.9.1-ATOM-beta1/HyBid.xcframework.zip" }
+  s.ios.deployment_target = "10.0"
+  s.source       = { :http => "https://github.com/pubnative/pubnative-hybid-ios-sdk/releases/download/2.10.0-ATOM-beta1/HyBid.xcframework.zip" }
   s.vendored_framework = 'HyBid.xcframework'
   s.dependency 'NumberEightCompiled', '= 3.0.4'
 

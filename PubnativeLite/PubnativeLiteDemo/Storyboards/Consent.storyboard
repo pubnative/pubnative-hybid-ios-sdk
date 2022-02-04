@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,11 +14,11 @@
             <objects>
                 <viewController title="Consent" id="BJd-Cf-ldx" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dyL-SH-BR5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Hw-uu-zd1" userLabel="Consent Strings Button">
-                                <rect key="frame" x="16" y="8" width="343" height="33"/>
+                                <rect key="frame" x="16" y="52" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="consentStringsButton" label="Consent Strings Button"/>
                                 <constraints>
@@ -70,7 +70,7 @@
             <objects>
                 <viewController title="Consent Strings" id="MA3-pN-Zcy" customClass="PNLiteDemoConsentStringsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GcI-xQ-RVV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GDPR Consent String" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Br1-1z-5Tm">
@@ -96,7 +96,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your CGPR Consent String" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="GJ8-6v-92S" userLabel="GDPR Consent String TextField">
-                                <rect key="frame" x="16" y="49" width="343" height="30"/>
+                                <rect key="frame" x="16" y="49" width="382" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="GDPRConsentStringTextField" label="GDPR Consent String TextField"/>
                                 <constraints>
@@ -109,7 +109,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4t-vv-1vB" userLabel="Set GDPR Button">
-                                <rect key="frame" x="16" y="87" width="166.5" height="30"/>
+                                <rect key="frame" x="16" y="87" width="186" height="30"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="setGDPRButton" label="Set GDPR Button"/>
                                 <constraints>
@@ -131,7 +131,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wxm-0M-AF7" userLabel="Remove GDPR Button">
-                                <rect key="frame" x="192.5" y="87" width="166.5" height="30"/>
+                                <rect key="frame" x="212" y="87" width="186" height="30"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="removeGDPRButton" label="Remove GDPR Button"/>
                                 <constraints>
@@ -175,7 +175,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your CCPA Privacy String" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gav-Lm-5UB" userLabel="CCPA Privacy String TextField">
-                                <rect key="frame" x="16" y="154" width="343" height="30"/>
+                                <rect key="frame" x="16" y="154" width="382" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="CCPAPrivacyStringTextField" label="CCPA Privacy String TextField"/>
                                 <constraints>
@@ -188,7 +188,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9R1-j1-huM" userLabel="Set CCPA Button">
-                                <rect key="frame" x="15" y="192" width="167" height="30"/>
+                                <rect key="frame" x="16" y="192" width="186" height="30"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="setCCPAButton" label="Set CCPA Button"/>
                                 <constraints>
@@ -210,7 +210,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqJ-OS-bCp" userLabel="Remove CCPA Button">
-                                <rect key="frame" x="192" y="192" width="167" height="30"/>
+                                <rect key="frame" x="212" y="192" width="186" height="30"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="removeCCPAButton" label="Remove CCPA Button"/>
                                 <constraints>
@@ -246,9 +246,9 @@
                             <constraint firstItem="sqJ-OS-bCp" firstAttribute="top" secondItem="gav-Lm-5UB" secondAttribute="bottom" constant="8" id="MTx-u6-Lv4"/>
                             <constraint firstItem="gav-Lm-5UB" firstAttribute="top" secondItem="avY-ie-7U5" secondAttribute="bottom" constant="8" id="Mm4-Ju-Bed"/>
                             <constraint firstItem="wxm-0M-AF7" firstAttribute="top" secondItem="GJ8-6v-92S" secondAttribute="bottom" constant="8" id="SOy-oy-HtU"/>
-                            <constraint firstItem="9R1-j1-huM" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="15" id="aQC-RQ-l5a"/>
+                            <constraint firstItem="9R1-j1-huM" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="aQC-RQ-l5a"/>
                             <constraint firstItem="sqJ-OS-bCp" firstAttribute="leading" secondItem="9R1-j1-huM" secondAttribute="trailing" constant="10" id="axu-oV-n7f"/>
-                            <constraint firstItem="Br1-1z-5Tm" firstAttribute="leading" secondItem="GcI-xQ-RVV" secondAttribute="leading" constant="16" id="gKC-Bc-Ije"/>
+                            <constraint firstItem="Br1-1z-5Tm" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="gKC-Bc-Ije"/>
                             <constraint firstItem="Br1-1z-5Tm" firstAttribute="top" secondItem="pcK-fk-sJY" secondAttribute="top" constant="20" id="hL9-gv-77w"/>
                             <constraint firstItem="pcK-fk-sJY" firstAttribute="trailing" secondItem="gav-Lm-5UB" secondAttribute="trailing" constant="16" id="kMS-Tb-WeR"/>
                             <constraint firstItem="GJ8-6v-92S" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="kw3-xV-hF7"/>

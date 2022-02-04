@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,41 @@
 //  THE SOFTWARE.
 //
 
-#ifndef HyBidConstants_h
-#define HyBidConstants_h
+#import "HyBidVASTIcons.h"
+#import "HyBidVASTXMLParserHelper.h"
 
-#define HYBID_SDK_NAME @"HyBid"
-#define HYBID_SDK_VERSION @"2.10.0-ATOM-beta1"
-#define HYBID_OMSDK_VERSION @"1.3.26"
-#define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
+@interface HyBidVASTIcons ()
 
-#endif
+@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
+
+@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+
+@end
+
+@implementation HyBidVASTIcons
+
+- (instancetype)initWithDocumentArray:(NSArray *)array
+{
+    self = [super init];
+    if (self) {
+        self.vastDocumentArray = [array mutableCopy];
+        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+    }
+    return self;
+}
+
+- (NSArray<HyBidVASTIcon *> *)icons
+{
+    NSString *query = @"//Icons";
+    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
+    NSMutableArray<HyBidVASTIcon *> *array = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTIcon *icon = [[HyBidVASTIcon alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
+        [array addObject:icon];
+    }
+    
+    return array;
+}
+
+@end

@@ -175,6 +175,11 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     [[PNLiteHttpRequest alloc] startWithUrlString:url withMethod:@"GET" delegate:self];
 }
 
+- (void)processCustomMarkupFrom:(NSString *)markup andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate {
+    self.delegate = delegate;
+    [self processVASTTagResponseFrom:markup];
+}
+
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
                                                                                                                                                                                                                          withAdSize:[self adSize]
@@ -272,8 +277,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
-- (void)processVASTTagResponseFrom:(NSString *)adContent
+- (void)processVASTTagResponseFrom:(NSString *)vastAdContent
 {
+    __block NSString *adContent = vastAdContent;
+    
     if ([adContent length] != 0) {
         if (self.isUsingOpenRTB) {
             NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
@@ -295,6 +302,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             self.initialCacheTimestamp = [[NSDate date] timeIntervalSince1970];
             HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
             [videoAdProcessor processVASTString:adContent completion:^(HyBidVASTModel *vastModel, NSError *error) {
+                adContent = vastModel.vastString;
                 if (!vastModel) {
                     [self invokeDidFail:error];
                 } else {

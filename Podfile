@@ -15,7 +15,6 @@ target 'HyBidDemo' do
   pod 'mopub-ios-sdk', '5.18.0'
   pod 'Google-Mobile-Ads-SDK', '8.13.0'
   pod 'GoogleMobileAdsMediationTestSuite'
-  pod 'IronSourceSDK','7.1.12.0'
 end
 
 post_install do |installer|

@@ -134,4 +134,8 @@ BOOL isInitialized = NO;
     return url.query;
 }
 
++ (void)setMRAIDExpand:(BOOL)enabled {
+    [HyBidSettings sharedInstance].mraidExpand = enabled;
+}
+
 @end

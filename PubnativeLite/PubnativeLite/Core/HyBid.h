@@ -141,5 +141,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
++ (void)setMRAIDExpand:(BOOL)enabled;
 
 @end

@@ -180,7 +180,11 @@
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
     [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    
+    if (self.zoneID && [self.zoneID length] > 0) {
+        [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    
     [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
     switch (self.ad.assetGroupID.integerValue) {
         case VAST_REWARDED:

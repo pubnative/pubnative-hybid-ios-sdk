@@ -24,7 +24,7 @@
 #import "PNLiteDemoMarkupDetailViewController.h"
 #import "UITextView+KeyboardDismiss.h"
 
-@interface PNLiteDemoMarkupMainViewController ()
+@interface PNLiteDemoMarkupMainViewController () <HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
@@ -33,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *markupTextView;
 @property (nonatomic, retain) NSNumber *placement;
 @property (nonatomic, strong) Markup *markup;
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
 @end
 
@@ -40,6 +41,7 @@
 
 - (void)dealloc {
     self.markup = nil;
+    self.interstitialAd = nil;
 }
 
 - (void)viewDidLoad {
@@ -72,17 +74,15 @@
             [self.navigationController presentViewController:markupDetailVC animated:YES completion:nil];
             break;
         }
-        case 3:
-            [self createMRAIDViewWithMarkup:self.markup
-                                  withWidth:[[UIScreen mainScreen] bounds].size.width
-                                 withHeight:[[UIScreen mainScreen] bounds].size.height
-                             isInterstitial:YES];
+        case 3: {
+            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+            [self.interstitialAd prepareCustomMarkupFrom:self.markup.text];
             break;
+    }
         default:
             break;
     }
 }
-
 
 - (IBAction)bannerTouchUpInside:(UIButton *)sender {
     [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
@@ -114,6 +114,30 @@
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     self.placement = [NSNumber numberWithInteger:sender.tag];
+}
+
+#pragma mark - HyBidInterstitialAdDelegate
+
+- (void)interstitialDidLoad {
+    NSLog(@"Interstitial did load");
+    [self.interstitialAd show];
+}
+
+- (void)interstitialDidFailWithError:(NSError *)error {
+    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    [self showAlertControllerWithMessage:error.localizedDescription];
+}
+
+- (void)interstitialDidTrackClick {
+    NSLog(@"Interstitial did track click");
+}
+
+- (void)interstitialDidTrackImpression {
+    NSLog(@"Interstitial did track impression");
+}
+
+- (void)interstitialDidDismiss {
+    NSLog(@"Interstitial did dismiss");
 }
 
 @end
