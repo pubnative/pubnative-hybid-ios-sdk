@@ -42,6 +42,7 @@
 #import "HyBidRewardedAdRequest.h"
 #import "HyBidNativeAdRequest.h"
 #import "HyBidInterstitialAdRequest.h"
+#import "HyBidError.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -270,7 +271,6 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:&parseError];
     if (parseError) {
-        [self invokeDidFail:parseError];
         return nil;
     } else {
         return jsonDictonary;
@@ -336,7 +336,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (void)processResponseWithData:(NSData *)data {
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
-    if (jsonDictonary) {
+    if (!jsonDictonary) {
+        [self invokeDidFail: NSError.hyBidNullAd];
+        return;
+    }
         PNLiteResponseModel *response = nil;
         PNLiteOpenRTBResponseModel *openRTBResponse = nil;
         
@@ -392,7 +395,6 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
             [self invokeDidFail:responseError];
         }
-    }
 }
 
 - (void)cacheAd:(HyBidAd *)ad {
@@ -471,26 +473,31 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
        PNLiteResponseStatusRequestMalformed == statusCode) {
         NSString *responseString;
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        if (![HyBidMarkupUtils isVastXml:dataString]) {
-            if ([self createDictionaryFromData:data]) {
-                responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
+        if (dataString) {
+            if (![HyBidMarkupUtils isVastXml:dataString]) {
+                if ([self createDictionaryFromData:data]) {
+                    responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
+                } else {
+                    responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                }
+                
+                if (responseString != nil) {
+                    [self.adResponseReportingProperties setObject:responseString forKey:HyBidReportingCommon.AD_RESPONSE];
+                }
+                
+                [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
+                [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
+                [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
+                                                                           withResponse:responseString
+                                                                            withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                [self processResponseWithData:data];
             } else {
-                responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                [self processVASTTagResponseFrom:dataString];
             }
-            
-            if (responseString != nil) {
-                [self.adResponseReportingProperties setObject:responseString forKey:HyBidReportingCommon.AD_RESPONSE];
-            }
-            
-            [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
-            [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
-            [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                                       withResponse:responseString
-                                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
-            [self processResponseWithData:data];
         } else {
-            [self processVASTTagResponseFrom:dataString];
+            [self invokeDidFail:[NSError hyBidNullAd]];
         }
+        
     } else {
         NSError *statusError = [NSError hyBidServerError];
         [self invokeDidFail:statusError];

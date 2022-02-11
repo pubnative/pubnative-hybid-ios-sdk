@@ -46,9 +46,14 @@
 @property (nonatomic, strong) NSMutableDictionary *loadReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *renderReportingProperties;
 
+@property (nonatomic, weak) NSTimer *autoRefreshTimer;
+@property (nonatomic, assign) BOOL shouldRunAutoRefresh;
+
 @end
 
 @implementation HyBidAdView
+
+@synthesize autoRefreshTimeInSeconds = _autoRefreshTimeInSeconds;
 
 - (void)dealloc {
     self.ad = nil;
@@ -60,6 +65,7 @@
     self.loadReportingProperties = nil;
     self.renderReportingProperties = nil;
     [self cleanUp];
+    [self stopAutoRefresh];
 }
 
 - (void)awakeFromNib {
@@ -178,6 +184,16 @@
     self.adRequest.adSize = self.adSize;
     [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
     [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+    
+    self.shouldRunAutoRefresh = YES;
+    [self setupAutoRefreshTimerIfNeeded];
+}
+
+- (void)setupAutoRefreshTimerIfNeeded
+{
+    if (self.autoRefreshTimer == nil && self.autoRefreshTimeInSeconds > 0) {
+        self.autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:self.autoRefreshTimeInSeconds target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+    }
 }
 
 - (void)prepare {
@@ -202,6 +218,28 @@
 
 - (void)show {
     [self renderAd];
+}
+
+- (void)refresh
+{
+    [self cleanUp];
+    [self requestAd];
+}
+
+- (void)setAutoRefreshTimeInSeconds:(NSInteger)autoRefreshTimeInSeconds
+{
+    _autoRefreshTimeInSeconds = autoRefreshTimeInSeconds;
+    
+    if (self.shouldRunAutoRefresh) {
+        [self setupAutoRefreshTimerIfNeeded];
+    }
+}
+
+- (void)stopAutoRefresh
+{
+    self.autoRefreshTimeInSeconds = 0;
+    [self.autoRefreshTimer invalidate];
+    self.autoRefreshTimer = nil;
 }
 
 - (void)show:(UIView *)adView withPosition:(HyBidBannerPosition)position {

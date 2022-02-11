@@ -25,21 +25,31 @@
 #import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidError.h"
+#import "HyBidSignalDataProcessor.h"
 #import "HyBidRemoteConfigFeature.h"
 #import "HyBidRemoteConfigManager.h"
 
-@interface HyBidNativeAdLoader() <HyBidAdRequestDelegate>
+@interface HyBidNativeAdLoader() <HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidNativeAdRequest *nativeAdRequest;
 @property (nonatomic, weak) NSObject <HyBidNativeAdLoaderDelegate> *delegate;
+@property (nonatomic, strong) NSString *zoneID;
+
+@property (nonatomic, weak) NSTimer *autoRefreshTimer;
+@property (nonatomic, assign) BOOL shouldRunAutoRefresh;
+
 
 @end
 
 @implementation HyBidNativeAdLoader
 
+@synthesize autoRefreshTimeInSeconds = _autoRefreshTimeInSeconds;
+
 - (void)dealloc {
     self.nativeAdRequest = nil;
     self.delegate = nil;
+    
+    [self stopAutoRefresh];
 }
 
 - (instancetype)init {
@@ -57,9 +67,68 @@
         [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
     } else {
         self.delegate = delegate;
-        [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:zoneID];
-        [self.nativeAdRequest requestAdWithDelegate:self withZoneID:zoneID];
+        self.zoneID = zoneID;
+        [self requestAd];
     }
+}
+
+- (void)prepareNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withContent:(NSString *)adContent {
+    NSString *nativeString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_NATIVE];
+    
+    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:nativeString]) {
+        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
+    } else {
+        self.delegate = delegate;
+        if (adContent && [adContent length] != 0) {
+            [self processAdContent:adContent];
+        } else {
+            [self invokeDidFailWithError:[NSError hyBidInvalidAsset]];
+        }
+    }
+}
+
+- (void)processAdContent:(NSString *)adContent {
+    HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
+    signalDataProcessor.delegate = self;
+    [signalDataProcessor processSignalData:adContent];
+}
+
+- (void)requestAd {
+    if (self.zoneID && [self.zoneID length] > 0) {
+        [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
+        [self.nativeAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        
+        self.shouldRunAutoRefresh = YES;
+        [self setupAutoRefreshTimerIfNeeded];
+    }
+}
+
+- (void)setupAutoRefreshTimerIfNeeded
+{
+    if (self.autoRefreshTimer == nil && self.autoRefreshTimeInSeconds > 0) {
+        self.autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:self.autoRefreshTimeInSeconds target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)refresh
+{
+    [self requestAd];
+}
+
+- (void)setAutoRefreshTimeInSeconds:(NSInteger)autoRefreshTimeInSeconds
+{
+    _autoRefreshTimeInSeconds = autoRefreshTimeInSeconds;
+    
+    if (self.shouldRunAutoRefresh) {
+        [self setupAutoRefreshTimerIfNeeded];
+    }
+}
+
+- (void)stopAutoRefresh
+{
+    self.autoRefreshTimeInSeconds = 0;
+    [self.autoRefreshTimer invalidate];
+    self.autoRefreshTimer = nil;
 }
 
 - (void)invokeDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
@@ -92,6 +161,21 @@
 }
 
 - (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
+    [self invokeDidFailWithError:error];
+}
+
+#pragma mark - HyBidSignalDataProcessorDelegate
+
+- (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Signal data loaded with ad: %@", ad]];
+    if (!ad) {
+        [self invokeDidFailWithError:[NSError hyBidNullAd]];
+    } else {
+        [self invokeDidLoadWithNativeAd:[[HyBidNativeAd alloc] initWithAd:ad]];
+    }
+}
+
+- (void)signalDataDidFailWithError:(NSError *)error {
     [self invokeDidFailWithError:error];
 }
 

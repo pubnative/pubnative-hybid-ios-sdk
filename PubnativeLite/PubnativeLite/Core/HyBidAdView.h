@@ -52,6 +52,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL autoShowOnLoad;
 @property (nonatomic) HyBidBannerPosition bannerPosition;
 @property (nonatomic, assign) BOOL isAutoCacheOnLoad;
+@property (nonatomic) NSInteger autoRefreshTimeInSeconds;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
@@ -65,6 +66,8 @@ typedef enum {
 - (void)stopTracking;
 - (void)prepare;
 - (void)show;
+- (void)refresh;
+- (void)stopAutoRefresh;
 - (HyBidAdPresenter *)createAdPresenter;
 
 @end

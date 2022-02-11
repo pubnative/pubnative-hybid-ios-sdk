@@ -439,7 +439,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-GM-DvE">
-                                <rect key="frame" x="16" y="8" width="382" height="30"/>
+                                <rect key="frame" x="16" y="58" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -453,7 +453,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ve6-Tb-stk" userLabel="Native Ad Background">
-                                <rect key="frame" x="35.5" y="46" width="343" height="242"/>
+                                <rect key="frame" x="35.5" y="96" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDP-rs-Lgv" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
@@ -579,7 +579,7 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="oi7-S5-HsA" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="202" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2U-LB-h2a" userLabel="Debug Button">
@@ -606,44 +606,62 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kj2-LG-iao" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="296" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="346" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2H-G7-WQG" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="296" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="346" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Refresh Enabled (30 sec)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rm2-Iu-cve">
+                                <rect key="frame" x="20" y="20" width="232.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XR2-YV-R8Z">
+                                <rect key="frame" x="345" y="15" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="autoRefreshSwitch" label="Auto Refresh Switch"/>
+                                <connections>
+                                    <action selector="autoRefreshSwitchValueChanged:" destination="PB1-bo-RNK" eventType="valueChanged" id="KwK-ME-UEI"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4Jv-MO-Jd6"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="oi7-S5-HsA" firstAttribute="top" secondItem="a0W-GM-DvE" secondAttribute="bottom" constant="114" id="4Bf-7s-hqU"/>
                             <constraint firstItem="f2U-LB-h2a" firstAttribute="leading" secondItem="4Jv-MO-Jd6" secondAttribute="leading" constant="16" id="4n0-cX-KdG"/>
+                            <constraint firstItem="Rm2-Iu-cve" firstAttribute="top" secondItem="4Jv-MO-Jd6" secondAttribute="top" constant="20" id="4wM-1t-LsW"/>
+                            <constraint firstItem="Rm2-Iu-cve" firstAttribute="leading" secondItem="4Jv-MO-Jd6" secondAttribute="leading" constant="20" id="5zt-AO-s09"/>
                             <constraint firstItem="ve6-Tb-stk" firstAttribute="centerX" secondItem="4Jv-MO-Jd6" secondAttribute="centerX" id="C4g-Ju-pwH"/>
                             <constraint firstItem="J2H-G7-WQG" firstAttribute="centerY" secondItem="Kj2-LG-iao" secondAttribute="centerY" id="F4P-32-3PM"/>
                             <constraint firstItem="4Jv-MO-Jd6" firstAttribute="bottom" secondItem="f2U-LB-h2a" secondAttribute="bottom" constant="8" id="RlI-Qz-RxQ"/>
                             <constraint firstItem="4Jv-MO-Jd6" firstAttribute="trailing" secondItem="a0W-GM-DvE" secondAttribute="trailing" constant="16" id="TN8-lV-WFd"/>
                             <constraint firstItem="a0W-GM-DvE" firstAttribute="leading" secondItem="4Jv-MO-Jd6" secondAttribute="leading" constant="16" id="Z2q-TD-rYG"/>
+                            <constraint firstItem="a0W-GM-DvE" firstAttribute="top" secondItem="XR2-YV-R8Z" secondAttribute="bottom" constant="12" id="bIe-dP-SKh"/>
                             <constraint firstItem="Kj2-LG-iao" firstAttribute="leading" secondItem="4Jv-MO-Jd6" secondAttribute="leading" constant="16" id="cBF-b3-hJn"/>
                             <constraint firstItem="oi7-S5-HsA" firstAttribute="centerX" secondItem="4Jv-MO-Jd6" secondAttribute="centerX" id="e2o-Qj-ElL"/>
                             <constraint firstItem="f2U-LB-h2a" firstAttribute="centerX" secondItem="4Jv-MO-Jd6" secondAttribute="centerX" id="jIF-yz-WtK"/>
                             <constraint firstItem="4Jv-MO-Jd6" firstAttribute="trailing" secondItem="f2U-LB-h2a" secondAttribute="trailing" constant="16" id="kU4-DN-8eK"/>
                             <constraint firstItem="Kj2-LG-iao" firstAttribute="top" secondItem="ve6-Tb-stk" secondAttribute="bottom" constant="8" id="mEn-hy-ofB"/>
+                            <constraint firstItem="XR2-YV-R8Z" firstAttribute="centerY" secondItem="Rm2-Iu-cve" secondAttribute="centerY" id="nbq-eP-Cxq"/>
                             <constraint firstItem="J2H-G7-WQG" firstAttribute="leading" secondItem="Kj2-LG-iao" secondAttribute="trailing" constant="8" id="tuO-vC-Vvt"/>
                             <constraint firstItem="ve6-Tb-stk" firstAttribute="top" secondItem="a0W-GM-DvE" secondAttribute="bottom" constant="8" id="uwz-ec-gdb"/>
-                            <constraint firstItem="a0W-GM-DvE" firstAttribute="top" secondItem="4Jv-MO-Jd6" secondAttribute="top" constant="8" id="wne-J6-jaT"/>
+                            <constraint firstItem="4Jv-MO-Jd6" firstAttribute="trailing" secondItem="XR2-YV-R8Z" secondAttribute="trailing" constant="20" id="yHu-tf-1aW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Izn-co-fdB">
                         <barButtonItem key="backBarButtonItem" title="Back" id="UBq-Xi-prd"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="autoRefreshSwitch" destination="XR2-YV-R8Z" id="8ZF-rX-WSR"/>
                         <outlet property="creativeIdLabel" destination="J2H-G7-WQG" id="Ojl-aT-VXj"/>
                         <outlet property="debugButton" destination="f2U-LB-h2a" id="Hi9-nW-ipd"/>
                         <outlet property="nativeAdBanner" destination="K1w-Yi-qh9" id="tu9-rE-l5P"/>
@@ -670,7 +688,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-Dg-4lH">
-                                <rect key="frame" x="20" y="8" width="374" height="30"/>
+                                <rect key="frame" x="20" y="58" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -684,7 +702,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OeX-Df-uUY">
-                                <rect key="frame" x="16" y="84" width="382" height="667"/>
+                                <rect key="frame" x="16" y="134" width="382" height="617"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="quoteCell" rowHeight="245" id="byB-XM-ADP" customClass="QuoteCell">
@@ -796,42 +814,60 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tR7-op-RvG" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="50" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="100" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SyH-Vd-QNL" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="50" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="100" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Refresh Enabled (30 sec)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaC-6f-vvS">
+                                <rect key="frame" x="16" y="20" width="232.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pYc-h8-JhM">
+                                <rect key="frame" x="345" y="15" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="autoRefreshSwitch" label="Auto Refresh Switch"/>
+                                <connections>
+                                    <action selector="autoRefreshSwitchValueChanged:" destination="Mxb-wD-K8I" eventType="valueChanged" id="Fxj-2v-pKg"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="k0b-6D-Zij"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="top" secondItem="OeX-Df-uUY" secondAttribute="bottom" constant="16" id="12z-O1-nhy"/>
+                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="pYc-h8-JhM" secondAttribute="bottom" constant="12" id="31e-pL-SJA"/>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="leading" secondItem="k0b-6D-Zij" secondAttribute="leading" constant="16" id="9OQ-aP-0b1"/>
                             <constraint firstItem="k0b-6D-Zij" firstAttribute="bottom" secondItem="4hd-7W-ZkR" secondAttribute="bottom" constant="8" id="BDR-kD-crz"/>
                             <constraint firstItem="OeX-Df-uUY" firstAttribute="top" secondItem="tR7-op-RvG" secondAttribute="bottom" constant="16" id="Gst-JH-6bk"/>
+                            <constraint firstItem="pYc-h8-JhM" firstAttribute="centerY" secondItem="zaC-6f-vvS" secondAttribute="centerY" id="LlD-W6-AYQ"/>
+                            <constraint firstItem="k0b-6D-Zij" firstAttribute="trailing" secondItem="pYc-h8-JhM" secondAttribute="trailing" constant="20" id="LoZ-aV-TAa"/>
                             <constraint firstItem="k0b-6D-Zij" firstAttribute="trailing" secondItem="OeX-Df-uUY" secondAttribute="trailing" constant="16" id="MBu-DY-JOd"/>
+                            <constraint firstItem="zaC-6f-vvS" firstAttribute="leading" secondItem="k0b-6D-Zij" secondAttribute="leading" constant="16" id="Mby-HN-lll"/>
                             <constraint firstItem="tR7-op-RvG" firstAttribute="leading" secondItem="k0b-6D-Zij" secondAttribute="leading" constant="16" id="NRd-md-tRA"/>
+                            <constraint firstItem="zaC-6f-vvS" firstAttribute="top" secondItem="k0b-6D-Zij" secondAttribute="top" constant="20" id="R0x-iT-8Cy"/>
                             <constraint firstItem="OeX-Df-uUY" firstAttribute="leading" secondItem="k0b-6D-Zij" secondAttribute="leading" constant="16" id="W3M-6K-5q8"/>
                             <constraint firstItem="tR7-op-RvG" firstAttribute="top" secondItem="j1X-Dg-4lH" secondAttribute="bottom" constant="12" id="WEu-NI-Mag"/>
                             <constraint firstAttribute="trailingMargin" secondItem="j1X-Dg-4lH" secondAttribute="trailing" id="aTh-ve-p8e"/>
                             <constraint firstItem="j1X-Dg-4lH" firstAttribute="leading" secondItem="8HZ-a2-ZqI" secondAttribute="leadingMargin" id="d4G-HO-7o2"/>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="centerX" secondItem="k0b-6D-Zij" secondAttribute="centerX" id="eXW-Zp-jPQ"/>
                             <constraint firstItem="SyH-Vd-QNL" firstAttribute="leading" secondItem="tR7-op-RvG" secondAttribute="trailing" constant="8" id="fdk-hF-3aM"/>
-                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="k0b-6D-Zij" secondAttribute="top" constant="8" id="hrc-qO-kVw"/>
                             <constraint firstItem="k0b-6D-Zij" firstAttribute="trailing" secondItem="4hd-7W-ZkR" secondAttribute="trailing" constant="16" id="rLc-Fm-jFX"/>
                             <constraint firstItem="SyH-Vd-QNL" firstAttribute="centerY" secondItem="tR7-op-RvG" secondAttribute="centerY" id="xxr-rT-zwJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Bcq-YC-Ywe"/>
                     <connections>
+                        <outlet property="autoRefreshSwitch" destination="pYc-h8-JhM" id="Xzr-EH-7Wh"/>
                         <outlet property="creativeIdLabel" destination="SyH-Vd-QNL" id="wga-08-GeO"/>
                         <outlet property="debugButton" destination="4hd-7W-ZkR" id="Uze-kp-hDi"/>
                         <outlet property="tableView" destination="OeX-Df-uUY" id="GJ7-IP-gll"/>
@@ -1159,7 +1195,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="EqL-tj-82v"/>
+        <segue reference="VHf-sc-KEf"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

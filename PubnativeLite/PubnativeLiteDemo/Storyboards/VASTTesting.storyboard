@@ -48,13 +48,19 @@
                                     <segment title="Second"/>
                                 </segments>
                             </segmentedControl>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="lQj-Jd-ki2">
+                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vWP-e4-9zr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="kik-fO-uZb" firstAttribute="top" secondItem="vWP-e4-9zr" secondAttribute="top" constant="24" id="03U-OI-WHp"/>
                             <constraint firstItem="nSJ-ic-LfX" firstAttribute="leading" secondItem="vWP-e4-9zr" secondAttribute="leading" constant="16" id="1ud-Z2-J7K"/>
+                            <constraint firstItem="lQj-Jd-ki2" firstAttribute="centerY" secondItem="rBb-9K-kZe" secondAttribute="centerY" id="96v-X8-fgl"/>
                             <constraint firstItem="vWP-e4-9zr" firstAttribute="trailing" secondItem="nSJ-ic-LfX" secondAttribute="trailing" constant="16" id="Br3-8S-SDc"/>
+                            <constraint firstItem="lQj-Jd-ki2" firstAttribute="centerX" secondItem="vWP-e4-9zr" secondAttribute="centerX" id="MRF-tP-Qq9"/>
                             <constraint firstItem="vWP-e4-9zr" firstAttribute="trailing" secondItem="Iwv-z7-a3M" secondAttribute="trailing" constant="16" id="OIE-VA-K98"/>
                             <constraint firstItem="Iwv-z7-a3M" firstAttribute="leading" secondItem="vWP-e4-9zr" secondAttribute="leading" constant="16" id="das-dB-ILU"/>
                             <constraint firstItem="vWP-e4-9zr" firstAttribute="trailing" secondItem="kik-fO-uZb" secondAttribute="trailing" constant="16" id="e0q-iU-pN2"/>
@@ -66,6 +72,7 @@
                     <connections>
                         <outlet property="loadButton" destination="Iwv-z7-a3M" id="HfJ-xQ-rno"/>
                         <outlet property="segmentedControl" destination="nSJ-ic-LfX" id="RwG-Pa-Qpx"/>
+                        <outlet property="vastLoadingIndicator" destination="lQj-Jd-ki2" id="Mwz-eY-Osq"/>
                         <outlet property="vastTextField" destination="kik-fO-uZb" id="3SI-jK-f00"/>
                     </connections>
                 </viewController>

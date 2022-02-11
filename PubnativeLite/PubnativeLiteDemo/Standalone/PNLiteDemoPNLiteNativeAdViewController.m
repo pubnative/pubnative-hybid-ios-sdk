@@ -40,11 +40,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) HyBidNativeAd *nativeAd;
+@property (weak, nonatomic) IBOutlet UISwitch *autoRefreshSwitch;
+
 @end
 
 @implementation PNLiteDemoPNLiteNativeAdViewController
 
 - (void)dealloc {
+    [self.nativeAdLoader stopAutoRefresh];
     self.nativeAdLoader = nil;
     [self.nativeAd stopTracking];
     self.nativeAd = nil;
@@ -68,7 +71,21 @@
     self.debugButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
+    
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
+}
+
+- (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender
+{
+    if (self.nativeAdLoader == nil) {
+        [sender setOn: !sender.isOn];
+        return;
+    }
+    if (sender.isOn) {
+        self.nativeAdLoader.autoRefreshTimeInSeconds = 30;
+    } else {
+        [self.nativeAdLoader stopAutoRefresh];
+    }
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {

@@ -216,7 +216,6 @@ BOOL validateXMLDocSyntax(NSData *document) {
     } else {
         xmlFreeDoc(doc);
     }
-    xmlCleanupParser();
     return retval;
 }
 
@@ -227,7 +226,6 @@ BOOL validateXMLDocAgainstSchema(NSData *document, NSData *schemaData) {
 	xmlDocPtr doc = xmlReadMemory([document bytes], (int)[document length], "", NULL, 0); // XML_PARSE_RECOVER);
     if (doc == NULL) {
         NSLog(@"VAST - XML Util: Unable to parse.");
-        xmlCleanupParser();
 		return NO;
     }
     
@@ -268,7 +266,6 @@ BOOL validateXMLDocAgainstSchema(NSData *document, NSData *schemaData) {
     }
     
     xmlSchemaCleanupTypes();
-    xmlCleanupParser();
     xmlMemoryDump();
     
     return (ret == 0);

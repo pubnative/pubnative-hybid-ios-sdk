@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *vastTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *vastLoadingIndicator;
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
@@ -38,6 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.vastLoadingIndicator stopAnimating];
     [self setupUI];
 }
 
@@ -49,20 +51,25 @@
 
 - (IBAction)loadButtonTapped:(UIButton *)sender {
     if ([[self.vastTextField text] isEqualToString:@""]) {
-        NSLog(@"The field is empty!");
+        NSError *error = [NSError errorWithDomain:@"Please input some vast adserver URL" code:0 userInfo:nil];
+        [self invokeDidFail:error];
         return;
     }
     
     switch ([self.segmentedControl selectedSegmentIndex]) {
         case 0:
-            [self loadVASTTag];
+            [self requestAd];
+            break;
         case 1:
             NSLog(@"MRect is not set up yet.");
-        default: break;
+            break;
+        default:
+            break;
     }
 }
 
-- (void)loadVASTTag {
+- (void)requestAd {
+    [self.vastLoadingIndicator startAnimating];
     NSString *vastURL = [self.vastTextField text];
     if ([vastURL length] == 0) {
         NSError *error = [NSError errorWithDomain:@"Please input some vast adserver URL" code:0 userInfo:nil];
@@ -78,20 +85,22 @@
 }
 
 - (void)invokeDidFail:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-    });
+    [self.vastLoadingIndicator stopAnimating];
+    [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
 #pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
+    [self.vastLoadingIndicator stopAnimating];
     [self.interstitialAd show];
+    
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    [self.vastLoadingIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }
 

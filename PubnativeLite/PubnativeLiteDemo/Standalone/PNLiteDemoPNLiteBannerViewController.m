@@ -33,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *autoRefreshSwitch;
 
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -43,9 +44,10 @@
 @implementation PNLiteDemoPNLiteBannerViewController
 
 - (void)dealloc {
+    [self.bannerAdView stopAutoRefresh];
     self.bannerAdView = nil;
     self.dataSource = nil;
-    self.bannerLoaderIndicator = nil;
+    self.bannerLoaderIndicator = nil;    
 }
 
 - (void)viewDidLoad {
@@ -70,6 +72,15 @@
     self.debugButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+}
+
+- (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender
+{
+    if (sender.isOn) {
+        self.bannerAdView.autoRefreshTimeInSeconds = 30;
+    } else {
+        [self.bannerAdView stopAutoRefresh];
+    }
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {

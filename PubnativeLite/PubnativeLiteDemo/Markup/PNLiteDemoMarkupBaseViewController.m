@@ -82,7 +82,7 @@
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
-    return NO;
+    return allowOffscreen;
 }
 
 #pragma mark HyBidMRAIDServiceDelegate
