@@ -70,4 +70,6 @@ typedef enum {
 - (void)stopAutoRefresh;
 - (HyBidAdPresenter *)createAdPresenter;
 
+- (void)setMediationVendor:(NSString *)mediationVendor;
+
 @end

@@ -27,6 +27,7 @@
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import "PNLiteDemoMoPubManager.h"
 //#import "IronSource/IronSource.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @import GoogleMobileAds;
 @import Firebase;
@@ -79,12 +80,14 @@ CLLocationManager *locationManager;
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     //[IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
     
+    [ALSdk shared].mediationProvider = @"max";
+    [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {}];
+    
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     
     [HyBid setInterstitialActionBehaviour:HB_CREATIVE];
     [HyBid setVideoInterstitialSkipOffset:8];
     [HyBid setHTMLInterstitialSkipOffset:2];
-    [HyBid setInterstitialCloseOnFinish:YES];
     [HyBid setVideoAudioStatus:HyBidAudioStatusDefault];
     
     [HyBid getCustomRequestSignalData];

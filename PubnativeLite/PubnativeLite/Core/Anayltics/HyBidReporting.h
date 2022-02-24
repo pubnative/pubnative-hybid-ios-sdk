@@ -34,6 +34,7 @@
 @property (class, nonatomic, readonly) NSString *APPTOKEN;
 @property (class, nonatomic, readonly) NSString *ZONE_ID;
 @property (class, nonatomic, readonly) NSString *INTEGRATION_TYPE;
+@property (class, nonatomic, readonly) NSString *KEY_MEDIATION_VENDOR;
 @property (class, nonatomic, readonly) NSString *TIME_TO_LOAD;
 @property (class, nonatomic, readonly) NSString *AD_TYPE;
 @property (class, nonatomic, readonly) NSString *CACHE_TIME;

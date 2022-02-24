@@ -32,6 +32,22 @@ NSString * const DISPLAY_MANAGER_ENGINE = @"sdkios";
     return [HyBidDisplayManager setDisplayManager:IN_APP_BIDDING];
 }
 
++ (NSString *)getDisplayManagerVersionWithIntegrationType:(IntegrationType)integrationType
+{
+    return [self getDisplayManagerVersionWithIntegrationType:integrationType andWithMediationVendor:nil];
+}
+
++ (NSString *)getDisplayManagerVersionWithIntegrationType:(IntegrationType)integrationType andWithMediationVendor:(NSString *)mediationVendor
+{
+    NSString *mediationValue = @"";
+    
+    if (mediationVendor != nil && [mediationVendor length] > 0) {
+        mediationValue = [[NSString alloc] initWithFormat:@"_%@", mediationVendor];
+    }
+    
+    return [[NSString alloc] initWithFormat:@"%@_%@%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType integrationTypeToString:integrationType], mediationValue, HYBID_SDK_VERSION];
+}
+
 + (NSString*)setDisplayManager:(IntegrationType)integrationType {
     return [NSString stringWithFormat:@"%@_%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType integrationTypeToString:integrationType] ,HYBID_SDK_VERSION];
 }

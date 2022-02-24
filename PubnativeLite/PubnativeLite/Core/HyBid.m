@@ -105,6 +105,7 @@ BOOL isInitialized = NO;
 
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
     [HyBidSettings sharedInstance].closeOnFinish = closeOnFinish;
+    [HyBidSettings sharedInstance].isCloseOnFinishSet = YES;
 }
 
 + (HyBidReportingManager *)reportingManager {

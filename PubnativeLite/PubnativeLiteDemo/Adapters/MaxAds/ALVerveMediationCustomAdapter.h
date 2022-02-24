@@ -20,13 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "IronSource/ISBaseNetworkAdapter.h"
-#import "IronSource/ISAdapterErrors.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 #import <HyBid/HyBid.h>
 
-@interface ISVerveCustomAdapter : ISBaseNetworkAdapter
-
-+ (NSString *)ISVerveAdapterKeyMediationVendor;
+@interface ALVerveMediationCustomAdapter : ALMediationAdapter <MAAdViewAdapter, MAInterstitialAdapter, MARewardedAdapter, MANativeAdAdapter>
 
 @end
-

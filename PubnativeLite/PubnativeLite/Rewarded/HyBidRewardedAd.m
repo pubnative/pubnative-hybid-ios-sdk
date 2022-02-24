@@ -126,6 +126,13 @@
     }
 }
 
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.rewardedAdRequest != nil) {
+        [self.rewardedAdRequest setMediationVendor:mediationVendor];
+    }
+}
+
 - (void)prepareAdWithContent:(NSString *)adContent {
     if (adContent && [adContent length] != 0) {
         [self processAdContent:adContent];

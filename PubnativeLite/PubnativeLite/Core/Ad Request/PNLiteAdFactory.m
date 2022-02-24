@@ -135,7 +135,8 @@
 
 - (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
     adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = [HyBidDisplayManager getDisplayManager];
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [HyBidDisplayManager setDisplayManager:integrationType];
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] =
+    [HyBidDisplayManager getDisplayManagerVersionWithIntegrationType:integrationType andWithMediationVendor:self.mediationVendor];    
 }
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {

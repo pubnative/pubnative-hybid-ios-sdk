@@ -425,6 +425,17 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.adFactory != nil) {
+        [self.adFactory setMediationVendor:mediationVendor];
+        
+        if ([mediationVendor length] > 0) {
+            [self.adResponseReportingProperties setObject:mediationVendor forKey:HyBidReportingCommon.KEY_MEDIATION_VENDOR];
+        }
+    }
+}
+
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
     if ([HyBidSettings sharedInstance].appToken) {
         [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];

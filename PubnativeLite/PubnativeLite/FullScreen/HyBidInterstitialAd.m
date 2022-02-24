@@ -49,6 +49,7 @@
 @property (nonatomic, strong) NSMutableDictionary *renderReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *renderErrorReportingProperties;
 @property (nonatomic) BOOL closeOnFinish;
+@property (nonatomic) BOOL isCloseOnFinishSet;
 
 @end
 
@@ -137,6 +138,7 @@
 
 - (void)setCloseOnFinish:(BOOL)closeOnFinish {
     self->_closeOnFinish = closeOnFinish;
+    self.isCloseOnFinishSet = YES;
 }
 
 - (void)prepare {
@@ -156,6 +158,13 @@
 - (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad {
     if (self.interstitialAdRequest != nil) {
         [self.interstitialAdRequest setIsAutoCacheOnLoad:isAutoCacheOnLoad];
+    }
+}
+
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.interstitialAdRequest != nil) {
+        [self.interstitialAdRequest setMediationVendor:mediationVendor];
     }
 }
 
@@ -205,7 +214,11 @@
 
 - (void)renderAd:(HyBidAd *)ad {
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
-    self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withVideoSkipOffset:self.videoSkipOffset withHTMLSkipOffset:self.htmlSkipOffset withCloseOnFinish:self.closeOnFinish withDelegate:self];
+    if (!self.isCloseOnFinishSet && [HyBidSettings sharedInstance].isCloseOnFinishSet) {
+        self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withVideoSkipOffset:self.videoSkipOffset withHTMLSkipOffset:self.htmlSkipOffset withCloseOnFinish:[HyBidSettings sharedInstance].closeOnFinish withDelegate:self];
+    } else {
+        self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withVideoSkipOffset:self.videoSkipOffset withHTMLSkipOffset:self.htmlSkipOffset withCloseOnFinish:self.closeOnFinish withDelegate:self];
+    }
     if (!self.interstitialPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid interstitial presenter."];
         [self invokeDidFailWithError:[NSError hyBidUnsupportedAsset]];

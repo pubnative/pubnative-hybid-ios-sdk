@@ -242,6 +242,13 @@
     self.autoRefreshTimer = nil;
 }
 
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.adRequest != nil) {
+        [self.adRequest setMediationVendor:mediationVendor];
+    }
+}
+
 - (void)show:(UIView *)adView withPosition:(HyBidBannerPosition)position {
     if (self.container == nil) {
         self.container = [[UIView alloc] init];

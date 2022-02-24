@@ -57,5 +57,6 @@ typedef enum {
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel;
 - (void)processCustomMarkupFrom:(NSString *)markup andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
 - (void)cacheAd:(HyBidAd *)ad;
+- (void)setMediationVendor:(NSString *)mediationVendor;
 
 @end

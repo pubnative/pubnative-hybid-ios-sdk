@@ -27,7 +27,7 @@
 + (NSString *)integrationTypeToString:(IntegrationType)integrationType {
     NSArray *integrationTypes = @[
                                   @"hb",
-                                  @"iab",
+                                  @"b",
                                   @"m",
                                   @"s",
                                   ];

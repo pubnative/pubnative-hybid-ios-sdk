@@ -1,4 +1,5 @@
 PODS:
+  - AppLovinSDK (11.1.1)
   - Firebase/CoreOnly (8.2.0):
     - FirebaseCore (= 8.2.0)
   - Firebase/Performance (8.2.0):
@@ -241,6 +242,7 @@ PODS:
   - Protobuf (3.17.0)
 
 DEPENDENCIES:
+  - AppLovinSDK (= 11.1.1)
   - Firebase/Performance
   - FLEX (= 4.4.1)
   - Google-Mobile-Ads-SDK (= 8.13.0)
@@ -249,6 +251,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppLovinSDK
     - Firebase
     - FirebaseABTesting
     - FirebaseCore
@@ -272,6 +275,7 @@ SPEC REPOS:
     - Protobuf
 
 SPEC CHECKSUMS:
+  AppLovinSDK: a418677708090e2116e9080c3ca46cc81df7b8de
   Firebase: 12c568897b807321964e89d2b263ef4c6cff3db6
   FirebaseABTesting: 5f37131c5eceea579c471c915f7a0f8cad484d1f
   FirebaseCore: 3a83f24c3de69ec9f9a426e2598125ea51f3a2ce
@@ -294,6 +298,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 7327d4444215b5f18e560a97f879ff5503c4581c
 
-PODFILE CHECKSUM: ed4f2c17112bad090c6704032b1932da84f4e0ae
+PODFILE CHECKSUM: 6f5951867479ba56510f13bbd600329cb75d00d0
 
 COCOAPODS: 1.11.2

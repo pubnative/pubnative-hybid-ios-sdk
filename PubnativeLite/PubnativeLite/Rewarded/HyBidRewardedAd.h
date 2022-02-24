@@ -65,4 +65,6 @@
 - (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
 
+- (void)setMediationVendor:(NSString *)mediationVendor;
+
 @end

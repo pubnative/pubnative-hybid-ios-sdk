@@ -69,4 +69,6 @@
 - (void)setHTMLSkipOffset:(NSInteger)seconds;
 - (void)setCloseOnFinish:(BOOL)closeOnFinish;
 
+- (void)setMediationVendor:(NSString *)mediationVendor;
+
 @end
