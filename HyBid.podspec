@@ -47,9 +47,9 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
-    core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.3.26/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
+    core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.3.29/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
     core.exclude_files         = 'PubnativeLite/PubnativeLite/Core/HyBidStatic.{swift,h,m}'
-    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.3.26/*.{xcframework}']
+    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.3.29/*.{xcframework}']
   end
 
   s.subspec 'Banner' do |banner|
