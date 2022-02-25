@@ -394,6 +394,7 @@
 		62AED07F2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AED07B2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m */; };
 		62AED16A26975C5700CDDDD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62AED16926975C5700CDDDD1 /* GoogleService-Info.plist */; };
 		62BF4CBA269C7266001DFD90 /* options.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62BF4CB9269C7266001DFD90 /* options.plist */; };
+		62CA9F5527C95CA90028627D /* VerveContentInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 62CA9F5427C95CA90028627D /* VerveContentInfo.png */; };
 		62CE409425B58AAA00C5E8EA /* HyBidReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE409225B58AAA00C5E8EA /* HyBidReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62CE409525B58AAA00C5E8EA /* HyBidReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CE409225B58AAA00C5E8EA /* HyBidReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62CE409A25B58AAA00C5E8EA /* HyBidReporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 62CE409325B58AAA00C5E8EA /* HyBidReporting.m */; };
@@ -1470,6 +1471,7 @@
 		62AED07B2686161300CDDDD1 /* PNLiteDemoCustomSDKDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoCustomSDKDataViewController.m; sourceTree = "<group>"; };
 		62AED16926975C5700CDDDD1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		62BF4CB9269C7266001DFD90 /* options.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = options.plist; sourceTree = "<group>"; };
+		62CA9F5427C95CA90028627D /* VerveContentInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VerveContentInfo.png; sourceTree = "<group>"; };
 		62CE409225B58AAA00C5E8EA /* HyBidReporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReporting.h; sourceTree = "<group>"; };
 		62CE409325B58AAA00C5E8EA /* HyBidReporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidReporting.m; sourceTree = "<group>"; };
 		62CE40CC25B5933400C5E8EA /* HyBidReportingEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidReportingEvent.h; sourceTree = "<group>"; };
@@ -2997,6 +2999,7 @@
 		7EA2A96B2589F730004C6A97 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				62CA9F5427C95CA90028627D /* VerveContentInfo.png */,
 				6F59DE312721ACAB00C117FF /* PNLiteExternalLink1.png */,
 				6F59DE302721ACAB00C117FF /* PNLiteExternalLink1@2x.png */,
 				6F59DE322721ACAC00C117FF /* PNLiteExternalLink1@3x.png */,
@@ -3663,6 +3666,7 @@
 				6F59DE332721ACAC00C117FF /* PNLiteExternalLink1@2x.png in Resources */,
 				5A9B66C120BD57ED0067964E /* PNLiteFullScreen.png in Resources */,
 				5A9B66C320BD57ED0067964E /* PNLiteFullScreen@2x.png in Resources */,
+				62CA9F5527C95CA90028627D /* VerveContentInfo.png in Resources */,
 				6F59DE342721ACAC00C117FF /* PNLiteExternalLink1.png in Resources */,
 				5A9B66BE20BD57ED0067964E /* PNLiteMute.png in Resources */,
 				5A9B66BC20BD57ED0067964E /* PNLiteMute@2x.png in Resources */,

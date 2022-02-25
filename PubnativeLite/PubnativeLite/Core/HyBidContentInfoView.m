@@ -32,7 +32,6 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 
 @property (nonatomic, strong) UILabel *textView;
 @property (nonatomic, strong) UIImageView *iconView;
-@property (nonatomic, strong) UIImage *iconImage;
 @property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, assign) CGFloat openSize;
 @property (nonatomic, strong) NSTimer *closeTimer;
@@ -49,7 +48,6 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     self.textView = nil;
     [self.iconView removeFromSuperview];
     self.iconView = nil;
-    self.iconImage = nil;
     
     [self.tapRecognizer removeTarget:self action:@selector(handleTap:)];
     [self removeGestureRecognizer:self.tapRecognizer];
@@ -74,6 +72,10 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
         
         self.iconView = [[UIImageView alloc] init];
+        
+        NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:@"VerveContentInfo" ofType:@"png"];
+        UIImage* image = [[UIImage alloc] initWithContentsOfFile: path];
+        [self.iconView setImage:image];
         [self.iconView setContentMode:UIViewContentModeScaleAspectFit];
         self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -128,16 +130,6 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     return self;
 }
 
-- (void)didMoveToWindow {
-    if(!self.iconImage) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.icon]];
-            self.iconImage = [UIImage imageWithData:iconData];
-            [self configureView];
-        });
-    }
-}
-
 - (void)layoutSubviews {
     [self configureView];
 }
@@ -145,12 +137,11 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (void)configureView {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
-            if (self.iconView && self.textView && self.iconImage && [self.iconImage isMemberOfClass:[UIImage class]]) {
+            if (self.iconView && self.textView) {
                 if (self.text) {
                     self.textView.text = self.text;
                 }
                 [self.textView sizeToFit];
-                [self.iconView setImage:self.iconImage];
                 self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
                 self.hidden = NO;
             }
