@@ -186,7 +186,6 @@
         return;
     
     [self.omidMediaEvents volumeChangeTo:volume];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_VOLUME_CHANGE];
 }
 
 - (void)fireOMIDSkippedEvent {

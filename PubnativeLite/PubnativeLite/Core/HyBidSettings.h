@@ -48,6 +48,7 @@ typedef enum {
 @property (nonatomic, assign) HyBidInterstitialActionBehaviour interstitialActionBehaviour;
 
 @property (nonatomic, assign) BOOL closeOnFinish;
+@property (nonatomic, assign) BOOL isCloseOnFinishSet;
 @property (nonatomic, assign) HyBidAudioStatus audioStatus;
 @property (nonatomic, assign) BOOL mraidExpand;
 

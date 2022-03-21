@@ -41,6 +41,7 @@
 @property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
+- (instancetype)initWithZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (instancetype)initWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate;
 - (void)load;
 - (void)prepareAdWithContent:(NSString *)adContent;
@@ -68,5 +69,7 @@
 - (void)setVideoSkipOffset:(NSInteger)seconds;
 - (void)setHTMLSkipOffset:(NSInteger)seconds;
 - (void)setCloseOnFinish:(BOOL)closeOnFinish;
+
+- (void)setMediationVendor:(NSString *)mediationVendor;
 
 @end

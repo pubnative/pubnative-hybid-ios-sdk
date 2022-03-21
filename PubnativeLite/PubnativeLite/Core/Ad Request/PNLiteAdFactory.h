@@ -27,7 +27,10 @@
 
 @interface PNLiteAdFactory : NSObject
 
+@property (nonatomic, strong) NSString *mediationVendor;
+
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
+                                       withAppToken:(NSString *)apptoken
                                          withAdSize:(HyBidAdSize *)adSize
                          withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                                 withIntegrationType:(IntegrationType)integrationType

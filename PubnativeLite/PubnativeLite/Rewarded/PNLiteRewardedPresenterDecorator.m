@@ -73,9 +73,10 @@
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withRewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter {
-    [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    
-    if (rewardedPresenter.ad.zoneID != nil && [rewardedPresenter.ad.zoneID length] > 0) {
+    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    }
+    if (rewardedPresenter.ad.zoneID != nil && rewardedPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:rewardedPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
     switch (rewardedPresenter.ad.assetGroupID.integerValue) {
@@ -133,7 +134,9 @@
 
 - (void)rewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter didFailWithError:(NSError *)error {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenter:didFailWithError:)]) {
-        [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+        if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
+            [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+        }
         [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withRewardedPresenter:rewardedPresenter];
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.REWARDED properties:self.errorReportingProperties];
         [[HyBid reportingManager] reportEventFor:reportingEvent];

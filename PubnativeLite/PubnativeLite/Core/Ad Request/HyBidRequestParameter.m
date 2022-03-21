@@ -73,4 +73,7 @@
 #pragma mark - OpenRTB API
 + (NSString *)ip                            { return @"ip"; }
 
+#pragma mark - Voyager parameters
++ (NSString *)vg                            { return @"vg"; }
+
 @end

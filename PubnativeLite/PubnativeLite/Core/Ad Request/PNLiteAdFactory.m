@@ -36,35 +36,73 @@
 #import "HyBidProtocol.h"
 #import "HyBidRemoteConfigFeature.h"
 
+#if __has_include(<ATOM/ATOM.h>)
+#import <ATOM/ATOM.h>
+#import "HyBidEncryption.h"
+#endif
+
+@interface PNLiteAdFactory ()
+
+@property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
+
+@end
+
 @implementation PNLiteAdFactory
 
 - (PNLiteAdRequestModel *)createAdRequestWithZoneID:(NSString *)zoneID
+                                       withAppToken:(NSString *)apptoken
                                          withAdSize:(HyBidAdSize *)adSize
                          withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                                 withIntegrationType:(IntegrationType)integrationType
                                          isRewarded:(BOOL)isRewarded {
-    PNLiteAdRequestModel *adRequestModel = [[PNLiteAdRequestModel alloc] init];
-    adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
-    adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
-    adRequestModel.requestParameters[HyBidRequestParameter.os] = [HyBidSettings sharedInstance].os;
-    adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [HyBidSettings sharedInstance].osVersion;
-    adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [HyBidSettings sharedInstance].deviceName;
-    adRequestModel.requestParameters[HyBidRequestParameter.deviceWidth] = [HyBidSettings sharedInstance].deviceWidth;
-    adRequestModel.requestParameters[HyBidRequestParameter.deviceHeight] = [HyBidSettings sharedInstance].deviceHeight;
-    adRequestModel.requestParameters[HyBidRequestParameter.orientation] = [HyBidSettings sharedInstance].orientation;
-    adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
-    [self setIDFA:adRequestModel];
-    adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
+    self.adRequestModel = [[PNLiteAdRequestModel alloc] init];
+    self.adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
+    if (apptoken) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.appToken] = apptoken;
+    } else {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
+    }
+    self.adRequestModel.requestParameters[HyBidRequestParameter.os] = [HyBidSettings sharedInstance].os;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [HyBidSettings sharedInstance].osVersion;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [HyBidSettings sharedInstance].deviceName;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceWidth] = [HyBidSettings sharedInstance].deviceWidth;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceHeight] = [HyBidSettings sharedInstance].deviceHeight;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.orientation] = [HyBidSettings sharedInstance].orientation;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
+    [self setIDFA:self.adRequestModel];
+    self.adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
     
     BOOL isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
     if (isUsingOpenRTB) {
-        adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
     }
     
-    adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
-    adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
+#if __has_include(<ATOM/ATOM.h>)
+    NSDictionary *remoteConfig = [[[HyBidRemoteConfigManager sharedInstance] remoteConfigModel] dictionary];
+    
+    ATOMRemoteConfigVoyager *voyager = [[ATOMRemoteConfigVoyager alloc] initWithDictionary:remoteConfig[@"voyager"]];
+    [ATOM setTestMode:YES];
+    [ATOM setSessionTestMode:YES];
+    
+    __block NSDictionary *atomAudiences;
+    
+    if (![ATOM isInitialized]) {
+        [ATOM initWithAppToken:[HyBidSettings sharedInstance].appToken andWithRemoteConfig:voyager completion:^(BOOL completion) {
+            atomAudiences = [self getATOMAudiences];
+        }];
+    } else {
+        atomAudiences = [self getATOMAudiences];
+    }
+    
+    for (NSString *key in atomAudiences) {
+        self.adRequestModel.requestParameters[key] = atomAudiences[key];
+    }
+#endif
+    
+    self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
-    adRequestModel.requestParameters[HyBidRequestParameter.identifierForVendor] = [HyBidSettings sharedInstance].identifierForVendor;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.identifierForVendor] = [HyBidSettings sharedInstance].identifierForVendor;
     
     if (@available(iOS 11.3, *)) {
         HyBidSkAdNetworkRequestModel *skAdNetworkRequestModel = [[HyBidSkAdNetworkRequestModel alloc] init];
@@ -72,12 +110,12 @@
         NSString *adIDs = [skAdNetworkRequestModel getSkAdNetworkAdNetworkIDsString];
         if ([adIDs length] > 0) {
             if ([skAdNetworkRequestModel getAppID] && [[skAdNetworkRequestModel getAppID] length] > 0) {
-                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = [skAdNetworkRequestModel getAppID];
+                self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = [skAdNetworkRequestModel getAppID];
             } else {
-                adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = @"0";
+                self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = @"0";
             }
-            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
-            adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = [skAdNetworkRequestModel getSkAdNetworkVersion];
+            self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = adIDs;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = [skAdNetworkRequestModel getSkAdNetworkVersion];
         } else {
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again."];
         }
@@ -85,18 +123,18 @@
     
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
     if (!([privacyString length] == 0) && [HyBidRemoteConfigManager.sharedInstance.featureResolver isUserConsentSupported:[HyBidRemoteConfigFeature hyBidRemoteUserConsentToString:HyBidRemoteUserConsent_CCPA]]) {
-        adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
     NSString* consentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
     if (!([consentString length] == 0) && [HyBidRemoteConfigManager.sharedInstance.featureResolver isUserConsentSupported:[HyBidRemoteConfigFeature hyBidRemoteUserConsentToString:HyBidRemoteUserConsent_GDPR]]) {
-        adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
     }
     
     if (![HyBidSettings sharedInstance].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut] && ![[HyBidUserDataManager sharedInstance] isConsentDenied]) {
-        adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
-        adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
-        adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
+        self.adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
+        self.adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
         
         if ([HyBidSettings sharedInstance].locationTrackingEnabled) {
             CLLocation* location = [HyBidSettings sharedInstance].location;
@@ -105,37 +143,125 @@
                 NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
                 NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
                 
-                adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
-                adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+                self.adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
+                self.adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
             }
         }
     }
     
-    adRequestModel.requestParameters[HyBidRequestParameter.rewardedVideo] = isRewarded ? @"1" : @"0";
-    
-    adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSettings sharedInstance].test ? @"1" : @"0";
+    self.adRequestModel.requestParameters[HyBidRequestParameter.rewardedVideo] = isRewarded ? @"1" : @"0";
+        
+    self.adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSettings sharedInstance].test ? @"1" : @"0";
     if (![adSize.layoutSize isEqualToString:@"native"]) {
-        adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
         
         if (adSize.width != 0) {
-            adRequestModel.requestParameters[HyBidRequestParameter.width] = [@(adSize.width) stringValue];
+            self.adRequestModel.requestParameters[HyBidRequestParameter.width] = [@(adSize.width) stringValue];
         }
         if (adSize.height != 0) {
-            adRequestModel.requestParameters[HyBidRequestParameter.height] = [@(adSize.height) stringValue];
+            self.adRequestModel.requestParameters[HyBidRequestParameter.height] = [@(adSize.height) stringValue];
         }
     } else {
-        [self setDefaultAssetFields:adRequestModel];
+        [self setDefaultAssetFields:self.adRequestModel];
     }
-    [self setDefaultMetaFields:adRequestModel];
-    [self setDisplayManager:adRequestModel withIntegrationType:integrationType];
-    [self setSupportedAPIs:adRequestModel];
-    [self setSupportedProtocols:adRequestModel];
-    return adRequestModel;
+    [self setDefaultMetaFields:self.adRequestModel];
+    [self setDisplayManager:self.adRequestModel withIntegrationType:integrationType];
+    [self setSupportedAPIs:self.adRequestModel];
+    [self setSupportedProtocols:self.adRequestModel];
+    return self.adRequestModel;
+}
+
+- (NSDictionary *)getATOMAudiences
+{
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    
+    #if __has_include(<ATOM/ATOM.h>)
+    ATOMAudienceController* audienceController = [[ATOMAudienceController alloc] init];
+    ATOMAudienceData* audienceData = [audienceController lastKnownAudience];
+    HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
+    ATOMRemoteConfigVoyager *voyager = [[ATOMRemoteConfigVoyager alloc] initWithDictionary:configModel.dictionary[@"voyager"]];
+    
+    if (audienceData) {
+        NSString* targetingGender = self.adRequestModel.requestParameters[HyBidRequestParameter.gender];
+        if ((!targetingGender || [targetingGender length] == 0) && audienceData.gender && [audienceData.gender length] != 0) {
+            dictionary[HyBidRequestParameter.gender] = audienceData.gender;
+        }
+        
+        NSMutableArray* targeting = [[NSMutableArray alloc] init];
+        if (audienceData.predominantEthnicity && [audienceData.predominantEthnicity length] != 0) {
+            [targeting addObject:[NSString stringWithFormat:@"ethnicity:%@", audienceData.predominantEthnicity]];
+        }
+        
+        if (audienceData.predominantIncome && [audienceData.predominantIncome length] != 0) {
+            [targeting addObject:[NSString stringWithFormat:@"income:%@", audienceData.predominantIncome]];
+        }
+        
+        if (audienceData.parentWithChildren) {
+            [targeting addObject:[NSString stringWithFormat:@"parentWithChildren:%f", audienceData.parentWithChildren]];
+        }
+        
+        if (audienceData.female) {
+            [targeting addObject:[NSString stringWithFormat:@"female:%f", audienceData.female]];
+        }
+        
+        if (audienceData.male) {
+            [targeting addObject:[NSString stringWithFormat:@"male:%f", audienceData.male]];
+        }
+        
+        if (audienceData.age && audienceData.age > 21) {
+            [targeting addObject:[NSString stringWithFormat:@"age:%ld", audienceData.age]];
+        }
+        
+        if (audienceData.homeScore) {
+            [targeting addObject:[NSString stringWithFormat:@"ha_score:%f", audienceData.homeScore]];
+        }
+        
+        if (audienceData.mover) {
+            [targeting addObject:[NSString stringWithFormat:@"mover:%d", 1]];
+        }
+        
+        NSMutableArray *poiAudiencesArray = [[NSMutableArray alloc] init];
+        for (ATOMRemoteConfigVoyagerAudience *audience in voyager.audiences) {
+            for (ATOMRemoteConfigVoyagerResolution *res in audience.parameters.resolutions) {
+                [poiAudiencesArray addObject:res.audienceID];
+            }
+        }
+        NSString *poiAudiences = [poiAudiencesArray componentsJoinedByString:@"|"];
+        if ([poiAudiences length] != 0) {
+            [targeting addObject:[NSString stringWithFormat:@"poi:%@", poiAudiences]];
+        }
+        
+        NSString* audiencesString = [targeting componentsJoinedByString:@","];
+        NSString *encryptedString = nil;
+        
+        typedef enum {
+            BASE64,
+            ENCRYPT
+        } RemoteConfigEncoding;
+        
+        RemoteConfigEncoding configModelEncoding = [voyager.vgEncoding isEqual: @"encrypt"] ? ENCRYPT : BASE64;
+        
+        if (configModelEncoding == ENCRYPT) {
+            NSString *encryptionKey = voyager.vgTargetingKey == nil
+            ? [HyBidSettings sharedInstance].appToken
+            : voyager.vgTargetingKey;
+            
+            encryptedString = [HyBidEncryption encrypt:audiencesString withKey:encryptionKey andWithIV:[@"" stringByPaddingToLength:16 withString:@"0" startingAtIndex:0]];
+        } else {
+            encryptedString = [[audiencesString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
+        }
+        
+        dictionary[HyBidRequestParameter.vg] = encryptedString;
+    }
+    #endif
+    
+    return dictionary;
 }
 
 - (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
     adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = [HyBidDisplayManager getDisplayManager];
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [HyBidDisplayManager setDisplayManager:integrationType];
+    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] =
+    [HyBidDisplayManager getDisplayManagerVersionWithIntegrationType:integrationType andWithMediationVendor:self.mediationVendor];    
 }
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {

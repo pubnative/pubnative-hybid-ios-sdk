@@ -26,5 +26,7 @@
 
 @interface ISVerveCustomAdapter : ISBaseNetworkAdapter
 
++ (NSString *)ISVerveAdapterKeyMediationVendor;
+
 @end
 

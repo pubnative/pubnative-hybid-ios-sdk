@@ -52,6 +52,11 @@
 #define kHyBidDemoOpenRTBAPIURL @"https://dsp.pubnative.net"
 #define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
 #define kHyBidISAppID @"1224c378d"
+#define kHyBidALMediationNativeAdUnitID @"571f33f570a7f6f1"
+#define kHyBidALMediationBannerAdUnitID @"fd30fd06782c6796"
+#define kHyBidALMediationMRectAdUnitID @"6497187b975fa9cc"
+#define kHyBidALMediationInterstitialAdUnitID @"2cc94ba50f6c04a9"
+#define kHyBidALMediationRewardedAdUnitID @"be31375eb2f3f111"
 
 @implementation PNLiteDemoSettings
 
@@ -115,6 +120,11 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADRewardedAdUnitID forKey:kHyBidGADRewardedAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidISAppID forKey:kHyBidISAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationNativeAdUnitID forKey:kHyBidALMediationNativeAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationBannerAdUnitID forKey:kHyBidALMediationBannerAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationMRectAdUnitID forKey:kHyBidALMediationMRectAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationInterstitialAdUnitID forKey:kHyBidALMediationInterstitialAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationRewardedAdUnitID forKey:kHyBidALMediationRewardedAdUnitIDKey];
     }
 }
 

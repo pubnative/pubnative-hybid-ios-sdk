@@ -34,6 +34,7 @@
 + (NSString *)APPTOKEN { return @"app_token"; }
 + (NSString *)ZONE_ID { return @"zone_id"; }
 + (NSString *)INTEGRATION_TYPE { return @"integration_type"; }
++ (NSString *)KEY_MEDIATION_VENDOR { return @"mediation_vendor"; }
 + (NSString *)TIME_TO_LOAD { return @"time_to_load"; }
 + (NSString *)AD_TYPE { return @"ad_type"; }
 + (NSString *)CACHE_TIME { return @"cache_time"; }

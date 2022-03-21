@@ -21,11 +21,25 @@
 //
 
 #import "HyBidAdapterConfiguration.h"
+#import "HyBidRemoteConfigManager.h"
+#import "HyBidLogger.h"
+
+#if __has_include(<ATOM/ATOM.h>)
+    #import <ATOM/ATOM.h>
+#endif
 
 NSString *const HyBidAdapterConfigurationNetworkName = @"pubnative";
-NSString *const HyBidAdapterConfigurationAdapterVersion = @"2.11.1.0";
-NSString *const HyBidAdapterConfigurationNetworkSDKVersion = @"2.11.1";
+NSString *const HyBidAdapterConfigurationAdapterVersion = @"2.12.0.0";
+NSString *const HyBidAdapterConfigurationNetworkSDKVersion = @"2.12.0";
 NSString *const HyBidAdapterConfigurationAppTokenKey = @"pubnative_appToken";
+
+@interface HyBidAdapterConfiguration ()
+
+#if __has_include(<ATOM/ATOM.h>)
+@property (nonatomic, strong) ATOMRemoteConfigVoyager *voyager;
+#endif
+
+@end
 
 @implementation HyBidAdapterConfiguration
 
@@ -53,6 +67,26 @@ NSString *const HyBidAdapterConfigurationAppTokenKey = @"pubnative_appToken";
         [HyBid initWithAppToken:appToken completion:^(BOOL success) {
             complete(nil);
         }];
+        
+        #if __has_include(<ATOM/ATOM.h>)
+        [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {
+            self.voyager = [[ATOMRemoteConfigVoyager alloc] initWithDictionary:remoteConfig.dictionary[@"voyager"]];
+            
+            [ATOM setTestMode:YES];
+            [ATOM setSessionTestMode:YES];
+            
+            [ATOM initWithAppToken:appToken andWithRemoteConfig:self.voyager completion:^(BOOL completion) {
+                ATOMAudienceController* audienceController = [[ATOMAudienceController alloc] init];
+                [audienceController refreshAudience];
+                
+                ATOMAudienceData *audienceData = [audienceController lastKnownAudience];
+                
+                NSString* audienceText = [NSString stringWithFormat:@"Ethnicity: %@\nIncome: %@\nGender: %@\nChildren: %f\nMale: %f\nFemale: %f\nAge: %ld", audienceData.predominantEthnicity, audienceData.predominantIncome, audienceData.gender, audienceData.parentWithChildren, audienceData.male, audienceData.female, audienceData.age];
+                
+                [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"ATOM Audience is: %@", audienceText]];
+            }];
+        }];
+        #endif
     } else {
         NSError *error = [NSError errorWithDomain:@"Native Network or Custom Event adapter was configured incorrectly."
                                              code:0

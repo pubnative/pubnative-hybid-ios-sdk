@@ -39,6 +39,7 @@
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, strong) NSMutableArray<HyBidAd*>* auctionResponses;
 @property (nonatomic, strong) UIView *container;
 @property (nonatomic, assign) NSTimeInterval initialLoadTimestamp;
@@ -58,6 +59,7 @@
 - (void)dealloc {
     self.ad = nil;
     self.zoneID = nil;
+    self.appToken = nil;
     self.delegate = nil;
     self.adPresenter = nil;
     self.adRequest = nil;
@@ -114,6 +116,10 @@
 }
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self loadWithZoneID:zoneID withAppToken:nil andWithDelegate:delegate];
+}
+
+- (void)loadWithZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
     
@@ -123,6 +129,7 @@
     } else {
         self.delegate = delegate;
         self.zoneID = zoneID;
+        self.appToken = appToken;
         if (!self.zoneID || self.zoneID.length == 0) {
             [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
         } else {
@@ -175,15 +182,14 @@
                 }
             }
             [self requestAd];
-            
         }
     }
 }
 
 - (void)requestAd {
     self.adRequest.adSize = self.adSize;
-    [self.adRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
-    [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+    [self.adRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID withAppToken:self.appToken];
+    [self.adRequest requestAdWithDelegate:self withZoneID:self.zoneID withAppToken:self.appToken];
     
     self.shouldRunAutoRefresh = YES;
     [self setupAutoRefreshTimerIfNeeded];
@@ -240,6 +246,13 @@
     self.autoRefreshTimeInSeconds = 0;
     [self.autoRefreshTimer invalidate];
     self.autoRefreshTimer = nil;
+}
+
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.adRequest != nil) {
+        [self.adRequest setMediationVendor:mediationVendor];
+    }
 }
 
 - (void)show:(UIView *)adView withPosition:(HyBidBannerPosition)position {
@@ -357,19 +370,27 @@
 
 - (void)createRenderErrorEventWithError:(NSError *)error {
     NSMutableDictionary *renderErrorReportingProperties = [NSMutableDictionary new];
-    [renderErrorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
-    [renderErrorReportingProperties setObject:[NSString stringWithFormat:@"%ld",error.code] forKey:HyBidReportingCommon.ERROR_CODE];
+    if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
+        [renderErrorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+        [renderErrorReportingProperties setObject:[NSString stringWithFormat:@"%ld",error.code] forKey:HyBidReportingCommon.ERROR_CODE];
+    }
     [self addCommonPropertiesToReportingDictionary:renderErrorReportingProperties];
     [self reportEvent:HyBidReportingEventType.RENDER_ERROR withProperties:renderErrorReportingProperties];
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
-    [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    if (self.zoneID) {
+    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    }
+    if (self.zoneID != nil && self.zoneID.length > 0) {
         [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.adRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
-    [reportingDictionary setObject:self.adSize.description forKey:HyBidReportingCommon.AD_SIZE];
+    if ([HyBidIntegrationType integrationTypeToString:self.adRequest.integrationType] != nil && [HyBidIntegrationType integrationTypeToString:self.adRequest.integrationType].length > 0) {
+        [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.adRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
+    }
+    if (self.adSize != nil && self.adSize.description.length > 0) {
+        [reportingDictionary setObject:self.adSize.description forKey:HyBidReportingCommon.AD_SIZE];
+    }
     switch (self.ad.assetGroupID.integerValue) {
         case VAST_MRECT:
         case VAST_INTERSTITIAL:

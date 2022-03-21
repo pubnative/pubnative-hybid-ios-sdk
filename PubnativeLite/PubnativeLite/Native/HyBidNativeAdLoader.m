@@ -34,6 +34,7 @@
 @property (nonatomic, strong) HyBidNativeAdRequest *nativeAdRequest;
 @property (nonatomic, weak) NSObject <HyBidNativeAdLoaderDelegate> *delegate;
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSString *appToken;
 
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
@@ -48,7 +49,8 @@
 - (void)dealloc {
     self.nativeAdRequest = nil;
     self.delegate = nil;
-    
+    self.zoneID = nil;
+    self.appToken = nil;
     [self stopAutoRefresh];
 }
 
@@ -61,6 +63,10 @@
 }
 
 - (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
+    [self loadNativeAdWithDelegate:delegate withZoneID:zoneID withAppToken:nil];
+}
+
+- (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken {
     NSString *nativeString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_NATIVE];
     
     if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:nativeString]) {
@@ -68,6 +74,7 @@
     } else {
         self.delegate = delegate;
         self.zoneID = zoneID;
+        self.appToken = appToken;
         [self requestAd];
     }
 }
@@ -95,8 +102,8 @@
 
 - (void)requestAd {
     if (self.zoneID && [self.zoneID length] > 0) {
-        [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID];
-        [self.nativeAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+        [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID withAppToken:self.appToken];
+        [self.nativeAdRequest requestAdWithDelegate:self withZoneID:self.zoneID withAppToken:self.appToken];
         
         self.shouldRunAutoRefresh = YES;
         [self setupAutoRefreshTimerIfNeeded];

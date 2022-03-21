@@ -5,6 +5,9 @@
       location = "group:PubnativeLite/Scripts"
       name = "Scripts">
       <FileRef
+         location = "group:hybidtests.sh">
+      </FileRef>
+      <FileRef
          location = "group:submit">
       </FileRef>
       <FileRef

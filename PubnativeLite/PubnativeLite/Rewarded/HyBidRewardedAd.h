@@ -42,6 +42,7 @@
 @property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate;
+- (instancetype)initWithZoneID:(NSString *)zoneID withAppToken:(NSString *) appToken andWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate;
 - (instancetype)initWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate;
 - (void)load;
 - (void)prepareAdWithContent:(NSString *)adContent;
@@ -64,5 +65,7 @@
 */
 - (void)showFromViewController:(UIViewController *)viewController;
 - (void)hide;
+
+- (void)setMediationVendor:(NSString *)mediationVendor;
 
 @end

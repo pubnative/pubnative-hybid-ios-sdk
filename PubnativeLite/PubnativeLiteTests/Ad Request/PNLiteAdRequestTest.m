@@ -21,8 +21,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMockitoIOS/OCMockitoIOS.h>
+#import <OCMockito/OCMockito.h>
 #import "HyBidAdRequest.h"
 #import "HyBidSettings.h"
 

@@ -38,6 +38,7 @@
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, weak) NSObject<HyBidInterstitialAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidInterstitialAdRequest *interstitialAdRequest;
@@ -49,6 +50,7 @@
 @property (nonatomic, strong) NSMutableDictionary *renderReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *renderErrorReportingProperties;
 @property (nonatomic) BOOL closeOnFinish;
+@property (nonatomic) BOOL isCloseOnFinishSet;
 
 @end
 
@@ -57,6 +59,7 @@
 - (void)dealloc {
     self.ad = nil;
     self.zoneID = nil;
+    self.appToken = nil;
     self.delegate = nil;
     self.interstitialPresenter = nil;
     self.interstitialAdRequest = nil;
@@ -73,6 +76,10 @@
 }
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
+    return [self initWithZoneID:zoneID withAppToken:nil andWithDelegate:delegate];
+}
+
+- (instancetype)initWithZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken andWithDelegate:(NSObject<HyBidInterstitialAdDelegate> *)delegate {
     self = [super init];
     if (self) {
         if (![HyBid isInitialized]) {
@@ -81,6 +88,7 @@
         self.interstitialAdRequest = [[HyBidInterstitialAdRequest alloc] init];
         self.interstitialAdRequest.openRTBAdType = HyBidOpenRTBAdVideo;
         self.zoneID = zoneID;
+        self.appToken = appToken;
         self.delegate = delegate;
         if ([HyBidSettings sharedInstance].videoSkipOffset > 0) {
             [self setVideoSkipOffset:[HyBidSettings sharedInstance].videoSkipOffset];
@@ -110,8 +118,8 @@
             [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
         } else {
             self.isReady = NO;
-            [self.interstitialAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-            [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+            [self.interstitialAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID withAppToken:self.appToken];
+            [self.interstitialAdRequest requestAdWithDelegate:self withZoneID:self.zoneID withAppToken:self.appToken];
         }
     }
 }
@@ -137,6 +145,7 @@
 
 - (void)setCloseOnFinish:(BOOL)closeOnFinish {
     self->_closeOnFinish = closeOnFinish;
+    self.isCloseOnFinishSet = YES;
 }
 
 - (void)prepare {
@@ -156,6 +165,13 @@
 - (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad {
     if (self.interstitialAdRequest != nil) {
         [self.interstitialAdRequest setIsAutoCacheOnLoad:isAutoCacheOnLoad];
+    }
+}
+
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.interstitialAdRequest != nil) {
+        [self.interstitialAdRequest setMediationVendor:mediationVendor];
     }
 }
 
@@ -205,7 +221,11 @@
 
 - (void)renderAd:(HyBidAd *)ad {
     HyBidInterstitialPresenterFactory *interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
-    self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withVideoSkipOffset:self.videoSkipOffset withHTMLSkipOffset:self.htmlSkipOffset withCloseOnFinish:self.closeOnFinish withDelegate:self];
+    if (!self.isCloseOnFinishSet && [HyBidSettings sharedInstance].isCloseOnFinishSet) {
+        self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withVideoSkipOffset:self.videoSkipOffset withHTMLSkipOffset:self.htmlSkipOffset withCloseOnFinish:[HyBidSettings sharedInstance].closeOnFinish withDelegate:self];
+    } else {
+        self.interstitialPresenter = [interstitalPresenterFactory createInterstitalPresenterWithAd:ad withVideoSkipOffset:self.videoSkipOffset withHTMLSkipOffset:self.htmlSkipOffset withCloseOnFinish:self.closeOnFinish withDelegate:self];
+    }
     if (!self.interstitialPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid interstitial presenter."];
         [self invokeDidFailWithError:[NSError hyBidUnsupportedAsset]];
@@ -220,13 +240,15 @@
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
-    [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    
-    if (self.zoneID != nil && [self.zoneID length] > 0) {
+    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    }
+    if (self.zoneID != nil && self.zoneID.length > 0) {
         [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    
-    [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
+    if ([HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType] != nil && [HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType].length > 0) {
+        [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
+    }
     switch (self.ad.assetGroupID.integerValue) {
         case VAST_INTERSTITIAL:
             [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];

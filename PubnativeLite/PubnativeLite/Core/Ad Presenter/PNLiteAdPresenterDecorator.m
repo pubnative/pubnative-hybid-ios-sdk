@@ -23,12 +23,14 @@
 #import "PNLiteAdPresenterDecorator.h"
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
+#import "PNLiteAssetGroupType.h"
 
 @interface PNLiteAdPresenterDecorator ()
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, weak) NSObject<HyBidAdPresenterDelegate> *adPresenterDelegate;
+@property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 
 @end
 
@@ -39,6 +41,7 @@
     self.adPresenter = nil;
     self.adTracker = nil;
     self.adPresenterDelegate = nil;
+    self.errorReportingProperties = nil;
 }
 
 - (void)load {
@@ -61,8 +64,32 @@
         self.adPresenter = adPresenter;
         self.adTracker = adTracker;
         self.adPresenterDelegate = delegate;
+        self.errorReportingProperties = [NSMutableDictionary new];
     }
     return self;
+}
+
+- (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withAdPresenter:(HyBidAdPresenter *)adPresenter {
+    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    }
+    if (adPresenter.ad.zoneID != nil && adPresenter.ad.zoneID.length > 0) {
+        [reportingDictionary setObject:adPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    switch (adPresenter.ad.assetGroupID.integerValue) {
+        case VAST_MRECT:
+            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+            if (adPresenter.ad.vast) {
+                [reportingDictionary setObject:adPresenter.ad.vast forKey:HyBidReportingCommon.CREATIVE];
+            }
+            break;
+        default:
+            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
+            if (adPresenter.ad.htmlData) {
+                [reportingDictionary setObject:adPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
+            }
+            break;
+    }
 }
 
 #pragma mark HyBidAdPresenterDelegate
@@ -85,7 +112,11 @@
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didFailWithError:)]) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+        if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
+            [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+        }
+        [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withAdPresenter:adPresenter];
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
     }

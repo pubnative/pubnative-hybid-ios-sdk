@@ -245,8 +245,10 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (HyBidContentInfoView *)getContentInfoViewFrom:(HyBidContentInfoView *)infoView
 {
-    HyBidContentInfoView *contentInfoView = [self getCustomContentInfoFrom:infoView];
-    
+    // OMI-1162: as part of the Easybrain fix, we dropped support of custom ContentInfo and we show only static one.
+    //HyBidContentInfoView *contentInfoView = [self getCustomContentInfoFrom:infoView];
+    HyBidContentInfoView *contentInfoView = [self contentInfo];
+
     if (contentInfoView == nil) {
         contentInfoView = [self contentInfo];
     }

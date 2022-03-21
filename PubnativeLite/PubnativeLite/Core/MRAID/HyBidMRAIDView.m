@@ -875,32 +875,24 @@ typedef enum {
         [closeEventRegion setBackgroundImage:closeButtonImage forState:UIControlStateNormal];
     }
     
-    closeEventRegion.frame = [self getCloseButtonFrame];
-    // autoresizing so it stays at top right (flexible left and flexible bottom margin)
-    closeEventRegion.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    
     [modalVC.view addSubview:closeEventRegion];
-}
 
-- (CGRect)getCloseButtonFrame
-{
-    CGRect frame = CGRectMake(0, 0, kCloseEventRegionSize, kCloseEventRegionSize);
-    
-    // align on top right
-    int x = CGRectGetWidth(modalVC.view.frame) - CGRectGetWidth(frame);
-    int y = contentInfoViewContainer.frame.origin.y - 5;
-    
     if (@available(iOS 11.0, *)) {
-        UIWindow *window = UIApplication.sharedApplication.windows.firstObject;
+        closeEventRegion.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
+        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
+        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
         
-        if (window != nil) {
-            x = x - window.safeAreaInsets.right;
-        }
+        
+    } else {
+        closeEventRegion.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
+        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
+        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
     }
     
-    frame.origin = CGPointMake(x, y);
-    
-    return frame;
 }
 
 - (void)showResizeCloseRegion {
@@ -1330,7 +1322,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
 - (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
-    closeEventRegion.frame = [self getCloseButtonFrame];
     [self setScreenSize];
     [self fireSizeChangeEvent];
 }

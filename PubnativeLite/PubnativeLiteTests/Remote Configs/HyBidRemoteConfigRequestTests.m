@@ -21,7 +21,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCMockitoIOS/OCMockitoIOS.h>
+#import <OCMockito/OCMockito.h>
 #import "HyBidRemoteConfigRequest.h"
 #import "HyBidEncryption.h"
 

@@ -400,6 +400,12 @@ typedef enum : NSUInteger {
                          context:&_playerItem];
     
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:[self.player currentItem]];
+    
     self.player.volume = 0;
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     __weak typeof(self) weakSelf = self;
@@ -456,7 +462,7 @@ typedef enum : NSUInteger {
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
     Float64 currentSkippablePlayedPercent = 0;
     
-    if (self.skipOffset > 0) {
+    if (self.skipOffset > 0 && self.skipOffset < currentDuration) {
         currentSkippablePlayedPercent = currentPlaybackTime / self.skipOffset;
 
         if (currentPlaybackTime >= self.skipOffset - 0.5) { // -0.5 for more smooth transition between circular progress view and close button
@@ -565,6 +571,11 @@ typedef enum : NSUInteger {
 - (IBAction)btnMutePush:(id)sender {
     self.muted = !self.muted;
     [self setAdAudioMuted:self.muted];
+    if (self.muted) {
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_MUTE];
+    } else {
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_UNMUTE];
+    }
 }
 
 - (IBAction)btnClosePush:(id)sender {
@@ -731,11 +742,6 @@ typedef enum : NSUInteger {
                                              selector: @selector(applicationDidEnterBackground:)
                                                  name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(moviePlayBackDidFinish:)
-                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-                                               object:self.player];
 }
 
 - (void)removeObservers {

@@ -1863,6 +1863,37 @@
                                     <segue destination="Q6E-P2-O4q" kind="show" id="4QJ-k3-12l"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="334-RB-8WC" userLabel="AppLovin Button">
+                                <rect key="frame" x="16" y="160" width="382" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="appLovinButton" label="AppLovin Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="P4D-ti-f4E"/>
+                                    <constraint firstAttribute="height" constant="33" id="fQD-z9-Z1O"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="AppLovin">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="P4D-ti-f4E"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="fQD-z9-Z1O"/>
+                                        <include reference="P4D-ti-f4E"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="KDy-sg-J0V" kind="show" id="W0F-Mg-gj8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="WcL-nk-rJv"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1872,9 +1903,12 @@
                             <constraint firstItem="EZ1-rM-yxl" firstAttribute="leading" secondItem="WcL-nk-rJv" secondAttribute="leading" constant="16" id="8LE-Pr-X9x"/>
                             <constraint firstItem="YpX-Ym-hDZ" firstAttribute="leading" secondItem="WcL-nk-rJv" secondAttribute="leading" constant="16" id="D0y-Ev-qz1"/>
                             <constraint firstItem="EZ1-rM-yxl" firstAttribute="top" secondItem="WcL-nk-rJv" secondAttribute="top" constant="8" id="D1t-lu-806"/>
+                            <constraint firstItem="WcL-nk-rJv" firstAttribute="trailing" secondItem="334-RB-8WC" secondAttribute="trailing" constant="16" id="IT3-IV-bAR"/>
                             <constraint firstItem="YpX-Ym-hDZ" firstAttribute="top" secondItem="f9G-Mv-MkS" secondAttribute="bottom" constant="8" symbolic="YES" id="Ib1-Lm-hL6"/>
                             <constraint firstItem="cdk-iN-P1P" firstAttribute="top" secondItem="EZ1-rM-yxl" secondAttribute="bottom" constant="8" id="SI2-ai-vso"/>
                             <constraint firstItem="f9G-Mv-MkS" firstAttribute="top" secondItem="cdk-iN-P1P" secondAttribute="bottom" constant="8" id="Xlz-k8-gJB"/>
+                            <constraint firstItem="334-RB-8WC" firstAttribute="leading" secondItem="WcL-nk-rJv" secondAttribute="leading" constant="16" id="dTg-fj-vaO"/>
+                            <constraint firstItem="334-RB-8WC" firstAttribute="top" secondItem="YpX-Ym-hDZ" secondAttribute="bottom" constant="8" id="dpS-FM-5FY"/>
                             <constraint firstItem="cdk-iN-P1P" firstAttribute="leading" secondItem="WcL-nk-rJv" secondAttribute="leading" constant="16" id="lKy-2H-QLr"/>
                             <constraint firstItem="WcL-nk-rJv" firstAttribute="trailing" secondItem="f9G-Mv-MkS" secondAttribute="trailing" constant="16" id="pp5-3e-K4X"/>
                             <constraint firstItem="WcL-nk-rJv" firstAttribute="trailing" secondItem="cdk-iN-P1P" secondAttribute="trailing" constant="16" id="qjs-zK-nam"/>
@@ -2596,6 +2630,258 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D7g-pu-dW9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-6068" y="1531"/>
+        </scene>
+        <!--MoPub Mediation Settings-->
+        <scene sceneID="Yen-Qe-jIb">
+            <objects>
+                <viewController title="MoPub Mediation Settings" id="KDy-sg-J0V" customClass="HyBidDemoALMediationSettingsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K3D-dN-s65">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Native Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofi-BK-Ha7" userLabel="Native Ad Unit ID">
+                                <rect key="frame" x="16" y="8" width="104.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nativeAdUnitIDLabel" label="Native Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="b8u-5B-xDm"/>
+                                    <constraint firstAttribute="height" constant="21" id="tzQ-ee-494"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="tzQ-ee-494"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="tzQ-ee-494"/>
+                                        <exclude reference="b8u-5B-xDm"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your AppLovin Mediation Native Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Sw8-6Y-KzW" userLabel="Native Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="37" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nativeAdUnitIDTextField" label="Native Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="pzW-vl-QQi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KDy-sg-J0V" id="1Iu-ie-4M0"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69T-3g-eyw">
+                                <rect key="frame" x="16" y="85" width="108.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDLabel" label="Banner Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="HHF-Ml-xoE"/>
+                                    <constraint firstAttribute="height" constant="21" id="RLw-Kx-cZG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="RLw-Kx-cZG"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="HHF-Ml-xoE"/>
+                                        <include reference="RLw-Kx-cZG"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your AppLovin Mediation Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dVy-3Y-5n4" userLabel="Banner Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="114" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDTextField" label="Banner Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="0cN-8y-Dwq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KDy-sg-J0V" id="aEm-am-ZjU"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MRect Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xMJ-g5-7qG">
+                                <rect key="frame" x="16" y="162" width="103.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDLabel" label="MRect Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="JHE-Tu-F85"/>
+                                    <constraint firstAttribute="height" constant="21" id="Umv-PT-1nw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="JHE-Tu-F85"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="JHE-Tu-F85"/>
+                                        <exclude reference="Umv-PT-1nw"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your AppLovin Mediation MRect Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="sOw-iZ-Gu6" userLabel="MRect Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="191" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="mRectAdUnitIDTextField" label="MRect Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Mr4-Qh-XQp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KDy-sg-J0V" id="rEA-ig-H0a"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9IE-X1-Txf">
+                                <rect key="frame" x="16" y="239" width="125.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDLabel" label="Interstitial Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="L71-ms-OrE"/>
+                                    <constraint firstAttribute="height" constant="21" id="mK1-2e-UU3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="L71-ms-OrE"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="mK1-2e-UU3"/>
+                                        <include reference="L71-ms-OrE"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your AppLovin Mediation Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="D4O-2t-nGS" userLabel="Interstitial Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="268" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDTextField" label="Interstitial Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="RDh-P7-i4Z"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KDy-sg-J0V" id="3AT-5j-2vv"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7H-eo-cKC" userLabel="Save AppLovin Settings Button">
+                                <rect key="frame" x="16" y="767" width="382" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="saveAppLovinMediationSettingsButton" label="Save AppLovin Mediation Settings Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="1pQ-jN-gQn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Save AppLovin Mediation Settings">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="1pQ-jN-gQn"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="saveAppLovinMediationSettingsTouchUpInside:" destination="KDy-sg-J0V" eventType="touchUpInside" id="NUT-9K-xTS"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rewarded Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQ8-JR-kyV">
+                                <rect key="frame" x="16" y="316" width="127" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDLabel" label="Rewarded Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="195-ub-QCP"/>
+                                    <constraint firstAttribute="height" constant="18" id="8ze-15-t2e"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="8ze-15-t2e"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="8ze-15-t2e"/>
+                                        <exclude reference="195-ub-QCP"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your AppLovin Mediation Rewarded Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EAC-LO-4m4" userLabel="Rewarded Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="345" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDTextField" label="Rewarded Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="JKD-Ta-gqe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KDy-sg-J0V" id="Xrx-67-Wzv"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="51a-zV-f7F"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ofi-BK-Ha7" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="0J0-D7-Oix"/>
+                            <constraint firstItem="EAC-LO-4m4" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="2f0-Ye-geo"/>
+                            <constraint firstItem="9IE-X1-Txf" firstAttribute="top" secondItem="sOw-iZ-Gu6" secondAttribute="bottom" constant="18" id="2jU-Vf-jXf"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="Sw8-6Y-KzW" secondAttribute="trailing" constant="16" id="2qB-x2-WQw"/>
+                            <constraint firstItem="69T-3g-eyw" firstAttribute="top" secondItem="Sw8-6Y-KzW" secondAttribute="bottom" constant="18" id="6UQ-4r-yBs"/>
+                            <constraint firstItem="M7H-eo-cKC" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="8gM-2V-2Qd"/>
+                            <constraint firstItem="Sw8-6Y-KzW" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="Bn7-tD-pAd"/>
+                            <constraint firstItem="D4O-2t-nGS" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="CAj-kt-hcX"/>
+                            <constraint firstItem="9IE-X1-Txf" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="EgU-2s-yE4"/>
+                            <constraint firstItem="dVy-3Y-5n4" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="JHH-E8-tBo"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="EAC-LO-4m4" secondAttribute="trailing" constant="16" id="N0e-wd-Wrh"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="dVy-3Y-5n4" secondAttribute="trailing" constant="16" id="NhU-yB-t8F"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="sOw-iZ-Gu6" secondAttribute="trailing" constant="16" id="P5M-hi-Fad"/>
+                            <constraint firstItem="D4O-2t-nGS" firstAttribute="top" secondItem="9IE-X1-Txf" secondAttribute="bottom" constant="8" id="UAx-bH-h4q"/>
+                            <constraint firstItem="xMJ-g5-7qG" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="VeH-b4-EaO"/>
+                            <constraint firstItem="M7H-eo-cKC" firstAttribute="centerX" secondItem="51a-zV-f7F" secondAttribute="centerX" id="WKJ-zB-d0j"/>
+                            <constraint firstItem="69T-3g-eyw" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="X1F-PH-vs5"/>
+                            <constraint firstItem="sOw-iZ-Gu6" firstAttribute="top" secondItem="xMJ-g5-7qG" secondAttribute="bottom" constant="8" id="bbf-8a-Sbh"/>
+                            <constraint firstItem="dVy-3Y-5n4" firstAttribute="top" secondItem="69T-3g-eyw" secondAttribute="bottom" constant="8" id="gRX-vZ-C6A"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="D4O-2t-nGS" secondAttribute="trailing" constant="16" id="jwl-jC-KAo"/>
+                            <constraint firstItem="Sw8-6Y-KzW" firstAttribute="top" secondItem="Ofi-BK-Ha7" secondAttribute="bottom" constant="8" id="l8X-tj-Hr3"/>
+                            <constraint firstItem="QQ8-JR-kyV" firstAttribute="top" secondItem="D4O-2t-nGS" secondAttribute="bottom" constant="18" id="lP1-PL-WUJ"/>
+                            <constraint firstItem="Ofi-BK-Ha7" firstAttribute="top" secondItem="51a-zV-f7F" secondAttribute="top" constant="8" id="obG-js-kyq"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="bottom" secondItem="M7H-eo-cKC" secondAttribute="bottom" constant="8" id="p4l-Tj-bP5"/>
+                            <constraint firstItem="xMJ-g5-7qG" firstAttribute="top" secondItem="dVy-3Y-5n4" secondAttribute="bottom" constant="18" id="qm6-ar-mFj"/>
+                            <constraint firstItem="EAC-LO-4m4" firstAttribute="top" secondItem="QQ8-JR-kyV" secondAttribute="bottom" constant="8" id="syS-M2-S0S"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="M7H-eo-cKC" secondAttribute="trailing" constant="16" id="uKT-wv-yY9"/>
+                            <constraint firstItem="QQ8-JR-kyV" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="zaS-A1-wHb"/>
+                            <constraint firstItem="sOw-iZ-Gu6" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="zbC-cP-sOE"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="MoPub Mediation Settings" id="qAg-OB-thd"/>
+                    <connections>
+                        <outlet property="bannerAdUnitIDTextField" destination="dVy-3Y-5n4" id="VN9-V8-Ik1"/>
+                        <outlet property="interstitialAdUnitIDTextField" destination="D4O-2t-nGS" id="s02-La-w0J"/>
+                        <outlet property="mRectAdUnitIDTextField" destination="sOw-iZ-Gu6" id="1Ak-mT-Twr"/>
+                        <outlet property="nativeAdUnitIDTextField" destination="Sw8-6Y-KzW" id="4p7-aN-S5R"/>
+                        <outlet property="rewardedAdUnitIDTextField" destination="EAC-LO-4m4" id="z62-KD-GIt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ReK-Kx-TdU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4616" y="1531"/>
         </scene>
     </scenes>
     <resources>

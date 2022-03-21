@@ -52,10 +52,13 @@ typedef enum {
 @property (nonatomic, readonly) IntegrationType integrationType;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
+- (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken;
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID;
+- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken;
 - (void)requestVideoTagFrom:(NSString *)url andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel;
 - (void)processCustomMarkupFrom:(NSString *)markup andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
 - (void)cacheAd:(HyBidAd *)ad;
+- (void)setMediationVendor:(NSString *)mediationVendor;
 
 @end

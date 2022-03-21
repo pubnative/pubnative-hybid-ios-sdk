@@ -105,6 +105,7 @@ BOOL isInitialized = NO;
 
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
     [HyBidSettings sharedInstance].closeOnFinish = closeOnFinish;
+    [HyBidSettings sharedInstance].isCloseOnFinishSet = YES;
 }
 
 + (HyBidReportingManager *)reportingManager {
@@ -125,7 +126,7 @@ BOOL isInitialized = NO;
         return @"";
     }
     
-    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false];
+    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false];
     
     HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
     NSURL* url = [adRequest requestURLFromAdRequestModel:adRequestModel];

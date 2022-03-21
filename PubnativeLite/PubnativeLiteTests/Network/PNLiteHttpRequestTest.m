@@ -21,9 +21,9 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMockitoIOS/OCMockitoIOS.h>
+#import <OCMockito/OCMockito.h>
 #import "PNLiteHttpRequest.h"
+#import "HyBidError.h"
 
 NSInteger const kStatusCode = 200;
 
@@ -62,7 +62,8 @@ NSInteger const kStatusCode = 200;
     NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
     [request startWithUrlString:nil withMethod:@"GET" delegate:delegate];
-    [verify(delegate)request:request didFailWithError:instanceOf([NSError class])];
+    NSError* error = [NSError hyBidServerErrorWithMessage:@"URL is nil or empty."];
+    [verify(delegate)request:request didFailWithError:error];
 }
 
 - (void)test_startWithUrlString_withValidDelegateAndWithValidMethodAndWithEmptyUrl_shouldCallbackFail
@@ -70,7 +71,8 @@ NSInteger const kStatusCode = 200;
     NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
     [request startWithUrlString:@"" withMethod:@"GET" delegate:delegate];
-    [verify(delegate)request:request didFailWithError:instanceOf([NSError class])];
+    NSError* error = [NSError hyBidServerErrorWithMessage:@"URL is nil or empty."];
+    [verify(delegate)request:request didFailWithError:error];
 }
 
 - (void)test_startWithUrlString_withValidDelegateAndWithValidUrlAndWithNotValidMethod_shouldCallbackFail
@@ -78,7 +80,8 @@ NSInteger const kStatusCode = 200;
     NSObject<PNLiteHttpRequestDelegate> *delegate = mockProtocol(@protocol(PNLiteHttpRequestDelegate));
     PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
     [request startWithUrlString:@"validURL" withMethod:@"notValidMethod" delegate:delegate];
-    [verify(delegate)request:request didFailWithError:instanceOf([NSError class])];
+    NSError* error = [NSError hyBidServerErrorWithMessage:@"Unsupported HTTP method, dropping the call."];
+    [verify(delegate)request:request didFailWithError:error];
 }
 
 - (void)test_startWithUrlString_withValidDelegateAndWithValidMethodAndValidUrl_shouldPass

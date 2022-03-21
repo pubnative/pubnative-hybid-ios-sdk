@@ -37,6 +37,7 @@
 @interface HyBidRewardedAd() <HyBidRewardedPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, weak) NSObject<HyBidRewardedAdDelegate> *delegate;
 @property (nonatomic, strong) HyBidRewardedPresenter *rewardedPresenter;
 @property (nonatomic, strong) HyBidRewardedAdRequest *rewardedAdRequest;
@@ -53,6 +54,7 @@
 - (void)dealloc {
     self.ad = nil;
     self.zoneID = nil;
+    self.appToken = nil;
     self.delegate = nil;
     self.rewardedPresenter = nil;
     self.rewardedAdRequest = nil;
@@ -69,6 +71,10 @@
 }
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate {
+    return [self initWithZoneID:zoneID withAppToken:nil andWithDelegate:delegate];
+}
+
+- (instancetype)initWithZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken andWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate {
     self = [super init];
     if (self) {
         if (![HyBid isInitialized]) {
@@ -77,6 +83,7 @@
         self.rewardedAdRequest = [[HyBidRewardedAdRequest alloc] init];
         self.rewardedAdRequest.openRTBAdType = HyBidOpenRTBAdVideo;
         self.zoneID = zoneID;
+        self.appToken = appToken;
         self.delegate = delegate;
         self.loadReportingProperties = [NSMutableDictionary new];
         self.renderReportingProperties = [NSMutableDictionary new];
@@ -100,8 +107,8 @@
             [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
         } else {
             self.isReady = NO;
-            [self.rewardedAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID];
-            [self.rewardedAdRequest requestAdWithDelegate:self withZoneID:self.zoneID];
+            [self.rewardedAdRequest setIntegrationType: self.isMediation ? MEDIATION : STANDALONE withZoneID: self.zoneID withAppToken:self.appToken];
+            [self.rewardedAdRequest requestAdWithDelegate:self withZoneID:self.zoneID withAppToken:self.appToken];
         }
     }
 }
@@ -123,6 +130,13 @@
 - (void)setIsAutoCacheOnLoad:(BOOL)isAutoCacheOnLoad {
     if (self.rewardedAdRequest != nil) {
         [self.rewardedAdRequest setIsAutoCacheOnLoad:isAutoCacheOnLoad];
+    }
+}
+
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.rewardedAdRequest != nil) {
+        [self.rewardedAdRequest setMediationVendor:mediationVendor];
     }
 }
 
@@ -179,13 +193,15 @@
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
-    [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    
-    if (self.zoneID && [self.zoneID length] > 0) {
+    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    }
+    if (self.zoneID != nil && self.zoneID.length > 0) {
         [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    
-    [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
+    if ([HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType] != nil && [HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType].length > 0) {
+        [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
+    }
     switch (self.ad.assetGroupID.integerValue) {
         case VAST_REWARDED:
             [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];

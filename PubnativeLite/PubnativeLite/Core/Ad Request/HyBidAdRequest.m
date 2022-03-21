@@ -54,6 +54,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 @property (nonatomic, weak) NSObject <HyBidAdRequestDelegate> *delegate;
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic, strong) NSString *appToken;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSURL *requestURL;
 @property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
@@ -74,6 +75,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (void)dealloc {
     self.zoneID = nil;
+    self.appToken = nil;
     self.startTime = nil;
     self.requestURL = nil;
     self.delegate = nil;
@@ -111,7 +113,12 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 }
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID {
+    [self setIntegrationType:integrationType withZoneID:zoneID withAppToken:nil];
+}
+
+- (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken {
     self.zoneID = zoneID;
+    self.appToken = appToken;
     self.requestIntegrationType = integrationType;
     self.adRequestModel = [self createAdRequestModelWithIntegrationType:integrationType];
     self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
@@ -119,6 +126,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 }
 
 - (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID {
+    [self requestAdWithDelegate:delegate withZoneID:zoneID withAppToken:nil];
+}
+
+- (void)requestAdWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken {
     if (self.isRunning) {
         NSError *runningError = [NSError errorWithDomain:@"Request is currently running, droping this call." code:HyBidErrorCodeInternal userInfo:nil];
         [self invokeDidFail:runningError];
@@ -134,6 +145,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         } else {
             self.startTime = [NSDate date];
             self.zoneID = zoneID;
+            self.appToken = appToken;
             self.isRunning = YES;
             self.adCached = NO;
             [self invokeDidStart];
@@ -183,11 +195,13 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
+                                                                                                                                                                                                                       withAppToken:self.appToken
                                                                                                                                                                                                                          withAdSize:[self adSize]
                                                                                                                                                                                                          withSupportedAPIFrameworks:[self supportedAPIFrameworks]
                                                                                                                                                                                                                 withIntegrationType:integrationType
                                                                                                                                                                                                                          isRewarded:[self isRewarded]]].absoluteString]];
     return [self.adFactory createAdRequestWithZoneID:self.zoneID
+                                        withAppToken:self.appToken
                                           withAdSize:[self adSize]
                           withSupportedAPIFrameworks:[self supportedAPIFrameworks]
                                  withIntegrationType:integrationType
@@ -425,18 +439,28 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     }
 }
 
+- (void)setMediationVendor:(NSString *)mediationVendor
+{
+    if (self.adFactory != nil) {
+        [self.adFactory setMediationVendor:mediationVendor];
+        
+        if (mediationVendor != nil && mediationVendor.length > 0) {
+            [self.adResponseReportingProperties setObject:mediationVendor forKey:HyBidReportingCommon.KEY_MEDIATION_VENDOR];
+        }
+    }
+}
+
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
-    if ([HyBidSettings sharedInstance].appToken) {
+    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
         [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
     }
-    
-    if (self.zoneID != nil && [self.zoneID length] > 0) {
+    if (self.zoneID != nil && self.zoneID.length > 0) {
         [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    
-    [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
-    
-    if (self.requestURL != nil && [self.requestURL.absoluteString length] > 0) {
+    if ([HyBidIntegrationType integrationTypeToString:self.integrationType] != nil && [HyBidIntegrationType integrationTypeToString:self.integrationType].length > 0) {
+        [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
+    }
+    if (self.requestURL != nil && self.requestURL.absoluteString.length > 0) {
         [reportingDictionary setObject:self.requestURL.absoluteString forKey:HyBidReportingCommon.AD_REQUEST];
     }
 }
@@ -446,13 +470,15 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     if ([self isRewarded]) {
         adFormat = HyBidReportingAdFormat.REWARDED;
     } else {
-        if ([[self adSize]isEqualTo:HyBidAdSize.SIZE_INTERSTITIAL]) {
+        if ([[self adSize] isEqualTo:HyBidAdSize.SIZE_INTERSTITIAL]) {
             adFormat = HyBidReportingAdFormat.FULLSCREEN;
-        } else if ([[self adSize]isEqualTo:HyBidAdSize.SIZE_NATIVE]) {
+        } else if ([[self adSize] isEqualTo:HyBidAdSize.SIZE_NATIVE]) {
             adFormat = HyBidReportingAdFormat.NATIVE;
         } else {
             adFormat = HyBidReportingAdFormat.BANNER;
-            [properties setObject:[self adSize].description forKey:HyBidReportingCommon.AD_SIZE];
+            if ([self adSize].description.length > 0) {
+                [properties setObject:[self adSize].description forKey:HyBidReportingCommon.AD_SIZE];
+            }
         }
     }
     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
@@ -506,7 +532,9 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self.adResponseReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialAdResponseTimestamp]] forKey:HyBidReportingCommon.RESPONSE_TIME];
-    [self.adResponseReportingProperties setObject:error.debugDescription forKey:HyBidReportingCommon.AD_RESPONSE];
+    if (error != nil && error.debugDescription != nil && error.debugDescription.length > 0) {
+        [self.adResponseReportingProperties setObject:error.debugDescription forKey:HyBidReportingCommon.AD_RESPONSE];
+    }
     [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
     [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
