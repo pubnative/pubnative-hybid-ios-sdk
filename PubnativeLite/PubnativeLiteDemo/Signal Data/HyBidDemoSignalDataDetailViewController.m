@@ -43,14 +43,14 @@
     
     switch ([self.signalData.placement integerValue]) {
         case 0: {
-            self.bannerAdViewContainerWidthConstraint.constant = 320;
-            self.bannerAdViewContainerHeightConstraint.constant = 50;
+            self.bannerAdViewContainerWidthConstraint.constant = 380;
+            self.bannerAdViewContainerHeightConstraint.constant = 80;
             self.bannerAdView.adSize = HyBidAdSize.SIZE_320x50;
             break;
         }
         case 1: {
-            self.bannerAdViewContainerWidthConstraint.constant = 300;
-            self.bannerAdViewContainerHeightConstraint.constant = 250;
+            self.bannerAdViewContainerWidthConstraint.constant = 350;
+            self.bannerAdViewContainerHeightConstraint.constant = 350;
             self.bannerAdView.adSize = HyBidAdSize.SIZE_300x250;
             break;
         }

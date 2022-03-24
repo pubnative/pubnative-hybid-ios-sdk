@@ -295,6 +295,8 @@
 - (void)setupAdView:(UIView *)adView {
     if (self.bannerPosition == BANNER_POSITION_UNKNOWN) {
         [self addSubview:adView];
+        adView.center = CGPointMake(self.frame.size.width  / 2,
+                                    self.frame.size.height / 2);
     } else {
         [self show:adView withPosition:self.bannerPosition];
     }

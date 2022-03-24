@@ -34,6 +34,7 @@
 #import "HyBidError.h"
 
 NSString *const HyBidSignalDataResponseOK = @"ok";
+NSString *const HyBidSignalDataResponseSuccess = @"success";
 NSString *const HyBidSignalDataResponseError = @"error";
 NSInteger const HyBidSignalDataResponseStatusOK = 200;
 NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
@@ -73,7 +74,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         self.signalDataModel = [[HyBidSignalDataModel alloc] initWithDictionary:jsonDictonary];
         if(!self.signalDataModel) {
             [self invokeDidFail:[NSError hyBidParseError]];
-        } else if ([HyBidSignalDataResponseOK isEqualToString: self.signalDataModel.status]) {
+        } else if ([HyBidSignalDataResponseOK isEqualToString: self.signalDataModel.status] || [HyBidSignalDataResponseSuccess isEqualToString: self.signalDataModel.status]) {
             if (self.signalDataModel.admurl && self.signalDataModel.admurl.length != 0) {
                 [[PNLiteHttpRequest alloc] startWithUrlString:self.signalDataModel.admurl withMethod:@"GET" delegate:self];
             } else {
