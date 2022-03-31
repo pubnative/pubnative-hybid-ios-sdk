@@ -22,7 +22,7 @@
 
 #import "AppLovinMediationVerveCustomNetworkAdapter.h"
 
-#define VERVE_ADAPTER_VERSION @"2.12.1.0"
+#define VERVE_ADAPTER_VERSION @"2.12.2.0"
 #define MAX_MEDIATION_VENDOR @"m"
 #define PARAM_APP_TOKEN @"pn_app_token"
 #define PARAM_TEST_MODE @"pn_test"
