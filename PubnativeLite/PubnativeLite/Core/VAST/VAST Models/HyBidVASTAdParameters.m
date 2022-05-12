@@ -21,42 +21,36 @@
 //
 
 #import "HyBidVASTAdParameters.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTAdParameters ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-@property (nonatomic) int index;
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *adParametersXMLElement;
 
 @end
 
 @implementation HyBidVASTAdParameters
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithAdParametersXMLElement:(HyBidXMLElementEx *)adParametersXMLElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.adParametersXMLElement = adParametersXMLElement;
     }
     return self;
 }
 
+// MARK: - Attributes
+
 - (NSString *)xmlEncoded
 {
-    NSString *query = @"//Creatives/Creative/Linear/AdParameters";
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:query];
-    
-    return [self.parserHelper getContentForAttribute:@"xmlEncoded" inNode: array[self.index]];
+    return [self.adParametersXMLElement attribute:@"xmlEncoded"];
 }
+
+// MARK: - Values
 
 - (NSString *)content
 {
-    NSString *query = @"//Creatives/Creative/Linear/AdParameters";
-    NSArray *adParameters = [self.parserHelper getArrayResultsForQuery:query];
-    return [self.parserHelper getContentForNode:adParameters[self.index]];
+    return [self.adParametersXMLElement value];
 }
 
 @end

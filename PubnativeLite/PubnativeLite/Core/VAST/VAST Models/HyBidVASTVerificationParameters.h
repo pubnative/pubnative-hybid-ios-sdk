@@ -21,13 +21,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTVerificationParameters : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithVerificationParametersXMLElement:(HyBidXMLElementEx *)verificationParametersXMLElement;
 
-- (NSString *)parameters;
+/**
+ CDATA-wrapped metadata string for the verification executable.
+ */
+- (NSString *)content;
 
 @end

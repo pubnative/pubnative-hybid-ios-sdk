@@ -21,78 +21,65 @@
 //
 
 #import "HyBidVASTVideoClicks.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTVideoClicks ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *videoClicksXMLElement;
 
 @end
 
 @implementation HyBidVASTVideoClicks
 
-- (instancetype)initWithDocumentArray:(NSArray *)array
+- (instancetype)initWithVideoClicksXMLElement:(HyBidXMLElementEx *)videoClicksXMLElement;
 {
+    if (videoClicksXMLElement == nil) {
+        return nil;
+    }
+    
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.videoClicksXMLElement = videoClicksXMLElement;
     }
     return self;
 }
 
-- (NSArray<HyBidVASTVideoClick *> *)allClicks
+- (NSArray<HyBidVASTClickTracking *> *)clickTrackings
 {
-    NSMutableArray<HyBidVASTVideoClick *> *array = [[NSMutableArray alloc] init];
-    [array addObjectsFromArray:[self trackingClicks]];
-    [array addObjectsFromArray:[self throughClicks]];
-    [array addObjectsFromArray:[self customClicks]];
+    NSString *query = @"/ClickTracking";
+    NSArray<HyBidXMLElementEx *> *result = [self.videoClicksXMLElement query:query];
+    NSMutableArray<HyBidVASTClickTracking *> *array = [[NSMutableArray alloc] init];
     
-    return array;
-}
-
-- (NSArray<HyBidVASTVideoClick *> *)trackingClicks
-{
-    NSMutableArray<HyBidVASTVideoClick *> *array = [[NSMutableArray alloc] init];
-    NSString *clickTrackingQuery = @"//ClickTracking";
-    NSArray *clickTrackingResult = [self.parserHelper getArrayResultsForQuery: clickTrackingQuery];
-    
-    for (int i = 0; i < [clickTrackingResult count]; i++) {
-        HyBidVASTVideoClick *click = [[HyBidVASTVideoClick alloc] initWithNode:clickTrackingResult[i] andWithType:@"ClickTracking"];
-        [array addObject:click];
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTClickTracking *clickTracking = [[HyBidVASTClickTracking alloc] initWithClickTrackingXMLElement:result[i]];
+        [array addObject:clickTracking];
     }
     
     return array;
 }
 
-- (NSArray<HyBidVASTVideoClick *> *)throughClicks
+- (HyBidVASTClickThrough *)clickThrough
 {
-    NSMutableArray<HyBidVASTVideoClick *> *array = [[NSMutableArray alloc] init];
-    NSString *clickThroughQuery = @"//ClickThrough";
-    NSArray *clickThroughResult = [self.parserHelper getArrayResultsForQuery: clickThroughQuery];
+    if ([[self.videoClicksXMLElement query:@"/ClickThrough"] count] > 0) {
+        HyBidXMLElementEx *clickThroughElement = [[self.videoClicksXMLElement query:@"/ClickThrough"] firstObject];
+        
+        return [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:clickThroughElement];
+    }
+    return nil;
+}
+
+- (NSArray<HyBidVASTCustomClick *> *)customClicks
+{
+    NSString *query = @"/CustomClick";
+    NSArray<HyBidXMLElementEx *> *result = [self.videoClicksXMLElement query:query];
+    NSMutableArray<HyBidVASTCustomClick *> *array = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < [clickThroughResult count]; i++) {
-        HyBidVASTVideoClick *click = [[HyBidVASTVideoClick alloc] initWithNode:clickThroughResult[i] andWithType:@"ClickThrough"];
-        [array addObject:click];
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTCustomClick *customClick = [[HyBidVASTCustomClick alloc] initWithCustomClickXMLElement:result[i]];
+        [array addObject:customClick];
     }
     
     return array;
 }
 
-- (NSArray<HyBidVASTVideoClick *> *)customClicks
-{
-    NSMutableArray<HyBidVASTVideoClick *> *array = [[NSMutableArray alloc] init];
-    NSString *clickCustomQuery = @"//CustomClick";
-    NSArray *clickCustomResult = [self.parserHelper getArrayResultsForQuery: clickCustomQuery];
-    
-    for (int i = 0; i < [clickCustomResult count]; i++) {
-        HyBidVASTVideoClick *click = [[HyBidVASTVideoClick alloc] initWithNode:clickCustomResult[i] andWithType:@"CustomClick"];
-        [array addObject:click];
-    }
-    
-    return array;
-}
 
 @end

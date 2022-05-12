@@ -21,12 +21,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTMediaFile : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithMediaFileXMLElement:(HyBidXMLElementEx *)mediaFileXMLElement;
 
 /**
  Either “progressive” for progressive download protocols (such as HTTP) or “streaming” for streaming protocols.

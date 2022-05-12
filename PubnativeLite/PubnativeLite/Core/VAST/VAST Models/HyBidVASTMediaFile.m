@@ -21,59 +21,51 @@
 //
 
 #import "HyBidVASTMediaFile.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTMediaFile ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *mediaFileXmlElement;
 
 @end
 
 @implementation HyBidVASTMediaFile
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithMediaFileXMLElement:(HyBidXMLElementEx *)mediaFileXMLElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.mediaFileXmlElement = mediaFileXMLElement;
     }
     return self;
 }
 
+// MARK: - Attributes
+
 - (NSString *)delivery
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//MediaFile"];
-    return [self.parserHelper getContentForAttribute:@"delivery" inNode: array[self.index]];
+    return [self.mediaFileXmlElement attribute:@"delivery"];
 }
 
 - (NSString *)height
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//MediaFile"];
-    return [self.parserHelper getContentForAttribute:@"height" inNode: array[self.index]];
+    return [self.mediaFileXmlElement attribute:@"height"];
 }
 
 - (NSString *)width
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//MediaFile"];
-    return [self.parserHelper getContentForAttribute:@"width" inNode: array[self.index]];
+    return [self.mediaFileXmlElement attribute:@"width"];
 }
 
 - (NSString *)type
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//MediaFile"];
-    return [self.parserHelper getContentForAttribute:@"type" inNode: array[self.index]];
+    return [self.mediaFileXmlElement attribute:@"type"];
 }
+
+// MARK: - Elements
 
 - (NSString *)url
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//MediaFile"];
-    return [self.parserHelper getContentForNode:array[self.index]];
+    return [self.mediaFileXmlElement value];
 }
 
 @end

@@ -119,11 +119,16 @@
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
+    [self.presenter.delegate interstitialPresenterDidDisappear:self.presenter];
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter hide];
     [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
+}
+
+- (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
+    [self.presenter.delegate interstitialPresenterDidAppear:self.presenter];
 }
 
 #pragma mark - Utils: check for bundle resource existance.

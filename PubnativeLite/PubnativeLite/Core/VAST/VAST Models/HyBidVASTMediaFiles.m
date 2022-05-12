@@ -22,36 +22,36 @@
 
 #import "HyBidVASTMediaFiles.h"
 #import "HyBidVASTMediaFile.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTMediaFiles ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *mediaFilesXMLElement;
 
 @end
 
 @implementation HyBidVASTMediaFiles
 
-- (instancetype)initWithDocumentArray:(NSArray *)array
+- (instancetype)initWithMediaFilesXMLElement:(HyBidXMLElementEx *)mediaFilesXMLElement
 {
+    if (mediaFilesXMLElement == nil) {
+        return nil;
+    }
+    
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.mediaFilesXMLElement = mediaFilesXMLElement;
     }
     return self;
 }
 
 - (NSArray<HyBidVASTMediaFile *> *)mediaFiles
 {
-    NSString *query = @"//MediaFiles/MediaFile";
-    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
+    NSString *query = @"/MediaFile";
+    NSArray<HyBidXMLElementEx *> *result = [self.mediaFilesXMLElement query:query];
     NSMutableArray<HyBidVASTMediaFile *> *array = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < [result count]; i++) {
-        HyBidVASTMediaFile *mediaFile = [[HyBidVASTMediaFile alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
+        HyBidVASTMediaFile *mediaFile = [[HyBidVASTMediaFile alloc] initWithMediaFileXMLElement:result[i]];
         [array addObject:mediaFile];
     }
     
@@ -60,8 +60,16 @@
 
 - (NSArray<HyBidVASTInteractiveCreativeFile *> *)interactiveCreativeFiles
 {
-    NSMutableArray *interactiveCreativeFiles = [[NSMutableArray alloc] init];
-    return interactiveCreativeFiles;
+    NSString *query = @"/InteractiveCreativeFile";
+    NSArray<HyBidXMLElementEx *> *result = [self.mediaFilesXMLElement query:query];
+    NSMutableArray<HyBidVASTInteractiveCreativeFile *> *array = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTInteractiveCreativeFile *interactiveCreativeFile = [[HyBidVASTInteractiveCreativeFile alloc] initWithInteractiveCreativeFileXMLElement:result[i]];
+        [array addObject:interactiveCreativeFile];
+    }
+    
+    return array;
 }
 
 @end

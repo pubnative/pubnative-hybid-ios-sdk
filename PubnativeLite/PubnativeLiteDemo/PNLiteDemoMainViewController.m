@@ -22,18 +22,13 @@
 
 #import "PNLiteDemoMainViewController.h"
 #import "PNLiteDemoSettings.h"
-#import <StoreKit/SKOverlay.h>
-#import <StoreKit/SKOverlayConfiguration.h>
 
-#define EASY_FORECAST_APP_ID @"1382171002"
-
-@interface PNLiteDemoMainViewController () <UITextFieldDelegate, SKOverlayDelegate>
+@interface PNLiteDemoMainViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *zoneIDTextField;
 @property (weak, nonatomic) IBOutlet UIButton *standaloneButton;
 @property (weak, nonatomic) IBOutlet UIButton *headerBiddingButton;
 @property (weak, nonatomic) IBOutlet UIButton *mediationButton;
-@property (weak, nonatomic) IBOutlet UIButton *showRecommendedAppButton;
 
 @end
 
@@ -45,23 +40,6 @@
 
 - (IBAction)chooseAdFormatTouchUpInside:(UIButton *)sender {
     [[NSUserDefaults standardUserDefaults] setObject:self.zoneIDTextField.text forKey:kHyBidDemoZoneIDKey];
-}
-
-- (IBAction)showRecommendedAppTouchUpInside:(UIButton *)sender {
-    if (@available(iOS 14.0, *)) {
-        SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
-                                                    initWithAppIdentifier:EASY_FORECAST_APP_ID
-                                                    position:SKOverlayPositionBottomRaised];
-        configuration.userDismissible = YES;
-        // For setting additional value for a key; (for example, a value for measuring the effectiveness of an ad campaign.) we can call setAdditionalValue:forKey: method on the configuration.
-        // For more information check here: https://developer.apple.com/documentation/storekit/skoverlayappconfiguration
-        SKOverlay *overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
-        overlay.delegate = self;
-        [overlay presentInScene:self.view.window.windowScene];
-    } else {
-        // SKOverlay & SKOverlayAppConfiguration are available starting from iOS 14.0+. If current device's iOS version is lower than that, fallback code must run here.
-        [self showAlertControllerWithMessage:@"SKOverlay is available from iOS 14.0"];
-    }
 }
 
 - (IBAction)handleTap:(UIGestureRecognizer *)recognizer {
@@ -83,27 +61,6 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField endEditing:YES];
     return YES;
-}
-
-#pragma mark SKOverlayDelegate
-- (void)storeOverlay:(SKOverlay *)overlay willStartPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    
-}
-
-- (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    
-}
-
-- (void)storeOverlay:(SKOverlay *)overlay willStartDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    
-}
-
-- (void)storeOverlay:(SKOverlay *)overlay didFinishDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    
-}
-
-- (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){
-    
 }
 
 @end

@@ -680,7 +680,7 @@ typedef enum {
     }
     
     if (isInterstitial) {
-        [self addContentInfoViewToView:webView];
+        [self addContentInfoViewToView:modalVC.view ];
     }
     
     [self fireSizeChangeEvent];

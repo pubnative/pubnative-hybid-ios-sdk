@@ -21,55 +21,41 @@
 //
 
 #import "HyBidVASTInteractiveCreativeFile.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTInteractiveCreativeFile ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *interactiveCreativeFileXMLElement;
 
 @end
 
 @implementation HyBidVASTInteractiveCreativeFile
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithInteractiveCreativeFileXMLElement:(HyBidXMLElementEx *)interactiveCreativeFileXMLElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.interactiveCreativeFileXMLElement = interactiveCreativeFileXMLElement;
     }
     return self;
 }
 
+// MARK: - Attributes
+
 - (NSString *)type
 {
-    NSString *query = @"//MediaFiles/InteractiveCreativeFile";
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:query];
-    
-    return [self.parserHelper getContentForAttribute:@"type" inNode:array[self.index]];
-}
-
-- (NSString *)apiFramework
-{
-    NSString *query = @"//MediaFiles/InteractiveCreativeFile";
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:query];
-    return [self.parserHelper getContentForAttribute:@"apiFramework" inNode: array[self.index]];
+    return [self.interactiveCreativeFileXMLElement attribute:@"type"];
 }
 
 - (NSString *)variableDuration
 {
-    NSString *query = @"//MediaFiles/InteractiveCreativeFile";
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:query];
-    return [self.parserHelper getContentForAttribute: @"variableDuration" inNode: array[self.index]];
+    return [self.interactiveCreativeFileXMLElement attribute:@"variableDuration"];
 }
+
+// MARK: - Elements
 
 - (NSString *)url
 {
-    return @"";
+    return [self.interactiveCreativeFileXMLElement value];
 }
 
 @end

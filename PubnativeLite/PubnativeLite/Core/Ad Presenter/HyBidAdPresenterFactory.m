@@ -26,8 +26,7 @@
 
 @implementation HyBidAdPresenterFactory
 
-- (HyBidAdPresenter *)createAdPresenterWithAd:(HyBidAd *)ad
-                                 withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate {
+- (HyBidAdPresenter *)createAdPresenterWithAd:(HyBidAd *)ad withDelegate:(NSObject<HyBidAdPresenterDelegate> *)delegate {
     HyBidAdPresenter *adPresenter = [self adPresenterFromAd:ad];
     if (!adPresenter) {
         return nil;

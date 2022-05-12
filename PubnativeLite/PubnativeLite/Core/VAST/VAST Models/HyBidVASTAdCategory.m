@@ -21,43 +21,33 @@
 //
 
 #import "HyBidVASTAdCategory.h"
-#import "HyBidVASTXMLParserHelper.h"
+#import "HyBidXMLEx.h"
 
 @interface HyBidVASTAdCategory ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *categoryXmlElement;
 
 @end
 
 @implementation HyBidVASTAdCategory
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithCategoryXMLElement:(HyBidXMLElementEx *)categoryXmlElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.categoryXmlElement = categoryXmlElement;
     }
     return self;
 }
 
 - (NSString *)authority
 {
-    NSString *query = @"//Category";
-    
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:query];
-    return [self.parserHelper getContentForAttribute:@"authority" inNode: array[self.index]];
+    return [self.categoryXmlElement attribute:@"authority"];
 }
 
 - (NSString *)category
 {
-    NSString *query = @"//Category";    
-    return [self.parserHelper getContentForQuery:query];
+    return [self.categoryXmlElement value];
 }
 
 @end

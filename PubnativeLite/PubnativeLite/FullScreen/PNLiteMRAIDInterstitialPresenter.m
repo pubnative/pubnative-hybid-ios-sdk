@@ -30,7 +30,7 @@
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 
-@interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate>
+@interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
@@ -125,8 +125,9 @@
             [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-
+                skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                [self.delegate interstitialPresenterDidDisappear:self];
             });
         } else {
             [self.serviceProvider openBrowser:url.absoluteString];
@@ -161,8 +162,10 @@
             [[HyBidURLDriller alloc] startDrillWithURLString:urlString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-
+                skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                [self.delegate interstitialPresenterDidDisappear:self];
+
             });
         } else {
             [self.serviceProvider openBrowser:urlString];
@@ -178,6 +181,12 @@
 
 - (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
     [self.serviceProvider storePicture:urlString];
+}
+
+#pragma mark SKStoreProductViewControllerDelegate
+
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [self.delegate interstitialPresenterDidAppear:self];
 }
 
 @end

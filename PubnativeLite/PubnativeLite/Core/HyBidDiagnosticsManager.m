@@ -34,21 +34,6 @@ NSString * const AD_FORMAT_INTERSTITIAL_CLASS = @"HyBidInterstitialAd";
 NSString * const AD_FORMAT_REWARDED_CLASS = @"HyBidRewardedAd";
 NSString * const AD_FORMAT_NATIVE_CLASS = @"HyBidNativeAd";
 
-// Mediation Adapter Classes
-NSString * const MOPUB_MEDIATION_BANNER_ADAPTER_CLASS = @"HyBidMoPubMediationBannerCustomEvent";
-NSString * const MOPUB_MEDIATION_MRECT_ADAPTER_CLASS = @"HyBidMoPubMediationMRectCustomEvent";
-NSString * const MOPUB_MEDIATION_LEADERBOARD_ADAPTER_CLASS = @"HyBidMoPubMediationLeaderboardCustomEvent";
-NSString * const MOPUB_MEDIATION_INTERSTITIAL_ADAPTER_CLASS = @"HyBidMoPubMediationInterstitialCustomEvent";
-NSString * const MOPUB_MEDIATION_REWARDED_ADAPTER_CLASS = @"HyBidMoPubMediationRewardedAdCustomEvent";
-NSString * const MOPUB_MEDIATION_NATIVE_ADAPTER_CLASS = @"HyBidMoPubMediationNativeAdCustomEvent";
-
-// Header Bidding Adapter Classes
-NSString * const MOPUB_HEADER_BIDDING_BANNER_ADAPTER_CLASS = @"HyBidMoPubHeaderBiddingBannerCustomEvent";
-NSString * const MOPUB_HEADER_BIDDING_MRECT_ADAPTER_CLASS = @"HyBidMoPubHeaderBiddingMRectCustomEvent";
-NSString * const MOPUB_HEADER_BIDDING_LEADERBOARD_ADAPTER_CLASS = @"HyBidMoPubHeaderBiddingLeaderboardCustomEvent";
-NSString * const MOPUB_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS = @"HyBidMoPubHeaderBiddingInterstitialCustomEvent";
-NSString * const MOPUB_HEADER_BIDDING_REWARDED_ADAPTER_CLASS = @"HyBidMoPubHeaderBiddingRewardedCustomEvent";
-
 // GAD (AdMob)Mediation Adapter Classes
 NSString * const GAD_MEDIATION_BANNER_ADAPTER_CLASS = @"HyBidGADBannerCustomEvent";
 NSString * const GAD_MEDIATION_MRECT_ADAPTER_CLASS = @"HyBidGADMRectCustomEvent";
@@ -95,7 +80,6 @@ NSString * const GAM_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS = @"HyBidGAMInter
         [diagnosticsLogString appendString:@"\nDevice Manufacturer: Apple"];
         [diagnosticsLogString appendFormat:@"\nGoogle Ads Application ID: %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:GOOGLE_ADS_APP_ID_KEY] ? [[NSBundle mainBundle] objectForInfoDictionaryKey:GOOGLE_ADS_APP_ID_KEY] : @"Not available"];
         [diagnosticsLogString appendFormat:@"\nAvailable Formats:\n%@", [self availableFormats]];
-        [diagnosticsLogString appendFormat:@"\nAvailable MoPub Adapters:\n%@", [self availableMoPubAdapters]];
         [diagnosticsLogString appendFormat:@"\nAvailable Google Mobile Ads Adapters:\n%@", [self availableGoogleMobileAdsAdapters]];
     } else {
         [diagnosticsLogString appendString:@"\nHyBid SDK has not been initialised\n"];
@@ -158,49 +142,6 @@ NSString * const GAM_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS = @"HyBidGAMInter
     }
     
     return availableFormatsString;
-}
-
-+ (NSString *)availableMoPubAdapters {
-    NSMutableString *availableMoPubAdaptersString = [[NSMutableString alloc] init];
-    
-    if ([self isClassAvailable:MOPUB_MEDIATION_BANNER_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_MEDIATION_BANNER_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_MEDIATION_MRECT_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_MEDIATION_MRECT_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_MEDIATION_LEADERBOARD_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_MEDIATION_LEADERBOARD_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_MEDIATION_INTERSTITIAL_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_MEDIATION_INTERSTITIAL_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_MEDIATION_REWARDED_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_MEDIATION_REWARDED_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_MEDIATION_NATIVE_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_MEDIATION_NATIVE_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_HEADER_BIDDING_BANNER_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_HEADER_BIDDING_BANNER_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_HEADER_BIDDING_MRECT_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_HEADER_BIDDING_MRECT_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_HEADER_BIDDING_LEADERBOARD_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_HEADER_BIDDING_LEADERBOARD_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS];
-    }
-    if ([self isClassAvailable:MOPUB_HEADER_BIDDING_REWARDED_ADAPTER_CLASS]) {
-        [availableMoPubAdaptersString appendFormat:@"\t- %@\n", MOPUB_HEADER_BIDDING_REWARDED_ADAPTER_CLASS];
-    }
-    if ([availableMoPubAdaptersString length] == 0) {
-        [availableMoPubAdaptersString appendString:@"\t- No MoPub adapters available\n"];
-    }
-    
-    return availableMoPubAdaptersString;
 }
 
 + (NSString *)availableGoogleMobileAdsAdapters {

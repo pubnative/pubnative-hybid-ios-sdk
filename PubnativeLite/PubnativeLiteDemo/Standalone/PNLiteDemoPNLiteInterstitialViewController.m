@@ -64,8 +64,6 @@
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.interstitialAd setIsAutoCacheOnLoad: self.adCachingSwitch.isOn];
-    [self.interstitialAd setVideoSkipOffset:10];
-    [self.interstitialAd setHTMLSkipOffset:4];
     [self.interstitialAd load];
 }
 

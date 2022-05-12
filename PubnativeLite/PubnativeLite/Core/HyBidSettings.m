@@ -26,7 +26,28 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
+#define DEFAULT_END_CARD_CLOSE_OFFSET @5;
+
 @implementation HyBidSettings
+
+@synthesize endCardCloseOffset = _endCardCloseOffset;
+
+- (NSNumber *)endCardCloseOffset
+{
+    if (_endCardCloseOffset == nil) {
+        return DEFAULT_END_CARD_CLOSE_OFFSET;
+    } else {
+        return _endCardCloseOffset;
+    }
+}
+
+- (void)setEndCardCloseOffset:(NSNumber *)endCardCloseOffset
+{
+    if (_endCardCloseOffset == endCardCloseOffset) {
+        return;
+    }
+    _endCardCloseOffset = endCardCloseOffset;
+}
 
 - (void)dealloc {
     self.targeting = nil;
@@ -45,6 +66,8 @@
     self = [super init];
     if (self) {
         self.mraidExpand = YES;
+        self.interstitialSKOverlay = YES;
+        self.rewardedSKOverlay = YES;
     }
     return self;
 }
@@ -173,5 +196,9 @@
      NSString *ipAddress = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
      return ipAddress;
  }
+
+- (BOOL)bannerSKOverlay {
+    return NO;
+}
 
 @end

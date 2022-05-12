@@ -39,6 +39,7 @@
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
 @optional
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController*)vastPlayer;
+- (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
 
 @end
 

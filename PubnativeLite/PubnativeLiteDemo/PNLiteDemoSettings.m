@@ -24,19 +24,6 @@
 
 #define kHyBidDemoAppToken @"543027b8e954474cbcd9a98481622a3b"
 #define kHyBidDemoZoneID @""
-#define kHyBidMoPubHeaderBiddingLeaderboardAdUnitID @"4a1a1285329447fa9a2916a898103bd6"
-#define kHyBidMoPubHeaderBiddingBannerAdUnitID @"938b7ad8c5f542db94b07acfcc4c9ed7"
-#define kHyBidMoPubHeaderBiddingMRectAdUnitID @"f2acf01fca1b4221b41c601abd49e7b2"
-#define kHyBidMoPubHeaderBiddingMRectVideoAdUnitID @"8f01a6e53ee94351993081dcc70f2ac0"
-#define kHyBidMoPubHeaderBiddingInterstitialAdUnitID @"e00185ccb4344c2792b991f7d33e2fd9"
-#define kHyBidMoPubHeaderBiddingRewardedAdUnitID @"d705528794274d088f5d510efe32b282"
-#define kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitID @"5b91615dbe324d5ab4db31da0fc407d9"
-#define kHyBidMoPubMediationNativeAdUnitID @"90d49ff63eb44313886d745617f28c4e"
-#define kHyBidMoPubMediationLeaderboardAdUnitID @"8eab8997113b48c7b6ff66d564213c7f"
-#define kHyBidMoPubMediationBannerAdUnitID @"239a2b76800b4fc6b63cf817eaf602d4"
-#define kHyBidMoPubMediationMRectAdUnitID @"3440fd96d2e949edb5e3a75914bc9d85"
-#define kHyBidMoPubMediationInterstitialAdUnitID @"d52bc6bcca4349f19eb128b90d1b7189"
-#define kHyBidMoPubMediationRewardedAdUnitID @"8dd9727a83da481881931243cf05b6a8"
 #define kHyBidGAMLeaderboardAdUnitID @"/6499/example/banner"
 #define kHyBidGAMBannerAdUnitID @"/6499/example/banner"
 #define kHyBidGAMMRectAdUnitID @"/6499/example/banner"
@@ -92,19 +79,6 @@
     if (![[NSUserDefaults standardUserDefaults] boolForKey:kIsAppLaunchedPreviouslyKey]) {
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoAppToken forKey:kHyBidDemoAppTokenKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidDemoZoneID forKey:kHyBidDemoZoneIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingLeaderboardAdUnitID forKey:kHyBidMoPubHeaderBiddingLeaderboardAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingBannerAdUnitID forKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingMRectAdUnitID forKey:kHyBidMoPubHeaderBiddingMRectAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingMRectVideoAdUnitID forKey:kHyBidMoPubHeaderBiddingMRectVideoAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingInterstitialAdUnitID forKey:kHyBidMoPubHeaderBiddingInterstitialAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitID forKey:kHyBidMoPubHeaderBiddingInterstitialVideoAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubHeaderBiddingRewardedAdUnitID forKey:kHyBidMoPubHeaderBiddingRewardedAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationNativeAdUnitID forKey:kHyBidMoPubMediationNativeAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationLeaderboardAdUnitID forKey:kHyBidMoPubMediationLeaderboardAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationBannerAdUnitID forKey:kHyBidMoPubMediationBannerAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationMRectAdUnitID forKey:kHyBidMoPubMediationMRectAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationInterstitialAdUnitID forKey:kHyBidMoPubMediationInterstitialAdUnitIDKey];
-        [[NSUserDefaults standardUserDefaults] setObject:kHyBidMoPubMediationRewardedAdUnitID forKey:kHyBidMoPubMediationRewardedAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidGAMLeaderboardAdUnitID forKey:kHyBidGAMLeaderboardAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidGAMBannerAdUnitID forKey:kHyBidGAMBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidGAMMRectAdUnitID forKey:kHyBidGAMMRectAdUnitIDKey];

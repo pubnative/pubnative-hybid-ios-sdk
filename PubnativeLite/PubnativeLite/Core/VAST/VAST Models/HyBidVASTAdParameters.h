@@ -21,12 +21,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTAdParameters : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithAdParametersXMLElement:(HyBidXMLElementEx *)adParametersXMLElement;
 
 - (NSString *)xmlEncoded;
 

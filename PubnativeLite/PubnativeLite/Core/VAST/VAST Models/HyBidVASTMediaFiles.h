@@ -23,12 +23,13 @@
 #import <Foundation/Foundation.h>
 #import "HyBidVASTMediaFile.h"
 #import "HyBidVASTInteractiveCreativeFile.h"
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTMediaFiles : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array;
+- (instancetype)initWithMediaFilesXMLElement:(HyBidXMLElementEx *)mediaFilesXMLElement;
 
 /**
  An array of a CDATA-wrapped URI to a media files.

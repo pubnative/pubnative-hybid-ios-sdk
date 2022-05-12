@@ -45,12 +45,15 @@ typedef enum {
 @property (nonatomic, strong) NSString *appID;
 @property (nonatomic, assign) NSInteger videoSkipOffset;
 @property (nonatomic, assign) NSInteger htmlSkipOffset;
+@property (nonatomic, assign) NSNumber *endCardCloseOffset;
 @property (nonatomic, assign) HyBidInterstitialActionBehaviour interstitialActionBehaviour;
 
 @property (nonatomic, assign) BOOL closeOnFinish;
 @property (nonatomic, assign) BOOL isCloseOnFinishSet;
 @property (nonatomic, assign) HyBidAudioStatus audioStatus;
 @property (nonatomic, assign) BOOL mraidExpand;
+@property (nonatomic, assign) BOOL interstitialSKOverlay;
+@property (nonatomic, assign) BOOL rewardedSKOverlay;
 
 // COMMON PARAMETERS
 @property (readonly) NSString *advertisingId;
@@ -71,6 +74,7 @@ typedef enum {
 @property (readonly) CLLocation *location;
 @property (readonly) NSString *identifierForVendor;
 @property (readonly) NSString *ip;
+@property (nonatomic, assign) BOOL bannerSKOverlay;
 
 + (HyBidSettings *)sharedInstance;
 

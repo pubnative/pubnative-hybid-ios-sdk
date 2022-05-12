@@ -21,46 +21,35 @@
 //
 
 #import "HyBidVASTJavaScriptResource.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTJavaScriptResource ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *javaScriptResourceXMLElement;
 
 @end
 
 @implementation HyBidVASTJavaScriptResource
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithJavaScriptResourceXMLElement:(HyBidXMLElementEx *)javaScriptResourceXMLElement
 {
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.javaScriptResourceXMLElement = javaScriptResourceXMLElement;
     }
     return self;
 }
 
+// MARK: - Attributes
+
 - (NSString *)browserOptional
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//JavaScriptResource"];
-    return [self.parserHelper getContentForAttribute:@"browserOptional" inNode: array[self.index]];
+    return [self.javaScriptResourceXMLElement attribute:@"browserOptional"];
 }
 
-- (NSString *)apiFramework
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//JavaScriptResource"];
-    return [self.parserHelper getContentForAttribute:@"apiFramework" inNode: array[self.index]];
-}
+// MARK: - Elements
 
 - (NSString *)url
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//JavaScriptResource"];
-    return [self.parserHelper getContentForNode:array[self.index]];
+    return [self.javaScriptResourceXMLElement value];
 }
 
 @end

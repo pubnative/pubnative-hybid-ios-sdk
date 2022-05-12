@@ -34,10 +34,13 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *autoRefreshSwitch;
-
+@property (weak, nonatomic) IBOutlet UIButton *showAdButton;
+@property (weak, nonatomic) IBOutlet UIButton *prepareButton;
+@property (weak, nonatomic) IBOutlet UISwitch *adCachingSwitch;
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UIActivityIndicatorView *bannerLoaderIndicator;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *creativeIDTopConstraint;
 
 @end
 
@@ -53,6 +56,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.bannerLoaderIndicator stopAnimating];
+    self.creativeIDTopConstraint.constant = 12;
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
 
     self.navigationItem.title = @"HyBid Banner";
     
@@ -70,12 +76,30 @@
     [self clearDebugTools];
     self.bannerAdView.hidden = YES;
     self.debugButton.hidden = YES;
+    self.showAdButton.enabled = NO;
+    self.prepareButton.enabled = NO;
     [self.bannerLoaderIndicator startAnimating];
+    [self.bannerAdView setIsAutoCacheOnLoad:self.adCachingSwitch.isOn];
     [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
 }
 
-- (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender
-{
+- (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {
+    self.prepareButton.hidden = sender.isOn;
+    self.showAdButton.hidden = sender.isOn;
+    self.bannerAdView.autoShowOnLoad = sender.isOn;
+    self.creativeIDTopConstraint.constant = sender.isOn ? 12.0 : 88.0;
+    [self.creativeIdLabel setNeedsDisplay];
+}
+
+- (IBAction)prepareButtonTapped:(UIButton *)sender {
+    [self.bannerAdView prepare];
+}
+
+- (IBAction)showBannerAdButtonTapped:(UIButton *)sender {
+    [self.bannerAdView show];
+}
+
+- (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender {
     if (sender.isOn) {
         self.bannerAdView.autoRefreshTimeInSeconds = 30;
     } else {
@@ -95,11 +119,15 @@
     [self setCreativeIDLabelWithString:self.bannerAdView.ad.creativeID];
     self.bannerAdView.hidden = NO;
     self.debugButton.hidden = NO;
+    self.prepareButton.enabled = !self.adCachingSwitch.isOn;
+    self.showAdButton.enabled = YES;
     [self.bannerLoaderIndicator stopAnimating];
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
     self.debugButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];

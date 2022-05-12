@@ -35,6 +35,10 @@
 - (void)rewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter
              didFailWithError:(NSError *)error;
 
+@optional
+- (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter;
+
 @end
 
 @interface HyBidRewardedPresenter : NSObject

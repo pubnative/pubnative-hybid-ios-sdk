@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidVASTResource.h"
+#import "HyBidXMLElementEx.h"
 
-@interface HyBidVASTExecutableResource : HyBidVASTResource
+@interface HyBidVASTExecutableResource : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithExecutableResourceXMLElement:(HyBidXMLElementEx *)executableResourceXMLElement;
 
 - (NSString *)language;
 

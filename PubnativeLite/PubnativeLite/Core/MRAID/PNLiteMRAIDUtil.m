@@ -123,6 +123,8 @@
                                                       range:NSMakeRange(0, [processedHtml length])
                                                withTemplate:[NSString stringWithFormat:@"$0\n%@\n%@", metaTag, styleTag]];
     
+    processedHtml = [processedHtml stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    
     return processedHtml;
 }
 

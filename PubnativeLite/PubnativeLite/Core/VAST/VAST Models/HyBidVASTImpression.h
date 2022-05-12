@@ -21,12 +21,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTImpression : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithImpressionXMLElement:(HyBidXMLElementEx *)impressionXMLElement;
 
 /**
  An ad server id for the impression

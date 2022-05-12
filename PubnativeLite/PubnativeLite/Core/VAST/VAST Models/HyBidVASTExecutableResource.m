@@ -21,46 +21,40 @@
 //
 
 #import "HyBidVASTExecutableResource.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTExecutableResource ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *executableResourceXMLElement;
 
 @end
 
 @implementation HyBidVASTExecutableResource
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithExecutableResourceXMLElement:(HyBidXMLElementEx *)executableResourceXMLElement
 {
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.executableResourceXMLElement = executableResourceXMLElement;
     }
     return self;
 }
 
+// MARK: - Attributes
+
 - (NSString *)language
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//ExecutableResource"];
-    return [self.parserHelper getContentForAttribute:@"language" inNode: array[self.index]];
+    return [self.executableResourceXMLElement attribute:@"language"];
 }
 
 - (NSString *)apiFramework
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//ExecutableResource"];
-    return [self.parserHelper getContentForAttribute:@"apiFramework" inNode: array[self.index]];
+    return [self.executableResourceXMLElement attribute:@"apiFramework"];
 }
+
+// MARK: - Elements
 
 - (NSString *)url
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//ExecutableResource"];
-    return [self.parserHelper getContentForNode:array[self.index]];
+    return [self.executableResourceXMLElement value];
 }
 
 @end

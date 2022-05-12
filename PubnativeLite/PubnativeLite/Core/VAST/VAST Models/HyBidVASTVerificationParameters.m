@@ -21,34 +21,26 @@
 //
 
 #import "HyBidVASTVerificationParameters.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTVerificationParameters ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *verificationParametersXMLElement;
 
 @end
 
 @implementation HyBidVASTVerificationParameters
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithVerificationParametersXMLElement:(HyBidXMLElementEx *)verificationParametersXMLElement
 {
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.verificationParametersXMLElement = verificationParametersXMLElement;
     }
     return self;
 }
 
-- (NSString *)parameters
+- (NSString *)content
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//VerificationParameters"];
-    return [self.parserHelper getContentForNode:array[self.index]];
+    return [self.verificationParametersXMLElement value];
 }
 
 @end

@@ -23,13 +23,15 @@
 #import <Foundation/Foundation.h>
 #import "HyBidVASTJavaScriptResource.h"
 #import "HyBidVASTExecutableResource.h"
-#import "HyBidVASTTrackingEvent.h"
+#import "HyBidVASTTrackingEvents.h"
+#import "HyBidXMLElementEx.h"
+#import "HyBidVASTVerificationParameters.h"
 
 @interface HyBidVASTVerification : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithVerificationXMLElement:(HyBidXMLElementEx *)verificationXMLElement;
 
 /**
  An identifier for the verification vendor. The recommended format is [domain]- [useCase], to avoid name collisions.
@@ -41,8 +43,8 @@
 
 - (NSArray<HyBidVASTExecutableResource *> *)executableResource;
 
-- (NSArray<HyBidVASTTrackingEvent *> *)trackingEvents;
+- (HyBidVASTTrackingEvents *)trackingEvents;
 
-- (NSString *)verificationParameters;
+- (HyBidVASTVerificationParameters *)verificationParameters;
 
 @end

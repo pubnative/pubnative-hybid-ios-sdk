@@ -21,20 +21,22 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidVASTVideoClick.h"
+#import "HyBidXMLElementEx.h"
+#import "HyBidVASTClickThrough.h"
+#import "HyBidVASTClickTracking.h"
+#import "HyBidVASTCustomClick.h"
 
 @interface HyBidVASTVideoClicks : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array;
+- (instancetype)initWithVideoClicksXMLElement:(HyBidXMLElementEx *)videoClicksXMLElement;
 
-- (NSArray<HyBidVASTVideoClick *> *)allClicks;
 
-- (NSArray<HyBidVASTVideoClick *> *)trackingClicks;
+- (NSArray<HyBidVASTClickTracking *> *)clickTrackings;
 
-- (NSArray<HyBidVASTVideoClick *> *)throughClicks;
+- (HyBidVASTClickThrough *)clickThrough;
 
-- (NSArray<HyBidVASTVideoClick *> *)customClicks;
+- (NSArray<HyBidVASTCustomClick *> *)customClicks;
 
 @end

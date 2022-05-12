@@ -21,42 +21,38 @@
 //
 
 #import "HyBidVASTClickTracking.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTClickTracking ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *clickTrackingXMLElement;
 
 @end
 
 @implementation HyBidVASTClickTracking
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithClickTrackingXMLElement:(HyBidXMLElementEx *)clickTrackingXMLElement
 {
+    if (clickTrackingXMLElement == nil) {
+        return nil;
+    }
+    
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.clickTrackingXMLElement = clickTrackingXMLElement;
     }
     return self;
 }
 
+// MARK: - Attributes
+
 - (NSString *)id
 {
-    NSString *query = @"//ClickTracking";
-    NSArray *array = [self.parserHelper getArrayResultsForQuery: query];
-    return [self.parserHelper getContentForAttribute:@"id" inNode:array[self.index]];
+    return [self.clickTrackingXMLElement attribute:@"id"];
 }
 
-- (NSString *)url
+- (NSString *)content
 {
-    NSString *query = @"//ClickTracking";
-    return [self.parserHelper getContentForQuery: query];
+    return [self.clickTrackingXMLElement value];
 }
 
 @end

@@ -22,17 +22,15 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidVASTAdType.h"
-#import "HyBidVASTAdSystem.h"
-#import "HyBidVASTImpression.h"
-#import "HyBidVASTCreative.h"
-#import "HyBidVASTVerification.h"
-#import "HyBidVASTAdCategory.h"
+#import "HyBidXMLElementEx.h"
+#import "HyBidVASTAdInline.h"
+#import "HyBidVASTAdWrapper.h"
 
 @interface HyBidVASTAd : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithXMLElement:(HyBidXMLElementEx *)xmlElement;
 
 /**
  An optional string that identifies the type of ad
@@ -55,53 +53,14 @@
  */
 - (BOOL)isConditionalAd;
 
-// MARK: - VAST Ad Inline Elements
+/**
+ Within the nested elements of an <InLine> ad are all the files and URIs necessary to play and track the ad.
+ */
+- (HyBidVASTAdInline *)inLine;
 
 /**
- A descriptive name for the system that serves the ad
+ VAST Wrappers are used to redirect the media player to another server for either an additional <Wrapper> or the VAST <InLine> ad.
  */
-- (HyBidVASTAdSystem *)adSystem;
-
-/**
- A string that provides a common name for the ad
- */
-- (NSString *)adTitle;
-
-- (HyBidVASTAdCategory *)category;
-
-/**
- A unique or pseudo-unique (long enough to be unique when combined with timestamp data) GUID
- */
-- (NSString *)adServingID;
-
-/**
- An array of URI that directs the media player to a tracking resource file that the media player must use to notify the ad server when the impression occurs.
- */
-- (NSArray<HyBidVASTImpression *> *)impressions;
-
-/**
- List of the resources and metadata required to execute third-party measurement code in order to verify creative playback
- */
-- (NSArray<HyBidVASTVerification *> *)adVerifications;
-
-/**
- A string that provides a long ad description
- */
-- (NSString *)adDescription;
-
-/**
- A string that provides the name of the advertiser as defined by the ad serving party
- */
-- (NSString *)advertiser;
-
-/**
- An array of URI that directs the media player to a tracking resource file that the media player must use to notify the ad server when the impression occurs.
- */
-- (NSArray<HyBidVASTCreative*> *)creatives;
-
-/**
- The <Error> element contains a URI that the player uses to notify the ad server when errors occur with ad playback.
- */
-@property (nonatomic) NSArray<NSURL *> *errors;
+- (HyBidVASTAdWrapper *)wrapper;
 
 @end

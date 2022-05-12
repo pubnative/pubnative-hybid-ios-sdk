@@ -34,6 +34,7 @@
                                          withAdSize:(HyBidAdSize *)adSize
                          withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                                 withIntegrationType:(IntegrationType)integrationType
-                                         isRewarded:(BOOL)isRewarded;
+                                         isRewarded:(BOOL)isRewarded
+                                mediationVendorName: (NSString*) mediationVendorName;
 
 @end

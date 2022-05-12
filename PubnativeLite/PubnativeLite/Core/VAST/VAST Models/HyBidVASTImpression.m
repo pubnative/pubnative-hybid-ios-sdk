@@ -21,41 +21,33 @@
 //
 
 #import "HyBidVASTImpression.h"
-#import "HyBidVASTXMLParserHelper.h"
+#import "HyBidXMLEx.h"
 
 @interface HyBidVASTImpression ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *impressionXMLElement;
 
 @end
 
 @implementation HyBidVASTImpression
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithImpressionXMLElement:(HyBidXMLElementEx *)impressionXMLElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.impressionXMLElement = impressionXMLElement;
     }
     return self;
 }
 
 - (NSString *)id
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Impression"];
-    return [self.parserHelper getContentForAttribute:@"id" inNode:array[self.index]];
+    return [self.impressionXMLElement attribute:@"id"];
 }
 
 - (NSString *)url
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Impression"];
-    return [self.parserHelper getContentForNode:array[self.index]];
+    return [self.impressionXMLElement value];
 }
 
 @end

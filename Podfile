@@ -10,13 +10,12 @@ use_frameworks!
 
 target 'HyBidDemo' do
   # Pods for HyBidDemo
-  pod 'FLEX', '4.4.1'
+  pod 'FLEX', '4.7.0'
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
-  pod 'mopub-ios-sdk', '5.18.0'
   pod 'Google-Mobile-Ads-SDK', '8.13.0'
   pod 'GoogleMobileAdsMediationTestSuite'
-  pod 'AppLovinSDK', '11.3.0'
+  pod 'AppLovinSDK', '11.3.3'
 end
 
 target 'HyBidTests' do

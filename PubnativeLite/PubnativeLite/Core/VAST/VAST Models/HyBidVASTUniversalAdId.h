@@ -21,12 +21,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTUniversalAdId : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithUniversalAdIdXMLElement:(HyBidXMLElementEx *)universalAdIdXMLElement;
 
 /**
  A string used to identify the URL for the registry website where the unique creative ID is cataloged. Default value is “unknown.”
@@ -36,6 +37,6 @@
 /**
  A string identifying the unique creative identifier. Default value is “unknown”
  */
-- (NSString *)idValue;
+- (NSString *)universalAdId;
 
 @end

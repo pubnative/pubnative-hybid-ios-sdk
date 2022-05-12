@@ -34,6 +34,8 @@
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidRemoteConfigFeature.h"
 
+#define TIME_TO_EXPIRE 1800 //30 Minutes as in seconds
+
 @interface HyBidRewardedAd() <HyBidRewardedPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) NSString *zoneID;
@@ -142,6 +144,8 @@
 
 - (void)prepareAdWithContent:(NSString *)adContent {
     if (adContent && [adContent length] != 0) {
+        [self cleanUp];
+        self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
         [self processAdContent:adContent];
     } else {
         [self invokeDidFailWithError:[NSError hyBidInvalidAsset]];
@@ -157,7 +161,14 @@
 - (void)show {
     if (self.isReady) {
         self.initialRenderTimestamp = [[NSDate date] timeIntervalSince1970];
-        [self.rewardedPresenter show];
+        NSTimeInterval adExpireTime = self.initialLoadTimestamp + TIME_TO_EXPIRE;
+        if (self.initialRenderTimestamp < adExpireTime) {
+            [self.rewardedPresenter show];
+        } else {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad has expired"];
+            [self cleanUp];
+            [self invokeDidFailWithError:[NSError hyBidExpiredAd]];
+        }
     } else {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Rewarded not ready."];
     }
@@ -166,7 +177,14 @@
 - (void)showFromViewController:(UIViewController *)viewController {
     if (self.isReady) {
         self.initialRenderTimestamp = [[NSDate date] timeIntervalSince1970];
-        [self.rewardedPresenter showFromViewController:viewController];
+        NSTimeInterval adExpireTime = self.initialLoadTimestamp + TIME_TO_EXPIRE;
+        if (self.initialRenderTimestamp < adExpireTime) {
+            [self.rewardedPresenter showFromViewController:viewController];
+        } else {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad has expired"];
+            [self cleanUp];
+            [self invokeDidFailWithError:[NSError hyBidExpiredAd]];
+        }
     } else {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Rewarded not ready."];
     }

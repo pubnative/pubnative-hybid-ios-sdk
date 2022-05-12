@@ -22,10 +22,8 @@
 
 #import "AppDelegate.h"
 #import "PNLiteDemoSettings.h"
-#import <MoPubSDK/MoPub.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
-#import "PNLiteDemoMoPubManager.h"
 //#import "IronSource/IronSource.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
@@ -33,6 +31,11 @@
 @import Firebase;
 
 @interface AppDelegate ()
+
+#if __has_include(<ATOM/ATOM.h>)
+@property (nonatomic, strong) ATOMRemoteConfigVoyager *voyager;
+#endif
+
 @end
 
 @implementation AppDelegate
@@ -41,11 +44,31 @@ CLLocationManager *locationManager;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
     [HyBidLogger setLogLevel:HyBidLogLevelDebug];
+    [PNLiteDemoSettings sharedInstance];
+    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+    
+#if __has_include(<ATOM/ATOM.h>)
+    [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {
+        self.voyager = [[ATOMRemoteConfigVoyager alloc] initWithDictionary:remoteConfig.dictionary[@"voyager"]];
+        
+        [ATOM setTestMode:YES];
+        [ATOM setSessionTestMode:YES];
+        
+        [ATOM initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] andWithRemoteConfig:self.voyager completion:^(BOOL completion) {
+            ATOMAudienceController* audienceController = [[ATOMAudienceController alloc] init];
+            [audienceController refreshAudience];
+            
+            ATOMAudienceData *audienceData = [audienceController lastKnownAudience];
+            NSString* audienceText = [NSString stringWithFormat:@"Ethnicity: %@\nIncome: %@\nGender: %@\nChildren: %f\nMale: %f\nFemale: %f\nAge: %ld", audienceData.predominantEthnicity, audienceData.predominantIncome, audienceData.gender, audienceData.parentWithChildren, audienceData.male, audienceData.female, audienceData.age];
+            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"ATOM Audience is: %@", audienceText]];
+        }];
+    }];
+#endif
+    
     // Configure Firebase app
     [FIRApp configure];
-
+    
     [PNLiteDemoSettings sharedInstance];
     locationManager = [[CLLocationManager alloc] init];
     [locationManager requestWhenInUseAuthorization];
@@ -75,8 +98,6 @@ CLLocationManager *locationManager;
         }];
     }
     
-    [PNLiteDemoMoPubManager initMoPubSDKWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey]
-                                        withAdUnitID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidMoPubHeaderBiddingBannerAdUnitIDKey]];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     //[IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
     
@@ -88,7 +109,10 @@ CLLocationManager *locationManager;
     [HyBid setInterstitialActionBehaviour:HB_CREATIVE];
     [HyBid setVideoInterstitialSkipOffset:8];
     [HyBid setHTMLInterstitialSkipOffset:2];
+    [HyBid setEndCardCloseOffset:@5];
     [HyBid setVideoAudioStatus:HyBidAudioStatusDefault];
+    [HyBid setInterstitialSKOverlay:YES];
+    [HyBid setRewardedSKOverlay:YES];
     
     [HyBid getCustomRequestSignalData];
     return YES;

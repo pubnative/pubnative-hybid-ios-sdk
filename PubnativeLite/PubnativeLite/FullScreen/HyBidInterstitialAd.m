@@ -35,6 +35,8 @@
 #import "HyBidRemoteConfigFeature.h"
 #import "HyBidRemoteConfigManager.h"
 
+#define TIME_TO_EXPIRE 1800 //30 Minutes as in seconds
+
 @interface HyBidInterstitialAd() <HyBidInterstitialPresenterDelegate, HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) NSString *zoneID;
@@ -177,6 +179,8 @@
 
 - (void)prepareAdWithContent:(NSString *)adContent {
     if (adContent && [adContent length] != 0) {
+        [self cleanUp];
+        self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
         [self processAdContent:adContent];
     } else {
         [self invokeDidFailWithError:[NSError hyBidInvalidAsset]];
@@ -184,10 +188,14 @@
 }
 
 - (void)prepareVideoTagFrom:(NSString *)url {
+    [self cleanUp];
+    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
     [self.interstitialAdRequest requestVideoTagFrom:url andWithDelegate:self];
 }
 
 - (void)prepareCustomMarkupFrom:(NSString *)markup {
+    [self cleanUp];
+    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
     [self.interstitialAdRequest processCustomMarkupFrom:markup andWithDelegate:self];
 }
 
@@ -200,7 +208,14 @@
 - (void)show {
     if (self.isReady) {
         self.initialRenderTimestamp = [[NSDate date] timeIntervalSince1970];
-        [self.interstitialPresenter show];
+        NSTimeInterval adExpireTime = self.initialLoadTimestamp + TIME_TO_EXPIRE;
+        if (self.initialRenderTimestamp < adExpireTime) {
+            [self.interstitialPresenter show];
+        } else {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad has expired"];
+            [self cleanUp];
+            [self invokeDidFailWithError:[NSError hyBidExpiredAd]];
+        }
     } else {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Interstitial not ready."];
     }
@@ -209,7 +224,14 @@
 - (void)showFromViewController:(UIViewController *)viewController {
     if (self.isReady) {
         self.initialRenderTimestamp = [[NSDate date] timeIntervalSince1970];
-        [self.interstitialPresenter showFromViewController:viewController];
+        NSTimeInterval adExpireTime = self.initialLoadTimestamp + TIME_TO_EXPIRE;
+        if (self.initialRenderTimestamp < adExpireTime) {
+            [self.interstitialPresenter showFromViewController:viewController];
+        } else {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad has expired"];
+            [self cleanUp];
+            [self invokeDidFailWithError:[NSError hyBidExpiredAd]];
+        }
     } else {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Can't display ad. Interstitial not ready."];
     }

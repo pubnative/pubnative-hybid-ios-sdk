@@ -23,18 +23,17 @@
 #import <Foundation/Foundation.h>
 #import "HyBidVASTAdParameters.h"
 #import "HyBidVASTInteractiveCreativeFile.h"
-#import "HyBidVASTVideoClick.h"
 #import "HyBidVASTIcon.h"
-#import "HyBidVASTTrackingEvent.h"
+#import "HyBidVASTTrackingEvents.h"
 #import "HyBidVASTMediaFiles.h"
 #import "HyBidVASTVideoClicks.h"
-#import "HyBidVASTIcons.h"
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTLinear : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithInLineXMLElement:(HyBidXMLElementEx *)inLineXMLElement;
 
 /**
  Time value that identifies when skip controls are made available to the end user.
@@ -59,10 +58,10 @@
 /**
  The <VideoClicks> element provides URIs for clickthroughs, clicktracking, and custom clicks and is available for Linear Ads in both the InLine and Wrapper formats.
  */
-- (HyBidVASTIcons *)icons;
+- (NSArray<HyBidVASTIcon *> *)icons;
 
 - (HyBidVASTMediaFiles *)mediaFiles;
 
-- (NSArray<HyBidVASTTrackingEvent *> *)trackingEvents;
+- (HyBidVASTTrackingEvents *)trackingEvents;
 
 @end

@@ -35,9 +35,16 @@
             block(nil, error);
         } else {
             HyBidVASTAd *ad = [[vastModel ads] firstObject];
-            HyBidVASTCreative *creative = [[ad creatives] firstObject];
-            HyBidVASTLinear *linear = [creative linear];
-            HyBidVASTIcon *icon = [[[linear icons] icons] firstObject];
+            HyBidVASTCreative *adCreative;
+            for (HyBidVASTCreative *creative in [[ad inLine] creatives]) {
+                if ([creative linear] != nil) {
+                    adCreative = creative;
+                    break;
+                }
+            }
+
+            HyBidVASTLinear *linear = [adCreative linear];
+            HyBidVASTIcon *icon = [[linear icons] firstObject];
             
             block(icon, nil);
         }
@@ -51,11 +58,11 @@
     }
     
     HyBidContentInfoView *contentInfoView = [[HyBidContentInfoView alloc] init];
-    contentInfoView.icon = icon.staticResource;
-    contentInfoView.link = icon.iconClickThrough;
-    contentInfoView.viewTrackers = icon.iconViewTracking;
+    contentInfoView.icon = [[[icon staticResources] firstObject] content];
+    contentInfoView.link = [[[icon iconClicks] iconClickThrough] content];
+    contentInfoView.viewTrackers = [icon iconViewTracking];
     contentInfoView.text = @"Learn about this ad";
-    
+
     return contentInfoView;
 }
 

@@ -21,21 +21,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTClickTracking : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithClickTrackingXMLElement:(HyBidXMLElementEx *)clickTrackingXMLElement;
 
 /**
- An id for the click to be measured.
+ A unique ID for the click to be tracked.
  */
 - (NSString *)id;
 
 /**
- A URI to the tracking resource file to be called when a click corresponding to the id attribute (if provided) occurs.
+ A URI for tracking when the ClickThrough is triggered.
  */
-- (NSString *)url;
+- (NSString *)content;
 
 @end

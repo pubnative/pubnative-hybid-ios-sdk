@@ -21,12 +21,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidXMLElementEx.h"
+#import "HyBidVASTStaticResource.h"
+#import "HyBidVASTIconClicks.h"
+#import "HyBidVASTIconClickTracking.h"
+#import "HyBidVASTIconViewTracking.h"
 
 @interface HyBidVASTIcon : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithIconXMLElement:(HyBidXMLElementEx *)iconXMLElement;
 
 /**
  The program represented in the icon (e.g. "AdChoices").
@@ -63,11 +68,6 @@
 - (NSString *)offset;
 
 /**
- Identifies the API needed to execute the icon resource file if applicable.
- */
-- (NSString *)apiFramework;
-
-/**
  The pixel ratio for which the icon creative is intended.
  */
 - (NSString *)pxRatio;
@@ -75,10 +75,16 @@
 /**
  A URI for the tracking resource file to be called when the icon creative is displayed.
  */
-- (NSArray<NSString *> *)iconViewTracking;
+- (NSArray<HyBidVASTIconViewTracking *> *)iconViewTracking;
 
-- (NSString *)staticResource;
+/**
+ A URI to the static creative file to be used for the ad component identified in the parent element.
+ */
+- (NSArray<HyBidVASTStaticResource *> *)staticResources;
 
-- (NSString *)iconClickThrough;
+/**
+ The <IconClicks> element is a container for <IconClickThrough> and <ClickTracking>.
+ */
+- (HyBidVASTIconClicks *)iconClicks;
 
 @end

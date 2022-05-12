@@ -99,6 +99,10 @@ BOOL isInitialized = NO;
     [HyBidSettings sharedInstance].htmlSkipOffset = seconds;
 }
 
++ (void)setEndCardCloseOffset:(NSNumber *)seconds {
+    [HyBidSettings sharedInstance].endCardCloseOffset = seconds;
+}
+
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
     [HyBidSettings sharedInstance].closeOnFinish = closeOnFinish;
     [HyBidSettings sharedInstance].isCloseOnFinishSet = YES;
@@ -133,6 +137,14 @@ BOOL isInitialized = NO;
 
 + (void)setMRAIDExpand:(BOOL)enabled {
     [HyBidSettings sharedInstance].mraidExpand = enabled;
+}
+
++ (void)setInterstitialSKOverlay:(BOOL)enabled {
+    [HyBidSettings sharedInstance].interstitialSKOverlay = enabled;
+}
+
++ (void)setRewardedSKOverlay:(BOOL)enabled {
+    [HyBidSettings sharedInstance].rewardedSKOverlay = enabled;
 }
 
 @end

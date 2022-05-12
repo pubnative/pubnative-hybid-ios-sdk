@@ -20,17 +20,15 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidVASTResource.h"
+#import "HyBidXMLElementEx.h"
 
-@interface HyBidVASTJavaScriptResource : HyBidVASTResource
+@interface HyBidVASTJavaScriptResource : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithJavaScriptResourceXMLElement:(HyBidXMLElementEx *)javaScriptResourceXMLElement;
 
 - (NSString *)browserOptional;
-
-- (NSString *)apiFramework;
 
 - (NSString *)url;
 

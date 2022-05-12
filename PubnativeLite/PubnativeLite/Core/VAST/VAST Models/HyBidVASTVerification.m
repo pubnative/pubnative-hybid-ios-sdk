@@ -22,47 +22,46 @@
 
 #import "HyBidVASTVerification.h"
 #import "HyBidVASTVerificationParameters.h"
-#import "HyBidVASTXMLParserHelper.h"
-#import "HyBidVASTResource.h"
 
 @interface HyBidVASTVerification ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *verificationXmlElement;
 
 @end
 
 @implementation HyBidVASTVerification
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithVerificationXMLElement:(HyBidXMLElementEx *)verificationXMLElement
 {
+    if (verificationXMLElement == nil) {
+        return nil;
+    }
+    
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.verificationXmlElement = verificationXMLElement;
     }
     return self;
 }
 
+// MARK: - Attributes
+
 - (NSString *)vendor
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//AdVerifications/Verification"];
-    return [self.parserHelper getContentForAttribute:@"vendor" inNode:array[self.index]];
+    return [self.verificationXmlElement attribute:@"vendor"];
 }
+
+// MARK: - Elements
 
 - (NSArray<HyBidVASTExecutableResource *> *)executableResource
 {
-    NSString *query = @"//AdVerifications/Verification/ExecutableResource";
-    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
+    NSString *query = @"/ExecutableResource";
+    NSArray<HyBidXMLElementEx *> *result = [self.verificationXmlElement query:query];
     NSMutableArray<HyBidVASTExecutableResource *> *array = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < [result count]; i++) {
-        HyBidVASTExecutableResource *resource = [[HyBidVASTExecutableResource alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
-        [array addObject:resource];
+        HyBidVASTExecutableResource *executableResource = [[HyBidVASTExecutableResource alloc] initWithExecutableResourceXMLElement:result[i]];
+        [array addObject:executableResource];
     }
     
     return array;
@@ -70,39 +69,36 @@
 
 - (NSArray<HyBidVASTJavaScriptResource *> *)javaScriptResource
 {
-    NSString *query = @"//AdVerifications/Verification/JavaScriptResource";
-    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
+    NSString *query = @"/JavaScriptResource";
+    NSArray<HyBidXMLElementEx *> *result = [self.verificationXmlElement query:query];
     NSMutableArray<HyBidVASTJavaScriptResource *> *array = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < [result count]; i++) {
-        HyBidVASTJavaScriptResource *resource = [[HyBidVASTJavaScriptResource alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
-        [array addObject:resource];
+        HyBidVASTJavaScriptResource *javaScriptResource = [[HyBidVASTJavaScriptResource alloc] initWithJavaScriptResourceXMLElement:result[i]];
+        [array addObject:javaScriptResource];
     }
     
     return array;
 }
 
-- (NSArray<HyBidVASTResource *> *)allResources
+- (HyBidVASTTrackingEvents *)trackingEvents
 {
-    return [[NSArray alloc] initWithObjects:[self executableResource], [self javaScriptResource], nil];
-}
-
-- (NSArray<HyBidVASTTrackingEvent *> *)trackingEvents
-{
-    NSMutableArray *trackingEvents = [[NSMutableArray alloc] init];
-    return trackingEvents;
-}
-
-- (NSString *)verificationParameters {
-    NSString *query = @"//AdVerifications/Verification/VerificationParameters";
-    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
-    
-    if (result && [result count] >= 1) {
-        HyBidVASTVerificationParameters* verificationParameters = [[HyBidVASTVerificationParameters alloc] initWithDocumentArray:self.vastDocumentArray atIndex:0];
-        return [verificationParameters parameters];
-    } else {
-        return @"";
+    if ([[self.verificationXmlElement query:@"/TrackingEvents"] count] > 0) {
+        HyBidXMLElementEx *trackingEventsElement = [[self.verificationXmlElement query:@"/TrackingEvents"] firstObject];
+        HyBidVASTTrackingEvents *trackingEvents = [[HyBidVASTTrackingEvents alloc] initWithTrackingEventsXMLElement:trackingEventsElement];
+        return trackingEvents;
     }
+    return nil;
+}
+
+
+- (HyBidVASTVerificationParameters *)verificationParameters {
+    if ([[self.verificationXmlElement query:@"/VerificationParameters"] count] > 0) {
+        HyBidXMLElementEx *verificationParametersElement = [[self.verificationXmlElement query:@"/VerificationParameters"] firstObject];
+        HyBidVASTVerificationParameters *verificationParameters = [[HyBidVASTVerificationParameters alloc] initWithVerificationParametersXMLElement:verificationParametersElement];
+        return verificationParameters;
+    }
+    return nil;
 }
 
 @end

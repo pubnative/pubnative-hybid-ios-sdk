@@ -34,6 +34,10 @@
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
              didFailWithError:(NSError *)error;
 
+@optional
+- (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter;
+
 @end
 
 @interface HyBidInterstitialPresenter : NSObject

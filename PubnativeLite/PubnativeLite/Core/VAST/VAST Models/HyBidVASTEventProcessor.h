@@ -22,8 +22,8 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidVASTAdTrackingEventType.h"
-#import "HyBidVASTTrackingEvent.h"
-#import "HyBidVASTImpressions.h"
+#import "HyBidVASTTracking.h"
+#import "HyBidVASTImpression.h"
 
 @protocol HyBidVASTEventProcessorDelegate <NSObject>
 
@@ -33,7 +33,7 @@
 
 @interface HyBidVASTEventProcessor : NSObject
 
-- (id)initWithEvents:(NSArray<HyBidVASTTrackingEvent *> *)events delegate:(id<HyBidVASTEventProcessorDelegate>)delegate;
+- (id)initWithEvents:(NSArray<HyBidVASTTracking *> *)events delegate:(id<HyBidVASTEventProcessorDelegate>)delegate;
 
 // sends the given VASTEvent
 - (void)trackEventWithType:(HyBidVASTAdTrackingEventType)type;
@@ -42,5 +42,7 @@
 
 // sends the set of http requests to supplied URLs, used for Impressions, ClickTracking, and Errors.
 - (void)sendVASTUrls:(NSArray *)urls;
+
+- (void)setCustomEvents:(NSArray<HyBidVASTTracking *> *)events;
 
 @end

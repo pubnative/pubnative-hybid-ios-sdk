@@ -117,6 +117,11 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.delegate adPresenterDidClick:self];
+    [self.delegate adPresenterDidDisappear:self];
+}
+
+- (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
+    [self.delegate adPresenterDidAppear:self];
 }
 
 @end

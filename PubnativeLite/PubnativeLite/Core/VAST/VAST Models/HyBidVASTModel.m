@@ -21,18 +21,14 @@
 //
 
 #import "HyBidVASTModel.h"
-#import "PNLiteVASTXMLUtil.h"
 #import "HyBidLogger.h"
+#import "HyBidXMLEx.h"
 
 @interface HyBidVASTModel ()
 
 @property (nonatomic, strong)NSMutableArray *vastDocumentArray;
 
-// returns an array of VASTUrlWithId objects
-- (NSArray *)resultsForQuery:(NSString *)query;
-
-// returns the text content of both simple text and CDATA sections
-- (NSString *)content:(NSDictionary *)node;
+@property (nonatomic, strong)HyBidXMLEx *parser;
 
 @end
 
@@ -40,18 +36,16 @@
 
 - (NSString *)version
 {
-    NSString *query = @"/VAST/@version";
-    return [self getXMLValueFromQuery:query];
+    return [[self.parser rootElement] attribute:@"version"];
 }
 
 - (NSArray<HyBidVASTAd *> *)ads
 {
-    NSString *query = @"//Ad";
-    NSArray *result = [self getXMLArrayFromQuery:query];
     NSMutableArray *ads = [[NSMutableArray alloc] init];
     
+    NSArray *result = [[self.parser rootElement] query:@"Ad"];
     for (int i = 0; i < [result count]; i++) {
-        HyBidVASTAd *ad = [[HyBidVASTAd alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
+        HyBidVASTAd *ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
         [ads addObject:ad];
     }
     return ads;
@@ -59,8 +53,15 @@
 
 - (NSArray<NSURL *> *)errors
 {
-    NSString *query = @"//Error";
-    return [self resultsForQuery:query];
+    NSMutableArray *errors = [[NSMutableArray alloc] init];
+    
+    for (HyBidXMLElementEx *element in [[self.parser rootElement] query:@"Error"]) {
+        if (element.value != nil) {
+            NSURL *url = [[NSURL alloc] initWithString:element.value];
+            [errors addObject:url];
+        }
+    }
+    return errors;
 }
 
 // We deliberately do not declare this method in the header file in order to hide it.
@@ -73,76 +74,9 @@
     
     [self.vastDocumentArray removeAllObjects];
     [self.vastDocumentArray addObject:vastDocument];
-}
-
-// MARK: - Helper Methods
-
-- (NSString *)getXMLValueFromQuery:(NSString *)query
-{
-    // sanity check
-    if ([self.vastDocumentArray count] == 0) {
-        return nil;
-    }
-
-    NSString *xmlValue;
-    NSArray *results = performXMLXPathQuery(self.vastDocumentArray[0], query);
-    // there should be only a single result
-    if ([results count] > 0) {
-        NSDictionary *attribute = results[0];
-        xmlValue = attribute[@"nodeContent"];
-    }
-    return xmlValue;
-}
-
-- (NSArray *)getXMLArrayFromQuery:(NSString *)query
-{
-    // sanity check
-    if ([self.vastDocumentArray count] == 0) {
-        return nil;
-    }
-
-    return performXMLXPathQuery(self.vastDocumentArray[0], query);
-}
-
-- (NSArray *)resultsForQuery:(NSString *)query {
-    NSMutableArray *array;
-    NSString *elementName = [query stringByReplacingOccurrencesOfString:@"/" withString:@""];
-
-    for (NSData *document in self.vastDocumentArray) {
-        NSArray *results = performXMLXPathQuery(document, query);
-        for (NSDictionary *result in results) {
-            if (!array) {
-                array = [NSMutableArray array];
-            }
-            NSString *urlString = [self content:result];
-            if(urlString != nil) {
-                [array addObject:urlString];
-            }
-        }
-    }
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"VAST Model returning %@ array with %lu element(s)", elementName, (unsigned long)[array count]]];
-    return array;
-}
-
-- (NSString *)content:(NSDictionary *)node {
-    // this is for string data
-    if ([node[@"nodeContent"] length] > 0) {
-        return node[@"nodeContent"];
-    }
-
-    // this is for CDATA
-    NSArray *childArray = node[@"nodeChildArray"];
-    if ([childArray count] > 0) {
-        // return the first array element that is not a comment
-        for (NSDictionary *childNode in childArray) {
-            if ([childNode[@"nodeName"] isEqualToString:@"comment"]) {
-                continue;
-            }
-            return childNode[@"nodeContent"];
-        }
-    }
-
-    return nil;
+    
+    NSString *xml = [[NSString alloc] initWithData:self.vastDocumentArray[0] encoding:NSUTF8StringEncoding];
+    self.parser = [HyBidXMLEx parserWithXML:xml];
 }
 
 - (NSString *)vastString
@@ -155,6 +89,7 @@
 
 - (void)dealloc {
     self.vastDocumentArray = nil;
+    self.parser = nil;
 }
 
 @end

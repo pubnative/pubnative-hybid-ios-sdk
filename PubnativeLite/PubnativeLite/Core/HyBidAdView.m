@@ -35,6 +35,8 @@
 #import "PNLiteAssetGroupType.h"
 #import "HyBidRemoteConfigFeature.h"
 
+#define TIME_TO_EXPIRE 1800 //30 Minutes as in seconds
+
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
@@ -77,8 +79,8 @@
     self.autoShowOnLoad = true;
 }
 
-- (instancetype)initWithSize:(HyBidAdSize *)adSize {
-    self = [super initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
         if (![HyBid isInitialized]) {
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before creating a HyBidAdView. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
@@ -86,10 +88,18 @@
         self.adRequest = [[HyBidAdRequest alloc] init];
         self.adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
         self.auctionResponses = [[NSMutableArray alloc]init];
-        self.adSize = adSize;
+        self.adSize = HyBidAdSize.SIZE_320x50;
         self.autoShowOnLoad = true;
         self.loadReportingProperties = [NSMutableDictionary new];
         self.renderReportingProperties = [NSMutableDictionary new];
+    }
+    return self;
+}
+
+- (instancetype)initWithSize:(HyBidAdSize *)adSize {
+    self = [self initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
+    if (self) {
+        self.adSize = adSize;
     }
     return self;
 }
@@ -229,7 +239,7 @@
 - (void)refresh
 {
     [self cleanUp];
-    [self requestAd];
+    [self loadWithZoneID:self.zoneID withAppToken:self.appToken andWithDelegate:self.delegate];
 }
 
 - (void)setAutoRefreshTimeInSeconds:(NSInteger)autoRefreshTimeInSeconds
@@ -313,6 +323,26 @@
 }
 
 - (void)renderAd {
+    NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval adExpireTime = self.initialLoadTimestamp + TIME_TO_EXPIRE;
+    if (currentTime < adExpireTime) {
+        self.adPresenter = [self createAdPresenter];
+        if (!self.adPresenter) {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid ad presenter."];
+            [self.delegate adView:self didFailWithError:[NSError hyBidUnsupportedAsset]];
+            [self createRenderErrorEventWithError:[NSError hyBidUnsupportedAsset]];
+            return;
+        } else {
+            [self.adPresenter load];
+        }
+    } else {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad has expired"];
+        [self cleanUp];
+        [self invokeDidFailWithError:[NSError hyBidExpiredAd]];
+    }
+}
+
+- (void)renderAdForSignalData {
     self.adPresenter = [self createAdPresenter];
     if (!self.adPresenter) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Could not create valid ad presenter."];
@@ -327,6 +357,7 @@
 - (void)renderAdWithContent:(NSString *)adContent withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
+    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
     
     if (adContent && [adContent length] != 0) {
         [self processAdContent:adContent];
@@ -337,6 +368,7 @@
 }
 
 - (void)processAdContent:(NSString *)adContent {
+    [self cleanUp];
     HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
     signalDataProcessor.delegate = self;
     [signalDataProcessor processSignalData:adContent];
@@ -349,10 +381,6 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
         [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
 #endif
-        
-        if (self.ad.adType != kHyBidAdTypeVideo) {
-            [self.delegate adViewDidTrackImpression:self];
-        }
     }
 }
 
@@ -519,7 +547,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
-    [self renderAd];
+    [self renderAdForSignalData];
 }
 
 - (void)signalDataDidFailWithError:(NSError *)error {

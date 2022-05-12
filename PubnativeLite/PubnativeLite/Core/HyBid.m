@@ -103,6 +103,11 @@ BOOL isInitialized = NO;
     [HyBidSettings sharedInstance].htmlSkipOffset = seconds;
 }
 
++ (void)setEndCardCloseOffset:(NSNumber *)seconds
+{
+    [HyBidSettings sharedInstance].endCardCloseOffset = seconds;
+}
+
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
     [HyBidSettings sharedInstance].closeOnFinish = closeOnFinish;
     [HyBidSettings sharedInstance].isCloseOnFinishSet = YES;
@@ -121,12 +126,16 @@ BOOL isInitialized = NO;
 }
 
 + (NSString *)getCustomRequestSignalData {
+    return [self getCustomRequestSignalData:nil];
+}
+
++ (NSString *)getCustomRequestSignalData:(NSString *)mediationVendorName {
     if (!HyBid.isInitialized) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before getting Custom Request Signal Data. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
         return @"";
     }
     
-    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false];
+    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false mediationVendorName:mediationVendorName];
     
     HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
     NSURL* url = [adRequest requestURLFromAdRequestModel:adRequestModel];
@@ -137,6 +146,14 @@ BOOL isInitialized = NO;
 
 + (void)setMRAIDExpand:(BOOL)enabled {
     [HyBidSettings sharedInstance].mraidExpand = enabled;
+}
+
++ (void)setInterstitialSKOverlay:(BOOL)enabled {
+    [HyBidSettings sharedInstance].interstitialSKOverlay = enabled;
+}
+
++ (void)setRewardedSKOverlay:(BOOL)enabled {
+    [HyBidSettings sharedInstance].rewardedSKOverlay = enabled;
 }
 
 @end

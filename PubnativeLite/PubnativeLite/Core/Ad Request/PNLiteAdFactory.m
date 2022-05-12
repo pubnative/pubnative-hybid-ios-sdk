@@ -54,13 +54,17 @@
                                          withAdSize:(HyBidAdSize *)adSize
                          withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                                 withIntegrationType:(IntegrationType)integrationType
-                                         isRewarded:(BOOL)isRewarded {
+                                         isRewarded:(BOOL)isRewarded
+                                mediationVendorName: (NSString*) mediationVendorName{
     self.adRequestModel = [[PNLiteAdRequestModel alloc] init];
     self.adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
     if (apptoken) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.appToken] = apptoken;
     } else {
         self.adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
+    }
+    if (mediationVendorName) {
+        self.mediationVendor = mediationVendorName;
     }
     self.adRequestModel.requestParameters[HyBidRequestParameter.os] = [HyBidSettings sharedInstance].os;
     self.adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [HyBidSettings sharedInstance].osVersion;

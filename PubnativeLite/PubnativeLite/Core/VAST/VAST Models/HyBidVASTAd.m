@@ -21,30 +21,21 @@
 //
 
 #import "HyBidVASTAd.h"
-#import "HyBidVASTImpressions.h"
-#import "HyBidVASTCreatives.h"
-#import "HyBidVASTXMLParserHelper.h"
 #import "HyBidVASTAdCategory.h"
 
 @interface HyBidVASTAd ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *xmlElement;
 
 @end
 
 @implementation HyBidVASTAd
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithXMLElement:(HyBidXMLElementEx *)xmlElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.xmlElement = xmlElement;
     }
     return self;
 }
@@ -52,98 +43,57 @@
 - (HyBidVASTAdType)adType
 {
     HyBidVASTAdType adType = HyBidVASTAdType_NONE;
-    NSString *inlineQuery = @"/VAST/Ad/InLine";
-    NSString *wrapperQuery = @"/VAST/Ad/Wrapper";
-    
-    if ([self.parserHelper getContentForQuery:inlineQuery] != nil) {
+    NSString *inlineQuery = @"/InLine";
+    NSString *wrapperQuery = @"/Wrapper";
+        
+    if ([[self.xmlElement query:inlineQuery] count] != 0) {
         return HyBidVASTAdType_INLINE;
-    } else if ([self.parserHelper getContentForQuery:wrapperQuery] != nil) {
+    } else if ([[self.xmlElement query:wrapperQuery] count] != 0) {
         return HyBidVASTAdType_WRAPPER;
     }
-
+    
     return adType;
 }
 
+// MARK: - Attributes
+
 - (NSString *)id
 {
-    NSString *query = @"/VAST/Ad";
-    NSArray *ids = [self.parserHelper getArrayResultsForQuery: query];
-    return [self.parserHelper getContentForAttribute:@"id" inNode:ids[self.index]];
+    return [self.xmlElement attribute:@"id"];
 }
 
 - (NSString *)sequence
 {
-    NSString *query = @"/VAST/Ad";
-    NSArray *sequences = [self.parserHelper getArrayResultsForQuery: query];
-    return [self.parserHelper getContentForAttribute:@"sequence" inNode:sequences[self.index]];
+    return [self.xmlElement attribute:@"sequence"];
 }
 
 - (BOOL)isConditionalAd
 {
-    NSString *query = @"/VAST/Ad";
-    NSArray *conditionalAds = [self.parserHelper getArrayResultsForQuery: query];
-    return [self.parserHelper getContentForAttribute:@"conditionalAd" inNode:conditionalAds[self.index]];
+    return [[self.xmlElement attribute:@"conditionalAd"] isEqualToString:@"true"] ? YES : NO;
 }
 
-- (HyBidVASTAdSystem *)adSystem
-{
-    HyBidVASTAdSystem *system = [[HyBidVASTAdSystem alloc] initWithDocumentArray:self.vastDocumentArray];
-    return system;
-}
+// MARK: - Elements
 
-- (NSString *)adTitle
+/**
+ The Ad element requires exactly one child, which can either be an <InLine> or <Wrapper> element.
+ */
+- (HyBidVASTAdInline *)inLine
 {
-    NSString *query = @"/VAST/Ad/InLine/AdTitle";
-    return [self.parserHelper getContentForQuery: query];
-}
-
-- (HyBidVASTAdCategory *)category
-{
-    HyBidVASTAdCategory *category = [[HyBidVASTAdCategory alloc] initWithDocumentArray:self.vastDocumentArray atIndex:self.index];
-    return category;
-}
-
-- (NSString *)adServingID
-{
-    NSString *query = @"/VAST/Ad/InLine/AdServingId";
-    return [self.parserHelper getContentForQuery: query];
-}
-
-- (NSArray<HyBidVASTImpression *> *)impressions
-{
-    HyBidVASTImpressions *impressions = [[HyBidVASTImpressions alloc] initWithDocumentArray:self.vastDocumentArray];
-    return impressions.impressions;
-}
-
-- (NSString *)adDescription
-{
-    NSString *query = @"/VAST/Ad/InLine/Description";
-    return [self.parserHelper getContentForQuery: query];
-}
-
-- (NSString *)advertiser
-{
-    NSString *query = @"/VAST/Ad/InLine/Advertiser";
-    return [self.parserHelper getContentForQuery: query];
-}
-
-- (NSArray<HyBidVASTCreative *> *)creatives
-{
-    HyBidVASTCreatives *creatives = [[HyBidVASTCreatives alloc] initWithDocumentArray:self.vastDocumentArray];
-    return creatives.creatives;
-}
-
-- (NSArray<HyBidVASTVerification *> *)adVerifications
-{
-    NSMutableArray *verifications = [[NSMutableArray alloc] init];
-    
-    NSString *query = @"//AdVerifications/Verification";
-    
-    for (int i = 0; i < [[self.parserHelper getArrayResultsForQuery: query] count]; i++) {
-        HyBidVASTVerification *verification = [[HyBidVASTVerification alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
-        [verifications addObject:verification];
+    if ([[self.xmlElement query:@"/InLine"] count] > 0) {
+        return [[HyBidVASTAdInline alloc] initWithInLineXMLElement:[[self.xmlElement query:@"/InLine"] firstObject]];
     }
-    return verifications;
+    return nil;
+}
+
+/**
+ The Ad element requires exactly one child, which can either be an <InLine> or <Wrapper> element.
+ */
+- (HyBidVASTAdWrapper *)wrapper
+{
+    if ([[self.xmlElement query:@"/Wrapper"] count] > 0) {
+        return [[HyBidVASTAdWrapper alloc] initWithXMLElement:[[self.xmlElement query:@"/Wrapper"] firstObject]];
+    }
+    return nil;
 }
 
 @end

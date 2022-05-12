@@ -24,13 +24,18 @@
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
 #import "PNLiteAssetGroupType.h"
+#import <StoreKit/SKOverlay.h>
+#import <StoreKit/SKOverlayConfiguration.h>
+#import "UIApplication+PNLiteTopViewController.h"
 
-@interface PNLiteInterstitialPresenterDecorator()
+@interface PNLiteInterstitialPresenterDecorator() <SKOverlayDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, weak) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
+@property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
+@property (nonatomic, assign) BOOL isOverlayShown;
 
 @end
 
@@ -41,6 +46,13 @@
     self.adTracker = nil;
     self.interstitialPresenterDelegate = nil;
     self.errorReportingProperties = nil;
+    if (@available(iOS 14.0, *)) {
+        if (self.overlay) {
+            self.overlay = nil;
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+    }
 }
 
 - (void)load {
@@ -95,11 +107,53 @@
     }
 }
 
+- (void)presentSKOverlay {
+    if ([HyBidSettings sharedInstance].interstitialSKOverlay) {
+        if (@available(iOS 14.0, *)) {
+            if (self.overlay) {
+                if (!self.isOverlayShown) {
+                    [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
+                }
+            }
+        } else {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+        }
+    }
+}
+
+- (void)dismissSKOverlay {
+    if ([HyBidSettings sharedInstance].interstitialSKOverlay) {
+        if (@available(iOS 14.0, *)) {
+            if (self.overlay) {
+                [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
+            }
+        } else {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+        }
+    }
+}
+
 #pragma mark HyBidInterstitialPresenterDelegate
 
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
+        if ([HyBidSettings sharedInstance].interstitialSKOverlay) {
+            if (@available(iOS 14.0, *)) {
+                HyBidSkAdNetworkModel* skAdNetworkModel = interstitialPresenter.ad.isUsingOpenRTB ? [interstitialPresenter.ad getOpenRTBSkAdNetworkModel] : [interstitialPresenter.ad getSkAdNetworkModel];
+                NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];
+                if (appIdentifier && appIdentifier.length > 0) {
+                    SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
+                                                                initWithAppIdentifier:appIdentifier
+                                                                position:SKOverlayPositionBottom];
+                    configuration.userDismissible = YES;
+                    self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
+                    self.overlay.delegate = self;
+                }
+            } else {
+                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+            }
+        }
     }
 }
 
@@ -107,6 +161,7 @@
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)]) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
+        [self presentSKOverlay];
     }
 }
 
@@ -122,6 +177,7 @@
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.INTERSTITIAL_CLOSED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
+        [self dismissSKOverlay];
     }
 }
 
@@ -136,5 +192,29 @@
         [self.interstitialPresenterDelegate interstitialPresenter:interstitialPresenter didFailWithError:error];
     }
 }
+
+- (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {
+    [self presentSKOverlay];
+}
+
+- (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {
+    [self dismissSKOverlay];
+}
+
+#pragma mark SKOverlayDelegate
+
+- (void)storeOverlay:(SKOverlay *)overlay willStartPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
+- (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
+    if ([overlay isEqual:self.overlay]) {
+        self.isOverlayShown = YES;
+    }
+}
+- (void)storeOverlay:(SKOverlay *)overlay willStartDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
+- (void)storeOverlay:(SKOverlay *)overlay didFinishDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
+    if ([overlay isEqual:self.overlay]) {
+        self.isOverlayShown = NO;
+    }
+}
+- (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){}
 
 @end

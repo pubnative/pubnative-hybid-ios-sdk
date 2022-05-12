@@ -21,108 +21,103 @@
 //
 
 #import "HyBidVASTIcon.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTIcon ()
 
-@property (nonatomic, strong) NSMutableArray *vastDocumentArray;
-@property (nonatomic) int index;
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *iconXmlElement;
 
 @end
 
 @implementation HyBidVASTIcon
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithIconXMLElement:(HyBidXMLElementEx *)iconXMLElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.iconXmlElement = iconXMLElement;
     }
     return self;
 }
 
-
-- (NSString *)apiFramework
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"apiFramework" inNode: array[self.index]];
-}
+// MARK: - Attributes
 
 - (NSString *)duration
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"duration" inNode: array[self.index]];
+    return [self.iconXmlElement attribute:@"duration"];
 }
 
 - (NSString *)height
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"height" inNode: array[self.index]];
+    return [self.iconXmlElement attribute:@"height"];
 }
 
 - (NSString *)width
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"width" inNode: array[self.index]];
+    return [self.iconXmlElement attribute:@"width"];
 }
 
-- (NSArray<NSString *> *)iconViewTracking
+- (NSString *)offset
 {
-    NSString *query = @"//Icons/Icon/IconViewTracking";
-    NSArray *result = [self.parserHelper getArrayResultsForQuery:query];
-    NSMutableArray<NSString *> *array = [[NSMutableArray alloc] init];
+    return [self.iconXmlElement attribute:@"offset"];
+}
+
+- (NSString *)program
+{
+    return [self.iconXmlElement attribute:@"program"];
+}
+
+- (NSString *)pxRatio
+{
+    return [self.iconXmlElement attribute:@"pxratio"];
+}
+
+- (NSString *)xPosition
+{
+    return [self.iconXmlElement attribute:@"xPosition"];
+}
+
+- (NSString *)yPosition
+{
+    return [self.iconXmlElement attribute:@"yPosition"];
+}
+
+// MARK: - Elements
+
+- (NSArray<HyBidVASTIconViewTracking *> *)iconViewTracking
+{
+    NSArray<HyBidXMLElementEx *> *result = [self.iconXmlElement query:@"/IconViewTracking"];
+    NSMutableArray<HyBidVASTIconViewTracking *> *array = [[NSMutableArray alloc] init];
     
-    for (NSDictionary *node in result) {
-        NSString *str = [self.parserHelper getContentForNode:node];
-        [array addObject:str];
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTIconViewTracking *iconViewTracking = [[HyBidVASTIconViewTracking alloc] initWithIconViewTrackingXMLElement:result[i]];
+        [array addObject:iconViewTracking];
     }
     
     return array;
 }
 
-- (NSString *)offset
+- (NSArray<HyBidVASTStaticResource *> *)staticResources
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"offset" inNode: array[self.index]];
+    NSArray<HyBidXMLElementEx *> *result = [self.iconXmlElement query:@"/StaticResource"];
+    NSMutableArray<HyBidVASTStaticResource *> *array = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTStaticResource *staticResource = [[HyBidVASTStaticResource alloc] initWithStaticResourceXMLElement:result[i]];
+        [array addObject:staticResource];
+    }
+    
+    return array;
 }
 
-- (NSString *)program
+- (HyBidVASTIconClicks *)iconClicks
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"program" inNode: array[self.index]];
-}
-
-- (NSString *)pxRatio
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"pxratio" inNode: array[self.index]];
-}
-
-- (NSString *)xPosition
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"xPosition" inNode: array[self.index]];
-}
-
-- (NSString *)yPosition
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon"];
-    return [self.parserHelper getContentForAttribute:@"yPosition" inNode: array[self.index]];
-}
-
-- (NSString *)staticResource
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon/StaticResource"];
-    return [array count] > self.index ? [self.parserHelper getContentForNode:array[self.index]] : nil;
-}
-
-- (NSString *)iconClickThrough
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Icons/Icon/IconClicks/IconClickThrough"];
-    return [array count] > self.index ? [self.parserHelper getContentForNode:array[self.index]] : nil;
+    if ([[self.iconXmlElement query:@"/IconClicks"] count] > 0) {
+        HyBidXMLElementEx *iconClicksElement = [[self.iconXmlElement query:@"/IconClicks"] firstObject];
+        HyBidVASTIconClicks *iconClicks = [[HyBidVASTIconClicks alloc] initWithIconClicksXMLElement:iconClicksElement];
+        
+        return iconClicks;
+    }
+    return nil;
 }
 
 @end

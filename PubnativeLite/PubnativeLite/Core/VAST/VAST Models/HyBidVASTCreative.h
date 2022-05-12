@@ -23,12 +23,14 @@
 #import <Foundation/Foundation.h>
 #import "HyBidVASTUniversalAdId.h"
 #import "HyBidVASTLinear.h"
+#import "HyBidVASTCompanionAds.h"
+#import "HyBidXMLElementEx.h"
 
 @interface HyBidVASTCreative : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index;
+- (instancetype)initWithCreativeXMLElement:(HyBidXMLElementEx *)creativeXMLElement;
 
 /**
  A string used to identify the ad server that provides the creative
@@ -45,8 +47,6 @@
  */
 - (NSString *)sequence;
 
-- (NSString *)apiFramework;
-
 /**
  An array of strings identifying the unique creative identifier. Default value is “unknown”
  */
@@ -56,5 +56,7 @@
  Linear Ads are the video or audio formatted ads that play linearly within the streaming content
  */
 - (HyBidVASTLinear *)linear;
+
+- (HyBidVASTCompanionAds *)companionAds;
 
 @end

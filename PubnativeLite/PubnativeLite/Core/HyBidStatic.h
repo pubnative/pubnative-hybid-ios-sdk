@@ -90,11 +90,14 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Use either setVideoInterstitialSkipOffset: or setHTMLInterstitialSkipOffset: based on your ad format instead.");
 + (void)setVideoInterstitialSkipOffset:(NSInteger)seconds;
 + (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds;
++ (void)setEndCardCloseOffset:(NSNumber *)seconds;
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish;
 + (HyBidReportingManager *)reportingManager;
 + (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
 + (void)setMRAIDExpand:(BOOL)enabled;
++ (void)setInterstitialSKOverlay:(BOOL)enabled;
++ (void)setRewardedSKOverlay:(BOOL)enabled;
 
 @end

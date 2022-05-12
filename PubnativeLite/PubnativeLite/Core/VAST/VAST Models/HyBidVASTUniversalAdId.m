@@ -21,45 +21,32 @@
 //
 
 #import "HyBidVASTUniversalAdId.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTUniversalAdId ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *universalAdIdXMLElement;
 
 @end
 
 @implementation HyBidVASTUniversalAdId
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithUniversalAdIdXMLElement:(HyBidXMLElementEx *)universalAdIdXMLElement;
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.universalAdIdXMLElement = universalAdIdXMLElement;
     }
     return self;
 }
 
 - (NSString *)idRegistry
 {
-    NSString *query = @"//Creatives/Creative/UniversalAdId";
-    
-    NSArray *universalAdIds = [self.parserHelper getArrayResultsForQuery:query];
-    return [self.parserHelper getContentForAttribute:@"idRegistry" inNode: universalAdIds[self.index]];
+    return [self.universalAdIdXMLElement attribute:@"idRegistry"];
 }
 
-- (NSString *)idValue
+- (NSString *)universalAdId
 {
-    NSString *query = @"//Creatives/Creative/UniversalAdId";
-    
-    NSArray *universalAdIds = [self.parserHelper getArrayResultsForQuery:query];
-    return [self.parserHelper getContentForNode: universalAdIds[self.index]];
+    return [self.universalAdIdXMLElement value];
 }
 
 @end

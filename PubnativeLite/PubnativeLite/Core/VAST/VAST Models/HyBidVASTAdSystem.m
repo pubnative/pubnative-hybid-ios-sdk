@@ -21,38 +21,32 @@
 //
 
 #import "HyBidVASTAdSystem.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTAdSystem ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *adSystemXmlElement;
 
 @end
 
 @implementation HyBidVASTAdSystem
 
-- (instancetype)initWithDocumentArray:(NSArray *)array
+- (instancetype)initWithAdSystemXMLElement:(HyBidXMLElementEx *)adSystemXmlElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.adSystemXmlElement = adSystemXmlElement;
     }
     return self;
 }
 
 - (NSString *)version
 {
-    NSString *query = @"/VAST/Ad/InLine/AdSystem/@version";
-    return [self.parserHelper getContentForQuery: query];
+    return [self.adSystemXmlElement attribute:@"version"];
 }
 
 - (NSString *)system
 {
-    NSString *query = @"/VAST/Ad/InLine/AdSystem";
-    return [self.parserHelper getContentForQuery: query];
+    return [self.adSystemXmlElement value];
 }
 
 @end

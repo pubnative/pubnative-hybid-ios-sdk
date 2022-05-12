@@ -199,13 +199,15 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                                                                                                                                                                                                                          withAdSize:[self adSize]
                                                                                                                                                                                                          withSupportedAPIFrameworks:[self supportedAPIFrameworks]
                                                                                                                                                                                                                 withIntegrationType:integrationType
-                                                                                                                                                                                                                         isRewarded:[self isRewarded]]].absoluteString]];
+                                                                                                                                                                                                                         isRewarded:[self isRewarded]
+                                                                                                                                                                                                                mediationVendorName:nil]].absoluteString]];
     return [self.adFactory createAdRequestWithZoneID:self.zoneID
                                         withAppToken:self.appToken
                                           withAdSize:[self adSize]
                           withSupportedAPIFrameworks:[self supportedAPIFrameworks]
                                  withIntegrationType:integrationType
-                                          isRewarded:[self isRewarded]];
+                                          isRewarded:[self isRewarded]
+                                 mediationVendorName:nil];
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {

@@ -21,71 +21,72 @@
 //
 
 #import "HyBidVASTCreative.h"
-#import "HyBidVASTXMLParserHelper.h"
 
 @interface HyBidVASTCreative ()
 
-@property (nonatomic, strong)NSMutableArray *vastDocumentArray;
-
-@property (nonatomic) int index;
-
-@property (nonatomic, strong)HyBidVASTXMLParserHelper *parserHelper;
+@property (nonatomic, strong)HyBidXMLElementEx *creativeXMLElement;
 
 @end
 
 @implementation HyBidVASTCreative
 
-- (instancetype)initWithDocumentArray:(NSArray *)array atIndex: (int)index
+- (instancetype)initWithCreativeXMLElement:(HyBidXMLElementEx *)creativeXMLElement
 {
     self = [super init];
     if (self) {
-        self.vastDocumentArray = [array mutableCopy];
-        self.index = index;
-        self.parserHelper = [[HyBidVASTXMLParserHelper alloc] initWithDocumentArray:array];
+        self.creativeXMLElement = creativeXMLElement;
     }
     return self;
 }
 
-- (NSString *)apiFramework
-{
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Creatives/Creative"];
-    return [self.parserHelper getContentForAttribute:@"apiFramework" inNode: array[self.index]];
-}
+// MARK: - Attributes
 
 - (NSString *)id
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Creatives/Creative"];
-    return [self.parserHelper getContentForAttribute:@"id" inNode: array[self.index]];
+    return [self.creativeXMLElement attribute:@"id"];
 }
 
 - (NSString *)adID
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Creatives/Creative"];
-    return [self.parserHelper getContentForAttribute:@"adId" inNode: array[self.index]];
+    return [self.creativeXMLElement attribute:@"adId"];
 }
 
 - (NSString *)sequence
 {
-    NSArray *array = [self.parserHelper getArrayResultsForQuery:@"//Creatives/Creative"];
-    return [self.parserHelper getContentForAttribute:@"sequence" inNode: array[self.index]];
+    return [self.creativeXMLElement attribute:@"sequence"];
 }
+
+// MARK: - Elements
 
 - (NSArray<HyBidVASTUniversalAdId *> *)universalAdIds
 {
-    NSMutableArray<HyBidVASTUniversalAdId *> *universalAdIdsArray = [[NSMutableArray alloc] init];
-    NSString *query = @"//Creatives/Creative/UniversalAdId";
-    NSArray *universalAdIds = [self.parserHelper getArrayResultsForQuery:query];
+    NSArray<HyBidXMLElementEx *> *result = [self.creativeXMLElement query:@"/UniversalAdId"];
+    NSMutableArray<HyBidVASTUniversalAdId *> *array = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < [universalAdIds count]; i++) {
-        HyBidVASTUniversalAdId *adId = [[HyBidVASTUniversalAdId alloc] initWithDocumentArray:self.vastDocumentArray atIndex:i];
-        [universalAdIdsArray addObject:adId];
+    for (int i = 0; i < [result count]; i++) {
+        HyBidVASTUniversalAdId *universalAdId = [[HyBidVASTUniversalAdId alloc] initWithUniversalAdIdXMLElement:result[i]];
+        [array addObject:universalAdId];
     }
-    return universalAdIdsArray;
+    
+    return array;
 }
 
 - (HyBidVASTLinear *)linear
 {
-    return [[HyBidVASTLinear alloc] initWithDocumentArray:self.vastDocumentArray atIndex:self.index];
+    if ([[self.creativeXMLElement query:@"/Linear"] count] > 0) {
+        HyBidXMLElementEx *inLineElement = [[self.creativeXMLElement query:@"/Linear"] firstObject];
+        return [[HyBidVASTLinear alloc] initWithInLineXMLElement:inLineElement];
+    }
+    return nil;
+}
+
+- (HyBidVASTCompanionAds *)companionAds
+{
+    if ([[self.creativeXMLElement query:@"/CompanionAds"] count] > 0) {
+        HyBidXMLElementEx *companionAdsElement = [[self.creativeXMLElement query:@"/CompanionAds"] firstObject];
+        return [[HyBidVASTCompanionAds alloc] initWithCompanionAdsXMLElement:companionAdsElement];
+    }
+    return nil;
 }
 
 @end
