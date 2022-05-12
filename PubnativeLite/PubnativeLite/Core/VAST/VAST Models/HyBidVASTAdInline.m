@@ -57,7 +57,8 @@
 - (NSString *)adTitle
 {
     if ([[self.inLineXmlElement query:@"/AdTitle"] count] > 0) {
-        return [[[self.inLineXmlElement query:@"/AdTitle"] firstObject] value];
+        HyBidXMLElementEx* element= [[self.inLineXmlElement query:@"/AdTitle"] firstObject];
+        return [element value];
     }
     return nil;
 }
@@ -65,7 +66,8 @@
 - (NSString *)adServingID
 {
     if ([[self.inLineXmlElement query:@"/AdServingId"] count] > 0) {
-        return [[[self.inLineXmlElement query:@"/AdServingId"] firstObject] value];
+        HyBidXMLElementEx* element= [[self.inLineXmlElement query:@"/AdServingId"] firstObject];
+        return [element value];
     }
     return nil;
 }
@@ -73,7 +75,8 @@
 - (NSString *)description
 {
     if ([[self.inLineXmlElement query:@"/Description"] count] > 0) {
-        return [[[self.inLineXmlElement query:@"/Description"] firstObject] value];
+        HyBidXMLElementEx* element= [[self.inLineXmlElement query:@"/Description"] firstObject];
+        return [element value];
     }
     return nil;
 }
@@ -81,7 +84,8 @@
 - (NSString *)advertiser
 {
     if ([[self.inLineXmlElement query:@"/Advertiser"] count] > 0) {
-        return [[[self.inLineXmlElement query:@"/Advertiser"] firstObject] value];
+        HyBidXMLElementEx* element= [[self.inLineXmlElement query:@"/Advertiser"] firstObject];
+        return [element value];
     }
     return nil;
 }
