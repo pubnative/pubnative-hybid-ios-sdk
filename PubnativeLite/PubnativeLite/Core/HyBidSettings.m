@@ -66,8 +66,8 @@
     self = [super init];
     if (self) {
         self.mraidExpand = YES;
-        self.interstitialSKOverlay = YES;
-        self.rewardedSKOverlay = YES;
+        self.interstitialSKOverlay = NO;
+        self.rewardedSKOverlay = NO;
     }
     return self;
 }
