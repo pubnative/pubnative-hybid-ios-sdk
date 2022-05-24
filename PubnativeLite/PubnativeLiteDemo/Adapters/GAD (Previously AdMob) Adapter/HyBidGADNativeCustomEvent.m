@@ -22,36 +22,34 @@
 
 #import "HyBidGADNativeCustomEvent.h"
 #import "HyBidGADUtils.h"
-#import "HyBidGADNativeAd.h"
 
-@interface HyBidGADNativeCustomEvent() <HyBidNativeAdLoaderDelegate, HyBidNativeAdFetchDelegate>
+typedef id<GADMediationNativeAdEventDelegate> _Nullable(^HyBidGADNativeCustomEventCompletionBlock)(_Nullable id<GADMediationNativeAd> ad,
+                                                                                                                  NSError *_Nullable error);
+@interface HyBidGADNativeCustomEvent() <HyBidNativeAdLoaderDelegate, HyBidNativeAdFetchDelegate, HyBidNativeAdDelegate, GADMediationNativeAd>
 
 @property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) GADNativeAdViewAdOptions *nativeAdViewAdOptions;
+@property(nonatomic, weak, nullable) id<GADMediationNativeAdEventDelegate> delegate;
+@property(nonatomic, copy) HyBidGADNativeCustomEventCompletionBlock completionBlock;
+@property(nonatomic, strong) HyBidNativeAd *nativeAd;
 
 @end
 
 @implementation HyBidGADNativeCustomEvent
 
-@synthesize delegate;
+@synthesize advertiser, extraAssets, store, price;
 
 - (void)dealloc {
     self.nativeAdLoader = nil;
     self.nativeAdViewAdOptions = nil;
 }
 
-- (void)requestNativeAdWithParameter:(NSString *)serverParameter
-                             request:(GADCustomEventRequest *)request
-                             adTypes:(NSArray *)adTypes
-                             options:(NSArray *)options
-                  rootViewController:(UIViewController *)rootViewController {
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+    self.completionBlock = completionHandler;
+    NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGADUtils areExtrasValid:serverParameter]) {
         if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            for (GADAdLoaderOptions *loaderOptions in options) {
-                if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
-                self.nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
-              }
-            }
             self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
             self.nativeAdLoader.isMediation = YES;
             [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[HyBidGADUtils zoneID:serverParameter]];
@@ -75,7 +73,8 @@
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate customEventNativeAd:self didFailToLoadWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
+    self.completionBlock(nil, [NSError errorWithDomain:message code:0 userInfo:nil]);
+    [self.delegate didFailToPresentWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - HyBidNativeAdLoaderDelegate
@@ -91,12 +90,60 @@
 #pragma mark - HyBidNativeAdFetchDelegate
 
 - (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd {
-    HyBidGADNativeAd *mediatedNativeAd = [[HyBidGADNativeAd alloc] initWithHyBidNativeAd:nativeAd nativeAdViewAdOptions:self.nativeAdViewAdOptions];
-    [self.delegate customEventNativeAd:self didReceiveMediatedUnifiedNativeAd:mediatedNativeAd];
+    self.delegate = self.completionBlock(self, nil);
+    self.nativeAd = nativeAd;
 }
 
 - (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error {
     [self invokeFailWithMessage:error.localizedDescription];
+}
+
+#pragma mark - GADMediationNativeAd
+
+- (NSString *)headline {
+    return self.nativeAd.title;
+}
+
+- (NSString *)body {
+    return self.nativeAd.body;
+}
+
+- (NSString *)callToAction {
+    return self.nativeAd.callToActionTitle;
+}
+
+- (NSDecimalNumber *)starRating {
+    return [NSDecimalNumber decimalNumberWithDecimal:[self.nativeAd.rating decimalValue]];
+}
+
+- (GADNativeAdImage *)icon {
+    return [[GADNativeAdImage alloc] initWithImage:self.nativeAd.icon];
+}
+
+- (NSArray *)images {
+  return @[ [[GADNativeAdImage alloc] initWithImage:self.nativeAd.bannerImage] ];
+}
+
+- (UIView *)adChoicesView {
+    return self.nativeAd.contentInfo;
+}
+
+- (void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController {
+    [self.nativeAd startTrackingView:view withDelegate:self];
+}
+
+- (void)didUntrackView:(UIView *)view {
+    [self.nativeAd stopTracking];
+}
+
+#pragma mark - HyBidNativeAdDelegate
+
+- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view {
+    [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
+}
+
+- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
+    [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordClick:self];
 }
 
 @end

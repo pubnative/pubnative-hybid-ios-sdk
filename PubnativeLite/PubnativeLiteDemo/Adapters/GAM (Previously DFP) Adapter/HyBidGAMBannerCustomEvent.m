@@ -23,29 +23,37 @@
 #import "HyBidGAMBannerCustomEvent.h"
 #import "HyBidGAMUtils.h"
 
-@interface HyBidGAMBannerCustomEvent () <HyBidAdPresenterDelegate>
+typedef id<GADMediationBannerAdEventDelegate> _Nullable(^HyBidGADBannerCustomEventCompletionBlock)(_Nullable id<GADMediationBannerAd> ad,
+                                                                                                                  NSError *_Nullable error);
+@interface HyBidGAMBannerCustomEvent () <HyBidAdPresenterDelegate, GADMediationBannerAd>
 
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidBannerPresenterFactory *bannerPresenterFactory;
 @property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, strong) UIView *adView;
+@property(nonatomic, weak, nullable) id<GADMediationBannerAdEventDelegate> delegate;
+@property(nonatomic, copy) HyBidGADBannerCustomEventCompletionBlock completionBlock;
 
 @end
 
 @implementation HyBidGAMBannerCustomEvent
 
-@synthesize delegate;
-
 - (void)dealloc {
     self.adPresenter = nil;
     self.bannerPresenterFactory = nil;
     self.ad = nil;
+    self.adView = nil;
 }
 
-- (void)requestBannerAd:(GADAdSize)adSize
-              parameter:(NSString * _Nullable)serverParameter
-                  label:(NSString * _Nullable)serverLabel
-                request:(nonnull GADCustomEventRequest *)request {
+- (UIView *)view {
+    return self.adView;
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    self.completionBlock = completionHandler;
+    NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGAMUtils areExtrasValid:serverParameter]) {
         self.ad = [[HyBidAdCache sharedInstance] retrieveAdFromCacheWithZoneID:[HyBidGAMUtils zoneID:serverParameter]];
         if (!self.ad) {
@@ -69,13 +77,16 @@
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
+    self.completionBlock(nil, [NSError errorWithDomain:message code:0 userInfo:nil]);
+    [self.delegate didFailToPresentWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
-    [self.delegate customEventBanner:self didReceiveAd:adView];
+    self.adView = adView;
+    self.delegate = self.completionBlock(self, nil);
+    [self.delegate reportImpression];
     [self.adPresenter startTracking];
 }
 
@@ -84,7 +95,7 @@
 }
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
-    [self.delegate customEventBannerWasClicked:self];
+    [self.delegate reportClick];
 }
 
 @end

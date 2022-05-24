@@ -23,25 +23,31 @@
 #import "HyBidGADBannerCustomEvent.h"
 #import "HyBidGADUtils.h"
 
-@interface HyBidGADBannerCustomEvent() <HyBidAdViewDelegate>
+typedef id<GADMediationBannerAdEventDelegate> _Nullable(^HyBidGADBannerCustomEventCompletionBlock)(_Nullable id<GADMediationBannerAd> ad,
+                                                                                                                  NSError *_Nullable error);
+@interface HyBidGADBannerCustomEvent() <HyBidAdViewDelegate, GADMediationBannerAd>
 
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
+@property(nonatomic, weak, nullable) id<GADMediationBannerAdEventDelegate> delegate;
+@property(nonatomic, copy) HyBidGADBannerCustomEventCompletionBlock completionBlock;
 
 @end
 
 @implementation HyBidGADBannerCustomEvent
-
-@synthesize delegate;
 
 - (void)dealloc {
     self.bannerAdView = nil;
     self.adSize = nil;
 }
 
-- (void)requestBannerAd:(GADAdSize)adSize
-              parameter:(NSString * _Nullable)serverParameter
-                  label:(NSString * _Nullable)serverLabel
-                request:(nonnull GADCustomEventRequest *)request {
+- (UIView *)view {
+    return self.bannerAdView;
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    self.completionBlock = completionHandler;
+    NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGADUtils areExtrasValid:serverParameter]) {
         if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
@@ -55,11 +61,14 @@
         [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
         return;
     }
+
 }
+
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate customEventBanner:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
+    self.completionBlock(nil, [NSError errorWithDomain:message code:0 userInfo:nil]);
+    [self.delegate didFailToPresentWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 - (HyBidAdSize *)adSize {
@@ -69,7 +78,7 @@
 #pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
-    [self.delegate customEventBanner:self didReceiveAd:adView];
+    self.delegate = self.completionBlock(self, nil);
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
@@ -77,11 +86,11 @@
 }
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
-    
+    [self.delegate reportImpression];
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    [self.delegate customEventBannerWasClicked:self];
+    [self.delegate reportClick];
 }
 
 @end

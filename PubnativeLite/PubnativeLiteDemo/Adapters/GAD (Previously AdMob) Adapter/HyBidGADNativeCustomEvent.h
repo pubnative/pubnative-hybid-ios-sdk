@@ -22,9 +22,8 @@
 
 #import <Foundation/Foundation.h>
 #import <HyBid/HyBid.h>
+#import "HyBidGADBaseCustomEvent.h"
 
-@import GoogleMobileAds;
-
-@interface HyBidGADNativeCustomEvent : NSObject <GADCustomEventNativeAd>
+@interface HyBidGADNativeCustomEvent : HyBidGADBaseCustomEvent
 
 @end

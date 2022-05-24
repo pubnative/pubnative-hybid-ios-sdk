@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2022 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
-#import "HyBidGAMBaseCustomEvent.h"
 
-@interface HyBidGAMInterstitialCustomEvent : HyBidGAMBaseCustomEvent
+#import <Foundation/Foundation.h>
+
+@import GoogleMobileAds;
+
+@interface HyBidGAMBaseCustomEvent : NSObject <GADMediationAdapter>
 
 @end

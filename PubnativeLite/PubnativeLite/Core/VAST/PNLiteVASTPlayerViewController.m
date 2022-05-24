@@ -887,7 +887,7 @@ typedef enum : NSUInteger {
     
     if (self.videoAdCacheItem.vastModel) {
         self.hyBidVastModel = self.videoAdCacheItem.vastModel;
-//disabling end card as part of hotfix release 2.13.0
+//disabling end card as part of hotfix release 2.13.1
 //        [self fetchEndCards];
         
         HyBidVASTAd *firstCachedAd = [[self.hyBidVastModel ads] firstObject];
@@ -972,7 +972,7 @@ typedef enum : NSUInteger {
                     
                     NSString *mediaUrl = [HyBidVASTMediaFilePicker pick:[mediaFiles mediaFiles]].url;
                     weakSelf.hyBidVastModel = model;
-//disabling end card as part of hotfix release 2.13.0
+//disabling end card as part of hotfix release 2.13.1
 //                    [self fetchEndCards];
                         
                     if (weakSelf.hyBidVastModel.ads.count > 0) {

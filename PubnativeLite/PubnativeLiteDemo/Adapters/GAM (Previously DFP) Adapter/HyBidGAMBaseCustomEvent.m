@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2022 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,24 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
 
-@import GoogleMobileAds;
+#import "HyBidGAMBaseCustomEvent.h"
+#import "HyBidGAMUtils.h"
 
-@interface HyBidGADNativeAd : NSObject <GADMediatedUnifiedNativeAd>
+@implementation HyBidGAMBaseCustomEvent
 
-- (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithHyBidNativeAd:(HyBidNativeAd *)nativeAd
-                nativeAdViewAdOptions:(GADNativeAdViewAdOptions *)nativeAdViewAdOptions NS_DESIGNATED_INITIALIZER;
+#pragma mark - GADMediationAdapter
+
++ (GADVersionNumber)adSDKVersion {
+    return [HyBidGAMUtils adSDKVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
+    return [HyBidGAMUtils adapterVersion];
+}
+
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
+    return [HyBidGAMUtils networkExtrasClass];
+}
+
 @end

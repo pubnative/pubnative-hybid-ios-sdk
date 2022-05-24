@@ -23,23 +23,27 @@
 #import "HyBidGADInterstitialCustomEvent.h"
 #import "HyBidGADUtils.h"
 
-@interface HyBidGADInterstitialCustomEvent() <HyBidInterstitialAdDelegate>
+typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstitialCustomEventCompletionBlock)(_Nullable id<GADMediationInterstitialAd> ad,
+                                                                                                                  NSError *_Nullable error);
+
+@interface HyBidGADInterstitialCustomEvent() <HyBidInterstitialAdDelegate, GADMediationInterstitialAd>
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property(nonatomic, weak, nullable) id<GADMediationInterstitialAdEventDelegate> delegate;
+@property(nonatomic, copy) HyBidGADInterstitialCustomEventCompletionBlock completionBlock;
 
 @end
 
 @implementation HyBidGADInterstitialCustomEvent
 
-@synthesize delegate;
-
 - (void)dealloc {
     self.interstitialAd = nil;
 }
 
-- (void)requestInterstitialAdWithParameter:(NSString * _Nullable)serverParameter
-                                     label:(NSString * _Nullable)serverLabel
-                                   request:(nonnull GADCustomEventRequest *)request {
+- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+    self.completionBlock = completionHandler;
+    NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGADUtils areExtrasValid:serverParameter]) {
         if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidGADUtils zoneID:serverParameter] andWithDelegate:self];
@@ -49,31 +53,35 @@
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
         }
-        
     } else {
         [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
         return;
     }
 }
 
-- (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
-    [self.delegate customEventInterstitialWillPresent:self];
-    if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
-        [self.interstitialAd showFromViewController:rootViewController];
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+    if (self.interstitialAd.isReady) {
+        [self.delegate willPresentFullScreenView];
+        if ([self.interstitialAd respondsToSelector:@selector(showFromViewController:)]) {
+            [self.interstitialAd showFromViewController:viewController];
+        } else {
+            [self.interstitialAd show];
+        }
     } else {
-        [self.interstitialAd show];
+        [self.delegate didFailToPresentWithError:[NSError errorWithDomain:@"Ad is not ready... Please wait." code:0 userInfo:nil]];
     }
 }
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:message code:0 userInfo:nil]];
+    self.completionBlock(nil, [NSError errorWithDomain:message code:0 userInfo:nil]);
+    [self.delegate didFailToPresentWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
 }
 
 #pragma mark - HyBidInterstitialAdDelegate
 
 - (void)interstitialDidLoad {
-    [self.delegate customEventInterstitialDidReceiveAd:self];
+    self.delegate = self.completionBlock(self, nil);
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
@@ -81,16 +89,16 @@
 }
 
 - (void)interstitialDidTrackClick {
-    [self.delegate customEventInterstitialWasClicked:self];
+    [self.delegate reportClick];
 }
 
 - (void)interstitialDidTrackImpression {
-
+    [self.delegate reportImpression];
 }
 
 - (void)interstitialDidDismiss {
-    [self.delegate customEventInterstitialWillDismiss:self];
-    [self.delegate customEventInterstitialDidDismiss:self];
+    [self.delegate willDismissFullScreenView];
+    [self.delegate didDismissFullScreenView];
 }
 
 @end

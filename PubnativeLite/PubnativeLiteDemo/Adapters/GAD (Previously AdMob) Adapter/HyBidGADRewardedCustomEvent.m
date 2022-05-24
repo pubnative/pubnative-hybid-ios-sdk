@@ -27,34 +27,17 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
                                                                                                                   NSError *_Nullable error);
 
 @interface HyBidGADRewardedCustomEvent() <HyBidRewardedAdDelegate, GADMediationRewardedAd>
+
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property(nonatomic, weak, nullable) id<GADMediationRewardedAdEventDelegate> delegate;
 @property(nonatomic, copy) HyBidGADRewardedCustomEventCompletionBlock completionBlock;
+
 @end
 
 @implementation HyBidGADRewardedCustomEvent
 
 - (void)dealloc {
     self.rewardedAd = nil;
-}
-
-- (void)invokeFailWithMessage:(NSString *)message {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
-    self.completionBlock(nil, [NSError errorWithDomain:message code:0 userInfo:nil]);
-    [self.delegate didFailToPresentWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
-}
-
-- (void)presentFromViewController:(nonnull UIViewController *)viewController {
-    if (self.rewardedAd.isReady) {
-        [self.delegate willPresentFullScreenView];
-        if ([self.rewardedAd respondsToSelector:@selector(showFromViewController:)]) {
-            [self.rewardedAd showFromViewController:viewController];
-        } else {
-            [self.rewardedAd show];
-        }
-    } else {
-        [self.delegate didFailToPresentWithError:[NSError errorWithDomain:@"Ad is not ready... Please wait." code:0 userInfo:nil]];
-    }
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
@@ -76,6 +59,25 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
     }
 }
 
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+    if (self.rewardedAd.isReady) {
+        [self.delegate willPresentFullScreenView];
+        if ([self.rewardedAd respondsToSelector:@selector(showFromViewController:)]) {
+            [self.rewardedAd showFromViewController:viewController];
+        } else {
+            [self.rewardedAd show];
+        }
+    } else {
+        [self.delegate didFailToPresentWithError:[NSError errorWithDomain:@"Ad is not ready... Please wait." code:0 userInfo:nil]];
+    }
+}
+
+- (void)invokeFailWithMessage:(NSString *)message {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];
+    self.completionBlock(nil, [NSError errorWithDomain:message code:0 userInfo:nil]);
+    [self.delegate didFailToPresentWithError:[NSError errorWithDomain:message code:0 userInfo:nil]];
+}
+
 #pragma mark - HyBidRewardedAdDelegate
 
 - (void)onReward {
@@ -84,17 +86,12 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
     [self.delegate didRewardUserWithReward:reward];
 }
 
-- (void)rewardedDidDismiss {
-    [self.delegate willDismissFullScreenView];
-    [self.delegate didDismissFullScreenView];
+- (void)rewardedDidLoad {
+    self.delegate = self.completionBlock(self, nil);
 }
 
 - (void)rewardedDidFailWithError:(NSError *)error {
     [self invokeFailWithMessage:error.localizedDescription];
-}
-
-- (void)rewardedDidLoad {
-    self.delegate = self.completionBlock(self, nil);
 }
 
 - (void)rewardedDidTrackClick {
@@ -105,27 +102,9 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
     [self.delegate reportImpression];
 }
 
-#pragma mark - GADMediationAdapter
-
-// v: 2.13.0
-+ (GADVersionNumber)adSDKVersion {
-    GADVersionNumber version = {0};
-    version.majorVersion = 2;
-    version.minorVersion = 13;
-    version.patchVersion = 0;
-    return version;
-}
-
-+ (GADVersionNumber)adapterVersion {
-    GADVersionNumber version = {0};
-    version.majorVersion = 2;
-    version.minorVersion = 13;
-    version.patchVersion = 0;
-    return version;
-}
-
-+ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-    return nil;
+- (void)rewardedDidDismiss {
+    [self.delegate willDismissFullScreenView];
+    [self.delegate didDismissFullScreenView];
 }
 
 @end

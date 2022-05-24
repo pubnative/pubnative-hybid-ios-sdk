@@ -58,4 +58,25 @@ NSString *const HyBidGADAdapterKeyAppToken = @"pn_app_token";
     return result;
 }
 
+// v: 2.13.1
++ (GADVersionNumber)adSDKVersion {
+    GADVersionNumber version = {0};
+    version.majorVersion = 2;
+    version.minorVersion = 13;
+    version.patchVersion = 1;
+    return version;
+}
+
++ (GADVersionNumber)adapterVersion {
+    GADVersionNumber version = {0};
+    version.majorVersion = 2;
+    version.minorVersion = 13;
+    version.patchVersion = 1;
+    return version;
+}
+
++ (Class<GADAdNetworkExtras>)networkExtrasClass {
+    return nil;
+}
+
 @end

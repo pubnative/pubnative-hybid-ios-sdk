@@ -22,10 +22,9 @@
 
 #import <Foundation/Foundation.h>
 #import <HyBid/HyBid.h>
+#import "HyBidGADBaseCustomEvent.h"
 
-@import GoogleMobileAds;
-
-@interface HyBidGADBannerCustomEvent : NSObject <GADCustomEventBanner>
+@interface HyBidGADBannerCustomEvent : HyBidGADBaseCustomEvent
 
 @property (nonatomic, strong) HyBidAdSize *adSize;
 
