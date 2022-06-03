@@ -40,11 +40,11 @@
 }
 
 - (NSString *)networkSDKVersion {
-    return @"2.13.1";
+    return @"2.14.0-beta1";
 }
 
 - (NSString *)adapterVersion {
-    return @"2.13.1.0";
+    return @"2.14.0-beta1.0";
 }
 
 + (NSString *)ISVerveAdapterKeyMediationVendor

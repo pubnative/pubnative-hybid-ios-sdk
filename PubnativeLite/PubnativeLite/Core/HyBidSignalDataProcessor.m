@@ -60,7 +60,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:&parseError];
     if (parseError) {
-        [self invokeDidFail:parseError];
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:parseError.localizedDescription];
         return nil;
     } else {
         return jsonDictonary;
@@ -77,13 +77,17 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         } else if ([HyBidSignalDataResponseOK isEqualToString: self.signalDataModel.status] || [HyBidSignalDataResponseSuccess isEqualToString: self.signalDataModel.status]) {
             if (self.signalDataModel.admurl && self.signalDataModel.admurl.length != 0) {
                 [[PNLiteHttpRequest alloc] startWithUrlString:self.signalDataModel.admurl withMethod:@"GET" delegate:self];
+            } else if (self.signalDataModel.adm) {
+                [self processResponse:self.signalDataModel.adm];
             } else {
-                [self invokeDidFail:[NSError hyBidInvalidUrl]];
+                [self invokeDidFail:[NSError hyBidInvalidSignalData]];
             }
         } else {
             NSError *responseError = [NSError hyBidInvalidSignalData];
             [self invokeDidFail:responseError];
         }
+    } else {
+        [self invokeDidFail:[NSError hyBidInvalidSignalData]];
     }
 }
 
@@ -102,57 +106,52 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
     self.delegate = nil;
 }
 
-- (void)processResponseWithData:(NSData *)data {
-    NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
-    if (jsonDictonary) {
-        PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
-        
-        if(!response) {
-            NSError *error = [NSError hyBidParseError];
-            [self invokeDidFail:error];
-        } else if ([HyBidSignalDataResponseOK isEqualToString:response.status]) {
-            NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
-            for (HyBidAdModel *adModel in response.ads) {
-                HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID: self.signalDataModel.tagid];
+- (void)processResponse:(PNLiteResponseModel *)response {
+    if(!response) {
+        NSError *error = [NSError hyBidParseError];
+        [self invokeDidFail:error];
+    } else if ([HyBidSignalDataResponseOK isEqualToString:response.status]) {
+        NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
+        for (HyBidAdModel *adModel in response.ads) {
+            HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID: self.signalDataModel.tagid];
                 
-                [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID: self.signalDataModel.tagid];
-                [responseAdArray addObject:ad];
-                switch (ad.assetGroupID.integerValue) {
-                    case VAST_INTERSTITIAL:
-                    case VAST_MRECT: {
-                        HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-                        [videoAdProcessor processVASTString:ad.vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
-                            if (!vastModel) {
-                                [self invokeDidFail:error];
-                            } else {
-                                HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
-                                videoAdCacheItem.vastModel = vastModel;
-                                [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID: self.signalDataModel.tagid];
-                                [self invokeDidLoad:ad];
-                            }
-                        }];
-                        break;
-                    }
-                    default:
-                        if (responseAdArray.count > 0) {
-                            [self invokeDidLoad:responseAdArray.firstObject];
-                        } else {
-                            NSError *error = [NSError hyBidNoFill];
+            [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID: self.signalDataModel.tagid];
+            [responseAdArray addObject:ad];
+            switch (ad.assetGroupID.integerValue) {
+                case VAST_INTERSTITIAL:
+                case VAST_MRECT: {
+                    HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
+                    [videoAdProcessor processVASTString:ad.vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
+                        if (!vastModel) {
                             [self invokeDidFail:error];
+                        } else {
+                            HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
+                            videoAdCacheItem.vastModel = vastModel;
+                            [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID: self.signalDataModel.tagid];
+                            [self invokeDidLoad:ad];
                         }
-                        break;
+                    }];
+                    break;
                 }
+                default:
+                    if (responseAdArray.count > 0) {
+                        [self invokeDidLoad:responseAdArray.firstObject];
+                    } else {
+                        NSError *error = [NSError hyBidNoFill];
+                        [self invokeDidFail:error];
+                    }
+                    break;
             }
-            
-            if (responseAdArray.count <= 0) {
-                NSError *error = [NSError hyBidNoFill];
-                [self invokeDidFail:error];
-            }
-            
-        } else {
-            NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
-            [self invokeDidFail:responseError];
         }
+            
+        if (responseAdArray.count <= 0) {
+            NSError *error = [NSError hyBidNoFill];
+            [self invokeDidFail:error];
+        }
+            
+    } else {
+        NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
+        [self invokeDidFail:responseError];
     }
 }
 
@@ -168,7 +167,14 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         } else {
                 responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
         }
-        [self processResponseWithData:data];
+        
+        NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
+        if (jsonDictonary) {
+            PNLiteResponseModel *response = [[PNLiteResponseModel alloc] initWithDictionary:jsonDictonary];
+            [self processResponse:response];
+        } else {
+            [self invokeDidFail: [NSError hyBidInvalidSignalData]];
+        }
     } else {
         [self invokeDidFail:[NSError hyBidServerError]];
     }

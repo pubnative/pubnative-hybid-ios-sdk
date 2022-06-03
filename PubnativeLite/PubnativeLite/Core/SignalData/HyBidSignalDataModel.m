@@ -28,6 +28,7 @@
     self.status = nil;
     self.tagid = nil;
     self.admurl = nil;
+    self.adm = nil;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
@@ -36,6 +37,7 @@
         self.status = dictionary[@"status"];
         self.tagid = dictionary[@"tagid"];
         self.admurl = dictionary[@"admurl"];
+        self.adm = [[PNLiteResponseModel alloc] initWithDictionary:dictionary[@"adm"]];
     }
     return self;
 }

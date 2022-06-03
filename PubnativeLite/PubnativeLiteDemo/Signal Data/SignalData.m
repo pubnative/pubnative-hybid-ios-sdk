@@ -28,7 +28,7 @@
 - (instancetype)initWithSignalDataText:(NSString *)signalDataText withAdPlacement:(NSNumber *)placement {
     self = [super init];
     if (self) {
-        self.text = [signalDataText unescapeString:signalDataText];
+        self.text = signalDataText;
         self.placement = placement;
     }
     return self;

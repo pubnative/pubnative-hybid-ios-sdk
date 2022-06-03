@@ -53,7 +53,7 @@ NSString *const PNLiteGAMAdapterKeyZoneID = @"pn_zone_id";
     return result;
 }
 
-// v: 2.13.1
+// v: 2.14.0-beta1
 + (GADVersionNumber)adSDKVersion {
     GADVersionNumber version = {0};
     version.majorVersion = 2;
