@@ -21,17 +21,30 @@
 //
 
 #import "HyBidMarkupUtils.h"
+#import "HyBidError.h"
+#import "HyBidVASTModel.h"
 
 @implementation HyBidMarkupUtils
 
-+ (BOOL)isVastXml:(NSString*) adContent {
-    NSError* error = NULL;
++ (void)isVastXml:(NSString*) adContent completion:(isVASTXmlCompletionBlock)block {    NSError* error = NULL;
     NSRegularExpression* regexUppercase = [NSRegularExpression regularExpressionWithPattern:@"(<VAST[\\s\\S]*?>)[\\s\\S]*<\\/VAST>" options:NSRegularExpressionCaseInsensitive error:&error];
     NSRegularExpression* regexLowercase = [NSRegularExpression regularExpressionWithPattern:@"(<vast[\\s\\S]*?>)[\\s\\S]*<\\/vast>" options:NSRegularExpressionCaseInsensitive error:&error];
     
     NSTextCheckingResult *upperCaseMatch = [regexUppercase firstMatchInString:adContent options:0 range:NSMakeRange(0, [adContent length])];
     NSTextCheckingResult *lowerCaseMatch = [regexLowercase firstMatchInString:adContent options:0 range:NSMakeRange(0, [adContent length])];
     
-    return upperCaseMatch || lowerCaseMatch;
+    HyBidVASTModel *localVASTModel = [[HyBidVASTModel alloc] initWithData:[adContent dataUsingEncoding:NSUTF8StringEncoding]];
+
+        // Check if contains VAST
+        if (upperCaseMatch || lowerCaseMatch) {
+            if ([[localVASTModel ads] count] > 0) {
+                // Check if ads count > 0
+                block([[localVASTModel ads] count] > 0, nil);
+            } else {
+                block([[localVASTModel ads] count] > 0, [NSError hyBidNullAd]);
+            }
+        } else {
+            block(NO, nil);
+        }
 }
 @end

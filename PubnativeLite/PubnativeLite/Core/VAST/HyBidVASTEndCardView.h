@@ -33,7 +33,7 @@
 
 @end
 
-@interface HyBidVASTEndCardViewController : UIViewController
+@interface HyBidVASTEndCardView : UIView
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -41,8 +41,10 @@
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate;
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController: (UIViewController*) viewController isInterstitial: (BOOL) isInterstitial;
 
-- (void)displayEndCard:(HyBidVASTEndCard *)endCard;
+- (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
+
+- (void)setupUI;
 
 @end

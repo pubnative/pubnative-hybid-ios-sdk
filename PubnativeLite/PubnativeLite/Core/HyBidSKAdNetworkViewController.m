@@ -42,4 +42,14 @@
     }];
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate {
+  UIInterfaceOrientationMask applicationSupportedOrientations = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:[[UIApplication sharedApplication] keyWindow]];
+  UIInterfaceOrientationMask viewControllerSupportedOrientations = [self supportedInterfaceOrientations];
+  return viewControllerSupportedOrientations & applicationSupportedOrientations;
+}
+
 @end

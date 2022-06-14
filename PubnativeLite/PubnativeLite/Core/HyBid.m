@@ -108,6 +108,11 @@ BOOL isInitialized = NO;
     [HyBidSettings sharedInstance].endCardCloseOffset = seconds;
 }
 
++ (void)setShowEndCard:(BOOL)showEndCard
+{
+    [HyBidSettings sharedInstance].showEndCard = showEndCard;
+}
+
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
     [HyBidSettings sharedInstance].closeOnFinish = closeOnFinish;
     [HyBidSettings sharedInstance].isCloseOnFinishSet = YES;

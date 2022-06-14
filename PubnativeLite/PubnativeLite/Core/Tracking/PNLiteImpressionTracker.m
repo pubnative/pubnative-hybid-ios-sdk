@@ -91,7 +91,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kPNImpressionCheckPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if(!self.delegate) {
                 [self clear];
-            } else if(self.visibleViews && self.visibleViews.count > 0) {
+            } else if (self.trackedViews && self.trackedViews.count > 0) {
                 [self checkVisibility];
             }
         });
