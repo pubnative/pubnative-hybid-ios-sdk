@@ -75,8 +75,10 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
         PNLiteVisibilityTrackerItem *item = [[PNLiteVisibilityTrackerItem alloc] init];
         item.view = view;
         item.minVisibility = minVisibility;
-        [self.trackedItems addObject:item];
-        [self scheduleVisibilityCheck];
+        if (self.trackedItems) {
+            [self.trackedItems addObject:item];
+            [self scheduleVisibilityCheck];
+        }
     }
 }
 
@@ -86,7 +88,9 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 - (void)clear {
     self.isValid = NO;
-    [self.trackedItems removeAllObjects];
+    if (self.trackedItems) {
+        [self.trackedItems removeAllObjects];
+    }
     self.isVisibilityScheduled = NO;
 }
 
@@ -98,11 +102,13 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 
 - (NSInteger)indexOfView:(UIView*)view {
     NSInteger result = -1;
-    for (int i = 0; i < self.trackedItems.count; i++) {
-        PNLiteVisibilityTrackerItem *item = self.trackedItems[i];
-        if (item != nil && view == item.view) {
-            result = i;
-            break;
+    if (self.trackedItems) {
+        for (int i = 0; i < self.trackedItems.count; i++) {
+            PNLiteVisibilityTrackerItem *item = self.trackedItems[i];
+            if (item != nil && view == item.view) {
+                result = i;
+                break;
+            }
         }
     }
     return result;
@@ -120,37 +126,42 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 }
 
 - (void)checkVisibility {
-    for (PNLiteVisibilityTrackerItem *item in self.trackedItems) {
-        // For safety we need to ensure that the view being tracked wasn't removed, in which case we stop tracking It
-        if (item != nil) {
-            if (!item.view || !item.view.superview) {
-                [self.removedItems addObject:item];
-            } else if (![self.removedItems containsObject:item]) {
-                if([self isVisibleView:item.view]
-                   && [self view:item.view visibleWithMinPercent:item.minVisibility]) {
-                    [self.visibleViews addObject:item.view];
-                } else {
-                    [self.invisibleViews addObject:item.view];
+    if (self.trackedItems && self.visibleViews && self.invisibleViews) {
+        for (int i = 0; i < [self.trackedItems count]; i++) {
+            PNLiteVisibilityTrackerItem *item = [self.trackedItems objectAtIndex: i];
+            // For safety we need to ensure that the view being tracked wasn't removed, in which case we stop tracking It
+            if (item != nil) {
+                if (!item.view || !item.view.superview) {
+                    [self.removedItems addObject:item];
+                } else if (![self.removedItems containsObject:item]) {
+                    if([self isVisibleView:item.view]
+                       && [self view:item.view visibleWithMinPercent:item.minVisibility]) {
+                        [self.visibleViews addObject:item.view];
+                    } else {
+                        [self.invisibleViews addObject:item.view];
+                    }
                 }
             }
         }
-    }
     
-    // We clear up all removed views
-    for (PNLiteVisibilityTrackerItem *item in self.removedItems) {
-        
-        if(item != nil) {
-            [self.trackedItems removeObject:item];
+    
+        // We clear up all removed views
+        for (int i = 0; i < [self.removedItems count]; i++) {
+            PNLiteVisibilityTrackerItem *item = [self.removedItems objectAtIndex: i];
+            
+            if(item != nil) {
+                [self.trackedItems removeObject:item];
+            }
         }
+        [self.removedItems removeAllObjects];
+        
+        [self invokeCheckVisibiltyWithVisibleViews:self.visibleViews andWithInvisibleViews:self.invisibleViews];
+        [self.visibleViews removeAllObjects];
+        [self.invisibleViews removeAllObjects];
+        
+        self.isVisibilityScheduled = NO;
+        [self scheduleVisibilityCheck];
     }
-    [self.removedItems removeAllObjects];
-    
-    [self invokeCheckVisibiltyWithVisibleViews:self.visibleViews andWithInvisibleViews:self.invisibleViews];
-    [self.visibleViews removeAllObjects];
-    [self.invisibleViews removeAllObjects];
-    
-    self.isVisibilityScheduled = NO;
-    [self scheduleVisibilityCheck];
 }
 
 #pragma mark Visibility Helpers

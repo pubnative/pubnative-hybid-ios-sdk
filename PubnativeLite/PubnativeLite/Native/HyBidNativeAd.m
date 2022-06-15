@@ -298,9 +298,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         if(!self.tapRecognizer) {
             self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         }
-        for (UIView *clickableView in self.clickableViews) {
-            clickableView.userInteractionEnabled=YES;
-            [clickableView addGestureRecognizer:self.tapRecognizer];
+        for (int i = 0; i < [self.clickableViews count]; i++) {
+            UIView *clickableView = [self.clickableViews objectAtIndex: i];
+            clickableView.userInteractionEnabled = YES;
+            [clickableView addGestureRecognizer: self.tapRecognizer];
         }
     }
 }
@@ -320,8 +321,11 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)stopTrackingClicks {
-    for (UIView *view in self.clickableViews) {
-        [view removeGestureRecognizer:self.tapRecognizer];
+    if (self.clickableViews) {
+        for (int i = 0; i < [self.clickableViews count]; i++) {
+            UIView *view = [self.clickableViews objectAtIndex: i];
+            [view removeGestureRecognizer:self.tapRecognizer];
+        }
     }
 }
 
