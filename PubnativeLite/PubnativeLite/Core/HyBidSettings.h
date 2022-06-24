@@ -46,6 +46,7 @@ typedef enum {
 @property (nonatomic, assign) NSInteger videoSkipOffset;
 @property (nonatomic, assign) NSInteger htmlSkipOffset;
 @property (nonatomic, assign) NSNumber *endCardCloseOffset;
+@property (nonatomic, assign) BOOL showEndCard;
 @property (nonatomic, assign) HyBidInterstitialActionBehaviour interstitialActionBehaviour;
 
 @property (nonatomic, assign) BOOL closeOnFinish;

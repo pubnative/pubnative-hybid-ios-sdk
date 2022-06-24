@@ -20,7 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidVASTEndCardViewController.h"
+#import "PNLiteMRAIDUtil.h"
+#import "HyBidVASTEndCardView.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "HyBid.h"
 #import "HyBidVASTEndCardCloseIcon.h"
@@ -30,8 +31,9 @@
 #import <WebKit/WebKit.h>
 
 #define kCloseButtonSize 26
+#define kContentInfoContainerTag 2343
 
-@interface HyBidVASTEndCardViewController () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, UIGestureRecognizerDelegate>
+@interface HyBidVASTEndCardView () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIImageView *endCardImageView;
 
@@ -47,30 +49,30 @@
 
 @property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
 
+@property (nonatomic, strong) UIViewController *rootViewController;
+
+@property (nonatomic, assign) BOOL isInterstitial;
+
 @end
 
-@implementation HyBidVASTEndCardViewController
+@implementation HyBidVASTEndCardView
 
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController: (UIViewController*) viewController isInterstitial: (BOOL) isInterstitial
 {
     self = [super init];
     if (self) {
         self.delegate = delegate;
+        self.rootViewController = viewController;
+        self.isInterstitial = isInterstitial;
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
-        [self.view setFrame:[UIScreen.mainScreen bounds]];
+        [self setFrame: self.rootViewController.view.bounds];
     }
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [self setupUI];
-}
-
 - (void)setupUI
 {
-    [self.view setBackgroundColor:[UIColor blackColor]];
+    if (!self.isInterstitial) {return;}
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, [[HyBidSettings sharedInstance].endCardCloseOffset integerValue] * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self addCloseButton];
     });
@@ -87,8 +89,7 @@
                                         freeWhenDone:NO];
     UIImage *closeButtonImage = [UIImage imageWithData:buttonData];
     [self.closeButton setBackgroundImage:closeButtonImage forState:UIControlStateNormal];
-    
-    [self.view addSubview:self.closeButton];
+    [self.rootViewController.view addSubview:self.closeButton];
     
     self.closeButton.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[
@@ -98,36 +99,51 @@
 
     if (@available(iOS 11.0, *)) {
         [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
         ]];
     } else {
         [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
         ]];
     }
+    [self.rootViewController.view bringSubviewToFront:self.closeButton];
 }
 
 - (void)close
 {
-    [self dismissViewControllerAnimated:NO completion:^{
+    [self.rootViewController dismissViewControllerAnimated:NO completion:^{
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
         [self.delegate vastEndCardCloseButtonTapped];
     }];
 }
 
-- (void)displayEndCard:(HyBidVASTEndCard *)endCard
+- (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController
 {
     self.endCard = endCard;
     [self.vastEventProcessor setCustomEvents:[[endCard events] events]];
-    
     if ([endCard type] == HyBidEndCardType_STATIC) {
-        [self displayImageViewWithURL:[endCard content]];
+        [self displayImageViewWithURL:[endCard content] withView:viewController.view];
     } else if ([endCard type] == HyBidEndCardType_IFRAME) {
         [self displayMRAIDWithContent:@"" withBaseURL:[[NSURL alloc] initWithString:[endCard content]]];
     } else if ([endCard type] == HyBidEndCardType_HTML) {
         [self displayMRAIDWithContent:[endCard content] withBaseURL:nil];
+    }
+    // Start monitoring device orientation so we can reset max Size and screenSize if needed.
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(deviceOrientationDidChange:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+}
+
+- (void)displayContentInfoContainer
+{
+    for (UIView* subview in self.rootViewController.view.subviews) {
+        if (subview.tag == kContentInfoContainerTag) {
+            [self.rootViewController.view bringSubviewToFront:subview];
+        }
     }
 }
 
@@ -136,15 +152,16 @@
     [self.endCardImageView removeFromSuperview];
     self.endCardImageView = nil;
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
+    
     self.mraidView = [[HyBidMRAIDView alloc]
-            initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
+            initWithFrame:CGRectMake(0, 0, self.rootViewController.view.frame.size.width +1, self.rootViewController.view.frame.size.height +1)
             withHtmlData:content
             withBaseURL:baseURL
             supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
-            isInterstital:YES
+            isInterstital:NO
             delegate:self
             serviceDelegate:self
-            rootViewController:self
+            rootViewController:self.rootViewController
             contentInfo:nil
             skipOffset:[HyBidSettings sharedInstance].endCardCloseOffset.integerValue];
     
@@ -155,7 +172,7 @@
     }
 }
 
-- (void)displayImageViewWithURL:(NSString *)url
+- (void)displayImageViewWithURL:(NSString *)url withView:(UIView *)view
 {
     [self.mraidView removeFromSuperview];
     self.mraidView = nil;
@@ -163,18 +180,19 @@
     [self downloadImageWithURL:[NSURL URLWithString:url] completionBlock:^(BOOL succeeded, UIImage *image) {
         if (succeeded && image != nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.endCardImageView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+                self.endCardImageView = [[UIImageView alloc] initWithFrame: self.bounds];
+                self.endCardImageView.backgroundColor = UIColor.blackColor;
                 [self.endCardImageView setUserInteractionEnabled: YES];
-                
                 [self addTapRecognizerToView:self.endCardImageView];
-                
                 [self.endCardImageView setImage:image];
                 [self.endCardImageView setContentMode:UIViewContentModeScaleAspectFit];
-                [self.view addSubview:self.endCardImageView];
-                [self.view sendSubviewToBack:self.endCardImageView];
+                [view addSubview:self.endCardImageView];
                 [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_creativeView];
             });
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayContentInfoContainer];
+        });
     }];
 }
 
@@ -217,9 +235,41 @@
 
 #pragma mark HyBidMRAIDViewDelegate
 
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    @synchronized (self) {
+        if (!self.isInterstitial) {return;}
+        CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+        // screenSize is ALWAYS for portrait orientation, so we need to figure out the
+        // actual interface orientation to get the correct current screenRect.
+        UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
+        
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            screenSize = CGSizeMake(screenSize.width, screenSize.height);
+        } else {
+            if (isLandscape) {
+                screenSize = CGSizeMake(screenSize.height, screenSize.width);
+            }
+        }
+        if (self.mraidView != nil) {
+            self.mraidView.center = CGPointMake(screenSize.width / 2, screenSize.height / 2);
+        }
+        if (self.endCardImageView != nil) {
+            self.endCardImageView.frame = CGRectMake(self.endCardImageView.frame.origin.x, self.endCardImageView.frame.origin.y, screenSize.width, screenSize.height);
+        }
+    }
+        
+}
+
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did load."];
-    [self.mraidView showAsInterstitial];
+    self.mraidView.center = CGPointMake(self.frame.size.width  / 2,
+                                self.frame.size.height / 2);
+    self.mraidView = mraidView;
+    [self addSubview:mraidView];
+    [self displayContentInfoContainer];
+
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_creativeView];
 }
 
@@ -239,11 +289,6 @@
     }
     
     [self close];
-}
-
-- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
-    [self.serviceProvider openBrowser:url.absoluteString];
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {

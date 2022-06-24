@@ -124,6 +124,9 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                             [cell.toggleSwitch setOn: [HyBidSettings sharedInstance].closeOnFinish];
                             break;
                         }
+                        case 4: // Show EndCard
+                            [cell.toggleSwitch setOn:[HyBidSettings sharedInstance].showEndCard];
+                            break;
                     }
                 }
             }
@@ -217,7 +220,8 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             @{ @"HTML/MRAID Skip Offset":       @(TEXT_FIELD) },
             @{ @"Video Skip Offset":            @(TEXT_FIELD) },
             @{ @"EndCard Close Offset":         @(TEXT_FIELD) },
-            @{ @"Close after finish": @(SWITCH) }
+            @{ @"Close after finish":           @(SWITCH) },
+            @{ @"Show EndCard":                 @(SWITCH) }
         ],
         @"Fullscreen": @[
             @{ @"Click behaviour": @(SEGMENTED_CONTROL) }
@@ -258,6 +262,10 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             switch (indexPath.row) {
                 case 3: { // Close interstitial on finish
                     [HyBid setInterstitialCloseOnFinish:isON];
+                    break;
+                }
+                case 4: { // Show EndCard
+                    [[HyBidSettings sharedInstance] setShowEndCard:isON];
                     break;
                 }
             }

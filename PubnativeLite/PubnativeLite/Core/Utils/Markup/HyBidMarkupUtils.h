@@ -22,8 +22,10 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^isVASTXmlCompletionBlock)(BOOL isVAST, NSError *error);
+
 @interface HyBidMarkupUtils : NSObject
 
-+ (BOOL)isVastXml:(NSString*) adContent;
++ (void)isVastXml:(NSString*) adContent completion:(isVASTXmlCompletionBlock)block;
 
 @end

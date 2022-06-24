@@ -21,28 +21,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HyBidMRAIDView.h"
-#import "HyBidVASTEndCard.h"
-#import "HyBidVASTEventProcessor.h"
+#import "PNLiteDemoBaseViewController.h"
 
-@protocol HyBidVASTEndCardViewControllerDelegate<NSObject>
-
-- (void)vastEndCardCloseButtonTapped;
-
-- (void)vastEndCardTapped;
-
-@end
-
-@interface HyBidVASTEndCardViewController : UIViewController
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
-
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate;
-
-- (void)displayEndCard:(HyBidVASTEndCard *)endCard;
+@interface PNLiteDemoCreativeTesterViewController : PNLiteDemoBaseViewController
 
 @end

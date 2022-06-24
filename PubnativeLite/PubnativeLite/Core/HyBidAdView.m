@@ -305,8 +305,9 @@
 - (void)setupAdView:(UIView *)adView {
     if (self.bannerPosition == BANNER_POSITION_UNKNOWN) {
         [self addSubview:adView];
-        adView.center = CGPointMake(self.frame.size.width  / 2,
-                                    self.frame.size.height / 2);
+        adView.translatesAutoresizingMaskIntoConstraints = false;
+        [self centerView:adView inContainerView:self withSuperView:self];
+        [self sizeView:adView withSuperView:self withAdSize:self.adSize];
     } else {
         [self show:adView withPosition:self.bannerPosition];
     }
@@ -554,4 +555,44 @@
     [self.delegate adView:self didFailWithError:error];
 }
 
+#pragma mark - Utils
+
+- (void)centerView:(UIView *)view inContainerView:(UIView *)containerView withSuperView:(UIView *)superView
+{
+    [superView addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:containerView
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    
+    [superView addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:containerView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+}
+
+- (void)sizeView:(UIView *)view withSuperView:(UIView *)superView withAdSize:(HyBidAdSize *)adSize
+{
+    [superView addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                       attribute:NSLayoutAttributeHeight
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:nil
+                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                      multiplier:1.0
+                                                        constant:adSize.height]];
+    [superView addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                       attribute:NSLayoutAttributeWidth
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:nil
+                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                      multiplier:1.0
+                                                        constant:adSize.width]];
+}
+
 @end
+

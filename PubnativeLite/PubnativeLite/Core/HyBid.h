@@ -136,6 +136,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setVideoInterstitialSkipOffset:(NSInteger)seconds;
 + (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds;
 + (void)setEndCardCloseOffset:(NSNumber *)seconds;
++ (void)setShowEndCard:(BOOL)showEndCard;
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish;
 + (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)actionBehaviour;
 + (HyBidReportingManager *)reportingManager;

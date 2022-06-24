@@ -25,6 +25,8 @@
 
 @interface HyBidVASTModel : NSObject
 
+- (instancetype)initWithData:(NSData *)data;
+
 /**
  A string that identifies the version of VAST.
  */

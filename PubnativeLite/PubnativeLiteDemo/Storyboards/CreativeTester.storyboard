@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Lite Demo Creative Tester View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="PNLiteDemoCreativeTesterViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter Creative ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gtg-is-lyQ">
+                                <rect key="frame" x="16" y="78" width="382" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Vyn-qt-3oy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dNO-Gb-qkh">
+                                <rect key="frame" x="16" y="144" width="382" height="140"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="B3T-yP-DO7"/>
+                                </constraints>
+                                <string key="text">1 - Banner
+
+2 - Medium
+
+3 - Leaderboard
+
+4 - Interstitial</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Fzc-Rc-cPE">
+                                <rect key="frame" x="16" y="345" width="382" height="32"/>
+                                <segments>
+                                    <segment title="1"/>
+                                    <segment title="2"/>
+                                    <segment title="3"/>
+                                    <segment title="4"/>
+                                </segments>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad Size:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7r-ST-zNc">
+                                <rect key="frame" x="16" y="316" width="382" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CD6-xq-kbM">
+                                <rect key="frame" x="16" y="400" width="382" height="50"/>
+                                <color key="backgroundColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="hqB-S5-H7I"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="LOAD">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="loadButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="lmO-ol-nHt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="CD6-xq-kbM" secondAttribute="trailing" constant="16" id="1YQ-yn-R0x"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="X7r-ST-zNc" secondAttribute="trailing" constant="16" id="8bg-5Q-EsP"/>
+                            <constraint firstItem="dNO-Gb-qkh" firstAttribute="top" secondItem="Gtg-is-lyQ" secondAttribute="bottom" constant="16" id="DnY-hS-7cg"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Gtg-is-lyQ" secondAttribute="trailing" constant="16" id="FtB-gB-l9d"/>
+                            <constraint firstItem="Fzc-Rc-cPE" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="HQ7-UG-k5l"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="dNO-Gb-qkh" secondAttribute="trailing" constant="16" id="K0p-32-mhZ"/>
+                            <constraint firstItem="CD6-xq-kbM" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="NWt-jR-4BS"/>
+                            <constraint firstItem="CD6-xq-kbM" firstAttribute="top" secondItem="Fzc-Rc-cPE" secondAttribute="bottom" constant="24" id="WmP-Q0-LQn"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Fzc-Rc-cPE" secondAttribute="trailing" constant="16" id="bqS-6K-CMy"/>
+                            <constraint firstItem="dNO-Gb-qkh" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="d0X-Ua-1Cp"/>
+                            <constraint firstItem="Fzc-Rc-cPE" firstAttribute="top" secondItem="X7r-ST-zNc" secondAttribute="bottom" constant="8" id="gBF-oh-Pda"/>
+                            <constraint firstItem="Gtg-is-lyQ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="jC8-Ve-M4h"/>
+                            <constraint firstItem="X7r-ST-zNc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="jNh-at-KED"/>
+                            <constraint firstItem="Gtg-is-lyQ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="34" id="uis-am-cd4"/>
+                            <constraint firstItem="X7r-ST-zNc" firstAttribute="top" secondItem="dNO-Gb-qkh" secondAttribute="bottom" constant="32" id="viy-Tb-0KH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="adSizeSegmentedControl" destination="Fzc-Rc-cPE" id="R3Y-pn-XOz"/>
+                        <outlet property="creativeIdTextField" destination="Gtg-is-lyQ" id="oB9-BI-Ygr"/>
+                        <outlet property="loadButton" destination="CD6-xq-kbM" id="v8J-fv-tdH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="106.47321428571428"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

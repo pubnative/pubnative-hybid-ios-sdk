@@ -24,6 +24,7 @@
 #import "PNLiteVASTXMLUtil.h"
 #import "HyBidVASTModel.h"
 #import "HyBidVASTSchema.h"
+#import "HyBidXMLEx.h"
 
 NSInteger const HyBidVASTModel_MaxRecursiveDepth = 5;
 BOOL const HyBidVASTModel_ValidateWithSchema = NO;
@@ -84,8 +85,26 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     NSString *vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
     
     // having XML namespace in the XML causes parsing issues
-    // therefore we are replacing `xmlns` with `hybid`
-    NSString *newXmlString = [vastDataString stringByReplacingOccurrencesOfString:@"xmlns=" withString:@"hybid="];
+    // therefore we are replacing the starting <VAST> line
+    NSString *regexExp = @"<VAST .*?>";
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexExp options:NSRegularExpressionCaseInsensitive error:&error];
+    NSTextCheckingResult *match = [regex firstMatchInString:vastDataString options:0 range: NSMakeRange(0, [vastDataString length])];
+    
+    NSString *newXmlString = vastDataString;
+    
+    if ([match numberOfRanges] > 0) {
+        NSString *matchedString = [vastDataString substringWithRange:[match rangeAtIndex:0]];
+        
+        HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:vastDataString];
+        NSString *vastVersion = [[parser rootElement] attribute:@"version"];
+        
+        if (vastVersion != nil) {
+            NSString *customVASTLine = [[NSString alloc] initWithFormat: @"<VAST version=\"%@\">", vastVersion];
+            newXmlString = [vastDataString stringByReplacingOccurrencesOfString:matchedString withString:customVASTLine options:0 range:NSMakeRange(0, [vastDataString length])];
+        }
+    }
+    
     vastData = [newXmlString dataUsingEncoding:NSUTF8StringEncoding];
     
     if (depth >= HyBidVASTModel_MaxRecursiveDepth) {
@@ -134,6 +153,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
             if ([childArray count] > 0) {
                 // we assume that there's only one element in the array
                 url = ((NSDictionary *)childArray[0])[@"nodeContent"];
+                url = [url stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             }
         }
         

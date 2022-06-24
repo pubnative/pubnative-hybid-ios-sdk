@@ -1,5 +1,5 @@
 PODS:
-  - AppLovinSDK (11.3.3)
+  - AppLovinSDK (11.4.0)
   - Firebase/CoreOnly (8.13.0):
     - FirebaseCore (= 8.13.0)
   - Firebase/Crashlytics (8.13.0):
@@ -246,7 +246,7 @@ PODS:
   - PromisesObjC (2.0.0)
 
 DEPENDENCIES:
-  - AppLovinSDK (= 11.3.3)
+  - AppLovinSDK (= 11.4.0)
   - Firebase/Crashlytics (= 8.13.0)
   - Firebase/Performance (= 8.13.0)
   - FLEX (= 4.7.0)
@@ -281,7 +281,7 @@ SPEC REPOS:
     - PromisesObjC
 
 SPEC CHECKSUMS:
-  AppLovinSDK: 6ed446d284d8852520a786ad5a91796f1730c3f3
+  AppLovinSDK: 8dfc693ddd022917c297bb444fbd20842cd303be
   Firebase: ee9b1d9b1801371e29f5591eda89eb5a314ab599
   FirebaseABTesting: c390fb900b9dd6e9c04888e34dda8e9e84b07195
   FirebaseCore: c7e3fa30492e50ccdeef280bf0d5584af38da3e1
@@ -305,6 +305,6 @@ SPEC CHECKSUMS:
   OCMockito: 2c9acfc293609bf2ded4c4de4ac10a8629303976
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
 
-PODFILE CHECKSUM: 1138b7a50ec527be747a3163d1979d91cb9d40fc
+PODFILE CHECKSUM: ab7f9c290ead8d05f082ac9524fcbc4fee4e217c
 
 COCOAPODS: 1.11.3

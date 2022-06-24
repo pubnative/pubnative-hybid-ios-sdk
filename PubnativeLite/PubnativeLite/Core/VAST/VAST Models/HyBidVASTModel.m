@@ -34,6 +34,14 @@
 
 @implementation HyBidVASTModel
 
+- (instancetype)initWithData:(NSData *)data {
+    self = [super init];
+    if (self) {
+        [self addVASTDocument:data];
+    }
+    return self;
+}
+
 - (NSString *)version
 {
     return [[self.parser rootElement] attribute:@"version"];

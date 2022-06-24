@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,31 @@
 //  THE SOFTWARE.
 //
 
-#ifndef HyBidConstants_h
-#define HyBidConstants_h
+#import <UIKit/UIKit.h>
+#import "HyBidMRAIDView.h"
+#import "HyBidVASTEndCard.h"
+#import "HyBidVASTEventProcessor.h"
 
-#define HYBID_SDK_NAME @"HyBid"
-#define HYBID_SDK_VERSION @"2.14.0"
-#define HYBID_OMSDK_VERSION @"1.3.29"
-#define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
+@protocol HyBidVASTEndCardViewControllerDelegate<NSObject>
 
-#endif
+- (void)vastEndCardCloseButtonTapped;
+
+- (void)vastEndCardTapped;
+
+@end
+
+@interface HyBidVASTEndCardView : UIView
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController: (UIViewController*) viewController isInterstitial: (BOOL) isInterstitial;
+
+- (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
+
+- (void)setupUI;
+
+@end
