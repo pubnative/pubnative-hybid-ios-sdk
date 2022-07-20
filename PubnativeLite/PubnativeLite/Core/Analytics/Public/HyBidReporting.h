@@ -46,6 +46,7 @@
 @property (class, nonatomic, readonly) NSString *ERROR_CODE;
 @property (class, nonatomic, readonly) NSString *ERROR_MESSAGE;
 @property (class, nonatomic, readonly) NSString *CREATIVE;
+@property (class, nonatomic, readonly) NSString *HAS_END_CARD;
 
 @end
 

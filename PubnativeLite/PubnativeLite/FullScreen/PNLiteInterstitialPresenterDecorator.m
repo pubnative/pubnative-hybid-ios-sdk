@@ -194,11 +194,11 @@
 }
 
 - (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self presentSKOverlay];
+    
 }
 
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self dismissSKOverlay];
+    
 }
 
 #pragma mark SKOverlayDelegate

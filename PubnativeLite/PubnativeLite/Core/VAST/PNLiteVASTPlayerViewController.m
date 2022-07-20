@@ -237,6 +237,8 @@ typedef enum : NSUInteger {
             self.contentInfoViewContainer.tag = kContentInfoContainerTag;
             contentInfoView.delegate = self;
             
+            [self.contentInfoViewContainer setIsAccessibilityElement:NO];
+            
             if (contentInfoViewFromIcon != nil && contentInfoViewFromIcon.viewTrackers != nil && [contentInfoViewFromIcon.viewTrackers count] > 0) {
                 NSMutableArray *stringViewTrackers = [NSMutableArray new];
                 for (HyBidVASTIconViewTracking *viewTracking in contentInfoViewFromIcon.viewTrackers) {
@@ -924,20 +926,18 @@ typedef enum : NSUInteger {
                     weakSelf.hyBidVastModel = model;
                     [self fetchEndCards];
                         
-                    if (weakSelf.hyBidVastModel.ads.count > 0) {
-                        if(!mediaUrl) {
-                            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
-                            NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:HyBidErrorCodeInternal userInfo:nil];
-                            [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
-                        } else {
-                            NSURL *url = [[NSURL alloc] initWithString:mediaUrl];
-                            [weakSelf createVideoPlayerWithVideoUrl:url];
-                        }
+                    if(!mediaUrl) {
+                        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
+                        NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:HyBidErrorCodeInternal userInfo:nil];
+                        [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
                     } else {
-                        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST does not contain any ads."];
-                        NSError *noAdFoundError = [NSError errorWithDomain:@"VAST does not contain any ads." code:HyBidErrorCodeNullAd userInfo:nil];
-                        [weakSelf invokeDidFailLoadingWithError:noAdFoundError];
+                        NSURL *url = [[NSURL alloc] initWithString:mediaUrl];
+                        [weakSelf createVideoPlayerWithVideoUrl:url];
                     }
+                } else {
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST does not contain any ads."];
+                    NSError *noAdFoundError = [NSError errorWithDomain:@"VAST does not contain any ads." code:HyBidErrorCodeNullAd userInfo:nil];
+                    [weakSelf invokeDidFailLoadingWithError:noAdFoundError];
                 }
             }
         };

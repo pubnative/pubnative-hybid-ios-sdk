@@ -251,6 +251,9 @@
     if (self.initialLoadTimestamp != -1) {
         [self.loadReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialLoadTimestamp]] forKey:HyBidReportingCommon.TIME_TO_LOAD];
     }
+    
+    [self.loadReportingProperties setObject: @([self.ad hasEndCard]) forKey:HyBidReportingCommon.HAS_END_CARD];
+    
     [self addCommonPropertiesToReportingDictionary:self.loadReportingProperties];
     [self reportEvent:HyBidReportingEventType.LOAD withProperties:self.loadReportingProperties];
     if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedDidLoad)]) {

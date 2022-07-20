@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "BannerAdViewCell.h"
+#ifndef HyBidConstants_h
+#define HyBidConstants_h
 
-@implementation BannerAdViewCell
+#define HYBID_SDK_NAME @"HyBid"
+#define HYBID_SDK_VERSION @"2.15.0-beta1"
+#define HYBID_OMSDK_VERSION @"1.3.29"
+#define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
 
-- (void)layoutSubviews
-{
-    [self.bannerAdViewContainer setIsAccessibilityElement:NO];
-    [self.bannerAdViewContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
-}
-
-@end
+#endif

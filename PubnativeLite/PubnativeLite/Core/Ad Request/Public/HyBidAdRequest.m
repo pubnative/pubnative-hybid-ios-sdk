@@ -43,6 +43,7 @@
 #import "HyBidNativeAdRequest.h"
 #import "HyBidInterstitialAdRequest.h"
 #import "HyBidError.h"
+#import "HyBidVASTEndCardManager.h"
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -68,6 +69,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 @property (nonatomic, strong) NSMutableDictionary *adResponseReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *requestReportingProperties;
 @property (nonatomic, assign) BOOL adCached;
+@property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
 
 @end
 
@@ -100,6 +102,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         self.cacheReportingProperties = [NSMutableDictionary new];
         self.adResponseReportingProperties = [NSMutableDictionary new];
         self.requestReportingProperties = [NSMutableDictionary new];
+        self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
     }
     return self;
 }
@@ -337,6 +340,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                         [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
                         HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
                         ad.isUsingOpenRTB = self.isUsingOpenRTB;
+                        
+                        NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
+                        [ad setHasEndCard:[endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard];
+                        
                         [self invokeDidLoad:ad];
                         [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
                         [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
@@ -438,6 +445,10 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                 HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                 videoAdCacheItem.vastModel = vastModel;
                 [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
+                
+                NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
+                [ad setHasEndCard:[endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard];
+                
                 [self invokeDidLoad:ad];
                 [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
                 [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
@@ -445,6 +456,30 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
             }
         }];
     }
+}
+
+- (NSArray<HyBidVASTEndCard *> *)fetchEndCardsFromVastAd:(HyBidVASTAd *)ad
+{
+    if (ad == nil) {
+        return [NSArray new];
+    }
+        
+    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+    HyBidVASTCompanionAds *companionAds;
+    
+    for (HyBidVASTCreative *creative in creatives) {
+        if ([creative companionAds] != nil) {
+            companionAds = [creative companionAds];
+            break;
+        }
+    }
+    
+    for (HyBidVASTCompanion *companion in [companionAds companions]) {
+        [self.endCardManager addCompanion:companion];
+    }
+    
+    NSArray<HyBidVASTEndCard *> *endCards = [[NSArray alloc] initWithArray:[self.endCardManager endCards]];
+    return endCards;
 }
 
 - (void)setMediationVendor:(NSString *)mediationVendor

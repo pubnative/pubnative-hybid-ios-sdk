@@ -46,9 +46,13 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGADUtils areExtrasValid:serverParameter]) {
         if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[HyBidGADUtils zoneID:serverParameter] andWithDelegate:self];
-            self.rewardedAd.isMediation = YES;
-            [self.rewardedAd load];
+            if (HyBid.isInitialized) {
+                [self loadRewardedAdWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+            } else {
+                [HyBid initWithAppToken:[HyBidGADUtils appToken:serverParameter] completion:^(BOOL success) {
+                    [self loadRewardedAdWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+                }];
+            }
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
@@ -57,6 +61,12 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
         [self invokeFailWithMessage:@"Failed rewarded ad fetch. Missing required server extras."];
         return;
     }
+}
+
+- (void)loadRewardedAdWithZoneID:(NSString *)zoneID {
+    self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:zoneID andWithDelegate:self];
+    self.rewardedAd.isMediation = YES;
+    [self.rewardedAd load];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {

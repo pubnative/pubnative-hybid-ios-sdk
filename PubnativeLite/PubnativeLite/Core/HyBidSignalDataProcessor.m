@@ -32,6 +32,8 @@
 #import "HyBidSignalDataModel.h"
 #import "PNLiteHttpRequest.h"
 #import "HyBidError.h"
+#import "HyBidVASTEndCardManager.h"
+#import "HyBidSettings.h"
 
 NSString *const HyBidSignalDataResponseOK = @"ok";
 NSString *const HyBidSignalDataResponseSuccess = @"success";
@@ -43,6 +45,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
 
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSignalDataModel *signalDataModel;
+@property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
 
 @end
 
@@ -52,6 +55,15 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
     self.ad = nil;
     self.signalDataModel = nil;
     self.delegate = nil;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+    }
+    return self;
 }
 
 - (NSDictionary *)createDictionaryFromData:(NSData *)data {
@@ -125,6 +137,9 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                         if (!vastModel) {
                             [self invokeDidFail:error];
                         } else {
+                            NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
+                            [ad setHasEndCard:[endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard];
+                            
                             HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                             videoAdCacheItem.vastModel = vastModel;
                             [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID: self.signalDataModel.tagid];
@@ -153,6 +168,30 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
         [self invokeDidFail:responseError];
     }
+}
+
+- (NSArray<HyBidVASTEndCard *> *)fetchEndCardsFromVastAd:(HyBidVASTAd *)ad
+{
+    if (ad == nil) {
+        return [NSArray new];
+    }
+        
+    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+    HyBidVASTCompanionAds *companionAds;
+    
+    for (HyBidVASTCreative *creative in creatives) {
+        if ([creative companionAds] != nil) {
+            companionAds = [creative companionAds];
+            break;
+        }
+    }
+    
+    for (HyBidVASTCompanion *companion in [companionAds companions]) {
+        [self.endCardManager addCompanion:companion];
+    }
+    
+    NSArray *endCards = [self.endCardManager endCards];
+    return [[NSArray alloc] initWithArray:endCards];
 }
 
 #pragma mark PNLiteHttpRequestDelegate

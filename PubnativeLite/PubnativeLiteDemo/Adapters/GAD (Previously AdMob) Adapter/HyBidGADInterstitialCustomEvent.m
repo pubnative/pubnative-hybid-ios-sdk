@@ -46,9 +46,13 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGADUtils areExtrasValid:serverParameter]) {
         if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[HyBidGADUtils zoneID:serverParameter] andWithDelegate:self];
-            self.interstitialAd.isMediation = YES;
-            [self.interstitialAd load];
+            if (HyBid.isInitialized) {
+                [self loadInterstitialWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+            } else {
+                [HyBid initWithAppToken:[HyBidGADUtils appToken:serverParameter] completion:^(BOOL success) {
+                    [self loadInterstitialWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+                }];
+            }
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
@@ -57,6 +61,12 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
         [self invokeFailWithMessage:@"Failed interstitial ad fetch. Missing required server extras."];
         return;
     }
+}
+
+- (void)loadInterstitialWithZoneID:(NSString *)zoneID {
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:zoneID andWithDelegate:self];
+    self.interstitialAd.isMediation = YES;
+    [self.interstitialAd load];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {

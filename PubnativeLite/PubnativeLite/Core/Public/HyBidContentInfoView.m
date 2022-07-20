@@ -32,10 +32,12 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 
 @property (nonatomic, strong) UILabel *textView;
 @property (nonatomic, strong) UIImageView *iconView;
+@property (nonatomic, strong) UIImage *iconImage;
 @property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, assign) CGFloat openSize;
 @property (nonatomic, strong) NSTimer *closeTimer;
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, assign) BOOL closeButtonTapped;
 
 @end
 
@@ -48,6 +50,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     self.textView = nil;
     [self.iconView removeFromSuperview];
     self.iconView = nil;
+    self.iconImage = nil;
     
     [self.tapRecognizer removeTarget:self action:@selector(handleTap:)];
     [self removeGestureRecognizer:self.tapRecognizer];
@@ -70,12 +73,8 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
         self.textView = [[UILabel alloc] init];
         [self.textView setFont:[self.textView.font fontWithSize:10]];
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
-        
+                
         self.iconView = [[UIImageView alloc] init];
-        
-        NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:@"VerveContentInfo" ofType:@"png"];
-        UIImage* image = [[UIImage alloc] initWithContentsOfFile: path];
-        [self.iconView setImage:image];
         [self.iconView setContentMode:UIViewContentModeScaleAspectFit];
         self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -130,21 +129,84 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     return self;
 }
 
-- (void)layoutSubviews {
-    [self configureView];
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSData *image))completionBlock
+{
+    dispatch_async(dispatch_get_global_queue(0,0), ^{
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        
+        NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (!error) {
+                completionBlock(YES, data);
+            } else{
+                completionBlock(NO, nil);
+            }
+        }];
+        [dataTask resume];
+    });
+}
+
+- (void)downloadCustomContentInfoViewIconWithCompletionBlock:(void (^)(BOOL isFinished))completionBlock
+{
+    if (self.icon != nil && [self.icon length] > 0) {
+        NSURL *iconURL = [[NSURL alloc] initWithString:self.icon];
+        
+        [self downloadImageWithURL:iconURL completionBlock:^(BOOL succeeded, NSData *data) {
+            if (data) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.iconImage = [UIImage imageWithData: data];
+                });
+            }
+            completionBlock(YES);
+        }];
+    } else {
+        completionBlock(YES);
+    }
+}
+
+- (void)didMoveToWindow
+{
+    if (!self.closeButtonTapped) {
+        [self downloadCustomContentInfoViewIconWithCompletionBlock:^(BOOL isFinished) {
+            [self configureView];
+        }];
+    }
 }
 
 - (void)configureView {
+    [self setIsAccessibilityElement:YES];
+    [self setAccessibilityLabel:@"Content Info View"];
+    [self setAccessibilityIdentifier:@"contentInfoView"];
+    
+    [self.textView setIsAccessibilityElement:YES];
+    [self.textView setAccessibilityLabel:@"Content Info Text View"];
+    [self.textView setAccessibilityIdentifier:@"contentInfoTextView"];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
-            if (self.iconView && self.textView) {
+            if (self.iconView && self.textView && self.iconImage && [self.iconImage isMemberOfClass:[UIImage class]]) {
                 if (self.text) {
                     self.textView.text = self.text;
                 }
                 [self.textView sizeToFit];
-                self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
-                self.hidden = NO;
+                
+                [self.iconView setImage:self.iconImage];
+            } else {
+                self.textView.text = @"Learn about this ad";
+                [self.textView sizeToFit];
+                
+                self.link = @"https://pubnative.net/content-info";
+                
+                NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:@"VerveContentInfo" ofType:@"png"];
+                UIImage* image = [[UIImage alloc] initWithContentsOfFile: path];
+                self.iconImage = image;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.iconView setImage:self.iconImage];
+                });
             }
+            
+            self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
+            self.hidden = NO;
         }
     });
 }
@@ -191,6 +253,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, self.frame.size.height);
     [self layoutIfNeeded];
     [self.delegate contentInfoViewWidthNeedsUpdate:[NSNumber numberWithFloat: self.frame.size.width]];
+    self.closeButtonTapped = YES;
 }
 
 #pragma mark PNLiteOrientationManagerDelegate
