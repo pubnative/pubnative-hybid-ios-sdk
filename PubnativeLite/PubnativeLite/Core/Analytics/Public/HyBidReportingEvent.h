@@ -24,12 +24,12 @@
 
 @interface HyBidReportingEvent : NSObject
 
-@property (nonatomic) NSDictionary<NSString*, NSString*>* _Nonnull properties;
+@property (nonatomic) NSDictionary<NSString*, NSObject*>* _Nonnull properties;
 @property (nonatomic) NSString* _Nullable eventType;
 
 - (nonnull instancetype)initWith:(NSString * _Nonnull)eventType
                         adFormat:(NSString * _Nullable)adFormat
-                      properties:(NSDictionary<NSString *, NSString *> * _Nullable)properties;
+                      properties:(NSDictionary<NSString *, NSObject *> * _Nullable)properties;
 - (NSString*_Nonnull)toJSON;
 
 @end
