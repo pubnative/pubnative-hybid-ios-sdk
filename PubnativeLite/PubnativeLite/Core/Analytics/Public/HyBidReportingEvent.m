@@ -28,7 +28,7 @@
 
 - (instancetype)initWith:(NSString *)eventType
                 adFormat:(NSString *)adFormat
-              properties:(NSDictionary<NSString *,NSString *> *)properties {
+              properties:(NSDictionary<NSString *,NSObject *> *)properties {
     self = [super init];
     if (self) {
         self.eventType = eventType;

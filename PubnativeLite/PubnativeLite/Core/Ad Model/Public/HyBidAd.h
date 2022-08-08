@@ -47,6 +47,7 @@
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
 @property (nonatomic) NSInteger adType;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
+@property (nonatomic, assign) BOOL hasEndCard;
 
 - (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 - (instancetype)initOpenRTBWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;

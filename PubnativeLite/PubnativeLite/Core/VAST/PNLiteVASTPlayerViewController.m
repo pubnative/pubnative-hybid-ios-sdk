@@ -103,7 +103,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
-@property (nonatomic, strong) id playbackToken;
+@property (nonatomic, strong) id playbackObserverToken;
 // Fullscreen
 @property (nonatomic, strong) UIView *viewContainer;
 // Player
@@ -236,6 +236,8 @@ typedef enum : NSUInteger {
             [self.contentInfoViewContainer addSubview:contentInfoView];
             self.contentInfoViewContainer.tag = kContentInfoContainerTag;
             contentInfoView.delegate = self;
+            
+            [self.contentInfoViewContainer setIsAccessibilityElement:NO];
             
             if (contentInfoViewFromIcon != nil && contentInfoViewFromIcon.viewTrackers != nil && [contentInfoViewFromIcon.viewTrackers count] > 0) {
                 NSMutableArray *stringViewTrackers = [NSMutableArray new];
@@ -439,11 +441,18 @@ typedef enum : NSUInteger {
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     __weak typeof(self) weakSelf = self;
     CMTime interval = CMTimeMakeWithSeconds(PNLiteVASTPlayerDefaultPlaybackInterval, NSEC_PER_SEC);
-    self.playbackToken = [self.player addPeriodicTimeObserverForInterval:interval
-                                                                   queue:nil
-                                                              usingBlock:^(CMTime time) {
+    self.playbackObserverToken = [self.player addPeriodicTimeObserverForInterval:interval
+                                                                           queue:nil
+                                                                      usingBlock:^(CMTime time) {
         [weakSelf onPlaybackProgressTick];
     }];
+}
+
+- (void)removePeriodicTimeObserver {
+    if (self.playbackObserverToken) {
+        [self.player removeTimeObserver:self.playbackObserverToken];
+        self.playbackObserverToken = nil;
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -611,6 +620,7 @@ typedef enum : NSUInteger {
 - (IBAction)btnClosePush:(id)sender {
     if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard) { // Skipped to end card
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
+        [self removePeriodicTimeObserver];
         [self showEndCard];
     } else {
         [self invokeDidClose];
@@ -740,7 +750,7 @@ typedef enum : NSUInteger {
 - (void)removeObservers {
     if(self.player != nil) {
         [self.playerItem removeObserver:self forKeyPath:PNLiteVASTPlayerStatusKeyPath];
-        [self.player removeTimeObserver:self.playbackToken];
+        [self.player removeTimeObserver:self.playbackObserverToken];
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];;
@@ -924,20 +934,18 @@ typedef enum : NSUInteger {
                     weakSelf.hyBidVastModel = model;
                     [self fetchEndCards];
                         
-                    if (weakSelf.hyBidVastModel.ads.count > 0) {
-                        if(!mediaUrl) {
-                            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
-                            NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:HyBidErrorCodeInternal userInfo:nil];
-                            [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
-                        } else {
-                            NSURL *url = [[NSURL alloc] initWithString:mediaUrl];
-                            [weakSelf createVideoPlayerWithVideoUrl:url];
-                        }
+                    if(!mediaUrl) {
+                        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Did not find a compatible media file."];
+                        NSError *mediaNotFoundError = [NSError errorWithDomain:@"Not found compatible media with this device." code:HyBidErrorCodeInternal userInfo:nil];
+                        [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError];
                     } else {
-                        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST does not contain any ads."];
-                        NSError *noAdFoundError = [NSError errorWithDomain:@"VAST does not contain any ads." code:HyBidErrorCodeNullAd userInfo:nil];
-                        [weakSelf invokeDidFailLoadingWithError:noAdFoundError];
+                        NSURL *url = [[NSURL alloc] initWithString:mediaUrl];
+                        [weakSelf createVideoPlayerWithVideoUrl:url];
                     }
+                } else {
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST does not contain any ads."];
+                    NSError *noAdFoundError = [NSError errorWithDomain:@"VAST does not contain any ads." code:HyBidErrorCodeNullAd userInfo:nil];
+                    [weakSelf invokeDidFailLoadingWithError:noAdFoundError];
                 }
             }
         };
@@ -1085,10 +1093,10 @@ typedef enum : NSUInteger {
     } else {
         // Fallback on earlier versions
     }
-        
     [self.btnClose removeFromSuperview];
     [self.viewSkip removeFromSuperview];
     [self.btnMute removeFromSuperview];
+    [self.btnOpenOffer removeFromSuperview];
     [self.viewProgress removeFromSuperview];
     self.endCardShown = YES;
     [self.player seekToTime:self.player.currentItem.duration

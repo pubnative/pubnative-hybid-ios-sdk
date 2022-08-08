@@ -153,11 +153,13 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
             if ([childArray count] > 0) {
                 // we assume that there's only one element in the array
                 url = ((NSDictionary *)childArray[0])[@"nodeContent"];
-                url = [url stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+                url = [url stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                url = [url stringByRemovingPercentEncoding];
             }
         }
         
-        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
+        
         return [self parseRecursivelyWithData:vastData depth:(depth + 1)];
     }
     

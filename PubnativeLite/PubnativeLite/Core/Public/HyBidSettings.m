@@ -201,4 +201,12 @@
     return NO;
 }
 
+- (NSNumber *)appTrackingTransparency {
+    if (@available(iOS 14, *)) {
+        return @(ATTrackingManager.trackingAuthorizationStatus);
+    } else {
+        return nil;
+    }
+}
+
 @end

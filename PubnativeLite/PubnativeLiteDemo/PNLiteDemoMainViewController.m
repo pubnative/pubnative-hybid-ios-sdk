@@ -22,6 +22,7 @@
 
 #import "PNLiteDemoMainViewController.h"
 #import "PNLiteDemoSettings.h"
+#import "UITextField+KeyboardDismiss.h"
 
 @interface PNLiteDemoMainViewController () <UITextFieldDelegate>
 
@@ -36,6 +37,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.zoneIDTextField addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];
 }
 
 - (IBAction)chooseAdFormatTouchUpInside:(UIButton *)sender {

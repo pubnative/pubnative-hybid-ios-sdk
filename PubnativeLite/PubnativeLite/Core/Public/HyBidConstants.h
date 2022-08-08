@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2018 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#ifndef HyBidConstants_h
+#define HyBidConstants_h
 
-@interface HyBidReportingEvent : NSObject
+#define HYBID_SDK_NAME @"HyBid"
+#define HYBID_SDK_VERSION @"2.15.0"
+#define HYBID_OMSDK_VERSION @"1.3.29"
+#define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
 
-@property (nonatomic) NSDictionary<NSString*, NSString*>* _Nonnull properties;
-@property (nonatomic) NSString* _Nullable eventType;
-
-- (nonnull instancetype)initWith:(NSString * _Nonnull)eventType
-                        adFormat:(NSString * _Nullable)adFormat
-                      properties:(NSDictionary<NSString *, NSString *> * _Nullable)properties;
-- (NSString*_Nonnull)toJSON;
-
-@end
+#endif

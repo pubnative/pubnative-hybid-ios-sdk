@@ -222,11 +222,11 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
 }
 
 - (void)adPresenterDidAppear:(HyBidAdPresenter *)adPresenter {
-    [self presentSKOverlay];
+    
 }
 
 - (void)adPresenterDidDisappear:(HyBidAdPresenter *)adPresenter {
-    [self dismissSKOverlay];
+    
 }
 
 #pragma mark SKOverlayDelegate

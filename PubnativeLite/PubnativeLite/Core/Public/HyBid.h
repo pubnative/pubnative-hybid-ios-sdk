@@ -82,6 +82,15 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #endif
 
 //Rewarded video Module headers
+#if __has_include("HyBidRewardedAdRequest.h")
+    #import "HyBidRewardedAdRequest.h"
+#endif
+#if __has_include("HyBidRewardedPresenter.h")
+    #import "HyBidRewardedPresenter.h"
+#endif
+#if __has_include("HyBidRewardedPresenterFactory.h")
+    #import "HyBidRewardedPresenterFactory.h"
+#endif
 #if __has_include("HyBidRewardedAd.h")
     #import "HyBidRewardedAd.h"
 #endif

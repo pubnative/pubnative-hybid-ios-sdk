@@ -46,6 +46,7 @@
 + (NSString *)ERROR_CODE { return @"error_code"; }
 + (NSString *)ERROR_MESSAGE { return @"error_message"; }
 + (NSString *)CREATIVE { return @"creative"; }
++ (NSString *)HAS_END_CARD { return @"has_end_card"; }
 
 @end
 

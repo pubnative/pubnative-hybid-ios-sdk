@@ -76,6 +76,7 @@ typedef enum {
 @property (readonly) NSString *identifierForVendor;
 @property (readonly) NSString *ip;
 @property (nonatomic, assign) BOOL bannerSKOverlay;
+@property (readonly) NSNumber *appTrackingTransparency;
 
 + (HyBidSettings *)sharedInstance;
 

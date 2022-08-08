@@ -20,14 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "BannerAdViewCell.h"
+#import <Foundation/Foundation.h>
 
-@implementation BannerAdViewCell
+@interface HyBidReportingEvent : NSObject
 
-- (void)layoutSubviews
-{
-    [self.bannerAdViewContainer setIsAccessibilityElement:NO];
-    [self.bannerAdViewContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
-}
+@property (nonatomic) NSDictionary<NSString*, NSObject*>* _Nonnull properties;
+@property (nonatomic) NSString* _Nullable eventType;
+
+- (nonnull instancetype)initWith:(NSString * _Nonnull)eventType
+                        adFormat:(NSString * _Nullable)adFormat
+                      properties:(NSDictionary<NSString *, NSObject *> * _Nullable)properties;
+- (NSString*_Nonnull)toJSON;
 
 @end

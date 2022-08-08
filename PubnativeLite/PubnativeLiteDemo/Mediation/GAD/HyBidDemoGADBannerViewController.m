@@ -52,6 +52,9 @@
     self.gadBanner.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADBannerAdUnitIDKey];
     self.gadBanner.rootViewController = self;
     [self.bannerContainer addSubview:self.gadBanner];
+    
+    [self.bannerContainer setIsAccessibilityElement:NO];
+    [self.bannerContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {

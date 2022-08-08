@@ -201,11 +201,11 @@
 }
 
 - (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter {
-    [self presentSKOverlay];
+    
 }
 
 - (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter {
-    [self dismissSKOverlay];
+    
 }
 
 #pragma mark SKOverlayDelegate

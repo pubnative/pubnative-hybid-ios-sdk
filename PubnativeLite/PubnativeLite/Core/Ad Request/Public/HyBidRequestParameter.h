@@ -64,6 +64,7 @@
 + (NSString *)rewardedVideo;
 + (NSString *)protocol;
 + (NSString *)api;
++ (NSString *)appTrackingTransparency;
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion;

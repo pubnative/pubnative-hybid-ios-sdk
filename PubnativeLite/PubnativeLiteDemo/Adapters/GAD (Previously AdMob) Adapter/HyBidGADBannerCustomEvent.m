@@ -50,9 +50,13 @@ typedef id<GADMediationBannerAdEventDelegate> _Nullable(^HyBidGADBannerCustomEve
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGADUtils areExtrasValid:serverParameter]) {
         if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
-            self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
-            self.bannerAdView.isMediation = YES;
-            [self.bannerAdView loadWithZoneID:[HyBidGADUtils zoneID:serverParameter] andWithDelegate:self];
+            if (HyBid.isInitialized) {
+                [self loadBannerWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+            } else {
+                [HyBid initWithAppToken:[HyBidGADUtils appToken:serverParameter] completion:^(BOOL success) {
+                    [self loadBannerWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+                }];
+            }
         } else {
             [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
             return;
@@ -64,6 +68,11 @@ typedef id<GADMediationBannerAdEventDelegate> _Nullable(^HyBidGADBannerCustomEve
 
 }
 
+- (void)loadBannerWithZoneID:(NSString *)zoneID {
+    self.bannerAdView = [[HyBidAdView alloc] initWithSize:self.adSize];
+    self.bannerAdView.isMediation = YES;
+    [self.bannerAdView loadWithZoneID:zoneID andWithDelegate:self];
+}
 
 - (void)invokeFailWithMessage:(NSString *)message {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:message];

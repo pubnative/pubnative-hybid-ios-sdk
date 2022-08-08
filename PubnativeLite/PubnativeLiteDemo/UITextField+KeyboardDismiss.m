@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#ifndef HyBidConstants_h
-#define HyBidConstants_h
+#import "UITextField+KeyboardDismiss.h"
 
-#define HYBID_SDK_NAME @"HyBid"
-#define HYBID_SDK_VERSION @"2.14.0"
-#define HYBID_OMSDK_VERSION @"1.3.29"
-#define HYBID_OMSDK_IDENTIFIER @"Pubnativenet"
+@implementation UITextField (KeyboardDismiss)
 
-#endif
+- (void)addDismissKeyboardButtonWithTitle:(NSString *)title withTarget:(id)target withSelector:(SEL)selector {
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44)];
+    UIBarButtonItem *flexibleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    UIBarButtonItem *dismissItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:target action:selector];
+    [toolbar setItems: @[flexibleItem, dismissItem]];
+    self.inputAccessoryView = toolbar;
+}
+
+@end

@@ -28,6 +28,7 @@
 
 #define kCCPAPrivacyKey @"CCPA_Privacy"
 #define kGDPRConsentKey @"GDPR_Consent"
+#define kGDPRAppliesKey @"IABTCF_gdprApplies"
 #define kCCPAPublicPrivacyKey @"IABUSPrivacy_String"
 #define kGDPRPublicConsentKey @"IABConsent_ConsentString"
 #define kGDPRPublicConsentV2Key @"IABTCF_TCString"
@@ -179,7 +180,20 @@ NSInteger const PNLiteConsentStateDenied = 0;
 }
 
 - (BOOL)GDPRApplies {
-    return NO;
+    NSNumber *gdprApplies;
+    id gdprValue = [[NSUserDefaults standardUserDefaults] valueForKey:kGDPRAppliesKey];
+    
+    if ([gdprValue isKindOfClass:[NSString class]]) {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+        gdprApplies = [formatter numberFromString:gdprValue];
+    } else if ([gdprValue isKindOfClass:[NSNumber class]]) {
+        gdprApplies = gdprValue;
+    } else {
+        gdprApplies = @0;
+    }
+    
+    return [gdprApplies isEqual: @1];
 }
 
 - (BOOL)GDPRConsentAsked {

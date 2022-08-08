@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "2.14.0"
+  s.version      = "2.15.0"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
 
   s.ios.deployment_target = "9.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.14.0" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.15.0" }
   s.xcconfig = {
     'OTHER_LDFLAGS' => '-framework OMSDK_Pubnativenet'
   }
@@ -48,28 +48,35 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
     core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.3.29/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
-    core.exclude_files         = 'PubnativeLite/PubnativeLite/Core/HyBidStatic.{swift,h,m}'
+    core.exclude_files         = 'PubnativeLite/PubnativeLite/Core/Public/HyBidStatic.{swift,h,m}'
     core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.3.29/*.{xcframework}']
+    core.public_header_files = ['PubnativeLite/PubnativeLite/Core/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Viewability/Public/*.h' , 'PubnativeLite/PubnativeLite/Core/Consent/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Model/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Request/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Cache/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Presenter/Public/*.h', 'PubnativeLite/PubnativeLite/Core/MRAID/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Utils/Public/*.h', 'PubnativeLite/PubnativeLite/Core/VAST/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Analytics/Public/*.h']
+    core.private_header_files = ['PubnativeLite/PubnativeLite/Core/Private/*.h']
+
   end
 
   s.subspec 'Banner' do |banner|
     banner.dependency           'HyBid/Core'
     banner.source_files         = ['PubnativeLite/PubnativeLite/Banner/**/*.{swift,h,m}']
+    banner.public_header_files = ['PubnativeLite/PubnativeLite/Banner/**/*.h']
   end
 
   s.subspec 'Native' do |native|
     native.dependency           'HyBid/Core'
-        native.source_files     = ['PubnativeLite/PubnativeLite/Native/**/*.{swift,h,m}']
+    native.source_files     = ['PubnativeLite/PubnativeLite/Native/**/*.{swift,h,m}']
+    native.public_header_files = ['PubnativeLite/PubnativeLite/Native/**/*.h']
   end
 
   s.subspec 'FullScreen' do |fullscreen|
     fullscreen.dependency       'HyBid/Core'
     fullscreen.source_files     = ['PubnativeLite/PubnativeLite/FullScreen/**/*.{swift,h,m}']
+    fullscreen.public_header_files = ['PubnativeLite/PubnativeLite/FullScreen/Public/*.h']
   end
 
   s.subspec 'RewardedVideo' do |rewarded|
     rewarded.dependency         'HyBid/Core'
     rewarded.source_files       = ['PubnativeLite/PubnativeLite/Rewarded/**/*.{swift,h,m}']
+    rewarded.public_header_files = ['PubnativeLite/PubnativeLite/Rewarded/Public/*.h']
   end
 
 end

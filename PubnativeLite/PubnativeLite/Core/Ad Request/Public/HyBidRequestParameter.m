@@ -64,6 +64,7 @@
 + (NSString *)rewardedVideo                 { return @"rv"; }
 + (NSString *)protocol                      { return @"protocol"; }
 + (NSString *)api                           { return @"api"; }
++ (NSString *)appTrackingTransparency       { return @"atts"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion            { return @"skadn_version"; }

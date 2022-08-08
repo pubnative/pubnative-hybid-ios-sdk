@@ -52,6 +52,9 @@
     self.gadMRect.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADMRectAdUnitIDKey];
     self.gadMRect.rootViewController = self;
     [self.mRectContainer addSubview:self.gadMRect];
+    
+    [self.mRectContainer setIsAccessibilityElement:NO];
+    [self.mRectContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
 }
 
 - (IBAction)requestMRectTouchUpInside:(id)sender {

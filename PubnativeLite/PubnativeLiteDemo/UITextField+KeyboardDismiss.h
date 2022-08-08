@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "BannerAdViewCell.h"
+#import <UIKit/UIKit.h>
 
-@implementation BannerAdViewCell
+@interface UITextField (KeyboardDismiss)
 
-- (void)layoutSubviews
-{
-    [self.bannerAdViewContainer setIsAccessibilityElement:NO];
-    [self.bannerAdViewContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
-}
+- (void)addDismissKeyboardButtonWithTitle:(NSString *)title withTarget:(id)target withSelector:(SEL)selector;
 
 @end

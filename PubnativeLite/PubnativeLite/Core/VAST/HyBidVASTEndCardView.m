@@ -53,6 +53,10 @@
 
 @property (nonatomic, assign) BOOL isInterstitial;
 
+@property (nonatomic, strong) NSTimer *closeButtonTimer;
+@property (nonatomic, strong) NSDate *closeButtonTimerStartDate;
+@property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
+
 @end
 
 @implementation HyBidVASTEndCardView
@@ -66,49 +70,92 @@
         self.isInterstitial = isInterstitial;
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
         [self setFrame: self.rootViewController.view.bounds];
+        
+        [self addObservers];
     }
     return self;
 }
 
+- (void)addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidBecomeActive:)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidEnterBackground:)
+                                                 name: UIApplicationDidEnterBackgroundNotification
+                                               object: nil];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification*)notification {
+    if (!self.isInterstitial) { return; }
+    
+    if (self.closeButtonTimeElapsed != -1) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:([[HyBidSettings sharedInstance].endCardCloseOffset integerValue] - self.closeButtonTimeElapsed) target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
+        });
+        
+        self.closeButtonTimerStartDate = [NSDate date];
+    }
+}
+
+- (void)applicationDidEnterBackground:(NSNotification*)notification {
+    if ([self.closeButtonTimer isValid]) {
+        [self.closeButtonTimer invalidate];
+        self.closeButtonTimer = nil;
+        self.closeButtonTimeElapsed = [[NSDate date] timeIntervalSinceDate:self.closeButtonTimerStartDate];
+    }
+}
+
 - (void)setupUI
 {
-    if (!self.isInterstitial) {return;}
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, [[HyBidSettings sharedInstance].endCardCloseOffset integerValue] * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self addCloseButton];
+    if (!self.isInterstitial) { return; }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:[[HyBidSettings sharedInstance].endCardCloseOffset integerValue] target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
     });
+    
+    self.closeButtonTimerStartDate = [NSDate date];
+    self.closeButtonTimeElapsed = 0.0;
 }
 
 - (void)addCloseButton {
-    self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.closeButton.backgroundColor = [UIColor clearColor];
-    [self.closeButton addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
-    
-    // get button image from header file
-    NSData* buttonData = [NSData dataWithBytesNoCopy:__HyBidVASTEndCard_CloseButton_png
-                                              length:__HyBidVASTEndCard_CloseButton_png_len
-                                        freeWhenDone:NO];
-    UIImage *closeButtonImage = [UIImage imageWithData:buttonData];
-    [self.closeButton setBackgroundImage:closeButtonImage forState:UIControlStateNormal];
-    [self.rootViewController.view addSubview:self.closeButton];
-    
-    self.closeButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[
-        [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize],
-        [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize]
-    ]];
-
-    if (@available(iOS 11.0, *)) {
+    [self.closeButtonTimer invalidate];
+    self.closeButtonTimer = nil;
+    self.closeButtonTimeElapsed = -1;
+        
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.closeButton.backgroundColor = [UIColor clearColor];
+        [self.closeButton addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+        
+        // get button image from header file
+        NSData* buttonData = [NSData dataWithBytesNoCopy:__HyBidVASTEndCard_CloseButton_png
+                                                  length:__HyBidVASTEndCard_CloseButton_png_len
+                                            freeWhenDone:NO];
+        UIImage *closeButtonImage = [UIImage imageWithData:buttonData];
+        [self.closeButton setBackgroundImage:closeButtonImage forState:UIControlStateNormal];
+        [self.rootViewController.view addSubview:self.closeButton];
+        
+        self.closeButton.translatesAutoresizingMaskIntoConstraints = NO;
         [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize],
+            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize]
         ]];
-    } else {
-        [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
-        ]];
-    }
-    [self.rootViewController.view bringSubviewToFront:self.closeButton];
+        
+        if (@available(iOS 11.0, *)) {
+            [NSLayoutConstraint activateConstraints:@[
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            ]];
+        } else {
+            [NSLayoutConstraint activateConstraints:@[
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            ]];
+        }
+        [self.rootViewController.view bringSubviewToFront:self.closeButton];
+    });
 }
 
 - (void)close
@@ -187,6 +234,7 @@
                 [self.endCardImageView setImage:image];
                 [self.endCardImageView setContentMode:UIViewContentModeScaleAspectFit];
                 [view addSubview:self.endCardImageView];
+                [view bringSubviewToFront:self.closeButton];
                 [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_creativeView];
             });
         }
@@ -216,6 +264,20 @@
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
+}
+
+- (void)dealloc
+{
+    self.endCardImageView = nil;
+    self.mraidView = nil;
+    self.serviceProvider = nil;
+    self.delegate = nil;
+    self.closeButton = nil;
+    self.endCard = nil;
+    self.vastEventProcessor = nil;
+    self.rootViewController = nil;
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 // MARK: - Helper methods
