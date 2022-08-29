@@ -45,6 +45,8 @@
 //Viewbility Timeinterval Freqeuncy
 #define HYBID_MRAID_Check_Viewable_Frequency 0.2
 
+#define HYBID_MRAID_CLOSE_BUTTON_TAG 1001
+
 CGFloat const kContentInfoViewHeight = 15.0f;
 CGFloat const kContentInfoViewWidth = 15.0f;
 
@@ -142,6 +144,10 @@ typedef enum {
 // internal helper methods
 - (void)initWebView:(WKWebView *)wv;
 - (void)parseCommandUrl:(NSString *)commandUrlString;
+
+@property (nonatomic, strong) NSTimer *closeButtonTimer;
+@property (nonatomic, strong) NSDate *closeButtonTimerStartDate;
+@property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
 
 @end
 
@@ -273,8 +279,40 @@ typedef enum {
         if (isInter) {
             bonafideTapObserved = YES;  // no autoRedirect suppression for Interstitials
         }
+        
+        [self addObservers];
     }
     return self;
+}
+
+- (void)addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidBecomeActive:)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidEnterBackground:)
+                                                 name: UIApplicationDidEnterBackgroundNotification
+                                               object: nil];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification*)notification {
+    if (modalVC != nil && self.closeButtonTimeElapsed != -1) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:(_skipOffset - self.closeButtonTimeElapsed) target:self selector:@selector(addCloseEventRegion) userInfo:nil repeats:NO];
+        });
+        
+        self.closeButtonTimerStartDate = [NSDate date];
+    }
+}
+
+- (void)applicationDidEnterBackground:(NSNotification*)notification {
+    if (modalVC != nil && [self.closeButtonTimer isValid]) {
+        [self.closeButtonTimer invalidate];
+        self.closeButtonTimer = nil;
+        self.closeButtonTimeElapsed = [[NSDate date] timeIntervalSinceDate:self.closeButtonTimerStartDate];
+    }
 }
 
 - (void)htmlFromUrl:(NSURL *)url handler:(void (^)(NSString *html, NSError *error))handler {
@@ -339,6 +377,8 @@ typedef enum {
     
     self.delegate = nil;
     self.serviceDelegate =nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)isValidFeatureSet:(NSArray *)features {
@@ -522,9 +562,10 @@ typedef enum {
     } else {
         // Reset frame of webView if returning from 1-part expansion.
         webView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-        if (!isInterstitial) {
-            [self addContentInfoViewToView:webView];
-        }
+    }
+    
+    if (!isInterstitial) {
+        [self addContentInfoViewToView:webView];
     }
     
     [self addSubview:webView];
@@ -667,10 +708,12 @@ typedef enum {
     
     [modalVC.view addSubview:currentWebView];
     
-    // always include the close event region
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, _skipOffset * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self addCloseEventRegion];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:_skipOffset target:self selector:@selector(addCloseEventRegion) userInfo:nil repeats:NO];
     });
+    
+    self.closeButtonTimerStartDate = [NSDate date];
+    self.closeButtonTimeElapsed = 0.0;
     
     if ([self.rootViewController respondsToSelector:@selector(presentViewController:animated:completion:)]) {
         // used if running >= iOS 6
@@ -876,7 +919,18 @@ typedef enum {
 }
 
 - (void)addCloseEventRegion {
+    [self.closeButtonTimer invalidate];
+    self.closeButtonTimer = nil;
+    self.closeButtonTimeElapsed = -1;
+    
+    for (UIView *view in modalVC.view.subviews) {
+        if ([view tag] == HYBID_MRAID_CLOSE_BUTTON_TAG) {
+            return;
+        }
+    }
+    
     closeEventRegion = [UIButton buttonWithType:UIButtonTypeCustom];
+    [closeEventRegion setTag:HYBID_MRAID_CLOSE_BUTTON_TAG];
     closeEventRegion.backgroundColor = [UIColor clearColor];
     [closeEventRegion addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
     
@@ -893,12 +947,18 @@ typedef enum {
 
     if (@available(iOS 11.0, *)) {
         closeEventRegion.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
-        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
-        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
         
+        NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
+            [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
+            [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize], nil];
         
+        if (modalVC != nil) {            
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
+        }
+        
+        [NSLayoutConstraint activateConstraints:constraints];
     } else {
         closeEventRegion.translatesAutoresizingMaskIntoConstraints = NO;
         [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
@@ -1273,6 +1333,8 @@ typedef enum {
                     && [absUrlString containsString:@"type=expandable"]
                     && self.isViewable) {
                     [self expand:absUrlString supportVerve:YES];
+
+                    [self addCloseEventRegion];
                 } else {
                     [self.delegate mraidViewNavigate:self withURL:url];
                 }

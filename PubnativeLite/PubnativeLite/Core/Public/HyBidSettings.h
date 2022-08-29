@@ -47,6 +47,9 @@ typedef enum {
 @property (nonatomic, assign) NSInteger htmlSkipOffset;
 @property (nonatomic, assign) NSNumber *endCardCloseOffset;
 @property (nonatomic, assign) BOOL showEndCard;
+
+// Starting SDK version 2.15.1 we support multiple fidelities
+@property (nonatomic, assign, readonly) BOOL supportMultipleFidelities;
 @property (nonatomic, assign) HyBidInterstitialActionBehaviour interstitialActionBehaviour;
 
 @property (nonatomic, assign) BOOL closeOnFinish;
@@ -76,6 +79,7 @@ typedef enum {
 @property (readonly) NSString *identifierForVendor;
 @property (readonly) NSString *ip;
 @property (nonatomic, assign) BOOL bannerSKOverlay;
+@property (readonly) NSNumber *appTrackingTransparency;
 
 + (HyBidSettings *)sharedInstance;
 

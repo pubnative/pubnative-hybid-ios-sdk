@@ -65,6 +65,7 @@ typedef enum {
 - (void)startTracking;
 - (void)stopTracking;
 - (void)prepare;
+- (void)prepareCustomMarkupFrom:(NSString *)markup;
 - (void)show;
 - (void)refresh;
 - (void)stopAutoRefresh;

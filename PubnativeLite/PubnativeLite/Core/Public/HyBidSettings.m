@@ -49,6 +49,11 @@
     _endCardCloseOffset = endCardCloseOffset;
 }
 
+- (BOOL)supportMultipleFidelities
+{
+    return YES;
+}
+
 - (void)dealloc {
     self.targeting = nil;
     self.appToken = nil;
@@ -199,6 +204,14 @@
 
 - (BOOL)bannerSKOverlay {
     return NO;
+}
+
+- (NSNumber *)appTrackingTransparency {
+    if (@available(iOS 14, *)) {
+        return @(ATTrackingManager.trackingAuthorizationStatus);
+    } else {
+        return nil;
+    }
 }
 
 @end

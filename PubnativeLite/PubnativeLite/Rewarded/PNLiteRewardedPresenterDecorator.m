@@ -91,19 +91,15 @@
     if (rewardedPresenter.ad.zoneID != nil && rewardedPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:rewardedPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    switch (rewardedPresenter.ad.assetGroupID.integerValue) {
-        case VAST_INTERSTITIAL:
-            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-            if (rewardedPresenter.ad.vast) {
-                [reportingDictionary setObject:rewardedPresenter.ad.vast forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
-        default:
-            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-            if (rewardedPresenter.ad.htmlData) {
-                [reportingDictionary setObject:rewardedPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
+    if (rewardedPresenter.ad.assetGroupID) {
+        [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+    }
+
+    NSString *vast = rewardedPresenter.ad.isUsingOpenRTB
+            ? rewardedPresenter.ad.openRtbVast
+            : rewardedPresenter.ad.vast;
+    if (vast) {
+        [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
     }
 }
 

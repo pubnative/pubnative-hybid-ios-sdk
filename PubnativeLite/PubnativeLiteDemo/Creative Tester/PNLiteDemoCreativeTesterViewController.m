@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *creativeIdTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *adSizeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 @property (strong, nonatomic) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) Markup *markup;
@@ -46,6 +47,8 @@
 
 - (void)requestAd
 {
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     if ([[self.creativeIdTextField text] length] > 0) {
         NSString *creativeID = [[self.creativeIdTextField text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString *urlString = [[NSString alloc] initWithFormat:@"https://docker.creative-serving.com/preview?cr=%@&type=adi", creativeID];
@@ -99,10 +102,12 @@
     
     self.markup = [[Markup alloc] initWithMarkupText:adString withAdPlacement: [NSNumber numberWithInteger:[self.adSizeSegmentedControl selectedSegmentIndex]]];
     [self displayAd];
+    self.debugButton.hidden = NO;
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFail:error];
+    self.debugButton.hidden = NO;
 }
 
 #pragma mark - HyBidInterstitialAdDelegate

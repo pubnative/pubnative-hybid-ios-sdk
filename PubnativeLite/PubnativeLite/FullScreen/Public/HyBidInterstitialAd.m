@@ -271,19 +271,26 @@
     if ([HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType] != nil && [HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType].length > 0) {
         [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.interstitialAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
     }
-    switch (self.ad.assetGroupID.integerValue) {
-        case VAST_INTERSTITIAL:
-            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-            if (self.ad.vast) {
-                [reportingDictionary setObject:self.ad.vast forKey:HyBidReportingCommon.CREATIVE];
+    if (self.ad.assetGroupID) {
+        switch (self.ad.assetGroupID.integerValue) {
+            case VAST_INTERSTITIAL: {
+                [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+                
+                NSString *vast = self.ad.isUsingOpenRTB
+                ? self.ad.openRtbVast
+                : self.ad.vast;
+                if (vast) {
+                    [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
             }
-            break;
-        default:
-            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-            if (self.ad.htmlData) {
-                [reportingDictionary setObject:self.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
+            default:
+                [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
+                if (self.ad.htmlData) {
+                    [reportingDictionary setObject:self.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
+        }
     }
 }
 

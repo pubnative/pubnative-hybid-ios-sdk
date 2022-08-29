@@ -21,8 +21,12 @@
 //
 
 #import "HyBidDemoDebugMainViewController.h"
+#import "PNLiteRequestInspector.h"
+#import <HyBid/HyBid.h>
 
 @interface HyBidDemoDebugMainViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
+@property (weak, nonatomic) IBOutlet UIButton *sdkEventsButton;
 
 @end
 
@@ -31,6 +35,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Debug";
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    if ([PNLiteRequestInspector sharedInstance].lastInspectedRequest && [PNLiteRequestInspector sharedInstance].lastInspectedRequest.url) {
+        self.inspectRequestButton.hidden = NO;
+    }
+    if ([HyBid reportingManager].events.count > 0) {
+        self.sdkEventsButton.hidden = NO;
+    }
 }
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {

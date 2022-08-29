@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,16 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdPresenter.h"
+#import "UITextField+KeyboardDismiss.h"
 
-@implementation HyBidAdPresenter
+@implementation UITextField (KeyboardDismiss)
 
-- (void)dealloc {
-    self.delegate = nil;
-}
-
-- (void)load {
-    // Do nothing, this method should be overriden
-}
-
-- (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
-    // Do nothing, this method should be overriden
-}
-
-- (void)startTracking {
-    // Do nothing, this method should be overriden
-}
-
-- (void)stopTracking {
-    // Do nothing, this method should be overriden
-}
-
-- (HyBidAd *)ad {
-    return nil;
+- (void)addDismissKeyboardButtonWithTitle:(NSString *)title withTarget:(id)target withSelector:(SEL)selector {
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44)];
+    UIBarButtonItem *flexibleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    UIBarButtonItem *dismissItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:target action:selector];
+    [toolbar setItems: @[flexibleItem, dismissItem]];
+    self.inputAccessoryView = toolbar;
 }
 
 @end

@@ -390,6 +390,7 @@
 		6F01775228008E9C00C69B09 /* HyBidVASTIconViewTracking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F7BFD5027FFAD5B007A13EC /* HyBidVASTIconViewTracking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F01775328008EC000C69B09 /* HyBidXMLElementEx.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F747F0227F73BA0005A1464 /* HyBidXMLElementEx.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F01775428008EDE00C69B09 /* HyBidXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F747F0427F73BA1005A1464 /* HyBidXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F10B1762893FCA500B61FD5 /* UITextField+KeyboardDismiss.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F10B1752893FCA500B61FD5 /* UITextField+KeyboardDismiss.m */; };
 		6F3DAB8B28060C70002531DD /* HyBidVASTEndCard.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3DAB8928060C70002531DD /* HyBidVASTEndCard.h */; };
 		6F3DAB8C28060C70002531DD /* HyBidVASTEndCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3DAB8A28060C70002531DD /* HyBidVASTEndCard.m */; };
 		6F3FADB627074E3900BE0CE6 /* HyBidAdImpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3FADB427074E3900BE0CE6 /* HyBidAdImpression.h */; };
@@ -1557,6 +1558,8 @@
 		62E8D73C26CFAA8000828E6A /* HyBidVASTTracking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTTracking.h; sourceTree = "<group>"; };
 		62E8D73D26CFAA8000828E6A /* HyBidVASTTracking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTTracking.m; sourceTree = "<group>"; };
 		6AF6D274890240B10116604E /* Pods_HyBidTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBidTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F10B1742893FCA500B61FD5 /* UITextField+KeyboardDismiss.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextField+KeyboardDismiss.h"; sourceTree = "<group>"; };
+		6F10B1752893FCA500B61FD5 /* UITextField+KeyboardDismiss.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITextField+KeyboardDismiss.m"; sourceTree = "<group>"; };
 		6F1ABAE328083734008E7442 /* HyBidVASTEndCardCloseIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTEndCardCloseIcon.h; sourceTree = "<group>"; };
 		6F3DAB8928060C70002531DD /* HyBidVASTEndCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTEndCard.h; sourceTree = "<group>"; };
 		6F3DAB8A28060C70002531DD /* HyBidVASTEndCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTEndCard.m; sourceTree = "<group>"; };
@@ -2063,8 +2066,6 @@
 		5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */ = {
 			isa = PBXGroup;
 			children = (
-				7ED53EE2286B2AAA00948F8A /* Creative Tester */,
-				6FD7A47327CF90EE003C6796 /* Settings */,
 				62BF4CB9269C7266001DFD90 /* options.plist */,
 				62AED16926975C5700CDDDD1 /* GoogleService-Info.plist */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
@@ -2092,12 +2093,16 @@
 				5A921D3C2530B1D4006F1572 /* Signal Data */,
 				6FC2969825653BB100423025 /* VAST Testing */,
 				6234935725AC667F000B2718 /* Analytics */,
+				7ED53EE2286B2AAA00948F8A /* Creative Tester */,
+				6FD7A47327CF90EE003C6796 /* Settings */,
 				5AA7EC5D20E4D54D00277E2B /* Storyboards */,
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
 				5A32CECA2029F79B0003B450 /* main.m */,
 				5A7F59E5265EAE5C0024ADD3 /* UITextView+KeyboardDismiss.h */,
 				5A7F59E6265EAE5C0024ADD3 /* UITextView+KeyboardDismiss.m */,
+				6F10B1742893FCA500B61FD5 /* UITextField+KeyboardDismiss.h */,
+				6F10B1752893FCA500B61FD5 /* UITextField+KeyboardDismiss.m */,
 			);
 			path = PubnativeLiteDemo;
 			sourceTree = "<group>";
@@ -3212,8 +3217,8 @@
 		7ED53EE2286B2AAA00948F8A /* Creative Tester */ = {
 			isa = PBXGroup;
 			children = (
-				7ED53EE3286B2AAA00948F8A /* PNLiteDemoCreativeTesterViewController.m */,
 				7ED53EE4286B2AAA00948F8A /* PNLiteDemoCreativeTesterViewController.h */,
+				7ED53EE3286B2AAA00948F8A /* PNLiteDemoCreativeTesterViewController.m */,
 			);
 			path = "Creative Tester";
 			sourceTree = "<group>";
@@ -4202,6 +4207,7 @@
 				34C7AA00282EC4740010741D /* HyBidGADUtils.m in Sources */,
 				3437B5512831763C00632AC7 /* HyBidGAMMRectCustomEvent.m in Sources */,
 				34C7A9F8282EC40D0010741D /* HyBidAdMobMediationBannerCustomEvent.m in Sources */,
+				6F10B1762893FCA500B61FD5 /* UITextField+KeyboardDismiss.m in Sources */,
 				6234937225AC68A7000B2718 /* AnalyticsEventTableViewCell.m in Sources */,
 				3437B5532831763C00632AC7 /* HyBidDFPUtils.m in Sources */,
 				5A81B48F2333A90000543531 /* HyBidDemoGADInterstitialViewController.m in Sources */,
@@ -4786,7 +4792,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.15.0-beta1";
+				MARKETING_VERSION = "2.15.1-beta1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -4825,7 +4831,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.15.0-beta1";
+				MARKETING_VERSION = "2.15.1-beta1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4982,7 +4988,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.15.0-beta1";
+				MARKETING_VERSION = "2.15.1-beta1";
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
@@ -5025,7 +5031,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.15.0-beta1";
+				MARKETING_VERSION = "2.15.1-beta1";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";

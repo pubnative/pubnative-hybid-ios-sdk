@@ -74,6 +74,10 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
     [self.adPresenter load];
 }
 
+- (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
+    [self.adPresenter loadMarkupWithSize:adSize];
+}
+
 - (void)startTracking {
     [self.adPresenter startTracking];
     [self presentSKOverlay];
@@ -112,19 +116,25 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
     if (adPresenter.ad.zoneID != nil && adPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:adPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    switch (adPresenter.ad.assetGroupID.integerValue) {
-        case VAST_MRECT:
-            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-            if (adPresenter.ad.vast) {
-                [reportingDictionary setObject:adPresenter.ad.vast forKey:HyBidReportingCommon.CREATIVE];
+    if (adPresenter.ad.assetGroupID) {
+        switch (adPresenter.ad.assetGroupID.integerValue) {
+            case VAST_MRECT: {
+                [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+                NSString *vast = adPresenter.ad.isUsingOpenRTB
+                ? adPresenter.ad.openRtbVast
+                : adPresenter.ad.vast;
+                if (vast) {
+                    [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
             }
-            break;
-        default:
-            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-            if (adPresenter.ad.htmlData) {
-                [reportingDictionary setObject:adPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
+            default:
+                [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
+                if (adPresenter.ad.htmlData) {
+                    [reportingDictionary setObject:adPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
+        }
     }
 }
 

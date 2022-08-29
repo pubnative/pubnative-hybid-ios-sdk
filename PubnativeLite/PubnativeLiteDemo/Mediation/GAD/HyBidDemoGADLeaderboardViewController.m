@@ -52,6 +52,9 @@
     self.gadLeaderboard.adUnitID = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidGADLeaderboardAdUnitIDKey];
     self.gadLeaderboard.rootViewController = self;
     [self.leaderboardContainer addSubview:self.gadLeaderboard];
+    
+    [self.leaderboardContainer setIsAccessibilityElement:NO];
+    [self.leaderboardContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
 }
 
 - (IBAction)requestLeaderboardTouchUpInside:(id)sender {

@@ -21,6 +21,7 @@
 //
 
 #import "HyBidAdImpression.h"
+#import "HyBid.h""
 
 @interface HyBidAdImpression ()
 
@@ -66,30 +67,81 @@ API_AVAILABLE(ios(14.5))
     return HyBidAdImpression.impressionsDictionary[ad.impressionID];
 }
 
-- (SKAdImpression *)generateSkAdImpressionFromModel:(HyBidSkAdNetworkModel *)model
+- (SKAdImpression *)generateSkAdImpressionFrom:(HyBidSkAdNetworkModel *)model
 API_AVAILABLE(ios(14.5)){
     if (@available(iOS 14.5, *)) {
         SKAdImpression *impression = [[SKAdImpression alloc] init];
-        [impression setAdNetworkIdentifier:model.productParameters[@"network"]];
-        [impression setSourceAppStoreItemIdentifier:model.productParameters[@"sourceapp"]];
-        [impression setAdvertisedAppStoreItemIdentifier:model.productParameters[@"itunesitem"]];
-        [impression setVersion:model.productParameters[@"version"]];
-        [impression setAdCampaignIdentifier:model.productParameters[@"campaign"]];
-        [impression setTimestamp:model.productParameters[@"timestamp"]];
-        [impression setAdImpressionIdentifier:model.productParameters[@"nonce"]];
-        [impression setSignature:model.productParameters[@"signature"]];
+        
+        if (model.productParameters[@"network"] != nil) {
+            [impression setAdNetworkIdentifier:model.productParameters[@"network"]];
+        }
+        if (model.productParameters[@"sourceapp"] != nil) {
+            NSNumber *sourceApp = [self getNSNumberFromString:model.productParameters[@"sourceapp"]] != nil
+            ? [self getNSNumberFromString:model.productParameters[@"sourceapp"]]
+            : @0;
+            
+            [impression setSourceAppStoreItemIdentifier:sourceApp];
+        }
+        if ([self getNSNumberFromString:model.productParameters[@"itunesitem"]] != nil) {
+            [impression setAdvertisedAppStoreItemIdentifier:[self getNSNumberFromString:model.productParameters[@"itunesitem"]]];
+        }
+        if (model.productParameters[@"version"] != nil) {
+            [impression setVersion:model.productParameters[@"version"]];
+        }
+        if ([self getNSNumberFromString:model.productParameters[@"campaign"]] != nil) {
+            [impression setAdCampaignIdentifier:[self getNSNumberFromString:model.productParameters[@"campaign"]]];
+        }
+        
+        double skanVersion = [[model productParameters][@"version"] doubleValue];
+        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [model.productParameters[@"fidelities"] count] > 0) {
+            for (NSData *data in model.productParameters[@"fidelities"]) {
+                SKANObject skanObject;
+                [data getBytes:&skanObject length:sizeof(skanObject)];
                 
+                if (skanObject.fidelity == 0) { // 0 is View-Through ad
+                    if ([NSString stringWithUTF8String:skanObject.signature] != nil) {
+                        [impression setSignature: [NSString stringWithUTF8String:skanObject.signature]];
+                    }
+                    if ([NSString stringWithUTF8String:skanObject.nonce] != nil) {
+                        [impression setAdImpressionIdentifier:[NSString stringWithUTF8String:skanObject.nonce]];
+                    }
+                    if ([self getNSNumberFromString:[NSString stringWithUTF8String:skanObject.timestamp]] != nil) {
+                        [impression setTimestamp:[self getNSNumberFromString:[NSString stringWithUTF8String:skanObject.timestamp]]];
+                    }
+                }
+            }
+        } else {
+            if (model.productParameters[@"signature"] != nil) {
+                [impression setSignature:model.productParameters[@"signature"]];
+            }
+            if (model.productParameters[@"nonce"] != nil) {
+                [impression setAdImpressionIdentifier:model.productParameters[@"nonce"]];
+            }
+            if ([self getNSNumberFromString:model.productParameters[@"timestamp"]] != nil) {
+                [impression setTimestamp:[self getNSNumberFromString:model.productParameters[@"timestamp"]]];
+            }
+        }
+           
         return impression;
     } else {
         return nil;
     }
 }
 
+- (NSNumber *)getNSNumberFromString:(NSString *)string
+{
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *number = [numberFormatter numberFromString:string];
+    
+    return number;
+}
+
 - (void)startImpressionForAd:(HyBidAd *)ad
 API_AVAILABLE(ios(14.5))
 {
     HyBidSkAdNetworkModel *model = [self getSkAdNetworkModelForAd:ad];
-    SKAdImpression *impression = [self generateSkAdImpressionFromModel:model];
+    SKAdImpression *impression = [self generateSkAdImpressionFrom:model];
     
     if (impression != nil) {
         if (@available(iOS 14.5, *)) {

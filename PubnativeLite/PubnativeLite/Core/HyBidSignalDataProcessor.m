@@ -132,8 +132,11 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
             switch (ad.assetGroupID.integerValue) {
                 case VAST_INTERSTITIAL:
                 case VAST_MRECT: {
+                    NSString *vast = ad.isUsingOpenRTB
+                    ? ad.openRtbVast
+                    : ad.vast;
                     HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-                    [videoAdProcessor processVASTString:ad.vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
+                    [videoAdProcessor processVASTString:vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
                         if (!vastModel) {
                             [self invokeDidFail:error];
                         } else {

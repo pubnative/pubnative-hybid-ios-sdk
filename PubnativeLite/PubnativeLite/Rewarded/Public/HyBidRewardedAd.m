@@ -220,19 +220,15 @@
     if ([HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType] != nil && [HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType].length > 0) {
         [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.rewardedAdRequest.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
     }
-    switch (self.ad.assetGroupID.integerValue) {
-        case VAST_REWARDED:
-            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-            if (self.ad.vast) {
-                [reportingDictionary setObject:self.ad.vast forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
-        default:
-            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-            if (self.ad.htmlData) {
-                [reportingDictionary setObject:self.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
+    if (self.ad.assetGroupID) {
+        [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+    }
+
+    NSString *vast = self.ad.isUsingOpenRTB
+            ? self.ad.openRtbVast
+            : self.ad.vast;
+    if (vast) {
+        [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
     }
 }
 

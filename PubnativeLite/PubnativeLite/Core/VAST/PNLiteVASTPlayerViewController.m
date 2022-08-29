@@ -42,6 +42,7 @@
 #import "HyBidVASTEndCardView.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import <StoreKit/SKOverlay.h>
+#import "StoreKit/StoreKit.h"
 
 #define kContentInfoContainerTag 2343
 
@@ -103,7 +104,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
-@property (nonatomic, strong) id playbackToken;
+@property (nonatomic, strong) id playbackObserverToken;
 // Fullscreen
 @property (nonatomic, strong) UIView *viewContainer;
 // Player
@@ -199,7 +200,10 @@ typedef enum : NSUInteger {
     [self.btnClose setAccessibilityIdentifier:@"vastCloseButton"];
     [self.btnClose setAccessibilityLabel:@"VAST Close Button"];
     
-    [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:self.ad.vast completion:^(HyBidVASTIcon *icon, NSError *error) {
+    NSString *vast = self.ad.isUsingOpenRTB
+    ? self.ad.openRtbVast
+    : self.ad.vast;
+    [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:vast completion:^(HyBidVASTIcon *icon, NSError *error) {
         self.icon = icon;
         
         if (self.icon != nil) {
@@ -319,7 +323,7 @@ typedef enum : NSUInteger {
 #pragma mark - PRIVATE -
 
 - (IBAction)videoTapped:(UITapGestureRecognizer *)sender {
-    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_CREATIVE) {
+    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_CREATIVE && !self.endCardShown) {
         [self btnOpenOfferPush:nil];
     }
 }
@@ -441,11 +445,18 @@ typedef enum : NSUInteger {
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     __weak typeof(self) weakSelf = self;
     CMTime interval = CMTimeMakeWithSeconds(PNLiteVASTPlayerDefaultPlaybackInterval, NSEC_PER_SEC);
-    self.playbackToken = [self.player addPeriodicTimeObserverForInterval:interval
-                                                                   queue:nil
-                                                              usingBlock:^(CMTime time) {
+    self.playbackObserverToken = [self.player addPeriodicTimeObserverForInterval:interval
+                                                                           queue:nil
+                                                                      usingBlock:^(CMTime time) {
         [weakSelf onPlaybackProgressTick];
     }];
+}
+
+- (void)removePeriodicTimeObserver {
+    if (self.playbackObserverToken) {
+        [self.player removeTimeObserver:self.playbackObserverToken];
+        self.playbackObserverToken = nil;
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -611,8 +622,9 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnClosePush:(id)sender {
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard) { // Skipped to end card
-        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
+    [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
+    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && ![HyBidSettings sharedInstance].closeOnFinish) { // Skipped to end card
+        [self removePeriodicTimeObserver];
         [self showEndCard];
     } else {
         [self invokeDidClose];
@@ -742,7 +754,7 @@ typedef enum : NSUInteger {
 - (void)removeObservers {
     if(self.player != nil) {
         [self.playerItem removeObserver:self forKeyPath:PNLiteVASTPlayerStatusKeyPath];
-        [self.player removeTimeObserver:self.playbackToken];
+        [self.player removeTimeObserver:self.playbackObserverToken];
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];;
@@ -1085,15 +1097,16 @@ typedef enum : NSUInteger {
     } else {
         // Fallback on earlier versions
     }
-        
     [self.btnClose removeFromSuperview];
     [self.viewSkip removeFromSuperview];
     [self.btnMute removeFromSuperview];
+    [self.btnOpenOffer removeFromSuperview];
     [self.viewProgress removeFromSuperview];
     self.endCardShown = YES;
     [self.player seekToTime:self.player.currentItem.duration
             toleranceBefore:kCMTimeZero
              toleranceAfter:kCMTimePositiveInfinity];
+    [self setState:PNLiteVASTPlayerState_READY];
     [self.layer removeFromSuperlayer];
     HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
     HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self isInterstitial:self.isInterstitial];
@@ -1101,6 +1114,7 @@ typedef enum : NSUInteger {
     [endCardView setupUI];
     [endCardView displayEndCard:firstEndCard withViewController:self];
     [self.view addSubview:endCardView];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
 }
 
 // MARK: - HyBidVASTEndCardViewControllerDelegate
@@ -1165,13 +1179,18 @@ typedef enum : NSUInteger {
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
     
     if (self.skAdModel) {
-        NSDictionary* productParams = [self.skAdModel getStoreKitParameters];
+        NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
+        
+        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+
         if ([productParams count] > 0) {
             if (throughClickURL != nil) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [productParams removeObjectForKey:@"fidelity-type"];
+                
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
@@ -1186,6 +1205,45 @@ typedef enum : NSUInteger {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL]];
         }
     }
+}
+
+- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
+{
+    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+        
+        if ([fidelitiesDataArray count] > 0) {
+            for (NSData *fidelity in fidelitiesDataArray) {
+                SKANObject skanObject;
+                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
+                
+                if (skanObject.fidelity == 1) {
+                    if (@available(iOS 11.3, *)) {
+                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
+                        
+                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
+                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
+                    }
+                    
+                    if (@available(iOS 13.0, *)) {
+                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                        
+                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        
+                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
+                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                    }
+                    
+                    dictionary[@"fidelities"] = nil;
+                    
+                    break; // Currently we support only 1 fidelity for each kind
+                }
+            }
+        }
+    }
+    
+    return dictionary;
 }
 
 #pragma mark - TIMERS -

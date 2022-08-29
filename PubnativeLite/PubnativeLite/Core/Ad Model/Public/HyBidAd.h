@@ -30,9 +30,17 @@
 #define kHyBidAdTypeHTML 0
 #define kHyBidAdTypeVideo 1
 
+typedef struct {
+    int fidelity;
+    char *signature;
+    char *nonce;
+    char *timestamp;
+} SKANObject;
+
 @interface HyBidAd : NSObject
 
 @property (nonatomic, readonly) NSString *vast;
+@property (nonatomic, readonly) NSString *openRtbVast;
 @property (nonatomic, readonly) NSString *htmlUrl;
 @property (nonatomic, readonly) NSString *htmlData;
 @property (nonatomic, readonly) NSString *link;
@@ -40,6 +48,7 @@
 @property (nonatomic, readonly) NSString *creativeID;
 @property (nonatomic, readonly) NSString *zoneID;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
+@property (nonatomic, readonly) NSNumber *openRTBAssetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
 @property (nonatomic, readonly) NSNumber *width;
 @property (nonatomic, readonly) NSNumber *height;
@@ -52,6 +61,7 @@
 - (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 - (instancetype)initOpenRTBWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 - (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType;
+- (instancetype)initWithAssetGroupForOpenRTB:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType withBidObject:(NSDictionary *)bidObject;
 - (HyBidDataModel *)assetDataWithType:(NSString *)type;
 - (HyBidOpenRTBDataModel *)openRTBAssetDataWithType:(NSString *)type;
 - (HyBidDataModel *)metaDataWithType:(NSString *)type;

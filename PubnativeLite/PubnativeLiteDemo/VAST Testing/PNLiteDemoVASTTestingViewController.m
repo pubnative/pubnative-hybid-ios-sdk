@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *vastLoadingIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 
@@ -69,6 +70,8 @@
 }
 
 - (void)requestAd {
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     [self.vastLoadingIndicator startAnimating];
     NSString *vastURL = [self.vastTextField text];
     if ([vastURL length] == 0) {
@@ -86,6 +89,7 @@
 
 - (void)invokeDidFail:(NSError *)error {
     [self.vastLoadingIndicator stopAnimating];
+    self.debugButton.hidden = NO;
     [self showAlertControllerWithMessage:error.localizedDescription];
 }
 
@@ -95,6 +99,7 @@
     NSLog(@"Interstitial did load");
     [self.vastLoadingIndicator stopAnimating];
     [self.interstitialAd show];
+    self.debugButton.hidden = NO;
     
 }
 
@@ -102,6 +107,7 @@
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
     [self.vastLoadingIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
 }
 
 - (void)interstitialDidTrackClick {

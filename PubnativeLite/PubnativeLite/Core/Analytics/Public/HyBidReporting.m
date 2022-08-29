@@ -88,6 +88,8 @@
 + (NSString *)RENDER { return @"render"; }
 + (NSString *)RENDER_ERROR { return @"render_error"; }
 
++ (NSString *)COMPANION_VIEW { return @"companion_view"; }
+
 @end
 
 @implementation HyBidReportingCreativeType

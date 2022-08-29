@@ -48,7 +48,6 @@
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
 NSInteger const PNLiteResponseStatusOK = 200;
-NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 @interface HyBidAdRequest () <PNLiteHttpRequestDelegate>
 
@@ -142,6 +141,7 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Zone ID nil or empty, droping this call."];
     } else {
         //        [[HyBidRemoteConfigManager sharedInstance] refreshRemoteConfig];
+        [PNLiteRequestInspector sharedInstance].lastInspectedRequest = nil;
         self.delegate = delegate;
         if (![self isFormatEnabled]) {
             [self invokeDidFail:[NSError hyBidDisabledFormatError]];
@@ -301,12 +301,13 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     __block NSString *adContent = vastAdContent;
     
     if ([adContent length] != 0) {
+        NSDictionary *bid;
         if (self.isUsingOpenRTB) {
             NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
             NSError *error;
             id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
             NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
-            NSDictionary *bid = [seatBid[@"bid"] firstObject];
+            bid = [seatBid[@"bid"] firstObject];
             NSString *vastString = bid[@"adm"];
             adContent = vastString;
         }
@@ -338,7 +339,13 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
                         HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                         videoAdCacheItem.vastModel = vastModel;
                         [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
-                        HyBidAd *ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
+                        
+                        HyBidAd *ad;
+                        if (self.isUsingOpenRTB) {
+                            ad = [[HyBidAd alloc] initWithAssetGroupForOpenRTB:assetGroupID withAdContent:adContent withAdType:type withBidObject:bid];
+                        } else {
+                            ad = [[HyBidAd alloc] initWithAssetGroup:assetGroupID withAdContent:adContent withAdType:type];
+                        }
                         ad.isUsingOpenRTB = self.isUsingOpenRTB;
                         
                         NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
@@ -432,12 +439,15 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
     } else {
         [self.cacheReportingProperties setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
         
-        if (ad.vast != nil) {
-            [self.cacheReportingProperties setObject:ad.vast forKey:HyBidReportingCommon.CREATIVE];
+        NSString *vast = ad.isUsingOpenRTB
+        ? ad.openRtbVast
+        : ad.vast;
+        if (vast != nil) {
+            [self.cacheReportingProperties setObject:vast forKey:HyBidReportingCommon.CREATIVE];
         }
         self.initialCacheTimestamp = [[NSDate date] timeIntervalSince1970];
         HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-        [videoAdProcessor processVASTString:ad.vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
+        [videoAdProcessor processVASTString:vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
             if (!vastModel) {
                 [self invokeDidFail:error];
             } else {
@@ -538,8 +548,8 @@ NSInteger const PNLiteResponseStatusRequestMalformed = 422;
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     [self.adResponseReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialAdResponseTimestamp]] forKey:HyBidReportingCommon.RESPONSE_TIME];
-    if(PNLiteResponseStatusOK == statusCode ||
-       PNLiteResponseStatusRequestMalformed == statusCode) {
+
+    if(PNLiteResponseStatusOK == statusCode) {
         __block NSString *responseString;
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (dataString) {

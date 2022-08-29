@@ -88,6 +88,8 @@
 @property (class, nonatomic, readonly) NSString *RENDER;
 @property (class, nonatomic, readonly) NSString *RENDER_ERROR;
 
+@property (class, nonatomic, readonly) NSString *COMPANION_VIEW;
+
 @end
 
 @interface HyBidReportingCreativeType : NSObject

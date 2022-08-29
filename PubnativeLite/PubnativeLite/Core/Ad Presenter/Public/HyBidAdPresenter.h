@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "HyBidAd.h"
+#import "HyBidAdSize.h"
 
 @class HyBidAdPresenter;
 
@@ -46,6 +47,7 @@
 @property (nonatomic, weak) NSObject <HyBidAdPresenterDelegate> *delegate;
 
 - (void)load;
+- (void)loadMarkupWithSize:(HyBidAdSize *)adSize;
 - (void)startTracking;
 - (void)stopTracking;
 

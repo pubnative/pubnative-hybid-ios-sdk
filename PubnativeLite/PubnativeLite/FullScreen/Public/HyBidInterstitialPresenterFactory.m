@@ -49,7 +49,11 @@
 }
     
 - (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withVideoSkipOffset:(NSUInteger)videoSkipOffset withHTMLSkipOffset:(NSUInteger)htmlSkipOffset withCloseOnFinish: (BOOL)closeOnFinish {
-    switch (ad.assetGroupID.integerValue) {
+    NSNumber *adAssetGroupID = ad.isUsingOpenRTB
+    ? ad.openRTBAssetGroupID
+    : ad.assetGroupID;
+    
+    switch (adAssetGroupID.integerValue) {
         case MRAID_300x600:
         case MRAID_320x480:
         case MRAID_480x320:

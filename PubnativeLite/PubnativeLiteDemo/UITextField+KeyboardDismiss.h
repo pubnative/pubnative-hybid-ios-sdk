@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidAdPresenter.h"
+#import <UIKit/UIKit.h>
 
-@implementation HyBidAdPresenter
+@interface UITextField (KeyboardDismiss)
 
-- (void)dealloc {
-    self.delegate = nil;
-}
-
-- (void)load {
-    // Do nothing, this method should be overriden
-}
-
-- (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
-    // Do nothing, this method should be overriden
-}
-
-- (void)startTracking {
-    // Do nothing, this method should be overriden
-}
-
-- (void)stopTracking {
-    // Do nothing, this method should be overriden
-}
-
-- (HyBidAd *)ad {
-    return nil;
-}
+- (void)addDismissKeyboardButtonWithTitle:(NSString *)title withTarget:(id)target withSelector:(SEL)selector;
 
 @end
