@@ -57,6 +57,7 @@
         withBaseURL:(NSURL*)bsURL
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
+       isScrollable:(BOOL)isScrollable
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
@@ -77,4 +78,6 @@
 - (void)hide;
 - (void)stopAdSession;
 - (void)startAdSession;
+// These methods provide the means for native code to talk to JavaScript code.
+- (void)injectJavaScript:(NSString *)js;
 @end

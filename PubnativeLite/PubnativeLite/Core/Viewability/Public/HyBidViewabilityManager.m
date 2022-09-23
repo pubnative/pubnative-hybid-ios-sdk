@@ -22,9 +22,14 @@
 
 #import "HyBidViewabilityManager.h"
 #import <OMSDK_Pubnativenet/OMIDImports.h>
-#import "HyBidLogger.h"
-#import "HyBidConstants.h"
-#import "HyBid.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 static NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
 static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
@@ -54,9 +59,9 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
         
         if (!OMIDPubnativenetSDK.sharedInstance.isActive) {
             [[OMIDPubnativenetSDK sharedInstance] activate];
-            self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidViewabilityPartnerName versionString:HYBID_SDK_VERSION];
+            self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidViewabilityPartnerName versionString:HyBidConstants.HYBID_SDK_VERSION];
         } else {
-            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Viewability Manager couldn't initialized properly with error: %@", error.debugDescription]];
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Viewability Manager couldn't initialized properly with error: %@", error.debugDescription]];
         }
         
         if(!self.omidJSString){
@@ -87,7 +92,7 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     @synchronized (self) {
         scriptContent  = self.omidJSString;
         if (!scriptContent) {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Script Content is nil."];
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:@"Script Content is nil."];
             scriptContent=  @"";
         }
     }
@@ -118,8 +123,8 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)reportEvent:(NSString *)eventType {
-    HyBidReportingEvent* impressionOccurredEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:nil properties:nil];
-    [[HyBid reportingManager]reportEventFor:impressionOccurredEvent];
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:nil properties:nil];
+    [[HyBid reportingManager]reportEventFor:reportingEvent];
 }
 
 @end

@@ -22,7 +22,14 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteTrackingManagerItem.h"
 #import "PNLiteHttpRequest.h"
-#import "HyBidLogger.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString * const PNLiteTrackingManagerQueueKey             = @"PNLiteTrackingManager.queue.key";
 NSString * const PNLiteTrackingManagerFailedQueueKey       = @"PNLiteTrackingManager.failedQueue.key";

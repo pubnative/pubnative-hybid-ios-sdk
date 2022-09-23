@@ -23,12 +23,19 @@
 #import "HyBidContentInfoView.h"
 #import "PNLiteMeta.h"
 #import "PNLiteOrientationManager.h"
+#import "HyBidAdFeedbackView.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
 
 CGFloat const PNLiteContentViewHeight = 15.0f;
 CGFloat const PNLiteContentViewWidth = 15.0f;
 NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 
-@interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate>
+@interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate, HyBidAdFeedbackViewDelegate>
 
 @property (nonatomic, strong) UILabel *textView;
 @property (nonatomic, strong) UIImageView *iconView;
@@ -37,7 +44,9 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 @property (nonatomic, assign) CGFloat openSize;
 @property (nonatomic, strong) NSTimer *closeTimer;
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, strong) HyBidAdFeedbackView *adFeedbackView;
 @property (nonatomic, assign) BOOL closeButtonTapped;
+@property (nonatomic, assign) BOOL adFeedbackViewRequested;
 
 @end
 
@@ -173,9 +182,10 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 }
 
 - (void)configureView {
-    [self setIsAccessibilityElement:YES];
-    [self setAccessibilityLabel:@"Content Info View"];
-    [self setAccessibilityIdentifier:@"contentInfoView"];
+
+    [self.iconView setIsAccessibilityElement:YES];
+    [self.iconView setAccessibilityLabel:@"Content Info Icon View"];
+    [self.iconView setAccessibilityIdentifier:@"contentInfoIconView"];
     
     [self.textView setIsAccessibilityElement:YES];
     [self.textView setAccessibilityLabel:@"Content Info Text View"];
@@ -229,8 +239,17 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (void)handleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if(self.isOpen) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link]];
-            [self close];
+            if ([HyBidSettings sharedInstance].adFeedback) {
+                if (!self.adFeedbackViewRequested) {
+                    self.adFeedbackViewRequested = YES;
+                    self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
+                    self.adFeedbackView.delegate = self;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsReady" object:nil];
+                }
+            } else {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link]];
+                [self close];
+            }
         } else {
             [self open];
         }
@@ -260,6 +279,18 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 
 - (void)orientationManagerDidChangeOrientation {
     [self.delegate contentInfoViewWidthNeedsUpdate:[NSNumber numberWithFloat: self.frame.size.width]];
+}
+
+#pragma mark HyBidAdFeedbackViewDelegate
+
+- (void)adFeedbackViewDidLoad {
+    [self.adFeedbackView show];
+    self.adFeedbackViewRequested = NO;
+    [self close];
+}
+
+- (void)adFeedbackViewDidFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Feedback failed with error: %@",error.localizedDescription]];
 }
 
 @end

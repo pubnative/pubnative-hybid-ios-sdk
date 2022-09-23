@@ -20,10 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import "IronSource/ISBaseAdAdapter.h"
-#import "IronSource/ISAdapterErrors.h"
+#import "IronSource/IronSource.h"
 #import <HyBid/HyBid.h>
 
-@interface ISVerveCustomInterstitial : ISBaseAdAdapter
+@interface ISVerveCustomInterstitial : ISBaseInterstitial
 
 @end

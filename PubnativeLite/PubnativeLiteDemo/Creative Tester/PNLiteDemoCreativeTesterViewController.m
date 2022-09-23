@@ -24,6 +24,7 @@
 #import "PNLiteHttpRequest.h"
 #import "Markup.h"
 #import "PNLiteDemoMarkupDetailViewController.h"
+#import "UITextField+KeyboardDismiss.h"
 
 #import <HyBid/HyBid.h>
 
@@ -32,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *creativeIdTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *adSizeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 @property (strong, nonatomic) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) Markup *markup;
@@ -40,12 +42,23 @@
 
 @implementation PNLiteDemoCreativeTesterViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.creativeIdTextField addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];
+}
+
 - (IBAction)loadButtonTapped:(UIButton *)sender {
     [self requestAd];
 }
 
 - (void)requestAd
 {
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
     if ([[self.creativeIdTextField text] length] > 0) {
         NSString *creativeID = [[self.creativeIdTextField text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString *urlString = [[NSString alloc] initWithFormat:@"https://docker.creative-serving.com/preview?cr=%@&type=adi", creativeID];
@@ -67,12 +80,13 @@
 - (void)displayAd {
     switch ([self.adSizeSegmentedControl selectedSegmentIndex]) {
         case 0: // Banner
+            [self displayAdModally:YES];
+            break;
         case 1: // Medium
+            [self displayAdModally:YES];
+            break;
         case 2: { // Leaderboard
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Markup" bundle:[NSBundle mainBundle]];
-            PNLiteDemoMarkupDetailViewController *markupDetailVC = [storyboard instantiateViewControllerWithIdentifier:@"MarkupDetailViewController"];
-            markupDetailVC.markup = self.markup;
-            [self.navigationController presentViewController:markupDetailVC animated:YES completion:nil];
+            [self displayAdModally:NO];
             break;
         }
         case 3: { // Interstitial
@@ -80,6 +94,17 @@
             [self.interstitialAd prepareCustomMarkupFrom:self.markup.text];
             break;
         }
+    }
+}
+
+-(void) displayAdModally:(BOOL)modal {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Markup" bundle:[NSBundle mainBundle]];
+    PNLiteDemoMarkupDetailViewController *markupDetailVC = [storyboard instantiateViewControllerWithIdentifier:@"MarkupDetailViewController"];
+    markupDetailVC.markup = self.markup;
+    if (modal) {
+        [self.navigationController presentViewController:markupDetailVC animated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:markupDetailVC animated:YES];
     }
 }
 
@@ -99,10 +124,12 @@
     
     self.markup = [[Markup alloc] initWithMarkupText:adString withAdPlacement: [NSNumber numberWithInteger:[self.adSizeSegmentedControl selectedSegmentIndex]]];
     [self displayAd];
+    self.debugButton.hidden = NO;
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
     [self invokeDidFail:error];
+    self.debugButton.hidden = NO;
 }
 
 #pragma mark - HyBidInterstitialAdDelegate

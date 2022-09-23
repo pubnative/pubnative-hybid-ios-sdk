@@ -21,12 +21,14 @@
 //
 
 #import "PNLiteDemoMarkupDetailViewController.h"
+#import "HyBidAdView.h"
 
 @interface PNLiteDemoMarkupDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *markupContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerHeightConstraint;
+@property (nonatomic, strong) HyBidAdView *adView;
 
 @end
 
@@ -34,6 +36,7 @@
 
 - (void)dealloc {
     self.markup = nil;
+    self.adView = nil;
 }
 
 - (void)viewDidLoad {
@@ -43,29 +46,46 @@
         case 0: {
             self.markupContainerWidthConstraint.constant = 320;
             self.markupContainerHeightConstraint.constant = 50;
+            self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_320x50];
             break;
         }
         case 1: {
             self.markupContainerWidthConstraint.constant = 300;
             self.markupContainerHeightConstraint.constant = 250;
+            self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_300x250];
             break;
         }
         case 2: {
             self.markupContainerWidthConstraint.constant = 728;
             self.markupContainerHeightConstraint.constant = 90;
+            self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_728x90];
             break;
         }
         default:
             break;
     }
-        [self.markupContainer addSubview:[self createMRAIDViewWithMarkup:self.markup
-                                                               withWidth:self.markupContainerWidthConstraint.constant
-                                                              withHeight:self.markupContainerHeightConstraint.constant
-                                                          isInterstitial:NO]];
+    
+    [self.markupContainer addSubview:self.adView];
+    [self.adView prepareCustomMarkupFrom:self.markup.text];
 }
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([self isModal]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
+
+- (BOOL)isModal {
+     if([self presentingViewController])
+         return YES;
+     if([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController])
+         return YES;
+     if([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
+         return YES;
+
+    return NO;
+ }
 
 @end

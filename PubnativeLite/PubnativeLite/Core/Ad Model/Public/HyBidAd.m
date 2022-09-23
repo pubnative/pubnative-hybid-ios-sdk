@@ -26,6 +26,13 @@
 #import "HyBidContentInfoView.h"
 #import "HyBidSkAdNetworkModel.h"
 #import "HyBidOpenRTBAdModel.h"
+#import "HyBid.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
 
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
@@ -71,6 +78,31 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return self;
 }
 
+- (instancetype)initWithAssetGroupForOpenRTB:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType withBidObject:(NSDictionary *)bidObject {
+    self = [super init];
+    if (self) {
+        HyBidOpenRTBAdModel *model = [[HyBidOpenRTBAdModel alloc] initWithDictionary:bidObject];
+        NSString *apiAsset;
+        NSMutableArray *assets = [[NSMutableArray alloc] init];
+        HyBidOpenRTBDataModel *data;
+        if (adType == kHyBidAdTypeVideo) {
+            apiAsset = PNLiteAsset.vast;
+            data = [[HyBidOpenRTBDataModel alloc] initWithVASTAsset:apiAsset withValue:adContent];
+            self.adType = kHyBidAdTypeVideo;
+        } else {
+            apiAsset = PNLiteAsset.htmlBanner;
+            data = [[HyBidOpenRTBDataModel alloc] initWithHTMLAsset:apiAsset withValue:adContent];
+            self.adType = kHyBidAdTypeHTML;
+        }
+        [assets addObject:data];
+        
+        model.assets = assets;
+        model.assetgroupid = [NSNumber numberWithInteger: assetGroup];
+        self.openRTBData = model;
+    }
+    return self;
+}
+
 - (instancetype)initWithAssetGroup:(NSInteger)assetGroup withAdContent:(NSString *)adContent withAdType:(NSInteger)adType {
     self = [super init];
     if (self) {
@@ -103,6 +135,15 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 - (NSString *)vast {
     NSString *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.vast];
+    if (data) {
+        result = data.vast;
+    }
+    return result;
+}
+
+- (NSString *)openRtbVast {
+    NSString *result = nil;
+    HyBidOpenRTBDataModel *data = [self openRTBAssetDataWithType:PNLiteAsset.vast];
     if (data) {
         result = data.vast;
     }
@@ -186,6 +227,14 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (NSNumber *)openRTBAssetGroupID {
+    NSNumber *result = nil;
+    if (self.openRTBData) {
+        result = self.openRTBData.assetgroupid;
+    }
+    return result;
+}
+
 - (NSNumber *)eCPM {
     NSNumber *result = nil;
     HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.points];
@@ -229,6 +278,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
             self.contentInfoView.text = data.text;
             self.contentInfoView.link = [data stringFieldWithKey:@"link"];
             self.contentInfoView.icon = [data stringFieldWithKey:@"icon"];
+            self.contentInfoView.zoneID = self.zoneID;
         }
     } else {
         if (!self.contentInfoView) {
@@ -263,7 +313,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         result.icon = contentInfoView.icon;
         result.link = contentInfoView.link;
         result.text = [contentInfoView.text length] == 0 ? contentInfoView.text : ContentInfoViewText;
-        
+        result.zoneID = self.zoneID;
         return result;
     }
 }
@@ -274,7 +324,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     contentInfoView.text = ContentInfoViewText;
     contentInfoView.link = ContentInfoViewLink;
     contentInfoView.icon = ContentInfoViewIcon;
-    
+    contentInfoView.zoneID = self.zoneID;
     return contentInfoView;
 }
 
@@ -284,6 +334,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+        
         if ([data stringFieldWithKey:@"campaign"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
         }
@@ -293,27 +344,53 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data stringFieldWithKey:@"network"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"network"] forKey:@"network"];
         }
-        if ([data stringFieldWithKey:@"nonce"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
-        }
-        if ([data stringFieldWithKey:@"signature"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
-        }
         if ([data stringFieldWithKey:@"sourceapp"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"sourceapp"] forKey:@"sourceapp"];
-        }
-        if ([data stringFieldWithKey:@"timestamp"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
         }
         if ([data stringFieldWithKey:@"version"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"version"] forKey:@"version"];
         }
-        if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
-            [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
+        
+        double skanVersion = [[data dictionary][@"skadn"][@"version"] doubleValue];
+        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [data.dictionary[@"skadn"][@"fidelities"] count] > 0) {
+            SKANObject skan;
+            NSArray *fidelities = data.dictionary[@"skadn"][@"fidelities"];
+            NSMutableArray<NSData *> *skanDataArray = [NSMutableArray new];
+            
+            for (NSDictionary *fidelity in fidelities) {
+                if (fidelity[@"nonce"] != nil &&
+                    fidelity[@"signature"] != nil &&
+                    fidelity[@"timestamp"] != nil &&
+                    fidelity[@"fidelity"] != nil) {
+                    skan.nonce = (char *)[fidelity[@"nonce"] UTF8String];
+                    skan.signature = (char *)[fidelity[@"signature"] UTF8String];
+                    skan.timestamp = (char *)[fidelity[@"timestamp"] UTF8String];
+                    skan.fidelity = [fidelity[@"fidelity"] intValue];
+                    
+                    NSData *d = [NSData dataWithBytes:&skan length:sizeof(SKANObject)];
+                    [skanDataArray addObject:d];
+                }
+            }
+            
+            [dict setObject:skanDataArray forKey:@"fidelities"];
+        } else {
+            if ([data stringFieldWithKey:@"signature"] != nil) {
+                [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
+            }
+            if ([data stringFieldWithKey:@"timestamp"] != nil) {
+                [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
+            }
+            if ([data stringFieldWithKey:@"nonce"] != nil) {
+                [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
+            }
+            if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
+                [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
+            }
         }
         
         model.productParameters = [dict copy];
     }
+
     return model;
 }
 
@@ -323,6 +400,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+        
         if ([data stringFieldWithKey:@"campaign"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
         }
@@ -332,27 +410,53 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data stringFieldWithKey:@"network"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"network"] forKey:@"network"];
         }
-        if ([data stringFieldWithKey:@"nonce"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
-        }
-        if ([data stringFieldWithKey:@"signature"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
-        }
         if ([data stringFieldWithKey:@"sourceapp"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"sourceapp"] forKey:@"sourceapp"];
-        }
-        if ([data stringFieldWithKey:@"timestamp"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
         }
         if ([data stringFieldWithKey:@"version"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"version"] forKey:@"version"];
         }
-        if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
-            [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
+        
+        double skanVersion = [[data dictionary][@"data"][@"version"] doubleValue];
+        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [data.dictionary[@"data"][@"fidelities"] count] > 0) {
+            SKANObject skan;
+            NSArray *fidelities = data.dictionary[@"data"][@"fidelities"];
+            NSMutableArray<NSData *> *skanDataArray = [NSMutableArray new];
+            
+            for (NSDictionary *fidelity in fidelities) {
+                if (fidelity[@"nonce"] != nil &&
+                    fidelity[@"signature"] != nil &&
+                    fidelity[@"timestamp"] != nil &&
+                    fidelity[@"fidelity"] != nil) {
+                    skan.nonce = (char *)[fidelity[@"nonce"] UTF8String];
+                    skan.signature = (char *)[fidelity[@"signature"] UTF8String];
+                    skan.timestamp = (char *)[fidelity[@"timestamp"] UTF8String];
+                    skan.fidelity = [fidelity[@"fidelity"] intValue];
+                    
+                    NSData *d = [NSData dataWithBytes:&skan length:sizeof(SKANObject)];
+                    [skanDataArray addObject:d];
+                }
+            }
+            
+            [dict setObject:skanDataArray forKey:@"fidelities"];
+        } else {
+            if ([data stringFieldWithKey:@"nonce"] != nil) {
+                [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
+            }
+            if ([data stringFieldWithKey:@"signature"] != nil) {
+                [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
+            }
+            if ([data stringFieldWithKey:@"timestamp"] != nil) {
+                [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
+            }
+            if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
+                [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
+            }
         }
         
         model.productParameters = [dict copy];
     }
+    
     return model;
 }
 

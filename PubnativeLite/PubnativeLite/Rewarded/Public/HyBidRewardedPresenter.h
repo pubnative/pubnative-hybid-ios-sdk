@@ -44,7 +44,7 @@
 @interface HyBidRewardedPresenter : NSObject
 
 @property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, weak) NSObject <HyBidRewardedPresenterDelegate> *delegate;
+@property (nonatomic) NSObject <HyBidRewardedPresenterDelegate> *delegate;
 
 - (void)load;
 

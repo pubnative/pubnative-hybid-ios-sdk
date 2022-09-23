@@ -1,0 +1,8 @@
+framework module HyBid {
+    umbrella header "HyBid.h"
+    private header "PNLiteLocationManager.h"
+    
+    export *
+    module * { export * }
+
+}

@@ -21,19 +21,27 @@
 //
 
 #import "HyBidRewardedPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
 #import "PNLiteRewardedPresenterDecorator.h"
 #import "PNLiteVASTRewardedPresenter.h"
 #import "HyBidAdTracker.h"
-#import "HyBidLogger.h"
 #import "HyBidRemoteConfigFeature.h"
 #import "HyBidRemoteConfigManager.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @implementation HyBidRewardedPresenterFactory
 
 - (HyBidRewardedPresenter *)createRewardedPresenterWithAd:(HyBidAd *)ad
-                                                    withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate {
-    HyBidRewardedPresenter *rewardedPresenter = [self createRewardedPresenterFromAd:ad];
+                                        withCloseOnFinish:(BOOL)closeOnFinish
+                                             withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate {
+    HyBidRewardedPresenter *rewardedPresenter = [self createRewardedPresenterFromAd:ad
+                                                                  withCloseOnFinish:closeOnFinish];
     if (!rewardedPresenter) {
         return nil;
     }
@@ -44,16 +52,18 @@
     return rewardedPresenterDecorator;
 }
 
-- (HyBidRewardedPresenter *)createRewardedPresenterFromAd:(HyBidAd *)ad {
+- (HyBidRewardedPresenter *)createRewardedPresenterFromAd:(HyBidAd *)ad
+                                        withCloseOnFinish:(BOOL)closeOnFinish {
     switch (ad.assetGroupID.integerValue) {
         case VAST_REWARDED: {
-            PNLiteVASTRewardedPresenter *vastRewardedPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad];
+            PNLiteVASTRewardedPresenter *vastRewardedPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad
+                                                                                               withCloseOnFinish:closeOnFinish];
             
             NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
             return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: vastString] ? nil : vastRewardedPresenter;
         }
         default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Rewarded ad format.", ad.assetGroupID]];
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Rewarded ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

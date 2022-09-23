@@ -107,14 +107,15 @@ CLLocationManager *locationManager;
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     
     [HyBid setInterstitialActionBehaviour:HB_CREATIVE];
-    [HyBid setVideoInterstitialSkipOffset:1];
-    [HyBid setHTMLInterstitialSkipOffset:2];
-    [HyBid setEndCardCloseOffset:@5];
+//    [HyBid setVideoInterstitialSkipOffset:1];
+//    [HyBid setHTMLInterstitialSkipOffset:2];
+//    [HyBid setEndCardCloseOffset:@5];
     [HyBid setVideoAudioStatus:HyBidAudioStatusDefault];
     [HyBid setInterstitialSKOverlay:YES];
     [HyBid setRewardedSKOverlay:YES];
-    [HyBid setShowEndCard:YES];
-    
+//    [HyBid setShowEndCard:NO];
+    [HyBid setAdFeedback:YES];
+    [HyBid setContentInfoURL:@"https://feedback-dev.verve.com"];
     [HyBid getCustomRequestSignalData];
     return YES;
 }

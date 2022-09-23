@@ -77,15 +77,18 @@
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:YES];
     self.player.isRewarded = YES;
     self.player.delegate = self;
+    NSString *vast = self.adModel.isUsingOpenRTB
+    ? self.adModel.openRtbVast
+    : self.adModel.vast;
     if (self.adModel.zoneID != nil && self.adModel.zoneID.length > 0) {
         self.videoAdCacheItem = [[HyBidVideoAdCache sharedInstance] retrieveVideoAdCacheItemFromCacheWithZoneID:self.adModel.zoneID];
         if (!self.videoAdCacheItem) {
-            [self.player loadWithVastString:self.adModel.vast];
+            [self.player loadWithVastString:vast];
         } else {
             [self.player loadWithVideoAdCacheItem:self.videoAdCacheItem];
         }
     } else {
-        [self.player loadWithVastString:self.adModel.vast];
+        [self.player loadWithVastString:vast];
     }
 }
 
@@ -111,7 +114,10 @@
 }
 
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
-    [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
+    if (self.closeOnFinish) {
+        [self.presenter hide];
+        [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
+    }
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {

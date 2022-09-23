@@ -13,7 +13,7 @@ target 'HyBidDemo' do
   pod 'FLEX', '4.7.0'
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
-  pod 'Google-Mobile-Ads-SDK', '9.4.0'
+  pod 'Google-Mobile-Ads-SDK', '9.10.0'
   pod 'GoogleMobileAdsMediationTestSuite', '3.0.0'
   pod 'AppLovinSDK', '11.4.0'
 end

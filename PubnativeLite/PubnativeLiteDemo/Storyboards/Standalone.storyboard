@@ -777,6 +777,9 @@
                                         <accessibility key="accessibilityConfiguration" identifier="bannerAdViewCell" label="Banner Ad View Cell">
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
+                                        <constraints>
+                                            <constraint firstItem="RAv-ut-fk9" firstAttribute="centerX" secondItem="Tss-OX-0Xj" secondAttribute="centerX" id="S6f-Ln-eFw"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="bannerAdContainerHeightConstraint" destination="dYq-f4-o4h" id="be6-lv-p6M"/>
                                             <outlet property="bannerAdContainerWidthConstraint" destination="TFJ-9s-LxM" id="w1o-CK-Nuo"/>
@@ -1245,11 +1248,6 @@
             <point key="canvasLocation" x="-4343" y="403"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="yuJ-gp-1ek">
-            <size key="intrinsicContentSize" width="240" height="44"/>
-        </designable>
-    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="EqL-tj-82v"/>
     </inferredMetricsTieBreakers>

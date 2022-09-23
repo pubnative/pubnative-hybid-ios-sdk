@@ -55,9 +55,9 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad
-                                                                                    withVideoSkipOffset:[HyBidSettings sharedInstance].videoSkipOffset
-                                                                                     withHTMLSkipOffset:[HyBidSettings sharedInstance].htmlSkipOffset
-                                                                                      withCloseOnFinish:[HyBidSettings sharedInstance].closeOnFinish
+                                                                                    withVideoSkipOffset:[HyBidSettings sharedInstance].videoSkipOffset.offset.integerValue
+                                                                                     withHTMLSkipOffset:[HyBidSettings sharedInstance].htmlSkipOffset.offset.integerValue
+                                                                                      withCloseOnFinish:[HyBidSettings sharedInstance].interstitialCloseOnFinish
                                                                                            withDelegate:self];
         if (!self.interstitialPresenter) {
             [self invokeFailWithMessage:@"Could not create valid interstitial presenter."];

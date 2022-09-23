@@ -25,10 +25,19 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidLogger.h"
 #import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
+#import "HyBid.h"
+#import "StoreKit/StoreKit.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @interface PNLiteMRAIDBannerPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
 
@@ -64,6 +73,22 @@
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                           supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                               isInterstital:NO
+                                              isScrollable:NO
+                                                   delegate:self
+                                            serviceDelegate:self
+                                         rootViewController:[UIApplication sharedApplication].topViewController
+                                                contentInfo:self.adModel.contentInfo
+                                                 skipOffset:0];
+}
+
+- (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
+    self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
+    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)
+                                               withHtmlData:self.adModel.htmlData
+                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
+                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                              isInterstital:NO
+                                              isScrollable:NO
                                                    delegate:self
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
@@ -120,11 +145,14 @@
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
-        NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
+        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+        
+        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
+                [productParams removeObjectForKey:@"fidelity-type"];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
@@ -158,10 +186,14 @@
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
-        NSDictionary* productParams = [skAdNetworkModel getStoreKitParameters];
+        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+        
+        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:urlString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
+                [productParams removeObjectForKey:@"fidelity-type"];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
@@ -173,6 +205,45 @@
     } else {
         [self.serviceProvider openBrowser:urlString];
     }
+}
+
+- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
+{
+    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+        
+        if ([fidelitiesDataArray count] > 0) {
+            for (NSData *fidelity in fidelitiesDataArray) {
+                SKANObject skanObject;
+                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
+                
+                if (skanObject.fidelity == 1) {
+                    if (@available(iOS 11.3, *)) {
+                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
+                        
+                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
+                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
+                    }
+                    
+                    if (@available(iOS 13.0, *)) {
+                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                        
+                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        
+                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
+                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                    }
+                    
+                    dictionary[@"fidelities"] = nil;
+                    
+                    break; // Currently we support only 1 fidelity for each kind
+                }
+            }
+        }
+    }
+    
+    return dictionary;
 }
 
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {

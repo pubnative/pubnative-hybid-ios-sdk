@@ -23,16 +23,23 @@
 #import "PNLiteRewardedPresenterDecorator.h"
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
-#import "PNLiteAssetGroupType.h"
 #import <StoreKit/SKOverlay.h>
 #import <StoreKit/SKOverlayConfiguration.h>
 #import "UIApplication+PNLiteTopViewController.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @interface PNLiteRewardedPresenterDecorator() <SKOverlayDelegate>
 
 @property (nonatomic, strong) HyBidRewardedPresenter *rewardedPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, weak) NSObject<HyBidRewardedPresenterDelegate> *rewardedPresenterDelegate;
+@property (nonatomic) NSObject<HyBidRewardedPresenterDelegate> *rewardedPresenterDelegate;
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
 @property (nonatomic, assign) BOOL isOverlayShown;
@@ -91,19 +98,15 @@
     if (rewardedPresenter.ad.zoneID != nil && rewardedPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:rewardedPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    switch (rewardedPresenter.ad.assetGroupID.integerValue) {
-        case VAST_INTERSTITIAL:
-            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-            if (rewardedPresenter.ad.vast) {
-                [reportingDictionary setObject:rewardedPresenter.ad.vast forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
-        default:
-            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-            if (rewardedPresenter.ad.htmlData) {
-                [reportingDictionary setObject:rewardedPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
+    if (rewardedPresenter.ad.assetGroupID) {
+        [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+    }
+
+    NSString *vast = rewardedPresenter.ad.isUsingOpenRTB
+            ? rewardedPresenter.ad.openRtbVast
+            : rewardedPresenter.ad.vast;
+    if (vast) {
+        [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
     }
 }
 

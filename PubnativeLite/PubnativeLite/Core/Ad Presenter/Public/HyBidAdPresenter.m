@@ -32,6 +32,10 @@
     // Do nothing, this method should be overriden
 }
 
+- (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
+    // Do nothing, this method should be overriden
+}
+
 - (void)startTracking {
     // Do nothing, this method should be overriden
 }

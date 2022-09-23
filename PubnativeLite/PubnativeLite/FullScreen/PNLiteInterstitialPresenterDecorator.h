@@ -25,6 +25,8 @@
 
 @interface PNLiteInterstitialPresenterDecorator : HyBidInterstitialPresenter <HyBidInterstitialPresenterDelegate>
 
+//@property (nonatomic) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
+
 - (instancetype)initWithInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
                                 withAdTracker:(HyBidAdTracker *)adTracker
                                  withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate;

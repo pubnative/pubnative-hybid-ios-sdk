@@ -27,4 +27,6 @@
 
 - (void)loadFullScreenPlayerWithPresenter:(HyBidRewardedPresenter *)rewardedPresenter withAd:(HyBidAd *)ad;
 
+@property (nonatomic, assign) BOOL closeOnFinish;
+
 @end

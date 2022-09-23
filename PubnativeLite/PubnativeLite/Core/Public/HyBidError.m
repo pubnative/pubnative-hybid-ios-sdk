@@ -160,4 +160,8 @@ NSString * const kHyBidErrorDomain = @"net.pubnative.PubnativeLite";
     return [NSError errorWithCode:HyBidErrorVASTParserSchemaValidation localizedDescription:@"HyBid VAST Parser - Schema validation error"];
 }
 
++ (instancetype)hyBidAdFeedbackFormNotLoaded {
+    return [NSError errorWithCode:HyBidErrorVASTParserSchemaValidation localizedDescription:@"An error has ocurred while loading the ad feedback form"];
+}
+
 @end

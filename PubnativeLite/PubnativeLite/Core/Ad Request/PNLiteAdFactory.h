@@ -24,6 +24,7 @@
 #import "PNLiteAdRequestModel.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidAdSize.h"
+#import "HyBidRemoteConfigManager.h"
 
 @interface PNLiteAdFactory : NSObject
 

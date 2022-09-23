@@ -23,7 +23,14 @@
 #import "PNLiteImpressionTracker.h"
 #import "PNLiteImpressionTrackerItem.h"
 #import "HyBidVisibilityTracker.h"
-#import "HyBidLogger.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSTimeInterval const kPNImpressionCheckPeriod = 0.25f; // Check every 250 ms
 CGFloat const kPNVisibilityThreshold = 0.5f; // 50% of the view
@@ -74,7 +81,7 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 }
 
 - (void)removeView:(UIView*)view {
-    if (self.visibilityTracker && self.trackedViews) {
+    if (self.visibilityTracker && self.trackedViews && [self.trackedViews containsObject:view]) {
         [self.visibilityTracker removeView:view];
         [self.trackedViews removeObject:view];
     }

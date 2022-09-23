@@ -30,14 +30,20 @@
 #import "PNLiteMRAIDSettings.h"
 #import "HyBidViewabilityManager.h"
 #import "HyBidViewabilityWebAdSession.h"
-#import "HyBidLogger.h"
 #import "PNLiteCloseButton.h"
-#import "HyBidSettings.h"
 #import "HyBidNavigatorGeolocation.h"
 
 #import <WebKit/WebKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 #define kCloseEventRegionSize 26
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
@@ -64,7 +70,8 @@ typedef enum {
     // This corresponds to the MRAID placement type.
     BOOL isInterstitial;
     BOOL isAdSessionCreated;
-    
+    BOOL isScrollable;
+
     OMIDPubnativenetAdSession *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
@@ -127,8 +134,6 @@ typedef enum {
 - (void)addContentInfoViewToView:(UIView *)view;
 
 
-// These methods provide the means for native code to talk to JavaScript code.
-- (void)injectJavaScript:(NSString *)js;
 // convenience methods to fire MRAID events
 - (void)fireErrorEventWithAction:(NSString *)action message:(NSString *)message;
 - (void)fireReadyEvent;
@@ -182,6 +187,7 @@ typedef enum {
         withBaseURL:(NSURL *)bsURL
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
+       isScrollable:(BOOL)isScrollable
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
@@ -191,6 +197,7 @@ typedef enum {
                   withHtmlData:htmlData
                    withBaseURL:bsURL
                 asInterstitial:isInterstitial
+                  isScrollable:isScrollable
              supportedFeatures:features
                       delegate:delegate
                serviceDelegate:serviceDelegate
@@ -204,6 +211,7 @@ typedef enum {
        withHtmlData:(NSString*)htmlData
         withBaseURL:(NSURL*)bsURL
      asInterstitial:(BOOL)isInter
+       isScrollable:(BOOL)canScroll
   supportedFeatures:(NSArray *)currentFeatures
            delegate:(id<HyBidMRAIDViewDelegate>)delegate
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
@@ -214,6 +222,7 @@ typedef enum {
     if (self) {
         [self setUpTapGestureRecognizer];
         isInterstitial = isInter;
+        isScrollable = canScroll;
         adWidth = frame.size.width;
         adHeight = frame.size.height;
         _delegate = delegate;
@@ -249,8 +258,10 @@ typedef enum {
         webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) configuration:[self createConfiguration]];
         [self initWebView:webView];
         currentWebView = webView;
-        [navigatorGeolocation assignWebView:webView];
-        [self addSubview:webView];
+        [navigatorGeolocation assignWebView:currentWebView];
+        [self addSubview:currentWebView];
+        
+        [self setWebViewConstraintsInRelationWithView:self];
         
         previousMaxSize = CGSizeZero;
         previousScreenSize = CGSizeZero;
@@ -417,7 +428,7 @@ typedef enum {
     CGFloat exposedPrecentage = 0;
     if(_isViewable){
         CGRect normalizedSelfRect = [currentWebView convertRect:currentWebView.bounds toView:nil];
-        CGRect intersection = CGRectIntersection(UIScreen.mainScreen.bounds, normalizedSelfRect);
+        CGRect intersection = CGRectIntersection(self.frame, normalizedSelfRect);
         CGFloat intersectionArea = intersection.size.width  * intersection.size.height;
         int totalArea = normalizedSelfRect.size.width *normalizedSelfRect.size.height;
         exposedPrecentage  = (intersectionArea * 100)/(totalArea);
@@ -562,13 +573,15 @@ typedef enum {
     } else {
         // Reset frame of webView if returning from 1-part expansion.
         webView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-        if (!isInterstitial) {
-            [self addContentInfoViewToView:webView];
-        }
+    }
+    
+    if (!isInterstitial) {
+        [self addContentInfoViewToView:webView];
     }
     
     [self addSubview:webView];
-    
+    [self setWebViewConstraintsInRelationWithView:self];
+
     if (!isInterstitial) {
         [self fireSizeChangeEvent];
     } else {
@@ -648,7 +661,7 @@ typedef enum {
     }
     
     modalVC = [[PNLiteMRAIDModalViewController alloc] initWithOrientationProperties:orientationProperties];
-    CGRect frame = [[UIScreen mainScreen] bounds];
+    CGRect frame = self.frame;
     modalVC.view.frame = frame;
     modalVC.delegate = self;
     
@@ -707,6 +720,10 @@ typedef enum {
     
     [modalVC.view addSubview:currentWebView];
     
+    if (modalVC.view != nil) {
+        [self setWebViewConstraintsInRelationWithView:modalVC.view];
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:_skipOffset target:self selector:@selector(addCloseEventRegion) userInfo:nil repeats:NO];
     });
@@ -742,6 +759,17 @@ typedef enum {
     
     [self fireSizeChangeEvent];
     self.isViewable = YES;
+}
+
+- (void)setWebViewConstraintsInRelationWithView:(UIView *)view
+{
+    [currentWebView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [[currentWebView.topAnchor constraintEqualToAnchor:view.topAnchor] setActive:YES];
+    [[currentWebView.bottomAnchor constraintEqualToAnchor:view.bottomAnchor] setActive:YES];
+    [[currentWebView.leadingAnchor constraintEqualToAnchor:view.leadingAnchor] setActive:YES];
+    [[currentWebView.trailingAnchor constraintEqualToAnchor:view.trailingAnchor] setActive:YES];
+    
+    [currentWebView layoutIfNeeded];
 }
 
 - (void)open:(NSString *)urlString {
@@ -932,6 +960,8 @@ typedef enum {
     [closeEventRegion setTag:HYBID_MRAID_CLOSE_BUTTON_TAG];
     closeEventRegion.backgroundColor = [UIColor clearColor];
     [closeEventRegion addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+    [closeEventRegion setAccessibilityIdentifier:@"closeButton"];
+    [closeEventRegion setAccessibilityLabel:@"Close Button"];
     
     if (!useCustomClose) {
         // get button image from header file
@@ -1172,7 +1202,7 @@ typedef enum {
 }
 
 - (void)setScreenSize {
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    CGSize screenSize = self.frame.size;
     // screenSize is ALWAYS for portrait orientation, so we need to figure out the
     // actual interface orientation to get the correct current screenRect.
     UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
@@ -1332,8 +1362,11 @@ typedef enum {
                     && [absUrlString containsString:@"type=expandable"]
                     && self.isViewable) {
                     [self expand:absUrlString supportVerve:YES];
-
                     [self addCloseEventRegion];
+                } else if ([HyBidSettings sharedInstance].contentInfoURL.length != 0 && [absUrlString containsString:@"https://feedback.verve.com"]){
+                    if ([absUrlString containsString:@"close"]) {
+                        [self close];
+                    }
                 } else {
                     [self.delegate mraidViewNavigate:self withURL:url];
                 }
@@ -1424,10 +1457,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     wv.navigationDelegate = self;
     wv.UIDelegate = self;
     wv.opaque = NO;
-    wv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight |
-    UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
-    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    wv.autoresizesSubviews = YES;
     
     // disable scrolling
     UIScrollView *scrollView;
@@ -1441,7 +1470,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
             }
         }
     }
-    scrollView.scrollEnabled = NO;
+    scrollView.scrollEnabled = isScrollable;
     
     // disable selection
     NSString *js = @"window.getSelection().removeAllRanges();";

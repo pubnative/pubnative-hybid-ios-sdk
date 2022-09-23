@@ -21,10 +21,16 @@
 //
 
 #import "HyBidUserDataManager.h"
-#import "HyBidSettings.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "PNLiteConsentPageViewController.h"
-#import "HyBidLogger.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 #define kCCPAPrivacyKey @"CCPA_Privacy"
 #define kGDPRConsentKey @"GDPR_Consent"

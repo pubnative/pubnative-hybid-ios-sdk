@@ -21,7 +21,6 @@
 //
 
 #import "HyBidAdView.h"
-#import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidBannerPresenterFactory.h"
 #import "HyBidRemoteConfigManager.h"
@@ -32,8 +31,15 @@
 #import "HyBidSignalDataProcessor.h"
 #import "HyBid.h"
 #import "HyBidError.h"
-#import "PNLiteAssetGroupType.h"
 #import "HyBidRemoteConfigFeature.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 #define TIME_TO_EXPIRE 1800 //30 Minutes as in seconds
 
@@ -51,6 +57,7 @@
 
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
+@property (nonatomic, assign) BOOL markup;
 
 @end
 
@@ -92,6 +99,7 @@
         self.autoShowOnLoad = true;
         self.loadReportingProperties = [NSMutableDictionary new];
         self.renderReportingProperties = [NSMutableDictionary new];
+        self.markup = NO;
     }
     return self;
 }
@@ -218,6 +226,13 @@
     }
 }
 
+- (void)prepareCustomMarkupFrom:(NSString *)markup {
+    self.markup = YES;
+    [self cleanUp];
+    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
+    [self.adRequest processCustomMarkupFrom:markup andWithDelegate:self];
+}
+
 - (BOOL)isAutoCacheOnLoad {
     if (self.adRequest != nil) {
         return [self.adRequest isAutoCacheOnLoad];
@@ -334,7 +349,11 @@
             [self createRenderErrorEventWithError:[NSError hyBidUnsupportedAsset]];
             return;
         } else {
-            [self.adPresenter load];
+            if (self.markup) {
+                [self.adPresenter loadMarkupWithSize:self.adSize];
+            } else {
+                [self.adPresenter load];
+            }
         }
     } else {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad has expired"];
@@ -422,21 +441,35 @@
     if (self.adSize != nil && self.adSize.description.length > 0) {
         [reportingDictionary setObject:self.adSize.description forKey:HyBidReportingCommon.AD_SIZE];
     }
-    switch (self.ad.assetGroupID.integerValue) {
-        case VAST_MRECT:
-        case VAST_INTERSTITIAL:
-            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-            if (self.ad.vast) {
-                [reportingDictionary setObject:self.ad.vast forKey:HyBidReportingCommon.CREATIVE];
+    
+    NSNumber *assetGroupID = self.ad.isUsingOpenRTB
+    ? self.ad.openRTBAssetGroupID
+    : self.ad.assetGroupID;
+
+    if (assetGroupID) {
+        switch (assetGroupID.integerValue) {
+            case VAST_MRECT:
+            case VAST_INTERSTITIAL: {
+                [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+                
+                NSString *vast = self.ad.isUsingOpenRTB
+                ? self.ad.openRtbVast
+                : self.ad.vast;
+                
+                if (vast) {
+                    [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
             }
-            break;
-        default:
-            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-            if (self.ad.htmlData) {
-                [reportingDictionary setObject:self.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
+            default:
+                [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
+                if (self.ad.htmlData) {
+                    [reportingDictionary setObject:self.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
+        }
     }
+    
     switch (self.bannerPosition) {
         case BANNER_POSITION_UNKNOWN:
             break;
@@ -497,7 +530,10 @@
         [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
         self.ad = ad;
-        if (self.ad.vast != nil) {
+        NSString *vast = self.ad.isUsingOpenRTB
+        ? self.ad.openRtbVast
+        : self.ad.vast;
+        if (vast != nil) {
             self.ad.adType = kHyBidAdTypeVideo;
         } else {
             self.ad.adType = kHyBidAdTypeHTML;

@@ -21,9 +21,16 @@
 //
 
 #import "PNLiteVastMacrosUtils.h"
-#import "HyBidSettings.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @implementation PNLiteVastMacrosUtils
 

@@ -24,6 +24,14 @@
 #import "HyBidAd.h"
 #import "PNLiteVastMacrosUtils.h"
 
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
+
 @implementation HyBidVastTagAdSource
 
 - (instancetype)initWithConfig:(HyBidAdSourceConfig *)config {
@@ -43,9 +51,9 @@
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
     NSString* content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSInteger assetGroup = 4 ;
+    NSInteger assetGroup = VAST_MRECT ;
     if (self.adSize == HyBidAdSize.SIZE_INTERSTITIAL) {
-        assetGroup = 15;
+        assetGroup = VAST_INTERSTITIAL;
     }
     HyBidAd* ad = [[HyBidAd alloc]initWithAssetGroup:assetGroup withAdContent:content withAdType:kHyBidAdTypeVideo];
     self.completionBlock(ad, nil);

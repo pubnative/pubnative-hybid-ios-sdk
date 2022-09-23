@@ -24,6 +24,9 @@
 
 @interface PNLiteVASTRewardedPresenter : HyBidRewardedPresenter
 
-- (instancetype)initWithAd:(HyBidAd *)ad;
+- (instancetype)initWithAd:(HyBidAd *)ad
+         withCloseOnFinish:(BOOL)closeOnFinish;
+
+@property (nonatomic, readwrite, assign) BOOL closeOnFinish;
 
 @end

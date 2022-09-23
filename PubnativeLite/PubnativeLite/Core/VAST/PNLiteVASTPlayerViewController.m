@@ -27,12 +27,10 @@
 #import "HyBidVASTMediaFilePicker.h"
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidLogger.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
 #import "HyBidSKAdNetworkViewController.h"
-#import "HyBidSettings.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
@@ -42,8 +40,17 @@
 #import "HyBidVASTEndCardView.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import <StoreKit/SKOverlay.h>
+#import "StoreKit/StoreKit.h"
 
 #define kContentInfoContainerTag 2343
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -86,6 +93,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL isInterstitial;
 @property (nonatomic, assign) BOOL isAdSessionCreated;
 @property (nonatomic, assign) BOOL endCardShown;
+@property (nonatomic, assign) BOOL isAdFeedbackViewReady;
+@property (nonatomic, assign) BOOL isMoviePlaybackFinished;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
 @property (nonatomic, assign) PNLiteVASTPlaybackState playback;
 @property (nonatomic, strong) NSURL *vastUrl;
@@ -93,11 +102,11 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) HyBidVASTModel *hyBidVastModel;
 @property (nonatomic, strong) HyBidVASTParser *vastParser;
+@property (nonatomic, strong) HyBidVASTAd *vastAd;
 @property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
 @property (nonatomic, strong)NSArray *vastDocumentArray;
 
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
-@property (nonatomic, strong) HyBidVASTIcon *icon;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
@@ -165,6 +174,10 @@ typedef enum : NSUInteger {
         [self setAdAudioMuted:self.muted];
         self.canResize = YES;
         self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(preparePlayerForAdFeedbackView)
+                                                     name:@"adFeedbackViewIsReady"
+                                                   object:nil];
     }
     return self;
 }
@@ -196,14 +209,16 @@ typedef enum : NSUInteger {
         [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
     }
     
-    [self.btnClose setAccessibilityIdentifier:@"vastCloseButton"];
-    [self.btnClose setAccessibilityLabel:@"VAST Close Button"];
+    [self.btnClose setAccessibilityIdentifier:@"closeButton"];
+    [self.btnClose setAccessibilityLabel:@"Close Button"];
     
-    [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:self.ad.vast completion:^(HyBidVASTIcon *icon, NSError *error) {
-        self.icon = icon;
-        
-        if (self.icon != nil) {
-            [self setupContentInfoView:self.icon];
+    NSString *vast = self.ad.isUsingOpenRTB
+    ? self.ad.openRtbVast
+    : self.ad.vast;
+    [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:vast completion:^(NSArray<HyBidVASTIcon *> *icons, NSError *error) {
+        HyBidVASTIcon *icon = [self getIconFromArray:icons];
+        if (icon != nil) {
+            [self setupContentInfoView:icon];
         } else {
             [self setupContentInfoView];
         }
@@ -213,6 +228,20 @@ typedef enum : NSUInteger {
     
     self.btnClose.hidden = YES;
     self.endCardShown = NO;
+}
+
+- (HyBidVASTIcon *)getIconFromArray:(NSArray<HyBidVASTIcon *> *)icons
+{
+    for(HyBidVASTIcon *icon in icons) {
+        if(icon != nil &&
+           [icon.staticResources count] > 0 &&
+           ![icon.staticResources.firstObject.content isEqualToString:@""]) {
+            return icon;
+        } else {
+            continue;
+        }
+    }
+    return nil;
 }
 
 - (HyBidContentInfoView *)getContentInfoView:(HyBidAd *)ad fromContentInfoView:(HyBidContentInfoView *)contentInfoView
@@ -261,6 +290,10 @@ typedef enum : NSUInteger {
     self.shown = NO;
 }
 
+- (void)preparePlayerForAdFeedbackView {
+    self.isAdFeedbackViewReady = YES;
+}
+
 #pragma mark - PUBLIC -
 
 - (void)loadWithVastUrl:(NSURL*)url {
@@ -298,8 +331,10 @@ typedef enum : NSUInteger {
 
 - (void)play {
     @synchronized (self) {
-        [self startAdSession];
-        [self setState:PNLiteVASTPlayerState_PLAY];
+        if (!self.isMoviePlaybackFinished) {
+            [self startAdSession];
+            [self setState:PNLiteVASTPlayerState_PLAY];
+        }
     }
 }
 
@@ -311,15 +346,22 @@ typedef enum : NSUInteger {
 
 - (void)stop {
     @synchronized (self) {
-        [self stopAdSession];
-        [self setState:PNLiteVASTPlayerState_IDLE];
+        if (self.isAdFeedbackViewReady) {
+            if (!self.isMoviePlaybackFinished) {
+                [self setState:PNLiteVASTPlayerState_PAUSE];
+            }
+            self.isAdFeedbackViewReady = NO;
+        } else {
+            [self stopAdSession];
+            [self setState:PNLiteVASTPlayerState_IDLE];
+        }
     }
 }
 
 #pragma mark - PRIVATE -
 
 - (IBAction)videoTapped:(UITapGestureRecognizer *)sender {
-    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_CREATIVE) {
+    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_CREATIVE && !self.endCardShown) {
         [self btnOpenOfferPush:nil];
     }
 }
@@ -341,7 +383,7 @@ typedef enum : NSUInteger {
                             NSString* vendor = [verification vendor];
                             NSString* params = [[verification verificationParameters] content];
 
-                        if (urlString && [urlString length] != 0 && vendor && [vendor length] != 0 && params && [params length] != 0) {                            
+                        if (urlString && [urlString length] != 0 && vendor && [vendor length] != 0 && params && [params length] != 0) {
                                 [scriptResources addObject: [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:urlString] vendorKey:vendor parameters:params]];
                             }
                         }
@@ -437,6 +479,7 @@ typedef enum : NSUInteger {
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     
+    self.isMoviePlaybackFinished = NO;
     self.player.volume = 0;
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     __weak typeof(self) weakSelf = self;
@@ -618,10 +661,23 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnClosePush:(id)sender {
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard) { // Skipped to end card
+    Float64 currentDuration = [self duration];
+    Float64 currentPlaybackTime = [self currentPlaybackTime];
+    Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
+    
+    BOOL closeOnFinish = NO;
+    if (self.isRewarded) {
+        closeOnFinish = [HyBidSettings sharedInstance].rewardedCloseOnFinish;
+    } else {
+        closeOnFinish = [HyBidSettings sharedInstance].interstitialCloseOnFinish;
+    }
+    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && !closeOnFinish) { // Skipped to end card
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
         [self removePeriodicTimeObserver];
         [self showEndCard];
+    } else if (currentPlayedPercent < 0.99) {
+        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
+        [self invokeDidClose];
     } else {
         [self invokeDidClose];
     }
@@ -636,10 +692,7 @@ typedef enum : NSUInteger {
                 [layer removeAllAnimations];
             }
             [self setPauseState];
-        } else {
-            [self setPlayState];
         }
-        return;
     }
     [self trackClickWithEndCard:nil];
 }
@@ -722,8 +775,19 @@ typedef enum : NSUInteger {
         [self.delegate vastPlayerDidComplete:self];
     }
     
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard) {
+    BOOL closeOnFinish = NO;
+    if (self.isRewarded) {
+        closeOnFinish = [HyBidSettings sharedInstance].rewardedCloseOnFinish;
+    } else {
+        closeOnFinish = [HyBidSettings sharedInstance].interstitialCloseOnFinish;
+    }
+    
+    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && !closeOnFinish) {
         [self showEndCard];
+    } else {
+        if (closeOnFinish) {
+            [self invokeDidClose];
+        }
     }
 }
 
@@ -781,6 +845,7 @@ typedef enum : NSUInteger {
     [self setState:PNLiteVASTPlayerState_READY];
     [self invokeDidComplete];
     self.btnClose.hidden = NO;
+    self.isMoviePlaybackFinished = YES;
 }
 
 #pragma mark - State Machine
@@ -1058,17 +1123,25 @@ typedef enum : NSUInteger {
     [self invokeDidPause];
 }
 
+- (HyBidVASTAd *)getVastAd
+{
+    if (self.videoAdCacheItem.vastModel) {
+        return self.vastAd = [[self.videoAdCacheItem.vastModel ads] firstObject];
+    } else if ([[self.hyBidVastModel ads] count] > 0) {
+        return self.vastAd = [[self.hyBidVastModel ads] firstObject];
+    } else {
+        return nil;
+    }
+}
+
 - (void)fetchEndCards
 {
-    HyBidVASTAd *ad;
-    if (self.videoAdCacheItem.vastModel) {
-        ad = [[self.videoAdCacheItem.vastModel ads] firstObject];
-    } else if ([[self.hyBidVastModel ads] count] > 0) {
-        ad = [[self.hyBidVastModel ads] firstObject];
-    } else {
+    HyBidVASTAd *ad = [self getVastAd];
+    
+    if (ad == nil) {
         return;
     }
-        
+
     NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
     HyBidVASTCompanionAds *companionAds;
     
@@ -1099,16 +1172,21 @@ typedef enum : NSUInteger {
     [self.btnOpenOffer removeFromSuperview];
     [self.viewProgress removeFromSuperview];
     self.endCardShown = YES;
+    self.isMoviePlaybackFinished = YES;
     [self.player seekToTime:self.player.currentItem.duration
             toleranceBefore:kCMTimeZero
              toleranceAfter:kCMTimePositiveInfinity];
+    [self setState:PNLiteVASTPlayerState_READY];
     [self.layer removeFromSuperlayer];
     HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
     HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self isInterstitial:self.isInterstitial];
     endCardView.frame = self.view.frame;
     [endCardView setupUI];
-    [endCardView displayEndCard:firstEndCard withViewController:self];
+    
+    HyBidVASTCTAButton *ctaButton = [[self.vastAd inLine] ctaButton];
+    [endCardView displayEndCard:firstEndCard withCTAButton:ctaButton withViewController:self];
     [self.view addSubview:endCardView];
+    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
 }
 
 // MARK: - HyBidVASTEndCardViewControllerDelegate
@@ -1125,12 +1203,9 @@ typedef enum : NSUInteger {
 }
 
 - (void)trackClickWithEndCard:(HyBidVASTEndCard *)endCard {
-    HyBidVASTAd *ad;
-    if (self.videoAdCacheItem.vastModel && [self.videoAdCacheItem.vastModel.ads count] > 0) {
-        ad = [[self.videoAdCacheItem.vastModel ads] firstObject];
-    } else if ([[self.hyBidVastModel ads] count] > 0) {
-        ad = [[self.hyBidVastModel ads] firstObject];
-    } else {
+    HyBidVASTAd *ad = [self getVastAd];
+    
+    if (ad == nil) {
         return;
     }
     
@@ -1173,13 +1248,18 @@ typedef enum : NSUInteger {
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
     
     if (self.skAdModel) {
-        NSDictionary* productParams = [self.skAdModel getStoreKitParameters];
+        NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
+        
+        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+
         if ([productParams count] > 0) {
             if (throughClickURL != nil) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [productParams removeObjectForKey:@"fidelity-type"];
+                
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
@@ -1194,6 +1274,45 @@ typedef enum : NSUInteger {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL]];
         }
     }
+}
+
+- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
+{
+    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+        
+        if ([fidelitiesDataArray count] > 0) {
+            for (NSData *fidelity in fidelitiesDataArray) {
+                SKANObject skanObject;
+                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
+                
+                if (skanObject.fidelity == 1) {
+                    if (@available(iOS 11.3, *)) {
+                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
+                        
+                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
+                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
+                    }
+                    
+                    if (@available(iOS 13.0, *)) {
+                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                        
+                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        
+                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
+                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                    }
+                    
+                    dictionary[@"fidelities"] = nil;
+                    
+                    break; // Currently we support only 1 fidelity for each kind
+                }
+            }
+        }
+    }
+    
+    return dictionary;
 }
 
 #pragma mark - TIMERS -
@@ -1244,6 +1363,10 @@ typedef enum : NSUInteger {
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     [self.delegate vastPlayerDidCloseOffer:self];
+    if(self.isRewarded && (self.currentState == PNLiteVASTPlayerState_PLAY ||
+       self.currentState == PNLiteVASTPlayerState_PAUSE)) {
+        [self setPlayState];
+    }
 }
 
 #pragma mark - Utils: check for bundle resource existance.

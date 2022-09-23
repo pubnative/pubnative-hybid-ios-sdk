@@ -21,14 +21,20 @@
 //
 
 #import "HyBidInterstitialPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
 #import "PNLiteInterstitialPresenterDecorator.h"
 #import "PNLiteMRAIDInterstitialPresenter.h"
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "HyBidAdTracker.h"
-#import "HyBidLogger.h"
 #import "HyBidRemoteConfigFeature.h"
 #import "HyBidRemoteConfigManager.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @implementation HyBidInterstitialPresenterFactory
 
@@ -37,7 +43,10 @@
                                               withHTMLSkipOffset:(NSUInteger)htmlSkipOffset
                                                withCloseOnFinish:(BOOL)closeOnFinish
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate {
-    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad withVideoSkipOffset:videoSkipOffset withHTMLSkipOffset:htmlSkipOffset withCloseOnFinish:closeOnFinish];
+    HyBidInterstitialPresenter *interstitialPresenter = [self createInterstitalPresenterFromAd:ad
+                                                                           withVideoSkipOffset:videoSkipOffset
+                                                                            withHTMLSkipOffset:htmlSkipOffset
+                                                                             withCloseOnFinish:closeOnFinish];
     if (!interstitialPresenter) {
         return nil;
     }
@@ -48,8 +57,15 @@
     return interstitialPresenterDecorator;
 }
     
-- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad withVideoSkipOffset:(NSUInteger)videoSkipOffset withHTMLSkipOffset:(NSUInteger)htmlSkipOffset withCloseOnFinish: (BOOL)closeOnFinish {
-    switch (ad.assetGroupID.integerValue) {
+- (HyBidInterstitialPresenter *)createInterstitalPresenterFromAd:(HyBidAd *)ad
+                                             withVideoSkipOffset:(NSUInteger)videoSkipOffset
+                                              withHTMLSkipOffset:(NSUInteger)htmlSkipOffset
+                                               withCloseOnFinish: (BOOL)closeOnFinish {
+    NSNumber *adAssetGroupID = ad.isUsingOpenRTB
+    ? ad.openRTBAssetGroupID
+    : ad.assetGroupID;
+    
+    switch (adAssetGroupID.integerValue) {
         case MRAID_300x600:
         case MRAID_320x480:
         case MRAID_480x320:
@@ -61,13 +77,15 @@
             return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: mraidString] ? nil : mraidInterstitalPresenter;
         }
         case VAST_INTERSTITIAL: {
-            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad withSkipOffset:videoSkipOffset withCloseOnFinish:closeOnFinish];
+            PNLiteVASTInterstitialPresenter *vastInterstitalPresenter = [[PNLiteVASTInterstitialPresenter alloc] initWithAd:ad
+                                                                                                             withSkipOffset:videoSkipOffset
+                                                                                                          withCloseOnFinish:closeOnFinish];
             
             NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
             return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: vastString] ? nil : vastInterstitalPresenter;
         }
         default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format.", ad.assetGroupID]];
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Interstitial ad format.", ad.assetGroupID]];
             return nil;
             break;
     }

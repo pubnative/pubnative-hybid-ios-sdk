@@ -21,7 +21,14 @@
 //
 
 #import "HyBidDisplayManager.h"
-#import"HyBidConstants.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString * const DISPLAY_MANAGER_NAME = @"HyBid";
 NSString * const DISPLAY_MANAGER_ENGINE = @"sdkios";
@@ -45,11 +52,11 @@ NSString * const DISPLAY_MANAGER_ENGINE = @"sdkios";
         mediationValue = [[NSString alloc] initWithFormat:@"_%@", mediationVendor];
     }
     
-    return [[NSString alloc] initWithFormat:@"%@_%@%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType integrationTypeToString:integrationType], mediationValue, HYBID_SDK_VERSION];
+    return [[NSString alloc] initWithFormat:@"%@_%@%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType integrationTypeToString:integrationType], mediationValue, HyBidConstants.HYBID_SDK_VERSION];
 }
 
 + (NSString*)setDisplayManager:(IntegrationType)integrationType {
-    return [NSString stringWithFormat:@"%@_%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType integrationTypeToString:integrationType] ,HYBID_SDK_VERSION];
+    return [NSString stringWithFormat:@"%@_%@_%@", DISPLAY_MANAGER_ENGINE, [HyBidIntegrationType integrationTypeToString:integrationType] ,HyBidConstants.HYBID_SDK_VERSION];
 }
 
 + (NSString*)getDisplayManager {

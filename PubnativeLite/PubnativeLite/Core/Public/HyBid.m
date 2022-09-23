@@ -21,14 +21,20 @@
 //
 
 #import "HyBid.h"
-#import "HyBidSettings.h"
 #import "HyBidUserDataManager.h"
 #import "PNLiteLocationManager.h"
-#import "HyBidConstants.h"
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidDisplayManager.h"
 #import "PNLiteAdFactory.h"
 #import "HyBidDiagnosticsManager.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
@@ -87,7 +93,7 @@ BOOL isInitialized = NO;
 }
 
 + (NSString *)sdkVersion {
-    return HYBID_SDK_VERSION;
+    return HyBidConstants.HYBID_SDK_VERSION;
 }
 
 + (void)setInterstitialSkipOffset:(NSInteger)seconds {
@@ -96,16 +102,16 @@ BOOL isInitialized = NO;
 }
 
 + (void)setVideoInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidSettings sharedInstance].videoSkipOffset = seconds;
+    [HyBidSettings sharedInstance].videoSkipOffset = [[HyBidSkipOffset alloc]initWithOffset: [NSNumber numberWithInteger: seconds] isCustom:YES];
 }
 
 + (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidSettings sharedInstance].htmlSkipOffset = seconds;
+    [HyBidSettings sharedInstance].htmlSkipOffset =  [[HyBidSkipOffset alloc]initWithOffset: [NSNumber numberWithInteger: seconds] isCustom:YES];
 }
 
 + (void)setEndCardCloseOffset:(NSNumber *)seconds
 {
-    [HyBidSettings sharedInstance].endCardCloseOffset = seconds;
+    [HyBidSettings sharedInstance].endCardCloseOffset = [[HyBidSkipOffset alloc]initWithOffset:seconds isCustom:YES];
 }
 
 + (void)setShowEndCard:(BOOL)showEndCard
@@ -113,9 +119,14 @@ BOOL isInitialized = NO;
     [HyBidSettings sharedInstance].showEndCard = showEndCard;
 }
 
++ (void)setRewardedCloseOnFinish:(BOOL)closeOnFinish {
+    [HyBidSettings sharedInstance].rewardedCloseOnFinish = closeOnFinish;
+    [HyBidSettings sharedInstance].isRewardedCloseOnFinishSet = YES;
+}
+
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
-    [HyBidSettings sharedInstance].closeOnFinish = closeOnFinish;
-    [HyBidSettings sharedInstance].isCloseOnFinishSet = YES;
+    [HyBidSettings sharedInstance].interstitialCloseOnFinish = closeOnFinish;
+    [HyBidSettings sharedInstance].isInterstitialCloseOnFinishSet = YES;
 }
 
 + (HyBidReportingManager *)reportingManager {
@@ -159,6 +170,14 @@ BOOL isInitialized = NO;
 
 + (void)setRewardedSKOverlay:(BOOL)enabled {
     [HyBidSettings sharedInstance].rewardedSKOverlay = enabled;
+}
+
++ (void)setAdFeedback:(BOOL)enabled {
+    [HyBidSettings sharedInstance].adFeedback = enabled;
+}
+
++ (void)setContentInfoURL:(NSString *)url {
+    [HyBidSettings sharedInstance].contentInfoURL = url;
 }
 
 @end

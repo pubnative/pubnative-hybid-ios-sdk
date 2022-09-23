@@ -22,19 +22,25 @@
 
 #import "PNLiteAdFactory.h"
 #import "HyBidRequestParameter.h"
-#import "HyBidSettings.h"
 #import "PNLiteCryptoUtils.h"
 #import "PNLiteMeta.h"
 #import "PNLiteAsset.h"
-#import "HyBidConstants.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidSkAdNetworkRequestModel.h"
 #import "HyBidRemoteConfigManager.h"
-#import "HyBidLogger.h"
 #import "HyBidDisplayManager.h"
 #import "HyBidAPI.h"
 #import "HyBidProtocol.h"
 #import "HyBidRemoteConfigFeature.h"
+#import <CoreLocation/CoreLocation.h>
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 #if __has_include(<ATOM/ATOM.h>)
 #import <ATOM/ATOM.h>
@@ -103,8 +109,8 @@
     }
 #endif
     
-    self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HYBID_OMSDK_VERSION;
-    self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HYBID_OMSDK_IDENTIFIER;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_VERSION;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     self.adRequestModel.requestParameters[HyBidRequestParameter.identifierForVendor] = [HyBidSettings sharedInstance].identifierForVendor;
     

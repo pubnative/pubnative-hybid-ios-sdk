@@ -27,6 +27,7 @@
 @interface HyBidRewardedPresenterFactory : NSObject
 
 - (HyBidRewardedPresenter *)createRewardedPresenterWithAd:(HyBidAd *)ad
-                                                    withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate;
+                                        withCloseOnFinish:(BOOL)closeOnFinish
+                                             withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate;
 
 @end

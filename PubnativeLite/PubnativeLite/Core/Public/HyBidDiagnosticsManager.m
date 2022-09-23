@@ -22,9 +22,14 @@
 
 #import "HyBidDiagnosticsManager.h"
 #import "HyBid.h"
-#import "HyBidConstants.h"
-#import "HyBidSettings.h"
-#import "HyBidLogger.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString * const GOOGLE_ADS_APP_ID_KEY = @"GADApplicationIdentifier";
 
@@ -65,7 +70,7 @@ NSString * const GAM_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS = @"HyBidGAMInter
     [diagnosticsLogString appendFormat:@"\n\n ------ HyBid Diagnostics Log ------ \n"];
     if ([HyBid isInitialized]) {
         [diagnosticsLogString appendFormat:@"\nEvent: %@", [self getDiagnosticsEventTypeString:event]];
-        [diagnosticsLogString appendFormat:@"\nVersion: %@", HYBID_SDK_VERSION];
+        [diagnosticsLogString appendFormat:@"\nVersion: %@", HyBidConstants.HYBID_SDK_VERSION];
         [diagnosticsLogString appendFormat:@"\nBundle ID: %@", [HyBidSettings sharedInstance].appBundleID];
         [diagnosticsLogString appendFormat:@"\nApp Token: %@", [HyBidSettings sharedInstance].appToken];
         [diagnosticsLogString appendFormat:@"\nTest Mode: %@", [HyBidSettings sharedInstance].test ? @"true" : @"false"];

@@ -28,6 +28,7 @@
 #import "HyBidVASTVerification.h"
 #import "HyBidVASTCreative.h"
 #import "HyBidVASTError.h"
+#import "HyBidVASTCTAButton.h"
 
 @interface HyBidVASTAdInline : NSObject
 
@@ -84,5 +85,7 @@
  An array of URI that directs the media player to a tracking resource file that the media player must use to notify the ad server when the impression occurs.
  */
 - (NSArray<HyBidVASTCreative *> *)creatives;
+
+- (HyBidVASTCTAButton *)ctaButton;
 
 @end

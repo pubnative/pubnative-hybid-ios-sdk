@@ -22,7 +22,6 @@
 
 #import "HyBidMRAIDServiceProvider.h"
 #import <UIKit/UIKit.h>
-#import <EventKit/EventKit.h>
 
 @implementation HyBidMRAIDServiceProvider
 

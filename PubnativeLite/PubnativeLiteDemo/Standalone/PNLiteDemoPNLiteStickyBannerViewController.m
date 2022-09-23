@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoPNLiteStickyBannerViewController.h"
-#import <HyBid/HyBid.h>
+
 #import "PNLiteDemoSettings.h"
 #import "HyBidSKAdNetworkViewController.h"
 

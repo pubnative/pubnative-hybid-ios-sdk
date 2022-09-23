@@ -57,4 +57,4 @@ extern HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_overlayVi
 
 // Companign Ad Metrics
 extern HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_creativeView;
-
+extern HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_ctaClick;

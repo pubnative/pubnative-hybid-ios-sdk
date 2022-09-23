@@ -22,8 +22,13 @@
 
 #import "PNLiteMRAIDModalViewController.h"
 #import "PNLiteMRAIDUtil.h"
-#import "HyBidLogger.h"
 #import "PNLiteMRAIDOrientationProperties.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
 
 @interface PNLiteMRAIDModalViewController () {
     BOOL isStatusBarHidden;
@@ -92,14 +97,12 @@
     [super viewWillAppear:animated];
     
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
-
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
     self.view.backgroundColor = [UIColor blackColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     hasViewAppeared = YES;
     
@@ -149,21 +152,21 @@
             }
         }
     }
-    
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@ %@", [self.class description], NSStringFromSelector(_cmd), (retval ? @"YES" : @"NO")]];
     return retval;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@ %@",
-                            [self.class description],
-                            NSStringFromSelector(_cmd),
-                            [self stringfromUIInterfaceOrientation:preferredOrientation]]];
+                                                                                                                 [self.class description],
+                                                                                                                 NSStringFromSelector(_cmd),
+                                                                                                                 [self stringfromUIInterfaceOrientation:preferredOrientation]
+                                                                                                                 ]];
     return preferredOrientation;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class])  fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     if (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait) {
         return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
     }
@@ -205,10 +208,11 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIInterfaceOrientation toInterfaceOrientation = self.interfaceOrientation;
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
-                      [self.class description],
-                      NSStringFromSelector(_cmd),
-                      [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
-                      [self stringfromUIInterfaceOrientation:toInterfaceOrientation]]];
+                                                                                                                 [self.class description],
+                                                                                                                 NSStringFromSelector(_cmd),
+                                                                                                                 [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
+                                                                                                                 [self stringfromUIInterfaceOrientation:toInterfaceOrientation]]
+     ];
     
     if (hasViewAppeared) {
         [self.delegate mraidModalViewControllerDidRotate:self];
@@ -234,11 +238,12 @@
     }
     
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@ %@ %@",
-                      [self.class description],
-                      NSStringFromSelector(_cmd),
-                      (orientationProperties.allowOrientationChange ? @"YES" : @"NO"),
-                      orientationString]];
-
+                                                                                                                 [self.class description],
+                                                                                                                 NSStringFromSelector(_cmd),
+                                                                                                                 (orientationProperties.allowOrientationChange ? @"YES" : @"NO"),
+                                                                                                                 orientationString]
+     ];
+    
     orientationProperties = orientationProps;
     UIInterfaceOrientation currentInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
@@ -305,9 +310,10 @@
         }
     }
     
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
-                            [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
-                            [self stringfromUIInterfaceOrientation:preferredOrientation]]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class])  fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"requesting from %@ to %@",
+                                                                                                                  [self stringfromUIInterfaceOrientation:currentInterfaceOrientation],
+                                                                                                                  [self stringfromUIInterfaceOrientation:preferredOrientation]]
+    ];
     
     if ((orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationPortrait && UIInterfaceOrientationIsPortrait(currentInterfaceOrientation)) ||
         (orientationProperties.forceOrientation == PNLiteMRAIDForceOrientationLandscape && UIInterfaceOrientationIsLandscape(currentInterfaceOrientation)) ||

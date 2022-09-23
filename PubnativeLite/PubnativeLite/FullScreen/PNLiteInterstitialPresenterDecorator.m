@@ -23,16 +23,23 @@
 #import "PNLiteInterstitialPresenterDecorator.h"
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
-#import "PNLiteAssetGroupType.h"
 #import <StoreKit/SKOverlay.h>
 #import <StoreKit/SKOverlayConfiguration.h>
 #import "UIApplication+PNLiteTopViewController.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @interface PNLiteInterstitialPresenterDecorator() <SKOverlayDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
-@property (nonatomic, weak) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
+@property (nonatomic) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
 @property (nonatomic, assign) BOOL isOverlayShown;
@@ -91,19 +98,26 @@
     if (interstitialPresenter.ad.zoneID != nil && interstitialPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:interstitialPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    switch (interstitialPresenter.ad.assetGroupID.integerValue) {
-        case VAST_INTERSTITIAL:
-            [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-            if (interstitialPresenter.ad.vast) {
-                [reportingDictionary setObject:interstitialPresenter.ad.vast forKey:HyBidReportingCommon.CREATIVE];
+    if (interstitialPresenter.ad.assetGroupID) {
+        switch (interstitialPresenter.ad.assetGroupID.integerValue) {
+            case VAST_INTERSTITIAL: {
+                [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
+                
+                NSString *vast = interstitialPresenter.ad.isUsingOpenRTB
+                ? interstitialPresenter.ad.openRtbVast
+                : interstitialPresenter.ad.vast;
+                if (vast) {
+                    [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
             }
-            break;
-        default:
-            [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-            if (interstitialPresenter.ad.htmlData) {
-                [reportingDictionary setObject:interstitialPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-            }
-            break;
+            default:
+                [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
+                if (interstitialPresenter.ad.htmlData) {
+                    [reportingDictionary setObject:interstitialPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
+                }
+                break;
+        }
     }
 }
 

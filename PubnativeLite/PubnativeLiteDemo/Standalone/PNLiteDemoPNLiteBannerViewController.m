@@ -41,6 +41,7 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *creativeIDTopConstraint;
+@property (nonatomic, weak) NSTimer *autoRefreshTimer;
 
 @end
 
@@ -93,23 +94,37 @@
 
 - (IBAction)prepareButtonTapped:(UIButton *)sender {
     [self.bannerAdView prepare];
+    self.prepareButton.enabled = NO;
 }
 
 - (IBAction)showBannerAdButtonTapped:(UIButton *)sender {
     [self.bannerAdView show];
+    self.prepareButton.enabled = NO;
+    self.showAdButton.enabled = NO;
 }
 
 - (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender {
     if (sender.isOn) {
         self.bannerAdView.autoRefreshTimeInSeconds = 30;
+        if (self.autoRefreshTimer == nil) {
+            self.autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+        }
+
     } else {
         [self.bannerAdView stopAutoRefresh];
+        [self.autoRefreshTimer invalidate];
+        self.autoRefreshTimer = nil;
     }
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {
     self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
+}
+
+- (void)refresh {
+    [self setCreativeIDLabelWithString:@"_"];
+    [self clearDebugTools];
 }
 
 #pragma mark - HyBidAdViewDelegate

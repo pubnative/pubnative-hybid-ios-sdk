@@ -31,6 +31,7 @@
      self.assets = nil;
      self.extensions = nil;
      self.beacons = nil;
+     self.assetgroupid = nil;
  }
 
  #pragma mark HyBidBaseModel

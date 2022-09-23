@@ -38,10 +38,12 @@
     self.vastViewController = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad {
+- (instancetype)initWithAd:(HyBidAd *)ad
+         withCloseOnFinish:(BOOL)closeOnFinish{
     self = [super init];
     if (self) {
         self.adModel = ad;
+        self.closeOnFinish = closeOnFinish;
     }
     return self;
 }
@@ -52,6 +54,7 @@
 
 - (void)load {
     self.vastViewController = [PNLiteVASTPlayerRewardedViewController new];
+    self.vastViewController.closeOnFinish = self.closeOnFinish;
     [self.vastViewController setModalPresentationStyle: UIModalPresentationFullScreen];
     [self.vastViewController loadFullScreenPlayerWithPresenter:self withAd:self.adModel];
 }

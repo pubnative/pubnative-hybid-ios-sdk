@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *link;
 @property (nonatomic, strong) NSString *icon;
+@property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSArray<HyBidVASTIconViewTracking *> *viewTrackers;
 @property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
 

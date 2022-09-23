@@ -22,12 +22,19 @@
 
 #import "HyBidNativeAdLoader.h"
 #import "HyBidNativeAdRequest.h"
-#import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidError.h"
 #import "HyBidSignalDataProcessor.h"
 #import "HyBidRemoteConfigFeature.h"
 #import "HyBidRemoteConfigManager.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @interface HyBidNativeAdLoader() <HyBidAdRequestDelegate, HyBidSignalDataProcessorDelegate>
 

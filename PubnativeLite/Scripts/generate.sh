@@ -37,9 +37,11 @@ done
 echo "Generating xcframework"
 xcodebuild -create-xcframework -framework $IPHONEOS_FRAMEWORK -debug-symbols $IPHONEOS_DSYM $IPHONE_BCSYMBOLMAP_COMMANDS -framework $IPHONESIMULATOR_FRAMEWORK -debug-symbols $IPHONESIMULATOR_DSYM -output $XCFRAMEWORK
 
+# Removing HyBid from generated swift interface
+echo "Removing HyBid from generated swift interface"
+cd $BASE_DIR
+find . -name "*.swiftinterface" -exec sed -i -e 's/HyBid\.//g' {} \;\
+
 # Create a .zip xcframework
 echo "Create a .zip xcframework"
 zip -r $XCFRAMEWORK_ZIP_PATH $XCFRAMEWORK
-
-# Generate Static framework + bundle resrource. a zip file will be generated at /tmp/circle-ci-artifact
-#xcodebuild -workspace HyBid.xcworkspace -scheme HybidFramework -sdk iphoneos -destination generic/platform=iOS -configuration Release clean build | xcpretty -c

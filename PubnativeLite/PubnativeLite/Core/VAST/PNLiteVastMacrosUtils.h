@@ -24,6 +24,6 @@
 
 @interface PNLiteVastMacrosUtils : NSObject
 
-+ (NSString*) formatUrl:(NSString*)vastUrl;
++ (NSString*)formatUrl:(NSString*)vastUrl;
 
 @end
