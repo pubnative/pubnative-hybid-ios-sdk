@@ -61,7 +61,7 @@ GEM
       public_suffix
       typhoeus (~> 1.0)
     cocoapods-deintegrate (1.0.5)
-    cocoapods-downloader (1.5.1)
+    cocoapods-downloader (1.6.3)
     cocoapods-plugins (1.0.0)
       nap
     cocoapods-search (1.0.1)
@@ -195,7 +195,7 @@ GEM
     httpclient (2.8.3)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     json (2.5.1)
     jwt (2.2.3)
     memoist (0.16.2)
@@ -243,7 +243,7 @@ GEM
       tty-cursor (~> 0.7)
     typhoeus (1.4.0)
       ethon (>= 0.9.0)
-    tzinfo (1.2.9)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     uber (0.1.0)
     unf (0.1.4)

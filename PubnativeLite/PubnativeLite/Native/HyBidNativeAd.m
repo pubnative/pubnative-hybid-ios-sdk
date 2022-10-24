@@ -25,7 +25,6 @@
 #import "HyBidDataModel.h"
 #import "PNLiteTrackingManager.h"
 #import "PNLiteImpressionTracker.h"
-#import "HyBidLogger.h"
 #import "HyBidSkAdNetworkModel.h"
 #import "HyBidAdImpression.h"
 #import "UIApplication+PNLiteTopViewController.h"
@@ -33,6 +32,14 @@
 #import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBid.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
@@ -352,10 +359,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                     [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
                 });
             } else {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl] options:@{} completionHandler:nil];
             }
         } else {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl] options:@{} completionHandler:nil];
         }
     }
 }

@@ -70,7 +70,22 @@
 }
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([self isModal]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
+
+- (BOOL)isModal {
+     if([self presentingViewController])
+         return YES;
+     if([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController])
+         return YES;
+     if([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
+         return YES;
+
+    return NO;
+ }
 
 @end

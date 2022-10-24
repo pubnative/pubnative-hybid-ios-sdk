@@ -23,12 +23,20 @@
 #import "HyBidContentInfoView.h"
 #import "PNLiteMeta.h"
 #import "PNLiteOrientationManager.h"
+#import "HyBidAdFeedbackView.h"
 
-CGFloat const PNLiteContentViewHeight = 15.0f;
-CGFloat const PNLiteContentViewWidth = 15.0f;
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
+
+CGFloat PNLiteContentViewIcontDefaultSize = 15.0f;
+CGFloat PNLiteContentViewHeight = 15.0f;
+CGFloat PNLiteContentViewWidth = 15.0f;
 NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 
-@interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate>
+@interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate, HyBidAdFeedbackViewDelegate>
 
 @property (nonatomic, strong) UILabel *textView;
 @property (nonatomic, strong) UIImageView *iconView;
@@ -37,7 +45,9 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 @property (nonatomic, assign) CGFloat openSize;
 @property (nonatomic, strong) NSTimer *closeTimer;
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, strong) HyBidAdFeedbackView *adFeedbackView;
 @property (nonatomic, assign) BOOL closeButtonTapped;
+@property (nonatomic, assign) BOOL adFeedbackViewRequested;
 
 @end
 
@@ -61,8 +71,10 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (instancetype)init {
     self = [super init];
     if (self) {
+        PNLiteContentViewWidth = PNLiteContentViewIcontDefaultSize;
+        PNLiteContentViewHeight = PNLiteContentViewIcontDefaultSize;
         [self setFrame:CGRectMake(0, 0, PNLiteContentViewWidth, PNLiteContentViewHeight)];
-        self.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+        self.backgroundColor = [UIColor colorWithRed: 0.95 green: 0.98 blue: 1.00 alpha: 1.00];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.f;
         
@@ -72,6 +84,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
         [self addGestureRecognizer:self.tapRecognizer];
         self.textView = [[UILabel alloc] init];
         [self.textView setFont:[self.textView.font fontWithSize:10]];
+        self.textView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
                 
         self.iconView = [[UIImageView alloc] init];
@@ -173,13 +186,23 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 }
 
 - (void)configureView {
-    [self setIsAccessibilityElement:YES];
-    [self setAccessibilityLabel:@"Content Info View"];
-    [self setAccessibilityIdentifier:@"contentInfoView"];
+
+    [self.iconView setIsAccessibilityElement:YES];
+    [self.iconView setAccessibilityLabel:@"Content Info Icon View"];
+    [self.iconView setAccessibilityIdentifier:@"contentInfoIconView"];
     
     [self.textView setIsAccessibilityElement:YES];
     [self.textView setAccessibilityLabel:@"Content Info Text View"];
     [self.textView setAccessibilityIdentifier:@"contentInfoTextView"];
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(weakSelf.superview){
+            [weakSelf.superview setIsAccessibilityElement:YES];
+            [weakSelf.superview setAccessibilityLabel:@"Content Info Container"];
+            [weakSelf.superview setAccessibilityIdentifier:@"contentInfoTextView"];
+        }
+    });
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
@@ -229,18 +252,88 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (void)handleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if(self.isOpen) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link]];
-            [self close];
+            if ([HyBidSettings sharedInstance].adFeedback) {
+                if (!self.adFeedbackViewRequested) {
+                    self.adFeedbackViewRequested = YES;
+                    self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
+                    self.adFeedbackView.delegate = self;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsReady" object:nil];
+                }
+            } else {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link] options:@{} completionHandler:nil];
+                [self close];
+            }
         } else {
             [self open];
         }
     }
 }
 
+- (void)setIconSize:(CGRect) frame {
+    PNLiteContentViewWidth = frame.size.width;
+    PNLiteContentViewHeight = frame.size.height;
+    [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, PNLiteContentViewWidth, PNLiteContentViewHeight)];
+    [self removeConstraints: self.constraints];
+    [self addConstraints:@[[NSLayoutConstraint constraintWithItem:self.iconView
+                                                        attribute:NSLayoutAttributeHeight
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:nil
+                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                       multiplier:1.f
+                                                         constant:PNLiteContentViewHeight],
+                           [NSLayoutConstraint constraintWithItem:self.iconView
+                                                        attribute:NSLayoutAttributeWidth
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:nil
+                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                       multiplier:1.f
+                                                         constant:PNLiteContentViewWidth],
+                           [NSLayoutConstraint constraintWithItem:self.iconView
+                                                        attribute:NSLayoutAttributeLeading
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeLeading
+                                                       multiplier:1.f
+                                                         constant:0.f],
+                           [NSLayoutConstraint constraintWithItem:self.iconView
+                                                        attribute:NSLayoutAttributeTop
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self
+                                                        attribute:NSLayoutAttributeTop
+                                                       multiplier:1.f
+                                                         constant:0.f],
+                           [NSLayoutConstraint constraintWithItem:self.textView
+                                                        attribute:NSLayoutAttributeLeading
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self.iconView
+                                                        attribute:NSLayoutAttributeTrailing
+                                                       multiplier:1.f
+                                                         constant:0.f],
+                           [NSLayoutConstraint constraintWithItem:self.textView
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:self.iconView
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.f
+                                                         constant:0.f]]];
+}
+
 - (void)open {
     self.isOpen = YES;
     [self layoutIfNeeded];
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, self.frame.size.height);
+    if(self.superview.frame.origin.x > 0){
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, self.frame.size.height);
+        self.superview.frame = CGRectMake(self.superview.frame.origin.x - self.openSize, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
+        if (@available(iOS 11.0, *)) {
+            [self.trailingAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.trailingAnchor].active = YES;
+        } else {
+            [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor].active = YES;
+        }
+    } else {
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, self.frame.size.height);
+        self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
+    }
+    [self resizeSuperView];
     [self layoutIfNeeded];
     [self.delegate contentInfoViewWidthNeedsUpdate:[NSNumber numberWithFloat: self.frame.size.width]];
     [self startCloseTimer];
@@ -250,16 +343,48 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     self.isOpen = NO;
     [self stopCloseTimer];
     [self layoutIfNeeded];
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, self.frame.size.height);
+    if(self.superview.frame.origin.x > 0){
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, self.frame.size.height);
+        self.superview.frame = CGRectMake(self.superview.frame.origin.x + self.openSize - PNLiteContentViewWidth, self.superview.frame.origin.y, PNLiteContentViewWidth, self.superview.frame.size.height);
+    } else {
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, self.frame.size.height);
+        self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, PNLiteContentViewWidth, self.superview.frame.size.height);
+    }
+    [self resizeSuperView];
     [self layoutIfNeeded];
     [self.delegate contentInfoViewWidthNeedsUpdate:[NSNumber numberWithFloat: self.frame.size.width]];
     self.closeButtonTapped = YES;
+}
+
+- (void)resizeSuperView {
+    if(self.superview){
+        self.superview.translatesAutoresizingMaskIntoConstraints = false;
+        NSArray *constraints = [self.superview constraints];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"firstAttribute = %d", NSLayoutAttributeWidth];
+        NSArray *filteredArray = [constraints filteredArrayUsingPredicate:predicate];
+        if(filteredArray.count > 0){
+              [self.superview removeConstraints: filteredArray];
+        }
+        [self.superview.widthAnchor constraintGreaterThanOrEqualToConstant: self.frame.size.width].active = YES;
+    }
 }
 
 #pragma mark PNLiteOrientationManagerDelegate
 
 - (void)orientationManagerDidChangeOrientation {
     [self.delegate contentInfoViewWidthNeedsUpdate:[NSNumber numberWithFloat: self.frame.size.width]];
+}
+
+#pragma mark HyBidAdFeedbackViewDelegate
+
+- (void)adFeedbackViewDidLoad {
+    [self.adFeedbackView show];
+    self.adFeedbackViewRequested = NO;
+    [self close];
+}
+
+- (void)adFeedbackViewDidFailWithError:(NSError *)error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Feedback failed with error: %@",error.localizedDescription]];
 }
 
 @end

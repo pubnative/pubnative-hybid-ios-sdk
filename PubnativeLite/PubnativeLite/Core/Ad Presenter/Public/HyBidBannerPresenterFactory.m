@@ -21,12 +21,18 @@
 //
 
 #import "HyBidBannerPresenterFactory.h"
-#import "PNLiteAssetGroupType.h"
 #import "PNLiteMRAIDBannerPresenter.h"
-#import "HyBidLogger.h"
 #import "HyBidVASTAdPresenter.h"
 #import "HyBidRemoteConfigManager.h"
 #import "HyBidRemoteConfigFeature.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @implementation HyBidBannerPresenterFactory
 
@@ -45,7 +51,7 @@
             return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:vastString] ? nil : vastAdPresenter;
         }
         default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
             return nil;
     }
 }

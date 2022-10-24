@@ -74,7 +74,7 @@
 - (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset {
     self.presenter = interstitialPresenter;
     self.adModel = ad;
-    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:YES];
+    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatInterstitial];
     self.player.delegate = self;
     self.player.skipOffset = skipOffset;
     NSString *vast = self.adModel.isUsingOpenRTB
@@ -115,7 +115,7 @@
 
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
     if (self.closeOnFinish) {
-        [self.presenter hide];
+        [self.presenter hideFromViewController:self];
         [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
     }
 }
@@ -126,7 +126,7 @@
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
-    [self.presenter hide];
+    [self.presenter hideFromViewController:self];
     [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
 }
 

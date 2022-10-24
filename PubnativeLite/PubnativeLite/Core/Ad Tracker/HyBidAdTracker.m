@@ -22,10 +22,17 @@
 
 #import "HyBidAdTracker.h"
 #import "HyBidDataModel.h"
-#import "HyBidLogger.h"
 #import "HyBidURLDriller.h"
 #import <WebKit/WebKit.h>
 #import "HyBid.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString *const PNLiteAdTrackerClick = @"click";
 NSString *const PNLiteAdTrackerImpression = @"impression";
@@ -36,7 +43,6 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 @property (nonatomic, strong) HyBidAdTrackerRequest *adTrackerRequest;
 @property (nonatomic, strong) NSArray *impressionURLs;
 @property (nonatomic, strong) NSArray *clickURLs;
-@property (nonatomic, assign) BOOL impressionTracked;
 @property (nonatomic, assign) BOOL clickTracked;
 @property (nonatomic, strong) NSString *trackTypeForURL;
 @property (nonatomic, assign) BOOL urlDrillerEnabled;

@@ -91,9 +91,7 @@ typedef id<GADMediationRewardedAdEventDelegate> _Nullable(^HyBidGADRewardedCusto
 #pragma mark - HyBidRewardedAdDelegate
 
 - (void)onReward {
-    NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithDecimal:[[NSNumber numberWithInt:0] decimalValue]];
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@"hybid_reward" rewardAmount:amount];
-    [self.delegate didRewardUserWithReward:reward];
+    [self.delegate didRewardUser];
 }
 
 - (void)rewardedDidLoad {

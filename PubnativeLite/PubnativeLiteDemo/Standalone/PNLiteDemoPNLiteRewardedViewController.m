@@ -9,7 +9,6 @@
 #import "PNLiteDemoPNLiteRewardedViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
-#import "HyBidRewardedAd.h"
 
 @interface PNLiteDemoPNLiteRewardedViewController () <HyBidRewardedAdDelegate, HyBidRewardedAdDelegate>
 
@@ -69,6 +68,7 @@
 
 - (IBAction)prepareButtonTapped:(UIButton *)sender {
     [self.rewardedAd prepare];
+    self.prepareButton.enabled = NO;
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {

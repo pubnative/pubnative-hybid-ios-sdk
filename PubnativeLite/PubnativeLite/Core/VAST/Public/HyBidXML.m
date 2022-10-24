@@ -21,7 +21,6 @@
 //
 
 #import "HyBidXML.h"
-#import "NSDataAdditions.h"
 
 // ================================================================================================
 // Private methods
@@ -117,7 +116,7 @@
 	self = [self init];
 	if (self != nil) {
 		// Get uncompressed file contents
-		NSData * data = [NSData dataWithUncompressedContentsOfFile:[[NSBundle mainBundle] pathForResource:aXMLFile ofType:aFileExtension]];
+        NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:aXMLFile ofType:aFileExtension]];
 		
 		// decode data
 		[self decodeData:data];
@@ -132,7 +131,7 @@
 		NSString * extension = [aXMLFile pathExtension];
 		
 		// Get uncompressed file contents
-		NSData * data = [NSData dataWithUncompressedContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:extension]];
+        NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:filename ofType:extension]];
 		
 		// decode data
 		[self decodeData:data];
@@ -248,7 +247,7 @@
 	HyBidXMLElement * parentXMLElement = nil;
 	
 	// find next element start
-	while (elementStart = strstr(elementStart,"<")) {
+    while ((elementStart = strstr(elementStart,"<"))) {
 		
 		// detect comment section
 		if (strncmp(elementStart,"<!--",4) == 0) {
@@ -313,7 +312,7 @@
 			return;
 		}
 		
-		while (elementEnd = strpbrk(elementEnd, "<>")) {
+        while ((elementEnd = strpbrk(elementEnd, "<>"))) {
 			if (strncmp(elementEnd,"<![CDATA[",9) == 0) {
 				elementEnd = strstr(elementEnd,"]]>")+3;
 			} else {
@@ -464,7 +463,7 @@
 							*chr = 0;
 							
 							// remove cdata section tags
-							while (CDATAStart = strstr(value, "<![CDATA[")) {
+                            while ((CDATAStart = strstr(value, "<![CDATA["))) {
 								
 								// remove begin cdata tag
 								memcpy(CDATAStart, CDATAStart+9, strlen(CDATAStart)-8);

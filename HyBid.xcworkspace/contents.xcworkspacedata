@@ -17,9 +17,6 @@
          location = "group:generate.sh">
       </FileRef>
       <FileRef
-         location = "group:iqv.sh">
-      </FileRef>
-      <FileRef
          location = "group:demo.sh">
       </FileRef>
    </Group>

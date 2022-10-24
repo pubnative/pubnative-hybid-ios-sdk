@@ -74,8 +74,7 @@
 - (void)loadFullScreenPlayerWithPresenter:(HyBidRewardedPresenter *)rewardedPresenter withAd:(HyBidAd *)ad {
     self.presenter = rewardedPresenter;
     self.adModel = ad;
-    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:YES];
-    self.player.isRewarded = YES;
+    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatRewarded];
     self.player.delegate = self;
     NSString *vast = self.adModel.isUsingOpenRTB
     ? self.adModel.openRtbVast
@@ -114,7 +113,10 @@
 }
 
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
-    [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
+    if (self.closeOnFinish) {
+        [self.presenter hideFromViewController:self];
+        [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
+    }
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
@@ -123,7 +125,7 @@
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
-    [self.presenter hide];
+    [self.presenter hideFromViewController:self];
     [self.presenter.delegate rewardedPresenterDidDismiss:self.presenter];
 }
 

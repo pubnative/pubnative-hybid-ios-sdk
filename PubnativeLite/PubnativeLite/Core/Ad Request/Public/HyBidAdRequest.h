@@ -50,6 +50,7 @@ typedef enum {
 @property (nonatomic) HyBidOpenRTBAdType openRTBAdType;
 @property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 @property (nonatomic, readonly) IntegrationType integrationType;
+@property (nonatomic) NSObject <HyBidAdRequestDelegate> *delegate;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken;

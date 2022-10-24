@@ -44,7 +44,7 @@
 @interface HyBidRewardedPresenter : NSObject
 
 @property (nonatomic, readonly) HyBidAd *ad;
-@property (nonatomic, weak) NSObject <HyBidRewardedPresenterDelegate> *delegate;
+@property (nonatomic) NSObject <HyBidRewardedPresenterDelegate> *delegate;
 
 - (void)load;
 
@@ -57,6 +57,6 @@
  * @param viewController The view controller that should be used to present the rewarded ad.
  */
 - (void)showFromViewController:(UIViewController *)viewController;
-- (void)hide;
+- (void)hideFromViewController:(UIViewController *)viewController;
 
 @end

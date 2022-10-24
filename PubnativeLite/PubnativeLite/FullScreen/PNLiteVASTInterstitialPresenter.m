@@ -23,6 +23,7 @@
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "PNLiteVASTPlayerInterstitialViewController.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 @interface PNLiteVASTInterstitialPresenter()
 
@@ -38,7 +39,9 @@
     self.vastViewController = nil;
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset withCloseOnFinish:(BOOL)closeOnFinish {
+- (instancetype)initWithAd:(HyBidAd *)ad
+            withSkipOffset:(NSInteger)skipOffset
+         withCloseOnFinish:(BOOL)closeOnFinish {
     self = [super init];
     if (self) {
         self.adModel = ad;
@@ -67,8 +70,9 @@
     [viewController presentViewController:self.vastViewController animated:NO completion:nil];
 }
 
-- (void)hide {
-    [[UIApplication sharedApplication].topViewController dismissViewControllerAnimated:NO completion:nil];
+- (void)hideFromViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

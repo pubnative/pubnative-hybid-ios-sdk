@@ -23,11 +23,17 @@
 #import <XCTest/XCTest.h>
 #import <OCMockito/OCMockito.h>
 #import "HyBidAdRequest.h"
-#import "HyBidSettings.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @interface HyBidAdRequest ()
 
-@property (nonatomic, weak) NSObject <HyBidAdRequestDelegate> *delegate;
 - (void)invokeDidStart;
 - (void)invokeDidLoad:(HyBidAd *)ad;
 - (void)invokeDidFail:(NSError *)error;

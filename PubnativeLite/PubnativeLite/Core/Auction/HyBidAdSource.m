@@ -21,8 +21,15 @@
 //
 
 #import "HyBidAdSource.h"
-#import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @implementation HyBidAdSource
 

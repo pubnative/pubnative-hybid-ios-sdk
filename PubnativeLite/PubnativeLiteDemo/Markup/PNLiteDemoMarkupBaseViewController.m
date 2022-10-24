@@ -47,37 +47,38 @@
                                                withBaseURL:nil
                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                              isInterstital:self.isInterstitial
+                                              isScrollable:NO
                                                   delegate:self
                                            serviceDelegate:self
                                         rootViewController:self
                                                contentInfo:nil
-                                                skipOffset:[HyBidSettings sharedInstance].htmlSkipOffset];
+                                                skipOffset:[HyBidSettings sharedInstance].htmlSkipOffset.offset.integerValue];
     return self.mraidView;
 }
 
 #pragma mark HyBidMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did load."];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class])fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did load."];
     if (self.isInterstitial) {
         [self.mraidView showAsInterstitial];
     }
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class])fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class])fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class])fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class])fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
     [self.serviceProvider openBrowser:url.absoluteString];
 }
 

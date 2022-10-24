@@ -21,9 +21,16 @@
 //
 
 #import "HyBidVASTEventProcessor.h"
-#import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @interface HyBidVASTEventProcessor()
 
@@ -78,6 +85,8 @@
     } else if (type == HyBidVASTAdTrackingEventType_resume) {
         eventString = HyBidVASTAdTrackingEventType_resume;
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDResumeEvent];
+    } else if (type == HyBidVASTAdTrackingEventType_ctaClick) {
+        eventString = HyBidVASTAdTrackingEventType_ctaClick;
     } else if ([type isEqualToString:@"click"]) {
         eventString = @"click";
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClikedEvent];

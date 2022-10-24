@@ -77,8 +77,8 @@
         processedHtml = [NSString stringWithFormat:
                          @"<html>\n"
                          "<head>\n"
-                         "<script>%@</script>"
-                         "<script>%@</script>"
+                         "<script>%@</script>\n"
+                         "<script>%@</script>\n"
                          "</head>\n"
                          "<body>\n"
                          "<div id='hybid-ad' align='center'>\n"
@@ -122,9 +122,7 @@
                                                     options:0
                                                       range:NSMakeRange(0, [processedHtml length])
                                                withTemplate:[NSString stringWithFormat:@"$0\n%@\n%@", metaTag, styleTag]];
-    
-    processedHtml = [processedHtml stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    
+        
     return processedHtml;
 }
 

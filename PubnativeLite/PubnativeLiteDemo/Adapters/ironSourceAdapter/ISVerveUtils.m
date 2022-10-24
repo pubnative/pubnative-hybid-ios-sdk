@@ -22,8 +22,8 @@
 
 #import "ISVerveUtils.h"
 
-NSString *const ISVerveAdapterKeyZoneID = @"pn_zone_id";
-NSString *const ISVerveAdapterKeyAppToken = @"pn_app_token";
+NSString *const ISVerveAdapterKeyZoneID = @"zoneId";
+NSString *const ISVerveAdapterKeyAppToken = @"appToken";
 
 @implementation ISVerveUtils
 
@@ -41,6 +41,10 @@ NSString *const ISVerveAdapterKeyAppToken = @"pn_app_token";
 
 + (NSString *)zoneID:(ISAdData *)adData {
     return [adData getString:ISVerveAdapterKeyZoneID];
+}
+
++ (NSString *)mediationVendor {
+    return @"lp";
 }
 
 @end

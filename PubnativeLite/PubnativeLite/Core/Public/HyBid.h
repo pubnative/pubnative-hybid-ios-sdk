@@ -97,7 +97,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 
 #import "HyBidBannerPresenterFactory.h"
 #import "HyBidRequestParameter.h"
-#import "HyBidTargetingModel.h"
 #import "HyBidAdRequest.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "HyBidMRAIDView.h"
@@ -114,19 +113,68 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidDataModel.h"
 #import "HyBidAd.h"
 #import "HyBidAdView.h"
-#import "HyBidSettings.h"
 #import "HyBidStarRatingView.h"
 #import "HyBidViewabilityManager.h"
-#import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidAdSize.h"
 #import "HyBidOpenRTBDataModel.h"
-#import "HyBidReportingManager.h"
-#import "HyBidReporting.h"
-#import "HyBidReportingEvent.h"
 #import "HyBidDiagnosticsManager.h"
 #import "HyBidError.h"
-#import "HyBidInterstitialActionBehaviour.h"
+#import "HyBidSignalDataProcessor.h"
+
+#import "HyBidRemoteConfigManager.h"
+#import "HyBidRemoteConfigFeature.h"
+#import "HyBidRemoteFeatureResolver.h"
+#import "HyBidRemoteConfigModel.h"
+#import "HyBidRemoteConfigPlacementInfo.h"
+#import "HyBidRemoteConfigPlacement.h"
+#import "HyBidRemoteConfigMeasurement.h"
+#import "HyBidRemoteConfigAppConfig.h"
+#import "HyBidRemoteConfigAppFeatures.h"
+#import "HyBidAdSourceConfig.h"
+#import "HyBidRemoteConfigEndpoints.h"
+#import "HyBidRemoteConfigParameter.h"
+#import "HyBidRemoteConfigRequest.h"
+#import "HyBidAdImpression.h"
+
+@class HyBidTargetingModel;
+@class HyBidReportingManager;
+
+typedef enum {
+    HyBidAudioStatusMuted,
+    HyBidAudioStatusON,
+    HyBidAudioStatusDefault
+} HyBidAudioStatus;
+
+typedef enum {
+    HyBidLogLevelNone,
+    HyBidLogLevelError,
+    HyBidLogLevelWarning,
+    HyBidLogLevelInfo,
+    HyBidLogLevelDebug,
+} HyBidLogLevel;
+
+typedef enum {
+    HB_CREATIVE,
+    HB_ACTION_BUTTON
+} HyBidInterstitialActionBehaviour;
+
+//PNLiteAssetGroupType
+static const unsigned int MRAID_320x50 = 10;
+static const unsigned int MRAID_300x50 = 12;
+static const unsigned int MRAID_300x250 = 8;
+static const unsigned int MRAID_320x480 = 21;
+static const unsigned int MRAID_1024x768 = 22;
+static const unsigned int MRAID_768x1024 = 23;
+static const unsigned int MRAID_728x90 = 24;
+static const unsigned int MRAID_160x600 = 25;
+static const unsigned int MRAID_250x250 = 26;
+static const unsigned int MRAID_300x600 = 27;
+static const unsigned int MRAID_480x320 = 29;
+static const unsigned int VAST_MRECT = 4;
+static const unsigned int VAST_INTERSTITIAL = 15;
+static const unsigned int VAST_REWARDED = 15;
+static const unsigned int NON_DEFINED = 0;
 
 typedef void (^HyBidCompletionBlock)(BOOL);
 
@@ -146,6 +194,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds;
 + (void)setEndCardCloseOffset:(NSNumber *)seconds;
 + (void)setShowEndCard:(BOOL)showEndCard;
++ (void)setRewardedCloseOnFinish:(BOOL)closeOnFinish;
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish;
 + (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)actionBehaviour;
 + (HyBidReportingManager *)reportingManager;
@@ -156,5 +205,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setMRAIDExpand:(BOOL)enabled;
 + (void)setInterstitialSKOverlay:(BOOL)enabled;
 + (void)setRewardedSKOverlay:(BOOL)enabled;
++ (void)setAdFeedback:(BOOL)enabled;
++ (void)setContentInfoURL:(NSString *)url;
 
 @end

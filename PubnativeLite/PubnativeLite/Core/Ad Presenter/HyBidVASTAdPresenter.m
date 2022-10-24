@@ -59,7 +59,7 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 }
 
 - (void)load {
-    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel isInterstital:NO];
+    self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatBanner];
     self.player.delegate = self;
     NSString *vast = self.adModel.isUsingOpenRTB
     ? self.adModel.openRtbVast

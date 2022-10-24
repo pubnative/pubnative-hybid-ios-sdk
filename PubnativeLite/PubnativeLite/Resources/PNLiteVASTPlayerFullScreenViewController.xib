@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,7 +14,6 @@
                 <outlet property="btnMute" destination="VMb-Wf-Jhi" id="HUJ-xs-WXa"/>
                 <outlet property="btnOpenOffer" destination="Jiw-2I-70B" id="cTU-wT-7b8"/>
                 <outlet property="contentInfoViewContainer" destination="EyD-B7-zGY" id="4Ai-hH-Hhk"/>
-                <outlet property="contentInfoViewWidthConstraint" destination="VsX-i7-rZX" id="sHd-Ie-FqG"/>
                 <outlet property="loadingSpin" destination="sBQ-GN-9Mt" id="tZu-LH-zGv"/>
                 <outlet property="view" destination="CWD-dp-WWe" id="gUD-as-tdM"/>
                 <outlet property="viewProgress" destination="a1F-up-quM" id="bvn-WY-pIV"/>
@@ -82,16 +81,13 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="sBQ-GN-9Mt">
                     <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
                 </activityIndicatorView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyD-B7-zGY">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EyD-B7-zGY">
                     <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <accessibility key="accessibilityConfiguration" identifier="contentInfoContainerView" label="Content Info Container View">
                         <bool key="isElement" value="YES"/>
                     </accessibility>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="15" id="6IQ-jq-33S"/>
-                        <constraint firstAttribute="width" constant="15" id="VsX-i7-rZX"/>
-                    </constraints>
                 </view>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a1F-up-quM">
                     <rect key="frame" x="0.0" y="596" width="600" height="4"/>
@@ -105,7 +101,6 @@
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="Jiw-2I-70B" secondAttribute="trailing" id="0mH-9B-A2N"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="VMb-Wf-Jhi" secondAttribute="top" id="7bQ-vz-blX"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="a1F-up-quM" secondAttribute="bottom" id="7ik-2y-HgY"/>
-                <constraint firstItem="EyD-B7-zGY" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="B4a-Nm-5pA"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="NR4-LJ-tZs" secondAttribute="trailing" constant="10" id="Gdo-V7-P5o"/>
                 <constraint firstItem="NR4-LJ-tZs" firstAttribute="top" secondItem="pjM-1K-mT8" secondAttribute="top" constant="10" id="HH3-zi-ZtI"/>
                 <constraint firstItem="a1F-up-quM" firstAttribute="trailing" secondItem="pjM-1K-mT8" secondAttribute="trailing" id="KHV-1q-9pF"/>
@@ -116,7 +111,6 @@
                 <constraint firstItem="VMb-Wf-Jhi" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="nCr-Xc-euC"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="Jiw-2I-70B" secondAttribute="bottom" id="nm2-Uc-bVw"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="xsk-q6-jz9" secondAttribute="top" id="utd-gD-lxl"/>
-                <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="EyD-B7-zGY" secondAttribute="top" id="yEK-Ua-FWV"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

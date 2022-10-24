@@ -24,6 +24,7 @@
 #import "HyBidMRAIDView.h"
 #import "HyBidVASTEndCard.h"
 #import "HyBidVASTEventProcessor.h"
+#import "HyBidVASTCTAButton.h"
 
 @protocol HyBidVASTEndCardViewControllerDelegate<NSObject>
 
@@ -44,6 +45,8 @@
 - (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController: (UIViewController*) viewController isInterstitial: (BOOL) isInterstitial;
 
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
+
+- (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;
 
 - (void)setupUI;
 

@@ -21,7 +21,6 @@
 //
 
 #import "HyBidAdView.h"
-#import "HyBidLogger.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidBannerPresenterFactory.h"
 #import "HyBidRemoteConfigManager.h"
@@ -32,8 +31,15 @@
 #import "HyBidSignalDataProcessor.h"
 #import "HyBid.h"
 #import "HyBidError.h"
-#import "PNLiteAssetGroupType.h"
 #import "HyBidRemoteConfigFeature.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 #define TIME_TO_EXPIRE 1800 //30 Minutes as in seconds
 

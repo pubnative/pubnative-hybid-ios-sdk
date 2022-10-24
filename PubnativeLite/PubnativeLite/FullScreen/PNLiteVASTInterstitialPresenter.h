@@ -24,7 +24,9 @@
 
 @interface PNLiteVASTInterstitialPresenter : HyBidInterstitialPresenter
 
-- (instancetype)initWithAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset withCloseOnFinish:(BOOL)closeOnFinish;
+- (instancetype)initWithAd:(HyBidAd *)ad
+            withSkipOffset:(NSInteger)skipOffset
+         withCloseOnFinish:(BOOL)closeOnFinish;
 
 @property (nonatomic, readwrite, assign) NSInteger skipOffset;
 @property (nonatomic, readwrite, assign) BOOL closeOnFinish;

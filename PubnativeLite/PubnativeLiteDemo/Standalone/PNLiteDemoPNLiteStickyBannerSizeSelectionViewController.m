@@ -21,7 +21,7 @@
 //
 
 #import "PNLiteDemoPNLiteStickyBannerSizeSelectionViewController.h"
-#import <HyBid/HyBid.h>
+
 #import "PNLiteDemoSettings.h"
 #import "PNLiteDemoPNLiteBannerViewController.h"
 

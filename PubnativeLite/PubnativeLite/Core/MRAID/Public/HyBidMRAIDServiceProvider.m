@@ -22,18 +22,17 @@
 
 #import "HyBidMRAIDServiceProvider.h"
 #import <UIKit/UIKit.h>
-#import <EventKit/EventKit.h>
 
 @implementation HyBidMRAIDServiceProvider
 
 - (void)openBrowser:(NSString *)urlString {
     NSURL *linkURL = [NSURL URLWithString:urlString];
-    [[UIApplication sharedApplication] openURL:linkURL];
+    [[UIApplication sharedApplication] openURL:linkURL options:@{} completionHandler:nil];
 }
 
 - (void)playVideo:(NSString *)urlString {
     NSURL *videoUrl = [NSURL URLWithString:urlString];
-    [[UIApplication sharedApplication] openURL:videoUrl];
+    [[UIApplication sharedApplication] openURL:videoUrl options:@{} completionHandler:nil];
 }
 
 - (void)storePicture:(NSString *)urlString {
@@ -58,7 +57,7 @@
 }
 
 - (void)sendSMS:(NSString *)urlString {
-    [[UIApplication sharedApplication] openURL: [NSURL URLWithString:[@"sms:" stringByAppendingString:urlString]]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"sms:" stringByAppendingString:urlString]] options:@{} completionHandler:nil];
 }
 
 - (void)callNumber:(NSString *)urlString {
@@ -66,9 +65,9 @@
     NSURL *phoneFallbackUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:urlString]];
     
     if ([UIApplication.sharedApplication canOpenURL:phoneUrl]) {
-        [UIApplication.sharedApplication openURL:phoneUrl];
+        [[UIApplication sharedApplication] openURL:phoneUrl options:@{} completionHandler:nil];
     } else if ([UIApplication.sharedApplication canOpenURL:phoneFallbackUrl]) {
-        [UIApplication.sharedApplication openURL:phoneFallbackUrl];
+        [[UIApplication sharedApplication] openURL:phoneFallbackUrl options:@{} completionHandler:nil];
     } else {
         // Show an error message: Your device can not do phone calls.
     }

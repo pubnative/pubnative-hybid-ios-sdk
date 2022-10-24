@@ -24,6 +24,14 @@
 #import "HyBid.h"
 #import <OMSDK_Pubnativenet/OMIDImports.h>
 
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
+
 @implementation HyBidViewabilityNativeAdSession
 
 + (instancetype)sharedInstance {

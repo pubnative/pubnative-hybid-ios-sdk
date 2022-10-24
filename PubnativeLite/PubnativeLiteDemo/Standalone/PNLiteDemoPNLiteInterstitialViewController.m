@@ -81,6 +81,7 @@
 
 - (IBAction)prepareButtonTapped:(UIButton *)sender {
     [self.interstitialAd prepare];
+    self.prepareButton.enabled = NO;
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {

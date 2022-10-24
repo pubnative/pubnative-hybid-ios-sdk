@@ -28,6 +28,12 @@
 #import "HyBidOpenRTBAdModel.h"
 #import "HyBid.h"
 
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
+
 NSString *const kImpressionURL = @"got.pubnative.net";
 NSString *const kImpressionQuerryParameter = @"t";
 
@@ -272,6 +278,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
             self.contentInfoView.text = data.text;
             self.contentInfoView.link = [data stringFieldWithKey:@"link"];
             self.contentInfoView.icon = [data stringFieldWithKey:@"icon"];
+            self.contentInfoView.zoneID = self.zoneID;
         }
     } else {
         if (!self.contentInfoView) {
@@ -306,7 +313,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         result.icon = contentInfoView.icon;
         result.link = contentInfoView.link;
         result.text = [contentInfoView.text length] == 0 ? contentInfoView.text : ContentInfoViewText;
-        
+        result.zoneID = self.zoneID;
         return result;
     }
 }
@@ -317,7 +324,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     contentInfoView.text = ContentInfoViewText;
     contentInfoView.link = ContentInfoViewLink;
     contentInfoView.icon = ContentInfoViewIcon;
-    
+    contentInfoView.zoneID = self.zoneID;
     return contentInfoView;
 }
 

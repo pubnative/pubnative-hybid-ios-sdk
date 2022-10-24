@@ -23,12 +23,19 @@
 #import "PNLiteHttpRequest.h"
 #import "PNLiteReachability.h"
 #import "PNLiteCryptoUtils.h"
-#import "HyBidLogger.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
 #import "HyBidRequestParameter.h"
 #import "HyBidSkAdNetworkRequestModel.h"
 #import "HyBid.h"
 #import "HyBidError.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSTimeInterval const PNLiteHttpRequestDefaultTimeout = 60;
 NSURLRequestCachePolicy const PNLiteHttpRequestDefaultCachePolicy = NSURLRequestUseProtocolCachePolicy;

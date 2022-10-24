@@ -29,9 +29,6 @@
 #import "HyBidAdModel.h"
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
-#import "HyBidLogger.h"
-#import "HyBidSettings.h"
-#import "PNLiteAssetGroupType.h"
 #import "HyBidVideoAdProcessor.h"
 #import "HyBidVideoAdCacheItem.h"
 #import "HyBidVideoAdCache.h"
@@ -43,7 +40,16 @@
 #import "HyBidNativeAdRequest.h"
 #import "HyBidInterstitialAdRequest.h"
 #import "HyBidError.h"
+#import "HyBidAdFeedbackParameters.h"
 #import "HyBidVASTEndCardManager.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -51,7 +57,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 @interface HyBidAdRequest () <PNLiteHttpRequestDelegate>
 
-@property (nonatomic, weak) NSObject <HyBidAdRequestDelegate> *delegate;
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSString *appToken;
@@ -264,6 +269,9 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (void)invokeDidLoad:(HyBidAd *)ad {
+    if (self.zoneID) {
+        [[HyBidAdFeedbackParameters sharedInstance] cacheAd:ad andAdRequest:self withZoneID:self.zoneID];
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isRunning = NO;
         if (self.delegate && [self.delegate respondsToSelector:@selector(request:didLoadWithAd:)]) {

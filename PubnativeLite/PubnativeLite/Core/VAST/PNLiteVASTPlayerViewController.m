@@ -27,12 +27,10 @@
 #import "HyBidVASTMediaFilePicker.h"
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidLogger.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
 #import "HyBidSKAdNetworkViewController.h"
-#import "HyBidSettings.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
@@ -43,8 +41,17 @@
 #import "UIApplication+PNLiteTopViewController.h"
 #import <StoreKit/SKOverlay.h>
 #import "StoreKit/StoreKit.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kContentInfoContainerTag 2343
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 NSString * const PNLiteVASTPlayerStatusKeyPath         = @"status";
 NSString * const PNLiteVASTPlayerBundleName            = @"player.resources";
@@ -62,6 +69,7 @@ CGFloat const PNLiteVASTPlayerViewSkipTrailingConstant      = 10.0f;
 CGFloat const PNLiteVASTPlayerViewProgressBottomConstant       = 0.0f;
 CGFloat const PNLiteVASTPlayerViewProgressTrailingConstant      = 0.0f;
 CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant       = 0.0f;
+CGFloat const PNLiteContentViewDefaultSize = 15.0f;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -84,21 +92,23 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL wantsToPlay;
 @property (nonatomic, assign) BOOL muted;
 @property (nonatomic, assign) BOOL fullScreen;
-@property (nonatomic, assign) BOOL isInterstitial;
 @property (nonatomic, assign) BOOL isAdSessionCreated;
 @property (nonatomic, assign) BOOL endCardShown;
+@property (nonatomic, assign) BOOL isAdFeedbackViewReady;
+@property (nonatomic, assign) BOOL isMoviePlaybackFinished;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
 @property (nonatomic, assign) PNLiteVASTPlaybackState playback;
 @property (nonatomic, strong) NSURL *vastUrl;
 @property (nonatomic, strong) NSString *vastString;
+@property (nonatomic) HyBidAdFormatForVASTPlayer adFormat;
 
 @property (nonatomic, strong) HyBidVASTModel *hyBidVastModel;
 @property (nonatomic, strong) HyBidVASTParser *vastParser;
+@property (nonatomic, strong) HyBidVASTAd *vastAd;
 @property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
 @property (nonatomic, strong)NSArray *vastDocumentArray;
 
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
-@property (nonatomic, strong) HyBidVASTIcon *icon;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
@@ -142,9 +152,8 @@ typedef enum : NSUInteger {
 
 #pragma mark NSObject
 
-- (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
-                        isInterstital:(BOOL)isInterstitial {
-    self.isInterstitial = isInterstitial;
+- (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel withAdFormat:(HyBidAdFormatForVASTPlayer)adFormat {
+    self.adFormat = adFormat;
     self = [self init];
     if (self) {
         self.ad = adModel;
@@ -154,7 +163,7 @@ typedef enum : NSUInteger {
 }
 
 - (instancetype)init {
-    if (self.isInterstitial) {
+    if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
         self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerFullScreenViewController": @"nib"] bundle:[self getBundle]];
     } else {
         self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerViewController": @"nib"] bundle:[self getBundle]];
@@ -166,6 +175,10 @@ typedef enum : NSUInteger {
         [self setAdAudioMuted:self.muted];
         self.canResize = YES;
         self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(preparePlayerForAdFeedbackView)
+                                                     name:@"adFeedbackViewIsReady"
+                                                   object:nil];
     }
     return self;
 }
@@ -197,17 +210,16 @@ typedef enum : NSUInteger {
         [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
     }
     
-    [self.btnClose setAccessibilityIdentifier:@"vastCloseButton"];
-    [self.btnClose setAccessibilityLabel:@"VAST Close Button"];
+    [self.btnClose setAccessibilityIdentifier:@"closeButton"];
+    [self.btnClose setAccessibilityLabel:@"Close Button"];
     
     NSString *vast = self.ad.isUsingOpenRTB
     ? self.ad.openRtbVast
     : self.ad.vast;
-    [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:vast completion:^(HyBidVASTIcon *icon, NSError *error) {
-        self.icon = icon;
-        
-        if (self.icon != nil) {
-            [self setupContentInfoView:self.icon];
+    [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:vast completion:^(NSArray<HyBidVASTIcon *> *icons, NSError *error) {
+        HyBidVASTIcon *icon = [self getIconFromArray:icons];
+        if (icon != nil) {
+            [self setupContentInfoView:icon];
         } else {
             [self setupContentInfoView];
         }
@@ -217,6 +229,20 @@ typedef enum : NSUInteger {
     
     self.btnClose.hidden = YES;
     self.endCardShown = NO;
+}
+
+- (HyBidVASTIcon *)getIconFromArray:(NSArray<HyBidVASTIcon *> *)icons
+{
+    for(HyBidVASTIcon *icon in icons) {
+        if(icon != nil &&
+           [icon.staticResources count] > 0 &&
+           ![icon.staticResources.firstObject.content isEqualToString:@""]) {
+            return icon;
+        } else {
+            continue;
+        }
+    }
+    return nil;
 }
 
 - (HyBidContentInfoView *)getContentInfoView:(HyBidAd *)ad fromContentInfoView:(HyBidContentInfoView *)contentInfoView
@@ -237,6 +263,10 @@ typedef enum : NSUInteger {
         HyBidContentInfoView *contentInfoView = [self getContentInfoView:self.ad fromContentInfoView:contentInfoViewFromIcon];
         
         if (contentInfoView != nil) {
+            CGSize iconSize = [self getWidthAndHeightContentInfoIcon: icon];
+            CGRect frame = CGRectMake(0, 0, iconSize.width, iconSize.height);
+            [contentInfoView setIconSize: frame];
+            [self setContentInfoPosition: icon];
             [self.contentInfoViewContainer addSubview:contentInfoView];
             self.contentInfoViewContainer.tag = kContentInfoContainerTag;
             contentInfoView.delegate = self;
@@ -254,6 +284,65 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void) setContentInfoPosition:(HyBidVASTIcon *) icon {
+
+    CGSize iconSize = [self getWidthAndHeightContentInfoIcon: icon];
+
+    self.contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = false;
+
+    [self.contentInfoViewContainer.widthAnchor constraintGreaterThanOrEqualToConstant: iconSize.width].active = YES;
+    [self.contentInfoViewContainer.heightAnchor constraintEqualToConstant: iconSize.height].active = YES;
+
+    [self addingConstrainstForDynamicPosition:self.contentInfoViewContainer icon:icon];
+    
+}
+
+- (void)addingConstrainstForDynamicPosition:(UIView *) contentInfoViewContainer icon:(HyBidVASTIcon *) icon {
+    
+    contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = false;
+    
+    NSString *xPosition = icon.xPosition == nil ? @"left": icon.xPosition;
+    NSString *yPosition = icon.yPosition == nil ? @"top" : icon.yPosition;
+    
+    if([xPosition isEqualToString: @"right"]){
+        if (@available(iOS 11.0, *)) {
+            [contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor].active = YES;
+        } else {
+            [contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+        }
+    } else {
+        if (@available(iOS 11.0, *)) {
+            [contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor].active = YES;
+        } else {
+            [contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+        }
+    }
+
+    if([yPosition isEqualToString: @"bottom"]){
+        [contentInfoViewContainer.bottomAnchor constraintEqualToAnchor:self.viewProgress.topAnchor].active = YES;
+    } else {
+        if (@available(iOS 11.0, *)) {
+            [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+        } else {
+            [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
+        }
+    }
+}
+
+- (CGSize) getWidthAndHeightContentInfoIcon:(HyBidVASTIcon *) icon {
+    
+    if(icon.width == nil || icon.height == nil || [icon.width doubleValue] == 0.0 || [icon.height doubleValue] == 0.0){
+        return CGSizeMake(PNLiteContentViewDefaultSize, PNLiteContentViewDefaultSize);
+    }
+
+    CGFloat width = [icon.width doubleValue] < 0.0 ? PNLiteContentViewDefaultSize : [icon.width doubleValue];
+    CGFloat height = [icon.height doubleValue] < 0.0 ? PNLiteContentViewDefaultSize : [icon.height doubleValue];
+    
+    return CGSizeMake(width, height);
+    
+}
+
+
 - (void)viewDidAppear:(BOOL)animated {
     self.shown = YES;
     if(self.wantsToPlay) {
@@ -262,7 +351,14 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    if (self.adFormat == HyBidAdFormatBanner) {
+        [self stop];
+    }
     self.shown = NO;
+}
+
+- (void)preparePlayerForAdFeedbackView {
+    self.isAdFeedbackViewReady = YES;
 }
 
 #pragma mark - PUBLIC -
@@ -302,8 +398,10 @@ typedef enum : NSUInteger {
 
 - (void)play {
     @synchronized (self) {
-        [self startAdSession];
-        [self setState:PNLiteVASTPlayerState_PLAY];
+        if (!self.isMoviePlaybackFinished) {
+            [self startAdSession];
+            [self setState:PNLiteVASTPlayerState_PLAY];
+        }
     }
 }
 
@@ -315,8 +413,18 @@ typedef enum : NSUInteger {
 
 - (void)stop {
     @synchronized (self) {
-        [self stopAdSession];
-        [self setState:PNLiteVASTPlayerState_IDLE];
+        if (self.isAdFeedbackViewReady) {
+            if (!self.isMoviePlaybackFinished) {
+                [self setState:PNLiteVASTPlayerState_PAUSE];
+                if(self.adFormat == HyBidAdFormatBanner) {
+                    self.shown = NO;
+                }
+            }
+            self.isAdFeedbackViewReady = NO;
+        } else {
+            [self stopAdSession];
+            [self setState:PNLiteVASTPlayerState_IDLE];
+        }
     }
 }
 
@@ -345,7 +453,7 @@ typedef enum : NSUInteger {
                             NSString* vendor = [verification vendor];
                             NSString* params = [[verification verificationParameters] content];
 
-                        if (urlString && [urlString length] != 0 && vendor && [vendor length] != 0 && params && [params length] != 0) {                            
+                        if (urlString && [urlString length] != 0 && vendor && [vendor length] != 0 && params && [params length] != 0) {
                                 [scriptResources addObject: [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:urlString] vendorKey:vendor parameters:params]];
                             }
                         }
@@ -357,14 +465,14 @@ typedef enum : NSUInteger {
         self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:scriptResources];
         
         if (self.contentInfoView) {
-            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
-            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:self.isInterstitial];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         }
-        if (self.isInterstitial) {
-            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnClose toOMIDAdSession:self.adSession withReason:@"" isInterstitial:self.isInterstitial];
+        if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnClose toOMIDAdSession:self.adSession withReason:@"" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         }
-        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:self.isInterstitial];
-        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:self.isInterstitial];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] startOMIDAdSession:self.adSession];
         self.isAdSessionCreated = YES;
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDAdLoadEvent:self.adSession];
@@ -441,6 +549,7 @@ typedef enum : NSUInteger {
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     
+    self.isMoviePlaybackFinished = NO;
     self.player.volume = 0;
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     __weak typeof(self) weakSelf = self;
@@ -510,9 +619,15 @@ typedef enum : NSUInteger {
         
         if (currentPlaybackTime >= self.skipOffset - 0.5) { // -0.5 for more smooth transition between circular progress view and close button
             self.btnClose.hidden = NO;
+            self.btnClose.backgroundColor = UIColor.clearColor;
+            [self.btnClose setClipsToBounds: YES];
+            self.btnClose.layer.cornerRadius = self.btnClose.layer.frame.size.width / 2;
+            [self.view bringSubviewToFront: self.btnClose];
             [self.viewSkip removeFromSuperview];
         } else {
             self.viewSkip.hidden = NO;
+            [self.view bringSubviewToFront:self.viewSkip];
+            [self.viewSkip setBackgroundColor: UIColor.clearColor];
         }
         
         if (self.skipOffset - currentPlaybackTime > 1) { // to prevent displaying 0 inside of the circle
@@ -622,10 +737,23 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnClosePush:(id)sender {
-    [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && ![HyBidSettings sharedInstance].closeOnFinish) { // Skipped to end card
+    Float64 currentDuration = [self duration];
+    Float64 currentPlaybackTime = [self currentPlaybackTime];
+    Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
+    
+    BOOL closeOnFinish = NO;
+    if (self.adFormat == HyBidAdFormatRewarded) {
+        closeOnFinish = [HyBidSettings sharedInstance].rewardedCloseOnFinish;
+    } else {
+        closeOnFinish = [HyBidSettings sharedInstance].interstitialCloseOnFinish;
+    }
+    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && !closeOnFinish) { // Skipped to end card
+        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
         [self removePeriodicTimeObserver];
         [self showEndCard];
+    } else if (currentPlayedPercent < 0.99) {
+        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
+        [self invokeDidClose];
     } else {
         [self invokeDidClose];
     }
@@ -633,17 +761,14 @@ typedef enum : NSUInteger {
 
 - (IBAction)btnOpenOfferPush:(id)sender {
     Float64 duration = floor([self duration] * 4) / 4;
-    if (self.isRewarded && [self currentPlaybackTime] != duration) {
+    if ([self currentPlaybackTime] != duration) {
         if (self.player.rate != 0 && self.player.error == nil) { // isPlaying
             [self.viewProgress setProgress:[self currentPlaybackTime] / [self duration]];
             for (CALayer *layer in self.viewProgress.layer.sublayers) {
                 [layer removeAllAnimations];
             }
-            [self setPauseState];
-        } else {
-            [self setPlayState];
+            [self setState:PNLiteVASTPlayerState_PAUSE];
         }
-        return;
     }
     [self trackClickWithEndCard:nil];
 }
@@ -726,8 +851,19 @@ typedef enum : NSUInteger {
         [self.delegate vastPlayerDidComplete:self];
     }
     
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard) {
+    BOOL closeOnFinish = NO;
+    if (self.adFormat == HyBidAdFormatRewarded) {
+        closeOnFinish = [HyBidSettings sharedInstance].rewardedCloseOnFinish;
+    } else {
+        closeOnFinish = [HyBidSettings sharedInstance].interstitialCloseOnFinish;
+    }
+    
+    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && !closeOnFinish) {
         [self showEndCard];
+    } else {
+        if (closeOnFinish) {
+            [self invokeDidClose];
+        }
     }
 }
 
@@ -762,14 +898,14 @@ typedef enum : NSUInteger {
 
 - (void)applicationDidEnterBackground:(NSNotification*)notification {
     if(self.currentState == PNLiteVASTPlayerState_PLAY) {
-        [self setPauseState];
+        [self setState:PNLiteVASTPlayerState_PAUSE];
     }
 }
 
 - (void)applicationDidBecomeActive:(NSNotification*)notification {
     if(self.currentState == PNLiteVASTPlayerState_PLAY ||
        self.currentState == PNLiteVASTPlayerState_PAUSE) {
-        [self setPlayState];
+        [self setState:PNLiteVASTPlayerState_PLAY];
     }
 }
 
@@ -785,6 +921,7 @@ typedef enum : NSUInteger {
     [self setState:PNLiteVASTPlayerState_READY];
     [self invokeDidComplete];
     self.btnClose.hidden = NO;
+    self.isMoviePlaybackFinished = YES;
 }
 
 #pragma mark - State Machine
@@ -830,7 +967,7 @@ typedef enum : NSUInteger {
 - (void)setIdleState {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
-    self.btnClose.hidden = self.isInterstitial;
+    self.btnClose.hidden = (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded);
     self.btnOpenOffer.hidden = YES;
     self.viewSkip.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -843,7 +980,7 @@ typedef enum : NSUInteger {
 - (void)setLoadState {
     self.loadingSpin.hidden = NO;
     self.btnMute.hidden = YES;
-    self.btnClose.hidden = self.isInterstitial;
+    self.btnClose.hidden = (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded);
     self.btnOpenOffer.hidden = YES;
     self.viewSkip.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -1008,6 +1145,12 @@ typedef enum : NSUInteger {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     
+    self.btnMute.backgroundColor = UIColor.clearColor;
+    [self.btnMute setClipsToBounds: YES];
+    self.btnMute.layer.cornerRadius = self.btnMute.layer.frame.size.width / 2;
+    [self.view bringSubviewToFront: self.btnMute];
+    [self.view bringSubviewToFront: self.contentInfoViewContainer];
+    
     if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_ACTION_BUTTON) {
         self.btnOpenOffer.hidden = NO;
     }
@@ -1034,7 +1177,7 @@ typedef enum : NSUInteger {
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDStartEventWithDuration:[self duration] withVolume:self.player.volume];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDImpressionOccuredEvent:self.adSession];
     }
-    if (self.isInterstitial) {
+    if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPlayerStateEventWithFullscreenInfo:YES];
     }
     [self invokeDidStartPlaying];
@@ -1048,13 +1191,14 @@ typedef enum : NSUInteger {
         self.btnOpenOffer.hidden = NO;
     }
     
-    if (self.isInterstitial) {
-        if (!self.isRewarded) {
+    if (self.adFormat == HyBidAdFormatInterstitial) {
             self.viewSkip.hidden = NO;
-        }
     }
     
     self.viewProgress.hidden = NO;
+    if(self.adFormat == HyBidAdFormatBanner){
+        self.wantsToPlay = YES;
+    }
     [self.loadingSpin stopAnimating];
     
     [self.player pause];
@@ -1062,17 +1206,25 @@ typedef enum : NSUInteger {
     [self invokeDidPause];
 }
 
+- (HyBidVASTAd *)getVastAd
+{
+    if (self.videoAdCacheItem.vastModel) {
+        return self.vastAd = [[self.videoAdCacheItem.vastModel ads] firstObject];
+    } else if ([[self.hyBidVastModel ads] count] > 0) {
+        return self.vastAd = [[self.hyBidVastModel ads] firstObject];
+    } else {
+        return nil;
+    }
+}
+
 - (void)fetchEndCards
 {
-    HyBidVASTAd *ad;
-    if (self.videoAdCacheItem.vastModel) {
-        ad = [[self.videoAdCacheItem.vastModel ads] firstObject];
-    } else if ([[self.hyBidVastModel ads] count] > 0) {
-        ad = [[self.hyBidVastModel ads] firstObject];
-    } else {
+    HyBidVASTAd *ad = [self getVastAd];
+    
+    if (ad == nil) {
         return;
     }
-        
+
     NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
     HyBidVASTCompanionAds *companionAds;
     
@@ -1103,16 +1255,19 @@ typedef enum : NSUInteger {
     [self.btnOpenOffer removeFromSuperview];
     [self.viewProgress removeFromSuperview];
     self.endCardShown = YES;
+    self.isMoviePlaybackFinished = YES;
     [self.player seekToTime:self.player.currentItem.duration
             toleranceBefore:kCMTimeZero
              toleranceAfter:kCMTimePositiveInfinity];
     [self setState:PNLiteVASTPlayerState_READY];
     [self.layer removeFromSuperlayer];
     HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
-    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self isInterstitial:self.isInterstitial];
+    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
     endCardView.frame = self.view.frame;
     [endCardView setupUI];
-    [endCardView displayEndCard:firstEndCard withViewController:self];
+    
+    HyBidVASTCTAButton *ctaButton = [[self.vastAd inLine] ctaButton];
+    [endCardView displayEndCard:firstEndCard withCTAButton:ctaButton withViewController:self];
     [self.view addSubview:endCardView];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
 }
@@ -1131,12 +1286,9 @@ typedef enum : NSUInteger {
 }
 
 - (void)trackClickWithEndCard:(HyBidVASTEndCard *)endCard {
-    HyBidVASTAd *ad;
-    if (self.videoAdCacheItem.vastModel && [self.videoAdCacheItem.vastModel.ads count] > 0) {
-        ad = [[self.videoAdCacheItem.vastModel ads] firstObject];
-    } else if ([[self.hyBidVastModel ads] count] > 0) {
-        ad = [[self.hyBidVastModel ads] firstObject];
-    } else {
+    HyBidVASTAd *ad = [self getVastAd];
+    
+    if (ad == nil) {
         return;
     }
     
@@ -1197,12 +1349,12 @@ typedef enum : NSUInteger {
             });
         } else {
             if (throughClickURL != nil) {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:nil];
             }
         }
     } else {
         if (throughClickURL != nil) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:nil];
         }
     }
 }
@@ -1294,6 +1446,10 @@ typedef enum : NSUInteger {
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     [self.delegate vastPlayerDidCloseOffer:self];
+    if((self.currentState == PNLiteVASTPlayerState_PLAY ||
+       self.currentState == PNLiteVASTPlayerState_PAUSE)) {
+        [self setState:PNLiteVASTPlayerState_PLAY];
+    }
 }
 
 #pragma mark - Utils: check for bundle resource existance.

@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVASTAdInline.h"
+#import "HyBidVASTCTAButton.h"
 
 @interface HyBidVASTAdInline ()
 
@@ -150,6 +151,22 @@
     }
     
     return array;
+}
+
+- (HyBidVASTCTAButton *)ctaButton
+{
+    for (HyBidXMLElementEx *extension in self.extensions) {
+        if ([[extension attribute:@"type"] isEqualToString:@"Verve"]) {
+            HyBidXMLElementEx *ctaXmlElement = [[extension query:@"/VerveCTAButton"] firstObject];
+            
+            if (ctaXmlElement != nil) {
+                HyBidVASTCTAButton *ctaButton = [[HyBidVASTCTAButton alloc] initWithCTAButtonXMLElement:ctaXmlElement];
+                return ctaButton;
+            }
+        }
+    }
+
+    return nil;
 }
 
 - (NSArray<HyBidVASTError *> *)errors

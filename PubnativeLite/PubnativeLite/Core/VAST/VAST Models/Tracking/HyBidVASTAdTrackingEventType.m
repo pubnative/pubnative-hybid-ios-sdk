@@ -53,5 +53,7 @@ HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_minimize = @"min
 HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_close = @"close";
 HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_overlayViewDuration = @"overlayViewDuration";
 
-// Companign Ad Metrics
+// Companion Ad Metrics
 HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_creativeView = @"creativeView";
+HyBidVASTAdTrackingEventType const HyBidVASTAdTrackingEventType_ctaClick = @"CTAClick";
+
