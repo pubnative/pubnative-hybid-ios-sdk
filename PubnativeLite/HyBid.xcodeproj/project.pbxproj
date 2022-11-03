@@ -2536,7 +2536,6 @@
 			isa = PBXGroup;
 			children = (
 				7E9B1B5C28C0B67C00328CBE /* Swift */,
-				7ED53E3E28605D0900948F8A /* Private */,
 				7ED53E3D28605CFD00948F8A /* Public */,
 				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
@@ -2654,17 +2653,10 @@
 				7E9B1B5128C0B44400328CBE /* HyBidAdImpression.m */,
 				7E9B1B4E28C0B44400328CBE /* HyBidSignalDataProcessor.h */,
 				7E9B1B5028C0B44400328CBE /* HyBidSignalDataProcessor.m */,
-			);
-			path = Public;
-			sourceTree = "<group>";
-		};
-		7ED53E3E28605D0900948F8A /* Private */ = {
-			isa = PBXGroup;
-			children = (
 				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
 				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
 			);
-			path = Private;
+			path = Public;
 			sourceTree = "<group>";
 		};
 		7ED53E3F28605DB300948F8A /* Public */ = {
