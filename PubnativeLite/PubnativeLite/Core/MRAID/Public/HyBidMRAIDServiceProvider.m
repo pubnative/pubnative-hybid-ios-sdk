@@ -22,6 +22,7 @@
 
 #import "HyBidMRAIDServiceProvider.h"
 #import <UIKit/UIKit.h>
+#import <PhotosUI/PhotosUI.h>
 
 @implementation HyBidMRAIDServiceProvider
 
@@ -36,11 +37,14 @@
 }
 
 - (void)storePicture:(NSString *)urlString {
-    [self downloadImageWithURL:[NSURL URLWithString:urlString] completionBlock:^(BOOL succeeded, UIImage *image) {
-        if (succeeded) {
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-        }
-    }];
+    PHAuthorizationStatus authStatus = [PHPhotoLibrary authorizationStatus];
+    if (authStatus == PHAuthorizationStatusAuthorized) {
+        [self downloadImageWithURL:[NSURL URLWithString:urlString] completionBlock:^(BOOL succeeded, UIImage *image) {
+            if (succeeded) {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+            }
+        }];
+    }
 }
 
 - (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock {

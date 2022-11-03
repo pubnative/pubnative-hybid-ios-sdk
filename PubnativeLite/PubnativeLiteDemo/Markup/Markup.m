@@ -29,7 +29,7 @@
 {
     self = [super init];
     if (self) {
-        self.text = [markupText unescapeString:markupText];
+        self.text = markupText;
         self.placement = placement;
     }
     return self;

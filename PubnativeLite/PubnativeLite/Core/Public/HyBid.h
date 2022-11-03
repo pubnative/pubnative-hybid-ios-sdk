@@ -137,6 +137,10 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidRemoteConfigRequest.h"
 #import "HyBidAdImpression.h"
 
+// For swift compatibility, we are making this file public instead of private
+// Avoid using custom module map
+#import "PNLiteLocationManager.h"
+
 @class HyBidTargetingModel;
 @class HyBidReportingManager;
 

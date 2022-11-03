@@ -181,7 +181,7 @@ public class HyBidRewardedAd: NSObject {
             let initialLoadTimestamp = (self.initialLoadTimestamp ?? 0.0)
             let adExpireTime = initialLoadTimestamp + TIME_TO_EXPIRE
             if initialLoadTimestamp < adExpireTime {
-                self.rewardedPresenter?.show()
+                self.rewardedPresenter?.show(from: viewController)
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Ad has expired")
                 self.cleanUp()
@@ -307,6 +307,7 @@ public class HyBidRewardedAd: NSObject {
     func invokeOnReward() {
         guard let delegate = self.delegate else { return }
         delegate.onReward()
+        self.reportEvent(EventType.REWARD, properties: [:])
     }
     
     func invokeDidDismiss() {

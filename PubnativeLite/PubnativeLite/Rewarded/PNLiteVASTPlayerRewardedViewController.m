@@ -115,8 +115,8 @@
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
     if (self.closeOnFinish) {
         [self.presenter hideFromViewController:self];
-        [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
     }
+    [self.presenter.delegate rewardedPresenterDidFinish:self.presenter];
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
