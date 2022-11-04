@@ -42,9 +42,8 @@
     #import "HyBid-Swift.h"
 #endif
 
-#if __has_include(<ATOM/ATOM.h>)
-#import <ATOM/ATOM.h>
-#import "HyBidEncryption.h"
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
 #endif
 
 @interface PNLiteAdFactory ()
@@ -86,28 +85,6 @@
     if (isUsingOpenRTB) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
     }
-    
-#if __has_include(<ATOM/ATOM.h>)
-    NSDictionary *remoteConfig = [[[HyBidRemoteConfigManager sharedInstance] remoteConfigModel] dictionary];
-    
-    ATOMRemoteConfigVoyager *voyager = [[ATOMRemoteConfigVoyager alloc] initWithDictionary:remoteConfig[@"voyager"]];
-    [ATOM setTestMode:YES];
-    [ATOM setSessionTestMode:YES];
-    
-    __block NSDictionary *atomAudiences;
-    
-    if (![ATOM isInitialized]) {
-        [ATOM initWithAppToken:[HyBidSettings sharedInstance].appToken andWithRemoteConfig:voyager completion:^(BOOL completion) {
-            atomAudiences = [self getATOMAudiences];
-        }];
-    } else {
-        atomAudiences = [self getATOMAudiences];
-    }
-    
-    for (NSString *key in atomAudiences) {
-        self.adRequestModel.requestParameters[key] = atomAudiences[key];
-    }
-#endif
     
     self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_VERSION;
     self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_IDENTIFIER;
@@ -180,98 +157,27 @@
     } else {
         [self setDefaultAssetFields:self.adRequestModel];
     }
+    
+    #if __has_include(<ATOM/ATOM-Swift.h>)
+    NSArray *cohortsArray = [Atom getCohorts];
+    NSString *cohortsString = [cohortsArray componentsJoinedByString:@","];
+    cohortsString = [[NSString alloc] initWithFormat:@"[%@]", cohortsString];
+    
+    NSString *encryptedString = [[cohortsString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
+    NSString *lastChar = [encryptedString substringFromIndex:[encryptedString length] - 1];
+    
+    if ([lastChar isEqualToString:@"="]) {
+        encryptedString = [encryptedString substringToIndex:[encryptedString length] - 1];
+    }
+    
+    self.adRequestModel.requestParameters[HyBidRequestParameter.vg] = encryptedString;
+    #endif
+    
     [self setDefaultMetaFields:self.adRequestModel];
     [self setDisplayManager:self.adRequestModel withIntegrationType:integrationType];
     [self setSupportedAPIs:self.adRequestModel];
     [self setSupportedProtocols:self.adRequestModel];
     return self.adRequestModel;
-}
-
-- (NSDictionary *)getATOMAudiences
-{
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    
-    #if __has_include(<ATOM/ATOM.h>)
-    ATOMAudienceController* audienceController = [[ATOMAudienceController alloc] init];
-    ATOMAudienceData* audienceData = [audienceController lastKnownAudience];
-    HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
-    ATOMRemoteConfigVoyager *voyager = [[ATOMRemoteConfigVoyager alloc] initWithDictionary:configModel.dictionary[@"voyager"]];
-    
-    if (audienceData) {
-        NSString* targetingGender = self.adRequestModel.requestParameters[HyBidRequestParameter.gender];
-        if ((!targetingGender || [targetingGender length] == 0) && audienceData.gender && [audienceData.gender length] != 0) {
-            dictionary[HyBidRequestParameter.gender] = audienceData.gender;
-        }
-        
-        NSMutableArray* targeting = [[NSMutableArray alloc] init];
-        if (audienceData.predominantEthnicity && [audienceData.predominantEthnicity length] != 0) {
-            [targeting addObject:[NSString stringWithFormat:@"ethnicity:%@", audienceData.predominantEthnicity]];
-        }
-        
-        if (audienceData.predominantIncome && [audienceData.predominantIncome length] != 0) {
-            [targeting addObject:[NSString stringWithFormat:@"income:%@", audienceData.predominantIncome]];
-        }
-        
-        if (audienceData.parentWithChildren) {
-            [targeting addObject:[NSString stringWithFormat:@"parentWithChildren:%f", audienceData.parentWithChildren]];
-        }
-        
-        if (audienceData.female) {
-            [targeting addObject:[NSString stringWithFormat:@"female:%f", audienceData.female]];
-        }
-        
-        if (audienceData.male) {
-            [targeting addObject:[NSString stringWithFormat:@"male:%f", audienceData.male]];
-        }
-        
-        if (audienceData.age && audienceData.age > 21) {
-            [targeting addObject:[NSString stringWithFormat:@"age:%ld", audienceData.age]];
-        }
-        
-        if (audienceData.homeScore) {
-            [targeting addObject:[NSString stringWithFormat:@"ha_score:%f", audienceData.homeScore]];
-        }
-        
-        if (audienceData.mover) {
-            [targeting addObject:[NSString stringWithFormat:@"mover:%d", 1]];
-        }
-        
-        NSMutableArray *poiAudiencesArray = [[NSMutableArray alloc] init];
-        for (ATOMRemoteConfigVoyagerAudience *audience in voyager.audiences) {
-            for (ATOMRemoteConfigVoyagerResolution *res in audience.parameters.resolutions) {
-                [poiAudiencesArray addObject:res.audienceID];
-            }
-        }
-        NSString *poiAudiences = [poiAudiencesArray componentsJoinedByString:@"|"];
-        if ([poiAudiences length] != 0) {
-            [targeting addObject:[NSString stringWithFormat:@"poi:%@", poiAudiences]];
-        }
-        
-        NSString* audiencesString = [targeting componentsJoinedByString:@","];
-        NSString *encryptedString = nil;
-        
-        typedef enum {
-            BASE64,
-            ENCRYPT
-        } RemoteConfigEncoding;
-        
-        RemoteConfigEncoding configModelEncoding = [voyager.vgEncoding isEqual: @"encrypt"] ? ENCRYPT : BASE64;
-        
-        if (configModelEncoding == ENCRYPT) {
-            NSString *encryptionKey = voyager.vgTargetingKey == nil
-            ? [HyBidSettings sharedInstance].appToken
-            : voyager.vgTargetingKey;
-            
-            encryptedString = [HyBidEncryption encrypt:audiencesString withKey:encryptionKey andWithIV:[@"" stringByPaddingToLength:16 withString:@"0" startingAtIndex:0]];
-        } else {
-            encryptedString = [[audiencesString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
-        }
-        
-        dictionary[HyBidRequestParameter.vg] = encryptedString;
-    }
-    #endif
-    
-    return dictionary;
 }
 
 - (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {

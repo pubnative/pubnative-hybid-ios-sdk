@@ -218,7 +218,7 @@ public class HyBidInterstitialAd: NSObject {
             let initialLoadTimestamp = (self.initialLoadTimestamp ?? 0.0)
             let adExpireTime = initialLoadTimestamp + TIME_TO_EXPIRE
             if initialLoadTimestamp < adExpireTime {
-                self.interstitialPresenter?.show()
+                self.interstitialPresenter?.show(from: viewController)
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Ad has expired")
                 self.cleanUp()
@@ -230,8 +230,8 @@ public class HyBidInterstitialAd: NSObject {
         }
     }
     
-    func hide() {
-        self.interstitialPresenter?.hide()
+    func hide(from viewController: UIViewController) {
+        self.interstitialPresenter?.hide(from: viewController)
     }
     
     func renderAd(ad: HyBidAd) {

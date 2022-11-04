@@ -117,7 +117,9 @@ public class HyBidSettings: NSObject {
     }
     
     @objc public var orientation: String {
-        let orientation = UIApplication.shared.statusBarOrientation
+        let orientation = syncMain {
+            return UIApplication.shared.statusBarOrientation
+        }
         switch orientation {
         case .portrait, .portraitUpsideDown:
             return "portrait";
@@ -127,7 +129,7 @@ public class HyBidSettings: NSObject {
             return "none"
         }
     }
-    
+        
     @objc public var deviceSound: String {
         if AVAudioSession.sharedInstance().outputVolume == 0 {
             return "0"
@@ -196,3 +198,15 @@ public class HyBidSettings: NSObject {
         return nil
     }
 }
+
+// MARK: Utils functions
+extension HyBidSettings {
+    func syncMain<T>(_ closure: () -> T) -> T {
+        if Thread.isMainThread {
+            return closure()
+        } else {
+            return DispatchQueue.main.sync(execute: closure)
+        }
+    }
+}
+

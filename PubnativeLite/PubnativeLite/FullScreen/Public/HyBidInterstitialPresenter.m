@@ -48,7 +48,8 @@
     // Do nothing, this method should be overriden
 }
 
-- (void)hide {
+- (void)hideFromViewController:(UIViewController *)viewController
+{
     // Do nothing, this method should be overriden
 }
 

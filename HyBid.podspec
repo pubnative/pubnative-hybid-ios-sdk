@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "2.16.0"
+  s.version      = "2.16.1"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -39,14 +39,12 @@ Pod::Spec.new do |s|
   s.authors      = { "Can Soykarafakili" => "can.soykarafakili@pubnative.net", "Eros Garcia Ponte" => "eros.ponte@pubnative.net", "Fares Benhamouda" => "fares.benhamouda@pubnative.net", "Orkhan Alizada" => "orkhan.alizada@pubnative.net"  }
   s.platform     = :ios
 
-  s.ios.deployment_target = "9.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.16.0" }
+  s.ios.deployment_target = "10.0"
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.16.1" }
   s.xcconfig = {
     'OTHER_LDFLAGS' => '-framework OMSDK_Pubnativenet'
   }
 
-  s.preserve_path = 'PubnativeLite/PubnativeLite/Core/HyBid.modulemap'
-  s.module_map = 'PubnativeLite/PubnativeLite/Core/HyBid.modulemap'
   s.swift_version = '5.0'
   s.pod_target_xcconfig = {
     'OTHER_SWIFT_FLAGS' => '-Xcc -Wno-incomplete-umbrella',
@@ -60,7 +58,6 @@ Pod::Spec.new do |s|
     core.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/HyBid/module' }
     core.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2 $(PODS_ROOT)/HyBid/module' }
     core.public_header_files = ['PubnativeLite/PubnativeLite/Core/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Viewability/Public/*.h' , 'PubnativeLite/PubnativeLite/Core/Consent/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Model/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Request/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Cache/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Presenter/Public/*.h', 'PubnativeLite/PubnativeLite/Core/MRAID/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Remote Config/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Auction/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Utils/Public/*.h', 'PubnativeLite/PubnativeLite/Core/VAST/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Analytics/Public/*.h']
-    core.private_header_files = ['PubnativeLite/PubnativeLite/Core/Private/*.h']
 
   end
 

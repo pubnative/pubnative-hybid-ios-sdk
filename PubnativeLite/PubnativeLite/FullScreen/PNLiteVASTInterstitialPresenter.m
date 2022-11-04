@@ -70,14 +70,9 @@
     [viewController presentViewController:self.vastViewController animated:NO completion:nil];
 }
 
-- (void)hide {
-    UIViewController *topViewController = [UIApplication sharedApplication].topViewController;
-    
-    if ([topViewController isKindOfClass:[HyBidSKAdNetworkViewController class]]) {
-        [topViewController.presentingViewController.presentingViewController dismissViewControllerAnimated:NO completion:nil];
-    } else {
-        [[UIApplication sharedApplication].topViewController dismissViewControllerAnimated:NO completion:nil];
-    }
+- (void)hideFromViewController:(UIViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

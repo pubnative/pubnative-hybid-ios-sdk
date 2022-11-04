@@ -91,7 +91,7 @@
 - (HyBidVASTAdWrapper *)wrapper
 {
     if ([[self.xmlElement query:@"/Wrapper"] count] > 0) {
-        return [[HyBidVASTAdWrapper alloc] initWithXMLElement:[[self.xmlElement query:@"/Wrapper"] firstObject]];
+        return [[HyBidVASTAdWrapper alloc] initWithWrapperXMLElement:[[self.xmlElement query:@"/Wrapper"] firstObject]];
     }
     return nil;
 }

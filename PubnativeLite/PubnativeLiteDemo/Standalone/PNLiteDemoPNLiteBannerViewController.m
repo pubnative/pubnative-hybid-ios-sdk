@@ -169,7 +169,11 @@
     } else {
         BannerAdViewCell *bannerAdViewCell = [tableView dequeueReusableCellWithIdentifier:@"bannerAdViewCell" forIndexPath:indexPath];
         self.bannerLoaderIndicator = bannerAdViewCell.bannerAdViewLoaderIndicator;
+        
+        [self.bannerAdView setAccessibilityLabel:@"BannerAdView"];
+        [self.bannerAdView setAccessibilityIdentifier:@"bannerAdView"];
         [bannerAdViewCell.bannerAdViewContainer addSubview:self.bannerAdView];
+        
         bannerAdViewCell.bannerAdContainerWidthConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.width;
         bannerAdViewCell.bannerAdContainerHeightConstraint.constant = [PNLiteDemoSettings sharedInstance].adSize.height;
         return bannerAdViewCell;

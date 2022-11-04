@@ -28,6 +28,12 @@
 
 @class PNLiteVASTPlayerViewController;
 
+typedef enum {
+    HyBidAdFormatBanner,
+    HyBidAdFormatInterstitial,
+    HyBidAdFormatRewarded
+} HyBidAdFormatForVASTPlayer;
+
 @protocol PNLiteVASTPlayerViewControllerDelegate <NSObject>
 
 @required
@@ -50,10 +56,9 @@
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 @property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
 @property (nonatomic, assign) NSInteger skipOffset;
-@property (nonatomic, assign) BOOL isRewarded;
 
 - (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
-                            isInterstital:(BOOL)isInterstitial;
+                             withAdFormat:(HyBidAdFormatForVASTPlayer)adFormat;
 - (void)loadWithVastUrl:(NSURL*)url;
 - (void)loadWithVastString:(NSString*)vast;
 - (void)loadWithVideoAdCacheItem:(HyBidVideoAdCacheItem*)videoAdCacheItem;

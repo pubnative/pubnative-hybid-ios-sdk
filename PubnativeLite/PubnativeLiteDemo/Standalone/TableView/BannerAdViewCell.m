@@ -26,6 +26,7 @@
 
 - (void)layoutSubviews
 {
+    [self setAccessibilityElements:self.bannerAdViewContainer.subviews];
     [self.bannerAdViewContainer setIsAccessibilityElement:NO];
     [self.bannerAdViewContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
 }

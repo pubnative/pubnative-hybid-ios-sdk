@@ -190,6 +190,9 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     
+    UIInterfaceOrientation toInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@ to %@", [self.class description], NSStringFromSelector(_cmd), [self stringfromUIInterfaceOrientation:toInterfaceOrientation]]];
+    
     // willRotateToInterfaceOrientation code goes here
    
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
@@ -198,26 +201,13 @@
         
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         // didRotateFromInterfaceOrientation goes here
-        if (hasViewAppeared) {
+        if (self->hasViewAppeared) {
             [self.delegate mraidModalViewControllerDidRotate:self];
-            hasRotated = NO;
+            self->hasRotated = NO;
         }
     }];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    UIInterfaceOrientation toInterfaceOrientation = self.interfaceOrientation;
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@from %@ to %@",
-                                                                                                                 [self.class description],
-                                                                                                                 NSStringFromSelector(_cmd),
-                                                                                                                 [self stringfromUIInterfaceOrientation:fromInterfaceOrientation],
-                                                                                                                 [self stringfromUIInterfaceOrientation:toInterfaceOrientation]]
-     ];
     
-    if (hasViewAppeared) {
-        [self.delegate mraidModalViewControllerDidRotate:self];
-        hasRotated = NO;
-    }
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 - (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProps; {

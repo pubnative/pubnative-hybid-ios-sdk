@@ -88,17 +88,19 @@ static BOOL locationTrackingEnabled = true;
 }
 
 + (void)requestLocation {
-    if([CLLocationManager locationServicesEnabled]) {
-        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-        if (status == kCLAuthorizationStatusAuthorizedAlways ||
-            status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-            if (@available(iOS 9.0, *)) {
-                [[PNLiteLocationManager sharedInstance].manager requestLocation];
-            } else {
-                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Location tracking is not supported in this OS version. Dropping call."];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        if([CLLocationManager locationServicesEnabled]) {
+            CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+            if (status == kCLAuthorizationStatusAuthorizedAlways ||
+                status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+                if (@available(iOS 9.0, *)) {
+                    [[PNLiteLocationManager sharedInstance].manager requestLocation];
+                } else {
+                    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Location tracking is not supported in this OS version. Dropping call."];
+                }
             }
         }
-    }
+    });
 }
 
 + (CLLocation *)getLocation {
@@ -115,6 +117,10 @@ static BOOL locationTrackingEnabled = true;
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     self.lastKnownLocation = locations.lastObject;
     [[PNLiteLocationManager sharedInstance].manager stopUpdatingLocation];
+}
+
+- (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
+    
 }
 
 @end

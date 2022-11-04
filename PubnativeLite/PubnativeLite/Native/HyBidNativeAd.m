@@ -359,10 +359,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                     [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
                 });
             } else {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl] options:@{} completionHandler:nil];
             }
         } else {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl] options:@{} completionHandler:nil];
         }
     }
 }

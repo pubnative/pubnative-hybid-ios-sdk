@@ -74,8 +74,8 @@
     [self.rewardedPresenter showFromViewController:viewController];
 }
 
-- (void)hide {
-    [self.rewardedPresenter hide];
+- (void)hideFromViewController:(UIViewController *)viewController {
+    [self.rewardedPresenter hideFromViewController:viewController];
 }
 
 - (instancetype)initWithRewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter
@@ -161,7 +161,7 @@
 }
 
 - (void)rewardedPresenterDidShow:(HyBidRewardedPresenter *)rewardedPresenter {
-    if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidShow:)]) {
+    if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.REWARDED];
         [self.rewardedPresenterDelegate rewardedPresenterDidShow:rewardedPresenter];
         [self presentSKOverlay];

@@ -22,6 +22,21 @@
 
 #import "HyBidVASTAdWrapper.h"
 
+@interface HyBidVASTAdWrapper ()
+
+@property (nonatomic, strong)HyBidXMLElementEx *wrapperXmlElement;
+
+@end
+
 @implementation HyBidVASTAdWrapper
+
+- (instancetype)initWithWrapperXMLElement:(HyBidXMLElementEx *)wrapperXmlElement
+{
+    self = [super init];
+    if (self) {
+        self.wrapperXmlElement = wrapperXmlElement;
+    }
+    return self;
+}
 
 @end

@@ -30,6 +30,7 @@
     }
     
     NSString *processedHtml = rawHtml;
+    
     NSRange range;
     NSError *error = NULL;
 
@@ -50,11 +51,11 @@
                                                withTemplate:@""];
     
     // Add html, head, and/or body tags as needed.
-    range = [rawHtml rangeOfString:@"<html"];
+    range = [[self removeAllScripts:rawHtml] rangeOfString:@"<html"];
     BOOL hasHtmlTag = (range.location != NSNotFound);
-    range = [rawHtml rangeOfString:@"<head"];
+    range = [[self removeAllScripts:rawHtml] rangeOfString:@"<head"];
     BOOL hasHeadTag = (range.location != NSNotFound);
-    range = [rawHtml rangeOfString:@"<body"];
+    range = [[self removeAllScripts:rawHtml] rangeOfString:@"<body"];
     BOOL hasBodyTag = (range.location != NSNotFound);
     
     // basic sanity checks
@@ -113,7 +114,7 @@
     "*:not(input) { -webkit-touch-callout:none; -webkit-user-select:none; -webkit-text-size-adjust:none; }\n"
     "</style>";
     
-    pattern = @"<head[^>]*>";
+    pattern = @"<html>\n<head[^>]*>";
     error = NULL;
     regex = [NSRegularExpression regularExpressionWithPattern:pattern
                                                       options:NSRegularExpressionCaseInsensitive
@@ -124,6 +125,15 @@
                                                withTemplate:[NSString stringWithFormat:@"$0\n%@\n%@", metaTag, styleTag]];
         
     return processedHtml;
+}
+
++ (NSString*) removeAllScripts:(NSString*) htmlString {
+    if (htmlString == nil || [htmlString isEqual:@""]) {
+        return @"";
+    }
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<script[\\s\\S]*?>[\\s\\S]*?<\\/script>" options:NSRegularExpressionCaseInsensitive error:&error];
+    return [regex stringByReplacingMatchesInString:htmlString options:0 range:NSMakeRange(0, [htmlString length]) withTemplate:@""];
 }
 
 #pragma mark - Utils: check for bundle resource existance.

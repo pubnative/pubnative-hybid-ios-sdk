@@ -39,5 +39,6 @@
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSArray<HyBidVASTIconViewTracking *> *viewTrackers;
 @property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
+- (void)setIconSize:(CGRect) frame;
 
 @end

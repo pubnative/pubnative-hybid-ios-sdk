@@ -36,9 +36,15 @@
     #import "HyBid-Swift.h"
 #endif
 
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
+#endif
+
 NSString *const HyBidBaseURL = @"https://api.pubnative.net";
 NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 BOOL isInitialized = NO;
+
+#define kATOM_API_KEY @"39a34d8d-dd1d-4fbf-aa96-fdc5f0329451"
 
 @implementation HyBid
 
@@ -73,11 +79,29 @@ BOOL isInitialized = NO;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
         [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {}];
-        [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];       
+        [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
+        
+        [self startATOM];
     }
     if (completion != nil) {
         completion(isInitialized);
     }
+}
+
++ (void)startATOM
+{
+    #if __has_include(<ATOM/ATOM-Swift.h>)
+    NSError *atomError = nil;
+    [Atom startWithApiKey:kATOM_API_KEY isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {
+        if (isSuccess) {
+            NSArray *atomCohorts = [Atom getCohorts];
+            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"Received ATOM cohorts: %@", atomCohorts], NSStringFromSelector(_cmd)]];
+        } else {
+            NSString *atomInitResultMessage = [[NSString alloc] initWithFormat:@"Coultdn't initialize ATOM with error: %@", [atomError localizedDescription]];
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: atomInitResultMessage, NSStringFromSelector(_cmd)]];
+        }
+    }];
+    #endif
 }
 
 + (BOOL)isInitialized {

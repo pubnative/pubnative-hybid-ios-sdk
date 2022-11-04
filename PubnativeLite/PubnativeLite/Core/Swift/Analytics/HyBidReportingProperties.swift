@@ -88,7 +88,7 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let RENDER = "render"
     @objc public static let RENDER_ERROR = "render_error"
     @objc public static let COMPANION_VIEW = "companion_view"
-
+    @objc public static let REWARD = "reward"
 }
 
 @objc(HyBidReportingCreativeType)

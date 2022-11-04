@@ -106,7 +106,7 @@
 		5A4FF06B20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FF06A20ADB70D00B81B3D /* PNLiteDemoPNLiteInterstitialViewController.m */; };
 		5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A540248202B058A005D80E6 /* PNLiteCryptoUtils.h */; };
 		5A54024B202B058A005D80E6 /* PNLiteCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A540249202B058A005D80E6 /* PNLiteCryptoUtils.m */; };
-		5A54025C202B192C005D80E6 /* PNLiteLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5A54025C202B192C005D80E6 /* PNLiteLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A54025D202B192C005D80E6 /* PNLiteLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */; };
 		5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A54025E202B1F7A005D80E6 /* PNLiteMeta.m */; };
 		5A540261202B1F7B005D80E6 /* PNLiteMeta.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A54025F202B1F7B005D80E6 /* PNLiteMeta.h */; };
@@ -366,8 +366,6 @@
 		6F747F0D27F73BA2005A1464 /* HyBidXMLEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F747F0527F73BA1005A1464 /* HyBidXMLEx.m */; };
 		6F747F0E27F73BA2005A1464 /* HyBidXMLEx.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F747F0627F73BA1005A1464 /* HyBidXMLEx.h */; };
 		6F747F0F27F73BA2005A1464 /* HyBidXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F747F0727F73BA1005A1464 /* HyBidXML.m */; };
-		6F747F1427F748B1005A1464 /* NSDataAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F747F1227F748B0005A1464 /* NSDataAdditions.h */; };
-		6F747F1527F748B1005A1464 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F747F1327F748B1005A1464 /* NSDataAdditions.m */; };
 		6F747F1727FA313C005A1464 /* HyBidVASTAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F747F1627FA313C005A1464 /* HyBidVASTAdTests.m */; };
 		6F747F1A27FA3B5E005A1464 /* HyBidVASTAdInline.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F747F1827FA3B5E005A1464 /* HyBidVASTAdInline.h */; };
 		6F747F1B27FA3B5E005A1464 /* HyBidVASTAdInline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F747F1927FA3B5E005A1464 /* HyBidVASTAdInline.m */; };
@@ -648,6 +646,16 @@
 			files = (
 				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
 				34DE357527B42E6200207295 /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FCD99DB2902CA37008DFFAA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1107,8 +1115,6 @@
 		6F747F0527F73BA1005A1464 /* HyBidXMLEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidXMLEx.m; sourceTree = "<group>"; };
 		6F747F0627F73BA1005A1464 /* HyBidXMLEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidXMLEx.h; sourceTree = "<group>"; };
 		6F747F0727F73BA1005A1464 /* HyBidXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidXML.m; sourceTree = "<group>"; };
-		6F747F1227F748B0005A1464 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
-		6F747F1327F748B1005A1464 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		6F747F1627FA313C005A1464 /* HyBidVASTAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTAdTests.m; sourceTree = "<group>"; };
 		6F747F1827FA3B5E005A1464 /* HyBidVASTAdInline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTAdInline.h; sourceTree = "<group>"; };
 		6F747F1927FA3B5E005A1464 /* HyBidVASTAdInline.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTAdInline.m; sourceTree = "<group>"; };
@@ -1261,7 +1267,6 @@
 		7E9B1B4F28C0B44400328CBE /* HyBidAdImpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidAdImpression.h; sourceTree = "<group>"; };
 		7E9B1B5028C0B44400328CBE /* HyBidSignalDataProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidSignalDataProcessor.m; sourceTree = "<group>"; };
 		7E9B1B5128C0B44400328CBE /* HyBidAdImpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidAdImpression.m; sourceTree = "<group>"; };
-		7E9B1B5B28C0B59200328CBE /* HyBid.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = HyBid.modulemap; sourceTree = "<group>"; };
 		7E9B1B5D28C0B67C00328CBE /* HyBidConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidConstants.swift; sourceTree = "<group>"; };
 		7E9B1B5E28C0B67C00328CBE /* HyBidTargetingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidTargetingModel.swift; sourceTree = "<group>"; };
 		7E9B1B6028C0B67C00328CBE /* HyBidExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidExtensions.swift; sourceTree = "<group>"; };
@@ -2223,8 +2228,6 @@
 		6F747F0127F73B84005A1464 /* XML Parser */ = {
 			isa = PBXGroup;
 			children = (
-				6F747F1227F748B0005A1464 /* NSDataAdditions.h */,
-				6F747F1327F748B1005A1464 /* NSDataAdditions.m */,
 				6F747F0627F73BA1005A1464 /* HyBidXMLEx.h */,
 				6F747F0527F73BA1005A1464 /* HyBidXMLEx.m */,
 			);
@@ -2532,9 +2535,7 @@
 		7EA2A89125890C3A004C6A97 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				7E9B1B5B28C0B59200328CBE /* HyBid.modulemap */,
 				7E9B1B5C28C0B67C00328CBE /* Swift */,
-				7ED53E3E28605D0900948F8A /* Private */,
 				7ED53E3D28605CFD00948F8A /* Public */,
 				5AB6FBDC20AC722A0092C5DD /* PNLiteOrientationManager.h */,
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
@@ -2652,17 +2653,10 @@
 				7E9B1B5128C0B44400328CBE /* HyBidAdImpression.m */,
 				7E9B1B4E28C0B44400328CBE /* HyBidSignalDataProcessor.h */,
 				7E9B1B5028C0B44400328CBE /* HyBidSignalDataProcessor.m */,
-			);
-			path = Public;
-			sourceTree = "<group>";
-		};
-		7ED53E3E28605D0900948F8A /* Private */ = {
-			isa = PBXGroup;
-			children = (
 				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
 				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
 			);
-			path = Private;
+			path = Public;
 			sourceTree = "<group>";
 		};
 		7ED53E3F28605DB300948F8A /* Public */ = {
@@ -2877,7 +2871,6 @@
 				7E9B1BA428C0BC1C00328CBE /* HyBidRemoteConfigPlacement.h in Headers */,
 				5AC35B3C214A6B5B001F0ED3 /* HyBidNativeAd.h in Headers */,
 				6F96C79A259B7C8300F03422 /* HyBidOpenRTBAdModel.h in Headers */,
-				6F747F1427F748B1005A1464 /* NSDataAdditions.h in Headers */,
 				7E9B1BB228C0BC1C00328CBE /* HyBidRemoteConfigEndpoints.h in Headers */,
 				E76DF5FB25E6C0ED002CF7BA /* HyBidVGIOS.h in Headers */,
 				7E9B1B5228C0B44400328CBE /* HyBidSignalDataProcessor.h in Headers */,
@@ -3108,6 +3101,7 @@
 				5A6CD01B2029CD060022E206 /* Sources */,
 				5A6CD01C2029CD060022E206 /* Frameworks */,
 				5A6CD01E2029CD060022E206 /* Resources */,
+				6FCD99DB2902CA37008DFFAA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3720,7 +3714,6 @@
 				7E9B1B9D28C0BC1C00328CBE /* HyBidRemoteConfigAppConfig.m in Sources */,
 				5A9B66C820BD62640067964E /* PNLiteVASTXMLUtil.m in Sources */,
 				5A9A88632108A4D1006A081D /* PNLiteVisibilityTrackerItem.m in Sources */,
-				6F747F1527F748B1005A1464 /* NSDataAdditions.m in Sources */,
 				6F75A7CB26BBECD4004D2862 /* HyBidVASTMediaFile.m in Sources */,
 				6F75A7D326BC3CAF004D2862 /* HyBidVASTVideoClicks.m in Sources */,
 				5A3657D6203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m in Sources */,
@@ -3799,14 +3792,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.0;
+				MARKETING_VERSION = 2.16.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3839,14 +3832,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.0;
+				MARKETING_VERSION = 2.16.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -3910,7 +3903,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -3963,7 +3956,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -3997,15 +3990,15 @@
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = PubnativeLite/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.0;
-				MODULEMAP_FILE = PubnativeLite/Core/HyBid.modulemap;
+				MARKETING_VERSION = 2.16.1;
+				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4042,15 +4035,15 @@
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = PubnativeLite/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.0;
-				MODULEMAP_FILE = PubnativeLite/Core/HyBid.modulemap;
+				MARKETING_VERSION = 2.16.1;
+				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
@@ -4079,7 +4072,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4109,7 +4102,7 @@
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

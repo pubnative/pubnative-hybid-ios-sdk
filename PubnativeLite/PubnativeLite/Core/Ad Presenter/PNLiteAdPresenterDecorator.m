@@ -52,11 +52,13 @@
 
 @end
 
-NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserDefaultsHyBidCurrentBannerPresenterDecorator";
+NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUserDefaultsHyBidPreviousBannerPresenterDecorator";
 
 @implementation PNLiteAdPresenterDecorator
 
 - (void)dealloc {
+    [[NSUserDefaults standardUserDefaults] setValue:self.description forKeyPath:kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self stopTracking];
     self.adPresenter = nil;
     self.adTracker = nil;
@@ -86,8 +88,9 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
 }
 
 - (void)startTracking {
-    [self.adPresenter startTracking];
-    [self presentSKOverlay];
+    if(self.adPresenter.ad.adType != kHyBidAdTypeVideo) {
+        [self.adPresenter startTracking];
+    }
 }
 
 - (void)stopTracking {
@@ -106,7 +109,6 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
     self = [super init];
     if (self) {
         self.adPresenter = adPresenter;
-        [NSUserDefaults.standardUserDefaults setValue:self.description forKeyPath:kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey];
         self.adTracker = adTracker;
         self.adPresenterDelegate = delegate;
         self.errorReportingProperties = [NSMutableDictionary new];
@@ -160,10 +162,10 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
 }
 
 - (void)dismissSKOverlay {
-    NSString *currentBannerPresenterDecoratorDescription = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey];
+    NSString *previousBannerPresenterDecoratorDescription = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey];
     if ([HyBidSettings sharedInstance].bannerSKOverlay) {
         if (@available(iOS 14.0, *)) {
-            if ([currentBannerPresenterDecoratorDescription isEqualToString:self.description]) {
+            if ([previousBannerPresenterDecoratorDescription isEqualToString:self.description]) {
                 if (self.overlay) {
                     [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
                 }
@@ -230,9 +232,7 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
 - (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
     self.videoStarted = YES;
     if (!self.videoStarted || !self.impressionConfirmed) {return;}
-    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)]) {
-        HyBidReportingEvent* reportingVideoStartedEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_STARTED adFormat:HyBidReportingAdFormat.BANNER properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingVideoStartedEvent];
+    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
         [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
     }
@@ -265,17 +265,19 @@ NSString * const kUserDefaultsHyBidCurrentBannerPresenterDecoratorKey = @"kUserD
 #pragma mark PNLiteImpressionTrackerDelegate
 
 - (void)impressionDetectedWithView:(UIView *)view {
-    if (self.adPresenter.ad.adType != kHyBidAdTypeVideo) {
+    if (self.adPresenter.ad.adType != kHyBidAdTypeVideo && !self.adTracker.impressionTracked) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentSKOverlay];
+        });
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
         [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
     } else {
         self.impressionConfirmed = YES;
-        if (!self.videoStarted || !self.impressionConfirmed) {return;}
-        if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)]) {
-            HyBidReportingEvent* reportingVideoStartedEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_STARTED adFormat:HyBidReportingAdFormat.BANNER properties:nil];
-            [[HyBid reportingManager] reportEventFor:reportingVideoStartedEvent];
-            [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
-            [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
+        if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)] && !self.adTracker.impressionTracked) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.adPresenter startTracking];
+                [self presentSKOverlay];
+            });
         }
     }
 }

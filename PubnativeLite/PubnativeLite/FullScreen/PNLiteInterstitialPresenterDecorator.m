@@ -74,8 +74,9 @@
     [self.interstitialPresenter showFromViewController:viewController];
 }
 
-- (void)hide {
-    [self.interstitialPresenter hide];
+- (void)hideFromViewController:(UIViewController *)viewController
+{
+    [self.interstitialPresenter hideFromViewController:viewController];
 }
 
 - (instancetype)initWithInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter
@@ -172,7 +173,7 @@
 }
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
-    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)]) {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
         [self presentSKOverlay];

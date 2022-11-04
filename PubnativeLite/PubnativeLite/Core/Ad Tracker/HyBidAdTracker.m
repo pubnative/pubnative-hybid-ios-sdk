@@ -43,7 +43,6 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 @property (nonatomic, strong) HyBidAdTrackerRequest *adTrackerRequest;
 @property (nonatomic, strong) NSArray *impressionURLs;
 @property (nonatomic, strong) NSArray *clickURLs;
-@property (nonatomic, assign) BOOL impressionTracked;
 @property (nonatomic, assign) BOOL clickTracked;
 @property (nonatomic, strong) NSString *trackTypeForURL;
 @property (nonatomic, assign) BOOL urlDrillerEnabled;

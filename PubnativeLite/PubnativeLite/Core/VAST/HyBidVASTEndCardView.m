@@ -579,7 +579,7 @@
                         [ctaEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_ctaClick];
                     }
                     
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:foundUrlString]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:foundUrlString] options:@{} completionHandler:nil];
                 }
 
             }

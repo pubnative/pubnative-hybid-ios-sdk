@@ -311,7 +311,7 @@ typedef enum {
 - (void)applicationDidBecomeActive:(NSNotification*)notification {
     if (modalVC != nil && self.closeButtonTimeElapsed != -1) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:(_skipOffset - self.closeButtonTimeElapsed) target:self selector:@selector(addCloseEventRegion) userInfo:nil repeats:NO];
+            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:(self->_skipOffset - self.closeButtonTimeElapsed) target:self selector:@selector(addCloseEventRegion) userInfo:nil repeats:NO];
         });
         
         self.closeButtonTimerStartDate = [NSDate date];
@@ -725,7 +725,7 @@ typedef enum {
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:_skipOffset target:self selector:@selector(addCloseEventRegion) userInfo:nil repeats:NO];
+        self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:self->_skipOffset target:self selector:@selector(addCloseEventRegion) userInfo:nil repeats:NO];
     });
     
     self.closeButtonTimerStartDate = [NSDate date];
@@ -1443,10 +1443,10 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
         webConfiguration.allowsInlineMediaPlayback = YES;
-        webConfiguration.requiresUserActionForMediaPlayback = NO;
+        webConfiguration.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeNone;
     } else {
         webConfiguration.allowsInlineMediaPlayback = NO;
-        webConfiguration.requiresUserActionForMediaPlayback = YES;
+        webConfiguration.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeAll;
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"No inline video support has been included, videos will play full screen without autoplay."]];
     }
     

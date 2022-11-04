@@ -27,6 +27,6 @@
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithXMLElement:(HyBidXMLElementEx *)xmlElement;
+- (instancetype)initWithWrapperXMLElement:(HyBidXMLElementEx *)wrapperXmlElement;
 
 @end

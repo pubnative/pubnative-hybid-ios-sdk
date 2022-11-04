@@ -28,6 +28,8 @@ extern NSString *const PNLiteAdTrackerImpression;
 
 @interface HyBidAdTracker : NSObject
 
+@property (nonatomic, assign) BOOL impressionTracked;
+
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
                          withClickURLs:(NSArray *)clickURLs;
 - (void)trackClickWithAdFormat:(NSString *)adFormat;

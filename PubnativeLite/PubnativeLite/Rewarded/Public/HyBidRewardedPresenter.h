@@ -57,6 +57,6 @@
  * @param viewController The view controller that should be used to present the rewarded ad.
  */
 - (void)showFromViewController:(UIViewController *)viewController;
-- (void)hide;
+- (void)hideFromViewController:(UIViewController *)viewController;
 
 @end

@@ -54,7 +54,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.title = @"Ad Settings";
     [self populateDataSource];
     
     [self.tableView setDelegate:self];
