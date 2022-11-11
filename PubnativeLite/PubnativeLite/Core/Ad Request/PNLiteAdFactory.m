@@ -145,6 +145,23 @@
     self.adRequestModel.requestParameters[HyBidRequestParameter.rewardedVideo] = isRewarded ? @"1" : @"0";
         
     self.adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSettings sharedInstance].test ? @"1" : @"0";
+    
+    #if __has_include(<ATOM/ATOM-Swift.h>)
+    NSArray *cohortsArray = [Atom getCohorts];
+    NSString *cohortsString = [cohortsArray componentsJoinedByString:@","];
+    cohortsString = [[NSString alloc] initWithFormat:@"[%@]", cohortsString];
+    
+    NSString *encryptedString = [[cohortsString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
+    
+    NSMutableString *lastChar = [[encryptedString substringFromIndex:[encryptedString length] - 1] mutableCopy];
+    while ([encryptedString length] > 0 && [lastChar isEqualToString:@"="]) {
+        encryptedString = [encryptedString substringToIndex:[encryptedString length] - 1];
+        lastChar = [[encryptedString substringFromIndex:[encryptedString length] - 1] mutableCopy];
+    }
+    
+    self.adRequestModel.requestParameters[HyBidRequestParameter.vg] = encryptedString;
+    #endif
+    
     if (![adSize.layoutSize isEqualToString:@"native"]) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
         
@@ -158,25 +175,11 @@
         [self setDefaultAssetFields:self.adRequestModel];
     }
     
-    #if __has_include(<ATOM/ATOM-Swift.h>)
-    NSArray *cohortsArray = [Atom getCohorts];
-    NSString *cohortsString = [cohortsArray componentsJoinedByString:@","];
-    cohortsString = [[NSString alloc] initWithFormat:@"[%@]", cohortsString];
-    
-    NSString *encryptedString = [[cohortsString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
-    NSString *lastChar = [encryptedString substringFromIndex:[encryptedString length] - 1];
-    
-    if ([lastChar isEqualToString:@"="]) {
-        encryptedString = [encryptedString substringToIndex:[encryptedString length] - 1];
-    }
-    
-    self.adRequestModel.requestParameters[HyBidRequestParameter.vg] = encryptedString;
-    #endif
-    
     [self setDefaultMetaFields:self.adRequestModel];
     [self setDisplayManager:self.adRequestModel withIntegrationType:integrationType];
     [self setSupportedAPIs:self.adRequestModel];
     [self setSupportedProtocols:self.adRequestModel];
+    
     return self.adRequestModel;
 }
 

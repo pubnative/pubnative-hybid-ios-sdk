@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14088CF6F00A2B0EE9B9D263 /* Pods_HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B58FA60D0E67D40B3B00CFE /* Pods_HyBid.framework */; };
 		2EB929E68ACF4B6A9FE71DCE /* Pods_HyBidDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */; };
 		341902E02875CEE600984D42 /* HyBidAdFeedbackView.h in Headers */ = {isa = PBXBuildFile; fileRef = 341902DE2875CEE600984D42 /* HyBidAdFeedbackView.h */; };
 		341902E22875CEE600984D42 /* HyBidAdFeedbackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 341902DF2875CEE600984D42 /* HyBidAdFeedbackView.m */; };
@@ -650,19 +651,10 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6FCD99DB2902CA37008DFFAA /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B58FA60D0E67D40B3B00CFE /* Pods_HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		341902DE2875CEE600984D42 /* HyBidAdFeedbackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdFeedbackView.h; sourceTree = "<group>"; };
 		341902DF2875CEE600984D42 /* HyBidAdFeedbackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdFeedbackView.m; sourceTree = "<group>"; };
 		342932BA287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdFeedbackMacroUtil.h; sourceTree = "<group>"; };
@@ -1320,6 +1312,7 @@
 		7EEF4F5F28CF57A0004F1385 /* HyBidSkipOffset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidSkipOffset.swift; sourceTree = "<group>"; };
 		A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBidDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBidDemo.release.xcconfig"; path = "Target Support Files/Pods-HyBidDemo/Pods-HyBidDemo.release.xcconfig"; sourceTree = "<group>"; };
+		C0FA96C25236FA4242EEEC5D /* Pods-HyBid.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBid.release.xcconfig"; path = "Target Support Files/Pods-HyBid/Pods-HyBid.release.xcconfig"; sourceTree = "<group>"; };
 		CE8DBDD827BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationVerveCustomNetworkAdapter.h; sourceTree = "<group>"; };
 		CE8DBDD927BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppLovinMediationVerveCustomNetworkAdapter.m; sourceTree = "<group>"; };
 		CEC299342785E79200E40AF0 /* HyBidNavigatorGeolocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidNavigatorGeolocation.m; sourceTree = "<group>"; };
@@ -1369,6 +1362,7 @@
 		E76DF5B625E6C0EC002CF7BA /* HyBidVGIUserVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidVGIUserVendor.m; sourceTree = "<group>"; };
 		E78E5BAC25C9929B009192CE /* PNLiteDemoPNLiteStickyBannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteStickyBannerViewController.h; sourceTree = "<group>"; };
 		E78E5BAD25C9929C009192CE /* PNLiteDemoPNLiteStickyBannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteStickyBannerViewController.m; sourceTree = "<group>"; };
+		E79CFFA93F13CCF4EAEFF1BB /* Pods-HyBid.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBid.debug.xcconfig"; path = "Target Support Files/Pods-HyBid/Pods-HyBid.debug.xcconfig"; sourceTree = "<group>"; };
 		E7E8E8F626CAE780000E877B /* HyBidError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidError.h; sourceTree = "<group>"; };
 		E7E8E8F726CAE780000E877B /* HyBidError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidError.m; sourceTree = "<group>"; };
 		E7F24F1724E4224000160097 /* hybidmraidscaling.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = hybidmraidscaling.js; sourceTree = "<group>"; };
@@ -1408,6 +1402,7 @@
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				34DE356F27B42C8E00207295 /* OMSDK_Pubnativenet.xcframework in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
+				14088CF6F00A2B0EE9B9D263 /* Pods_HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1847,6 +1842,7 @@
 				5A8903D0203DE1D400D86051 /* WebKit.framework */,
 				A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */,
 				6AF6D274890240B10116604E /* Pods_HyBidTests.framework */,
+				1B58FA60D0E67D40B3B00CFE /* Pods_HyBid.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2839,6 +2835,8 @@
 				BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */,
 				F8BC655E404E6BCE821E24B1 /* Pods-HyBidTests.debug.xcconfig */,
 				F21D4F5D1DE0796EEE0AB48E /* Pods-HyBidTests.release.xcconfig */,
+				E79CFFA93F13CCF4EAEFF1BB /* Pods-HyBid.debug.xcconfig */,
+				C0FA96C25236FA4242EEEC5D /* Pods-HyBid.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -3097,11 +3095,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "HyBid" */;
 			buildPhases = (
+				6544EDFF3FBF98849A028DF2 /* [CP] Check Pods Manifest.lock */,
 				5A6CD01D2029CD060022E206 /* Headers */,
 				5A6CD01B2029CD060022E206 /* Sources */,
 				5A6CD01C2029CD060022E206 /* Frameworks */,
 				5A6CD01E2029CD060022E206 /* Resources */,
-				6FCD99DB2902CA37008DFFAA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3270,6 +3268,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6544EDFF3FBF98849A028DF2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HyBid-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6FC6427D27C6313000F8E847 /* Crashlytics Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3297,11 +3317,13 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HyBidTests/Pods-HyBidTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCHamcrest/OCHamcrest.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMockito/OCMockito.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCHamcrest.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMockito.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3330,6 +3352,7 @@
 				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -3348,6 +3371,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3792,14 +3816,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.1;
+				MARKETING_VERSION = "2.16.2-beta4";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3832,14 +3856,14 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = PubnativeLiteDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.1;
+				MARKETING_VERSION = "2.16.2-beta4";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -3967,6 +3991,7 @@
 		};
 		5A6CD0292029CD060022E206 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E79CFFA93F13CCF4EAEFF1BB /* Pods-HyBid.debug.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = marker;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -3997,9 +4022,8 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.1;
+				MARKETING_VERSION = "2.16.2-beta4";
 				MODULEMAP_FILE = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4012,6 +4036,7 @@
 		};
 		5A6CD02A2029CD060022E206 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0FA96C25236FA4242EEEC5D /* Pods-HyBid.release.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -4042,10 +4067,9 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.16.1;
+				MARKETING_VERSION = "2.16.2-beta4";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
