@@ -35,8 +35,8 @@ NSString * const GOOGLE_ADS_APP_ID_KEY = @"GADApplicationIdentifier";
 
 // Ad Format Classes
 NSString * const AD_FORMAT_BANNER_CLASS = @"HyBidAdView";
-NSString * const AD_FORMAT_INTERSTITIAL_CLASS = @"HyBidInterstitialAd";
-NSString * const AD_FORMAT_REWARDED_CLASS = @"HyBidRewardedAd";
+NSString * const AD_FORMAT_INTERSTITIAL_CLASS = @"HyBid.HyBidInterstitialAd";
+NSString * const AD_FORMAT_REWARDED_CLASS = @"HyBid.HyBidRewardedAd";
 NSString * const AD_FORMAT_NATIVE_CLASS = @"HyBidNativeAd";
 
 // GAD (AdMob)Mediation Adapter Classes
@@ -72,12 +72,12 @@ NSString * const GAM_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS = @"HyBidGAMInter
         [diagnosticsLogString appendFormat:@"\nEvent: %@", [self getDiagnosticsEventTypeString:event]];
         [diagnosticsLogString appendFormat:@"\nVersion: %@", HyBidConstants.HYBID_SDK_VERSION];
         [diagnosticsLogString appendFormat:@"\nBundle ID: %@", [HyBidSettings sharedInstance].appBundleID];
-        [diagnosticsLogString appendFormat:@"\nApp Token: %@", [HyBidSettings sharedInstance].appToken];
-        [diagnosticsLogString appendFormat:@"\nTest Mode: %@", [HyBidSettings sharedInstance].test ? @"true" : @"false"];
-        [diagnosticsLogString appendFormat:@"\nCOPPA: %@", [HyBidSettings sharedInstance].coppa ? @"true" : @"false"];
-        [diagnosticsLogString appendFormat:@"\nVideo Audio State: %@", [self getVideoAudioStateString:[HyBidSettings sharedInstance].audioStatus]];
-        [diagnosticsLogString appendFormat:@"\nLocation Tracking: %@", [HyBidSettings sharedInstance].locationTrackingEnabled ? @"true" : @"false"];
-        [diagnosticsLogString appendFormat:@"\nLocation Updates: %@", [HyBidSettings sharedInstance].locationUpdatesEnabled ? @"true" : @"false"];
+        [diagnosticsLogString appendFormat:@"\nApp Token: %@", [HyBidSDKConfig sharedConfig].appToken];
+        [diagnosticsLogString appendFormat:@"\nTest Mode: %@", [HyBidSDKConfig sharedConfig].test ? @"true" : @"false"];
+        [diagnosticsLogString appendFormat:@"\nCOPPA: %@", [HyBidConsentConfig sharedConfig].coppa ? @"true" : @"false"];
+        [diagnosticsLogString appendFormat:@"\nVideo Audio State: %@", [self getVideoAudioStateString:[HyBidRenderingConfig sharedConfig].audioStatus]];
+        [diagnosticsLogString appendFormat:@"\nLocation Tracking: %@", [HyBidLocationConfig sharedConfig].locationTrackingEnabled ? @"true" : @"false"];
+        [diagnosticsLogString appendFormat:@"\nLocation Updates: %@", [HyBidLocationConfig sharedConfig].locationUpdatesEnabled ? @"true" : @"false"];
         [diagnosticsLogString appendFormat:@"\nDate & Time: %@", [self currentDateAndTime]];
         [diagnosticsLogString appendFormat:@"\nDevice OS: %@", [HyBidSettings sharedInstance].os];
         [diagnosticsLogString appendFormat:@"\nDevice OS Version: %@", [HyBidSettings sharedInstance].osVersion];

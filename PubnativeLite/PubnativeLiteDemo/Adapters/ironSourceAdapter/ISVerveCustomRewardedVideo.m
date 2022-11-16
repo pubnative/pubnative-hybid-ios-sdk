@@ -38,7 +38,7 @@
 
 - (void)loadAdWithAdData:(ISAdData *)adData delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     if ([ISVerveUtils isAppTokenValid:adData] && [ISVerveUtils isZoneIDValid:adData]) {
-        if ([ISVerveUtils appToken:adData] != nil && [[ISVerveUtils appToken:adData] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([ISVerveUtils appToken:adData] != nil && [[ISVerveUtils appToken:adData] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
             self.delegate = delegate;
             self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:self];
             self.rewardedAd.isMediation = YES;

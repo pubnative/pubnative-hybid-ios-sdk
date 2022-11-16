@@ -42,7 +42,7 @@
 
 - (NSString *)getAppID
 {
-    return [HyBidSettings sharedInstance].appID;
+    return [HyBidSDKConfig sharedConfig].appID;
 }
 
 - (NSString *)getSkAdNetworkVersion

@@ -56,22 +56,26 @@
     [self requestAd];
 }
 
-- (void)requestAd
-{
-    [self clearDebugTools];
-    self.debugButton.hidden = YES;
+- (BOOL)canRequestAd {
     if ([[self.creativeIdTextField text] length] > 0) {
-        NSString *creativeID = [[self.creativeIdTextField text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *urlString = [[NSString alloc] initWithFormat:@"https://docker.creative-serving.com/preview?cr=%@&type=adi", creativeID];
-        
-        [[PNLiteHttpRequest alloc] startWithUrlString:urlString withMethod:@"GET" delegate:self];
+        return YES;
     } else {
         [self showAlertControllerWithMessage:@"Creative ID field cannot be empty."];
+        return NO;
     }
 }
 
--(void)deinit
-{
+- (void)requestAd {
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
+    if ([self canRequestAd]) {
+        NSString *creativeID = [[self.creativeIdTextField text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString *urlString = [[NSString alloc] initWithFormat:@"https://docker.creative-serving.com/preview?cr=%@&type=adi", creativeID];
+        [[PNLiteHttpRequest alloc] startWithUrlString:urlString withMethod:@"GET" delegate:self];
+    }
+}
+
+-(void)deinit {
     self.markup = nil;
     self.interstitialAd = nil;
 }
@@ -98,7 +102,7 @@
     }
 }
 
--(void) displayAdModally:(BOOL)modal {
+-(void)displayAdModally:(BOOL)modal {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Markup" bundle:[NSBundle mainBundle]];
     PNLiteDemoMarkupDetailViewController *markupDetailVC = [storyboard instantiateViewControllerWithIdentifier:@"MarkupDetailViewController"];
     markupDetailVC.markup = self.markup;

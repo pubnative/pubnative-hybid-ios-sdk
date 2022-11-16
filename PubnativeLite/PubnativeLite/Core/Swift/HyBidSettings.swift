@@ -31,45 +31,13 @@ public class HyBidSettings: NSObject {
     
     @objc public static let sharedInstance = HyBidSettings()
     
-    // CONFIGURABLE PARAMETERS
-    @objc public var test: Bool = false
-    @objc public var coppa: Bool = false
-    @objc public var targeting: HyBidTargetingModel?
-    @objc public var appToken: String?
-    @objc public var apiURL: String?
-    @objc public var openRtbApiURL: String?
-    @objc public var appID: String?
-    @objc public var videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
-    @objc public var htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
-    @objc public var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
-    @objc public var showEndCard: Bool = false {
-        didSet {
-            if !videoSkipOffset.isCustom {
-                let skipOffset = showEndCard ? DEFAULT_VIDEO_SKIP_OFFSET : DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD
-                videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: skipOffset), isCustom: false)
-            }
-        }
-    }
-    
     // Starting SDK version 2.15.1 we support multiple fidelities
     @objc public var supportMultipleFidelities: Bool = true
-    @objc public var interstitialActionBehaviour: HyBidInterstitialActionBehaviour = HB_CREATIVE
-    
-    @objc public var interstitialCloseOnFinish: Bool = false
-    @objc public var isInterstitialCloseOnFinishSet: Bool = false
-    @objc public var rewardedCloseOnFinish: Bool = false
-    @objc public var isRewardedCloseOnFinishSet: Bool = false
-    @objc public var audioStatus: HyBidAudioStatus = HyBidAudioStatusMuted
-    @objc public var mraidExpand: Bool = true
-    @objc public var interstitialSKOverlay: Bool = false
-    @objc public var rewardedSKOverlay: Bool = false
-    @objc public var adFeedback: Bool = false
-    @objc public var contentInfoURL: String?
 
     // COMMON PARAMETERS
     @objc public var advertisingId: String? {
         var result: String?
-        if !self.coppa && (NSClassFromString("ASIdentifierManager") != nil) {
+        if !HyBidConsentConfig.sharedConfig.coppa && (NSClassFromString("ASIdentifierManager") != nil) {
             if #available(iOS 14, *) {
                 if #available(iOS 14.5, *) {
                     if ATTrackingManager.trackingAuthorizationStatus == .authorized {
@@ -155,17 +123,9 @@ public class HyBidSettings: NSObject {
         return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     }
     
-    @objc public var locationTrackingEnabled: Bool {
-        return PNLiteLocationManager.locationTrackingEnabled()
-    }
-    
-    @objc public var locationUpdatesEnabled: Bool {
-        return PNLiteLocationManager.locationUpdatesEnabled()
-    }
-    
     @objc public var location: CLLocation? {
         var result: CLLocation? = nil
-        if !self.coppa {
+        if !HyBidConsentConfig.sharedConfig.coppa {
             result = PNLiteLocationManager.getLocation()
         }
         return result;
@@ -173,7 +133,7 @@ public class HyBidSettings: NSObject {
     
     @objc public var identifierForVendor: String? {
         var result: String? = nil
-        if !self.coppa {
+        if !HyBidConsentConfig.sharedConfig.coppa {
             result = UIDevice.current.identifierForVendor?.uuidString
         }
         return result
@@ -185,10 +145,6 @@ public class HyBidSettings: NSObject {
         }
         let ipAddress = try? String(contentsOf: url, encoding: .utf8)
         return ipAddress
-    }
-    
-    @objc public var bannerSKOverlay: Bool {
-        return false
     }
     
     @objc public var appTrackingTransparency: NSNumber? {

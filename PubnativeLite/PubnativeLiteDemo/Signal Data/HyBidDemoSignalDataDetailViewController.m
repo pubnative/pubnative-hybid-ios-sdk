@@ -36,6 +36,7 @@
 
 - (void)dealloc {
     self.signalData = nil;
+    self.debugButton = nil;
 }
 
 - (void)viewDidLoad {
@@ -78,11 +79,13 @@
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
     self.bannerAdView.hidden = NO;
+    self.debugButton.hidden = NO;
 }
 
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
     NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
     [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
 }
 
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {

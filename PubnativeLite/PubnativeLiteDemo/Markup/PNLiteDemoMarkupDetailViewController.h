@@ -21,10 +21,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNLiteDemoMarkupBaseViewController.h"
+#import "PNLiteDemoBaseViewController.h"
+#import "Markup.h"
 
-@interface PNLiteDemoMarkupDetailViewController : PNLiteDemoMarkupBaseViewController
+@interface PNLiteDemoMarkupDetailViewController : PNLiteDemoBaseViewController
 
 @property (nonatomic, strong) Markup *markup;
+@property (weak, nonatomic) UIButton *debugButton;
 
 @end

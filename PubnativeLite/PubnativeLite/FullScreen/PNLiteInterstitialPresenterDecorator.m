@@ -93,8 +93,8 @@
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter {
-    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
     }
     if (interstitialPresenter.ad.zoneID != nil && interstitialPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:interstitialPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
@@ -123,7 +123,7 @@
 }
 
 - (void)presentSKOverlay {
-    if ([HyBidSettings sharedInstance].interstitialSKOverlay) {
+    if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
         if (@available(iOS 14.0, *)) {
             if (self.overlay) {
                 if (!self.isOverlayShown) {
@@ -137,7 +137,7 @@
 }
 
 - (void)dismissSKOverlay {
-    if ([HyBidSettings sharedInstance].interstitialSKOverlay) {
+    if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
         if (@available(iOS 14.0, *)) {
             if (self.overlay) {
                 [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
@@ -153,7 +153,7 @@
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
-        if ([HyBidSettings sharedInstance].interstitialSKOverlay) {
+        if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
             if (@available(iOS 14.0, *)) {
                 HyBidSkAdNetworkModel* skAdNetworkModel = interstitialPresenter.ad.isUsingOpenRTB ? [interstitialPresenter.ad getOpenRTBSkAdNetworkModel] : [interstitialPresenter.ad getSkAdNetworkModel];
                 NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];

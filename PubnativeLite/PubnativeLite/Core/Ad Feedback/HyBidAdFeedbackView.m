@@ -56,8 +56,8 @@
     self = [super init];
     if (self) {
         self.zoneID = zoneID;
-        if ([HyBidSettings sharedInstance].adFeedback && [HyBidSettings sharedInstance].contentInfoURL && [HyBidSettings sharedInstance].contentInfoURL.length != 0) {
-            url = [[HyBidSettings sharedInstance].contentInfoURL stringByAppendingString:[NSString stringWithFormat:@"/index.html?apptoken=%@", HYBID_AD_FEEDBACK_MACRO_APP_TOKEN]];
+        if ([HyBidFeedbackConfig sharedConfig].adFeedback && [HyBidFeedbackConfig sharedConfig].contentInfoURL && [HyBidFeedbackConfig sharedConfig].contentInfoURL.length != 0) {
+            url = [[HyBidFeedbackConfig sharedConfig].contentInfoURL stringByAppendingString:[NSString stringWithFormat:@"/index.html?apptoken=%@", HYBID_AD_FEEDBACK_MACRO_APP_TOKEN]];
         }
         
         NSString *processedString = [HyBidAdFeedbackMacroUtil formatUrl:url withZoneID:self.zoneID];

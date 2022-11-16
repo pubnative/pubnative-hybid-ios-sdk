@@ -66,7 +66,7 @@
     if (apptoken) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.appToken] = apptoken;
     } else {
-        self.adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSettings sharedInstance].appToken;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.appToken] = [HyBidSDKConfig sharedConfig].appToken;
     }
     if (mediationVendorName) {
         self.mediationVendor = mediationVendorName;
@@ -77,7 +77,7 @@
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceWidth] = [HyBidSettings sharedInstance].deviceWidth;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceHeight] = [HyBidSettings sharedInstance].deviceHeight;
     self.adRequestModel.requestParameters[HyBidRequestParameter.orientation] = [HyBidSettings sharedInstance].orientation;
-    self.adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidSettings sharedInstance].coppa ? @"1" : @"0";
+    self.adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidConsentConfig sharedConfig].coppa ? @"1" : @"0";
     [self setIDFA:self.adRequestModel];
     self.adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
     
@@ -124,12 +124,12 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
     }
     
-    if (![HyBidSettings sharedInstance].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut] && ![[HyBidUserDataManager sharedInstance] isConsentDenied]) {
-        self.adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSettings sharedInstance].targeting.age stringValue];
-        self.adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSettings sharedInstance].targeting.gender;
-        self.adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSettings sharedInstance].targeting.interests componentsJoinedByString:@","];
+    if (![HyBidConsentConfig sharedConfig].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut] && ![[HyBidUserDataManager sharedInstance] isConsentDenied]) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.age] = [[HyBidSDKConfig sharedConfig].targeting.age stringValue];
+        self.adRequestModel.requestParameters[HyBidRequestParameter.gender] = [HyBidSDKConfig sharedConfig].targeting.gender;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.keywords] = [[HyBidSDKConfig sharedConfig].targeting.interests componentsJoinedByString:@","];
         
-        if ([HyBidSettings sharedInstance].locationTrackingEnabled) {
+        if ([HyBidLocationConfig sharedConfig].locationTrackingEnabled) {
             CLLocation* location = [HyBidSettings sharedInstance].location;
             
             if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
@@ -144,7 +144,7 @@
     
     self.adRequestModel.requestParameters[HyBidRequestParameter.rewardedVideo] = isRewarded ? @"1" : @"0";
         
-    self.adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSettings sharedInstance].test ? @"1" : @"0";
+    self.adRequestModel.requestParameters[HyBidRequestParameter.test] = [HyBidSDKConfig sharedConfig].test ? @"1" : @"0";
     if (![adSize.layoutSize isEqualToString:@"native"]) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.assetLayout] = adSize.layoutSize;
         
@@ -188,7 +188,7 @@
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {
     NSString *advertisingId = [HyBidSettings sharedInstance].advertisingId;
-    if ([HyBidSettings sharedInstance].coppa || !advertisingId || advertisingId.length == 0 || [[HyBidUserDataManager sharedInstance] isCCPAOptOut] || [[HyBidUserDataManager sharedInstance] isConsentDenied]) {
+    if ([HyBidConsentConfig sharedConfig].coppa || !advertisingId || advertisingId.length == 0 || [[HyBidUserDataManager sharedInstance] isCCPAOptOut] || [[HyBidUserDataManager sharedInstance] isConsentDenied]) {
         adRequestModel.requestParameters[HyBidRequestParameter.dnt] = @"1";
     } else {
         adRequestModel.requestParameters[HyBidRequestParameter.idfa] = advertisingId;

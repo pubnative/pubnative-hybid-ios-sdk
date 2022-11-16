@@ -198,8 +198,8 @@ public class HyBidRewardedAd: NSObject {
     
     func renderAd(ad: HyBidAd) {
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
-        if !self.isCloseOnFinishSet && HyBidSettings.sharedInstance.rewardedCloseOnFinish {
-            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: HyBidSettings.sharedInstance.rewardedCloseOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        if !self.isCloseOnFinishSet && HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish {
+            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         } else {
             self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         }
@@ -221,7 +221,7 @@ public class HyBidRewardedAd: NSObject {
     
     func addCommonPropertiesToReportingDictionary() -> [String: String] {
         var reportingDictionaryToAppend = [String: String]()
-        if let appToken = HyBidSettings.sharedInstance.appToken, appToken.count > 0 {
+        if let appToken = HyBidSDKConfig.sharedConfig.appToken, appToken.count > 0 {
             reportingDictionaryToAppend[Common.APPTOKEN] = appToken
         }
         if let zoneID = self.zoneID, zoneID.count > 0 {

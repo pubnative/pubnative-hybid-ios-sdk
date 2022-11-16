@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2022 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,34 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import <HyBid/HyBid.h>
-#if __has_include(<HyBid/HyBid-Swift.h>)
-    #import <HyBid/HyBid-Swift.h>
-#else
-    #import "HyBid-Swift.h"
-#endif
-#import "HyBidGAMBaseCustomEvent.h"
+import Foundation
+import CoreLocation
 
-@interface HyBidGAMBannerCustomEvent : HyBidGAMBaseCustomEvent
-
-@end
+@objc
+public class HyBidLocationConfig: NSObject {
+    
+    @objc public static let sharedConfig = HyBidLocationConfig()
+    
+    private override init() {
+        PNLiteLocationManager.setLocationTrackingEnabled(true)
+        PNLiteLocationManager.setLocationUpdatesEnabled(false)
+    }
+    
+    @objc public var locationTrackingEnabled: Bool {
+        get {
+            return PNLiteLocationManager.locationTrackingEnabled()
+        }
+        set (enabled) {
+            PNLiteLocationManager.setLocationTrackingEnabled(enabled)
+        }
+    }
+    
+    @objc public var locationUpdatesEnabled: Bool {
+        get {
+            return PNLiteLocationManager.locationUpdatesEnabled()
+        }
+        set (enabled) {
+            PNLiteLocationManager.setLocationUpdatesEnabled(enabled)
+        }
+    }
+}

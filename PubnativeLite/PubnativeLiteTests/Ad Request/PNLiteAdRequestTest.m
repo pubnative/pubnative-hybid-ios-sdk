@@ -82,7 +82,7 @@
 */
 - (void)test_requestAdWithDelegate_withValidDelegateAndValidZoneID_shouldPass
 {
-    [HyBidSettings sharedInstance].apiURL = @"validAPIURL";
+    [HyBidSDKConfig sharedConfig].apiURL = @"validAPIURL";
     NSObject <HyBidAdRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdRequestDelegate));
     HyBidAdSize *adSize = HyBidAdSize.SIZE_300x250;
     HyBidAdRequest *request = [[HyBidAdRequest alloc] init];

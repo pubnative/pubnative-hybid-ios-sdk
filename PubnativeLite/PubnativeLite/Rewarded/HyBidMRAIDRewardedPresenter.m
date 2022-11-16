@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2022 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMRAIDBannerPresenter.h"
+#import "HyBidMRAIDRewardedPresenter.h"
 #import "HyBidMRAIDView.h"
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
@@ -39,7 +39,7 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface PNLiteMRAIDBannerPresenter () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
+@interface HyBidMRAIDRewardedPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
@@ -47,7 +47,7 @@
 
 @end
 
-@implementation PNLiteMRAIDBannerPresenter
+@implementation HyBidMRAIDRewardedPresenter
 
 - (void)dealloc {
     self.serviceProvider = nil;
@@ -68,84 +68,69 @@
 
 - (void)load {
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
-    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [self.adModel.width floatValue], [self.adModel.height floatValue])
-                                               withHtmlData:self.adModel.htmlData
-                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
-                                              isInterstital:NO
+    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)
+                                              withHtmlData:self.adModel.htmlData
+                                               withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                             isInterstital:YES
                                               isScrollable:NO
-                                                   delegate:self
-                                            serviceDelegate:self
-                                         rootViewController:[UIApplication sharedApplication].topViewController
-                                                contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0];
+                                                  delegate:self
+                                           serviceDelegate:self
+                                        rootViewController:[UIApplication sharedApplication].topViewController
+                                               contentInfo:self.adModel.contentInfo
+                                                skipOffset:0];
 }
 
-- (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
-    self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
-    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)
-                                               withHtmlData:self.adModel.htmlData
-                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
-                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
-                                              isInterstital:NO
-                                              isScrollable:NO
-                                                   delegate:self
-                                            serviceDelegate:self
-                                         rootViewController:[UIApplication sharedApplication].topViewController
-                                                contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0];
+- (void)show {
+    [self.mraidView showAsInterstitial];
 }
 
-- (void)startTracking {
-    if (self.mraidView) {
-        [self.mraidView startAdSession];
-    }
+- (void)showFromViewController:(UIViewController *)viewController {
+    [self.mraidView showAsInterstitialFromViewController:viewController];
 }
 
-- (void)stopTracking {
-    if (self.mraidView) {
-        [self.mraidView stopAdSession];
-    }
+- (void)hide {
+    [self.mraidView hide];
 }
 
 #pragma mark HyBidMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
-    [self.delegate adPresenter:self didLoadWithAd:mraidView];
+    [self.delegate rewardedPresenterDidLoad:self];
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
     NSError *error = [NSError hyBidMraidPlayer];
-    [self.delegate adPresenter:self didFailWithError:error];
+    [self.delegate rewardedPresenter:self didFailWithError:error];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
+    [self.delegate rewardedPresenterDidShow:self];
+    if (self.mraidView) {
+        [self.mraidView startAdSession];
+    }
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
-}
-
-- (HyBidSkAdNetworkModel *)skAdNetworkModel {
-    HyBidSkAdNetworkModel *result = nil;
-    if (self.adModel) {
-        result = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
+    if (self.mraidView) {
+        [self.mraidView stopAdSession];
     }
-    return result;
+    [self.delegate rewardedPresenterDidDismiss:self];
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
     
-    [self.delegate adPresenterDidClick:self];
+    [self.delegate rewardedPresenterDidClick:self];
     
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
-        
+
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
@@ -155,7 +140,7 @@
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-                [self.delegate adPresenterDidDisappear:self];
+                [self.delegate rewardedPresenterDidDisappear:self];
             });
         } else {
             [self.serviceProvider openBrowser:url.absoluteString];
@@ -180,15 +165,15 @@
 }
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
-    [self.delegate adPresenterDidClick:self];
+    [self.delegate rewardedPresenterDidClick:self];
     
-    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
+    HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
-        
+            
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:urlString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -196,7 +181,8 @@
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-                [self.delegate adPresenterDidDisappear:self];
+                [self.delegate rewardedPresenterDidDisappear:self];
+                
             });
         } else {
             [self.serviceProvider openBrowser:urlString];
@@ -256,7 +242,7 @@
 #pragma mark SKStoreProductViewControllerDelegate
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    [self.delegate adPresenterDidAppear:self];
+    [self.delegate rewardedPresenterDidAppear:self];
 }
 
 @end

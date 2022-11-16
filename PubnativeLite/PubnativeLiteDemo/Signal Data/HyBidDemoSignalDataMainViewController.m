@@ -38,6 +38,7 @@
 @property (nonatomic, strong) SignalData *signalData;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 @end
 
@@ -59,36 +60,47 @@
 }
 
 - (IBAction)loadSignalDataTouchUpInside:(UIButton *)sender {
+    [self requestAd];
+}
+
+- (BOOL)canRequestAd {
     if (self.signalDataTextView.text.length <= 0 || !self.signalDataTextView.text) {
         [self showAlertControllerWithMessage:@"Please input some signal data."];
+        return NO;
     } else if (!self.placement){
         [self showAlertControllerWithMessage:@"Please choose a placement."];
+        return NO;
     } else {
         self.signalData = [[SignalData alloc] initWithSignalDataText:self.signalDataTextView.text withAdPlacement:self.placement];
-        [self requestAd];
+        return YES;
     }
 }
 
 - (void)requestAd {
-    switch ([self.placement integerValue]) {
-        case 0:
-        case 1:
-        case 2: {
-            HyBidDemoSignalDataDetailViewController *signalDataDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignalDataDetailViewController"];
-            signalDataDetailVC.signalData = self.signalData;
-            [self.navigationController presentViewController:signalDataDetailVC animated:YES completion:nil];
-            break;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
+    if ([self canRequestAd]) {
+        switch ([self.placement integerValue]) {
+            case 0:
+            case 1:
+            case 2: {
+                HyBidDemoSignalDataDetailViewController *signalDataDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignalDataDetailViewController"];
+                signalDataDetailVC.signalData = self.signalData;
+                signalDataDetailVC.debugButton = self.debugButton;
+                [self.navigationController presentViewController:signalDataDetailVC animated:YES completion:nil];
+                break;
+            }
+            case 3:
+                self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+                [self.interstitialAd prepareAdWithContent:self.signalData.text];
+                break;
+            case 4:
+                self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
+                [self.rewardedAd prepareAdWithContent:self.signalData.text];
+                break;
+            default:
+                break;
         }
-        case 3:
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-            [self.interstitialAd prepareAdWithContent:self.signalData.text];
-            break;
-        case 4:
-            self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-            [self.rewardedAd prepareAdWithContent:self.signalData.text];
-            break;
-        default:
-            break;
     }
 }
 
@@ -142,11 +154,13 @@
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
     [self.interstitialAd show];
+    self.debugButton.hidden = NO;
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
     [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
 }
 
 - (void)interstitialDidTrackClick {
@@ -166,11 +180,13 @@
 -(void)rewardedDidLoad {
     NSLog(@"Rewarded did load");
     [self.rewardedAd show];
+    self.debugButton.hidden = NO;
 }
 
 -(void)rewardedDidFailWithError:(NSError *)error {
     NSLog(@"Rewarded did fail with error: %@",error.localizedDescription);
     [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
 }
 
 -(void)rewardedDidTrackClick {

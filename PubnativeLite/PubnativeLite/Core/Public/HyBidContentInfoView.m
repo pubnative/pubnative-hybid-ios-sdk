@@ -252,7 +252,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (void)handleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if(self.isOpen) {
-            if ([HyBidSettings sharedInstance].adFeedback) {
+            if ([HyBidFeedbackConfig sharedConfig].adFeedback) {
                 if (!self.adFeedbackViewRequested) {
                     self.adFeedbackViewRequested = YES;
                     self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];

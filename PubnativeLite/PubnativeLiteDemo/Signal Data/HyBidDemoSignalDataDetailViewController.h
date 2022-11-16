@@ -27,5 +27,6 @@
 @interface HyBidDemoSignalDataDetailViewController : PNLiteDemoBaseViewController
 
 @property (nonatomic, strong) SignalData *signalData;
+@property (weak, nonatomic) UIButton *debugButton;
 
 @end

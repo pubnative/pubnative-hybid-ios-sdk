@@ -49,7 +49,7 @@ CLLocationManager *locationManager;
     [HyBidLogger setLogLevel:HyBidLogLevelDebug];
     [PNLiteDemoSettings sharedInstance];
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
-    
+    [HyBid setTestMode:YES];
     // Configure Firebase app
     [FIRApp configure];
     

@@ -64,11 +64,11 @@
 }
 
 - (NSString *)appToken {
-    return [HyBidSettings sharedInstance].appToken;
+    return [HyBidSDKConfig sharedConfig].appToken;
 }
 
 - (NSString *)audioState {
-    switch ([HyBidSettings sharedInstance].audioStatus) {
+    switch ([HyBidRenderingConfig sharedConfig].audioStatus) {
         case HyBidAudioStatusMuted:
             return @"Muted";
             break;
