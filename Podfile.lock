@@ -8,13 +8,13 @@ PODS:
   - Firebase/Performance (8.13.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 8.13.0)
-  - FirebaseABTesting (8.13.0):
+  - FirebaseABTesting (8.15.0):
     - FirebaseCore (~> 8.0)
   - FirebaseCore (8.13.0):
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.13.0):
+  - FirebaseCoreDiagnostics (8.15.0):
     - GoogleDataTransport (~> 9.1)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
@@ -26,7 +26,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - FirebaseInstallations (8.13.0):
+  - FirebaseInstallations (8.15.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
@@ -40,7 +40,7 @@ PODS:
     - GoogleUtilities/ISASwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - nanopb (~> 2.30908.0)
-  - FirebaseRemoteConfig (8.13.0):
+  - FirebaseRemoteConfig (8.15.0):
     - FirebaseABTesting (~> 8.0)
     - FirebaseCore (~> 8.0)
     - FirebaseInstallations (~> 8.0)
@@ -50,29 +50,29 @@ PODS:
   - Google-Mobile-Ads-SDK (9.10.0):
     - GoogleAppMeasurement (< 10.0, >= 7.0)
     - GoogleUserMessagingPlatform (>= 1.1)
-  - GoogleAppMeasurement (9.5.0):
-    - GoogleAppMeasurement/AdIdSupport (= 9.5.0)
+  - GoogleAppMeasurement (9.6.0):
+    - GoogleAppMeasurement/AdIdSupport (= 9.6.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (9.5.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.5.0)
+  - GoogleAppMeasurement/AdIdSupport (9.6.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.6.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (9.5.0):
+  - GoogleAppMeasurement/WithoutAdIdSupport (9.6.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleDataTransport (9.1.2):
-    - GoogleUtilities/Environment (~> 7.2)
-    - nanopb (~> 2.30908.0)
+  - GoogleDataTransport (9.2.0):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleMobileAdsMediationTestSuite (3.0.0):
     - Google-Mobile-Ads-SDK (>= 9.0.0)
@@ -80,26 +80,26 @@ PODS:
     - MaterialComponents/Dialogs (~> 124.0)
     - "MaterialComponents/Dialogs+Theming (~> 124.0)"
     - MaterialComponents/Tabs (~> 124.0)
-  - GoogleUserMessagingPlatform (2.0.0)
-  - GoogleUtilities/AppDelegateSwizzler (7.7.0):
+  - GoogleUserMessagingPlatform (2.0.1)
+  - GoogleUtilities/AppDelegateSwizzler (7.10.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.7.0):
+  - GoogleUtilities/Environment (7.10.0):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/ISASwizzler (7.7.0)
-  - GoogleUtilities/Logger (7.7.0):
+  - GoogleUtilities/ISASwizzler (7.10.0)
+  - GoogleUtilities/Logger (7.10.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.7.0):
+  - GoogleUtilities/MethodSwizzler (7.10.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.7.0):
+  - GoogleUtilities/Network (7.10.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.7.0)"
-  - GoogleUtilities/Reachability (7.7.0):
+  - "GoogleUtilities/NSData+zlib (7.10.0)"
+  - GoogleUtilities/Reachability (7.10.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.7.0):
+  - GoogleUtilities/UserDefaults (7.10.0):
     - GoogleUtilities/Logger
   - MaterialComponents/AnimationTiming (124.2.0)
   - MaterialComponents/Availability (124.2.0)
@@ -243,7 +243,7 @@ PODS:
   - OCHamcrest (8.0.0)
   - OCMockito (7.0.1):
     - OCHamcrest (~> 8.0)
-  - PromisesObjC (2.0.0)
+  - PromisesObjC (2.1.1)
 
 DEPENDENCIES:
   - AppLovinSDK (= 11.4.0)
@@ -283,27 +283,27 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AppLovinSDK: 8dfc693ddd022917c297bb444fbd20842cd303be
   Firebase: ee9b1d9b1801371e29f5591eda89eb5a314ab599
-  FirebaseABTesting: c390fb900b9dd6e9c04888e34dda8e9e84b07195
+  FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
   FirebaseCore: c7e3fa30492e50ccdeef280bf0d5584af38da3e1
-  FirebaseCoreDiagnostics: c2836d254a8f0bbb4121ff18f2c2ea39d118fd08
+  FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
   FirebaseCrashlytics: 3b6eafb7e508c26d37ff7a256d0f74406f7e47bd
-  FirebaseInstallations: 60edbf7e11d91ae4c751d26c200dfd037099abe0
+  FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebasePerformance: 328709d341193ab106ce5b7bb5c3e1a4de6920f2
-  FirebaseRemoteConfig: 39462033ba6fe7979eb49499f40f07feaa016b0a
+  FirebaseRemoteConfig: 2d6e2cfdb49af79535c8af8a80a4a5009038ec2b
   FLEX: f21ee4f498eed3f8a1eded66b21939fd3b7a22ce
   Google-Mobile-Ads-SDK: eb398023f0d97cdd259b171052f1eb433de00c87
-  GoogleAppMeasurement: 6ee231473fbd75c11221dfce489894334024eead
-  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleAppMeasurement: 6de2b1a69e4326eb82ee05d138f6a5cb7311bcb1
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleMobileAdsMediationTestSuite: 072c67cb9b10b6f7847b0733baadf7c77e2d737f
-  GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
-  GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  GoogleUserMessagingPlatform: 5f8b30daf181805317b6b985bb51c1ff3beca054
+  GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OCHamcrest: a613690381f1dac7637c18962c10dbe8feca4bb5
   OCMockito: 2c9acfc293609bf2ded4c4de4ac10a8629303976
-  PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
 
 PODFILE CHECKSUM: 85526a2dc8ff4f5e64693bd71a7c1279cea20530
 

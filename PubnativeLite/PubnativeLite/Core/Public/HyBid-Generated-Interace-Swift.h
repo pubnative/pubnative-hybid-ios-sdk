@@ -279,6 +279,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)CREATIVE SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull HAS_END_CARD;)
 + (NSString * _Nonnull)HAS_END_CARD SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull LAST_SESSION_TIMESTAMP;)
++ (NSString * _Nonnull)LAST_SESSION_TIMESTAMP SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull IMPRESSION_SESSION_COUNT;)
++ (NSString * _Nonnull)IMPRESSION_SESSION_COUNT SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull START_SESSION_TIMESTAMP;)
++ (NSString * _Nonnull)START_SESSION_TIMESTAMP SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull SESSION_DURATION;)
++ (NSString * _Nonnull)SESSION_DURATION SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull AGE_OF_APP;)
++ (NSString * _Nonnull)AGE_OF_APP SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -423,6 +433,7 @@ SWIFT_CLASS("_TtC5HyBid19HyBidInterstitialAd")
 - (void)prepare;
 - (void)setMediationVendor:(NSString * _Nonnull)mediationVendor;
 - (void)prepareAdWithContent:(NSString * _Nonnull)adContent;
+- (void)prepareAdWithAdReponse:(NSString * _Nonnull)adReponse;
 - (void)prepareVideoTagFrom:(NSString * _Nonnull)url;
 - (void)prepareCustomMarkupFrom:(NSString * _Nonnull)markup;
 - (void)show;
@@ -535,6 +546,7 @@ SWIFT_CLASS("_TtC5HyBid15HyBidRewardedAd")
 - (void)prepare;
 - (void)setMediationVendor:(NSString * _Nonnull)mediationVendor;
 - (void)prepareAdWithContent:(NSString * _Nonnull)adContent;
+- (void)prepareAdWithAdReponse:(NSString * _Nonnull)adReponse;
 - (void)show;
 - (void)showFromViewController:(UIViewController * _Nonnull)viewController;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
@@ -568,6 +580,21 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSDKConf
 @property (nonatomic, copy) NSString * _Nonnull apiURL;
 @property (nonatomic, copy) NSString * _Nonnull openRtbApiURL;
 @property (nonatomic, copy) NSString * _Nullable appID;
+@end
+
+
+SWIFT_CLASS("_TtC5HyBid19HyBidSessionManager")
+@interface HyBidSessionManager : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSessionManager * _Nonnull sharedInstance;)
++ (HyBidSessionManager * _Nonnull)sharedInstance SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> * _Nonnull counterPerZone;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+- (void)setStartSession;
+- (void)updateSession;
+- (void)incrementImpressionCounterWithZoneID:(NSString * _Nonnull)zoneID;
+- (void)sessionDurationWithZoneID:(NSString * _Nonnull)zoneID;
+- (void)setAgeOfAppSinceCreated;
 @end
 
 @class CLLocation;
