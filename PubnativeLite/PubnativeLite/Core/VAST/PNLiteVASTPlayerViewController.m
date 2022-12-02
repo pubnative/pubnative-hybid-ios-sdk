@@ -70,6 +70,7 @@ CGFloat const PNLiteVASTPlayerViewProgressBottomConstant       = 0.0f;
 CGFloat const PNLiteVASTPlayerViewProgressTrailingConstant      = 0.0f;
 CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant       = 0.0f;
 CGFloat const PNLiteContentViewDefaultSize = 15.0f;
+CGFloat const PNLiteMaxContentInfoHeight = 20.0f;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -171,7 +172,7 @@ typedef enum : NSUInteger {
     if (self) {
         self.state = PNLiteVASTPlayerState_IDLE;
         self.playback = PNLiteVASTPlaybackState_FirstQuartile;
-        self.muted = [self setAdAudioStatus:[HyBidSettings sharedInstance].audioStatus];
+        self.muted = [self setAdAudioStatus:[HyBidRenderingConfig sharedConfig].audioStatus];
         [self setAdAudioMuted:self.muted];
         self.canResize = YES;
         self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
@@ -198,13 +199,13 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [self setAdAudioMuted:self.muted];
     
-    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_ACTION_BUTTON) {
+    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_ACTION_BUTTON) {
         [self.btnOpenOffer setImage:[self bundledImageNamed:PNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
     } else {
         self.btnOpenOffer.hidden = YES;
     }
     
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard) {
+    if ([self.endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard) {
         [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerSkipImageName] forState:UIControlStateNormal];
     } else {
         [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
@@ -284,7 +285,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void) setContentInfoPosition:(HyBidVASTIcon *) icon {
+- (void)setContentInfoPosition:(HyBidVASTIcon *) icon {
 
     CGSize iconSize = [self getWidthAndHeightContentInfoIcon: icon];
 
@@ -335,8 +336,8 @@ typedef enum : NSUInteger {
         return CGSizeMake(PNLiteContentViewDefaultSize, PNLiteContentViewDefaultSize);
     }
 
-    CGFloat width = [icon.width doubleValue] < 0.0 ? PNLiteContentViewDefaultSize : [icon.width doubleValue];
-    CGFloat height = [icon.height doubleValue] < 0.0 ? PNLiteContentViewDefaultSize : [icon.height doubleValue];
+    CGFloat width = [icon.width doubleValue] <= 0.0 ? PNLiteContentViewDefaultSize : [icon.width doubleValue];
+    CGFloat height = [icon.height doubleValue] <= 0.0 || [icon.height doubleValue] > PNLiteMaxContentInfoHeight ? PNLiteContentViewDefaultSize : [icon.height doubleValue];
     
     return CGSizeMake(width, height);
     
@@ -431,7 +432,7 @@ typedef enum : NSUInteger {
 #pragma mark - PRIVATE -
 
 - (IBAction)videoTapped:(UITapGestureRecognizer *)sender {
-    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_CREATIVE && !self.endCardShown) {
+    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_CREATIVE && !self.endCardShown) {
         [self btnOpenOfferPush:nil];
     }
 }
@@ -622,11 +623,9 @@ typedef enum : NSUInteger {
             self.btnClose.backgroundColor = UIColor.clearColor;
             [self.btnClose setClipsToBounds: YES];
             self.btnClose.layer.cornerRadius = self.btnClose.layer.frame.size.width / 2;
-            [self.view bringSubviewToFront: self.btnClose];
             [self.viewSkip removeFromSuperview];
         } else {
             self.viewSkip.hidden = NO;
-            [self.view bringSubviewToFront:self.viewSkip];
             [self.viewSkip setBackgroundColor: UIColor.clearColor];
         }
         
@@ -737,21 +736,17 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnClosePush:(id)sender {
-    Float64 currentDuration = [self duration];
-    Float64 currentPlaybackTime = [self currentPlaybackTime];
-    Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
-    
     BOOL closeOnFinish = NO;
     if (self.adFormat == HyBidAdFormatRewarded) {
-        closeOnFinish = [HyBidSettings sharedInstance].rewardedCloseOnFinish;
+        closeOnFinish = [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish;
     } else {
-        closeOnFinish = [HyBidSettings sharedInstance].interstitialCloseOnFinish;
+        closeOnFinish = [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish;
     }
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && !closeOnFinish) { // Skipped to end card
+    if ([self.endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard && !closeOnFinish) { // Skipped to end card
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
         [self removePeriodicTimeObserver];
         [self showEndCard];
-    } else if (currentPlayedPercent < 0.99) {
+    } else if (!self.isMoviePlaybackFinished) {
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
         [self invokeDidClose];
     } else {
@@ -853,12 +848,12 @@ typedef enum : NSUInteger {
     
     BOOL closeOnFinish = NO;
     if (self.adFormat == HyBidAdFormatRewarded) {
-        closeOnFinish = [HyBidSettings sharedInstance].rewardedCloseOnFinish;
+        closeOnFinish = [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish;
     } else {
-        closeOnFinish = [HyBidSettings sharedInstance].interstitialCloseOnFinish;
+        closeOnFinish = [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish;
     }
     
-    if ([self.endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard && !closeOnFinish) {
+    if ([self.endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard && !closeOnFinish) {
         [self showEndCard];
     } else {
         if (closeOnFinish) {
@@ -1151,7 +1146,7 @@ typedef enum : NSUInteger {
     [self.view bringSubviewToFront: self.btnMute];
     [self.view bringSubviewToFront: self.contentInfoViewContainer];
     
-    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_ACTION_BUTTON) {
+    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_ACTION_BUTTON) {
         self.btnOpenOffer.hidden = NO;
     }
     self.viewSkip.hidden = YES;
@@ -1187,7 +1182,7 @@ typedef enum : NSUInteger {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     
-    if ([HyBidSettings sharedInstance].interstitialActionBehaviour == HB_ACTION_BUTTON) {
+    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_ACTION_BUTTON) {
         self.btnOpenOffer.hidden = NO;
     }
     

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -640,7 +640,7 @@
                 <viewControllerPlaceholder storyboardName="Markup" id="fQl-zg-cZw" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LYV-Xg-ycb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5004" y="-108"/>
+            <point key="canvasLocation" x="-5003" y="-101"/>
         </scene>
         <!--Settings-->
         <scene sceneID="48s-uB-Snw">
@@ -1036,6 +1036,38 @@
                                     <segue destination="CLV-7C-gd6" kind="show" id="vpj-xa-IM0"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g6r-bI-OBa" userLabel="Consent Button">
+                                <rect key="frame" x="16" y="565" width="382" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="creativeTesterButton" label="Creative Tester Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="33" id="26L-9q-lKo"/>
+                                    <constraint firstAttribute="height" constant="33" id="6nT-d9-fld"/>
+                                    <constraint firstAttribute="height" constant="33" id="Av5-ck-RbY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Legacy API Tester">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Av5-ck-RbY"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="6nT-d9-fld"/>
+                                        <include reference="Av5-ck-RbY"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="xdz-PH-8Vg" kind="show" id="YN2-Uf-6vw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OAa-8u-FAF"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1057,8 +1089,10 @@
                             <constraint firstItem="Ta3-jm-G5X" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="F2m-Ez-Xoo"/>
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="dKU-y7-Uke" secondAttribute="trailing" constant="16" id="LKr-Db-NN4"/>
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="Ta3-jm-G5X" secondAttribute="trailing" constant="16" id="Le7-iJ-g30"/>
+                            <constraint firstItem="g6r-bI-OBa" firstAttribute="top" secondItem="Ta3-jm-G5X" secondAttribute="bottom" constant="8" symbolic="YES" id="NW7-mK-HRi"/>
                             <constraint firstItem="8vm-tg-UPX" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="Pth-h2-ZNO"/>
                             <constraint firstItem="qpI-mi-Qyx" firstAttribute="top" secondItem="EwX-ms-bqS" secondAttribute="bottom" constant="8" id="TVP-Vn-HgJ"/>
+                            <constraint firstItem="g6r-bI-OBa" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="UBa-ZP-YxX"/>
                             <constraint firstItem="dKU-y7-Uke" firstAttribute="top" secondItem="Y0J-ig-HoA" secondAttribute="bottom" constant="8" id="XSu-bh-hre"/>
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="cXN-z5-dkM" secondAttribute="trailing" constant="16" id="Xlr-O5-rrd"/>
                             <constraint firstItem="LUN-x4-mNQ" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="Y5b-Re-oOf"/>
@@ -1077,6 +1111,7 @@
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="qpI-mi-Qyx" secondAttribute="trailing" constant="16" id="lmb-DW-n0c"/>
                             <constraint firstItem="Ta3-jm-G5X" firstAttribute="top" secondItem="dxO-W7-zbC" secondAttribute="bottom" constant="8" symbolic="YES" id="nrn-AX-kDt"/>
                             <constraint firstItem="LUN-x4-mNQ" firstAttribute="top" secondItem="wks-dj-u9n" secondAttribute="bottom" constant="8" id="oMa-r1-KD4"/>
+                            <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="g6r-bI-OBa" secondAttribute="trailing" constant="16" id="p4Y-7C-Y6x"/>
                             <constraint firstItem="dxO-W7-zbC" firstAttribute="top" secondItem="XoY-7G-7Lb" secondAttribute="bottom" constant="8" symbolic="YES" id="rIF-6B-PXo"/>
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="9ca-Dr-k29" secondAttribute="trailing" constant="16" id="t0G-Ki-f6D"/>
                             <constraint firstItem="cXN-z5-dkM" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="vgx-2b-JBS"/>
@@ -1101,7 +1136,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBy-W1-hMq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5002" y="-183"/>
+            <point key="canvasLocation" x="-4998" y="-142"/>
         </scene>
         <!--SignalData-->
         <scene sceneID="hQI-xN-t3z">
@@ -1111,7 +1146,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dgq-Rr-0sN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4988" y="-63"/>
+            <point key="canvasLocation" x="-4987" y="-64"/>
         </scene>
         <!--VASTTesting-->
         <scene sceneID="xyY-9G-ufi">
@@ -1132,6 +1167,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gRZ-j7-bjA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4971" y="29"/>
+        </scene>
+        <!--LegacyApiTester-->
+        <scene sceneID="bPV-vM-lO2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="LegacyApiTester" id="xdz-PH-8Vg" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="cD6-9o-cMr"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Pg-re-S9K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4961" y="76"/>
         </scene>
         <!--GAM Settings-->
         <scene sceneID="Sfu-oo-ocH">

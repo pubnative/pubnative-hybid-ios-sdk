@@ -118,21 +118,22 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 case 0: {
                     switch (indexPath.row) {
                         case 0: // Set initial audio state
-                            [cell.toggleSwitch setOn:[HyBidSettings sharedInstance].audioStatus == HyBidAudioStatusON];
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].audioStatus == HyBidAudioStatusON];
                             break;
                         case 1: // MRAID expand enabled
-                            [cell.toggleSwitch setOn:[HyBidSettings sharedInstance].mraidExpand];
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].mraidExpand];
                             break;
                         case 2: // Location tracking enabled
-                            [cell.toggleSwitch setOn:[PNLiteLocationManager locationTrackingEnabled]];
+                            [cell.toggleSwitch setOn:[HyBidLocationConfig sharedConfig].locationTrackingEnabled];
+                            break;
                         case 3: // Location updates enabled
-                            [cell.toggleSwitch setOn:[PNLiteLocationManager locationUpdatesEnabled]];
+                            [cell.toggleSwitch setOn:[HyBidLocationConfig sharedConfig].locationUpdatesEnabled];
                             break;
                         case 4: // Ad Feedback enabled
-                            [cell.toggleSwitch setOn:[HyBidSettings sharedInstance].adFeedback];
+                            [cell.toggleSwitch setOn:[HyBidFeedbackConfig sharedConfig].adFeedback];
                             break;
                         case 7: // Show EndCard
-                            [cell.toggleSwitch setOn:[HyBidSettings sharedInstance].showEndCard];
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].showEndCard];
                             break;
                     }
                     break;
@@ -140,10 +141,10 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 case 1: {
                     switch (indexPath.row) {
                         case 2: // Interstitial SKOverlay enabled
-                            [cell.toggleSwitch setOn:[HyBidSettings sharedInstance].interstitialSKOverlay];
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].interstitialSKOverlay];
                             break;
                         case 3: { // Interstitial close after finish
-                            [cell.toggleSwitch setOn: [HyBidSettings sharedInstance].interstitialCloseOnFinish];
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish];
                             break;
                         }
                     }
@@ -152,10 +153,10 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 case 3: {
                     switch (indexPath.row) {
                         case 0: // Rewarded SKOverlay enabled
-                            [cell.toggleSwitch setOn:[HyBidSettings sharedInstance].rewardedSKOverlay];
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].rewardedSKOverlay];
                             break;
                         case 1: { // Rewarded close after finish
-                            [cell.toggleSwitch setOn: [HyBidSettings sharedInstance].rewardedCloseOnFinish];
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish];
                             break;
                         }
                     }
@@ -178,12 +179,12 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 case 0: {
                     switch (indexPath.row) {
                         case 5: { // Content Info URL
-                            cell.textField.text = [HyBidSettings sharedInstance].contentInfoURL;
+                            cell.textField.text = [HyBidFeedbackConfig sharedConfig].contentInfoURL;
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                         }
                         case 6: // EndCard Close Offset
-                            cell.textField.text = [[NSString alloc] initWithFormat:@"%@", [HyBidSettings sharedInstance].endCardCloseOffset.offset.stringValue];
+                            cell.textField.text = [[NSString alloc] initWithFormat:@"%@", [HyBidRenderingConfig sharedConfig].endCardCloseOffset.offset.stringValue];
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                     }
@@ -191,12 +192,12 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 case 1: {
                     switch (indexPath.row) {
                         case 0: { // HTML/MRAID Skip Offset
-                            cell.textField.text = [HyBidSettings sharedInstance].htmlSkipOffset.offset.stringValue;
+                            cell.textField.text = [HyBidRenderingConfig sharedConfig].htmlSkipOffset.offset.stringValue;
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                         }
                         case 1: // Video Skip Offset
-                            cell.textField.text = [HyBidSettings sharedInstance].videoSkipOffset.offset.stringValue;
+                            cell.textField.text = [HyBidRenderingConfig sharedConfig].videoSkipOffset.offset.stringValue;
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                     }
@@ -219,7 +220,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                         case 0: { // Click behaviour
                             [cell.segmentedControl setTitle:@"Creative" forSegmentAtIndex:0];
                             [cell.segmentedControl setTitle:@"Action" forSegmentAtIndex:1];
-                            cell.segmentedControl.selectedSegmentIndex = ([HyBidSettings sharedInstance].interstitialActionBehaviour) == HB_CREATIVE ? 0 : 1;
+                            cell.segmentedControl.selectedSegmentIndex = ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour) == HB_CREATIVE ? 0 : 1;
                             break;
                         }
                     }
@@ -259,7 +260,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 @{ @"Initial Audio State":                  @(SWITCH) },
                 @{ @"MRAID Expand Enabled":                 @(SWITCH) },
                 @{ @"Location Tracking Enabled":            @(SWITCH) },
-                @{ @"Location updates Enabled":             @(SWITCH) },
+                @{ @"Location Updates Enabled":             @(SWITCH) },
                 @{ @"Ad Feedback Enabled":                  @(SWITCH) },
                 @{ @"Content Info URL":                     @(TEXT_FIELD) },
                 @{ @"EndCard Close Offset":                 @(TEXT_FIELD) },
@@ -293,29 +294,27 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 0: {
             switch (indexPath.row) {
                 case 0: { // Set initial audio state
-                    isON
-                    ? [HyBid setVideoAudioStatus:HyBidAudioStatusON]
-                    : [HyBid setVideoAudioStatus:HyBidAudioStatusMuted];
+                    [HyBidRenderingConfig sharedConfig].audioStatus = isON ? HyBidAudioStatusON : HyBidAudioStatusMuted;
                     break;
                 }
                 case 1: { // MRAID expand enabled
-                    [HyBid setMRAIDExpand:isON];
+                    [HyBidRenderingConfig sharedConfig].mraidExpand = isON;
                     break;
                 }
                 case 2: { // Location tracking enabled
-                    [PNLiteLocationManager setLocationTrackingEnabled:isON];
+                    [HyBidLocationConfig sharedConfig].locationTrackingEnabled = isON;
                     break;
                 }
                 case 3: { // Location updates enabled
-                    [PNLiteLocationManager setLocationUpdatesEnabled:isON];
+                    [HyBidLocationConfig sharedConfig].locationUpdatesEnabled = isON;
                     break;
                 }
                 case 4: { // Ad Feedback enabled
-                    [HyBid setAdFeedback:isON];
+                    [HyBidFeedbackConfig sharedConfig].adFeedback = isON;
                     break;
                 }
                 case 7: { // Show EndCard
-                    [[HyBidSettings sharedInstance] setShowEndCard:isON];
+                    [HyBidRenderingConfig sharedConfig].showEndCard = isON;
                     break;
                 }
             }
@@ -323,11 +322,11 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 1: {
             switch (indexPath.row) {
                 case 2: { // Interstitial SKOverlay enabled
-                    [HyBid setInterstitialSKOverlay:isON];
+                    [HyBidRenderingConfig sharedConfig].interstitialSKOverlay = isON;
                     break;
                 }
                 case 3: { // Close interstitial on finish
-                    [HyBid setInterstitialCloseOnFinish:isON];
+                    [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish = isON;
                     break;
                 }
             }
@@ -335,11 +334,11 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 3: {
             switch (indexPath.row) {
                 case 0: { // Rewarded SKOverlay enabled
-                    [HyBid setRewardedSKOverlay:isON];
+                    [HyBidRenderingConfig sharedConfig].rewardedSKOverlay = isON;
                     break;
                 }
                 case 1: { // Close rewarded on finish
-                    [HyBid setRewardedCloseOnFinish:isON];
+                    [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish = isON;
                     break;
                 }
             }
@@ -352,11 +351,11 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 0: {
             switch (indexPath.row) {
                 case 5: { // Set content info URL
-                    [HyBid setContentInfoURL:value];
+                    [HyBidFeedbackConfig sharedConfig].contentInfoURL = value;
                     break;
                 }
                 case 6: { // EndCard Close Offset
-                    [HyBid setEndCardCloseOffset:[NSNumber numberWithInt:[value intValue]]];
+                    [HyBidRenderingConfig sharedConfig].endCardCloseOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInt:[value intValue]] isCustom:YES];
                     break;
                 }
             }
@@ -364,11 +363,11 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 1: {
             switch (indexPath.row) {
                 case 0: { // HTML/MRAID Skip Offset
-                    [HyBid setHTMLInterstitialSkipOffset:[value intValue]];
+                    [HyBidRenderingConfig sharedConfig].htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
                     break;
                 }
                 case 1: { // Video Skip Offset
-                    [HyBid setVideoInterstitialSkipOffset:[value intValue]];
+                    [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
                     break;
                 }
             }
@@ -382,7 +381,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             switch (indexPath.row) {
                 case 0: { // Click behaviour
                     HyBidInterstitialActionBehaviour behaviour = value == 0 ? HB_CREATIVE : HB_ACTION_BUTTON;
-                    [HyBid setInterstitialActionBehaviour:behaviour];
+                    [HyBidRenderingConfig sharedConfig].interstitialActionBehaviour = behaviour;
                     break;
                 }
             }

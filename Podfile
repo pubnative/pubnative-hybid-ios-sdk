@@ -10,7 +10,7 @@ use_frameworks!
 
 target 'HyBidDemo' do
   # Pods for HyBidDemo
-  pod 'FLEX', '4.7.0'
+  pod 'FLEX', :configurations => ['Debug']
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
   pod 'Google-Mobile-Ads-SDK', '9.10.0'

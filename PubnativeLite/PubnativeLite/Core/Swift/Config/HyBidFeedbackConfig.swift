@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2022 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoBaseViewController.h"
-#import "Markup.h"
-#import <HyBid/HyBid.h>
+import Foundation
 
-@interface PNLiteDemoMarkupBaseViewController : PNLiteDemoBaseViewController
+@objc
+public class HyBidFeedbackConfig: NSObject {
+    @objc public static let sharedConfig = HyBidFeedbackConfig()
+    
+    private override init() {}
 
-- (HyBidMRAIDView *)createMRAIDViewWithMarkup:(Markup *)markup
-                                    withWidth:(CGFloat)width
-                                   withHeight:(CGFloat)height
-                               isInterstitial:(BOOL)isInterstitial;
-
-@end
-
+    @objc public var adFeedback: Bool = false
+    @objc public var contentInfoURL: String?
+}

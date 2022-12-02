@@ -150,10 +150,27 @@ public class HyBidRewardedAd: NSObject {
         }
     }
     
+    @objc(prepareAdWithAdReponse:)
+    public func prepareAdWithAdReponse(adReponse: String) {
+        if adReponse.count != 0 {
+            self.cleanUp()
+            self.initialLoadTimestamp = Date().timeIntervalSince1970
+            self.processAdReponse(adReponse: adReponse)
+        } else {
+            self.invokeDidFailWithError(error: NSError.hyBidInvalidAsset())
+        }
+    }
+    
     func processAdContent(adContent: String) {
         let signalDataProcessor = HyBidSignalDataProcessor()
         signalDataProcessor.delegate = HyBidRewardedSignalDataProcessorWrapper(parent: self)
         signalDataProcessor.processSignalData(adContent)
+    }
+    
+    func processAdReponse(adReponse: String) {
+        let rewardedAdRequest = HyBidRewardedAdRequest()
+        rewardedAdRequest.delegate = HyBidRewardedAdRequestWrapper(parent: self)
+        rewardedAdRequest.processResponse(withJSON: adReponse)
     }
     
     @objc
@@ -162,6 +179,9 @@ public class HyBidRewardedAd: NSObject {
             self.initialRenderTimestamp = Date().timeIntervalSince1970
             let initialLoadTimestamp = (self.initialLoadTimestamp ?? 0.0)
             let adExpireTime = initialLoadTimestamp + TIME_TO_EXPIRE
+            if let zoneID = self.zoneID {
+                HyBidSessionManager.sharedInstance.sessionDuration(zoneID: zoneID)
+            }
             if initialLoadTimestamp < adExpireTime {
                 self.rewardedPresenter?.show()
             } else {
@@ -198,8 +218,8 @@ public class HyBidRewardedAd: NSObject {
     
     func renderAd(ad: HyBidAd) {
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
-        if !self.isCloseOnFinishSet && HyBidSettings.sharedInstance.rewardedCloseOnFinish {
-            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: HyBidSettings.sharedInstance.rewardedCloseOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        if !self.isCloseOnFinishSet && HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish {
+            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         } else {
             self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         }
@@ -221,7 +241,7 @@ public class HyBidRewardedAd: NSObject {
     
     func addCommonPropertiesToReportingDictionary() -> [String: String] {
         var reportingDictionaryToAppend = [String: String]()
-        if let appToken = HyBidSettings.sharedInstance.appToken, appToken.count > 0 {
+        if let appToken = HyBidSDKConfig.sharedConfig.appToken, appToken.count > 0 {
             reportingDictionaryToAppend[Common.APPTOKEN] = appToken
         }
         if let zoneID = self.zoneID, zoneID.count > 0 {

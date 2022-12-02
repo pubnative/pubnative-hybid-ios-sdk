@@ -122,7 +122,6 @@
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID will expand."];
-    [self.delegate adPresenterDidClick:self];
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {

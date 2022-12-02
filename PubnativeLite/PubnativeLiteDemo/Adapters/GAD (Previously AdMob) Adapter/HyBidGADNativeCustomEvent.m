@@ -49,7 +49,7 @@ typedef id<GADMediationNativeAdEventDelegate> _Nullable(^HyBidGADNativeCustomEve
     self.completionBlock = completionHandler;
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
     if ([HyBidGADUtils areExtrasValid:serverParameter]) {
-        if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
             if (HyBid.isInitialized) {
                 [self loadNativeAdWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
             } else {

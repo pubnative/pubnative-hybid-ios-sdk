@@ -123,25 +123,25 @@
     [[NSUserDefaults standardUserDefaults] setBool:self.coppaModeSelected forKey:kHyBidDemoCOPPAModeKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.apiURLTextField.text forKey:kHyBidDemoAPIURLKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.openRTBApiURLTextField.text forKey:kHyBidDemoOpenRTBAPIURLKey];
+    [HyBidSDKConfig sharedConfig].apiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
+    [HyBidSDKConfig sharedConfig].openRtbApiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoOpenRTBAPIURLKey];
+    [HyBidSDKConfig sharedConfig].targeting = [PNLiteDemoSettings sharedInstance].targetingModel;
+    if (self.testModeSelected) {
+        [HyBidSDKConfig sharedConfig].test = YES;
+    } else {
+        [HyBidSDKConfig sharedConfig].test = NO;
+    }
+    if (self.coppaModeSelected) {
+        [HyBidConsentConfig sharedConfig].coppa = YES;
+    } else {
+        [HyBidConsentConfig sharedConfig].coppa = NO;
+    }
     
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
             NSLog(@"Initialisation completed");
         }
     }];
-    [HyBidSettings sharedInstance].apiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
-    [HyBidSettings sharedInstance].openRtbApiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoOpenRTBAPIURLKey];
-    [HyBid setTargeting:[PNLiteDemoSettings sharedInstance].targetingModel];
-    if (self.testModeSelected) {
-        [HyBid setTestMode:YES];
-    } else {
-        [HyBid setTestMode:NO];
-    }
-    if (self.coppaModeSelected) {
-        [HyBid setCoppa:YES];
-    } else {
-        [HyBid setCoppa:NO];
-    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

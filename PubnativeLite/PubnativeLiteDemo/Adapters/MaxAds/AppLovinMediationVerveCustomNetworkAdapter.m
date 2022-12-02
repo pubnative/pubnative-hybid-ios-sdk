@@ -22,7 +22,7 @@
 
 #import "AppLovinMediationVerveCustomNetworkAdapter.h"
 
-#define VERVE_ADAPTER_VERSION @"2.16.1-beta1.0"
+#define VERVE_ADAPTER_VERSION @"2.16.2-beta6.0"
 #define MAX_MEDIATION_VENDOR @"m"
 #define PARAM_APP_TOKEN @"pn_app_token"
 #define PARAM_TEST_MODE @"pn_test"
@@ -103,11 +103,11 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         
         if ( [parameters isTesting] )
         {
-            [HyBid setTestMode: YES];
+            [HyBidSDKConfig sharedConfig].test = YES;
             [HyBidLogger setLogLevel: HyBidLogLevelDebug];
         }
         
-        [HyBid setLocationUpdates: NO];
+        [HyBidLocationConfig sharedConfig].locationUpdatesEnabled = NO;
         [HyBid initWithAppToken: appToken completion:^(BOOL success) {
             [self log: @"Verve SDK initialized"];
             ALVerveInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
@@ -158,7 +158,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     NSNumber *isAgeRestrictedUser = parameters.ageRestrictedUser;
     if ( isAgeRestrictedUser )
     {
-        [HyBid setCoppa: isAgeRestrictedUser.boolValue];
+        [HyBidConsentConfig sharedConfig].coppa = isAgeRestrictedUser.boolValue;
     }
         
     if ( ALSdk.versionCode >= 61100 )
@@ -188,11 +188,11 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
         if ( muted )
         {
-            [HyBid setVideoAudioStatus: HyBidAudioStatusMuted];
+            [HyBidRenderingConfig sharedConfig].audioStatus = HyBidAudioStatusMuted;
         }
         else
         {
-            [HyBid setVideoAudioStatus: HyBidAudioStatusDefault];
+            [HyBidRenderingConfig sharedConfig].audioStatus = HyBidAudioStatusDefault;
         }
     }
 }
@@ -284,10 +284,10 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     } else {
         if ( [testMode isEqualToString:@"1"]) {
             // Test mode will remain active throughout this app session.
-            [HyBid setTestMode: YES];
+            [HyBidSDKConfig sharedConfig].test = YES;
             [HyBidLogger setLogLevel: HyBidLogLevelDebug];
         }
-        if ([[[HyBidSettings sharedInstance] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
+        if ([[[HyBidSDKConfig sharedConfig] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
             [self requestBanner:parameters adFormat:adFormat appToken:appToken zoneId:zoneId andNotify:delegate];
         } else {
             [HyBid initWithAppToken: appToken completion:^(BOOL success) {
@@ -323,7 +323,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     if (!zoneId || ![zoneId al_isValidString] || !appToken || ![appToken al_isValidString]) {
         [delegate didFailToLoadInterstitialAdWithError:[MAAdapterError internalError]];
     } else {
-        if ([[[HyBidSettings sharedInstance] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
+        if ([[[HyBidSDKConfig sharedConfig] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
             [self requestInterstitial:parameters appToken:appToken zoneId:zoneId andNotify:delegate];
         } else {
             [HyBid initWithAppToken: appToken completion:^(BOOL success) {
@@ -373,7 +373,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     if (!zoneId || ![zoneId al_isValidString] || !appToken || ![appToken al_isValidString]) {
         [delegate didFailToLoadRewardedAdWithError:[MAAdapterError internalError]];
     } else {
-        if ([[[HyBidSettings sharedInstance] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
+        if ([[[HyBidSDKConfig sharedConfig] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
             [self requestRewarded:parameters appToken:appToken zoneId:zoneId andNotify:delegate];
         } else {
             [HyBid initWithAppToken: appToken completion:^(BOOL success) {
@@ -424,7 +424,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     if (!zoneId || ![zoneId al_isValidString] || !appToken || ![appToken al_isValidString]) {
         [delegate didFailToLoadNativeAdWithError:[MAAdapterError internalError]];
     } else {
-        if ([[[HyBidSettings sharedInstance] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
+        if ([[[HyBidSDKConfig sharedConfig] appToken] isEqualToString:appToken] && [HyBid isInitialized]) {
             [self requestNative:parameters appToken:appToken zoneId:zoneId andNotify:delegate];
         } else {
             [HyBid initWithAppToken: appToken completion:^(BOOL success) {

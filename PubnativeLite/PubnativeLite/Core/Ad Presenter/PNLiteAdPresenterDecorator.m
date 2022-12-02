@@ -119,8 +119,8 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withAdPresenter:(HyBidAdPresenter *)adPresenter {
-    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
     }
     if (adPresenter.ad.zoneID != nil && adPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:adPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
@@ -148,7 +148,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 }
 
 - (void)presentSKOverlay {
-    if ([HyBidSettings sharedInstance].bannerSKOverlay) {
+    if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
         if (@available(iOS 14.0, *)) {
             if (self.overlay) {
                 if (!self.isOverlayShown) {
@@ -163,7 +163,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 
 - (void)dismissSKOverlay {
     NSString *previousBannerPresenterDecoratorDescription = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey];
-    if ([HyBidSettings sharedInstance].bannerSKOverlay) {
+    if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
         if (@available(iOS 14.0, *)) {
             if ([previousBannerPresenterDecoratorDescription isEqualToString:self.description]) {
                 if (self.overlay) {
@@ -191,7 +191,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     }
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
         [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
-        if ([HyBidSettings sharedInstance].bannerSKOverlay) {
+        if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
             if (@available(iOS 14.0, *)) {
                 HyBidSkAdNetworkModel* skAdNetworkModel = adPresenter.ad.isUsingOpenRTB ? [adPresenter.ad getOpenRTBSkAdNetworkModel] : [adPresenter.ad getSkAdNetworkModel];
                 NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];

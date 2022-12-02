@@ -38,7 +38,7 @@
 
 - (void)loadAdWithAdData:(ISAdData *)adData delegate:(id<ISInterstitialAdDelegate>)delegate {
     if ([ISVerveUtils isAppTokenValid:adData] && [ISVerveUtils isZoneIDValid:adData]) {
-        if ([ISVerveUtils appToken:adData] != nil && [[ISVerveUtils appToken:adData] isEqualToString:[HyBidSettings sharedInstance].appToken]) {
+        if ([ISVerveUtils appToken:adData] != nil && [[ISVerveUtils appToken:adData] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
             self.delegate = delegate;
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:self];
             self.interstitialAd.isMediation = YES;

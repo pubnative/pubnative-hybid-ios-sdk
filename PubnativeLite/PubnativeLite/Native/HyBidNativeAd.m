@@ -262,6 +262,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
     [self startTrackingView:view withClickableViews:nil withDelegate:delegate];
+    [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.ad.zoneID];
 }
 
 - (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {

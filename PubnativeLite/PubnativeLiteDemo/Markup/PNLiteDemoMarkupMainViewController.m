@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSNumber *placement;
 @property (nonatomic, strong) Markup *markup;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 @end
 
@@ -54,33 +55,44 @@
 }
 
 - (IBAction)loadMarkupTouchUpInside:(UIButton *)sender {
+    [self requestAd];
+}
+
+- (BOOL)canRequestAd {
     if (self.markupTextView.text.length <= 0 || !self.markupTextView.text) {
         [self showAlertControllerWithMessage:@"Please input some markup."];
+        return NO;
     } else if (!self.placement){
         [self showAlertControllerWithMessage:@"Please choose a placement."];
+        return NO;
     } else {
         self.markup = [[Markup alloc] initWithMarkupText:self.markupTextView.text withAdPlacement:self.placement];
-        [self requestAd];
+        return YES;
     }
 }
 
 - (void)requestAd {
-    switch ([self.placement integerValue]) {
-        case 0:
-        case 1:
-        case 2: {
-            PNLiteDemoMarkupDetailViewController *markupDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MarkupDetailViewController"];
-            markupDetailVC.markup = self.markup;
-            [self.navigationController presentViewController:markupDetailVC animated:YES completion:nil];
-            break;
+    [self clearDebugTools];
+    self.debugButton.hidden = YES;
+    if ([self canRequestAd]) {
+        switch ([self.placement integerValue]) {
+            case 0:
+            case 1:
+            case 2: {
+                PNLiteDemoMarkupDetailViewController *markupDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MarkupDetailViewController"];
+                markupDetailVC.markup = self.markup;
+                markupDetailVC.debugButton = self.debugButton;
+                [self.navigationController presentViewController:markupDetailVC animated:YES completion:nil];
+                break;
+            }
+            case 3: {
+                self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+                [self.interstitialAd prepareCustomMarkupFrom:self.markup.text];
+                break;
+            }
+            default:
+                break;
         }
-        case 3: {
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-            [self.interstitialAd prepareCustomMarkupFrom:self.markup.text];
-            break;
-    }
-        default:
-            break;
     }
 }
 
@@ -121,11 +133,13 @@
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
     [self.interstitialAd show];
+    self.debugButton.hidden = NO;
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
     NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
     [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
 }
 
 - (void)interstitialDidTrackClick {

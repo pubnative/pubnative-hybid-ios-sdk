@@ -40,8 +40,6 @@
     #import <ATOM/ATOM-Swift.h>
 #endif
 
-NSString *const HyBidBaseURL = @"https://api.pubnative.net";
-NSString *const HyBidOpenRTBURL = @"https://dsp.pubnative.net";
 BOOL isInitialized = NO;
 
 #define kATOM_API_KEY @"39a34d8d-dd1d-4fbf-aa96-fdc5f0329451"
@@ -49,23 +47,23 @@ BOOL isInitialized = NO;
 @implementation HyBid
 
 + (void)setCoppa:(BOOL)enabled {
-    [HyBidSettings sharedInstance].coppa = enabled;
+    [HyBidConsentConfig sharedConfig].coppa = enabled;
 }
 
 + (void)setAppStoreAppID:(NSString *)appID {
-    [HyBidSettings sharedInstance].appID = appID;
+    [HyBidSDKConfig sharedConfig].appID = appID;
 }
 
 + (void)setTargeting:(HyBidTargetingModel *)targeting {
-    [HyBidSettings sharedInstance].targeting = targeting;
+    [HyBidSDKConfig sharedConfig].targeting = targeting;
 }
 
 + (void)setTestMode:(BOOL)enabled {
-    [HyBidSettings sharedInstance].test = enabled;
+    [HyBidSDKConfig sharedConfig].test = enabled;
 }
 
 + (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)behaviour {
-    [HyBidSettings sharedInstance].interstitialActionBehaviour = behaviour;
+    [HyBidRenderingConfig sharedConfig].interstitialActionBehaviour = behaviour;
 }
 
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
@@ -73,14 +71,13 @@ BOOL isInitialized = NO;
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
         isInitialized = NO;
     } else {
-        [HyBidSettings sharedInstance].appToken = appToken;
-        [HyBidSettings sharedInstance].apiURL = HyBidBaseURL;
-        [HyBidSettings sharedInstance].openRtbApiURL = HyBidOpenRTBURL;
+        [HyBidSDKConfig sharedConfig].appToken = appToken;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
         [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {}];
         [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
-        
+        [[HyBidSessionManager sharedInstance] setStartSession];
+        [[HyBidSessionManager sharedInstance] setAgeOfAppSinceCreated];
         [self startATOM];
     }
     if (completion != nil) {
@@ -108,12 +105,12 @@ BOOL isInitialized = NO;
     return isInitialized;
 }
 
-+ (void) setLocationUpdates:(BOOL)enabled {
-    PNLiteLocationManager.locationUpdatesEnabled = enabled;
++ (void)setLocationUpdates:(BOOL)enabled {
+    [HyBidLocationConfig sharedConfig].locationUpdatesEnabled = enabled;
 }
 
-+ (void) setLocationTracking:(BOOL)enabled {
-    PNLiteLocationManager.locationTrackingEnabled = enabled;
++ (void)setLocationTracking:(BOOL)enabled {
+    [HyBidLocationConfig sharedConfig].locationTrackingEnabled = enabled;
 }
 
 + (NSString *)sdkVersion {
@@ -121,36 +118,34 @@ BOOL isInitialized = NO;
 }
 
 + (void)setInterstitialSkipOffset:(NSInteger)seconds {
-    [self setVideoInterstitialSkipOffset:seconds];
-    [self setHTMLInterstitialSkipOffset:seconds];
+    [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
+    [HyBidRenderingConfig sharedConfig].htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
 }
 
 + (void)setVideoInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidSettings sharedInstance].videoSkipOffset = [[HyBidSkipOffset alloc]initWithOffset: [NSNumber numberWithInteger: seconds] isCustom:YES];
+    [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
 }
 
 + (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidSettings sharedInstance].htmlSkipOffset =  [[HyBidSkipOffset alloc]initWithOffset: [NSNumber numberWithInteger: seconds] isCustom:YES];
+    [HyBidRenderingConfig sharedConfig].htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
 }
 
 + (void)setEndCardCloseOffset:(NSNumber *)seconds
 {
-    [HyBidSettings sharedInstance].endCardCloseOffset = [[HyBidSkipOffset alloc]initWithOffset:seconds isCustom:YES];
+    [HyBidRenderingConfig sharedConfig].endCardCloseOffset = [[HyBidSkipOffset alloc] initWithOffset:seconds isCustom:YES];
 }
 
 + (void)setShowEndCard:(BOOL)showEndCard
 {
-    [HyBidSettings sharedInstance].showEndCard = showEndCard;
+    [HyBidRenderingConfig sharedConfig].showEndCard = showEndCard;
 }
 
 + (void)setRewardedCloseOnFinish:(BOOL)closeOnFinish {
-    [HyBidSettings sharedInstance].rewardedCloseOnFinish = closeOnFinish;
-    [HyBidSettings sharedInstance].isRewardedCloseOnFinishSet = YES;
+    [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish = closeOnFinish;
 }
 
 + (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
-    [HyBidSettings sharedInstance].interstitialCloseOnFinish = closeOnFinish;
-    [HyBidSettings sharedInstance].isInterstitialCloseOnFinishSet = YES;
+    [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish = closeOnFinish;
 }
 
 + (HyBidReportingManager *)reportingManager {
@@ -158,7 +153,7 @@ BOOL isInitialized = NO;
 }
 
 + (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus {
-    [HyBidSettings sharedInstance].audioStatus = audioStatus;
+    [HyBidRenderingConfig sharedConfig].audioStatus = audioStatus;
 }
 
 + (NSString *)getSDKVersionInfo {
@@ -185,23 +180,23 @@ BOOL isInitialized = NO;
 }
 
 + (void)setMRAIDExpand:(BOOL)enabled {
-    [HyBidSettings sharedInstance].mraidExpand = enabled;
+    [HyBidRenderingConfig sharedConfig].mraidExpand = enabled;
 }
 
 + (void)setInterstitialSKOverlay:(BOOL)enabled {
-    [HyBidSettings sharedInstance].interstitialSKOverlay = enabled;
+    [HyBidRenderingConfig sharedConfig].interstitialSKOverlay = enabled;
 }
 
 + (void)setRewardedSKOverlay:(BOOL)enabled {
-    [HyBidSettings sharedInstance].rewardedSKOverlay = enabled;
+    [HyBidRenderingConfig sharedConfig].rewardedSKOverlay = enabled;
 }
 
 + (void)setAdFeedback:(BOOL)enabled {
-    [HyBidSettings sharedInstance].adFeedback = enabled;
+    [HyBidFeedbackConfig sharedConfig].adFeedback = enabled;
 }
 
 + (void)setContentInfoURL:(NSString *)url {
-    [HyBidSettings sharedInstance].contentInfoURL = url;
+    [HyBidFeedbackConfig sharedConfig].contentInfoURL = url;
 }
 
 @end

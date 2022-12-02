@@ -86,7 +86,7 @@
 }
 
 - (void)processResponseWithData:(NSData *)data {
-    NSData *decryptedData = [self decryptRemoteConfigsData:data withKey:[HyBidSettings sharedInstance].appToken andWithIV:[@"" stringByPaddingToLength:16 withString:@"0" startingAtIndex:0]];
+    NSData *decryptedData = [self decryptRemoteConfigsData:data withKey:[HyBidSDKConfig sharedConfig].appToken andWithIV:[@"" stringByPaddingToLength:16 withString:@"0" startingAtIndex:0]];
 
     if (decryptedData != nil) {
         NSError *parseError;

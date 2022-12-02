@@ -61,5 +61,5 @@ typedef enum {
 - (void)processCustomMarkupFrom:(NSString *)markup andWithDelegate:(NSObject<HyBidAdRequestDelegate> *)delegate;
 - (void)cacheAd:(HyBidAd *)ad;
 - (void)setMediationVendor:(NSString *)mediationVendor;
-
+- (void)processResponseWithJSON:(NSString *)adReponse;
 @end

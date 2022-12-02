@@ -35,6 +35,7 @@ CGFloat PNLiteContentViewIcontDefaultSize = 15.0f;
 CGFloat PNLiteContentViewHeight = 15.0f;
 CGFloat PNLiteContentViewWidth = 15.0f;
 NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
+CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 
 @interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate, HyBidAdFeedbackViewDelegate>
 
@@ -252,7 +253,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 - (void)handleTap:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if(self.isOpen) {
-            if ([HyBidSettings sharedInstance].adFeedback) {
+            if ([HyBidFeedbackConfig sharedConfig].adFeedback) {
                 if (!self.adFeedbackViewRequested) {
                     self.adFeedbackViewRequested = YES;
                     self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
@@ -271,7 +272,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 
 - (void)setIconSize:(CGRect) frame {
     PNLiteContentViewWidth = frame.size.width;
-    PNLiteContentViewHeight = frame.size.height;
+    PNLiteContentViewHeight = frame.size.height < 0.0 || frame.size.height > PNLiteMaxContentInfoViewHeight ? PNLiteContentViewHeight : frame.size.height;
     [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, PNLiteContentViewWidth, PNLiteContentViewHeight)];
     [self removeConstraints: self.constraints];
     [self addConstraints:@[[NSLayoutConstraint constraintWithItem:self.iconView
@@ -322,7 +323,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     self.isOpen = YES;
     [self layoutIfNeeded];
     if(self.superview.frame.origin.x > 0){
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, self.frame.size.height);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, PNLiteContentViewHeight);
         self.superview.frame = CGRectMake(self.superview.frame.origin.x - self.openSize, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
         if (@available(iOS 11.0, *)) {
             [self.trailingAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.trailingAnchor].active = YES;
@@ -330,7 +331,7 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
             [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor].active = YES;
         }
     } else {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, self.frame.size.height);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, PNLiteContentViewHeight);
         self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
     }
     [self resizeSuperView];
@@ -344,10 +345,10 @@ NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
     [self stopCloseTimer];
     [self layoutIfNeeded];
     if(self.superview.frame.origin.x > 0){
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, self.frame.size.height);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, PNLiteContentViewHeight);
         self.superview.frame = CGRectMake(self.superview.frame.origin.x + self.openSize - PNLiteContentViewWidth, self.superview.frame.origin.y, PNLiteContentViewWidth, self.superview.frame.size.height);
     } else {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, self.frame.size.height);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, PNLiteContentViewHeight);
         self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, PNLiteContentViewWidth, self.superview.frame.size.height);
     }
     [self resizeSuperView];

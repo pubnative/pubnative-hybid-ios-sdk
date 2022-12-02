@@ -387,6 +387,21 @@
     }
 }
 
+- (void)renderAdWithAdResponse:(NSString *)adReponse withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self cleanUp];
+    self.delegate = delegate;
+    self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
+    
+    if (adReponse && [adReponse length] != 0) {
+        HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
+        adRequest.delegate = self;
+        [adRequest processResponseWithJSON:adReponse];
+    } else {
+        [self.delegate adView:self didFailWithError:[NSError hyBidInvalidAsset]];
+        [self createRenderErrorEventWithError:[NSError hyBidInvalidAsset]];
+    }
+}
+
 - (void)processAdContent:(NSString *)adContent {
     [self cleanUp];
     HyBidSignalDataProcessor *signalDataProcessor = [[HyBidSignalDataProcessor alloc] init];
@@ -397,6 +412,7 @@
 - (void)startTracking {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
         [self.adPresenter startTracking];
+    [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.zoneID];
         
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
         [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
@@ -429,8 +445,8 @@
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
-    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
     }
     if (self.zoneID != nil && self.zoneID.length > 0) {
         [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
@@ -591,7 +607,7 @@
 }
 
 - (void)signalDataDidFailWithError:(NSError *)error {
-    [self.delegate adView:self didFailWithError:error];
+    [self invokeDidFailWithError:error];
 }
 
 #pragma mark - Utils

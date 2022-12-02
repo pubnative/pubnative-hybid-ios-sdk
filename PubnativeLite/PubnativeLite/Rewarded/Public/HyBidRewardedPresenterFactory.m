@@ -23,6 +23,7 @@
 #import "HyBidRewardedPresenterFactory.h"
 #import "PNLiteRewardedPresenterDecorator.h"
 #import "PNLiteVASTRewardedPresenter.h"
+#import "HyBidMRAIDRewardedPresenter.h"
 #import "HyBidAdTracker.h"
 #import "HyBidRemoteConfigFeature.h"
 #import "HyBidRemoteConfigManager.h"
@@ -54,7 +55,18 @@
 
 - (HyBidRewardedPresenter *)createRewardedPresenterFromAd:(HyBidAd *)ad
                                         withCloseOnFinish:(BOOL)closeOnFinish {
-    switch (ad.assetGroupID.integerValue) {
+    NSNumber *adAssetGroupID = ad.isUsingOpenRTB ? ad.openRTBAssetGroupID : ad.assetGroupID;
+    switch (adAssetGroupID.integerValue) {
+        case MRAID_300x600:
+        case MRAID_320x480:
+        case MRAID_480x320:
+        case MRAID_1024x768:
+        case MRAID_768x1024:{
+            HyBidMRAIDRewardedPresenter *mraidRewardedPresenter = [[HyBidMRAIDRewardedPresenter alloc] initWithAd:ad];
+            
+            NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
+            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: mraidString] ? nil : mraidRewardedPresenter;
+        }
         case VAST_REWARDED: {
             PNLiteVASTRewardedPresenter *vastRewardedPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad
                                                                                                withCloseOnFinish:closeOnFinish];
