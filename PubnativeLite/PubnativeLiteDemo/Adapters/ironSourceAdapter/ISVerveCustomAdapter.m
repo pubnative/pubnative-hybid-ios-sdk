@@ -41,11 +41,11 @@
 }
 
 - (NSString *)networkSDKVersion {
-    return @"2.16.2-beta6";
+    return @"2.16.2-beta7";
 }
 
 - (NSString *)adapterVersion {
-    return @"2.16.2-beta6.0";
+    return @"2.16.2-beta7.0";
 }
 
 @end
