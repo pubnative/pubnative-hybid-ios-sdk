@@ -21,10 +21,10 @@
 //
 
 
-#import "HyBidDemoSignalDataDetailViewController.h"
+#import "HyBidDemoLegacyAPITesterDetailViewController.h"
 #import <HyBid/HyBid.h>
 
-@interface HyBidDemoSignalDataDetailViewController () <HyBidAdViewDelegate>
+@interface HyBidDemoLegacyAPITesterDetailViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdViewContainerWidthConstraint;
@@ -32,17 +32,17 @@
 
 @end
 
-@implementation HyBidDemoSignalDataDetailViewController
+@implementation HyBidDemoLegacyAPITesterDetailViewController
 
 - (void)dealloc {
-    self.signalData = nil;
+    self.adResponse = nil;
     self.debugButton = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    switch ([self.signalData.placement integerValue]) {
+    switch ([self.placement integerValue]) {
         case 0: {
             self.bannerAdViewContainerWidthConstraint.constant = 380;
             self.bannerAdViewContainerHeightConstraint.constant = 80;
@@ -65,10 +65,9 @@
             break;
     }
     
-    [self.bannerAdView renderAdWithContent:self.signalData.text withDelegate:self];
+    [self.bannerAdView renderAdWithAdResponse:self.adResponse withDelegate:self];
 
 }
-
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];

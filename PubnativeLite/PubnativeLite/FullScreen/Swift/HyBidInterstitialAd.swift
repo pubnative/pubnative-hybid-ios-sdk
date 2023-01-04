@@ -98,8 +98,8 @@ public class HyBidInterstitialAd: NSObject {
         self.zoneID = zoneID
         self.delegate = delegate
         self.appToken = appToken
-        self.htmlSkipOffset = HyBidSettings.sharedInstance.htmlSkipOffset
-        self.videoSkipOffset = HyBidSettings.sharedInstance.videoSkipOffset
+        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.htmlSkipOffset
+        self.videoSkipOffset = HyBidRenderingConfig.sharedConfig.videoSkipOffset
     }
     
     @objc
@@ -172,6 +172,17 @@ public class HyBidInterstitialAd: NSObject {
         }
     }
     
+    @objc(prepareAdWithAdReponse:)
+    public func prepareAdWithAdReponse(adReponse: String) {
+        if adReponse.count != 0 {
+            self.cleanUp()
+            self.initialLoadTimestamp = Date().timeIntervalSince1970
+            self.processAdReponse(adReponse: adReponse)
+        } else {
+            self.invokeDidFailWithError(error: NSError.hyBidInvalidAsset())
+        }
+    }
+    
     @objc(prepareVideoTagFrom:)
     public func prepareVideoTag(from url: String) {
         self.cleanUp()
@@ -192,12 +203,21 @@ public class HyBidInterstitialAd: NSObject {
         signalDataProcessor.processSignalData(adContent)
     }
     
+    func processAdReponse(adReponse: String) {
+        let interstitialAdRequest = HyBidInterstitialAdRequest()
+        interstitialAdRequest.delegate = HyBidInterstitialAdRequestWrapper(parent: self)
+        interstitialAdRequest.processResponse(withJSON: adReponse)
+    }
+    
     @objc
     public func show() {
         if self.isReady {
             self.initialRenderTimestamp = Date().timeIntervalSince1970
             let initialLoadTimestamp = (self.initialLoadTimestamp ?? 0.0)
             let adExpireTime = initialLoadTimestamp + TIME_TO_EXPIRE
+            if let zoneID = self.zoneID{
+                HyBidSessionManager.sharedInstance.sessionDuration(zoneID: zoneID)
+            }
             if initialLoadTimestamp < adExpireTime {
                 self.interstitialPresenter?.show()
             } else {
@@ -239,8 +259,8 @@ public class HyBidInterstitialAd: NSObject {
             self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
         }
         let interstitalPresenterFactory = HyBidInterstitialPresenterFactory()
-        if !self.isCloseOnFinishSet && HyBidSettings.sharedInstance.interstitialCloseOnFinish {
-            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: HyBidSettings.sharedInstance.interstitialCloseOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        if !self.isCloseOnFinishSet && HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish {
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else {
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         }
@@ -262,7 +282,7 @@ public class HyBidInterstitialAd: NSObject {
     
     func addCommonPropertiesToReportingDictionary() -> [String: String] {
         var reportingDictionaryToAppend = [String: String]()
-        if let appToken = HyBidSettings.sharedInstance.appToken, appToken.count > 0 {
+        if let appToken = HyBidSDKConfig.sharedConfig.appToken, appToken.count > 0 {
             reportingDictionaryToAppend[Common.APPTOKEN] = appToken
         }
         if let zoneID = self.zoneID, zoneID.count > 0 {

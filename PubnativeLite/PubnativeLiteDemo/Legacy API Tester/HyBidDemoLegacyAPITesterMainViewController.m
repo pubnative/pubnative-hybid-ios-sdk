@@ -20,58 +20,57 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDemoSignalDataMainViewController.h"
-#import "HyBidDemoSignalDataDetailViewController.h"
+#import "HyBidDemoLegacyAPITesterMainViewController.h"
+#import "HyBidDemoLegacyAPITesterDetailViewController.h"
 #import <HyBid/HyBid.h>
-#import "SignalData.h"
 #import "UITextView+KeyboardDismiss.h"
 
-@interface HyBidDemoSignalDataMainViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
+@interface HyBidDemoLegacyAPITesterMainViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
 @property (weak, nonatomic) IBOutlet UIButton *leaderboardButton;
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
-@property (weak, nonatomic) IBOutlet UITextView *signalDataTextView;
+@property (weak, nonatomic) IBOutlet UITextView *adReponseTextView;
 @property (nonatomic, retain) NSNumber *placement;
-@property (nonatomic, strong) SignalData *signalData;
+@property (nonatomic, strong) NSString *adReponse;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 @end
 
-@implementation HyBidDemoSignalDataMainViewController
+@implementation HyBidDemoLegacyAPITesterMainViewController
 
 - (void)dealloc {
-    self.signalData = nil;
+    self.adReponse = nil;
     self.interstitialAd = nil;
     self.rewardedAd = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.signalDataTextView addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
+    [self.adReponseTextView addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
 }
 
 - (void)dismissKeyboard {
     [self.view endEditing:YES];
 }
 
-- (IBAction)loadSignalDataTouchUpInside:(UIButton *)sender {
+- (IBAction)loadAdReponseTouchUpInside:(UIButton *)sender {
     [self requestAd];
 }
 
 - (BOOL)canRequestAd {
-    if (self.signalDataTextView.text.length <= 0 || !self.signalDataTextView.text) {
-        [self showAlertControllerWithMessage:@"Please input some signal data."];
+    if (self.adReponseTextView.text.length <= 0 || !self.adReponseTextView.text) {
+        [self showAlertControllerWithMessage:@"Please input some ad reponse data."];
         return NO;
     } else if (!self.placement){
         [self showAlertControllerWithMessage:@"Please choose a placement."];
         return NO;
     } else {
-        self.signalData = [[SignalData alloc] initWithSignalDataText:self.signalDataTextView.text withAdPlacement:self.placement];
+        self.adReponse = self.adReponseTextView.text;
         return YES;
     }
 }
@@ -84,19 +83,19 @@
             case 0:
             case 1:
             case 2: {
-                HyBidDemoSignalDataDetailViewController *signalDataDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignalDataDetailViewController"];
-                signalDataDetailVC.signalData = self.signalData;
-                signalDataDetailVC.debugButton = self.debugButton;
-                [self.navigationController presentViewController:signalDataDetailVC animated:YES completion:nil];
+                HyBidDemoLegacyAPITesterDetailViewController *legacyAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoLegacyAPITesterDetailViewController"];
+                legacyAPITesterDetailVC.adResponse = self.adReponse;
+                legacyAPITesterDetailVC.debugButton = self.debugButton;
+                [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
                 break;
             }
             case 3:
                 self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-                [self.interstitialAd prepareAdWithContent:self.signalData.text];
+                [self.interstitialAd prepareAdWithAdReponse:self.adReponse];
                 break;
             case 4:
                 self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-                [self.rewardedAd prepareAdWithContent:self.signalData.text];
+                [self.rewardedAd prepareAdWithAdReponse:self.adReponse];
                 break;
             default:
                 break;
@@ -206,3 +205,4 @@
 }
 
 @end
+

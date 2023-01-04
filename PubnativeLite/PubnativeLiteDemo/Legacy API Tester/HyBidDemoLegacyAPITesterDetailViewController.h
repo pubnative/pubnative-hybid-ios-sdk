@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,13 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
 #import "PNLiteDemoBaseViewController.h"
 
-@interface PNLiteDemoMarkupMainViewController : PNLiteDemoBaseViewController
+@interface HyBidDemoLegacyAPITesterDetailViewController : PNLiteDemoBaseViewController
+
+@property (nonatomic, strong) NSString *adResponse;
+@property (nonatomic, strong) NSString *placement;
+@property (weak, nonatomic) UIButton *debugButton;
 
 @end

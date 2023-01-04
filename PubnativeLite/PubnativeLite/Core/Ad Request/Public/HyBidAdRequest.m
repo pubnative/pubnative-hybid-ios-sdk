@@ -220,8 +220,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
     if (!self.isUsingOpenRTB) {
-        if ([HyBidSettings sharedInstance].apiURL) {
-            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].apiURL];
+        if ([HyBidSDKConfig sharedConfig].apiURL) {
+            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSDKConfig sharedConfig].apiURL];
             components.path = @"/api/v3/native";
             if (adRequestModel.requestParameters) {
                 NSMutableArray *query = [NSMutableArray array];
@@ -237,8 +237,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
             return nil;
         }
     } else {
-        if ([HyBidSettings sharedInstance].openRtbApiURL) {
-            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSettings sharedInstance].openRtbApiURL];
+        if ([HyBidSDKConfig sharedConfig].openRtbApiURL) {
+            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSDKConfig sharedConfig].openRtbApiURL];
             components.path = @"/bid/v1/request";
             
             if (adRequestModel.requestParameters) {
@@ -357,7 +357,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         ad.isUsingOpenRTB = self.isUsingOpenRTB;
                         
                         NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                        [ad setHasEndCard:[endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard];
+                        [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
                         
                         [self invokeDidLoad:ad];
                         [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
@@ -376,6 +376,12 @@ NSInteger const PNLiteResponseStatusOK = 200;
         NSError *error = [NSError hyBidInvalidAsset];
         [self invokeDidFail:error];
     }
+}
+
+- (void)processResponseWithJSON:(NSString*)adReponse {
+    self.zoneID = @"legacy_api_tester";
+    NSData *adReponseData = [adReponse dataUsingEncoding:NSUTF8StringEncoding];
+    [self processResponseWithData:adReponseData];
 }
 
 - (void)processResponseWithData:(NSData *)data {
@@ -465,7 +471,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
                 
                 NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                [ad setHasEndCard:[endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard];
+                [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
                 
                 [self invokeDidLoad:ad];
                 [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
@@ -512,8 +518,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
-    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
     }
     if (self.zoneID != nil && self.zoneID.length > 0) {
         [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];

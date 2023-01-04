@@ -58,12 +58,12 @@
                                                  withString:[NSString stringWithFormat:@"%d", ![[HyBidUserDataManager sharedInstance]shouldAskConsent]]];
     vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CONSENT_OPTOUT}"
                                                  withString:[NSString stringWithFormat:@"%d", [[HyBidUserDataManager sharedInstance]isConsentDenied]]];
-    if ([HyBidSettings sharedInstance].coppa) {
-        NSNumber* age = [HyBidSettings sharedInstance].targeting.age ;
+    if ([HyBidConsentConfig sharedConfig].coppa) {
+        NSNumber* age = [HyBidSDKConfig sharedConfig].targeting.age ;
         vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${AGE}"
                                                      withString:[NSString stringWithFormat:@"%@",age]];
         vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${GENDER}"
-                                             withString:[HyBidSettings sharedInstance].targeting.gender];
+                                             withString:[HyBidSDKConfig sharedConfig].targeting.gender];
     }
 
     return [vastUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];

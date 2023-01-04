@@ -70,20 +70,24 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 }
 
 - (void)addView:(UIView*)view {
-    if (self.trackedViews) {
-        if([self.trackedViews containsObject:view]) {
-            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is already being tracked, dropping this call."];
-        } else {
-            [self.trackedViews addObject:view];
-            [self.visibilityTracker addView:view withMinVisibility:kPNVisibilityThreshold];
+    @synchronized (self) {
+        if (view != nil && self.trackedViews) {
+            if([self.trackedViews containsObject:view]) {
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is already being tracked, dropping this call."];
+            } else {
+                [self.trackedViews addObject:view];
+                [self.visibilityTracker addView:view withMinVisibility:kPNVisibilityThreshold];
+            }
         }
     }
 }
 
 - (void)removeView:(UIView*)view {
-    if (self.visibilityTracker && self.trackedViews && [self.trackedViews containsObject:view]) {
-        [self.visibilityTracker removeView:view];
-        [self.trackedViews removeObject:view];
+    @synchronized (self) {
+        if (view != nil && self.visibilityTracker && self.trackedViews && [self.trackedViews containsObject:view]) {
+            [self.visibilityTracker removeView:view];
+            [self.trackedViews removeObject:view];
+        }
     }
 }
 
@@ -101,43 +105,47 @@ CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
 }
 
 - (void)scheduleNextRun {
-    if(self.isVisibiltyCheckValid && !self.isVisibiltyCheckScheduled) {
-        self.isVisibiltyCheckScheduled = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kPNImpressionCheckPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            if(!self.delegate) {
-                [self clear];
-            } else if (self.trackedViews && self.trackedViews.count > 0) {
-                [self checkVisibility];
-            }
-        });
-        
-    } else {
-        self.isVisibiltyCheckValid = YES;
+    @synchronized (self) {
+        if(self.isVisibiltyCheckValid && !self.isVisibiltyCheckScheduled) {
+            self.isVisibiltyCheckScheduled = YES;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kPNImpressionCheckPeriod * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                if(!self.delegate) {
+                    [self clear];
+                } else if (self.trackedViews && self.trackedViews.count > 0) {
+                    [self checkVisibility];
+                }
+            });
+            
+        } else {
+            self.isVisibiltyCheckValid = YES;
+        }
     }
 }
 
 - (void)checkVisibility {
-    if(self.visibleViews) {
-        for (int i = 0; i < [self.visibleViews count]; i++) {
-            PNLiteImpressionTrackerItem* item = [self.visibleViews objectAtIndex: i];
-            if (item && item.view ) {
-                // It could happen that we've removed the view right when we're tracking, so we simply skip this item
-                if(self.trackedViews && [self.trackedViews containsObject:item.view]) {
-                    NSTimeInterval currentTimestamp = [[NSDate date] timeIntervalSince1970];
-                    NSTimeInterval elapsedTime = currentTimestamp - item.timestamp;
-                    if(kPNVisibilityImpressionTime <= elapsedTime) {
-                        [self removeView:item.view];
-                        [self invokeImpressionDetected:item.view];
+    @synchronized (self) {
+        if(self.visibleViews) {
+            for (int i = 0; i < [self.visibleViews count]; i++) {
+                PNLiteImpressionTrackerItem* item = [self.visibleViews objectAtIndex: i];
+                if (item && item.view ) {
+                    // It could happen that we've removed the view right when we're tracking, so we simply skip this item
+                    if(self.trackedViews && [self.trackedViews containsObject:item.view]) {
+                        NSTimeInterval currentTimestamp = [[NSDate date] timeIntervalSince1970];
+                        NSTimeInterval elapsedTime = currentTimestamp - item.timestamp;
+                        if(kPNVisibilityImpressionTime <= elapsedTime) {
+                            [self removeView:item.view];
+                            [self invokeImpressionDetected:item.view];
+                        }
                     }
+                } else {
+                    // We have emptied the visible views while going through It, so we leave this for
+                    break;
                 }
-            } else {
-                // We have emptied the visible views while going through It, so we leave this for
-                break;
             }
-        }
-        self.isVisibiltyCheckScheduled = NO;
-        if(self.visibleViews.count > 0) {
-            [self scheduleNextRun];
+            self.isVisibiltyCheckScheduled = NO;
+            if(self.visibleViews.count > 0) {
+                [self scheduleNextRun];
+            }
         }
     }
 }

@@ -73,7 +73,7 @@
 - (void)fetchRemoteConfigWithCompletion:(RemoteConfigManagerCompletionBlock)completion {
     self.completionBlock = completion;
     HyBidRemoteConfigRequest *remoteConfigRequest = [[HyBidRemoteConfigRequest alloc] init];
-    [remoteConfigRequest doConfigRequestWithDelegate:self withAppToken:[HyBidSettings sharedInstance].appToken];
+    [remoteConfigRequest doConfigRequestWithDelegate:self withAppToken:[HyBidSDKConfig sharedConfig].appToken];
 }
 
 - (void)storeConfigTimestamp {

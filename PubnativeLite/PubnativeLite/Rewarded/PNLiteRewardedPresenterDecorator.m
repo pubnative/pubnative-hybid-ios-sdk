@@ -92,8 +92,8 @@
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withRewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter {
-    if ([HyBidSettings sharedInstance].appToken != nil && [HyBidSettings sharedInstance].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSettings sharedInstance].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
+        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
     }
     if (rewardedPresenter.ad.zoneID != nil && rewardedPresenter.ad.zoneID.length > 0) {
         [reportingDictionary setObject:rewardedPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
@@ -111,7 +111,7 @@
 }
 
 - (void)presentSKOverlay {
-    if ([HyBidSettings sharedInstance].rewardedSKOverlay) {
+    if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
         if (@available(iOS 14.0, *)) {
             if (self.overlay) {
                 if (!self.isOverlayShown) {
@@ -125,7 +125,7 @@
 }
 
 - (void)dismissSKOverlay {
-    if ([HyBidSettings sharedInstance].rewardedSKOverlay) {
+    if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
         if (@available(iOS 14.0, *)) {
             if (self.overlay) {
                 [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
@@ -141,7 +141,7 @@
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidLoad:)]) {
         [self.rewardedPresenterDelegate rewardedPresenterDidLoad:rewardedPresenter];
-        if ([HyBidSettings sharedInstance].rewardedSKOverlay) {
+        if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
             if (@available(iOS 14.0, *)) {
                 HyBidSkAdNetworkModel* skAdNetworkModel = rewardedPresenter.ad.isUsingOpenRTB ? [rewardedPresenter.ad getOpenRTBSkAdNetworkModel] : [rewardedPresenter.ad getSkAdNetworkModel];
                 NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];

@@ -1,5 +1,5 @@
 //
-//  Copyright © 2019 PubNative. All rights reserved.
+//  Copyright © 2022 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,10 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteDemoBaseViewController.h"
+#import "HyBidRewardedPresenter.h"
 
-@interface PNLiteDemoMarkupMainViewController : PNLiteDemoBaseViewController
+@interface HyBidMRAIDRewardedPresenter : HyBidRewardedPresenter
+
+- (instancetype)initWithAd:(HyBidAd *)ad;
 
 @end

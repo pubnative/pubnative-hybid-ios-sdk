@@ -51,6 +51,11 @@ public class Common: HyBidReportingProperties {
     @objc public static let ERROR_MESSAGE = "error_message"
     @objc public static let CREATIVE = "creative"
     @objc public static let HAS_END_CARD = "has_end_card"
+    @objc public static let LAST_SESSION_TIMESTAMP = "last_session_timestamp"
+    @objc public static let IMPRESSION_SESSION_COUNT = "impression_session_count"
+    @objc public static let START_SESSION_TIMESTAMP = "start_session_timestamp"
+    @objc public static let SESSION_DURATION = "session_duration"
+    @objc public static let AGE_OF_APP = "age_of_app"
 }
 
 @objc(HyBidReportingEventType)

@@ -146,7 +146,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                             [self invokeDidFail:error];
                         } else {
                             NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                            [ad setHasEndCard:[endCards count] > 0 && [HyBidSettings sharedInstance].showEndCard];
+                            [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
                             
                             HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                             videoAdCacheItem.vastModel = vastModel;

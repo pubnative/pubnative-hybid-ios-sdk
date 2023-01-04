@@ -620,7 +620,7 @@ typedef enum {
 
 // Note: This method is also used to present an interstitial ad.
 - (void)expand:(NSString *)urlString supportVerve:(BOOL)supportVerve{
-    if (![HyBidSettings sharedInstance].mraidExpand) {
+    if (![HyBidRenderingConfig sharedConfig].mraidExpand) {
         if (!isInterstitial) {
             [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ expand disabled by the developer", NSStringFromSelector(_cmd)]];
         } else {
@@ -781,9 +781,18 @@ typedef enum {
     urlString = [urlString stringByRemovingPercentEncoding];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
-    // Notify the callers
-    if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
-        [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
+    if([urlString containsString:@"sms"]){
+        if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceSendSMSWithUrlString:)]) {
+            [self.serviceDelegate mraidServiceSendSMSWithUrlString:urlString];
+        }
+    } else if ([urlString containsString:@"tel"]) {
+        if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceCallNumberWithUrlString:)]) {
+            [self.serviceDelegate mraidServiceCallNumberWithUrlString:urlString];
+        }
+    } else {
+        if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
+            [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
+        }
     }
 }
 
@@ -1238,7 +1247,7 @@ typedef enum {
 }
 
 -(void)setLocation {
-    if ([HyBidSettings sharedInstance].locationTrackingEnabled) {
+    if ([HyBidLocationConfig sharedConfig].locationTrackingEnabled) {
         CLLocation* location = [HyBidSettings sharedInstance].location;
         if (location) {
             NSArray *objects = [[NSArray alloc] initWithObjects:
@@ -1363,7 +1372,7 @@ typedef enum {
                     && self.isViewable) {
                     [self expand:absUrlString supportVerve:YES];
                     [self addCloseEventRegion];
-                } else if ([HyBidSettings sharedInstance].contentInfoURL.length != 0 && [absUrlString containsString:@"https://feedback.verve.com"]){
+                } else if ([HyBidFeedbackConfig sharedConfig].contentInfoURL.length != 0 && [absUrlString containsString:@"https://feedback.verve.com"]){
                     if ([absUrlString containsString:@"close"]) {
                         [self close];
                     }

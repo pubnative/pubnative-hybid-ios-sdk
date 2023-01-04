@@ -42,7 +42,7 @@ NSString *const kRemoteConfigAPIVersion = @"v1";
     NSURLComponents *components = [[NSURLComponents alloc] init];
     components.scheme = kRemoteConfigScheme;
     components.host = kRemoteConfigAuthority;
-    components.path = [NSString stringWithFormat:@"/%@/%@/%@/%@",kRemoteConfigPath,kRemoteConfigAPIVersion,kRemoteConfigDefaultPath,[HyBidSettings sharedInstance].appToken];
+    components.path = [NSString stringWithFormat:@"/%@/%@/%@/%@",kRemoteConfigPath,kRemoteConfigAPIVersion,kRemoteConfigDefaultPath,[HyBidSDKConfig sharedConfig].appToken];
     
     return [NSString stringWithFormat:@"%@", components.URL];
 }

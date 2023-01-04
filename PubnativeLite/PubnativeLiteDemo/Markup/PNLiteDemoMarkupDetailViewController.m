@@ -23,7 +23,7 @@
 #import "PNLiteDemoMarkupDetailViewController.h"
 #import "HyBidAdView.h"
 
-@interface PNLiteDemoMarkupDetailViewController ()
+@interface PNLiteDemoMarkupDetailViewController () <HyBidAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *markupContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerWidthConstraint;
@@ -37,6 +37,7 @@
 - (void)dealloc {
     self.markup = nil;
     self.adView = nil;
+    self.debugButton = nil;
 }
 
 - (void)viewDidLoad {
@@ -65,6 +66,7 @@
             break;
     }
     
+    self.adView.delegate = self;
     [self.markupContainer addSubview:self.adView];
     [self.adView prepareCustomMarkupFrom:self.markup.text];
 }
@@ -87,5 +89,26 @@
 
     return NO;
  }
+
+#pragma mark - HyBidAdViewDelegate
+
+- (void)adViewDidLoad:(HyBidAdView *)adView {
+    NSLog(@"Banner Ad View did load:");
+    self.debugButton.hidden = NO;
+}
+
+- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
+    NSLog(@"Banner Ad View did fail with error: %@",error.localizedDescription);
+    [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
+}
+
+- (void)adViewDidTrackClick:(HyBidAdView *)adView {
+    NSLog(@"Banner Ad View did track click:");
+}
+
+- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
+    NSLog(@"Banner Ad View did track impression:");
+}
 
 @end
