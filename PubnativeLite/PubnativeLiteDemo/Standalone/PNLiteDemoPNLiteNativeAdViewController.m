@@ -71,12 +71,10 @@
     self.debugButton.hidden = YES;
     [self.nativeAdLoaderIndicator startAnimating];
     self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
-    
     [self.nativeAdLoader loadNativeAdWithDelegate:self withZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey]];
 }
 
-- (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender
-{
+- (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender {
     if (self.nativeAdLoader == nil) {
         [sender setOn: !sender.isOn];
         return;
@@ -108,6 +106,11 @@
     self.debugButton.hidden = NO;
     [self.nativeAdLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:error.localizedDescription];
+}
+
+- (void)nativeLoaderWillRefresh {
+    [self setCreativeIDLabelWithString:@"_"];
+    [self clearDebugTools];
 }
 
 #pragma mark - HyBidNativeAdFetchDelegate

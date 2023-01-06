@@ -36,11 +36,14 @@
 @property (nonatomic, readonly) NSNumber *eCPM;
 @property (nonatomic, readonly) NSNumber *width;
 @property (nonatomic, readonly) NSNumber *height;
+@property (nonatomic, readonly) NSDictionary *jsonData;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (instancetype)initWithHTMLAsset:(NSString *)assetName withValue:(NSString *)value;
 - (instancetype)initWithVASTAsset:(NSString *)assetName withValue:(NSString *)value;
 - (NSString *)stringFieldWithKey:(NSString *)key;
 - (NSNumber *)numberFieldWithKey:(NSString *)key;
+- (BOOL)hasFieldForKey:(NSString *)key;
+- (NSDictionary *)dictionaryFieldWithKey:(NSString *)key;
 
 @end

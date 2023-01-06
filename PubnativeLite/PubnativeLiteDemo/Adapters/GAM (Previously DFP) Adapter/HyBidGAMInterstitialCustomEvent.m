@@ -54,10 +54,33 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
             return;
         }
         self.interstitalPresenterFactory = [[HyBidInterstitialPresenterFactory alloc] init];
+        
+        HyBidSkipOffset *videoSkipOffset = nil;
+        HyBidSkipOffset *htmlSkipOffset = nil;
+        
+        if (self.ad.htmlSkipOffset){
+            htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:self.ad.htmlSkipOffset isCustom:YES];
+        } else {
+            htmlSkipOffset = [HyBidRenderingConfig sharedConfig].htmlSkipOffset;
+        }
+        
+        if (self.ad.videoSkipOffset){
+            videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:self.ad.videoSkipOffset isCustom:YES];
+        } else {
+            videoSkipOffset = [HyBidRenderingConfig sharedConfig].videoSkipOffset;
+        }
+        
+        BOOL closeOnFinish;
+        if (self.ad.closeInterstitialAfterFinish) {
+            closeOnFinish = self.ad.closeInterstitialAfterFinish;
+        } else {
+            closeOnFinish = [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish;
+        }
+        
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad
-                                                                                    withVideoSkipOffset:[HyBidRenderingConfig sharedConfig].videoSkipOffset.offset.integerValue
-                                                                                     withHTMLSkipOffset:[HyBidRenderingConfig sharedConfig].htmlSkipOffset.offset.integerValue
-                                                                                      withCloseOnFinish:[HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish
+                                                                                    withVideoSkipOffset:videoSkipOffset.offset.integerValue
+                                                                                     withHTMLSkipOffset:htmlSkipOffset.offset.integerValue
+                                                                                      withCloseOnFinish:closeOnFinish
                                                                                            withDelegate:self];
         if (!self.interstitialPresenter) {
             [self invokeFailWithMessage:@"Could not create valid interstitial presenter."];

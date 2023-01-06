@@ -357,8 +357,11 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         ad.isUsingOpenRTB = self.isUsingOpenRTB;
                         
                         NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                        [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
-                        
+                        if (ad.endcardEnabled) {
+                            [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
+                        } else {
+                            [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
+                        }
                         [self invokeDidLoad:ad];
                         [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
                         [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
@@ -471,8 +474,11 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
                 
                 NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
-                
+                if (ad.endcardEnabled) {
+                    [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
+                } else {
+                    [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
+                }
                 [self invokeDidLoad:ad];
                 [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
                 [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];

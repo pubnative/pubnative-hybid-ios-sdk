@@ -148,20 +148,38 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 }
 
 - (void)presentSKOverlay {
-    if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
-        if (@available(iOS 14.0, *)) {
-            if (self.overlay) {
-                if (!self.isOverlayShown) {
-                    [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-                }
-            }
-        } else {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+    if (self.adPresenter.ad.skoverlayEnabled) {
+        if ([self.adPresenter.ad.skoverlayEnabled boolValue]) {
+            [self checkSKOverlayAvailabilityAndPresent];
         }
+    } else if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
+        [self checkSKOverlayAvailabilityAndPresent];
+    }
+}
+
+- (void)checkSKOverlayAvailabilityAndPresent {
+    if (@available(iOS 14.0, *)) {
+        if (self.overlay) {
+            if (!self.isOverlayShown) {
+                [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
+            }
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
     }
 }
 
 - (void)dismissSKOverlay {
+    if (self.adPresenter.ad.skoverlayEnabled) {
+        if ([self.adPresenter.ad.skoverlayEnabled boolValue]) {
+            [self checkSKOverlayAvailabilityAndDismiss];
+        }
+    } else if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
+        [self checkSKOverlayAvailabilityAndDismiss];
+    }
+}
+
+- (void)checkSKOverlayAvailabilityAndDismiss {
     NSString *previousBannerPresenterDecoratorDescription = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey];
     if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
         if (@available(iOS 14.0, *)) {
@@ -173,6 +191,23 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
         } else {
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
         }
+    }
+}
+
+- (void)checkSKOverlayAvailabilityAndPrepareForAdPresenter:(HyBidAdPresenter *)adPresenter {
+    if (@available(iOS 14.0, *)) {
+        HyBidSkAdNetworkModel* skAdNetworkModel = adPresenter.ad.isUsingOpenRTB ? [adPresenter.ad getOpenRTBSkAdNetworkModel] : [adPresenter.ad getSkAdNetworkModel];
+        NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];
+        if (appIdentifier && appIdentifier.length > 0) {
+            SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
+                                                        initWithAppIdentifier:appIdentifier
+                                                        position:SKOverlayPositionBottom];
+            configuration.userDismissible = YES;
+            self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
+            self.overlay.delegate = self;
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
     }
 }
 
@@ -191,21 +226,12 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     }
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
         [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
-        if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
-            if (@available(iOS 14.0, *)) {
-                HyBidSkAdNetworkModel* skAdNetworkModel = adPresenter.ad.isUsingOpenRTB ? [adPresenter.ad getOpenRTBSkAdNetworkModel] : [adPresenter.ad getSkAdNetworkModel];
-                NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];
-                if (appIdentifier && appIdentifier.length > 0) {
-                    SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
-                                                                initWithAppIdentifier:appIdentifier
-                                                                position:SKOverlayPositionBottom];
-                    configuration.userDismissible = YES;
-                    self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
-                    self.overlay.delegate = self;
-                }
-            } else {
-                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+        if (self.adPresenter.ad.skoverlayEnabled) {
+            if ([self.adPresenter.ad.skoverlayEnabled boolValue]) {
+                [self checkSKOverlayAvailabilityAndPrepareForAdPresenter:adPresenter];
             }
+        } else if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
+            [self checkSKOverlayAvailabilityAndPrepareForAdPresenter:adPresenter];
         }
     }
 }

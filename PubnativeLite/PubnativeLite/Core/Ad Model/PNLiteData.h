@@ -32,5 +32,15 @@
 + (NSString *)html;
 + (NSString *)width;
 + (NSString *)height;
++ (NSString *)jsonData;
++ (NSString *)skoverlayEnabled;
++ (NSString *)audioState;
++ (NSString *)endcardEnabled;
++ (NSString *)endcardCloseDelay;
++ (NSString *)htmlSkipOffset;
++ (NSString *)videoSkipOffset;
++ (NSString *)closeInterstitialAfterFinish;
++ (NSString *)closeRewardedAfterFinish;
++ (NSString *)fullscreenClickability;
 
 @end

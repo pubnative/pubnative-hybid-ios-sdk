@@ -57,6 +57,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 @property (nonatomic, assign) BOOL isImpressionConfirmed;
 @property (nonatomic, assign) NSInteger remainingFetchableAssets;
 @property (nonatomic, strong) HyBidNativeAdRenderer *renderer;
+@property (nonatomic, strong) NSMutableDictionary *sessionReportingProperties;
 
 @end
 
@@ -78,6 +79,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     self.bannerImageView = nil;
     self.delegate = nil;
     self.fetchDelegate = nil;
+    self.sessionReportingProperties = nil;
 }
 
 #pragma mark HyBidNativeAd
@@ -86,6 +88,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     self = [super init];
     if (self) {
         self.ad = ad;
+        self.sessionReportingProperties = [NSMutableDictionary new];
     }
     return self;
 }
@@ -258,11 +261,31 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
      return result;
  }
 
+- (void)addSessionReportingProperties:(NSMutableDictionary *)reportingDictionary {
+    if (self.ad.zoneID != nil && self.ad.zoneID.length > 0){
+        [reportingDictionary setObject:self.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    if ([HyBidSessionManager sharedInstance].impressionCounter != nil) {
+        [reportingDictionary setObject:[HyBidSessionManager sharedInstance].impressionCounter forKey:HyBidReportingCommon.IMPRESSION_SESSION_COUNT];
+    }
+    if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] != nil){
+        [reportingDictionary setObject: [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] forKey: HyBidReportingCommon.SESSION_DURATION];
+    }
+    if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] != nil){
+        [reportingDictionary setObject:[[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] forKey: HyBidReportingCommon.AGE_OF_APP];
+    }
+}
+
+- (void)reportEvent:(NSString *)eventType withProperties:(NSMutableDictionary *)properties {
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
+                                                                       adFormat:HyBidReportingAdFormat.NATIVE
+                                                                     properties:properties];
+    [[HyBid reportingManager] reportEventFor:reportingEvent];
+}
 #pragma mark Tracking & Clicking
 
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
     [self startTrackingView:view withClickableViews:nil withDelegate:delegate];
-    [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.ad.zoneID];
 }
 
 - (void)startTrackingView:(UIView *)view withClickableViews:(NSArray *)clickableViews withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate {
@@ -286,6 +309,9 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
             self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
             self.impressionTracker.delegate = self;
         }
+        [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.ad.zoneID];
+        [self addSessionReportingProperties:self.sessionReportingProperties];
+        [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
         [self.impressionTracker addView:view];
         
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500

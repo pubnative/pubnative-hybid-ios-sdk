@@ -98,20 +98,32 @@
     return [self numberFieldWithKey:PNLiteData.height];
 }
 
+- (NSDictionary *)jsonData {
+    return [self dictionaryFieldWithKey:PNLiteData.jsonData];
+}
+
 - (NSString *)stringFieldWithKey:(NSString *)key {
-    return (NSString *) [self dataWithKey:key];
+    return (NSString *) [self dataForKey:key];
 }
 
 - (NSNumber *)numberFieldWithKey:(NSString *)key {
-    return (NSNumber *) [self dataWithKey:key];
+    return (NSNumber *) [self dataForKey:key];
 }
 
-- (NSObject *)dataWithKey:(NSString *)key {
+- (NSObject *)dataForKey:(NSString *)key {
     NSObject *result = nil;
-    if (self.data != nil && [self.data objectForKey:key]) {
+    if (self.data != nil && [self hasFieldForKey:key]) {
         result = [self.data objectForKey:key];
     }
     return result;
+}
+
+- (BOOL)hasFieldForKey:(NSString *)key {
+    return [self.data objectForKey:key] ? YES : NO;
+}
+
+- (NSDictionary *)dictionaryFieldWithKey:(NSString *)key {
+    return (NSDictionary *) [self dataForKey:key];
 }
 
 @end

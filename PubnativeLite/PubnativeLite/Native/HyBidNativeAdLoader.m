@@ -46,7 +46,6 @@
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
 
-
 @end
 
 @implementation HyBidNativeAdLoader
@@ -111,26 +110,23 @@
     if (self.zoneID && [self.zoneID length] > 0) {
         [self.nativeAdRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID withAppToken:self.appToken];
         [self.nativeAdRequest requestAdWithDelegate:self withZoneID:self.zoneID withAppToken:self.appToken];
-        
         self.shouldRunAutoRefresh = YES;
         [self setupAutoRefreshTimerIfNeeded];
     }
 }
 
-- (void)setupAutoRefreshTimerIfNeeded
-{
+- (void)setupAutoRefreshTimerIfNeeded {
     if (self.autoRefreshTimer == nil && self.autoRefreshTimeInSeconds > 0) {
         self.autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:self.autoRefreshTimeInSeconds target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     }
 }
 
-- (void)refresh
-{
+- (void)refresh {
+    [self invokeWillRefresh];
     [self requestAd];
 }
 
-- (void)setAutoRefreshTimeInSeconds:(NSInteger)autoRefreshTimeInSeconds
-{
+- (void)setAutoRefreshTimeInSeconds:(NSInteger)autoRefreshTimeInSeconds {
     _autoRefreshTimeInSeconds = autoRefreshTimeInSeconds;
     
     if (self.shouldRunAutoRefresh) {
@@ -138,8 +134,7 @@
     }
 }
 
-- (void)stopAutoRefresh
-{
+- (void)stopAutoRefresh {
     self.autoRefreshTimeInSeconds = 0;
     [self.autoRefreshTimer invalidate];
     self.autoRefreshTimer = nil;
@@ -156,6 +151,12 @@
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeLoaderDidFailWithError:)]) {
         [self.delegate nativeLoaderDidFailWithError:error];
+    }
+}
+
+- (void)invokeWillRefresh {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(nativeLoaderWillRefresh)]) {
+        [self.delegate nativeLoaderWillRefresh];
     }
 }
 

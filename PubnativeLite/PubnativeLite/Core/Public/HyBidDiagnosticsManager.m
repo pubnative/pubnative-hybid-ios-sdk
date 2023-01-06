@@ -75,7 +75,7 @@ NSString * const GAM_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS = @"HyBidGAMInter
         [diagnosticsLogString appendFormat:@"\nApp Token: %@", [HyBidSDKConfig sharedConfig].appToken];
         [diagnosticsLogString appendFormat:@"\nTest Mode: %@", [HyBidSDKConfig sharedConfig].test ? @"true" : @"false"];
         [diagnosticsLogString appendFormat:@"\nCOPPA: %@", [HyBidConsentConfig sharedConfig].coppa ? @"true" : @"false"];
-        [diagnosticsLogString appendFormat:@"\nVideo Audio State: %@", [self getVideoAudioStateString:[HyBidRenderingConfig sharedConfig].audioStatus]];
+        [diagnosticsLogString appendFormat:@"\nApp Level Video Audio State: %@", [self getVideoAudioStateString:[HyBidRenderingConfig sharedConfig].audioStatus]];
         [diagnosticsLogString appendFormat:@"\nLocation Tracking: %@", [HyBidLocationConfig sharedConfig].locationTrackingEnabled ? @"true" : @"false"];
         [diagnosticsLogString appendFormat:@"\nLocation Updates: %@", [HyBidLocationConfig sharedConfig].locationUpdatesEnabled ? @"true" : @"false"];
         [diagnosticsLogString appendFormat:@"\nDate & Time: %@", [self currentDateAndTime]];

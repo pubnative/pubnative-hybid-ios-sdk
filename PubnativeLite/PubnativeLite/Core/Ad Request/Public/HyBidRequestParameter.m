@@ -65,6 +65,9 @@
 + (NSString *)protocol                      { return @"protocol"; }
 + (NSString *)api                           { return @"api"; }
 + (NSString *)appTrackingTransparency       { return @"atts"; }
++ (NSString *)sessionDuration               { return @"sessionduration"; }
++ (NSString *)impressionDepth               { return @"impdepth"; }
++ (NSString *)ageOfApp                      { return @"ageofapp"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion            { return @"skadn_version"; }

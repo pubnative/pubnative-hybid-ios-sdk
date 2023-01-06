@@ -25,6 +25,7 @@
 #import "HyBidVASTEndCard.h"
 #import "HyBidVASTEventProcessor.h"
 #import "HyBidVASTCTAButton.h"
+#import "HyBidAd.h"
 
 @protocol HyBidVASTEndCardViewControllerDelegate<NSObject>
 
@@ -37,17 +38,15 @@
 @interface HyBidVASTEndCardView : UIView
 
 - (instancetype)init NS_UNAVAILABLE;
-
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
-
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
-
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController: (UIViewController*) viewController isInterstitial: (BOOL) isInterstitial;
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate
+              withViewController:(UIViewController*)viewController
+                          withAd:(HyBidAd *)ad
+                  isInterstitial:(BOOL)isInterstitial;
 
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
-
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;
-
 - (void)setupUI;
 
 @end

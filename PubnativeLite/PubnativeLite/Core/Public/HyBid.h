@@ -174,6 +174,7 @@ static const unsigned int MRAID_728x90 = 24;
 static const unsigned int MRAID_160x600 = 25;
 static const unsigned int MRAID_250x250 = 26;
 static const unsigned int MRAID_300x600 = 27;
+static const unsigned int MRAID_320x100 = 28;
 static const unsigned int MRAID_480x320 = 29;
 static const unsigned int VAST_MRECT = 4;
 static const unsigned int VAST_INTERSTITIAL = 15;

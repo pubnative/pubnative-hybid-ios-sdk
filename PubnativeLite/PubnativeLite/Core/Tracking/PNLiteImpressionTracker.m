@@ -33,8 +33,8 @@
 #endif
 
 NSTimeInterval const kPNImpressionCheckPeriod = 0.25f; // Check every 250 ms
-CGFloat const kPNVisibilityThreshold = 0.5f; // 50% of the view
-CGFloat const kPNVisibilityImpressionTime = 1; // 1 second
+CGFloat const kPNVisibilityThreshold = 0.0f; // 0% of the view
+CGFloat const kPNVisibilityImpressionTime = 0; // 0 second
 
 @interface PNLiteImpressionTracker () <HyBidVisibilityTrackerDelegate>
 

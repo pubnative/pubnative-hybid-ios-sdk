@@ -39,20 +39,48 @@
 - (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.adType) {
         case kHyBidAdTypeHTML: {
-            PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
-            
-            NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
-            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:mraidString] ? nil : mraidBannerPresenter;
+            switch (ad.assetGroupID.integerValue) {
+                case MRAID_160x600:
+                case MRAID_250x250:
+                case MRAID_300x50:
+                case MRAID_300x250:
+                case MRAID_300x600:
+                case MRAID_320x50:
+                case MRAID_320x100:
+                case MRAID_320x480:
+                case MRAID_480x320:
+                case MRAID_728x90:
+                case MRAID_768x1024:
+                case MRAID_1024x768: {
+                    PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
+                    NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
+                    return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:mraidString] ? nil : mraidBannerPresenter;
+                    break;
+                }
+                default:
+                    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
+                    return nil;
+                    break;
+            }
         }
         case kHyBidAdTypeVideo: {
-            HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
-            
-            NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
-            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:vastString] ? nil : vastAdPresenter;
+            switch (ad.assetGroupID.integerValue) {
+                case VAST_MRECT: {
+                    HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
+                    NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
+                    return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:vastString] ? nil : vastAdPresenter;
+                    break;
+                }
+                default:
+                    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
+                    return nil;
+                    break;
+            }
         }
         default:
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for banner ad format.", ad.assetGroupID]];
+            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Ad Type is unsupported for banner ad format."]];
             return nil;
+            break;
     }
 }
 @end

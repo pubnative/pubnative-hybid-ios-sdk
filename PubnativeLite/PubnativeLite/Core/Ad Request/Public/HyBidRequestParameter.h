@@ -65,6 +65,9 @@
 + (NSString *)protocol;
 + (NSString *)api;
 + (NSString *)appTrackingTransparency;
++ (NSString *)sessionDuration;
++ (NSString *)impressionDepth;
++ (NSString *)ageOfApp;
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion;

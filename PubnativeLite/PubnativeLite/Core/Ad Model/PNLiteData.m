@@ -30,7 +30,17 @@
 + (NSString *)url { return @"url"; }
 + (NSString *)js { return @"js"; }
 + (NSString *)html { return @"html"; }
-+ (NSString *)width {return @"w";}
-+ (NSString *)height {return @"h";}
++ (NSString *)width { return @"w"; }
++ (NSString *)height { return @"h"; }
++ (NSString *)jsonData { return @"jsondata"; }
++ (NSString *)skoverlayEnabled { return @"SKOverlayenabled"; }
++ (NSString *)audioState { return @"audiostate"; }
++ (NSString *)endcardEnabled { return @"endcardenabled"; }
++ (NSString *)endcardCloseDelay { return @"endcard_close_delay"; }
++ (NSString *)htmlSkipOffset { return @"html_skip_offset"; }
++ (NSString *)videoSkipOffset { return @"video_skip_offset"; }
++ (NSString *)closeInterstitialAfterFinish { return @"close_inter_after_finished"; }
++ (NSString *)closeRewardedAfterFinish { return @"close_reward_after_finished"; }
++ (NSString *)fullscreenClickability { return @"fullscreen_clickability"; }
 
 @end

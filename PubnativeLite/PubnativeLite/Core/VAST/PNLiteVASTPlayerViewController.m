@@ -146,6 +146,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) NSArray<HyBidVASTEndCard *> *endCards;
 @property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
+@property (nonatomic) HyBidInterstitialActionBehaviour fullscreenClickabilityBehaviour;
 
 @end
 
@@ -155,11 +156,9 @@ typedef enum : NSUInteger {
 
 - (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel withAdFormat:(HyBidAdFormatForVASTPlayer)adFormat {
     self.adFormat = adFormat;
+    self.ad = adModel;
+    self.skAdModel = adModel.isUsingOpenRTB ? adModel.getOpenRTBSkAdNetworkModel : adModel.getSkAdNetworkModel;
     self = [self init];
-    if (self) {
-        self.ad = adModel;
-        self.skAdModel = adModel.isUsingOpenRTB ? adModel.getOpenRTBSkAdNetworkModel : adModel.getSkAdNetworkModel;
-    }
     return self;
 }
 
@@ -170,9 +169,14 @@ typedef enum : NSUInteger {
         self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerViewController": @"nib"] bundle:[self getBundle]];
     }
     if (self) {
+        [self determineFullscreenClickabilityBehaviourForAd:self.ad];
         self.state = PNLiteVASTPlayerState_IDLE;
         self.playback = PNLiteVASTPlaybackState_FirstQuartile;
-        self.muted = [self setAdAudioStatus:[HyBidRenderingConfig sharedConfig].audioStatus];
+        if (self.ad.audioState) {
+            self.muted = [self setAdAudioStatus:[self audioStatusFromString:self.ad.audioState]];
+        } else {
+            self.muted = [self setAdAudioStatus:[HyBidRenderingConfig sharedConfig].audioStatus];
+        }
         [self setAdAudioMuted:self.muted];
         self.canResize = YES;
         self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
@@ -199,13 +203,13 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [self setAdAudioMuted:self.muted];
     
-    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_ACTION_BUTTON) {
+    if (self.fullscreenClickabilityBehaviour == HB_ACTION_BUTTON) {
         [self.btnOpenOffer setImage:[self bundledImageNamed:PNLiteVASTPlayerOpenImageName] forState:UIControlStateNormal];
     } else {
         self.btnOpenOffer.hidden = YES;
     }
     
-    if ([self.endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard) {
+    if (self.ad.hasEndCard) {
         [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerSkipImageName] forState:UIControlStateNormal];
     } else {
         [self.btnClose setImage:[self bundledImageNamed:PNLiteVASTPlayerCloseImageName] forState:UIControlStateNormal];
@@ -431,8 +435,20 @@ typedef enum : NSUInteger {
 
 #pragma mark - PRIVATE -
 
+- (void)determineFullscreenClickabilityBehaviourForAd:(HyBidAd *)ad {
+    if (ad.fullscreenClickability) {
+        if ([ad.fullscreenClickability boolValue]) {
+            self.fullscreenClickabilityBehaviour = HB_CREATIVE;
+        } else {
+            self.fullscreenClickabilityBehaviour = HB_ACTION_BUTTON;
+        }
+    } else {
+        self.fullscreenClickabilityBehaviour = [HyBidRenderingConfig sharedConfig].interstitialActionBehaviour;
+    }
+}
+
 - (IBAction)videoTapped:(UITapGestureRecognizer *)sender {
-    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_CREATIVE && !self.endCardShown) {
+    if (self.fullscreenClickabilityBehaviour == HB_CREATIVE && !self.endCardShown) {
         [self btnOpenOfferPush:nil];
     }
 }
@@ -700,7 +716,15 @@ typedef enum : NSUInteger {
     }
 }
 
-#pragma mark IBActions
+- (HyBidAudioStatus)audioStatusFromString:(NSString *)audioState {
+    if ([audioState isEqualToString:@"muted"]) {
+        return HyBidAudioStatusMuted;
+    } else if ([audioState isEqualToString:@"on"]) {
+        return HyBidAudioStatusON;
+    } else {
+        return HyBidAudioStatusDefault;
+    }
+}
 
 - (void)setAdAudioMuted:(BOOL)muted {
     NSString *newImageName = muted ? PNLiteVASTPlayerMuteImageName : PNLiteVASTPlayerUnMuteImageName;
@@ -725,6 +749,8 @@ typedef enum : NSUInteger {
     }
 }
 
+#pragma mark IBActions
+
 - (IBAction)btnMutePush:(id)sender {
     self.muted = !self.muted;
     [self setAdAudioMuted:self.muted];
@@ -736,13 +762,7 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)btnClosePush:(id)sender {
-    BOOL closeOnFinish = NO;
-    if (self.adFormat == HyBidAdFormatRewarded) {
-        closeOnFinish = [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish;
-    } else {
-        closeOnFinish = [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish;
-    }
-    if ([self.endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard && !closeOnFinish) { // Skipped to end card
+    if (self.ad.hasEndCard && !self.closeOnFinish) { // Skipped to end card
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
         [self removePeriodicTimeObserver];
         [self showEndCard];
@@ -845,18 +865,11 @@ typedef enum : NSUInteger {
     if([self.delegate respondsToSelector:@selector(vastPlayerDidComplete:)]) {
         [self.delegate vastPlayerDidComplete:self];
     }
-    
-    BOOL closeOnFinish = NO;
-    if (self.adFormat == HyBidAdFormatRewarded) {
-        closeOnFinish = [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish;
-    } else {
-        closeOnFinish = [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish;
-    }
-    
-    if ([self.endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard && !closeOnFinish) {
+
+    if (self.ad.hasEndCard && !self.closeOnFinish) {
         [self showEndCard];
     } else {
-        if (closeOnFinish) {
+        if (self.closeOnFinish) {
             [self invokeDidClose];
         }
     }
@@ -1146,7 +1159,7 @@ typedef enum : NSUInteger {
     [self.view bringSubviewToFront: self.btnMute];
     [self.view bringSubviewToFront: self.contentInfoViewContainer];
     
-    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_ACTION_BUTTON) {
+    if (self.fullscreenClickabilityBehaviour == HB_ACTION_BUTTON) {
         self.btnOpenOffer.hidden = NO;
     }
     self.viewSkip.hidden = YES;
@@ -1182,7 +1195,7 @@ typedef enum : NSUInteger {
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
     
-    if ([HyBidRenderingConfig sharedConfig].interstitialActionBehaviour == HB_ACTION_BUTTON) {
+    if (self.fullscreenClickabilityBehaviour == HB_ACTION_BUTTON) {
         self.btnOpenOffer.hidden = NO;
     }
     
@@ -1257,7 +1270,7 @@ typedef enum : NSUInteger {
     [self setState:PNLiteVASTPlayerState_READY];
     [self.layer removeFromSuperlayer];
     HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
-    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self withAd:self.ad isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
     endCardView.frame = self.view.frame;
     [endCardView setupUI];
     
