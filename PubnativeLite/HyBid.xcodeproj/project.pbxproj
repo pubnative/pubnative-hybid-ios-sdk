@@ -341,6 +341,7 @@
 		62DF95A626D52C9100D27E72 /* HyBidVASTAdTrackingEventType.m in Sources */ = {isa = PBXBuildFile; fileRef = 62DF95A526D52C9100D27E72 /* HyBidVASTAdTrackingEventType.m */; };
 		62E8D73E26CFAA8000828E6A /* HyBidVASTTracking.h in Headers */ = {isa = PBXBuildFile; fileRef = 62E8D73C26CFAA8000828E6A /* HyBidVASTTracking.h */; };
 		62E8D73F26CFAA8000828E6A /* HyBidVASTTracking.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E8D73D26CFAA8000828E6A /* HyBidVASTTracking.m */; };
+		661F77AA412CD376C4460BAE /* Pods_HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE1808922D01DA09EFFCCB0 /* Pods_HyBid.framework */; };
 		6838BE0BF593F8481FF500E4 /* Pods_HyBidTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF6D274890240B10116604E /* Pods_HyBidTests.framework */; };
 		6F10B1762893FCA500B61FD5 /* UITextField+KeyboardDismiss.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F10B1752893FCA500B61FD5 /* UITextField+KeyboardDismiss.m */; };
 		6F3DAB8B28060C70002531DD /* HyBidVASTEndCard.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3DAB8928060C70002531DD /* HyBidVASTEndCard.h */; };
@@ -674,6 +675,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		20276C4872F77EC0DB16C104 /* Pods-HyBid.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBid.release.xcconfig"; path = "Target Support Files/Pods-HyBid/Pods-HyBid.release.xcconfig"; sourceTree = "<group>"; };
 		341902DE2875CEE600984D42 /* HyBidAdFeedbackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdFeedbackView.h; sourceTree = "<group>"; };
 		341902DF2875CEE600984D42 /* HyBidAdFeedbackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdFeedbackView.m; sourceTree = "<group>"; };
 		342932BA287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdFeedbackMacroUtil.h; sourceTree = "<group>"; };
@@ -762,6 +764,7 @@
 		34F0E74D27DA214B009AE0A3 /* HyBidDemoALRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoALRewardedViewController.m; sourceTree = "<group>"; };
 		34F0E74F27DA347B009AE0A3 /* HyBidDemoALMediationSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoALMediationSettingsViewController.h; sourceTree = "<group>"; };
 		34F0E75027DA347B009AE0A3 /* HyBidDemoALMediationSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoALMediationSettingsViewController.m; sourceTree = "<group>"; };
+		51E527C196FF3578F47A4493 /* Pods-HyBid.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBid.debug.xcconfig"; path = "Target Support Files/Pods-HyBid/Pods-HyBid.debug.xcconfig"; sourceTree = "<group>"; };
 		5A0779EB2134061100EBD0E7 /* PNLiteRequestInspectorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteRequestInspectorModel.h; sourceTree = "<group>"; };
 		5A0779EC2134061100EBD0E7 /* PNLiteRequestInspectorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteRequestInspectorModel.m; sourceTree = "<group>"; };
 		5A0779EF21340FFA00EBD0E7 /* PNLiteRequestInspector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteRequestInspector.h; sourceTree = "<group>"; };
@@ -1343,6 +1346,7 @@
 		7EEF4F5F28CF57A0004F1385 /* HyBidSkipOffset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidSkipOffset.swift; sourceTree = "<group>"; };
 		A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBidDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBidDemo.release.xcconfig"; path = "Target Support Files/Pods-HyBidDemo/Pods-HyBidDemo.release.xcconfig"; sourceTree = "<group>"; };
+		CBE1808922D01DA09EFFCCB0 /* Pods_HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8DBDD827BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationVerveCustomNetworkAdapter.h; sourceTree = "<group>"; };
 		CE8DBDD927BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppLovinMediationVerveCustomNetworkAdapter.m; sourceTree = "<group>"; };
 		CEC299342785E79200E40AF0 /* HyBidNavigatorGeolocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidNavigatorGeolocation.m; sourceTree = "<group>"; };
@@ -1431,6 +1435,7 @@
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				34DE356F27B42C8E00207295 /* OMSDK_Pubnativenet.xcframework in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
+				661F77AA412CD376C4460BAE /* Pods_HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1883,6 +1888,7 @@
 				5A8903D0203DE1D400D86051 /* WebKit.framework */,
 				A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */,
 				6AF6D274890240B10116604E /* Pods_HyBidTests.framework */,
+				CBE1808922D01DA09EFFCCB0 /* Pods_HyBid.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2890,6 +2896,8 @@
 				BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */,
 				F8BC655E404E6BCE821E24B1 /* Pods-HyBidTests.debug.xcconfig */,
 				F21D4F5D1DE0796EEE0AB48E /* Pods-HyBidTests.release.xcconfig */,
+				51E527C196FF3578F47A4493 /* Pods-HyBid.debug.xcconfig */,
+				20276C4872F77EC0DB16C104 /* Pods-HyBid.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -3150,6 +3158,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "HyBid" */;
 			buildPhases = (
+				550F5D015CED9BA81F78F8DA /* [CP] Check Pods Manifest.lock */,
 				5A6CD01D2029CD060022E206 /* Headers */,
 				5A6CD01B2029CD060022E206 /* Sources */,
 				5A6CD01C2029CD060022E206 /* Frameworks */,
@@ -3302,6 +3311,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		550F5D015CED9BA81F78F8DA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HyBid-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		555017A403B6B46033C15687 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3351,11 +3382,13 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HyBidTests/Pods-HyBidTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCHamcrest/OCHamcrest.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMockito/OCMockito.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCHamcrest.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMockito.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3384,6 +3417,7 @@
 				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -3402,6 +3436,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3861,7 +3896,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.0-beta1";
+				MARKETING_VERSION = "2.17.0-beta2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3901,7 +3936,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.0-beta1";
+				MARKETING_VERSION = "2.17.0-beta2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4029,6 +4064,7 @@
 		};
 		5A6CD0292029CD060022E206 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51E527C196FF3578F47A4493 /* Pods-HyBid.debug.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = marker;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -4059,7 +4095,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.0-beta1";
+				MARKETING_VERSION = "2.17.0-beta2";
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
@@ -4074,6 +4110,7 @@
 		};
 		5A6CD02A2029CD060022E206 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 20276C4872F77EC0DB16C104 /* Pods-HyBid.release.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -4104,7 +4141,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.0-beta1";
+				MARKETING_VERSION = "2.17.0-beta2";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";

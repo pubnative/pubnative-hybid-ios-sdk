@@ -180,10 +180,11 @@
     cohortsString = [[NSString alloc] initWithFormat:@"[%@]", cohortsString];
     
     NSString *encryptedString = [[cohortsString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
-    NSString *lastChar = [encryptedString substringFromIndex:[encryptedString length] - 1];
+    NSMutableString *lastChar = [[encryptedString substringFromIndex:[encryptedString length] - 1] mutableCopy];
     
-    if ([lastChar isEqualToString:@"="]) {
+    while ([encryptedString length] > 0 && [lastChar isEqualToString:@"="]) {
         encryptedString = [encryptedString substringToIndex:[encryptedString length] - 1];
+        lastChar = [[encryptedString substringFromIndex:[encryptedString length] - 1] mutableCopy];
     }
     
     self.adRequestModel.requestParameters[HyBidRequestParameter.vg] = encryptedString;
