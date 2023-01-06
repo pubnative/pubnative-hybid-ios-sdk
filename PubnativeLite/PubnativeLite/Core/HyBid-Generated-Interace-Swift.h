@@ -373,6 +373,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)COMPANION_VIEW SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull REWARD;)
 + (NSString * _Nonnull)REWARD SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull SESSION_REPORT_INFO;)
++ (NSString * _Nonnull)SESSION_REPORT_INFO SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -587,11 +589,12 @@ SWIFT_CLASS("_TtC5HyBid19HyBidSessionManager")
 @interface HyBidSessionManager : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSessionManager * _Nonnull sharedInstance;)
 + (HyBidSessionManager * _Nonnull)sharedInstance SWIFT_WARN_UNUSED_RESULT;
-@property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> * _Nonnull counterPerZone;
+@property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> * _Nonnull impressionCounter;
+@property (nonatomic, copy) NSString * _Nonnull sessionDuration;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 - (void)setStartSession;
-- (void)updateSession;
+- (void)updateSessionWithZoneID:(NSString * _Nonnull)zoneID;
 - (void)incrementImpressionCounterWithZoneID:(NSString * _Nonnull)zoneID;
 - (void)sessionDurationWithZoneID:(NSString * _Nonnull)zoneID;
 - (void)setAgeOfAppSinceCreated;
@@ -649,4 +652,5 @@ SWIFT_CLASS("_TtC5HyBid19HyBidTargetingModel")
 #endif
 #pragma clang diagnostic pop
 #endif
+
 
