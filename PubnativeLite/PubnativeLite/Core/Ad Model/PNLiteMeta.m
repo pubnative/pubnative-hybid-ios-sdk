@@ -31,5 +31,6 @@
 + (NSString *)bundleId { return @"bundleid"; }
 + (NSString *)contentInfo { return @"contentinfo"; }
 + (NSString *)skadnetwork { return @"skadnetwork"; }
++ (NSString *)remoteconfigs { return @"remoteconfigs"; }
 
 @end

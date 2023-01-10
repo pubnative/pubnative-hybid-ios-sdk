@@ -616,6 +616,7 @@ typedef enum {
     if ([self.delegate respondsToSelector:@selector(mraidViewDidClose:)]) {
         [self.delegate mraidViewDidClose:self];
     }
+    [self setWebViewConstraintsInRelationWithView:self];
 }
 
 // Note: This method is also used to present an interstitial ad.
@@ -866,6 +867,7 @@ typedef enum {
         resizeView = [[UIView alloc] initWithFrame:resizeFrame];
         [webView removeFromSuperview];
         [resizeView addSubview:webView];
+        [self addContentInfoViewToView:webView];
         [self.rootViewController.view addSubview:resizeView];
     }
     
@@ -873,6 +875,7 @@ typedef enum {
     webView.frame = resizeView.bounds;
     [self showResizeCloseRegion];
     [self fireSizeChangeEvent];
+    [self setWebViewConstraintsInRelationWithView:resizeView];
 }
 
 - (void)setOrientationProperties:(NSDictionary *)properties; {

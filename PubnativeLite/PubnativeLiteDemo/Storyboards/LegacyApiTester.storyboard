@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gT5-Jh-Yue">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gT5-Jh-Yue">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -44,7 +44,7 @@
                                     <action selector="loadAdReponseTouchUpInside:" destination="gT5-Jh-Yue" eventType="touchUpInside" id="etQ-Sn-MWp"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your Signal Data down below and choose a placement" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DSY-fQ-C78">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your API response down below and choose a placement" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DSY-fQ-C78">
                                 <rect key="frame" x="16" y="67" width="361" height="42"/>
                                 <accessibility key="accessibilityConfiguration" identifier="signalDataLabel" label="Signal Data Label"/>
                                 <constraints>
@@ -61,8 +61,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <exclude reference="cGu-1c-pxk"/>
                                         <include reference="5xv-8m-NnG"/>
+                                        <exclude reference="cGu-1c-pxk"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -248,10 +248,10 @@
             </objects>
             <point key="canvasLocation" x="-167.19999999999999" y="149.77511244377811"/>
         </scene>
-        <!--Hy Bid Demo LegacyAPI Tester Detail View Controller-->
+        <!--HyBid Demo LegacyAPI Tester Detail View Controller-->
         <scene sceneID="zwo-kF-fhx">
             <objects>
-                <viewController storyboardIdentifier="HyBidDemoLegacyAPITesterDetailViewController" id="IiG-i1-HUh" customClass="HyBidDemoLegacyAPITesterDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HyBidDemoLegacyAPITesterDetailViewController" id="IiG-i1-HUh" userLabel="HyBid Demo LegacyAPI Tester Detail View Controller" customClass="HyBidDemoLegacyAPITesterDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="10a-Pt-mMx">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -285,7 +285,7 @@
                                     <action selector="dismissButtonTouchUpInside:" destination="IiG-i1-HUh" eventType="touchUpInside" id="Fep-ar-tTz"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Based on the ad reponse that you've provided, your ad will look like this;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMy-Ao-FkY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Based on the API reponse that you've provided, your ad will look like this;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMy-Ao-FkY">
                                 <rect key="frame" x="16" y="67" width="361" height="40"/>
                                 <accessibility key="accessibilityConfiguration" identifier="signalDataLabel" label="Signal Data Label"/>
                                 <constraints>

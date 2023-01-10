@@ -77,6 +77,7 @@
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatInterstitial];
     self.player.delegate = self;
     self.player.skipOffset = skipOffset;
+    self.player.closeOnFinish = self.closeOnFinish;
     NSString *vast = self.adModel.isUsingOpenRTB
     ? self.adModel.openRtbVast
     : self.adModel.vast;

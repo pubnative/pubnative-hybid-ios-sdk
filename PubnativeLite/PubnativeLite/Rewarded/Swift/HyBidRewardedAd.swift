@@ -68,8 +68,8 @@ public class HyBidRewardedAd: NSObject {
     private var loadReportingProperties: [String: String] = [:]
     private var renderReportingProperties: [String: String] = [:]
     private var renderErrorReportingProperties: [String: String] = [:]
+    private var sessionReportingProperties: [String: Any] = [:]
     private var closeOnFinish = false
-    private var isCloseOnFinishSet = false
     
     func cleanUp() {
         self.ad = nil
@@ -98,6 +98,7 @@ public class HyBidRewardedAd: NSObject {
         self.zoneID = zoneID
         self.appToken = appToken
         self.delegate = delegate
+        self.closeOnFinish = HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish
     }
     
     @objc
@@ -122,7 +123,6 @@ public class HyBidRewardedAd: NSObject {
     @objc(setCloseOnFinish:)
     public func setCloseOnFinish(_ closeOnFinish: Bool) {
         self.closeOnFinish = closeOnFinish
-        self.isCloseOnFinishSet = true
     }
     
     @objc
@@ -218,11 +218,7 @@ public class HyBidRewardedAd: NSObject {
     
     func renderAd(ad: HyBidAd) {
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
-        if !self.isCloseOnFinishSet && HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish {
-            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
-        } else {
-            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
-        }
+        self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         
         if (self.rewardedPresenter == nil) {
             HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Could not create valid rewarded presenter.")
@@ -237,6 +233,23 @@ public class HyBidRewardedAd: NSObject {
         } else {
             self.rewardedPresenter?.load()
         }
+    }
+    
+    func addSessionReportingProperties() -> [String:Any] {
+        var sessionReportingDictionaryToAppend = [String:Any]()
+        if !HyBidSessionManager.sharedInstance.impressionCounter.isEmpty{
+            sessionReportingDictionaryToAppend[Common.IMPRESSION_SESSION_COUNT] = HyBidSessionManager.sharedInstance.impressionCounter
+        }
+        if UserDefaults.standard.object(forKey: Common.SESSION_DURATION) != nil {
+            sessionReportingDictionaryToAppend[Common.SESSION_DURATION] = UserDefaults.standard.object(forKey: Common.SESSION_DURATION)
+        }
+        if zoneID != nil{
+            sessionReportingDictionaryToAppend[Common.ZONE_ID] = zoneID
+        }
+        if UserDefaults.standard.object(forKey: Common.AGE_OF_APP) != nil {
+            sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = UserDefaults.standard.object(forKey: Common.AGE_OF_APP)
+        }
+        return sessionReportingDictionaryToAppend
     }
     
     func addCommonPropertiesToReportingDictionary() -> [String: String] {
@@ -269,7 +282,7 @@ public class HyBidRewardedAd: NSObject {
         return reportingDictionaryToAppend
     }
     
-    func reportEvent(_ eventType: String, properties: [String: String]) {
+    func reportEvent(_ eventType: String, properties: [String: Any]) {
         let reportingEvent = HyBidReportingEvent(with: eventType, adFormat: AdFormat.REWARDED, properties: properties)
         HyBid.reportingManager().reportEvent(for: reportingEvent)
     }
@@ -338,6 +351,12 @@ public class HyBidRewardedAd: NSObject {
         }
     }
     
+    func determineCloseOnFinishFor(_ ad: HyBidAd) {
+        if (ad.closeRewardedAfterFinish != nil) {
+            self.closeOnFinish = ad.closeRewardedAfterFinish.boolValue;
+        }
+    }
+    
 }
 
 // MARK: - HyBidAdRequestDelegate
@@ -355,6 +374,7 @@ extension HyBidRewardedAd {
         if let ad = ad {
             self.ad = ad
             self.ad?.adType = Int(kHyBidAdTypeVideo)
+            self.determineCloseOnFinishFor(ad)
             self.renderAd(ad: ad)
         } else {
             self.invokeDidFailWithError(error: NSError.hyBidNullAd())
@@ -385,7 +405,9 @@ extension HyBidRewardedAd {
                                                                       elapsedTimeSince(initialRenderTimestamp))
         }
         self.renderReportingProperties = self.addCommonPropertiesToReportingDictionary()
+        self.sessionReportingProperties = self.addSessionReportingProperties()
         self.reportEvent(EventType.RENDER, properties: self.renderReportingProperties)
+        self.reportEvent(EventType.SESSION_REPORT_INFO, properties: self.sessionReportingProperties)
         self.invokeDidTrackImpression()
     }
     

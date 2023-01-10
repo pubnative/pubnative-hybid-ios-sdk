@@ -22,6 +22,7 @@
 
 #import "HyBidAd.h"
 #import "PNLiteMeta.h"
+#import "PNLiteData.h"
 #import "PNLiteAsset.h"
 #import "HyBidContentInfoView.h"
 #import "HyBidSkAdNetworkModel.h"
@@ -258,6 +259,114 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.htmlBanner];
     if (data) {
         result = data.height;
+    }
+    return result;
+}
+
+- (NSDictionary *)jsonData {
+    NSDictionary *result = nil;
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.remoteconfigs];
+    if (data && [data hasFieldForKey:PNLiteData.jsonData]) {
+        result = data.jsonData;
+    }
+    return result;
+}
+
+- (NSNumber *)skoverlayEnabled {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.skoverlayEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.skoverlayEnabled];
+        }
+    }
+    return result;
+}
+
+- (NSString *)audioState {
+    NSString *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.audioState] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.audioState];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)endcardEnabled {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.endcardEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.endcardEnabled];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)endcardCloseDelay {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.endcardCloseDelay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.endcardCloseDelay];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)htmlSkipOffset {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.htmlSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.htmlSkipOffset];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)videoSkipOffset {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.videoSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.videoSkipOffset];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)closeInterstitialAfterFinish {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.closeInterstitialAfterFinish] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.closeInterstitialAfterFinish];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)closeRewardedAfterFinish {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.closeRewardedAfterFinish] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.closeRewardedAfterFinish];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)fullscreenClickability {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.fullscreenClickability] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.fullscreenClickability];
+        }
     }
     return result;
 }

@@ -128,7 +128,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
     self.appToken = appToken;
     self.requestIntegrationType = integrationType;
     self.adRequestModel = [self createAdRequestModelWithIntegrationType:integrationType];
-    self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
+    self.requestURL = [self requestURLFromAdRequestModel: self.adRequestModel];
     self.isSetIntegrationTypeCalled = YES;
 }
 
@@ -202,20 +202,15 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                                                                                                                                                                                                       withAppToken:self.appToken
-                                                                                                                                                                                                                         withAdSize:[self adSize]
-                                                                                                                                                                                                         withSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                                                                                                                                                                                                                withIntegrationType:integrationType
-                                                                                                                                                                                                                         isRewarded:[self isRewarded]
-                                                                                                                                                                                                                mediationVendorName:nil]].absoluteString]];
-    return [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                        withAppToken:self.appToken
-                                          withAdSize:[self adSize]
-                          withSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                                 withIntegrationType:integrationType
-                                          isRewarded:[self isRewarded]
-                                 mediationVendorName:nil];
+    PNLiteAdRequestModel * requestModel = [self.adFactory createAdRequestWithZoneID:self.zoneID
+                                                                      withAppToken:self.appToken
+                                                                        withAdSize:[self adSize]
+                                                        withSupportedAPIFrameworks:[self supportedAPIFrameworks]
+                                                               withIntegrationType:integrationType
+                                                                        isRewarded:[self isRewarded]
+                                                               mediationVendorName:nil];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: requestModel].absoluteString]];
+    return requestModel;
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
@@ -357,8 +352,11 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         ad.isUsingOpenRTB = self.isUsingOpenRTB;
                         
                         NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                        [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
-                        
+                        if (ad.endcardEnabled) {
+                            [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
+                        } else {
+                            [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
+                        }
                         [self invokeDidLoad:ad];
                         [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
                         [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
@@ -471,8 +469,11 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
                 
                 NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
-                
+                if (ad.endcardEnabled) {
+                    [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
+                } else {
+                    [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
+                }
                 [self invokeDidLoad:ad];
                 [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
                 [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];

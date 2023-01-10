@@ -31,5 +31,6 @@
 + (NSString *)bundleId;
 + (NSString *)contentInfo;
 + (NSString *)skadnetwork;
++ (NSString *)remoteconfigs;
 
 @end

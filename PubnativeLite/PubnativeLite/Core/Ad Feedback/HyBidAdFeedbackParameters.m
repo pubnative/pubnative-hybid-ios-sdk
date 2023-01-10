@@ -68,16 +68,20 @@
 }
 
 - (NSString *)audioState {
-    switch ([HyBidRenderingConfig sharedConfig].audioStatus) {
-        case HyBidAudioStatusMuted:
-            return @"Muted";
-            break;
-        case HyBidAudioStatusON:
-            return @"ON";
-            break;
-        case HyBidAudioStatusDefault:
-            return @"Default";
-            break;
+    if (self.ad.audioState) {
+        return self.ad.audioState;
+    } else {
+        switch ([HyBidRenderingConfig sharedConfig].audioStatus) {
+            case HyBidAudioStatusMuted:
+                return @"muted";
+                break;
+            case HyBidAudioStatusON:
+                return @"on";
+                break;
+            case HyBidAudioStatusDefault:
+                return @"default";
+                break;
+        }
     }
 }
 

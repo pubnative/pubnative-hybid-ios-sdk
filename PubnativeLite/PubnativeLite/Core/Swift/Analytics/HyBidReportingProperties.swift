@@ -52,7 +52,7 @@ public class Common: HyBidReportingProperties {
     @objc public static let CREATIVE = "creative"
     @objc public static let HAS_END_CARD = "has_end_card"
     @objc public static let LAST_SESSION_TIMESTAMP = "last_session_timestamp"
-    @objc public static let IMPRESSION_SESSION_COUNT = "impression_session_count"
+    @objc public static let IMPRESSION_SESSION_COUNT = "impression_count"
     @objc public static let START_SESSION_TIMESTAMP = "start_session_timestamp"
     @objc public static let SESSION_DURATION = "session_duration"
     @objc public static let AGE_OF_APP = "age_of_app"
@@ -94,6 +94,7 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let RENDER_ERROR = "render_error"
     @objc public static let COMPANION_VIEW = "companion_view"
     @objc public static let REWARD = "reward"
+    @objc public static let SESSION_REPORT_INFO = "session_report_info"
 }
 
 @objc(HyBidReportingCreativeType)

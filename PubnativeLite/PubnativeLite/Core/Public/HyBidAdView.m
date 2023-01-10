@@ -54,6 +54,7 @@
 @property (nonatomic, assign) NSTimeInterval initialRenderTimestamp;
 @property (nonatomic, strong) NSMutableDictionary *loadReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *renderReportingProperties;
+@property (nonatomic, strong) NSMutableDictionary *sessionReportingProperties;
 
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
@@ -75,6 +76,7 @@
     self.adSize = nil;
     self.loadReportingProperties = nil;
     self.renderReportingProperties = nil;
+    self.sessionReportingProperties = nil;
     [self cleanUp];
     [self stopAutoRefresh];
 }
@@ -99,6 +101,7 @@
         self.autoShowOnLoad = true;
         self.loadReportingProperties = [NSMutableDictionary new];
         self.renderReportingProperties = [NSMutableDictionary new];
+        self.sessionReportingProperties = [NSMutableDictionary new];
         self.markup = NO;
     }
     return self;
@@ -213,8 +216,7 @@
     [self setupAutoRefreshTimerIfNeeded];
 }
 
-- (void)setupAutoRefreshTimerIfNeeded
-{
+- (void)setupAutoRefreshTimerIfNeeded {
     if (self.autoRefreshTimer == nil && self.autoRefreshTimeInSeconds > 0) {
         self.autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:self.autoRefreshTimeInSeconds target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     }
@@ -251,14 +253,13 @@
     [self renderAd];
 }
 
-- (void)refresh
-{
+- (void)refresh {
+    [self invokeWillRefresh];
     [self cleanUp];
     [self loadWithZoneID:self.zoneID withAppToken:self.appToken andWithDelegate:self.delegate];
 }
 
-- (void)setAutoRefreshTimeInSeconds:(NSInteger)autoRefreshTimeInSeconds
-{
+- (void)setAutoRefreshTimeInSeconds:(NSInteger)autoRefreshTimeInSeconds {
     _autoRefreshTimeInSeconds = autoRefreshTimeInSeconds;
     
     if (self.shouldRunAutoRefresh) {
@@ -266,15 +267,13 @@
     }
 }
 
-- (void)stopAutoRefresh
-{
+- (void)stopAutoRefresh {
     self.autoRefreshTimeInSeconds = 0;
     [self.autoRefreshTimer invalidate];
     self.autoRefreshTimer = nil;
 }
 
-- (void)setMediationVendor:(NSString *)mediationVendor
-{
+- (void)setMediationVendor:(NSString *)mediationVendor {
     if (self.adRequest != nil) {
         [self.adRequest setMediationVendor:mediationVendor];
     }
@@ -412,7 +411,6 @@
 - (void)startTracking {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
         [self.adPresenter startTracking];
-    [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.zoneID];
         
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
         [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
@@ -442,6 +440,21 @@
     }
     [self addCommonPropertiesToReportingDictionary:renderErrorReportingProperties];
     [self reportEvent:HyBidReportingEventType.RENDER_ERROR withProperties:renderErrorReportingProperties];
+}
+
+- (void)addSessionReportingProperties:(NSMutableDictionary *)reportingDictionary {
+    if (self.zoneID != nil && self.zoneID.length > 0){
+        [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+    }
+    if ([HyBidSessionManager sharedInstance].impressionCounter != nil) {
+        [reportingDictionary setObject:[HyBidSessionManager sharedInstance].impressionCounter forKey:HyBidReportingCommon.IMPRESSION_SESSION_COUNT];
+    }
+    if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] != nil){
+        [reportingDictionary setObject: [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] forKey: HyBidReportingCommon.SESSION_DURATION];
+    }
+    if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] != nil){
+        [reportingDictionary setObject:[[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] forKey: HyBidReportingCommon.AGE_OF_APP];
+    }
 }
 
 - (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
@@ -534,6 +547,12 @@
     }
 }
 
+- (void)invokeWillRefresh {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(adViewWillRefresh:)]) {
+        [self.delegate adViewWillRefresh:self];
+    }
+}
+
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
@@ -546,13 +565,13 @@
         [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
         self.ad = ad;
-        NSString *vast = self.ad.isUsingOpenRTB
-        ? self.ad.openRtbVast
-        : self.ad.vast;
+        NSString *vast = self.ad.isUsingOpenRTB ? self.ad.openRtbVast : self.ad.vast;
         if (vast != nil) {
             self.ad.adType = kHyBidAdTypeVideo;
-        } else {
+        } else if (self.ad.htmlData != nil) {
             self.ad.adType = kHyBidAdTypeHTML;
+        } else {
+            self.ad.adType = kHyBidAdTypeUnsupported;
         }
         if (self.autoShowOnLoad) {
             [self renderAd];
@@ -579,6 +598,11 @@
 
 - (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
     [self.delegate adViewDidTrackImpression:self];
+    if ([self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
+        [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.zoneID];
+        [self addSessionReportingProperties:self.sessionReportingProperties];
+        [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
+    }
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {

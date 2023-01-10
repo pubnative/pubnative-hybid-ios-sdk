@@ -76,6 +76,7 @@
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatRewarded];
     self.player.delegate = self;
+    self.player.closeOnFinish = self.closeOnFinish;
     NSString *vast = self.adModel.isUsingOpenRTB
     ? self.adModel.openRtbVast
     : self.adModel.vast;

@@ -146,8 +146,11 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                             [self invokeDidFail:error];
                         } else {
                             NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                            [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
-                            
+                            if (ad.endcardEnabled) {
+                                [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
+                            } else {
+                                [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
+                            }                            
                             HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                             videoAdCacheItem.vastModel = vastModel;
                             [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID: self.signalDataModel.tagid];

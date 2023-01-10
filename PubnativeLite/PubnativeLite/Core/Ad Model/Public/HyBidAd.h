@@ -29,6 +29,7 @@
 
 #define kHyBidAdTypeHTML 0
 #define kHyBidAdTypeVideo 1
+#define kHyBidAdTypeUnsupported 2
 
 typedef struct {
     int fidelity;
@@ -57,6 +58,16 @@ typedef struct {
 @property (nonatomic) NSInteger adType;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic, assign) BOOL hasEndCard;
+@property (nonatomic, readonly) NSString *audioState;
+@property (nonatomic, readonly) NSNumber *htmlSkipOffset;
+@property (nonatomic, readonly) NSNumber *videoSkipOffset;
+@property (nonatomic, readonly) NSNumber *endcardCloseDelay;
+// The following 5 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
+@property (nonatomic, readonly) NSNumber *endcardEnabled;
+@property (nonatomic, readonly) NSNumber *skoverlayEnabled;
+@property (nonatomic, readonly) NSNumber *closeInterstitialAfterFinish;
+@property (nonatomic, readonly) NSNumber *closeRewardedAfterFinish;
+@property (nonatomic, readonly) NSNumber *fullscreenClickability;
 
 - (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 - (instancetype)initOpenRTBWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
@@ -68,7 +79,6 @@ typedef struct {
 - (NSArray *)beaconsDataWithType:(NSString *)type;
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel;
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel;
-
 - (HyBidContentInfoView *)getContentInfoView;
 - (HyBidContentInfoView *)getContentInfoViewFrom:(HyBidContentInfoView *)infoView;
 

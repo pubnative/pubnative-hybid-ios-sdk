@@ -68,8 +68,8 @@ public class HyBidInterstitialAd: NSObject {
     private var loadReportingProperties: [String: Any] = [:]
     private var renderReportingProperties: [String: Any] = [:]
     private var renderErrorReportingProperties: [String: Any] = [:]
+    private var sessionReportingProperties: [String: Any] = [:]
     private var closeOnFinish = false
-    private var isCloseOnFinishSet = false
     
     func cleanUp() {
         self.ad = nil
@@ -100,6 +100,7 @@ public class HyBidInterstitialAd: NSObject {
         self.appToken = appToken
         self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.htmlSkipOffset
         self.videoSkipOffset = HyBidRenderingConfig.sharedConfig.videoSkipOffset
+        self.closeOnFinish = HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish
     }
     
     @objc
@@ -146,7 +147,6 @@ public class HyBidInterstitialAd: NSObject {
     @objc(setCloseOnFinish:)
     public func setCloseOnFinish(_ closeOnFinish: Bool) {
         self.closeOnFinish = closeOnFinish
-        self.isCloseOnFinishSet = true
     }
     
     @objc
@@ -259,11 +259,7 @@ public class HyBidInterstitialAd: NSObject {
             self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
         }
         let interstitalPresenterFactory = HyBidInterstitialPresenterFactory()
-        if !self.isCloseOnFinishSet && HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish {
-            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
-        } else {
-            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
-        }
+        self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         
         if (self.interstitialPresenter == nil) {
             HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Could not create valid interstitial presenter.")
@@ -278,6 +274,23 @@ public class HyBidInterstitialAd: NSObject {
         } else {
             self.interstitialPresenter?.load()
         }
+    }
+    
+    func addSessionReportingProperties() -> [String:Any] {
+        var sessionReportingDictionaryToAppend = [String:Any]()
+        if !HyBidSessionManager.sharedInstance.impressionCounter.isEmpty{
+            sessionReportingDictionaryToAppend[Common.IMPRESSION_SESSION_COUNT] = HyBidSessionManager.sharedInstance.impressionCounter
+        }
+        if UserDefaults.standard.object(forKey: Common.SESSION_DURATION) != nil {
+            sessionReportingDictionaryToAppend[Common.SESSION_DURATION] = UserDefaults.standard.object(forKey: Common.SESSION_DURATION)
+        }
+        if zoneID != nil{
+            sessionReportingDictionaryToAppend[Common.ZONE_ID] = zoneID
+        }
+        if UserDefaults.standard.object(forKey: Common.AGE_OF_APP) != nil {
+            sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = UserDefaults.standard.object(forKey: Common.AGE_OF_APP)
+        }
+        return sessionReportingDictionaryToAppend
     }
     
     func addCommonPropertiesToReportingDictionary() -> [String: String] {
@@ -373,6 +386,20 @@ public class HyBidInterstitialAd: NSObject {
         delegate.interstitialDidDismiss()
     }
     
+    func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
+        if ad.htmlSkipOffset != nil {
+            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.htmlSkipOffset, isCustom: true)
+        }
+        if ad.videoSkipOffset != nil {
+            self.videoSkipOffset = HyBidSkipOffset(offset: ad.videoSkipOffset, isCustom: true)
+        }
+    }
+    
+    func determineCloseOnFinishFor(_ ad: HyBidAd) {
+        if (ad.closeInterstitialAfterFinish != nil) {
+            self.closeOnFinish = ad.closeInterstitialAfterFinish.boolValue;
+        }
+    }
 }
 
 // MARK: - HyBidAdRequestDelegate
@@ -389,6 +416,8 @@ extension HyBidInterstitialAd {
         
         if let ad = ad {
             self.ad = ad
+            self.determineSkipOffsetValuesFor(ad)
+            self.determineCloseOnFinishFor(ad)
             self.renderAd(ad: ad)
         } else {
             self.invokeDidFailWithError(error: NSError.hyBidNullAd())
@@ -419,7 +448,9 @@ extension HyBidInterstitialAd {
                                                                       elapsedTimeSince(initialRenderTimestamp))
         }
         self.renderReportingProperties = self.addCommonPropertiesToReportingDictionary()
+        self.sessionReportingProperties = self.addSessionReportingProperties()
         self.reportEvent(EventType.RENDER, properties: self.renderReportingProperties)
+        self.reportEvent(EventType.SESSION_REPORT_INFO, properties: self.sessionReportingProperties)
         self.invokeDidTrackImpression()
     }
     

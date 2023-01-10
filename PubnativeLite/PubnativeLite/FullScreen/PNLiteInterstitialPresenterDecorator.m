@@ -123,28 +123,61 @@
 }
 
 - (void)presentSKOverlay {
-    if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
-        if (@available(iOS 14.0, *)) {
-            if (self.overlay) {
-                if (!self.isOverlayShown) {
-                    [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-                }
-            }
-        } else {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+    if (self.interstitialPresenter.ad.skoverlayEnabled) {
+        if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
+            [self checkSKOverlayAvailabilityAndPresent];
         }
+    } else if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
+        [self checkSKOverlayAvailabilityAndPresent];
+    }
+}
+
+- (void)checkSKOverlayAvailabilityAndPresent {
+    if (@available(iOS 14.0, *)) {
+        if (self.overlay) {
+            if (!self.isOverlayShown) {
+                [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
+            }
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
     }
 }
 
 - (void)dismissSKOverlay {
-    if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
-        if (@available(iOS 14.0, *)) {
-            if (self.overlay) {
-                [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-            }
-        } else {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+    if (self.interstitialPresenter.ad.skoverlayEnabled) {
+        if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
+            [self checkSKOverlayAvailabilityAndDismiss];
         }
+    } else if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
+        [self checkSKOverlayAvailabilityAndDismiss];
+    }
+}
+
+- (void)checkSKOverlayAvailabilityAndDismiss {
+    if (@available(iOS 14.0, *)) {
+        if (self.overlay) {
+            [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+    }
+}
+
+- (void)checkSKOverlayAvailabilityAndPrepareForInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (@available(iOS 14.0, *)) {
+        HyBidSkAdNetworkModel* skAdNetworkModel = interstitialPresenter.ad.isUsingOpenRTB ? [interstitialPresenter.ad getOpenRTBSkAdNetworkModel] : [interstitialPresenter.ad getSkAdNetworkModel];
+        NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];
+        if (appIdentifier && appIdentifier.length > 0) {
+            SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
+                                                        initWithAppIdentifier:appIdentifier
+                                                        position:SKOverlayPositionBottom];
+            configuration.userDismissible = YES;
+            self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
+            self.overlay.delegate = self;
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
     }
 }
 
@@ -153,21 +186,12 @@
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
-        if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
-            if (@available(iOS 14.0, *)) {
-                HyBidSkAdNetworkModel* skAdNetworkModel = interstitialPresenter.ad.isUsingOpenRTB ? [interstitialPresenter.ad getOpenRTBSkAdNetworkModel] : [interstitialPresenter.ad getSkAdNetworkModel];
-                NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];
-                if (appIdentifier && appIdentifier.length > 0) {
-                    SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
-                                                                initWithAppIdentifier:appIdentifier
-                                                                position:SKOverlayPositionBottom];
-                    configuration.userDismissible = YES;
-                    self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
-                    self.overlay.delegate = self;
-                }
-            } else {
-                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
+        if (self.interstitialPresenter.ad.skoverlayEnabled) {
+            if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
+                [self checkSKOverlayAvailabilityAndPrepareForInterstitialPresenter:interstitialPresenter];
             }
+        } else if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
+            [self checkSKOverlayAvailabilityAndPrepareForInterstitialPresenter:interstitialPresenter];
         }
     }
 }

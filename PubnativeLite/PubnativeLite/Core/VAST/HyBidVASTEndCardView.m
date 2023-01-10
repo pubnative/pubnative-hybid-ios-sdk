@@ -73,16 +73,18 @@
 @property (nonatomic, strong) NSMutableArray<NSLayoutConstraint *> *verticalConstraints;
 @property (nonatomic, strong) NSMutableArray<NSLayoutConstraint *> *horizontalConstraints;
 
+@property (nonatomic, strong) HyBidSkipOffset *endCardCloseDelay;
+
 @end
 
 @implementation HyBidVASTEndCardView
 
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController: (UIViewController*) viewController isInterstitial: (BOOL) isInterstitial
-{
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController:(UIViewController *)viewController withAd:(HyBidAd *)ad isInterstitial:(BOOL)isInterstitial {
     self = [super init];
     if (self) {
         self.delegate = delegate;
         self.rootViewController = viewController;
+        [self determineEndCardCloseDelayForAd:ad];
         self.isInterstitial = isInterstitial;
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
         [self setFrame: self.rootViewController.view.bounds];
@@ -93,6 +95,14 @@
         [self addObservers];
     }
     return self;
+}
+
+- (void)determineEndCardCloseDelayForAd:(HyBidAd *)ad {
+    if (ad.endcardCloseDelay) {
+        self.endCardCloseDelay = [[HyBidSkipOffset alloc] initWithOffset:ad.endcardCloseDelay isCustom:YES];
+    } else {
+        self.endCardCloseDelay = [HyBidRenderingConfig sharedConfig].endCardCloseOffset;
+    }
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
@@ -188,7 +198,7 @@
     
     if (self.closeButtonTimeElapsed != -1) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:([[HyBidRenderingConfig sharedConfig].endCardCloseOffset.offset integerValue] - self.closeButtonTimeElapsed) target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
+            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:([self.endCardCloseDelay.offset integerValue] - self.closeButtonTimeElapsed) target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
         });
         
         self.closeButtonTimerStartDate = [NSDate date];
@@ -211,7 +221,7 @@
 {
     if (!self.isInterstitial) { return; }
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:[HyBidRenderingConfig sharedConfig].endCardCloseOffset.offset.integerValue target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
+        self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:self.endCardCloseDelay.offset.integerValue target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
     });
     
     self.closeButtonTimerStartDate = [NSDate date];
@@ -389,7 +399,7 @@
             serviceDelegate:self
             rootViewController:self.rootViewController
             contentInfo:nil
-            skipOffset:[HyBidRenderingConfig sharedConfig].endCardCloseOffset.offset.integerValue];
+            skipOffset:self.endCardCloseDelay.offset.integerValue];
 }
 
 - (void)displayImageViewWithURL:(NSString *)url withView:(UIView *)view
@@ -476,6 +486,7 @@
     self.endCard = nil;
     self.vastEventProcessor = nil;
     self.rootViewController = nil;
+    self.endCardCloseDelay = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

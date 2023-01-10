@@ -33,15 +33,15 @@
     
     NSRange range;
     NSError *error = NULL;
-
-//     Remove the mraid.js script tag.
-//     We expect the tag to look like this:
-//     <script src='mraid.js'></script>
-//     But we should also be to handle additional attributes and whitespace like this:
-//     <script  type = 'text/javascript'  src = 'mraid.js' > </script>
-//
+    
+    //     Remove the mraid.js script tag.
+    //     We expect the tag to look like this:
+    //     <script src='mraid.js'></script>
+    //     But we should also be to handle additional attributes and whitespace like this:
+    //     <script  type = 'text/javascript'  src = 'mraid.js' > </script>
+    //
     NSString *pattern = @"<script\\s+[^>]*\\bsrc\\s*=\\s*([\\\"\\\'])mraid\\.js\\1[^>]*>\\s*</script>\\n*";
-
+    
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
@@ -65,32 +65,33 @@
     }
     
     if (!hasHtmlTag) {
-        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-       
-        NSString *mraidJSPath = [bundle pathForResource: [self nameForResource:@"hybidmraidscaling" :@"js"] ofType:@"js"];
-        NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
-        NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
         
-        NSString *scalingJSPath = [bundle pathForResource: [self nameForResource:@"hybidscaling" :@"js"] ofType:@"js"];
-        NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
-        NSString *scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
+        if (!hasBodyTag) {
+            processedHtml = [NSString stringWithFormat:
+                            @"<body>"
+                             "<div id='hybid-ad' align='center'>\n"
+                             "%@"
+                             "</div>"
+                             "</body>",
+                             processedHtml
+            ];
+        }
+        
+        if (!hasHeadTag) {
+            processedHtml = [NSString stringWithFormat:
+                            @"<head>\n"
+                             "</head>\n"
+                             "%@",
+                             processedHtml
+            ];
+        }
         
         processedHtml = [NSString stringWithFormat:
-                         @"<html>\n"
-                         "<head>\n"
-                         "<script>%@</script>\n"
-                         "<script>%@</script>\n"
-                         "</head>\n"
-                         "<body>\n"
-                         "<div id='hybid-ad' align='center'>\n"
+                        @"<html>\n"
                          "%@"
-                         "</div>\n"
-                         "</body>\n"
                          "</html>",
-                         mraidjs,
-                         scalingjs,
                          processedHtml
-                         ];
+        ];
     } else if (!hasHeadTag) {
         // html tag exists, head tag doesn't, so add it
         pattern = @"<html[^>]*>";
@@ -102,7 +103,30 @@
                                                         options:0
                                                           range:NSMakeRange(0, [processedHtml length])
                                                    withTemplate:@"$0\n<head>\n</head>"];
+        
     }
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    NSString *mraidJSPath = [bundle pathForResource: [self nameForResource:@"hybidmraidscaling" :@"js"] ofType:@"js"];
+    NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
+    NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
+    mraidjs = [NSString stringWithFormat:
+                   @"<script>\n"
+                    "%@"
+                    "\n</script>",
+                    mraidjs
+    ];
+    
+    NSString *scalingJSPath = [bundle pathForResource: [self nameForResource:@"hybidscaling" :@"js"] ofType:@"js"];
+    NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
+    NSString *scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
+    scalingjs = [NSString stringWithFormat:
+                  @"<script>\n"
+                   "%@"
+                   "\n</script>",
+                   scalingjs
+    ];
     
     // Add meta and style tags to head tag.
     NSString *metaTag =
@@ -114,16 +138,22 @@
     "*:not(input) { -webkit-touch-callout:none; -webkit-user-select:none; -webkit-text-size-adjust:none; }\n"
     "</style>";
     
-    pattern = @"<html>\n<head[^>]*>";
+    pattern = @"<head[^>]*>";
     error = NULL;
     regex = [NSRegularExpression regularExpressionWithPattern:pattern
                                                       options:NSRegularExpressionCaseInsensitive
                                                         error:&error];
-    processedHtml = [regex stringByReplacingMatchesInString:processedHtml
-                                                    options:0
-                                                      range:NSMakeRange(0, [processedHtml length])
-                                               withTemplate:[NSString stringWithFormat:@"$0\n%@\n%@", metaTag, styleTag]];
-        
+
+    
+    NSArray<NSTextCheckingResult *> *macthes = [regex matchesInString:processedHtml options:0 range:NSMakeRange(0, [processedHtml length])];
+    
+    for (NSTextCheckingResult* match in macthes) {
+        processedHtml = [regex stringByReplacingMatchesInString:processedHtml
+                                                        options:0
+                                                          range:match.range
+                                                   withTemplate:[NSString stringWithFormat:@"$0\n%@\n%@\n%@\n%@", metaTag, styleTag, mraidjs, scalingjs]];
+        break;
+    }
     return processedHtml;
 }
 

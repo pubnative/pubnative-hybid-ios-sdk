@@ -41,7 +41,6 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *creativeIDTopConstraint;
-@property (nonatomic, weak) NSTimer *autoRefreshTimer;
 
 @end
 
@@ -106,25 +105,14 @@
 - (IBAction)autoRefreshSwitchValueChanged:(UISwitch *)sender {
     if (sender.isOn) {
         self.bannerAdView.autoRefreshTimeInSeconds = 30;
-        if (self.autoRefreshTimer == nil) {
-            self.autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-        }
-
     } else {
         [self.bannerAdView stopAutoRefresh];
-        [self.autoRefreshTimer invalidate];
-        self.autoRefreshTimer = nil;
     }
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {
     self.creativeIdLabel.text = [NSString stringWithFormat:@"%@", string];
     self.creativeIdLabel.accessibilityValue = [NSString stringWithFormat:@"%@", string];
-}
-
-- (void)refresh {
-    [self setCreativeIDLabelWithString:@"_"];
-    [self clearDebugTools];
 }
 
 #pragma mark - HyBidAdViewDelegate
@@ -154,6 +142,11 @@
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did track impression:");
+}
+
+- (void)adViewWillRefresh:(HyBidAdView *)adView {
+    [self setCreativeIDLabelWithString:@"_"];
+    [self clearDebugTools];
 }
 
 #pragma mark - UITableViewDatasource

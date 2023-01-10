@@ -53,12 +53,13 @@ typedef enum {
 
 @property (nonatomic, assign) NSTimeInterval loadTimeout;
 @property (nonatomic, assign) BOOL canResize;
+@property (nonatomic, assign) BOOL closeOnFinish;
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 @property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
 @property (nonatomic, assign) NSInteger skipOffset;
 
 - (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
-                             withAdFormat:(HyBidAdFormatForVASTPlayer)adFormat;
+                         withAdFormat:(HyBidAdFormatForVASTPlayer)adFormat;
 - (void)loadWithVastUrl:(NSURL*)url;
 - (void)loadWithVastString:(NSString*)vast;
 - (void)loadWithVideoAdCacheItem:(HyBidVideoAdCacheItem*)videoAdCacheItem;

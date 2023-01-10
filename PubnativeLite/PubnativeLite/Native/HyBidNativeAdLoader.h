@@ -28,6 +28,9 @@
 - (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd;
 - (void)nativeLoaderDidFailWithError:(NSError *)error;
 
+@optional
+- (void)nativeLoaderWillRefresh;
+
 @end
 
 @interface HyBidNativeAdLoader : NSObject

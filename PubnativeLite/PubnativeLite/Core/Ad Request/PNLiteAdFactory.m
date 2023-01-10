@@ -158,6 +158,22 @@
         [self setDefaultAssetFields:self.adRequestModel];
     }
     
+    NSString *sessionDuration = [[HyBidSessionManager sharedInstance] sessionDuration];
+    if (sessionDuration && [sessionDuration length] != 0){
+        self.adRequestModel.requestParameters[HyBidRequestParameter.sessionDuration] = sessionDuration;
+    }
+    
+    NSDictionary *impressionDepth = [[HyBidSessionManager sharedInstance] impressionCounter];
+    if (impressionDepth && [impressionDepth count] != 0) {
+        NSString *value = impressionDepth[zoneID];
+        self.adRequestModel.requestParameters[HyBidRequestParameter.impressionDepth] = [NSString stringWithFormat:@"%@", value];
+    }
+    
+    NSString *ageOfApp = [[HyBidSessionManager sharedInstance] getAgeOfApp];
+    if (ageOfApp != nil){
+        self.adRequestModel.requestParameters[HyBidRequestParameter.ageOfApp] = ageOfApp;
+    }
+
     #if __has_include(<ATOM/ATOM-Swift.h>)
     NSArray *cohortsArray = [Atom getCohorts];
     NSString *cohortsString = [cohortsArray componentsJoinedByString:@","];
