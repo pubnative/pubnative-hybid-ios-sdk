@@ -85,6 +85,7 @@
             case 2: {
                 HyBidDemoLegacyAPITesterDetailViewController *legacyAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoLegacyAPITesterDetailViewController"];
                 legacyAPITesterDetailVC.adResponse = self.adReponse;
+                legacyAPITesterDetailVC.placement = self.placement;
                 legacyAPITesterDetailVC.debugButton = self.debugButton;
                 [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
                 break;

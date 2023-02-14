@@ -25,6 +25,16 @@
 
 @class HyBidContentInfoView;
 
+typedef enum {
+    HyBidContentInfoClickActionExpand,
+    HyBidContentInfoClickActionOpen
+} HyBidContentInfoClickAction;
+
+typedef enum {
+    HyBidContentInfoDisplayInApp,
+    HyBidContentInfoDisplaySystem
+} HyBidContentInfoDisplay;
+
 @protocol HyBidContentInfoViewDelegate<NSObject>
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
@@ -39,6 +49,9 @@
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) NSArray<HyBidVASTIconViewTracking *> *viewTrackers;
 @property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
+@property (nonatomic) HyBidContentInfoClickAction clickAction;
+@property (nonatomic) HyBidContentInfoDisplay display;
+
 - (void)setIconSize:(CGRect) frame;
 
 @end

@@ -1200,7 +1200,7 @@ typedef enum : NSUInteger {
     }
     
     if (self.adFormat == HyBidAdFormatInterstitial) {
-            self.viewSkip.hidden = NO;
+        self.viewSkip.hidden = self.progressLabel.progress == 0.0f || self.progressLabel.progress > [self duration] ;
     }
     
     self.viewProgress.hidden = NO;

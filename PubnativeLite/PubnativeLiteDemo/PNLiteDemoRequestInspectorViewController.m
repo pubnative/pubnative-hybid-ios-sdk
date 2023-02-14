@@ -51,4 +51,23 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)copyAdReponse:(id)sender {
+    // Show toast
+    [self showToastWithText:@"Ad response copied"];
+    // Copy text
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = self.responseTextView.text;
+}
+
+- (void)showToastWithText:(NSString *)text {
+    // Create and show toast
+    UIAlertController *toast = [UIAlertController alertControllerWithTitle:nil message:text preferredStyle:UIAlertControllerStyleAlert];
+
+    [self presentViewController:toast animated:YES completion:nil];
+    // Dismiss toast after 2 seconds
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [toast dismissViewControllerAnimated:YES completion:nil];
+    });
+}
+
 @end

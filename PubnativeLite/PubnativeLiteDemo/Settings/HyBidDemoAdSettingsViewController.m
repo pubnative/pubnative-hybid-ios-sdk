@@ -129,10 +129,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                         case 3: // Location updates enabled
                             [cell.toggleSwitch setOn:[HyBidLocationConfig sharedConfig].locationUpdatesEnabled];
                             break;
-                        case 4: // Ad Feedback enabled
-                            [cell.toggleSwitch setOn:[HyBidFeedbackConfig sharedConfig].adFeedback];
-                            break;
-                        case 7: // Show EndCard
+                        case 5: // Show EndCard
                             [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].showEndCard];
                             break;
                     }
@@ -178,21 +175,17 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             switch (indexPath.section) {
                 case 0: {
                     switch (indexPath.row) {
-                        case 5: { // Content Info URL
-                            cell.textField.text = [HyBidFeedbackConfig sharedConfig].contentInfoURL;
-                            [self addDoneButtonToKeyboardForTextField:cell.textField];
-                            break;
-                        }
-                        case 6: // EndCard Close Offset
+                        case 4: // EndCard Close Offset
                             cell.textField.text = [[NSString alloc] initWithFormat:@"%@", [HyBidRenderingConfig sharedConfig].endCardCloseOffset.offset.stringValue];
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                     }
+                    break;
                 }
                 case 1: {
                     switch (indexPath.row) {
                         case 0: { // HTML/MRAID Skip Offset
-                            cell.textField.text = [HyBidRenderingConfig sharedConfig].htmlSkipOffset.offset.stringValue;
+                            cell.textField.text = [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset.offset.stringValue;
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                         }
@@ -201,6 +194,17 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                     }
+                    break;
+                }
+                case 3: {
+                    switch (indexPath.row) {
+                        case 0: { // HTML/MRAID Skip Offset Rewarded
+                            cell.textField.text = [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset.offset.stringValue;
+                            [self addDoneButtonToKeyboardForTextField:cell.textField];
+                            break;
+                        }
+                    }
+                    break;
                 }
             }
             
@@ -261,8 +265,6 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 @{ @"MRAID Expand Enabled":                 @(SWITCH) },
                 @{ @"Location Tracking Enabled":            @(SWITCH) },
                 @{ @"Location Updates Enabled":             @(SWITCH) },
-                @{ @"Ad Feedback Enabled":                  @(SWITCH) },
-                @{ @"Content Info URL":                     @(TEXT_FIELD) },
                 @{ @"EndCard Close Offset":                 @(TEXT_FIELD) },
                 @{ @"Show EndCard":                         @(SWITCH) }
             ]},
@@ -279,6 +281,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             ]},
         @3 :
             @{@"Rewarded": @[
+                @{ @"HTML/MRAID Skip Offset":          @(TEXT_FIELD) },
                 @{ @"SKOverlay Enabled":               @(SWITCH) },
                 @{ @"Close After Finish":              @(SWITCH) }
             ]}
@@ -309,11 +312,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     [HyBidLocationConfig sharedConfig].locationUpdatesEnabled = isON;
                     break;
                 }
-                case 4: { // Ad Feedback enabled
-                    [HyBidFeedbackConfig sharedConfig].adFeedback = isON;
-                    break;
-                }
-                case 7: { // Show EndCard
+                case 5: { // Show EndCard
                     [HyBidRenderingConfig sharedConfig].showEndCard = isON;
                     break;
                 }
@@ -350,11 +349,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
     switch (indexPath.section) {
         case 0: {
             switch (indexPath.row) {
-                case 5: { // Set content info URL
-                    [HyBidFeedbackConfig sharedConfig].contentInfoURL = value;
-                    break;
-                }
-                case 6: { // EndCard Close Offset
+                case 4: { // EndCard Close Offset
                     [HyBidRenderingConfig sharedConfig].endCardCloseOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInt:[value intValue]] isCustom:YES];
                     break;
                 }
@@ -363,7 +358,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 1: {
             switch (indexPath.row) {
                 case 0: { // HTML/MRAID Skip Offset
-                    [HyBidRenderingConfig sharedConfig].htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
+                    [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
                     break;
                 }
                 case 1: { // Video Skip Offset
@@ -371,6 +366,16 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     break;
                 }
             }
+            break;
+        }
+        case 3: {
+            switch (indexPath.row) {
+                case 0: { // HTML/MRAID Skip Offset Rewarded
+                    [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
+                    break;
+                }
+            }
+            break;
         }
     }
 }

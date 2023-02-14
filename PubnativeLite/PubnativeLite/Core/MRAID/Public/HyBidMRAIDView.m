@@ -1375,7 +1375,7 @@ typedef enum {
                     && self.isViewable) {
                     [self expand:absUrlString supportVerve:YES];
                     [self addCloseEventRegion];
-                } else if ([HyBidFeedbackConfig sharedConfig].contentInfoURL.length != 0 && [absUrlString containsString:@"https://feedback.verve.com"]){
+                } else if ([absUrlString containsString:@"https://feedback.verve.com"]){
                     if ([absUrlString containsString:@"close"]) {
                         [self close];
                     }

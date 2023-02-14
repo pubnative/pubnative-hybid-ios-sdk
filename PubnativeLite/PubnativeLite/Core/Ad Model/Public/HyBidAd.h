@@ -59,9 +59,17 @@ typedef struct {
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic, assign) BOOL hasEndCard;
 @property (nonatomic, readonly) NSString *audioState;
+@property (nonatomic, readonly) NSString *contentInfoURL;
+@property (nonatomic, readonly) NSString *contentInfoIconURL;
+@property (nonatomic, readonly) NSString *contentInfoIconClickAction;
+@property (nonatomic, readonly) NSString *contentInfoDisplay;
+@property (nonatomic, readonly) NSString *contentInfoText;
 @property (nonatomic, readonly) NSNumber *htmlSkipOffset;
 @property (nonatomic, readonly) NSNumber *videoSkipOffset;
 @property (nonatomic, readonly) NSNumber *endcardCloseDelay;
+@property (nonatomic, readonly) NSNumber *minVisibleTime;
+@property (nonatomic, readonly) NSNumber *minVisiblePercent;
+@property (nonatomic, readonly) NSString *impressionTrackingMethod;
 // The following 5 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
 @property (nonatomic, readonly) NSNumber *endcardEnabled;
 @property (nonatomic, readonly) NSNumber *skoverlayEnabled;

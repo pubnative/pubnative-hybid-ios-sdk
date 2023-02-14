@@ -28,9 +28,19 @@ public class HyBidRenderingConfig: NSObject {
     
     private override init() {}
     
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
-    @objc public var htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
+    @objc public var interstitialHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
+    @objc public var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var showEndCard: Bool = false {
         didSet {
             if !videoSkipOffset.isCustom {
@@ -39,13 +49,27 @@ public class HyBidRenderingConfig: NSObject {
             }
         }
     }
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var interstitialActionBehaviour: HyBidInterstitialActionBehaviour = HB_CREATIVE
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var interstitialCloseOnFinish: Bool = false
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var rewardedCloseOnFinish: Bool = false
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var audioStatus: HyBidAudioStatus = HyBidAudioStatusMuted
     @objc public var mraidExpand: Bool = true
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var interstitialSKOverlay: Bool = false
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var rewardedSKOverlay: Bool = false
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
     @objc public var bannerSKOverlay: Bool {
         return false
     }

@@ -56,10 +56,23 @@
     self = [super init];
     if (self) {
         self.zoneID = zoneID;
-        if ([HyBidFeedbackConfig sharedConfig].adFeedback && [HyBidFeedbackConfig sharedConfig].contentInfoURL && [HyBidFeedbackConfig sharedConfig].contentInfoURL.length != 0) {
-            url = [[HyBidFeedbackConfig sharedConfig].contentInfoURL stringByAppendingString:[NSString stringWithFormat:@"/index.html?apptoken=%@", HYBID_AD_FEEDBACK_MACRO_APP_TOKEN]];
+        if (url && url.length != 0) {
+            NSURLComponents *components = [NSURLComponents componentsWithString:url];
+            NSMutableArray *mutableQueryItems;
+            if (![self isAppTokenQueryPresentInURLComponents:components]) {
+                if (!components.queryItems) {
+                    mutableQueryItems = [NSMutableArray new];
+                } else {
+                    mutableQueryItems = [components.queryItems mutableCopy];
+                }
+                NSURLQueryItem *appToken = [[NSURLQueryItem alloc] initWithName:@"apptoken" value:@"token_macro"];
+                [mutableQueryItems addObject:appToken];
+                components.queryItems = mutableQueryItems;
+                url = [components.URL absoluteString];
+                url = [url stringByReplacingOccurrencesOfString:@"token_macro"
+                                                     withString:HYBID_AD_FEEDBACK_MACRO_APP_TOKEN];
+            }
         }
-        
         NSString *processedString = [HyBidAdFeedbackMacroUtil formatUrl:url withZoneID:self.zoneID];
         if (processedString && processedString.length != 0) {
             url = processedString;
@@ -79,6 +92,16 @@
                                                     skipOffset:0];
     }
     return self;
+}
+
+- (BOOL)isAppTokenQueryPresentInURLComponents:(NSURLComponents *)components {
+    for (NSURLQueryItem *item in components.queryItems) {
+        if ([item.name isEqualToString:@"apptoken"]) {
+            return YES;
+        }
+        return NO;
+    }
+    return NO;
 }
 
 - (void)show {

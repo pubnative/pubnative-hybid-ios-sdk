@@ -79,6 +79,7 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 
 - (void)startTracking {
     [self.player play];
+    [self.delegate adPresenterDidAppear:self];
 }
 
 - (void)stopTracking {

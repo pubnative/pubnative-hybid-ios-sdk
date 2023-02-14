@@ -42,5 +42,13 @@
 + (NSString *)closeInterstitialAfterFinish;
 + (NSString *)closeRewardedAfterFinish;
 + (NSString *)fullscreenClickability;
++ (NSString *)impressionTracking;
++ (NSString *)minVisibleTime;
++ (NSString *)minVisiblePercent;
++ (NSString *)contentInfoURL;
++ (NSString *)contentInfoIconURL;
++ (NSString *)contentInfoIconClickAction;
++ (NSString *)contentInfoDisplay;
++ (NSString *)contentInfoText;
 
 @end

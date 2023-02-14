@@ -28,5 +28,9 @@
 
 @property (nonatomic, strong) Markup *markup;
 @property (weak, nonatomic) UIButton *debugButton;
+@property (nonatomic, strong) NSString *creativeID;
+@property (nonatomic, strong) NSString *creativeURL;
+@property (nonatomic, strong) NSString *urTemplate;
+@property (nonatomic, assign) BOOL urWrap;
 
 @end

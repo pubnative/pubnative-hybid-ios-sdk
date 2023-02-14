@@ -217,10 +217,13 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     self.trackedView = adView;
     if(!self.impressionTracker) {
         self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
+        [self.impressionTracker determineViewbilityRemoteConfig:self.adPresenter.ad];
         self.impressionTracker.delegate = self;
     }
     if (self.trackedView) {
-        [self.impressionTracker addView:self.trackedView];
+        if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerViewable) {
+            [self.impressionTracker addView:self.trackedView];
+        }
     } else {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression could not be fired - Tracked view not available"];
     }
@@ -232,6 +235,9 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
             }
         } else if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
             [self checkSKOverlayAvailabilityAndPrepareForAdPresenter:adPresenter];
+        }
+        if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender) {
+            [self impressionDetectedWithView:self.trackedView];
         }
     }
 }
@@ -258,14 +264,18 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 - (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
     self.videoStarted = YES;
     if (!self.videoStarted || !self.impressionConfirmed) {return;}
-    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)] && !self.adTracker.impressionTracked) {
+    if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)] && !self.adTracker.impressionTracked && self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerViewable) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
         [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
     }
 }
 
 - (void)adPresenterDidAppear:(HyBidAdPresenter *)adPresenter {
-    
+    // in case impressionTrackingMethod is render, we trigger adPresenterDidStartPlaying which will fire impression.
+    if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender) {
+        [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
+        [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
+    }
 }
 
 - (void)adPresenterDidDisappear:(HyBidAdPresenter *)adPresenter {

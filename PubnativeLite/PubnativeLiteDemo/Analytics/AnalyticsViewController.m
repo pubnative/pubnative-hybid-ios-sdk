@@ -74,7 +74,14 @@
     AnalyticsDetailViewController *analyticsDetailViewController = [[UIStoryboard storyboardWithName:@"Analytics" bundle:nil] instantiateViewControllerWithIdentifier:NSStringFromClass([AnalyticsDetailViewController class])];
     analyticsDetailViewController.event = self.dataSource[indexPath.row];
     analyticsDetailViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController:analyticsDetailViewController animated:YES completion:nil];
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ){
+        analyticsDetailViewController.popoverPresentationController.sourceView = self.view;
+        [self presentViewController:analyticsDetailViewController
+                                   animated:YES
+                                 completion:nil];
+    }else {
+        [self presentViewController:analyticsDetailViewController animated:YES completion:nil];
+    }
 }
 
 @end

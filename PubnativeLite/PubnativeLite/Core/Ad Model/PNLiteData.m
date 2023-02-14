@@ -42,5 +42,13 @@
 + (NSString *)closeInterstitialAfterFinish { return @"close_inter_after_finished"; }
 + (NSString *)closeRewardedAfterFinish { return @"close_reward_after_finished"; }
 + (NSString *)fullscreenClickability { return @"fullscreen_clickability"; }
++ (NSString *)impressionTracking {return @"imp_tracking";}
++ (NSString *)minVisibleTime {return @"min_visible_time";}
++ (NSString *)minVisiblePercent {return @"min_visible_percent";}
++ (NSString *)contentInfoURL { return @"content_info_url"; }
++ (NSString *)contentInfoIconURL { return @"content_info_icon_url"; }
++ (NSString *)contentInfoIconClickAction { return @"content_info_icon_click_action"; }
++ (NSString *)contentInfoDisplay { return @"content_info_display"; }
++ (NSString *)contentInfoText { return @"content_info_text"; }
 
 @end

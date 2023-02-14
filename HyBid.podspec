@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "2.17.0"
+  s.version      = "2.17.1-beta"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
 
   s.ios.deployment_target = "10.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.17.0" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.17.1-beta" }
   s.xcconfig = {
     'OTHER_LDFLAGS' => '-framework OMSDK_Pubnativenet'
   }
@@ -52,9 +52,9 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
-    core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.3.29/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
+    core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.4.2/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
     core.exclude_files         = 'PubnativeLite/PubnativeLite/Core/Public/HyBidStatic.{swift,h,m}'
-    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.3.29/*.{xcframework}']
+    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.4.2/*.{xcframework}']
     core.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/HyBid/module' }
     core.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2 $(PODS_ROOT)/HyBid/module' }
     core.public_header_files = ['PubnativeLite/PubnativeLite/Core/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Viewability/Public/*.h' , 'PubnativeLite/PubnativeLite/Core/Consent/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Model/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Request/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Cache/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Presenter/Public/*.h', 'PubnativeLite/PubnativeLite/Core/MRAID/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Remote Config/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Auction/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Utils/Public/*.h', 'PubnativeLite/PubnativeLite/Core/VAST/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Analytics/Public/*.h']

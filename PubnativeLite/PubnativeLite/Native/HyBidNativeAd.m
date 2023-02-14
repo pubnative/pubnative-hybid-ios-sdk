@@ -307,6 +307,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     } else {
         if(!self.impressionTracker) {
             self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
+            [self.impressionTracker determineViewbilityRemoteConfig:self.ad];
             self.impressionTracker.delegate = self;
         }
         [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.ad.zoneID];

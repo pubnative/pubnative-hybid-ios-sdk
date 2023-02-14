@@ -98,27 +98,21 @@ public class HyBidInterstitialAd: NSObject {
         self.zoneID = zoneID
         self.delegate = delegate
         self.appToken = appToken
-        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.htmlSkipOffset
+        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.interstitialHtmlSkipOffset
         self.videoSkipOffset = HyBidRenderingConfig.sharedConfig.videoSkipOffset
         self.closeOnFinish = HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish
     }
     
     @objc
     public func load() {
-        let interstitialString = HyBidRemoteConfigFeature.hyBidRemoteAdFormat(toString: HyBidRemoteAdFormat_INTERSTITIAL)
-        if !(HyBidRemoteConfigManager.sharedInstance().featureResolver().isAdFormatEnabled(interstitialString)) {
-            invokeDidFailWithError(error: NSError.hyBidDisabledFormatError())
+        cleanUp()
+        self.initialLoadTimestamp = Date().timeIntervalSince1970
+        if let zoneID = self.zoneID, zoneID.count > 0 {
+            self.isReady = false
+            self.interstitialAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
+            self.interstitialAdRequest?.requestAd(with: HyBidInterstitialAdRequestWrapper(parent: self), withZoneID: zoneID)
         } else {
-            cleanUp()
-            self.initialLoadTimestamp = Date().timeIntervalSince1970
-            if let zoneID = self.zoneID, zoneID.count > 0 {
-                self.isReady = false
-                self.interstitialAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
-                self.interstitialAdRequest?.requestAd(with: HyBidInterstitialAdRequestWrapper(parent: self), withZoneID: zoneID)
-            } else {
-                invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
-            }
-            
+            invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
         }
     }
     
@@ -408,6 +402,10 @@ extension HyBidInterstitialAd {
     func requestDidStart(_ request: HyBidAdRequest) {
         let message = "Ad Request \(String(describing: request)) started"
         HyBidLogger.debugLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: message)
+        
+        if HyBidSDKConfig.sharedConfig.test == true {
+            HyBidLogger.warningLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "You are using Verve HyBid SDK on test mode. Please disabled test mode before submitting your application for production.")
+        }
     }
     
     func request(_ request: HyBidAdRequest, didLoadWithAd ad: HyBidAd?) {

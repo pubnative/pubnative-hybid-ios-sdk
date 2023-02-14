@@ -75,7 +75,7 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
         PNLiteContentViewWidth = PNLiteContentViewIcontDefaultSize;
         PNLiteContentViewHeight = PNLiteContentViewIcontDefaultSize;
         [self setFrame:CGRectMake(0, 0, PNLiteContentViewWidth, PNLiteContentViewHeight)];
-        self.backgroundColor = [UIColor colorWithRed: 0.95 green: 0.98 blue: 1.00 alpha: 1.00];
+        self.backgroundColor = [UIColor colorWithRed: 0.95 green: 0.98 blue: 1.00 alpha: 0.70];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.f;
         
@@ -85,7 +85,7 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
         [self addGestureRecognizer:self.tapRecognizer];
         self.textView = [[UILabel alloc] init];
         [self.textView setFont:[self.textView.font fontWithSize:10]];
-        self.textView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+        self.textView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.70];
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
                 
         self.iconView = [[UIImageView alloc] init];
@@ -207,30 +207,29 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
-            if (self.iconView && self.textView && self.iconImage && [self.iconImage isMemberOfClass:[UIImage class]]) {
+            if (self.iconView && self.textView) {
                 if (self.text) {
                     self.textView.text = self.text;
+                } else {
+                    self.textView.text = @"Learn about this ad";
                 }
                 [self.textView sizeToFit];
-                
-                [self.iconView setImage:self.iconImage];
-            } else {
-                self.textView.text = @"Learn about this ad";
-                [self.textView sizeToFit];
-                
-                self.link = @"https://pubnative.net/content-info";
-                
-                NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:@"VerveContentInfo" ofType:@"png"];
-                UIImage* image = [[UIImage alloc] initWithContentsOfFile: path];
-                self.iconImage = image;
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
+                if (self.iconImage && [self.iconImage isMemberOfClass:[UIImage class]]) {
                     [self.iconView setImage:self.iconImage];
-                });
+                } else {
+                    NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:@"VerveContentInfo" ofType:@"png"];
+                    UIImage* image = [[UIImage alloc] initWithContentsOfFile: path];
+                    self.iconImage = image;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.iconView setImage:self.iconImage];
+                    });
+                }
+                if (!self.link) {
+                    self.link = @"https://pubnative.net/content-info";
+                }
+                self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
+                self.hidden = NO;
             }
-            
-            self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
-            self.hidden = NO;
         }
     });
 }
@@ -251,21 +250,28 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateEnded) {
-        if(self.isOpen) {
-            if ([HyBidFeedbackConfig sharedConfig].adFeedback) {
-                if (!self.adFeedbackViewRequested) {
-                    self.adFeedbackViewRequested = YES;
-                    self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
-                    self.adFeedbackView.delegate = self;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsReady" object:nil];
-                }
+    if (self.clickAction == HyBidContentInfoClickActionExpand) {
+        if (sender.state == UIGestureRecognizerStateEnded) {
+            if(self.isOpen) {
+                [self handleDisplay];
             } else {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link] options:@{} completionHandler:nil];
-                [self close];
+                [self open];
             }
-        } else {
-            [self open];
+        }
+    } else {
+        [self handleDisplay];
+    }
+}
+
+- (void)handleDisplay {
+    if (self.display == HyBidContentInfoDisplaySystem) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link] options:@{} completionHandler:nil];
+    } else {
+        if (!self.adFeedbackViewRequested) {
+            self.adFeedbackViewRequested = YES;
+            self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
+            self.adFeedbackView.delegate = self;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsReady" object:nil];
         }
     }
 }

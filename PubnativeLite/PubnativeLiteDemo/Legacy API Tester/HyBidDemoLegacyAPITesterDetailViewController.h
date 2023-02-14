@@ -26,7 +26,7 @@
 @interface HyBidDemoLegacyAPITesterDetailViewController : PNLiteDemoBaseViewController
 
 @property (nonatomic, strong) NSString *adResponse;
-@property (nonatomic, strong) NSString *placement;
+@property (nonatomic, strong) NSNumber *placement;
 @property (weak, nonatomic) UIButton *debugButton;
 
 @end
