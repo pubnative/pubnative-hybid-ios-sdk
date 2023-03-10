@@ -27,11 +27,9 @@
 #import "PNLiteAsset.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidSkAdNetworkRequestModel.h"
-#import "HyBidRemoteConfigManager.h"
 #import "HyBidDisplayManager.h"
 #import "HyBidAPI.h"
 #import "HyBidProtocol.h"
-#import "HyBidRemoteConfigFeature.h"
 #import <CoreLocation/CoreLocation.h>
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -79,7 +77,11 @@
     self.adRequestModel.requestParameters[HyBidRequestParameter.orientation] = [HyBidSettings sharedInstance].orientation;
     self.adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidConsentConfig sharedConfig].coppa ? @"1" : @"0";
     [self setIDFA:self.adRequestModel];
-    self.adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
+    
+    NSString *locale = [HyBidSettings sharedInstance].locale;
+    if (locale && [locale length] != 0){
+        self.adRequestModel.requestParameters[HyBidRequestParameter.locale] = locale;
+    }
     
     BOOL isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
     if (isUsingOpenRTB) {
@@ -115,12 +117,12 @@
     }
     
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
-    if (!([privacyString length] == 0) && [HyBidRemoteConfigManager.sharedInstance.featureResolver isUserConsentSupported:[HyBidRemoteConfigFeature hyBidRemoteUserConsentToString:HyBidRemoteUserConsent_CCPA]]) {
+    if (!([privacyString length] == 0)) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
     NSString* consentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
-    if (!([consentString length] == 0) && [HyBidRemoteConfigManager.sharedInstance.featureResolver isUserConsentSupported:[HyBidRemoteConfigFeature hyBidRemoteUserConsentToString:HyBidRemoteUserConsent_GDPR]]) {
+    if (!([consentString length] == 0)) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
     }
     
@@ -158,20 +160,20 @@
         [self setDefaultAssetFields:self.adRequestModel];
     }
     
-    NSString *sessionDuration = [HyBidSessionManager sharedInstance].sessionDuration;
-    if ([sessionDuration length] != 0){
-        [self.adRequestModel.requestParameters[HyBidRequestParameter.sessionDuration] sessionDuration];
+    NSString *sessionDuration = [[HyBidSessionManager sharedInstance] sessionDuration];
+    if (sessionDuration && [sessionDuration length] != 0){
+        self.adRequestModel.requestParameters[HyBidRequestParameter.sessionDuration] = sessionDuration;
     }
     
-    NSDictionary *impressionDepth = [HyBidSessionManager sharedInstance].impressionCounter;
-    if ([impressionDepth count] != 0) {
+    NSDictionary *impressionDepth = [[HyBidSessionManager sharedInstance] impressionCounter];
+    if (impressionDepth && [impressionDepth count] != 0) {
         NSString *value = impressionDepth[zoneID];
         self.adRequestModel.requestParameters[HyBidRequestParameter.impressionDepth] = [NSString stringWithFormat:@"%@", value];
     }
     
-    NSString *ageOfApp = [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP];
+    NSString *ageOfApp = [[HyBidSessionManager sharedInstance] getAgeOfApp];
     if (ageOfApp != nil){
-        [self.adRequestModel.requestParameters[HyBidRequestParameter.ageOfApp] ageOfApp];
+        self.adRequestModel.requestParameters[HyBidRequestParameter.ageOfApp] = ageOfApp;
     }
 
     #if __has_include(<ATOM/ATOM-Swift.h>)
@@ -263,17 +265,7 @@
                                    [HyBidProtocol protocolTypeToString:VAST_4_2],
                                    [HyBidProtocol protocolTypeToString:VAST_4_2_WRAPPER],
                                    nil];
-    NSMutableArray *configProtocols = [NSMutableArray array];
-    if (HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledProtocols && [HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledProtocols count] > 0) {
-        for (NSString *protocol in HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledProtocols) {
-            if ([supportedProtocols containsObject:protocol]) {
-                [configProtocols addObject:protocol];
-            }
-        }
-        adRequestModel.requestParameters[HyBidRequestParameter.protocol] = [configProtocols componentsJoinedByString:@","];
-    } else {
-        adRequestModel.requestParameters[HyBidRequestParameter.protocol] = [supportedProtocols componentsJoinedByString:@","];
-    }
+    adRequestModel.requestParameters[HyBidRequestParameter.protocol] = [supportedProtocols componentsJoinedByString:@","];
 }
 
 - (void)setSupportedAPIs:(PNLiteAdRequestModel *)adRequestModel {
@@ -282,17 +274,7 @@
                               [HyBidAPI apiTypeToString:MRAID_3],
                               [HyBidAPI apiTypeToString:OMID_1],
                               nil];
-    NSMutableArray *configAPIs = [NSMutableArray array];
-    if (HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledAPIs && [HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledAPIs count] > 0) {
-        for (NSString *api in HyBidRemoteConfigManager.sharedInstance.remoteConfigModel.appConfig.enabledAPIs) {
-            if ([supportedAPIs containsObject:api]) {
-                [configAPIs addObject:api];
-            }
-        }
-        adRequestModel.requestParameters[HyBidRequestParameter.api] = [configAPIs componentsJoinedByString:@","];
-    } else {
-        adRequestModel.requestParameters[HyBidRequestParameter.api] = [supportedAPIs componentsJoinedByString:@","];
-    }
+    adRequestModel.requestParameters[HyBidRequestParameter.api] = [supportedAPIs componentsJoinedByString:@","];
 }
 
 @end

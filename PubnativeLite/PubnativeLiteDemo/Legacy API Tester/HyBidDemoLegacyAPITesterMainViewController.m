@@ -34,19 +34,21 @@
 @property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
 @property (weak, nonatomic) IBOutlet UITextView *adReponseTextView;
 @property (nonatomic, retain) NSNumber *placement;
-@property (nonatomic, strong) NSString *adReponse;
+@property (nonatomic, strong) NSString *adResponse;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @end
 
 @implementation HyBidDemoLegacyAPITesterMainViewController
 
 - (void)dealloc {
-    self.adReponse = nil;
+    self.adResponse = nil;
     self.interstitialAd = nil;
     self.rewardedAd = nil;
+    self.placement = nil;
 }
 
 - (void)viewDidLoad {
@@ -70,7 +72,7 @@
         [self showAlertControllerWithMessage:@"Please choose a placement."];
         return NO;
     } else {
-        self.adReponse = self.adReponseTextView.text;
+        self.adResponse = self.adReponseTextView.text;
         return YES;
     }
 }
@@ -81,26 +83,113 @@
     if ([self canRequestAd]) {
         switch ([self.placement integerValue]) {
             case 0:
-            case 1:
+            case 1: {
+                switch ([self.segmentedControl selectedSegmentIndex]) {
+                    case 0: {
+                        [self loadWithAdResponse: self.adResponse];
+                        break;
+                    }
+                    case 1: {
+                        [self loadWithURL:self.placement];
+                        break;
+                    }
+                }
+                break;
+            }
             case 2: {
-                HyBidDemoLegacyAPITesterDetailViewController *legacyAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoLegacyAPITesterDetailViewController"];
-                legacyAPITesterDetailVC.adResponse = self.adReponse;
-                legacyAPITesterDetailVC.debugButton = self.debugButton;
-                [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+                switch ([self.segmentedControl selectedSegmentIndex]) {
+                    case 0: {
+                        [self loadWithAdResponse: self.adResponse];
+                        break;
+                    }
+                    case 1: {
+                        [self loadWithURL:self.placement];
+                        break;
+                    }
+                }
                 break;
             }
             case 3:
-                self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-                [self.interstitialAd prepareAdWithAdReponse:self.adReponse];
+                switch ([self.segmentedControl selectedSegmentIndex]) {
+                    case 0: {
+                        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+                        [self.interstitialAd prepareAdWithAdReponse:self.adResponse];
+                        break;
+                    }
+                    case 1: {
+                        [self loadWithURL:self.placement];
+                        break;
+                    }
+                }
                 break;
             case 4:
-                self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-                [self.rewardedAd prepareAdWithAdReponse:self.adReponse];
+                switch ([self.segmentedControl selectedSegmentIndex]) {
+                    case 0: {
+                        self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
+                        [self.rewardedAd prepareAdWithAdReponse:self.adResponse];
+                        break;
+                    }
+                    case 1: {
+                        [self loadWithURL:self.placement];
+                        break;
+                    }
+                }
                 break;
             default:
                 break;
         }
     }
+}
+
+- (void)loadWithURL: (NSNumber*)placement {
+    NSString *urlString = [[self.adReponseTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
+    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
+    NSMutableDictionary* newRequestHTTPHeader = [[NSMutableDictionary alloc] init];
+    [urlRequest setAllHTTPHeaderFields: newRequestHTTPHeader];
+    [urlRequest setHTTPMethod:@"GET"];
+    [[[NSURLSession sharedSession] dataTaskWithRequest: urlRequest completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if(!error){
+            if ([placement intValue] == 3 ) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    self.adResponse = adResponse;
+                    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+                    [self.interstitialAd prepareAdWithAdReponse:self.adResponse];
+                });
+            } else if ([placement intValue] == 4) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    self.adResponse = adResponse;
+                    self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
+                    [self.rewardedAd prepareAdWithAdReponse:self.adResponse];
+                });
+            } else {
+                [self invokeFinishWithResponse:response placement: self.placement withData: data];
+            }
+        } else {
+            [self invokeFailWithError: error];
+        }
+    }] resume];
+}
+
+- (void)loadWithAdResponse: (NSString*)adResponse {
+    HyBidDemoLegacyAPITesterDetailViewController *legacyAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoLegacyAPITesterDetailViewController"];
+    legacyAPITesterDetailVC.adResponse = self.adResponse;
+    legacyAPITesterDetailVC.placement = self.placement;
+    legacyAPITesterDetailVC.debugButton = self.debugButton;
+    [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+}
+
+- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(NSNumber*)placement withData:(NSData*)data {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        self.adResponse = adResponse;
+        [self loadWithAdResponse: adResponse];
+    });
+}
+
+- (void)invokeFailWithError:(NSError *) error {
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
 }
 
 - (IBAction)bannerTouchUpInside:(UIButton *)sender {

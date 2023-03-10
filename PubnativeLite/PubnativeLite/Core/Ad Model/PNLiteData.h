@@ -37,10 +37,22 @@
 + (NSString *)audioState;
 + (NSString *)endcardEnabled;
 + (NSString *)endcardCloseDelay;
-+ (NSString *)htmlSkipOffset;
++ (NSString *)interstitialHtmlSkipOffset;
++ (NSString *)rewardedHtmlSkipOffset;
 + (NSString *)videoSkipOffset;
 + (NSString *)closeInterstitialAfterFinish;
 + (NSString *)closeRewardedAfterFinish;
 + (NSString *)fullscreenClickability;
++ (NSString *)impressionTracking;
++ (NSString *)minVisibleTime;
++ (NSString *)minVisiblePercent;
++ (NSString *)contentInfoURL;
++ (NSString *)contentInfoIconURL;
++ (NSString *)contentInfoIconClickAction;
++ (NSString *)contentInfoDisplay;
++ (NSString *)contentInfoText;
++ (NSString *)contentInfoHorizontalPosition;
++ (NSString *)contentInfoVerticalPosition;
++ (NSString *)mraidExpand;
 
 @end

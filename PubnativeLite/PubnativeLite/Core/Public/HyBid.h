@@ -121,21 +121,8 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidDiagnosticsManager.h"
 #import "HyBidError.h"
 #import "HyBidSignalDataProcessor.h"
-
-#import "HyBidRemoteConfigManager.h"
-#import "HyBidRemoteConfigFeature.h"
-#import "HyBidRemoteFeatureResolver.h"
-#import "HyBidRemoteConfigModel.h"
-#import "HyBidRemoteConfigPlacementInfo.h"
-#import "HyBidRemoteConfigPlacement.h"
-#import "HyBidRemoteConfigMeasurement.h"
-#import "HyBidRemoteConfigAppConfig.h"
-#import "HyBidRemoteConfigAppFeatures.h"
-#import "HyBidAdSourceConfig.h"
-#import "HyBidRemoteConfigEndpoints.h"
-#import "HyBidRemoteConfigParameter.h"
-#import "HyBidRemoteConfigRequest.h"
 #import "HyBidAdImpression.h"
+#import "HyBidAdSourceConfig.h"
 
 // For swift compatibility, we are making this file public instead of private
 // Avoid using custom module map
@@ -162,6 +149,13 @@ typedef enum {
     HB_CREATIVE,
     HB_ACTION_BUTTON
 } HyBidInterstitialActionBehaviour;
+
+typedef enum{
+    HyBidAdImpressionTrackerRender,
+    HyBidAdImpressionTrackerViewable
+} HyBidImpressionTrackerMethod;
+
+#define kIsUsingOpenRTB @"isUsingOpenRTB"
 
 //PNLiteAssetGroupType
 static const unsigned int MRAID_320x50 = 10;
@@ -195,22 +189,21 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString *)sdkVersion;
 + (BOOL)isInitialized;
 + (void)setInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Use either setVideoInterstitialSkipOffset: or setHTMLInterstitialSkipOffset: based on your ad format instead.");
-+ (void)setVideoInterstitialSkipOffset:(NSInteger)seconds;
-+ (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds;
-+ (void)setEndCardCloseOffset:(NSNumber *)seconds;
-+ (void)setShowEndCard:(BOOL)showEndCard;
-+ (void)setRewardedCloseOnFinish:(BOOL)closeOnFinish;
-+ (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish;
-+ (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)actionBehaviour;
++ (void)setVideoInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setHTMLRewardedSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setEndCardCloseOffset:(NSNumber *)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setShowEndCard:(BOOL)showEndCard DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setRewardedCloseOnFinish:(BOOL)closeOnFinish DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)actionBehaviour DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
 + (HyBidReportingManager *)reportingManager;
-+ (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus;
++ (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
-+ (void)setMRAIDExpand:(BOOL)enabled;
-+ (void)setInterstitialSKOverlay:(BOOL)enabled;
-+ (void)setRewardedSKOverlay:(BOOL)enabled;
-+ (void)setAdFeedback:(BOOL)enabled;
-+ (void)setContentInfoURL:(NSString *)url;
++ (void)setMRAIDExpand:(BOOL)enabled DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setInterstitialSKOverlay:(BOOL)enabled DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
++ (void)setRewardedSKOverlay:(BOOL)enabled DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
 
 @end

@@ -27,6 +27,7 @@
 @interface HyBidRewardedPresenterFactory : NSObject
 
 - (HyBidRewardedPresenter *)createRewardedPresenterWithAd:(HyBidAd *)ad
+                                       withHTMLSkipOffset:(NSUInteger)htmlSkipOffset
                                         withCloseOnFinish:(BOOL)closeOnFinish
                                              withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate;
 

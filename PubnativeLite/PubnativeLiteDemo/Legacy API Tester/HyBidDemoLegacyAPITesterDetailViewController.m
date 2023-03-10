@@ -26,9 +26,10 @@
 
 @interface HyBidDemoLegacyAPITesterDetailViewController () <HyBidAdViewDelegate>
 
-@property (weak, nonatomic) IBOutlet HyBidAdView *bannerAdView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdViewContainerWidthConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdViewContainerHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIView *adViewContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *adViewContainerHeightConstraint;
+@property (nonatomic, strong) HyBidAdView *adView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *adViewContainerWidthConstraint;
 
 @end
 
@@ -37,6 +38,7 @@
 - (void)dealloc {
     self.adResponse = nil;
     self.debugButton = nil;
+    self.adView = nil;
 }
 
 - (void)viewDidLoad {
@@ -44,40 +46,43 @@
     
     switch ([self.placement integerValue]) {
         case 0: {
-            self.bannerAdViewContainerWidthConstraint.constant = 380;
-            self.bannerAdViewContainerHeightConstraint.constant = 80;
-            self.bannerAdView.adSize = HyBidAdSize.SIZE_320x50;
+            self.adViewContainerWidthConstraint.constant = 320;
+            self.adViewContainerHeightConstraint.constant = 50;
+            self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_320x50];
             break;
         }
         case 1: {
-            self.bannerAdViewContainerWidthConstraint.constant = 350;
-            self.bannerAdViewContainerHeightConstraint.constant = 350;
-            self.bannerAdView.adSize = HyBidAdSize.SIZE_300x250;
+            self.adViewContainerWidthConstraint.constant = 300;
+            self.adViewContainerHeightConstraint.constant = 250;
+            self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_300x250];
             break;
         }
         case 2: {
-            self.bannerAdViewContainerWidthConstraint.constant = 728;
-            self.bannerAdViewContainerHeightConstraint.constant = 90;
-            self.bannerAdView.adSize = HyBidAdSize.SIZE_728x90;
+            self.adViewContainerWidthConstraint.constant = 728;
+            self.adViewContainerHeightConstraint.constant = 90;
+            self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_728x90];
             break;
         }
         default:
             break;
     }
+    [self.adView setAccessibilityIdentifier:@"adViewLegacyAPI"];
+    self.adView.delegate = self;
     
-    [self.bannerAdView renderAdWithAdResponse:self.adResponse withDelegate:self];
-
+    [self.adViewContainer addSubview:self.adView];
+    [self.adView renderAdWithAdResponse:self.adResponse withDelegate:self];
 }
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
 #pragma mark - HyBidAdViewDelegate
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
-    self.bannerAdView.hidden = NO;
+    self.adView.hidden = NO;
     self.debugButton.hidden = NO;
 }
 

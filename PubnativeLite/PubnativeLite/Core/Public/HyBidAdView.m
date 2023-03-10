@@ -23,15 +23,11 @@
 #import "HyBidAdView.h"
 #import "HyBidIntegrationType.h"
 #import "HyBidBannerPresenterFactory.h"
-#import "HyBidRemoteConfigManager.h"
-#import "HyBidRemoteConfigModel.h"
-#import "HyBidAuction.h"
 #import "HyBidAdImpression.h"
 #import "HyBidVastTagAdSource.h"
 #import "HyBidSignalDataProcessor.h"
 #import "HyBid.h"
 #import "HyBidError.h"
-#import "HyBidRemoteConfigFeature.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -144,66 +140,13 @@
     [self cleanUp];
     self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
     
-    NSString *bannerString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_BANNER];
-    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:bannerString]) {
-        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
+    self.delegate = delegate;
+    self.zoneID = zoneID;
+    self.appToken = appToken;
+    if (!self.zoneID || self.zoneID.length == 0) {
+        [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
     } else {
-        self.delegate = delegate;
-        self.zoneID = zoneID;
-        self.appToken = appToken;
-        if (!self.zoneID || self.zoneID.length == 0) {
-            [self invokeDidFailWithError:[NSError hyBidInvalidZoneId]];
-        } else {
-            HyBidRemoteConfigModel* configModel = HyBidRemoteConfigManager.sharedInstance.remoteConfigModel;
-            
-            if (configModel.placementInfo != nil &&
-                configModel.placementInfo.placements != nil &&
-                configModel.placementInfo.placements.count > 0) {
-                
-                NSPredicate *p = [NSPredicate predicateWithFormat:@"zoneId=%ld", [zoneID integerValue]];
-                NSArray<HyBidRemoteConfigPlacement*>* filteredPlacements = [configModel.placementInfo.placements filteredArrayUsingPredicate:p];
-                
-                if (filteredPlacements.count > 0) {
-                    HyBidRemoteConfigPlacement *placement = filteredPlacements.firstObject;
-                    
-                    if (placement.type != nil &&
-                        [placement.type isEqualToString:@"auction"] &&
-                        placement.adSources.count > 0 ) {
-                        
-                        long timeout = 5000;
-                        if (placement.timeout != 0) {
-                            timeout = placement.timeout;
-                        }
-                        NSMutableArray<HyBidAdSourceAbstract*>* adSources = [[NSMutableArray alloc]init];
-                        for (HyBidAdSourceConfig* config in placement.adSources) {
-                            if (config.type != nil &&
-                                [config.type isEqualToString:@"vast_tag"]) {
-                                HyBidVastTagAdSource* vastAdSource = [[HyBidVastTagAdSource alloc]initWithConfig:config];
-                                [adSources addObject:vastAdSource];
-                            }
-                        }
-                        HyBidAuction* auction = [[HyBidAuction alloc]initWithAdSources:adSources mZoneId: zoneID timeout:timeout];
-                        [auction runAction:^(NSArray<HyBidAd *> *mAdResponses, NSError *error) {
-                            if (error == nil && [mAdResponses count] > 0) {
-                                self.ad = mAdResponses.firstObject;
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    if (self.autoShowOnLoad) {
-                                        [self renderAd];
-                                    } else {
-                                        [self invokeDidLoad];
-                                    }
-                                });
-                            } else {
-                                [self invokeDidFailWithError:error];
-                            }
-                            return;
-                        }];
-                        return;
-                    }
-                }
-            }
-            [self requestAd];
-        }
+        [self requestAd];
     }
 }
 
@@ -410,8 +353,20 @@
 
 - (void)startTracking {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
-        [self.adPresenter startTracking];
+        HyBidImpressionTrackerMethod impressionTrackingMethod;
+        if (self.ad.impressionTrackingMethod != nil) {
+            if ([self.ad.impressionTrackingMethod  isEqual: @"render"]) {
+                impressionTrackingMethod = HyBidAdImpressionTrackerRender;
+            } else {
+                impressionTrackingMethod = HyBidAdImpressionTrackerViewable;
+            }
+        } else {
+            impressionTrackingMethod = [HyBidViewbilityConfig sharedConfig].impressionTrackerMethod;
+        }
         
+        if (impressionTrackingMethod == HyBidAdImpressionTrackerViewable) {
+            [self.adPresenter startTracking];
+        } 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
         [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
 #endif
@@ -557,6 +512,10 @@
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
+    
+    if ([HyBidSDKConfig sharedConfig].test == TRUE) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"You are using Verve HyBid SDK on test mode. Please disabled test mode before submitting your application for production."];
+    }
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {

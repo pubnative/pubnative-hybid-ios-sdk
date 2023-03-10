@@ -63,6 +63,7 @@ public class HyBidRewardedAd: NSObject {
     private weak var delegate: HyBidRewardedAdDelegate?
     private var rewardedPresenter: HyBidRewardedPresenter?
     private var rewardedAdRequest: HyBidRewardedAdRequest?
+    private var htmlSkipOffset: HyBidSkipOffset?
     private var initialLoadTimestamp: TimeInterval?
     private var initialRenderTimestamp: TimeInterval?
     private var loadReportingProperties: [String: String] = [:]
@@ -98,25 +99,34 @@ public class HyBidRewardedAd: NSObject {
         self.zoneID = zoneID
         self.appToken = appToken
         self.delegate = delegate
+        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.rewardedHtmlSkipOffset
         self.closeOnFinish = HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish
     }
     
     @objc
     public func load() {
-        let rewardedString = HyBidRemoteConfigFeature.hyBidRemoteAdFormat(toString: HyBidRemoteAdFormat_REWARDED)
-        if !(HyBidRemoteConfigManager.sharedInstance().featureResolver().isAdFormatEnabled(rewardedString)) {
-            invokeDidFailWithError(error: NSError.hyBidDisabledFormatError())
+        cleanUp()
+        self.initialLoadTimestamp = Date().timeIntervalSince1970
+        if let zoneID = self.zoneID, zoneID.count > 0 {
+            self.isReady = false
+            self.rewardedAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
+            self.rewardedAdRequest?.requestAd(with: HyBidRewardedAdRequestWrapper(parent: self), withZoneID: zoneID)
         } else {
-            cleanUp()
-            self.initialLoadTimestamp = Date().timeIntervalSince1970
-            if let zoneID = self.zoneID, zoneID.count > 0 {
-                self.isReady = false
-                self.rewardedAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
-                self.rewardedAdRequest?.requestAd(with: HyBidRewardedAdRequestWrapper(parent: self), withZoneID: zoneID)
-            } else {
-                invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
-            }
-            
+            invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
+        }
+    }
+    
+    @objc(setSkipOffset:)
+    public func setSkipOffset(_ seconds: Int) {
+        if seconds > 0 {
+            setHTMLSkipOffset(seconds)
+        }
+    }
+    
+    @objc(setHTMLSkipOffset:)
+    public func setHTMLSkipOffset(_ seconds: Int) {
+        if seconds > 0 {
+            htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: seconds), isCustom: true)
         }
     }
     
@@ -218,7 +228,12 @@ public class HyBidRewardedAd: NSObject {
     
     func renderAd(ad: HyBidAd) {
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
-        self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        if let skipOffset = self.htmlSkipOffset?.offset?.intValue, skipOffset >= 0 {
+            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        } else {
+            let skipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false);
+            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        }
         
         if (self.rewardedPresenter == nil) {
             HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Could not create valid rewarded presenter.")
@@ -351,6 +366,12 @@ public class HyBidRewardedAd: NSObject {
         }
     }
     
+    func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
+        if ad.rewardedHtmlSkipOffset != nil {
+            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.rewardedHtmlSkipOffset, isCustom: true)
+        }
+    }
+    
     func determineCloseOnFinishFor(_ ad: HyBidAd) {
         if (ad.closeRewardedAfterFinish != nil) {
             self.closeOnFinish = ad.closeRewardedAfterFinish.boolValue;
@@ -365,6 +386,10 @@ extension HyBidRewardedAd {
     func requestDidStart(_ request: HyBidAdRequest) {
         let message = "Ad Request \(String(describing: request)) started"
         HyBidLogger.debugLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: message)
+        
+        if HyBidSDKConfig.sharedConfig.test == true {
+            HyBidLogger.warningLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "You are using Verve HyBid SDK on test mode. Please disabled test mode before submitting your application for production.")
+        }
     }
     
     func request(_ request: HyBidAdRequest, didLoadWithAd ad: HyBidAd?) {
@@ -373,6 +398,7 @@ extension HyBidRewardedAd {
         
         if let ad = ad {
             self.ad = ad
+            self.determineSkipOffsetValuesFor(ad)
             self.ad?.adType = Int(kHyBidAdTypeVideo)
             self.determineCloseOnFinishFor(ad)
             self.renderAd(ad: ad)

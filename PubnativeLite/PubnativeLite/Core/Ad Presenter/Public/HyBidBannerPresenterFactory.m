@@ -23,8 +23,6 @@
 #import "HyBidBannerPresenterFactory.h"
 #import "PNLiteMRAIDBannerPresenter.h"
 #import "HyBidVASTAdPresenter.h"
-#import "HyBidRemoteConfigManager.h"
-#import "HyBidRemoteConfigFeature.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -53,8 +51,7 @@
                 case MRAID_768x1024:
                 case MRAID_1024x768: {
                     PNLiteMRAIDBannerPresenter *mraidBannerPresenter = [[PNLiteMRAIDBannerPresenter alloc] initWithAd:ad];
-                    NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
-                    return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:mraidString] ? nil : mraidBannerPresenter;
+                    return mraidBannerPresenter;
                     break;
                 }
                 default:
@@ -67,8 +64,7 @@
             switch (ad.assetGroupID.integerValue) {
                 case VAST_MRECT: {
                     HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
-                    NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
-                    return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported:vastString] ? nil : vastAdPresenter;
+                    return vastAdPresenter;
                     break;
                 }
                 default:

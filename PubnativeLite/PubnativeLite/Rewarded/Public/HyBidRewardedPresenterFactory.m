@@ -25,8 +25,6 @@
 #import "PNLiteVASTRewardedPresenter.h"
 #import "HyBidMRAIDRewardedPresenter.h"
 #import "HyBidAdTracker.h"
-#import "HyBidRemoteConfigFeature.h"
-#import "HyBidRemoteConfigManager.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -39,9 +37,11 @@
 @implementation HyBidRewardedPresenterFactory
 
 - (HyBidRewardedPresenter *)createRewardedPresenterWithAd:(HyBidAd *)ad
+                                       withHTMLSkipOffset:(NSUInteger)htmlSkipOffset
                                         withCloseOnFinish:(BOOL)closeOnFinish
                                              withDelegate:(NSObject<HyBidRewardedPresenterDelegate> *)delegate {
     HyBidRewardedPresenter *rewardedPresenter = [self createRewardedPresenterFromAd:ad
+                                                                 withHTMLSkipOffset:htmlSkipOffset
                                                                   withCloseOnFinish:closeOnFinish];
     if (!rewardedPresenter) {
         return nil;
@@ -54,6 +54,7 @@
 }
 
 - (HyBidRewardedPresenter *)createRewardedPresenterFromAd:(HyBidAd *)ad
+                                       withHTMLSkipOffset:(NSInteger)htmlSkipOffset
                                         withCloseOnFinish:(BOOL)closeOnFinish {
     NSNumber *adAssetGroupID = ad.isUsingOpenRTB ? ad.openRTBAssetGroupID : ad.assetGroupID;
     switch (adAssetGroupID.integerValue) {
@@ -62,17 +63,13 @@
         case MRAID_480x320:
         case MRAID_1024x768:
         case MRAID_768x1024:{
-            HyBidMRAIDRewardedPresenter *mraidRewardedPresenter = [[HyBidMRAIDRewardedPresenter alloc] initWithAd:ad];
-            
-            NSString *mraidString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_MRAID];
-            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: mraidString] ? nil : mraidRewardedPresenter;
+            HyBidMRAIDRewardedPresenter *mraidRewardedPresenter = [[HyBidMRAIDRewardedPresenter alloc] initWithAd:ad withSkipOffset:htmlSkipOffset];
+            return mraidRewardedPresenter;
         }
         case VAST_REWARDED: {
             PNLiteVASTRewardedPresenter *vastRewardedPresenter = [[PNLiteVASTRewardedPresenter alloc] initWithAd:ad
                                                                                                withCloseOnFinish:closeOnFinish];
-            
-            NSString *vastString = [HyBidRemoteConfigFeature hyBidRemoteRenderingToString:HyBidRemoteRendering_VAST];
-            return ![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isRenderingSupported: vastString] ? nil : vastRewardedPresenter;
+            return vastRewardedPresenter;
         }
         default:
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Asset Group %@ is an incompatible Asset Group ID for Rewarded ad format.", ad.assetGroupID]];

@@ -188,8 +188,10 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #if __has_warning("-Watimport-in-framework-header")
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
+@import CoreGraphics;
 @import Foundation;
 @import ObjectiveC;
+@import UIKit;
 #endif
 
 #import <HyBid.h>
@@ -403,17 +405,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-
-SWIFT_CLASS("_TtC5HyBid19HyBidFeedbackConfig")
-@interface HyBidFeedbackConfig : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidFeedbackConfig * _Nonnull sharedConfig;)
-+ (HyBidFeedbackConfig * _Nonnull)sharedConfig SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@property (nonatomic) BOOL adFeedback;
-@property (nonatomic, copy) NSString * _Nullable contentInfoURL;
-@end
-
 @class HyBidAd;
 @protocol HyBidInterstitialAdDelegate;
 @class UIViewController;
@@ -478,6 +469,22 @@ SWIFT_CLASS("_TtC5HyBid11HyBidLogger")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class NSDictionary;
+@class NSCoder;
+
+SWIFT_CLASS("_TtC5HyBid23HyBidMRAIDCloseCardView")
+@interface HyBidMRAIDCloseCardView : UIView
+- (nonnull instancetype)initWithDictionary:(NSDictionary * _Nonnull)dictionary OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder SWIFT_UNAVAILABLE;
+- (void)didMoveToSuperview;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
+
+@interface HyBidMRAIDCloseCardView (SWIFT_EXTENSION(HyBid)) <HyBidContentInfoViewDelegate>
+- (void)contentInfoViewWidthNeedsUpdate:(NSNumber * _Null_unspecified)width;
+@end
+
 @class HyBidSkipOffset;
 
 SWIFT_CLASS("_TtC5HyBid20HyBidRenderingConfig")
@@ -486,18 +493,19 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidRenderi
 + (HyBidRenderingConfig * _Nonnull)sharedConfig SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@property (nonatomic, strong) HyBidSkipOffset * _Nonnull videoSkipOffset;
-@property (nonatomic, strong) HyBidSkipOffset * _Nonnull htmlSkipOffset;
-@property (nonatomic, strong) HyBidSkipOffset * _Nonnull endCardCloseOffset;
-@property (nonatomic) BOOL showEndCard;
-@property (nonatomic) HyBidInterstitialActionBehaviour interstitialActionBehaviour;
-@property (nonatomic) BOOL interstitialCloseOnFinish;
-@property (nonatomic) BOOL rewardedCloseOnFinish;
-@property (nonatomic) HyBidAudioStatus audioStatus;
-@property (nonatomic) BOOL mraidExpand;
-@property (nonatomic) BOOL interstitialSKOverlay;
-@property (nonatomic) BOOL rewardedSKOverlay;
-@property (nonatomic, readonly) BOOL bannerSKOverlay;
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull videoSkipOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull interstitialHtmlSkipOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull rewardedHtmlSkipOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull endCardCloseOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) BOOL showEndCard SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) HyBidInterstitialActionBehaviour interstitialActionBehaviour SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) BOOL interstitialCloseOnFinish SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) BOOL rewardedCloseOnFinish SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) HyBidAudioStatus audioStatus SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) BOOL mraidExpand SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) BOOL interstitialSKOverlay SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic) BOOL rewardedSKOverlay SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic, readonly) BOOL bannerSKOverlay SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
 @end
 
 @class HyBidReportingEvent;
@@ -513,6 +521,7 @@ SWIFT_CLASS("_TtC5HyBid19HyBidReportingEvent")
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nonnull properties;
 @property (nonatomic, copy) NSString * _Nonnull eventType;
 - (nonnull instancetype)initWith:(NSString * _Nonnull)eventType adFormat:(NSString * _Nullable)adFormat properties:(NSDictionary<NSString *, id> * _Nullable)properties OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWith:(NSString * _Nonnull)eventType errorMessage:(NSString * _Nullable)errorMessage properties:(NSDictionary<NSString *, id> * _Nullable)properties OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nonnull)toJSON SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -544,6 +553,8 @@ SWIFT_CLASS("_TtC5HyBid15HyBidRewardedAd")
 - (nonnull instancetype)initWithZoneID:(NSString * _Nullable)zoneID andWithDelegate:(id <HyBidRewardedAdDelegate> _Nonnull)delegate;
 - (nonnull instancetype)initWithZoneID:(NSString * _Nullable)zoneID withAppToken:(NSString * _Nullable)appToken andWithDelegate:(id <HyBidRewardedAdDelegate> _Nonnull)delegate;
 - (void)load;
+- (void)setSkipOffset:(NSInteger)seconds;
+- (void)setHTMLSkipOffset:(NSInteger)seconds;
 - (void)setCloseOnFinish:(BOOL)closeOnFinish;
 - (void)prepare;
 - (void)setMediationVendor:(NSString * _Nonnull)mediationVendor;
@@ -598,6 +609,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSession
 - (void)incrementImpressionCounterWithZoneID:(NSString * _Nonnull)zoneID;
 - (void)sessionDurationWithZoneID:(NSString * _Nonnull)zoneID;
 - (void)setAgeOfAppSinceCreated;
+- (NSString * _Nonnull)getAgeOfApp SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @class CLLocation;
@@ -628,12 +640,13 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSetting
 @end
 
 
-
 SWIFT_CLASS("_TtC5HyBid15HyBidSkipOffset")
 @interface HyBidSkipOffset : NSObject
 @property (nonatomic, strong) NSNumber * _Nullable offset;
 @property (nonatomic) BOOL isCustom;
+@property (nonatomic, strong) NSNumber * _Nonnull style;
 - (nonnull instancetype)initWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom style:(NSNumber * _Nonnull)style OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -647,10 +660,21 @@ SWIFT_CLASS("_TtC5HyBid19HyBidTargetingModel")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+
+SWIFT_CLASS("_TtC5HyBid21HyBidViewbilityConfig")
+@interface HyBidViewbilityConfig : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidViewbilityConfig * _Nonnull sharedConfig;)
++ (HyBidViewbilityConfig * _Nonnull)sharedConfig SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@property (nonatomic) HyBidImpressionTrackerMethod impressionTrackerMethod;
+@property (nonatomic) NSInteger minVisibleTime;
+@property (nonatomic) double minVisiblePercent;
+@end
+
 #if __has_attribute(external_source_symbol)
 # pragma clang attribute pop
 #endif
 #pragma clang diagnostic pop
 #endif
-
 

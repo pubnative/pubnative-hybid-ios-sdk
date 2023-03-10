@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6T1-e2-SzK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6T1-e2-SzK">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Request:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbD-03-bRo" userLabel="Request">
-                                <rect key="frame" x="16" y="52" width="53" height="21"/>
+                                <rect key="frame" x="16" y="56" width="53" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="requestLabel" label="Request Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Pi6-HM-CVY"/>
@@ -39,7 +39,7 @@
                                 </variation>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXG-Xc-d7L" userLabel="Request Text View">
-                                <rect key="frame" x="16" y="81" width="382" height="128"/>
+                                <rect key="frame" x="16" y="85" width="382" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="requestTextView" label="Request TextView"/>
                                 <constraints>
@@ -50,7 +50,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latency (in milliseconds):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duE-tV-7ew" userLabel="Latency">
-                                <rect key="frame" x="16" y="227" width="151" height="21"/>
+                                <rect key="frame" x="16" y="231" width="151" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="latencyLabel" label="Latency Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="1xq-GF-q6y"/>
@@ -72,7 +72,7 @@
                                 </variation>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxi-oi-B2G" userLabel="Latency Text View">
-                                <rect key="frame" x="16" y="256" width="382" height="28"/>
+                                <rect key="frame" x="16" y="260" width="382" height="28"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="latencyTextView" label="Latency TextView"/>
                                 <constraints>
@@ -83,7 +83,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nO6-gW-ac8" userLabel="Response">
-                                <rect key="frame" x="16" y="302" width="62.5" height="21"/>
+                                <rect key="frame" x="16" y="306" width="62.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="responseLabel" label="Response Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="p7G-3n-MrA"/>
@@ -105,7 +105,7 @@
                                 </variation>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-Ad-Prm" userLabel="Response Text View">
-                                <rect key="frame" x="16" y="331" width="382" height="482"/>
+                                <rect key="frame" x="16" y="335" width="382" height="478"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="responseTextView" label="Response TextView"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -133,10 +133,22 @@
                                     <action selector="dismissButtonTouchUpInside:" destination="6T1-e2-SzK" eventType="touchUpInside" id="C9Z-Dl-hgN"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrF-Hs-w9Y">
+                                <rect key="frame" x="362" y="306" width="36" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="FNa-EN-KNl"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Copy"/>
+                                <connections>
+                                    <action selector="copyAdReponse:" destination="6T1-e2-SzK" eventType="touchUpInside" id="7lg-dv-z4t"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cGk-xB-Glb"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="xrF-Hs-w9Y" firstAttribute="centerY" secondItem="nO6-gW-ac8" secondAttribute="centerY" id="0Bl-D1-xZJ"/>
                             <constraint firstItem="uIj-Ad-Prm" firstAttribute="top" secondItem="nO6-gW-ac8" secondAttribute="bottom" constant="8" id="1xj-ZT-OvF"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="UXG-Xc-d7L" secondAttribute="trailing" constant="16" id="4bx-mg-YP4"/>
                             <constraint firstItem="UXG-Xc-d7L" firstAttribute="top" secondItem="cbD-03-bRo" secondAttribute="bottom" constant="8" id="4pC-58-iMS"/>
@@ -147,6 +159,7 @@
                             <constraint firstItem="0cl-hk-Z1f" firstAttribute="centerX" secondItem="wbM-IK-HlV" secondAttribute="centerX" id="Jes-kB-uPg"/>
                             <constraint firstItem="UXG-Xc-d7L" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="MBM-YX-Pna"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="mxi-oi-B2G" secondAttribute="trailing" constant="16" id="MEn-fd-jDG"/>
+                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="xrF-Hs-w9Y" secondAttribute="trailing" constant="16" id="MpV-Se-Ymh"/>
                             <constraint firstItem="uIj-Ad-Prm" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="Oan-c8-QUS"/>
                             <constraint firstItem="mxi-oi-B2G" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="SUf-Sb-Of9"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="uIj-Ad-Prm" secondAttribute="trailing" constant="16" id="UeR-R0-d4U"/>

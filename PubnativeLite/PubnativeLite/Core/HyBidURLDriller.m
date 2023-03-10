@@ -89,6 +89,8 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             [self invokeDidFailWithURL:self.lastURL andError:error];
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
         } else {
             [self invokeDidFinishWithURL:response.URL];
         }

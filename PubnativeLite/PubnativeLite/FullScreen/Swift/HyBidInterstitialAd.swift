@@ -98,27 +98,21 @@ public class HyBidInterstitialAd: NSObject {
         self.zoneID = zoneID
         self.delegate = delegate
         self.appToken = appToken
-        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.htmlSkipOffset
+        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.interstitialHtmlSkipOffset
         self.videoSkipOffset = HyBidRenderingConfig.sharedConfig.videoSkipOffset
         self.closeOnFinish = HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish
     }
     
     @objc
     public func load() {
-        let interstitialString = HyBidRemoteConfigFeature.hyBidRemoteAdFormat(toString: HyBidRemoteAdFormat_INTERSTITIAL)
-        if !(HyBidRemoteConfigManager.sharedInstance().featureResolver().isAdFormatEnabled(interstitialString)) {
-            invokeDidFailWithError(error: NSError.hyBidDisabledFormatError())
+        cleanUp()
+        self.initialLoadTimestamp = Date().timeIntervalSince1970
+        if let zoneID = self.zoneID, zoneID.count > 0 {
+            self.isReady = false
+            self.interstitialAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
+            self.interstitialAdRequest?.requestAd(with: HyBidInterstitialAdRequestWrapper(parent: self), withZoneID: zoneID)
         } else {
-            cleanUp()
-            self.initialLoadTimestamp = Date().timeIntervalSince1970
-            if let zoneID = self.zoneID, zoneID.count > 0 {
-                self.isReady = false
-                self.interstitialAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
-                self.interstitialAdRequest?.requestAd(with: HyBidInterstitialAdRequestWrapper(parent: self), withZoneID: zoneID)
-            } else {
-                invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
-            }
-            
+            invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
         }
     }
     
@@ -259,7 +253,20 @@ public class HyBidInterstitialAd: NSObject {
             self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
         }
         let interstitalPresenterFactory = HyBidInterstitialPresenterFactory()
-        self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        let videoSkipOffset = self.videoSkipOffset?.offset?.intValue ?? 0
+        let htmlSkipOffset = self.htmlSkipOffset?.offset?.intValue ?? 0
+        let defaultVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
+        let defaultHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+
+        if videoSkipOffset >= 0 && htmlSkipOffset >= 0 {
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        } else if videoSkipOffset < 0 && htmlSkipOffset < 0 {
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        } else if htmlSkipOffset < 0 {
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        } else if videoSkipOffset < 0{
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultVideoSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        }
         
         if (self.interstitialPresenter == nil) {
             HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Could not create valid interstitial presenter.")
@@ -387,8 +394,8 @@ public class HyBidInterstitialAd: NSObject {
     }
     
     func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
-        if ad.htmlSkipOffset != nil {
-            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.htmlSkipOffset, isCustom: true)
+        if ad.interstitialHtmlSkipOffset != nil {
+            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.interstitialHtmlSkipOffset, isCustom: true)
         }
         if ad.videoSkipOffset != nil {
             self.videoSkipOffset = HyBidSkipOffset(offset: ad.videoSkipOffset, isCustom: true)
@@ -408,6 +415,10 @@ extension HyBidInterstitialAd {
     func requestDidStart(_ request: HyBidAdRequest) {
         let message = "Ad Request \(String(describing: request)) started"
         HyBidLogger.debugLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: message)
+        
+        if HyBidSDKConfig.sharedConfig.test == true {
+            HyBidLogger.warningLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "You are using Verve HyBid SDK on test mode. Please disabled test mode before submitting your application for production.")
+        }
     }
     
     func request(_ request: HyBidAdRequest, didLoadWithAd ad: HyBidAd?) {

@@ -23,12 +23,21 @@
 #import "PNLiteDemoMarkupDetailViewController.h"
 #import "HyBidAdView.h"
 
-@interface PNLiteDemoMarkupDetailViewController () <HyBidAdViewDelegate>
+NSString *const baseUrl = @"https://creative-sampler.herokuapp.com/creatives/";
+NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
+
+@interface PNLiteDemoMarkupDetailViewController () <HyBidAdViewDelegate, HyBidInterstitialAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *markupContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerHeightConstraint;
 @property (nonatomic, strong) HyBidAdView *adView;
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property (weak, nonatomic) IBOutlet UILabel *creativeIDLabel;
+@property (weak, nonatomic) IBOutlet UIButton *showAdButton;
+@property (weak, nonatomic) IBOutlet UIButton *openBrowserButton;
+@property (weak, nonatomic) NSString *placementType;
+@property (nonatomic, strong) NSString *urlString;
 
 @end
 
@@ -38,6 +47,12 @@
     self.markup = nil;
     self.adView = nil;
     self.debugButton = nil;
+    self.interstitialAd = nil;
+    self.creativeID = nil;
+    self.placementType = nil;
+    self.urWrap = nil;
+    self.urTemplate = nil;
+    self.creativeURL = nil;
 }
 
 - (void)viewDidLoad {
@@ -48,27 +63,62 @@
             self.markupContainerWidthConstraint.constant = 320;
             self.markupContainerHeightConstraint.constant = 50;
             self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_320x50];
+            self.placementType = @"banner";
             break;
         }
         case 1: {
             self.markupContainerWidthConstraint.constant = 300;
             self.markupContainerHeightConstraint.constant = 250;
             self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_300x250];
+            self.placementType = @"mrect";
             break;
         }
         case 2: {
             self.markupContainerWidthConstraint.constant = 728;
             self.markupContainerHeightConstraint.constant = 90;
             self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_728x90];
+            self.placementType = @"leaderboard";
+            break;
+        }
+        case 3: {
+            [self.showAdButton setHidden: NO];
+            self.placementType = @"fullscreen";
             break;
         }
         default:
             break;
     }
+
+    if (self.creativeID != nil){
+        self.creativeIDLabel.text = [self.creativeIDLabel.text stringByAppendingString: self.creativeID];
+        [self.creativeIDLabel setAccessibilityIdentifier:@"creativeID"];
+        [self.creativeIDLabel setAccessibilityLabel:self.creativeID];
+
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(creativeIDLabelTapped)];
+        [self.creativeIDLabel addGestureRecognizer:tapGesture];
+        self.creativeIDLabel.userInteractionEnabled = YES;
+    } else {
+        [self.creativeIDLabel setHidden: YES];
+        [self.openBrowserButton setHidden:YES];
+    }
     
     self.adView.delegate = self;
     [self.markupContainer addSubview:self.adView];
-    [self.adView prepareCustomMarkupFrom:self.markup.text];
+    [self.adView setAccessibilityIdentifier:@"customMarkupAdView"];
+    if (self.urWrap && self.urTemplate != NULL){
+        NSString *encodedAdm = [self encodeStringTo64: self.markup.text];
+        [self.adView prepareCustomMarkupFrom: [self wrapInUr: encodedAdm]];
+    } else {
+        [self.adView prepareCustomMarkupFrom:self.markup.text];
+    }
+}
+- (IBAction)openCreativeInBrowser:(id)sender {
+    if ([self.creativeURL containsString:@"crid"]){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [self.creativeURL stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]];
+    } else {
+        self.urlString = [[NSString alloc] initWithFormat:@"%@%@?crid=%@", baseUrl, self.placementType, self.creativeID];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [self.urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    }
 }
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {
@@ -76,6 +126,28 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (NSString *)wrapInUr:(NSString *)adMarkup {
+    self.urTemplate = [self.urTemplate stringByReplacingOccurrencesOfString: ADM_MACRO withString: adMarkup];
+    return self.urTemplate;
+}
+
+- (NSString*)encodeStringTo64:(NSString*)fromString {
+    NSData *someString = [fromString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64String;
+    if ([someString respondsToSelector:@selector(base64EncodedStringWithOptions:)]) {
+        base64String = [someString base64EncodedStringWithOptions:kNilOptions];
+    }
+    return base64String;
+}
+
+- (IBAction)showInterstitialTouchUpInside:(UIButton *)sender {
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+    if (self.markup != nil) {
+        [self.interstitialAd prepareCustomMarkupFrom: self.markup.text];
+        [self.showAdButton setEnabled: NO];
     }
 }
 
@@ -109,6 +181,51 @@
 
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did track impression:");
+}
+
+#pragma mark - HyBidInterstitialAdDelegate
+
+- (void)interstitialDidLoad {
+    NSLog(@"Interstitial did load");
+    [self.interstitialAd show];
+    self.debugButton.hidden = NO;
+}
+
+- (void)interstitialDidFailWithError:(NSError *)error {
+    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
+    [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
+}
+
+- (void)interstitialDidTrackClick {
+    NSLog(@"Interstitial did track click");
+}
+
+- (void)interstitialDidTrackImpression {
+    NSLog(@"Interstitial did track impression");
+}
+
+- (void)interstitialDidDismiss {
+    NSLog(@"Interstitial did dismiss");
+}
+
+
+- (void)creativeIDLabelTapped {
+    // Show toast
+    [self showToastWithText:@"Creative ID copied"];
+    // Copy text
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = self.creativeIDLabel.text;
+}
+
+- (void)showToastWithText:(NSString *)text {
+    // Create and show toast
+    UIAlertController *toast = [UIAlertController alertControllerWithTitle:nil message:text preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:toast animated:YES completion:nil];
+    // Dismiss toast after 2 seconds
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [toast dismissViewControllerAnimated:YES completion:nil];
+    });
 }
 
 @end

@@ -63,7 +63,6 @@ public class HyBidSessionManager: NSObject {
     @objc
     public func sessionDuration(zoneID: String){
         if impressionCounter.isEmpty {
-            setStartSession()
             updateSession(zoneID: zoneID)
         } else {
             if let lastTimeStamp = UserDefaults.standard.object(forKey: Common.LAST_SESSION_TIMESTAMP) as? Date{
@@ -88,12 +87,41 @@ public class HyBidSessionManager: NSObject {
             UserDefaults.standard.set(timeStamp, forKey: Common.AGE_OF_APP)
         }
     }
+    
+    @objc
+    public func getAgeOfApp() -> String {
+        let installTimeString = UserDefaults.standard.string(forKey: Common.AGE_OF_APP)
+        if let installTime = installTimeString {
+            if (installTime != "") {
+                let time = Int64(installTime) ?? 0
+                let installValue = Date(milliseconds: time)
+                let timestamp = Date()
+                
+                return String(Calendar.current.numberOfDaysBetween(installValue, and: timestamp))
+            } else {
+                return "0"
+            }
+        } else {
+            return "0"
+        }
+    }
+}
+
+extension Calendar {
+    func numberOfDaysBetween(_ from: Date, and to: Date) -> Int {
+        let numberOfDays = dateComponents([.day], from: from, to: to)
+        return numberOfDays.day!
+    }
 }
 
 extension Date {
     var millisecondsSince1970: Int64 {
-        Int64(self.timeIntervalSince1970 * 1000.0)
-    }
+            Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+        }
+        
+        init(milliseconds: Int64) {
+            self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+        }
 }
 
 extension TimeInterval{

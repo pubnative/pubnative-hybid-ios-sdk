@@ -32,8 +32,8 @@
 #endif
 
 CGFloat PNLiteContentViewIcontDefaultSize = 15.0f;
-CGFloat PNLiteContentViewHeight = 15.0f;
-CGFloat PNLiteContentViewWidth = 15.0f;
+NSLayoutConstraint *contentViewWidthConstraint;
+NSLayoutConstraint *contentViewHeightConstraint;
 NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 
@@ -49,6 +49,7 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 @property (nonatomic, strong) HyBidAdFeedbackView *adFeedbackView;
 @property (nonatomic, assign) BOOL closeButtonTapped;
 @property (nonatomic, assign) BOOL adFeedbackViewRequested;
+@property (nonatomic, assign) CGFloat xPosition;
 
 @end
 
@@ -72,10 +73,8 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        PNLiteContentViewWidth = PNLiteContentViewIcontDefaultSize;
-        PNLiteContentViewHeight = PNLiteContentViewIcontDefaultSize;
-        [self setFrame:CGRectMake(0, 0, PNLiteContentViewWidth, PNLiteContentViewHeight)];
-        self.backgroundColor = [UIColor colorWithRed: 0.95 green: 0.98 blue: 1.00 alpha: 1.00];
+        [self setFrame:CGRectMake(0, 0, PNLiteContentViewIcontDefaultSize, PNLiteContentViewIcontDefaultSize)];
+        self.backgroundColor = [UIColor colorWithRed: 0.95 green: 0.98 blue: 1.00 alpha: 0.70];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.f;
         
@@ -85,8 +84,9 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
         [self addGestureRecognizer:self.tapRecognizer];
         self.textView = [[UILabel alloc] init];
         [self.textView setFont:[self.textView.font fontWithSize:10]];
-        self.textView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+        self.textView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.70];
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.textView setNumberOfLines: 1];
                 
         self.iconView = [[UIImageView alloc] init];
         [self.iconView setContentMode:UIViewContentModeScaleAspectFit];
@@ -94,53 +94,33 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
         
         [self addSubview:self.iconView];
         [self addSubview:self.textView];
-        [self addConstraints:@[[NSLayoutConstraint constraintWithItem:self.iconView
-                                                            attribute:NSLayoutAttributeHeight
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:nil
-                                                            attribute:NSLayoutAttributeNotAnAttribute
-                                                           multiplier:1.f
-                                                             constant:PNLiteContentViewHeight],
-                               [NSLayoutConstraint constraintWithItem:self.iconView
-                                                            attribute:NSLayoutAttributeWidth
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:nil
-                                                            attribute:NSLayoutAttributeNotAnAttribute
-                                                           multiplier:1.f
-                                                             constant:PNLiteContentViewWidth],
-                               [NSLayoutConstraint constraintWithItem:self.iconView
-                                                            attribute:NSLayoutAttributeLeading
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeLeading
-                                                           multiplier:1.f
-                                                             constant:0.f],
-                               [NSLayoutConstraint constraintWithItem:self.iconView
-                                                            attribute:NSLayoutAttributeTop
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self
-                                                            attribute:NSLayoutAttributeTop
-                                                           multiplier:1.f
-                                                             constant:0.f],
-                               [NSLayoutConstraint constraintWithItem:self.textView
-                                                            attribute:NSLayoutAttributeLeading
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.iconView
-                                                            attribute:NSLayoutAttributeTrailing
-                                                           multiplier:1.f
-                                                             constant:0.f],
-                               [NSLayoutConstraint constraintWithItem:self.textView
-                                                            attribute:NSLayoutAttributeCenterY
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.iconView
-                                                            attribute:NSLayoutAttributeCenterY
-                                                           multiplier:1.f
-                                                             constant:0.f]]];
         
-
+        [self addingConstraints];
         [PNLiteOrientationManager sharedInstance].delegate = self;
     }
     return self;
+}
+
+- (void)addingConstraints {
+    if(self.iconView){
+        contentViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.iconView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1.f
+                                                                   constant:PNLiteContentViewIcontDefaultSize];
+        
+        contentViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.iconView
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:nil
+                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                  multiplier:1.f
+                                                                    constant:PNLiteContentViewIcontDefaultSize];
+        [self addConstraints:@[contentViewWidthConstraint, contentViewHeightConstraint]];
+        [self setElementsOrientation: HyBidContentInfoHorizontalPositionLeft];
+    }
 }
 
 - (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSData *image))completionBlock
@@ -152,6 +132,8 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
             if (!error) {
                 completionBlock(YES, data);
             } else{
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
                 completionBlock(NO, nil);
             }
         }];
@@ -186,51 +168,68 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
     }
 }
 
+- (void)layoutSubviews {
+    //adapting content info elements orientation after being added in a super view
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        CGPoint position = [self convertPoint:self.bounds.origin toView:window];
+        if(!weakSelf.xPosition){
+            weakSelf.xPosition = position.x;
+            CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+            [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 2) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
+        }
+    });
+}
+
 - (void)configureView {
+    
+    NSString *positionString = [NSString stringWithFormat:@"%@ %@",
+                                self.verticalPosition == HyBidContentInfoVerticalPositionTop ? @"top" : @"bottom",
+                                self.horizontalPosition == HyBidContentInfoHorizontalPositionLeft ? @"left" : @"right"];
 
     [self.iconView setIsAccessibilityElement:YES];
     [self.iconView setAccessibilityLabel:@"Content Info Icon View"];
-    [self.iconView setAccessibilityIdentifier:@"contentInfoIconView"];
+    [self.iconView setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoIconView - %@", positionString]];
     
     [self.textView setIsAccessibilityElement:YES];
     [self.textView setAccessibilityLabel:@"Content Info Text View"];
-    [self.textView setAccessibilityIdentifier:@"contentInfoTextView"];
+    [self.textView setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoTextView - %@", positionString]];
     
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         if(weakSelf.superview){
             [weakSelf.superview setIsAccessibilityElement:YES];
             [weakSelf.superview setAccessibilityLabel:@"Content Info Container"];
-            [weakSelf.superview setAccessibilityIdentifier:@"contentInfoTextView"];
+            [weakSelf.superview setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoTextView - %@", positionString]];
         }
     });
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
-            if (self.iconView && self.textView && self.iconImage && [self.iconImage isMemberOfClass:[UIImage class]]) {
+            if (self.iconView && self.textView) {
                 if (self.text) {
                     self.textView.text = self.text;
+                } else {
+                    self.textView.text = @"Learn about this ad";
                 }
                 [self.textView sizeToFit];
-                
-                [self.iconView setImage:self.iconImage];
-            } else {
-                self.textView.text = @"Learn about this ad";
-                [self.textView sizeToFit];
-                
-                self.link = @"https://pubnative.net/content-info";
-                
-                NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:@"VerveContentInfo" ofType:@"png"];
-                UIImage* image = [[UIImage alloc] initWithContentsOfFile: path];
-                self.iconImage = image;
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
+                if (self.iconImage && [self.iconImage isMemberOfClass:[UIImage class]]) {
                     [self.iconView setImage:self.iconImage];
-                });
+                } else {
+                    NSString *path = [[NSBundle bundleForClass:[self class]]pathForResource:@"VerveContentInfo" ofType:@"png"];
+                    UIImage* image = [[UIImage alloc] initWithContentsOfFile: path];
+                    self.iconImage = image;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.iconView setImage:self.iconImage];
+                    });
+                }
+                if (!self.link) {
+                    self.link = @"https://pubnative.net/content-info";
+                }
+                self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
+                self.hidden = NO;
             }
-            
-            self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
-            self.hidden = NO;
         }
     });
 }
@@ -251,88 +250,160 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateEnded) {
-        if(self.isOpen) {
-            if ([HyBidFeedbackConfig sharedConfig].adFeedback) {
-                if (!self.adFeedbackViewRequested) {
-                    self.adFeedbackViewRequested = YES;
-                    self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
-                    self.adFeedbackView.delegate = self;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsReady" object:nil];
-                }
+    if (self.clickAction == HyBidContentInfoClickActionExpand) {
+        if (sender.state == UIGestureRecognizerStateEnded) {
+            if(self.isOpen) {
+                [self handleDisplay];
             } else {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link] options:@{} completionHandler:nil];
-                [self close];
+                [self open];
             }
-        } else {
-            [self open];
+        }
+    } else {
+        [self handleDisplay];
+    }
+}
+
+- (void)handleDisplay {
+    if (self.display == HyBidContentInfoDisplaySystem) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link] options:@{} completionHandler:nil];
+    } else {
+        if (!self.adFeedbackViewRequested) {
+            self.adFeedbackViewRequested = YES;
+            self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
+            self.adFeedbackView.delegate = self;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsReady" object:nil];
         }
     }
 }
 
-- (void)setIconSize:(CGRect) frame {
-    PNLiteContentViewWidth = frame.size.width;
-    PNLiteContentViewHeight = frame.size.height < 0.0 || frame.size.height > PNLiteMaxContentInfoViewHeight ? PNLiteContentViewHeight : frame.size.height;
-    [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, PNLiteContentViewWidth, PNLiteContentViewHeight)];
-    [self removeConstraints: self.constraints];
-    [self addConstraints:@[[NSLayoutConstraint constraintWithItem:self.iconView
-                                                        attribute:NSLayoutAttributeHeight
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:nil
-                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                       multiplier:1.f
-                                                         constant:PNLiteContentViewHeight],
-                           [NSLayoutConstraint constraintWithItem:self.iconView
-                                                        attribute:NSLayoutAttributeWidth
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:nil
-                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                       multiplier:1.f
-                                                         constant:PNLiteContentViewWidth],
-                           [NSLayoutConstraint constraintWithItem:self.iconView
-                                                        attribute:NSLayoutAttributeLeading
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:self
-                                                        attribute:NSLayoutAttributeLeading
-                                                       multiplier:1.f
-                                                         constant:0.f],
-                           [NSLayoutConstraint constraintWithItem:self.iconView
-                                                        attribute:NSLayoutAttributeTop
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:self
-                                                        attribute:NSLayoutAttributeTop
-                                                       multiplier:1.f
-                                                         constant:0.f],
-                           [NSLayoutConstraint constraintWithItem:self.textView
-                                                        attribute:NSLayoutAttributeLeading
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:self.iconView
-                                                        attribute:NSLayoutAttributeTrailing
-                                                       multiplier:1.f
-                                                         constant:0.f],
-                           [NSLayoutConstraint constraintWithItem:self.textView
-                                                        attribute:NSLayoutAttributeCenterY
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:self.iconView
-                                                        attribute:NSLayoutAttributeCenterY
-                                                       multiplier:1.f
-                                                         constant:0.f]]];
+- (void)setElementsOrientation:(HyBidContentInfoHorizontalPosition) orientation {
+    if(self.iconView && self.textView){
+        NSArray *constraints = [self.constraints filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+            if([object isEqual: contentViewWidthConstraint] || [object isEqual: contentViewHeightConstraint]){
+                return NO;
+            }
+            return YES;
+        }]];
+        
+        [self removeConstraints: constraints];
+        [self addConstraints:@[
+                               [NSLayoutConstraint constraintWithItem:self.iconView
+                                                            attribute:NSLayoutAttributeTop
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self
+                                                            attribute:NSLayoutAttributeTop
+                                                           multiplier:1.f
+                                                             constant:0.f],
+                               [NSLayoutConstraint constraintWithItem:self.textView
+                                                            attribute:NSLayoutAttributeCenterY
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.iconView
+                                                            attribute:NSLayoutAttributeCenterY
+                                                           multiplier:1.f
+                                                             constant:0.f]]];
+    }
+    if(orientation == HyBidContentInfoHorizontalPositionRight){
+        if(self.iconView && self.textView){
+            [self addConstraints:@[[NSLayoutConstraint constraintWithItem:self.textView
+                                                                attribute:NSLayoutAttributeTrailing
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.iconView
+                                                                attribute:NSLayoutAttributeLeading
+                                                               multiplier:1.f
+                                                                 constant:0.f],
+                                   [NSLayoutConstraint constraintWithItem:self.textView
+                                                                attribute:NSLayoutAttributeLeading
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeLeading
+                                                               multiplier:1.f
+                                                                 constant:0.f],
+                                   [NSLayoutConstraint constraintWithItem:self.iconView
+                                                                attribute:NSLayoutAttributeTrailing
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeTrailing
+                                                               multiplier:1.f
+                                                                 constant:0.f]]];
+        }
+    } else {
+        if(self.iconView && self.textView){
+            [self addConstraints:@[[NSLayoutConstraint constraintWithItem:self.textView
+                                                                attribute:NSLayoutAttributeLeading
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.iconView
+                                                                attribute:NSLayoutAttributeTrailing
+                                                               multiplier:1.f
+                                                                 constant:0.f],
+                                   [NSLayoutConstraint constraintWithItem:self.textView
+                                                                attribute:NSLayoutAttributeTrailing
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeTrailing
+                                                               multiplier:1.f
+                                                                 constant:0.f],
+                                   [NSLayoutConstraint constraintWithItem:self.iconView
+                                                                attribute:NSLayoutAttributeLeading
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeLeading
+                                                               multiplier:1.f
+                                                                 constant:0.f]]];
+        }
+    }
+}
+
+- (void)setIconSize:(CGSize) size {
+    CGFloat newWidth = size.width;
+    CGFloat newHeight = size.height < 0.0 || size.height > PNLiteMaxContentInfoViewHeight ? PNLiteContentViewIcontDefaultSize : size.height;
+    [self removeConstraint: contentViewWidthConstraint];
+    [self removeConstraint: contentViewHeightConstraint];
+    [self setFrame: CGRectMake(0, 0, newWidth, newHeight)];
+    if(self.iconView){
+        if(self.iconView){
+            contentViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.iconView
+                                                                      attribute:NSLayoutAttributeWidth
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:nil
+                                                                      attribute:NSLayoutAttributeNotAnAttribute
+                                                                     multiplier:1.f
+                                                                       constant:newWidth];
+            
+            contentViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.iconView
+                                                                       attribute:NSLayoutAttributeHeight
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:1.f
+                                                                        constant:newHeight];
+            
+            [self addConstraints:@[contentViewWidthConstraint, contentViewHeightConstraint]];
+        }
+    }
 }
 
 - (void)open {
     self.isOpen = YES;
     [self layoutIfNeeded];
-    if(self.superview.frame.origin.x > 0){
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, PNLiteContentViewHeight);
-        self.superview.frame = CGRectMake(self.superview.frame.origin.x - self.openSize, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
-        if (@available(iOS 11.0, *)) {
-            [self.trailingAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.trailingAnchor].active = YES;
-        } else {
-            [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor].active = YES;
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    CGPoint position = [self convertPoint:self.bounds.origin toView:window];
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    if(position.x >= (screenWidth / 2)) {
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, contentViewHeightConstraint.constant);
+        if(self.superview){
+            self.superview.frame = CGRectMake(self.superview.frame.origin.x - self.openSize, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
+            if (@available(iOS 11.0, *)) {
+                [self.trailingAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.trailingAnchor].active = YES;
+            } else {
+                [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor].active = YES;
+            }
         }
+        
     } else {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, PNLiteContentViewHeight);
-        self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.openSize, contentViewHeightConstraint.constant);
+        if(self.superview){
+            self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
+        }
     }
     [self resizeSuperView];
     [self layoutIfNeeded];
@@ -344,12 +415,19 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
     self.isOpen = NO;
     [self stopCloseTimer];
     [self layoutIfNeeded];
-    if(self.superview.frame.origin.x > 0){
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, PNLiteContentViewHeight);
-        self.superview.frame = CGRectMake(self.superview.frame.origin.x + self.openSize - PNLiteContentViewWidth, self.superview.frame.origin.y, PNLiteContentViewWidth, self.superview.frame.size.height);
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    CGPoint position = [self convertPoint:self.bounds.origin toView:window];
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    if(position.x >= (screenWidth / 2)) {
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, contentViewWidthConstraint.constant, contentViewHeightConstraint.constant);
+        if(self.superview){
+            self.superview.frame = CGRectMake(self.superview.frame.origin.x + self.openSize - contentViewWidthConstraint.constant, self.superview.frame.origin.y, contentViewWidthConstraint.constant, self.superview.frame.size.height);
+        }
     } else {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PNLiteContentViewWidth, PNLiteContentViewHeight);
-        self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, PNLiteContentViewWidth, self.superview.frame.size.height);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, contentViewWidthConstraint.constant, contentViewHeightConstraint.constant);
+        if(self.superview){
+            self.superview.frame = CGRectMake(self.superview.frame.origin.x, self.superview.frame.origin.y, contentViewWidthConstraint.constant, self.superview.frame.size.height);
+        }
     }
     [self resizeSuperView];
     [self layoutIfNeeded];

@@ -23,7 +23,6 @@
 #import "HyBid.h"
 #import "HyBidUserDataManager.h"
 #import "PNLiteLocationManager.h"
-#import "HyBidRemoteConfigManager.h"
 #import "HyBidDisplayManager.h"
 #import "PNLiteAdFactory.h"
 #import "HyBidDiagnosticsManager.h"
@@ -74,7 +73,6 @@ BOOL isInitialized = NO;
         [HyBidSDKConfig sharedConfig].appToken = appToken;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
-        [[HyBidRemoteConfigManager sharedInstance] initializeRemoteConfigWithCompletion:^(BOOL remoteConfigSuccess, HyBidRemoteConfigModel *remoteConfig) {}];
         [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
         [[HyBidSessionManager sharedInstance] setStartSession];
         [[HyBidSessionManager sharedInstance] setAgeOfAppSinceCreated];
@@ -119,7 +117,7 @@ BOOL isInitialized = NO;
 
 + (void)setInterstitialSkipOffset:(NSInteger)seconds {
     [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
-    [HyBidRenderingConfig sharedConfig].htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
+    [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
 }
 
 + (void)setVideoInterstitialSkipOffset:(NSInteger)seconds {
@@ -127,7 +125,11 @@ BOOL isInitialized = NO;
 }
 
 + (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidRenderingConfig sharedConfig].htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
+    [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
+}
+
++ (void)setHTMLRewardedSkipOffset:(NSInteger)seconds {
+    [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
 }
 
 + (void)setEndCardCloseOffset:(NSNumber *)seconds
@@ -189,14 +191,6 @@ BOOL isInitialized = NO;
 
 + (void)setRewardedSKOverlay:(BOOL)enabled {
     [HyBidRenderingConfig sharedConfig].rewardedSKOverlay = enabled;
-}
-
-+ (void)setAdFeedback:(BOOL)enabled {
-    [HyBidFeedbackConfig sharedConfig].adFeedback = enabled;
-}
-
-+ (void)setContentInfoURL:(NSString *)url {
-    [HyBidFeedbackConfig sharedConfig].contentInfoURL = url;
 }
 
 @end

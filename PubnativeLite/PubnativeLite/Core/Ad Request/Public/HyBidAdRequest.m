@@ -33,9 +33,7 @@
 #import "HyBidVideoAdCacheItem.h"
 #import "HyBidVideoAdCache.h"
 #import "HyBidMarkupUtils.h"
-#import "HyBidRemoteConfigManager.h"
 #import "HyBidError.h"
-#import "HyBidRemoteConfigFeature.h"
 #import "HyBidRewardedAdRequest.h"
 #import "HyBidNativeAdRequest.h"
 #import "HyBidInterstitialAdRequest.h"
@@ -50,6 +48,7 @@
     #import <UIKit/UIKit.h>
     #import "HyBid-Swift.h"
 #endif
+
 
 NSString *const PNLiteResponseOK = @"ok";
 NSString *const PNLiteResponseError = @"error";
@@ -128,7 +127,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
     self.appToken = appToken;
     self.requestIntegrationType = integrationType;
     self.adRequestModel = [self createAdRequestModelWithIntegrationType:integrationType];
-    self.requestURL = [self requestURLFromAdRequestModel:[self createAdRequestModelWithIntegrationType:integrationType]];
+    self.requestURL = [self requestURLFromAdRequestModel: self.adRequestModel];
     self.isSetIntegrationTypeCalled = YES;
 }
 
@@ -148,45 +147,27 @@ NSInteger const PNLiteResponseStatusOK = 200;
         //        [[HyBidRemoteConfigManager sharedInstance] refreshRemoteConfig];
         [PNLiteRequestInspector sharedInstance].lastInspectedRequest = nil;
         self.delegate = delegate;
-        if (![self isFormatEnabled]) {
-            [self invokeDidFail:[NSError hyBidDisabledFormatError]];
-        } else {
-            self.startTime = [NSDate date];
-            self.zoneID = zoneID;
-            self.appToken = appToken;
-            self.isRunning = YES;
-            self.adCached = NO;
-            [self invokeDidStart];
-            
-            if (!self.isSetIntegrationTypeCalled) {
-                [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
-            }
-            
-            PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
-            request.isUsingOpenRTB = self.isUsingOpenRTB;
-            request.adRequestModel = self.adRequestModel;
-            request.openRTBAdType = self.openRTBAdType;
-            NSString *method = self.isUsingOpenRTB ? @"POST" : @"GET";
-            self.initialAdResponseTimestamp = [[NSDate date] timeIntervalSince1970];
-            [request startWithUrlString:self.requestURL.absoluteString withMethod:method delegate:self];
-            [self addCommonPropertiesToReportingDictionary:self.requestReportingProperties];
-            [self reportEvent:HyBidReportingEventType.REQUEST withProperties:self.requestReportingProperties];
+        
+        self.startTime = [NSDate date];
+        self.zoneID = zoneID;
+        self.appToken = appToken;
+        self.isRunning = YES;
+        self.adCached = NO;
+        [self invokeDidStart];
+        
+        if (!self.isSetIntegrationTypeCalled) {
+            [self setIntegrationType:HEADER_BIDDING withZoneID:zoneID];
         }
-    }
-}
-
-- (BOOL)isFormatEnabled {
-    if ([self isMemberOfClass:[HyBidAdRequest class]]) {
-        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_BANNER]];
-    } else if ([self isMemberOfClass:[HyBidInterstitialAdRequest class]]) {
-        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_INTERSTITIAL]];
-    } else if ([self isMemberOfClass:[HyBidRewardedAdRequest class]]) {
-        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_REWARDED]];
-    } else if ([self isMemberOfClass:[HyBidNativeAdRequest class]]) {
-        return [[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:[HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_NATIVE]];
-    }
-    else {
-        return YES;
+        
+        PNLiteHttpRequest *request = [[PNLiteHttpRequest alloc] init];
+        request.isUsingOpenRTB = self.isUsingOpenRTB;
+        request.adRequestModel = self.adRequestModel;
+        request.openRTBAdType = self.openRTBAdType;
+        NSString *method = self.isUsingOpenRTB ? @"POST" : @"GET";
+        self.initialAdResponseTimestamp = [[NSDate date] timeIntervalSince1970];
+        [request startWithUrlString:self.requestURL.absoluteString withMethod:method delegate:self];
+        [self addCommonPropertiesToReportingDictionary:self.requestReportingProperties];
+        [self reportEvent:HyBidReportingEventType.REQUEST withProperties:self.requestReportingProperties];
     }
 }
 
@@ -202,20 +183,15 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                                                                                                                                                                                                       withAppToken:self.appToken
-                                                                                                                                                                                                                         withAdSize:[self adSize]
-                                                                                                                                                                                                         withSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                                                                                                                                                                                                                withIntegrationType:integrationType
-                                                                                                                                                                                                                         isRewarded:[self isRewarded]
-                                                                                                                                                                                                                mediationVendorName:nil]].absoluteString]];
-    return [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                        withAppToken:self.appToken
-                                          withAdSize:[self adSize]
-                          withSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                                 withIntegrationType:integrationType
-                                          isRewarded:[self isRewarded]
-                                 mediationVendorName:nil];
+    PNLiteAdRequestModel * requestModel = [self.adFactory createAdRequestWithZoneID:self.zoneID
+                                                                      withAppToken:self.appToken
+                                                                        withAdSize:[self adSize]
+                                                        withSupportedAPIFrameworks:[self supportedAPIFrameworks]
+                                                               withIntegrationType:integrationType
+                                                                        isRewarded:[self isRewarded]
+                                                               mediationVendorName:nil];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: requestModel].absoluteString]];
+    return requestModel;
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
@@ -571,6 +547,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
     if(PNLiteResponseStatusOK == statusCode) {
         __block NSString *responseString;
+        __block NSString *responseStringJson;
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (dataString) {
             [HyBidMarkupUtils isVastXml:dataString completion:^(BOOL isVAST, NSError *error) {
@@ -582,8 +559,10 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 if (!isVAST) {
                     if ([self createDictionaryFromData:data]) {
                         responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
+                        responseStringJson =  [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                     } else {
                         responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                        responseStringJson = responseString;
                     }
                     
                     if (responseString != nil) {
@@ -593,7 +572,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                     [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
                     [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
                     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                                               withResponse:responseString
+                                                                               withResponse:responseStringJson
                                                                                 withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
                     [self processResponseWithData:data];
                 } else {

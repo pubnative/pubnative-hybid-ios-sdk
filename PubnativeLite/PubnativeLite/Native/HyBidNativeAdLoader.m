@@ -25,8 +25,6 @@
 #import "HyBidIntegrationType.h"
 #import "HyBidError.h"
 #import "HyBidSignalDataProcessor.h"
-#import "HyBidRemoteConfigFeature.h"
-#import "HyBidRemoteConfigManager.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -73,30 +71,18 @@
 }
 
 - (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken {
-    NSString *nativeString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_NATIVE];
-    
-    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:nativeString]) {
-        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
-    } else {
-        self.delegate = delegate;
-        self.zoneID = zoneID;
-        self.appToken = appToken;
-        [self requestAd];
-    }
+    self.delegate = delegate;
+    self.zoneID = zoneID;
+    self.appToken = appToken;
+    [self requestAd];
 }
 
 - (void)prepareNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withContent:(NSString *)adContent {
-    NSString *nativeString = [HyBidRemoteConfigFeature hyBidRemoteAdFormatToString:HyBidRemoteAdFormat_NATIVE];
-    
-    if (![[[HyBidRemoteConfigManager sharedInstance] featureResolver] isAdFormatEnabled:nativeString]) {
-        [self invokeDidFailWithError:[NSError hyBidDisabledFormatError]];
+    self.delegate = delegate;
+    if (adContent && [adContent length] != 0) {
+        [self processAdContent:adContent];
     } else {
-        self.delegate = delegate;
-        if (adContent && [adContent length] != 0) {
-            [self processAdContent:adContent];
-        } else {
-            [self invokeDidFailWithError:[NSError hyBidInvalidAsset]];
-        }
+        [self invokeDidFailWithError:[NSError hyBidInvalidAsset]];
     }
 }
 
@@ -164,6 +150,10 @@
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Request %@ started:",request]];
+    
+    if ([HyBidSDKConfig sharedConfig].test == TRUE) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"You are using Verve HyBid SDK on test mode. Please disabled test mode before submitting your application for production."];
+    }
 }
 
 - (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,18 +16,12 @@
                 <outlet property="btnOpenOffer" destination="BXT-cI-oP0" id="ZLh-bh-B8y"/>
                 <outlet property="btnOpenOfferLeadingConstraint" destination="NDe-jw-54L" id="6sg-oy-S33"/>
                 <outlet property="contentInfoViewContainer" destination="zfp-Xd-tkd" id="upK-WK-fQE"/>
-                <outlet property="contentInfoViewContainerLeadingConstraint" destination="Ipm-aE-q0h" id="JnW-AE-mQb"/>
-                <outlet property="contentInfoViewContainerTopConstraint" destination="l4Z-lG-F6F" id="XPE-4W-fDK"/>
-                <outlet property="contentInfoViewWidthConstraint" destination="n8p-Pb-rke" id="q9H-P1-YXT"/>
                 <outlet property="loadingSpin" destination="KcA-ff-Pj9" id="F6m-XB-pYL"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3yE-Da-NoG"/>
                 <outlet property="viewProgress" destination="A1J-YU-rQg" id="19R-tU-hGZ"/>
                 <outlet property="viewProgressBottomConstraint" destination="hub-se-qlN" id="yhX-Sc-VY5"/>
                 <outlet property="viewProgressLeadingConstraint" destination="743-0i-tE8" id="H4M-C6-xSg"/>
                 <outlet property="viewProgressTrailingConstraint" destination="Mrj-x8-WEd" id="2Zz-0V-0yh"/>
-                <outlet property="viewSkip" destination="49M-ci-rbZ" id="H7e-kt-fZy"/>
-                <outlet property="viewSkipTopConstraint" destination="dfv-P6-fQx" id="FoS-nQ-ewn"/>
-                <outlet property="viewSkipTrailingConstraint" destination="mo3-7K-cRB" id="9AB-Ty-1Ll"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -69,8 +63,8 @@
                         <bool key="isElement" value="YES"/>
                     </accessibility>
                     <constraints>
-                        <constraint firstAttribute="width" constant="15" id="n8p-Pb-rke"/>
-                        <constraint firstAttribute="height" constant="15" id="u5J-5k-Zjc"/>
+                        <constraint firstAttribute="height" constant="15" id="jel-vy-jn4"/>
+                        <constraint firstAttribute="width" constant="15" id="tGt-pK-d1o"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BXT-cI-oP0">
@@ -98,14 +92,12 @@
                 <constraint firstItem="JZO-c6-3ys" firstAttribute="leading" secondItem="gnQ-en-LL6" secondAttribute="leading" id="2Ae-do-YaL"/>
                 <constraint firstItem="A1J-YU-rQg" firstAttribute="leading" secondItem="gnQ-en-LL6" secondAttribute="leading" id="743-0i-tE8"/>
                 <constraint firstItem="gnQ-en-LL6" firstAttribute="bottom" secondItem="BXT-cI-oP0" secondAttribute="bottom" id="GI7-dW-CNc"/>
-                <constraint firstItem="zfp-Xd-tkd" firstAttribute="leading" secondItem="gnQ-en-LL6" secondAttribute="leading" id="Ipm-aE-q0h"/>
                 <constraint firstItem="KcA-ff-Pj9" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Mer-61-0eN"/>
                 <constraint firstItem="gnQ-en-LL6" firstAttribute="trailing" secondItem="A1J-YU-rQg" secondAttribute="trailing" id="Mrj-x8-WEd"/>
                 <constraint firstItem="BXT-cI-oP0" firstAttribute="leading" secondItem="gnQ-en-LL6" secondAttribute="leading" id="NDe-jw-54L"/>
                 <constraint firstItem="49M-ci-rbZ" firstAttribute="top" secondItem="gnQ-en-LL6" secondAttribute="top" constant="10" id="dfv-P6-fQx"/>
                 <constraint firstItem="KcA-ff-Pj9" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="fRf-Cc-YJf"/>
                 <constraint firstItem="A1J-YU-rQg" firstAttribute="bottom" secondItem="gnQ-en-LL6" secondAttribute="bottom" id="hub-se-qlN"/>
-                <constraint firstItem="gnQ-en-LL6" firstAttribute="top" secondItem="zfp-Xd-tkd" secondAttribute="top" id="l4Z-lG-F6F"/>
                 <constraint firstItem="gnQ-en-LL6" firstAttribute="top" secondItem="JZO-c6-3ys" secondAttribute="top" id="lSI-th-RSI"/>
                 <constraint firstItem="gnQ-en-LL6" firstAttribute="trailing" secondItem="49M-ci-rbZ" secondAttribute="trailing" constant="10" id="mo3-7K-cRB"/>
             </constraints>

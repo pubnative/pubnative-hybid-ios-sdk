@@ -98,8 +98,6 @@ CLLocationManager *locationManager;
     [HyBid setInterstitialSKOverlay:YES];
     [HyBid setRewardedSKOverlay:YES];
 //    [HyBid setShowEndCard:NO];
-    [HyBid setAdFeedback:YES];
-    [HyBid setContentInfoURL:@"https://feedback-dev.verve.com"];
     [HyBid getCustomRequestSignalData];
     return YES;
 }

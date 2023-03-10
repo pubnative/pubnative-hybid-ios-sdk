@@ -33,8 +33,6 @@
 #endif
 
 NSTimeInterval const kPNImpressionCheckPeriod = 0.25f; // Check every 250 ms
-CGFloat const kPNVisibilityThreshold = 0.0f; // 0% of the view
-CGFloat const kPNVisibilityImpressionTime = 0; // 0 second
 
 @interface PNLiteImpressionTracker () <HyBidVisibilityTrackerDelegate>
 
@@ -43,6 +41,8 @@ CGFloat const kPNVisibilityImpressionTime = 0; // 0 second
 @property (nonatomic, strong) HyBidVisibilityTracker *visibilityTracker;
 @property (nonatomic, assign) BOOL isVisibiltyCheckScheduled;
 @property (nonatomic, assign) BOOL isVisibiltyCheckValid;
+@property (nonatomic, assign) long minVisibleTime;
+@property (nonatomic, assign) double minVisiblePercent;
 
 @end
 
@@ -76,7 +76,7 @@ CGFloat const kPNVisibilityImpressionTime = 0; // 0 second
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"View is already being tracked, dropping this call."];
             } else {
                 [self.trackedViews addObject:view];
-                [self.visibilityTracker addView:view withMinVisibility:kPNVisibilityThreshold];
+                [self.visibilityTracker addView:view withMinVisibility:self.minVisiblePercent];
             }
         }
     }
@@ -104,6 +104,29 @@ CGFloat const kPNVisibilityImpressionTime = 0; // 0 second
     }
 }
 
+-(void)determineViewbilityRemoteConfig: (HyBidAd*) ad {
+    if (ad.minVisibleTime != nil) {
+        self.minVisibleTime = [ad.minVisibleTime integerValue] / 1000;
+    } else {
+        self.minVisibleTime = [HyBidViewbilityConfig sharedConfig].minVisibleTime;
+    }
+    if (ad.minVisiblePercent != nil) {
+        self.minVisiblePercent = [ad.minVisiblePercent doubleValue];
+    } else {
+        self.minVisiblePercent = [HyBidViewbilityConfig sharedConfig].minVisiblePercent;
+    }
+    if (ad.impressionTrackingMethod != nil) {
+        if ([ad.impressionTrackingMethod  isEqual: @"render"]) {
+            self.impressionTrackingMethod = HyBidAdImpressionTrackerRender;
+        } else {
+            self.impressionTrackingMethod = HyBidAdImpressionTrackerViewable;
+        }
+    } else {
+        self.impressionTrackingMethod = [HyBidViewbilityConfig sharedConfig].impressionTrackerMethod;
+    }
+    
+}
+
 - (void)scheduleNextRun {
     @synchronized (self) {
         if(self.isVisibiltyCheckValid && !self.isVisibiltyCheckScheduled) {
@@ -124,22 +147,24 @@ CGFloat const kPNVisibilityImpressionTime = 0; // 0 second
 
 - (void)checkVisibility {
     @synchronized (self) {
-        if(self.visibleViews) {
-            for (int i = 0; i < [self.visibleViews count]; i++) {
+        if(self.visibleViews && [self.visibleViews count] > 0) {
+            long count = [self.visibleViews count];
+            for (int i = 0; i < count; i++) {
+                if ( [self.visibleViews count] != count) {
+                    break;
+                }
                 PNLiteImpressionTrackerItem* item = [self.visibleViews objectAtIndex: i];
                 if (item && item.view ) {
-                    // It could happen that we've removed the view right when we're tracking, so we simply skip this item
                     if(self.trackedViews && [self.trackedViews containsObject:item.view]) {
                         NSTimeInterval currentTimestamp = [[NSDate date] timeIntervalSince1970];
                         NSTimeInterval elapsedTime = currentTimestamp - item.timestamp;
-                        if(kPNVisibilityImpressionTime <= elapsedTime) {
-                            [self removeView:item.view];
-                            [self invokeImpressionDetected:item.view];
+                        if(self.minVisibleTime <= elapsedTime) {
+                            if(item.view) {
+                                [self removeView:item.view];
+                                [self invokeImpressionDetected:item.view];
+                            }
                         }
                     }
-                } else {
-                    // We have emptied the visible views while going through It, so we leave this for
-                    break;
                 }
             }
             self.isVisibiltyCheckScheduled = NO;

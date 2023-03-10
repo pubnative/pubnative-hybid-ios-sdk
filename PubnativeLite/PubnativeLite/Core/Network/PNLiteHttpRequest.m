@@ -224,6 +224,8 @@ NSInteger const MAX_RETRIES = 1;
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             if (error) {
                 [self invokeFailWithError:error andAttemptRetry:NO];
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self invokeFinishWithData:data statusCode:httpResponse.statusCode];

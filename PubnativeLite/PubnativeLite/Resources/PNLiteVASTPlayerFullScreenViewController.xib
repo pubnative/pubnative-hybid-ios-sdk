@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PNLiteVASTPlayerViewController">
             <connections>
-                <outlet property="btnClose" destination="xsk-q6-jz9" id="kFg-sc-m7Y"/>
                 <outlet property="btnMute" destination="VMb-Wf-Jhi" id="HUJ-xs-WXa"/>
                 <outlet property="btnOpenOffer" destination="Jiw-2I-70B" id="cTU-wT-7b8"/>
                 <outlet property="contentInfoViewContainer" destination="EyD-B7-zGY" id="4Ai-hH-Hhk"/>
@@ -20,8 +19,6 @@
                 <outlet property="viewProgressBottomConstraint" destination="7ik-2y-HgY" id="PLZ-Xl-t2b"/>
                 <outlet property="viewProgressLeadingConstraint" destination="PCi-Rw-6h1" id="u71-ql-x51"/>
                 <outlet property="viewProgressTrailingConstraint" destination="KHV-1q-9pF" id="9rx-WI-YJA"/>
-                <outlet property="viewSkip" destination="NR4-LJ-tZs" id="fte-wq-eDk"/>
-                <outlet property="viewSkipTopConstraint" destination="HH3-zi-ZtI" id="yQX-zb-t8h"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -55,29 +52,6 @@
                         <action selector="btnMutePush:" destination="-1" eventType="touchUpInside" id="WhW-Cj-rC0"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsk-q6-jz9" userLabel="Btn Close">
-                    <rect key="frame" x="551" y="0.0" width="49" height="51"/>
-                    <accessibility key="accessibilityConfiguration" identifier="closeButton" label="Close Button"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="49" id="ga3-Uj-WGN"/>
-                        <constraint firstAttribute="height" constant="51" id="hf6-IW-nhU"/>
-                    </constraints>
-                    <state key="normal" image="PNLiteClose.png"/>
-                    <connections>
-                        <action selector="btnClosePush:" destination="-1" eventType="touchUpInside" id="2ES-7F-HjR"/>
-                    </connections>
-                </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NR4-LJ-tZs">
-                    <rect key="frame" x="560" y="10" width="30" height="30"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <accessibility key="accessibilityConfiguration" identifier="progressView" label="Progress View">
-                        <bool key="isElement" value="YES"/>
-                    </accessibility>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="AUn-UX-qrQ"/>
-                        <constraint firstAttribute="width" constant="30" id="aCB-Tl-dlm"/>
-                    </constraints>
-                </view>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="sBQ-GN-9Mt">
                     <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
                 </activityIndicatorView>
@@ -101,16 +75,12 @@
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="Jiw-2I-70B" secondAttribute="trailing" id="0mH-9B-A2N"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="VMb-Wf-Jhi" secondAttribute="top" id="7bQ-vz-blX"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="a1F-up-quM" secondAttribute="bottom" id="7ik-2y-HgY"/>
-                <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="NR4-LJ-tZs" secondAttribute="trailing" constant="10" id="Gdo-V7-P5o"/>
-                <constraint firstItem="NR4-LJ-tZs" firstAttribute="top" secondItem="pjM-1K-mT8" secondAttribute="top" constant="10" id="HH3-zi-ZtI"/>
                 <constraint firstItem="a1F-up-quM" firstAttribute="trailing" secondItem="pjM-1K-mT8" secondAttribute="trailing" id="KHV-1q-9pF"/>
                 <constraint firstItem="a1F-up-quM" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="PCi-Rw-6h1"/>
-                <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="xsk-q6-jz9" secondAttribute="trailing" id="VqZ-0i-V6i"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerX" secondItem="CWD-dp-WWe" secondAttribute="centerX" id="bUX-hK-Noz"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerY" secondItem="CWD-dp-WWe" secondAttribute="centerY" id="nBg-k3-iEi"/>
                 <constraint firstItem="VMb-Wf-Jhi" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="nCr-Xc-euC"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="Jiw-2I-70B" secondAttribute="bottom" id="nm2-Uc-bVw"/>
-                <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="xsk-q6-jz9" secondAttribute="top" id="utd-gD-lxl"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -125,7 +95,6 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="PNLiteClose.png" width="32" height="32"/>
         <image name="PNLiteExternalLink1.png" width="32" height="32"/>
         <image name="PNLiteMute.png" width="200" height="200"/>
     </resources>
