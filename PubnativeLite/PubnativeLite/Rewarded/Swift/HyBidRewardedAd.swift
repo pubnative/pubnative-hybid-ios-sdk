@@ -228,7 +228,12 @@ public class HyBidRewardedAd: NSObject {
     
     func renderAd(ad: HyBidAd) {
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
-        self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        if let skipOffset = self.htmlSkipOffset?.offset?.intValue, skipOffset >= 0 {
+            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        } else {
+            let skipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false);
+            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+        }
         
         if (self.rewardedPresenter == nil) {
             HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Could not create valid rewarded presenter.")
@@ -362,8 +367,8 @@ public class HyBidRewardedAd: NSObject {
     }
     
     func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
-        if ad.htmlSkipOffset != nil {
-            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.htmlSkipOffset, isCustom: true)
+        if ad.rewardedHtmlSkipOffset != nil {
+            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.rewardedHtmlSkipOffset, isCustom: true)
         }
     }
     
@@ -393,6 +398,7 @@ extension HyBidRewardedAd {
         
         if let ad = ad {
             self.ad = ad
+            self.determineSkipOffsetValuesFor(ad)
             self.ad?.adType = Int(kHyBidAdTypeVideo)
             self.determineCloseOnFinishFor(ad)
             self.renderAd(ad: ad)

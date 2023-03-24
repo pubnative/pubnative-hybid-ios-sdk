@@ -144,7 +144,8 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     if ([results count] > 0) {
         NSString *url;
         NSDictionary *node = results[0];
-        if ([node[@"nodeContent"] length] > 0) {
+        // Checking if CDATA does not exist and content is not empty. Then proceed with raw URL
+        if ([node[@"nodeContent"] length] > 0 && [node[@"nodeChildArray"] count] == 0) {
             // this is for string data
             url =  node[@"nodeContent"];
         } else {

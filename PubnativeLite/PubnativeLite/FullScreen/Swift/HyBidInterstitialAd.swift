@@ -253,7 +253,24 @@ public class HyBidInterstitialAd: NSObject {
             self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
         }
         let interstitalPresenterFactory = HyBidInterstitialPresenterFactory()
-        self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(self.videoSkipOffset?.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(self.htmlSkipOffset?.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        let videoSkipOffset = self.videoSkipOffset?.offset?.intValue ?? 0
+        let htmlSkipOffset = self.htmlSkipOffset?.offset?.intValue ?? 0
+        var defaultVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
+        let defaultHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+
+        if videoSkipOffset >= 0 && htmlSkipOffset >= 0 {
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        } else if videoSkipOffset < 0 && htmlSkipOffset < 0 {
+            defaultVideoSkipOffset = (self.ad?.hasEndCard ?? false) && HyBidRenderingConfig.sharedConfig.showEndCard ? HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false) : HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
+            HyBidRenderingConfig.sharedConfig.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultVideoSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        } else if htmlSkipOffset < 0 {
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        } else if videoSkipOffset < 0{
+            defaultVideoSkipOffset = (self.ad?.hasEndCard ?? false) && HyBidRenderingConfig.sharedConfig.showEndCard ? HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false) : HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
+            HyBidRenderingConfig.sharedConfig.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultVideoSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+        }
         
         if (self.interstitialPresenter == nil) {
             HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Could not create valid interstitial presenter.")
@@ -381,8 +398,8 @@ public class HyBidInterstitialAd: NSObject {
     }
     
     func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
-        if ad.htmlSkipOffset != nil {
-            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.htmlSkipOffset, isCustom: true)
+        if ad.interstitialHtmlSkipOffset != nil {
+            self.htmlSkipOffset = HyBidSkipOffset(offset: ad.interstitialHtmlSkipOffset, isCustom: true)
         }
         if ad.videoSkipOffset != nil {
             self.videoSkipOffset = HyBidSkipOffset(offset: ad.videoSkipOffset, isCustom: true)

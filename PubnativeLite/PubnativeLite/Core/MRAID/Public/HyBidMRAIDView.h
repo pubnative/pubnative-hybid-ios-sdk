@@ -22,6 +22,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HyBidContentInfoView.h"
+#import "HyBidAd.h"
 
 @class HyBidMRAIDView;
 @protocol HyBidMRAIDServiceDelegate;
@@ -53,8 +54,9 @@
 
 // IMPORTANT: This is the only valid initializer for an MRAIDView; -init and -initWithFrame: will throw exceptions
 - (id)initWithFrame:(CGRect)frame
-       withHtmlData:(NSString*)htmlData
-        withBaseURL:(NSURL*)bsURL
+       withHtmlData:(NSString *)htmlData
+        withBaseURL:(NSURL *)bsURL
+             withAd:(HyBidAd *)ad
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
        isScrollable:(BOOL)isScrollable
@@ -62,7 +64,8 @@
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
-         skipOffset:(NSInteger)skipOffset;
+         skipOffset:(NSInteger)skipOffset
+    needCloseButton:(BOOL)needCloseButton;
 
 - (void)cancel;
 

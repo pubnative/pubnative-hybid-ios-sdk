@@ -69,7 +69,8 @@ NSString * const kUserDefaultsHyBidUserAgentKey = @"com.pubnative.hybid-ios-sdk.
         gHyBidWkWebView = [WKWebView new]; // `WKWebView` must be created in main thread
         [gHyBidWkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
             if (error != nil) {
-                
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
                 [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:error.localizedDescription];
             } else if ([result isKindOfClass:NSString.class]) {
                 gHyBidUserAgent = result;

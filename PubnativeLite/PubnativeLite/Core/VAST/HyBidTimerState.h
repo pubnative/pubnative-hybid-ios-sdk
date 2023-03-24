@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,39 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+typedef enum {
+    HyBidTimerState_Start,
+    HyBidTimerState_Pause,
+    HyBidTimerState_Stop
+} HyBidTimerState;
 
-@interface PNLiteData : NSObject
-
-+ (NSString *)text;
-+ (NSString *)vast;
-+ (NSString *)number;
-+ (NSString *)url;
-+ (NSString *)js;
-+ (NSString *)html;
-+ (NSString *)width;
-+ (NSString *)height;
-+ (NSString *)jsonData;
-+ (NSString *)skoverlayEnabled;
-+ (NSString *)audioState;
-+ (NSString *)endcardEnabled;
-+ (NSString *)endcardCloseDelay;
-+ (NSString *)interstitialHtmlSkipOffset;
-+ (NSString *)rewardedHtmlSkipOffset;
-+ (NSString *)videoSkipOffset;
-+ (NSString *)closeInterstitialAfterFinish;
-+ (NSString *)closeRewardedAfterFinish;
-+ (NSString *)fullscreenClickability;
-+ (NSString *)impressionTracking;
-+ (NSString *)minVisibleTime;
-+ (NSString *)minVisiblePercent;
-+ (NSString *)contentInfoURL;
-+ (NSString *)contentInfoIconURL;
-+ (NSString *)contentInfoIconClickAction;
-+ (NSString *)contentInfoDisplay;
-+ (NSString *)contentInfoText;
-+ (NSString *)contentInfoHorizontalPosition;
-+ (NSString *)contentInfoVerticalPosition;
-+ (NSString *)mraidExpand;
-
-@end
+typedef enum {
+    HyBidCountdownPieChart = 0,
+    HyBidCountdownSkipOverlayTimer = 1,
+    HyBidCountdownSkipOverlayProgress = 2
+} HyBidCountdownStyle;

@@ -58,8 +58,8 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
         HyBidSkipOffset *videoSkipOffset = nil;
         HyBidSkipOffset *htmlSkipOffset = nil;
         
-        if (self.ad.htmlSkipOffset){
-            htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:self.ad.htmlSkipOffset isCustom:YES];
+        if (self.ad.interstitialHtmlSkipOffset){
+            htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:self.ad.interstitialHtmlSkipOffset isCustom:YES];
         } else {
             htmlSkipOffset = [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset;
         }

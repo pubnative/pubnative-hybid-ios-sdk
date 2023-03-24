@@ -32,10 +32,18 @@ public class HyBidSkipOffset: NSObject {
 
     @objc public var offset: NSNumber?
     @objc public var isCustom: Bool = false
+    @objc public var style: NSNumber = 0
     
     @objc
     public init(offset: NSNumber?, isCustom: Bool) {
         self.offset = offset
         self.isCustom = isCustom
+    }
+    
+    @objc
+    public init(offset: NSNumber?, isCustom: Bool, style: NSNumber = 0) {
+        self.offset = offset
+        self.isCustom = isCustom
+        self.style = style
     }
 }

@@ -37,7 +37,8 @@
 + (NSString *)audioState { return @"audiostate"; }
 + (NSString *)endcardEnabled { return @"endcardenabled"; }
 + (NSString *)endcardCloseDelay { return @"endcard_close_delay"; }
-+ (NSString *)htmlSkipOffset { return @"html_skip_offset"; }
++ (NSString *)interstitialHtmlSkipOffset { return @"html_skip_offset"; }
++ (NSString *)rewardedHtmlSkipOffset { return @"rewarded_html_skip_offset"; }
 + (NSString *)videoSkipOffset { return @"video_skip_offset"; }
 + (NSString *)closeInterstitialAfterFinish { return @"close_inter_after_finished"; }
 + (NSString *)closeRewardedAfterFinish { return @"close_reward_after_finished"; }
@@ -50,5 +51,8 @@
 + (NSString *)contentInfoIconClickAction { return @"content_info_icon_click_action"; }
 + (NSString *)contentInfoDisplay { return @"content_info_display"; }
 + (NSString *)contentInfoText { return @"content_info_text"; }
++ (NSString *)contentInfoHorizontalPosition { return @"content_info_horizontal_position"; }
++ (NSString *)contentInfoVerticalPosition { return @"content_info_vertical_position"; }
++ (NSString *)mraidExpand { return @"mraid_expand"; }
 
 @end

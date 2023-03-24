@@ -77,7 +77,11 @@
     self.adRequestModel.requestParameters[HyBidRequestParameter.orientation] = [HyBidSettings sharedInstance].orientation;
     self.adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidConsentConfig sharedConfig].coppa ? @"1" : @"0";
     [self setIDFA:self.adRequestModel];
-    self.adRequestModel.requestParameters[HyBidRequestParameter.locale] = [HyBidSettings sharedInstance].locale;
+    
+    NSString *locale = [HyBidSettings sharedInstance].locale;
+    if (locale && [locale length] != 0){
+        self.adRequestModel.requestParameters[HyBidRequestParameter.locale] = locale;
+    }
     
     BOOL isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
     if (isUsingOpenRTB) {

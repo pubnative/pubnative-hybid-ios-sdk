@@ -46,13 +46,35 @@
 
 - (NSString *)content
 {
-    NSString *html = [[NSAttributedString alloc] initWithData:[[self.htmlResourceXMLElement value] dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentOption: NSHTMLTextDocumentType} documentAttributes:nil error:nil].string;
+    NSString *htmlResourceString = [self.htmlResourceXMLElement value];
+    NSError *error = nil;
     
-    if ([html length] > 0 && ![html isEqualToString:@"\n"]) {
-        return html;
-    } else {
+    NSDictionary *options = @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding) };
+    
+    NSString *html = [[NSAttributedString alloc] initWithData:[htmlResourceString dataUsingEncoding:NSUTF8StringEncoding]
+                                                      options:options
+                                           documentAttributes:nil
+                                                        error:&error].string;
+    
+    // Handle any errors that occurred during conversion
+    if (error) {
         return [self.htmlResourceXMLElement value];
+    } else {
+        
+        // Define a regular expression pattern to match any string that contains only occurrences of \U0000fffc and/or occurrences of the newline character \n
+        NSString *pattern = @"^([\\n\\U0000fffc]+)$";
+        
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
+        NSTextCheckingResult *match = [regex firstMatchInString:html options:0 range:NSMakeRange(0, [html length])];
+        
+        if (!match && html.length > 0) {
+            return html;
+        } else {
+            return [self.htmlResourceXMLElement value];
+        }
     }
+    
 }
 
 @end

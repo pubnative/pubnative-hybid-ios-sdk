@@ -219,6 +219,18 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             switch (indexPath.section) {
+                case 1: { // countdown style
+                    [cell.segmentedControl setTitle:@"Pie chart" forSegmentAtIndex:0];
+                    [cell.segmentedControl setTitle:@"Timer" forSegmentAtIndex:1];
+                    if(cell.segmentedControl.numberOfSegments > 2){
+                        [cell.segmentedControl setTitle:@"Progress" forSegmentAtIndex:2];
+                    } else {
+                        [cell.segmentedControl insertSegmentWithTitle:@"Progress" atIndex:2 animated: YES];
+                    }
+                    
+                    [cell.segmentedControl setSelectedSegmentIndex: [[HyBidRenderingConfig sharedConfig].videoSkipOffset.style intValue]];
+                    break;
+                }
                 case 2: {
                     switch (indexPath.row) {
                         case 0: { // Click behaviour
@@ -273,7 +285,8 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 @{ @"HTML/MRAID Skip Offset":                   @(TEXT_FIELD) },
                 @{ @"Video Skip Offset":                        @(TEXT_FIELD) },
                 @{ @"SKOverlay Enabled":                        @(SWITCH) },
-                @{ @"Close After Finish":                       @(SWITCH) }
+                @{ @"Close After Finish":                       @(SWITCH) },
+                @{ @"Countdown style":                       @(SEGMENTED_CONTROL) }
             ]},
         @2 :
             @{@"Fullscreen": @[
@@ -358,7 +371,9 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 1: {
             switch (indexPath.row) {
                 case 0: { // HTML/MRAID Skip Offset
-                    [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
+                    if ([value intValue] >= 0) {
+                        [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
+                    }
                     break;
                 }
                 case 1: { // Video Skip Offset
@@ -371,7 +386,9 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
         case 3: {
             switch (indexPath.row) {
                 case 0: { // HTML/MRAID Skip Offset Rewarded
-                    [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
+                    if ([value intValue] >= 0) {
+                        [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
+                    }
                     break;
                 }
             }
@@ -382,6 +399,15 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
 
 - (void)segmentedControlValueChangedAtIndexPath:(NSIndexPath *)indexPath withIndexValue:(NSInteger)value {
     switch (indexPath.section) {
+        case 1: {
+            switch(indexPath.row){
+                case 4: { // countdown style;
+                    [HyBidRenderingConfig sharedConfig].videoSkipOffset.style = [NSNumber numberWithInt: value];
+                    break;
+                }
+            }
+            break;
+        }
         case 2: {
             switch (indexPath.row) {
                 case 0: { // Click behaviour

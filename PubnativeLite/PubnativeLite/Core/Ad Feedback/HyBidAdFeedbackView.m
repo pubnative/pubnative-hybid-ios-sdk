@@ -82,6 +82,7 @@
         self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)
                                                   withHtmlData:nil
                                                    withBaseURL:[NSURL URLWithString:url]
+                                                        withAd:nil
                                              supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                                  isInterstital:YES
                                                   isScrollable:YES
@@ -89,7 +90,8 @@
                                                serviceDelegate:self
                                             rootViewController:[UIApplication sharedApplication].topViewController
                                                    contentInfo:nil
-                                                    skipOffset:0];
+                                                    skipOffset:0
+                                               needCloseButton:YES];
     }
     return self;
 }

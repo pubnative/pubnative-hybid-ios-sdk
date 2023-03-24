@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,39 +20,22 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "HyBidTimerState.h"
 
-@interface PNLiteData : NSObject
+@protocol HyBidSkipOverlayDelegate <NSObject>
 
-+ (NSString *)text;
-+ (NSString *)vast;
-+ (NSString *)number;
-+ (NSString *)url;
-+ (NSString *)js;
-+ (NSString *)html;
-+ (NSString *)width;
-+ (NSString *)height;
-+ (NSString *)jsonData;
-+ (NSString *)skoverlayEnabled;
-+ (NSString *)audioState;
-+ (NSString *)endcardEnabled;
-+ (NSString *)endcardCloseDelay;
-+ (NSString *)interstitialHtmlSkipOffset;
-+ (NSString *)rewardedHtmlSkipOffset;
-+ (NSString *)videoSkipOffset;
-+ (NSString *)closeInterstitialAfterFinish;
-+ (NSString *)closeRewardedAfterFinish;
-+ (NSString *)fullscreenClickability;
-+ (NSString *)impressionTracking;
-+ (NSString *)minVisibleTime;
-+ (NSString *)minVisiblePercent;
-+ (NSString *)contentInfoURL;
-+ (NSString *)contentInfoIconURL;
-+ (NSString *)contentInfoIconClickAction;
-+ (NSString *)contentInfoDisplay;
-+ (NSString *)contentInfoText;
-+ (NSString *)contentInfoHorizontalPosition;
-+ (NSString *)contentInfoVerticalPosition;
-+ (NSString *)mraidExpand;
+- (void)skipButtonTapped;
+
+@end
+
+@interface HyBidSkipOverlay : UIView
+
+- (id)initWithSkipOffset:(NSInteger)skipOffset withCountdownStyle:(HyBidCountdownStyle)countdownStyle;
+- (void)updateTimerStateWithRemainingSeconds:(NSInteger)seconds withTimerState:(HyBidTimerState)timerState;
+- (NSInteger)getRemainingTime;
+
+@property (nonatomic, weak) NSObject<HyBidSkipOverlayDelegate> *delegate;
+@property (nonatomic) NSInteger padding;
 
 @end

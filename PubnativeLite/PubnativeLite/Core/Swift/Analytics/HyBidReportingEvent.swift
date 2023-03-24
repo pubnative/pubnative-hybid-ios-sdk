@@ -40,6 +40,15 @@ public class HyBidReportingEvent: NSObject {
     }
     
     @objc
+    public init(with eventType: String, errorMessage: String? = nil, properties: [ReportingKey: Any]? = nil) {
+        self.eventType = eventType
+        self.properties = properties ?? [:]
+        self.properties[Common.EVENT_TYPE] = eventType
+        self.properties[Common.ERROR_MESSAGE] = errorMessage
+        self.properties[Common.TIMESTAMP] = String(Date().timeIntervalSince1970 * 1000.0)
+    }
+    
+    @objc
     public func toJSON() -> String {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: properties, options: []),
               let jsonString = String(data: jsonData, encoding: .utf8) else {

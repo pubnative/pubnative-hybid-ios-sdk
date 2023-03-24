@@ -24,6 +24,14 @@
 #import <UIKit/UIKit.h>
 #import <PhotosUI/PhotosUI.h>
 
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
+
 @implementation HyBidMRAIDServiceProvider
 
 - (void)openBrowser:(NSString *)urlString {
@@ -55,6 +63,8 @@
               UIImage *image = [[UIImage alloc] initWithData:data];
               completionBlock(YES,image);
           } else {
+              HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+              [[HyBid reportingManager] reportEventFor:reportingEvent];
               completionBlock(NO,nil);
           }
       }] resume];

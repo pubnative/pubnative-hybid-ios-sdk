@@ -35,6 +35,16 @@ typedef enum {
     HyBidContentInfoDisplaySystem
 } HyBidContentInfoDisplay;
 
+typedef enum {
+    HyBidContentInfoHorizontalPositionLeft,
+    HyBidContentInfoHorizontalPositionRight
+} HyBidContentInfoHorizontalPosition;
+
+typedef enum {
+    HyBidContentInfoVerticalPositionTop,
+    HyBidContentInfoVerticalPositionBottom
+} HyBidContentInfoVerticalPosition;
+
 @protocol HyBidContentInfoViewDelegate<NSObject>
 
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber *)width;
@@ -51,7 +61,10 @@ typedef enum {
 @property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
 @property (nonatomic) HyBidContentInfoClickAction clickAction;
 @property (nonatomic) HyBidContentInfoDisplay display;
+@property (nonatomic) HyBidContentInfoHorizontalPosition horizontalPosition;
+@property (nonatomic) HyBidContentInfoVerticalPosition verticalPosition;
 
-- (void)setIconSize:(CGRect) frame;
+- (void)setIconSize:(CGSize) size;
+- (void)setElementsOrientation:(HyBidContentInfoHorizontalPosition) orientation;
 
 @end

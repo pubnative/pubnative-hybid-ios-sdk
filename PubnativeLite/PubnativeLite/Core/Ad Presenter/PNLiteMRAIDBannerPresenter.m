@@ -71,6 +71,7 @@
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, [self.adModel.width floatValue], [self.adModel.height floatValue])
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
+                                                    withAd:self.ad
                                           supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                               isInterstital:NO
                                               isScrollable:NO
@@ -78,7 +79,8 @@
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
                                                 contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0];
+                                                 skipOffset:0
+                                           needCloseButton:NO];
 }
 
 - (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
@@ -86,6 +88,7 @@
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
+                                                    withAd:self.ad
                                           supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                               isInterstital:NO
                                               isScrollable:NO
@@ -93,7 +96,8 @@
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
                                                 contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0];
+                                                 skipOffset:0
+                                           needCloseButton:NO];
 }
 
 - (void)startTracking {

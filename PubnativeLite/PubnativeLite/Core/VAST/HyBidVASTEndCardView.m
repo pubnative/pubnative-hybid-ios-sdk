@@ -388,18 +388,19 @@
     self.endCardImageView = nil;
     self.serviceProvider = [[HyBidMRAIDServiceProvider alloc] init];
     
-    self.mraidView = [[HyBidMRAIDView alloc]
-            initWithFrame:self.mainView.frame
-            withHtmlData:content
-            withBaseURL:baseURL
-            supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
-            isInterstital:NO
-            isScrollable:NO
-            delegate:self
-            serviceDelegate:self
-            rootViewController:self.rootViewController
-            contentInfo:nil
-            skipOffset:self.endCardCloseDelay.offset.integerValue];
+    self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:self.mainView.frame
+                                              withHtmlData:content
+                                               withBaseURL:baseURL
+                                                    withAd:nil
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                             isInterstital:NO
+                                              isScrollable:NO
+                                                  delegate:self
+                                           serviceDelegate:self
+                                        rootViewController:self.rootViewController
+                                               contentInfo:nil
+                                                skipOffset:self.endCardCloseDelay.offset.integerValue
+                                           needCloseButton:NO];
 }
 
 - (void)displayImageViewWithURL:(NSString *)url withView:(UIView *)view
@@ -501,6 +502,8 @@
               UIImage *image = [[UIImage alloc] initWithData:data];
               completionBlock(YES,image);
           } else {
+              HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+              [[HyBid reportingManager] reportEventFor:reportingEvent];
               completionBlock(NO,nil);
           }
       }] resume];
@@ -564,6 +567,10 @@
     }
     
     [self close];
+}
+
+- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
+    [self.serviceProvider openBrowser:url.absoluteString];
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {

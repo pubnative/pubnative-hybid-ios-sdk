@@ -153,6 +153,8 @@ API_AVAILABLE(ios(14.5))
             [SKAdNetwork startImpression:impression completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {
                     NSLog(@"Error: %@", error.localizedDescription);
+                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                    [[HyBid reportingManager] reportEventFor:reportingEvent];
                     return;
                 }
                 
@@ -175,6 +177,8 @@ API_AVAILABLE(ios(14.5))
             [SKAdNetwork endImpression:impression completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {
                     NSLog(@"Error: %@", error.localizedDescription);
+                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                    [[HyBid reportingManager] reportEventFor:reportingEvent];
                 }
                 
                 NSLog(@"Impression ended successfully.");

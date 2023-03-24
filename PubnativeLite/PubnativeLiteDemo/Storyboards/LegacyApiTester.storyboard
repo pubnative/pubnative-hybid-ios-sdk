@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gT5-Jh-Yue">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gT5-Jh-Yue">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8Q7-JU-oxC" userLabel="Signal Data Text View">
-                                <rect key="frame" x="16" y="117" width="361" height="488"/>
+                                <rect key="frame" x="16" y="153" width="361" height="452"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="signalDataTextView" label="Signal Data Text View"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
@@ -215,6 +215,13 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ai8-0v-YRF" userLabel="LegacyAPI SegmentedControl ">
+                                <rect key="frame" x="8" y="114" width="377" height="32"/>
+                                <segments>
+                                    <segment title="JSON"/>
+                                    <segment title="URL"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="WHy-R1-0t5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -223,10 +230,13 @@
                             <constraint firstItem="WHy-R1-0t5" firstAttribute="bottom" secondItem="95O-H8-ZAf" secondAttribute="bottom" constant="8" id="2cx-BF-8J6"/>
                             <constraint firstItem="WHy-R1-0t5" firstAttribute="trailing" secondItem="8Q7-JU-oxC" secondAttribute="trailing" constant="16" id="G66-K2-vrQ"/>
                             <constraint firstItem="95O-H8-ZAf" firstAttribute="leading" secondItem="WHy-R1-0t5" secondAttribute="leading" constant="16" id="In2-Ji-JSJ"/>
-                            <constraint firstItem="8Q7-JU-oxC" firstAttribute="top" secondItem="DSY-fQ-C78" secondAttribute="bottom" constant="8" id="Mej-Wb-qAr"/>
                             <constraint firstItem="nry-nP-H10" firstAttribute="leading" secondItem="WHy-R1-0t5" secondAttribute="leading" constant="16" id="QrV-kK-ULM"/>
+                            <constraint firstItem="ai8-0v-YRF" firstAttribute="leading" secondItem="WHy-R1-0t5" secondAttribute="leading" constant="8" id="Sl5-PU-c2i"/>
                             <constraint firstItem="WHy-R1-0t5" firstAttribute="trailing" secondItem="DSY-fQ-C78" secondAttribute="trailing" constant="16" id="UMb-yV-t65"/>
+                            <constraint firstItem="WHy-R1-0t5" firstAttribute="trailing" secondItem="ai8-0v-YRF" secondAttribute="trailing" constant="8" id="W4e-6b-bZP"/>
                             <constraint firstItem="nry-nP-H10" firstAttribute="top" secondItem="8Q7-JU-oxC" secondAttribute="bottom" constant="8" id="W6N-uZ-DXg"/>
+                            <constraint firstItem="8Q7-JU-oxC" firstAttribute="top" secondItem="ai8-0v-YRF" secondAttribute="bottom" constant="8" id="imv-xG-UTb"/>
+                            <constraint firstItem="ai8-0v-YRF" firstAttribute="top" secondItem="DSY-fQ-C78" secondAttribute="bottom" constant="5" id="nGI-lZ-WeM"/>
                             <constraint firstItem="WHy-R1-0t5" firstAttribute="trailing" secondItem="95O-H8-ZAf" secondAttribute="trailing" constant="16" id="tWJ-w1-jx2"/>
                             <constraint firstItem="DSY-fQ-C78" firstAttribute="leading" secondItem="WHy-R1-0t5" secondAttribute="leading" constant="16" id="vOp-42-cNi"/>
                             <constraint firstItem="WHy-R1-0t5" firstAttribute="trailing" secondItem="nry-nP-H10" secondAttribute="trailing" constant="16" id="w3H-8q-dar"/>
@@ -242,11 +252,12 @@
                         <outlet property="leaderboardButton" destination="tNI-iB-swX" id="riS-Am-8jl"/>
                         <outlet property="mRectButton" destination="rGv-Td-1Ex" id="h1p-1y-Nhy"/>
                         <outlet property="rewardedButton" destination="oAm-Vr-Rhn" id="Gt4-A3-V1Y"/>
+                        <outlet property="segmentedControl" destination="ai8-0v-YRF" id="4Vr-mJ-jIA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Sf-C5-cIB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-167.19999999999999" y="149.77511244377811"/>
+            <point key="canvasLocation" x="-168.70229007633588" y="149.29577464788733"/>
         </scene>
         <!--HyBid Demo LegacyAPI Tester Detail View Controller-->
         <scene sceneID="zwo-kF-fhx">
@@ -256,14 +267,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohH-9a-HsG" customClass="HyBidAdView">
-                                <rect key="frame" x="191.66666666666666" y="421" width="10" height="10"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="10" id="lOS-03-I9H"/>
-                                    <constraint firstAttribute="width" constant="10" id="xJs-FX-6Tc"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4g-oH-2Uh" userLabel="Dismiss Button">
                                 <rect key="frame" x="16" y="777" width="361" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -307,25 +310,33 @@
                                     </mask>
                                 </variation>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KXp-pT-jtT">
+                                <rect key="frame" x="191.66666666666666" y="421" width="10" height="10"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="D7y-zG-zPv"/>
+                                    <constraint firstAttribute="height" constant="10" id="a6i-mQ-dnt"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4Fa-KA-QZ3"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="e4g-oH-2Uh" firstAttribute="centerX" secondItem="10a-Pt-mMx" secondAttribute="centerX" id="6ej-8q-QwR"/>
                             <constraint firstItem="4Fa-KA-QZ3" firstAttribute="bottom" secondItem="e4g-oH-2Uh" secondAttribute="bottom" constant="8" id="CUn-gu-2e8"/>
-                            <constraint firstItem="ohH-9a-HsG" firstAttribute="centerX" secondItem="10a-Pt-mMx" secondAttribute="centerX" id="JMx-4c-ptT"/>
                             <constraint firstItem="bMy-Ao-FkY" firstAttribute="top" secondItem="4Fa-KA-QZ3" secondAttribute="top" constant="8" id="ahH-0I-NGs"/>
                             <constraint firstItem="4Fa-KA-QZ3" firstAttribute="trailing" secondItem="e4g-oH-2Uh" secondAttribute="trailing" constant="16" id="bsw-tz-9OB"/>
+                            <constraint firstItem="KXp-pT-jtT" firstAttribute="centerX" secondItem="10a-Pt-mMx" secondAttribute="centerX" id="eFA-dA-RpI"/>
+                            <constraint firstItem="KXp-pT-jtT" firstAttribute="centerY" secondItem="10a-Pt-mMx" secondAttribute="centerY" id="eNE-22-bCq"/>
                             <constraint firstItem="e4g-oH-2Uh" firstAttribute="leading" secondItem="4Fa-KA-QZ3" secondAttribute="leading" constant="16" id="fCC-Uu-COr"/>
-                            <constraint firstItem="ohH-9a-HsG" firstAttribute="centerY" secondItem="10a-Pt-mMx" secondAttribute="centerY" id="gLI-pf-cAG"/>
                             <constraint firstItem="4Fa-KA-QZ3" firstAttribute="trailing" secondItem="bMy-Ao-FkY" secondAttribute="trailing" constant="16" id="m0T-T7-zX1"/>
                             <constraint firstItem="bMy-Ao-FkY" firstAttribute="leading" secondItem="4Fa-KA-QZ3" secondAttribute="leading" constant="16" id="ywW-u1-PDV"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bannerAdView" destination="ohH-9a-HsG" id="UDh-Vq-SV2"/>
-                        <outlet property="bannerAdViewContainerHeightConstraint" destination="lOS-03-I9H" id="CyR-u3-Wa0"/>
-                        <outlet property="bannerAdViewContainerWidthConstraint" destination="xJs-FX-6Tc" id="Y7q-vm-heI"/>
+                        <outlet property="adViewContainer" destination="KXp-pT-jtT" id="KO8-9s-KB0"/>
+                        <outlet property="adViewContainerHeightConstraint" destination="a6i-mQ-dnt" id="9NS-vn-XGh"/>
+                        <outlet property="adViewContainerWidthConstraint" destination="D7y-zG-zPv" id="OiA-hl-sIo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ch4-jm-hoe" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -554,6 +554,11 @@
 		7EE3577C256BC7DC005E6AC6 /* HyBidAdSourceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE3577A256BC7DC005E6AC6 /* HyBidAdSourceAbstract.h */; };
 		7EE3577E256BC7DD005E6AC6 /* HyBidAdSourceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3577B256BC7DC005E6AC6 /* HyBidAdSourceAbstract.m */; };
 		7EEF4F6028CF57A0004F1385 /* HyBidSkipOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEF4F5F28CF57A0004F1385 /* HyBidSkipOffset.swift */; };
+		913BC2E72996763B00645ABB /* HyBidMRAIDCloseCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 913BC2E42996763B00645ABB /* HyBidMRAIDCloseCardView.xib */; };
+		913BC2E92996985500645ABB /* HyBidMRAIDCloseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913BC2E82996985500645ABB /* HyBidMRAIDCloseCardView.swift */; };
+		9187EB932975C4FF009800DF /* HyBidTimerState.h in Headers */ = {isa = PBXBuildFile; fileRef = 9187EB912975C4FF009800DF /* HyBidTimerState.h */; };
+		9187EB972975C545009800DF /* HyBidSkipOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 9187EB952975C545009800DF /* HyBidSkipOverlay.h */; };
+		9187EB982975C545009800DF /* HyBidSkipOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9187EB962975C545009800DF /* HyBidSkipOverlay.m */; };
 		CE8DBDDA27BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8DBDD927BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.m */; };
 		CEC299372785E79200E40AF0 /* HyBidNavigatorGeolocation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC299342785E79200E40AF0 /* HyBidNavigatorGeolocation.m */; };
 		CEC299392785E79200E40AF0 /* HyBidNavigatorGeolocation.h in Headers */ = {isa = PBXBuildFile; fileRef = CEC299352785E79200E40AF0 /* HyBidNavigatorGeolocation.h */; };
@@ -1295,6 +1300,13 @@
 		7EE3577A256BC7DC005E6AC6 /* HyBidAdSourceAbstract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdSourceAbstract.h; sourceTree = "<group>"; };
 		7EE3577B256BC7DC005E6AC6 /* HyBidAdSourceAbstract.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdSourceAbstract.m; sourceTree = "<group>"; };
 		7EEF4F5F28CF57A0004F1385 /* HyBidSkipOffset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidSkipOffset.swift; sourceTree = "<group>"; };
+		9133F991298298AF00502D93 /* HyBidLiteVASTCloseButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLiteVASTCloseButton.h; sourceTree = "<group>"; };
+		913BC2E42996763B00645ABB /* HyBidMRAIDCloseCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HyBidMRAIDCloseCardView.xib; sourceTree = "<group>"; };
+		913BC2E82996985500645ABB /* HyBidMRAIDCloseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidMRAIDCloseCardView.swift; sourceTree = "<group>"; };
+		914B38332976D484001B0B02 /* HyBidLiteCloseButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidLiteCloseButton.h; sourceTree = "<group>"; };
+		9187EB912975C4FF009800DF /* HyBidTimerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidTimerState.h; sourceTree = "<group>"; };
+		9187EB952975C545009800DF /* HyBidSkipOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSkipOverlay.h; sourceTree = "<group>"; };
+		9187EB962975C545009800DF /* HyBidSkipOverlay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkipOverlay.m; sourceTree = "<group>"; };
 		A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBidDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBidDemo.release.xcconfig"; path = "Target Support Files/Pods-HyBidDemo/Pods-HyBidDemo.release.xcconfig"; sourceTree = "<group>"; };
 		CE8DBDD827BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationVerveCustomNetworkAdapter.h; sourceTree = "<group>"; };
@@ -1566,6 +1578,8 @@
 				7ED53E45286089C100948F8A /* Public */,
 				5A2633582034AB960005EA39 /* Properties */,
 				5ACC74E2203595240001CDC3 /* PNLiteCloseButton.h */,
+				914B38332976D484001B0B02 /* HyBidLiteCloseButton.h */,
+				9133F991298298AF00502D93 /* HyBidLiteVASTCloseButton.h */,
 				5ACC74E0203595240001CDC3 /* PNLiteCloseButton.png */,
 				5ACC74D9203595230001CDC3 /* PNLitemraidjs.h */,
 				5ACC74DD203595240001CDC3 /* PNLiteMRAIDSettings.h */,
@@ -1581,6 +1595,7 @@
 				CEC299362785E79200E40AF0 /* navigation_geolocation.js */,
 				E7F24F1724E4224000160097 /* hybidmraidscaling.js */,
 				E715F7222729A4E500E20A9E /* hybidscaling.js */,
+				913BC2E82996985500645ABB /* HyBidMRAIDCloseCardView.swift */,
 			);
 			path = MRAID;
 			sourceTree = "<group>";
@@ -1951,6 +1966,9 @@
 				6F4A129228082A9400520C02 /* HyBidVASTEndCardView.h */,
 				6F4A129328082A9400520C02 /* HyBidVASTEndCardView.m */,
 				6F1ABAE328083734008E7442 /* HyBidVASTEndCardCloseIcon.h */,
+				9187EB912975C4FF009800DF /* HyBidTimerState.h */,
+				9187EB952975C545009800DF /* HyBidSkipOverlay.h */,
+				9187EB962975C545009800DF /* HyBidSkipOverlay.m */,
 			);
 			path = VAST;
 			sourceTree = "<group>";
@@ -2582,6 +2600,7 @@
 				5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */,
 				5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */,
 				6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */,
+				913BC2E42996763B00645ABB /* HyBidMRAIDCloseCardView.xib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2829,6 +2848,7 @@
 				6F96C79A259B7C8300F03422 /* HyBidOpenRTBAdModel.h in Headers */,
 				E76DF5FB25E6C0ED002CF7BA /* HyBidVGIOS.h in Headers */,
 				7E9B1B5228C0B44400328CBE /* HyBidSignalDataProcessor.h in Headers */,
+				9187EB932975C4FF009800DF /* HyBidTimerState.h in Headers */,
 				E76DF5DD25E6C0EC002CF7BA /* HyBidVGIEmail.h in Headers */,
 				7E8B932C256E753A003BAD86 /* AdSourceConfigParameter.h in Headers */,
 				5ADF9E93214956FF0081355E /* HyBidAdCache.h in Headers */,
@@ -2970,6 +2990,7 @@
 				5A262DD5218B3395001A29E2 /* HyBidLeaderboardAdView.h in Headers */,
 				6F54A72F25A3664D00576A09 /* PNLiteOpenRTBResponseModel.h in Headers */,
 				6F8C11812539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.h in Headers */,
+				9187EB972975C545009800DF /* HyBidSkipOverlay.h in Headers */,
 				5A3EDD4F23747F8000493EF2 /* HyBidVerificationScriptResource.h in Headers */,
 				6F96C755259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h in Headers */,
 				5ADF9E7F2149492B0081355E /* HyBidInterstitialPresenter.h in Headers */,
@@ -3171,6 +3192,7 @@
 				5A9B66BC20BD57ED0067964E /* PNLiteMute@2x.png in Resources */,
 				5A9B66BB20BD57ED0067964E /* PNLitePlay.png in Resources */,
 				348E486B2982CAC400C94967 /* omsdk.js in Resources */,
+				913BC2E72996763B00645ABB /* HyBidMRAIDCloseCardView.xib in Resources */,
 				CEC2993B2785E79200E40AF0 /* navigation_geolocation.js in Resources */,
 				6F59DE352721ACAC00C117FF /* PNLiteExternalLink1@3x.png in Resources */,
 				5A9B66C220BD57ED0067964E /* PNLitePlay@2x.png in Resources */,
@@ -3448,6 +3470,7 @@
 				7E45CF32256FB79400E0FC3D /* PNLiteVastMacrosUtils.m in Sources */,
 				7E9B1B7728C0B69100328CBE /* HyBidInterstitialAdRequestWrapper.swift in Sources */,
 				7E4CCA7A250712A6003A3425 /* PNLiteMRAIDModalViewController.m in Sources */,
+				9187EB982975C545009800DF /* HyBidSkipOverlay.m in Sources */,
 				7E4CCA75250710EB003A3425 /* HyBidHeaderBiddingUtils.m in Sources */,
 				7E9B1B6B28C0B67C00328CBE /* HyBidLogger.swift in Sources */,
 				7E4CC8DB2502A007003A3425 /* HyBid.m in Sources */,
@@ -3489,6 +3512,7 @@
 				7EE35772256BC672005E6AC6 /* HyBidAuction.m in Sources */,
 				CEC299372785E79200E40AF0 /* HyBidNavigatorGeolocation.m in Sources */,
 				6F747F0D27F73BA2005A1464 /* HyBidXMLEx.m in Sources */,
+				913BC2E92996985500645ABB /* HyBidMRAIDCloseCardView.swift in Sources */,
 				6F747F0B27F73BA2005A1464 /* HyBidXMLElementEx.m in Sources */,
 				5AFFFFAA23607A5A002B8D6B /* HyBidIntegrationType.m in Sources */,
 				6F8C118E2539C01000DC4151 /* HyBidRewardedAdRequest.m in Sources */,
@@ -3745,7 +3769,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.1-beta";
+				MARKETING_VERSION = 2.18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3785,7 +3809,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.1-beta";
+				MARKETING_VERSION = 2.18.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -3943,7 +3967,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.1-beta";
+				MARKETING_VERSION = 2.18.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
@@ -3988,7 +4012,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.17.1-beta";
+				MARKETING_VERSION = 2.18.0;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
