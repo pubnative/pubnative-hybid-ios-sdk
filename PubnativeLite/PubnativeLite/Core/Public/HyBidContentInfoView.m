@@ -250,16 +250,18 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)sender {
-    if (self.clickAction == HyBidContentInfoClickActionExpand) {
-        if (sender.state == UIGestureRecognizerStateEnded) {
-            if(self.isOpen) {
-                [self handleDisplay];
-            } else {
-                [self open];
+    if (self.link != nil && [self.link length] > 0) {
+        if (self.clickAction == HyBidContentInfoClickActionExpand) {
+            if (sender.state == UIGestureRecognizerStateEnded) {
+                if(self.isOpen) {
+                    [self handleDisplay];
+                } else {
+                    [self open];
+                }
             }
+        } else {
+            [self handleDisplay];
         }
-    } else {
-        [self handleDisplay];
     }
 }
 

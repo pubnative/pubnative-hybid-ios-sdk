@@ -61,27 +61,6 @@ CLLocationManager *locationManager;
     // setLocationUpdates: Allowing SDK to update location, default is false.
     [HyBid setLocationUpdates:NO];
     
-    if (@available(iOS 14.5, *)) {
-        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler: ^(ATTrackingManagerAuthorizationStatus status) {
-            switch (status) {
-                case ATTrackingManagerAuthorizationStatusAuthorized:
-                    NSLog(@"IDFA Tracking authorized.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusDenied:
-                    NSLog(@"IDFA Tracking denied.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusRestricted:
-                    NSLog(@"IDFA Tracking restricted.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusNotDetermined:
-                    NSLog(@"IDFA Tracking permission not determined.");
-                    break;
-                default:
-                    break;
-            }
-        }];
-    }
-    
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     //[IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
     
@@ -121,6 +100,28 @@ CLLocationManager *locationManager;
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    if (@available(iOS 14.5, *)) {
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler: ^(ATTrackingManagerAuthorizationStatus status) {
+            switch (status) {
+                case ATTrackingManagerAuthorizationStatusAuthorized:
+                    NSLog(@"IDFA Tracking authorized.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusDenied:
+                    NSLog(@"IDFA Tracking denied.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusRestricted:
+                    NSLog(@"IDFA Tracking restricted.");
+                    break;
+                case ATTrackingManagerAuthorizationStatusNotDetermined:
+                    NSLog(@"IDFA Tracking permission not determined.");
+                    break;
+                default:
+                    break;
+            }
+        }];
+    }
+    
     #if __has_include(<ATOM/ATOM-Swift.h>)
     NSError *atomError = nil;
     [Atom startWithApiKey:kATOM_API_KEY isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {

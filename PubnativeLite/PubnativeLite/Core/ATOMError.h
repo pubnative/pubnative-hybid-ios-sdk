@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,6 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface PNLiteDemoSettingsMainViewController : UIViewController
-
-@end
+typedef enum {
+    ATOMCannotFireImpressions = 3000
+} ATOMError;

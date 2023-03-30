@@ -25,6 +25,7 @@
 #import "HyBidURLDriller.h"
 #import <WebKit/WebKit.h>
 #import "HyBid.h"
+#import "ATOMError.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -32,6 +33,10 @@
 #else
     #import <UIKit/UIKit.h>
     #import "HyBid-Swift.h"
+#endif
+
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
 #endif
 
 NSString *const PNLiteAdTrackerClick = @"click";
@@ -47,6 +52,9 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 @property (nonatomic, strong) NSString *trackTypeForURL;
 @property (nonatomic, assign) BOOL urlDrillerEnabled;
 
+@property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, strong) NSMutableDictionary<NSString*, NSArray<NSString *>*> *trackedURLsDictionary;
+
 @end
 
 @implementation HyBidAdTracker
@@ -57,10 +65,15 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
     self.clickURLs = nil;
     self.wkWebView = nil;
     self.trackTypeForURL = nil;
+    self.ad = nil;
+    self.trackedURLsDictionary = nil;
 }
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
-                         withClickURLs:(NSArray *)clickURLs {
+                         withClickURLs:(NSArray *)clickURLs
+                                 forAd:(HyBidAd *)ad {
+    self.trackedURLsDictionary = [NSMutableDictionary new];
+    self.ad = ad;
     HyBidAdTrackerRequest *adTrackerRequest = [[HyBidAdTrackerRequest alloc] init];
     return [self initWithAdTrackerRequest:adTrackerRequest withImpressionURLs:impressionURLs withClickURLs:clickURLs];
 }
@@ -111,6 +124,7 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with URL: %@",trackType, dataModel.url]];
                     [self.adTrackerRequest trackAdWithDelegate:self withURL:dataModel.url];
                 }
+                [self collectTrackedURLs:dataModel.url withType:trackType];
             } else if (dataModel.js != nil) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking %@ with JS Beacon: %@",trackType, dataModel.js]];
                 __weak typeof(self) weakSelf = self;
@@ -119,7 +133,57 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
                 });
             }
         }
+        
+        [self sendTrackedUrlsToAtomIfNeeded];
     }
+}
+
+- (void)collectTrackedURLs:(NSString *)url withType:(NSString *)type
+{
+    NSMutableArray *array = [NSMutableArray new];
+    [array addObjectsFromArray:self.trackedURLsDictionary[type]];
+    [array addObject:url];
+    
+    self.trackedURLsDictionary[type] = array;
+}
+
+- (void)sendTrackedUrlsToAtomIfNeeded
+{
+    #if __has_include(<ATOM/ATOM-Swift.h>)
+    NSString *creativeID = [self.ad creativeID];
+    NSMutableArray<NSString *> *impressionURLs = [NSMutableArray new];
+    NSMutableArray<NSString *> *clickURLs = [NSMutableArray new];
+    
+    for (NSString *key in self.trackedURLsDictionary.allKeys) {
+        if ([key isEqualToString:@"impression"]) {
+            [impressionURLs addObjectsFromArray:self.trackedURLsDictionary[key]];
+        } else if ([key isEqualToString:@"click"]) {
+            [clickURLs addObjectsFromArray:self.trackedURLsDictionary[key]];
+        }
+    }
+    
+    @try {
+        Class ATOMAdParametersClass = NSClassFromString(@"ATOM.ATOMAdParameters");
+        Class ATOM = NSClassFromString(@"ATOM.Atom");
+        
+        if (ATOMAdParametersClass == nil && ATOM != nil) {
+            NSString *reason = [[NSString alloc] initWithFormat:@"ATOM Error: %d. The version of ATOM is incompatible with this HyBid. The functionality is limited. Please update to the newer version.", ATOMCannotFireImpressions];
+            NSException* incompatibleException = [NSException
+                    exceptionWithName:@"IncompatibleATOMVersionException"
+                    reason: reason
+                    userInfo:nil];
+            @throw incompatibleException;
+        }
+        
+        ATOMAdParameters *atomAdParameters = [[ATOMAdParameters alloc] initWithCreativeID:creativeID cohorts: [self.ad cohorts] impressionURLs:impressionURLs clickURL:clickURLs];
+        [Atom impressionFiredWithAdParameters:atomAdParameters];
+    }
+    @catch (NSException *exception) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: exception.reason, NSStringFromSelector(_cmd)]];
+    }
+    
+    [self.trackedURLsDictionary removeAllObjects];
+    #endif
 }
 
 #pragma mark HyBidAdTrackerRequestDelegate

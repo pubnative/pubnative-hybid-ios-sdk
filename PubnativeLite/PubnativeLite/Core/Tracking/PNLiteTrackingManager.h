@@ -21,9 +21,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidAd.h"
 
 @interface PNLiteTrackingManager : NSObject
 
-+ (void)trackWithURL:(NSURL *)url;
++ (void)trackWithURL:(NSURL *)url withType:(NSString *)type forAd:(HyBidAd *)ad;
 
 @end

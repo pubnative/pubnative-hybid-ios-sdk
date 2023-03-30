@@ -24,16 +24,18 @@
 #import "PNLiteDemoMarkupDetailViewController.h"
 #import "UITextView+KeyboardDismiss.h"
 
-@interface PNLiteDemoMarkupMainViewController () <HyBidInterstitialAdDelegate>
+@interface PNLiteDemoMarkupMainViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
 @property (weak, nonatomic) IBOutlet UIButton *leaderboardButton;
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
+@property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
 @property (weak, nonatomic) IBOutlet UITextView *markupTextView;
 @property (nonatomic, retain) NSNumber *placement;
 @property (nonatomic, strong) Markup *markup;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) NSString *creativeID;
@@ -110,19 +112,6 @@
             case 2:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        [self loadCreativeWithMarkup: self.markup];
-                        break;
-                    }
-                    case 1: {
-                        [self loadCreativeWithURL: self.placement];
-                        break;
-                    }
-                }
-                break;
-                        
-            case 3: {
-                switch ([self.segmentedControl selectedSegmentIndex]) {
-                    case 0: {
                         self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
                         [self.interstitialAd prepareCustomMarkupFrom:self.markup.text];
                         break;
@@ -133,7 +122,22 @@
                     }
                 }
                 break;
+                        
+            case 3: {
+                switch ([self.segmentedControl selectedSegmentIndex]) {
+                    case 0: {
+                        self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
+                        [self.rewardedAd prepareCustomMarkupFrom:self.markup.text];
+                        break;
+                    }
+                    case 1: {
+                        [self loadCreativeWithURL:self.placement];
+                        break;
+                    }
+                }
+                break;
             }
+                
             default:
                 break;
             }
@@ -204,6 +208,7 @@
     [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     self.placement = [NSNumber numberWithInteger:sender.tag];
 }
@@ -212,14 +217,7 @@
     [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
-}
-
-- (IBAction)leaderboardTouchUpInside:(UIButton *)sender {
-    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     self.placement = [NSNumber numberWithInteger:sender.tag];
 }
@@ -228,10 +226,19 @@
     [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     self.placement = [NSNumber numberWithInteger:sender.tag];
 }
 
+- (IBAction)rewardedTouchUpInside:(UIButton *)sender {
+    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
+    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    self.placement = [NSNumber numberWithInteger:sender.tag];
+}
 
 - (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(NSNumber*)placement withData:(NSData*)data {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
@@ -274,6 +281,36 @@
 
 - (void)interstitialDidDismiss {
     NSLog(@"Interstitial did dismiss");
+}
+
+#pragma mark - HyBidRewardedAdDelegate
+
+-(void)rewardedDidLoad {
+    NSLog(@"Rewarded did load");
+    [self.rewardedAd show];
+    self.debugButton.hidden = NO;
+}
+
+-(void)rewardedDidFailWithError:(NSError *)error {
+    NSLog(@"Rewarded did fail with error: %@",error.localizedDescription);
+    [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
+}
+
+-(void)rewardedDidTrackClick {
+    NSLog(@"Rewarded did track click");
+}
+
+-(void)rewardedDidTrackImpression {
+    NSLog(@"Rewarded did track impression");
+}
+
+-(void)rewardedDidDismiss {
+    NSLog(@"Rewarded did dismiss");
+}
+
+- (void)onReward {
+    NSLog(@"Rewarded did reward");
 }
 
 @end

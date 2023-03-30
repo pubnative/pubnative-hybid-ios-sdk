@@ -48,8 +48,10 @@
     if (!interstitialPresenter) {
         return nil;
     }
+    
+    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:PNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:PNLiteAdTrackerClick] forAd:ad];
     PNLiteInterstitialPresenterDecorator *interstitialPresenterDecorator = [[PNLiteInterstitialPresenterDecorator alloc] initWithInterstitialPresenter:interstitialPresenter
-                                                                                                                                         withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:PNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:PNLiteAdTrackerClick]]
+                                                                                                                                         withAdTracker: adTracker
                                                                                                                                           withDelegate:delegate];
     interstitialPresenter.delegate = interstitialPresenterDecorator;
     return interstitialPresenterDecorator;

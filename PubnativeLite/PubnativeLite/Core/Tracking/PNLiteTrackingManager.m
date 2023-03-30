@@ -22,6 +22,7 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteTrackingManagerItem.h"
 #import "PNLiteHttpRequest.h"
+#import "ATOMError.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -29,6 +30,10 @@
 #else
     #import <UIKit/UIKit.h>
     #import "HyBid-Swift.h"
+#endif
+
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
 #endif
 
 NSString * const PNLiteTrackingManagerQueueKey             = @"PNLiteTrackingManager.queue.key";
@@ -40,18 +45,24 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, strong) PNLiteTrackingManagerItem *currentItem;
 
+@property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, strong) NSMutableDictionary<NSString*, NSArray<NSString *>*> *trackedURLsDictionary;
+
 @end
 
 @implementation PNLiteTrackingManager
 
 - (void)dealloc {
     self.currentItem = nil;
+    self.ad = nil;
+    self.trackedURLsDictionary = nil;
 }
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         self.isRunning = NO;
+        self.trackedURLsDictionary = [NSMutableDictionary new];
     }
     return self;
 }
@@ -65,7 +76,9 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
     return instance;
 }
 
-+ (void)trackWithURL:(NSURL*)url {
++ (void)trackWithURL:(NSURL*)url withType:(NSString *)type forAd:(HyBidAd *)ad {
+    [[self sharedManager] setAd:ad];
+    
     if (!url) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"URL passed is nil or empty, dropping this call."];
     } else {
@@ -80,6 +93,7 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
         // Enqueue current item
         PNLiteTrackingManagerItem *item = [[PNLiteTrackingManagerItem alloc] init];
         item.url = url;
+        item.type = type;
         item.timestamp = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
         [self enqueueItem:item withQueueKey:PNLiteTrackingManagerQueueKey];
         [[self sharedManager] trackNextItem];
@@ -88,8 +102,8 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
 
 - (void)trackNextItem {
     if(!self.isRunning) {
-        
         self.isRunning = YES;
+        
         PNLiteTrackingManagerItem *item = [PNLiteTrackingManager dequeueItemWithQueueKey:PNLiteTrackingManagerQueueKey];
         if(item) {
             self.currentItem = item;
@@ -98,6 +112,8 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
             if((currentTimestamp - itemTimestamp) < PNLiteTrackingManagerItemValidTime) {
                 // Track item
                 [[PNLiteHttpRequest alloc] startWithUrlString:[self.currentItem.url absoluteString] withMethod:@"GET" delegate:self];
+                
+                [self collectTrackedURLs:[self.currentItem.url absoluteString] withType:self.currentItem.type];
             } else {
                 // Discard the item and continue
 //                This code piece down below makes sure that isRunning param resets itself.
@@ -108,8 +124,58 @@ NSTimeInterval const PNLiteTrackingManagerItemValidTime    = 1800;
             }
         } else {
             self.isRunning = NO;
+            
+            [self sendTrackedUrlsToAtomIfNeeded];
         }
     }
+}
+
+- (void)collectTrackedURLs:(NSString *)url withType:(NSString *)type
+{
+    NSMutableArray *array = [NSMutableArray new];
+    [array addObjectsFromArray:self.trackedURLsDictionary[type]];
+    [array addObject:url];
+    
+    self.trackedURLsDictionary[type] = array;
+}
+
+- (void)sendTrackedUrlsToAtomIfNeeded
+{
+    #if __has_include(<ATOM/ATOM-Swift.h>)
+    NSString *creativeID = [self.ad creativeID];
+    NSMutableArray<NSString *> *impressionURLs = [NSMutableArray new];
+    NSMutableArray<NSString *> *clickURLs = [NSMutableArray new];
+
+    for (NSString *key in self.trackedURLsDictionary.allKeys) {
+        if ([key isEqualToString:@"impression"]) {
+            [impressionURLs addObjectsFromArray:self.trackedURLsDictionary[key]];
+        } else if ([key isEqualToString:@"click"]) {
+            [clickURLs addObjectsFromArray:self.trackedURLsDictionary[key]];
+        }
+    }
+    
+    @try {
+        Class ATOMAdParametersClass = NSClassFromString(@"ATOM.ATOMAdParameters");
+        Class ATOM = NSClassFromString(@"ATOM.Atom");
+        
+        if (ATOMAdParametersClass == nil && ATOM != nil) {
+            NSString *reason = [[NSString alloc] initWithFormat:@"ATOM Error: %d. The version of ATOM is incompatible with this HyBid. The functionality is limited. Please update to the newer version.", ATOMCannotFireImpressions];
+            NSException* incompatibleException = [NSException
+                    exceptionWithName:@"IncompatibleATOMVersionException"
+                    reason: reason
+                    userInfo:nil];
+            @throw incompatibleException;
+        }
+        
+        ATOMAdParameters *atomAdParameters = [[ATOMAdParameters alloc] initWithCreativeID:creativeID cohorts: [self.ad cohorts] impressionURLs:impressionURLs clickURL:clickURLs];
+        [Atom impressionFiredWithAdParameters:atomAdParameters];
+    }
+    @catch (NSException *exception) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: exception.reason, NSStringFromSelector(_cmd)]];
+    }
+    
+    [self.trackedURLsDictionary removeAllObjects];
+    #endif
 }
 
 #pragma mark Queue

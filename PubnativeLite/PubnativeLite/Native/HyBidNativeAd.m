@@ -41,6 +41,10 @@
     #import "HyBid-Swift.h"
 #endif
 
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
+#endif
+
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
 
@@ -315,9 +319,9 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
         [self.impressionTracker addView:view];
         
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
-        [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
-#endif
+        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+            [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
+        #endif
     }
 }
 
@@ -446,7 +450,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                 if (beacon.url && beacon.url.length > 0) {
                     NSURL *beaconUrl = [NSURL URLWithString:beacon.url];
                     NSURL *injectedUrl = [self injectExtrasWithUrl:beaconUrl];
-                    [PNLiteTrackingManager trackWithURL:injectedUrl];
+                    [PNLiteTrackingManager trackWithURL:injectedUrl withType:type forAd: self.ad];
                 } else if (beaconJs && beaconJs.length > 0) {
                     __block NSString *beaconJsBlock = [beacon stringFieldWithKey:@"js"];
                     dispatch_async(dispatch_get_main_queue(), ^{

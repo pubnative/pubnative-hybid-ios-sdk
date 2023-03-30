@@ -49,6 +49,10 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong)NSString *_zoneID;
 
+#if __has_include(<ATOM/ATOM-Swift.h>)
+@property (nonatomic, strong)NSArray<NSString *> *_cohorts;
+#endif
+
 @end
 
 @implementation HyBidAd
@@ -57,6 +61,10 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     self.data = nil;
     self.contentInfoView = nil;
     self._zoneID = nil;
+    
+    #if __has_include(<ATOM/ATOM-Swift.h>)
+    self._cohorts = nil;
+    #endif
 }
 
 #pragma mark HyBidAd
@@ -69,6 +77,30 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     }
     return self;
 }
+
+
+#if __has_include(<ATOM/ATOM-Swift.h>)
+- (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID withCohorts:(NSArray<NSString *> *)cohorts
+{
+    self = [super init];
+    if (self) {
+        self.data = data;
+        self._zoneID = zoneID;
+        self._cohorts = cohorts;
+    }
+    return self;
+}
+
+- (instancetype)initOpenRTBWithData:(HyBidOpenRTBAdModel *)data withZoneID:(NSString *)zoneID withCohorts:(NSArray<NSString *> *)cohorts {
+    self = [super init];
+    if (self) {
+        self.openRTBData = data;
+        self._zoneID = zoneID;
+        self._cohorts = cohorts;
+    }
+    return self;
+}
+#endif
 
 - (instancetype)initOpenRTBWithData:(HyBidOpenRTBAdModel *)data withZoneID:(NSString *)zoneID {
     self = [super init];
@@ -132,6 +164,13 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 - (NSString *)zoneID {
     return self._zoneID;
 }
+
+#if __has_include(<ATOM/ATOM-Swift.h>)
+- (NSArray<NSString *> *)cohorts
+{
+    return self._cohorts;
+}
+#endif
 
 - (NSString *)vast {
     NSString *result = nil;

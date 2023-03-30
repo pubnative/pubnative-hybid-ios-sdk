@@ -386,9 +386,19 @@ NSInteger const PNLiteResponseStatusOK = 200;
             for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? openRTBResponse.bids : response.ads)) {
                 HyBidAd *ad = nil;
                 if (self.isUsingOpenRTB) {
+                    #if __has_include(<ATOM/ATOM-Swift.h>)
+                    NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
+                    ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID withCohorts:cohorts];
+                    #else
                     ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
+                    #endif
                 } else {
+                    #if __has_include(<ATOM/ATOM-Swift.h>)
+                    NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
+                    ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID withCohorts:cohorts];
+                    #else
                     ad = [[HyBidAd alloc] initWithData:adModel withZoneID:self.zoneID];
+                    #endif
                 }
                 
                 ad.isUsingOpenRTB = self.isUsingOpenRTB;
@@ -425,6 +435,55 @@ NSInteger const PNLiteResponseStatusOK = 200;
             [self invokeDidFail:responseError];
         }
 }
+
+#if __has_include(<ATOM/ATOM-Swift.h>)
+- (NSArray<NSString *> *)getCohortsFromRequestURL
+{
+    NSMutableArray<NSString *> *cohorts = [NSMutableArray new];
+    NSString *vgParameter;
+    
+    if (self.requestURL != nil && [self.requestURL.absoluteString length] > 0) {
+        NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithString:self.requestURL.absoluteString];
+        NSArray<NSURLQueryItem *> *queryItems = urlComponents.queryItems;
+        
+        for (NSURLQueryItem *item in queryItems) {
+            if ([item.name isEqualToString:@"vg"]) {
+                vgParameter = item.value;
+                break;
+            }
+        }
+        
+        if (vgParameter != nil && [vgParameter length] > 0) {
+            NSString *decodedVgParameterString = nil;
+            
+            while (decodedVgParameterString == nil || [decodedVgParameterString isEqualToString:@""]) {
+                NSData *decodedVgParameterData = [[NSData alloc] initWithBase64EncodedString:vgParameter options:0];
+                decodedVgParameterString = [[NSString alloc] initWithData:decodedVgParameterData encoding:NSUTF8StringEncoding];
+                
+                // appending here `=` characters as
+                // according to BaseURL protocol, we trimmed all paddings(`=` characters)
+                // before setting the `vg` parameter, to avoid the conversion of
+                // paddings(`=`) into `%3D` during URL encoding part.
+                vgParameter = [vgParameter stringByAppendingString:@"="];
+            }
+            
+            // removing `[` and `]` as we get an array in `decodedVgParameterString`
+            if ([decodedVgParameterString length] > 1) {
+                decodedVgParameterString = [decodedVgParameterString substringFromIndex:1];
+                decodedVgParameterString = [decodedVgParameterString substringToIndex:[decodedVgParameterString length] - 1];
+            }
+            
+            decodedVgParameterString = [decodedVgParameterString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            if (![decodedVgParameterString isEqualToString:@""]) {
+                [cohorts addObjectsFromArray: [decodedVgParameterString componentsSeparatedByString:@","]];
+            }
+        }
+    }
+    
+    return cohorts;
+}
+#endif
 
 - (void)cacheAd:(HyBidAd *)ad {
     if (self.adCached) {

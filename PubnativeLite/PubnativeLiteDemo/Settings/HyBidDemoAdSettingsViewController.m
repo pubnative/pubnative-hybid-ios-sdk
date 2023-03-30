@@ -377,9 +377,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     break;
                 }
                 case 1: { // Video Skip Offset
-                    if ([value intValue] >= 0) {
-                        [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
-                    }
+                    [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
                     break;
                 }
             }

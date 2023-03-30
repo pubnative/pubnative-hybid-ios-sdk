@@ -41,10 +41,6 @@
 
 #pragma mark NSObject
 
-+ (void)load {
-    [PNLiteLocationManager requestLocation];
-}
-
 - (id)init {
     self = [super init];
     if (self) {

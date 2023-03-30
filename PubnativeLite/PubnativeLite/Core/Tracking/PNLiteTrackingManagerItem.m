@@ -23,12 +23,14 @@
 
 NSString * const PNLiteTrackingManagerURLKey = @"url";
 NSString * const PNLiteTrackingManagerTimestampKey = @"timestamp";
+NSString * const PNLiteTrackingManagerTypeKey = @"type";
 
 @implementation PNLiteTrackingManagerItem
 
 - (void)dealloc {
     self.url = nil;
     self.timestamp = nil;
+    self.type = nil;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
@@ -36,13 +38,17 @@ NSString * const PNLiteTrackingManagerTimestampKey = @"timestamp";
     if (self) {
         self.url = [NSURL URLWithString:dictionary[PNLiteTrackingManagerURLKey]];
         self.timestamp = dictionary[PNLiteTrackingManagerTimestampKey];
+        self.type = dictionary[PNLiteTrackingManagerTypeKey];
     }
     return self;
 }
 
 - (NSDictionary *)toDictionary {
-    return @{ PNLiteTrackingManagerURLKey : [self.url absoluteString],
-              PNLiteTrackingManagerTimestampKey : self.timestamp };
+    return @{
+        PNLiteTrackingManagerURLKey : [self.url absoluteString],
+        PNLiteTrackingManagerTimestampKey : self.timestamp,
+        PNLiteTrackingManagerTypeKey : self.type
+    };
 }
 
 @end

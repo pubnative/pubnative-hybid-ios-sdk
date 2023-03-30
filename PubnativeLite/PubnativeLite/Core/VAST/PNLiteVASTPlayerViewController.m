@@ -71,6 +71,7 @@ CGFloat const PNLiteVASTPlayerViewProgressTrailingConstant      = 0.0f;
 CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant       = 0.0f;
 CGFloat const PNLiteContentViewDefaultSize = 15.0f;
 CGFloat const PNLiteMaxContentInfoHeight = 20.0f;
+NSInteger const PNLiteRewardedSkipOffset = 35;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -101,6 +102,7 @@ UIButton *closeEventRegion;
 @property (nonatomic, assign) BOOL endCardShown;
 @property (nonatomic, assign) BOOL isAdFeedbackViewReady;
 @property (nonatomic, assign) BOOL isMoviePlaybackFinished;
+@property (nonatomic, assign) bool isCountdownTimerStarted;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
 @property (nonatomic, assign) PNLiteVASTPlaybackState playback;
 @property (nonatomic, strong) NSURL *vastUrl;
@@ -244,6 +246,7 @@ UIButton *closeEventRegion;
     
     self.contentInfoView.delegate = self;
     self.endCardShown = NO;
+    self.isCountdownTimerStarted = NO;
 }
 
 - (HyBidVASTIcon *)getIconFromArray:(NSArray<HyBidVASTIcon *> *)icons
@@ -521,33 +524,42 @@ UIButton *closeEventRegion;
 
 - (void)setCustomCountdown
 {
+    if(self.skipOffset > [self duration]){
+        return;
+    }
+    
+    NSNumber *countdownStyle = [HyBidRenderingConfig sharedConfig].videoSkipOffset.style;
+    
+    switch([countdownStyle intValue]){
+        case 0:
+            self.countdownStyle = HyBidCountdownPieChart;
+            break;
+        case 1:
+            self.countdownStyle = HyBidCountdownSkipOverlayTimer;
+            break;
+        case 2:
+            self.countdownStyle = HyBidCountdownSkipOverlayProgress;
+            break;
+        default:
+            self.countdownStyle = HyBidCountdownPieChart;
+            break;
+    }
+    
     //set default value to get the old behaviour
     self.countdownStyle = HyBidCountdownPieChart;
     
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:0]]){
-        self.countdownStyle = HyBidCountdownPieChart;
+    if (!self.skipOverlay) {
+        self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: self.countdownStyle];
+        self.skipOverlay.delegate = self;
+        [self.view addSubview:self.skipOverlay];
     }
     
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:1]]){
-        self.countdownStyle = HyBidCountdownSkipOverlayTimer;
-    }
-    
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:2]]){
-        self.countdownStyle = HyBidCountdownSkipOverlayProgress;
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
+    });
     
     switch(self.countdownStyle){
         case HyBidCountdownPieChart:{
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: HyBidCountdownPieChart];
-                self.skipOverlay.delegate = self;
-                [self.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
             if (@available(iOS 11.0, *)) {
                 self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
                 
@@ -568,20 +580,9 @@ UIButton *closeEventRegion;
                                                           [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
                                                           [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
             }
-            self.closeButtonTimerStartDate = [NSDate date];
             break;
         }
         case HyBidCountdownSkipOverlayTimer:{
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: HyBidCountdownSkipOverlayTimer];
-                self.skipOverlay.delegate = self;
-                [self.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
             if (@available(iOS 11.0, *)) {
                 self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
                 
@@ -602,20 +603,9 @@ UIButton *closeEventRegion;
                                                           [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
                                                           [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
             }
-            self.closeButtonTimerStartDate = [NSDate date];
             break;
         }
-        case HyBidCountdownSkipOverlayProgress:
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: HyBidCountdownSkipOverlayProgress];
-                self.skipOverlay.delegate = self;
-                [self.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
+        case HyBidCountdownSkipOverlayProgress:{
             if (@available(iOS 11.0, *)) {
                 self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
                 
@@ -636,9 +626,11 @@ UIButton *closeEventRegion;
                                                           [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.skipOverlay.padding * -1)],
                                                           [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
             }
-            self.closeButtonTimerStartDate = [NSDate date];
             break;
+        }
     }
+    
+    self.closeButtonTimerStartDate = [NSDate date];
 }
 
 #pragma mark - SkipOverlay Delegate helpers
@@ -686,6 +678,7 @@ UIButton *closeEventRegion;
         self.contentInfoView = nil;
         self.videoAdCacheItem = nil;
         self.skipOverlay = nil;
+        self.isCountdownTimerStarted = nil;
         closeEventRegion = nil;
     }
 }
@@ -825,6 +818,32 @@ UIButton *closeEventRegion;
     
     if(self.adFormat == HyBidAdFormatInterstitial && !self.skipOverlay){
         [self setCustomCountdown];
+    }
+   
+    if(self.adFormat == HyBidAdFormatRewarded && !self.skipOverlay) {
+        [self skipRewardedAfterSelectedTime:35];
+    }
+}
+
+- (void)skipRewardedAfterSelectedTime :(NSInteger)secondsToSkip {
+    if ([self duration] >= 35) {  
+        if (!self.isCountdownTimerStarted) {
+            self.skipOffset = secondsToSkip;
+            [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSString *playbackTime = @([self currentPlaybackTime]).stringValue;
+                NSString *currentPlaybackTime = [[playbackTime componentsSeparatedByString:@"."] objectAtIndex:0];
+                [self setCustomCountdown];
+                if (currentPlaybackTime.intValue == secondsToSkip) {
+                    if (self.ad.hasEndCard){
+                        [self showEndCard];
+                    }else {
+                        [self addCloseEventRegion];
+                    }
+                }
+            });
+            self.isCountdownTimerStarted = YES;
+        }
     }
 }
 
@@ -1103,6 +1122,9 @@ UIButton *closeEventRegion;
 
 - (void)addCloseEventRegion {
     [self.skipOverlay removeFromSuperview];
+    if(closeEventRegion){
+        return;
+    }
     closeEventRegion = [UIButton buttonWithType:UIButtonTypeCustom];
     [closeEventRegion setTag:HYBID_PNLiteVAST_CLOSE_BUTTON_TAG];
     closeEventRegion.backgroundColor = [UIColor clearColor];
