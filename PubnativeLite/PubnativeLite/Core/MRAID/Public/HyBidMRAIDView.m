@@ -298,6 +298,7 @@ typedef enum {
                 }
             }];
         } else {
+            htmlData = [PNLiteMRAIDUtil processRawHtml:htmlData];
             [self loadHTMLData:htmlData];
         }
         

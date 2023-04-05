@@ -36,6 +36,7 @@ NSLayoutConstraint *contentViewWidthConstraint;
 NSLayoutConstraint *contentViewHeightConstraint;
 NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
+CGFloat standardScreenWidth = 428.0;
 
 @interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate, HyBidAdFeedbackViewDelegate>
 
@@ -150,9 +151,11 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
             if (data) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.iconImage = [UIImage imageWithData: data];
+                    completionBlock(YES);
                 });
+            } else {
+                completionBlock(NO);
             }
-            completionBlock(YES);
         }];
     } else {
         completionBlock(YES);
@@ -177,7 +180,11 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
         if(!weakSelf.xPosition){
             weakSelf.xPosition = position.x;
             CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-            [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 2) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
+            if (screenWidth > standardScreenWidth) {
+                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 2.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
+            } else {
+                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 3.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
+            }
         }
     });
 }
@@ -208,6 +215,7 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
             if (self.iconView && self.textView) {
+                [self.iconView.superview layoutIfNeeded];
                 if (self.text) {
                     self.textView.text = self.text;
                 } else {

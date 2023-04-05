@@ -648,6 +648,7 @@ SWIFT_CLASS("_TtC5HyBid15HyBidSkipOffset")
 @property (nonatomic, strong) NSNumber * _Nonnull style;
 - (nonnull instancetype)initWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom style:(NSNumber * _Nonnull)style OBJC_DESIGNATED_INITIALIZER;
+- (void)configureWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom style:(NSNumber * _Nonnull)style;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
