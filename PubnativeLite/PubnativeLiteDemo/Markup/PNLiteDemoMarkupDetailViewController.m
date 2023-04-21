@@ -77,12 +77,19 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
             break;
         }
         case 2: {
+            self.markupContainerWidthConstraint.constant = 728;
+            self.markupContainerHeightConstraint.constant = 90;
+            self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_728x90];
+            self.placementType = @"leaderboard";
+            break;
+        }
+        case 3: {
             [self.showAdButton setHidden: NO];
             self.placementType = @"fullscreen";
             break;
             break;
         }
-        case 3: {
+        case 4: {
             [self.showAdButton setHidden: NO];
             self.placementType = @"rewarded";
             break;
@@ -147,14 +154,14 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
 
 - (IBAction)showButtonTouchUpInside:(UIButton *)sender {
     switch ([self.markup.placement integerValue]) {
-        case 2:
+        case 3:
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
             if (self.markup != nil) {
                 [self.interstitialAd prepareCustomMarkupFrom: self.markup.text];
                 [self.showAdButton setEnabled: NO];
             }
             break;
-        case 3:
+        case 4:
             self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
             if (self.markup != nil) {
                 [self.rewardedAd prepareCustomMarkupFrom: self.markup.text];

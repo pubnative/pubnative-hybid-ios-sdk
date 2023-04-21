@@ -164,4 +164,8 @@ NSString * const kHyBidErrorDomain = @"net.pubnative.PubnativeLite";
     return [NSError errorWithCode:HyBidErrorVASTParserSchemaValidation localizedDescription:@"An error has ocurred while loading the ad feedback form"];
 }
 
++ (instancetype)hyBidInvalidHTML {
+    return [NSError errorWithCode:HyBidErrorVASTParserSchemaValidation localizedDescription:@"Invalid HTML"];
+}
+
 @end

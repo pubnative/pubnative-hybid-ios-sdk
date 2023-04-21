@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9g-pB-WIY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9g-pB-WIY">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -140,10 +140,10 @@
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=regular" hidden="NO"/>
                                         <connections>
-                                            <action selector="leaderboardTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="Ry5-67-v3E"/>
+                                            <action selector="leaderboardTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="6y8-qn-89g"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgL-LC-cfw" userLabel="Interstitial Button">
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgL-LC-cfw" userLabel="Interstitial Button">
                                         <rect key="frame" x="0.0" y="82" width="382" height="33"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
@@ -167,7 +167,7 @@
                                             <action selector="interstitialTouchUpInside:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="1HD-aX-czl"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3b-rU-GWD" userLabel="Rewarded Button">
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3b-rU-GWD" userLabel="Rewarded Button">
                                         <rect key="frame" x="0.0" y="123" width="382" height="33"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>

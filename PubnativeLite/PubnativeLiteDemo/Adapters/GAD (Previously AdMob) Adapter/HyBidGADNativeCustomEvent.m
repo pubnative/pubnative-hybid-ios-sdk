@@ -146,6 +146,10 @@ typedef id<GADMediationNativeAdEventDelegate> _Nullable(^HyBidGADNativeCustomEve
     [self.nativeAd stopTracking];
 }
 
+- (UIView *)mediaView {
+    return self.nativeAd.banner;
+}
+
 #pragma mark - HyBidNativeAdDelegate
 
 - (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view {

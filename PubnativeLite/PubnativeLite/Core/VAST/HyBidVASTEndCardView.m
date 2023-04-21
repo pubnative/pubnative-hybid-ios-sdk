@@ -74,17 +74,23 @@
 @property (nonatomic, strong) NSMutableArray<NSLayoutConstraint *> *horizontalConstraints;
 
 @property (nonatomic, strong) HyBidSkipOffset *endCardCloseDelay;
+@property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, assign) NSString * iconXposition;
+@property (nonatomic, assign) NSString * iconYposition;
 
 @end
 
 @implementation HyBidVASTEndCardView
 
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController:(UIViewController *)viewController withAd:(HyBidAd *)ad isInterstitial:(BOOL)isInterstitial {
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController:(UIViewController *)viewController withAd:(HyBidAd *)ad isInterstitial:(BOOL)isInterstitial iconXposition:(NSString *)iconXposition iconYposition:(NSString *)iconYposition; {
     self = [super init];
     if (self) {
         self.delegate = delegate;
         self.rootViewController = viewController;
         [self determineEndCardCloseDelayForAd:ad];
+        self.ad = ad;
+        self.iconXposition = iconXposition;
+        self.iconYposition = iconYposition;
         self.isInterstitial = isInterstitial;
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
         [self setFrame: self.rootViewController.view.bounds];
@@ -369,7 +375,17 @@
 {
     for (UIView* subview in self.rootViewController.view.subviews) {
         if (subview.tag == kContentInfoContainerTag) {
-            [self.rootViewController.view bringSubviewToFront:subview];
+            [self.rootViewController.view bringSubviewToFront: subview];
+            [self addingConstrainstForDynamicPosition:subview iconXposition: self.iconXposition iconYposition: self.iconYposition];
+        }
+    }
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    for (UIView* subview in self.rootViewController.view.subviews) {
+        if (subview.tag == kContentInfoContainerTag) {
+            [subview setHidden: YES];
         }
     }
 }
@@ -380,6 +396,38 @@
     [view bringSubviewToFront:self.companionView];
     [view bringSubviewToFront:self.closeButton];
     [self displayContentInfoContainer];
+}
+
+- (void)addingConstrainstForDynamicPosition:(UIView *) contentInfoViewContainer iconXposition:(NSString *) iconXposition iconYposition:(NSString *) iconYposition {
+    contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = false;
+    if([iconXposition isEqualToString: @"right"]){
+        if (@available(iOS 11.0, *)) {
+            [contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.trailingAnchor].active = YES;
+        } else {
+            [contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+        }
+    } else {
+        if (@available(iOS 11.0, *)) {
+            [contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leadingAnchor].active = YES;
+        } else {
+            [contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+        }
+    }
+
+    if([iconYposition isEqualToString: @"bottom"]){
+        if (@available(iOS 11.0, *)) {
+            [contentInfoViewContainer.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+        } else {
+            [contentInfoViewContainer.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+        }
+    } else {
+        if (@available(iOS 11.0, *)) {
+            [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
+        } else {
+            [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+        }
+    }
+    [contentInfoViewContainer setHidden: NO];
 }
 
 - (void)displayMRAIDWithContent:(NSString *)content withBaseURL:(NSURL *)baseURL

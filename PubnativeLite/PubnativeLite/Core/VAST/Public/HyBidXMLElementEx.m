@@ -130,7 +130,28 @@
 }
 
 -(NSString *) value {
-	return element ? [HyBidXML textForElement:element] : nil;
+    NSString *string = element ? [HyBidXML textForElement:element] : nil;
+    NSString *decodedString = [self replaceHtmlEntitiesIfNeededFrom:string];
+    
+    return decodedString;
+}
+
+- (NSString *)replaceHtmlEntitiesIfNeededFrom:(NSString *)string
+{
+    NSString *decodedString = string;
+    NSDictionary *htmlEntities = @{
+        @"&lt;" : @"<",
+        @"&gt;" : @">",
+        @"&amp;" : @"&",
+        @"&#34;" : @"\""
+    };
+    
+    for (NSString *entityCode in htmlEntities.allKeys) {
+        NSString *character = htmlEntities[entityCode];
+        decodedString = [decodedString stringByReplacingOccurrencesOfString:entityCode withString:character];
+    }
+    
+    return decodedString;
 }
 
 -(NSString *) text {

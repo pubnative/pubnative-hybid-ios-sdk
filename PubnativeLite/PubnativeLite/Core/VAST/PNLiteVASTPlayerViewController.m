@@ -156,6 +156,8 @@ UIButton *closeEventRegion;
 @property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
 @property (nonatomic, assign) BOOL isSkAdnetworkViewControllerIsShown;
+@property (nonatomic, strong) NSString* iconPositionX;
+@property (nonatomic, strong) NSString* iconPositionY;
 @end
 
 @implementation PNLiteVASTPlayerViewController
@@ -358,6 +360,9 @@ UIButton *closeEventRegion;
             [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
         }
     }
+    
+    self.iconPositionX = xPosition;
+    self.iconPositionY = yPosition;
 }
 
 - (CGSize) getWidthAndHeightContentInfoIcon:(HyBidVASTIcon *) icon {
@@ -375,6 +380,7 @@ UIButton *closeEventRegion;
 
 
 - (void)viewDidAppear:(BOOL)animated {
+    if (self.isMoviePlaybackFinished) {return;}
     self.shown = YES;
     if(self.wantsToPlay) {
         [self setState:PNLiteVASTPlayerState_PLAY];
@@ -1108,7 +1114,7 @@ UIButton *closeEventRegion;
 
 - (void)moviePlayBackDidFinish:(NSNotification*)notification {
     // when endcard is presented the play already will seek to end to complete the video. Then this callback will be called. so intercept here
-    if (self.endCardShown) {return;}
+    if (self.endCardShown || self.isMoviePlaybackFinished) {return;}
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_complete];
     [self.player pause];
     
@@ -1484,7 +1490,7 @@ UIButton *closeEventRegion;
     [self setState:PNLiteVASTPlayerState_READY];
     [self.layer removeFromSuperlayer];
     HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
-    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self withAd:self.ad isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self withAd:self.ad isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) iconXposition:self.iconPositionX iconYposition:self.iconPositionY];
     endCardView.frame = self.view.frame;
     [endCardView setupUI];
     

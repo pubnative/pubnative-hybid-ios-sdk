@@ -43,7 +43,9 @@
 - (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate
               withViewController:(UIViewController*)viewController
                           withAd:(HyBidAd *)ad
-                  isInterstitial:(BOOL)isInterstitial;
+                  isInterstitial:(BOOL)isInterstitial
+                   iconXposition:(NSString *)iconXposition
+                   iconYposition:(NSString *)iconYposition;
 
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;

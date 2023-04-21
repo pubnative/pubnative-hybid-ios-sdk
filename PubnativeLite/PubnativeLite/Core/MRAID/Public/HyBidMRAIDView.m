@@ -295,6 +295,11 @@ typedef enum {
                 if(html && !error){
                     htmlData = [PNLiteMRAIDUtil processRawHtml:html];
                     [self loadHTMLData:htmlData];
+                } else {
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+                    if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
+                        [self.delegate mraidViewAdFailed:self];
+                    }
                 }
             }];
         } else {
@@ -380,11 +385,17 @@ typedef enum {
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if(httpResponse.statusCode == 200) {
-            NSString *dataString = [NSString stringWithUTF8String:[data bytes]];
+            NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             if([dataString containsString: @"<!DOCTYPE html>"]){
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     if (handler)
                         handler(dataString, error);
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    if(handler){
+                        handler(nil, [NSError hyBidInvalidHTML]);
+                    }
                 });
             }
         } else {

@@ -196,22 +196,11 @@ CGFloat standardScreenWidth = 428.0;
                                 self.horizontalPosition == HyBidContentInfoHorizontalPositionLeft ? @"left" : @"right"];
 
     [self.iconView setIsAccessibilityElement:YES];
-    [self.iconView setAccessibilityLabel:@"Content Info Icon View"];
     [self.iconView setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoIconView - %@", positionString]];
     
     [self.textView setIsAccessibilityElement:YES];
-    [self.textView setAccessibilityLabel:@"Content Info Text View"];
     [self.textView setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoTextView - %@", positionString]];
-    
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(weakSelf.superview){
-            [weakSelf.superview setIsAccessibilityElement:YES];
-            [weakSelf.superview setAccessibilityLabel:@"Content Info Container"];
-            [weakSelf.superview setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoTextView - %@", positionString]];
-        }
-    });
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
             if (self.iconView && self.textView) {
@@ -474,6 +463,8 @@ CGFloat standardScreenWidth = 428.0;
 
 - (void)adFeedbackViewDidFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Feedback failed with error: %@",error.localizedDescription]];
+    self.adFeedbackViewRequested = NO;
+    [self close];
 }
 
 @end
