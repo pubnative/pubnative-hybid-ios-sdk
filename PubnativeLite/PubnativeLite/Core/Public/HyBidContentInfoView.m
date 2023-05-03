@@ -85,7 +85,7 @@ CGFloat standardScreenWidth = 428.0;
         [self addGestureRecognizer:self.tapRecognizer];
         self.textView = [[UILabel alloc] init];
         [self.textView setFont:[self.textView.font fontWithSize:10]];
-        self.textView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.70];
+        self.textView.backgroundColor = [UIColor clearColor];
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.textView setNumberOfLines: 1];
                 
@@ -95,8 +95,7 @@ CGFloat standardScreenWidth = 428.0;
         
         [self addSubview:self.iconView];
         [self addSubview:self.textView];
-        
-        [self addingConstraints];
+
         [PNLiteOrientationManager sharedInstance].delegate = self;
     }
     return self;
@@ -120,7 +119,6 @@ CGFloat standardScreenWidth = 428.0;
                                                                   multiplier:1.f
                                                                     constant:PNLiteContentViewIcontDefaultSize];
         [self addConstraints:@[contentViewWidthConstraint, contentViewHeightConstraint]];
-        [self setElementsOrientation: HyBidContentInfoHorizontalPositionLeft];
     }
 }
 
@@ -171,25 +169,10 @@ CGFloat standardScreenWidth = 428.0;
     }
 }
 
-- (void)layoutSubviews {
-    //adapting content info elements orientation after being added in a super view
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        CGPoint position = [self convertPoint:self.bounds.origin toView:window];
-        if(!weakSelf.xPosition){
-            weakSelf.xPosition = position.x;
-            CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-            if (screenWidth > standardScreenWidth) {
-                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 2.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
-            } else {
-                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 3.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
-            }
-        }
-    });
-}
-
 - (void)configureView {
+    
+    
+    [self addingConstraints];
     
     NSString *positionString = [NSString stringWithFormat:@"%@ %@",
                                 self.verticalPosition == HyBidContentInfoVerticalPositionTop ? @"top" : @"bottom",
@@ -226,6 +209,21 @@ CGFloat standardScreenWidth = 428.0;
                 }
                 self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
                 self.hidden = NO;
+            }
+        }
+    });
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        CGPoint position = [self convertPoint:self.bounds.origin toView:window];
+        if(!weakSelf.xPosition){
+            weakSelf.xPosition = position.x;
+            CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+            if (screenWidth > standardScreenWidth) {
+                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 2.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
+            } else {
+                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 3.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
             }
         }
     });
