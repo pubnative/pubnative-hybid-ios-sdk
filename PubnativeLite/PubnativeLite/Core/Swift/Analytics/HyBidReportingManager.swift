@@ -35,23 +35,40 @@ public class HyBidReportingManager: NSObject {
     @objc public var events: [HyBidReportingEvent] = []
     @objc weak public var delegate: HyBidReportingDelegate?
     
+    private let eventsQueue = DispatchQueue(label: "com.verve.HyBid.eventsQueue", target: nil)
+
     @objc
     public func reportEvent(for event: HyBidReportingEvent) {
-        events.append(event)
-        delegate?.onEvent(with: event)
+        eventsQueue.async { [weak self] in
+            guard let self = self else { return }
+            self.events.append(event)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.delegate?.onEvent(with: event)
+            }
+        }
     }
     
     @objc
     public func reportEvents(for events: [HyBidReportingEvent]) {
-        self.events.append(contentsOf: events)
-        for event in events {
-            delegate?.onEvent(with: event)
+        eventsQueue.async { [weak self] in
+            guard let self = self else { return }
+            self.events.append(contentsOf: events)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                for event in events {
+                    self.delegate?.onEvent(with: event)
+                }
+            }
         }
     }
     
     @objc
     public func clearEvents() {
-        events.removeAll()
+        eventsQueue.async { [weak self] in
+            guard let self = self else { return }
+            self.events.removeAll()
+        }
     }
     
 }

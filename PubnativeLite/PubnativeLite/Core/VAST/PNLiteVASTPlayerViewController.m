@@ -71,6 +71,7 @@ CGFloat const PNLiteVASTPlayerViewProgressTrailingConstant      = 0.0f;
 CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant       = 0.0f;
 CGFloat const PNLiteContentViewDefaultSize = 15.0f;
 CGFloat const PNLiteMaxContentInfoHeight = 20.0f;
+NSInteger const PNLiteRewardedSkipOffset = 35;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -101,6 +102,7 @@ UIButton *closeEventRegion;
 @property (nonatomic, assign) BOOL endCardShown;
 @property (nonatomic, assign) BOOL isAdFeedbackViewReady;
 @property (nonatomic, assign) BOOL isMoviePlaybackFinished;
+@property (nonatomic, assign) bool isCountdownTimerStarted;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
 @property (nonatomic, assign) PNLiteVASTPlaybackState playback;
 @property (nonatomic, strong) NSURL *vastUrl;
@@ -154,6 +156,8 @@ UIButton *closeEventRegion;
 @property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
 @property (nonatomic, assign) BOOL isSkAdnetworkViewControllerIsShown;
+@property (nonatomic, strong) NSString* iconPositionX;
+@property (nonatomic, strong) NSString* iconPositionY;
 @end
 
 @implementation PNLiteVASTPlayerViewController
@@ -244,6 +248,7 @@ UIButton *closeEventRegion;
     
     self.contentInfoView.delegate = self;
     self.endCardShown = NO;
+    self.isCountdownTimerStarted = NO;
 }
 
 - (HyBidVASTIcon *)getIconFromArray:(NSArray<HyBidVASTIcon *> *)icons
@@ -355,6 +360,9 @@ UIButton *closeEventRegion;
             [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
         }
     }
+    
+    self.iconPositionX = xPosition;
+    self.iconPositionY = yPosition;
 }
 
 - (CGSize) getWidthAndHeightContentInfoIcon:(HyBidVASTIcon *) icon {
@@ -372,6 +380,7 @@ UIButton *closeEventRegion;
 
 
 - (void)viewDidAppear:(BOOL)animated {
+    if (self.isMoviePlaybackFinished) {return;}
     self.shown = YES;
     if(self.wantsToPlay) {
         [self setState:PNLiteVASTPlayerState_PLAY];
@@ -675,6 +684,7 @@ UIButton *closeEventRegion;
         self.contentInfoView = nil;
         self.videoAdCacheItem = nil;
         self.skipOverlay = nil;
+        self.isCountdownTimerStarted = nil;
         closeEventRegion = nil;
     }
 }
@@ -814,6 +824,32 @@ UIButton *closeEventRegion;
     
     if(self.adFormat == HyBidAdFormatInterstitial && !self.skipOverlay){
         [self setCustomCountdown];
+    }
+   
+    if(self.adFormat == HyBidAdFormatRewarded && !self.skipOverlay) {
+        [self skipRewardedAfterSelectedTime:35];
+    }
+}
+
+- (void)skipRewardedAfterSelectedTime :(NSInteger)secondsToSkip {
+    if ([self duration] >= 35) {  
+        if (!self.isCountdownTimerStarted) {
+            self.skipOffset = secondsToSkip;
+            [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSString *playbackTime = @([self currentPlaybackTime]).stringValue;
+                NSString *currentPlaybackTime = [[playbackTime componentsSeparatedByString:@"."] objectAtIndex:0];
+                [self setCustomCountdown];
+                if (currentPlaybackTime.intValue == secondsToSkip) {
+                    if (self.ad.hasEndCard){
+                        [self showEndCard];
+                    }else {
+                        [self addCloseEventRegion];
+                    }
+                }
+            });
+            self.isCountdownTimerStarted = YES;
+        }
     }
 }
 
@@ -1078,7 +1114,7 @@ UIButton *closeEventRegion;
 
 - (void)moviePlayBackDidFinish:(NSNotification*)notification {
     // when endcard is presented the play already will seek to end to complete the video. Then this callback will be called. so intercept here
-    if (self.endCardShown) {return;}
+    if (self.endCardShown || self.isMoviePlaybackFinished) {return;}
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_complete];
     [self.player pause];
     
@@ -1454,7 +1490,7 @@ UIButton *closeEventRegion;
     [self setState:PNLiteVASTPlayerState_READY];
     [self.layer removeFromSuperlayer];
     HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
-    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self withAd:self.ad isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self withViewController:self withAd:self.ad isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) iconXposition:self.iconPositionX iconYposition:self.iconPositionY];
     endCardView.frame = self.view.frame;
     [endCardView setupUI];
     

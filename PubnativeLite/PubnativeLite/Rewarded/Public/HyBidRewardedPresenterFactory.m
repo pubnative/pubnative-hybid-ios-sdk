@@ -46,8 +46,10 @@
     if (!rewardedPresenter) {
         return nil;
     }
+    
+    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:PNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:PNLiteAdTrackerClick] forAd:ad];
     PNLiteRewardedPresenterDecorator *rewardedPresenterDecorator = [[PNLiteRewardedPresenterDecorator alloc] initWithRewardedPresenter:rewardedPresenter
-                                                                                                                                         withAdTracker:[[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:PNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:PNLiteAdTrackerClick]]
+                                                                                                                                         withAdTracker: adTracker
                                                                                                                                           withDelegate:delegate];
     rewardedPresenter.delegate = rewardedPresenterDecorator;
     return rewardedPresenterDecorator;

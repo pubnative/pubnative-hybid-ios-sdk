@@ -25,6 +25,7 @@
 @interface PNLiteTrackingManagerItem : NSObject
 
 @property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong )NSNumber *timestamp;
 
 - (NSDictionary *)toDictionary;

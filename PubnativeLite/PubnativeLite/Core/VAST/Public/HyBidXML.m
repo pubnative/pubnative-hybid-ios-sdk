@@ -174,8 +174,8 @@
 + (NSString*) valueOfAttributeNamed:(NSString *)aName forElement:(HyBidXMLElement*)aXMLElement {
 	const char * name = [aName cStringUsingEncoding:NSUTF8StringEncoding];
 	NSString * value = nil;
-	HyBidXMLAttribute * attribute = aXMLElement->firstAttribute;
-	while (attribute) {
+    HyBidXMLAttribute * attribute = aXMLElement->firstAttribute;
+    while (attribute) {
 		if (strlen(attribute->name) == strlen(name) && memcmp(attribute->name,name,strlen(name)) == 0) {
 			value = [NSString stringWithCString:&attribute->value[0] encoding:NSUTF8StringEncoding];
 			break;

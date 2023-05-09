@@ -36,6 +36,7 @@ NSLayoutConstraint *contentViewWidthConstraint;
 NSLayoutConstraint *contentViewHeightConstraint;
 NSTimeInterval const PNLiteContentViewClosingTime = 3.0f;
 CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
+CGFloat standardScreenWidth = 428.0;
 
 @interface HyBidContentInfoView () <PNLiteOrientationManagerDelegate, HyBidAdFeedbackViewDelegate>
 
@@ -84,7 +85,7 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
         [self addGestureRecognizer:self.tapRecognizer];
         self.textView = [[UILabel alloc] init];
         [self.textView setFont:[self.textView.font fontWithSize:10]];
-        self.textView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.70];
+        self.textView.backgroundColor = [UIColor clearColor];
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.textView setNumberOfLines: 1];
                 
@@ -94,8 +95,7 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
         
         [self addSubview:self.iconView];
         [self addSubview:self.textView];
-        
-        [self addingConstraints];
+
         [PNLiteOrientationManager sharedInstance].delegate = self;
     }
     return self;
@@ -119,7 +119,6 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
                                                                   multiplier:1.f
                                                                     constant:PNLiteContentViewIcontDefaultSize];
         [self addConstraints:@[contentViewWidthConstraint, contentViewHeightConstraint]];
-        [self setElementsOrientation: HyBidContentInfoHorizontalPositionLeft];
     }
 }
 
@@ -150,9 +149,11 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
             if (data) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.iconImage = [UIImage imageWithData: data];
+                    completionBlock(YES);
                 });
+            } else {
+                completionBlock(NO);
             }
-            completionBlock(YES);
         }];
     } else {
         completionBlock(YES);
@@ -168,46 +169,26 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
     }
 }
 
-- (void)layoutSubviews {
-    //adapting content info elements orientation after being added in a super view
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        CGPoint position = [self convertPoint:self.bounds.origin toView:window];
-        if(!weakSelf.xPosition){
-            weakSelf.xPosition = position.x;
-            CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-            [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 2) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
-        }
-    });
-}
-
 - (void)configureView {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self addingConstraints];
+    });
     
     NSString *positionString = [NSString stringWithFormat:@"%@ %@",
                                 self.verticalPosition == HyBidContentInfoVerticalPositionTop ? @"top" : @"bottom",
                                 self.horizontalPosition == HyBidContentInfoHorizontalPositionLeft ? @"left" : @"right"];
 
     [self.iconView setIsAccessibilityElement:YES];
-    [self.iconView setAccessibilityLabel:@"Content Info Icon View"];
     [self.iconView setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoIconView - %@", positionString]];
     
     [self.textView setIsAccessibilityElement:YES];
-    [self.textView setAccessibilityLabel:@"Content Info Text View"];
     [self.textView setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoTextView - %@", positionString]];
-    
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(weakSelf.superview){
-            [weakSelf.superview setIsAccessibilityElement:YES];
-            [weakSelf.superview setAccessibilityLabel:@"Content Info Container"];
-            [weakSelf.superview setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoTextView - %@", positionString]];
-        }
-    });
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {
             if (self.iconView && self.textView) {
+                [self.iconView.superview layoutIfNeeded];
                 if (self.text) {
                     self.textView.text = self.text;
                 } else {
@@ -229,6 +210,21 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
                 }
                 self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
                 self.hidden = NO;
+            }
+        }
+    });
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        CGPoint position = [self convertPoint:self.bounds.origin toView:window];
+        if(!weakSelf.xPosition){
+            weakSelf.xPosition = position.x;
+            CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+            if (screenWidth > standardScreenWidth) {
+                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 2.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
+            } else {
+                [self setElementsOrientation: weakSelf.xPosition >= (screenWidth / 3.0) ? HyBidContentInfoHorizontalPositionRight : HyBidContentInfoHorizontalPositionLeft];
             }
         }
     });
@@ -466,6 +462,8 @@ CGFloat const PNLiteMaxContentInfoViewHeight = 20.0f;
 
 - (void)adFeedbackViewDidFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Feedback failed with error: %@",error.localizedDescription]];
+    self.adFeedbackViewRequested = NO;
+    [self close];
 }
 
 @end

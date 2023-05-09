@@ -41,6 +41,10 @@
     #import "HyBid-Swift.h"
 #endif
 
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
+#endif
+
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
 
@@ -315,9 +319,9 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
         [self.impressionTracker addView:view];
         
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
-        [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
-#endif
+        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+            [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
+        #endif
     }
 }
 
@@ -446,7 +450,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                 if (beacon.url && beacon.url.length > 0) {
                     NSURL *beaconUrl = [NSURL URLWithString:beacon.url];
                     NSURL *injectedUrl = [self injectExtrasWithUrl:beaconUrl];
-                    [PNLiteTrackingManager trackWithURL:injectedUrl];
+                    [PNLiteTrackingManager trackWithURL:injectedUrl withType:type forAd: self.ad];
                 } else if (beaconJs && beaconJs.length > 0) {
                     __block NSString *beaconJsBlock = [beacon stringFieldWithKey:@"js"];
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -562,19 +566,22 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (void)fetchAsset:(NSString *)assetURLString {
     if (assetURLString && assetURLString.length > 0) {
         __block NSURL *url = [NSURL URLWithString:assetURLString];
-        __block HyBidNativeAd *strongSelf = self;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSData *data = [NSData dataWithContentsOfURL:url];
-            if (data) {
-                [strongSelf cacheFetchedAssetData:data withURL:url];
-                [strongSelf checkFetchProgress];
-            } else {
-                [strongSelf invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset can not be downloaded."
-                                                                            code:0
-                                                                        userInfo:nil]];
+            __weak typeof(self) weakSelf = self;
+            if (weakSelf) {
+                __strong HyBidNativeAd *strongSelf = weakSelf;
+                NSData *data = [NSData dataWithContentsOfURL:url];
+                if (data) {
+                    [strongSelf cacheFetchedAssetData:data withURL:url];
+                    [strongSelf checkFetchProgress];
+                } else {
+                    [strongSelf invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset can not be downloaded."
+                                                                                code:0
+                                                                            userInfo:nil]];
+                }
+                url = nil;
+                strongSelf = nil;
             }
-            url = nil;
-            strongSelf = nil;
         });
     } else {
         [self invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset URL is nil or empty."
@@ -617,33 +624,41 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 - (void)invokeFetchDidFinish {
     __block NSObject<HyBidNativeAdFetchDelegate> *delegate = self.fetchDelegate;
-    __block HyBidNativeAd *strongSelf = self;
     self.fetchDelegate = nil;
     if (delegate) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (delegate && [delegate respondsToSelector:@selector(nativeAdDidFinishFetching:)]) {
-                [delegate nativeAdDidFinishFetching:strongSelf];
+            __weak typeof(self) weakSelf = self;
+            if (weakSelf) {
+                __strong HyBidNativeAd *strongSelf = weakSelf;
+                if (!strongSelf) {return;}
+                if (delegate && [delegate respondsToSelector:@selector(nativeAdDidFinishFetching:)]) {
+                    [delegate nativeAdDidFinishFetching:strongSelf];
+                }
+                delegate = nil;
+                strongSelf = nil;
             }
-            delegate = nil;
-            strongSelf = nil;
         });
     }
 }
 
 - (void)invokeFetchDidFailWithError:(NSError *)error {
     __block NSError *blockError = error;
-    __block HyBidNativeAd *strongSelf = self;
     __block NSObject<HyBidNativeAdFetchDelegate> *delegate = self.fetchDelegate;
     self.fetchDelegate = nil;
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
     if (delegate) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (delegate && [delegate respondsToSelector:@selector(nativeAd:didFailFetchingWithError:)]) {
-                [delegate nativeAd:strongSelf didFailFetchingWithError:blockError];
+            __weak typeof(self) weakSelf = self;
+            if (weakSelf) {
+                __strong HyBidNativeAd *strongSelf = weakSelf;
+                if (!strongSelf) {return;}
+                if (delegate && [delegate respondsToSelector:@selector(nativeAd:didFailFetchingWithError:)]) {
+                    [delegate nativeAd:strongSelf didFailFetchingWithError:blockError];
+                }
+                delegate = nil;
+                blockError = nil;
+                strongSelf = nil;
             }
-            delegate = nil;
-            blockError = nil;
-            strongSelf = nil;
         });
     }
 }

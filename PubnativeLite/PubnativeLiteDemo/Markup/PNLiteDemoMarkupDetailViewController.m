@@ -20,19 +20,21 @@
 //  THE SOFTWARE.
 //
 
+// This class is used for showing details for both Markup(Banner and MRect) and URL(Interstitial and Rewarded)
 #import "PNLiteDemoMarkupDetailViewController.h"
 #import "HyBidAdView.h"
 
 NSString *const baseUrl = @"https://creative-sampler.herokuapp.com/creatives/";
 NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
 
-@interface PNLiteDemoMarkupDetailViewController () <HyBidAdViewDelegate, HyBidInterstitialAdDelegate>
+@interface PNLiteDemoMarkupDetailViewController () <HyBidAdViewDelegate, HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *markupContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *markupContainerHeightConstraint;
 @property (nonatomic, strong) HyBidAdView *adView;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIDLabel;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (weak, nonatomic) IBOutlet UIButton *openBrowserButton;
@@ -48,6 +50,7 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
     self.adView = nil;
     self.debugButton = nil;
     self.interstitialAd = nil;
+    self.rewardedAd = nil;
     self.creativeID = nil;
     self.placementType = nil;
     self.urWrap = nil;
@@ -83,6 +86,12 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
         case 3: {
             [self.showAdButton setHidden: NO];
             self.placementType = @"fullscreen";
+            break;
+            break;
+        }
+        case 4: {
+            [self.showAdButton setHidden: NO];
+            self.placementType = @"rewarded";
             break;
         }
         default:
@@ -143,11 +152,22 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
     return base64String;
 }
 
-- (IBAction)showInterstitialTouchUpInside:(UIButton *)sender {
-    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-    if (self.markup != nil) {
-        [self.interstitialAd prepareCustomMarkupFrom: self.markup.text];
-        [self.showAdButton setEnabled: NO];
+- (IBAction)showButtonTouchUpInside:(UIButton *)sender {
+    switch ([self.markup.placement integerValue]) {
+        case 3:
+            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+            if (self.markup != nil) {
+                [self.interstitialAd prepareCustomMarkupFrom: self.markup.text];
+                [self.showAdButton setEnabled: NO];
+            }
+            break;
+        case 4:
+            self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
+            if (self.markup != nil) {
+                [self.rewardedAd prepareCustomMarkupFrom: self.markup.text];
+                [self.showAdButton setEnabled: NO];
+            }
+            break;
     }
 }
 
@@ -227,5 +247,36 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
         [toast dismissViewControllerAnimated:YES completion:nil];
     });
 }
+
+#pragma mark - HyBidRewardedAdDelegate
+
+-(void)rewardedDidLoad {
+    NSLog(@"Rewarded did load");
+    [self.rewardedAd show];
+    self.debugButton.hidden = NO;
+}
+
+-(void)rewardedDidFailWithError:(NSError *)error {
+    NSLog(@"Rewarded did fail with error: %@",error.localizedDescription);
+    [self showAlertControllerWithMessage:error.localizedDescription];
+    self.debugButton.hidden = NO;
+}
+
+-(void)rewardedDidTrackClick {
+    NSLog(@"Rewarded did track click");
+}
+
+-(void)rewardedDidTrackImpression {
+    NSLog(@"Rewarded did track impression");
+}
+
+-(void)rewardedDidDismiss {
+    NSLog(@"Rewarded did dismiss");
+}
+
+- (void)onReward {
+    NSLog(@"Rewarded did reward");
+}
+
 
 @end

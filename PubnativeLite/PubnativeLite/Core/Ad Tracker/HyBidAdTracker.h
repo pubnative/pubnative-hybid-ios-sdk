@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAdTrackerRequest.h"
+#import "HyBidAd.h"
 
 extern NSString *const PNLiteAdTrackerClick;
 extern NSString *const PNLiteAdTrackerImpression;
@@ -31,7 +32,8 @@ extern NSString *const PNLiteAdTrackerImpression;
 @property (nonatomic, assign) BOOL impressionTracked;
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
-                         withClickURLs:(NSArray *)clickURLs;
+                         withClickURLs:(NSArray *)clickURLs
+                                 forAd:(HyBidAd *)ad;
 - (void)trackClickWithAdFormat:(NSString *)adFormat;
 - (void)trackImpressionWithAdFormat:(NSString *)adFormat;
 

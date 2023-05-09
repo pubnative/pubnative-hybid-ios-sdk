@@ -149,6 +149,13 @@ public class HyBidRewardedAd: NSObject {
         }
     }
     
+    @objc(prepareCustomMarkupFrom:)
+    public func prepareCustomMarkupFrom(_ markup: String) {
+        self.cleanUp()
+        self.initialLoadTimestamp = Date().timeIntervalSince1970
+        self.rewardedAdRequest?.processCustomMarkup(from: markup, andWith: HyBidRewardedAdRequestWrapper(parent: self))
+    }
+    
     @objc(prepareAdWithContent:)
     public func prepareAdWithContent(adContent: String) {
         if adContent.count != 0 {

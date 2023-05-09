@@ -22,8 +22,6 @@
 
 #import <UIKit/UIKit.h>
 
-@import GoogleMobileAdsMediationTestSuite;
-
 @interface PNLiteDemoSettingsMainViewController : UIViewController
 
 @end

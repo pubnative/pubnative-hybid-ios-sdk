@@ -493,19 +493,19 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidRenderi
 + (HyBidRenderingConfig * _Nonnull)sharedConfig SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@property (nonatomic, strong) HyBidSkipOffset * _Nonnull videoSkipOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic, strong) HyBidSkipOffset * _Nonnull interstitialHtmlSkipOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic, strong) HyBidSkipOffset * _Nonnull rewardedHtmlSkipOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic, strong) HyBidSkipOffset * _Nonnull endCardCloseOffset SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) BOOL showEndCard SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) HyBidInterstitialActionBehaviour interstitialActionBehaviour SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) BOOL interstitialCloseOnFinish SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) BOOL rewardedCloseOnFinish SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) HyBidAudioStatus audioStatus SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) BOOL mraidExpand SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) BOOL interstitialSKOverlay SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic) BOOL rewardedSKOverlay SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-@property (nonatomic, readonly) BOOL bannerSKOverlay SWIFT_DEPRECATED_MSG("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull videoSkipOffset SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull interstitialHtmlSkipOffset SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull rewardedHtmlSkipOffset SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic, strong) HyBidSkipOffset * _Nonnull endCardCloseOffset SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) BOOL showEndCard SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) HyBidInterstitialActionBehaviour interstitialActionBehaviour SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) BOOL interstitialCloseOnFinish SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) BOOL rewardedCloseOnFinish SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) HyBidAudioStatus audioStatus SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) BOOL mraidExpand SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) BOOL interstitialSKOverlay SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic) BOOL rewardedSKOverlay SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
+@property (nonatomic, readonly) BOOL bannerSKOverlay SWIFT_DEPRECATED_MSG("You can safely remove this method from your integration.");
 @end
 
 @class HyBidReportingEvent;
@@ -558,6 +558,7 @@ SWIFT_CLASS("_TtC5HyBid15HyBidRewardedAd")
 - (void)setCloseOnFinish:(BOOL)closeOnFinish;
 - (void)prepare;
 - (void)setMediationVendor:(NSString * _Nonnull)mediationVendor;
+- (void)prepareCustomMarkupFrom:(NSString * _Nonnull)markup;
 - (void)prepareAdWithContent:(NSString * _Nonnull)adContent;
 - (void)prepareAdWithAdReponse:(NSString * _Nonnull)adReponse;
 - (void)show;
@@ -647,6 +648,7 @@ SWIFT_CLASS("_TtC5HyBid15HyBidSkipOffset")
 @property (nonatomic, strong) NSNumber * _Nonnull style;
 - (nonnull instancetype)initWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom style:(NSNumber * _Nonnull)style OBJC_DESIGNATED_INITIALIZER;
+- (void)configureWithOffset:(NSNumber * _Nullable)offset isCustom:(BOOL)isCustom style:(NSNumber * _Nonnull)style;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end

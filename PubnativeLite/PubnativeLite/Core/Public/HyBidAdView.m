@@ -37,6 +37,10 @@
     #import "HyBid-Swift.h"
 #endif
 
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
+#endif
+
 #define TIME_TO_EXPIRE 1800 //30 Minutes as in seconds
 
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
@@ -367,18 +371,19 @@
         if (impressionTrackingMethod == HyBidAdImpressionTrackerViewable) {
             [self.adPresenter startTracking];
         } 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+
+        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
         [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
-#endif
+        #endif
     }
 }
 
 - (void)stopTracking {
     [self.adPresenter stopTracking];
     
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
     [[HyBidAdImpression sharedInstance] endImpressionForAd:self.ad];
-#endif
+    #endif
 }
 
 - (HyBidAdPresenter *)createAdPresenter {

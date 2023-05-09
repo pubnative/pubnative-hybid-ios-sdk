@@ -292,8 +292,15 @@ typedef enum {
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
-                htmlData = [PNLiteMRAIDUtil processRawHtml:html];
-                [self loadHTMLData:htmlData];
+                if(html && !error){
+                    htmlData = [PNLiteMRAIDUtil processRawHtml:html];
+                    [self loadHTMLData:htmlData];
+                } else {
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+                    if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
+                        [self.delegate mraidViewAdFailed:self];
+                    }
+                }
             }];
         } else {
             htmlData = [PNLiteMRAIDUtil processRawHtml:htmlData];
@@ -372,14 +379,35 @@ typedef enum {
 }
 
 - (void)htmlFromUrl:(NSURL *)url handler:(void (^)(NSString *html, NSError *error))handler {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-        NSError *error;
-        NSString *html = [NSString stringWithContentsOfURL:url encoding:NSASCIIStringEncoding error:&error];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (handler)
-                handler(html, error);
-        });
-    });
+    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL: url];
+    [urlRequest setHTTPMethod:@"GET"];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if(httpResponse.statusCode == 200) {
+            NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            if([dataString containsString: @"<!DOCTYPE html>"]){
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    if (handler)
+                        handler(dataString, error);
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    if(handler){
+                        handler(nil, [NSError hyBidInvalidHTML]);
+                    }
+                });
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                if(handler){
+                    handler(nil, error);
+                }
+            });
+        }
+    }];
+    dataTask.priority = DISPATCH_QUEUE_PRIORITY_DEFAULT;
+    [dataTask resume];
 }
 
 - (void)loadHTMLData:(NSString *)htmlData {

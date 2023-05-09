@@ -149,10 +149,10 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 }
                 case 3: {
                     switch (indexPath.row) {
-                        case 0: // Rewarded SKOverlay enabled
+                        case 1: // Rewarded SKOverlay enabled
                             [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].rewardedSKOverlay];
                             break;
-                        case 1: { // Rewarded close after finish
+                        case 2: { // Rewarded close after finish
                             [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish];
                             break;
                         }
@@ -219,16 +219,21 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             switch (indexPath.section) {
-                case 1: { // countdown style
-                    [cell.segmentedControl setTitle:@"Pie chart" forSegmentAtIndex:0];
-                    [cell.segmentedControl setTitle:@"Timer" forSegmentAtIndex:1];
-                    if(cell.segmentedControl.numberOfSegments > 2){
-                        [cell.segmentedControl setTitle:@"Progress" forSegmentAtIndex:2];
-                    } else {
-                        [cell.segmentedControl insertSegmentWithTitle:@"Progress" atIndex:2 animated: YES];
+                case 1: {
+                    switch (indexPath.row) {
+                        case 4: { // countdown style
+                            [cell.segmentedControl setTitle:@"Pie chart" forSegmentAtIndex:0];
+                            [cell.segmentedControl setTitle:@"Timer" forSegmentAtIndex:1];
+                            if(cell.segmentedControl.numberOfSegments > 2){
+                                [cell.segmentedControl setTitle:@"Progress" forSegmentAtIndex:2];
+                            } else {
+                                [cell.segmentedControl insertSegmentWithTitle:@"Progress" atIndex:2 animated: YES];
+                            }
+                            
+                            [cell.segmentedControl setSelectedSegmentIndex: [[HyBidRenderingConfig sharedConfig].videoSkipOffset.style intValue]];
+                            break;
+                        }
                     }
-                    
-                    [cell.segmentedControl setSelectedSegmentIndex: [[HyBidRenderingConfig sharedConfig].videoSkipOffset.style intValue]];
                     break;
                 }
                 case 2: {
@@ -240,6 +245,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                             break;
                         }
                     }
+                    break;
                 }
             }
 
@@ -330,6 +336,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     break;
                 }
             }
+            break;
         }
         case 1: {
             switch (indexPath.row) {
@@ -342,18 +349,20 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     break;
                 }
             }
+            break;
         }
         case 3: {
             switch (indexPath.row) {
-                case 0: { // Rewarded SKOverlay enabled
+                case 1: { // Rewarded SKOverlay enabled
                     [HyBidRenderingConfig sharedConfig].rewardedSKOverlay = isON;
                     break;
                 }
-                case 1: { // Close rewarded on finish
+                case 2: { // Close rewarded on finish
                     [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish = isON;
                     break;
                 }
             }
+            break;
         }
     }
 }
@@ -367,6 +376,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     break;
                 }
             }
+            break;
         }
         case 1: {
             switch (indexPath.row) {
@@ -416,6 +426,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     break;
                 }
             }
+            break;
         }
     }
 }
