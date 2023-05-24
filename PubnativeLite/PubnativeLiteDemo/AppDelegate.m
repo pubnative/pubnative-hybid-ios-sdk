@@ -24,7 +24,6 @@
 #import "PNLiteDemoSettings.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
-//#import "IronSource/IronSource.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
 #if __has_include(<ATOM/ATOM-Swift.h>)
@@ -62,7 +61,6 @@ CLLocationManager *locationManager;
     [HyBid setLocationUpdates:NO];
     
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
-    //[IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
     
     [ALSdk shared].mediationProvider = @"max";
     [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {}];

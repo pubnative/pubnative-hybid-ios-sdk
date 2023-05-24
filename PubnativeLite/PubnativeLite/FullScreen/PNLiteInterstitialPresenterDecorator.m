@@ -26,6 +26,7 @@
 #import <StoreKit/SKOverlay.h>
 #import <StoreKit/SKOverlayConfiguration.h>
 #import "UIApplication+PNLiteTopViewController.h"
+#import "PNLiteImpressionTracker.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -35,7 +36,7 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface PNLiteInterstitialPresenterDecorator() <SKOverlayDelegate>
+@interface PNLiteInterstitialPresenterDecorator() <SKOverlayDelegate, PNLiteImpressionTrackerDelegate>
 
 @property (nonatomic, strong) HyBidInterstitialPresenter *interstitialPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
@@ -43,6 +44,7 @@
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
 @property (nonatomic, assign) BOOL isOverlayShown;
+@property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 
 @end
 
@@ -184,6 +186,15 @@
 #pragma mark HyBidInterstitialPresenterDelegate
 
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if(!self.impressionTracker) {
+        self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
+        [self.impressionTracker determineViewbilityRemoteConfig:interstitialPresenter.ad];
+    }
+    
+    if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender) {
+        [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+    }
+    
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
         if (self.interstitialPresenter.ad.skoverlayEnabled) {

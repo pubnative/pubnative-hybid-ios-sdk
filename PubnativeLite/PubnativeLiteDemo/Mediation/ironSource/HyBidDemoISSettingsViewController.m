@@ -22,7 +22,7 @@
 
 #import "HyBidDemoISSettingsViewController.h"
 #import "PNLiteDemoSettings.h"
-//#import "IronSource/IronSource.h"
+#import "IronSource/IronSource.h"
 
 @interface HyBidDemoISSettingsViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *appIDTextField;
@@ -36,9 +36,9 @@
     self.appIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey];
 }
 
-- (IBAction)saveGADSettingsTouchUpInside:(UIButton *)sender {
+- (IBAction)saveISSettingsTouchUpInside:(UIButton *)sender {
     [[NSUserDefaults standardUserDefaults] setObject:self.appIDTextField.text forKey:kHyBidISAppIDKey];
-    //[IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
+    [IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -84,7 +84,11 @@
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
-    [self setCreativeIDLabelWithString:self.bannerAdView.ad.creativeID];
+    if (self.bannerAdView.ad.isUsingOpenRTB) {
+        [self setCreativeIDLabelWithString:self.bannerAdView.ad.openRTBCreativeID];
+    } else {
+        [self setCreativeIDLabelWithString:self.bannerAdView.ad.creativeID];
+    }
     self.bannerAdView.hidden = NO;
     self.debugButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];

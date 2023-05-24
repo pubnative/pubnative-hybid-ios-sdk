@@ -32,6 +32,7 @@
      self.extensions = nil;
      self.beacons = nil;
      self.assetgroupid = nil;
+     self.creativeid = nil;
  }
 
  #pragma mark HyBidBaseModel
@@ -45,7 +46,7 @@
 
          self.link = adm[@"native"][@"link"][@"url"];
          self.assets = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseArrayValuesForAssets:adm[@"native"][@"assets"]]];
-
+         self.creativeid = dictionary[@"crid"];
          NSError *extError;
          NSData *extData = [NSJSONSerialization dataWithJSONObject:dictionary[@"ext"] options:NSJSONWritingPrettyPrinted error:&extError];
          NSDictionary *ext = [NSJSONSerialization JSONObjectWithData:extData options:kNilOptions error:&extError];

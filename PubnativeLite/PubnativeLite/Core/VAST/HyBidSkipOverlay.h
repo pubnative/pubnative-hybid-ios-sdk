@@ -26,6 +26,7 @@
 @protocol HyBidSkipOverlayDelegate <NSObject>
 
 - (void)skipButtonTapped;
+- (void)skipTimerCompleted;
 
 @end
 

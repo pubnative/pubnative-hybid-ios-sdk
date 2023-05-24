@@ -80,7 +80,11 @@
 
 - (void)rewardedDidLoad {
     NSLog(@"Rewarded did load");
-    [self setCreativeIDLabelWithString:self.rewardedAd.ad.creativeID];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey: kIsUsingOpenRTB] == YES) {
+        [self setCreativeIDLabelWithString:self.rewardedAd.ad.openRTBCreativeID];
+    } else {
+        [self setCreativeIDLabelWithString:self.rewardedAd.ad.creativeID];
+    }
     self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
     self.prepareButton.enabled = !self.adCachingSwitch.isOn;

@@ -171,8 +171,9 @@ CGFloat standardScreenWidth = 428.0;
 
 - (void)configureView {
     
-    
-    [self addingConstraints];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self addingConstraints];
+    });
     
     NSString *positionString = [NSString stringWithFormat:@"%@ %@",
                                 self.verticalPosition == HyBidContentInfoVerticalPositionTop ? @"top" : @"bottom",
@@ -203,6 +204,7 @@ CGFloat standardScreenWidth = 428.0;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.iconView setImage:self.iconImage];
                     });
+                    self.link = @"https://pubnative.net/content-info";
                 }
                 if (!self.link) {
                     self.link = @"https://pubnative.net/content-info";

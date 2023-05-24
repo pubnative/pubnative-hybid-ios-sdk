@@ -38,7 +38,6 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
 @property (weak, nonatomic) IBOutlet UILabel *creativeIDLabel;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
 @property (weak, nonatomic) IBOutlet UIButton *openBrowserButton;
-@property (weak, nonatomic) NSString *placementType;
 @property (nonatomic, strong) NSString *urlString;
 
 @end
@@ -52,7 +51,6 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
     self.interstitialAd = nil;
     self.rewardedAd = nil;
     self.creativeID = nil;
-    self.placementType = nil;
     self.urWrap = nil;
     self.urTemplate = nil;
     self.creativeURL = nil;
@@ -61,37 +59,28 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    switch ([self.markup.placement integerValue]) {
-        case 0: {
+    switch (self.markup.placement) {
+        case HyBidDemoAppPlacementBanner: {
             self.markupContainerWidthConstraint.constant = 320;
             self.markupContainerHeightConstraint.constant = 50;
             self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_320x50];
-            self.placementType = @"banner";
             break;
         }
-        case 1: {
+        case HyBidDemoAppPlacementMRect: {
             self.markupContainerWidthConstraint.constant = 300;
             self.markupContainerHeightConstraint.constant = 250;
             self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_300x250];
-            self.placementType = @"mrect";
             break;
         }
-        case 2: {
+        case HyBidDemoAppPlacementLeaderboard: {
             self.markupContainerWidthConstraint.constant = 728;
             self.markupContainerHeightConstraint.constant = 90;
             self.adView = [[HyBidAdView alloc] initWithSize:HyBidAdSize.SIZE_728x90];
-            self.placementType = @"leaderboard";
             break;
         }
-        case 3: {
+        case HyBidDemoAppPlacementInterstitial:
+        case HyBidDemoAppPlacementRewarded: {
             [self.showAdButton setHidden: NO];
-            self.placementType = @"fullscreen";
-            break;
-            break;
-        }
-        case 4: {
-            [self.showAdButton setHidden: NO];
-            self.placementType = @"rewarded";
             break;
         }
         default:
@@ -125,7 +114,27 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
     if ([self.creativeURL containsString:@"crid"]){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [self.creativeURL stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]];
     } else {
-        self.urlString = [[NSString alloc] initWithFormat:@"%@%@?crid=%@", baseUrl, self.placementType, self.creativeID];
+        NSString *placementString;
+        switch (self.markup.placement) {
+            case HyBidDemoAppPlacementBanner:
+                placementString = @"banner";
+                break;
+            case HyBidDemoAppPlacementMRect:
+                placementString = @"mrect";
+                break;
+            case HyBidDemoAppPlacementLeaderboard: {
+                placementString = @"leaderboard";
+                break;
+            }
+            case HyBidDemoAppPlacementInterstitial: {
+                placementString = @"fullscreen";
+                break;
+            }
+            case HyBidDemoAppPlacementRewarded:
+                placementString = @"rewarded";
+                break;
+        }
+        self.urlString = [[NSString alloc] initWithFormat:@"%@%@?crid=%@", baseUrl, placementString, self.creativeID];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [self.urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     }
 }
@@ -153,15 +162,19 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
 }
 
 - (IBAction)showButtonTouchUpInside:(UIButton *)sender {
-    switch ([self.markup.placement integerValue]) {
-        case 3:
+    switch (self.markup.placement) {
+        case HyBidDemoAppPlacementBanner:
+        case HyBidDemoAppPlacementMRect:
+        case HyBidDemoAppPlacementLeaderboard:
+            break;
+        case HyBidDemoAppPlacementInterstitial:
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
             if (self.markup != nil) {
                 [self.interstitialAd prepareCustomMarkupFrom: self.markup.text];
                 [self.showAdButton setEnabled: NO];
             }
             break;
-        case 4:
+        case HyBidDemoAppPlacementRewarded:
             self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
             if (self.markup != nil) {
                 [self.rewardedAd prepareCustomMarkupFrom: self.markup.text];
@@ -277,6 +290,5 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
 - (void)onReward {
     NSLog(@"Rewarded did reward");
 }
-
 
 @end

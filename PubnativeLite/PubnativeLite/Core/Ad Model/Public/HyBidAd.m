@@ -259,6 +259,14 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return creativeID;
 }
 
+- (NSString *)openRTBCreativeID {
+    NSString *creativeID = nil;
+    if(self.openRTBData) {
+        creativeID = self.openRTBData.creativeid;
+    }
+    return creativeID;
+}
+
 - (NSNumber *)assetGroupID {
     NSNumber *result = nil;
     if (self.data) {
@@ -432,6 +440,17 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (NSNumber *)nativeCloseButtonDelay {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.nativeCloseButtonDelay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.nativeCloseButtonDelay];
+        }
+    }
+    return result;
+}
+
 - (NSNumber *)interstitialHtmlSkipOffset {
     NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
@@ -460,6 +479,17 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (jsonDictionary) {
         if ([jsonDictionary objectForKey:PNLiteData.videoSkipOffset] != (id)[NSNull null]) {
             result = [jsonDictionary objectForKey:PNLiteData.videoSkipOffset];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)rewardedVideoSkipOffset {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset];
         }
     }
     return result;

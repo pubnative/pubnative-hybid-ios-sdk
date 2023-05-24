@@ -25,9 +25,12 @@
 #import "HyBidMRAIDServiceProvider.h"
 #import "HyBid.h"
 #import "HyBidVASTEndCardCloseIcon.h"
-
+#import "HyBidURLDriller.h"
+#import "HyBidSKAdNetworkViewController.h"
+#import "UIApplication+PNLiteTopViewController.h"
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
+#import "HyBidCloseButton.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -37,10 +40,9 @@
     #import "HyBid-Swift.h"
 #endif
 
-#define kCloseButtonSize 26
 #define kContentInfoContainerTag 2343
 
-@interface HyBidVASTEndCardView () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, UIGestureRecognizerDelegate, WKNavigationDelegate, HyBidVASTEventProcessorDelegate>
+@interface HyBidVASTEndCardView () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, UIGestureRecognizerDelegate, WKNavigationDelegate, HyBidVASTEventProcessorDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *endCardImageView;
 
@@ -50,7 +52,7 @@
 
 @property (nonatomic, weak) NSObject<HyBidVASTEndCardViewControllerDelegate> *delegate;
 
-@property (nonatomic, strong) UIButton *closeButton;
+@property (nonatomic, strong) HyBidCloseButton *closeButton;
 
 @property (nonatomic, strong) HyBidVASTEndCard *endCard;
 
@@ -75,6 +77,8 @@
 
 @property (nonatomic, strong) HyBidSkipOffset *endCardCloseDelay;
 @property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, strong) HyBidVASTAd *vastAd;
+
 @property (nonatomic, assign) NSString * iconXposition;
 @property (nonatomic, assign) NSString * iconYposition;
 
@@ -82,13 +86,20 @@
 
 @implementation HyBidVASTEndCardView
 
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate withViewController:(UIViewController *)viewController withAd:(HyBidAd *)ad isInterstitial:(BOOL)isInterstitial iconXposition:(NSString *)iconXposition iconYposition:(NSString *)iconYposition; {
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate
+              withViewController:(UIViewController *)viewController
+                          withAd:(HyBidAd *)ad
+                      withVASTAd:(HyBidVASTAd *)vastAd
+                  isInterstitial:(BOOL)isInterstitial
+                   iconXposition:(NSString *)iconXposition
+                   iconYposition:(NSString *)iconYposition {
     self = [super init];
     if (self) {
         self.delegate = delegate;
         self.rootViewController = viewController;
         [self determineEndCardCloseDelayForAd:ad];
         self.ad = ad;
+        self.vastAd = vastAd;
         self.iconXposition = iconXposition;
         self.iconYposition = iconYposition;
         self.isInterstitial = isInterstitial;
@@ -234,42 +245,44 @@
     self.closeButtonTimeElapsed = 0.0;
 }
 
+- (BOOL)isContentInfoInTopRightPosition {
+    BOOL isRightPosition = [self.iconXposition isEqualToString: @"right"] ? YES : NO;
+    BOOL isTopPosition = [self.iconYposition isEqualToString: @"top"] ? YES : NO;
+    
+    return isRightPosition && isTopPosition ? YES : NO;
+}
+
 - (void)addCloseButton {
     [self.closeButtonTimer invalidate];
     self.closeButtonTimer = nil;
     self.closeButtonTimeElapsed = -1;
         
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.closeButton.backgroundColor = [UIColor clearColor];
-        [self.closeButton addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
-        [self.closeButton setAccessibilityIdentifier:@"closeButton"];
-        [self.closeButton setAccessibilityLabel:@"Close Button"];
-        
-        // get button image from header file
-        NSData* buttonData = [NSData dataWithBytesNoCopy:__HyBidVASTEndCard_CloseButton_png
-                                                  length:__HyBidVASTEndCard_CloseButton_png_len
-                                            freeWhenDone:NO];
-        UIImage *closeButtonImage = [UIImage imageWithData:buttonData];
-        [self.closeButton setBackgroundImage:closeButtonImage forState:UIControlStateNormal];
-        [self.rootViewController.view addSubview:self.closeButton];
-        
-        self.closeButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize],
-            [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize]
-        ]];
-        
-        if (@available(iOS 11.0, *)) {
-            [NSLayoutConstraint activateConstraints:@[
-                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
-            ]];
+        self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self.rootViewController.view action:@selector(close) target:self];
+        if([self isContentInfoInTopRightPosition]){
+            if (@available(iOS 11.0, *)) {
+                [NSLayoutConstraint activateConstraints:@[
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
+                ]];
+            } else {
+                [NSLayoutConstraint activateConstraints:@[
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
+                ]];
+            }
         } else {
-            [NSLayoutConstraint activateConstraints:@[
-                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
-            ]];
+            if (@available(iOS 11.0, *)) {
+                [NSLayoutConstraint activateConstraints:@[
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+                ]];
+            } else {
+                [NSLayoutConstraint activateConstraints:@[
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+                ]];
+            }
         }
         [self.rootViewController.view bringSubviewToFront:self.closeButton];
     });
@@ -301,7 +314,6 @@
     self.mainView = [[UIView alloc] init];
     self.mainView.translatesAutoresizingMaskIntoConstraints = NO;
     [contentView addSubview:self.mainView];
-    [self addTapRecognizerToView:self.mainView];
     
     if (self.ctaButton != nil) {
         self.companionView = [[UIView alloc] init];
@@ -321,6 +333,7 @@
     self.endCard = endCard;
     [self.vastEventProcessor setCustomEvents:[[endCard events] events]];
     if ([endCard type] == HyBidEndCardType_STATIC) {
+        [self addTapRecognizerToView:self.mainView];
         [self displayImageViewWithURL:[endCard content] withView:viewController.view];
     } else if ([endCard type] == HyBidEndCardType_IFRAME) {
         [self displayMRAIDWithContent:@"" withBaseURL:[[NSURL alloc] initWithString:[endCard content]]];
@@ -608,17 +621,99 @@
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];
-
-    if (self.mraidView) {
-        [self.mraidView stopAdSession];
-    }
-    
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID did close."];    
     [self close];
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    [self.serviceProvider openBrowser:url.absoluteString];
+    if (self.vastAd == nil) {
+        return;
+    }
+    
+    NSArray<HyBidVASTCreative *> *creatives = [[self.vastAd inLine] creatives];
+    NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
+    
+    for (HyBidVASTCreative *creative in creatives) {
+        if ([creative linear] != nil) {
+            [videoClicks addObject:[[creative linear] videoClicks]];
+            break;
+        }
+    }
+    
+    NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
+    
+    for (HyBidVASTVideoClicks *videoClick in videoClicks) {
+        for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
+            [trackingClickURLs addObject:[tracking content]];
+        }
+    }
+    
+    if ([trackingClickURLs count] > 0) {
+        [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
+    }
+    
+    [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+    
+    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
+    
+    if (skAdNetworkModel) {
+        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+        
+        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        
+        if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
+            [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [productParams removeObjectForKey:@"fidelity-type"];
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+                skAdnetworkViewController.delegate = self;
+                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+            });
+        } else {
+            [self.serviceProvider openBrowser:url.absoluteString];
+        }
+    } else {
+        [self.serviceProvider openBrowser:url.absoluteString];
+    }
+}
+
+- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
+{
+    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+        
+        if ([fidelitiesDataArray count] > 0) {
+            for (NSData *fidelity in fidelitiesDataArray) {
+                SKANObject skanObject;
+                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
+                
+                if (skanObject.fidelity == 1) {
+                    if (@available(iOS 11.3, *)) {
+                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
+                        
+                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
+                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
+                    }
+                    
+                    if (@available(iOS 13.0, *)) {
+                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                        
+                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        
+                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
+                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                    }
+                    
+                    dictionary[@"fidelities"] = nil;
+                    
+                    break; // Currently we support only 1 fidelity for each kind
+                }
+            }
+        }
+    }
+    
+    return dictionary;
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {

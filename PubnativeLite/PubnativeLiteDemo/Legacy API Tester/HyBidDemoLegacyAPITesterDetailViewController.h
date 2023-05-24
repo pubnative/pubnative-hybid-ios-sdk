@@ -22,11 +22,12 @@
 
 #import <Foundation/Foundation.h>
 #import "PNLiteDemoBaseViewController.h"
+#import "HyBidDemoEnumConstants.h"
 
 @interface HyBidDemoLegacyAPITesterDetailViewController : PNLiteDemoBaseViewController
 
 @property (nonatomic, strong) NSString *adResponse;
-@property (nonatomic, strong) NSNumber *placement;
+@property (nonatomic) HyBidDemoAppPlacement placement;
 @property (weak, nonatomic) UIButton *debugButton;
 
 @end

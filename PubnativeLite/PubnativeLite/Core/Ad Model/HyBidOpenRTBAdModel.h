@@ -27,6 +27,7 @@
 @interface HyBidOpenRTBAdModel : HyBidOpenRTBBaseModel
 
 @property (nonatomic, strong) NSString *link;
+@property (nonatomic, strong) NSString *creativeid;
 @property (nonatomic, strong) NSNumber *assetgroupid;
 @property (nonatomic, strong) NSMutableArray<HyBidOpenRTBDataModel*> *assets;
 @property (nonatomic, strong) NSArray<HyBidOpenRTBDataModel*> *beacons;

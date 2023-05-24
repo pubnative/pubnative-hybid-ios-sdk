@@ -74,6 +74,9 @@ API_AVAILABLE(ios(14.5))
 
 - (SKAdImpression *)generateSkAdImpressionFrom:(HyBidSkAdNetworkModel *)model
 API_AVAILABLE(ios(14.5)){
+    
+    double skanVersion = [[model productParameters][@"version"] doubleValue];
+
     if (@available(iOS 14.5, *)) {
         SKAdImpression *impression = [[SKAdImpression alloc] init];
         
@@ -93,11 +96,18 @@ API_AVAILABLE(ios(14.5)){
         if (model.productParameters[@"version"] != nil) {
             [impression setVersion:model.productParameters[@"version"]];
         }
-        if ([self getNSNumberFromString:model.productParameters[@"campaign"]] != nil) {
-            [impression setAdCampaignIdentifier:[self getNSNumberFromString:model.productParameters[@"campaign"]]];
+        
+        if (@available(iOS 16.1, *) ) {
+            if ([self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]] != nil) {
+                [impression setSourceIdentifier:[self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]]];
+            }
+        } else {
+            // Fallback on earlier versions
+            if ([self getNSNumberFromString:model.productParameters[@"campaign"]] != nil) {
+                [impression setAdCampaignIdentifier:[self getNSNumberFromString:model.productParameters[@"campaign"]]];
+            }
         }
         
-        double skanVersion = [[model productParameters][@"version"] doubleValue];
         if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [model.productParameters[@"fidelities"] count] > 0) {
             for (NSData *data in model.productParameters[@"fidelities"]) {
                 SKANObject skanObject;

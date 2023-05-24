@@ -179,6 +179,10 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                             cell.textField.text = [[NSString alloc] initWithFormat:@"%@", [HyBidRenderingConfig sharedConfig].endCardCloseOffset.offset.stringValue];
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
+                        case 5: // Native Close Button Offset
+                            cell.textField.text = [[NSString alloc] initWithFormat:@"%@", [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset.offset.stringValue];
+                            [self addDoneButtonToKeyboardForTextField:cell.textField];
+                            break;
                     }
                     break;
                 }
@@ -200,6 +204,11 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     switch (indexPath.row) {
                         case 0: { // HTML/MRAID Skip Offset Rewarded
                             cell.textField.text = [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset.offset.stringValue;
+                            [self addDoneButtonToKeyboardForTextField:cell.textField];
+                            break;
+                        }
+                        case 3: { // Video Skip Offset Rewarded
+                            cell.textField.text = [HyBidRenderingConfig sharedConfig].rewardedVideoSkipOffset.offset.stringValue;
                             [self addDoneButtonToKeyboardForTextField:cell.textField];
                             break;
                         }
@@ -284,6 +293,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 @{ @"Location Tracking Enabled":            @(SWITCH) },
                 @{ @"Location Updates Enabled":             @(SWITCH) },
                 @{ @"EndCard Close Offset":                 @(TEXT_FIELD) },
+                @{ @"Native Close Button Offset":           @(TEXT_FIELD) },
                 @{ @"Show EndCard":                         @(SWITCH) }
             ]},
         @1 :
@@ -302,7 +312,8 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             @{@"Rewarded": @[
                 @{ @"HTML/MRAID Skip Offset":          @(TEXT_FIELD) },
                 @{ @"SKOverlay Enabled":               @(SWITCH) },
-                @{ @"Close After Finish":              @(SWITCH) }
+                @{ @"Close After Finish":              @(SWITCH) },
+                @{ @"Video Skip Offset":               @(TEXT_FIELD) }
             ]}
     };
     self.dataSource = dict;
@@ -375,6 +386,11 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     [HyBidRenderingConfig sharedConfig].endCardCloseOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInt:[value intValue]] isCustom:YES];
                     break;
                 }
+                case 5: { // Native Close Button Offset
+                    [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInt:[value intValue]] isCustom:YES];
+                    break;
+                }
+
             }
             break;
         }
@@ -398,6 +414,12 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 case 0: { // HTML/MRAID Skip Offset Rewarded
                     if ([value intValue] >= 0) {
                         [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
+                    }
+                    break;
+                }
+                case 3: { // Video Skip Offset Rewarded
+                    if ([value intValue] >= 0) {
+                        [HyBidRenderingConfig sharedConfig].rewardedVideoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:[value intValue]] isCustom:YES];
                     }
                     break;
                 }

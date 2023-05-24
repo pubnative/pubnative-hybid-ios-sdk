@@ -38,6 +38,7 @@ NSString * const REQUEST_SKADNETWORK_V1 = @"1.0";
 NSString * const REQUEST_SKADNETWORK_V2 = @"2.0";
 NSString * const REQUEST_SKADNETWORK_V2_2 = @"2.2";
 NSString * const REQUEST_SKADNETWORK_V3 = @"3.0";
+NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
 
 NSString * const RESPONSE_AD_NETWORK_ID_KEY = @"network";
 NSString * const RESPONSE_SOURCE_APP_ID_KEY = @"sourceapp";
@@ -48,6 +49,7 @@ NSString * const RESPONSE_CAMPAIGN_ID_KEY = @"campaign";
 NSString * const RESPONSE_TIMESTAMP_KEY = @"timestamp";
 NSString * const RESPONSE_NONCE_KEY = @"nonce";
 NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
+NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
 
 - (instancetype)initWithParameters:(NSDictionary *)productParams {
     self = [super init];
@@ -67,9 +69,16 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
                 [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_AD_NETWORK_ID_KEY] forKey:SKStoreProductParameterAdNetworkIdentifier];
             }
             
-            NSNumber *campaign = [self getNSNumberFromString:[self.productParameters objectForKey:RESPONSE_CAMPAIGN_ID_KEY]];
-            if (campaign != nil) {
-                [storeKitParameters setObject:campaign forKey:SKStoreProductParameterAdNetworkCampaignIdentifier];
+            // SkAdNetwork v4.0
+            if (@available(iOS 16.1, *)) {
+                if ([self.productParameters objectForKey:RESPONSE_SIGNATURE_KEY] != nil) {
+                    [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_SOURCE_IDENTIFIER_KEY] forKey:RESPONSE_SOURCE_IDENTIFIER_KEY];
+                }
+            } else {
+                NSNumber *campaign = [self getNSNumberFromString:[self.productParameters objectForKey:RESPONSE_CAMPAIGN_ID_KEY]];
+                if (campaign != nil) {
+                    [storeKitParameters setObject:campaign forKey:SKStoreProductParameterAdNetworkCampaignIdentifier];
+                }
             }
             
             if (![[HyBidSettings sharedInstance] supportMultipleFidelities]) {
@@ -133,6 +142,7 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
                 }
             }
         }
+        
     }
     
     return storeKitParameters;
@@ -151,7 +161,8 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
 {
     NSString* skAdNetworkVersion = [dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY];
     BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
-    
+    BOOL isSkAdNetworkHigher_v4_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V4];
+
     BOOL areBasicParametersValid = FALSE;
     if (@available(iOS 11.3, *)) {
         NSString *campaignID = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_CAMPAIGN_ID_KEY]]];
@@ -224,7 +235,11 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
         }
     }
     
-    return areBasicParametersValid && areV2ParametersValid && areV2_2_ParametersValid;
+    BOOL areV4_0_ParametersValid = FALSE;
+    if (@available(iOS 16.1, *)) {
+        areV4_0_ParametersValid = [dict objectForKey:RESPONSE_SOURCE_IDENTIFIER_KEY];
+    }
+    return areBasicParametersValid && areV2ParametersValid && areV2_2_ParametersValid && areV4_0_ParametersValid;
 }
 
 - (BOOL)isSKAdNetworkIDVisible:(NSDictionary*) productParams{

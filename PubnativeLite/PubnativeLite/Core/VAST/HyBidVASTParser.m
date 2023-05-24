@@ -114,7 +114,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     
     // sanity check
     __unused NSString *content = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
-
+    
     // Validate the basic XML syntax of the VAST document.
     BOOL isValid;
     isValid = validateXMLDocSyntax(vastData);
@@ -137,6 +137,12 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     }
     
     [self.vastModel addVASTDocument:vastData];
+    
+    // Check if VAST is comming with at least 1 no-ad response error
+    if([self.vastModel errors].count > 0){
+        self.vastModel = nil;
+        return HyBidVASTParserError_NoAdResponse;
+    }
     
     // Check to see whether this is a wrapper ad. If so, process it.
     NSString *query = @"//VASTAdTagURI";

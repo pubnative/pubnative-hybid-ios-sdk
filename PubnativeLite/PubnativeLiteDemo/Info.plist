@@ -346,6 +346,10 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>zmvfpc5aq8.skadnetwork</string>
 		</dict>
+        <dict>
+            <key>SKAdNetworkIdentifier</key>
+            <string>su67r6k2v3.skadnetwork</string>
+        </dict>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>

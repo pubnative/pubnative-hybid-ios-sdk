@@ -23,9 +23,9 @@
 #import "HyBidDemoISInterstitialViewController.h"
 #import <HyBid/HyBid.h>
 #import "PNLiteDemoSettings.h"
-//#import "IronSource/IronSource.h"
+#import "IronSource/IronSource.h"
 
-@interface HyBidDemoISInterstitialViewController () /*<ISInterstitialDelegate>*/
+@interface HyBidDemoISInterstitialViewController () <LevelPlayInterstitialDelegate, ISInitializationDelegate>
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitialLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
@@ -38,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"IS Interstitial";
+    [IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey] adUnits:@[IS_INTERSTITIAL] delegate:self];
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
@@ -50,49 +51,56 @@
     self.debugButton.hidden = YES;
     self.showAdButton.hidden = YES;
     [self.interstitialLoaderIndicator startAnimating];
-    //[IronSource setInterstitialDelegate:self];
-    //[IronSource loadInterstitial];
+    [IronSource setLevelPlayInterstitialDelegate:self];
+    [IronSource loadInterstitial];
 }
 
 - (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {
-    /*
     if ([IronSource hasInterstitial]) {
         [IronSource showInterstitialWithViewController:self];
-    }*/
+    } else {
+        NSLog(@"Ad wasn't ready");
+    }
 }
 
-#pragma mark - ISInterstitialDelegate
-/*
--(void)interstitialDidLoad {
+#pragma mark - LevelPlayInterstitialDelegate
+
+- (void)didLoadWithAdInfo:(ISAdInfo *)adInfo {
     self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
 }
 
--(void)interstitialDidFailToLoadWithError:(NSError *)error {
+- (void)didFailToLoadWithError:(NSError *)error {
     self.debugButton.hidden = NO;
     [self.interstitialLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:[NSString stringWithFormat:@"ironSource Interstitial did fail to load: %@", error.localizedDescription]];
 }
 
--(void)interstitialDidClose {
-    self.showAdButton.hidden = YES;
-}
-
--(void)interstitialDidFailToShowWithError:(NSError *)error {
-    NSLog(@"interstitialDidFailToShowWithError");
-}
-
--(void)didClickInterstitial {
-    NSLog(@"didClickInterstitial");
-}
-
--(void)interstitialDidOpen {
+- (void)didOpenWithAdInfo:(ISAdInfo *)adInfo {
     NSLog(@"interstitialDidOpen");
 }
 
--(void)interstitialDidShow {
+-(void)didCloseWithAdInfo:(ISAdInfo *)adInfo {
+    self.showAdButton.hidden = YES;
+}
+
+- (void)didFailToShowWithError:(NSError *)error andAdInfo:(ISAdInfo *)adInfo {
+    NSLog(@"interstitialDidFailToShowWithError");
+}
+
+-(void)didClickWithAdInfo:(ISAdInfo *)adInfo {
+    NSLog(@"didClickInterstitial");
+}
+
+- (void)didShowWithAdInfo:(ISAdInfo *)adInfo {
     NSLog(@"interstitialDidShow");
 }
-*/
+
+#pragma mark - ISInitializationDelegate
+
+- (void)initializationDidComplete {
+    
+}
+
 @end

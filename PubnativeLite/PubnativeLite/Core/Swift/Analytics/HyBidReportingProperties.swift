@@ -45,6 +45,7 @@ public class Common: HyBidReportingProperties {
     @objc public static let AD_REQUEST = "ad_request"
     @objc public static let AD_RESPONSE = "ad_response"
     @objc public static let RESPONSE_TIME = "response_time"
+    @objc public static let REQUEST_TYPE = "request_type"
     @objc public static let RENDER_TIME = "render_time"
     @objc public static let AD_POSITION = "ad_position"
     @objc public static let ERROR_CODE = "error_code"

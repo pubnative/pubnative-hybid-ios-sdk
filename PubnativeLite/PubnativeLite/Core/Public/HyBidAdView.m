@@ -132,11 +132,24 @@
 }
 
 - (void)loadWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self setOpenRTBToFalse];
     self.bannerPosition = bannerPosition;
     [self loadWithZoneID:zoneID andWithDelegate:delegate];
 }
 
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self setOpenRTBToFalse];
+    [self loadWithZoneID:zoneID withAppToken:nil andWithDelegate:delegate];
+}
+
+- (void)loadExchangeAdWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self setOpenRTBToTrue];
+    self.bannerPosition = bannerPosition;
+    [self loadExchangeAdWithZoneID:zoneID andWithDelegate:delegate];
+}
+
+- (void)loadExchangeAdWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    [self setOpenRTBToTrue];
     [self loadWithZoneID:zoneID withAppToken:nil andWithDelegate:delegate];
 }
 
@@ -173,6 +186,18 @@
     if (self.adRequest != nil && self.ad != nil) {
         [self.adRequest cacheAd:self.ad];
     }
+}
+
+- (void)setOpenRTBToTrue {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:YES forKey:kIsUsingOpenRTB];
+    [defaults synchronize];
+}
+
+- (void)setOpenRTBToFalse {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:NO forKey:kIsUsingOpenRTB];
+    [defaults synchronize];
 }
 
 - (void)prepareCustomMarkupFrom:(NSString *)markup {
@@ -435,7 +460,7 @@
     ? self.ad.openRTBAssetGroupID
     : self.ad.assetGroupID;
 
-    if (assetGroupID) {
+    if(assetGroupID){
         switch (assetGroupID.integerValue) {
             case VAST_MRECT:
             case VAST_INTERSTITIAL: {

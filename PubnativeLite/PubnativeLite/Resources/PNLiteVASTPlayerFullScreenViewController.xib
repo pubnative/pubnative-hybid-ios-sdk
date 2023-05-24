@@ -10,7 +10,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PNLiteVASTPlayerViewController">
             <connections>
-                <outlet property="btnMute" destination="VMb-Wf-Jhi" id="HUJ-xs-WXa"/>
                 <outlet property="btnOpenOffer" destination="Jiw-2I-70B" id="cTU-wT-7b8"/>
                 <outlet property="contentInfoViewContainer" destination="EyD-B7-zGY" id="4Ai-hH-Hhk"/>
                 <outlet property="loadingSpin" destination="sBQ-GN-9Mt" id="tZu-LH-zGv"/>
@@ -39,19 +38,6 @@
                         <action selector="btnOpenOfferPush:" destination="-1" eventType="touchUpInside" id="J3G-D9-TKI"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VMb-Wf-Jhi">
-                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                    <viewLayoutGuide key="safeArea" id="pCL-Jx-fZy"/>
-                    <accessibility key="accessibilityConfiguration" identifier="muteButton" label="Mute Button"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="Rqp-Mn-hnY"/>
-                        <constraint firstAttribute="width" constant="50" id="sNN-gV-wcc"/>
-                    </constraints>
-                    <state key="normal" image="PNLiteMute.png"/>
-                    <connections>
-                        <action selector="btnMutePush:" destination="-1" eventType="touchUpInside" id="WhW-Cj-rC0"/>
-                    </connections>
-                </button>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="sBQ-GN-9Mt">
                     <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
                 </activityIndicatorView>
@@ -73,13 +59,11 @@
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="trailing" secondItem="Jiw-2I-70B" secondAttribute="trailing" id="0mH-9B-A2N"/>
-                <constraint firstItem="pjM-1K-mT8" firstAttribute="top" secondItem="VMb-Wf-Jhi" secondAttribute="top" id="7bQ-vz-blX"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="a1F-up-quM" secondAttribute="bottom" id="7ik-2y-HgY"/>
                 <constraint firstItem="a1F-up-quM" firstAttribute="trailing" secondItem="pjM-1K-mT8" secondAttribute="trailing" id="KHV-1q-9pF"/>
                 <constraint firstItem="a1F-up-quM" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="PCi-Rw-6h1"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerX" secondItem="CWD-dp-WWe" secondAttribute="centerX" id="bUX-hK-Noz"/>
                 <constraint firstItem="sBQ-GN-9Mt" firstAttribute="centerY" secondItem="CWD-dp-WWe" secondAttribute="centerY" id="nBg-k3-iEi"/>
-                <constraint firstItem="VMb-Wf-Jhi" firstAttribute="leading" secondItem="pjM-1K-mT8" secondAttribute="leading" id="nCr-Xc-euC"/>
                 <constraint firstItem="pjM-1K-mT8" firstAttribute="bottom" secondItem="Jiw-2I-70B" secondAttribute="bottom" id="nm2-Uc-bVw"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -96,6 +80,5 @@
     </objects>
     <resources>
         <image name="PNLiteExternalLink1.png" width="32" height="32"/>
-        <image name="PNLiteMute.png" width="200" height="200"/>
     </resources>
 </document>

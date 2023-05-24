@@ -37,7 +37,14 @@
 - (HyBidAdPresenter *)adPresenterFromAd:(HyBidAd *)ad {
     switch (ad.adType) {
         case kHyBidAdTypeHTML: {
-            switch (ad.assetGroupID.integerValue) {
+            NSNumber *assetGroupID;
+            if (ad.isUsingOpenRTB) {
+                assetGroupID = ad.openRTBAssetGroupID;
+            } else {
+                assetGroupID = ad.assetGroupID;
+            }
+            
+            switch ([assetGroupID intValue]) {
                 case MRAID_160x600:
                 case MRAID_250x250:
                 case MRAID_300x50:

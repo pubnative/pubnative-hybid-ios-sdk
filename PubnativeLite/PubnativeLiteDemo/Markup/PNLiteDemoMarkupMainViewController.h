@@ -21,6 +21,7 @@
 //
 
 #import "PNLiteDemoBaseViewController.h"
+#import "HyBidDemoEnumConstants.h"
 
 @interface PNLiteDemoMarkupMainViewController : PNLiteDemoBaseViewController
 

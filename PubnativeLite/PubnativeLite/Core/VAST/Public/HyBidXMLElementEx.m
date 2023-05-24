@@ -143,7 +143,9 @@
         @"&lt;" : @"<",
         @"&gt;" : @">",
         @"&amp;" : @"&",
-        @"&#34;" : @"\""
+        @"&#34;" : @"\"",
+        @"&#39;" : @"'",
+        @"&#xA;" : @"",
     };
     
     for (NSString *entityCode in htmlEntities.allKeys) {

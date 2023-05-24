@@ -106,10 +106,26 @@ public class HyBidInterstitialAd: NSObject {
     @objc
     public func load() {
         cleanUp()
+        UserDefaults.standard.set(false, forKey: kIsUsingOpenRTB)
         self.initialLoadTimestamp = Date().timeIntervalSince1970
         if let zoneID = self.zoneID, zoneID.count > 0 {
             self.isReady = false
             self.interstitialAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
+            self.interstitialAdRequest?.requestAd(with: HyBidInterstitialAdRequestWrapper(parent: self), withZoneID: zoneID)
+        } else {
+            invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
+        }
+    }
+    
+    @objc
+    public func loadExchangeAd() {
+        cleanUp()
+        UserDefaults.standard.set(true, forKey: kIsUsingOpenRTB)
+        self.initialLoadTimestamp = Date().timeIntervalSince1970
+        if let zoneID = self.zoneID, zoneID.count > 0 {
+            self.isReady = false
+            self.interstitialAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
+            
             self.interstitialAdRequest?.requestAd(with: HyBidInterstitialAdRequestWrapper(parent: self), withZoneID: zoneID)
         } else {
             invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
@@ -316,20 +332,26 @@ public class HyBidInterstitialAd: NSObject {
             reportingDictionaryToAppend[Common.INTEGRATION_TYPE] = integrationTypeString
         }
         
-        switch self.ad?.assetGroupID.uint32Value ?? 0 {
-            
-        case VAST_INTERSTITIAL:
-            reportingDictionaryToAppend[Common.AD_TYPE] = "VAST"
-            if let vastString = self.ad?.vast {
-                reportingDictionaryToAppend[Common.CREATIVE] = vastString
-            }
-            break
-        default:
-            reportingDictionaryToAppend[Common.AD_TYPE] = "HTML"
-            if let htmlDataString = self.ad?.htmlData {
-                reportingDictionaryToAppend[Common.CREATIVE] = htmlDataString
-            }
-            break
+        var assetGroupId: NSInteger = 0;
+        if self.ad?.isUsingOpenRTB != nil && self.ad?.isUsingOpenRTB == true {
+            assetGroupId = NSInteger(truncating: self.ad?.openRTBAssetGroupID ?? 0)
+        } else {
+            assetGroupId = NSInteger(truncating: self.ad?.assetGroupID ?? 0)
+        }
+        
+        switch UInt32(assetGroupId) {
+            case VAST_REWARDED:
+                reportingDictionaryToAppend[Common.AD_TYPE] = "VAST"
+                if let vastString = self.ad?.vast {
+                    reportingDictionaryToAppend[Common.CREATIVE] = vastString
+                }
+                break
+            default:
+                reportingDictionaryToAppend[Common.AD_TYPE] = "HTML"
+                if let htmlDataString = self.ad?.htmlData {
+                    reportingDictionaryToAppend[Common.CREATIVE] = htmlDataString
+                }
+                break
         }
         return reportingDictionaryToAppend
     }

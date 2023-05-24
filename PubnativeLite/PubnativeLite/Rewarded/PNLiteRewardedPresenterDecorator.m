@@ -26,6 +26,7 @@
 #import <StoreKit/SKOverlay.h>
 #import <StoreKit/SKOverlayConfiguration.h>
 #import "UIApplication+PNLiteTopViewController.h"
+#import "PNLiteImpressionTracker.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -35,7 +36,7 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface PNLiteRewardedPresenterDecorator() <SKOverlayDelegate>
+@interface PNLiteRewardedPresenterDecorator() <SKOverlayDelegate, PNLiteImpressionTrackerDelegate>
 
 @property (nonatomic, strong) HyBidRewardedPresenter *rewardedPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
@@ -43,6 +44,7 @@
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
 @property (nonatomic, assign) BOOL isOverlayShown;
+@property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 
 @end
 
@@ -174,6 +176,16 @@
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidLoad:)]) {
         [self.rewardedPresenterDelegate rewardedPresenterDidLoad:rewardedPresenter];
+        
+        if(!self.impressionTracker) {
+            self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
+            [self.impressionTracker determineViewbilityRemoteConfig:rewardedPresenter.ad];
+        }
+        
+        if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender) {
+            [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.REWARDED];
+        }
+        
         if (self.rewardedPresenter.ad.skoverlayEnabled) {
             if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
                 [self checkSKOverlayAvailabilityAndPrepareForRewardedPresenter:rewardedPresenter];

@@ -33,7 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
 @property (weak, nonatomic) IBOutlet UITextView *adReponseTextView;
-@property (nonatomic, retain) NSNumber *placement;
+@property (nonatomic) HyBidDemoAppPlacement placement;
 @property (nonatomic, strong) NSString *adResponse;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
@@ -45,10 +45,7 @@
 @implementation HyBidDemoLegacyAPITesterMainViewController
 
 - (void)dealloc {
-    self.adResponse = nil;
-    self.interstitialAd = nil;
-    self.rewardedAd = nil;
-    self.placement = nil;
+    [self cleanUpAllParams];
 }
 
 - (void)viewDidLoad {
@@ -68,7 +65,7 @@
     if (self.adReponseTextView.text.length <= 0 || !self.adReponseTextView.text) {
         [self showAlertControllerWithMessage:@"Please input some ad reponse data."];
         return NO;
-    } else if (!self.placement){
+    } else if (!(self.placement >= HyBidDemoAppPlacementBanner && self.placement <= HyBidDemoAppPlacementRewarded)){
         [self showAlertControllerWithMessage:@"Please choose a placement."];
         return NO;
     } else {
@@ -81,9 +78,10 @@
     [self clearDebugTools];
     self.debugButton.hidden = YES;
     if ([self canRequestAd]) {
-        switch ([self.placement integerValue]) {
-            case 0:
-            case 1: {
+        switch (self.placement) {
+            case HyBidDemoAppPlacementBanner:
+            case HyBidDemoAppPlacementMRect:
+            case HyBidDemoAppPlacementLeaderboard: {
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         [self loadWithAdResponse: self.adResponse];
@@ -96,20 +94,7 @@
                 }
                 break;
             }
-            case 2: {
-                switch ([self.segmentedControl selectedSegmentIndex]) {
-                    case 0: {
-                        [self loadWithAdResponse: self.adResponse];
-                        break;
-                    }
-                    case 1: {
-                        [self loadWithURL:self.placement];
-                        break;
-                    }
-                }
-                break;
-            }
-            case 3:
+            case HyBidDemoAppPlacementInterstitial:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
@@ -122,7 +107,7 @@
                     }
                 }
                 break;
-            case 4:
+            case HyBidDemoAppPlacementRewarded:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
@@ -141,46 +126,90 @@
     }
 }
 
-- (void)loadWithURL: (NSNumber*)placement {
+- (void)loadWithURL:(HyBidDemoAppPlacement)placement {
     NSString *urlString = [[self.adReponseTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
+    [self requestWithUrlForPlacement:urlString forPlacement:placement];
+}
+
+- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidDemoAppPlacement)placement {
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
     NSMutableDictionary* newRequestHTTPHeader = [[NSMutableDictionary alloc] init];
     [urlRequest setAllHTTPHeaderFields: newRequestHTTPHeader];
     [urlRequest setHTTPMethod:@"GET"];
     [[[NSURLSession sharedSession] dataTaskWithRequest: urlRequest completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
         if(!error){
-            if ([placement intValue] == 3 ) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                    self.adResponse = adResponse;
-                    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-                    [self.interstitialAd prepareAdWithAdReponse:self.adResponse];
-                });
-            } else if ([placement intValue] == 4) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                    self.adResponse = adResponse;
-                    self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-                    [self.rewardedAd prepareAdWithAdReponse:self.adResponse];
-                });
-            } else {
-                [self invokeFinishWithResponse:response placement: self.placement withData: data];
-            }
+            [self invokeFinishWithResponse:response placement: placement withData: data];
         } else {
             [self invokeFailWithError: error];
         }
     }] resume];
 }
 
-- (void)loadWithAdResponse: (NSString*)adResponse {
+- (void)loadWithAdResponse:(NSString*)adResponse {
     HyBidDemoLegacyAPITesterDetailViewController *legacyAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoLegacyAPITesterDetailViewController"];
     legacyAPITesterDetailVC.adResponse = self.adResponse;
     legacyAPITesterDetailVC.placement = self.placement;
     legacyAPITesterDetailVC.debugButton = self.debugButton;
-    [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+    [self cleanUpAllParams];
+    if (self.placement != HyBidDemoAppPlacementLeaderboard) {
+        [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:legacyAPITesterDetailVC animated:YES];
+    }
 }
 
-- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(NSNumber*)placement withData:(NSData*)data {
+- (void)cleanUpAllParams {
+    self.adResponse = nil;
+    self.interstitialAd = nil;
+    self.rewardedAd = nil;
+}
+
+- (IBAction)bannerTouchUpInside:(UIButton *)sender {
+    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
+    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    self.placement = HyBidDemoAppPlacementBanner;
+}
+
+- (IBAction)mRectTouchUpInside:(UIButton *)sender {
+    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
+    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    self.placement = HyBidDemoAppPlacementMRect;
+}
+
+- (IBAction)leaderboardTouchUpInside:(UIButton *)sender {
+    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
+    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    self.placement = HyBidDemoAppPlacementLeaderboard;
+}
+
+- (IBAction)interstitialTouchUpInside:(UIButton *)sender {
+    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    self.placement = HyBidDemoAppPlacementInterstitial;
+}
+
+- (IBAction)rewardedTouchUpInside:(UIButton *)sender {
+    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
+    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
+    self.placement = HyBidDemoAppPlacementRewarded;
+}
+
+- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(HyBidDemoAppPlacement)placement withData:(NSData*)data {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         self.adResponse = adResponse;
@@ -190,51 +219,6 @@
 
 - (void)invokeFailWithError:(NSError *) error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-}
-
-- (IBAction)bannerTouchUpInside:(UIButton *)sender {
-    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
-    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
-}
-
-- (IBAction)mRectTouchUpInside:(UIButton *)sender {
-    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
-    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
-}
-
-- (IBAction)leaderboardTouchUpInside:(UIButton *)sender {
-    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
-    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
-}
-
-- (IBAction)interstitialTouchUpInside:(UIButton *)sender {
-    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
-    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
-}
-
-- (IBAction)rewardedTouchUpInside:(UIButton *)sender {
-    [self.bannerButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.mRectButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
 }
 
 #pragma mark - HyBidInterstitialAdDelegate

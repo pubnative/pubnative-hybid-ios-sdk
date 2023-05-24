@@ -30,7 +30,8 @@ typedef enum : NSInteger {
     HyBidVASTParserError_TooManyWrappers,
     HyBidVASTParserError_NoCompatibleMediaFile,
     HyBidVASTParserError_NoInternetConnection,
-    HyBidVASTParserError_MovieTooShort
+    HyBidVASTParserError_MovieTooShort,
+    HyBidVASTParserError_NoAdResponse
 } HyBidVASTParserError;
 
 @class HyBidVASTAd;

@@ -47,6 +47,7 @@ typedef struct {
 @property (nonatomic, readonly) NSString *link;
 @property (nonatomic, readonly) NSString *impressionID;
 @property (nonatomic, readonly) NSString *creativeID;
+@property (nonatomic, readonly) NSString *openRTBCreativeID;
 @property (nonatomic, readonly) NSString *zoneID;
 
 #if __has_include(<ATOM/ATOM-Swift.h>)
@@ -74,7 +75,9 @@ typedef struct {
 @property (nonatomic, readonly) NSNumber *interstitialHtmlSkipOffset;
 @property (nonatomic, readonly) NSNumber *rewardedHtmlSkipOffset;
 @property (nonatomic, readonly) NSNumber *videoSkipOffset;
+@property (nonatomic, readonly) NSNumber *rewardedVideoSkipOffset;
 @property (nonatomic, readonly) NSNumber *endcardCloseDelay;
+@property (nonatomic, readonly) NSNumber *nativeCloseButtonDelay;
 @property (nonatomic, readonly) NSNumber *minVisibleTime;
 @property (nonatomic, readonly) NSNumber *minVisiblePercent;
 @property (nonatomic, readonly) NSString *impressionTrackingMethod;
