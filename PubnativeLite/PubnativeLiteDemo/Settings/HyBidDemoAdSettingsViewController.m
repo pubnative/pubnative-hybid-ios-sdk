@@ -129,7 +129,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                         case 3: // Location updates enabled
                             [cell.toggleSwitch setOn:[HyBidLocationConfig sharedConfig].locationUpdatesEnabled];
                             break;
-                        case 5: // Show EndCard
+                        case 6: // Show EndCard
                             [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].showEndCard];
                             break;
                     }
@@ -342,7 +342,7 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                     [HyBidLocationConfig sharedConfig].locationUpdatesEnabled = isON;
                     break;
                 }
-                case 5: { // Show EndCard
+                case 6: { // Show EndCard
                     [HyBidRenderingConfig sharedConfig].showEndCard = isON;
                     break;
                 }

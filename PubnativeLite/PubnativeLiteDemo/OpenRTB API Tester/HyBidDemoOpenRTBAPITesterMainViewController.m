@@ -20,12 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDemoLegacyAPITesterMainViewController.h"
-#import "HyBidDemoLegacyAPITesterDetailViewController.h"
+#import "HyBidDemoOpenRTBAPITesterMainViewController.h"
+#import "HyBidDemoOpenRTBAPITesterDetailViewController.h"
 #import <HyBid/HyBid.h>
 #import "UITextView+KeyboardDismiss.h"
 
-@interface HyBidDemoLegacyAPITesterMainViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
+@interface HyBidDemoOpenRTBAPITesterMainViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
@@ -33,8 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
 @property (weak, nonatomic) IBOutlet UITextView *adReponseTextView;
-@property (nonatomic) HyBidDemoAppPlacement placement;
 @property (nonatomic, strong) NSString *adResponse;
+@property (nonatomic) HyBidDemoAppPlacement placement;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
@@ -42,7 +42,7 @@
 
 @end
 
-@implementation HyBidDemoLegacyAPITesterMainViewController
+@implementation HyBidDemoOpenRTBAPITesterMainViewController
 
 - (void)dealloc {
     [self cleanUpAllParams];
@@ -51,7 +51,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:NO forKey:kIsUsingOpenRTB];
+    [defaults setBool:YES forKey:kIsUsingOpenRTB];
     [self.adReponseTextView addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
 }
 
@@ -81,9 +81,9 @@
     self.debugButton.hidden = YES;
     if ([self canRequestAd]) {
         switch (self.placement) {
-            case HyBidDemoAppPlacementBanner:
-            case HyBidDemoAppPlacementMRect:
-            case HyBidDemoAppPlacementLeaderboard: {
+                case HyBidDemoAppPlacementBanner:
+                case HyBidDemoAppPlacementMRect:
+                case HyBidDemoAppPlacementLeaderboard:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         [self loadWithAdResponse: self.adResponse];
@@ -95,7 +95,6 @@
                     }
                 }
                 break;
-            }
             case HyBidDemoAppPlacementInterstitial:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
@@ -122,41 +121,22 @@
                     }
                 }
                 break;
-            default:
-                break;
         }
     }
 }
 
-- (void)loadWithURL:(HyBidDemoAppPlacement)placement {
-    NSString *urlString = [[self.adReponseTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
-    [self requestWithUrlForPlacement:urlString forPlacement:placement];
-}
+- (void)loadWithURL:(HyBidDemoAppPlacement)placement {}
 
-- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidDemoAppPlacement)placement {
-    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
-    NSMutableDictionary* newRequestHTTPHeader = [[NSMutableDictionary alloc] init];
-    [urlRequest setAllHTTPHeaderFields: newRequestHTTPHeader];
-    [urlRequest setHTTPMethod:@"GET"];
-    [[[NSURLSession sharedSession] dataTaskWithRequest: urlRequest completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-        if(!error){
-            [self invokeFinishWithResponse:response placement: placement withData: data];
-        } else {
-            [self invokeFailWithError: error];
-        }
-    }] resume];
-}
-
-- (void)loadWithAdResponse:(NSString*)adResponse {
-    HyBidDemoLegacyAPITesterDetailViewController *legacyAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoLegacyAPITesterDetailViewController"];
-    legacyAPITesterDetailVC.adResponse = self.adResponse;
-    legacyAPITesterDetailVC.placement = self.placement;
-    legacyAPITesterDetailVC.debugButton = self.debugButton;
+- (void)loadWithAdResponse: (NSString*)adResponse {
+    HyBidDemoOpenRTBAPITesterDetailViewController *openRTBAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoOpenRTBAPITesterDetailViewController"];
+    openRTBAPITesterDetailVC.adResponse = self.adResponse;
+    openRTBAPITesterDetailVC.placement = self.placement;
+    openRTBAPITesterDetailVC.debugButton = self.debugButton;
     [self cleanUpAllParams];
     if (self.placement != HyBidDemoAppPlacementLeaderboard) {
-        [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+        [self.navigationController presentViewController:openRTBAPITesterDetailVC animated:YES completion:nil];
     } else {
-        [self.navigationController pushViewController:legacyAPITesterDetailVC animated:YES];
+        [self.navigationController pushViewController:openRTBAPITesterDetailVC animated:YES];
     }
 }
 

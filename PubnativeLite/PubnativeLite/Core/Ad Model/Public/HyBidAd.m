@@ -710,6 +710,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         
+        if ([data stringFieldWithKey:@"sourceIdentifier"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"sourceIdentifier"] forKey:@"sourceIdentifier"];
+        }
         if ([data stringFieldWithKey:@"campaign"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
         }
@@ -776,6 +779,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         
+        if ([data stringFieldWithKey:@"sourceIdentifier"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"sourceIdentifier"] forKey:@"sourceIdentifier"];
+        }
         if ([data stringFieldWithKey:@"campaign"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
         }

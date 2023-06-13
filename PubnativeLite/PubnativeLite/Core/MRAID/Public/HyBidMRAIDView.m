@@ -154,8 +154,6 @@ typedef enum {
 - (void)parseCommandUrl:(NSString *)commandUrlString;
 
 @property (nonatomic, strong) NSTimer *closeButtonTimer;
-@property (nonatomic, strong) NSDate *closeButtonTimerStartDate;
-@property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidAd *ad;
@@ -384,7 +382,6 @@ typedef enum {
 }
 
 - (void)pauseCountdownView {
-    self.closeButtonTimeElapsed += [[NSDate date] timeIntervalSinceDate:self.closeButtonTimerStartDate];
     NSInteger remainingSeconds = [self.skipOverlay getRemainingTime];
     [self.skipOverlay updateTimerStateWithRemainingSeconds:(remainingSeconds) withTimerState:HyBidTimerState_Pause];
 }
@@ -871,137 +868,21 @@ typedef enum {
 
     if (isInterstitial) {
         [self addContentInfoViewToView:modalVC.view ];
-        [self addSkiOverlay];
+        [self addSkipOverlay];
     }
     
     if(state == PNLiteMRAIDStateExpanded && !useCustomClose){
-        [self addSkiOverlay];
+        [self addSkipOverlay];
     }
     
     [self fireSizeChangeEvent];
     self.isViewable = YES;
 }
 
-- (void)addSkiOverlay
+- (void)addSkipOverlay
 {
-    //set default value to get the old behaviour
-    self.countdownStyle = HyBidCountdownPieChart;
-    
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:0]]){
-        self.countdownStyle = HyBidCountdownPieChart;
-    }
-    
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:1]]){
-        self.countdownStyle = HyBidCountdownSkipOverlayTimer;
-    }
-    
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:2]]){
-        self.countdownStyle = HyBidCountdownSkipOverlayProgress;
-    }
-    
-    switch(self.countdownStyle){
-        case HyBidCountdownPieChart:{
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle: HyBidCountdownPieChart];
-                self.skipOverlay.delegate = self;
-                [modalVC.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self->_skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (modalVC != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTopMargin multiplier:1.f constant: self.skipOverlay.padding]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            self.closeButtonTimerStartDate = [NSDate date];
-            break;
-        }
-        case HyBidCountdownSkipOverlayTimer:{
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle: HyBidCountdownSkipOverlayTimer];
-                self.skipOverlay.delegate = self;
-                [modalVC.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self->_skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (modalVC != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTopMargin multiplier:1.f constant: self.skipOverlay.padding]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            self.closeButtonTimerStartDate = [NSDate date];
-            break;
-        }
-        case HyBidCountdownSkipOverlayProgress:
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle: HyBidCountdownSkipOverlayProgress];
-                self.skipOverlay.delegate = self;
-                [modalVC.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self->_skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (modalVC != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.skipOverlay.padding * -1)]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.skipOverlay.padding * -1)],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            self.closeButtonTimerStartDate = [NSDate date];
-            break;
-    }
+    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopRight:[self isContentInfoInTopRightPosition]];
+    [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self];
 }
 
 - (void)setWebViewConstraintsInRelationWithView:(UIView *)view
@@ -1212,7 +1093,6 @@ typedef enum {
 - (void)addCloseEventRegion {
     [self.closeButtonTimer invalidate];
     self.closeButtonTimer = nil;
-    self.closeButtonTimeElapsed = -1;
     
     for (UIView *view in modalVC.view.subviews) {
         if ([view tag] == HYBID_MRAID_CLOSE_BUTTON_TAG) {

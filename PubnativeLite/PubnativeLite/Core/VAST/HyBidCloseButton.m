@@ -46,12 +46,16 @@
             closeImageView = [[UIImageView alloc] initWithImage:closeImage];
             closeImageView.frame = CGRectMake(0, 0, kCloseImageSize, kCloseImageSize);
         }
+        
         [self addSubview:closeImageView];
         
         // Setup constraints
         self.translatesAutoresizingMaskIntoConstraints = NO;
         closeImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [rootView addSubview:self];
+        
+        // We had to remove the button label to avoid getting XCUIElementTypeStaticText under UIButton in Appium inspector.
+        [self.titleLabel removeFromSuperview];
         
         NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
                                                              [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kClickableAreaSize],

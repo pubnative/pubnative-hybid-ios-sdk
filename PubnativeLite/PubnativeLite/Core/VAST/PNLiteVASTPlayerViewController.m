@@ -89,7 +89,7 @@ typedef enum : NSUInteger {
 HyBidCloseButton *closeButton;
 
 #define HYBID_PNLiteVAST_CLOSE_BUTTON_TAG 1001
-#define kCloseButtonSize 30
+#define kCloseButtonSize 50
 
 @interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidVASTEndCardViewControllerDelegate, HyBidSkipOverlayDelegate>
 
@@ -152,8 +152,6 @@ HyBidCloseButton *closeButton;
 @property (nonatomic) HyBidInterstitialActionBehaviour fullscreenClickabilityBehaviour;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
-@property (nonatomic, strong) NSDate *closeButtonTimerStartDate;
-@property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
 @property (nonatomic, assign) BOOL isSkAdnetworkViewControllerIsShown;
 @property (nonatomic, strong) NSString *iconPositionX;
@@ -552,109 +550,8 @@ HyBidCloseButton *closeButton;
         return;
     }
     
-    NSNumber *countdownStyle = [HyBidRenderingConfig sharedConfig].videoSkipOffset.style;
-    
-    switch([countdownStyle intValue]){
-        case 0:
-            self.countdownStyle = HyBidCountdownPieChart;
-            break;
-        case 1:
-            self.countdownStyle = HyBidCountdownSkipOverlayTimer;
-            break;
-        case 2:
-            self.countdownStyle = HyBidCountdownSkipOverlayProgress;
-            break;
-        default:
-            self.countdownStyle = HyBidCountdownPieChart;
-            break;
-    }
-    
-    //set default value to get the old behaviour
-    self.countdownStyle = HyBidCountdownPieChart;
-    
-    if (!self.skipOverlay) {
-        self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: self.countdownStyle];
-        self.skipOverlay.delegate = self;
-        [self.view addSubview:self.skipOverlay];
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
-    });
-    
-    switch(self.countdownStyle){
-        case HyBidCountdownPieChart:{
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (self != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTopMargin multiplier:1.f constant: self.skipOverlay.padding]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:self.contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            break;
-        }
-        case HyBidCountdownSkipOverlayTimer:{
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (self != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTopMargin multiplier:1.f constant: self.skipOverlay.padding]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:self.contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            break;
-        }
-        case HyBidCountdownSkipOverlayProgress:{
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (self != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.skipOverlay.padding * -1)]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:self.contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.skipOverlay.padding * -1)],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            break;
-        }
-    }
-    
-    self.closeButtonTimerStartDate = [NSDate date];
+    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopRight:[self isContentInfoInTopRightPosition]];
+    [self.skipOverlay addSkipOverlayViewIn:self.view delegate:self];
 }
 
 #pragma mark - SkipOverlay Delegate helpers
@@ -1019,7 +916,6 @@ HyBidCloseButton *closeButton;
             for (CALayer *layer in self.viewProgress.layer.sublayers) {
                 [layer removeAllAnimations];
             }
-            [self setState:PNLiteVASTPlayerState_PAUSE];
         }
     }
     [self trackClickWithEndCard:nil];
@@ -1168,7 +1064,6 @@ HyBidCloseButton *closeButton;
 }
 
 - (void)pauseCountdownView {
-    self.closeButtonTimeElapsed += [[NSDate date] timeIntervalSinceDate:self.closeButtonTimerStartDate];
     NSInteger remainingSeconds = self.skipOffset - [self currentPlaybackTime];
     [self.skipOverlay updateTimerStateWithRemainingSeconds:(remainingSeconds) withTimerState:HyBidTimerState_Pause];
 }
@@ -1472,6 +1367,19 @@ HyBidCloseButton *closeButton;
     [self invokeDidPause];
 }
 
+- (void)togglePlaybackStateOnSuccess:(BOOL)success
+{
+    if(!success){
+        if(self.currentState == PNLiteVASTPlayerState_PAUSE){
+            [self setState:PNLiteVASTPlayerState_PLAY];
+        }
+    } else {
+        if(self.currentState == PNLiteVASTPlayerState_PLAY){
+            [self setState:PNLiteVASTPlayerState_PAUSE];
+        }
+    }
+}
+
 - (HyBidVASTAd *)getVastAd
 {
     if (self.videoAdCacheItem.vastModel) {
@@ -1630,11 +1538,7 @@ HyBidCloseButton *closeButton;
                         throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                     }
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                        if(!success){
-                            if(self.currentState == PNLiteVASTPlayerState_PAUSE){
-                                [self setState:PNLiteVASTPlayerState_PLAY];
-                            }
-                        }
+                        [self togglePlaybackStateOnSuccess: success];
                     }];
                 }
             }
@@ -1645,11 +1549,7 @@ HyBidCloseButton *closeButton;
                     throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                 }
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                    if(!success){
-                        if(self.currentState == PNLiteVASTPlayerState_PAUSE){
-                            [self setState:PNLiteVASTPlayerState_PLAY];
-                        }
-                    }
+                    [self togglePlaybackStateOnSuccess: success];
                 }];
             }
         }

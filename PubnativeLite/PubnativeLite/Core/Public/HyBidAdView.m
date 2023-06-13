@@ -191,13 +191,11 @@
 - (void)setOpenRTBToTrue {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:YES forKey:kIsUsingOpenRTB];
-    [defaults synchronize];
 }
 
 - (void)setOpenRTBToFalse {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:NO forKey:kIsUsingOpenRTB];
-    [defaults synchronize];
 }
 
 - (void)prepareCustomMarkupFrom:(NSString *)markup {
@@ -366,6 +364,7 @@
     if (adReponse && [adReponse length] != 0) {
         HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
         adRequest.delegate = self;
+        adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
         [adRequest processResponseWithJSON:adReponse];
     } else {
         [self.delegate adView:self didFailWithError:[NSError hyBidInvalidAsset]];

@@ -21,7 +21,6 @@
 //
 
 #import "HyBidSkipOverlay.h"
-#import "PNLiteVASTPlayerViewController.h"
 #import "PNLiteProgressLabel.h"
 #import "HyBidCloseButton.h"
 
@@ -48,11 +47,14 @@
 
 - (id)initWithSkipOffset:(NSInteger)skipOffset
       withCountdownStyle:(HyBidCountdownStyle)countdownStyle
+      withContentInfoPositionTopRight:(BOOL)isContentInfoInTopRightPosition
 {
     if (self) {
         self.skipOffset = skipOffset;
-        self.countdownStyle = countdownStyle;
+        //set default value to get the old behaviour
+        self.countdownStyle = HyBidCountdownPieChart;
         self.skipTimeRemaining = skipOffset;
+        self.isContentInfoInTopRightPosition = isContentInfoInTopRightPosition;
         CGSize screenSize;
         CGFloat width;
         CGFloat height;
@@ -114,6 +116,7 @@
                 }
                 break;
         }
+        
         [self setupUI];
     }
     return self;
@@ -125,7 +128,9 @@
     }
     switch(self.countdownStyle){
         case HyBidCountdownPieChart: {
-            self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self action:@selector(skipButtonTapped:) target:self];
+            if(!self.closeButton){
+                self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self action:@selector(skipButtonTapped:) target:self];
+            }
             [self.closeButton setTag:HYBID_MRAID_CLOSE_BUTTON_TAG];
             if(self.progressLabel){
                 [self.progressLabel removeFromSuperview];
@@ -143,6 +148,12 @@
             
             [self.skipButton setAccessibilityIdentifier:@"skipButton"];
             [self.skipButton setAccessibilityLabel:@"Skip Button"];
+            
+            if(self.skipOffsetLabel){
+                [self.skipOffsetLabel removeFromSuperview];
+            }
+
+            [self removeConstraints: self.constraints];
             [self addSubview:self.skipButton];
             [self setConstraints:self.skipButton];
             break;
@@ -156,12 +167,17 @@
             
             [self.skipButton setAccessibilityIdentifier:@"skipButton"];
             [self.skipButton setAccessibilityLabel:@"Skip Button"];
+            
+            if(self.skipOffsetLabel){
+                [self.skipOffsetLabel removeFromSuperview];
+            }
+
+            [self removeConstraints: self.constraints];
             [self addSubview:self.skipButton];
             [self setConstraints:self.skipButton];
             break;
     }
 }
-
 
 - (void)skipButtonTapped:(UIButton *)sender
 {
@@ -173,7 +189,11 @@
     switch(self.countdownStyle){
         case HyBidCountdownPieChart:
             if (!self.progressLabel) {
+                
                 CGFloat x = self.bounds.size.width - kCloseButtonSize;
+                if (self.isContentInfoInTopRightPosition) {
+                    x = 0;
+                }
                 CGFloat y = 0;
                 
                 self.progressLabel = [[PNLiteProgressLabel alloc] initWithFrame:CGRectMake(x, y, kCloseButtonSize, kCloseButtonSize)];
@@ -256,7 +276,7 @@
         case HyBidCountdownSkipOverlayTimer:{
             NSUInteger minutes = (newSkipOffset / 60) % 60;
             NSUInteger seconds = newSkipOffset % 60;
-            
+
             NSString *formattedTime = [NSString stringWithFormat:@"%02lu:%02lu", minutes, (unsigned long)seconds];
             NSString *skipOffsetText = [[NSString alloc] initWithFormat: @"%@", formattedTime];
             [self.skipOffsetLabel setText: skipOffsetText];
@@ -272,8 +292,11 @@
 
 - (void)dealloc
 {
-    self.skipTimer = nil;
     self.skipOffsetLabel = nil;
+    self.skipButton = nil;
+    [self.skipTimer invalidate];
+    self.skipTimer = nil;
+    self.progressLabel = nil;
 }
 
 // MARK: - Timer manipulations
@@ -289,26 +312,29 @@
     switch (timerState) {
         case HyBidTimerState_Start:
             if (self.skipTimeRemaining != -1) {
+                __weak typeof(self) weakSelf = self;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.skipTimeRemaining = seconds;
-                    [self updateSkipOffsetOnProgressTick:self.skipTimeRemaining];
-                    self.skipTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(skipTimerTicked) userInfo:nil repeats:YES];
+                    weakSelf.skipTimeRemaining = seconds;
+                    [weakSelf updateSkipOffsetOnProgressTick:self.skipTimeRemaining];
+                    if(!weakSelf.skipTimer){
+                        weakSelf.skipTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(skipTimerTicked) userInfo:nil repeats:YES];
+                    }
                 });
             }
             break;
         case HyBidTimerState_Pause:
             if ([self.skipTimer isValid]) {
-                [self.skipTimer invalidate];
-                self.skipTimer = nil;
+                [self invalidateSkipTimer];
                 self.skipTimeRemaining = seconds;
             }
             break;
-        case HyBidTimerState_Stop:
-            [self.skipTimer invalidate];
-            self.skipTimer = nil;
+        case HyBidTimerState_Stop:{
+            [self invalidateSkipTimer];
             self.skipTimeRemaining = -1;
             [self skipTimerFinished];
             break;
+            
+        }
     }
 }
 
@@ -328,11 +354,20 @@
 
 - (void)skipTimerFinished
 {
-    [self.skipTimer invalidate];
-    self.skipTimer = nil;
+    [self invalidateSkipTimer];
     self.skipTimeRemaining = -1;
     [self.skipOffsetLabel removeFromSuperview];
+    [self.delegate skipTimerCompleted];
     [self addSkipOverlayButton];
+}
+
+- (void)invalidateSkipTimer
+{
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.skipTimer invalidate];
+        weakSelf.skipTimer = nil;
+    });
 }
 
 // MARK: - Helpers
@@ -355,6 +390,89 @@
     
     [[view.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:0] setActive:YES];
     [[view.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0] setActive:YES];
+}
+
+- (void)addSkipOverlayViewIn:(UIView *)adView delegate:(id<HyBidSkipOverlayDelegate>)delegate
+{
+    if([adView isEqual: nil] || [adView.subviews containsObject:self]){
+        return;
+    }
+    
+    HyBidSkipOverlay* skipOverlayView = self;
+    if(!skipOverlayView){
+        skipOverlayView = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: self.countdownStyle withContentInfoPositionTopRight:self.isContentInfoInTopRightPosition];
+    }
+    
+    skipOverlayView.delegate = delegate;
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [adView addSubview: skipOverlayView];
+        [skipOverlayView updateTimerStateWithRemainingSeconds:weakSelf.skipOffset withTimerState:HyBidTimerState_Start];
+    });
+    
+    NSMutableArray *constraints = [[NSMutableArray alloc] init];
+    NSArray<NSLayoutConstraint *> *positionConstraints;
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    switch(self.countdownStyle){
+        case HyBidCountdownPieChart:{
+            if (adView != nil) {
+                positionConstraints = [self getSkipOverlayTopPositionConstraintsIn:adView];
+            }
+            break;
+        }
+        case HyBidCountdownSkipOverlayTimer:{
+            if (adView != nil) {
+                positionConstraints = [self getSkipOverlayTopPositionConstraintsIn:adView];
+            }
+            break;
+        }
+        case HyBidCountdownSkipOverlayProgress:{
+            if (adView != nil) {
+                positionConstraints = [self getSkipOverlayTopPositionConstraintsIn:adView];
+            }
+            break;
+        }
+    }
+    
+    [constraints addObjectsFromArray: [self getSkipOverlaySizeConstraints]];
+    [constraints addObjectsFromArray: positionConstraints];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NSLayoutConstraint activateConstraints: constraints];
+    });
+}
+
+
+- (NSArray<NSLayoutConstraint *> *)getSkipOverlaySizeConstraints
+{
+    return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.frame.size.width],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.frame.size.height]];
+}
+
+- (NSArray<NSLayoutConstraint *> *)getSkipOverlayTopPositionConstraintsIn:(UIView*)adView
+{
+    
+    if(self.isContentInfoInTopRightPosition){
+            if (@available(iOS 11.0, *)) {
+                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+            } else {
+                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
+            }
+    } else {
+            if (@available(iOS 11.0, *)) {
+                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            } else {
+                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            }
+    }
+}
+
+- (NSArray<NSLayoutConstraint *> *)getSkipOverlayBottomPositionConstraintsIn:(UIView*)adView
+{
+    if (@available(iOS 11.0, *)) {
+        return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.padding * -1)]];
+    } else {
+        return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.padding * -1)],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+    }
 }
 
 @end

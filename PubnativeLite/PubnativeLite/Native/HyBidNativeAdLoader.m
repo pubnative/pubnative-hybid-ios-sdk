@@ -69,14 +69,12 @@
 - (void)loadNativeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:NO forKey:kIsUsingOpenRTB];
-    [defaults synchronize];
     [self loadNativeAdWithDelegate:delegate withZoneID:zoneID withAppToken:nil];
 }
 
 - (void)loadNativeExchangeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:YES forKey:kIsUsingOpenRTB];
-    [defaults synchronize];
     [self loadNativeAdWithDelegate:delegate withZoneID:zoneID withAppToken:nil];
 }
 

@@ -48,9 +48,11 @@
          self.assets = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseArrayValuesForAssets:adm[@"native"][@"assets"]]];
          self.creativeid = dictionary[@"crid"];
          NSError *extError;
-         NSData *extData = [NSJSONSerialization dataWithJSONObject:dictionary[@"ext"] options:NSJSONWritingPrettyPrinted error:&extError];
-         NSDictionary *ext = [NSJSONSerialization JSONObjectWithData:extData options:kNilOptions error:&extError];
-         self.extensions = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseDictionaryValuesForExtensions:ext]];
+         if (dictionary[@"ext"] != nil){
+             NSData *extData = [NSJSONSerialization dataWithJSONObject:dictionary[@"ext"] options:NSJSONWritingPrettyPrinted error:&extError];
+             NSDictionary *ext = [NSJSONSerialization JSONObjectWithData:extData options:kNilOptions error:&extError];
+             self.extensions = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseDictionaryValuesForExtensions:ext]];
+         }
      }
      return self;
  }

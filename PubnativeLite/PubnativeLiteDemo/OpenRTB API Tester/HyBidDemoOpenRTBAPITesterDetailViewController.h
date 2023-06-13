@@ -20,32 +20,14 @@
 //  THE SOFTWARE.
 //
 
-#import "ISVerveCustomAdapter.h"
-#import "ISVerveUtils.h"
+#import <Foundation/Foundation.h>
+#import "PNLiteDemoBaseViewController.h"
+#import "HyBidDemoEnumConstants.h"
 
-@implementation ISVerveCustomAdapter
+@interface HyBidDemoOpenRTBAPITesterDetailViewController : PNLiteDemoBaseViewController
 
-- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
-       if (![ISVerveUtils isAppTokenValid:adData]) {
-           if (delegate && [delegate respondsToSelector:@selector(onInitDidFailWithErrorCode:errorMessage:)]) {
-               [delegate onInitDidFailWithErrorCode:ISAdapterErrorMissingParams
-                                       errorMessage:@"HyBid initialisation failed: Missing app token"];
-           }
-       } else {
-           [HyBid initWithAppToken:[ISVerveUtils appToken:adData] completion:^(BOOL success) {
-               if (delegate && [delegate respondsToSelector:@selector(onInitDidSucceed)]) {
-                   [delegate onInitDidSucceed];
-               }
-           }];
-       }
-}
-
-- (NSString *)networkSDKVersion {
-    return @"2.19.0-beta2";
-}
-
-- (NSString *)adapterVersion {
-    return @"2.19.0-beta2.0";
-}
+@property (nonatomic, strong) NSString *adResponse;
+@property (nonatomic) HyBidDemoAppPlacement placement;
+@property (weak, nonatomic) UIButton *debugButton;
 
 @end

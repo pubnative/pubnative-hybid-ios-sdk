@@ -23,7 +23,6 @@ target 'HyBidDemo' do
 end
 
 target 'HyBidTests' do
-  inherit! :search_paths
   pod 'OCMockito', '6.0.0'
 end
 

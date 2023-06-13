@@ -282,19 +282,18 @@ NSInteger const PNLiteResponseStatusOK = 200;
 - (void)processVASTTagResponseFrom:(NSString *)vastAdContent
 {
     __block NSString *adContent = vastAdContent;
+    NSDictionary *bid;
+    if (self.isUsingOpenRTB) {
+        NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *error;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
+        bid = [seatBid[@"bid"] firstObject];
+        NSString *vastString = bid[@"adm"];
+        adContent = vastString;
+    }
     
     if ([adContent length] != 0) {
-        NSDictionary *bid;
-        if (self.isUsingOpenRTB) {
-            NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
-            NSError *error;
-            id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-            NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
-            bid = [seatBid[@"bid"] firstObject];
-            NSString *vastString = bid[@"adm"];
-            adContent = vastString;
-        }
-        
         [HyBidMarkupUtils isVastXml:adContent completion:^(BOOL isVAST, NSError *error) {
             if (error) {
                 [self invokeDidFail:error];
@@ -358,8 +357,15 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 - (void)processResponseWithJSON:(NSString*)adReponse {
     self.zoneID = @"legacy_api_tester";
-    NSData *adReponseData = [adReponse dataUsingEncoding:NSUTF8StringEncoding];
-    [self processResponseWithData:adReponseData];
+    self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
+    ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
+    : NO;
+    if (self.isUsingOpenRTB && self.openRTBAdType == HyBidOpenRTBAdVideo) {
+        [self processVASTTagResponseFrom:adReponse];
+    } else {
+        NSData *adReponseData = [adReponse dataUsingEncoding:NSUTF8StringEncoding];
+        [self processResponseWithData:adReponseData];
+    }
 }
 
 - (void)processResponseWithData:(NSData *)data {
@@ -371,7 +377,9 @@ NSInteger const PNLiteResponseStatusOK = 200;
         NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
         bid = [seatBid[@"bid"] firstObject];
         NSString *adModel = bid[@"adm"];
-        adContent = adModel;
+        if (adModel != nil) {
+            adContent = adModel;
+        }
     }
     
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
@@ -460,7 +468,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
             }
             
         } else {
-            NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
+            NSError *responseError = (response.errorMessage != nil) ? [NSError hyBidServerErrorWithMessage:response.errorMessage] : [NSError hyBidServerError];
             [self invokeDidFail:responseError];
         }
 }

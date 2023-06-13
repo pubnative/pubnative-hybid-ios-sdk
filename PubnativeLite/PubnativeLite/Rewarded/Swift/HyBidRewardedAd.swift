@@ -201,6 +201,7 @@ public class HyBidRewardedAd: NSObject {
     
     func processAdReponse(adReponse: String) {
         let rewardedAdRequest = HyBidRewardedAdRequest()
+        rewardedAdRequest.openRTBAdType = HyBidOpenRTBAdVideo
         rewardedAdRequest.delegate = HyBidRewardedAdRequestWrapper(parent: self)
         rewardedAdRequest.processResponse(withJSON: adReponse)
     }

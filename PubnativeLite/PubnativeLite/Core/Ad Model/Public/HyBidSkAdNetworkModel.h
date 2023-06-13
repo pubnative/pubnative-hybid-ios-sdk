@@ -31,4 +31,11 @@
 - (NSDictionary *) getStoreKitParameters;
 - (BOOL)isSKAdNetworkIDVisible:(NSDictionary*) productParams;
 
+- (BOOL)areProductParametersValid:(NSDictionary *)dict;
+- (BOOL)checkBasicParameters:(NSDictionary *)dict supportMultipleFidelities:(BOOL)supportsMultipleFidelities;
+- (BOOL)checkV2Parameters:(NSDictionary *)dict;
+- (BOOL)checkV2_2_Parameters:(NSDictionary *)dict supportMultipleFidelities:(BOOL)supportsMultipleFidelities;
+- (BOOL)checkV4_0_Parameters:(NSDictionary *)dict;
 @end
+
+

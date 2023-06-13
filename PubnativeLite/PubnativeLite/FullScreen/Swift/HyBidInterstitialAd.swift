@@ -215,6 +215,7 @@ public class HyBidInterstitialAd: NSObject {
     
     func processAdReponse(adReponse: String) {
         let interstitialAdRequest = HyBidInterstitialAdRequest()
+        interstitialAdRequest.openRTBAdType = HyBidOpenRTBAdVideo
         interstitialAdRequest.delegate = HyBidInterstitialAdRequestWrapper(parent: self)
         interstitialAdRequest.processResponse(withJSON: adReponse)
     }
