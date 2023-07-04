@@ -79,8 +79,7 @@
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
                                                 contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0
-                                           needCloseButton:NO];
+                                                 skipOffset:0];
 }
 
 - (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
@@ -96,8 +95,7 @@
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
                                                 contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0
-                                           needCloseButton:NO];
+                                                 skipOffset:0];
 }
 
 - (void)startTracking {

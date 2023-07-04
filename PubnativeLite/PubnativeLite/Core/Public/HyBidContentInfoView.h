@@ -66,5 +66,6 @@ typedef enum {
 
 - (void)setIconSize:(CGSize) size;
 - (void)setElementsOrientation:(HyBidContentInfoHorizontalPosition) orientation;
+- (CGSize)getValidIconSizeWith:(CGSize)size;
 
 @end

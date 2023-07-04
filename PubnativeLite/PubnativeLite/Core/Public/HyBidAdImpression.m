@@ -97,12 +97,13 @@ API_AVAILABLE(ios(14.5)){
             [impression setVersion:model.productParameters[@"version"]];
         }
         
-        if (@available(iOS 16.1, *) ) {
-            if ([self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]] != nil) {
-                [impression setSourceIdentifier:[self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]]];
+        if (skanVersion >= 4.0) {
+            if (@available(iOS 16.1, *) ) {
+                if ([self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]] != nil) {
+                    [impression setSourceIdentifier:[self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]]];
+                }
             }
         } else {
-            // Fallback on earlier versions
             if ([self getNSNumberFromString:model.productParameters[@"campaign"]] != nil) {
                 [impression setAdCampaignIdentifier:[self getNSNumberFromString:model.productParameters[@"campaign"]]];
             }
@@ -158,7 +159,7 @@ API_AVAILABLE(ios(14.5))
     HyBidSkAdNetworkModel *model = [self getSkAdNetworkModelForAd:ad];
     SKAdImpression *impression = [self generateSkAdImpressionFrom:model];
     
-    if (impression != nil) {
+    if (impression != nil && model.productParameters.count > 0){
         if (@available(iOS 14.5, *)) {
             [SKAdNetwork startImpression:impression completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {

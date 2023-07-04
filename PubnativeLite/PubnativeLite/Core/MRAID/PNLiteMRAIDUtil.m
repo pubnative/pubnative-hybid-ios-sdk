@@ -57,13 +57,7 @@
     BOOL hasHeadTag = (range.location != NSNotFound);
     range = [[self removeAllScripts:rawHtml] rangeOfString:@"<body"];
     BOOL hasBodyTag = (range.location != NSNotFound);
-    
-    // basic sanity checks
-    if ((!hasHtmlTag && (hasHeadTag || hasBodyTag)) ||
-        (hasHtmlTag && !hasBodyTag)) {
-        return nil;
-    }
-    
+
     if (!hasHtmlTag) {
         
         if (!hasBodyTag) {

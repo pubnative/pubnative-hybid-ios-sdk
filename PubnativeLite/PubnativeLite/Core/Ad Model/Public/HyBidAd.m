@@ -396,27 +396,27 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
-- (NSString *)contentInfoHorizontalPosition {
-    NSString *result = nil;
-    NSDictionary *jsonDictionary = [self jsonData];
-    if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition];
-        }
-    }
-    return result;
-}
-
-- (NSString *)contentInfoVeritcalPosition {
-    NSString *result = nil;
-    NSDictionary *jsonDictionary = [self jsonData];
-    if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition];
-        }
-    }
-    return result;
-}
+//- (NSString *)contentInfoHorizontalPosition {
+//    NSString *result = nil;
+//    NSDictionary *jsonDictionary = [self jsonData];
+//    if (jsonDictionary) {
+//        if ([jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition] != (id)[NSNull null]) {
+//            result = [jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition];
+//        }
+//    }
+//    return result;
+//}
+//
+//- (NSString *)contentInfoVeritcalPosition {
+//    NSString *result = nil;
+//    NSDictionary *jsonDictionary = [self jsonData];
+//    if (jsonDictionary) {
+//        if ([jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition] != (id)[NSNull null]) {
+//            result = [jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition];
+//        }
+//    }
+//    return result;
+//}
 
 - (NSNumber *)endcardEnabled {
     NSNumber *result = nil;
@@ -676,31 +676,11 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 }
 
 - (HyBidContentInfoHorizontalPosition)determineContentInfoHorizontalPosition {
-    if (self.contentInfoHorizontalPosition && [self.contentInfoHorizontalPosition isKindOfClass:[NSString class]]) {
-        if ([self.contentInfoHorizontalPosition isEqualToString:@"left"]) {
-            return HyBidContentInfoHorizontalPositionLeft;
-        } else if ([self.contentInfoHorizontalPosition isEqualToString:@"right"]) {
-            return HyBidContentInfoHorizontalPositionRight;
-        } else {
-            return HyBidContentInfoHorizontalPositionLeft;
-        }
-    } else {
-        return HyBidContentInfoHorizontalPositionLeft;
-    }
+    return HyBidContentInfoHorizontalPositionLeft;
 }
 
 - (HyBidContentInfoVerticalPosition)determineContentInfoVerticalPosition {
-    if (self.contentInfoVeritcalPosition && [self.contentInfoVeritcalPosition isKindOfClass:[NSString class]]) {
-        if ([self.contentInfoVeritcalPosition isEqualToString:@"top"]) {
-            return HyBidContentInfoVerticalPositionTop;
-        } else if ([self.contentInfoVeritcalPosition isEqualToString:@"bottom"]) {
-            return HyBidContentInfoVerticalPositionBottom;
-        } else {
-            return HyBidContentInfoVerticalPositionTop;
-        }
-    } else {
-        return HyBidContentInfoVerticalPositionTop;
-    }
+    return HyBidContentInfoVerticalPositionBottom;
 }
 
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel {

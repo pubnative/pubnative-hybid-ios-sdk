@@ -24,6 +24,7 @@
 #import "HyBidVASTIcon.h"
 #import "HyBidContentInfoView.h"
 #import "HyBidVASTAd.h"
+#import "HyBidXMLEx.h"
 
 typedef void (^vastIconCompletionBlock)(NSArray<HyBidVASTIcon *> *, NSError *);
 

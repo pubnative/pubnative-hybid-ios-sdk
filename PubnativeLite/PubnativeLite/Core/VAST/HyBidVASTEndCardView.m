@@ -202,7 +202,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(pauseCloseButtonTimer)
-                                                 name:@"adFeedbackViewIsShown"
+                                                 name:@"adFeedbackViewDidShow"
                                                object:nil];
 }
 
@@ -460,8 +460,7 @@
                                            serviceDelegate:self
                                         rootViewController:self.rootViewController
                                                contentInfo:nil
-                                                skipOffset:self.endCardCloseDelay.offset.integerValue
-                                           needCloseButton:NO];
+                                                skipOffset:self.endCardCloseDelay.offset.integerValue];
 }
 
 - (void)displayImageViewWithURL:(NSString *)url withView:(UIView *)view

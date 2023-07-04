@@ -32,14 +32,16 @@
 
 @interface HyBidSkipOverlay : UIView
 
-- (id)initWithSkipOffset:(NSInteger)skipOffset withCountdownStyle:(HyBidCountdownStyle)countdownStyle withContentInfoPositionTopRight:(BOOL)isContentInfoInTopRightPosition;
+- (id)initWithSkipOffset:(NSInteger)skipOffset withCountdownStyle:(HyBidCountdownStyle)countdownStyle withContentInfoPositionTopRight:(BOOL)isContentInfoInTopRightPosition withShouldShowSkipButton:(BOOL)shouldShowSkipButton;
 
-- (void)addSkipOverlayViewIn:(UIView*)adView delegate:(id<HyBidSkipOverlayDelegate>)delegate;
+- (void)addSkipOverlayViewIn:(UIView *)adView delegate:(id<HyBidSkipOverlayDelegate>)delegate withIsMRAID:(BOOL)isMRAID;
 - (void)updateTimerStateWithRemainingSeconds:(NSInteger)seconds withTimerState:(HyBidTimerState)timerState;
 - (NSInteger)getRemainingTime;
 
 @property (nonatomic, weak) NSObject<HyBidSkipOverlayDelegate> *delegate;
 @property (nonatomic) NSInteger padding;
 @property (nonatomic) BOOL isContentInfoInTopRightPosition;
+@property (nonatomic) BOOL isCloseButtonShown;
+@property (nonatomic) BOOL shouldShowSkipButton;
 
 @end

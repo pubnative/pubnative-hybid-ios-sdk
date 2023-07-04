@@ -504,6 +504,9 @@
 		6FEFC84E2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC84A2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.m */; };
 		6FEFC8502539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */; };
 		6FEFC8752539F9E20097C5FF /* PNLiteDemoPNLiteRewardedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEFC85C2539F6140097C5FF /* PNLiteDemoPNLiteRewardedViewController.m */; };
+		7E0E1C502A3865DD003413DB /* skip@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0E1C4D2A3865DC003413DB /* skip@3x.png */; };
+		7E0E1C512A3865DD003413DB /* skip.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0E1C4E2A3865DC003413DB /* skip.png */; };
+		7E0E1C522A3865DD003413DB /* skip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E0E1C4F2A3865DC003413DB /* skip@2x.png */; };
 		7E2607FD292B84FC00CF0DD0 /* LegacyApiTester.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2607FC292B84FC00CF0DD0 /* LegacyApiTester.storyboard */; };
 		7E260800292B857700CF0DD0 /* HyBidDemoLegacyAPITesterMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2607FF292B857700CF0DD0 /* HyBidDemoLegacyAPITesterMainViewController.m */; };
 		7E26080D292E410200CF0DD0 /* HyBidDemoLegacyAPITesterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E26080C292E410200CF0DD0 /* HyBidDemoLegacyAPITesterDetailViewController.m */; };
@@ -1263,6 +1266,9 @@
 		6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PNLiteVASTPlayerRewardedViewController.xib; sourceTree = "<group>"; };
 		6FEFC85B2539F6140097C5FF /* PNLiteDemoPNLiteRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNLiteDemoPNLiteRewardedViewController.h; sourceTree = "<group>"; };
 		6FEFC85C2539F6140097C5FF /* PNLiteDemoPNLiteRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNLiteDemoPNLiteRewardedViewController.m; sourceTree = "<group>"; };
+		7E0E1C4D2A3865DC003413DB /* skip@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skip@3x.png"; sourceTree = "<group>"; };
+		7E0E1C4E2A3865DC003413DB /* skip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skip.png; sourceTree = "<group>"; };
+		7E0E1C4F2A3865DC003413DB /* skip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skip@2x.png"; sourceTree = "<group>"; };
 		7E2607FC292B84FC00CF0DD0 /* LegacyApiTester.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LegacyApiTester.storyboard; sourceTree = "<group>"; };
 		7E2607FE292B857700CF0DD0 /* HyBidDemoLegacyAPITesterMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoLegacyAPITesterMainViewController.h; sourceTree = "<group>"; };
 		7E2607FF292B857700CF0DD0 /* HyBidDemoLegacyAPITesterMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoLegacyAPITesterMainViewController.m; sourceTree = "<group>"; };
@@ -2650,6 +2656,9 @@
 				7E5A51592A03BBD700CACEF8 /* close.png */,
 				7E5A515A2A03BBD700CACEF8 /* close@2x.png */,
 				7E5A51582A03BBD700CACEF8 /* close@3x.png */,
+				7E0E1C4E2A3865DC003413DB /* skip.png */,
+				7E0E1C4F2A3865DC003413DB /* skip@2x.png */,
+				7E0E1C4D2A3865DC003413DB /* skip@3x.png */,
 				5A9B66E620BD97520067964E /* PNLiteVASTPlayerViewController.xib */,
 				5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */,
 				5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */,
@@ -3246,11 +3255,13 @@
 				7E5A515B2A03BBD700CACEF8 /* close@3x.png in Resources */,
 				7EF58B2129FA88A100A6223E /* sound-off@3x.png in Resources */,
 				5A9B66BD20BD57ED0067964E /* PNLiteExternalLink.png in Resources */,
+				7E0E1C522A3865DD003413DB /* skip@2x.png in Resources */,
 				5A9B66C420BD57ED0067964E /* PNLiteExternalLink@2x.png in Resources */,
 				6F59DE332721ACAC00C117FF /* PNLiteExternalLink1@2x.png in Resources */,
 				5A9B66C120BD57ED0067964E /* PNLiteFullScreen.png in Resources */,
 				7EF58B2A29FA989300A6223E /* sound-off.png in Resources */,
 				5A9B66C320BD57ED0067964E /* PNLiteFullScreen@2x.png in Resources */,
+				7E0E1C512A3865DD003413DB /* skip.png in Resources */,
 				62CA9F5527C95CA90028627D /* VerveContentInfo.png in Resources */,
 				6F59DE342721ACAC00C117FF /* PNLiteExternalLink1.png in Resources */,
 				5A9B66BB20BD57ED0067964E /* PNLitePlay.png in Resources */,
@@ -3261,6 +3272,7 @@
 				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 				E715F7232729A4E500E20A9E /* hybidscaling.js in Resources */,
 				5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
+				7E0E1C502A3865DD003413DB /* skip@3x.png in Resources */,
 				5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */,
 				E7F24F1824E4224000160097 /* hybidmraidscaling.js in Resources */,
 			);
@@ -3856,7 +3868,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.19.0-beta2";
+				MARKETING_VERSION = "2.19.0-beta3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3896,7 +3908,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.19.0-beta2";
+				MARKETING_VERSION = "2.19.0-beta3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4055,7 +4067,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.19.0-beta2";
+				MARKETING_VERSION = "2.19.0-beta3";
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4100,7 +4112,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "2.19.0-beta2";
+				MARKETING_VERSION = "2.19.0-beta3";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;

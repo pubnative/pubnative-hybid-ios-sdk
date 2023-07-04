@@ -39,6 +39,8 @@ typedef void (^HyBidVastParserCompletionBlock)(HyBidVASTModel*, HyBidVASTParserE
 
 @interface HyBidVASTParser : NSObject
 
+@property (nonatomic, strong) NSMutableArray *vastArray;
+
 - (void)parseWithUrl:(NSURL *)url completion:(HyBidVastParserCompletionBlock)block;
 
 - (void)parseWithData:(NSData *)vastData completion:(HyBidVastParserCompletionBlock)block;

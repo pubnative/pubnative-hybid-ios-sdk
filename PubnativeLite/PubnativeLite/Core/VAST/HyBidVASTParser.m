@@ -32,6 +32,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
 @interface HyBidVASTModel ()
 
 - (void)addVASTDocument:(NSData *)vastDocument;
+- (void)addVASTString:(NSData *)vastString;
 
 @end
 
@@ -50,6 +51,15 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     self = [super init];
     if (self) {
         self.vastModel = [[HyBidVASTModel alloc] init];
+    }
+    if (self) {
+          static NSMutableArray *sharedArray = nil;
+          static dispatch_once_t onceToken;
+          dispatch_once(&onceToken, ^{
+              sharedArray = [NSMutableArray array];
+          });
+
+          self.vastArray = sharedArray;
     }
     return self;
 }
@@ -106,7 +116,10 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     }
     
     vastData = [newXmlString dataUsingEncoding:NSUTF8StringEncoding];
-    
+    @synchronized (self.vastArray) {
+        [self.vastArray addObject:vastData];
+    }
+
     if (depth >= HyBidVASTModel_MaxRecursiveDepth) {
         self.vastModel = nil;
         return HyBidVASTParserError_TooManyWrappers;
@@ -137,7 +150,8 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     }
     
     [self.vastModel addVASTDocument:vastData];
-    
+    [self.vastModel addVASTString:vastData];
+
     // Check if VAST is comming with at least 1 no-ad response error
     if([self.vastModel errors].count > 0){
         self.vastModel = nil;
@@ -162,11 +176,16 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
                 url = ((NSDictionary *)childArray[0])[@"nodeContent"];
                 url = [url stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                 url = [url stringByRemovingPercentEncoding];
+                vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
+                if(vastData) {
+                    vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
+                    @synchronized (self.vastArray) {
+                        [self.vastArray addObject:vastData];
+                    }
+                    [self.vastModel addVASTString:vastData];
+                }
             }
         }
-        
-        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
-        
         return [self parseRecursivelyWithData:vastData depth:(depth + 1)];
     }
     

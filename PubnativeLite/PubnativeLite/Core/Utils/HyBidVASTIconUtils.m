@@ -23,6 +23,7 @@
 #import "HyBidVASTIconUtils.h"
 #import "HyBidVideoAdProcessor.h"
 #import "HyBidVASTAd.h"
+#import "HyBidXMLEx.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -34,26 +35,46 @@
 
 @implementation HyBidVASTIconUtils
 
+- (void)retrieveIconsFrom:(HyBidVASTCreative **)adCreative block:(vastIconCompletionBlock)block creative:(HyBidVASTCreative *)creative icons:(NSArray<HyBidVASTIcon *> **)icons {
+    if ([creative linear] != nil && [[creative linear] icons].count != 0) {
+        *adCreative = creative;
+        HyBidVASTLinear *linear = [*adCreative linear];
+        *icons = [linear icons];
+        block(*icons, nil);
+    }
+}
+
 - (void)getVASTIconFrom:(NSString *)adContent completion:(vastIconCompletionBlock)block
 {
     HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
     [videoAdProcessor processVASTString:adContent completion:^(HyBidVASTModel *vastModel, NSError *error) {
+        NSOrderedSet *vastSet = [[NSOrderedSet alloc] initWithArray:vastModel.vastArray];
+        NSMutableArray* vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
         if (error) {
             block(nil, error);
         } else {
-            HyBidVASTAd *ad = [[vastModel ads] firstObject];
-            HyBidVASTCreative *adCreative;
-            for (HyBidVASTCreative *creative in [[ad inLine] creatives]) {
-                if ([creative linear] != nil) {
-                    adCreative = creative;
-                    break;
+            NSArray<HyBidVASTIcon *> *icons;
+            for (NSData *vast in vastArray){
+                NSString *xml = [[NSString alloc] initWithData:vast encoding:NSUTF8StringEncoding];
+                HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+                NSArray *result = [[parser rootElement] query:@"Ad"];
+                for (int i = 0; i < [result count]; i++) {
+                    HyBidVASTAd *ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
+                    HyBidVASTCreative *adCreative;
+                    if ([ad wrapper] != nil){
+                        for (HyBidVASTCreative *creative in [[ad wrapper] creatives]) {
+                            [self retrieveIconsFrom:&adCreative block:block creative:creative icons:&icons];
+                        }
+                    }else if ([ad inLine]!=nil){
+                        for (HyBidVASTCreative *creative in [[ad inLine] creatives]) {
+                            [self retrieveIconsFrom:&adCreative block:block creative:creative icons:&icons];
+                        }
+                    }
+                }
+                if (vast == [vastArray lastObject] && (icons.count == 0 || icons == nil)) {
+                    block(icons, nil);
                 }
             }
-
-            HyBidVASTLinear *linear = [adCreative linear];
-            NSArray<HyBidVASTIcon *> *icons = [linear icons];
-            
-            block(icons, nil);
         }
     }];
 }

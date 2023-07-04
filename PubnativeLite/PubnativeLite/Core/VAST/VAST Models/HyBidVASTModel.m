@@ -35,6 +35,8 @@
 
 @property (nonatomic, strong)NSMutableArray *vastDocumentArray;
 
+@property (nonatomic, strong)NSMutableArray *vastArray;
+
 @property (nonatomic, strong)HyBidXMLEx *parser;
 
 @end
@@ -66,14 +68,13 @@
     return ads;
 }
 
-- (NSArray<NSURL *> *)errors
+- (NSArray<NSString *> *)errors
 {
     NSMutableArray *errors = [[NSMutableArray alloc] init];
     
     for (HyBidXMLElementEx *element in [[self.parser rootElement] query:@"Error"]) {
         if (element.value != nil) {
-            NSURL *url = [[NSURL alloc] initWithString:element.value];
-            [errors addObject:url];
+            [errors addObject:element.value];
         }
     }
     return errors;
@@ -92,6 +93,13 @@
     
     NSString *xml = [[NSString alloc] initWithData:self.vastDocumentArray[0] encoding:NSUTF8StringEncoding];
     self.parser = [HyBidXMLEx parserWithXML:xml];
+}
+
+- (void)addVASTString:(NSData *)vastString {
+    if (!self.vastArray) {
+        self.vastArray = [NSMutableArray array];
+    }
+    [self.vastArray addObject: vastString];
 }
 
 - (NSString *)vastString

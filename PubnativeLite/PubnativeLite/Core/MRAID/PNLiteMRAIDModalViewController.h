@@ -34,6 +34,8 @@
 @interface PNLiteMRAIDModalViewController : UIViewController
 
 @property (nonatomic, unsafe_unretained) id<PNLiteMRAIDModalViewControllerDelegate> delegate;
+@property (nonatomic, assign) BOOL willShowFeedbackScreen;
+
 
 - (id)initWithOrientationProperties:(PNLiteMRAIDOrientationProperties *)orientationProperties;
 - (void)forceToOrientation:(PNLiteMRAIDOrientationProperties *)orientationProperties;

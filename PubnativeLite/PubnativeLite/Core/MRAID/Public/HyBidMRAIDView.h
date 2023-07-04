@@ -64,8 +64,7 @@
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
-         skipOffset:(NSInteger)skipOffset
-    needCloseButton:(BOOL)needCloseButton;
+         skipOffset:(NSInteger)skipOffset;
 
 - (void)cancel;
 
