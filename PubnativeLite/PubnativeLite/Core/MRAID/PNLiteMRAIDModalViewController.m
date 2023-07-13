@@ -98,7 +98,7 @@
     
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = self.willShowFeedbackScreen ? [UIColor whiteColor] : [UIColor blackColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

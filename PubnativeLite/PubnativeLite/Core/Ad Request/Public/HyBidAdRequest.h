@@ -62,4 +62,6 @@ typedef enum {
 - (void)cacheAd:(HyBidAd *)ad;
 - (void)setMediationVendor:(NSString *)mediationVendor;
 - (void)processResponseWithJSON:(NSString *)adReponse;
+- (void)processVASTTagResponseFrom:(NSString *)vastAdContent;
+- (void)processResponseWithData:(NSData *)data;
 @end

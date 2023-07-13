@@ -25,6 +25,7 @@ import Foundation
 @objc
 public class HyBidSessionManager: NSObject {
     @objc public static let sharedInstance = HyBidSessionManager()
+    private let serialQueue = DispatchQueue(label: "com.verve.HyBid.serialQueueSessionManager")
     @objc public var impressionCounter: [String: Int] = [:]
     @objc public var sessionDuration: String = ""
    
@@ -41,7 +42,7 @@ public class HyBidSessionManager: NSObject {
         var sessionDuration: TimeInterval
         let lastTimeStamp = NSDate(timeIntervalSince1970: TimeInterval(NSDate().timeIntervalSince1970))
         UserDefaults.standard.set(lastTimeStamp, forKey: Common.LAST_SESSION_TIMESTAMP)
-        incrementImpressionCounter(zoneID: zoneID)
+        self.incrementImpressionCounter(zoneID: zoneID)
         if let startTime = UserDefaults.standard.object(forKey: Common.START_SESSION_TIMESTAMP) as? Date{
             sessionDuration = lastTimeStamp.timeIntervalSince(startTime)
             self.sessionDuration = String(sessionDuration.milliseconds)
@@ -51,19 +52,21 @@ public class HyBidSessionManager: NSObject {
     
     @objc
     public func incrementImpressionCounter(zoneID: String){
-        if impressionCounter.keys.contains(zoneID){
-            if let num = impressionCounter[zoneID] {
-                impressionCounter[zoneID] = num + 1
+        serialQueue.async {
+            if self.impressionCounter.keys.contains(zoneID){
+                if let num = self.impressionCounter[zoneID] {
+                    self.impressionCounter[zoneID] = num + 1
+                }
+            } else {
+                self.impressionCounter[zoneID] = 1
             }
-        } else {
-            impressionCounter[zoneID] = 1
         }
     }
     
     @objc
     public func sessionDuration(zoneID: String){
-        if impressionCounter.isEmpty {
-            updateSession(zoneID: zoneID)
+        if self.impressionCounter.isEmpty {
+            self.updateSession(zoneID: zoneID)
         } else {
             if let lastTimeStamp = UserDefaults.standard.object(forKey: Common.LAST_SESSION_TIMESTAMP) as? Date{
                 let now = NSDate(timeIntervalSince1970: TimeInterval(NSDate().timeIntervalSince1970))
@@ -71,10 +74,10 @@ public class HyBidSessionManager: NSObject {
                 
                 if ttl.minutes >= 30 {
                     self.impressionCounter = [:]
-                    setStartSession()
-                    updateSession(zoneID: zoneID)
+                    self.setStartSession()
+                    self.updateSession(zoneID: zoneID)
                 } else {
-                    updateSession(zoneID: zoneID)
+                    self.updateSession(zoneID: zoneID)
                 }
             }
         }
@@ -116,12 +119,12 @@ extension Calendar {
 
 extension Date {
     var millisecondsSince1970: Int64 {
-            Int64((self.timeIntervalSince1970 * 1000.0).rounded())
-        }
-        
-        init(milliseconds: Int64) {
-            self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
-        }
+        Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+    
+    init(milliseconds: Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+    }
 }
 
 extension TimeInterval{

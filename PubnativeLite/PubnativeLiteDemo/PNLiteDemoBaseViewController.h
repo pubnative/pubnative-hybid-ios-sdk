@@ -23,7 +23,6 @@
 #import <UIKit/UIKit.h>
 #import <HyBid/HyBid.h>
 
-
 @interface PNLiteDemoBaseViewController : UIViewController
 
 - (void)clearDebugTools;

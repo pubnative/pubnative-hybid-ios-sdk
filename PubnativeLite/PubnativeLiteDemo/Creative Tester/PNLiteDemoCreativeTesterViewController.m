@@ -34,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *adSizeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
-
+@property (nonatomic) HyBidDemoAppPlacement placement;
 @property (strong, nonatomic) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) Markup *markup;
 
@@ -83,22 +83,24 @@
 // MARK: - Helper Methods
 
 - (void)displayAd {
-    switch ([self.adSizeSegmentedControl selectedSegmentIndex]) {
-        case 0: // Banner
+    switch (self.placement) {
+        case HyBidDemoAppPlacementBanner:
             [self displayAdModally:YES];
             break;
-        case 1: // Medium
+        case HyBidDemoAppPlacementMRect:
             [self displayAdModally:YES];
             break;
-        case 2: { // Leaderboard
+        case HyBidDemoAppPlacementLeaderboard: {
             [self displayAdModally:NO];
             break;
         }
-        case 3: { // Interstitial
+        case HyBidDemoAppPlacementInterstitial: {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
             [self.interstitialAd prepareCustomMarkupFrom:self.markup.text];
             break;
         }
+        case HyBidDemoAppPlacementRewarded:
+            break;
     }
 }
 
@@ -127,7 +129,26 @@
         return;
     }
     
-    self.markup = [[Markup alloc] initWithMarkupText:adString withAdPlacement: [NSNumber numberWithInteger:[self.adSizeSegmentedControl selectedSegmentIndex]]];
+    switch ([self.adSizeSegmentedControl selectedSegmentIndex]) {
+        case 0: {
+            self.placement = HyBidDemoAppPlacementBanner;
+            break;
+        }
+        case 1: {
+            self.placement = HyBidDemoAppPlacementMRect;
+            break;
+        }
+        case 2: {
+            self.placement = HyBidDemoAppPlacementLeaderboard;
+            break;
+        }
+        case 3: {
+            self.placement = HyBidDemoAppPlacementInterstitial;
+            break;
+        }
+    }
+    
+    self.markup = [[Markup alloc] initWithMarkupText:adString withAdPlacement: self.placement];
     [self displayAd];
     self.debugButton.hidden = NO;
 }

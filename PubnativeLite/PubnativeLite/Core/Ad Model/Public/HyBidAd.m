@@ -259,6 +259,14 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return creativeID;
 }
 
+- (NSString *)openRTBCreativeID {
+    NSString *creativeID = nil;
+    if(self.openRTBData) {
+        creativeID = self.openRTBData.creativeid;
+    }
+    return creativeID;
+}
+
 - (NSNumber *)assetGroupID {
     NSNumber *result = nil;
     if (self.data) {
@@ -388,27 +396,27 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
-- (NSString *)contentInfoHorizontalPosition {
-    NSString *result = nil;
-    NSDictionary *jsonDictionary = [self jsonData];
-    if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition];
-        }
-    }
-    return result;
-}
-
-- (NSString *)contentInfoVeritcalPosition {
-    NSString *result = nil;
-    NSDictionary *jsonDictionary = [self jsonData];
-    if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition];
-        }
-    }
-    return result;
-}
+//- (NSString *)contentInfoHorizontalPosition {
+//    NSString *result = nil;
+//    NSDictionary *jsonDictionary = [self jsonData];
+//    if (jsonDictionary) {
+//        if ([jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition] != (id)[NSNull null]) {
+//            result = [jsonDictionary objectForKey:PNLiteData.contentInfoHorizontalPosition];
+//        }
+//    }
+//    return result;
+//}
+//
+//- (NSString *)contentInfoVeritcalPosition {
+//    NSString *result = nil;
+//    NSDictionary *jsonDictionary = [self jsonData];
+//    if (jsonDictionary) {
+//        if ([jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition] != (id)[NSNull null]) {
+//            result = [jsonDictionary objectForKey:PNLiteData.contentInfoVerticalPosition];
+//        }
+//    }
+//    return result;
+//}
 
 - (NSNumber *)endcardEnabled {
     NSNumber *result = nil;
@@ -427,6 +435,17 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (jsonDictionary) {
         if ([jsonDictionary objectForKey:PNLiteData.endcardCloseDelay] != (id)[NSNull null]) {
             result = [jsonDictionary objectForKey:PNLiteData.endcardCloseDelay];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)nativeCloseButtonDelay {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.nativeCloseButtonDelay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.nativeCloseButtonDelay];
         }
     }
     return result;
@@ -460,6 +479,17 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (jsonDictionary) {
         if ([jsonDictionary objectForKey:PNLiteData.videoSkipOffset] != (id)[NSNull null]) {
             result = [jsonDictionary objectForKey:PNLiteData.videoSkipOffset];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)rewardedVideoSkipOffset {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset];
         }
     }
     return result;
@@ -646,31 +676,11 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 }
 
 - (HyBidContentInfoHorizontalPosition)determineContentInfoHorizontalPosition {
-    if (self.contentInfoHorizontalPosition && [self.contentInfoHorizontalPosition isKindOfClass:[NSString class]]) {
-        if ([self.contentInfoHorizontalPosition isEqualToString:@"left"]) {
-            return HyBidContentInfoHorizontalPositionLeft;
-        } else if ([self.contentInfoHorizontalPosition isEqualToString:@"right"]) {
-            return HyBidContentInfoHorizontalPositionRight;
-        } else {
-            return HyBidContentInfoHorizontalPositionLeft;
-        }
-    } else {
-        return HyBidContentInfoHorizontalPositionLeft;
-    }
+    return HyBidContentInfoHorizontalPositionLeft;
 }
 
 - (HyBidContentInfoVerticalPosition)determineContentInfoVerticalPosition {
-    if (self.contentInfoVeritcalPosition && [self.contentInfoVeritcalPosition isKindOfClass:[NSString class]]) {
-        if ([self.contentInfoVeritcalPosition isEqualToString:@"top"]) {
-            return HyBidContentInfoVerticalPositionTop;
-        } else if ([self.contentInfoVeritcalPosition isEqualToString:@"bottom"]) {
-            return HyBidContentInfoVerticalPositionBottom;
-        } else {
-            return HyBidContentInfoVerticalPositionTop;
-        }
-    } else {
-        return HyBidContentInfoVerticalPositionTop;
-    }
+    return HyBidContentInfoVerticalPositionBottom;
 }
 
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel {
@@ -680,6 +690,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         
+        if ([data stringFieldWithKey:@"sourceIdentifier"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"sourceIdentifier"] forKey:@"sourceIdentifier"];
+        }
         if ([data stringFieldWithKey:@"campaign"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
         }
@@ -746,6 +759,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         
+        if ([data stringFieldWithKey:@"sourceIdentifier"] != nil) {
+            [dict setValue:[data stringFieldWithKey:@"sourceIdentifier"] forKey:@"sourceIdentifier"];
+        }
         if ([data stringFieldWithKey:@"campaign"] != nil) {
             [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
         }

@@ -22,7 +22,7 @@
 
 #import "AppLovinMediationVerveCustomNetworkAdapter.h"
 
-#define VERVE_ADAPTER_VERSION @"2.18.1.0"
+#define VERVE_ADAPTER_VERSION @"2.19.0.0"
 #define MAX_MEDIATION_VENDOR @"m"
 #define PARAM_APP_TOKEN @"pn_app_token"
 #define PARAM_TEST_MODE @"pn_test"
@@ -144,15 +144,23 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
     {
         NSNumber *hasUserConsent = parameters.hasUserConsent;
-        if ( hasUserConsent )
+        
+        // 1. AppLovin revokes consent
+        if ( hasUserConsent != nil && [hasUserConsent intValue] != 1 )
         {
-            NSString* verveGDPRConsentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
-            if ( !verveGDPRConsentString || [verveGDPRConsentString isEqualToString:@""] )
-            {
-                [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: hasUserConsent.boolValue ? @"1" : @"0"];
-            }
+            [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: @"0"];
         }
-        else { /* Don't do anything if huc value not set */ }
+
+        // 2. AppLovin grants consent and Verve doesn't have binary nor CMP consent yet
+        if ( ( hasUserConsent != nil && [hasUserConsent intValue] == 1 )
+            && ( [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString] == nil
+                || [[[HyBidUserDataManager sharedInstance] getIABGDPRConsentString] isEqualToString: @""]
+                || [[[HyBidUserDataManager sharedInstance] getIABGDPRConsentString] isEqualToString: @"0"] ) )
+        {
+            [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: @"1"];
+        }
+
+        // 3. all other cases -> no change
     }
         
     NSNumber *isAgeRestrictedUser = parameters.ageRestrictedUser;

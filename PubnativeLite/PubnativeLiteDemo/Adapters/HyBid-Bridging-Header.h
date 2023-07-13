@@ -30,4 +30,5 @@
 #import "ISVerveUtils.h"
 #import "ISVerveCustomAdapter.h"
 #import "ISVerveCustomInterstitial.h"
+#import "ISVerveCustomRewardedVideo.h"
 #import "ALVerveMediationCustomAdapter.h"

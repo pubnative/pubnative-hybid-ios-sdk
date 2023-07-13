@@ -80,8 +80,7 @@
                                            serviceDelegate:self
                                         rootViewController:[UIApplication sharedApplication].topViewController
                                                contentInfo:self.adModel.contentInfo
-                                                skipOffset:_skipOffset
-                                           needCloseButton:NO];
+                                                skipOffset:_skipOffset];
 }
 
 - (void)show {
@@ -122,6 +121,7 @@
         [self.mraidView stopAdSession];
     }
     [self.delegate rewardedPresenterDidDismiss:self];
+    [self.delegate rewardedPresenterDidFinish:self];
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {

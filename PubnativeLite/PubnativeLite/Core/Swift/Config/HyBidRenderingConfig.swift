@@ -38,7 +38,13 @@ public class HyBidRenderingConfig: NSObject {
     @objc public var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
+    @objc public var rewardedVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_REWARDED_VIDEO_SKIP_OFFSET), isCustom: false)
+    
+    @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
     @objc public var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
+    
+    @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
+    @objc public var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
     @objc public var showEndCard: Bool = false {

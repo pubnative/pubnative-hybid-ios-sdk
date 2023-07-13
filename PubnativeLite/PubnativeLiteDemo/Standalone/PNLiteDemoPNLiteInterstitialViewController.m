@@ -93,7 +93,11 @@
 
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
-    [self setCreativeIDLabelWithString:self.interstitialAd.ad.creativeID];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey: kIsUsingOpenRTB] == YES) {
+        [self setCreativeIDLabelWithString:self.interstitialAd.ad.openRTBCreativeID];
+    } else {
+        [self setCreativeIDLabelWithString:self.interstitialAd.ad.creativeID];
+    }
     self.debugButton.hidden = NO;
     self.showAdButton.hidden = NO;
     self.prepareButton.enabled = !self.adCachingSwitch.isOn;

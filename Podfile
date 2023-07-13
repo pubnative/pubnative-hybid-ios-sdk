@@ -17,12 +17,12 @@ target 'HyBidDemo' do
   pod 'FLEX', :configurations => ['Debug']
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
-  pod 'Google-Mobile-Ads-SDK'
+  pod 'Google-Mobile-Ads-SDK', '~> 10.0'
   pod 'AppLovinSDK', '11.4.0'
+  pod 'IronSourceSDK','7.3.0.0'
 end
 
 target 'HyBidTests' do
-  inherit! :search_paths
   pod 'OCMockito', '6.0.0'
 end
 
@@ -35,12 +35,12 @@ post_install do |installer|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
     end
   end
-  
+
   # Weak-Linking ATOM to HyBid
   targets_to_weaklink.map!{|t| t="Pods-#{t}"}
   installer.pods_project.targets.each do |target|
     next unless targets_to_weaklink.include?(target.name)
-    
+
     target.build_configurations.each do |config|
       base_config_reference = config.base_configuration_reference
       unless base_config_reference.nil?

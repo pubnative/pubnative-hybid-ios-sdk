@@ -25,7 +25,7 @@
 
 @implementation Markup
 
-- (instancetype)initWithMarkupText:(NSString *)markupText withAdPlacement:(NSNumber *)placement
+- (instancetype)initWithMarkupText:(NSString *)markupText withAdPlacement:(HyBidDemoAppPlacement)placement
 {
     self = [super init];
     if (self) {

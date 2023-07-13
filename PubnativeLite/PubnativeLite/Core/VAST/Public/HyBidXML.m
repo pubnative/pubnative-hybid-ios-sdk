@@ -176,6 +176,9 @@
 	NSString * value = nil;
     HyBidXMLAttribute * attribute = aXMLElement->firstAttribute;
     while (attribute) {
+        for(int i = 0; attribute->name[i]; i++){
+            attribute->name[i] = tolower(attribute->name[i]);
+        }
 		if (strlen(attribute->name) == strlen(name) && memcmp(attribute->name,name,strlen(name)) == 0) {
 			value = [NSString stringWithCString:&attribute->value[0] encoding:NSUTF8StringEncoding];
 			break;
@@ -189,6 +192,9 @@
 	HyBidXMLElement * xmlElement = aParentXMLElement->firstChild;
 	const char * name = [aName cStringUsingEncoding:NSUTF8StringEncoding];
 	while (xmlElement) {
+        for(int i = 0; xmlElement->name[i]; i++){
+            xmlElement->name[i] = tolower(xmlElement->name[i]);
+        }
 		if (strlen(xmlElement->name) == strlen(name) && memcmp(xmlElement->name,name,strlen(name)) == 0) {
 			return xmlElement;
 		}
@@ -201,6 +207,9 @@
 	HyBidXMLElement * xmlElement = aXMLElement->nextSibling;
 	const char * name = [aName cStringUsingEncoding:NSUTF8StringEncoding];
 	while (xmlElement) {
+        for(int i = 0; xmlElement->name[i]; i++){
+            xmlElement->name[i] = tolower(xmlElement->name[i]);
+        }
 		if (strlen(xmlElement->name) == strlen(name) && memcmp(xmlElement->name,name,strlen(name)) == 0) {
 			return xmlElement;
 		}

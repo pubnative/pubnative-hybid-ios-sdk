@@ -55,7 +55,7 @@
 -(NSArray *) query:(NSString *) search {
 	NSMutableArray *result = [NSMutableArray array];
 	NSArray *parts = [search componentsSeparatedByString:@"/"];
-	NSString *targetElementName = [parts objectAtIndex:parts.count - 1];
+	NSString *targetElementName = [[parts objectAtIndex:parts.count - 1] lowercaseString];
 
 	if ([targetElementName isEqualToString:@""]) {
 		if (parts.count == 1) {
@@ -118,7 +118,7 @@
 }
 
 -(NSString *) attribute:(NSString *) name {
-	return element ? [HyBidXML valueOfAttributeNamed:name forElement:element] : nil;
+	return element ? [HyBidXML valueOfAttributeNamed:name.lowercaseString forElement:element] : nil;
 }
 
 -(int) intValue {
@@ -170,12 +170,12 @@
 		return YES;
 	}
 	
-	element = [HyBidXML nextSiblingNamed:[HyBidXML elementName:element] searchFromElement:element];
+	element = [HyBidXML nextSiblingNamed:[HyBidXML elementName:element].lowercaseString searchFromElement:element];
 	return element != nil;
 }
 
 -(HyBidXMLElementEx *) child:(NSString *) elementName {
-	HyBidXMLElement *childElement = [HyBidXML childElementNamed:elementName parentElement:element];
+	HyBidXMLElement *childElement = [HyBidXML childElementNamed:elementName.lowercaseString parentElement:element];
 	return childElement ? [[HyBidXMLElementEx alloc] initWithElement:childElement] : nil;
 }
 

@@ -171,4 +171,8 @@ NSString * const kHyBidErrorDomain = @"net.pubnative.PubnativeLite";
     return [NSError errorWithCode:HyBidErrorVASTParserSchemaValidation localizedDescription:@"Invalid HTML"];
 }
 
++ (instancetype)hyBidVASTNoAdResponse {
+    return [NSError errorWithCode:HyBidErrorVASTParserNoAdResponse localizedDescription:@"Server does not or cannot return an Ad"];
+}
+
 @end

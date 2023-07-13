@@ -42,7 +42,7 @@
 #define kHyBidDemoAPIURLKey @"apiURL"
 #define kHyBidDemoOpenRTBAPIURLKey @"openRtbApiURL"
 #define kHyBidDemoAppID @"1530210244"
-#define kHyBidISAppIDKey @"ironSourceAppID"
+#define kHyBidISAppIDKey @"1224c378d"
 #define kHyBidALMediationNativeAdUnitIDKey @"alMediationNativeAdUnitID"
 #define kHyBidALMediationBannerAdUnitIDKey @"alMediationBannerAdUnitID"
 #define kHyBidALMediationMRectAdUnitIDKey @"alMediationMRectAdUnitID"

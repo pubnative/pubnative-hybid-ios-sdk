@@ -30,13 +30,16 @@ typedef enum : NSInteger {
     HyBidVASTParserError_TooManyWrappers,
     HyBidVASTParserError_NoCompatibleMediaFile,
     HyBidVASTParserError_NoInternetConnection,
-    HyBidVASTParserError_MovieTooShort
+    HyBidVASTParserError_MovieTooShort,
+    HyBidVASTParserError_NoAdResponse
 } HyBidVASTParserError;
 
 @class HyBidVASTAd;
 typedef void (^HyBidVastParserCompletionBlock)(HyBidVASTModel*, HyBidVASTParserError);
 
 @interface HyBidVASTParser : NSObject
+
+@property (nonatomic, strong) NSMutableArray *vastArray;
 
 - (void)parseWithUrl:(NSURL *)url completion:(HyBidVastParserCompletionBlock)block;
 

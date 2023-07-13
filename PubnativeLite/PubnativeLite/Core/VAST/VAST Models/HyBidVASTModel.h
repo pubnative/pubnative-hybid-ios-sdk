@@ -40,8 +40,10 @@
 /**
  An array of errors.
  */
-- (NSArray<NSURL *> *)errors;
+- (NSArray<NSString *> *)errors;
 
 - (NSString *)vastString;
+
+- (NSMutableArray<NSData *> *)vastArray;
 
 @end

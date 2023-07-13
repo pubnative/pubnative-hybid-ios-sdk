@@ -30,8 +30,8 @@
 #import "PNLiteMRAIDSettings.h"
 #import "HyBidViewabilityManager.h"
 #import "HyBidViewabilityWebAdSession.h"
-#import "PNLiteCloseButton.h"
 #import "HyBidNavigatorGeolocation.h"
+#import "HyBidCloseButton.h"
 
 #import <WebKit/WebKit.h>
 #import <AVFoundation/AVFoundation.h>
@@ -47,7 +47,7 @@
 
 #import "HyBidSkipOverlay.h"
 #import "HyBidTimerState.h"
-#define kCloseEventRegionSize 26
+#define kCloseButtonSize 50
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 //Viewbility Timeinterval Freqeuncy
@@ -103,8 +103,8 @@ typedef enum {
     
     HyBidNavigatorGeolocation* navigatorGeolocation;
     
-    UIButton *closeEventRegion;
-    
+    UIButton *closeButton;
+
     UIView *resizeView;
     UIButton *resizeCloseRegion;
     
@@ -124,8 +124,9 @@ typedef enum {
     CGFloat exposedPercentage;
     CGRect visibleRect;
     NSTimer *viewabilityTimer;
-    BOOL needCloseButton;
-
+    BOOL adNeedsCloseButton;
+    BOOL adNeedsSkipOverlay;
+    BOOL obtainedUseCustomCloseValue;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -153,13 +154,14 @@ typedef enum {
 - (void)initWebView:(WKWebView *)wv;
 - (void)parseCommandUrl:(NSString *)commandUrlString;
 
-@property (nonatomic, strong) NSTimer *closeButtonTimer;
-@property (nonatomic, strong) NSDate *closeButtonTimerStartDate;
+@property (nonatomic, strong) NSTimer *closeButtonOffsetTimer;
 @property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
+@property (nonatomic, assign) BOOL willShowFeedbackScreen;
+@property (nonatomic, strong) HyBidSkipOffset *nativeCloseButtonDelay;
 
 @end
 
@@ -167,6 +169,7 @@ typedef enum {
 
 @synthesize isViewable=_isViewable;
 @synthesize rootViewController = _rootViewController;
+CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (id)init {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
@@ -200,8 +203,7 @@ typedef enum {
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
-         skipOffset:(NSInteger)skipOffset
-    needCloseButton:(BOOL)needCloseButton {
+         skipOffset:(NSInteger)skipOffset {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
                    withBaseURL:bsURL
@@ -213,8 +215,7 @@ typedef enum {
                serviceDelegate:serviceDelegate
             rootViewController:rootViewController
                    contentInfo:contentInfo
-                    skipOffset:skipOffset
-               needCloseButton:needCloseButton];
+                    skipOffset:skipOffset];
 }
 
 // designated initializer
@@ -229,11 +230,11 @@ typedef enum {
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
-         skipOffset:(NSInteger)skipOffset
-    needCloseButton:(BOOL)needCloseButton {
+         skipOffset:(NSInteger)skipOffset {
     self = [super initWithFrame:frame];
     if (self) {
         [self setUpTapGestureRecognizer];
+        [self determineNativeCloseButtonDelayForAd:ad];
         isInterstitial = isInter;
         isScrollable = canScroll;
         adWidth = frame.size.width;
@@ -312,9 +313,21 @@ typedef enum {
         }
         
         [self addObservers];
-        self->needCloseButton = needCloseButton;
     }
     return self;
+}
+
+
+- (void)determineNativeCloseButtonDelayForAd:(HyBidAd *)ad {
+    if (ad.nativeCloseButtonDelay) {
+        if([ad.nativeCloseButtonDelay integerValue] >= 0){
+            self.nativeCloseButtonDelay = [[HyBidSkipOffset alloc] initWithOffset:ad.nativeCloseButtonDelay isCustom:YES];
+        } else {
+            self.nativeCloseButtonDelay = [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset;
+        }
+    } else {
+        self.nativeCloseButtonDelay = [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset;
+    }
 }
 
 - (void)addObservers {
@@ -329,12 +342,17 @@ typedef enum {
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(feedBackScreenIsShown:)
-                                                 name: @"adFeedbackViewIsShown"
+                                             selector: @selector(feedbackScreenWillShow:)
+                                                 name: @"adFeedbackViewWillShow"
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(feedBackScreenIsDismissed:)
+                                             selector: @selector(feedbackScreenDidShow:)
+                                                 name: @"adFeedbackViewDidShow"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(feedbackScreenIsDismissed:)
                                                  name: @"adFeedbackViewIsDismissed"
                                                object: nil];
 }
@@ -343,6 +361,7 @@ typedef enum {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (modalVC != nil && !self.isFeedbackScreenShown) {
             [self playCountdownView];
+            [self playCloseButtonDelay];
         }
     });
 }
@@ -350,20 +369,26 @@ typedef enum {
 - (void)applicationDidEnterBackground:(NSNotification*)notification {
     if (modalVC != nil && !self.isFeedbackScreenShown) {
         [self pauseCountdownView];
+        [self pauseCloseButtonDelay];
     }
 }
 
-- (void)feedBackScreenIsShown:(NSNotification*)notification {
+-(void)feedbackScreenWillShow:(NSNotification*)notification {
+    self.willShowFeedbackScreen = YES;
+}
+- (void)feedbackScreenDidShow:(NSNotification*)notification {
     self.isFeedbackScreenShown = YES;
-    if (modalVC != nil && isInterstitial) {
+    if (modalVC != nil) {
         [self pauseCountdownView];
+        [self pauseCloseButtonDelay];
     }
 }
 
-- (void)feedBackScreenIsDismissed:(NSNotification*)notification {
+- (void)feedbackScreenIsDismissed:(NSNotification*)notification {
     self.isFeedbackScreenShown = NO;
-    if (modalVC != nil && isInterstitial) {
+    if (modalVC != nil) {
         [self playCountdownView];
+        [self playCloseButtonDelay];
     }
 }
 
@@ -373,9 +398,20 @@ typedef enum {
 }
 
 - (void)pauseCountdownView {
-    self.closeButtonTimeElapsed += [[NSDate date] timeIntervalSinceDate:self.closeButtonTimerStartDate];
     NSInteger remainingSeconds = [self.skipOverlay getRemainingTime];
     [self.skipOverlay updateTimerStateWithRemainingSeconds:(remainingSeconds) withTimerState:HyBidTimerState_Pause];
+}
+
+- (void)playCloseButtonDelay {
+    if(!self.skipOverlay){
+        [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
+    }
+}
+
+- (void)pauseCloseButtonDelay {
+    if(!self.skipOverlay && [self.closeButtonOffsetTimer isValid]){
+        [self invalidateCloseButtonOffsetTimer];
+    }
 }
 
 - (void)htmlFromUrl:(NSURL *)url handler:(void (^)(NSString *html, NSError *error))handler {
@@ -386,7 +422,7 @@ typedef enum {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if(httpResponse.statusCode == 200) {
             NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            if([dataString containsString: @"<!DOCTYPE html>"]){
+            if([dataString containsString: @"<!doctype html>"] || [dataString containsString: @"<!DOCTYPE html>"]){
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     if (handler)
                         handler(dataString, error);
@@ -450,7 +486,7 @@ typedef enum {
     mraidFeatures = nil;
     supportedFeatures = nil;
     
-    closeEventRegion = nil;
+    closeButton = nil;
     resizeView = nil;
     resizeCloseRegion = nil;
     
@@ -464,6 +500,8 @@ typedef enum {
     self.ad = nil;
     self.skipOverlay = nil;
     self.isFeedbackScreenShown = nil;
+    self.nativeCloseButtonDelay = nil;
+    [self invalidateCloseButtonOffsetTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -572,18 +610,27 @@ typedef enum {
 
 - (void)skipButtonTapped
 {
-    [self.skipOverlay removeFromSuperview];
+    [self removeView:self.skipOverlay];
     [self close];
 }
+
+- (void)skipTimerCompleted
+{
+    if(isInterstitial && self.countdownStyle == HyBidCountdownPieChart){
+        if([modalVC.view.subviews containsObject:self.skipOverlay]){
+            [self setCloseButtonPosition: self.skipOverlay];
+        }
+    }
+}
+
 #pragma mark - interstitial support
 
 - (void)showAsInterstitial {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     [self expand:nil supportVerve:NO];
     [self setIsViewable:YES];
-    if(needCloseButton){
-        [self.skipOverlay removeFromSuperview];
-        [self addCloseEventRegion];
+    if(adNeedsCloseButton){
+        [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
     }
 }
 
@@ -592,9 +639,8 @@ typedef enum {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     [self expand:nil supportVerve:NO];
     [self setIsViewable:YES];
-    if(needCloseButton){
-        [self.skipOverlay removeFromSuperview];
-        [self addCloseEventRegion];
+    if(adNeedsCloseButton){
+        [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
     }
 }
 
@@ -637,8 +683,7 @@ typedef enum {
     }
     
     if (modalVC) {
-        [closeEventRegion removeFromSuperview];
-        closeEventRegion = nil;
+        [self removeView: closeButton];
         [currentWebView removeFromSuperview];
         if ([modalVC respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
             // used if running >= iOS 6
@@ -690,6 +735,7 @@ typedef enum {
         [self.delegate mraidViewDidClose:self];
     }
     self.skipOverlay = nil;
+    [self invalidateCloseButtonOffsetTimer];
 }
 
 // This is a helper method which is not part of the official MRAID API.
@@ -764,6 +810,7 @@ typedef enum {
     CGRect frame = self.frame;
     modalVC.view.frame = frame;
     modalVC.delegate = self;
+    modalVC.willShowFeedbackScreen = self.willShowFeedbackScreen;
     
     if (!urlString) {
         // 1-part expansion
@@ -848,137 +895,21 @@ typedef enum {
 
     if (isInterstitial) {
         [self addContentInfoViewToView:modalVC.view ];
-        [self addSkiOverlay];
+        [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:YES];
     }
     
-    if(state == PNLiteMRAIDStateExpanded && !useCustomClose){
-        [self addSkiOverlay];
+    if(state == PNLiteMRAIDStateExpanded){
+        [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:YES];
     }
     
     [self fireSizeChangeEvent];
     self.isViewable = YES;
 }
 
-- (void)addSkiOverlay
+- (void)addSkipOverlay
 {
-    //set default value to get the old behaviour
-    self.countdownStyle = HyBidCountdownPieChart;
-    
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:0]]){
-        self.countdownStyle = HyBidCountdownPieChart;
-    }
-    
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:1]]){
-        self.countdownStyle = HyBidCountdownSkipOverlayTimer;
-    }
-    
-    if([[HyBidRenderingConfig sharedConfig].videoSkipOffset.style isEqualToNumber:[NSNumber numberWithInt:2]]){
-        self.countdownStyle = HyBidCountdownSkipOverlayProgress;
-    }
-    
-    switch(self.countdownStyle){
-        case HyBidCountdownPieChart:{
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle: HyBidCountdownPieChart];
-                self.skipOverlay.delegate = self;
-                [modalVC.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self->_skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (modalVC != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTopMargin multiplier:1.f constant: self.skipOverlay.padding]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            self.closeButtonTimerStartDate = [NSDate date];
-            break;
-        }
-        case HyBidCountdownSkipOverlayTimer:{
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle: HyBidCountdownSkipOverlayTimer];
-                self.skipOverlay.delegate = self;
-                [modalVC.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self->_skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (modalVC != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTopMargin multiplier:1.f constant: self.skipOverlay.padding]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant: self.skipOverlay.frame.origin.y],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            self.closeButtonTimerStartDate = [NSDate date];
-            break;
-        }
-        case HyBidCountdownSkipOverlayProgress:
-            if (!self.skipOverlay) {
-                self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle: HyBidCountdownSkipOverlayProgress];
-                self.skipOverlay.delegate = self;
-                [modalVC.view addSubview:self.skipOverlay];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.skipOverlay updateTimerStateWithRemainingSeconds:self->_skipOffset withTimerState:HyBidTimerState_Start];
-            });
-            
-            if (@available(iOS 11.0, *)) {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                                     [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height], nil];
-                
-                if (modalVC != nil) {
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant: 0.f]];
-                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.skipOverlay.padding * -1)]];
-                }
-                
-                [NSLayoutConstraint activateConstraints:constraints];
-            } else {
-                self.skipOverlay.translatesAutoresizingMaskIntoConstraints = NO;
-                [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.width],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant: self.skipOverlay.frame.size.height],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeBottomMargin multiplier:1.f constant: (self.skipOverlay.padding * -1)],
-                                                          [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
-            }
-            self.closeButtonTimerStartDate = [NSDate date];
-            break;
-    }
+    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopRight:[self isContentInfoInTopRightPosition] withShouldShowSkipButton:false];
+    [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self withIsMRAID:YES];
 }
 
 - (void)setWebViewConstraintsInRelationWithView:(UIView *)view
@@ -1145,6 +1076,7 @@ typedef enum {
     BOOL isCustomClose = [isCustomCloseString boolValue];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (isCustomClose ? @"YES" : @"NO")]];
     useCustomClose = isCustomClose;
+    obtainedUseCustomCloseValue = YES;
 }
 
 #pragma mark - JavaScript --> native support helpers
@@ -1187,62 +1119,78 @@ typedef enum {
 }
 
 - (void)addCloseEventRegion {
-    [self.closeButtonTimer invalidate];
-    self.closeButtonTimer = nil;
-    self.closeButtonTimeElapsed = -1;
-    
     for (UIView *view in modalVC.view.subviews) {
         if ([view tag] == HYBID_MRAID_CLOSE_BUTTON_TAG) {
             return;
         }
     }
     
-    closeEventRegion = [UIButton buttonWithType:UIButtonTypeCustom];
-    [closeEventRegion setTag:HYBID_MRAID_CLOSE_BUTTON_TAG];
-    closeEventRegion.backgroundColor = [UIColor clearColor];
-    [closeEventRegion addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
-    [closeEventRegion setAccessibilityIdentifier:@"closeButton"];
-    [closeEventRegion setAccessibilityLabel:@"Close Button"];
+    [self removeView:self.skipOverlay];
     
-    if (!useCustomClose) {
-        // get button image from header file
-        NSData* buttonData = [NSData dataWithBytesNoCopy:__PNLite_MRAID_CloseButton_png
-                                                  length:__PNLite_MRAID_CloseButton_png_len
-                                            freeWhenDone:NO];
-        UIImage *closeButtonImage = [UIImage imageWithData:buttonData];
-        [closeEventRegion setBackgroundImage:closeButtonImage forState:UIControlStateNormal];
+    if(modalVC.view){
+        closeButton = [[HyBidCloseButton alloc] initWithRootView:modalVC.view action:@selector(close) target:self];
+        [closeButton setTag:HYBID_MRAID_CLOSE_BUTTON_TAG];
     }
-    
-    [modalVC.view addSubview:closeEventRegion];
+}
 
-    if (@available(iOS 11.0, *)) {
-        closeEventRegion.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
-            [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
-            [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize], nil];
-        
-        if (modalVC != nil) {            
-            [constraints addObject:[NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
-            
-            [constraints addObject:[NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
+- (BOOL)isContentInfoInTopRightPosition {
+    BOOL isRightPosition = contentInfoView.horizontalPosition == HyBidContentInfoHorizontalPositionRight ? YES : NO;
+    BOOL isTopPosition = contentInfoView.verticalPosition == HyBidContentInfoVerticalPositionTop ? YES : NO;
+    
+    return isRightPosition && isTopPosition ? YES : NO;
+}
+
+- (void)setCloseButtonPosition:(UIView *) closeButtonView {
+    
+    BOOL isCloseViewShown = NO;
+    for (UIView *view in modalVC.view.subviews) {
+        if([view isEqual: closeButtonView]){
+            isCloseViewShown = YES;
+            break;
         }
-        
-        [NSLayoutConstraint activateConstraints:constraints];
-    } else {
-        closeEventRegion.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[[NSLayoutConstraint constraintWithItem:contentInfoViewContainer attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
-        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseEventRegionSize],
-        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-        [NSLayoutConstraint constraintWithItem:closeEventRegion attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f],]];
     }
     
+    if(!isCloseViewShown){ return; }
+    
+    closeButtonView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [closeButtonView.superview.constraints enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLayoutConstraint *constraint = (NSLayoutConstraint *)obj;
+        if (constraint.firstItem == closeButtonView || constraint.secondItem == closeButtonView) {
+            [closeButtonView.superview removeConstraint:constraint];
+        }
+    }];
+    
+    [closeButtonView removeConstraints:closeButtonView.constraints];
+    
+    NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
+                                                         [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize],
+                                                         [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize], nil];
+    
+    if([self isContentInfoInTopRightPosition]){
+        if (modalVC != nil) {
+            if (@available(iOS 11.0, *)) {
+                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]]];
+            } else {
+                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]]];
+            }
+        }
+    } else {
+        if (modalVC != nil) {
+            if (@available(iOS 11.0, *)) {
+                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]]];
+            } else {
+                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]]];
+            }
+        }
+    }
+    [NSLayoutConstraint activateConstraints: constraints];
 }
 
 - (void)showResizeCloseRegion {
     if (!resizeCloseRegion) {
         resizeCloseRegion = [UIButton buttonWithType:UIButtonTypeCustom];
-        resizeCloseRegion.frame = CGRectMake(0, 0, kCloseEventRegionSize, kCloseEventRegionSize);
+        resizeCloseRegion.frame = CGRectMake(0, 0, kCloseButtonSize, kCloseButtonSize);
         resizeCloseRegion.backgroundColor = [UIColor clearColor];
         [resizeCloseRegion addTarget:self action:@selector(closeFromResize) forControlEvents:UIControlEventTouchUpInside];
         [resizeView addSubview:resizeCloseRegion];
@@ -1302,6 +1250,21 @@ typedef enum {
     }
 }
 
+- (void)removeView: (UIView*) view {
+    if(view){
+        [view removeFromSuperview];
+        view = nil;
+    }
+}
+
+- (void)invalidateCloseButtonOffsetTimer
+{
+    if([self.closeButtonOffsetTimer isValid]){
+        [self.closeButtonOffsetTimer invalidate];
+    }
+    self.closeButtonOffsetTimer = nil;
+}
+
 - (void)setResizeViewPosition {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@", NSStringFromSelector(_cmd)]];
     CGRect oldResizeFrame = resizeView.frame;
@@ -1314,6 +1277,57 @@ typedef enum {
         resizeView.frame = newResizeFrame;
     }
 }
+
+- (void)determineUseCustomCloseBehaviourWith:(HyBidSkipOffset*) closeButtonDelay showSkipOverlay:(BOOL) showSkipOverlay {
+    adNeedsSkipOverlay = showSkipOverlay;
+    //adding delay (0.5) to wait for get useCustomClose value
+    CGFloat delay = obtainedUseCustomCloseValue ? 0.0 : secondsToWaitForCustomCloseValue;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if(useCustomClose){
+            [self removeView:self.skipOverlay];
+            [self invalidateCloseButtonOffsetTimer];
+            [self removeView:closeButton];
+            if(closeButtonDelay){
+                [self startCloseButtonTimerWith:closeButtonDelay];
+            }
+        } else {
+            if(adNeedsSkipOverlay){
+                if(!self.skipOverlay){
+                    [self addSkipOverlay];
+                }
+            } else {
+                [self addCloseEventRegion];
+            }
+        }
+    });
+}
+
+- (void)startCloseButtonTimerWith:(HyBidSkipOffset*) closeButtonDelay
+{
+    [self removeView:self.skipOverlay];
+    for (UIView *view in modalVC.view.subviews) {
+        if ([view tag] == HYBID_MRAID_CLOSE_BUTTON_TAG) {
+            [view removeFromSuperview];
+        }
+    }
+    
+    if(([closeButtonDelay.offset intValue] - self.closeButtonTimeElapsed) <= 0){
+        [self addCloseEventRegion];
+        return;
+    }
+    
+    if(![self.closeButtonOffsetTimer isValid]){
+        self.closeButtonOffsetTimer = [NSTimer scheduledTimerWithTimeInterval: 1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            self.closeButtonTimeElapsed += 1;
+            NSInteger remaningCloseButtonDelayTime = [closeButtonDelay.offset intValue] - self.closeButtonTimeElapsed;
+            if(remaningCloseButtonDelayTime <= 0){
+                [self addCloseEventRegion];
+                [self invalidateCloseButtonOffsetTimer];
+            }
+        }];
+    }
+}
+
 
 #pragma mark - native -->  JavaScript support
 
@@ -1604,7 +1618,7 @@ typedef enum {
                     && self.isViewable) {
                     [self expand:absUrlString supportVerve:YES];
                     if(isInterstitial){
-                        [self addCloseEventRegion];
+                        [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
                     }
                 } else if ([absUrlString containsString:@"https://feedback.verve.com"]){
                     if ([absUrlString containsString:@"close"]) {
@@ -1633,7 +1647,7 @@ typedef enum {
         adSession = [[HyBidViewabilityWebAdSession sharedInstance] createOMIDAdSessionforWebView:currentWebView isVideoAd:NO];
 
         if (isInterstitial) {
-            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:closeEventRegion toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:closeButton toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
             [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:self.skipOverlay toOMIDAdSession:adSession withReason:@"" isInterstitial:isInterstitial];
         }
         [[HyBidViewabilityWebAdSession sharedInstance] startOMIDAdSession:adSession];
@@ -1779,7 +1793,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if (touch.view == resizeCloseRegion || touch.view == closeEventRegion) {
+    if (touch.view == resizeCloseRegion || touch.view == closeButton) {
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"tapGesture 'shouldReceiveTouch'=NO"];
         return NO;
     }

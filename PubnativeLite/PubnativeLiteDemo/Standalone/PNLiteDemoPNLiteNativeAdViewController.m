@@ -97,7 +97,11 @@
     NSLog(@"Native Ad: %@ did load",nativeAd);
     self.debugButton.hidden = NO;
     self.nativeAd = nativeAd;
-    [self setCreativeIDLabelWithString:self.nativeAd.ad.creativeID];
+    if (self.nativeAd.ad.isUsingOpenRTB) {
+        [self setCreativeIDLabelWithString:self.nativeAd.ad.openRTBCreativeID];
+    } else {
+        [self setCreativeIDLabelWithString:self.nativeAd.ad.creativeID];
+    }
     [self.nativeAd fetchNativeAdAssetsWithDelegate:self];
 }
 

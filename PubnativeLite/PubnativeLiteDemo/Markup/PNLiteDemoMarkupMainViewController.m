@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
 @property (weak, nonatomic) IBOutlet UITextView *markupTextView;
-@property (nonatomic, retain) NSNumber *placement;
+@property (nonatomic) HyBidDemoAppPlacement placement;
 @property (nonatomic, strong) Markup *markup;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
@@ -71,7 +71,7 @@
     if (self.markupTextView.text.length <= 0 || !self.markupTextView.text) {
         [self showAlertControllerWithMessage:@"Please input some markup."];
         return NO;
-    } else if (!self.placement){
+    } else if (!(self.placement >= HyBidDemoAppPlacementBanner && self.placement <= HyBidDemoAppPlacementRewarded)){
         [self showAlertControllerWithMessage:@"Please choose a placement."];
         return NO;
     } else {
@@ -84,20 +84,10 @@
     [self clearDebugTools];
     self.debugButton.hidden = YES;
     if ([self canRequestAd]) {
-        switch ([self.placement integerValue]) {
-            case 0:
-                switch ([self.segmentedControl selectedSegmentIndex]) {
-                    case 0: {
-                        [self loadCreativeWithMarkup: self.markup];
-                        break;
-                    }
-                    case 1: {
-                        [self loadCreativeWithURL: self.placement];
-                        break;
-                    }
-                }
-                break;
-            case 1:
+        switch (self.placement) {
+            case HyBidDemoAppPlacementBanner:
+            case HyBidDemoAppPlacementMRect:
+            case HyBidDemoAppPlacementLeaderboard:
                 switch ([self.segmentedControl selectedSegmentIndex]){
                     case 0: {
                         [self loadCreativeWithMarkup: self.markup];
@@ -109,19 +99,7 @@
                     }
                 }
                 break;
-            case 2:
-                switch ([self.segmentedControl selectedSegmentIndex]){
-                    case 0: {
-                        [self loadCreativeWithMarkup: self.markup];
-                        break;
-                    }
-                    case 1: {
-                        [self loadCreativeWithURL: self.placement];
-                        break;
-                    }
-                }
-                break;
-            case 3:
+            case HyBidDemoAppPlacementInterstitial:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
@@ -135,7 +113,7 @@
                 }
                 break;
                         
-            case 4: {
+            case HyBidDemoAppPlacementRewarded: {
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
@@ -170,16 +148,16 @@
     }
 }
 
-- (void)loadCreativeWithURL:(NSNumber *)placement {
+- (void)loadCreativeWithURL:(HyBidDemoAppPlacement)placement {
     NSString *urlString = [[self.markupTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
     if ([urlString containsString:@"|"] || ([urlString containsString:@"<"] && ([urlString containsString:@">"]))){
         urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     }
     self.creativeURL = urlString;
-    [self requestWithUrlForPlacement:urlString:placement];
+    [self requestWithUrlForPlacement:urlString forPlacement:placement];
 }
 
-- (void)requestWithUrlForPlacement:(NSString *)urlString :(NSNumber *)placement {
+- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidDemoAppPlacement)placement {
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
     NSMutableDictionary* newRequestHTTPHeader = [[NSMutableDictionary alloc] init];
     [urlRequest setAllHTTPHeaderFields: newRequestHTTPHeader];
@@ -204,7 +182,7 @@
     markupDetailVC.urWrap = self.urWrap;
     markupDetailVC.debugButton = self.debugButton;
     [self cleanUpAllParams];
-    if (markup.placement.integerValue != 2) {
+    if (markup.placement != HyBidDemoAppPlacementLeaderboard) {
         [self.navigationController presentViewController:markupDetailVC animated:YES completion:nil];
     } else {
         [self.navigationController pushViewController:markupDetailVC animated:YES];
@@ -226,7 +204,7 @@
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
+    self.placement = HyBidDemoAppPlacementBanner;
 }
 
 - (IBAction)mRectTouchUpInside:(UIButton *)sender {
@@ -235,7 +213,7 @@
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
+    self.placement = HyBidDemoAppPlacementMRect;
 }
 
 - (IBAction)leaderboardTouchUpInside:(UIButton *)sender {
@@ -244,7 +222,7 @@
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
+    self.placement = HyBidDemoAppPlacementLeaderboard;
 }
 
 - (IBAction)interstitialTouchUpInside:(UIButton *)sender {
@@ -253,7 +231,7 @@
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
+    self.placement = HyBidDemoAppPlacementInterstitial;
 }
 
 - (IBAction)rewardedTouchUpInside:(UIButton *)sender {
@@ -262,10 +240,10 @@
     [self.leaderboardButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
     [self.rewardedButton setBackgroundColor:[UIColor colorWithRed:0.49 green:0.12 blue:0.51 alpha:1.00]];
     [self.interstitialButton setBackgroundColor:[UIColor colorWithRed:0.69 green:0.69 blue:0.69 alpha:1.00]];
-    self.placement = [NSNumber numberWithInteger:sender.tag];
+    self.placement = HyBidDemoAppPlacementRewarded;
 }
 
-- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(NSNumber*)placement withData:(NSData*)data {
+- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(HyBidDemoAppPlacement)placement withData:(NSData*)data {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     dispatch_async(dispatch_get_main_queue(), ^{
     if ([response respondsToSelector:@selector(allHeaderFields)]) {

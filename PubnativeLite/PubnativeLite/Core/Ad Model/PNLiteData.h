@@ -37,9 +37,11 @@
 + (NSString *)audioState;
 + (NSString *)endcardEnabled;
 + (NSString *)endcardCloseDelay;
++ (NSString *)nativeCloseButtonDelay;
 + (NSString *)interstitialHtmlSkipOffset;
 + (NSString *)rewardedHtmlSkipOffset;
 + (NSString *)videoSkipOffset;
++ (NSString *)rewardedVideoSkipOffset;
 + (NSString *)closeInterstitialAfterFinish;
 + (NSString *)closeRewardedAfterFinish;
 + (NSString *)fullscreenClickability;

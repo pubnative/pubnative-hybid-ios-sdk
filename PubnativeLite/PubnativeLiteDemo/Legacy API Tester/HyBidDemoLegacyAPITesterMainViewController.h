@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PNLiteDemoBaseViewController.h"
+#import "HyBidDemoEnumConstants.h"
 
 @interface HyBidDemoLegacyAPITesterMainViewController : PNLiteDemoBaseViewController
 

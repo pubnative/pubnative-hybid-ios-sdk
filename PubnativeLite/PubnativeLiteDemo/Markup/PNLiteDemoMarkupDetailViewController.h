@@ -23,6 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "PNLiteDemoBaseViewController.h"
 #import "Markup.h"
+#import "HyBidDemoEnumConstants.h"
 
 @interface PNLiteDemoMarkupDetailViewController : PNLiteDemoBaseViewController
 

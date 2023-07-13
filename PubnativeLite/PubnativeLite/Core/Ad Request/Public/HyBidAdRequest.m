@@ -95,10 +95,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
-        ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
-        : NO;
-        
         self.adFactory = [[PNLiteAdFactory alloc] init];
         self.adSize = HyBidAdSize.SIZE_320x50;
         self.isAutoCacheOnLoad = YES;
@@ -123,6 +119,9 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken {
+    self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
+    ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
+    : NO;
     self.zoneID = zoneID;
     self.appToken = appToken;
     self.requestIntegrationType = integrationType;
@@ -283,19 +282,18 @@ NSInteger const PNLiteResponseStatusOK = 200;
 - (void)processVASTTagResponseFrom:(NSString *)vastAdContent
 {
     __block NSString *adContent = vastAdContent;
+    NSDictionary *bid;
+    if (self.isUsingOpenRTB) {
+        NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *error;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
+        bid = [seatBid[@"bid"] firstObject];
+        NSString *vastString = bid[@"adm"];
+        adContent = vastString;
+    }
     
     if ([adContent length] != 0) {
-        NSDictionary *bid;
-        if (self.isUsingOpenRTB) {
-            NSData *jsonData = [adContent dataUsingEncoding:NSUTF8StringEncoding];
-            NSError *error;
-            id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-            NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
-            bid = [seatBid[@"bid"] firstObject];
-            NSString *vastString = bid[@"adm"];
-            adContent = vastString;
-        }
-        
         [HyBidMarkupUtils isVastXml:adContent completion:^(BOOL isVAST, NSError *error) {
             if (error) {
                 [self invokeDidFail:error];
@@ -359,11 +357,31 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 - (void)processResponseWithJSON:(NSString*)adReponse {
     self.zoneID = @"legacy_api_tester";
-    NSData *adReponseData = [adReponse dataUsingEncoding:NSUTF8StringEncoding];
-    [self processResponseWithData:adReponseData];
+    self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
+    ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
+    : NO;
+    if (self.isUsingOpenRTB && self.openRTBAdType == HyBidOpenRTBAdVideo) {
+        [self processVASTTagResponseFrom:adReponse];
+    } else {
+        NSData *adReponseData = [adReponse dataUsingEncoding:NSUTF8StringEncoding];
+        [self processResponseWithData:adReponseData];
+    }
 }
 
 - (void)processResponseWithData:(NSData *)data {
+    __block NSString *adContent = data.description;
+    NSDictionary *bid;
+    if (self.isUsingOpenRTB) {
+        NSError *error;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSDictionary *seatBid = [jsonObject[@"seatbid"] firstObject];
+        bid = [seatBid[@"bid"] firstObject];
+        NSString *adModel = bid[@"adm"];
+        if (adModel != nil) {
+            adContent = adModel;
+        }
+    }
+    
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (!jsonDictonary) {
         [self invokeDidFail: NSError.hyBidNullAd];
@@ -386,12 +404,24 @@ NSInteger const PNLiteResponseStatusOK = 200;
             for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? openRTBResponse.bids : response.ads)) {
                 HyBidAd *ad = nil;
                 if (self.isUsingOpenRTB) {
-                    #if __has_include(<ATOM/ATOM-Swift.h>)
-                    NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
-                    ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID withCohorts:cohorts];
-                    #else
-                    ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
-                    #endif
+                    if (self.openRTBAdType == HyBidOpenRTBAdNative){
+                        #if __has_include(<ATOM/ATOM-Swift.h>)
+                        NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
+                        NSInteger assetGroupID = 8;
+                        ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID withCohorts:cohorts];
+                        #else
+                        ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
+                        #endif
+                    } else if (self.openRTBAdType == HyBidOpenRTBAdBanner){
+                        #if __has_include(<ATOM/ATOM-Swift.h>)
+                        NSInteger type = kHyBidAdTypeHTML;
+                        NSInteger assetGroupID = 8;
+                        ad = [[HyBidAd alloc] initWithAssetGroupForOpenRTB:assetGroupID withAdContent: adContent withAdType:type withBidObject:bid];
+                        #else
+                        ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
+                        #endif
+                    }
+                   
                 } else {
                     #if __has_include(<ATOM/ATOM-Swift.h>)
                     NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
@@ -404,7 +434,14 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 ad.isUsingOpenRTB = self.isUsingOpenRTB;
                 [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID:self.zoneID];
                 [responseAdArray addObject:ad];
-                switch (ad.assetGroupID.integerValue) {
+                
+                NSNumber *assetGroupID;
+                if (ad.isUsingOpenRTB) {
+                    assetGroupID = ad.openRTBAssetGroupID;
+                } else {
+                    assetGroupID = ad.assetGroupID;
+                }
+                switch ([assetGroupID intValue]) {
                     case VAST_INTERSTITIAL:
                     case VAST_MRECT: {
                         if (self.isAutoCacheOnLoad == YES) {
@@ -431,7 +468,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
             }
             
         } else {
-            NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
+            NSError *responseError = (response.errorMessage != nil) ? [NSError hyBidServerErrorWithMessage:response.errorMessage] : [NSError hyBidServerError];
             [self invokeDidFail:responseError];
         }
 }
@@ -609,36 +646,46 @@ NSInteger const PNLiteResponseStatusOK = 200;
         __block NSString *responseStringJson;
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (dataString) {
-            [HyBidMarkupUtils isVastXml:dataString completion:^(BOOL isVAST, NSError *error) {
-                if (error) {
-                    [self invokeDidFail:error];
-                    return;
-                }
-                
-                if (!isVAST) {
-                    if ([self createDictionaryFromData:data]) {
-                        responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
-                        responseStringJson =  [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            if (self.isUsingOpenRTB && (self.openRTBAdType == HyBidOpenRTBAdVideo)) {
+                [self processVASTTagResponseFrom:dataString];
+                [self.adResponseReportingProperties setObject:@"ortb" forKey:HyBidReportingCommon.REQUEST_TYPE];
+                [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
+                [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
+                [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
+                                                        withResponse:dataString
+                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+            } else {
+                [HyBidMarkupUtils isVastXml:dataString completion:^(BOOL isVAST, NSError *error) {
+                    if (error) {
+                        [self invokeDidFail:error];
+                        return;
+                    }
+                    if (!isVAST) {
+                        if ([self createDictionaryFromData:data]) {
+                            responseString = [NSString stringWithFormat:@"%@",[self createDictionaryFromData:data]];
+                            responseStringJson =  [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                        } else {
+                            responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                            responseStringJson = responseString;
+                        }
+                        if (self.isUsingOpenRTB){
+                            [self.adResponseReportingProperties setObject:@"ortb" forKey:HyBidReportingCommon.REQUEST_TYPE];
+                        } else {
+                            [self.adResponseReportingProperties setObject:@"apiv3" forKey:HyBidReportingCommon.REQUEST_TYPE];
+                        }
+                        [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
+                        [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
+                        
+                        [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
+                                                                                   withResponse:responseStringJson
+                                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                        
+                        [self processResponseWithData:data];
                     } else {
-                        responseString = [NSString stringWithFormat:@"Error while creating a JSON Object with the response. Here is the raw data: \r\r%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-                        responseStringJson = responseString;
+                        [self processVASTTagResponseFrom:dataString];
                     }
-                    
-                    if (responseString != nil) {
-                        [self.adResponseReportingProperties setObject:responseString forKey:HyBidReportingCommon.AD_RESPONSE];
-                    }
-                    
-                    [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
-                    [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
-                    [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
-                                                                               withResponse:responseStringJson
-                                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
-                    [self processResponseWithData:data];
-                } else {
-                    [self processVASTTagResponseFrom:dataString];
-                }
-                
-            }];
+                }];
+            }
         } else {
             [self invokeDidFail:[NSError hyBidNullAd]];
         }

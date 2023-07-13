@@ -38,6 +38,7 @@ NSString * const REQUEST_SKADNETWORK_V1 = @"1.0";
 NSString * const REQUEST_SKADNETWORK_V2 = @"2.0";
 NSString * const REQUEST_SKADNETWORK_V2_2 = @"2.2";
 NSString * const REQUEST_SKADNETWORK_V3 = @"3.0";
+NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
 
 NSString * const RESPONSE_AD_NETWORK_ID_KEY = @"network";
 NSString * const RESPONSE_SOURCE_APP_ID_KEY = @"sourceapp";
@@ -48,6 +49,7 @@ NSString * const RESPONSE_CAMPAIGN_ID_KEY = @"campaign";
 NSString * const RESPONSE_TIMESTAMP_KEY = @"timestamp";
 NSString * const RESPONSE_NONCE_KEY = @"nonce";
 NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
+NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
 
 - (instancetype)initWithParameters:(NSDictionary *)productParams {
     self = [super init];
@@ -61,15 +63,33 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
     NSMutableDictionary* storeKitParameters = [[NSMutableDictionary alloc] init];
     
     if ([self areProductParametersValid:self.productParameters]) {
+        
+        NSString* skAdNetworkVersion = [self.productParameters objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY];
+        
+        BOOL isSkAdNetworkHigher_v2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+        
+        BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+        
+        BOOL isSkAdNetworkHigher_v4_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V4];
+        
         // SkAdNetwork v1.0 and later
         if (@available(iOS 11.3, *)) {
             if ([self.productParameters objectForKey:RESPONSE_AD_NETWORK_ID_KEY] != nil) {
                 [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_AD_NETWORK_ID_KEY] forKey:SKStoreProductParameterAdNetworkIdentifier];
             }
             
-            NSNumber *campaign = [self getNSNumberFromString:[self.productParameters objectForKey:RESPONSE_CAMPAIGN_ID_KEY]];
-            if (campaign != nil) {
-                [storeKitParameters setObject:campaign forKey:SKStoreProductParameterAdNetworkCampaignIdentifier];
+            // SkAdNetwork v4.0
+            if (isSkAdNetworkHigher_v4_0) {
+                if (@available(iOS 16.1, *)) {
+                    if ([self.productParameters objectForKey:RESPONSE_SIGNATURE_KEY] != nil) {
+                        [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_SOURCE_IDENTIFIER_KEY] forKey:RESPONSE_SOURCE_IDENTIFIER_KEY];
+                    }
+                }
+            } else {
+                NSNumber *campaign = [self getNSNumberFromString:[self.productParameters objectForKey:RESPONSE_CAMPAIGN_ID_KEY]];
+                if (campaign != nil) {
+                    [storeKitParameters setObject:campaign forKey:SKStoreProductParameterAdNetworkCampaignIdentifier];
+                }
             }
             
             if (![[HyBidSettings sharedInstance] supportMultipleFidelities]) {
@@ -93,12 +113,7 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
                
         // SkAdNetwork v2.0 and later
         if (@available(iOS 14, *)) {
-            NSString* skAdNetworkVersion = [self.productParameters objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY];
-            
-            BOOL isSkAdNetworkHigher_v2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
-            
-            BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
-            
+
             if (isSkAdNetworkHigher_v2) {
                 if (skAdNetworkVersion != nil) {
                     [storeKitParameters setObject:skAdNetworkVersion forKey:SKStoreProductParameterAdNetworkVersion];
@@ -133,6 +148,7 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
                 }
             }
         }
+        
     }
     
     return storeKitParameters;
@@ -147,84 +163,96 @@ NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
     return number;
 }
 
-- (BOOL) areProductParametersValid:(NSDictionary *)dict
-{
-    NSString* skAdNetworkVersion = [dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY];
-    BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+- (BOOL)areProductParametersValid:(NSDictionary *)dict {
+    HyBidSettings *sharedSettings = [HyBidSettings sharedInstance];
+    BOOL supportsMultipleFidelities = [sharedSettings supportMultipleFidelities];
     
-    BOOL areBasicParametersValid = FALSE;
+    NSString* skAdNetworkVersion = dict[RESPONSE_SKADNETWORK_VERSION_KEY];
+    BOOL isSkAdNetwork_v2_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2];
+    BOOL isSkAdNetwork_v2_2_or_v3_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+    BOOL isSkAdNetwork_v4_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V4];
+    
     if (@available(iOS 11.3, *)) {
-        NSString *campaignID = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_CAMPAIGN_ID_KEY]]];
-        NSString *timestamp = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_TIMESTAMP_KEY]]];
-        NSString *nonce = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_NONCE_KEY]]];
-        
-        if ([[HyBidSettings sharedInstance] supportMultipleFidelities]) {
-            areBasicParametersValid =
-            [dict objectForKey:RESPONSE_TARGET_APP_ID_KEY] != nil &&
-            [(NSString *)[dict objectForKey:RESPONSE_TARGET_APP_ID_KEY] length] > 0 &&
-            [dict objectForKey:RESPONSE_AD_NETWORK_ID_KEY] &&
-            [(NSString *)[dict objectForKey:RESPONSE_AD_NETWORK_ID_KEY] length] > 0 &&
-            [dict objectForKey:RESPONSE_CAMPAIGN_ID_KEY] &&
-            [campaignID length] > 0;
-        } else {
-            areBasicParametersValid = [dict objectForKey:RESPONSE_SIGNATURE_KEY] != nil &&
-            [(NSString *)[dict objectForKey:RESPONSE_SIGNATURE_KEY] length] > 0 &&
-            [dict objectForKey:RESPONSE_TARGET_APP_ID_KEY] != nil &&
-            [(NSString *)[dict objectForKey:RESPONSE_TARGET_APP_ID_KEY] length] > 0 &&
-            [dict objectForKey:RESPONSE_AD_NETWORK_ID_KEY] &&
-            [(NSString *)[dict objectForKey:RESPONSE_AD_NETWORK_ID_KEY] length] > 0 &&
-            [dict objectForKey:RESPONSE_CAMPAIGN_ID_KEY] &&
-            [campaignID length] > 0 &&
-            [dict objectForKey:RESPONSE_TIMESTAMP_KEY] &&
-            [timestamp length] > 0 &&
-            [dict objectForKey:RESPONSE_NONCE_KEY] &&
-            [nonce length] > 0;
+        BOOL areBasicParametersValid = [self checkBasicParameters:dict supportMultipleFidelities:supportsMultipleFidelities];
+        if (!areBasicParametersValid) return NO;
+    }
+    
+    if (@available(iOS 14, *)) {
+        if (isSkAdNetwork_v2_0) {
+            return [self checkV2Parameters:dict];
+        }
+        if (isSkAdNetwork_v2_2_or_v3_0) {
+            return [self checkV2Parameters:dict] && [self checkV2_2_Parameters:dict supportMultipleFidelities:supportsMultipleFidelities];
         }
     }
     
-    BOOL areV2ParametersValid = FALSE;
-    if (@available(iOS 14, *)) {
-        NSString *appStoreID = [NSString stringWithString:[NSString stringWithFormat:@"%@",[dict objectForKey:RESPONSE_SOURCE_APP_ID_KEY]]];
-        
-        areV2ParametersValid =
-        [dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY] &&
-        [(NSString *)[dict objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY] length] > 0 &&
-        [dict objectForKey:RESPONSE_SOURCE_APP_ID_KEY] &&
-        [appStoreID length] > 0;
-    }
-    
-    BOOL areV2_2_ParametersValid = FALSE;
-    if (@available(iOS 14, *)) {
-        if (isSkAdNetworkHigher_v2_2) {
-            if ([[HyBidSettings sharedInstance] supportMultipleFidelities]) {
-                NSArray<NSData *> *fidelitiesData = dict[@"fidelities"];
-                
-                areV2_2_ParametersValid = [fidelitiesData count] > 0;
-                
-                for (NSData *data in fidelitiesData) {
-                    SKANObject fidelityObject;
-                    [data getBytes:&fidelityObject length:sizeof(fidelityObject)];
-                    
-                    areV2_2_ParametersValid =
-                    fidelityObject.signature != nil &&
-                    [[NSString stringWithUTF8String:fidelityObject.signature] length] > 0 &&
-                    fidelityObject.nonce != nil &&
-                    [[NSString stringWithUTF8String:fidelityObject.nonce] length] > 0 &&
-                    fidelityObject.timestamp != nil &&
-                    [[NSString stringWithUTF8String:fidelityObject.timestamp] length] > 0;
-                    
-                    break; // Checking only for the first item is enough
-                }
-            } else {
-                areV2_2_ParametersValid = ([dict objectForKey:RESPONSE_FIDELITY_TYPE_KEY] != nil)
-                && [[NSString stringWithFormat:@"%@", [dict objectForKey:RESPONSE_FIDELITY_TYPE_KEY]] length] > 0;
-            }
+    if (isSkAdNetwork_v4_0) {
+        if (@available(iOS 16.1, *)) {
+            return [self checkV2Parameters:dict] && [self checkV2_2_Parameters:dict supportMultipleFidelities:supportsMultipleFidelities] && [self checkV4_0_Parameters:dict];
         } else {
-            areV2_2_ParametersValid = TRUE; // No need in versions below v2.2
+            return NO;
         }
     }
+
+    return NO;
+}
+
+- (BOOL)checkBasicParameters:(NSDictionary *)dict supportMultipleFidelities:(BOOL)supportsMultipleFidelities {
+    BOOL isValid = NO;
     
-    return areBasicParametersValid && areV2ParametersValid && areV2_2_ParametersValid;
+    NSString *campaignID = [NSString stringWithFormat:@"%@", dict[RESPONSE_CAMPAIGN_ID_KEY]];
+    NSString *timestamp = [NSString stringWithFormat:@"%@", dict[RESPONSE_TIMESTAMP_KEY]];
+    NSString *nonce = [NSString stringWithFormat:@"%@", dict[RESPONSE_NONCE_KEY]];
+    
+    if (supportsMultipleFidelities) {
+        isValid = dict[RESPONSE_TARGET_APP_ID_KEY] != nil && [dict[RESPONSE_TARGET_APP_ID_KEY] length] > 0 &&
+                  dict[RESPONSE_AD_NETWORK_ID_KEY] && [dict[RESPONSE_AD_NETWORK_ID_KEY] length] > 0 &&
+                  dict[RESPONSE_CAMPAIGN_ID_KEY] && [campaignID length] > 0;
+    } else {
+        isValid = dict[RESPONSE_SIGNATURE_KEY] != nil && [dict[RESPONSE_SIGNATURE_KEY] length] > 0 &&
+                  dict[RESPONSE_TARGET_APP_ID_KEY] != nil && [dict[RESPONSE_TARGET_APP_ID_KEY] length] > 0 &&
+                  dict[RESPONSE_AD_NETWORK_ID_KEY] && [dict[RESPONSE_AD_NETWORK_ID_KEY] length] > 0 &&
+                  dict[RESPONSE_CAMPAIGN_ID_KEY] && [campaignID length] > 0 &&
+                  dict[RESPONSE_TIMESTAMP_KEY] && [timestamp length] > 0 &&
+                  dict[RESPONSE_NONCE_KEY] && [nonce length] > 0;
+    }
+    
+    return isValid;
+}
+
+- (BOOL)checkV2Parameters:(NSDictionary *)dict {
+    NSString *appStoreID = [NSString stringWithFormat:@"%@", dict[RESPONSE_SOURCE_APP_ID_KEY]];
+    
+    return dict[RESPONSE_SKADNETWORK_VERSION_KEY] && [dict[RESPONSE_SKADNETWORK_VERSION_KEY] length] > 0 &&
+           dict[RESPONSE_SOURCE_APP_ID_KEY] && [appStoreID length] > 0;
+}
+
+- (BOOL)checkV2_2_Parameters:(NSDictionary *)dict supportMultipleFidelities:(BOOL)supportsMultipleFidelities {
+    BOOL isValid = NO;
+    
+    if (supportsMultipleFidelities) {
+        NSArray<NSData *> *fidelitiesData = dict[@"fidelities"];
+        isValid = [fidelitiesData count] > 0;
+        
+        for (NSData *data in fidelitiesData) {
+            SKANObject fidelityObject;
+            [data getBytes:&fidelityObject length:sizeof(fidelityObject)];
+            
+            isValid = fidelityObject.signature != nil && [[NSString stringWithUTF8String:fidelityObject.signature] length] > 0 &&
+                      fidelityObject.nonce != nil && [[NSString stringWithUTF8String:fidelityObject.nonce] length] > 0 &&
+                      fidelityObject.timestamp != nil && [[NSString stringWithUTF8String:fidelityObject.timestamp] length] > 0;
+            
+            break; // Checking only for the first item is enough
+        }
+    } else {
+        isValid = dict[RESPONSE_FIDELITY_TYPE_KEY] != nil && [[NSString stringWithFormat:@"%@", dict[RESPONSE_FIDELITY_TYPE_KEY]] length] > 0;
+    }
+    
+    return isValid;
+}
+
+- (BOOL)checkV4_0_Parameters:(NSDictionary *)dict {
+    return dict[RESPONSE_SOURCE_IDENTIFIER_KEY] != nil;
 }
 
 - (BOOL)isSKAdNetworkIDVisible:(NSDictionary*) productParams{

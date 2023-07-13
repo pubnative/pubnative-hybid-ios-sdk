@@ -22,6 +22,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PNLiteDemoBaseViewController.h"
+#import "HyBidDemoEnumConstants.h"
 
 @interface PNLiteDemoCreativeTesterViewController : PNLiteDemoBaseViewController
 

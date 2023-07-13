@@ -348,7 +348,7 @@
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NpG-sl-cty" userLabel="Show Ad Button">
                                 <rect key="frame" x="16" y="143" width="382" height="33"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Show Ad Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="UXF-LW-77P"/>
                                 </constraints>

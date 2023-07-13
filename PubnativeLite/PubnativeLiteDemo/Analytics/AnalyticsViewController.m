@@ -40,7 +40,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.dataSource = [[HyBid reportingManager].events sortedArrayUsingComparator:^NSComparisonResult(HyBidReportingEvent* a, HyBidReportingEvent* b) {
-        return a.properties[HyBidReportingCommon.TIMESTAMP] > b.properties[HyBidReportingCommon.TIMESTAMP];
+        NSDate *timestampA = a.properties[HyBidReportingCommon.TIMESTAMP];
+        NSDate *timestampB = b.properties[HyBidReportingCommon.TIMESTAMP];
+        return [timestampA compare:timestampB];
     }];
     self.tableView.hidden = !self.dataSource.count;
 }

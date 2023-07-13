@@ -90,8 +90,7 @@
                                                serviceDelegate:self
                                             rootViewController:[UIApplication sharedApplication].topViewController
                                                    contentInfo:nil
-                                                    skipOffset:0
-                                               needCloseButton:YES];
+                                                    skipOffset:0];
     }
     return self;
 }
@@ -107,8 +106,9 @@
 }
 
 - (void)show {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewWillShow" object:nil];
     [self.mraidView showAsInterstitial];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsShown" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewDidShow" object:nil];
 }
 
 #pragma mark HyBidMRAIDViewDelegate

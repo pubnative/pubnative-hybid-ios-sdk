@@ -10,9 +10,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PNLiteVASTPlayerViewController" customModule="HyBid" customModuleProvider="target">
             <connections>
-                <outlet property="btnMute" destination="JZO-c6-3ys" id="liG-Ev-Qap"/>
-                <outlet property="btnMuteLeadingConstraint" destination="2Ae-do-YaL" id="2sw-r6-vef"/>
-                <outlet property="btnMuteTopConstraint" destination="lSI-th-RSI" id="7EF-zn-XxU"/>
                 <outlet property="btnOpenOffer" destination="BXT-cI-oP0" id="ZLh-bh-B8y"/>
                 <outlet property="btnOpenOfferLeadingConstraint" destination="NDe-jw-54L" id="6sg-oy-S33"/>
                 <outlet property="contentInfoViewContainer" destination="zfp-Xd-tkd" id="upK-WK-fQE"/>
@@ -29,19 +26,6 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JZO-c6-3ys">
-                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                    <viewLayoutGuide key="safeArea" id="bOv-jw-ZyX"/>
-                    <accessibility key="accessibilityConfiguration" identifier="muteButton" label="Mute Button"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="Jh5-ok-g8S"/>
-                        <constraint firstAttribute="width" constant="50" id="R27-O9-Y3D"/>
-                    </constraints>
-                    <state key="normal" image="PNLiteMute.png"/>
-                    <connections>
-                        <action selector="btnMutePush:" destination="-1" eventType="touchUpInside" id="gNk-K7-8oZ"/>
-                    </connections>
-                </button>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49M-ci-rbZ">
                     <rect key="frame" x="560" y="10" width="30" height="30"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -56,7 +40,7 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="KcA-ff-Pj9">
                     <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
                 </activityIndicatorView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfp-Xd-tkd">
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zfp-Xd-tkd">
                     <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <accessibility key="accessibilityConfiguration" identifier="contentInfoContainerView" label="Content Info Container View">
@@ -89,7 +73,6 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
-                <constraint firstItem="JZO-c6-3ys" firstAttribute="leading" secondItem="gnQ-en-LL6" secondAttribute="leading" id="2Ae-do-YaL"/>
                 <constraint firstItem="A1J-YU-rQg" firstAttribute="leading" secondItem="gnQ-en-LL6" secondAttribute="leading" id="743-0i-tE8"/>
                 <constraint firstItem="gnQ-en-LL6" firstAttribute="bottom" secondItem="BXT-cI-oP0" secondAttribute="bottom" id="GI7-dW-CNc"/>
                 <constraint firstItem="KcA-ff-Pj9" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Mer-61-0eN"/>
@@ -98,7 +81,6 @@
                 <constraint firstItem="49M-ci-rbZ" firstAttribute="top" secondItem="gnQ-en-LL6" secondAttribute="top" constant="10" id="dfv-P6-fQx"/>
                 <constraint firstItem="KcA-ff-Pj9" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="fRf-Cc-YJf"/>
                 <constraint firstItem="A1J-YU-rQg" firstAttribute="bottom" secondItem="gnQ-en-LL6" secondAttribute="bottom" id="hub-se-qlN"/>
-                <constraint firstItem="gnQ-en-LL6" firstAttribute="top" secondItem="JZO-c6-3ys" secondAttribute="top" id="lSI-th-RSI"/>
                 <constraint firstItem="gnQ-en-LL6" firstAttribute="trailing" secondItem="49M-ci-rbZ" secondAttribute="trailing" constant="10" id="mo3-7K-cRB"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -115,6 +97,5 @@
     </objects>
     <resources>
         <image name="PNLiteExternalLink1.png" width="32" height="32"/>
-        <image name="PNLiteMute.png" width="200" height="200"/>
     </resources>
 </document>

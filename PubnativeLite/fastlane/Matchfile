@@ -1,4 +1,4 @@
 git_url("https://github.com/pubnative/iOSHyBidCertificates.git")
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
 app_identifier("com.pubnative.HyBid.demo")
-username("can.soykarafakili@pubnative.net") # Your Apple Developer Portal username
+username("fares.benhamouda@verve.com") # Your Apple Developer Portal username
