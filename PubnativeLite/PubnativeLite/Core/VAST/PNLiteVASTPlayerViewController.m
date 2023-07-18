@@ -92,7 +92,7 @@ HyBidCloseButton *closeButton;
 #define kOverlayViewSize 50
 #define kAudioMuteSize 30
 
-@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidVASTEndCardViewControllerDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate>
+@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -357,7 +357,7 @@ HyBidCloseButton *closeButton;
     contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = false;
     NSString *xPosition;
     xPosition = @"left";
-    // Hardcoding xPosition to left and yPosition to bottom
+    // ContentInfo: Hardcoding xPosition to left and yPosition to bottom
 //    if (icon.xPosition){
 //        xPosition = icon.xPosition;
 //    } else {
@@ -925,7 +925,125 @@ HyBidCloseButton *closeButton;
             }
         }
     }
-    [self trackClickWithEndCard:nil];
+    [self trackClick];
+}
+
+- (void)trackClick {
+    HyBidVASTAd *ad = [self getVastAd];
+    
+    if (ad == nil) {
+        return;
+    }
+    
+    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+    NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
+    
+    for (HyBidVASTCreative *creative in creatives) {
+        if ([creative linear] != nil) {
+            [videoClicks addObject:[[creative linear] videoClicks]];
+            break;
+        }
+    }
+    
+    NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
+    NSString *throughClickURL;
+    
+    for (HyBidVASTVideoClicks *videoClick in videoClicks) {
+        if (throughClickURL == nil) {
+            throughClickURL = [[videoClick clickThrough] content];
+        }
+    }
+    
+    for (HyBidVASTVideoClicks *videoClick in videoClicks) {
+        for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
+            [trackingClickURLs addObject:[tracking content]];
+        }
+    }
+    
+    if ([trackingClickURLs count] > 0) {
+        [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
+    }
+    
+    [self invokeDidClickOffer];
+    [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+    
+    if (self.skAdModel) {
+        NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
+        
+        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        
+        if ([productParams count] > 0) {
+            if (throughClickURL != nil) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [productParams removeObjectForKey:@"fidelity-type"];
+                
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+                skAdnetworkViewController.delegate = self;
+                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+            });
+        } else {
+            if (throughClickURL != nil) {
+                BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
+                if(!canOpenURL){
+                    throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
+                }
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
+                    [self togglePlaybackStateOnSuccess: success];
+                }];
+            }
+        }
+    } else {
+        if (throughClickURL != nil) {
+            BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
+            if(!canOpenURL){
+                throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
+            }
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
+                [self togglePlaybackStateOnSuccess: success];
+            }];
+        }
+    }
+}
+
+- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary {
+    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+        
+        if ([fidelitiesDataArray count] > 0) {
+            for (NSData *fidelity in fidelitiesDataArray) {
+                SKANObject skanObject;
+                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
+                
+                if (skanObject.fidelity == 1) {
+                    if (@available(iOS 11.3, *)) {
+                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
+                        
+                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
+                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
+                    }
+                    
+                    if (@available(iOS 13.0, *)) {
+                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                        
+                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        
+                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
+                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                    }
+                    
+                    dictionary[@"fidelities"] = nil;
+                    
+                    break; // Currently we support only 1 fidelity for each kind
+                }
+            }
+        }
+    }
+    
+    return dictionary;
 }
 
 - (void)setConstraintsForPlayerElementsInFullscreen:(BOOL)isFullscreen {
@@ -1463,144 +1581,18 @@ HyBidCloseButton *closeButton;
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
 }
 
-// MARK: - HyBidVASTEndCardViewControllerDelegate
+// MARK: - HyBidVASTEndCardViewDelegate
 
-- (void)vastEndCardCloseButtonTapped
-{
+- (void)vastEndCardViewCloseButtonTapped {
     [self invokeDidClose];
 }
 
-- (void)vastEndCardTapped
-{
-    HyBidVASTEndCard *endCard = [[self endCards] firstObject];
-    [self trackClickWithEndCard:endCard];
+- (void)vastEndCardViewClicked {
+    [self invokeDidClickOffer];
 }
 
-- (void)trackClickWithEndCard:(HyBidVASTEndCard *)endCard {
-    if ([endCard type] == HyBidEndCardType_STATIC || !self.endCardShown) {
-        HyBidVASTAd *ad = [self getVastAd];
-        
-        if (ad == nil) {
-            return;
-        }
-        
-        NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
-        NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
-        
-        for (HyBidVASTCreative *creative in creatives) {
-            if ([creative linear] != nil) {
-                [videoClicks addObject:[[creative linear] videoClicks]];
-                break;
-            }
-        }
-        
-        NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
-        NSString *throughClickURL;
-        
-        if (endCard) {
-            if ([[endCard clickThrough] length] > 0) {
-                throughClickURL = [endCard clickThrough];
-            }
-        } else {
-            for (HyBidVASTVideoClicks *videoClick in videoClicks) {
-                if (throughClickURL == nil) {
-                    throughClickURL = [[videoClick clickThrough] content];
-                }
-            }
-        }
-        
-        for (HyBidVASTVideoClicks *videoClick in videoClicks) {
-            for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
-                [trackingClickURLs addObject:[tracking content]];
-            }
-        }
-        
-        if ([trackingClickURLs count] > 0) {
-            [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
-        }
-        
-        [self invokeDidClickOffer];
-        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
-        
-        if (self.skAdModel) {
-            NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
-            
-            [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
-            
-            if ([productParams count] > 0) {
-                if (throughClickURL != nil) {
-                    [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [productParams removeObjectForKey:@"fidelity-type"];
-                    
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-                    skAdnetworkViewController.delegate = self;
-                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-                });
-            } else {
-                if (throughClickURL != nil) {
-                    BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
-                    if(!canOpenURL){
-                        throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
-                    }
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                        [self togglePlaybackStateOnSuccess: success];
-                    }];
-                }
-            }
-        } else {
-            if (throughClickURL != nil) {
-                BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
-                if(!canOpenURL){
-                    throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
-                }
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                    [self togglePlaybackStateOnSuccess: success];
-                }];
-            }
-        }
-    }
-}
-
-- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
-{
-    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
-        
-        if ([fidelitiesDataArray count] > 0) {
-            for (NSData *fidelity in fidelitiesDataArray) {
-                SKANObject skanObject;
-                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
-                
-                if (skanObject.fidelity == 1) {
-                    if (@available(iOS 11.3, *)) {
-                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
-                        
-                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
-                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
-                    }
-                    
-                    if (@available(iOS 13.0, *)) {
-                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                        
-                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
-                        
-                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
-                    }
-                    
-                    dictionary[@"fidelities"] = nil;
-                    
-                    break; // Currently we support only 1 fidelity for each kind
-                }
-            }
-        }
-    }
-    
-    return dictionary;
+- (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success {
+    [self togglePlaybackStateOnSuccess:success];
 }
 
 #pragma mark - TIMERS -

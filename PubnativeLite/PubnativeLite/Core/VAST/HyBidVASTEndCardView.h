@@ -28,10 +28,11 @@
 #import "HyBidAd.h"
 #import "HyBidVASTAd.h"
 
-@protocol HyBidVASTEndCardViewControllerDelegate<NSObject>
+@protocol HyBidVASTEndCardViewDelegate<NSObject>
 
-- (void)vastEndCardCloseButtonTapped;
-- (void)vastEndCardTapped;
+- (void)vastEndCardViewCloseButtonTapped;
+- (void)vastEndCardViewClicked;
+- (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success;
 
 @end
 
@@ -40,7 +41,7 @@
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewDelegate> *)delegate
               withViewController:(UIViewController*)viewController
                           withAd:(HyBidAd *)ad
                       withVASTAd:(HyBidVASTAd *)vastAd

@@ -50,7 +50,7 @@
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 
-@property (nonatomic, weak) NSObject<HyBidVASTEndCardViewControllerDelegate> *delegate;
+@property (nonatomic, weak) NSObject<HyBidVASTEndCardViewDelegate> *delegate;
 
 @property (nonatomic, strong) HyBidCloseButton *closeButton;
 
@@ -86,7 +86,7 @@
 
 @implementation HyBidVASTEndCardView
 
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewControllerDelegate> *)delegate
+- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewDelegate> *)delegate
               withViewController:(UIViewController *)viewController
                           withAd:(HyBidAd *)ad
                       withVASTAd:(HyBidVASTAd *)vastAd
@@ -292,7 +292,7 @@
 {
     [self.rootViewController dismissViewControllerAnimated:NO completion:^{
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
-        [self.delegate vastEndCardCloseButtonTapped];
+        [self.delegate vastEndCardViewCloseButtonTapped];
     }];
 }
 
@@ -517,19 +517,20 @@
 
 - (void)addTapRecognizerToView:(UIView *)view
 {
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(vastEndCardTapped)];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(vastEndCardViewClicked)];
     [tapRecognizer setNumberOfTapsRequired:1];
     [tapRecognizer setDelegate:self];
     
     [view addGestureRecognizer:tapRecognizer];
 }
 
-- (void)vastEndCardTapped
+- (void)vastEndCardViewClicked
 {
     if ([[self.endCard clickTrackings] count] > 0) {
         [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings]];
     }
-    [self.delegate vastEndCardTapped];
+    [self vastEndCardClickedWithType:[self.endCard type] withURL:nil];
+    [self.delegate vastEndCardViewClicked];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -624,11 +625,10 @@
     [self close];
 }
 
-- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
+- (void)vastEndCardClickedWithType:(HyBidVASTEndCardType)endCardType withURL:(NSString *)url {
     if (self.vastAd == nil) {
         return;
     }
-    
     NSArray<HyBidVASTCreative *> *creatives = [[self.vastAd inLine] creatives];
     NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
     
@@ -637,6 +637,11 @@
             [videoClicks addObject:[[creative linear] videoClicks]];
             break;
         }
+    }
+    
+    NSString *throughClickURL;
+    if ([[self.endCard clickThrough] length] > 0) {
+        throughClickURL = [self.endCard clickThrough];
     }
     
     NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
@@ -653,7 +658,7 @@
     
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
     
-    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
+    HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
@@ -661,7 +666,13 @@
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
-            [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
+            if(endCardType == HyBidEndCardType_STATIC) {
+                if (throughClickURL != nil) {
+                    [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
+                }
+            } else {
+                [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [productParams removeObjectForKey:@"fidelity-type"];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
@@ -669,11 +680,40 @@
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
             });
         } else {
-            [self.serviceProvider openBrowser:url.absoluteString];
+            if(endCardType == HyBidEndCardType_STATIC) {
+                if (throughClickURL != nil) {
+                    BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
+                    if(!canOpenURL){
+                        throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
+                    }
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
+                        [self.delegate vastEndCardViewRedirectedWithSuccess:success];
+                    }];
+                }
+            } else {
+                [self.serviceProvider openBrowser:url];
+            }
         }
     } else {
-        [self.serviceProvider openBrowser:url.absoluteString];
+        if(endCardType == HyBidEndCardType_STATIC) {
+            if (throughClickURL != nil) {
+                BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
+                if(!canOpenURL){
+                    throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
+                }
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
+                    [self.delegate vastEndCardViewRedirectedWithSuccess:success];
+                }];
+            }
+        } else {
+            [self.serviceProvider openBrowser:url];
+        }
     }
+}
+
+- (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
+    [self vastEndCardClickedWithType:[self.endCard type] withURL:url.absoluteString];
+    [self.delegate vastEndCardViewClicked];
 }
 
 - (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary

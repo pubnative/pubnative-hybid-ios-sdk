@@ -248,6 +248,9 @@ public class HyBidInterstitialAd: NSObject {
             self.initialRenderTimestamp = Date().timeIntervalSince1970
             let initialLoadTimestamp = (self.initialLoadTimestamp ?? 0.0)
             let adExpireTime = initialLoadTimestamp + TIME_TO_EXPIRE
+            if let zoneID = self.zoneID{
+                HyBidSessionManager.sharedInstance.sessionDuration(zoneID: zoneID)
+            }
             if initialLoadTimestamp < adExpireTime {
                 self.interstitialPresenter?.show(from: viewController)
             } else {
@@ -267,24 +270,24 @@ public class HyBidInterstitialAd: NSObject {
     
     func renderAd(ad: HyBidAd) {
         if let hasEndCard = self.ad?.hasEndCard, !hasEndCard, !(videoSkipOffset?.isCustom ?? false) {
-            self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
+            self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
         }
         let interstitalPresenterFactory = HyBidInterstitialPresenterFactory()
         let videoSkipOffset = self.videoSkipOffset?.offset?.intValue ?? 0
         let htmlSkipOffset = self.htmlSkipOffset?.offset?.intValue ?? 0
-        var defaultVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
-        let defaultHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+        var defaultVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
+        let defaultHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
 
         if videoSkipOffset >= 0 && htmlSkipOffset >= 0 {
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else if videoSkipOffset < 0 && htmlSkipOffset < 0 {
-            defaultVideoSkipOffset = (self.ad?.hasEndCard ?? false) && HyBidRenderingConfig.sharedConfig.showEndCard ? HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false) : HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
+            defaultVideoSkipOffset = (self.ad?.hasEndCard ?? false) && HyBidRenderingConfig.sharedConfig.showEndCard ? HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false) : HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
             HyBidRenderingConfig.sharedConfig.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultVideoSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else if htmlSkipOffset < 0 {
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else if videoSkipOffset < 0{
-            defaultVideoSkipOffset = (self.ad?.hasEndCard ?? false) && HyBidRenderingConfig.sharedConfig.showEndCard ? HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false) : HyBidSkipOffset(offset: NSNumber(value: DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
+            defaultVideoSkipOffset = (self.ad?.hasEndCard ?? false) && HyBidRenderingConfig.sharedConfig.showEndCard ? HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false) : HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
             HyBidRenderingConfig.sharedConfig.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultVideoSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         }

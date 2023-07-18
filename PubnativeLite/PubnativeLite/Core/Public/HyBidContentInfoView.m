@@ -187,10 +187,12 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
         [self addingConstraints];
     });
     
-    NSString *positionString = [NSString stringWithFormat:@"%@ %@",
-                                self.verticalPosition == HyBidContentInfoVerticalPositionTop ? @"top" : @"bottom",
-                                self.horizontalPosition == HyBidContentInfoHorizontalPositionLeft ? @"left" : @"right"];
+//    NSString *positionString = [NSString stringWithFormat:@"%@ %@",
+//                                self.verticalPosition == HyBidContentInfoVerticalPositionTop ? @"top" : @"bottom",
+//                                self.horizontalPosition == HyBidContentInfoHorizontalPositionLeft ? @"left" : @"right"];
 
+    // ContentInfo: Hardcoding Accessibility ID (xPosition to left and yPosition to bottom)
+    NSString* positionString = @"bottom left";
     [self.iconView setIsAccessibilityElement:YES];
     [self.iconView setAccessibilityLabel:[NSString stringWithFormat:@"contentInfoIconView - %@", positionString]];
     

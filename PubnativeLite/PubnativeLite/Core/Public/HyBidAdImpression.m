@@ -163,13 +163,13 @@ API_AVAILABLE(ios(14.5))
         if (@available(iOS 14.5, *)) {
             [SKAdNetwork startImpression:impression completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {
-                    NSLog(@"Error: %@", error.localizedDescription);
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error: %@",error.localizedDescription]];
                     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
                     [[HyBid reportingManager] reportEventFor:reportingEvent];
                     return;
                 }
                 
-                NSLog(@"Impression started successfully.");
+                [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression started successfully."];
                 [self addImpression:impression forAd:ad];
             }];
         } else {
@@ -187,12 +187,12 @@ API_AVAILABLE(ios(14.5))
         if (@available(iOS 14.5, *)) {
             [SKAdNetwork endImpression:impression completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {
-                    NSLog(@"Error: %@", error.localizedDescription);
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error: %@",error.localizedDescription]];
                     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
                     [[HyBid reportingManager] reportEventFor:reportingEvent];
                 }
                 
-                NSLog(@"Impression ended successfully.");
+                [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression ended successfully."];
                 [self removeImpressionForAd:ad];
             }];
         } else {

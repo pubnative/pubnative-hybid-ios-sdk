@@ -233,6 +233,9 @@ public class HyBidRewardedAd: NSObject {
             self.initialRenderTimestamp = Date().timeIntervalSince1970
             let initialLoadTimestamp = (self.initialLoadTimestamp ?? 0.0)
             let adExpireTime = initialLoadTimestamp + TIME_TO_EXPIRE
+            if let zoneID = self.zoneID {
+                HyBidSessionManager.sharedInstance.sessionDuration(zoneID: zoneID)
+            }
             if initialLoadTimestamp < adExpireTime {
                 self.rewardedPresenter?.show(from: viewController)
             } else {
@@ -254,7 +257,7 @@ public class HyBidRewardedAd: NSObject {
         if let skipOffset = self.htmlSkipOffset?.offset?.intValue, skipOffset >= 0 {
             self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         } else {
-            let skipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false);
+            let skipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false);
             self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         }
         
@@ -472,11 +475,12 @@ extension HyBidRewardedAd {
     }
     
     func rewardedPresenterDidDismiss(_ rewardedPresenter: HyBidRewardedPresenter!) {
+        self.invokeOnReward()
         self.invokeDidDismiss()
     }
     
     func rewardedPresenterDidFinish(_ rewardedPresenter: HyBidRewardedPresenter!) {
-        self.invokeOnReward()
+        
     }
 }
 

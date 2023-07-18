@@ -320,7 +320,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (void)determineNativeCloseButtonDelayForAd:(HyBidAd *)ad {
     if (ad.nativeCloseButtonDelay) {
-        if([ad.nativeCloseButtonDelay integerValue] >= 0){
+        if([ad.nativeCloseButtonDelay integerValue] >= 0 && [ad.nativeCloseButtonDelay integerValue] < HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET){
             self.nativeCloseButtonDelay = [[HyBidSkipOffset alloc] initWithOffset:ad.nativeCloseButtonDelay isCustom:YES];
         } else {
             self.nativeCloseButtonDelay = [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset;

@@ -121,7 +121,6 @@
         [self.mraidView stopAdSession];
     }
     [self.delegate rewardedPresenterDidDismiss:self];
-    // calling this delegate rewardedPresenterDidFinish to trigger onReward callback
     [self.delegate rewardedPresenterDidFinish:self];
 }
 

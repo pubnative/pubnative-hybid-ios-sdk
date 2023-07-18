@@ -153,9 +153,14 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     [self.vastModel addVASTString:vastData];
 
     // Check if VAST is comming with at least 1 no-ad response error
-    if([self.vastModel errors].count > 0){
-        self.vastModel = nil;
-        return HyBidVASTParserError_NoAdResponse;
+    if ([self.vastModel errors].count > 0) {
+        if(self.vastModel.ads.count > 0) {
+            self.vastModel = nil;
+            return HyBidVASTParserError_BothAdAndErrorPresentInRootResponse;
+        } else {
+            self.vastModel = nil;
+            return HyBidVASTParserError_NoAdResponse;
+        }
     }
     
     // Check to see whether this is a wrapper ad. If so, process it.
