@@ -68,6 +68,8 @@
 + (NSString *)sessionDuration;
 + (NSString *)impressionDepth;
 + (NSString *)ageOfApp;
++ (NSString *)accuracy;
++ (NSString *)utcoffset;
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion;

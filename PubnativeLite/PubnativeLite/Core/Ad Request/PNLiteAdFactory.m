@@ -137,9 +137,15 @@
             if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
                 NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
                 NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
-                
+                NSString* accuracy = [NSString stringWithFormat:@"%f", location.horizontalAccuracy];
+
                 self.adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
                 self.adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+                if (accuracy != nil && accuracy >= 0) {
+                    self.adRequestModel.requestParameters[HyBidRequestParameter.accuracy] = accuracy;
+                    self.adRequestModel.requestParameters[HyBidRequestParameter.utcoffset] = [self formatUTCTime];
+                }
+
             }
         }
     }
@@ -272,6 +278,19 @@
                               [HyBidAPI apiTypeToString:OMID_1],
                               nil];
     adRequestModel.requestParameters[HyBidRequestParameter.api] = [supportedAPIs componentsJoinedByString:@","];
+}
+
+- (NSString *)formatUTCTime {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    
+    NSDateComponents *components = [calendar components:NSCalendarUnitMinute | NSCalendarUnitHour fromDate:[NSDate date]];
+    
+    NSInteger minutes = [components minute];
+    NSInteger hours = [components hour];
+    
+    NSString *formattedTime = [NSString stringWithFormat:@"%02ld:%02ld", (long)hours, (long)minutes];
+    return formattedTime;
 }
 
 @end

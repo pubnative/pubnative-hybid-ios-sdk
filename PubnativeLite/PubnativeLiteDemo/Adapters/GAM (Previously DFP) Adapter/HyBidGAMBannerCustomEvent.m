@@ -98,4 +98,16 @@ typedef id<GADMediationBannerAdEventDelegate> _Nullable(^HyBidGADBannerCustomEve
     [self.delegate reportClick];
 }
 
+- (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
+    
+}
+
+- (void)adPresenterDidAppear:(HyBidAdPresenter *)adPresenter {
+    
+}
+
+- (void)adPresenterDidDisappear:(HyBidAdPresenter *)adPresenter {
+    
+}
+
 @end

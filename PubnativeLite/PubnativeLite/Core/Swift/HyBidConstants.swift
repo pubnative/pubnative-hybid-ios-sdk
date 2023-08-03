@@ -26,7 +26,7 @@ import Foundation
 public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
-    @objc public static let HYBID_SDK_VERSION = "2.20.0-beta1"
+    @objc public static let HYBID_SDK_VERSION = "2.20.0-beta2"
     @objc public static let HYBID_OMSDK_VERSION = "1.4.3"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
 

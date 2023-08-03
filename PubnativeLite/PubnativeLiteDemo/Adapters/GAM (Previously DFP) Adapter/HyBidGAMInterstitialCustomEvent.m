@@ -134,4 +134,12 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
     [self invokeFailWithMessage:error.localizedDescription];
 }
 
+- (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {
+    
+}
+
+- (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {
+    
+}
+
 @end

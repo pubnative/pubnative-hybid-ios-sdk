@@ -649,6 +649,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSetting
 
 SWIFT_CLASS("_TtC5HyBid15HyBidSkipOffset")
 @interface HyBidSkipOffset : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_VIDEO_SKIP_OFFSET;)
++ (NSInteger)DEFAULT_VIDEO_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_HTML_SKIP_OFFSET;)
++ (NSInteger)DEFAULT_HTML_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD;)
++ (NSInteger)DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_END_CARD_CLOSE_OFFSET;)
++ (NSInteger)DEFAULT_END_CARD_CLOSE_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_REWARDED_VIDEO_SKIP_OFFSET;)
++ (NSInteger)DEFAULT_REWARDED_VIDEO_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET;)
++ (NSInteger)DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, strong) NSNumber * _Nullable offset;
 @property (nonatomic) BOOL isCustom;
 @property (nonatomic, strong) NSNumber * _Nonnull style;

@@ -68,6 +68,8 @@
 + (NSString *)sessionDuration               { return @"sessionduration"; }
 + (NSString *)impressionDepth               { return @"impdepth"; }
 + (NSString *)ageOfApp                      { return @"ageofapp"; }
++ (NSString *)accuracy                      { return @"accuracy"; }
++ (NSString *)utcoffset                     { return @"utcoffset"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion            { return @"skadn_version"; }
