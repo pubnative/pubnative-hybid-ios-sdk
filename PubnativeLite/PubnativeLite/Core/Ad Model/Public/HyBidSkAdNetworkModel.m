@@ -21,6 +21,7 @@
 //
 
 #import "HyBidSkAdNetworkModel.h"
+#import "HyBidSKAdNetworkParameter.h"
 #import <StoreKit/SKAdNetwork.h>
 #import <StoreKit/SKStoreProductViewController.h>
 
@@ -40,17 +41,6 @@ NSString * const REQUEST_SKADNETWORK_V2_2 = @"2.2";
 NSString * const REQUEST_SKADNETWORK_V3 = @"3.0";
 NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
 
-NSString * const RESPONSE_AD_NETWORK_ID_KEY = @"network";
-NSString * const RESPONSE_SOURCE_APP_ID_KEY = @"sourceapp";
-NSString * const RESPONSE_SKADNETWORK_VERSION_KEY = @"version";
-NSString * const RESPONSE_TARGET_APP_ID_KEY = @"itunesitem";
-NSString * const RESPONSE_SIGNATURE_KEY = @"signature";
-NSString * const RESPONSE_CAMPAIGN_ID_KEY = @"campaign";
-NSString * const RESPONSE_TIMESTAMP_KEY = @"timestamp";
-NSString * const RESPONSE_NONCE_KEY = @"nonce";
-NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
-NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
-
 - (instancetype)initWithParameters:(NSDictionary *)productParams {
     self = [super init];
     if (self) {
@@ -59,12 +49,12 @@ NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
     return self;
 }
 
-- (NSDictionary *) getStoreKitParameters {
+- (NSDictionary *)getStoreKitParameters {
     NSMutableDictionary* storeKitParameters = [[NSMutableDictionary alloc] init];
     
     if ([self areProductParametersValid:self.productParameters]) {
         
-        NSString* skAdNetworkVersion = [self.productParameters objectForKey:RESPONSE_SKADNETWORK_VERSION_KEY];
+        NSString* skAdNetworkVersion = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.version];
         
         BOOL isSkAdNetworkHigher_v2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
         
@@ -74,41 +64,72 @@ NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
         
         // SkAdNetwork v1.0 and later
         if (@available(iOS 11.3, *)) {
-            if ([self.productParameters objectForKey:RESPONSE_AD_NETWORK_ID_KEY] != nil) {
-                [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_AD_NETWORK_ID_KEY] forKey:SKStoreProductParameterAdNetworkIdentifier];
+            if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.network] != nil) {
+                [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.network] forKey:SKStoreProductParameterAdNetworkIdentifier];
             }
             
             // SkAdNetwork v4.0
             if (isSkAdNetworkHigher_v4_0) {
                 if (@available(iOS 16.1, *)) {
-                    if ([self.productParameters objectForKey:RESPONSE_SIGNATURE_KEY] != nil) {
-                        [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_SOURCE_IDENTIFIER_KEY] forKey:RESPONSE_SOURCE_IDENTIFIER_KEY];
+                    if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.signature] != nil) {
+                        [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier] forKey:HyBidSKAdNetworkParameter.sourceIdentifier];
                     }
                 }
             } else {
-                NSNumber *campaign = [self getNSNumberFromString:[self.productParameters objectForKey:RESPONSE_CAMPAIGN_ID_KEY]];
+                NSNumber *campaign = [self getNSNumberFromString:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.campaign]];
                 if (campaign != nil) {
                     [storeKitParameters setObject:campaign forKey:SKStoreProductParameterAdNetworkCampaignIdentifier];
                 }
             }
             
             if (![[HyBidSettings sharedInstance] supportMultipleFidelities]) {
-                NSNumber *timestamp = [self getNSNumberFromString:[self.productParameters objectForKey:RESPONSE_TIMESTAMP_KEY]];
+                NSNumber *timestamp = [self getNSNumberFromString:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.timestamp]];
                 if (timestamp != nil) {
                     [storeKitParameters setObject:timestamp forKey:SKStoreProductParameterAdNetworkTimestamp];
                 }
                 
-                if ([[NSUUID alloc] initWithUUIDString:[self.productParameters objectForKey:RESPONSE_NONCE_KEY]] != nil) {
-                    [storeKitParameters setObject:[[NSUUID alloc] initWithUUIDString:[self.productParameters objectForKey:RESPONSE_NONCE_KEY]] forKey:SKStoreProductParameterAdNetworkNonce];
+                if ([[NSUUID alloc] initWithUUIDString:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.nonce]] != nil) {
+                    [storeKitParameters setObject:[[NSUUID alloc] initWithUUIDString:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.nonce]] forKey:SKStoreProductParameterAdNetworkNonce];
                 }
             }
         } else {
             // Fallback on earlier versions
         }
-        
-        NSNumber *itunesItem = [self getNSNumberFromString:[self.productParameters objectForKey:RESPONSE_TARGET_APP_ID_KEY]];
+        if ([[self.productParameters objectForKey:HyBidSKAdNetworkParameter.itunesitem] isKindOfClass:[NSString class]]) {
+        NSNumber *itunesItem = [self getNSNumberFromString:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.itunesitem]];
         if (itunesItem != nil) {
             [storeKitParameters setObject:itunesItem forKey:SKStoreProductParameterITunesItemIdentifier];
+            }
+        }
+        
+        NSNumber *present = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.present];
+        if (present != nil) {
+            [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.present] forKey:HyBidSKAdNetworkParameter.present];
+        }
+        
+        NSNumber *position = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.position];
+        if (position != nil) {
+            [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.position] forKey:HyBidSKAdNetworkParameter.position];
+        }
+        
+        NSNumber *dismissible = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible];
+        if (dismissible != nil) {
+            [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] forKey:HyBidSKAdNetworkParameter.dismissible];
+        }
+        
+        NSNumber *delay = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.delay];
+        if (delay != nil) {
+            [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.delay] forKey:HyBidSKAdNetworkParameter.delay];
+        }
+        
+        NSNumber *endcardDelay = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay];
+        if (endcardDelay != nil) {
+            [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] forKey:HyBidSKAdNetworkParameter.endcardDelay];
+        }
+        
+        NSNumber *autoClose = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.autoClose];
+        if (autoClose != nil) {
+            [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.autoClose] forKey:HyBidSKAdNetworkParameter.autoClose];
         }
                
         // SkAdNetwork v2.0 and later
@@ -119,7 +140,7 @@ NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
                     [storeKitParameters setObject:skAdNetworkVersion forKey:SKStoreProductParameterAdNetworkVersion];
                 }
                 
-                NSString *sourceAppString = [self.productParameters objectForKey:RESPONSE_SOURCE_APP_ID_KEY];
+                NSString *sourceAppString = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceapp];
                 
                 if (sourceAppString != nil) {
                     NSNumber *sourceAppID = [self getNSNumberFromString:sourceAppString] != nil
@@ -131,19 +152,19 @@ NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
             }
             
             if (![[HyBidSettings sharedInstance] supportMultipleFidelities]) {
-                if ([self.productParameters objectForKey:RESPONSE_SIGNATURE_KEY] != nil) {
-                    [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_SIGNATURE_KEY] forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.signature] != nil) {
+                    [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.signature] forKey:SKStoreProductParameterAdNetworkAttributionSignature];
                 }
             }
             
             if (isSkAdNetworkHigher_v2_2) {
                 if (![[HyBidSettings sharedInstance] supportMultipleFidelities]) {
-                    if ([self.productParameters objectForKey:RESPONSE_FIDELITY_TYPE_KEY] != nil) {
-                        [storeKitParameters setObject:[self.productParameters objectForKey:RESPONSE_FIDELITY_TYPE_KEY] forKey:RESPONSE_FIDELITY_TYPE_KEY];
+                    if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.fidelityType] != nil) {
+                        [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.fidelityType] forKey:HyBidSKAdNetworkParameter.fidelityType];
                     }
                 } else {
-                    if (self.productParameters[@"fidelities"] != nil) {
-                        [storeKitParameters setObject:self.productParameters[@"fidelities"] forKey:@"fidelities"];
+                    if (self.productParameters[HyBidSKAdNetworkParameter.fidelities] != nil) {
+                        [storeKitParameters setObject:self.productParameters[HyBidSKAdNetworkParameter.fidelities] forKey:HyBidSKAdNetworkParameter.fidelities];
                     }
                 }
             }
@@ -167,7 +188,7 @@ NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
     HyBidSettings *sharedSettings = [HyBidSettings sharedInstance];
     BOOL supportsMultipleFidelities = [sharedSettings supportMultipleFidelities];
     
-    NSString* skAdNetworkVersion = dict[RESPONSE_SKADNETWORK_VERSION_KEY];
+    NSString* skAdNetworkVersion = dict[HyBidSKAdNetworkParameter.version];
     BOOL isSkAdNetwork_v2_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2];
     BOOL isSkAdNetwork_v2_2_or_v3_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
     BOOL isSkAdNetwork_v4_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V4];
@@ -200,38 +221,42 @@ NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
 - (BOOL)checkBasicParameters:(NSDictionary *)dict supportMultipleFidelities:(BOOL)supportsMultipleFidelities {
     BOOL isValid = NO;
     
-    NSString *campaignID = [NSString stringWithFormat:@"%@", dict[RESPONSE_CAMPAIGN_ID_KEY]];
-    NSString *timestamp = [NSString stringWithFormat:@"%@", dict[RESPONSE_TIMESTAMP_KEY]];
-    NSString *nonce = [NSString stringWithFormat:@"%@", dict[RESPONSE_NONCE_KEY]];
+    NSString *campaignID = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.campaign]];
+    NSString *timestamp = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.timestamp]];
+    NSString *nonce = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.nonce]];
+    NSString *itunesitem;
+    if([dict[HyBidSKAdNetworkParameter.itunesitem] isKindOfClass:[NSString class]]) {
+        itunesitem = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.itunesitem]];
+    }
     
     if (supportsMultipleFidelities) {
-        isValid = dict[RESPONSE_TARGET_APP_ID_KEY] != nil && [dict[RESPONSE_TARGET_APP_ID_KEY] length] > 0 &&
-                  dict[RESPONSE_AD_NETWORK_ID_KEY] && [dict[RESPONSE_AD_NETWORK_ID_KEY] length] > 0 &&
-                  dict[RESPONSE_CAMPAIGN_ID_KEY] && [campaignID length] > 0;
+        isValid = itunesitem != nil && [itunesitem length] > 0 &&
+                  dict[HyBidSKAdNetworkParameter.network] && [dict[HyBidSKAdNetworkParameter.network] length] > 0 &&
+                  dict[HyBidSKAdNetworkParameter.campaign] && [campaignID length] > 0;
     } else {
-        isValid = dict[RESPONSE_SIGNATURE_KEY] != nil && [dict[RESPONSE_SIGNATURE_KEY] length] > 0 &&
-                  dict[RESPONSE_TARGET_APP_ID_KEY] != nil && [dict[RESPONSE_TARGET_APP_ID_KEY] length] > 0 &&
-                  dict[RESPONSE_AD_NETWORK_ID_KEY] && [dict[RESPONSE_AD_NETWORK_ID_KEY] length] > 0 &&
-                  dict[RESPONSE_CAMPAIGN_ID_KEY] && [campaignID length] > 0 &&
-                  dict[RESPONSE_TIMESTAMP_KEY] && [timestamp length] > 0 &&
-                  dict[RESPONSE_NONCE_KEY] && [nonce length] > 0;
+        isValid = dict[HyBidSKAdNetworkParameter.signature] != nil && [dict[HyBidSKAdNetworkParameter.signature] length] > 0 &&
+                  itunesitem != nil && [itunesitem length] > 0 &&
+                  dict[HyBidSKAdNetworkParameter.network] && [dict[HyBidSKAdNetworkParameter.network] length] > 0 &&
+                  dict[HyBidSKAdNetworkParameter.campaign] && [campaignID length] > 0 &&
+                  dict[HyBidSKAdNetworkParameter.timestamp] && [timestamp length] > 0 &&
+                  dict[HyBidSKAdNetworkParameter.nonce] && [nonce length] > 0;
     }
     
     return isValid;
 }
 
 - (BOOL)checkV2Parameters:(NSDictionary *)dict {
-    NSString *appStoreID = [NSString stringWithFormat:@"%@", dict[RESPONSE_SOURCE_APP_ID_KEY]];
+    NSString *appStoreID = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.sourceapp]];
     
-    return dict[RESPONSE_SKADNETWORK_VERSION_KEY] && [dict[RESPONSE_SKADNETWORK_VERSION_KEY] length] > 0 &&
-           dict[RESPONSE_SOURCE_APP_ID_KEY] && [appStoreID length] > 0;
+    return dict[HyBidSKAdNetworkParameter.version] && [dict[HyBidSKAdNetworkParameter.version] length] > 0 &&
+           dict[HyBidSKAdNetworkParameter.sourceapp] && [appStoreID length] > 0;
 }
 
 - (BOOL)checkV2_2_Parameters:(NSDictionary *)dict supportMultipleFidelities:(BOOL)supportsMultipleFidelities {
     BOOL isValid = NO;
     
     if (supportsMultipleFidelities) {
-        NSArray<NSData *> *fidelitiesData = dict[@"fidelities"];
+        NSArray<NSData *> *fidelitiesData = dict[HyBidSKAdNetworkParameter.fidelities];
         isValid = [fidelitiesData count] > 0;
         
         for (NSData *data in fidelitiesData) {
@@ -245,14 +270,14 @@ NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
             break; // Checking only for the first item is enough
         }
     } else {
-        isValid = dict[RESPONSE_FIDELITY_TYPE_KEY] != nil && [[NSString stringWithFormat:@"%@", dict[RESPONSE_FIDELITY_TYPE_KEY]] length] > 0;
+        isValid = dict[HyBidSKAdNetworkParameter.fidelityType] != nil && [[NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.fidelityType]] length] > 0;
     }
     
     return isValid;
 }
 
 - (BOOL)checkV4_0_Parameters:(NSDictionary *)dict {
-    return dict[RESPONSE_SOURCE_IDENTIFIER_KEY] != nil;
+    return dict[HyBidSKAdNetworkParameter.sourceIdentifier] != nil;
 }
 
 - (BOOL)isSKAdNetworkIDVisible:(NSDictionary*) productParams{

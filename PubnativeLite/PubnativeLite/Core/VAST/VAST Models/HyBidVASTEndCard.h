@@ -41,4 +41,6 @@ typedef enum {
 
 @property (nonatomic, strong) HyBidVASTTrackingEvents *events;
 
+@property (nonatomic, assign) BOOL isCustomEndCard;
+
 @end

@@ -26,7 +26,7 @@
 
 #define kCloseButtonSize 30
 #define kSkipButtonSize 30
-#define kClickableAreaSize 50
+#define kClickableAreaSize 30
 
 #define HYBID_MRAID_CLOSE_BUTTON_TAG 1001
 
@@ -49,7 +49,7 @@
 
 - (id)initWithSkipOffset:(NSInteger)skipOffset
       withCountdownStyle:(HyBidCountdownStyle)countdownStyle
-      withContentInfoPositionTopRight:(BOOL)isContentInfoInTopRightPosition
+      withContentInfoPositionTopLeft:(BOOL)isContentInfoInTopLeftPosition
       withShouldShowSkipButton:(BOOL)shouldShowSkipButton
 {
     if (self) {
@@ -57,7 +57,7 @@
         //set default value to get the old behaviour
         self.countdownStyle = HyBidCountdownPieChart;
         self.skipTimeRemaining = skipOffset;
-        self.isContentInfoInTopRightPosition = isContentInfoInTopRightPosition;
+        self.isContentInfoInTopLeftPosition = isContentInfoInTopLeftPosition;
         self.shouldShowSkipButton = shouldShowSkipButton;
         CGSize screenSize;
         CGFloat width;
@@ -75,10 +75,9 @@
                     ? window.safeAreaInsets.bottom
                     : (self.padding * 2);
                     
-                    self = [super initWithFrame:CGRectMake(screenSize.width - width, safeAreaPadding - height - self.padding, width, height)];
+                    self = [super initWithFrame:CGRectMake(0, safeAreaPadding - height - self.padding, width, height)];
                 } else {
-                    // Fallback on earlier versions
-                    self = [super initWithFrame:CGRectMake(screenSize.width - width, height - (self.padding * 2), width, height)];
+                    self = [super initWithFrame:CGRectMake(0, height - (self.padding * 2), width, height)];
                 }
                 break;
             }
@@ -426,7 +425,7 @@
     
     HyBidSkipOverlay* skipOverlayView = self;
     if(!skipOverlayView){
-        skipOverlayView = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: self.countdownStyle withContentInfoPositionTopRight:self.isContentInfoInTopRightPosition withShouldShowSkipButton:self.shouldShowSkipButton];
+        skipOverlayView = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle: self.countdownStyle withContentInfoPositionTopLeft:self.isContentInfoInTopLeftPosition withShouldShowSkipButton:self.shouldShowSkipButton];
     }
     
     skipOverlayView.delegate = delegate;
@@ -461,17 +460,27 @@
 - (NSArray<NSLayoutConstraint *> *)getSkipOverlayTopPositionConstraintsIn:(UIView*)adView
 {
 
-    if(self.isContentInfoInTopRightPosition){
-            if (@available(iOS 11.0, *)) {
-                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
-            } else {
-                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
-            }
+    if(self.isContentInfoInTopLeftPosition){
+        if (@available(iOS 11.0, *)) {
+            return @[
+                [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            ];
+        } else {
+            return @[
+                [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            ];
+        }
     } else {
             if (@available(iOS 11.0, *)) {
-                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+                return @[
+                    [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
+                ];
             } else {
-                return @[[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+                return @[
+                    [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:adView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
+                ];
             }
     }
 }

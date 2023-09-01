@@ -120,7 +120,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
         [self.vastArray addObject:vastData];
     }
 
-    if (depth >= HyBidVASTModel_MaxRecursiveDepth) {
+    if (depth > HyBidVASTModel_MaxRecursiveDepth) {
         self.vastModel = nil;
         return HyBidVASTParserError_TooManyWrappers;
     }

@@ -90,7 +90,7 @@
 }
 
 - (NSString *)deviceInfo {
-    return [NSString stringWithFormat:@"%@ iOS %@", [HyBidSettings sharedInstance].deviceName, [HyBidSettings sharedInstance].osVersion];
+    return [NSString stringWithFormat:@"%@ iOS %@", [HyBidSettings sharedInstance].deviceModel, [HyBidSettings sharedInstance].osVersion];
 }
 
 - (NSString *)sdkVersion {

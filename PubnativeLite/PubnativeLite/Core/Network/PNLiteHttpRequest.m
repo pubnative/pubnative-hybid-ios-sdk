@@ -28,6 +28,7 @@
 #import "HyBidSkAdNetworkRequestModel.h"
 #import "HyBid.h"
 #import "HyBidError.h"
+#import "HyBidSKAdNetworkParameter.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -170,9 +171,9 @@ NSInteger const MAX_RETRIES = 1;
     }
     NSDictionary *extDict = @{
         @"ext": @{
-                @"skadn": @{
-                        @"sourceapp": appID,
-                        @"version": [model getSkAdNetworkVersion],
+                HyBidSKAdNetworkParameter.skadn: @{
+                    HyBidSKAdNetworkParameter.sourceapp: appID,
+                    HyBidSKAdNetworkParameter.version: [model getSkAdNetworkVersion],
                         @"skadnetids": [model getSkAdNetworkAdNetworkIDsArray]
                 }
         }

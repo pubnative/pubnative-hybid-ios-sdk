@@ -30,6 +30,7 @@ public class HyBidSkipOffset: NSObject {
     @objc public static let DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD = 15
     @objc public static let DEFAULT_END_CARD_CLOSE_OFFSET = 3
     @objc public static let DEFAULT_REWARDED_VIDEO_SKIP_OFFSET = 30
+    @objc public static let DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET = 30
     @objc public static let DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET = 15
 
     @objc public var offset: NSNumber?

@@ -28,7 +28,7 @@
 @property (nonatomic, strong) NSDictionary *productParameters;
 
 - (instancetype)initWithParameters:(NSDictionary *)productParams;
-- (NSDictionary *) getStoreKitParameters;
+- (NSDictionary *)getStoreKitParameters;
 - (BOOL)isSKAdNetworkIDVisible:(NSDictionary*) productParams;
 
 - (BOOL)areProductParametersValid:(NSDictionary *)dict;

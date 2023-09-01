@@ -132,6 +132,9 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                         case 6: // Show EndCard
                             [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].showEndCard];
                             break;
+                        case 7: // Custom EndCard
+                            [cell.toggleSwitch setOn:[HyBidRenderingConfig sharedConfig].customEndCard];
+                            break;
                     }
                     break;
                 }
@@ -228,6 +231,17 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             switch (indexPath.section) {
+                case 0: {
+                    switch (indexPath.row) {
+                        case 8: { // Custom EndCard Display Behaviour
+                            [cell.segmentedControl setTitle:@"Extention" forSegmentAtIndex:0];
+                            [cell.segmentedControl setTitle:@"Fallback" forSegmentAtIndex:1];
+                            cell.segmentedControl.selectedSegmentIndex = ([HyBidRenderingConfig sharedConfig].customEndcardDisplay) == HyBidCustomEndcardDisplayExtention ? 0 : 1;
+                            break;
+                        }
+                    }
+                    break;
+                }
                 case 1: {
                     switch (indexPath.row) {
                         case 4: { // countdown style
@@ -294,7 +308,9 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 @{ @"Location Updates Enabled":             @(SWITCH) },
                 @{ @"EndCard Close Offset":                 @(TEXT_FIELD) },
                 @{ @"Native Close Button Offset":           @(TEXT_FIELD) },
-                @{ @"Show EndCard":                         @(SWITCH) }
+                @{ @"Show EndCard":                         @(SWITCH) },
+                @{ @"Custom EndCard":                       @(SWITCH) },
+                @{ @"Custom EndCard Behaviour":             @(SEGMENTED_CONTROL) }
             ]},
         @1 :
             @{@"Interstitial": @[
@@ -344,6 +360,10 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
                 }
                 case 6: { // Show EndCard
                     [HyBidRenderingConfig sharedConfig].showEndCard = isON;
+                    break;
+                }
+                case 7: { // Custom EndCard
+                    [HyBidRenderingConfig sharedConfig].customEndCard = isON;
                     break;
                 }
             }
@@ -431,6 +451,16 @@ typedef NS_ENUM(NSUInteger, HyBidAdSettingsCellType) {
 
 - (void)segmentedControlValueChangedAtIndexPath:(NSIndexPath *)indexPath withIndexValue:(NSInteger)value {
     switch (indexPath.section) {
+        case 0: {
+            switch(indexPath.row){
+                case 8: { // Custom Endcard Display Behaviour;
+                    HyBidCustomEndcardDisplayBehaviour behaviour = value == 0 ? HyBidCustomEndcardDisplayExtention : HyBidCustomEndcardDisplayFallback;
+                    [HyBidRenderingConfig sharedConfig].customEndcardDisplay = behaviour;
+                    break;
+                }
+            }
+            break;
+        }
         case 1: {
             switch(indexPath.row){
                 case 4: { // countdown style;

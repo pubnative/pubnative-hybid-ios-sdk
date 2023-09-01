@@ -47,7 +47,11 @@
 
 #import "HyBidSkipOverlay.h"
 #import "HyBidTimerState.h"
-#define kCloseButtonSize 50
+#import <StoreKit/StoreKit.h>
+#import "UIApplication+PNLiteTopViewController.h"
+
+#define kCloseButtonSize 30
+
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 //Viewbility Timeinterval Freqeuncy
@@ -66,7 +70,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate>
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, SKStoreProductViewControllerDelegate, HyBidURLRedirectorDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -115,8 +119,12 @@ typedef enum {
     CGSize previousScreenSize;
     
     UITapGestureRecognizer *tapGestureRecognizer;
-    BOOL bonafideTapObserved;
-    
+    BOOL bonafideTapObserved; //supressing redirect from banners
+    BOOL tapObserved; // observing taps on MRAID (specifically for taps on endcard)
+    BOOL isStoreViewControllerPresented;
+    BOOL isStoreViewControllerBeingPresented;
+    BOOL startedFromTap;
+
     CGFloat adWidth;
     CGFloat adHeight;
     
@@ -162,6 +170,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
 @property (nonatomic, assign) BOOL willShowFeedbackScreen;
 @property (nonatomic, strong) HyBidSkipOffset *nativeCloseButtonDelay;
+@property (nonatomic, assign) BOOL creativeAutoStorekitEnabled;
 
 @end
 
@@ -235,6 +244,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     if (self) {
         [self setUpTapGestureRecognizer];
         [self determineNativeCloseButtonDelayForAd:ad];
+        [self determineCreativeAutoStorekitEnabledForAd:ad];
         isInterstitial = isInter;
         isScrollable = canScroll;
         adWidth = frame.size.width;
@@ -246,6 +256,9 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         state = PNLiteMRAIDStateLoading;
         _isViewable = NO;
         useCustomClose = NO;
+        tapObserved = NO;
+        isStoreViewControllerPresented = NO;
+        isStoreViewControllerBeingPresented = NO;
         _skipOffset = skipOffset;
 
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
@@ -317,6 +330,11 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     return self;
 }
 
+- (UIEdgeInsets)safeAreaInsets {
+    UIEdgeInsets safeArea = [super safeAreaInsets];
+    safeArea.bottom = 0;
+    return safeArea;
+}
 
 - (void)determineNativeCloseButtonDelayForAd:(HyBidAd *)ad {
     if (ad.nativeCloseButtonDelay) {
@@ -329,6 +347,15 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         self.nativeCloseButtonDelay = [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset;
     }
 }
+
+- (void)determineCreativeAutoStorekitEnabledForAd:(HyBidAd *)ad {
+    if ([ad.creativeAutoStorekitEnabled boolValue]) {
+        self.creativeAutoStorekitEnabled = YES;
+    } else {
+        self.creativeAutoStorekitEnabled = [HyBidRenderingConfig sharedConfig].creativeAutoStorekitEnabled;
+    }
+}
+
 
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -422,7 +449,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if(httpResponse.statusCode == 200) {
             NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            if([dataString containsString: @"<!doctype html>"] || [dataString containsString: @"<!DOCTYPE html>"]){
+            if([httpResponse.MIMEType isEqual: @"text/html"]){
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     if (handler)
                         handler(dataString, error);
@@ -908,7 +935,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (void)addSkipOverlay
 {
-    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopRight:[self isContentInfoInTopRightPosition] withShouldShowSkipButton:false];
+    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition] withShouldShowSkipButton:false];
     [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self withIsMRAID:YES];
 }
 
@@ -929,8 +956,26 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         return;  // ignore programmatic touches (taps)
     }
     
+    if (!self.creativeAutoStorekitEnabled && !startedFromTap) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to auto click while feature is disabled"];
+        return;
+    }
+    
     urlString = [urlString stringByRemovingPercentEncoding];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
+    
+    // Avoid opening multiple Store ViewControllers
+    if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
+        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to manual/auto click when task is not finished yet"];
+        return;
+    }
+    
+    if(tapObserved) {
+        HyBidURLRedirector *redirector = [[HyBidURLRedirector alloc] init];
+        redirector.delegate = self;
+        [redirector drillWithUrl:urlString];
+        return;
+    }
     
     if([urlString containsString:@"sms"]){
         if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceSendSMSWithUrlString:)]) {
@@ -940,11 +985,13 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceCallNumberWithUrlString:)]) {
             [self.serviceDelegate mraidServiceCallNumberWithUrlString:urlString];
         }
-    } else {
-        if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
-            [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
-        }
+    } else if ([[urlString lowercaseString] containsString:@"apps.apple.com"]) {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"Trying to present StoreViewController with url: %@", urlString]];
+        [self openAppStoreWithAppID:urlString];
+    } else if (tapObserved) {
+        [self openBrowserWithURLString:urlString];
     }
+    startedFromTap = NO;
 }
 
 - (void)playVideo:(NSString *)urlString {
@@ -1133,22 +1180,16 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     }
 }
 
-- (BOOL)isContentInfoInTopRightPosition {
-    BOOL isRightPosition = contentInfoView.horizontalPosition == HyBidContentInfoHorizontalPositionRight ? YES : NO;
+- (BOOL)isContentInfoInTopLeftPosition {
+    BOOL isLeftPosition = contentInfoView.horizontalPosition == HyBidContentInfoHorizontalPositionLeft ? YES : NO;
     BOOL isTopPosition = contentInfoView.verticalPosition == HyBidContentInfoVerticalPositionTop ? YES : NO;
     
-    return isRightPosition && isTopPosition ? YES : NO;
+    return isLeftPosition && isTopPosition ? YES : NO;
 }
 
 - (void)setCloseButtonPosition:(UIView *) closeButtonView {
     
-    BOOL isCloseViewShown = NO;
-    for (UIView *view in modalVC.view.subviews) {
-        if([view isEqual: closeButtonView]){
-            isCloseViewShown = YES;
-            break;
-        }
-    }
+    BOOL isCloseViewShown = [modalVC.view.subviews containsObject:closeButtonView];
     
     if(!isCloseViewShown){ return; }
     
@@ -1167,20 +1208,29 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                                                          [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize],
                                                          [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kCloseButtonSize], nil];
     
-    if([self isContentInfoInTopRightPosition]){
+    if([self isContentInfoInTopLeftPosition]){
         if (modalVC != nil) {
             if (@available(iOS 11.0, *)) {
-                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]]];
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+                ]];
             } else {
-                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]]];
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]]];
             }
         }
     } else {
         if (modalVC != nil) {
             if (@available(iOS 11.0, *)) {
-                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]]];
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
+                ]];
             } else {
-                [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]]];
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
+                ]];
             }
         }
     }
@@ -1787,8 +1837,8 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
 - (void)oneFingerOneTap {
     bonafideTapObserved=YES;
-    tapGestureRecognizer.delegate=nil;
-    tapGestureRecognizer=nil;
+    tapObserved = YES;
+    startedFromTap = YES;
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"tapGesture oneFingerTap observed"];
 }
 
@@ -1820,7 +1870,96 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
         // Runs only once when MRAID is loaded
         [weakSelf fireExposureChange];
     }
+    
+}
 
+#pragma mark Handling Auto/Manual taps
+
+- (void)openBrowserWithURLString:(NSString *)urlString {
+    if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
+        [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
+    }
+}
+
+- (void)doTrackingEndcardWithUrlString:(NSString *)urlString {
+    if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceTrackingEndcardWithUrlString:)]) {
+        [self.serviceDelegate mraidServiceTrackingEndcardWithUrlString:urlString];
+    }
+}
+
+- (void)openAppStoreWithAppID:(NSString *)urlString {
+    if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
+        return; // Return early if the Store VC is already being presented
+    }
+    
+    isStoreViewControllerBeingPresented = YES;
+    
+    SKStoreProductViewController *storeViewController = [[SKStoreProductViewController alloc] init];
+    storeViewController.delegate = self;
+    
+    NSString* appID = [self extractAppIDFromAppStoreURL:urlString];
+    
+    if (appID) {
+        NSDictionary *parameters = @{SKStoreProductParameterITunesItemIdentifier: appID};
+        [storeViewController loadProductWithParameters:parameters completionBlock:^(BOOL result, NSError *error) {
+            if (result) {
+                [self doTrackingEndcardWithUrlString:urlString];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication].topViewController presentViewController:storeViewController animated:YES completion:nil];
+                    isStoreViewControllerPresented = YES;
+                });
+            } else {
+                [self openBrowserWithURLString:urlString];
+            }
+            isStoreViewControllerBeingPresented = NO;
+        }];
+    } else {
+        [self openBrowserWithURLString:urlString];
+        isStoreViewControllerBeingPresented = NO;
+    }
+}
+
+- (NSString *)extractAppIDFromAppStoreURL:(NSString *)urlString {
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\/id(\\d+)" options:0 error:&error];
+    
+    if (!error) {
+        NSTextCheckingResult *result = [regex firstMatchInString:urlString options:0 range:NSMakeRange(0, urlString.length)];
+        if (result && result.range.location != NSNotFound) {
+            NSRange idRange = [result rangeAtIndex:1];
+            NSString *appID = [urlString substringWithRange:idRange];
+            return appID;
+        }
+    }
+    
+    return nil;
+}
+
+#pragma mark HyBidURLRedirectorDelegate
+
+- (void)onURLRedirectorFailWithUrl:(NSString * _Nonnull)url withError:(NSError * _Nonnull)error {
+    tapObserved = NO;
+    startedFromTap = NO;
+}
+
+- (void)onURLRedirectorFinishWithUrl:(NSString * _Nonnull)url {
+    tapObserved = NO;
+    [self open:url];
+}
+
+- (void)onURLRedirectorRedirectWithUrl:(NSString * _Nonnull)url {
+    
+}
+
+- (void)onURLRedirectorStartWithUrl:(NSString * _Nonnull)url {
+    
+}
+
+#pragma mark SKStoreProductViewControllerDelegate
+
+// Delegate method when Store VC is dismissed
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    isStoreViewControllerPresented = NO;
 }
 
 @end

@@ -22,6 +22,7 @@
 
 #import "HyBidAdImpression.h"
 #import "HyBid.h"
+#import "HyBidSKAdNetworkParameter.h"
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
 #else
@@ -75,42 +76,45 @@ API_AVAILABLE(ios(14.5))
 - (SKAdImpression *)generateSkAdImpressionFrom:(HyBidSkAdNetworkModel *)model
 API_AVAILABLE(ios(14.5)){
     
-    double skanVersion = [[model productParameters][@"version"] doubleValue];
+    double skanVersion = [[model productParameters][HyBidSKAdNetworkParameter.version] doubleValue];
 
     if (@available(iOS 14.5, *)) {
         SKAdImpression *impression = [[SKAdImpression alloc] init];
         
-        if (model.productParameters[@"network"] != nil) {
-            [impression setAdNetworkIdentifier:model.productParameters[@"network"]];
+        if (model.productParameters[HyBidSKAdNetworkParameter.network] != nil) {
+            [impression setAdNetworkIdentifier:model.productParameters[HyBidSKAdNetworkParameter.network]];
         }
-        if (model.productParameters[@"sourceapp"] != nil) {
-            NSNumber *sourceApp = [self getNSNumberFromString:model.productParameters[@"sourceapp"]] != nil
-            ? [self getNSNumberFromString:model.productParameters[@"sourceapp"]]
+        if (model.productParameters[HyBidSKAdNetworkParameter.sourceapp] != nil) {
+            NSNumber *sourceApp = [self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.sourceapp]] != nil
+            ? [self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.sourceapp]]
             : @0;
             
             [impression setSourceAppStoreItemIdentifier:sourceApp];
         }
-        if ([self getNSNumberFromString:model.productParameters[@"itunesitem"]] != nil) {
-            [impression setAdvertisedAppStoreItemIdentifier:[self getNSNumberFromString:model.productParameters[@"itunesitem"]]];
+        if ([model.productParameters[HyBidSKAdNetworkParameter.itunesitem] isKindOfClass:[NSString class]]) {
+            if ([self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.itunesitem]] != nil) {
+                [impression setAdvertisedAppStoreItemIdentifier:[self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.itunesitem]]];
+            }
         }
-        if (model.productParameters[@"version"] != nil) {
-            [impression setVersion:model.productParameters[@"version"]];
+        
+        if (model.productParameters[HyBidSKAdNetworkParameter.version] != nil) {
+            [impression setVersion:model.productParameters[HyBidSKAdNetworkParameter.version]];
         }
         
         if (skanVersion >= 4.0) {
             if (@available(iOS 16.1, *) ) {
-                if ([self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]] != nil) {
-                    [impression setSourceIdentifier:[self getNSNumberFromString:model.productParameters[@"sourceIdentifier"]]];
+                if ([self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.sourceIdentifier]] != nil) {
+                    [impression setSourceIdentifier:[self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.sourceIdentifier]]];
                 }
             }
         } else {
-            if ([self getNSNumberFromString:model.productParameters[@"campaign"]] != nil) {
-                [impression setAdCampaignIdentifier:[self getNSNumberFromString:model.productParameters[@"campaign"]]];
+            if ([self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.campaign]] != nil) {
+                [impression setAdCampaignIdentifier:[self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.campaign]]];
             }
         }
         
-        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [model.productParameters[@"fidelities"] count] > 0) {
-            for (NSData *data in model.productParameters[@"fidelities"]) {
+        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [model.productParameters[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
+            for (NSData *data in model.productParameters[HyBidSKAdNetworkParameter.fidelities]) {
                 SKANObject skanObject;
                 [data getBytes:&skanObject length:sizeof(skanObject)];
                 
@@ -127,14 +131,14 @@ API_AVAILABLE(ios(14.5)){
                 }
             }
         } else {
-            if (model.productParameters[@"signature"] != nil) {
-                [impression setSignature:model.productParameters[@"signature"]];
+            if (model.productParameters[HyBidSKAdNetworkParameter.signature] != nil) {
+                [impression setSignature:model.productParameters[HyBidSKAdNetworkParameter.signature]];
             }
-            if (model.productParameters[@"nonce"] != nil) {
-                [impression setAdImpressionIdentifier:model.productParameters[@"nonce"]];
+            if (model.productParameters[HyBidSKAdNetworkParameter.nonce] != nil) {
+                [impression setAdImpressionIdentifier:model.productParameters[HyBidSKAdNetworkParameter.nonce]];
             }
-            if ([self getNSNumberFromString:model.productParameters[@"timestamp"]] != nil) {
-                [impression setTimestamp:[self getNSNumberFromString:model.productParameters[@"timestamp"]]];
+            if ([self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.timestamp]] != nil) {
+                [impression setTimestamp:[self getNSNumberFromString:model.productParameters[HyBidSKAdNetworkParameter.timestamp]]];
             }
         }
            

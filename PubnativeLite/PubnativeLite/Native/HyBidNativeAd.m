@@ -32,6 +32,7 @@
 #import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBid.h"
+#import "HyBidSKAdNetworkParameter.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -206,7 +207,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (UIView *)banner {
     if (!self.bannerImageView) {
         if(self.bannerUrl && self.bannerUrl.length > 0) {
-            NSData *bannerData = self.fetchedAssets[[NSURL URLWithString:self.bannerUrl]];
+            NSData *bannerData = self.fetchedAssets[self.bannerUrl];
             if(bannerData && bannerData.length > 0) {
                 UIImage *bannerImage = [UIImage imageWithData:bannerData];
                 if(bannerImage) {
@@ -222,7 +223,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (UIImage *)bannerImage {
     UIImage *image = nil;
     if(self.bannerUrl && self.bannerUrl.length > 0) {
-        NSData *bannerData = self.fetchedAssets[[NSURL URLWithString:self.bannerUrl]];
+        NSData *bannerData = self.fetchedAssets[self.bannerUrl];
         if(bannerData && bannerData.length > 0) {
             image = [UIImage imageWithData:bannerData];
         }
@@ -233,7 +234,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (UIImage *)icon {
     UIImage *result = nil;
     if(self.iconUrl && self.iconUrl.length > 0) {
-        NSData *imageData = self.fetchedAssets[[NSURL URLWithString:self.iconUrl]];
+        NSData *imageData = self.fetchedAssets[self.iconUrl];
         if(imageData && imageData.length > 0) {
             result = [UIImage imageWithData:imageData];
         }
@@ -384,7 +385,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
             if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [productParams removeObjectForKey:@"fidelity-type"];
+                    [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                     
                     HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                     
@@ -402,8 +403,8 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (NSMutableDictionary *)insertStoreKitFidelityIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
 {
     double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
         
         if ([fidelitiesDataArray count] > 0) {
             for (NSData *fidelity in fidelitiesDataArray) {
@@ -424,10 +425,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                         [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
                         
                         NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
                     }
                     
-                    dictionary[@"fidelities"] = nil;
+                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
                     
                     break; // Currently we support only 1 fidelity for each kind
                 }
@@ -572,7 +573,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                 __strong HyBidNativeAd *strongSelf = weakSelf;
                 NSData *data = [NSData dataWithContentsOfURL:url];
                 if (data) {
-                    [strongSelf cacheFetchedAssetData:data withURL:url];
+                    [strongSelf cacheFetchedAssetData:data withUrlString: [url absoluteString]];
                     [strongSelf checkFetchProgress];
                 } else {
                     [strongSelf invokeFetchDidFailWithError:[NSError errorWithDomain:@"Asset can not be downloaded."
@@ -590,13 +591,17 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     }
 }
 
-- (void)cacheFetchedAssetData:(NSData *)data withURL:(NSURL*)url {
+- (void)cacheFetchedAssetData:(NSData *)data withUrlString:(NSString*)urlString {
     if (!self.fetchedAssets) {
         self.fetchedAssets = [NSMutableDictionary dictionary];
     }
     
-    if (url && data) {
-        self.fetchedAssets[url] = data;
+    if (urlString && data) {
+        @try {
+            self.fetchedAssets[urlString] = data;
+        } @catch (NSException *exception) {
+            NSLog(@"An exception occurred while caching asset data: %@", exception);
+        }
     }
 }
 

@@ -331,10 +331,29 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         ad.isUsingOpenRTB = self.isUsingOpenRTB;
                         
                         NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                        if (ad.endcardEnabled) {
-                            [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
-                        } else {
-                            [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
+                        if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard)) {
+                            if ([endCards count] > 0) {
+                                [ad setHasEndCard:YES];
+                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                                    if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && [HyBidRenderingConfig sharedConfig].customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                                        if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                            [ad setHasCustomEndCard:YES];
+                                        }
+                                    }
+                                }
+                            } else if ([endCards count] == 0) {
+                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)){
+                                    if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                        [ad setHasCustomEndCard:YES];
+                                    }
+                                }
+                            }
+                        } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && ![HyBidRenderingConfig sharedConfig].showEndCard)) {
+                            if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                                if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                    [ad setHasCustomEndCard:YES];
+                                }
+                            }
                         }
                         [self invokeDidLoad:ad];
                         [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
@@ -546,10 +565,29 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
                 
                 NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                if (ad.endcardEnabled) {
-                    [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
-                } else {
-                    [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
+                if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard)) {
+                    if ([endCards count] > 0) {
+                        [ad setHasEndCard:YES];
+                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                            if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && [HyBidRenderingConfig sharedConfig].customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                                if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                    [ad setHasCustomEndCard:YES];
+                                }
+                            }
+                        }
+                    } else if ([endCards count] == 0) {
+                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)){
+                            if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                [ad setHasCustomEndCard:YES];
+                            }
+                        }
+                    }
+                } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && ![HyBidRenderingConfig sharedConfig].showEndCard)) {
+                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                        if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                            [ad setHasCustomEndCard:YES];
+                        }
+                    }
                 }
                 [self invokeDidLoad:ad];
                 [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
@@ -557,6 +595,20 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 self.adCached = YES;
             }
         }];
+    }
+}
+
+- (HyBidCustomEndcardDisplayBehaviour)customEndcardDisplayBehaviourFromString:(NSString *)customEndcardDisplayBehaviour {
+    if([customEndcardDisplayBehaviour isKindOfClass:[NSString class]]) {
+        if ([customEndcardDisplayBehaviour isEqualToString:HyBidCustomEndcardDisplayFallbackValue]) {
+            return HyBidCustomEndcardDisplayFallback;
+        } else if ([customEndcardDisplayBehaviour isEqualToString:HyBidCustomEndcardDisplayExtentionValue]) {
+            return HyBidCustomEndcardDisplayExtention;
+        } else {
+            return HyBidCustomEndcardDisplayFallback;
+        }
+    } else {
+        return HyBidCustomEndcardDisplayFallback;
     }
 }
 

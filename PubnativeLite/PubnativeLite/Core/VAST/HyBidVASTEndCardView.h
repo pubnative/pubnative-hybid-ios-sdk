@@ -31,7 +31,8 @@
 @protocol HyBidVASTEndCardViewDelegate<NSObject>
 
 - (void)vastEndCardViewCloseButtonTapped;
-- (void)vastEndCardViewClicked;
+- (void)vastEndCardViewSkipButtonTapped;
+- (void)vastEndCardViewClicked:(BOOL)triggerAdClick;
 - (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success;
 
 @end
@@ -47,7 +48,8 @@
                       withVASTAd:(HyBidVASTAd *)vastAd
                   isInterstitial:(BOOL)isInterstitial
                    iconXposition:(NSString *)iconXposition
-                   iconYposition:(NSString *)iconYposition;
+                   iconYposition:(NSString *)iconYposition
+                  withSkipButton:(BOOL)withSkipButton;
 
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;

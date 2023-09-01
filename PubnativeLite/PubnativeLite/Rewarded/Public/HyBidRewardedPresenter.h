@@ -38,6 +38,8 @@
 @optional
 - (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 
 @end
 

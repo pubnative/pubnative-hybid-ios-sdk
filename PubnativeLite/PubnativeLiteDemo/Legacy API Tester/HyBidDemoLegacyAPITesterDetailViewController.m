@@ -123,9 +123,11 @@
             break;
         case HyBidDemoAppPlacementInterstitial:
             [self.interstitialAd show];
+            [self.showAdButton setEnabled: NO];
             break;
         case HyBidDemoAppPlacementRewarded:
             [self.rewardedAd show];
+            [self.showAdButton setEnabled: NO];
             break;
     }
 }

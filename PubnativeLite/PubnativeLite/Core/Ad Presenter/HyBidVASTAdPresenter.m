@@ -79,7 +79,9 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 
 - (void)startTracking {
     [self.player play];
-    [self.delegate adPresenterDidAppear:self];
+    if ([self.delegate respondsToSelector:@selector(adPresenterDidAppear:)]) {
+        [self.delegate adPresenterDidAppear:self];
+    }
 }
 
 - (void)stopTracking {
@@ -121,11 +123,15 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.delegate adPresenterDidClick:self];
-    [self.delegate adPresenterDidDisappear:self];
+    if ([self.delegate respondsToSelector:@selector(adPresenterDidDisappear:)]) {
+        [self.delegate adPresenterDidDisappear:self];
+    }
 }
 
 - (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
-    [self.delegate adPresenterDidAppear:self];
+    if ([self.delegate respondsToSelector:@selector(adPresenterDidAppear:)]) {        
+        [self.delegate adPresenterDidAppear:self];
+    }
 }
 
 @end

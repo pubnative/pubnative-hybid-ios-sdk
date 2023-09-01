@@ -4,12 +4,12 @@ workspace 'HyBid.xcworkspace'
 project 'PubnativeLite/HyBid.xcodeproj'
 
 # Uncomment the next line to define a global platform for your project
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 use_frameworks!
 
 target 'HyBid' do
-  pod 'ATOM-Standalone', '1.0.0-beta4'
+  pod 'ATOM-Standalone', '2.0.0'
 end
 
 target 'HyBidDemo' do
@@ -19,7 +19,7 @@ target 'HyBidDemo' do
   pod 'Firebase/Crashlytics', '8.13.0'
   pod 'Google-Mobile-Ads-SDK', '~> 10.0'
   pod 'AppLovinSDK', '11.4.0'
-  pod 'IronSourceSDK','7.3.0.0'
+  pod 'IronSourceSDK','7.4.0.0'
 end
 
 target 'HyBidTests' do

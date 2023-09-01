@@ -24,6 +24,7 @@
 #import "PNLiteVASTPlayerViewController.h"
 #import "HyBidVideoAdCache.h"
 #import "HyBidVideoAdCacheItem.h"
+#import "HyBidSKAdNetworkParameter.h"
 
 @interface PNLiteVASTPlayerInterstitialViewController () <PNLiteVASTPlayerViewControllerDelegate>
 
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) PNLiteVASTPlayerViewController *player;
 @property (nonatomic, strong) HyBidInterstitialPresenter *presenter;
 @property (nonatomic, strong) HyBidAd *adModel;
+@property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
 
 @end
@@ -42,6 +44,7 @@
     self.player = nil;
     self.presenter = nil;
     self.adModel = nil;
+    self.skAdModel = nil;
     self.videoAdCacheItem = nil;
 }
 
@@ -133,6 +136,15 @@
 
 - (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter.delegate interstitialPresenterDidAppear:self.presenter];
+}
+
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer {
+    self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
+    if ([self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] && [[self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] intValue] == -1) {
+        if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDismissesSKOverlay:)]) {
+            [self.presenter.delegate interstitialPresenterDismissesSKOverlay:self.presenter];
+        }
+    }
 }
 
 #pragma mark - Utils: check for bundle resource existance.

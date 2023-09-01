@@ -23,9 +23,7 @@
 #import "PNLiteRewardedPresenterDecorator.h"
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
-#import <StoreKit/SKOverlay.h>
-#import <StoreKit/SKOverlayConfiguration.h>
-#import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidSKOverlay.h"
 #import "PNLiteImpressionTracker.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -36,14 +34,13 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface PNLiteRewardedPresenterDecorator() <SKOverlayDelegate, PNLiteImpressionTrackerDelegate>
+@interface PNLiteRewardedPresenterDecorator() <PNLiteImpressionTrackerDelegate>
 
 @property (nonatomic, strong) HyBidRewardedPresenter *rewardedPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic) NSObject<HyBidRewardedPresenterDelegate> *rewardedPresenterDelegate;
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
-@property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
-@property (nonatomic, assign) BOOL isOverlayShown;
+@property (nonatomic, strong) HyBidSKOverlay *skoverlay;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 
 @end
@@ -55,13 +52,7 @@
     self.adTracker = nil;
     self.rewardedPresenterDelegate = nil;
     self.errorReportingProperties = nil;
-    if (@available(iOS 14.0, *)) {
-        if (self.overlay) {
-            self.overlay = nil;
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-    }
+    self.skoverlay = nil;
 }
 
 - (void)load {
@@ -112,65 +103,6 @@
     }
 }
 
-- (void)presentSKOverlay {
-    if (self.rewardedPresenter.ad.skoverlayEnabled) {
-        if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
-            [self checkSKOverlayAvailabilityAndPresent];
-        }
-    } else if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
-        [self checkSKOverlayAvailabilityAndPresent];
-    }
-}
-
-- (void)checkSKOverlayAvailabilityAndPresent {
-    if (@available(iOS 14.0, *)) {
-        if (self.overlay) {
-            if (!self.isOverlayShown) {
-                [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-            }
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-    }
-}
-
-- (void)dismissSKOverlay {
-    if (self.rewardedPresenter.ad.skoverlayEnabled) {
-        if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
-            [self checkSKOverlayAvailabilityAndDismiss];
-        }
-    } else if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
-        [self checkSKOverlayAvailabilityAndDismiss];
-    }
-}
-
-- (void)checkSKOverlayAvailabilityAndDismiss {
-    if (@available(iOS 14.0, *)) {
-        if (self.overlay) {
-            [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-    }
-}
-
-- (void)checkSKOverlayAvailabilityAndPrepareForRewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter {
-    if (@available(iOS 14.0, *)) {
-        HyBidSkAdNetworkModel* skAdNetworkModel = rewardedPresenter.ad.isUsingOpenRTB ? [rewardedPresenter.ad getOpenRTBSkAdNetworkModel] : [rewardedPresenter.ad getSkAdNetworkModel];
-        NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];
-        if (appIdentifier && appIdentifier.length > 0) {
-            SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
-                                                        initWithAppIdentifier:appIdentifier
-                                                        position:SKOverlayPositionBottom];
-            configuration.userDismissible = YES;
-            self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
-            self.overlay.delegate = self;
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-    }
-}
-
 #pragma mark HyBidRewardedPresenterDelegate
 
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter {
@@ -188,10 +120,10 @@
         
         if (self.rewardedPresenter.ad.skoverlayEnabled) {
             if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
-                [self checkSKOverlayAvailabilityAndPrepareForRewardedPresenter:rewardedPresenter];
+                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad];
             }
         } else if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
-            [self checkSKOverlayAvailabilityAndPrepareForRewardedPresenter:rewardedPresenter];
+            self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad];
         }
     }
 }
@@ -200,7 +132,7 @@
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.REWARDED];
         [self.rewardedPresenterDelegate rewardedPresenterDidShow:rewardedPresenter];
-        [self presentSKOverlay];
+        [self.skoverlay presentWithAd:rewardedPresenter.ad];
     }
 }
 
@@ -214,7 +146,7 @@
 - (void)rewardedPresenterDidDismiss:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidDismiss:)]) {
         [self.rewardedPresenterDelegate rewardedPresenterDidDismiss:rewardedPresenter];
-        [self dismissSKOverlay];
+        [self.skoverlay dismissWithAd:rewardedPresenter.ad];
     }
 }
 
@@ -247,20 +179,12 @@
     
 }
 
-#pragma mark SKOverlayDelegate
+- (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
+    [self.skoverlay presentWithAd:rewardedPresenter.ad];
+}
 
-- (void)storeOverlay:(SKOverlay *)overlay willStartPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
-- (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    if ([overlay isEqual:self.overlay]) {
-        self.isOverlayShown = YES;
-    }
+- (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
+    [self.skoverlay dismissWithAd:rewardedPresenter.ad];
 }
-- (void)storeOverlay:(SKOverlay *)overlay willStartDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
-- (void)storeOverlay:(SKOverlay *)overlay didFinishDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    if ([overlay isEqual:self.overlay]) {
-        self.isOverlayShown = NO;
-    }
-}
-- (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){}
 
 @end

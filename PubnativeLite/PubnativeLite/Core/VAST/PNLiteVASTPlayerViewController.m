@@ -45,6 +45,7 @@
 #import "HyBidSkipOverlay.h"
 #import "HyBidCloseButton.h"
 #import "PNLiteOrientationManager.h"
+#import "HyBidSKAdNetworkParameter.h"
 
 #define kContentInfoContainerTag 2343
 
@@ -89,7 +90,7 @@ typedef enum : NSUInteger {
 HyBidCloseButton *closeButton;
 
 #define HYBID_PNLiteVAST_CLOSE_BUTTON_TAG 1001
-#define kOverlayViewSize 50
+#define kOverlayViewSize 30
 #define kAudioMuteSize 30
 
 @interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate>
@@ -148,8 +149,9 @@ HyBidCloseButton *closeButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressTrailingConstraint;
 
-@property (nonatomic, strong) NSArray<HyBidVASTEndCard *> *endCards;
+@property (nonatomic, strong) NSMutableArray<HyBidVASTEndCard *> *endCards;
 @property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
+@property (nonatomic, strong) HyBidVASTEndCardView *endCardView;
 @property (nonatomic) HyBidInterstitialActionBehaviour fullscreenClickabilityBehaviour;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
@@ -163,6 +165,13 @@ HyBidCloseButton *closeButton;
 @end
 
 @implementation PNLiteVASTPlayerViewController
+
+// MARK: - Close Button Position
+
+typedef enum {
+    TOP_LEFT,
+    TOP_RIGHT
+} HyBidVASTButtonPosition;
 
 #pragma mark NSObject
 
@@ -186,9 +195,9 @@ HyBidCloseButton *closeButton;
         [self determineRewardedSkipOffsetForAd:self.ad];
         self.playback = PNLiteVASTPlaybackState_FirstQuartile;
         if (self.ad.audioState) {
-            self.muted = [self setAdAudioStatus:[self audioStatusFromString:self.ad.audioState]];
+            self.muted = [self isAdAudioMuted:[self audioStatusFromString:self.ad.audioState]];
         } else {
-            self.muted = [self setAdAudioStatus:[HyBidRenderingConfig sharedConfig].audioStatus];
+            self.muted = [self isAdAudioMuted:[HyBidRenderingConfig sharedConfig].audioStatus];
         }
         [self setAdAudioMuted:self.muted];
         self.canResize = YES;
@@ -234,17 +243,44 @@ HyBidCloseButton *closeButton;
         layerFrame.origin.y = (CGRectGetHeight(self.view.bounds) - layerFrame.size.height) / 2.0;
         self.layer.frame = layerFrame;
         if (self.btnMute) {
-            self.btnMute.frame = CGRectMake(layerFrame.origin.x, layerFrame.origin.y, kAudioMuteSize, kAudioMuteSize);
+            [self setMuteButtonPosition:TOP_RIGHT withLayerFrame:layerFrame];
         }
         
         if (self.skipOverlay && !self.skipOverlay.isCloseButtonShown) {
-            CGFloat skipOverlayX = CGRectGetMaxX(layerFrame) - kOverlayViewSize;
-            self.skipOverlay.frame = CGRectMake(skipOverlayX, layerFrame.origin.y, kOverlayViewSize, kOverlayViewSize);
-            if (!self.skipOverlayConstraintsAdded) {
-                [self updateSkipOverlayConstraintsWithLayerFrame:layerFrame];
-                self.skipOverlayConstraintsAdded = YES;
-            }
+            [self setCloseButtonPosition:TOP_LEFT withLayerFrame:layerFrame];
         }
+    }
+}
+
+- (void)setCloseButtonPosition:(HyBidVASTButtonPosition)position withLayerFrame:(CGRect)frame
+{
+    CGFloat skipOverlayX;
+    
+    switch (position) {
+        case TOP_LEFT:
+            skipOverlayX = CGRectGetMinX(frame);
+            break;
+        case TOP_RIGHT:
+            skipOverlayX = CGRectGetMaxX(frame) - kOverlayViewSize;
+            break;
+    }
+    
+    self.skipOverlay.frame = CGRectMake(skipOverlayX, frame.origin.y, kOverlayViewSize, kOverlayViewSize);
+    if (!self.skipOverlayConstraintsAdded) {
+        [self updateSkipOverlayConstraintsWithLayerFrame:frame];
+        self.skipOverlayConstraintsAdded = YES;
+    }
+}
+
+- (void)setMuteButtonPosition:(HyBidVASTButtonPosition)position withLayerFrame:(CGRect)frame
+{
+    switch (position) {
+        case TOP_LEFT:
+            self.btnMute.frame = CGRectMake(CGRectGetMinX(frame), frame.origin.y, kAudioMuteSize, kAudioMuteSize);
+            break;
+        case TOP_RIGHT:
+            self.btnMute.frame = CGRectMake(CGRectGetMaxX(frame) - kAudioMuteSize, frame.origin.y, kAudioMuteSize, kAudioMuteSize);
+            break;
     }
 }
 
@@ -551,11 +587,14 @@ HyBidCloseButton *closeButton;
 
 - (void)setCustomCountdown
 {
-    if(self.skipOffset > [self duration]){
+    Float64 duration = ([self duration] - (int) [self duration]) > 0.5 ? ((int) [self duration] + 1) : (int) [self duration];
+    if (duration > HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET && self.skipOffset >= HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET) {
+        self.skipOffset = HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET;
+    } else if(duration <= HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET && self.skipOffset >= duration) {
         return;
     }
     
-    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopRight:[self isContentInfoInTopRightPosition] withShouldShowSkipButton:self.ad.hasEndCard && !self.closeOnFinish];
+    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition] withShouldShowSkipButton:(self.ad.hasEndCard || self.ad.hasCustomEndCard) && !self.closeOnFinish];
     [self.skipOverlay addSkipOverlayViewIn:self.view delegate:self withIsMRAID:NO];
 }
 
@@ -563,7 +602,7 @@ HyBidCloseButton *closeButton;
 
 - (void)skipButtonTapped
 {
-    if (self.ad.hasEndCard && !self.closeOnFinish) { // Skipped to end card
+    if ((self.ad.hasEndCard || self.ad.hasCustomEndCard) && !self.closeOnFinish) { // Skipped to end card
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
         [self removePeriodicTimeObserver];
         [self showEndCard];
@@ -584,13 +623,7 @@ HyBidCloseButton *closeButton;
 
 - (void)setCloseButtonPositionConstraints:(UIView *) closeButtonView {
     
-    BOOL isCloseViewShown = NO;
-    for (UIView *view in self.view.subviews) {
-        if([view isEqual: closeButtonView]){
-            isCloseViewShown = YES;
-            break;
-        }
-    }
+    BOOL isCloseViewShown = [self.view.subviews containsObject:closeButtonView];
     
     if(!isCloseViewShown){ return; }
     
@@ -608,17 +641,29 @@ HyBidCloseButton *closeButton;
     NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
                                                          [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kOverlayViewSize],
                                                          [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kOverlayViewSize], nil];
-    if([self isContentInfoInTopRightPosition]){
+    if([self isContentInfoInTopLeftPosition]){
         if (@available(iOS 11.0, *)) {
-            [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]]];
+            [constraints addObjectsFromArray: @[
+                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            ]];
         } else {
-            [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]]];
+            [constraints addObjectsFromArray: @[
+                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+            ]];
         }
-    } else {
+    }
+    else {
         if (@available(iOS 11.0, *)) {
-            [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]]];
+            [constraints addObjectsFromArray: @[
+                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
+                
+            ]];
         } else {
-            [constraints addObjectsFromArray: @[[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],[NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]]];
+            [constraints addObjectsFromArray: @[
+                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
+            ]];
         }
     }
     [NSLayoutConstraint activateConstraints: constraints];
@@ -810,25 +855,29 @@ HyBidCloseButton *closeButton;
     }
 }
 
-- (void)skipRewardedAfterSelectedTime:(NSInteger)secondsToSkip {
-    if ([self duration] >= secondsToSkip) {
-        if (!self.isCountdownTimerStarted) {
-            self.skipOffset = secondsToSkip;
-            [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSString *playbackTime = @([self currentPlaybackTime]).stringValue;
-                NSString *currentPlaybackTime = [[playbackTime componentsSeparatedByString:@"."] objectAtIndex:0];
-                [self setCustomCountdown];
-                if (currentPlaybackTime.intValue == secondsToSkip && self.skipOffset != 0) {
-                    if (self.ad.hasEndCard){
-                        [self showEndCard];
-                    } else {
-                        [self addCloseButton];
-                    }
+- (void)skipRewardedAfterSelectedTime:(NSInteger)skipOffset {
+    Float64 duration = ([self duration] - (int) [self duration]) > 0.5 ? ((int) [self duration] + 1) : (int) [self duration];
+    if (skipOffset > duration && duration > HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_SKIP_OFFSET) {
+        self.skipOffset = HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_SKIP_OFFSET;
+    } else if (skipOffset > duration && duration < HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_SKIP_OFFSET) {
+        return;
+    }
+    if (!self.isCountdownTimerStarted) {
+        self.skipOffset = skipOffset;
+        [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *playbackTime = @([self currentPlaybackTime]).stringValue;
+            NSString *currentPlaybackTime = [[playbackTime componentsSeparatedByString:@"."] objectAtIndex:0];
+            [self setCustomCountdown];
+            if (currentPlaybackTime.intValue == skipOffset && self.skipOffset != 0) {
+                if (self.ad.hasEndCard || self.ad.hasCustomEndCard){
+                    [self showEndCard];
+                } else {
+                    [self addCloseButton];
                 }
-            });
-            self.isCountdownTimerStarted = YES;
-        }
+            }
+        });
+        self.isCountdownTimerStarted = YES;
     }
 }
 
@@ -876,17 +925,15 @@ HyBidCloseButton *closeButton;
     [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDVolumeChangeEventWithVolume:newVolume];
 }
 
-- (BOOL)setAdAudioStatus:(HyBidAudioStatus)status {
+- (BOOL)isAdAudioMuted:(HyBidAudioStatus)status {
     switch (status) {
         case HyBidAudioStatusDefault:
         case HyBidAudioStatusMuted:
             return YES;
-            break;
         case HyBidAudioStatusON:
             return NO;
         default:
             return [[HyBidSettings sharedInstance].deviceSound isEqual: @"0"];
-            break;
     }
 }
 
@@ -903,7 +950,7 @@ HyBidCloseButton *closeButton;
 }
 
 - (IBAction)btnClosePush:(id)sender {
-    if (self.ad.hasEndCard && !self.closeOnFinish) { // Skipped to end card
+    if ((self.ad.hasEndCard || self.ad.hasCustomEndCard) && !self.closeOnFinish) { // Skipped to end card
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_skip];
         [self removePeriodicTimeObserver];
         [self showEndCard];
@@ -939,7 +986,7 @@ HyBidCloseButton *closeButton;
     NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
     
     for (HyBidVASTCreative *creative in creatives) {
-        if ([creative linear] != nil) {
+        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
             [videoClicks addObject:[[creative linear] videoClicks]];
             break;
         }
@@ -956,7 +1003,9 @@ HyBidCloseButton *closeButton;
     
     for (HyBidVASTVideoClicks *videoClick in videoClicks) {
         for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
-            [trackingClickURLs addObject:[tracking content]];
+            if([tracking content] != nil) {
+                [trackingClickURLs addObject:[tracking content]];
+            }
         }
     }
     
@@ -978,7 +1027,7 @@ HyBidCloseButton *closeButton;
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [productParams removeObjectForKey:@"fidelity-type"];
+                [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                 
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
@@ -1010,8 +1059,8 @@ HyBidCloseButton *closeButton;
 
 - (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary {
     double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
         
         if ([fidelitiesDataArray count] > 0) {
             for (NSData *fidelity in fidelitiesDataArray) {
@@ -1032,10 +1081,10 @@ HyBidCloseButton *closeButton;
                         [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
                         
                         NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
                     }
                     
-                    dictionary[@"fidelities"] = nil;
+                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
                     
                     break; // Currently we support only 1 fidelity for each kind
                 }
@@ -1116,16 +1165,14 @@ HyBidCloseButton *closeButton;
         [self.delegate vastPlayerDidComplete:self];
     }
 
-    if (self.ad.hasEndCard && !self.closeOnFinish) {
+    if ((self.ad.hasEndCard || self.ad.hasCustomEndCard) && !self.closeOnFinish) {
         [self showEndCard];
     } else {
         if (self.closeOnFinish) {
             [self invokeDidClose];
+        }else if (self.adFormat != HyBidAdFormatBanner){
+            [self addCloseButton];
         }
-    }
-    
-    if(self.adFormat != HyBidAdFormatBanner && !self.ad.hasEndCard && !self.closeOnFinish){
-        [self addCloseButton];
     }
 }
 
@@ -1147,6 +1194,11 @@ HyBidCloseButton *closeButton;
                                              selector: @selector(applicationDidEnterBackground:)
                                                  name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationWillEnterForeground:)
+                                                 name: UIApplicationWillEnterForegroundNotification
+                                               object: nil];
 }
 
 - (void)removeObservers {
@@ -1164,12 +1216,21 @@ HyBidCloseButton *closeButton;
     }
 }
 
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
+        [self updateVideoFrameToLastInterruption];
+    }
+}
+
 - (void)applicationDidBecomeActive:(NSNotification*)notification {
     if(self.currentState == PNLiteVASTPlayerState_PLAY ||
        self.currentState == PNLiteVASTPlayerState_PAUSE) {
         if(!self.isFeedbackScreenShown && !self.isSkAdnetworkViewControllerIsShown){
             [self setState:PNLiteVASTPlayerState_PLAY];
         }
+    }
+    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
+        [self updateVideoFrameToLastInterruption];
     }
 }
 
@@ -1181,6 +1242,15 @@ HyBidCloseButton *closeButton;
 - (void)feedbackScreenIsDismissed:(NSNotification*)notification {
     self.isFeedbackScreenShown = NO;
     [self setState:PNLiteVASTPlayerState_PLAY];
+    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
+        [self updateVideoFrameToLastInterruption];
+    }
+}
+
+- (void)updateVideoFrameToLastInterruption {
+    Float64 duration = [self currentPlaybackTime] < [self duration] ? [self currentPlaybackTime] : floor([self duration] * 4) / 4;
+    CMTime lastFrameSecond = CMTimeMakeWithSeconds(duration, NSEC_PER_SEC);
+    [self.playerItem seekToTime:lastFrameSecond toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
 
 - (void)playCountdownView {
@@ -1208,20 +1278,17 @@ HyBidCloseButton *closeButton;
     if (self.endCardShown || self.isMoviePlaybackFinished) {return;}
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_complete];
     [self.player pause];
-    
-    Float64 duration = floor([self duration] * 4) / 4;
-    CMTime lastFrameSecond = CMTimeMakeWithSeconds(duration, NSEC_PER_SEC);
-    [self.playerItem seekToTime:lastFrameSecond toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    [self updateVideoFrameToLastInterruption];
     [self setState:PNLiteVASTPlayerState_READY];
     [self invokeDidComplete];
     self.isMoviePlaybackFinished = YES;
 }
 
-- (BOOL)isContentInfoInTopRightPosition {    
-    BOOL isRightPosition = [self.iconPositionX isEqualToString: @"right"] ? YES : NO;
+- (BOOL)isContentInfoInTopLeftPosition {
+    BOOL isLeftPosition = [self.iconPositionX isEqualToString: @"left"] ? YES : NO;
     BOOL isTopPosition = [self.iconPositionY isEqualToString:@"top"] ? YES : NO;
     
-    return isRightPosition && isTopPosition ? YES : NO;
+    return isLeftPosition && isTopPosition ? YES : NO;
 }
 
 - (void)addCloseButton {
@@ -1519,12 +1586,20 @@ HyBidCloseButton *closeButton;
 
 - (void)fetchEndCards
 {
+    self.endCards = [[NSMutableArray alloc] init];
+    if (self.ad.hasCustomEndCard || (self.ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+        HyBidVASTEndCard *customEndCard = [[HyBidVASTEndCard alloc] init];
+        [customEndCard setType:HyBidEndCardType_HTML];
+        [customEndCard setContent:self.ad.customEndCardData];
+        [customEndCard setIsCustomEndCard:YES];
+        [self.endCards addObject:customEndCard];
+    }
     HyBidVASTAd *ad = [self getVastAd];
     
     if (ad == nil) {
         return;
     }
-
+    
     NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
     HyBidVASTCompanionAds *companionAds;
     
@@ -1539,46 +1614,56 @@ HyBidCloseButton *closeButton;
         [self.endCardManager addCompanion:companion];
     }
     
-    self.endCards = [[NSArray alloc] initWithArray:[self.endCardManager endCards]];
+    if ([self.endCardManager endCards].firstObject != nil && ([self.ad.endcardEnabled boolValue] || (self.ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard))) {
+        [self.endCards addObject:[self.endCardManager endCards].firstObject];
+    }
+    
 }
 
 - (void)showEndCard
 {
-    if (@available(iOS 14.0, *)) {
-        [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-    } else {
-        // Fallback on earlier versions
+    if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:)]) {
+        [self.delegate vastPlayerWillShowEndCard:self];
     }
     
     if(self.skipOverlay){
         [self.skipOverlay removeFromSuperview];
     }
     
+    [self.player pause];
     [self.btnMute removeFromSuperview];
     [self.btnOpenOffer removeFromSuperview];
     [self.viewProgress removeFromSuperview];
     self.endCardShown = YES;
     self.isMoviePlaybackFinished = YES;
-    [self.player seekToTime:self.player.currentItem.duration
-            toleranceBefore:kCMTimeZero
-             toleranceAfter:kCMTimePositiveInfinity];
+    if (self.ad.hasCustomEndCard) {
+        [self updateVideoFrameToLastInterruption];
+    } else {
+        [self.player seekToTime:self.player.currentItem.duration
+                toleranceBefore:kCMTimeZero
+                 toleranceAfter:kCMTimePositiveInfinity];
+        [self.layer removeFromSuperlayer];
+    }
     [self setState:PNLiteVASTPlayerState_READY];
-    [self.layer removeFromSuperlayer];
+    [self.endCards sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"isCustomEndCard" ascending:YES]]];
     HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
-    HyBidVASTEndCardView *endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self
+    self.endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self
                                                                     withViewController:self
                                                                                 withAd:self.ad
                                                                             withVASTAd:[self getVastAd]
                                                                         isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)
                                                                          iconXposition:self.iconPositionX
-                                                                         iconYposition:self.iconPositionY];
-    endCardView.frame = self.view.frame;
-    [endCardView setupUI];
+                                                                         iconYposition:self.iconPositionY
+                                                                        withSkipButton:self.endCards.count == 2];
+    self.endCardView.frame = self.view.frame;
     
     HyBidVASTCTAButton *ctaButton = [[self.vastAd inLine] ctaButton];
-    [endCardView displayEndCard:firstEndCard withCTAButton:ctaButton withViewController:self];
-    [self.view addSubview:endCardView];
+    [self.endCardView displayEndCard:firstEndCard withCTAButton:ctaButton withViewController:self];
+    [self.view addSubview:self.endCardView];
     [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
+    if ([self.endCards containsObject:firstEndCard]) {
+        [self.endCards removeObject:firstEndCard];
+    }
 }
 
 // MARK: - HyBidVASTEndCardViewDelegate
@@ -1587,7 +1672,17 @@ HyBidCloseButton *closeButton;
     [self invokeDidClose];
 }
 
-- (void)vastEndCardViewClicked {
+- (void)vastEndCardViewSkipButtonTapped {
+    if(self.endCardView != nil) {
+        [self.endCardView removeFromSuperview];
+    }
+    [self showEndCard];
+}
+
+- (void)vastEndCardViewClicked:(BOOL)triggerAdClick {
+    if(triggerAdClick){
+        [self trackClick];
+    }
     [self invokeDidClickOffer];
 }
 
