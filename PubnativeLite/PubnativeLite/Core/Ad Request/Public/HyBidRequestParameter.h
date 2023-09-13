@@ -105,10 +105,7 @@
 + (NSString *)videoPosition;
 + (NSString *)mraidendcard;
 + (NSString *)darkmode;
-+ (NSString *)inputLanguage;
 + (NSString *)airplaneMode;
-+ (NSString *)totalDiskSpace;
-+ (NSString *)availableDiskSpace;
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion;

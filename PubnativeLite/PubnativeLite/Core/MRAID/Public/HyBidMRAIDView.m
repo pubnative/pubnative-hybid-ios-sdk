@@ -75,6 +75,7 @@ typedef enum {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
     BOOL isInterstitial;
+    BOOL isEndcard;
     BOOL isAdSessionCreated;
     BOOL isScrollable;
 
@@ -212,7 +213,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
-         skipOffset:(NSInteger)skipOffset {
+         skipOffset:(NSInteger)skipOffset
+          isEndcard:(BOOL)isEndcardPresented {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
                    withBaseURL:bsURL
@@ -224,7 +226,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                serviceDelegate:serviceDelegate
             rootViewController:rootViewController
                    contentInfo:contentInfo
-                    skipOffset:skipOffset];
+                    skipOffset:skipOffset
+                     isEndcard:isEndcardPresented];
 }
 
 // designated initializer
@@ -239,13 +242,15 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
-         skipOffset:(NSInteger)skipOffset {
+         skipOffset:(NSInteger)skipOffset
+          isEndcard:(BOOL)isEndcardPresented {
     self = [super initWithFrame:frame];
     if (self) {
         [self setUpTapGestureRecognizer];
         [self determineNativeCloseButtonDelayForAd:ad];
         [self determineCreativeAutoStorekitEnabledForAd:ad];
         isInterstitial = isInter;
+        isEndcard = isEndcardPresented;
         isScrollable = canScroll;
         adWidth = frame.size.width;
         adHeight = frame.size.height;
@@ -449,7 +454,9 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if(httpResponse.statusCode == 200) {
             NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            if([httpResponse.MIMEType isEqual: @"text/html"]){
+            NSString *mimeType = [httpResponse.MIMEType lowercaseString];
+            if ([mimeType isEqualToString:@"text/html"] ||
+                [mimeType isEqualToString:@"text/plain"]) {
                 dispatch_async(dispatch_get_main_queue(), ^(void) {
                     if (handler)
                         handler(dataString, error);
@@ -956,13 +963,16 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         return;  // ignore programmatic touches (taps)
     }
     
+    urlString = [urlString stringByRemovingPercentEncoding];
+
+    if (!isEndcard) {
+        [self openBrowserWithURLString:urlString];
+    }
+    
     if (!self.creativeAutoStorekitEnabled && !startedFromTap) {
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to auto click while feature is disabled"];
         return;
     }
-    
-    urlString = [urlString stringByRemovingPercentEncoding];
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
     
     // Avoid opening multiple Store ViewControllers
     if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
@@ -976,7 +986,9 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         [redirector drillWithUrl:urlString];
         return;
     }
-    
+
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
+
     if([urlString containsString:@"sms"]){
         if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceSendSMSWithUrlString:)]) {
             [self.serviceDelegate mraidServiceSendSMSWithUrlString:urlString];

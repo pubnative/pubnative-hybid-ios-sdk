@@ -96,7 +96,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.11.5):
     - GoogleUtilities/Logger
-  - IronSourceSDK (7.4.0.0)
+  - IronSourceSDK (7.5.0.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -114,7 +114,7 @@ DEPENDENCIES:
   - Firebase/Performance (= 8.13.0)
   - FLEX
   - Google-Mobile-Ads-SDK (~> 10.0)
-  - IronSourceSDK (= 7.4.0.0)
+  - IronSourceSDK (= 7.5.0.0)
   - OCMockito (= 6.0.0)
 
 SPEC REPOS:
@@ -158,12 +158,12 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
   GoogleUserMessagingPlatform: dce302b8f1b84d6e945812ee7a15c3f65a102cbf
   GoogleUtilities: 13e2c67ede716b8741c7989e26893d151b2b2084
-  IronSourceSDK: 31bf34fdf92756dde41c00d10e3d3344461cbe2e
+  IronSourceSDK: e1fdf5a47699558742d0baaa70ca6f508e0fa786
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OCHamcrest: a613690381f1dac7637c18962c10dbe8feca4bb5
   OCMockito: 780f04370226f81a9d972c97d1203864ef609f5b
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
 
-PODFILE CHECKSUM: ef9d45037b232c5fb0b59c227ff1451944addc96
+PODFILE CHECKSUM: 9c55dc19b5a4d9545be2e1e4619ce94151288f68
 
 COCOAPODS: 1.12.1

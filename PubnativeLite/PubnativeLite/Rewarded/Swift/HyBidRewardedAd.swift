@@ -168,7 +168,7 @@ public class HyBidRewardedAd: NSObject {
     public func prepareCustomMarkupFrom(_ markup: String) {
         self.cleanUp()
         self.initialLoadTimestamp = Date().timeIntervalSince1970
-        self.rewardedAdRequest?.processCustomMarkup(from: markup, andWith: HyBidRewardedAdRequestWrapper(parent: self))
+        self.rewardedAdRequest?.processCustomMarkup(from: markup, with: HyBidDemoAppPlacementRewarded, andWith: HyBidRewardedAdRequestWrapper(parent: self))
     }
     
     @objc(prepareAdWithContent:)

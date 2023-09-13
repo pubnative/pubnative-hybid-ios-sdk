@@ -32,6 +32,8 @@
 #import <WebKit/WebKit.h>
 #import "HyBidCloseButton.h"
 #import "HyBidSKAdNetworkParameter.h"
+#import "HyBidCustomClickUtil.h"
+#import "HyBidAdTracker.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -86,6 +88,7 @@
 @property (nonatomic, assign) BOOL shouldTriggerAdClick;
 
 @property (nonatomic, assign) BOOL withSkipButton;
+@property (nonatomic, strong) HyBidAdTracker *adTracker;
 
 @end
 
@@ -117,6 +120,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         
         self.horizontalConstraints = [NSMutableArray new];
         self.verticalConstraints = [NSMutableArray new];
+        
+        self.adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardImpression] withClickURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardClick] forAd:self.ad];
         
         [self addObservers];
     }
@@ -364,6 +369,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+    [self trackCustomEndCardImpression];
 }
 
 - (void)configureCTAWebViewWith:(HyBidVASTCTAButton *)ctaButton
@@ -478,7 +484,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                                            serviceDelegate:self
                                         rootViewController:self.rootViewController
                                                contentInfo:nil
-                                                skipOffset:self.endCardCloseDelay.offset.integerValue];
+                                                skipOffset:self.endCardCloseDelay.offset.integerValue
+                                                 isEndcard:YES];
 }
 
 - (void)displayImageViewWithURL:(NSString *)url withView:(UIView *)view
@@ -550,6 +557,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     }
     [self vastEndCardClickedWithType:[self.endCard type] withURL:nil withShouldOpenBrowser:YES];
     [self.delegate vastEndCardViewClicked: self.shouldTriggerAdClick];
+    [self trackCustomEndCardClick];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -637,6 +645,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
+    [self.delegate vastEndCardViewFailedToLoad];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
@@ -682,10 +691,18 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     }
     
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+    [self trackCustomEndCardClick];
     
     HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     
-    if (skAdNetworkModel) {
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
+    if (customUrl != nil) {
+        if(shouldOpenBrowser) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:customUrl] options:@{} completionHandler:^(BOOL success) {
+                [self.delegate vastEndCardViewRedirectedWithSuccess:success];
+            }];
+        }
+    } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
@@ -742,6 +759,22 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
         }
     }
+}
+
+- (void)trackCustomEndCardImpression {
+    if (!self.endCard.isCustomEndCard) {
+        return;
+    }
+    
+    [self.adTracker trackCustomEndCardImpressionWithAdFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED];
+}
+
+- (void)trackCustomEndCardClick {
+    if (!self.endCard.isCustomEndCard) {
+        return;
+    }
+    
+    [self.adTracker trackCustomEndCardClickWithAdFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED];
 }
 
 - (void)determineIfAdClickIsTriggeredWithURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {

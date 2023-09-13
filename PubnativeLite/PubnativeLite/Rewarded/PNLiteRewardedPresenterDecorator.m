@@ -165,8 +165,10 @@
             [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
         }
         [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withRewardedPresenter:rewardedPresenter];
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.REWARDED properties:self.errorReportingProperties];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        if(self.errorReportingProperties){
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.REWARDED properties:self.errorReportingProperties];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+        }
         [self.rewardedPresenterDelegate rewardedPresenter:rewardedPresenter didFailWithError:error];
     }
 }

@@ -105,9 +105,9 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
     [self.adView setAccessibilityIdentifier:@"customMarkupAdView"];
     if (self.urWrap && self.urTemplate != NULL){
         NSString *encodedAdm = [self encodeStringTo64: self.markup.text];
-        [self.adView prepareCustomMarkupFrom: [self wrapInUr: encodedAdm]];
+        [self.adView prepareCustomMarkupFrom: [self wrapInUr: encodedAdm] withPlacement: self.markup.placement];
     } else {
-        [self.adView prepareCustomMarkupFrom:self.markup.text];
+        [self.adView prepareCustomMarkupFrom:self.markup.text withPlacement: self.markup.placement];
     }
 }
 - (IBAction)openCreativeInBrowser:(id)sender {

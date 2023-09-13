@@ -88,6 +88,7 @@ public class HyBidURLRedirector: NSObject, URLSessionTaskDelegate, URLSessionDat
                 task.cancel()
                 completionHandler(nil)
             } else {
+                invokeFinish(url: newURL)
                 completionHandler(request)
             }
         } else {

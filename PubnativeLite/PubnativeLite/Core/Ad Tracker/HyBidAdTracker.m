@@ -41,6 +41,8 @@
 
 NSString *const PNLiteAdTrackerClick = @"click";
 NSString *const PNLiteAdTrackerImpression = @"impression";
+NSString *const PNLiteAdCustomEndCardImpression = @"custom_endcard_impression";
+NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
 
 @interface HyBidAdTracker() <HyBidAdTrackerRequestDelegate, HyBidURLDrillerDelegate>
 
@@ -49,6 +51,8 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
 @property (nonatomic, strong) NSArray *impressionURLs;
 @property (nonatomic, strong) NSArray *clickURLs;
 @property (nonatomic, assign) BOOL clickTracked;
+@property (nonatomic, assign) BOOL customEndCardClickTracked;
+@property (nonatomic, assign) BOOL customEndCardImpressionTracked;
 @property (nonatomic, strong) NSString *trackTypeForURL;
 @property (nonatomic, assign) BOOL urlDrillerEnabled;
 
@@ -111,6 +115,28 @@ NSString *const PNLiteAdTrackerImpression = @"impression";
     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:adFormat properties:nil];
     [[HyBid reportingManager] reportEventFor:reportingEvent];
     self.impressionTracked = YES;
+}
+
+- (void)trackCustomEndCardImpressionWithAdFormat:(NSString *)adFormat {
+    if (self.customEndCardImpressionTracked) {
+        return;
+    }
+    
+    [self trackURLs:self.impressionURLs withTrackType:PNLiteAdCustomEndCardImpression];
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_IMPRESSION adFormat:adFormat properties:nil];
+    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    self.customEndCardImpressionTracked = YES;
+}
+
+- (void)trackCustomEndCardClickWithAdFormat:(NSString *)adFormat {
+    if (self.customEndCardClickTracked) {
+        return;
+    }
+    
+    [self trackURLs:self.clickURLs withTrackType:PNLiteAdCustomEndCardClick];
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK adFormat:adFormat properties:nil];
+    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    self.customEndCardClickTracked = YES;
 }
 
 - (void)trackURLs:(NSArray *)URLs withTrackType:(NSString *)trackType {

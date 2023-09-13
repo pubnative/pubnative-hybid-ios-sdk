@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidAdTrackerRequest.h"
-#import "HyBidAd.h"
 
-extern NSString *const PNLiteAdTrackerClick;
-extern NSString *const PNLiteAdTrackerImpression;
-extern NSString *const PNLiteAdCustomEndCardImpression;
-extern NSString *const PNLiteAdCustomEndCardClick;
+@interface HyBidCustomClickUtil : NSObject
 
-@interface HyBidAdTracker : NSObject
-
-@property (nonatomic, assign) BOOL impressionTracked;
-
-- (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
-                         withClickURLs:(NSArray *)clickURLs
-                                 forAd:(HyBidAd *)ad;
-- (void)trackClickWithAdFormat:(NSString *)adFormat;
-- (void)trackImpressionWithAdFormat:(NSString *)adFormat;
-- (void)trackCustomEndCardImpressionWithAdFormat:(NSString *)adFormat;
-- (void)trackCustomEndCardClickWithAdFormat:(NSString *)adFormat;
++ (NSString*)extractPNClickUrl:(NSString*) url;
 
 @end

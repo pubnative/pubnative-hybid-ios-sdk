@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "2.20.0-beta3"
+  s.version      = "2.20.0-beta4"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.license             = { :type => "MIT", :text => <<-LICENSE
     MIT License
 
-    Copyright (c) 2022 PubNative GmbH
+    Copyright (c) 2023 PubNative GmbH
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
 
   s.ios.deployment_target = "10.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.20.0-beta3" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "2.20.0-beta4" }
   s.xcconfig = {
     'OTHER_LDFLAGS' => '-framework OMSDK_Pubnativenet'
   }

@@ -38,6 +38,14 @@ typedef struct {
     char *timestamp;
 } SKANObject;
 
+typedef enum {
+    HyBidDemoAppPlacementBanner = 0,
+    HyBidDemoAppPlacementMRect = 1,
+    HyBidDemoAppPlacementLeaderboard = 2,
+    HyBidDemoAppPlacementInterstitial = 3,
+    HyBidDemoAppPlacementRewarded = 4
+} HyBidMarkupPlacement;
+
 @interface HyBidAd : NSObject
 
 @property (nonatomic, readonly) NSString *vast;

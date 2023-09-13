@@ -31,6 +31,7 @@
 #import "HyBid.h"
 #import "StoreKit/StoreKit.h"
 #import "HyBidSKAdNetworkParameter.h"
+#import "HyBidCustomClickUtil.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -80,7 +81,8 @@
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
                                                 contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0];
+                                                 skipOffset:0
+                                                 isEndcard:NO];
 }
 
 - (void)loadMarkupWithSize:(HyBidAdSize *)adSize {
@@ -96,7 +98,8 @@
                                             serviceDelegate:self
                                          rootViewController:[UIApplication sharedApplication].topViewController
                                                 contentInfo:self.adModel.contentInfo
-                                                 skipOffset:0];
+                                                 skipOffset:0
+                                                 isEndcard:NO];
 }
 
 - (void)startTracking {
@@ -146,7 +149,10 @@
     
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
-    if (skAdNetworkModel) {
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url.absoluteString];
+    if (customUrl != nil) {
+        [self.serviceProvider openBrowser:customUrl];
+    } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
@@ -189,7 +195,10 @@
     
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
-    if (skAdNetworkModel) {
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:urlString];
+    if (customUrl != nil) {
+        [self.serviceProvider openBrowser:customUrl];
+    } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];

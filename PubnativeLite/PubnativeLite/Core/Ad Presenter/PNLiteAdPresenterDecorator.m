@@ -170,9 +170,11 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
         if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
             [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
         }
-        [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withAdPresenter:adPresenter];
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        if(self.errorReportingProperties) {
+            [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withAdPresenter:adPresenter];
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+        }
         [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
     }
 }

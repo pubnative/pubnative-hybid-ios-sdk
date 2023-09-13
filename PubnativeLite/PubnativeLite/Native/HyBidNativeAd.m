@@ -33,6 +33,7 @@
 #import "HyBidURLDriller.h"
 #import "HyBid.h"
 #import "HyBidSKAdNetworkParameter.h"
+#import "HyBidCustomClickUtil.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -284,7 +285,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (void)reportEvent:(NSString *)eventType withProperties:(NSMutableDictionary *)properties {
     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
                                                                        adFormat:HyBidReportingAdFormat.NATIVE
-                                                                     properties:properties];
+                                                                     properties:[NSDictionary dictionaryWithDictionary:properties]];
     [[HyBid reportingManager] reportEventFor:reportingEvent];
 }
 #pragma mark Tracking & Clicking
@@ -316,8 +317,11 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
             self.impressionTracker.delegate = self;
         }
         [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.ad.zoneID];
-        [self addSessionReportingProperties:self.sessionReportingProperties];
-        [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
+        
+        if(self.sessionReportingProperties){
+            [self addSessionReportingProperties:self.sessionReportingProperties];
+            [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
+        }
         [self.impressionTracker addView:view];
         
         #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
@@ -377,7 +381,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         
         HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
         
-        if (skAdNetworkModel) {
+        NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:self.clickUrl];
+        if (customUrl != nil) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:customUrl] options:@{} completionHandler:nil];
+        } else if (skAdNetworkModel) {
             NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
             
             [self insertStoreKitFidelityIntoDictionaryIfNeeded:productParams];

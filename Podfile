@@ -19,7 +19,7 @@ target 'HyBidDemo' do
   pod 'Firebase/Crashlytics', '8.13.0'
   pod 'Google-Mobile-Ads-SDK', '~> 10.0'
   pod 'AppLovinSDK', '11.4.0'
-  pod 'IronSourceSDK','7.4.0.0'
+  pod 'IronSourceSDK','7.5.0.0'
 end
 
 target 'HyBidTests' do

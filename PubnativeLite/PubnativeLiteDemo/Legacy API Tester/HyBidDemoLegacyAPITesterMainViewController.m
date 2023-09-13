@@ -33,7 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
 @property (weak, nonatomic) IBOutlet UITextView *adReponseTextView;
-@property (nonatomic) HyBidDemoAppPlacement placement;
+@property (nonatomic) HyBidMarkupPlacement placement;
 @property (nonatomic, strong) NSString *adResponse;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
@@ -128,12 +128,12 @@
     }
 }
 
-- (void)loadWithURL:(HyBidDemoAppPlacement)placement {
+- (void)loadWithURL:(HyBidMarkupPlacement)placement {
     NSString *urlString = [[self.adReponseTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
     [self requestWithUrlForPlacement:urlString forPlacement:placement];
 }
 
-- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidDemoAppPlacement)placement {
+- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidMarkupPlacement)placement {
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
     NSMutableDictionary* newRequestHTTPHeader = [[NSMutableDictionary alloc] init];
     [urlRequest setAllHTTPHeaderFields: newRequestHTTPHeader];
@@ -211,7 +211,7 @@
     self.placement = HyBidDemoAppPlacementRewarded;
 }
 
-- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(HyBidDemoAppPlacement)placement withData:(NSData*)data {
+- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(HyBidMarkupPlacement)placement withData:(NSData*)data {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         self.adResponse = adResponse;

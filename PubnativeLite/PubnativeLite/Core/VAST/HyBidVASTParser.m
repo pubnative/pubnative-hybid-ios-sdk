@@ -26,6 +26,12 @@
 #import "HyBidVASTSchema.h"
 #import "HyBidXMLEx.h"
 
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
+
 NSInteger const HyBidVASTModel_MaxRecursiveDepth = 5;
 BOOL const HyBidVASTModel_ValidateWithSchema = NO;
 
@@ -92,8 +98,17 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
 #pragma mark - "private" method
 
 - (HyBidVASTParserError)parseRecursivelyWithData:(NSData *)vastData depth:(int)depth {
-    NSString *vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
+    NSString *vastDataString = nil;
     
+    @try {
+        vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
+    } @catch (NSException *exception) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Parsing VAST data failed with error: %@", exception.reason]];
+    }
+    
+    if (!vastDataString) {
+        return HyBidVASTParserError_XMLParse;
+    }
     // having XML namespace in the XML causes parsing issues
     // therefore we are replacing the starting <VAST> line
     NSString *regexExp = @"<VAST .*?>";

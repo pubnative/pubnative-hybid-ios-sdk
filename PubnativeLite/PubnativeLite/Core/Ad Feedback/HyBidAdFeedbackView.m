@@ -90,7 +90,8 @@
                                                serviceDelegate:self
                                             rootViewController:[UIApplication sharedApplication].topViewController
                                                    contentInfo:nil
-                                                    skipOffset:0];
+                                                    skipOffset:0
+                                                     isEndcard:NO];
     }
     return self;
 }

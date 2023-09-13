@@ -378,8 +378,6 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
         }
     }
 
-    @objc public var inputLanguages: [String] = UITextInputMode.activeInputModes.compactMap { $0.primaryLanguage }
-
     @objc public var isAirplaneModeEnabled: String? {
         if #available(iOS 12, *) {
             let networkInfo = CTTelephonyNetworkInfo()
@@ -389,14 +387,6 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
             return radioAccessTechnology.isEmpty ? "1" : "0"
         }
         return nil
-    }
-    
-    @objc public var totalDiskSpace: String? {
-        return UIDevice.current.totalDiskSpaceInMegabytes()
-    }
-    
-    @objc public var availableDiskSpace: String? {
-        return UIDevice.current.freeDiskSpaceInMegabytes()
     }
 }
 
@@ -468,43 +458,5 @@ public extension UIDevice {
     
     return mapToDevice(identifier: identifier)
   }()
-    
-    func totalDiskSpaceInBytes() -> Int64 {
-        do {
-            guard let totalDiskSpaceInBytes = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())[FileAttributeKey.systemSize] as? Int64 else {
-                return 0
-            }
-            return totalDiskSpaceInBytes
-        } catch {
-            return 0
-        }
-    }
-    
-    func freeDiskSpaceInBytes() -> Int64 {
-        do {
-            guard let totalDiskSpaceInBytes = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())[FileAttributeKey.systemFreeSize] as? Int64 else {
-                return 0
-            }
-            return totalDiskSpaceInBytes
-        } catch {
-            return 0
-        }
-    }
-            
-    func totalDiskSpaceInMegabytes() -> String? {
-        let diskSpaceInBytes = totalDiskSpaceInBytes()
-        if diskSpaceInBytes > 0 {
-            return String(diskSpaceInBytes / (1024*1024))
-        }
-        return nil
-    }
-    
-    func freeDiskSpaceInMegabytes() -> String? {
-        let freeSpaceInBytes = freeDiskSpaceInBytes()
-        if freeSpaceInBytes > 0 {
-            return String(freeSpaceInBytes / (1024*1024))
-        }
-        return nil
-    }
 
 }

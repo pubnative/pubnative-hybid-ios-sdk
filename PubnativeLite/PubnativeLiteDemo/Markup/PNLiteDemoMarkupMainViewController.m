@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *interstitialButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardedButton;
 @property (weak, nonatomic) IBOutlet UITextView *markupTextView;
-@property (nonatomic) HyBidDemoAppPlacement placement;
+@property (nonatomic) HyBidMarkupPlacement placement;
 @property (nonatomic, strong) Markup *markup;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
@@ -148,7 +148,7 @@
     }
 }
 
-- (void)loadCreativeWithURL:(HyBidDemoAppPlacement)placement {
+- (void)loadCreativeWithURL:(HyBidMarkupPlacement)placement {
     NSString *urlString = [[self.markupTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
     if ([urlString containsString:@"|"] || ([urlString containsString:@"<"] && ([urlString containsString:@">"]))){
         urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -157,7 +157,7 @@
     [self requestWithUrlForPlacement:urlString forPlacement:placement];
 }
 
-- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidDemoAppPlacement)placement {
+- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidMarkupPlacement)placement {
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
     NSMutableDictionary* newRequestHTTPHeader = [[NSMutableDictionary alloc] init];
     [urlRequest setAllHTTPHeaderFields: newRequestHTTPHeader];
@@ -243,7 +243,7 @@
     self.placement = HyBidDemoAppPlacementRewarded;
 }
 
-- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(HyBidDemoAppPlacement)placement withData:(NSData*)data {
+- (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(HyBidMarkupPlacement)placement withData:(NSData*)data {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     dispatch_async(dispatch_get_main_queue(), ^{
     if ([response respondsToSelector:@selector(allHeaderFields)]) {

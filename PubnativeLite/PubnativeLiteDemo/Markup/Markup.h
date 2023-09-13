@@ -21,13 +21,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidDemoEnumConstants.h"
+#import "HyBidAd.h"
 
 @interface Markup : NSObject
 
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic) HyBidDemoAppPlacement placement;
+@property (nonatomic) HyBidMarkupPlacement placement;
 
-- (instancetype)initWithMarkupText:(NSString *)markupText withAdPlacement:(HyBidDemoAppPlacement)placement;
+- (instancetype)initWithMarkupText:(NSString *)markupText withAdPlacement:(HyBidMarkupPlacement)placement;
 
 @end

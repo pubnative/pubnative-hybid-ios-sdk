@@ -105,10 +105,7 @@
 + (NSString *)videoPosition                 { return @"videopos"; }
 + (NSString *)mraidendcard                  { return @"mraidendcard"; }
 + (NSString *)darkmode                      { return @"darkmode"; }
-+ (NSString *)inputLanguage                 { return @"inputlanguage"; }
 + (NSString *)airplaneMode                  { return @"airplane"; }
-+ (NSString *)totalDiskSpace                { return @"totaldisk"; }
-+ (NSString *)availableDiskSpace            { return @"diskspace"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString *)skAdNetworkVersion            { return @"skadn_version"; }

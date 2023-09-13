@@ -204,7 +204,7 @@ public class HyBidInterstitialAd: NSObject {
     public func prepareCustomMarkupFrom(_ markup: String) {
         self.cleanUp()
         self.initialLoadTimestamp = Date().timeIntervalSince1970
-        self.interstitialAdRequest?.processCustomMarkup(from: markup, andWith: HyBidInterstitialAdRequestWrapper(parent: self))
+        self.interstitialAdRequest?.processCustomMarkup(from: markup, with: HyBidDemoAppPlacementInterstitial, andWith: HyBidInterstitialAdRequestWrapper(parent: self))
     }
     
     func processAdContent(adContent: String) {

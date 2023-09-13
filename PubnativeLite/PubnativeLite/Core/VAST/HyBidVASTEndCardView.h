@@ -32,6 +32,7 @@
 
 - (void)vastEndCardViewCloseButtonTapped;
 - (void)vastEndCardViewSkipButtonTapped;
+- (void)vastEndCardViewFailedToLoad;
 - (void)vastEndCardViewClicked:(BOOL)triggerAdClick;
 - (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success;
 

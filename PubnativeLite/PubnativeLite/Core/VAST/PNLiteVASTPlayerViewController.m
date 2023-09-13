@@ -46,6 +46,7 @@
 #import "HyBidCloseButton.h"
 #import "PNLiteOrientationManager.h"
 #import "HyBidSKAdNetworkParameter.h"
+#import "HyBidCustomClickUtil.h"
 
 #define kContentInfoContainerTag 2343
 
@@ -590,7 +591,7 @@ typedef enum {
     Float64 duration = ([self duration] - (int) [self duration]) > 0.5 ? ((int) [self duration] + 1) : (int) [self duration];
     if (duration > HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET && self.skipOffset >= HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET) {
         self.skipOffset = HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET;
-    } else if(duration <= HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET && self.skipOffset >= duration) {
+    } else if(duration <= HyBidSkipOffset.DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET && self.skipOffset > duration) {
         return;
     }
     
@@ -1016,7 +1017,10 @@ typedef enum {
     [self invokeDidClickOffer];
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
     
-    if (self.skAdModel) {
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
+    if (customUrl != nil) {
+        [self openUrlInBrowser:customUrl];
+    } else if (self.skAdModel) {
         NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
         
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
@@ -1035,26 +1039,26 @@ typedef enum {
             });
         } else {
             if (throughClickURL != nil) {
-                BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
-                if(!canOpenURL){
-                    throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
-                }
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                    [self togglePlaybackStateOnSuccess: success];
-                }];
+                [self openUrlInBrowser:throughClickURL];
             }
         }
     } else {
         if (throughClickURL != nil) {
-            BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:throughClickURL]];
-            if(!canOpenURL){
-                throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
-            }
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                [self togglePlaybackStateOnSuccess: success];
-            }];
+            [self openUrlInBrowser:throughClickURL];
         }
     }
+}
+
+- (void)openUrlInBrowser:(NSString*) url {
+    NSURL *clickUrl = [NSURL URLWithString:url];
+    BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
+    if(!canOpenURL){
+        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
+        clickUrl = [NSURL URLWithString:url];
+    }
+    [[UIApplication sharedApplication] openURL:clickUrl options:@{} completionHandler:^(BOOL success) {
+        [self togglePlaybackStateOnSuccess: success];
+    }];
 }
 
 - (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary {
@@ -1642,7 +1646,6 @@ typedef enum {
         [self.player seekToTime:self.player.currentItem.duration
                 toleranceBefore:kCMTimeZero
                  toleranceAfter:kCMTimePositiveInfinity];
-        [self.layer removeFromSuperlayer];
     }
     [self setState:PNLiteVASTPlayerState_READY];
     [self.endCards sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"isCustomEndCard" ascending:YES]]];
@@ -1682,12 +1685,25 @@ typedef enum {
 - (void)vastEndCardViewClicked:(BOOL)triggerAdClick {
     if(triggerAdClick){
         [self trackClick];
+    } else {
+        [self invokeDidClickOffer];
     }
-    [self invokeDidClickOffer];
 }
 
 - (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success {
     [self togglePlaybackStateOnSuccess:success];
+}
+
+- (void)vastEndCardViewFailedToLoad {
+    if (self.endCards.count > 0) {
+        [self vastEndCardViewSkipButtonTapped];
+    } else {
+        if(self.endCardView != nil) {
+            [self.endCardView removeFromSuperview];
+        }
+        [self updateVideoFrameToLastInterruption];
+        [self addCloseButton];
+    }
 }
 
 #pragma mark - TIMERS -

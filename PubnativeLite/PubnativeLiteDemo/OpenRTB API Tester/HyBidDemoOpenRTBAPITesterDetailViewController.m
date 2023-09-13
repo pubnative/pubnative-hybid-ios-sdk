@@ -73,7 +73,7 @@
     }
 }
 
-- (void)prepareAdViewForPlacement:(HyBidDemoAppPlacement)placement {
+- (void)prepareAdViewForPlacement:(HyBidMarkupPlacement)placement {
     switch (self.placement){
         case HyBidDemoAppPlacementBanner: {
             self.adViewContainerWidthConstraint.constant = 320;
