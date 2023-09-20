@@ -25,6 +25,7 @@
 @interface HyBidCloseButton : UIButton
 
 - (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target;
-- (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target useCustomClose:(BOOL)useCustomClose;
+- (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target showSkipButton:(BOOL)showSkipButton;
+- (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target showSkipButton:(BOOL)showSkipButton useCustomClose:(BOOL)useCustomClose;
 
 @end

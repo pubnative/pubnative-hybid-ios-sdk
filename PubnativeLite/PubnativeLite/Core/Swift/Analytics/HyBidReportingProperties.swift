@@ -96,6 +96,8 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let COMPANION_VIEW = "companion_view"
     @objc public static let REWARD = "reward"
     @objc public static let SESSION_REPORT_INFO = "session_report_info"
+    @objc public static let CUSTOM_ENDCARD_IMPRESSION = "custom_endcard_impression"
+    @objc public static let CUSTOM_ENDCARD_CLICK = "custom_endcard_click"
 }
 
 @objc(HyBidReportingCreativeType)

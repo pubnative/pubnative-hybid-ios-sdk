@@ -28,6 +28,7 @@
 #import "HyBidSkAdNetworkModel.h"
 #import "HyBidOpenRTBAdModel.h"
 #import "HyBid.h"
+#import "HyBidSKAdNetworkParameter.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -212,6 +213,15 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if (data) {
             result = data.html;
         }
+    }
+    return result;
+}
+
+- (NSString *)customEndCardData {
+    NSString *result = nil;
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.customEndcard];
+    if (data) {
+        result = data.html;
     }
     return result;
 }
@@ -418,12 +428,34 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 //    return result;
 //}
 
+- (NSNumber *)creativeAutoStorekitEnabled {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.creativeAutoStorekitEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.creativeAutoStorekitEnabled];
+        }
+    }
+    return result;
+}
+
 - (NSNumber *)endcardEnabled {
     NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
         if ([jsonDictionary objectForKey:PNLiteData.endcardEnabled] != (id)[NSNull null]) {
             result = [jsonDictionary objectForKey:PNLiteData.endcardEnabled];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)customEndcardEnabled {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.customEndcardEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.customEndcardEnabled];
         }
     }
     return result;
@@ -572,6 +604,16 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (NSString *)customEndcardDisplay {
+    NSString *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.customEndcardDisplay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.customEndcardDisplay];
+        }
+    }
+    return result;
+}
 
 - (NSArray<HyBidDataModel *> *)beacons {
     if (self.data) {
@@ -690,59 +732,77 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         
-        if ([data stringFieldWithKey:@"sourceIdentifier"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"sourceIdentifier"] forKey:@"sourceIdentifier"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceIdentifier] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceIdentifier] forKey:HyBidSKAdNetworkParameter.sourceIdentifier];
         }
-        if ([data stringFieldWithKey:@"campaign"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] forKey:HyBidSKAdNetworkParameter.campaign];
         }
-        if ([data stringFieldWithKey:@"itunesitem"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"itunesitem"] forKey:@"itunesitem"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] forKey:HyBidSKAdNetworkParameter.itunesitem];
         }
-        if ([data stringFieldWithKey:@"network"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"network"] forKey:@"network"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.network] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.network] forKey:HyBidSKAdNetworkParameter.network];
         }
-        if ([data stringFieldWithKey:@"sourceapp"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"sourceapp"] forKey:@"sourceapp"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceapp] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceapp] forKey:HyBidSKAdNetworkParameter.sourceapp];
         }
-        if ([data stringFieldWithKey:@"version"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"version"] forKey:@"version"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.version] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.version] forKey:HyBidSKAdNetworkParameter.version];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.present] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.present] forKey:HyBidSKAdNetworkParameter.present];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.position] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.position] forKey:HyBidSKAdNetworkParameter.position];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.dismissible] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.dismissible] forKey:HyBidSKAdNetworkParameter.dismissible];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.delay] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.delay] forKey:HyBidSKAdNetworkParameter.delay];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.endcardDelay] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.endcardDelay] forKey:HyBidSKAdNetworkParameter.endcardDelay];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.autoClose] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.autoClose] forKey:HyBidSKAdNetworkParameter.autoClose];
         }
         
-        double skanVersion = [[data dictionary][@"skadn"][@"version"] doubleValue];
-        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [data.dictionary[@"skadn"][@"fidelities"] count] > 0) {
+        double skanVersion = [[data dictionary][HyBidSKAdNetworkParameter.skadn][HyBidSKAdNetworkParameter.version] doubleValue];
+        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [data.dictionary[HyBidSKAdNetworkParameter.skadn][HyBidSKAdNetworkParameter.fidelities] count] > 0) {
             SKANObject skan;
-            NSArray *fidelities = data.dictionary[@"skadn"][@"fidelities"];
+            NSArray *fidelities = data.dictionary[HyBidSKAdNetworkParameter.skadn][HyBidSKAdNetworkParameter.fidelities];
             NSMutableArray<NSData *> *skanDataArray = [NSMutableArray new];
             
             for (NSDictionary *fidelity in fidelities) {
-                if (fidelity[@"nonce"] != nil &&
-                    fidelity[@"signature"] != nil &&
-                    fidelity[@"timestamp"] != nil &&
-                    fidelity[@"fidelity"] != nil) {
-                    skan.nonce = (char *)[fidelity[@"nonce"] UTF8String];
-                    skan.signature = (char *)[fidelity[@"signature"] UTF8String];
-                    skan.timestamp = (char *)[fidelity[@"timestamp"] UTF8String];
-                    skan.fidelity = [fidelity[@"fidelity"] intValue];
+                if (fidelity[HyBidSKAdNetworkParameter.nonce] != nil &&
+                    fidelity[HyBidSKAdNetworkParameter.signature] != nil &&
+                    fidelity[HyBidSKAdNetworkParameter.timestamp] != nil &&
+                    fidelity[HyBidSKAdNetworkParameter.fidelity] != nil) {
+                    skan.nonce = (char *)[fidelity[HyBidSKAdNetworkParameter.nonce] UTF8String];
+                    skan.signature = (char *)[fidelity[HyBidSKAdNetworkParameter.signature] UTF8String];
+                    skan.timestamp = (char *)[fidelity[HyBidSKAdNetworkParameter.timestamp] UTF8String];
+                    skan.fidelity = [fidelity[HyBidSKAdNetworkParameter.fidelity] intValue];
                     
                     NSData *d = [NSData dataWithBytes:&skan length:sizeof(SKANObject)];
                     [skanDataArray addObject:d];
                 }
             }
             
-            [dict setObject:skanDataArray forKey:@"fidelities"];
+            [dict setObject:skanDataArray forKey:HyBidSKAdNetworkParameter.fidelities];
         } else {
-            if ([data stringFieldWithKey:@"signature"] != nil) {
-                [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.signature] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.signature] forKey:HyBidSKAdNetworkParameter.signature];
             }
-            if ([data stringFieldWithKey:@"timestamp"] != nil) {
-                [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.timestamp] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.timestamp] forKey:HyBidSKAdNetworkParameter.timestamp];
             }
-            if ([data stringFieldWithKey:@"nonce"] != nil) {
-                [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.nonce] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.nonce] forKey:HyBidSKAdNetworkParameter.nonce];
             }
-            if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
-                [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
+            if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.fidelityType] != nil) {
+                [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.fidelityType] forKey:HyBidSKAdNetworkParameter.fidelityType];
             }
         }
         
@@ -759,59 +819,77 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         
-        if ([data stringFieldWithKey:@"sourceIdentifier"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"sourceIdentifier"] forKey:@"sourceIdentifier"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceIdentifier] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceIdentifier] forKey:HyBidSKAdNetworkParameter.sourceIdentifier];
         }
-        if ([data stringFieldWithKey:@"campaign"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"campaign"] forKey:@"campaign"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] forKey:HyBidSKAdNetworkParameter.campaign];
         }
-        if ([data stringFieldWithKey:@"itunesitem"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"itunesitem"] forKey:@"itunesitem"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] forKey:HyBidSKAdNetworkParameter.itunesitem];
         }
-        if ([data stringFieldWithKey:@"network"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"network"] forKey:@"network"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.network] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.network] forKey:HyBidSKAdNetworkParameter.network];
         }
-        if ([data stringFieldWithKey:@"sourceapp"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"sourceapp"] forKey:@"sourceapp"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceapp] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.sourceapp] forKey:HyBidSKAdNetworkParameter.sourceapp];
         }
-        if ([data stringFieldWithKey:@"version"] != nil) {
-            [dict setValue:[data stringFieldWithKey:@"version"] forKey:@"version"];
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.version] != nil) {
+            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.version] forKey:HyBidSKAdNetworkParameter.version];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.present] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.present] forKey:HyBidSKAdNetworkParameter.present];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.position] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.position] forKey:HyBidSKAdNetworkParameter.position];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.dismissible] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.dismissible] forKey:HyBidSKAdNetworkParameter.dismissible];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.delay] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.delay] forKey:HyBidSKAdNetworkParameter.delay];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.endcardDelay] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.endcardDelay] forKey:HyBidSKAdNetworkParameter.endcardDelay];
+        }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.autoClose] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.autoClose] forKey:HyBidSKAdNetworkParameter.autoClose];
         }
         
-        double skanVersion = [[data dictionary][@"data"][@"version"] doubleValue];
-        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [data.dictionary[@"data"][@"fidelities"] count] > 0) {
+        double skanVersion = [[data dictionary][@"data"][HyBidSKAdNetworkParameter.version] doubleValue];
+        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [data.dictionary[@"data"][HyBidSKAdNetworkParameter.fidelities] count] > 0) {
             SKANObject skan;
-            NSArray *fidelities = data.dictionary[@"data"][@"fidelities"];
+            NSArray *fidelities = data.dictionary[@"data"][HyBidSKAdNetworkParameter.fidelities];
             NSMutableArray<NSData *> *skanDataArray = [NSMutableArray new];
             
             for (NSDictionary *fidelity in fidelities) {
-                if (fidelity[@"nonce"] != nil &&
-                    fidelity[@"signature"] != nil &&
-                    fidelity[@"timestamp"] != nil &&
-                    fidelity[@"fidelity"] != nil) {
-                    skan.nonce = (char *)[fidelity[@"nonce"] UTF8String];
-                    skan.signature = (char *)[fidelity[@"signature"] UTF8String];
-                    skan.timestamp = (char *)[fidelity[@"timestamp"] UTF8String];
-                    skan.fidelity = [fidelity[@"fidelity"] intValue];
+                if (fidelity[HyBidSKAdNetworkParameter.nonce] != nil &&
+                    fidelity[HyBidSKAdNetworkParameter.signature] != nil &&
+                    fidelity[HyBidSKAdNetworkParameter.timestamp] != nil &&
+                    fidelity[HyBidSKAdNetworkParameter.fidelity] != nil) {
+                    skan.nonce = (char *)[fidelity[HyBidSKAdNetworkParameter.nonce] UTF8String];
+                    skan.signature = (char *)[fidelity[HyBidSKAdNetworkParameter.signature] UTF8String];
+                    skan.timestamp = (char *)[fidelity[HyBidSKAdNetworkParameter.timestamp] UTF8String];
+                    skan.fidelity = [fidelity[HyBidSKAdNetworkParameter.fidelity] intValue];
                     
                     NSData *d = [NSData dataWithBytes:&skan length:sizeof(SKANObject)];
                     [skanDataArray addObject:d];
                 }
             }
             
-            [dict setObject:skanDataArray forKey:@"fidelities"];
+            [dict setObject:skanDataArray forKey:HyBidSKAdNetworkParameter.fidelities];
         } else {
-            if ([data stringFieldWithKey:@"nonce"] != nil) {
-                [dict setValue:[data stringFieldWithKey:@"nonce"] forKey:@"nonce"];
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.nonce] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.nonce] forKey:HyBidSKAdNetworkParameter.nonce];
             }
-            if ([data stringFieldWithKey:@"signature"] != nil) {
-                [dict setValue:[data stringFieldWithKey:@"signature"] forKey:@"signature"];
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.signature] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.signature] forKey:HyBidSKAdNetworkParameter.signature];
             }
-            if ([data stringFieldWithKey:@"timestamp"] != nil) {
-                [dict setValue:[data stringFieldWithKey:@"timestamp"] forKey:@"timestamp"];
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.timestamp] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.timestamp] forKey:HyBidSKAdNetworkParameter.timestamp];
             }
-            if ([data numberFieldWithKey:@"fidelity-type"] != nil) {
-                [dict setValue:[data numberFieldWithKey:@"fidelity-type"] forKey:@"fidelity-type"];
+            if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.fidelityType] != nil) {
+                [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.fidelityType] forKey:HyBidSKAdNetworkParameter.fidelityType];
             }
         }
         

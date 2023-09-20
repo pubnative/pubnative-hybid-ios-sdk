@@ -189,8 +189,14 @@
 }
 
 + (HyBidXMLElement*) childElementNamed:(NSString*)aName parentElement:(HyBidXMLElement*)aParentXMLElement{
+    if (!aParentXMLElement) {
+        return nil;
+    }
 	HyBidXMLElement * xmlElement = aParentXMLElement->firstChild;
 	const char * name = [aName cStringUsingEncoding:NSUTF8StringEncoding];
+    if (!name) {
+        return nil;
+    }
 	while (xmlElement) {
         for(int i = 0; xmlElement->name[i]; i++){
             xmlElement->name[i] = tolower(xmlElement->name[i]);

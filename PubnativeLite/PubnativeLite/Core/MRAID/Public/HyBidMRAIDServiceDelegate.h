@@ -42,4 +42,6 @@ static NSString* PNLiteMRAIDSupportsLocation = @"location";
 - (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString;
 - (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString;
 - (void)mraidServiceCallNumberWithUrlString:(NSString *)urlString;
+- (void)mraidServiceTrackingEndcardWithUrlString:(NSString *)urlString;
+
 @end

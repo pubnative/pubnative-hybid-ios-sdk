@@ -71,18 +71,48 @@
     }
     self.adRequestModel.requestParameters[HyBidRequestParameter.os] = [HyBidSettings sharedInstance].os;
     self.adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [HyBidSettings sharedInstance].osVersion;
-    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [HyBidSettings sharedInstance].deviceName;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceOsVersion] = [HyBidSettings sharedInstance].osVersion;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [HyBidSettings sharedInstance].deviceModel;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceMake] = [HyBidSettings sharedInstance].deviceMake;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceType] = [HyBidSettings sharedInstance].deviceType;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceModelIdentifier] = [HyBidSettings sharedInstance].deviceModelIdentifier;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.screenWidthInPixels] = [HyBidSettings sharedInstance].screenWidthInPixels;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.screenHeightInPixels] = [HyBidSettings sharedInstance].screenHeightInPixelss;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.js] = [HyBidSettings sharedInstance].jsValue;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.pxRatio] = [HyBidSettings sharedInstance].pxRatio;
+    self.adRequestModel.requestParameters[HyBidRequestParameter.language] = [HyBidSettings sharedInstance].language;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceWidth] = [HyBidSettings sharedInstance].deviceWidth;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceHeight] = [HyBidSettings sharedInstance].deviceHeight;
     self.adRequestModel.requestParameters[HyBidRequestParameter.orientation] = [HyBidSettings sharedInstance].orientation;
     self.adRequestModel.requestParameters[HyBidRequestParameter.coppa] = [HyBidConsentConfig sharedConfig].coppa ? @"1" : @"0";
+    self.adRequestModel.requestParameters[HyBidRequestParameter.charging] = [HyBidSettings sharedInstance].isDeviceCharging;
+    if ([HyBidSettings sharedInstance].batteryLevel) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.batteryLevel] = [HyBidSettings sharedInstance].batteryLevel;
+    }
+    self.adRequestModel.requestParameters[HyBidRequestParameter.batterySaver] = [HyBidSettings sharedInstance].batterySaver;
+    if ([HyBidSettings sharedInstance].isAirplaneModeEnabled) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.airplaneMode] = [HyBidSettings sharedInstance].isAirplaneModeEnabled;
+    }
     [self setIDFA:self.adRequestModel];
     
     NSString *locale = [HyBidSettings sharedInstance].locale;
     if (locale && [locale length] != 0){
         self.adRequestModel.requestParameters[HyBidRequestParameter.locale] = locale;
     }
-    
+    if (@available(iOS 16.0, *)) {
+        
+    } else {
+        NSString *carrierName = [HyBidSettings sharedInstance].carrierName;
+        NSString *carrierMCCMNC = [HyBidSettings sharedInstance].carrierMCCMNC;
+        
+        if (carrierName != nil) {
+            self.adRequestModel.requestParameters[HyBidRequestParameter.carrier] = carrierName;
+        }
+        if (carrierMCCMNC != nil) {
+            self.adRequestModel.requestParameters[HyBidRequestParameter.carrierMCCMNC] = carrierMCCMNC;
+        }
+    }
+
     BOOL isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
     if (isUsingOpenRTB) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
@@ -96,6 +126,12 @@
     if (@available(iOS 14, *)) {
         if ([HyBidSettings sharedInstance].appTrackingTransparency) {
             self.adRequestModel.requestParameters[HyBidRequestParameter.appTrackingTransparency] = [[HyBidSettings sharedInstance].appTrackingTransparency stringValue];
+        }
+    }
+    
+    if (@available(iOS 14.1, *)) {
+        if ([HyBidSettings sharedInstance].connectionType) {
+            self.adRequestModel.requestParameters[HyBidRequestParameter.connectiontype] = [HyBidSettings sharedInstance].connectionType;
         }
     }
     
@@ -137,9 +173,15 @@
             if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
                 NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
                 NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
-                
+                NSString *accuracy = [NSString stringWithFormat:@"%d", (int)round(location.horizontalAccuracy)];
+
                 self.adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
                 self.adRequestModel.requestParameters[HyBidRequestParameter.lon] = lon;
+                if (accuracy != nil && accuracy >= 0) {
+                    self.adRequestModel.requestParameters[HyBidRequestParameter.accuracy] = accuracy;
+                    self.adRequestModel.requestParameters[HyBidRequestParameter.utcoffset] = [self formatUTCTime];
+                }
+
             }
         }
     }
@@ -192,6 +234,43 @@
     [self setDisplayManager:self.adRequestModel withIntegrationType:integrationType];
     [self setSupportedAPIs:self.adRequestModel];
     [self setSupportedProtocols:self.adRequestModel];
+    
+    // Impression data
+    self.adRequestModel.requestParameters[HyBidRequestParameter.clickbrowser] = @"1";
+    self.adRequestModel.requestParameters[HyBidRequestParameter.topframe] = @"1";
+    
+    NSString* darkMode = [HyBidSettings sharedInstance].isDarkModeEnabled;
+    if (darkMode) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.darkmode] = darkMode;
+    }
+    
+    if (adSize && ![adSize isEqualTo:HyBidAdSize.SIZE_NATIVE]) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.mimes] = @"text/html,text/javascript";
+        self.adRequestModel.requestParameters[HyBidRequestParameter.videomimes] = @"video/mp4,video/webm";
+        self.adRequestModel.requestParameters[HyBidRequestParameter.boxingallowed] = @"0"; // No boxing
+        self.adRequestModel.requestParameters[HyBidRequestParameter.linearity] = @"1"; // Linear
+        self.adRequestModel.requestParameters[HyBidRequestParameter.playbackend] = @"1"; // Video finish or user action
+        self.adRequestModel.requestParameters[HyBidRequestParameter.mraidendcard] = @"true";
+        self.adRequestModel.requestParameters[HyBidRequestParameter.delivery] = @"3"; // Download
+        self.adRequestModel.requestParameters[HyBidRequestParameter.clickType] = @"3"; // Native browser
+        
+        if ([adSize isEqualTo: HyBidAdSize.SIZE_INTERSTITIAL]) {
+            self.adRequestModel.requestParameters[HyBidRequestParameter.interstitial] = @"1";
+            self.adRequestModel.requestParameters[HyBidRequestParameter.pos] = HyBidImpressionConstants.PLACEMENT_POSITION_FULLSCREEN;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.videoPosition] = HyBidImpressionConstants.PLACEMENT_POSITION_FULLSCREEN;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.placement] = HyBidImpressionConstants.VIDEO_PLACEMENT_TYPE_INTERSTITIAL;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.placementSubtype] = HyBidImpressionConstants.VIDEO_PLACEMENT_SUBTYPE_INTERSTITIAL;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.playbackmethod] = [NSString stringWithFormat:@"%@,%@", HyBidImpressionConstants.VIDEO_PLAYBACK_METHOD_PAGE_LOAD_SOUND_ON, HyBidImpressionConstants.VIDEO_PLAYBACK_METHOD_PAGE_LOAD_SOUND_OFF];
+        } else {
+            self.adRequestModel.requestParameters[HyBidRequestParameter.interstitial] = @"0";
+            self.adRequestModel.requestParameters[HyBidRequestParameter.pos] = HyBidImpressionConstants.PLACEMENT_POSITION_UNKNOWN;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.videoPosition] = HyBidImpressionConstants.PLACEMENT_POSITION_UNKNOWN;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.placementSubtype] = HyBidImpressionConstants.VIDEO_PLACEMENT_SUBTYPE_STANDALONE;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.expandDirection] = [NSString stringWithFormat:@"%@,%@", HyBidImpressionConstants.EXPANDABLE_DIRECTION_FULLSCREEN, HyBidImpressionConstants.EXPANDABLE_DIRECTION_RESIZE_MINIMIZE];
+            self.adRequestModel.requestParameters[HyBidRequestParameter.playbackmethod] = [NSString stringWithFormat:@"%@,%@", HyBidImpressionConstants.VIDEO_PLAYBACK_METHOD_ENTER_VIEWPORT_SOUND_ON, HyBidImpressionConstants.VIDEO_PLAYBACK_METHOD_ENTER_VIEWPORT_SOUND_OFF];
+        }
+    }
+    
     return self.adRequestModel;
 }
 
@@ -272,6 +351,14 @@
                               [HyBidAPI apiTypeToString:OMID_1],
                               nil];
     adRequestModel.requestParameters[HyBidRequestParameter.api] = [supportedAPIs componentsJoinedByString:@","];
+}
+
+- (NSString *)formatUTCTime {
+    NSTimeZone* localTimeZone = [NSTimeZone localTimeZone];
+    NSDate* currentDate = [NSDate date];
+    NSInteger totalOffsetSeconds = [localTimeZone secondsFromGMTForDate:currentDate];
+    
+    return [NSString stringWithFormat:@"%ld", (long)totalOffsetSeconds / 60];
 }
 
 @end

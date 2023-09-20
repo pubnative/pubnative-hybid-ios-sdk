@@ -30,6 +30,8 @@
 #import "HyBidError.h"
 #import "HyBid.h"
 #import "StoreKit/StoreKit.h"
+#import "HyBidSKAdNetworkParameter.h"
+#import "HyBidCustomClickUtil.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -80,7 +82,8 @@
                                            serviceDelegate:self
                                         rootViewController:[UIApplication sharedApplication].topViewController
                                                contentInfo:self.adModel.contentInfo
-                                                skipOffset:_skipOffset];
+                                                skipOffset:_skipOffset
+                                                 isEndcard:NO];
 }
 
 - (void)show {
@@ -131,7 +134,10 @@
     
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
-    if (skAdNetworkModel) {
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url.absoluteString];
+    if (customUrl != nil) {
+        [self.serviceProvider openBrowser:customUrl];
+    } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
 
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
@@ -139,7 +145,7 @@
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [productParams removeObjectForKey:@"fidelity-type"];
+                [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
@@ -172,7 +178,10 @@
     
     HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
     
-    if (skAdNetworkModel) {
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:urlString];
+    if (customUrl != nil) {
+        [self.serviceProvider openBrowser:customUrl];
+    } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
@@ -180,7 +189,7 @@
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:urlString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [productParams removeObjectForKey:@"fidelity-type"];
+                [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
@@ -198,8 +207,8 @@
 - (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
 {
     double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
         
         if ([fidelitiesDataArray count] > 0) {
             for (NSData *fidelity in fidelitiesDataArray) {
@@ -220,10 +229,10 @@
                         [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
                         
                         NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
                     }
                     
-                    dictionary[@"fidelities"] = nil;
+                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
                     
                     break; // Currently we support only 1 fidelity for each kind
                 }

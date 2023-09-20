@@ -59,8 +59,11 @@
                 HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
                 NSArray *result = [[parser rootElement] query:@"Ad"];
                 for (int i = 0; i < [result count]; i++) {
-                    HyBidVASTAd *ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
+                    HyBidVASTAd * ad;
                     HyBidVASTCreative *adCreative;
+                    if (result[i]) {
+                        ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
+                    }
                     if ([ad wrapper] != nil){
                         for (HyBidVASTCreative *creative in [[ad wrapper] creatives]) {
                             [self retrieveIconsFrom:&adCreative block:block creative:creative icons:&icons];

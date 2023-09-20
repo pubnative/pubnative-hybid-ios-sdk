@@ -167,17 +167,15 @@ BOOL isInitialized = NO;
 }
 
 + (NSString *)getCustomRequestSignalData:(NSString *)mediationVendorName {
-    if (!HyBid.isInitialized) {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid SDK was not initialized. Please initialize it before getting Custom Request Signal Data. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
-        return @"";
-    }
-    
     PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false mediationVendorName:mediationVendorName];
-    
     HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
     NSURL* url = [adRequest requestURLFromAdRequestModel:adRequestModel];
-    
-    NSLog(@"requestParametersString %@", url.query);
+    if (!url) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Signal Data URL is nil"];
+        return nil;
+    }
+    NSString *logMessage = [NSString stringWithFormat:@"Signal Data Parameters String: %@", url.query];
+    [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:logMessage];
     return url.query;
 }
 

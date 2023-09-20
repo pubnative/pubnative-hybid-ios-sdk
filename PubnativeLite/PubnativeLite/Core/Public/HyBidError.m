@@ -175,4 +175,8 @@ NSString * const kHyBidErrorDomain = @"net.pubnative.PubnativeLite";
     return [NSError errorWithCode:HyBidErrorVASTParserNoAdResponse localizedDescription:@"Server does not or cannot return an Ad"];
 }
 
++ (instancetype)hyBidVASTBothAdAndErrorPresentInRootResponse {
+    return [NSError errorWithCode:HyBidErrorVASTParserNoAdResponse localizedDescription:@"An error has been detected on the root of the VAST response"];
+}
+
 @end

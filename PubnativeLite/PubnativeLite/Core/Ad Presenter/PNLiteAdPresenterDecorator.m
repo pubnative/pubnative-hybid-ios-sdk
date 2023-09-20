@@ -23,9 +23,6 @@
 #import "PNLiteAdPresenterDecorator.h"
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
-#import <StoreKit/SKOverlay.h>
-#import <StoreKit/SKOverlayConfiguration.h>
-#import "UIApplication+PNLiteTopViewController.h"
 #import "PNLiteImpressionTracker.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -36,19 +33,16 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface PNLiteAdPresenterDecorator () <SKOverlayDelegate, PNLiteImpressionTrackerDelegate>
+@interface PNLiteAdPresenterDecorator () <PNLiteImpressionTrackerDelegate>
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, weak) NSObject<HyBidAdPresenterDelegate> *adPresenterDelegate;
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
-@property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
-@property (nonatomic, assign) BOOL isOverlayShown;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) UIView *trackedView;
 @property (nonatomic, assign) BOOL videoStarted;
 @property (nonatomic, assign) BOOL impressionConfirmed;
-
 
 @end
 
@@ -71,13 +65,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     self.trackedView = nil;
     self.videoStarted = NO;
     self.impressionConfirmed = NO;
-    if (@available(iOS 14.0, *)) {
-        if (self.overlay) {
-            self.overlay = nil;
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-    }}
+}
 
 - (void)load {
     [self.adPresenter load];
@@ -100,7 +88,6 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     self.impressionTracker = nil;
     
     [self.adPresenter stopTracking];
-    [self dismissSKOverlay];
 }
 
 - (instancetype)initWithAdPresenter:(HyBidAdPresenter *)adPresenter
@@ -147,70 +134,6 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     }
 }
 
-- (void)presentSKOverlay {
-    if (self.adPresenter.ad.skoverlayEnabled) {
-        if ([self.adPresenter.ad.skoverlayEnabled boolValue]) {
-            [self checkSKOverlayAvailabilityAndPresent];
-        }
-    } else if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
-        [self checkSKOverlayAvailabilityAndPresent];
-    }
-}
-
-- (void)checkSKOverlayAvailabilityAndPresent {
-    if (@available(iOS 14.0, *)) {
-        if (self.overlay) {
-            if (!self.isOverlayShown) {
-                [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-            }
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-    }
-}
-
-- (void)dismissSKOverlay {
-    if (self.adPresenter.ad.skoverlayEnabled) {
-        if ([self.adPresenter.ad.skoverlayEnabled boolValue]) {
-            [self checkSKOverlayAvailabilityAndDismiss];
-        }
-    } else if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
-        [self checkSKOverlayAvailabilityAndDismiss];
-    }
-}
-
-- (void)checkSKOverlayAvailabilityAndDismiss {
-    NSString *previousBannerPresenterDecoratorDescription = [NSUserDefaults.standardUserDefaults stringForKey:kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey];
-    if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
-        if (@available(iOS 14.0, *)) {
-            if ([previousBannerPresenterDecoratorDescription isEqualToString:self.description]) {
-                if (self.overlay) {
-                    [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
-                }
-            }
-        } else {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-        }
-    }
-}
-
-- (void)checkSKOverlayAvailabilityAndPrepareForAdPresenter:(HyBidAdPresenter *)adPresenter {
-    if (@available(iOS 14.0, *)) {
-        HyBidSkAdNetworkModel* skAdNetworkModel = adPresenter.ad.isUsingOpenRTB ? [adPresenter.ad getOpenRTBSkAdNetworkModel] : [adPresenter.ad getSkAdNetworkModel];
-        NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:@"itunesitem"];
-        if (appIdentifier && appIdentifier.length > 0) {
-            SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
-                                                        initWithAppIdentifier:appIdentifier
-                                                        position:SKOverlayPositionBottom];
-            configuration.userDismissible = YES;
-            self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
-            self.overlay.delegate = self;
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
-    }
-}
-
 #pragma mark HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
@@ -229,13 +152,6 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     }
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didLoadWithAd:)]) {
         [self.adPresenterDelegate adPresenter:adPresenter didLoadWithAd:adView];
-        if (self.adPresenter.ad.skoverlayEnabled) {
-            if ([self.adPresenter.ad.skoverlayEnabled boolValue]) {
-                [self checkSKOverlayAvailabilityAndPrepareForAdPresenter:adPresenter];
-            }
-        } else if ([HyBidRenderingConfig sharedConfig].bannerSKOverlay) {
-            [self checkSKOverlayAvailabilityAndPrepareForAdPresenter:adPresenter];
-        }
         if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender) {
             [self impressionDetectedWithView:self.trackedView];
         }
@@ -254,9 +170,11 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
         if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
             [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
         }
-        [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withAdPresenter:adPresenter];
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        if(self.errorReportingProperties) {
+            [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withAdPresenter:adPresenter];
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+        }
         [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
     }
 }
@@ -272,7 +190,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 
 - (void)adPresenterDidAppear:(HyBidAdPresenter *)adPresenter {
     // in case impressionTrackingMethod is render, we trigger adPresenterDidStartPlaying which will fire impression.
-    if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender) {
+    if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)] ) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
         [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
     }
@@ -282,37 +200,19 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     
 }
 
-#pragma mark SKOverlayDelegate
-
-- (void)storeOverlay:(SKOverlay *)overlay willStartPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
-- (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    if ([overlay isEqual:self.overlay]) {
-        self.isOverlayShown = YES;
-    }
-}
-- (void)storeOverlay:(SKOverlay *)overlay willStartDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
-- (void)storeOverlay:(SKOverlay *)overlay didFinishDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    if ([overlay isEqual:self.overlay]) {
-        self.isOverlayShown = NO;
-    }
-}
-- (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){}
-
 #pragma mark PNLiteImpressionTrackerDelegate
 
 - (void)impressionDetectedWithView:(UIView *)view {
     if (self.adPresenter.ad.adType != kHyBidAdTypeVideo && !self.adTracker.impressionTracked) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self presentSKOverlay];
-        });
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
-        [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
+        if ([self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)] ) {
+            [self.adPresenterDelegate adPresenterDidStartPlaying:self.adPresenter];
+        }
     } else {
         self.impressionConfirmed = YES;
         if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidStartPlaying:)] && !self.adTracker.impressionTracked) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.adPresenter startTracking];
-                [self presentSKOverlay];
             });
         }
     }

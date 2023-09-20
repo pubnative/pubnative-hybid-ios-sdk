@@ -29,32 +29,35 @@ public class HyBidRenderingConfig: NSObject {
     private override init() {}
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
+    @objc public var videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var interstitialHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+    @objc public var interstitialHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+    @objc public var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var rewardedVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_REWARDED_VIDEO_SKIP_OFFSET), isCustom: false)
+    @objc public var rewardedVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_SKIP_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
+    @objc public var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
+    @objc public var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var showEndCard: Bool = false {
+    @objc public var showEndCard: Bool = true {
         didSet {
             if !videoSkipOffset.isCustom {
-                let skipOffset = showEndCard ? DEFAULT_VIDEO_SKIP_OFFSET : DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD
+                let skipOffset = showEndCard ? HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET : HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD
                 videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: skipOffset), isCustom: false)
             }
         }
     }
+    
+    @available(*, deprecated, message: "You can safely remove this method from your integration.")
+    @objc public var customEndCard: Bool = false
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
     @objc public var interstitialActionBehaviour: HyBidInterstitialActionBehaviour = HB_CREATIVE
@@ -66,7 +69,7 @@ public class HyBidRenderingConfig: NSObject {
     @objc public var rewardedCloseOnFinish: Bool = false
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var audioStatus: HyBidAudioStatus = HyBidAudioStatusMuted
+    @objc public var audioStatus: HyBidAudioStatus = HyBidAudioStatusON
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
     @objc public var mraidExpand: Bool = true
@@ -78,7 +81,9 @@ public class HyBidRenderingConfig: NSObject {
     @objc public var rewardedSKOverlay: Bool = false
     
     @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
-    @objc public var bannerSKOverlay: Bool {
-        return false
-    }
+    @objc public var customEndcardDisplay: HyBidCustomEndcardDisplayBehaviour = HyBidCustomEndcardDisplayFallback
+    
+    @available(*, deprecated, message: "Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.")
+    @objc public var creativeAutoStorekitEnabled: Bool = false
+
 }

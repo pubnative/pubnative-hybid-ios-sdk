@@ -155,6 +155,14 @@ typedef enum{
     HyBidAdImpressionTrackerViewable
 } HyBidImpressionTrackerMethod;
 
+typedef enum {
+    HyBidCustomEndcardDisplayExtention,
+    HyBidCustomEndcardDisplayFallback
+} HyBidCustomEndcardDisplayBehaviour;
+
+static NSString * const HyBidCustomEndcardDisplayExtentionValue = @"extension";
+static NSString * const HyBidCustomEndcardDisplayFallbackValue = @"fallback";
+
 #define kIsUsingOpenRTB @"isUsingOpenRTB"
 
 //PNLiteAssetGroupType

@@ -131,7 +131,6 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         NSMutableArray *responseAdArray = [[NSArray array] mutableCopy];
         for (HyBidAdModel *adModel in response.ads) {
             HyBidAd *ad = [[HyBidAd alloc] initWithData:adModel withZoneID: self.signalDataModel.tagid];
-                
             [[HyBidAdCache sharedInstance] putAdToCache:ad withZoneID: self.signalDataModel.tagid];
             [responseAdArray addObject:ad];
             switch (ad.assetGroupID.integerValue) {
@@ -146,11 +145,30 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                             [self invokeDidFail:error];
                         } else {
                             NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                            if (ad.endcardEnabled) {
-                                [ad setHasEndCard:[endCards count] > 0 && [ad.endcardEnabled boolValue]];
-                            } else {
-                                [ad setHasEndCard:[endCards count] > 0 && [HyBidRenderingConfig sharedConfig].showEndCard];
-                            }                            
+                            if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard)) {
+                                if ([endCards count] > 0) {
+                                    [ad setHasEndCard:YES];
+                                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                                        if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && [HyBidRenderingConfig sharedConfig].customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                                            if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                                [ad setHasCustomEndCard:YES];
+                                            }
+                                        }
+                                    }
+                                } else if ([endCards count] == 0) {
+                                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                                        if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                            [ad setHasCustomEndCard:YES];
+                                        }
+                                    }
+                                }
+                            } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && ![HyBidRenderingConfig sharedConfig].showEndCard)) {
+                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                                    if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                        [ad setHasCustomEndCard:YES];
+                                    }
+                                }
+                            }
                             HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                             videoAdCacheItem.vastModel = vastModel;
                             [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID: self.signalDataModel.tagid];
@@ -169,15 +187,27 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                     break;
             }
         }
-            
         if (responseAdArray.count <= 0) {
             NSError *error = [NSError hyBidNoFill];
             [self invokeDidFail:error];
         }
-            
     } else {
         NSError *responseError = [NSError hyBidServerErrorWithMessage: response.errorMessage];
         [self invokeDidFail:responseError];
+    }
+}
+
+- (HyBidCustomEndcardDisplayBehaviour)customEndcardDisplayBehaviourFromString:(NSString *)customEndcardDisplayBehaviour {
+    if([customEndcardDisplayBehaviour isMemberOfClass:[NSString class]]) {
+        if ([customEndcardDisplayBehaviour isEqualToString:HyBidCustomEndcardDisplayFallbackValue]) {
+            return HyBidCustomEndcardDisplayFallback;
+        } else if ([customEndcardDisplayBehaviour isEqualToString:HyBidCustomEndcardDisplayExtentionValue]) {
+            return HyBidCustomEndcardDisplayExtention;
+        } else {
+            return HyBidCustomEndcardDisplayFallback;
+        }
+    } else {
+        return HyBidCustomEndcardDisplayFallback;
     }
 }
 

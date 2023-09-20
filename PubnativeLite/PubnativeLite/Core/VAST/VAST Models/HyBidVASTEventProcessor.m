@@ -151,7 +151,7 @@
                 
                 // Send the request only, no response or errors
                 if(!error) {
-                    if ([data length] > 0) {
+                    if ([data length] > 0 && [data length] < 100) { // Ignore debugging long responses
                         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ response: %@", response.URL, [NSString stringWithUTF8String:[data bytes]]]];
                     } else {
                         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url: %@", response.URL]];

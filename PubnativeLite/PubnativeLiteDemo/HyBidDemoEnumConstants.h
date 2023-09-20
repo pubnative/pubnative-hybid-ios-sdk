@@ -23,12 +23,5 @@
 #ifndef HyBidDemoEnumConstants_h
 #define HyBidDemoEnumConstants_h
 
-typedef enum {
-    HyBidDemoAppPlacementBanner = 0,
-    HyBidDemoAppPlacementMRect = 1,
-    HyBidDemoAppPlacementLeaderboard = 2,
-    HyBidDemoAppPlacementInterstitial = 3,
-    HyBidDemoAppPlacementRewarded = 4
-} HyBidDemoAppPlacement;
 
 #endif /* HyBidDemoEnumConstants_h */

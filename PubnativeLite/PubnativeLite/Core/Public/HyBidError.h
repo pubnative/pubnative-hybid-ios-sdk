@@ -56,7 +56,8 @@ typedef enum {
     HyBidErrorVASTParserMovieTooShort = 29,
     HyBidErrorCodeAdFeedbackFormNotLoaded = 30,
     HyBidErrorCodeInvalidHTML = 31,
-    HyBidErrorVASTParserNoAdResponse = 32
+    HyBidErrorVASTParserNoAdResponse = 32,
+    HyBidErrorVASTParserBothAdAndErrorPresentInRootResponse = 33
 
 } HyBidErrorCode;
 
@@ -97,5 +98,6 @@ typedef enum {
 + (instancetype)hyBidAdFeedbackFormNotLoaded;
 + (instancetype)hyBidInvalidHTML;
 + (instancetype)hyBidVASTNoAdResponse;
++ (instancetype)hyBidVASTBothAdAndErrorPresentInRootResponse;
 
 @end

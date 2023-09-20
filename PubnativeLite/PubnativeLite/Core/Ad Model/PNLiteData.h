@@ -36,6 +36,7 @@
 + (NSString *)skoverlayEnabled;
 + (NSString *)audioState;
 + (NSString *)endcardEnabled;
++ (NSString *)customEndcardEnabled;
 + (NSString *)endcardCloseDelay;
 + (NSString *)nativeCloseButtonDelay;
 + (NSString *)interstitialHtmlSkipOffset;
@@ -56,5 +57,8 @@
 + (NSString *)contentInfoHorizontalPosition;
 + (NSString *)contentInfoVerticalPosition;
 + (NSString *)mraidExpand;
++ (NSString *)customEndcardDisplay;
++ (NSString *)creativeAutoStorekitEnabled;
+
 
 @end

@@ -31,6 +31,9 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 #import "HyBidCloseButton.h"
+#import "HyBidSKAdNetworkParameter.h"
+#import "HyBidCustomClickUtil.h"
+#import "HyBidAdTracker.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -82,9 +85,16 @@
 @property (nonatomic, assign) NSString * iconXposition;
 @property (nonatomic, assign) NSString * iconYposition;
 
+@property (nonatomic, assign) BOOL shouldTriggerAdClick;
+
+@property (nonatomic, assign) BOOL withSkipButton;
+@property (nonatomic, strong) HyBidAdTracker *adTracker;
+
 @end
 
 @implementation HyBidVASTEndCardView
+
+NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewDelegate> *)delegate
               withViewController:(UIViewController *)viewController
@@ -92,7 +102,8 @@
                       withVASTAd:(HyBidVASTAd *)vastAd
                   isInterstitial:(BOOL)isInterstitial
                    iconXposition:(NSString *)iconXposition
-                   iconYposition:(NSString *)iconYposition {
+                   iconYposition:(NSString *)iconYposition
+                  withSkipButton:(BOOL)withSkipButton {
     self = [super init];
     if (self) {
         self.delegate = delegate;
@@ -103,11 +114,14 @@
         self.iconXposition = iconXposition;
         self.iconYposition = iconYposition;
         self.isInterstitial = isInterstitial;
+        self.withSkipButton = withSkipButton;
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
         [self setFrame: self.rootViewController.view.bounds];
         
         self.horizontalConstraints = [NSMutableArray new];
         self.verticalConstraints = [NSMutableArray new];
+        
+        self.adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardImpression] withClickURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardClick] forAd:self.ad];
         
         [self addObservers];
     }
@@ -245,11 +259,11 @@
     self.closeButtonTimeElapsed = 0.0;
 }
 
-- (BOOL)isContentInfoInTopRightPosition {
-    BOOL isRightPosition = [self.iconXposition isEqualToString: @"right"] ? YES : NO;
+- (BOOL)isContentInfoInTopLeftPosition {
+    BOOL isLeftPosition = [self.iconXposition isEqualToString: @"left"] ? YES : NO;
     BOOL isTopPosition = [self.iconYposition isEqualToString: @"top"] ? YES : NO;
     
-    return isRightPosition && isTopPosition ? YES : NO;
+    return isLeftPosition && isTopPosition ? YES : NO;
 }
 
 - (void)addCloseButton {
@@ -258,20 +272,8 @@
     self.closeButtonTimeElapsed = -1;
         
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self.rootViewController.view action:@selector(close) target:self];
-        if([self isContentInfoInTopRightPosition]){
-            if (@available(iOS 11.0, *)) {
-                [NSLayoutConstraint activateConstraints:@[
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
-                ]];
-            } else {
-                [NSLayoutConstraint activateConstraints:@[
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
-                ]];
-            }
-        } else {
+        self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self.rootViewController.view action:@selector(close) target:self showSkipButton:self.withSkipButton];
+        if([self isContentInfoInTopLeftPosition]){
             if (@available(iOS 11.0, *)) {
                 [NSLayoutConstraint activateConstraints:@[
                     [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
@@ -283,17 +285,38 @@
                     [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
                 ]];
             }
+        } else {
+            if (@available(iOS 11.0, *)) {
+                [NSLayoutConstraint activateConstraints:@[
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
+                ]];
+            } else {
+                [NSLayoutConstraint activateConstraints:@[
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
+                ]];
+            }
         }
+        
         [self.rootViewController.view bringSubviewToFront:self.closeButton];
     });
 }
 
 - (void)close
 {
-    [self.rootViewController dismissViewControllerAnimated:NO completion:^{
-        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
-        [self.delegate vastEndCardViewCloseButtonTapped];
-    }];
+    if (!self.withSkipButton) {
+        [self.rootViewController dismissViewControllerAnimated:NO completion:^{
+            [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
+            [self.delegate vastEndCardViewCloseButtonTapped];
+        }];
+    } else {
+        if (self.closeButton != nil) {
+            [self.closeButton removeFromSuperview];
+        }
+        [self.delegate vastEndCardViewSkipButtonTapped];
+    }
+
 }
 
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController
@@ -313,16 +336,16 @@
     
     self.mainView = [[UIView alloc] init];
     self.mainView.translatesAutoresizingMaskIntoConstraints = NO;
-    [contentView addSubview:self.mainView];
+    [self addSubview:self.mainView];
     
     if (self.ctaButton != nil) {
         self.companionView = [[UIView alloc] init];
         self.companionView.translatesAutoresizingMaskIntoConstraints = NO;
-        [contentView addSubview:self.companionView];
+        [self addSubview:self.companionView];
     }
     
-    [self addVerticalConstraintsInRelationToView:contentView];
-    [self addHorizontalConstraintsInRelationToView:contentView];
+    [self addVerticalConstraintsInRelationToView:self];
+    [self addHorizontalConstraintsInRelationToView:self];
         
     if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft || [[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight) {
         [self setHorizontalConstraints];
@@ -346,6 +369,7 @@
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+    [self trackCustomEndCardImpression];
 }
 
 - (void)configureCTAWebViewWith:(HyBidVASTCTAButton *)ctaButton
@@ -452,15 +476,16 @@
     self.mraidView = [[HyBidMRAIDView alloc] initWithFrame:self.mainView.frame
                                               withHtmlData:content
                                                withBaseURL:baseURL
-                                                    withAd:nil
+                                                    withAd:self.ad
                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
-                                             isInterstital:NO
+                                             isInterstital:self.isInterstitial
                                               isScrollable:NO
                                                   delegate:self
                                            serviceDelegate:self
                                         rootViewController:self.rootViewController
                                                contentInfo:nil
-                                                skipOffset:self.endCardCloseDelay.offset.integerValue];
+                                                skipOffset:self.endCardCloseDelay.offset.integerValue
+                                                 isEndcard:YES];
 }
 
 - (void)displayImageViewWithURL:(NSString *)url withView:(UIView *)view
@@ -478,6 +503,7 @@
                 [self.endCardImageView setImage:image];
                 [self.endCardImageView setContentMode:UIViewContentModeScaleAspectFit];
                 [self.mainView addSubview:self.endCardImageView];
+                [self setupUI];
                 
                 [self setImageViewConstraints];
                 [self setViewsOrderRelativeToView:view];
@@ -529,8 +555,9 @@
     if ([[self.endCard clickTrackings] count] > 0) {
         [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings]];
     }
-    [self vastEndCardClickedWithType:[self.endCard type] withURL:nil];
-    [self.delegate vastEndCardViewClicked];
+    [self vastEndCardClickedWithType:[self.endCard type] withURL:nil withShouldOpenBrowser:YES];
+    [self.delegate vastEndCardViewClicked: self.shouldTriggerAdClick];
+    [self trackCustomEndCardClick];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -603,17 +630,22 @@
     self.mraidView.center = CGPointMake(self.mainView.frame.size.width  / 2,
                                 self.mainView.frame.size.height / 2);
     self.mraidView = mraidView;
-    [self.mainView addSubview:mraidView];
+    [self.mainView addSubview:self.mraidView];
+    [self setupUI];
     [self setMRAIDConstraints];
     [self.companionView addSubview:self.ctaWebView];
     
     [self setViewsOrderRelativeToView:self.rootViewController.view];
 
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_creativeView];
+    
+    [self.mraidView setIsViewable:YES];
+
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"MRAID View failed."];
+    [self.delegate vastEndCardViewFailedToLoad];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {
@@ -625,7 +657,7 @@
     [self close];
 }
 
-- (void)vastEndCardClickedWithType:(HyBidVASTEndCardType)endCardType withURL:(NSString *)url {
+- (void)vastEndCardClickedWithType:(HyBidVASTEndCardType)endCardType withURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {
     if (self.vastAd == nil) {
         return;
     }
@@ -633,7 +665,7 @@
     NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
     
     for (HyBidVASTCreative *creative in creatives) {
-        if ([creative linear] != nil) {
+        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
             [videoClicks addObject:[[creative linear] videoClicks]];
             break;
         }
@@ -648,7 +680,9 @@
     
     for (HyBidVASTVideoClicks *videoClick in videoClicks) {
         for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
-            [trackingClickURLs addObject:[tracking content]];
+            if([tracking content] != nil) {
+                [trackingClickURLs addObject:[tracking content]];
+            }
         }
     }
     
@@ -657,10 +691,18 @@
     }
     
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+    [self trackCustomEndCardClick];
     
     HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     
-    if (skAdNetworkModel) {
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
+    if (customUrl != nil) {
+        if(shouldOpenBrowser) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:customUrl] options:@{} completionHandler:^(BOOL success) {
+                [self.delegate vastEndCardViewRedirectedWithSuccess:success];
+            }];
+        }
+    } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
         [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
@@ -673,12 +715,16 @@
             } else {
                 [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [productParams removeObjectForKey:@"fidelity-type"];
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-                skAdnetworkViewController.delegate = self;
-                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-            });
+            
+            if(shouldOpenBrowser) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
+                    skAdnetworkViewController.delegate = self;
+                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                });
+            }
+
         } else {
             if(endCardType == HyBidEndCardType_STATIC) {
                 if (throughClickURL != nil) {
@@ -686,12 +732,14 @@
                     if(!canOpenURL){
                         throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                     }
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                        [self.delegate vastEndCardViewRedirectedWithSuccess:success];
-                    }];
+                    if(shouldOpenBrowser) {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
+                            [self.delegate vastEndCardViewRedirectedWithSuccess:success];
+                        }];
+                    }
                 }
             } else {
-                [self.serviceProvider openBrowser:url];
+                [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
             }
         }
     } else {
@@ -701,26 +749,55 @@
                 if(!canOpenURL){
                     throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                 }
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
-                    [self.delegate vastEndCardViewRedirectedWithSuccess:success];
-                }];
+                if(shouldOpenBrowser) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:throughClickURL] options:@{} completionHandler:^(BOOL success) {
+                        [self.delegate vastEndCardViewRedirectedWithSuccess:success];
+                    }];
+                }
             }
         } else {
+            [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
+        }
+    }
+}
+
+- (void)trackCustomEndCardImpression {
+    if (!self.endCard.isCustomEndCard) {
+        return;
+    }
+    
+    [self.adTracker trackCustomEndCardImpressionWithAdFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED];
+}
+
+- (void)trackCustomEndCardClick {
+    if (!self.endCard.isCustomEndCard) {
+        return;
+    }
+    
+    [self.adTracker trackCustomEndCardClickWithAdFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED];
+}
+
+- (void)determineIfAdClickIsTriggeredWithURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {
+    if([url containsString: adClickTriggerFlag]){
+        self.shouldTriggerAdClick = YES;
+    } else {
+        self.shouldTriggerAdClick = NO;
+        if (shouldOpenBrowser) {
             [self.serviceProvider openBrowser:url];
         }
     }
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
-    [self vastEndCardClickedWithType:[self.endCard type] withURL:url.absoluteString];
-    [self.delegate vastEndCardViewClicked];
+    [self vastEndCardClickedWithType:[self.endCard type] withURL:url.absoluteString withShouldOpenBrowser:YES];
+    [self.delegate vastEndCardViewClicked:self.shouldTriggerAdClick];
 }
 
 - (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
 {
     double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[@"fidelities"] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[@"fidelities"];
+    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
+        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
         
         if ([fidelitiesDataArray count] > 0) {
             for (NSData *fidelity in fidelitiesDataArray) {
@@ -741,10 +818,10 @@
                         [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
                         
                         NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:@"fidelity-type"];
+                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
                     }
                     
-                    dictionary[@"fidelities"] = nil;
+                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
                     
                     break; // Currently we support only 1 fidelity for each kind
                 }
@@ -809,7 +886,8 @@
 }
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
-    [self.serviceProvider openBrowser:urlString];
+    [self vastEndCardClickedWithType:[self.endCard type] withURL:urlString withShouldOpenBrowser:YES];
+    [self.delegate vastEndCardViewClicked: self.shouldTriggerAdClick];
 }
 
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
@@ -818,6 +896,11 @@
 
 - (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
     [self.serviceProvider storePicture:urlString];
+}
+
+- (void)mraidServiceTrackingEndcardWithUrlString:(NSString *)urlString {
+    [self vastEndCardClickedWithType:[self.endCard type] withURL:urlString withShouldOpenBrowser:NO];
+    [self.delegate vastEndCardViewClicked: self.shouldTriggerAdClick];
 }
 
 @end

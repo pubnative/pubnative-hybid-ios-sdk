@@ -81,7 +81,7 @@
     privacy.iabCCPA = [[[HyBidUserDataManager alloc] init] getIABUSPrivacyString];
     
     app.privacy = privacy;
-    app.bundleID = [[[HyBidSettings alloc] init] appBundleID];
+    app.bundleID = [HyBidSettings sharedInstance].appBundleID;
     [appsArray addObject:app];
     
     return appsArray;
@@ -118,7 +118,7 @@
     HyBidVGIUser *user = [[HyBidVGIUser alloc] init];
     
     HyBidVGIGgl *GGL = [[HyBidVGIGgl alloc] init];
-    GGL.GAID = [[[HyBidSettings alloc] init] advertisingId];
+    GGL.GAID = [HyBidSettings sharedInstance].advertisingId;
     
     NSMutableArray<HyBidVGILocation *> *locations = [[NSMutableArray alloc] init];
     HyBidVGILocation *location = [[HyBidVGILocation alloc] init];

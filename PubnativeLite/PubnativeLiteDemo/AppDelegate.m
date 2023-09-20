@@ -71,7 +71,7 @@ CLLocationManager *locationManager;
 //    [HyBid setVideoInterstitialSkipOffset:1];
 //    [HyBid setHTMLInterstitialSkipOffset:2];
 //    [HyBid setEndCardCloseOffset:@5];
-    [HyBid setVideoAudioStatus:HyBidAudioStatusDefault];
+    [HyBid setVideoAudioStatus:HyBidAudioStatusON];
     [HyBid setInterstitialSKOverlay:YES];
     [HyBid setRewardedSKOverlay:YES];
 //    [HyBid setShowEndCard:NO];

@@ -36,6 +36,7 @@
 + (NSString *)skoverlayEnabled { return @"SKOverlayenabled"; }
 + (NSString *)audioState { return @"audiostate"; }
 + (NSString *)endcardEnabled { return @"endcardenabled"; }
++ (NSString *)customEndcardEnabled { return @"custom_endcard_enabled"; }
 + (NSString *)endcardCloseDelay { return @"endcard_close_delay"; }
 + (NSString *)nativeCloseButtonDelay { return @"close_button_delay"; }
 + (NSString *)interstitialHtmlSkipOffset { return @"html_skip_offset"; }
@@ -56,5 +57,7 @@
 + (NSString *)contentInfoHorizontalPosition { return @"content_info_horizontal_position"; }
 + (NSString *)contentInfoVerticalPosition { return @"content_info_vertical_position"; }
 + (NSString *)mraidExpand { return @"mraid_expand"; }
++ (NSString *)customEndcardDisplay { return @"custom_endcard_display"; }
++ (NSString *)creativeAutoStorekitEnabled { return @"creative_autostorekit"; }
 
 @end

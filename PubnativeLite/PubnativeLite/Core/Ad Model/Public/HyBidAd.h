@@ -38,12 +38,21 @@ typedef struct {
     char *timestamp;
 } SKANObject;
 
+typedef enum {
+    HyBidDemoAppPlacementBanner = 0,
+    HyBidDemoAppPlacementMRect = 1,
+    HyBidDemoAppPlacementLeaderboard = 2,
+    HyBidDemoAppPlacementInterstitial = 3,
+    HyBidDemoAppPlacementRewarded = 4
+} HyBidMarkupPlacement;
+
 @interface HyBidAd : NSObject
 
 @property (nonatomic, readonly) NSString *vast;
 @property (nonatomic, readonly) NSString *openRtbVast;
 @property (nonatomic, readonly) NSString *htmlUrl;
 @property (nonatomic, readonly) NSString *htmlData;
+@property (nonatomic, readonly) NSString *customEndCardData;
 @property (nonatomic, readonly) NSString *link;
 @property (nonatomic, readonly) NSString *impressionID;
 @property (nonatomic, readonly) NSString *creativeID;
@@ -64,6 +73,7 @@ typedef struct {
 @property (nonatomic) NSInteger adType;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic, assign) BOOL hasEndCard;
+@property (nonatomic, assign) BOOL hasCustomEndCard;
 @property (nonatomic, readonly) NSString *audioState;
 @property (nonatomic, readonly) NSString *contentInfoURL;
 @property (nonatomic, readonly) NSString *contentInfoIconURL;
@@ -81,13 +91,16 @@ typedef struct {
 @property (nonatomic, readonly) NSNumber *minVisibleTime;
 @property (nonatomic, readonly) NSNumber *minVisiblePercent;
 @property (nonatomic, readonly) NSString *impressionTrackingMethod;
-// The following 6 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
+@property (nonatomic, readonly) NSString *customEndcardDisplay;
+// The following 8 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
 @property (nonatomic, readonly) NSNumber *endcardEnabled;
+@property (nonatomic, readonly) NSNumber *customEndcardEnabled;
 @property (nonatomic, readonly) NSNumber *skoverlayEnabled;
 @property (nonatomic, readonly) NSNumber *closeInterstitialAfterFinish;
 @property (nonatomic, readonly) NSNumber *closeRewardedAfterFinish;
 @property (nonatomic, readonly) NSNumber *fullscreenClickability;
 @property (nonatomic, readonly) NSNumber *mraidExpand;
+@property (nonatomic, readonly) NSNumber *creativeAutoStorekitEnabled;
 
 - (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 

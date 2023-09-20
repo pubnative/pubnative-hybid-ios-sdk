@@ -32,5 +32,6 @@
 + (NSString *)banner;
 + (NSString *)vast;
 + (NSString *)htmlBanner;
++ (NSString *)customEndcard;
 
 @end

@@ -72,7 +72,10 @@
                case 6: // HyBidVASTParserError_MovieTooShort
                    parseError = [NSError hyBidVASTParserMovieTooShortError];
                    break;
-               case 7: // HyBidVASTParserError_NoAdResponse:
+               case 7: // HyBidVASTParserError_BothAdAndErrorPresentInRootResponse
+                   parseError = [NSError hyBidVASTBothAdAndErrorPresentInRootResponse];
+                   break;
+               case 8: // HyBidVASTParserError_NoAdResponse:
                    parseError = [NSError hyBidVASTNoAdResponse];
                    break;
            }

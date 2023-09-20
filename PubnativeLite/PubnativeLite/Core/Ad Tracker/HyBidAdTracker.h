@@ -26,6 +26,8 @@
 
 extern NSString *const PNLiteAdTrackerClick;
 extern NSString *const PNLiteAdTrackerImpression;
+extern NSString *const PNLiteAdCustomEndCardImpression;
+extern NSString *const PNLiteAdCustomEndCardClick;
 
 @interface HyBidAdTracker : NSObject
 
@@ -36,5 +38,7 @@ extern NSString *const PNLiteAdTrackerImpression;
                                  forAd:(HyBidAd *)ad;
 - (void)trackClickWithAdFormat:(NSString *)adFormat;
 - (void)trackImpressionWithAdFormat:(NSString *)adFormat;
+- (void)trackCustomEndCardImpressionWithAdFormat:(NSString *)adFormat;
+- (void)trackCustomEndCardClickWithAdFormat:(NSString *)adFormat;
 
 @end

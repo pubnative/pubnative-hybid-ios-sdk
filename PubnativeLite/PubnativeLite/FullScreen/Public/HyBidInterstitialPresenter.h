@@ -37,6 +37,8 @@
 @optional
 - (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 
 @end
 

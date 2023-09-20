@@ -44,11 +44,21 @@ NSString * const PNLiteTrackingManagerTypeKey = @"type";
 }
 
 - (NSDictionary *)toDictionary {
-    return @{
-        PNLiteTrackingManagerURLKey : [self.url absoluteString],
-        PNLiteTrackingManagerTimestampKey : self.timestamp,
-        PNLiteTrackingManagerTypeKey : self.type
-    };
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    
+    if (self.url) {
+        [dictionary setObject:[self.url absoluteString] forKey:PNLiteTrackingManagerURLKey];
+    }
+    
+    if (self.timestamp) {
+        [dictionary setObject:self.timestamp forKey:PNLiteTrackingManagerTimestampKey];
+    }
+    
+    if (self.type) {
+        [dictionary setObject:self.type forKey:PNLiteTrackingManagerTypeKey];
+    }
+    
+    return dictionary;
 }
 
 @end

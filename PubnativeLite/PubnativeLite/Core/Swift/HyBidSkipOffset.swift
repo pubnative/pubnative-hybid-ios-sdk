@@ -22,15 +22,16 @@
 
 import Foundation
 
-let DEFAULT_VIDEO_SKIP_OFFSET = 10
-let DEFAULT_HTML_SKIP_OFFSET = 3
-let DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD = 15
-let DEFAULT_END_CARD_CLOSE_OFFSET = 3
-let DEFAULT_REWARDED_VIDEO_SKIP_OFFSET = 30
-let DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET = 15
-
 @objc
 public class HyBidSkipOffset: NSObject {
+    
+    @objc public static let DEFAULT_VIDEO_SKIP_OFFSET = 10
+    @objc public static let DEFAULT_HTML_SKIP_OFFSET = 3
+    @objc public static let DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD = 15
+    @objc public static let DEFAULT_END_CARD_CLOSE_OFFSET = 3
+    @objc public static let DEFAULT_REWARDED_VIDEO_SKIP_OFFSET = 30
+    @objc public static let DEFAULT_INSTERSTITIAL_VIDEO_SKIP_OFFSET = 30
+    @objc public static let DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET = 15
 
     @objc public var offset: NSNumber?
     @objc public var isCustom: Bool = false

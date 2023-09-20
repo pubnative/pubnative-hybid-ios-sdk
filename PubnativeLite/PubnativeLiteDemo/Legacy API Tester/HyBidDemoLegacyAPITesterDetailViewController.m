@@ -75,7 +75,7 @@
     }
 }
 
-- (void)prepareAdViewForPlacement:(HyBidDemoAppPlacement)placement {
+- (void)prepareAdViewForPlacement:(HyBidMarkupPlacement)placement {
     switch (self.placement){
         case HyBidDemoAppPlacementBanner: {
             self.adViewContainerWidthConstraint.constant = 320;
@@ -123,9 +123,11 @@
             break;
         case HyBidDemoAppPlacementInterstitial:
             [self.interstitialAd show];
+            [self.showAdButton setEnabled: NO];
             break;
         case HyBidDemoAppPlacementRewarded:
             [self.rewardedAd show];
+            [self.showAdButton setEnabled: NO];
             break;
     }
 }

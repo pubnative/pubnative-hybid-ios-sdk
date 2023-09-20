@@ -46,6 +46,7 @@ typedef enum {
 @optional
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer;
 
 @end
 

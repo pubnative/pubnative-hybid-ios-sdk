@@ -27,29 +27,32 @@ public typealias ReportingKey = String
 @objc
 public class HyBidReportingEvent: NSObject {
     
-    @objc public var properties: [ReportingKey: Any] = [:]
+    @objc public var properties: [ReportingKey: Any]? = [:]
     @objc public var eventType: String
     
     @objc
     public init(with eventType: String, adFormat: String? = nil, properties: [ReportingKey: Any]? = nil) {
         self.eventType = eventType
         self.properties = properties ?? [:]
-        self.properties[Common.EVENT_TYPE] = eventType
-        self.properties[Common.AD_FORMAT] = adFormat
-        self.properties[Common.TIMESTAMP] = String(Date().timeIntervalSince1970 * 1000.0)
+        self.properties?[Common.EVENT_TYPE] = eventType
+        self.properties?[Common.AD_FORMAT] = adFormat
+        self.properties?[Common.TIMESTAMP] = String(Date().timeIntervalSince1970 * 1000.0)
     }
     
     @objc
     public init(with eventType: String, errorMessage: String? = nil, properties: [ReportingKey: Any]? = nil) {
         self.eventType = eventType
         self.properties = properties ?? [:]
-        self.properties[Common.EVENT_TYPE] = eventType
-        self.properties[Common.ERROR_MESSAGE] = errorMessage
-        self.properties[Common.TIMESTAMP] = String(Date().timeIntervalSince1970 * 1000.0)
+        self.properties?[Common.EVENT_TYPE] = eventType
+        self.properties?[Common.ERROR_MESSAGE] = errorMessage
+        self.properties?[Common.TIMESTAMP] = String(Date().timeIntervalSince1970 * 1000.0)
     }
     
     @objc
     public func toJSON() -> String {
+        guard let properties = properties else {
+            return ""
+        }
         guard let jsonData = try? JSONSerialization.data(withJSONObject: properties, options: []),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return ""

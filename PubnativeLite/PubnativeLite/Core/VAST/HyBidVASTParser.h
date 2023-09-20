@@ -31,6 +31,7 @@ typedef enum : NSInteger {
     HyBidVASTParserError_NoCompatibleMediaFile,
     HyBidVASTParserError_NoInternetConnection,
     HyBidVASTParserError_MovieTooShort,
+    HyBidVASTParserError_BothAdAndErrorPresentInRootResponse,
     HyBidVASTParserError_NoAdResponse
 } HyBidVASTParserError;
 

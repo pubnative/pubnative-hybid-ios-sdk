@@ -22,7 +22,7 @@
 
 #import "HyBidCloseButton.h"
 
-#define kClickableAreaSize 50.0
+#define kClickableAreaSize 30.0
 #define kCloseImageSize 30.0
 
 @implementation HyBidCloseButton {
@@ -30,18 +30,29 @@
 }
 
 - (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target {
-    return [self initWithRootView:rootView action:action target:target useCustomClose:NO];
+    return [self initWithRootView:rootView action:action target:target showSkipButton:NO useCustomClose:NO];
 }
 
-- (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target useCustomClose:(BOOL)useCustomClose {
-    self = [super init];
+- (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target showSkipButton:(BOOL)showSkipButton {
+    return [self initWithRootView:rootView action:action target:target showSkipButton:showSkipButton useCustomClose:NO];
+}
+
+- (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target showSkipButton:(BOOL)showSkipButton useCustomClose:(BOOL)useCustomClose {self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         [self addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-        [self setAccessibilityIdentifier:@"closeButton"];
-        [self setAccessibilityLabel:@"Close Button"];
         
-        UIImage *closeImage = [self bundledImageNamed:@"close"];
+        UIImage *closeImage;
+        if (showSkipButton) {
+            [self setAccessibilityIdentifier:@"skipButton"];
+            [self setAccessibilityLabel:@"Skip Button"];
+            closeImage = [self bundledImageNamed:@"skip"];
+        } else {
+            [self setAccessibilityIdentifier:@"closeButton"];
+            [self setAccessibilityLabel:@"Close Button"];
+            closeImage = [self bundledImageNamed:@"close"];
+        }
+
         if (!useCustomClose) {
             closeImageView = [[UIImageView alloc] initWithImage:closeImage];
             closeImageView.frame = CGRectMake(0, 0, kCloseImageSize, kCloseImageSize);
@@ -62,10 +73,10 @@
                                                              [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:kClickableAreaSize], nil];
         
         if (@available(iOS 11.0, *)) {
-            [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:rootView.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:rootView.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
             [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:rootView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
         } else {
-            [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:rootView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]];
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:rootView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]];
             [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:rootView attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
         }
         
@@ -81,6 +92,7 @@
         [NSLayoutConstraint activateConstraints:closeImageViewConstraints];
     }
     return self;
+
 }
 
 - (UIImage*)bundledImageNamed:(NSString*)name {
@@ -89,5 +101,6 @@
     
     return [UIImage imageWithContentsOfFile:imagePath];
 }
+
 
 @end

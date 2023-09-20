@@ -34,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *adSizeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
-@property (nonatomic) HyBidDemoAppPlacement placement;
+@property (nonatomic) HyBidMarkupPlacement placement;
 @property (strong, nonatomic) HyBidInterstitialAd *interstitialAd;
 @property (nonatomic, strong) Markup *markup;
 
