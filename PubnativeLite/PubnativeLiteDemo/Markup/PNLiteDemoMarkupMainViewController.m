@@ -159,8 +159,6 @@
 
 - (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidMarkupPlacement)placement {
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
-    NSMutableDictionary* newRequestHTTPHeader = [[NSMutableDictionary alloc] init];
-    [urlRequest setAllHTTPHeaderFields: newRequestHTTPHeader];
     [urlRequest setHTTPMethod:@"GET"];
     [[[NSURLSession sharedSession] dataTaskWithRequest: urlRequest completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
         if(!error){

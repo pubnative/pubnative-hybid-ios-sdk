@@ -125,7 +125,22 @@
     }
 }
 
-- (void)loadWithURL:(HyBidMarkupPlacement)placement {}
+- (void)loadWithURL:(HyBidMarkupPlacement)placement {
+    NSString *urlString = [[self.adReponseTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
+    [self requestWithUrlForPlacement:urlString forPlacement:placement];
+}
+
+- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidMarkupPlacement)placement {
+    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
+    [urlRequest setHTTPMethod:@"GET"];
+    [[[NSURLSession sharedSession] dataTaskWithRequest: urlRequest completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if(!error){
+            [self invokeFinishWithResponse:response placement: placement withData: data];
+        } else {
+            [self invokeFailWithError: error];
+        }
+    }] resume];
+}
 
 - (void)loadWithAdResponse: (NSString*)adResponse {
     HyBidDemoOpenRTBAPITesterDetailViewController *openRTBAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoOpenRTBAPITesterDetailViewController"];

@@ -202,7 +202,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import UIKit;
 #endif
 
-#import <HyBid/HyBid.h>
+#import <HyBid.h>
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -526,6 +526,16 @@ SWIFT_CLASS("_TtC5HyBid23HyBidMRAIDCloseCardView")
 
 @interface HyBidMRAIDCloseCardView (SWIFT_EXTENSION(HyBid)) <HyBidContentInfoViewDelegate>
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber * _Null_unspecified)width;
+@end
+
+@class PNLiteAdRequestModel;
+
+SWIFT_CLASS("_TtC5HyBid24HyBidOpenRTBRequestModel")
+@interface HyBidOpenRTBRequestModel : NSObject
+- (nonnull instancetype)initWithAdRequestModel:(PNLiteAdRequestModel * _Nonnull)adRequestModel openRTBAdType:(HyBidOpenRTBAdType)openRTBAdType OBJC_DESIGNATED_INITIALIZER;
+- (NSDictionary<NSString *, id> * _Nonnull)getOpenRTBRequestBody SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 @class HyBidSkipOffset;

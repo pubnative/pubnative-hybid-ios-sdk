@@ -198,45 +198,53 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (NSURL*)requestURLFromAdRequestModel:(PNLiteAdRequestModel *)adRequestModel {
+    NSURLComponents *components;
+
     if (!self.isUsingOpenRTB) {
         if ([HyBidSDKConfig sharedConfig].apiURL) {
-            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSDKConfig sharedConfig].apiURL];
+            components = [NSURLComponents componentsWithString:[HyBidSDKConfig sharedConfig].apiURL];
             components.path = @"/api/v3/native";
+            
             if (adRequestModel.requestParameters) {
                 NSMutableArray *query = [NSMutableArray array];
                 NSDictionary *parametersDictionary = adRequestModel.requestParameters;
                 for (id key in parametersDictionary) {
-                    [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
+                    id value = parametersDictionary[key];
+                    [query addObject:[NSURLQueryItem queryItemWithName:key value:value]];
                 }
                 components.queryItems = query;
             }
-            return components.URL;
-        } else {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid iOS SDK was not initalized, droping this call. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
-            return nil;
         }
     } else {
         if ([HyBidSDKConfig sharedConfig].openRtbApiURL) {
-            NSURLComponents *components = [NSURLComponents componentsWithString:[HyBidSDKConfig sharedConfig].openRtbApiURL];
+            components = [NSURLComponents componentsWithString:[HyBidSDKConfig sharedConfig].openRtbApiURL];
             components.path = @"/bid/v1/request";
             
             if (adRequestModel.requestParameters) {
                 NSMutableArray *query = [NSMutableArray array];
                 NSDictionary *parametersDictionary = adRequestModel.requestParameters;
                 for (id key in parametersDictionary) {
-                    if ([key  isEqual: @"apptoken"] || [key  isEqual: @"zoneid"]) {
-                        [query addObject:[NSURLQueryItem queryItemWithName:key value:parametersDictionary[key]]];
+                    id value = parametersDictionary[key];
+                    if ([key isEqual:@"apptoken"] || [key isEqual:@"zoneid"]) {
+                        [query addObject:[NSURLQueryItem queryItemWithName:key value:value]];
                     }
                 }
                 components.queryItems = query;
             }
-            
-            return components.URL;
-        } else {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid iOS SDK was not initalized, droping this call. Check out https://github.com/pubnative/pubnative-hybid-ios-sdk/wiki/Setup-HyBid for the setup process."];
-            return nil;
         }
     }
+
+    if (!components) {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"HyBid iOS SDK was not initialized, dropping this call. Check out the setup process."];
+        return nil;
+    }
+    
+    if (!components.URL) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Failed to create a valid URL."];
+        return nil;
+    }
+
+    return components.URL;
 }
 
 - (void)invokeDidStart {

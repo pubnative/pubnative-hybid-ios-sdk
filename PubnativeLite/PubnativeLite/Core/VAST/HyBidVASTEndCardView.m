@@ -123,6 +123,12 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         
         self.adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardImpression] withClickURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardClick] forAd:self.ad];
         
+        [self obtainContentInfoFromSuperView:self.rootViewController.view completionHandler:^(UIView * _Nullable contentInfoView) {
+            if (contentInfoView) {
+                [contentInfoView setHidden:YES];
+            }
+        }];
+
         [self addObservers];
     }
     return self;
@@ -410,21 +416,19 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (void)displayContentInfoContainer
 {
-    for (UIView* subview in self.rootViewController.view.subviews) {
-        if (subview.tag == kContentInfoContainerTag) {
-            [self.rootViewController.view bringSubviewToFront: subview];
-            [self addingConstrainstForDynamicPosition:subview iconXposition: self.iconXposition iconYposition: self.iconYposition];
+    [self obtainContentInfoFromSuperView:self.rootViewController.view completionHandler:^(UIView * _Nullable contentInfoView) {
+        if (contentInfoView) {
+            [self.rootViewController.view bringSubviewToFront: contentInfoView];
+            [self addingConstrainstForDynamicPosition: contentInfoView iconXposition: self.iconXposition iconYposition: self.iconYposition];
+            [contentInfoView setHidden: NO];
         }
-    }
+    }];
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    for (UIView* subview in self.rootViewController.view.subviews) {
-        if (subview.tag == kContentInfoContainerTag) {
-            [subview setHidden: YES];
-        }
-    }
+- (void)obtainContentInfoFromSuperView:(UIView *) superview completionHandler:(void (^)(UIView * _Nullable contentInfoView)) completionHandler {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tag == %d", kContentInfoContainerTag];
+    NSArray<UIView *> *subviews = [superview.subviews filteredArrayUsingPredicate:predicate];
+    completionHandler(subviews.firstObject);
 }
 
 - (void)setViewsOrderRelativeToView:(UIView *)view
@@ -464,7 +468,6 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
         }
     }
-    [contentInfoViewContainer setHidden: NO];
 }
 
 - (void)displayMRAIDWithContent:(NSString *)content withBaseURL:(NSURL *)baseURL
@@ -658,7 +661,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)vastEndCardClickedWithType:(HyBidVASTEndCardType)endCardType withURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {
-    if (self.vastAd == nil) {
+    if (self.vastAd == nil || self.shouldTriggerAdClick) {
         return;
     }
     NSArray<HyBidVASTCreative *> *creatives = [[self.vastAd inLine] creatives];
@@ -691,7 +694,6 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     }
     
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
-    [self trackCustomEndCardClick];
     
     HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     
@@ -721,6 +723,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                     [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                     HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                     skAdnetworkViewController.delegate = self;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
                     [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
                 });
             }
@@ -778,10 +781,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)determineIfAdClickIsTriggeredWithURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {
-    if([url containsString: adClickTriggerFlag]){
-        self.shouldTriggerAdClick = YES;
-    } else {
-        self.shouldTriggerAdClick = NO;
+    if(!self.shouldTriggerAdClick){
         if (shouldOpenBrowser) {
             [self.serviceProvider openBrowser:url];
         }
@@ -789,7 +789,13 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
+    if([url.absoluteString containsString: adClickTriggerFlag]){
+        self.shouldTriggerAdClick = YES;
+    } else {
+        self.shouldTriggerAdClick = NO;
+    }
     [self vastEndCardClickedWithType:[self.endCard type] withURL:url.absoluteString withShouldOpenBrowser:YES];
+    [self trackCustomEndCardClick];
     [self.delegate vastEndCardViewClicked:self.shouldTriggerAdClick];
 }
 
@@ -901,6 +907,12 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 - (void)mraidServiceTrackingEndcardWithUrlString:(NSString *)urlString {
     [self vastEndCardClickedWithType:[self.endCard type] withURL:urlString withShouldOpenBrowser:NO];
     [self.delegate vastEndCardViewClicked: self.shouldTriggerAdClick];
+}
+
+#pragma mark SKStoreProductViewControllerDelegate
+
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsDismissed" object:self.ad];
 }
 
 @end

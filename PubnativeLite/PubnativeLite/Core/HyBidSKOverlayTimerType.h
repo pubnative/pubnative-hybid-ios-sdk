@@ -20,32 +20,8 @@
 //  THE SOFTWARE.
 //
 
-#import "ISVerveCustomAdapter.h"
-#import "ISVerveUtils.h"
-
-@implementation ISVerveCustomAdapter
-
-- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
-       if (![ISVerveUtils isAppTokenValid:adData]) {
-           if (delegate && [delegate respondsToSelector:@selector(onInitDidFailWithErrorCode:errorMessage:)]) {
-               [delegate onInitDidFailWithErrorCode:ISAdapterErrorMissingParams
-                                       errorMessage:@"HyBid initialisation failed: Missing app token"];
-           }
-       } else {
-           [HyBid initWithAppToken:[ISVerveUtils appToken:adData] completion:^(BOOL success) {
-               if (delegate && [delegate respondsToSelector:@selector(onInitDidSucceed)]) {
-                   [delegate onInitDidSucceed];
-               }
-           }];
-       }
-}
-
-- (NSString *)networkSDKVersion {
-    return @"2.20.0-beta7";
-}
-
-- (NSString *)adapterVersion {
-    return @"2.20.0-beta7.0";
-}
-
-@end
+typedef enum {
+    HyBidSKOverlayTimerType_AutoClose,
+    HyBidSKOverlayTimerType_Delay,
+    HyBidSKOverlayTimerType_EndCardDelay
+} HyBidSKOverlayTimerType;

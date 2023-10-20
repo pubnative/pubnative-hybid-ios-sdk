@@ -10,6 +10,7 @@ use_frameworks!
 
 target 'HyBid' do
   pod 'ATOM-Standalone', '2.0.0'
+  pod 'OneTrust-CMP-XCFramework','~>202308.2.0.0'
 end
 
 target 'HyBidDemo' do

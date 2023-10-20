@@ -1917,6 +1917,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
             if (result) {
                 [self doTrackingEndcardWithUrlString:urlString];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
                     [[UIApplication sharedApplication].topViewController presentViewController:storeViewController animated:YES completion:nil];
                     isStoreViewControllerPresented = YES;
                 });
@@ -1972,6 +1973,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 // Delegate method when Store VC is dismissed
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     isStoreViewControllerPresented = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsDismissed" object:self.ad];
 }
 
 @end

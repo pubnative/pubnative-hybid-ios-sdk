@@ -170,7 +170,12 @@ BOOL isInitialized = NO;
     PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false mediationVendorName:mediationVendorName];
     HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
     NSURL* url = [adRequest requestURLFromAdRequestModel:adRequestModel];
-    [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"Signal Data Parameters String: %@", url.query], NSStringFromSelector(_cmd)]];
+    if (!url) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Signal Data URL is nil"];
+        return nil;
+    }
+    NSString *logMessage = [NSString stringWithFormat:@"Signal Data Parameters String: %@", url.query];
+    [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:logMessage];
     return url.query;
 }
 

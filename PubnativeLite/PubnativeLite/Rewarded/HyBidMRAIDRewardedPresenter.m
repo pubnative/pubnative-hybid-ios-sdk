@@ -148,6 +148,7 @@
                 [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
                 [self.delegate rewardedPresenterDidDisappear:self];
             });
@@ -192,6 +193,7 @@
                 [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
                 [self.delegate rewardedPresenterDidDisappear:self];
                 

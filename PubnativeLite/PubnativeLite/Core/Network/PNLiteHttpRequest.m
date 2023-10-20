@@ -29,6 +29,7 @@
 #import "HyBid.h"
 #import "HyBidError.h"
 #import "HyBidSKAdNetworkParameter.h"
+#import "HyBidOpenRTBPrivacyDataModel.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -48,6 +49,7 @@ NSInteger const MAX_RETRIES = 1;
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *method;
 @property (nonatomic, assign) NSInteger retryCount;
+@property (nonatomic, strong) NSDictionary *jsonBodyDict;
 
 @end
 
@@ -59,6 +61,7 @@ NSInteger const MAX_RETRIES = 1;
     self.urlString = nil;
     self.method = nil;
     self.header = nil;
+    self.jsonBodyDict = nil;
     self.body = nil;
     self.isUsingOpenRTB = nil;
     self.adRequestModel = nil;
@@ -79,21 +82,15 @@ NSInteger const MAX_RETRIES = 1;
         NSArray *headerKeys = [NSArray arrayWithObjects:@"x-openrtb-version", @"Content-Type", @"Accept-Charset", nil];
         self.header = [[NSDictionary alloc] initWithObjects:headerObjects forKeys:headerKeys];
         
-        NSArray *imp = [self getImpObjectFor:self.openRTBAdType];
-        NSDictionary *jsonBodyDict = @{
-            @"id": NSUUID.UUID.UUIDString,
-            @"app": @{
-            },
-            @"device": @{
-                    @"ip": self.adRequestModel.requestParameters[HyBidRequestParameter.ip],
-                    @"os": self.adRequestModel.requestParameters[HyBidRequestParameter.os],
-                    @"ua": HyBidWebBrowserUserAgentInfo.hyBidUserAgent
-            },
-            @"imp": imp
-        };
+        NSDictionary *openRTBRequestBody = [[[HyBidOpenRTBRequestModel alloc] initWithAdRequestModel:self.adRequestModel openRTBAdType:self.openRTBAdType] getOpenRTBRequestBody];
         
+        NSMutableDictionary * bidObjectMutable = [openRTBRequestBody mutableCopy];
+        NSDictionary * regs = [[HyBidOpenRTBPrivacyDataModel alloc] init];
+        [bidObjectMutable addEntriesFromDictionary: regs];
+        openRTBRequestBody = bidObjectMutable;
+
         NSError *error;
-        NSData *jsonBodyData = [NSJSONSerialization dataWithJSONObject:jsonBodyDict options:kNilOptions error:&error];
+        NSData *jsonBodyData = [NSJSONSerialization dataWithJSONObject:openRTBRequestBody options:kNilOptions error:&error];
         self.body = [[NSData alloc] initWithData:jsonBodyData];
     }
     
@@ -115,74 +112,6 @@ NSInteger const MAX_RETRIES = 1;
         }
     }
 }
-
-- (NSArray *)getImpObjectFor:(HyBidOpenRTBAdType)adType
-{
-    NSNumber *width = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.width] integerValue]];
-    NSNumber *height = [NSNumber numberWithInteger:[self.adRequestModel.requestParameters[HyBidRequestParameter.height] integerValue]];
-    
-    if (adType == HyBidOpenRTBAdNative) {
-        NSArray *arr = @[
-            @{
-                @"id": NSUUID.UUID.UUIDString,
-                @"banner": @{
-                        @"w": width,
-                        @"h": height
-                },
-                @"native":
-                    @{
-                        @"request": @"{\"native\":{\"ver\":\"1\",\"layout\":6,\"assets\":[{\"id\":0,\"required\":0,\"title\":{\"len\":100}},{\"id\":2,\"required\":1,\"img\":{\"type\":1,\"wmin\":50,\"hmin\":50}},{\"id\":3,\"required\":0,\"data\":{\"type\":2,\"len\":90}},{\"id\":4,\"required\":0,\"data\":{\"type\":3}},{\"id\":5,\" required\":0,\"data\":{\"type\":12,\"len\":15}},{\"id\":1,\"required\":0,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":250}}]}}"
-                    },
-            }
-        ];
-        return [self appendSkAdNetworkParametersTo:arr];
-    } else if (adType ==     HyBidOpenRTBAdVideo) {
-        NSArray *arr = @[
-            @{
-                @"id": NSUUID.UUID.UUIDString,
-                @"video":
-                    @{
-                        @"mimes": @[@"video/mp4"],
-                        @"protocols": @[@1, @2, @3, @4, @5, @6]
-                    }
-            }
-        ];
-        return [self appendSkAdNetworkParametersTo:arr];
-    } else if (adType ==     HyBidOpenRTBAdBanner) {
-        NSArray *arr = @[
-            @{
-                @"id": NSUUID.UUID.UUIDString,
-                @"banner": @{
-                        @"w": width,
-                        @"h": height
-                }
-            }
-        ];
-        return [self appendSkAdNetworkParametersTo:arr];
-    }
-    return @[];
-}
-- (NSArray *)appendSkAdNetworkParametersTo:(NSArray *)array
-{
-    HyBidSkAdNetworkRequestModel *model = [[HyBidSkAdNetworkRequestModel alloc] init];
-    NSString *appID = @"0";
-    if ([model getAppID] && [[model getAppID] length] > 0) {
-        appID = [model getAppID];
-    }
-    NSDictionary *extDict = @{
-        @"ext": @{
-                HyBidSKAdNetworkParameter.skadn: @{
-                    HyBidSKAdNetworkParameter.sourceapp: appID,
-                    HyBidSKAdNetworkParameter.version: [model getSkAdNetworkVersion],
-                        @"skadnetids": [model getSkAdNetworkAdNetworkIDsArray]
-                }
-        }
-    };
-    NSMutableDictionary *dict = [[array firstObject] mutableCopy];
-    [dict addEntriesFromDictionary:extDict];
-    return [NSArray arrayWithObject:dict];
-}
-
 
 - (void)executeAsyncRequest
 {

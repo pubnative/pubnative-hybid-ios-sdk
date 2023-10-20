@@ -25,9 +25,14 @@
 
 typedef void (^UserDataManagerCompletionBlock)(BOOL);
 
+@protocol HyBidUserDataManagerDelegate <NSObject>
+- (void)gppValuesDidChange;
+@end
+
 @interface HyBidUserDataManager : NSObject
 
 @property (nonatomic, readonly) BOOL isConsentPageLoaded;
+@property (nonatomic) NSObject<HyBidUserDataManagerDelegate> * _Nullable delegate;
 
 + (instancetype _Nonnull )sharedInstance;
 - (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock _Nonnull)completion;
@@ -50,4 +55,20 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 - (void)setIABGDPRConsentString:(NSString *_Nullable)consentString;
 - (NSString *_Nullable)getIABGDPRConsentString;
 - (void)removeIABGDPRConsentString;
+
+- (NSString *_Nullable)getInternalGPPString;
+- (NSString *_Nullable)getInternalGPPSID;
+- (NSString *_Nullable)getPublicGPPString;
+- (NSString *_Nullable)getPublicGPPSID;
+- (void)setInternalGPPString:(NSString *_Nonnull)gppString;
+- (void)setInternalGPPSID:(NSString *_Nonnull)gppSID;
+- (void)setPublicGPPString:(NSString *_Nonnull)gppString;
+- (void)setPublicGPPSID:(NSString *_Nonnull)gppSID;
+- (void)removeInternalGPPString;
+- (void)removeInternalGPPSID;
+- (void)removeGPPInternalData;
+- (void)removeGPPData;
+- (void)removePublicGPPString;
+- (void)removePublicGPPSID;
+
 @end

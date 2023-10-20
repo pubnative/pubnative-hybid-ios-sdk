@@ -20,6 +20,7 @@
 //  THE SOFTWARE.
 //
 
+#import "PNLiteDemoRequestInspectorDetailViewController.h"
 #import "PNLiteDemoRequestInspectorViewController.h"
 #import "PNLiteRequestInspector.h"
 
@@ -52,22 +53,31 @@
 }
 
 - (IBAction)copyAdReponse:(id)sender {
-    // Show toast
-    [self showToastWithText:@"Ad response copied"];
+    // Show alert controller
+    [self showAlertControllerWithText:@"Ad response copied"];
     // Copy text
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = self.responseTextView.text;
 }
 
-- (void)showToastWithText:(NSString *)text {
-    // Create and show toast
-    UIAlertController *toast = [UIAlertController alertControllerWithTitle:nil message:text preferredStyle:UIAlertControllerStyleAlert];
+- (void)showAlertControllerWithText:(NSString *)text {
+    // Create and show alert controller
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:text preferredStyle:UIAlertControllerStyleAlert];
 
-    [self presentViewController:toast animated:YES completion:nil];
-    // Dismiss toast after 2 seconds
+    [self presentViewController:alertController animated:YES completion:nil];
+    // Dismiss alert controller after 2 seconds
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [toast dismissViewControllerAnimated:YES completion:nil];
+        [alertController dismissViewControllerAnimated:YES completion:nil];
     });
+}
+
+- (IBAction)navigateToRequestInspectorDetailViewController:(id)sender {
+    UIStoryboard* sb = [UIStoryboard storyboardWithName:@"RequestInspector" bundle:nil];
+    PNLiteDemoRequestInspectorDetailViewController* requestTableViewController = [sb instantiateViewControllerWithIdentifier:@"PNLiteDemoRequestInspectorDetailViewController"];
+    
+    requestTableViewController.receivedURL = [PNLiteRequestInspector sharedInstance].lastInspectedRequest.url;
+    
+    [self presentViewController:requestTableViewController animated:YES completion:nil];
 }
 
 @end

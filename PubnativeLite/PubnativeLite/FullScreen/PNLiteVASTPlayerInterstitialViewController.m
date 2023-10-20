@@ -144,6 +144,8 @@
         if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDismissesSKOverlay:)]) {
             [self.presenter.delegate interstitialPresenterDismissesSKOverlay:self.presenter];
         }
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow" object:nil];
     }
 }
 

@@ -38,6 +38,10 @@
 #define kCCPAPublicPrivacyKey @"IABUSPrivacy_String"
 #define kGDPRPublicConsentKey @"IABConsent_ConsentString"
 #define kGDPRPublicConsentV2Key @"IABTCF_TCString"
+#define kGPPPublicString @"IABGPP_HDR_GppString"
+#define kGPPPublicID @"IABGPP_GppSID"
+#define kGPPString @"gpp_string"
+#define kGPPID @"gpp_id"
 
 NSString *const PNLiteDeviceIDType = @"idfa";
 NSString *const PNLiteGDPRConsentStateKey = @"gdpr_consent_state";
@@ -47,6 +51,7 @@ NSString *const PNLiteVendorListUrl = @"https://pubnative.net/monetization-partn
 NSString *const PNLiteConsentPageUrl = @"https://cdn.pubnative.net/static/consent/consent.html";
 NSInteger const PNLiteConsentStateAccepted = 1;
 NSInteger const PNLiteConsentStateDenied = 0;
+NSArray *HyBidUserDataManagerPublicPrivacyKeys;
 
 @interface HyBidUserDataManager () <PNLiteConsentPageViewControllerDelegate>
 
@@ -65,14 +70,40 @@ NSInteger const PNLiteConsentStateDenied = 0;
         self.consentState = PNLiteConsentStateDenied;
         [self setIABUSPrivacyStringFromPublicKey];
         [self setIABGDPRConsentStringFromPublicKey];
-        [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:kCCPAPublicPrivacyKey options:NSKeyValueObservingOptionNew
-                                                   context:NULL];
-        [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:kGDPRPublicConsentKey options:NSKeyValueObservingOptionNew
-                                                   context:NULL];
+        [self setInternalGPPStringFromPublicKey];
+        [self setInternalGPPSIDFromPublicKey];
+        HyBidUserDataManagerPublicPrivacyKeys = [NSArray arrayWithObjects: kCCPAPublicPrivacyKey,kGDPRPublicConsentKey,kGDPRPublicConsentV2Key,kGPPPublicString,kGPPPublicID, nil];
+        [self addObservers];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    self.delegate = nil;
+    [self removeObservers];
+}
+
+- (void)addObservers {
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:kCCPAPublicPrivacyKey options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:kGDPRPublicConsentKey options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:kGPPPublicString options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:kGPPPublicID options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+}
+
+- (void)removeObservers {
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kCCPAPublicPrivacyKey];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kGDPRPublicConsentKey];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kGPPPublicString];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kGPPPublicID];
 }
 
 + (instancetype)sharedInstance {
@@ -88,41 +119,7 @@ NSInteger const PNLiteConsentStateDenied = 0;
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-    NSDictionary *safeChange = [NSDictionary dictionaryWithDictionary:change];
-    if ([keyPath isEqualToString:kCCPAPublicPrivacyKey]) {
-        if ([[safeChange objectForKey:NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
-            return;
-        } else {
-            NSString *privacyString = [safeChange objectForKey:@"new"];
-            if (privacyString.length != 0) {
-                [self setIABUSPrivacyString:privacyString];
-            } else {
-                [self removeIABUSPrivacyString];
-            }
-        }
-    } else if ([keyPath isEqualToString:kGDPRPublicConsentKey]) {
-        if ([[safeChange objectForKey:NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
-            return;
-        } else {
-            NSString *consentString = [safeChange objectForKey:@"new"];
-            if (consentString.length != 0) {
-                [self setIABGDPRConsentString:consentString];
-            } else {
-                [self removeIABGDPRConsentString];
-            }
-        }
-    } else if ([keyPath isEqualToString:kGDPRPublicConsentV2Key]) {
-        if ([[safeChange objectForKey:NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
-            return;
-        } else {
-            NSString *consentString = [safeChange objectForKey:@"new"];
-            if (consentString.length != 0) {
-                [self setIABGDPRConsentString:consentString];
-            } else {
-                [self removeIABGDPRConsentString];
-            }
-        }
-    }
+    [self verifyPrivacyKeyWithKeyPath:keyPath withChange:change];
 }
 
 - (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock)completion {
@@ -219,67 +216,122 @@ NSInteger const PNLiteConsentStateDenied = 0;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)verifyPrivacyKeyWithKeyPath:(NSString *)keyPath withChange:(NSDictionary *)change {
+    if (keyPath && [HyBidUserDataManagerPublicPrivacyKeys containsObject:keyPath]) {
+        NSDictionary *safeChange = [NSDictionary dictionaryWithDictionary:change];
+        NSString *key = [self getUserDataPrivateKeyWithUserDataPublicKey:keyPath];
+        
+        if (key == nil){
+            return;
+        }
+        
+        NSString *value = [safeChange objectForKey:NSKeyValueChangeNewKey];
+        if (![value isEqual: [NSNull null]] && value.length != 0) {
+            [self setUserDataWithKey:key withValue:value];
+        } else {
+            [self removeUserDataWithKey:key];
+        }
+        
+        [self.delegate gppValuesDidChange];
+    }
+}
+
+- (NSString *)getUserDataPrivateKeyWithUserDataPublicKey:(NSString *)publicKey {
+    if (publicKey && [publicKey isEqualToString:kCCPAPublicPrivacyKey]) {
+        return kCCPAPrivacyKey;
+    }
+    
+    if (publicKey && [publicKey isEqualToString:kGDPRPublicConsentKey]) {
+        return kGDPRConsentKey;
+    }
+    
+    if (publicKey && [publicKey isEqualToString:kGDPRPublicConsentV2Key]) {
+        return kGDPRConsentKey;
+    }
+    
+    if (publicKey && [publicKey isEqualToString:kGPPPublicString]) {
+        return kGPPString;
+    }
+    
+    if (publicKey && [publicKey isEqualToString:kGPPPublicID]) {
+        return kGPPID;
+    }
+    return nil;
+}
+
+- (NSString *)getUserDataWithKey:(NSString *)key {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+}
+
+- (void)setUserDataWithKey:(NSString *)key withValue:(NSString *) value {
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+}
+
+- (void)removeUserDataWithKey:(NSString *)key {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+}
+
 #pragma mark - GDPR Consent String
 
 - (void)setIABGDPRConsentString:(NSString *)consentString {
-    [[NSUserDefaults standardUserDefaults] setObject:consentString forKey:kGDPRConsentKey];
+    [self setUserDataWithKey:consentString withValue:kGDPRConsentKey];
 }
 
 - (NSString *)getIABGDPRConsentString {
-    NSString *consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRConsentKey];
+    NSString *consentString = [self getUserDataWithKey:kGDPRConsentKey];
     if (!consentString || consentString.length == 0) {
-        consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key];
+        consentString = [self getUserDataWithKey:kGDPRPublicConsentV2Key];
         if (!consentString || consentString.length == 0) {
-            consentString = [[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey];
+            consentString = [self getUserDataWithKey:kGDPRPublicConsentKey];
         }
     }
     return consentString;
 }
 
 - (void)setIABGDPRConsentStringFromPublicKey {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key] &&
-        [[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key] isKindOfClass:[NSString class]] &&
-        [NSString stringWithString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key]].length != 0) {
-        [self setIABGDPRConsentString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentV2Key]];
-    } else if ([[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey] &&
-               [[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey] isKindOfClass:[NSString class]] &&
-               [NSString stringWithString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey]].length != 0) {
-        [self setIABGDPRConsentString:[[NSUserDefaults standardUserDefaults] objectForKey:kGDPRPublicConsentKey]];
+    if ([self getUserDataWithKey:kGDPRPublicConsentV2Key] &&
+        [[self getUserDataWithKey:kGDPRPublicConsentV2Key] isKindOfClass:[NSString class]] &&
+        [NSString stringWithString:[self getUserDataWithKey:kGDPRPublicConsentV2Key]].length != 0) {
+        [self setIABGDPRConsentString:[self getUserDataWithKey:kGDPRPublicConsentV2Key]];
+    } else if ([self getUserDataWithKey:kGDPRPublicConsentKey] &&
+               [[self getUserDataWithKey:kGDPRPublicConsentKey] isKindOfClass:[NSString class]] &&
+               [NSString stringWithString:[self getUserDataWithKey:kGDPRPublicConsentKey]].length != 0) {
+        [self setIABGDPRConsentString:[self getUserDataWithKey:kGDPRPublicConsentKey]];
     } else {
         [self setIABGDPRConsentString:@""];
     }
 }
 
 - (void)removeIABGDPRConsentString {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kGDPRConsentKey];
+    [self removeUserDataWithKey:kGDPRConsentKey];
 }
 
 #pragma mark - U.S. Privacy String (CCPA)
 
 - (void)setIABUSPrivacyString:(NSString *)privacyString {
-    [[NSUserDefaults standardUserDefaults] setObject:privacyString forKey:kCCPAPrivacyKey];
+    [self setUserDataWithKey:privacyString withValue:kCCPAPrivacyKey];
 }
 
 - (NSString *)getIABUSPrivacyString {
-    NSString *privacyString = [[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPrivacyKey];
+    NSString *privacyString = [self getUserDataWithKey:kCCPAPrivacyKey];
     if (!privacyString || privacyString.length == 0) {
-        privacyString = [[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey];
+        privacyString = [self getUserDataWithKey:kCCPAPublicPrivacyKey];
     }
     return privacyString;
 }
 
 - (void)setIABUSPrivacyStringFromPublicKey {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey] &&
-        [[[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey] isKindOfClass:[NSString class]] &&
-        [NSString stringWithString:[[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey]].length != 0) {
-        [self setIABUSPrivacyString:[[NSUserDefaults standardUserDefaults] objectForKey:kCCPAPublicPrivacyKey]];
+    if ([self getUserDataWithKey:kCCPAPublicPrivacyKey] &&
+        [[self getUserDataWithKey:kCCPAPublicPrivacyKey] isKindOfClass:[NSString class]] &&
+        [NSString stringWithString:[self getUserDataWithKey:kCCPAPublicPrivacyKey]].length != 0) {
+        [self setUserDataWithKey:kCCPAPrivacyKey withValue:[self getUserDataWithKey:kCCPAPublicPrivacyKey]];
     } else {
-        [self setIABUSPrivacyString:@""];
+        [self setUserDataWithKey:kCCPAPrivacyKey withValue:@""];
     }
 }
 
 - (void)removeIABUSPrivacyString {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCCPAPrivacyKey];
+    [self removeUserDataWithKey:kCCPAPrivacyKey];
 }
 
 - (NSString *)getFormattedAndPercentEncodedIABUSPrivacyString {
@@ -316,6 +368,78 @@ NSInteger const PNLiteConsentStateDenied = 0;
 - (BOOL)isConsentDenied {
     id consentKeyValue = [[NSUserDefaults standardUserDefaults] objectForKey:PNLiteGDPRConsentStateKey];
     return (consentKeyValue != nil) && ([consentKeyValue integerValue] == PNLiteConsentStateDenied);
+}
+
+#pragma mark GPP String and ID
+
+- (void)setInternalGPPString:(NSString *)gppString {
+    [self setUserDataWithKey:kGPPString withValue:gppString];
+}
+
+- (void)setInternalGPPSID:(NSString *)gppSID {
+    [self setUserDataWithKey:kGPPID withValue:gppSID];
+}
+
+- (void)setInternalGPPStringFromPublicKey {
+    NSString *gppString = [self getUserDataWithKey:kGPPPublicString];
+    if (gppString && [gppString isKindOfClass:[NSString class]] && gppString.length != 0) {
+        [self setUserDataWithKey:kGPPString withValue:gppString];
+    }
+}
+
+- (void)setInternalGPPSIDFromPublicKey {
+    NSString *gppSID = [self getUserDataWithKey:kGPPPublicID];
+    if (gppSID && [gppSID isKindOfClass:[NSString class]] && gppSID.length != 0) {
+        [self setUserDataWithKey:kGPPID withValue:gppSID];
+    }
+}
+
+- (void)setPublicGPPString:(NSString *)gppString {
+    [self setUserDataWithKey:kGPPPublicString withValue:gppString];
+}
+
+- (void)setPublicGPPSID:(NSString *)gppSID {
+    [self setUserDataWithKey:kGPPPublicID withValue:gppSID];
+}
+
+- (NSString *)getInternalGPPString {
+    return [self getUserDataWithKey:kGPPString];
+}
+- (NSString *)getInternalGPPSID {
+    return [self getUserDataWithKey:kGPPID];
+}
+
+- (NSString *)getPublicGPPString {
+    return [self getUserDataWithKey:kGPPPublicString];
+}
+- (NSString *)getPublicGPPSID {
+    return [self getUserDataWithKey:kGPPPublicID];
+}
+
+- (void)removeInternalGPPString {
+    [self removeUserDataWithKey:kGPPString];
+}
+
+- (void)removeInternalGPPSID {
+    [self removeUserDataWithKey:kGPPID];
+}
+
+- (void)removePublicGPPString {
+    [self removeUserDataWithKey:kGPPPublicString];
+}
+
+- (void)removePublicGPPSID {
+    [self removeUserDataWithKey:kGPPPublicID];
+}
+
+- (void)removeGPPInternalData {
+    [self removeInternalGPPString];
+    [self removeInternalGPPSID];
+}
+
+- (void)removeGPPData {
+    [self removePublicGPPString];
+    [self removePublicGPPSID];
 }
 
 #pragma mark Consent Dialog

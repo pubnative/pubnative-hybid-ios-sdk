@@ -25,6 +25,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import <HyBidDemo-Swift.h>
 
 #if __has_include(<ATOM/ATOM-Swift.h>)
     #import <ATOM/ATOM-Swift.h>
@@ -76,6 +77,8 @@ CLLocationManager *locationManager;
     [HyBid setRewardedSKOverlay:YES];
 //    [HyBid setShowEndCard:NO];
     [HyBid getCustomRequestSignalData];
+    
+    [HyBidGPPSDKInitializer initOneTrustSDK];
     return YES;
 }
 

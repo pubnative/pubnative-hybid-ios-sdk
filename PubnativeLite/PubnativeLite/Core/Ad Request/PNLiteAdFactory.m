@@ -127,7 +127,6 @@
         if ([HyBidSettings sharedInstance].appTrackingTransparency) {
             self.adRequestModel.requestParameters[HyBidRequestParameter.appTrackingTransparency] = [[HyBidSettings sharedInstance].appTrackingTransparency stringValue];
         }
-        self.adRequestModel.requestParameters[HyBidRequestParameter.geoFetch] = [HyBidSettings sharedInstance].geoFetchSupport;
     }
     
     if (@available(iOS 14.1, *)) {
@@ -140,7 +139,7 @@
         HyBidSkAdNetworkRequestModel *skAdNetworkRequestModel = [[HyBidSkAdNetworkRequestModel alloc] init];
     
         NSString *adIDs = [skAdNetworkRequestModel getSkAdNetworkAdNetworkIDsString];
-        if ([adIDs length] > 0) {
+        if (adIDs != nil && [adIDs length] > 0) {
             if ([skAdNetworkRequestModel getAppID] && [[skAdNetworkRequestModel getAppID] length] > 0) {
                 self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = [skAdNetworkRequestModel getAppID];
             } else {
@@ -154,13 +153,24 @@
     }
     
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
-    if (!([privacyString length] == 0)) {
+    if (privacyString != nil && !([privacyString length] == 0)) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
     NSString* consentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
-    if (!([consentString length] == 0)) {
+    if (consentString != nil && !([consentString length] == 0)) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
+    }
+    
+    NSString* gppString = [[HyBidUserDataManager sharedInstance] getInternalGPPString];
+    if (gppString != nil && !([gppString length] == 0)) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.gppstring] = gppString;
+    }
+    
+    NSString* gppSID = [[HyBidUserDataManager sharedInstance] getInternalGPPSID];
+    if (gppSID != nil && !([gppSID length] == 0)) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.gppsid] = [gppSID stringByReplacingOccurrencesOfString:@"_"
+                                                                                                                    withString:@","];;
     }
     
     if (![HyBidConsentConfig sharedConfig].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut] && ![[HyBidUserDataManager sharedInstance] isConsentDenied]) {

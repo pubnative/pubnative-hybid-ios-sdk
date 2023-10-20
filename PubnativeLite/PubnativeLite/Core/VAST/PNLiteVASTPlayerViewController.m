@@ -437,6 +437,16 @@ typedef enum {
     self.iconPositionY = yPosition;
 }
 
+- (void)addingConstrainsForEndcard {
+    if (self.endCardView == nil) {return;}
+    [self.endCardView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [[self.endCardView.topAnchor constraintEqualToAnchor:self.view.topAnchor] setActive:YES];
+    [[self.endCardView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor] setActive:YES];
+    [[self.endCardView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor] setActive:YES];
+    [[self.endCardView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor] setActive:YES];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated {
     if (self.isMoviePlaybackFinished) {return;}
     self.shown = YES;
@@ -1035,6 +1045,7 @@ typedef enum {
                 
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
                 skAdnetworkViewController.delegate = self;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
                 [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
             });
         } else {
@@ -1658,12 +1669,16 @@ typedef enum {
                                                                          iconXposition:self.iconPositionX
                                                                          iconYposition:self.iconPositionY
                                                                         withSkipButton:self.endCards.count == 2];
-    self.endCardView.frame = self.view.frame;
-    
+
     HyBidVASTCTAButton *ctaButton = [[self.vastAd inLine] ctaButton];
     [self.endCardView displayEndCard:firstEndCard withCTAButton:ctaButton withViewController:self];
     [self.view addSubview:self.endCardView];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
+    self.endCardView.frame = self.view.frame;
+    [self addingConstrainsForEndcard];
+    
+    if (!firstEndCard.isCustomEndCard) {
+        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
+    }
     if ([self.endCards containsObject:firstEndCard]) {
         [self.endCards removeObject:firstEndCard];
     }
