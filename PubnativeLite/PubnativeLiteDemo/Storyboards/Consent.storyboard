@@ -79,13 +79,47 @@
                                     <segue destination="Vnw-mv-yX4" kind="show" id="Jcd-du-DA3"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BL2-nf-EJF" userLabel="App authorizations">
+                                <rect key="frame" x="16" y="110" width="288" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="consentStringsButton" label="App authorizations"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="0S7-C0-Lmf"/>
+                                    <constraint firstAttribute="height" constant="33" id="tvX-T4-yzX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="App authorizations">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="tvX-T4-yzX"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="0S7-C0-Lmf"/>
+                                        <include reference="tvX-T4-yzX"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="iZd-bo-rGX" kind="show" id="Qib-A1-qnm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xfT-RM-eBc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Tfu-M8-UFR" firstAttribute="top" secondItem="1Hw-uu-zd1" secondAttribute="bottom" constant="8" symbolic="YES" id="NCu-co-yqi"/>
+                            <constraint firstItem="BL2-nf-EJF" firstAttribute="top" secondItem="Tfu-M8-UFR" secondAttribute="bottom" constant="8" symbolic="YES" id="OEO-4M-Mse"/>
                             <constraint firstItem="Tfu-M8-UFR" firstAttribute="leading" secondItem="xfT-RM-eBc" secondAttribute="leading" constant="16" id="Spm-eY-g3U"/>
+                            <constraint firstItem="xfT-RM-eBc" firstAttribute="trailing" secondItem="BL2-nf-EJF" secondAttribute="trailing" constant="16" id="ZWC-qU-ZQu"/>
                             <constraint firstItem="xfT-RM-eBc" firstAttribute="trailing" secondItem="1Hw-uu-zd1" secondAttribute="trailing" constant="16" id="hul-fq-jYc"/>
+                            <constraint firstItem="BL2-nf-EJF" firstAttribute="leading" secondItem="xfT-RM-eBc" secondAttribute="leading" constant="16" id="jas-lv-sR9"/>
                             <constraint firstItem="1Hw-uu-zd1" firstAttribute="leading" secondItem="xfT-RM-eBc" secondAttribute="leading" constant="16" id="kks-BO-8I4"/>
                             <constraint firstItem="xfT-RM-eBc" firstAttribute="trailing" secondItem="Tfu-M8-UFR" secondAttribute="trailing" constant="16" id="wfi-5R-Lql"/>
                             <constraint firstItem="1Hw-uu-zd1" firstAttribute="top" secondItem="xfT-RM-eBc" secondAttribute="top" constant="8" id="z38-5P-uRE"/>
@@ -97,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BRG-TG-Si8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5497.1014492753629" y="-201.5625"/>
+            <point key="canvasLocation" x="-5497.5" y="-201.7605633802817"/>
         </scene>
         <!--Consent Strings-->
         <scene sceneID="1B2-8x-lZ4">
@@ -304,7 +338,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uhk-uE-0ut" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4697" y="-202"/>
+            <point key="canvasLocation" x="-4699" y="-202"/>
         </scene>
         <!--GPP Settings-->
         <scene sceneID="syh-E8-IvU">
@@ -587,6 +621,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4kk-bt-ONj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5499.375" y="489.08450704225351"/>
+        </scene>
+        <!--App authorizations-->
+        <scene sceneID="k0E-PW-DXX">
+            <objects>
+                <viewController title="App authorizations" id="iZd-bo-rGX" customClass="HyBidAppAuthorizationsViewController" customModule="HyBid" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rSg-cq-sFq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cLL-Fl-JbI">
+                                <rect key="frame" x="16" y="20" width="288" height="508"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="JfK-QJ-hgt"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="cLL-Fl-JbI" firstAttribute="leading" secondItem="JfK-QJ-hgt" secondAttribute="leading" constant="16" id="GZR-Y8-CFc"/>
+                            <constraint firstItem="JfK-QJ-hgt" firstAttribute="trailing" secondItem="cLL-Fl-JbI" secondAttribute="trailing" constant="16" id="j0z-bj-3Yg"/>
+                            <constraint firstItem="JfK-QJ-hgt" firstAttribute="bottom" secondItem="cLL-Fl-JbI" secondAttribute="bottom" constant="20" id="mod-PG-6ta"/>
+                            <constraint firstItem="cLL-Fl-JbI" firstAttribute="top" secondItem="JfK-QJ-hgt" secondAttribute="top" constant="20" id="nWy-mC-A2r"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="App authorizations" id="b3f-nK-7uk"/>
+                    <connections>
+                        <outlet property="appAuthorizationsTableView" destination="cLL-Fl-JbI" id="7DP-A1-NYb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mH6-Cr-ufv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4700.625" y="488.02816901408454"/>
         </scene>
     </scenes>
     <resources>

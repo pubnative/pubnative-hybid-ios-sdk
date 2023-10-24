@@ -357,7 +357,6 @@
 		6F4339D8278850650079F293 /* HyBidVASTIconUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F4339D6278850650079F293 /* HyBidVASTIconUtils.h */; };
 		6F4339D9278850650079F293 /* HyBidVASTIconUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4339D7278850650079F293 /* HyBidVASTIconUtils.m */; };
 		6F471A0E2AC6CF6200BE0055 /* HyBidGPPSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9109C4852ABB109C00543165 /* HyBidGPPSettingsViewController.swift */; };
-		6F471A0F2AC6D08100BE0055 /* SwiftUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9145AFAB2AC4120C00F1EAE6 /* SwiftUtils.swift */; };
 		6F4A129028072FA300520C02 /* PNLiteSkip.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F4A128F28072FA300520C02 /* PNLiteSkip.png */; };
 		6F4A129528082A9400520C02 /* HyBidVASTEndCardView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F4A129228082A9400520C02 /* HyBidVASTEndCardView.h */; };
 		6F4A129628082A9400520C02 /* HyBidVASTEndCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4A129328082A9400520C02 /* HyBidVASTEndCardView.m */; };
@@ -580,6 +579,8 @@
 		7EF58B2B29FA989300A6223E /* sound-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF58B2529FA989300A6223E /* sound-on.png */; };
 		7EF58B2C29FA989300A6223E /* sound-on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF58B2629FA989300A6223E /* sound-on@2x.png */; };
 		7EF58B2F29FA98FB00A6223E /* sound-off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF58B2E29FA98FA00A6223E /* sound-off@2x.png */; };
+		91237D572ADD352B009BA7AD /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9145AFAB2AC4120C00F1EAE6 /* Extension+UILabel.swift */; };
+		9130115A2AD99730005C920F /* HyBidAppAuthorizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913011592AD99730005C920F /* HyBidAppAuthorizationsViewController.swift */; };
 		913BC2E72996763B00645ABB /* HyBidMRAIDCloseCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 913BC2E42996763B00645ABB /* HyBidMRAIDCloseCardView.xib */; };
 		913BC2E92996985500645ABB /* HyBidMRAIDCloseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913BC2E82996985500645ABB /* HyBidMRAIDCloseCardView.swift */; };
 		91435BC42AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 91435BC22AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.h */; };
@@ -587,6 +588,8 @@
 		9187EB932975C4FF009800DF /* HyBidTimerState.h in Headers */ = {isa = PBXBuildFile; fileRef = 9187EB912975C4FF009800DF /* HyBidTimerState.h */; };
 		9187EB972975C545009800DF /* HyBidSkipOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 9187EB952975C545009800DF /* HyBidSkipOverlay.h */; };
 		9187EB982975C545009800DF /* HyBidSkipOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9187EB962975C545009800DF /* HyBidSkipOverlay.m */; };
+		91E751FA2AE124AB009EDEDC /* HyBidAppAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E751F92AE124AB009EDEDC /* HyBidAppAuthorization.swift */; };
+		91E751FD2AE12539009EDEDC /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E751FC2AE12539009EDEDC /* Extension+UIViewController.swift */; };
 		91E84FC72AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E84FC62AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift */; };
 		91E84FC92AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E84FC82AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift */; };
 		91FB516E2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */; };
@@ -1237,8 +1240,8 @@
 		6F8C118B2539C01000DC4151 /* HyBidRewardedAdRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidRewardedAdRequest.m; sourceTree = "<group>"; };
 		6F96C73C259B68E300F03422 /* HyBidOpenRTBDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidOpenRTBDataModel.h; sourceTree = "<group>"; };
 		6F96C73D259B68E300F03422 /* HyBidOpenRTBDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidOpenRTBDataModel.m; sourceTree = "<group>"; };
-		6F96C753259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HyBidSkAdNetworkRequestModel.h; path = "PubnativeLite/Core/Ad Model/HyBidSkAdNetworkRequestModel.h"; sourceTree = SOURCE_ROOT; };
-		6F96C754259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HyBidSkAdNetworkRequestModel.m; path = "PubnativeLite/Core/Ad Model/HyBidSkAdNetworkRequestModel.m"; sourceTree = SOURCE_ROOT; };
+		6F96C753259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HyBidSkAdNetworkRequestModel.h; path = "PubnativeLite/Core/Ad Model/Public/HyBidSkAdNetworkRequestModel.h"; sourceTree = SOURCE_ROOT; };
+		6F96C754259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HyBidSkAdNetworkRequestModel.m; path = "PubnativeLite/Core/Ad Model/Public/HyBidSkAdNetworkRequestModel.m"; sourceTree = SOURCE_ROOT; };
 		6F96C798259B7C8300F03422 /* HyBidOpenRTBAdModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidOpenRTBAdModel.h; sourceTree = "<group>"; };
 		6F96C799259B7C8300F03422 /* HyBidOpenRTBAdModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidOpenRTBAdModel.m; sourceTree = "<group>"; };
 		6F96C7B0259B7CEF00F03422 /* HyBidOpenRTBBaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidOpenRTBBaseModel.h; sourceTree = "<group>"; };
@@ -1363,14 +1366,17 @@
 		7EF58B2629FA989300A6223E /* sound-on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound-on@2x.png"; sourceTree = "<group>"; };
 		7EF58B2E29FA98FA00A6223E /* sound-off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound-off@2x.png"; sourceTree = "<group>"; };
 		9109C4852ABB109C00543165 /* HyBidGPPSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidGPPSettingsViewController.swift; sourceTree = "<group>"; };
+		913011592AD99730005C920F /* HyBidAppAuthorizationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidAppAuthorizationsViewController.swift; sourceTree = "<group>"; };
 		913BC2E42996763B00645ABB /* HyBidMRAIDCloseCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HyBidMRAIDCloseCardView.xib; sourceTree = "<group>"; };
 		913BC2E82996985500645ABB /* HyBidMRAIDCloseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidMRAIDCloseCardView.swift; sourceTree = "<group>"; };
 		91435BC22AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidOpenRTBPrivacyDataModel.h; sourceTree = "<group>"; };
 		91435BC32AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidOpenRTBPrivacyDataModel.m; sourceTree = "<group>"; };
-		9145AFAB2AC4120C00F1EAE6 /* SwiftUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUtils.swift; sourceTree = "<group>"; };
+		9145AFAB2AC4120C00F1EAE6 /* Extension+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UILabel.swift"; sourceTree = "<group>"; };
 		9187EB912975C4FF009800DF /* HyBidTimerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidTimerState.h; sourceTree = "<group>"; };
 		9187EB952975C545009800DF /* HyBidSkipOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSkipOverlay.h; sourceTree = "<group>"; };
 		9187EB962975C545009800DF /* HyBidSkipOverlay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkipOverlay.m; sourceTree = "<group>"; };
+		91E751F92AE124AB009EDEDC /* HyBidAppAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidAppAuthorization.swift; sourceTree = "<group>"; };
+		91E751FC2AE12539009EDEDC /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		91E84FC62AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidOpenRTBRequestDeviceModel.swift; sourceTree = "<group>"; };
 		91E84FC82AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidOpenRTBRequestGeolocationModel.swift; sourceTree = "<group>"; };
 		91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidOpenRTBRequestModel.swift; sourceTree = "<group>"; };
@@ -1696,6 +1702,7 @@
 		5A32CEBA2029F79B0003B450 /* PubnativeLiteDemo */ = {
 			isa = PBXGroup;
 			children = (
+				91E751FB2AE12518009EDEDC /* Extensions */,
 				62BF4CB9269C7266001DFD90 /* options.plist */,
 				62AED16926975C5700CDDDD1 /* GoogleService-Info.plist */,
 				5A6BBE79206262320079F8A5 /* Adapters */,
@@ -1715,6 +1722,7 @@
 				5A715B11272B69AF00899F39 /* HyBidDemoDebugMainViewController.m */,
 				DA718B102AC4585400635BF3 /* RequestInspector */,
 				5A54619A24C0D41E00B49550 /* Consent */,
+				913011582AD996D3005C920F /* App authorizations */,
 				9145AFAD2AC45D8500F1EAE6 /* GPP */,
 				5AE206C220E288D5000E770C /* Mediation */,
 				5A4FF06520AD92C700B81B3D /* Standalone */,
@@ -1731,7 +1739,6 @@
 				5A32CEC42029F79B0003B450 /* Assets.xcassets */,
 				5A32CEC92029F79B0003B450 /* Info.plist */,
 				5A32CECA2029F79B0003B450 /* main.m */,
-				9145AFAB2AC4120C00F1EAE6 /* SwiftUtils.swift */,
 				5A7F59E5265EAE5C0024ADD3 /* UITextView+KeyboardDismiss.h */,
 				5A7F59E6265EAE5C0024ADD3 /* UITextView+KeyboardDismiss.m */,
 				6F10B1742893FCA500B61FD5 /* UITextField+KeyboardDismiss.h */,
@@ -2109,8 +2116,6 @@
 				7ED53E422860894B00948F8A /* Public */,
 				5AA3D5E320319B8A002BFDA3 /* PNLiteAdFactory.h */,
 				5AA3D5E420319B8A002BFDA3 /* PNLiteAdFactory.m */,
-				5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */,
-				5AA3D5E820319D82002BFDA3 /* PNLiteAdRequestModel.m */,
 				62AED06E2685F64D00CDDDD1 /* HyBidDisplayManager.h */,
 				62AED06F2685F64D00CDDDD1 /* HyBidDisplayManager.m */,
 				5A8893A3211C40BC0073BF66 /* HyBidNativeAdRequest.h */,
@@ -2151,18 +2156,13 @@
 				91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */,
 				91E84FC82AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift */,
 				91E84FC62AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift */,
-				6F96C753259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h */,
-				6F96C754259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.m */,
 				5ACAA3A52705F69F00FCC47A /* HyBidAPI.h */,
 				5ACAA3A62705F69F00FCC47A /* HyBidAPI.m */,
 				5ACAA3AB2705F86B00FCC47A /* HyBidProtocol.h */,
 				5ACAA3AC2705F86B00FCC47A /* HyBidProtocol.m */,
-				349DC2332A69393900D4DA2E /* HyBidSKAdNetworkParameter.h */,
-				349DC2342A69393900D4DA2E /* HyBidSKAdNetworkParameter.m */,
 			);
 			path = "Ad Model";
 			sourceTree = "<group>";
-			usesTabs = 0;
 		};
 		5ABE013C203F33AD00E6A14E /* Network */ = {
 			isa = PBXGroup;
@@ -2638,8 +2638,6 @@
 				5AB6FBDD20AC722A0092C5DD /* PNLiteOrientationManager.m */,
 				5A1C845D25D480AD00149F27 /* HyBidURLDriller.h */,
 				5A1C845E25D480AD00149F27 /* HyBidURLDriller.m */,
-				5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */,
-				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
 				6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */,
 				6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */,
 				342076DA2A941D0F00044D80 /* HyBidSKOverlay.h */,
@@ -2763,6 +2761,8 @@
 				7E9B1B5028C0B44400328CBE /* HyBidSignalDataProcessor.m */,
 				5A54025A202B192C005D80E6 /* PNLiteLocationManager.h */,
 				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
+				5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */,
+				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -2808,6 +2808,10 @@
 				6F96C73D259B68E300F03422 /* HyBidOpenRTBDataModel.m */,
 				6F96C7B0259B7CEF00F03422 /* HyBidOpenRTBBaseModel.h */,
 				6F96C7B1259B7CEF00F03422 /* HyBidOpenRTBBaseModel.m */,
+				6F96C753259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h */,
+				6F96C754259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.m */,
+				349DC2332A69393900D4DA2E /* HyBidSKAdNetworkParameter.h */,
+				349DC2342A69393900D4DA2E /* HyBidSKAdNetworkParameter.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -2823,6 +2827,8 @@
 				5ADF9E6E21493B6D0081355E /* HyBidInterstitialAdRequest.m */,
 				5ADF9E4721490B9A0081355E /* HyBidRequestParameter.h */,
 				5ADF9E4821490B9A0081355E /* HyBidRequestParameter.m */,
+				5AA3D5E720319D82002BFDA3 /* PNLiteAdRequestModel.h */,
+				5AA3D5E820319D82002BFDA3 /* PNLiteAdRequestModel.m */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -2916,12 +2922,30 @@
 			path = "Creative Tester";
 			sourceTree = "<group>";
 		};
+		913011582AD996D3005C920F /* App authorizations */ = {
+			isa = PBXGroup;
+			children = (
+				913011592AD99730005C920F /* HyBidAppAuthorizationsViewController.swift */,
+				91E751F92AE124AB009EDEDC /* HyBidAppAuthorization.swift */,
+			);
+			path = "App authorizations";
+			sourceTree = "<group>";
+		};
 		9145AFAD2AC45D8500F1EAE6 /* GPP */ = {
 			isa = PBXGroup;
 			children = (
 				9109C4852ABB109C00543165 /* HyBidGPPSettingsViewController.swift */,
 			);
 			path = GPP;
+			sourceTree = "<group>";
+		};
+		91E751FB2AE12518009EDEDC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9145AFAB2AC4120C00F1EAE6 /* Extension+UILabel.swift */,
+				91E751FC2AE12539009EDEDC /* Extension+UIViewController.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		CE8DBDD727BE8061004ED33B /* MaxAds */ = {
@@ -2979,10 +3003,7 @@
 				E76DF5F925E6C0ED002CF7BA /* HyBidVGIBattery.h in Headers */,
 				5ADF9E6F21493B6D0081355E /* HyBidInterstitialAdRequest.h in Headers */,
 				5AD51B8A250166D400286A4A /* HyBidVASTAdPresenter.h in Headers */,
-				5AA284CC233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.h in Headers */,
-				5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */,
 				6F828F8A26EB73E200180516 /* HyBidVASTExecutableResource.h in Headers */,
-				349DC2352A69393900D4DA2E /* HyBidSKAdNetworkParameter.h in Headers */,
 				342076DC2A941D0F00044D80 /* HyBidSKOverlay.h in Headers */,
 				E7CD0E4D252221A300F976D6 /* HyBidSKAdNetworkViewController.h in Headers */,
 				5ADF9EA3214962340081355E /* HyBidAdModel.h in Headers */,
@@ -3015,6 +3036,7 @@
 				5ADF9E63214924C30081355E /* HyBidMRAIDView.h in Headers */,
 				7EE35770256BC672005E6AC6 /* HyBidAuction.h in Headers */,
 				5ADF9E672149377D0081355E /* HyBidBannerAdRequest.h in Headers */,
+				5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */,
 				5A6CD0252029CD060022E206 /* HyBid.h in Headers */,
 				5A262DCD218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.h in Headers */,
 				E76DF5D125E6C0EC002CF7BA /* HyBidVGIGgl.h in Headers */,
@@ -3025,7 +3047,6 @@
 				34E088432AB2102E0084E782 /* HyBidSKOverlayTimerType.h in Headers */,
 				344362FF2912DDE20097B4C0 /* HyBidMRAIDRewardedPresenter.h in Headers */,
 				5A0779F121340FFA00EBD0E7 /* PNLiteRequestInspector.h in Headers */,
-				6F96C755259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h in Headers */,
 				6FE668A9281000CA0002B3BC /* HyBidVASTEndCardManager.h in Headers */,
 				5ADF9E9B21495C500081355E /* HyBidContentInfoView.h in Headers */,
 				6F828F9226EBAA1900180516 /* HyBidVASTMediaFilePicker.h in Headers */,
@@ -3147,6 +3168,7 @@
 				6F8C11812539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.h in Headers */,
 				9187EB972975C545009800DF /* HyBidSkipOverlay.h in Headers */,
 				5A3EDD4F23747F8000493EF2 /* HyBidVerificationScriptResource.h in Headers */,
+				6F96C755259B7AC200F03422 /* HyBidSkAdNetworkRequestModel.h in Headers */,
 				5ADF9E7F2149492B0081355E /* HyBidInterstitialPresenter.h in Headers */,
 				5ADF9E7321493DF00081355E /* HyBidAdPresenter.h in Headers */,
 				5AB2C129248696BA00AFB4A5 /* HyBidVideoAdCacheItem.h in Headers */,
@@ -3154,6 +3176,7 @@
 				6FAA998026B1657800726A05 /* HyBidVASTLinear.h in Headers */,
 				5ADF9E602149216E0081355E /* HyBidMRAIDServiceDelegate.h in Headers */,
 				7E45CF30256FB79400E0FC3D /* PNLiteVastMacrosUtils.h in Headers */,
+				349DC2352A69393900D4DA2E /* HyBidSKAdNetworkParameter.h in Headers */,
 				5ADF9EAB214969ED0081355E /* HyBidBaseModel.h in Headers */,
 				6F3DAB8B28060C70002531DD /* HyBidVASTEndCard.h in Headers */,
 				6FDF742727FF12EA00E4536C /* HyBidVASTStaticResource.h in Headers */,
@@ -3601,7 +3624,6 @@
 				5A0E770D207CB29D00D269B2 /* HyBidDemoGAMBannerViewController.m in Sources */,
 				5A81F8A0207E3ABC00B713BC /* HyBidDemoGAMInterstitialViewController.m in Sources */,
 				6234935B25AC667F000B2718 /* AnalyticsViewController.m in Sources */,
-				6F471A0F2AC6D08100BE0055 /* SwiftUtils.swift in Sources */,
 				5A82190B219DD0800062DAC5 /* HyBidDemoGAMLeaderboardViewController.m in Sources */,
 				5A0E7713207CE83500D269B2 /* HyBidDemoGAMMRectViewController.m in Sources */,
 				34C7A9F7282EC40D0010741D /* HyBidAdMobMediationInterstitialCustomEvent.m in Sources */,
@@ -3680,6 +3702,7 @@
 				6FAA996D26B15C0300726A05 /* HyBidVASTImpression.m in Sources */,
 				E76DF5BF25E6C0EC002CF7BA /* HyBidVGIApp.m in Sources */,
 				5ADF9E94214956FF0081355E /* HyBidAdCache.m in Sources */,
+				91E751FD2AE12539009EDEDC /* Extension+UIViewController.swift in Sources */,
 				5ADF9EA4214962340081355E /* HyBidAdModel.m in Sources */,
 				6F828F8B26EB73E200180516 /* HyBidVASTExecutableResource.m in Sources */,
 				5ADF9E7421493DF00081355E /* HyBidAdPresenter.m in Sources */,
@@ -3724,6 +3747,7 @@
 				5A262DCE218B12EF001A29E2 /* HyBidLeaderboardPresenterFactory.m in Sources */,
 				6FD7A48527CF9731003C6796 /* HyBidAdSettingWithSegmentedControlCell.m in Sources */,
 				5ADF9E5E21491F940081355E /* HyBidMRAIDServiceProvider.m in Sources */,
+				91E751FA2AE124AB009EDEDC /* HyBidAppAuthorization.swift in Sources */,
 				6F7BFD4F27FFA7E8007A13EC /* HyBidVASTIFrameResource.m in Sources */,
 				5ADF9E64214924C30081355E /* HyBidMRAIDView.m in Sources */,
 				6F4339D9278850650079F293 /* HyBidVASTIconUtils.m in Sources */,
@@ -3796,6 +3820,7 @@
 				E76DF5E925E6C0EC002CF7BA /* HyBidVGIDevice.m in Sources */,
 				6F747F0F27F73BA2005A1464 /* HyBidXML.m in Sources */,
 				6F8C11832539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m in Sources */,
+				9130115A2AD99730005C920F /* HyBidAppAuthorizationsViewController.swift in Sources */,
 				5AA3D5EA20319D82002BFDA3 /* PNLiteAdRequestModel.m in Sources */,
 				5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */,
 				6F828F9726F0F28E00180516 /* HyBidVASTAdCategory.m in Sources */,
@@ -3837,6 +3862,7 @@
 				5ACC74E8203595250001CDC3 /* PNLiteMRAIDSettings.m in Sources */,
 				5ACC74F1203595250001CDC3 /* PNLiteMRAIDUtil.m in Sources */,
 				91E84FC92AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift in Sources */,
+				91237D572ADD352B009BA7AD /* Extension+UILabel.swift in Sources */,
 				5A540260202B1F7B005D80E6 /* PNLiteMeta.m in Sources */,
 				6FD7A47927CF92D2003C6796 /* HyBidAdSettingWithSwitchCell.m in Sources */,
 				5AB6FBDF20AC722A0092C5DD /* PNLiteOrientationManager.m in Sources */,
@@ -4188,7 +4214,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4235,7 +4260,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

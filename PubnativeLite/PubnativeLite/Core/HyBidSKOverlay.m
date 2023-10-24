@@ -90,13 +90,13 @@
             BOOL userDismissible = YES;
             if ([appIdentifier isKindOfClass:[NSString class]]) {
                 if (appIdentifier && appIdentifier.length > 0) {
-                    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] && ![[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] boolValue]) {
+                    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] && ![[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] boolValue]) {
                         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Parameter \"present\" is specifically set to NO, will not create SKOverlay."];
                     } else {
-                        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible]) {
+                        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible]) {
                             userDismissible = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] boolValue];
                         }
-                        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position]) {
+                        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position]) {
                             position = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] boolValue] ? SKOverlayPositionBottom : SKOverlayPositionBottomRaised;
                         }
                         [self addObservers];
@@ -124,33 +124,41 @@
 }
 
 - (void)determineAutoCloseOffsetAndBehaviour:(HyBidSkAdNetworkModel *)skAdNetworkModel {
-    self.autoCloseOffset = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.autoClose] integerValue];
-    if (self.autoCloseOffset && self.autoCloseOffset > 0) {
-        self.autoClosePerformsDefaultBehaviour = NO;
-        if (self.autoCloseOffset > SKOVERLAY_AUTOCLOSE_MAXIMUM_VALUE) {
-            self.autoCloseOffset = SKOVERLAY_AUTOCLOSE_MAXIMUM_VALUE;
+    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.autoClose] != [NSNull null]) {
+        self.autoCloseOffset = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.autoClose] integerValue];
+        if (self.autoCloseOffset && self.autoCloseOffset > 0) {
+            self.autoClosePerformsDefaultBehaviour = NO;
+            if (self.autoCloseOffset > SKOVERLAY_AUTOCLOSE_MAXIMUM_VALUE) {
+                self.autoCloseOffset = SKOVERLAY_AUTOCLOSE_MAXIMUM_VALUE;
+            }
+            self.autoCloseTimeRemaining = self.autoCloseOffset;
+            [self updateTimerStateWithRemainingSeconds:self.autoCloseOffset
+                                        withTimerState:HyBidTimerState_Pause
+                                          forTimerType:HyBidSKOverlayTimerType_AutoClose];
+        } else {
+            self.autoClosePerformsDefaultBehaviour = YES;
         }
-        self.autoCloseTimeRemaining = self.autoCloseOffset;
-        [self updateTimerStateWithRemainingSeconds:self.autoCloseOffset
-                                    withTimerState:HyBidTimerState_Pause
-                                      forTimerType:HyBidSKOverlayTimerType_AutoClose];
     } else {
         self.autoClosePerformsDefaultBehaviour = YES;
     }
 }
 
 - (void)determineDelayOffsetAndBehaviour:(HyBidSkAdNetworkModel *)skAdNetworkModel {
-    self.delayOffset = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.delay] integerValue];
-    if (self.delayOffset && self.delayOffset > 0) {
-        self.delayPerformsDefaultBehaviour = NO;
-        self.delayTimerNeeded = YES;
-        if (self.delayOffset > SKOVERLAY_DELAY_MAXIMUM_VALUE) {
-            self.delayOffset = SKOVERLAY_DELAY_MAXIMUM_VALUE;
+    self.delayTimerNeeded = YES;
+    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.delay] != [NSNull null]) {
+        self.delayOffset = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.delay] integerValue];
+        if (self.delayOffset && self.delayOffset > 0) {
+            self.delayPerformsDefaultBehaviour = NO;
+            if (self.delayOffset > SKOVERLAY_DELAY_MAXIMUM_VALUE) {
+                self.delayOffset = SKOVERLAY_DELAY_MAXIMUM_VALUE;
+            }
+            self.delayTimeRemaining = self.delayOffset;
+            [self updateTimerStateWithRemainingSeconds:self.delayOffset
+                                        withTimerState:HyBidTimerState_Pause
+                                          forTimerType:HyBidSKOverlayTimerType_Delay];
+        } else {
+            self.delayPerformsDefaultBehaviour = YES;
         }
-        self.delayTimeRemaining = self.delayOffset;
-        [self updateTimerStateWithRemainingSeconds:self.delayOffset
-                                    withTimerState:HyBidTimerState_Pause
-                                      forTimerType:HyBidSKOverlayTimerType_Delay];
     } else {
         self.delayPerformsDefaultBehaviour = YES;
     }
@@ -158,18 +166,22 @@
 
 - (void)determineEndCardDelayOffsetAndBehaviour:(HyBidSkAdNetworkModel *)skAdNetworkModel {
     self.endCardReadyToShow = NO;
-    self.endCardDelayOffset = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] integerValue];
-    if (self.endCardDelayOffset && self.endCardDelayOffset == -1) {
-        return;
-    } else if (self.endCardDelayOffset && (self.endCardDelayOffset > 0 || !(self.endCardDelayOffset < -1))) {
-        self.endCardDelayPerformsDefaultBehaviour = NO;
-        if (self.endCardDelayOffset > SKOVERLAY_ENDCARDDELAY_MAXIMUM_VALUE) {
-            self.endCardDelayOffset = SKOVERLAY_ENDCARDDELAY_MAXIMUM_VALUE;
+    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] != [NSNull null]) {
+        self.endCardDelayOffset = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] integerValue];
+        if (self.endCardDelayOffset && self.endCardDelayOffset == -1) {
+            return;
+        } else if (self.endCardDelayOffset && (self.endCardDelayOffset > 0 || !(self.endCardDelayOffset < -1))) {
+            self.endCardDelayPerformsDefaultBehaviour = NO;
+            if (self.endCardDelayOffset > SKOVERLAY_ENDCARDDELAY_MAXIMUM_VALUE) {
+                self.endCardDelayOffset = SKOVERLAY_ENDCARDDELAY_MAXIMUM_VALUE;
+            }
+            self.endCardDelayTimeRemaining = self.endCardDelayOffset;
+            [self updateTimerStateWithRemainingSeconds:self.endCardDelayOffset
+                                        withTimerState:HyBidTimerState_Pause
+                                          forTimerType:HyBidSKOverlayTimerType_EndCardDelay];
+        } else {
+            self.endCardDelayPerformsDefaultBehaviour = YES;
         }
-        self.endCardDelayTimeRemaining = self.endCardDelayOffset;
-        [self updateTimerStateWithRemainingSeconds:self.endCardDelayOffset
-                                    withTimerState:HyBidTimerState_Pause
-                                      forTimerType:HyBidSKOverlayTimerType_EndCardDelay];
     } else {
         self.endCardDelayPerformsDefaultBehaviour = YES;
     }

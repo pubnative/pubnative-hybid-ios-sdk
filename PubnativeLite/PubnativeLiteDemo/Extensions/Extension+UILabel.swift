@@ -22,8 +22,6 @@
 
 import Foundation
 
-// MARK: - UILabel
-
 extension UILabel {
     
     public func changeTextFont(text: String, font: UIFont) {

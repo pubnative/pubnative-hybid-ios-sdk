@@ -42,8 +42,6 @@
 
 @implementation AppDelegate
 
-CLLocationManager *locationManager;
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [HyBidLogger setLogLevel:HyBidLogLevelDebug];
@@ -54,8 +52,6 @@ CLLocationManager *locationManager;
     [FIRApp configure];
     
     [PNLiteDemoSettings sharedInstance];
-    locationManager = [[CLLocationManager alloc] init];
-    [locationManager requestWhenInUseAuthorization];
     // setLocationTracking: Allowing SDK to track location, default is true.
     [HyBid setLocationTracking:YES];
     // setLocationUpdates: Allowing SDK to update location, default is false.
@@ -101,27 +97,6 @@ CLLocationManager *locationManager;
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-    if (@available(iOS 14.5, *)) {
-        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler: ^(ATTrackingManagerAuthorizationStatus status) {
-            switch (status) {
-                case ATTrackingManagerAuthorizationStatusAuthorized:
-                    NSLog(@"IDFA Tracking authorized.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusDenied:
-                    NSLog(@"IDFA Tracking denied.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusRestricted:
-                    NSLog(@"IDFA Tracking restricted.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusNotDetermined:
-                    NSLog(@"IDFA Tracking permission not determined.");
-                    break;
-                default:
-                    break;
-            }
-        }];
-    }
     
     #if __has_include(<ATOM/ATOM-Swift.h>)
     NSError *atomError = nil;
